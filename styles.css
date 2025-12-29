@@ -16,28 +16,34 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
+
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-  background: radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
-              radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
-              linear-gradient(180deg, var(--bg), var(--bg2));
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
   color:var(--text);
-  overflow-x:hidden; /* anti voile horizontal */
+  overflow-x:hidden;
 }
 
 a{color:inherit; text-decoration:none}
 
-/* Wrap : on ajoute du padding en bas pour ne jamais être "recouvert" */
+/* =========================
+   LAYOUT
+========================= */
 .wrap{
   max-width:1120px;
   margin:0 auto;
-  padding:22px 18px 72px; /* + bas */
+  padding:22px 18px 72px;
   position:relative;
   z-index:1;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 .top{
   max-width:1120px;
   margin:0 auto;
@@ -68,7 +74,9 @@ a{color:inherit; text-decoration:none}
 .nav a{font-size:13px; color:var(--muted)}
 .nav a:hover{color:var(--text)}
 
-/* BUTTONS */
+/* =========================
+   BUTTONS
+========================= */
 .btn{
   display:inline-flex; align-items:center; justify-content:center;
   padding:12px 14px;
@@ -91,11 +99,13 @@ a{color:inherit; text-decoration:none}
   box-shadow:none;
 }
 
-/* HERO */
+/* =========================
+   HOME HERO
+========================= */
 .hero{
   margin-top:18px;
   display:grid;
-  grid-template-columns: 1fr; /* home clean */
+  grid-template-columns: 1fr;
   gap:18px;
   align-items:stretch;
 }
@@ -125,7 +135,9 @@ h1{
 .cta{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap}
 .note{margin-top:14px; color:var(--muted2); font-size:12px}
 
-/* SECTION */
+/* =========================
+   SECTIONS
+========================= */
 .section{margin-top:26px}
 .section h2{margin:0 0 10px; font-size:18px; letter-spacing:.01em}
 .sub{margin:0 0 14px; color:var(--muted2); font-size:13px}
@@ -151,7 +163,6 @@ h1{
   grid-template-columns: repeat(4, 1fr);
   gap:10px;
 }
-
 .sign{
   padding:12px 12px;
   border-radius:14px;
@@ -162,14 +173,13 @@ h1{
   text-align:center;
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
-
 .sign:hover{
   transform: translateY(-1px);
   background: rgba(255,255,255,.10);
   border-color: rgba(215,199,255,.22);
 }
 
-/* FOOTER (anti voile) */
+/* FOOTER */
 .footer{
   margin-top:34px;
   padding-top:16px;
@@ -183,31 +193,16 @@ h1{
   position:relative;
   z-index:2;
 }
-
 .footer-note{color:var(--muted2)}
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 920px){
-  h1{font-size:34px}
-  .grid4{grid-template-columns: 1fr 1fr}
-  .signs{grid-template-columns: 1fr 1fr 1fr}
-}
-
-@media (max-width: 520px){
-  .grid4{grid-template-columns: 1fr}
-  .signs{grid-template-columns: 1fr 1fr}
-
-  /* Mobile : on garde seulement les boutons compte */
-  .nav a:not(.btn){display:none}
-}
 /* =========================
    AUTH (login / signup)
 ========================= */
-
 .auth-body{
-  background: radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
-              radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
-              linear-gradient(180deg, var(--bg), var(--bg2));
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
 }
 
 .auth-wrap{
@@ -238,18 +233,21 @@ h1{
   line-height:1.5;
 }
 
+/* Google button (avec logo google-g.png) */
 .auth-google{
   width:100%;
   justify-content:center;
+  gap:12px;
   background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
   box-shadow:none;
 }
+.auth-google:hover{ background: rgba(255,255,255,.12); }
 
-.g-dot{
-  width:10px; height:10px;
-  border-radius:999px;
-  background: linear-gradient(90deg, rgba(215,199,255,.9), rgba(159,211,255,.9));
-  display:inline-block;
+.google-icon{
+  width:18px;
+  height:18px;
+  display:block;
 }
 
 .auth-sep{
@@ -327,4 +325,21 @@ h1{
   color: rgba(255,255,255,.92);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 920px){
+  h1{font-size:34px}
+  .grid4{grid-template-columns: 1fr 1fr}
+  .signs{grid-template-columns: 1fr 1fr 1fr}
+}
+
+@media (max-width: 520px){
+  .grid4{grid-template-columns: 1fr}
+  .signs{grid-template-columns: 1fr 1fr}
+
+  /* Mobile : garder seulement les boutons (Mon compte / Créer un compte) */
+  .nav a:not(.btn){display:none}
 }
