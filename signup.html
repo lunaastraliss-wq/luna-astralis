@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Luna Astralis — Créer un compte</title>
+    <meta name="description" content="Créer un compte Luna Astralis." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body class="auth-body">
+    <header class="top">
+      <a class="brand" href="./index.html">
+        <div class="logo">
+          <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">LUNA ASTRALIS</div>
+          <div class="brand-sub">Astro & psycho</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a class="btn btn-small btn-ghost" href="./login.html">Mon compte</a>
+      </nav>
+    </header>
+
+    <main class="wrap auth-wrap">
+      <section class="auth-card">
+        <h1 class="auth-title">Créer un compte</h1>
+        <p class="auth-sub">
+          Sauvegarde tes échanges et continue après les messages gratuits.
+        </p>
+
+        <!-- Google -->
+        <button type="button" class="btn auth-google" id="googleSignup">
+          <span class="g-dot" aria-hidden="true"></span>
+          Continuer avec Google
+        </button>
+
+        <div class="auth-sep">
+          <span>ou</span>
+        </div>
+
+        <!-- Email / password -->
+        <form class="auth-form" id="signupForm" autocomplete="on">
+          <label class="auth-label" for="email">Email</label>
+          <input
+            class="auth-input"
+            id="email"
+            name="email"
+            type="email"
+            placeholder="ex. toi@email.com"
+            required
+            autocomplete="email"
+          />
+
+          <label class="auth-label" for="password">Mot de passe</label>
+          <input
+            class="auth-input"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Minimum 8 caractères"
+            minlength="8"
+            required
+            autocomplete="new-password"
+          />
+
+          <button class="btn auth-submit" type="submit">Créer mon compte</button>
+
+          <p class="auth-legal">
+            En créant un compte, tu acceptes que cet outil soit une exploration personnelle
+            (non thérapeutique) et ne remplace pas un professionnel.
+          </p>
+
+          <p class="auth-switch">
+            Déjà un compte ?
+            <a class="auth-link" href="./login.html">Se connecter</a>
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      // UI only (à connecter à ton auth plus tard)
+      document.getElementById("googleSignup").addEventListener("click", () => {
+        alert("Google signup : à connecter (Supabase/Firebase/Google Identity).");
+      });
+
+      document.getElementById("signupForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        alert("Signup email/password : à connecter. Email: " + email);
+      });
+    </script>
+  </body>
+</html>
