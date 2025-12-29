@@ -1,61 +1,130 @@
 <!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chat — Luna Astralis</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div class="container">
-    <a class="back" href="index.html">← Retour</a>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Luna Astralis — Astro & psycho</title>
 
-    <h1 id="title">Chat</h1>
-    <p id="subtitle" class="muted"></p>
+    <meta
+      name="description"
+      content="Astro & psycho : explore ton monde intérieur à travers ton signe astrologique, avec une IA douce et introspective."
+    />
 
-    <div class="chatbox" id="chatbox">
-      <div class="msg bot" id="firstMsg"></div>
-    </div>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
 
-    <div class="composer">
-      <input id="input" type="text" placeholder="Écris ici…" />
-      <button id="send">Envoyer</button>
-    </div>
-  </div>
+  <body>
+    <!-- HEADER -->
+    <header class="top">
+      <div class="brand">
+        <div class="logo">
+          <img
+            src="./assets/logo-luna-astralis-transparent.png"
+            alt="Luna Astralis"
+          />
+        </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const sign = params.get("sign") || "ton signe";
+        <div class="brand-text">
+          <div class="brand-name">LUNA ASTRALIS</div>
+          <div class="brand-sub">Astro & psycho</div>
+        </div>
+      </div>
 
-    const pretty = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+      <nav class="nav">
+        <a href="#comment">Comment ça fonctionne</a>
+        <a href="#signes">Signes</a>
+        <a class="btn btn-small" href="#signes">Choisir mon signe</a>
+      </nav>
+    </header>
 
-    document.getElementById("title").textContent = `Chat — ${pretty(sign)}`;
-    document.getElementById("subtitle").textContent =
-      `On explore ${pretty(sign)} en mode astro & psycho (outil d’exploration personnelle, non thérapeutique).`;
+    <!-- MAIN -->
+    <main class="wrap">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-left">
+          <h1>Astro & psycho</h1>
 
-    document.getElementById("firstMsg").textContent =
-      `Salut ✨ Tu es ${pretty(sign)}. Dis-moi ce que tu veux comprendre en ce moment : tes émotions, tes réactions, ou une situation précise ?`;
+          <p class="lead">
+            Explore ton monde intérieur à travers ton signe astrologique.
+            Une approche douce, introspective et psycho-émotionnelle pour mieux
+            comprendre tes réactions, tes schémas et tes relations.
+          </p>
 
-    // (Pour l’instant le chat est “placeholder” — on branchera l’IA après)
-    const chatbox = document.getElementById("chatbox");
-    const input = document.getElementById("input");
-    document.getElementById("send").onclick = () => {
-      const text = input.value.trim();
-      if (!text) return;
+          <div class="cta">
+            <a class="btn" href="#signes">Choisir mon signe</a>
+            <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
+          </div>
 
-      const user = document.createElement("div");
-      user.className = "msg user";
-      user.textContent = text;
-      chatbox.appendChild(user);
+          <p class="note">
+            Outil d’exploration personnelle, non thérapeutique.
+            Aucune thérapie, aucun diagnostic.
+          </p>
+        </div>
 
-      const bot = document.createElement("div");
-      bot.className = "msg bot";
-      bot.textContent = `Reçu. (Bientôt l’IA répondra selon ${pretty(sign)}.)`;
-      chatbox.appendChild(bot);
+        <div class="hero-right">
+          <div class="card-img">
+            <img
+              src="./assets/hero.jpg"
+              alt="Ambiance Luna Astralis"
+              onerror="this.style.display='none'"
+            />
 
-      input.value = "";
-      chatbox.scrollTop = chatbox.scrollHeight;
-    };
-  </script>
-</body>
-</html>
+            <div class="img-overlay">
+              <div class="bubble">👋 Salut… on commence par ton signe ?</div>
+              <div class="bubble bubble-right">
+                ✨ Oui. J’aimerais me comprendre.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMENT -->
+      <section id="comment" class="section">
+        <h2>Comment ça fonctionne</h2>
+
+        <div class="grid4">
+          <div class="box">
+            <h3>1) Tu choisis ton signe</h3>
+            <p>
+              Tu démarres par ton signe solaire
+              (plus tard : lune et ascendant).
+            </p>
+          </div>
+
+          <div class="box">
+            <h3>2) L’IA te reflète</h3>
+            <p>
+              Elle met des mots sur tes traits,
+              tes besoins et tes mécanismes.
+            </p>
+          </div>
+
+          <div class="box">
+            <h3>3) Tu explores tes schémas</h3>
+            <p>
+              Émotions, relations, stress :
+              on observe sans jugement.
+            </p>
+          </div>
+
+          <div class="box">
+            <h3>4) Pas de thérapie</h3>
+            <p>
+              Aucun diagnostic.
+              Seulement de la compréhension personnelle.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIGNES -->
+      <section id="signes" class="section">
+        <h2>Choisir un signe</h2>
+        <p class="sub">
+          Clique sur ton signe pour commencer la discussion.
+        </p>
+
+        <div class="signs">
+          <button class="sign" onclick="startChat('belier')">♈ Bélier</button>
+          <button class="sign" onclick="startChat('taure
