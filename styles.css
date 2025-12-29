@@ -465,4 +465,289 @@ h1{
 /* accessibilité : réduire animations si demandé */
 @media (prefers-reduced-motion: reduce){
   body::before, body::after{ animation:none !important; }
-                        }
+}
+
+/* ==========================================================
+   ✅ CHAT — AJOUT (mobile-first)
+   - Corrige l'affichage cell (image, scroll, input en bas)
+========================================================== */
+
+.chat-body{
+  margin:0;
+  min-height:100svh;
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
+    linear-gradient(180deg, var(--bg), var(--bg2));
+  color:var(--text);
+  overflow:hidden; /* ✅ évite double scroll sur Android */
+}
+
+.chat-top{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: rgba(7,10,22,.72);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.chat-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.chat-logo{
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  padding:6px;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+
+.chat-brand-text{min-width:0}
+.chat-brand-name{
+  font-weight:800;
+  font-size:11px;
+  letter-spacing:.22em;
+  opacity:.92;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chat-brand-sub{
+  font-size:11px;
+  color:var(--muted2);
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chat-back{
+  font-size:12px;
+  color:rgba(255,255,255,.78);
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  white-space:nowrap;
+}
+
+.chat-wrap{
+  max-width:1120px;
+  margin:0 auto;
+  height: calc(100svh - 60px); /* approx top bar */
+  min-height:0;
+  display:grid;
+  grid-template-columns: 1fr; /* mobile */
+}
+
+.chat-side{display:none}
+
+.chat-panel{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-radius: var(--radius2);
+  background: rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow: var(--shadow);
+  margin:14px;
+}
+
+/* image IA en haut (mobile) */
+.chat-hero{
+  position:relative;
+  height:220px;
+  overflow:hidden;
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+.chat-hero-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 25%;
+  display:block;
+}
+.chat-hero-overlay{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(7,10,22,.05), rgba(7,10,22,.85) 85%),
+    radial-gradient(700px 280px at 50% 15%, rgba(215,199,255,.18), transparent 60%);
+  pointer-events:none;
+}
+
+.chat-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  background: rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.10);
+}
+
+.chat-title{
+  font-weight:800;
+  font-size:14px;
+}
+
+.chat-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 10px;
+  border-radius:999px;
+  margin-left:8px;
+  font-size:12px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.86);
+}
+
+.chat-messages{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  padding:14px 14px 10px;
+}
+
+.chat-inputbar{
+  flex:0 0 auto;
+  display:flex;
+  gap:10px;
+  padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(7,10,22,.72);
+  backdrop-filter: blur(10px);
+  border-top:1px solid rgba(255,255,255,.10);
+}
+
+.chat-input{
+  flex:1;
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+.chat-input:focus{
+  border-color: rgba(215,199,255,.35);
+  box-shadow: 0 0 0 3px rgba(215,199,255,.12);
+}
+
+.chat-send{
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: linear-gradient(90deg, rgba(215,199,255,.22), rgba(159,211,255,.20));
+  color:var(--text);
+  font-weight:800;
+}
+
+/* bulles */
+.msg-row{
+  display:grid;
+  grid-template-columns: 34px 1fr;
+  gap:10px;
+  margin:10px 0;
+  align-items:flex-end;
+}
+
+.msg-avatar, .msg-avatar-spacer{
+  width:34px;
+  height:34px;
+  border-radius:14px;
+  flex:0 0 auto;
+}
+.msg-avatar{
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.12);
+}
+.msg-avatar-spacer{opacity:0}
+
+.msg-bubble{
+  padding:12px 12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.90);
+  line-height:1.45;
+  font-size:14px;
+  max-width:70ch;
+  white-space:pre-wrap;
+}
+
+.msg-user .msg-bubble{
+  justify-self:end;
+  background: rgba(215,199,255,.12);
+  border-color: rgba(215,199,255,.22);
+}
+
+/* Desktop : sidebar visible */
+@media (min-width: 920px){
+  .chat-wrap{
+    grid-template-columns: 360px 1fr;
+    padding:14px;
+    height: calc(100vh - 60px);
+  }
+
+  .chat-panel{margin:0}
+
+  .chat-side{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:14px;
+    border-radius: var(--radius2);
+    background: rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.10);
+    box-shadow: var(--shadow);
+    overflow:auto;
+    min-height:0;
+  }
+
+  .ai-card{
+    padding:14px;
+    border-radius:18px;
+    background: rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .ai-face-wrap{
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.06);
+  }
+  .ai-face{
+    width:100%;
+    height:280px;
+    object-fit:cover;
+    object-position:center 25%;
+    display:block;
+  }
+  .ai-meta{padding-top:10px}
+  .ai-name{font-weight:900; font-size:16px}
+  .ai-tag{color:var(--muted); font-size:13px; margin-top:4px}
+  .ai-disclaimer{margin-top:auto; color:var(--muted2); font-size:12px; line-height:1.45}
+
+  .chat-hero{display:none}
+}
+
+/* accessibilité : réduire animations si demandé (chat aussi) */
+@media (prefers-reduced-motion: reduce){
+  .chat-hero-overlay{ animation:none !important; }
+    }
