@@ -390,12 +390,14 @@ h1{
   align-items: end;
 }
 
-.msg-avatar {
+.msg-avatar{
   width: 42px;
   height: 42px;
   object-fit: cover;
+  object-position: center 12%;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.14);
+  display: block;
 }
 
 .msg-avatar-spacer { width: 42px; height: 42px; }
