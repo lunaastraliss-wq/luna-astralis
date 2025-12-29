@@ -1,152 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Luna Astralis — Astro & Psycho</title>
-  <meta name="description" content="Luna Astralis — exploration astro-psycho par signe. Comprendre tes schémas, ton monde intérieur et tes dynamiques relationnelles." />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Luna Astralis — Astro & psycho</title>
+    <meta name="description" content="Astro & psycho : explore ton monde intérieur à travers ton signe, avec une IA douce et introspective." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
 
-  <style>
-    :root{
-      --bg:#070b16;
-      --panel:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.12);
-      --text:#f3f4ff;
-      --muted:rgba(243,244,255,.72);
-      --accent:#b9c7ff;
-      --accent2:#e0c3ff;
-      --radius:18px;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(800px 500px at 15% 10%, rgba(185,199,255,.18), transparent 55%),
-        radial-gradient(800px 600px at 85% 20%, rgba(224,195,255,.16), transparent 55%),
-        linear-gradient(180deg,#050816,var(--bg));
-      min-height:100vh;
-    }
-
-    .wrap{max-width:1000px;margin:0 auto;padding:28px 18px 48px}
-
-    header{
-      display:flex;align-items:center;gap:12px;margin-bottom:32px
-    }
-
-    .logo{
-      width:38px;height:38px;border-radius:14px;
-      background:radial-gradient(circle at 30% 30%,#fff,#b9c7ff 40%,#e0c3ff 65%);
-      border:1px solid var(--stroke);
-    }
-
-    header h1{
-      margin:0;font-size:14px;letter-spacing:.18em;text-transform:uppercase
-    }
-
-    .hero{
-      background:var(--panel);
-      border:1px solid var(--stroke);
-      border-radius:var(--radius);
-      padding:26px;
-      box-shadow:0 20px 60px rgba(0,0,0,.3)
-    }
-
-    .hero h2{
-      font-size:42px;line-height:1.05;margin:0 0 12px
-    }
-
-    .hero p{
-      color:var(--muted);font-size:17px;line-height:1.6;margin:0 0 22px
-    }
-
-    .cta{
-      display:inline-block;
-      padding:14px 18px;
-      border-radius:14px;
-      background:#fff;
-      color:#0b1022;
-      font-weight:600;
-      text-decoration:none;
-    }
-
-    .section{
-      margin-top:42px
-    }
-
-    .section h3{
-      margin:0 0 12px;font-size:20px
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:14px;
-      margin-top:14px
-    }
-
-    .card{
-      background:var(--panel);
-      border:1px solid var(--stroke);
-      border-radius:16px;
-      padding:16px
-    }
-
-    .card p{
-      margin:0;color:var(--muted);font-size:14px;line-height:1.5
-    }
-
-    footer{
-      margin-top:46px;
-      text-align:center;
-      color:rgba(243,244,255,.45);
-      font-size:12px
-    }
-  </style>
-</head>
-
-<body>
-  <div class="wrap">
-
-    <header>
-      <div class="logo"></div>
-      <h1>Luna Astralis</h1>
-    </header>
-
-    <section class="hero">
-      <h2>Astro & psycho</h2>
-      <p>
-        Luna Astralis t’aide à explorer ton monde intérieur à travers ton signe astrologique.
-        Une approche douce, introspective et psycho-émotionnelle pour mieux comprendre
-        tes réactions, tes schémas et tes relations.
-      </p>
-      <a class="cta" href="#">Choisir mon signe</a>
-    </section>
-
-    <section class="section">
-      <h3>Comment ça fonctionne</h3>
-      <div class="cards">
-        <div class="card">
-          <p>Tu choisis ton signe astrologique.</p>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <!-- Remplace assets/logo.png par ton logo quand tu l'ajoutes -->
+        <div class="logo">
+          <img src="./assets/logo.png" alt="Luna Astralis" onerror="this.style.display='none'; this.parentElement.classList.add('logo-fallback');" />
         </div>
-        <div class="card">
-          <p>L’IA échange avec toi en lien avec les traits et dynamiques de ce signe.</p>
-        </div>
-        <div class="card">
-          <p>Tu explores tes schémas émotionnels et relationnels à ton rythme.</p>
-        </div>
-        <div class="card">
-          <p>Aucune thérapie, aucun diagnostic — seulement de la compréhension personnelle.</p>
+        <div class="brand-text">
+          <div class="brand-name">LUNA ASTRALIS</div>
+          <div class="brand-sub">Astro & psycho</div>
         </div>
       </div>
-    </section>
 
-    <footer>
-      © Luna Astralis — outil d’exploration personnelle, non thérapeutique
-    </footer>
+      <nav class="nav">
+        <a href="#comment">Comment ça fonctionne</a>
+        <a href="#signes">Signes</a>
+        <a class="btn btn-small" href="#signes">Choisir mon signe</a>
+      </nav>
+    </header>
 
-  </div>
-</body>
+    <main class="wrap">
+      <section class="hero">
+        <div class="hero-left">
+          <h1>Astro & psycho</h1>
+          <p class="lead">
+            Explore ton monde intérieur à travers ton signe astrologique.
+            Une approche douce, introspective et psycho-émotionnelle pour mieux comprendre
+            tes réactions, tes schémas et tes relations.
+          </p>
+
+          <div class="cta">
+            <a class="btn" href="#signes">Choisir mon signe</a>
+            <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
+          </div>
+
+          <p class="note">
+            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <!-- Image “publicitaire” du site (tu peux la changer) -->
+          <div class="card-img">
+            <img src="./assets/hero.jpg" alt="Ambiance Luna Astralis" onerror="this.style.display='none'; this.parentElement.classList.add('img-fallback');" />
+            <div class="img-overlay">
+              <div class="bubble">👋 Salut… on commence par ton signe ?</div>
+              <div class="bubble bubble-right">✨ Oui. J’aimerais me comprendre.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="comment" class="section">
+        <h2>Comment ça fonctionne</h2>
+
+        <div class="grid4">
+          <div class="box">
+            <h3>1) Tu choisis ton signe</h3>
+            <p>Tu démarres par ton signe solaire (et plus tard : lune, ascendant).</p>
+          </div>
+
+          <div class="box">
+            <h3>2) L’IA te reflète</h3>
+            <p>Elle met des mots sur tes traits, tes besoins et tes mécanismes.</p>
+          </div>
+
+          <div class="box">
+            <h3>3) Tu explores tes schémas</h3>
+            <p>Émotions, relations, stress : on observe sans jugement.</p>
+          </div>
+
+          <div class="box">
+            <h3>4) Pas de thérapie</h3>
+            <p>Aucun diagnostic : uniquement de la compréhension personnelle.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="signes" class="section">
+        <h2>Choisir un signe</h2>
+        <p class="sub">Clique un signe. (Pour l’instant, les pages sont “placeholder”.)</p>
+
+        <div class="signs">
+          <a class="sign" href="./signes/belier.html">♈ Bélier</a>
+          <a class="sign" href="./signes/taureau.html">♉ Taureau</a>
+          <a class="sign" href="./signes/gemeaux.html">♊ Gémeaux</a>
+          <a class="sign" href="./signes/cancer.html">♋ Cancer</a>
+          <a class="sign" href="./signes/lion.html">♌ Lion</a>
+          <a class="sign" href="./signes/vierge.html">♍ Vierge</a>
+          <a class="sign" href="./signes/balance.html">♎ Balance</a>
+          <a class="sign" href="./signes/scorpion.html">♏ Scorpion</a>
+          <a class="sign" href="./signes/sagittaire.html">♐ Sagittaire</a>
+          <a class="sign" href="./signes/capricorne.html">♑ Capricorne</a>
+          <a class="sign" href="./signes/verseau.html">♒ Verseau</a>
+          <a class="sign" href="./signes/poissons.html">♓ Poissons</a>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div>© <span id="y"></span> Luna Astralis</div>
+        <div class="footer-note">Outil d’exploration personnelle — non thérapeutique.</div>
+      </footer>
+    </main>
+
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
