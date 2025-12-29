@@ -343,3 +343,99 @@ h1{
   /* Mobile : garder seulement les boutons (Mon compte / Créer un compte) */
   .nav a:not(.btn){display:none}
 }
+/* ✅ AJOUTE ÇA À LA FIN DE styles.css (ou remplace les blocs identiques) */
+
+/* HERO astro : moins vide + plus “astro” */
+.hero-astro{
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-astro::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  background:
+    radial-gradient(520px 260px at 18% 22%, rgba(215,199,255,.20), transparent 60%),
+    radial-gradient(420px 220px at 78% 28%, rgba(159,211,255,.16), transparent 58%),
+    radial-gradient(260px 180px at 60% 75%, rgba(215,199,255,.10), transparent 60%);
+  pointer-events:none;
+}
+
+.hero-astro::after{
+  content:"✦ ✧ ✦ ✧ ✦";
+  position:absolute;
+  right:18px;
+  top:18px;
+  font-size:12px;
+  letter-spacing:.45em;
+  color: rgba(255,255,255,.35);
+  pointer-events:none;
+}
+
+.astro-mark{
+  position: relative;
+  z-index: 1;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.78);
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.hero-left.hero-astro h1,
+.hero-left.hero-astro .lead,
+.hero-left.hero-astro .cta,
+.hero-left.hero-astro .note{
+  position: relative;
+  z-index: 1;
+}
+
+.astro-chips{
+  position: relative;
+  z-index: 1;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top: 14px;
+}
+
+.chip{
+  padding:8px 10px;
+  border-radius:999px;
+  font-size:12px;
+  color: rgba(255,255,255,.82);
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* ✅ Enlève “le film transparent” en bas
+   (souvent causé par overflow hidden / padding trop grand / overlay)
+*/
+html, body{ height:auto; min-height:100%; }
+body{ overflow-x:hidden; overflow-y:auto; }
+
+.wrap{
+  padding-bottom: 28px;   /* moins de bas = fini l’impression de voile */
+}
+
+/* Footer plus clean, sans effet “barre/voile” */
+.footer{
+  margin-top: 22px;
+  padding-top: 14px;
+  background: transparent;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+/* Sections un peu plus rapprochées */
+.section{ margin-top: 22px; }
