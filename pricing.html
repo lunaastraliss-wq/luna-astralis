@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Luna Astralis — Tarifs</title>
+
+    <meta
+      name="description"
+      content="Tarifs Luna Astralis — Astro & psycho. Accès 24h/7. Prix en dollars US."
+    />
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body class="pricing-body">
+    <!-- HEADER -->
+    <header class="top">
+      <div class="brand">
+        <div class="logo">
+          <img
+            src="./assets/logo-luna-astralis-transparent.png"
+            alt="Luna Astralis"
+          />
+        </div>
+
+        <div class="brand-text">
+          <div class="brand-name">LUNA ASTRALIS</div>
+          <div class="brand-sub">Astro & psycho</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="./index.html">Accueil</a>
+        <a class="active" href="./pricing.html">Tarifs</a>
+        <a href="./login.html">Login</a>
+        <a class="btn btn-small" href="./signup.html">Signup</a>
+      </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main class="wrap">
+      <!-- HERO -->
+      <section class="section pricing-hero">
+        <h1>Tarifs</h1>
+        <p class="lead">
+          Choisis la formule qui te convient.<br />
+          <strong>Accès 24h/7</strong>.
+        </p>
+        <p class="sub">
+          Prix en dollars US (USD). Outil d’exploration personnelle, non thérapeutique.
+        </p>
+      </section>
+
+      <!-- PRICING GRID -->
+      <section class="section">
+        <div class="pricing-grid">
+
+          <!-- 4,99 $ -->
+          <article class="price-card">
+            <div class="price-head">
+              <div class="price-name">Mensuel — Essentiel</div>
+              <div class="price-value">
+                <span class="price-now">4,99 $</span>
+                <span class="price-period">/ mois</span>
+              </div>
+              <div class="price-mini">Accès 24h/7</div>
+            </div>
+
+            <ul class="price-features">
+              <li>100 messages / mois</li>
+              <li>Tous les signes astrologiques</li>
+              <li>Astro & psycho</li>
+              <li>Compatible mobile</li>
+            </ul>
+
+            <a class="btn price-cta" href="#">
+              Commencer
+            </a>
+          </article>
+
+          <!-- 9,99 $ -->
+          <article class="price-card price-featured">
+            <div class="price-badge">Meilleure valeur</div>
+
+            <div class="price-head">
+              <div class="price-name">Mensuel — Illimité</div>
+              <div class="price-value">
+                <span class="price-now">9,99 $</span>
+                <span class="price-period">/ mois</span>
+              </div>
+              <div class="price-mini">Accès 24h/7</div>
+            </div>
+
+            <ul class="price-features">
+              <li>Messages illimités</li>
+              <li>Tous les signes astrologiques</li>
+              <li>Historique des conversations</li>
+              <li>Exploration approfondie</li>
+            </ul>
+
+            <a class="btn price-cta btn-primary" href="#">
+              Accès illimité 24h/7
+            </a>
+          </article>
+
+          <!-- 49,99 $ -->
+          <article class="price-card">
+            <div class="price-head">
+              <div class="price-name">Annuel — Essentiel</div>
+              <div class="price-value">
+                <span class="price-was"><s>59,99 $</s></span>
+                <span class="price-now">49,99 $</span>
+                <span class="price-period">/ an</span>
+              </div>
+              <div class="price-mini">
+                Accès 24h/7 • <strong>Économisez 10 $</strong>
+              </div>
+            </div>
+
+            <ul class="price-features">
+              <li>100 messages / mois</li>
+              <li>Tous les signes astrologiques</li>
+              <li>Astro & psycho</li>
+              <li>Le plus économique</li>
+            </ul>
+
+            <a class="btn price-cta" href="#">
+              Choisir l’annuel
+            </a>
+          </article>
+
+          <!-- 99,99 $ -->
+          <article class="price-card">
+            <div class="price-badge premium">Premium</div>
+
+            <div class="price-head">
+              <div class="price-name">Annuel — Illimité</div>
+              <div class="price-value">
+                <span class="price-was"><s>119,99 $</s></span>
+                <span class="price-now">99,99 $</span>
+                <span class="price-period">/ an</span>
+              </div>
+              <div class="price-mini">
+                Accès 24h/7 • <strong>Économisez 20 $</strong>
+              </div>
+            </div>
+
+            <ul class="price-features">
+              <li>Messages illimités</li>
+              <li>Tous les signes astrologiques</li>
+              <li>Accès prioritaire</li>
+              <li>Futur : Tarot, Lune, Ascendant</li>
+            </ul>
+
+            <a class="btn price-cta" href="#">
+              Accès illimité annuel
+            </a>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div>© <span id="y"></span> Luna Astralis</div>
+        <div class="footer-note">
+          Prix en USD • Accès 24h/7 • Exploration personnelle — non thérapeutique
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
