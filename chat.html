@@ -12,7 +12,6 @@
     <!-- TOP BAR -->
     <header class="chat-top">
       <a class="chat-brand" href="./index.html" aria-label="Retour à l’accueil">
-        <!-- ✅ ton logo transparent (actuellement à la racine) -->
         <img
           class="chat-logo"
           src="./logo-luna-astralis-transparent.png"
@@ -29,16 +28,11 @@
 
     <!-- MAIN -->
     <main class="chat-wrap">
-      <!-- LEFT / PROFILE (desktop) -->
-      <aside class="chat-side">
+      <!-- LEFT / PROFILE (desktop only) -->
+      <aside class="chat-side" aria-label="Profil IA">
         <div class="ai-card">
-          <!-- ✅ photo IA (à la racine) -->
           <div class="ai-face-wrap">
-            <img
-              class="ai-face"
-              src="./ia-luna-astralis.png"
-              alt="Luna (IA)"
-            />
+            <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
           </div>
 
           <div class="ai-meta">
@@ -53,19 +47,20 @@
       </aside>
 
       <!-- RIGHT / CHAT -->
-      <section class="chat-panel">
+      <section class="chat-panel" aria-label="Discussion">
+        <!-- HERO IMAGE (mobile) -->
+        <div class="chat-hero" aria-hidden="true">
+          <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
+          <div class="chat-hero-overlay"></div>
+        </div>
+
         <div class="chat-header">
           <div class="chat-title">
             Discussion <span class="chat-pill" id="signLabel">—</span>
           </div>
 
-          <!-- mini avatar (mobile) -->
-          <div class="ai-face-mini-wrap">
-            <img
-              class="ai-face-mini"
-              src="./ia-luna-astralis.png"
-              alt="Luna (IA)"
-            />
+          <div class="ai-face-mini-wrap" aria-hidden="true">
+            <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="" />
           </div>
         </div>
 
@@ -85,7 +80,6 @@
     </main>
 
     <script>
-      // ---------- Helpers
       const qs = (k) => new URLSearchParams(location.search).get(k) || "";
       const norm = (s) =>
         (s || "")
@@ -94,7 +88,6 @@
           .replace(/[\u0300-\u036f]/g, "")
           .replace(/[^a-z]/g, "");
 
-      // ---------- Signs map
       const SIGNS = {
         belier: "Bélier ♈",
         taureau: "Taureau ♉",
@@ -110,16 +103,13 @@
         poissons: "Poissons ♓",
       };
 
-      // Accepts: ?signe=belier OR ?sign=belier OR ?signe=Bélier
       const rawKey = qs("signe") || qs("sign") || "belier";
       const signKey = norm(rawKey) || "belier";
       const signName = SIGNS[signKey] || "—";
 
-      // Header labels
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-      // ---------- Chat
       const messagesEl = document.getElementById("messages");
       const form = document.getElementById("form");
       const input = document.getElementById("input");
@@ -128,7 +118,6 @@
         const row = document.createElement("div");
         row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
 
-        // Avatar on AI messages
         if (role === "ai") {
           const avatar = document.createElement("img");
           avatar.className = "msg-avatar";
@@ -150,13 +139,11 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
-      // Intro IA
       addMessage(
         "ai",
         `Salut ✨ On commence avec ton signe : ${signName}. Dis-moi ce que tu veux comprendre (émotions, relations, stress, schémas…).`
       );
 
-      // Placeholder reply
       function aiReply(userText) {
         return `Je t’écoute. Pour ${signName}, ce que tu décris peut être lié à un besoin de cohérence intérieure. Donne-moi un exemple concret (une situation précise) et ce que tu as ressenti.`;
       }
@@ -177,4 +164,3 @@
     </script>
   </body>
 </html>
-
