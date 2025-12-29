@@ -4,17 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Luna Astralis — Astro & psycho</title>
-    <meta name="description" content="Astro & psycho : explore ton monde intérieur à travers ton signe, avec une IA douce et introspective." />
+
+    <meta
+      name="description"
+      content="Astro & psycho : explore ton monde intérieur à travers ton signe astrologique, avec une IA douce et introspective."
+    />
+
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
+    <!-- HEADER -->
     <header class="top">
       <div class="brand">
-        <!-- Remplace assets/logo.png par ton logo quand tu l'ajoutes -->
         <div class="logo">
-          <img src="./assets/logo.png" alt="Luna Astralis" onerror="this.style.display='none'; this.parentElement.classList.add('logo-fallback');" />
+          <img
+            src="./logo-luna-astralis-transparent.png"
+            alt="Luna Astralis"
+          />
         </div>
+
         <div class="brand-text">
           <div class="brand-name">LUNA ASTRALIS</div>
           <div class="brand-sub">Astro & psycho</div>
@@ -28,14 +37,17 @@
       </nav>
     </header>
 
+    <!-- MAIN -->
     <main class="wrap">
+      <!-- HERO -->
       <section class="hero">
         <div class="hero-left">
           <h1>Astro & psycho</h1>
+
           <p class="lead">
             Explore ton monde intérieur à travers ton signe astrologique.
-            Une approche douce, introspective et psycho-émotionnelle pour mieux comprendre
-            tes réactions, tes schémas et tes relations.
+            Une approche douce, introspective et psycho-émotionnelle pour mieux
+            comprendre tes réactions, tes schémas et tes relations.
           </p>
 
           <div class="cta">
@@ -44,14 +56,19 @@
           </div>
 
           <p class="note">
-            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+            Outil d’exploration personnelle, non thérapeutique.
+            Aucune thérapie, aucun diagnostic.
           </p>
         </div>
 
         <div class="hero-right">
-          <!-- Image “publicitaire” du site (tu peux la changer) -->
           <div class="card-img">
-            <img src="./assets/hero.jpg" alt="Ambiance Luna Astralis" onerror="this.style.display='none'; this.parentElement.classList.add('img-fallback');" />
+            <!-- Tu n'as pas hero.jpg dans ton repo (selon ta capture).
+                 Donc je laisse un placeholder texte si l'image n'existe pas. -->
+            <div class="hero-placeholder">
+              (Image à ajouter plus tard)
+            </div>
+
             <div class="img-overlay">
               <div class="bubble">👋 Salut… on commence par ton signe ?</div>
               <div class="bubble bubble-right">✨ Oui. J’aimerais me comprendre.</div>
@@ -60,49 +77,63 @@
         </div>
       </section>
 
+      <!-- COMMENT -->
       <section id="comment" class="section">
         <h2>Comment ça fonctionne</h2>
 
         <div class="grid4">
           <div class="box">
             <h3>1) Tu choisis ton signe</h3>
-            <p>Tu démarres par ton signe solaire (et plus tard : lune, ascendant).</p>
+            <p>
+              Tu démarres par ton signe solaire
+              (plus tard : lune et ascendant).
+            </p>
           </div>
 
           <div class="box">
             <h3>2) L’IA te reflète</h3>
-            <p>Elle met des mots sur tes traits, tes besoins et tes mécanismes.</p>
+            <p>
+              Elle met des mots sur tes traits,
+              tes besoins et tes mécanismes.
+            </p>
           </div>
 
           <div class="box">
             <h3>3) Tu explores tes schémas</h3>
-            <p>Émotions, relations, stress : on observe sans jugement.</p>
+            <p>
+              Émotions, relations, stress :
+              on observe sans jugement.
+            </p>
           </div>
 
           <div class="box">
             <h3>4) Pas de thérapie</h3>
-            <p>Aucun diagnostic : uniquement de la compréhension personnelle.</p>
+            <p>
+              Aucun diagnostic.
+              Seulement de la compréhension personnelle.
+            </p>
           </div>
         </div>
       </section>
 
+      <!-- SIGNES -->
       <section id="signes" class="section">
         <h2>Choisir un signe</h2>
-        <p class="sub">Clique un signe. (Pour l’instant, les pages sont “placeholder”.)</p>
+        <p class="sub">Clique sur ton signe pour commencer la discussion.</p>
 
         <div class="signs">
-          <a class="sign" href="./signes/belier.html">♈ Bélier</a>
-          <a class="sign" href="./signes/taureau.html">♉ Taureau</a>
-          <a class="sign" href="./signes/gemeaux.html">♊ Gémeaux</a>
-          <a class="sign" href="./signes/cancer.html">♋ Cancer</a>
-          <a class="sign" href="./signes/lion.html">♌ Lion</a>
-          <a class="sign" href="./signes/vierge.html">♍ Vierge</a>
-          <a class="sign" href="./signes/balance.html">♎ Balance</a>
-          <a class="sign" href="./signes/scorpion.html">♏ Scorpion</a>
-          <a class="sign" href="./signes/sagittaire.html">♐ Sagittaire</a>
-          <a class="sign" href="./signes/capricorne.html">♑ Capricorne</a>
-          <a class="sign" href="./signes/verseau.html">♒ Verseau</a>
-          <a class="sign" href="./signes/poissons.html">♓ Poissons</a>
+          <a class="sign" href="chat.html?signe=belier">♈ Bélier</a>
+          <a class="sign" href="chat.html?signe=taureau">♉ Taureau</a>
+          <a class="sign" href="chat.html?signe=gemeaux">♊ Gémeaux</a>
+          <a class="sign" href="chat.html?signe=cancer">♋ Cancer</a>
+          <a class="sign" href="chat.html?signe=lion">♌ Lion</a>
+          <a class="sign" href="chat.html?signe=vierge">♍ Vierge</a>
+          <a class="sign" href="chat.html?signe=balance">♎ Balance</a>
+          <a class="sign" href="chat.html?signe=scorpion">♏ Scorpion</a>
+          <a class="sign" href="chat.html?signe=sagittaire">♐ Sagittaire</a>
+          <a class="sign" href="chat.html?signe=capricorne">♑ Capricorne</a>
+          <a class="sign" href="chat.html?signe=verseau">♒ Verseau</a>
+          <a class="sign" href="chat.html?signe=poissons">♓ Poissons</a>
         </div>
       </section>
 
