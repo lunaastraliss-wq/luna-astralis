@@ -224,6 +224,7 @@ h1{
   .signs{grid-template-columns: 1fr 1fr}
   .nav{display:none}
 }
+
 /* =========================
    CHAT (FULL PAGE, MOBILE)
 ========================= */
@@ -304,14 +305,18 @@ h1{
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.10);
   box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+  overflow: hidden; /* ✅ utile si on anime l’image */
 }
 
+/* ✅ FIX CADRAGE TÊTE + base pour animation */
 .ai-face {
   width: 100%;
-  max-height: 260px;
+  height: clamp(300px, 34vh, 380px);
   object-fit: cover;
+  object-position: center 30%;
   border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.10);
+  display: block;
 }
 
 .ai-meta { margin-top: 10px; display: grid; gap: 4px; }
