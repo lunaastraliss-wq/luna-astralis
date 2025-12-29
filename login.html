@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Luna Astralis — Mon compte</title>
+    <meta name="description" content="Connexion Luna Astralis." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body class="auth-body">
+    <header class="top">
+      <a class="brand" href="./index.html">
+        <div class="logo">
+          <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">LUNA ASTRALIS</div>
+          <div class="brand-sub">Astro & psycho</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a class="btn btn-small" href="./signup.html">Créer un compte</a>
+      </nav>
+    </header>
+
+    <main class="wrap auth-wrap">
+      <section class="auth-card">
+        <h1 class="auth-title">Mon compte</h1>
+        <p class="auth-sub">
+          Connecte-toi pour continuer la discussion et retrouver tes échanges.
+        </p>
+
+        <!-- Google -->
+        <button type="button" class="btn auth-google" id="googleLogin">
+          <span class="g-dot" aria-hidden="true"></span>
+          Continuer avec Google
+        </button>
+
+        <div class="auth-sep">
+          <span>ou</span>
+        </div>
+
+        <!-- Email / password -->
+        <form class="auth-form" id="loginForm" autocomplete="on">
+          <label class="auth-label" for="email">Email</label>
+          <input
+            class="auth-input"
+            id="email"
+            name="email"
+            type="email"
+            placeholder="ex. toi@email.com"
+            required
+            autocomplete="email"
+          />
+
+          <label class="auth-label" for="password">Mot de passe</label>
+          <input
+            class="auth-input"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Ton mot de passe"
+            required
+            autocomplete="current-password"
+          />
+
+          <button class="btn auth-submit" type="submit">Se connecter</button>
+
+          <button type="button" class="auth-forgot" id="forgot">
+            Mot de passe oublié ?
+          </button>
+
+          <p class="auth-switch">
+            Pas encore de compte ?
+            <a class="auth-link" href="./signup.html">Créer un compte</a>
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      // UI only (à connecter à ton auth plus tard)
+      document.getElementById("googleLogin").addEventListener("click", () => {
+        alert("Google login : à connecter (Supabase/Firebase/Google Identity).");
+      });
+
+      document.getElementById("loginForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        alert("Login email/password : à connecter. Email: " + email);
+      });
+
+      document.getElementById("forgot").addEventListener("click", () => {
+        alert("Reset password : à connecter (email reset).");
+      });
+    </script>
+  </body>
+</html>
