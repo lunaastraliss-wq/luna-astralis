@@ -200,3 +200,131 @@ h1{
   /* Mobile : on garde seulement les boutons compte */
   .nav a:not(.btn){display:none}
 }
+/* =========================
+   AUTH (login / signup)
+========================= */
+
+.auth-body{
+  background: radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+              radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
+              linear-gradient(180deg, var(--bg), var(--bg2));
+}
+
+.auth-wrap{
+  display:grid;
+  place-items:center;
+  padding-top:28px;
+}
+
+.auth-card{
+  width:min(520px, 100%);
+  padding:18px;
+  border-radius: var(--radius2);
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: var(--shadow);
+}
+
+.auth-title{
+  margin:4px 0 6px;
+  font-size:22px;
+  letter-spacing:-.01em;
+}
+
+.auth-sub{
+  margin:0 0 14px;
+  color: var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.auth-google{
+  width:100%;
+  justify-content:center;
+  background: rgba(255,255,255,.08);
+  box-shadow:none;
+}
+
+.g-dot{
+  width:10px; height:10px;
+  border-radius:999px;
+  background: linear-gradient(90deg, rgba(215,199,255,.9), rgba(159,211,255,.9));
+  display:inline-block;
+}
+
+.auth-sep{
+  display:grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items:center;
+  gap:12px;
+  margin:14px 0;
+  color: rgba(255,255,255,.55);
+  font-size:12px;
+}
+.auth-sep::before,
+.auth-sep::after{
+  content:"";
+  height:1px;
+  background: rgba(255,255,255,.10);
+}
+
+.auth-form{
+  display:grid;
+  gap:10px;
+}
+
+.auth-label{
+  font-size:12px;
+  color: rgba(255,255,255,.75);
+  margin-top:2px;
+}
+
+.auth-input{
+  width:100%;
+  padding:12px 12px;
+  border-radius:12px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+}
+
+.auth-input:focus{
+  border-color: rgba(215,199,255,.35);
+  box-shadow: 0 0 0 3px rgba(215,199,255,.12);
+}
+
+.auth-submit{
+  width:100%;
+  margin-top:4px;
+}
+
+.auth-forgot{
+  border:0;
+  background: transparent;
+  color: rgba(255,255,255,.70);
+  text-align:left;
+  padding:0;
+  font-size:12px;
+  cursor:pointer;
+}
+.auth-forgot:hover{ color: rgba(255,255,255,.92); }
+
+.auth-legal{
+  margin:10px 0 0;
+  font-size:11px;
+  line-height:1.45;
+  color: rgba(255,255,255,.55);
+}
+
+.auth-switch{
+  margin:10px 0 0;
+  font-size:12px;
+  color: rgba(255,255,255,.70);
+}
+
+.auth-link{
+  color: rgba(255,255,255,.92);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
