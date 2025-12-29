@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat — Luna Astralis</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="index.html">← Retour</a>
+
+    <h1 id="title">Chat</h1>
+    <p id="subtitle" class="muted"></p>
+
+    <div class="chatbox" id="chatbox">
+      <div class="msg bot" id="firstMsg"></div>
+    </div>
+
+    <div class="composer">
+      <input id="input" type="text" placeholder="Écris ici…" />
+      <button id="send">Envoyer</button>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sign = params.get("sign") || "ton signe";
+
+    const pretty = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
+    document.getElementById("title").textContent = `Chat — ${pretty(sign)}`;
+    document.getElementById("subtitle").textContent =
+      `On explore ${pretty(sign)} en mode astro & psycho (outil d’exploration personnelle, non thérapeutique).`;
+
+    document.getElementById("firstMsg").textContent =
+      `Salut ✨ Tu es ${pretty(sign)}. Dis-moi ce que tu veux comprendre en ce moment : tes émotions, tes réactions, ou une situation précise ?`;
+
+    // (Pour l’instant le chat est “placeholder” — on branchera l’IA après)
+    const chatbox = document.getElementById("chatbox");
+    const input = document.getElementById("input");
+    document.getElementById("send").onclick = () => {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const user = document.createElement("div");
+      user.className = "msg user";
+      user.textContent = text;
+      chatbox.appendChild(user);
+
+      const bot = document.createElement("div");
+      bot.className = "msg bot";
+      bot.textContent = `Reçu. (Bientôt l’IA répondra selon ${pretty(sign)}.)`;
+      chatbox.appendChild(bot);
+
+      input.value = "";
+      chatbox.scrollTop = chatbox.scrollHeight;
+    };
+  </script>
+</body>
+</html>
