@@ -439,3 +439,22 @@ body{ overflow-x:hidden; overflow-y:auto; }
 
 /* Sections un peu plus rapprochées */
 .section{ margin-top: 22px; }
+/* =========================
+   FOND ASTRAL (étoiles subtiles)
+========================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.35), transparent),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,.25), transparent),
+    radial-gradient(1px 1px at 55% 40%, rgba(255,255,255,.30), transparent),
+    radial-gradient(1px 1px at 70% 65%, rgba(255,255,255,.22), transparent),
+    radial-gradient(1px 1px at 85% 25%, rgba(255,255,255,.28), transparent),
+    radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,.18), transparent);
+  opacity:.35;
+  z-index:0;
+}
