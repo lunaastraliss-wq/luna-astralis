@@ -14,6 +14,7 @@
         <div class="logo">
           <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
         </div>
+
         <div class="brand-text">
           <div class="brand-name">LUNA ASTRALIS</div>
           <div class="brand-sub">Astro & psycho</div>
@@ -34,7 +35,12 @@
 
         <!-- Google -->
         <button type="button" class="btn auth-google" id="googleLogin">
-          <span class="g-dot" aria-hidden="true"></span>
+          <img
+            src="./google-g.png"
+            alt=""
+            class="google-icon"
+            aria-hidden="true"
+          />
           Continuer avec Google
         </button>
 
@@ -66,7 +72,9 @@
             autocomplete="current-password"
           />
 
-          <button class="btn auth-submit" type="submit">Se connecter</button>
+          <button class="btn auth-submit" type="submit">
+            Se connecter
+          </button>
 
           <button type="button" class="auth-forgot" id="forgot">
             Mot de passe oublié ?
@@ -93,7 +101,7 @@
       });
 
       document.getElementById("forgot").addEventListener("click", () => {
-        alert("Reset password : à connecter (email reset).");
+        alert("Réinitialisation du mot de passe : à connecter.");
       });
     </script>
   </body>
