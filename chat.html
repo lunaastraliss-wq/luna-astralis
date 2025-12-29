@@ -3,128 +3,152 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Luna Astralis — Astro & psycho</title>
-
-    <meta
-      name="description"
-      content="Astro & psycho : explore ton monde intérieur à travers ton signe astrologique, avec une IA douce et introspective."
-    />
-
+    <title>Luna Astralis — Chat</title>
+    <meta name="description" content="Chat Luna Astralis — Astro & psycho" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
-  <body>
-    <!-- HEADER -->
-    <header class="top">
-      <div class="brand">
-        <div class="logo">
-          <img
-            src="./assets/logo-luna-astralis-transparent.png"
-            alt="Luna Astralis"
-          />
+  <body class="chat-body">
+    <!-- TOP BAR -->
+    <header class="chat-top">
+      <a class="chat-brand" href="./index.html">
+        <img class="chat-logo" src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+        <div class="chat-brand-text">
+          <div class="chat-brand-name">LUNA ASTRALIS</div>
+          <div class="chat-brand-sub">Astro & psycho</div>
         </div>
+      </a>
 
-        <div class="brand-text">
-          <div class="brand-name">LUNA ASTRALIS</div>
-          <div class="brand-sub">Astro & psycho</div>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <a href="#comment">Comment ça fonctionne</a>
-        <a href="#signes">Signes</a>
-        <a class="btn btn-small" href="#signes">Choisir mon signe</a>
-      </nav>
+      <a class="chat-back" href="./index.html#signes">Changer de signe</a>
     </header>
 
-    <!-- MAIN -->
-    <main class="wrap">
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-left">
-          <h1>Astro & psycho</h1>
-
-          <p class="lead">
-            Explore ton monde intérieur à travers ton signe astrologique.
-            Une approche douce, introspective et psycho-émotionnelle pour mieux
-            comprendre tes réactions, tes schémas et tes relations.
-          </p>
-
-          <div class="cta">
-            <a class="btn" href="#signes">Choisir mon signe</a>
-            <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
-          </div>
-
-          <p class="note">
-            Outil d’exploration personnelle, non thérapeutique.
-            Aucune thérapie, aucun diagnostic.
-          </p>
-        </div>
-
-        <div class="hero-right">
-          <div class="card-img">
-            <img
-              src="./assets/hero.jpg"
-              alt="Ambiance Luna Astralis"
-              onerror="this.style.display='none'"
-            />
-
-            <div class="img-overlay">
-              <div class="bubble">👋 Salut… on commence par ton signe ?</div>
-              <div class="bubble bubble-right">
-                ✨ Oui. J’aimerais me comprendre.
-              </div>
-            </div>
+    <!-- CHAT WRAP -->
+    <main class="chat-wrap">
+      <!-- LEFT AVATAR PANEL (desktop) -->
+      <aside class="chat-side">
+        <div class="ai-card">
+          <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna IA" />
+          <div class="ai-meta">
+            <div class="ai-name">Luna</div>
+            <div class="ai-tag" id="aiTag">Signe : —</div>
           </div>
         </div>
+
+        <div class="ai-disclaimer">
+          Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+        </div>
+      </aside>
+
+      <!-- RIGHT CHAT PANEL -->
+      <section class="chat-panel">
+        <div class="chat-header">
+          <div class="chat-title">
+            Discussion <span class="chat-pill" id="signLabel">—</span>
+          </div>
+
+          <!-- small avatar for mobile -->
+          <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="Luna IA" />
+        </div>
+
+        <div class="chat-messages" id="messages"></div>
+
+        <form class="chat-inputbar" id="form">
+          <input
+            id="input"
+            type="text"
+            class="chat-input"
+            placeholder="Écris ton message…"
+            autocomplete="off"
+          />
+          <button class="chat-send" type="submit">Envoyer</button>
+        </form>
       </section>
+    </main>
 
-      <!-- COMMENT -->
-      <section id="comment" class="section">
-        <h2>Comment ça fonctionne</h2>
+    <script>
+      // --- Utils
+      const qs = (k) => new URLSearchParams(location.search).get(k) || "";
+      const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
-        <div class="grid4">
-          <div class="box">
-            <h3>1) Tu choisis ton signe</h3>
-            <p>
-              Tu démarres par ton signe solaire
-              (plus tard : lune et ascendant).
-            </p>
-          </div>
+      // --- Sign mapping
+      const SIGNS = {
+        belier: "Bélier ♈",
+        taureau: "Taureau ♉",
+        gemeaux: "Gémeaux ♊",
+        cancer: "Cancer ♋",
+        lion: "Lion ♌",
+        vierge: "Vierge ♍",
+        balance: "Balance ♎",
+        scorpion: "Scorpion ♏",
+        sagittaire: "Sagittaire ♐",
+        capricorne: "Capricorne ♑",
+        verseau: "Verseau ♒",
+        poissons: "Poissons ♓",
+      };
 
-          <div class="box">
-            <h3>2) L’IA te reflète</h3>
-            <p>
-              Elle met des mots sur tes traits,
-              tes besoins et tes mécanismes.
-            </p>
-          </div>
+      const signKey = (qs("signe") || qs("sign") || "belier").toLowerCase();
+      const signName = SIGNS[signKey] || cap(signKey);
 
-          <div class="box">
-            <h3>3) Tu explores tes schémas</h3>
-            <p>
-              Émotions, relations, stress :
-              on observe sans jugement.
-            </p>
-          </div>
+      // Header labels
+      document.getElementById("signLabel").textContent = signName;
+      document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-          <div class="box">
-            <h3>4) Pas de thérapie</h3>
-            <p>
-              Aucun diagnostic.
-              Seulement de la compréhension personnelle.
-            </p>
-          </div>
-        </div>
-      </section>
+      // --- Chat rendering
+      const messagesEl = document.getElementById("messages");
+      const form = document.getElementById("form");
+      const input = document.getElementById("input");
 
-      <!-- SIGNES -->
-      <section id="signes" class="section">
-        <h2>Choisir un signe</h2>
-        <p class="sub">
-          Clique sur ton signe pour commencer la discussion.
-        </p>
+      function addMessage(role, text) {
+        const row = document.createElement("div");
+        row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
 
-        <div class="signs">
-          <button class="sign" onclick="startChat('belier')">♈ Bélier</button>
-          <button class="sign" onclick="startChat('taure
+        if (role === "ai") {
+          const avatar = document.createElement("img");
+          avatar.className = "msg-avatar";
+          avatar.src = "./ia-luna-astralis.png";
+          avatar.alt = "Luna IA";
+          row.appendChild(avatar);
+        } else {
+          const spacer = document.createElement("div");
+          spacer.className = "msg-avatar-spacer";
+          row.appendChild(spacer);
+        }
+
+        const bubble = document.createElement("div");
+        bubble.className = "msg-bubble";
+        bubble.textContent = text;
+
+        row.appendChild(bubble);
+        messagesEl.appendChild(row);
+
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      // Intro IA
+      addMessage(
+        "ai",
+        `Salut ✨ On commence avec ton signe : ${signName}. Dis-moi ce que tu veux comprendre (émotions, relations, stress, schémas…).`
+      );
+
+      // --- Fake reply (placeholder)
+      // Plus tard tu remplaces ça par ton appel API / backend.
+      function aiReply(userText) {
+        return `Je t’écoute. Pour ${signName}, ce que tu décris peut être lié à un besoin de sécurité intérieure / cohérence émotionnelle. Peux-tu me donner un exemple concret ?`;
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage("user", text);
+        input.value = "";
+
+        // small delay
+        setTimeout(() => {
+          addMessage("ai", aiReply(text));
+        }, 350);
+      });
+    </script>
+  </body>
+</html>
