@@ -1,9 +1,9 @@
 /* ==========================================================
-   Luna Astralis — css/index.css (HOME) — COMPLET (REFONTE)
-   - Hero + bloc "Commencer gratuitement" (remplit la zone vide)
+   Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PUNCH)
+   - Hero + bloc "Commence gratuitement" centré
    - Trust + Steps + Signs
-   - Couleurs plein bouton par élément (feu/terre/air/eau)
-   - Hover + Glow premium + Focus clavier
+   - Couleurs boutons par élément (feu/terre/air/eau)
+   - CTA punchy + (option pulse)
 ========================================================== */
 
 /* ================= HERO ================= */
@@ -27,16 +27,16 @@
   isolation:isolate;
 }
 
-/* Halo */
+/* Halo global */
 .hero-card::before{
   content:"";
   position:absolute;
   inset:-2px;
   pointer-events:none;
   background:
-    radial-gradient(620px 280px at 18% 22%, rgba(215,199,255,.26), transparent 62%),
-    radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.22), transparent 60%),
-    radial-gradient(420px 260px at 60% 90%, rgba(124,255,223,.12), transparent 60%);
+    radial-gradient(700px 320px at 18% 18%, rgba(215,199,255,.30), transparent 62%),
+    radial-gradient(620px 300px at 86% 20%, rgba(159,211,255,.26), transparent 60%),
+    radial-gradient(520px 300px at 60% 92%, rgba(124,255,223,.14), transparent 60%);
   opacity:.95;
 }
 
@@ -46,7 +46,7 @@
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.85;
+  opacity:.88;
   background-image:
     radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.95), transparent),
     radial-gradient(1px 1px at 16% 72%, rgba(255,255,255,.75), transparent),
@@ -55,9 +55,9 @@
     radial-gradient(1px 1px at 52% 66%, rgba(255,255,255,.78), transparent),
     radial-gradient(1px 1px at 66% 30%, rgba(255,255,255,.72), transparent),
     radial-gradient(1px 1px at 74% 78%, rgba(255,255,255,.62), transparent),
-    radial-gradient(2px 2px at 82% 20%, rgba(159,211,255,.36), transparent 60%),
-    radial-gradient(2px 2px at 28% 86%, rgba(215,199,255,.32), transparent 60%),
-    radial-gradient(2px 2px at 58% 84%, rgba(124,255,223,.18), transparent 60%);
+    radial-gradient(2px 2px at 82% 20%, rgba(159,211,255,.40), transparent 60%),
+    radial-gradient(2px 2px at 28% 86%, rgba(215,199,255,.36), transparent 60%),
+    radial-gradient(2px 2px at 58% 84%, rgba(124,255,223,.22), transparent 60%);
   mix-blend-mode: screen;
   animation: twinkle 7s ease-in-out infinite;
 }
@@ -80,7 +80,7 @@
   border-radius:999px;
   background: rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.84);
+  color: rgba(255,255,255,.86);
   font-weight:1000;
   font-size:12px;
   letter-spacing:.16em;
@@ -94,7 +94,7 @@
   border-radius:999px;
   background: rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.74);
+  color: rgba(255,255,255,.76);
   font-weight:900;
   font-size:12px;
 }
@@ -133,79 +133,143 @@
 /* IMPORTANT: neutralise tout bloc visuel qui crée une “case vide” */
 .hero-visual{ display:none !important; }
 
-/* ================= BLOC "COMMENCER GRATUITEMENT" ================= */
+/* ================= BLOC "COMMENCE GRATUITEMENT" — CENTRÉ ================= */
+
+/* Wrap = centre le bloc à l’intérieur de la carte */
+.hero-free-wrap{
+  margin-top:16px;
+  display:flex;
+  justify-content:center;
+}
+
+/* Bloc lui-même */
 .hero-free{
-  margin-top:14px;
-  padding:16px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.16);
+  width: min(640px, 100%);
+  padding:18px 18px 16px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.18);
+
+  /* plus punchy que "bleu poudre" */
   background:
-    radial-gradient(520px 240px at 10% 0%, rgba(215,199,255,.18), transparent 60%),
-    radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.16), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
-  box-shadow: 0 18px 55px rgba(0,0,0,.28);
+    radial-gradient(520px 240px at 15% 0%, rgba(215,199,255,.22), transparent 60%),
+    radial-gradient(520px 260px at 90% 10%, rgba(159,211,255,.20), transparent 60%),
+    radial-gradient(480px 220px at 40% 120%, rgba(124,255,223,.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.30),
+    0 0 0 1px rgba(255,255,255,.02) inset;
+}
+
+/* Centre le contenu */
+.hero-free-center{
+  text-align:center;
 }
 
 .hero-free-title{
   margin:0 0 6px;
-  font-size:22px;
+  font-size:24px;
   letter-spacing:-.02em;
   line-height:1.15;
 }
 
 .hero-free-sub{
-  margin:0 0 12px;
+  margin:0 auto 14px;
   color:var(--muted);
   font-size:13px;
   line-height:1.45;
-  max-width:62ch;
+  max-width:58ch;
 }
 
-/* GROS bouton coloré (attire l’œil en 1 sec) */
+/* Bouton punchy */
 .hero-free-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:10px;
-  padding:12px 16px;
+  padding:12px 18px;
   border-radius:14px;
   text-decoration:none;
-  font-weight:1000;
-  letter-spacing:.02em;
+  font-weight:1100;
+  letter-spacing:.01em;
+
   color: rgba(10,12,22,.92);
-  border:1px solid rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.26);
+
   background:
-    radial-gradient(220px 140px at 20% 30%, rgba(124,255,223,.45), transparent 62%),
-    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.42), transparent 62%),
-    linear-gradient(180deg, rgba(215,199,255,.95), rgba(159,211,255,.75));
+    radial-gradient(220px 140px at 20% 30%, rgba(124,255,223,.52), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.50), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.98), rgba(159,211,255,.78));
+
   box-shadow:
-    0 16px 50px rgba(159,211,255,.18),
-    0 16px 50px rgba(0,0,0,.35);
+    0 16px 50px rgba(159,211,255,.22),
+    0 16px 50px rgba(0,0,0,.38);
+
   transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
 }
 
 .hero-free-btn:hover{
   transform: translateY(-2px);
-  filter: brightness(1.03);
+  filter: brightness(1.04);
   box-shadow:
-    0 20px 60px rgba(215,199,255,.20),
-    0 20px 60px rgba(0,0,0,.38);
+    0 22px 65px rgba(215,199,255,.22),
+    0 22px 65px rgba(0,0,0,.42);
 }
 
 .hero-free-btn:focus-visible{
   outline:0;
   box-shadow:
-    0 0 0 3px rgba(255,255,255,.14),
-    0 0 0 6px rgba(159,211,255,.22),
-    0 22px 70px rgba(0,0,0,.45);
+    0 0 0 3px rgba(255,255,255,.16),
+    0 0 0 7px rgba(159,211,255,.22),
+    0 24px 75px rgba(0,0,0,.48);
 }
 
 .hero-free-note{
   margin-top:10px;
-  color: rgba(255,255,255,.70);
+  color: rgba(255,255,255,.72);
   font-size:12px;
-  font-weight:800;
+  font-weight:900;
   letter-spacing:.02em;
+}
+
+/* ================= OPTION: PULSE (subtil) ================= */
+.hero-free-btn--pulse{
+  position:relative;
+  animation: ctaPulse 3s ease-in-out infinite;
+}
+
+.hero-free-btn--pulse::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:inherit;
+  pointer-events:none;
+  opacity:0;
+  box-shadow: 0 0 0 0 rgba(159,211,255,0);
+  animation: ctaGlow 3s ease-in-out infinite;
+}
+
+@keyframes ctaPulse{
+  0%,100%{ transform: scale(1); }
+  50%{ transform: scale(1.035); }
+}
+@keyframes ctaGlow{
+  0%,100%{
+    opacity:0;
+    box-shadow:
+      0 0 0 0 rgba(159,211,255,0),
+      0 0 0 0 rgba(215,199,255,0);
+  }
+  50%{
+    opacity:.65;
+    box-shadow:
+      0 0 0 12px rgba(159,211,255,.18),
+      0 0 0 22px rgba(215,199,255,.10);
+  }
+}
+
+.hero-free-btn--pulse:hover,
+.hero-free-btn--pulse:hover::after{
+  animation:none;
 }
 
 /* Note bas de hero */
@@ -316,7 +380,6 @@
   filter: brightness(1.05);
 }
 
-/* Focus clavier */
 .sign:focus-visible{
   outline: 0;
   box-shadow:
@@ -418,16 +481,22 @@
   .grid4{ grid-template-columns: 1fr 1fr; }
   .trust{ grid-template-columns: 1fr; }
   .signs.signs-grid{ grid-template-columns: 1fr 1fr 1fr; }
+  .hero-free-title{ font-size:22px; }
 }
 
 @media (max-width: 520px){
   .grid4{ grid-template-columns: 1fr; }
   .signs.signs-grid{ grid-template-columns: 1fr 1fr; }
+  .hero-free{ padding:14px; border-radius:18px; }
   .hero-free-title{ font-size:20px; }
-  .hero-free{ padding:14px; }
 }
 
 /* ================= ACCESSIBILITY ================= */
 @media (prefers-reduced-motion: reduce){
-  .hero-card::after, .box::after{ animation:none !important; }
-}
+  .hero-card::after,
+  .box::after,
+  .hero-free-btn--pulse,
+  .hero-free-btn--pulse::after{
+    animation:none !important;
+  }
+     }
