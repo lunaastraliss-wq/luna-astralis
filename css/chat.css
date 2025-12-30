@@ -530,3 +530,66 @@
   z-index: 1;
   pointer-events:none;
 }
+/* ===============================
+   FIX QUEUE: queue sur la ligne IA
+   (ne dépend PAS de overflow de .msg-bubble)
+================================ */
+
+/* Assure-toi que ces tailles matchent ton layout */
+.msg-ai{
+  position: relative;         /* nécessaire pour l'absolu */
+  align-items: flex-start;
+  gap: 12px;
+}
+
+/* Avatar au-dessus de la queue (sinon la queue peut être cachée) */
+.msg-ai .msg-avatar{
+  position: relative;
+  z-index: 3;
+}
+
+/* La bulle au-dessus du fond */
+.msg-ai .msg-bubble{
+  position: relative;
+  z-index: 2;
+}
+
+/* LA QUEUE (entre l’avatar et la bulle) */
+.msg-ai::before{
+  content:"";
+  position:absolute;
+
+  /* Ajuste si tu changes avatar/gap:
+     avatar 36px + gap 12px => départ bulle ~48px */
+  left: 44px;        /* position horizontale de la queue */
+  top: 26px;         /* position verticale (descends/monte) */
+
+  width: 16px;
+  height: 16px;
+
+  background: rgba(0,0,0,.24);
+  border-left: 1px solid rgba(255,255,255,.14);
+  border-bottom: 1px solid rgba(255,255,255,.14);
+
+  transform: rotate(45deg);
+  border-bottom-left-radius: 3px;
+
+  z-index: 4;        /* au-dessus de la bulle */
+  pointer-events: none;
+}
+
+/* Petit halo astro derrière la queue (optionnel, mais beau) */
+.msg-ai::after{
+  content:"";
+  position:absolute;
+  left: 42px;
+  top: 24px;
+  width: 20px;
+  height: 20px;
+  background: rgba(146,112,255,.12);
+  filter: blur(2px);
+  transform: rotate(45deg);
+  border-radius: 6px;
+  z-index: 1;
+  pointer-events: none;
+}
