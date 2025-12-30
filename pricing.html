@@ -4,33 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Luna Astralis — Tarifs</title>
-
     <meta
       name="description"
       content="Tarifs Luna Astralis — Astro & psycho. Accès 24h/7. Prix en dollars US."
     />
-
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body class="pricing-body">
     <!-- HEADER -->
     <header class="top">
-      <div class="brand">
+      <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
         <div class="logo">
-          <img
-            src="./assets/logo-luna-astralis-transparent.png"
-            alt="Luna Astralis"
-          />
+          <img src="./assets/logo-luna-astralis-transparent.png" alt="Luna Astralis" />
         </div>
 
         <div class="brand-text">
           <div class="brand-name">LUNA ASTRALIS</div>
           <div class="brand-sub">Astro & psycho</div>
         </div>
-      </div>
+      </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navigation">
         <a href="./index.html">Accueil</a>
         <a class="active" href="./pricing.html">Tarifs</a>
         <a href="./login.html">Login</a>
@@ -41,27 +36,28 @@
     <!-- MAIN -->
     <main class="wrap">
       <!-- HERO -->
-      <section class="section pricing-hero">
-        <h1>Tarifs</h1>
-        <p class="lead">
-          Choisis la formule qui te convient.<br />
-          <strong>Accès 24h/7</strong>.
-        </p>
-        <p class="sub">
-          Prix en dollars US (USD). Outil d’exploration personnelle, non thérapeutique.
-        </p>
+      <section class="pricing-hero" aria-label="Présentation des tarifs">
+        <div class="pricing-hero-inner">
+          <div class="pricing-kicker">Accès 24h/7</div>
+          <h1>Tarifs</h1>
+          <p class="lead">
+            Choisis la formule qui te convient. <strong>Astro & psycho</strong>, simple et doux.
+          </p>
+          <p class="sub">
+            Prix en dollars US (USD). Outil d’exploration personnelle, non thérapeutique.
+          </p>
+        </div>
       </section>
 
-      <!-- PRICING GRID -->
-      <section class="section">
+      <!-- GRID -->
+      <section class="section" aria-label="Formules">
         <div class="pricing-grid">
-
-          <!-- 4,99 $ -->
-          <article class="price-card">
+          <!-- 4,99 -->
+          <article class="price-card" aria-label="Mensuel Essentiel">
             <div class="price-head">
               <div class="price-name">Mensuel — Essentiel</div>
               <div class="price-value">
-                <span class="price-now">4,99 $</span>
+                <span class="price-now">4,99&nbsp;$</span>
                 <span class="price-period">/ mois</span>
               </div>
               <div class="price-mini">Accès 24h/7</div>
@@ -74,19 +70,17 @@
               <li>Compatible mobile</li>
             </ul>
 
-            <a class="btn price-cta" href="#">
-              Commencer
-            </a>
+            <a class="price-cta" href="./signup.html">Commencer</a>
           </article>
 
-          <!-- 9,99 $ -->
-          <article class="price-card price-featured">
+          <!-- 9,99 -->
+          <article class="price-card price-featured" aria-label="Mensuel Illimité">
             <div class="price-badge">Meilleure valeur</div>
 
             <div class="price-head">
               <div class="price-name">Mensuel — Illimité</div>
               <div class="price-value">
-                <span class="price-now">9,99 $</span>
+                <span class="price-now">9,99&nbsp;$</span>
                 <span class="price-period">/ mois</span>
               </div>
               <div class="price-mini">Accès 24h/7</div>
@@ -99,23 +93,19 @@
               <li>Exploration approfondie</li>
             </ul>
 
-            <a class="btn price-cta btn-primary" href="#">
-              Accès illimité 24h/7
-            </a>
+            <a class="price-cta btn-primary" href="./signup.html">Accès illimité 24h/7</a>
           </article>
 
-          <!-- 49,99 $ -->
-          <article class="price-card">
+          <!-- 49,99 -->
+          <article class="price-card" aria-label="Annuel Essentiel">
             <div class="price-head">
               <div class="price-name">Annuel — Essentiel</div>
               <div class="price-value">
-                <span class="price-was"><s>59,99 $</s></span>
-                <span class="price-now">49,99 $</span>
+                <span class="price-was"><s>59,99&nbsp;$</s></span>
+                <span class="price-now">49,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 10 $</strong>
-              </div>
+              <div class="price-mini">Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong></div>
             </div>
 
             <ul class="price-features">
@@ -125,25 +115,21 @@
               <li>Le plus économique</li>
             </ul>
 
-            <a class="btn price-cta" href="#">
-              Choisir l’annuel
-            </a>
+            <a class="price-cta" href="./signup.html">Choisir l’annuel</a>
           </article>
 
-          <!-- 99,99 $ -->
-          <article class="price-card">
+          <!-- 99,99 -->
+          <article class="price-card" aria-label="Annuel Illimité">
             <div class="price-badge premium">Premium</div>
 
             <div class="price-head">
               <div class="price-name">Annuel — Illimité</div>
               <div class="price-value">
-                <span class="price-was"><s>119,99 $</s></span>
-                <span class="price-now">99,99 $</span>
+                <span class="price-was"><s>119,99&nbsp;$</s></span>
+                <span class="price-now">99,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 20 $</strong>
-              </div>
+              <div class="price-mini">Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong></div>
             </div>
 
             <ul class="price-features">
@@ -153,11 +139,8 @@
               <li>Futur : Tarot, Lune, Ascendant</li>
             </ul>
 
-            <a class="btn price-cta" href="#">
-              Accès illimité annuel
-            </a>
+            <a class="price-cta" href="./signup.html">Accès illimité annuel</a>
           </article>
-
         </div>
       </section>
 
