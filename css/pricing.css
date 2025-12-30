@@ -1,16 +1,19 @@
 /* ==========================================================
-   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (PLUS COLORÉ + HALO PULSANT VRAIMENT VISIBLE)
+   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (HALO EXTERNE VISIBLE)
    - Premium, pas flashy
-   - 1 carte featured (halo pulsant VISIBLE)
+   - Halo externe VRAIMENT visible (anneau + glow blur)
+   - 1 carte featured (.price-featured) à wrapper dans .price-halo
    - CTA featured en dégradé astro
-   - Badges lisibles
-   IMPORTANT:
-   1) Le halo est sur .price-halo (wrapper) car .price-card a overflow:hidden
-   2) Le wrapper DOIT entourer la carte featured dans le HTML :
-      <div class="price-halo"><article class="price-card price-featured">...</article></div>
+   IMPORTANT HTML:
+     <div class="price-halo">
+       <article class="price-card price-featured">...</article>
+     </div>
 ========================================================== */
 
 .pricing-body .wrap{ padding-top:18px; }
+
+/* ✅ très important: ne pas couper le halo */
+.section, .wrap, .pricing-grid{ overflow: visible; }
 
 /* ============== HERO ============== */
 .pricing-hero{ margin-top:18px; }
@@ -36,7 +39,7 @@
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.70;
+  opacity:.72;
   background-image:
     radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.86), transparent),
     radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.62), transparent),
@@ -83,14 +86,6 @@
 }
 
 .pricing-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-.pricing-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
-
-.hero-cta{ border-radius:14px; }
-.hero-cta.ghost{
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow:none;
-}
 
 .pricing-trust{
   margin-top:10px;
@@ -106,6 +101,7 @@
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
   align-items:stretch;
+  overflow: visible; /* ✅ */
 }
 
 /* =========================
@@ -123,12 +119,13 @@
 
   border:1px solid rgba(255,255,255,.16);
   box-shadow: 0 18px 60px rgba(0,0,0,.46);
-  overflow:hidden; /* garde propre */
+  overflow:hidden;
   min-height:292px;
   display:flex;
   flex-direction:column;
 }
 
+/* étoiles subtiles */
 .price-card::after{
   content:"";
   position:absolute;
@@ -165,7 +162,7 @@
 .price-features li{ margin:8px 0; }
 .price-features li::marker{ color: rgba(159,211,255,.98); }
 
-/* CTA par défaut */
+/* CTA default */
 .price-cta{
   margin-top:auto;
   display:inline-flex;
@@ -208,7 +205,7 @@
   text-shadow: 0 10px 30px rgba(0,0,0,.55);
 }
 
-/* CTA featured */
+/* CTA featured (dégradé astro) */
 .price-featured .price-cta{
   border:1px solid rgba(255,255,255,.22);
   color: rgba(10,12,22,.96);
@@ -256,59 +253,82 @@
 }
 
 /* =========================
-   HALO ASTRO PULSANT (VRAIMENT VISIBLE)
-   -> sur wrapper .price-halo
-   IMPORTANT:
-   - Le wrapper doit avoir un z-index au-dessus du fond
-   - Le halo doit être derrière la carte MAIS visible autour
+   HALO EXTERNE ULTRA VISIBLE
+   -> sur wrapper .price-halo (autour de la featured)
+   ✅ Anneau (box-shadow) + Glow (blur)
 ========================= */
 .price-halo{
   position:relative;
-  z-index: 5;                 /* monte au-dessus des autres cartes/fond */
-  border-radius: 28px;
+  overflow:visible;
+  isolation:isolate;   /* ✅ z-index propre */
+  z-index:10;          /* ✅ au-dessus des autres cartes */
+  border-radius:28px;
 }
 
-/* halo externe */
+/* Couche A: anneau net (se voit toujours) */
+.price-halo::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:32px;
+  pointer-events:none;
+  z-index:1;
+
+  /* anneau + “lueur” nette */
+  box-shadow:
+    0 0 0 2px rgba(215,199,255,.30),
+    0 0 18px rgba(215,199,255,.35),
+    0 0 34px rgba(159,211,255,.22),
+    0 0 58px rgba(124,255,223,.14);
+
+  opacity:.75;
+  animation: ringPulse 5.6s ease-in-out infinite;
+}
+
+/* Couche B: glow blur large (extérieur) */
 .price-halo::before{
   content:"";
   position:absolute;
-  inset:-40px;                /* + grand = + visible */
-  border-radius: 40px;
+  inset:-70px;               /* énorme pour être vu */
+  border-radius:70px;
   pointer-events:none;
+  z-index:0;
 
   background:
-    radial-gradient(60% 60% at 50% 50%,
-      rgba(215,199,255,.75),
-      rgba(159,211,255,.45),
-      rgba(124,255,223,.22),
+    radial-gradient(circle at 50% 50%,
+      rgba(215,199,255,.85) 0%,
+      rgba(159,211,255,.50) 32%,
+      rgba(124,255,223,.26) 52%,
       transparent 72%
     );
 
-  filter: blur(34px);
-  opacity: .92;
-  z-index: 0;
+  filter: blur(18px);        /* blur plus bas = plus visible */
+  opacity:.95;
 
-  animation: astroPulse 6.2s ease-in-out infinite;
+  animation: glowPulse 5.6s ease-in-out infinite;
 }
 
-/* carte au-dessus */
+/* carte au-dessus des halos */
 .price-halo > .price-card{
   position:relative;
-  z-index:1;
+  z-index:2;
 }
 
-/* pulse */
-@keyframes astroPulse{
-  0%   { opacity:.55; transform: scale(1); }
-  50%  { opacity:1;   transform: scale(1.05); }
-  100% { opacity:.55; transform: scale(1); }
+/* pulse synchro, doux */
+@keyframes glowPulse{
+  0%   { transform: scale(.98); opacity:.70; }
+  50%  { transform: scale(1.06); opacity:1; }
+  100% { transform: scale(.98); opacity:.70; }
+}
+@keyframes ringPulse{
+  0%   { transform: scale(1); opacity:.55; }
+  50%  { transform: scale(1.02); opacity:.95; }
+  100% { transform: scale(1); opacity:.55; }
 }
 
-/* halo au hover */
-.price-halo:hover::before{
-  opacity: 1;
-  filter: blur(30px);
-}
+/* hover = un peu plus présent */
+.price-halo:hover::before{ opacity:1; }
+.price-halo:hover::after{ opacity:1; }
 
 /* =========================
    RESPONSIVE
@@ -324,5 +344,6 @@
 
 /* Accessibilité */
 @media (prefers-reduced-motion: reduce){
-  .price-halo::before{ animation:none !important; }
+  .price-halo::before,
+  .price-halo::after{ animation:none !important; }
 }
