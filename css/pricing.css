@@ -1,19 +1,30 @@
 /* ==========================================================
    Luna Astralis — css/pricing.css (TARIFS) — COMPLET (HALO EXTERNE VISIBLE)
    - Premium, pas flashy
-   - Halo externe VRAIMENT visible (anneau + glow blur)
-   - 1 carte featured (.price-featured) à wrapper dans .price-halo
+   - Halo EXTERNE vraiment visible (anneau net + glow blur)
+   - 1 carte featured (.price-featured) WRAPPÉE dans .price-halo
    - CTA featured en dégradé astro
    IMPORTANT HTML:
      <div class="price-halo">
        <article class="price-card price-featured">...</article>
      </div>
+
+   NOTE: si un parent dans styles.css a overflow:hidden (ex: .section/.wrap),
+         ce fichier le neutralise déjà.
 ========================================================== */
 
 .pricing-body .wrap{ padding-top:18px; }
 
-/* ✅ très important: ne pas couper le halo */
-.section, .wrap, .pricing-grid{ overflow: visible; }
+/* ✅ éviter de couper le halo */
+.section, .wrap, .pricing-grid{
+  overflow: visible !important;
+}
+
+/* ✅ stacking propre (le halo doit pouvoir passer devant) */
+.pricing-grid{
+  position: relative;
+  z-index: 1;
+}
 
 /* ============== HERO ============== */
 .pricing-hero{ margin-top:18px; }
@@ -85,7 +96,12 @@
   font-size:14px;
 }
 
-.pricing-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.pricing-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
 
 .pricing-trust{
   margin-top:10px;
@@ -101,7 +117,6 @@
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
   align-items:stretch;
-  overflow: visible; /* ✅ */
 }
 
 /* =========================
@@ -109,6 +124,7 @@
 ========================= */
 .price-card{
   position:relative;
+  z-index: 1; /* ✅ base */
   padding:16px 16px 14px;
   border-radius:22px;
 
@@ -255,57 +271,57 @@
 /* =========================
    HALO EXTERNE ULTRA VISIBLE
    -> sur wrapper .price-halo (autour de la featured)
-   ✅ Anneau (box-shadow) + Glow (blur)
+   ✅ anneau net (toujours visible) + glow blur large
 ========================= */
 .price-halo{
   position:relative;
   overflow:visible;
-  isolation:isolate;   /* ✅ z-index propre */
-  z-index:10;          /* ✅ au-dessus des autres cartes */
+  isolation:isolate;
+  z-index:20;                 /* ✅ au-dessus des autres cartes */
   border-radius:28px;
 }
 
-/* Couche A: anneau net (se voit toujours) */
-.price-halo::after{
-  content:"";
-  position:absolute;
-  inset:-10px;
-  border-radius:32px;
-  pointer-events:none;
-  z-index:1;
-
-  /* anneau + “lueur” nette */
-  box-shadow:
-    0 0 0 2px rgba(215,199,255,.30),
-    0 0 18px rgba(215,199,255,.35),
-    0 0 34px rgba(159,211,255,.22),
-    0 0 58px rgba(124,255,223,.14);
-
-  opacity:.75;
-  animation: ringPulse 5.6s ease-in-out infinite;
-}
-
-/* Couche B: glow blur large (extérieur) */
+/* Couche A: glow blur large (extérieur) */
 .price-halo::before{
   content:"";
   position:absolute;
-  inset:-70px;               /* énorme pour être vu */
-  border-radius:70px;
+  inset:-80px;                /* très grand = halo externe visible */
+  border-radius:80px;
   pointer-events:none;
   z-index:0;
 
   background:
     radial-gradient(circle at 50% 50%,
-      rgba(215,199,255,.85) 0%,
-      rgba(159,211,255,.50) 32%,
-      rgba(124,255,223,.26) 52%,
-      transparent 72%
+      rgba(215,199,255,.95) 0%,
+      rgba(159,211,255,.62) 30%,
+      rgba(124,255,223,.32) 52%,
+      transparent 74%
     );
 
-  filter: blur(18px);        /* blur plus bas = plus visible */
+  filter: blur(12px);         /* blur bas = plus “net” */
   opacity:.95;
 
-  animation: glowPulse 5.6s ease-in-out infinite;
+  animation: glowPulse 5.2s ease-in-out infinite;
+}
+
+/* Couche B: anneau net (visible même si le blur se perd) */
+.price-halo::after{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border-radius:36px;
+  pointer-events:none;
+  z-index:1;
+
+  box-shadow:
+    0 0 0 2px rgba(215,199,255,.42),
+    0 0 16px rgba(215,199,255,.40),
+    0 0 34px rgba(159,211,255,.26),
+    0 0 62px rgba(124,255,223,.18);
+
+  opacity:.82;
+
+  animation: ringPulse 5.2s ease-in-out infinite;
 }
 
 /* carte au-dessus des halos */
@@ -314,15 +330,16 @@
   z-index:2;
 }
 
-/* pulse synchro, doux */
+/* pulse doux, externe */
 @keyframes glowPulse{
   0%   { transform: scale(.98); opacity:.70; }
-  50%  { transform: scale(1.06); opacity:1; }
+  50%  { transform: scale(1.07); opacity:1; }
   100% { transform: scale(.98); opacity:.70; }
 }
+
 @keyframes ringPulse{
   0%   { transform: scale(1); opacity:.55; }
-  50%  { transform: scale(1.02); opacity:.95; }
+  50%  { transform: scale(1.02); opacity:.98; }
   100% { transform: scale(1); opacity:.55; }
 }
 
