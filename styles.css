@@ -750,4 +750,4 @@ h1{
 /* accessibilité : réduire animations si demandé (chat aussi) */
 @media (prefers-reduced-motion: reduce){
   .chat-hero-overlay{ animation:none !important; }
-    }
+}
