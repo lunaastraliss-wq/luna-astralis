@@ -43,27 +43,31 @@
       <!-- HERO -->
       <section class="hero hero-astro" aria-label="Présentation">
         <div class="hero-card">
-          <div class="hero-kicker">
-            <span class="astro-mark">☾ Luna Astralis</span>
-            <span class="hero-badge">Exploration guidée</span>
-          </div>
+          <!-- ✅ Haut centré (kicker + titre + texte) -->
+          <div class="hero-top hero-top-center">
+            <div class="hero-kicker hero-kicker-center">
+              <span class="astro-mark">☾ Luna Astralis</span>
+              <span class="hero-badge">Exploration guidée</span>
+            </div>
 
-          <h1 class="hero-title">Astro & psycho</h1>
+            <h1 class="hero-title hero-title-center">Astro & psycho</h1>
 
-          <p class="lead">
-            Comprends mieux tes émotions, tes schémas et tes besoins — à travers ton signe —
-            avec une IA douce, lucide et introspective.
-          </p>
+            <p class="lead lead-center">
+              Comprends mieux tes émotions, tes schémas et tes besoins — à travers ton signe —
+              avec une IA douce, lucide et introspective.
+            </p>
 
-          <div class="astro-chips" aria-label="Thèmes">
-            <span class="chip">♈ Zodiaque</span>
-            <span class="chip">☾ Lune & cycles</span>
-            <span class="chip">🜁 Archétypes</span>
-            <span class="chip">🧠 Schémas</span>
+            <!-- ✅ Chips centrées (tu pourras enlever plus tard si tu veux) -->
+            <div class="astro-chips astro-chips-center" aria-label="Thèmes">
+              <span class="chip">♈ Zodiaque</span>
+              <span class="chip">☾ Lune & cycles</span>
+              <span class="chip">🜁 Archétypes</span>
+              <span class="chip">🧠 Schémas</span>
+            </div>
           </div>
 
           <!-- ✅ BLOC IMPACT (CENTRÉ) -->
-          <div class="hero-free-wrap" aria-label="Démarrage gratuit">
+          <div class="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage gratuit">
             <div class="hero-free hero-free-center">
               <h2 class="hero-free-title">
                 Commence gratuitement,<br />sans créer de compte
@@ -73,14 +77,14 @@
                 Choisis simplement ton signe et commence l’exploration en 10 secondes.
               </p>
 
-              <!-- bouton plus “punchy” + option pulse via classe -->
+              <!-- ✅ bouton punchy + pulse -->
               <a href="#signes" class="hero-free-btn hero-free-btn--pulse">Choisir mon signe →</a>
 
               <div class="hero-free-note">Aucun compte · Aucune carte · Immédiat</div>
             </div>
           </div>
 
-          <p class="note">
+          <p class="note note-center">
             Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
           </p>
         </div>
@@ -185,7 +189,6 @@
           <a class="sign sign-water" role="listitem" href="./chat.html?signe=poissons">♓ Poissons</a>
         </div>
 
-        <!-- légende éléments (discrète et premium) -->
         <div class="elements" aria-label="Éléments">
           <span class="el sign-fire">Feu</span>
           <span class="el sign-earth">Terre</span>
