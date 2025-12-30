@@ -1,10 +1,13 @@
 /* ==========================================================
-   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (PLUS COLORÉ + HALO PULSANT VISIBLE)
+   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (PLUS COLORÉ + HALO PULSANT VRAIMENT VISIBLE)
    - Premium, pas flashy
-   - 1 carte featured (avec halo pulsant visible)
+   - 1 carte featured (halo pulsant VISIBLE)
    - CTA featured en dégradé astro
    - Badges lisibles
-   IMPORTANT: Le halo est sur .price-halo (wrapper) car .price-card a overflow:hidden
+   IMPORTANT:
+   1) Le halo est sur .price-halo (wrapper) car .price-card a overflow:hidden
+   2) Le wrapper DOIT entourer la carte featured dans le HTML :
+      <div class="price-halo"><article class="price-card price-featured">...</article></div>
 ========================================================== */
 
 .pricing-body .wrap{ padding-top:18px; }
@@ -19,10 +22,10 @@
   overflow:hidden;
 
   background:
-    radial-gradient(900px 340px at 18% 18%, rgba(215,199,255,.30), transparent 62%),
-    radial-gradient(860px 320px at 86% 26%, rgba(159,211,255,.24), transparent 60%),
-    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.12), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+    radial-gradient(900px 340px at 18% 18%, rgba(215,199,255,.32), transparent 62%),
+    radial-gradient(860px 320px at 86% 26%, rgba(159,211,255,.26), transparent 60%),
+    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
 
   border:1px solid rgba(255,255,255,.16);
   box-shadow: var(--shadow);
@@ -35,9 +38,9 @@
   pointer-events:none;
   opacity:.70;
   background-image:
-    radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.80), transparent),
+    radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.86), transparent),
     radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.62), transparent),
-    radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.78), transparent),
     radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.58), transparent),
     radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
     radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%),
@@ -66,7 +69,6 @@
   margin:0 0 8px;
   font-size:40px;
   letter-spacing:-.02em;
-
   background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #7cffdf, #ffe7ff);
   -webkit-background-clip:text;
   background-clip:text;
@@ -121,13 +123,12 @@
 
   border:1px solid rgba(255,255,255,.16);
   box-shadow: 0 18px 60px rgba(0,0,0,.46);
-  overflow:hidden;              /* garde les étoiles/gradients propres (mais coupe un halo externe) */
+  overflow:hidden; /* garde propre */
   min-height:292px;
   display:flex;
   flex-direction:column;
 }
 
-/* étoiles sur cartes (subtiles) */
 .price-card::after{
   content:"";
   position:absolute;
@@ -135,7 +136,7 @@
   pointer-events:none;
   opacity:.55;
   background-image:
-    radial-gradient(1px 1px at 14% 20%, rgba(255,255,255,.70), transparent),
+    radial-gradient(1px 1px at 14% 20%, rgba(255,255,255,.74), transparent),
     radial-gradient(1px 1px at 22% 62%, rgba(255,255,255,.55), transparent),
     radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,.62), transparent),
     radial-gradient(1px 1px at 68% 70%, rgba(255,255,255,.50), transparent),
@@ -145,8 +146,6 @@
 }
 
 .price-head, .price-features, .price-cta{ position:relative; z-index:1; }
-
-/* espace pour le badge */
 .price-head{ padding-top:26px; }
 
 .price-name{ font-weight:1100; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
@@ -166,7 +165,7 @@
 .price-features li{ margin:8px 0; }
 .price-features li::marker{ color: rgba(159,211,255,.98); }
 
-/* CTA par défaut (sobre) */
+/* CTA par défaut */
 .price-cta{
   margin-top:auto;
   display:inline-flex;
@@ -190,15 +189,14 @@
 
 /* =========================
    FEATURED (LA STAR)
-   -> .price-card.price-featured
 ========================= */
 .price-featured{
   border:1px solid rgba(215,199,255,.60);
   background:
-    radial-gradient(640px 360px at 22% 6%, rgba(215,199,255,.32), transparent 60%),
-    radial-gradient(640px 360px at 92% 18%, rgba(159,211,255,.26), transparent 60%),
-    radial-gradient(640px 360px at 52% 115%, rgba(124,255,223,.12), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+    radial-gradient(640px 360px at 22% 6%, rgba(215,199,255,.34), transparent 60%),
+    radial-gradient(640px 360px at 92% 18%, rgba(159,211,255,.28), transparent 60%),
+    radial-gradient(640px 360px at 52% 115%, rgba(124,255,223,.13), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.06));
   box-shadow:
     0 26px 78px rgba(0,0,0,.58),
     0 0 0 1px rgba(215,199,255,.12) inset;
@@ -210,14 +208,14 @@
   text-shadow: 0 10px 30px rgba(0,0,0,.55);
 }
 
-/* CTA featured (dégradé astro) */
+/* CTA featured */
 .price-featured .price-cta{
   border:1px solid rgba(255,255,255,.22);
   color: rgba(10,12,22,.96);
   background:
-    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.75), transparent 62%),
-    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.55), transparent 62%),
-    linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.85));
+    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.78), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.58), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.86));
   box-shadow:
     0 18px 55px rgba(0,0,0,.42),
     0 18px 55px rgba(146,112,255,.22);
@@ -258,52 +256,58 @@
 }
 
 /* =========================
-   HALO ASTRO PULSANT (VISIBLE)
-   IMPORTANT: Le halo est sur un wrapper .price-halo
+   HALO ASTRO PULSANT (VRAIMENT VISIBLE)
+   -> sur wrapper .price-halo
+   IMPORTANT:
+   - Le wrapper doit avoir un z-index au-dessus du fond
+   - Le halo doit être derrière la carte MAIS visible autour
 ========================= */
 .price-halo{
   position:relative;
+  z-index: 5;                 /* monte au-dessus des autres cartes/fond */
+  border-radius: 28px;
 }
 
+/* halo externe */
 .price-halo::before{
   content:"";
   position:absolute;
-  inset:-26px;                 /* halo externe */
-  border-radius:32px;
+  inset:-40px;                /* + grand = + visible */
+  border-radius: 40px;
   pointer-events:none;
 
   background:
-    radial-gradient(
-      60% 60% at 50% 50%,
-      rgba(215,199,255,.42),
-      rgba(159,211,255,.28),
-      rgba(124,255,223,.14),
+    radial-gradient(60% 60% at 50% 50%,
+      rgba(215,199,255,.75),
+      rgba(159,211,255,.45),
+      rgba(124,255,223,.22),
       transparent 72%
     );
 
-  filter: blur(28px);
-  opacity:.70;
-  z-index:0;
+  filter: blur(34px);
+  opacity: .92;
+  z-index: 0;
 
-  animation: astroPulse 7.2s ease-in-out infinite;
+  animation: astroPulse 6.2s ease-in-out infinite;
 }
 
-/* la carte doit être au-dessus du halo */
+/* carte au-dessus */
 .price-halo > .price-card{
   position:relative;
   z-index:1;
 }
 
+/* pulse */
 @keyframes astroPulse{
-  0%   { opacity:.50; transform: scale(1); }
-  50%  { opacity:.92; transform: scale(1.04); }
-  100% { opacity:.50; transform: scale(1); }
+  0%   { opacity:.55; transform: scale(1); }
+  50%  { opacity:1;   transform: scale(1.05); }
+  100% { opacity:.55; transform: scale(1); }
 }
 
-/* Option: halo un peu plus “présent” au hover */
+/* halo au hover */
 .price-halo:hover::before{
   opacity: 1;
-  filter: blur(26px);
+  filter: blur(30px);
 }
 
 /* =========================
@@ -320,9 +324,5 @@
 
 /* Accessibilité */
 @media (prefers-reduced-motion: reduce){
-  .pricing-hero-inner::after,
-  .price-card::after,
-  .price-halo::before{
-    animation:none !important;
-  }
-                               }
+  .price-halo::before{ animation:none !important; }
+}
