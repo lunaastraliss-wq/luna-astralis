@@ -1,17 +1,22 @@
 /* ==========================================================
-   Luna Astralis — css/pricing.css (TARIFS)
+   Luna Astralis — css/pricing.css (TARIFS) — REFAIT (PLUS COLORÉ)
+   - Plus de couleur (premium, pas flashy)
+   - 1 carte "featured" plus attirante
+   - CTA principal en dégradé astro
+   - Badges plus lisibles
 ========================================================== */
 
 .pricing-body .wrap{ padding-top:18px; }
 
 .pricing-hero{ margin-top:18px; }
 .pricing-hero-inner{
-  padding:18px 18px;
+  padding:20px 20px;
   border-radius:24px;
   background:
-    radial-gradient(760px 300px at 15% 20%, rgba(215,199,255,.26), transparent 62%),
-    radial-gradient(720px 300px at 85% 30%, rgba(159,211,255,.20), transparent 60%),
-    rgba(255,255,255,.06);
+    radial-gradient(880px 320px at 18% 18%, rgba(215,199,255,.30), transparent 62%),
+    radial-gradient(860px 320px at 86% 26%, rgba(159,211,255,.24), transparent 60%),
+    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.10), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
   border:1px solid rgba(255,255,255,.16);
   box-shadow: var(--shadow);
   overflow:hidden;
@@ -24,14 +29,15 @@
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.65;
+  opacity:.70;
   background-image:
     radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.80), transparent),
     radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.65), transparent),
     radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.75), transparent),
     radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.60), transparent),
     radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
-    radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%);
+    radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%),
+    radial-gradient(1px 1px at 90% 72%, rgba(255,255,255,.55), transparent);
   mix-blend-mode: screen;
 }
 .pricing-hero-inner > *{ position:relative; z-index:1; }
@@ -43,8 +49,8 @@
   border-radius:999px;
   background: rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.86);
-  font-weight:1000;
+  color: rgba(255,255,255,.88);
+  font-weight:1100;
   font-size:12px;
   letter-spacing:.14em;
   text-transform:uppercase;
@@ -55,7 +61,7 @@
   margin:0 0 8px;
   font-size:40px;
   letter-spacing:-.02em;
-  background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #ffe7ff);
+  background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #7cffdf, #ffe7ff);
   -webkit-background-clip:text;
   background-clip:text;
   color: transparent;
@@ -63,7 +69,7 @@
 
 .pricing-subtitle{
   margin:0 0 10px;
-  color: rgba(255,255,255,.78);
+  color: rgba(255,255,255,.80);
   line-height:1.55;
   font-size:14px;
 }
@@ -80,7 +86,7 @@
 
 .pricing-trust{
   margin-top:10px;
-  color: rgba(255,255,255,.74);
+  color: rgba(255,255,255,.76);
   font-size:12px;
   line-height:1.55;
 }
@@ -93,11 +99,18 @@
   align-items:stretch;
 }
 
+/* =========================
+   CARTES
+========================= */
+
 .price-card{
   position:relative;
   padding:16px 16px 14px;
   border-radius:22px;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  background:
+    radial-gradient(520px 260px at 18% 10%, rgba(215,199,255,.14), transparent 62%),
+    radial-gradient(520px 260px at 86% 18%, rgba(159,211,255,.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
   border:1px solid rgba(255,255,255,.16);
   box-shadow: 0 18px 60px rgba(0,0,0,.46);
   overflow:hidden;
@@ -106,7 +119,7 @@
   flex-direction:column;
 }
 
-/* étoiles sur cartes */
+/* étoiles sur cartes (subtiles) */
 .price-card::after{
   content:"";
   position:absolute;
@@ -123,29 +136,17 @@
   mix-blend-mode: screen;
 }
 
-.price-card::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  background:
-    radial-gradient(420px 240px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
-    radial-gradient(420px 240px at 85% 0%, rgba(159,211,255,.16), transparent 62%),
-    radial-gradient(420px 240px at 55% 100%, rgba(124,255,223,.10), transparent 62%);
-  opacity:.95;
-  pointer-events:none;
-}
-
 .price-head, .price-features, .price-cta{ position:relative; z-index:1; }
 
 /* espace pour le badge */
-.price-head{ padding-top: 24px; }
+.price-head{ padding-top: 26px; }
 
-.price-name{ font-weight:1000; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
+.price-name{ font-weight:1100; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
 .price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .price-was{ color:rgba(255,255,255,.55); font-weight:900; font-size:14px; }
 .price-now{ color:rgba(255,255,255,.95); font-weight:1100; font-size:32px; letter-spacing:-.02em; }
 .price-period{ color:rgba(255,255,255,.74); font-weight:1000; font-size:13px; }
-.price-mini{ margin-top:8px; color:rgba(255,255,255,.70); font-size:12px; line-height:1.35; }
+.price-mini{ margin-top:8px; color:rgba(255,255,255,.72); font-size:12px; line-height:1.35; }
 
 .price-features{
   margin:14px 0 14px;
@@ -157,6 +158,7 @@
 .price-features li{ margin:8px 0; }
 .price-features li::marker{ color: rgba(159,211,255,.98); }
 
+/* CTA par défaut (sobre) */
 .price-cta{
   margin-top:auto;
   display:inline-flex;
@@ -169,7 +171,7 @@
   background: rgba(255,255,255,.10);
   box-shadow: 0 12px 28px rgba(0,0,0,.28);
   color: rgba(255,255,255,.95);
-  font-weight:1000;
+  font-weight:1100;
   transition: transform .12s ease, filter .12s ease, background .12s ease;
 }
 .price-cta:hover{
@@ -178,16 +180,22 @@
   background: rgba(255,255,255,.14);
 }
 
+/* =========================
+   CARTE FEATURED (LA STAR)
+   -> mets la classe .price-featured sur UNE carte
+========================= */
+
 .price-featured{
-  border:1px solid rgba(215,199,255,.55);
+  border:1px solid rgba(215,199,255,.60);
   background:
-    radial-gradient(520px 320px at 30% 10%, rgba(215,199,255,.28), transparent 60%),
-    radial-gradient(520px 320px at 90% 20%, rgba(159,211,255,.22), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+    radial-gradient(640px 360px at 22% 6%, rgba(215,199,255,.32), transparent 60%),
+    radial-gradient(640px 360px at 92% 18%, rgba(159,211,255,.26), transparent 60%),
+    radial-gradient(640px 360px at 52% 115%, rgba(124,255,223,.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
   box-shadow:
-    0 22px 70px rgba(0,0,0,.55),
-    0 0 0 1px rgba(215,199,255,.10) inset;
-  transform: translateY(-4px);
+    0 26px 78px rgba(0,0,0,.58),
+    0 0 0 1px rgba(215,199,255,.12) inset;
+  transform: translateY(-6px);
 }
 
 .price-featured .price-now{
@@ -195,7 +203,27 @@
   text-shadow: 0 10px 30px rgba(0,0,0,.55);
 }
 
-/* badge */
+/* CTA featured (dégradé astro) */
+.price-featured .price-cta{
+  border:1px solid rgba(255,255,255,.22);
+  color: rgba(10,12,22,.96);
+  background:
+    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.75), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.55), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.85));
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.42),
+    0 18px 55px rgba(146,112,255,.22);
+}
+.price-featured .price-cta:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+/* =========================
+   BADGES
+========================= */
+
 .price-badge{
   position:absolute;
   top:12px;
@@ -204,23 +232,32 @@
   padding:6px 10px;
   border-radius:999px;
   font-size:11px;
-  font-weight:1100;
+  font-weight:1200;
   letter-spacing:.16em;
   text-transform:uppercase;
   color: rgba(7,10,22,.96);
   background: linear-gradient(90deg, rgba(215,199,255,.98), rgba(159,211,255,.98));
   border:1px solid rgba(255,255,255,.22);
-  box-shadow: 0 12px 26px rgba(0,0,0,.40);
+  box-shadow:
+    0 0 0 4px rgba(215,199,255,.10),
+    0 12px 28px rgba(0,0,0,.42);
 }
 .price-badge.premium{
   background: linear-gradient(90deg, rgba(250,204,21,.98), rgba(245,158,11,.92));
   color: rgba(26,18,0,.96);
+  box-shadow:
+    0 0 0 4px rgba(250,204,21,.10),
+    0 12px 28px rgba(0,0,0,.42);
 }
 
-/* responsive pricing */
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media (max-width:1100px){
   .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
+
 @media (max-width:560px){
   .pricing-grid{ grid-template-columns: 1fr; }
   .pricing-title{ font-size:32px; }
@@ -229,4 +266,4 @@
 @media (prefers-reduced-motion: reduce){
   .pricing-hero-inner::after,
   .price-card::after{ animation:none !important; }
-}
+   }
