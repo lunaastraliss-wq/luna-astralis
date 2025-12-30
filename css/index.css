@@ -1,11 +1,11 @@
 /* ==========================================================
    Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PULSE + COULEURS)
    - Hero haut centré (kicker/titre/texte)
-   - Bloc “Commence gratuitement” centré + bouton pulse léger
+   - Bloc “Commence gratuitement” centré + ✅ CTA VIOLET + pulse léger
    - Trust + Steps + Signs
    - ✅ Couleurs par élément (feu/terre/air/eau) RESTAURÉES
    - ✅ Punch coloré pour les 4 cartes (Steps)
-   - Hover + Focus clavier + Reduced-motion ok
+   - Hover + Focus clavier + Reduced-motion OK
 ========================================================== */
 
 /* ================= HERO ================= */
@@ -128,7 +128,7 @@
 }
 .lead-center{ text-align:center; }
 
-/* Chips (si tu les gardes) */
+/* Chips */
 .astro-chips{
   display:flex;
   flex-wrap:wrap;
@@ -163,7 +163,8 @@
   border:1px solid rgba(255,255,255,.16);
   background:
     radial-gradient(520px 240px at 10% 0%, rgba(215,199,255,.18), transparent 60%),
-    radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.16), transparent 60%),
+    radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.14), transparent 60%),
+    radial-gradient(520px 260px at 55% 115%, rgba(146,112,255,.10), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
   box-shadow: 0 18px 55px rgba(0,0,0,.28);
   max-width: 540px;
@@ -189,62 +190,70 @@
   margin-right:auto;
 }
 
-/* Bouton punchy */
+/* ================= CTA VIOLET (définitif) ================= */
 .hero-free-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:10px;
+
   padding:12px 18px;
   border-radius:14px;
   text-decoration:none;
   font-weight:1000;
   letter-spacing:.02em;
-  color: rgba(10,12,22,.92);
+
+  color: rgba(10,12,22,.94);
   border:1px solid rgba(255,255,255,.22);
+
   background:
-    radial-gradient(220px 140px at 20% 30%, rgba(124,255,223,.55), transparent 62%),
-    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.52), transparent 62%),
-    linear-gradient(180deg, rgba(215,199,255,.98), rgba(159,211,255,.78));
+    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.62), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.46), transparent 62%),
+    linear-gradient(180deg, rgba(230,220,255,.98), rgba(146,112,255,.80));
+
   box-shadow:
-    0 16px 50px rgba(159,211,255,.18),
+    0 16px 50px rgba(182,140,255,.22),
     0 16px 50px rgba(0,0,0,.35);
+
   transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
 }
+
 .hero-free-btn:hover{
   transform: translateY(-2px);
-  filter: brightness(1.04);
+  filter: brightness(1.06);
   box-shadow:
-    0 22px 70px rgba(215,199,255,.22),
-    0 22px 70px rgba(0,0,0,.40);
+    0 24px 80px rgba(182,140,255,.26),
+    0 24px 80px rgba(0,0,0,.40);
 }
+
 .hero-free-btn:focus-visible{
   outline:0;
   box-shadow:
     0 0 0 3px rgba(255,255,255,.14),
-    0 0 0 6px rgba(159,211,255,.22),
-    0 22px 70px rgba(0,0,0,.45);
+    0 0 0 6px rgba(182,140,255,.26),
+    0 24px 80px rgba(0,0,0,.45);
 }
 
-/* ✅ Pulse léger */
+/* ✅ Pulse violet léger */
 .hero-free-btn--pulse{
   animation: pulseGlow 2.2s ease-in-out infinite;
   transform-origin:center;
 }
+
 @keyframes pulseGlow{
   0%, 100%{
     transform: translateY(0) scale(1);
     box-shadow:
-      0 16px 50px rgba(159,211,255,.16),
+      0 16px 50px rgba(182,140,255,.18),
       0 16px 50px rgba(0,0,0,.35);
     filter: brightness(1);
   }
   50%{
     transform: translateY(-1px) scale(1.02);
     box-shadow:
-      0 26px 90px rgba(159,211,255,.22),
-      0 26px 90px rgba(0,0,0,.42);
-    filter: brightness(1.05);
+      0 28px 100px rgba(182,140,255,.26),
+      0 28px 100px rgba(0,0,0,.42);
+    filter: brightness(1.06);
   }
 }
 
@@ -341,27 +350,27 @@
 
 /* ✅ PUNCH coloré des 4 cartes (Steps) */
 .box.step:nth-child(1){
-  border-color: rgba(215,199,255,.26);
+  border-color: rgba(215,199,255,.28);
   background:
-    radial-gradient(420px 220px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(420px 220px at 20% 10%, rgba(215,199,255,.20), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
 }
 .box.step:nth-child(2){
-  border-color: rgba(159,211,255,.28);
+  border-color: rgba(159,211,255,.30);
   background:
-    radial-gradient(420px 220px at 20% 10%, rgba(159,211,255,.18), transparent 60%),
+    radial-gradient(420px 220px at 20% 10%, rgba(159,211,255,.20), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
 }
 .box.step:nth-child(3){
-  border-color: rgba(255,170,120,.26);
+  border-color: rgba(255,170,120,.30);
   background:
-    radial-gradient(420px 220px at 20% 10%, rgba(255,170,120,.16), transparent 60%),
+    radial-gradient(420px 220px at 20% 10%, rgba(255,170,120,.18), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
 }
 .box.step:nth-child(4){
-  border-color: rgba(124,255,223,.22);
+  border-color: rgba(146,112,255,.24);
   background:
-    radial-gradient(420px 220px at 20% 10%, rgba(124,255,223,.14), transparent 60%),
+    radial-gradient(420px 220px at 20% 10%, rgba(146,112,255,.14), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
 }
 
@@ -403,7 +412,7 @@
     0 18px 55px rgba(0,0,0,.40);
 }
 
-/* ================= COULEURS PAR ÉLÉMENT (RESTORE) ================= */
+/* ================= COULEURS PAR ÉLÉMENT ================= */
 /* FEU */
 .sign.sign-fire{
   border-color: rgba(255,170,120,.55);
@@ -514,55 +523,5 @@
   }
   .hero-free-btn--pulse{
     animation:none !important;
-  }
-   }
-/* =========================================
-   CTA VIOLET (remplace le vert menthe)
-   Colle à la fin de index.css
-========================================= */
-
-.hero-free-btn{
-  color: rgba(10,12,22,.94);
-  border:1px solid rgba(255,255,255,.22);
-  background:
-    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.60), transparent 62%),
-    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.44), transparent 62%),
-    linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.78));
-  box-shadow:
-    0 16px 50px rgba(182,140,255,.22),
-    0 16px 50px rgba(0,0,0,.35);
-}
-
-.hero-free-btn:hover{
-  transform: translateY(-2px);
-  filter: brightness(1.05);
-  box-shadow:
-    0 24px 80px rgba(182,140,255,.26),
-    0 24px 80px rgba(0,0,0,.40);
-}
-
-.hero-free-btn:focus-visible{
-  outline:0;
-  box-shadow:
-    0 0 0 3px rgba(255,255,255,.14),
-    0 0 0 6px rgba(182,140,255,.26),
-    0 24px 80px rgba(0,0,0,.45);
-}
-
-/* Pulse violet (si tu gardes la classe --pulse) */
-@keyframes pulseGlow{
-  0%, 100%{
-    transform: translateY(0) scale(1);
-    box-shadow:
-      0 16px 50px rgba(182,140,255,.18),
-      0 16px 50px rgba(0,0,0,.35);
-    filter: brightness(1);
-  }
-  50%{
-    transform: translateY(-1px) scale(1.02);
-    box-shadow:
-      0 28px 100px rgba(182,140,255,.26),
-      0 28px 100px rgba(0,0,0,.42);
-    filter: brightness(1.06);
   }
 }
