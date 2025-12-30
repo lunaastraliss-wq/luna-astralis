@@ -4,15 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Luna Astralis — Créer un compte</title>
+
     <meta name="description" content="Créer un compte Luna Astralis." />
-    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- ✅ CSS split -->
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
   </head>
 
   <body class="auth-body">
-    <header class="top">
-      <a class="brand" href="./index.html">
-        <div class="logo">
-          <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+    <header class="top" role="banner">
+      <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
+        <div class="logo" aria-hidden="true">
+          <img src="./logo-luna-astralis-transparent.png" alt="" />
         </div>
 
         <div class="brand-text">
@@ -21,13 +25,13 @@
         </div>
       </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navigation">
         <a class="btn btn-small btn-ghost" href="./login.html">Mon compte</a>
       </nav>
     </header>
 
-    <main class="wrap auth-wrap">
-      <section class="auth-card">
+    <main class="wrap auth-wrap" role="main">
+      <section class="auth-card" aria-label="Créer un compte">
         <h1 class="auth-title">Créer un compte</h1>
         <p class="auth-sub">
           Sauvegarde tes échanges et continue après les messages gratuits.
@@ -44,7 +48,7 @@
           Continuer avec Google
         </button>
 
-        <div class="auth-sep">
+        <div class="auth-sep" aria-hidden="true">
           <span>ou</span>
         </div>
 
@@ -76,8 +80,8 @@
           <button class="btn auth-submit" type="submit">Créer mon compte</button>
 
           <p class="auth-legal">
-            En créant un compte, tu acceptes que cet outil soit une exploration personnelle
-            (non thérapeutique) et ne remplace pas un professionnel.
+            En créant un compte, tu acceptes que cet outil soit une exploration
+            personnelle (non thérapeutique) et ne remplace pas un professionnel.
           </p>
 
           <p class="auth-switch">
