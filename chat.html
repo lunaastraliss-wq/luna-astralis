@@ -113,7 +113,7 @@
       .ai-name{font-weight:800; font-size:16px}
       .ai-tag{color:rgba(255,255,255,.70); font-size:13px; margin-top:2px}
 
-      /* ✅ description sous "Signe :" (desktop) */
+      /* description sous "Signe :" (desktop) */
       .ai-desc{
         margin-top:10px;
         color: var(--muted);
@@ -289,30 +289,34 @@
         *{scroll-behavior:auto!important}
       }
 
-      /* ===== ANIMATION (bouge l'image) ===== */
+      /* ===== ANIMATION DOUCE — SEULEMENT grandes images ===== */
       @keyframes lunaFloat{
         0%   { transform: translate3d(0,0,0) scale(1); }
-        50%  { transform: translate3d(0,-10px,0) scale(1.04); }
+        50%  { transform: translate3d(0,-2px,0) scale(1.005); }
         100% { transform: translate3d(0,0,0) scale(1); }
       }
 
-      /* On anime l'image IA + mini + avatar chat */
+      /* ✅ On anime seulement la grande image IA (desktop + mobile) */
       .ai-face,
-      .chat-hero-img,
-      .ai-face-mini,
-      .msg-avatar{
-        animation: lunaFloat 4s ease-in-out infinite;
+      .chat-hero-img{
+        animation: lunaFloat 7.5s ease-in-out infinite;
         will-change: transform;
         transform-origin: center center;
+      }
+
+      /* ❌ Le petit avatar et les avatars de messages ne bougent PAS */
+      .ai-face-mini,
+      .msg-avatar{
+        animation:none !important;
+        transform:none !important;
       }
 
       /* Accessibilité : si l'utilisateur réduit les animations, on coupe */
       @media (prefers-reduced-motion: reduce){
         .ai-face,
-        .chat-hero-img,
-        .ai-face-mini,
-        .msg-avatar{
+        .chat-hero-img{
           animation:none !important;
+          transform:none !important;
         }
       }
     </style>
@@ -437,15 +441,12 @@
         SIGN_DESC[signKey] ||
         "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
-      // Header label + sidebar (desktop)
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-      // description sous le signe (desktop)
       const aiDescEl = document.getElementById("aiDesc");
       if (aiDescEl) aiDescEl.textContent = signDesc;
 
-      // Carte mobile
       document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
       document.getElementById("heroDesc").textContent = signDesc;
 
@@ -478,7 +479,6 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
-      // Intro IA : pas de signe, pas de description dans le chat
       addMessage(
         "ai",
         "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
