@@ -1,12 +1,15 @@
 /* ==========================================================
-   Luna Astralis — css/chat.css (CHAT) — COMPLET (CLEAN)
+   Luna Astralis — css/chat.css (CHAT) — CLEAN FINAL
    - Contraste + look astro (halo violet/bleu + étoiles fines)
    - Sidebar + panel cohérents
-   - Chat bubbles premium + "queue" côté IA
-   - Avatar IA rond, crop visage (object-position)
+   - Bulles premium
+   - Queue IA FIABLE (sur .msg-ai::before)
+   - Avatar rond + crop visage (object-position)
 ========================================================== */
 
-/* ============== BASE ============== */
+/* =========================
+   BASE
+========================= */
 .chat-body{
   margin:0;
   min-height:100vh;
@@ -17,7 +20,9 @@
   color: rgba(255,255,255,.92);
 }
 
-/* Header */
+/* =========================
+   HEADER
+========================= */
 .chat-top{
   position: sticky;
   top:0;
@@ -75,7 +80,9 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
 }
 
-/* ============== LAYOUT ============== */
+/* =========================
+   LAYOUT
+========================= */
 .chat-wrap{
   max-width: 1200px;
   margin: 18px auto 26px;
@@ -86,7 +93,9 @@
   align-items:stretch;
 }
 
-/* ============== SIDEBAR ============== */
+/* =========================
+   SIDEBAR
+========================= */
 .chat-side{
   border-radius: 22px;
   border:1px solid rgba(255,255,255,.14);
@@ -101,7 +110,6 @@
   isolation:isolate;
 }
 
-/* étoiles fines sidebar */
 .chat-side::after{
   content:"";
   position:absolute;
@@ -172,7 +180,9 @@
   background: rgba(0,0,0,.18);
 }
 
-/* ============== PANEL CHAT ============== */
+/* =========================
+   PANEL CHAT
+========================= */
 .chat-panel{
   border-radius: 22px;
   border:1px solid rgba(255,255,255,.14);
@@ -184,13 +194,11 @@
   position:relative;
   overflow:hidden;
   isolation:isolate;
-
   display:flex;
   flex-direction:column;
   min-height: 72vh;
 }
 
-/* étoiles fines panel */
 .chat-panel::after{
   content:"";
   position:absolute;
@@ -209,7 +217,6 @@
 
 .chat-panel > *{ position:relative; z-index:1; }
 
-/* Header du panel */
 .chat-header{
   display:flex;
   align-items:center;
@@ -252,12 +259,11 @@
   object-fit:cover;
 }
 
-/* ============== HERO MOBILE (optionnel) ============== */
-.chat-hero{
-  display:none; /* off desktop */
-}
+.chat-hero{ display:none; }
 
-/* ============== MESSAGES ============== */
+/* =========================
+   MESSAGES
+========================= */
 .chat-messages{
   padding:14px;
   overflow:auto;
@@ -265,24 +271,24 @@
   scroll-behavior:smooth;
 }
 
-/* Ligne message */
+/* Ligne générique */
 .msg-row{
   display:flex;
   gap:12px;
   margin: 10px 0;
-  align-items:flex-start; /* important: avatar aligné en haut */
+  align-items:flex-start;
+  position:relative; /* pour la queue IA (sur .msg-ai) */
 }
 
-/* Avatar IA (img) — rond + crop visage */
+/* Avatar IA — rond + crop visage */
 .msg-avatar{
   width:40px;
   height:40px;
   border-radius:999px;
   object-fit:cover;
-  object-position:50% 18%; /* 🔥 ajuste le "focus visage" (10% = plus haut, 30% = plus bas) */
+  object-position:50% 18%;
   flex-shrink:0;
   margin-top:8px;
-
   border:1px solid rgba(255,255,255,.18);
   background: rgba(0,0,0,.20);
   box-shadow:
@@ -291,14 +297,14 @@
     0 16px 40px rgba(0,0,0,.45);
 }
 
-/* Spacer côté user (pas d’avatar) */
+/* Spacer user */
 .msg-avatar-spacer{
   width:40px;
   height:40px;
   flex-shrink:0;
 }
 
-/* Bulles */
+/* Bulle */
 .msg-bubble{
   position:relative;
   max-width:72ch;
@@ -312,7 +318,7 @@
   box-shadow: 0 14px 40px rgba(0,0,0,.40);
 }
 
-/* IA bubble (premium astro) */
+/* IA */
 .msg-ai .msg-bubble{
   background:
     radial-gradient(240px 140px at 18% 20%, rgba(215,199,255,.14), transparent 62%),
@@ -321,26 +327,57 @@
   border-color: rgba(215,199,255,.20);
 }
 
-/* Queue IA (pointe vers l’avatar) */
-.msg-ai .msg-bubble::before{
+/* ✅ QUEUE IA FIABLE (ne dépend pas de ::before sur la bulle) */
+.msg-ai::before{
   content:"";
   position:absolute;
-  left:-8px;
-  top:18px;
-  width:16px;
-  height:16px;
+
+  /* Avatar 40px + gap 12px = début bulle ~52px
+     On place la pointe entre les 2 */
+  left: 44px;
+  top: 26px;
+
+  width: 16px;
+  height: 16px;
+
   background: rgba(0,0,0,.24);
-  border-left:1px solid rgba(255,255,255,.14);
-  border-bottom:1px solid rgba(255,255,255,.14);
+  border-left: 1px solid rgba(255,255,255,.14);
+  border-bottom: 1px solid rgba(255,255,255,.14);
+
   transform: rotate(45deg);
-  border-bottom-left-radius:3px;
+  border-bottom-left-radius: 3px;
+
+  z-index: 3;
+  pointer-events:none;
+}
+
+/* Petit halo derrière la queue (subtil) */
+.msg-ai::after{
+  content:"";
+  position:absolute;
+  left: 42px;
+  top: 24px;
+  width: 20px;
+  height: 20px;
+  background: rgba(146,112,255,.12);
+  filter: blur(2px);
+  transform: rotate(45deg);
+  border-radius: 6px;
+  z-index: 1;
+  pointer-events:none;
+}
+
+/* IMPORTANT: on neutralise toute ancienne queue sur la bulle */
+.msg-ai .msg-bubble::before,
+.msg-ai .msg-bubble::after{
+  content:none !important;
+  display:none !important;
 }
 
 /* USER */
 .msg-user{
   justify-content:flex-end;
 }
-
 .msg-user .msg-bubble{
   background:
     radial-gradient(240px 140px at 20% 30%, rgba(146,112,255,.12), transparent 62%),
@@ -348,23 +385,9 @@
   border-color: rgba(159,211,255,.16);
 }
 
-/* (optionnel) Queue côté user — si tu veux */
-.msg-user .msg-bubble::after{
-  content:"";
-  position:absolute;
-  right:-8px;
-  top:18px;
-  width:16px;
-  height:16px;
-  background: rgba(0,0,0,.26);
-  border-right:1px solid rgba(255,255,255,.12);
-  border-top:1px solid rgba(255,255,255,.12);
-  transform: rotate(45deg);
-  border-top-right-radius:3px;
-  opacity:.0; /* mets .9 si tu veux l’activer */
-}
-
-/* ============== INPUT BAR ============== */
+/* =========================
+   INPUT BAR
+========================= */
 .chat-inputbar{
   display:flex;
   gap:10px;
@@ -385,7 +408,6 @@
   outline:none;
 }
 .chat-input::placeholder{ color: rgba(255,255,255,.55); }
-
 .chat-input:focus{
   border-color: rgba(146,112,255,.28);
   box-shadow: 0 0 0 3px rgba(255,255,255,.10), 0 0 0 6px rgba(146,112,255,.18);
@@ -418,178 +440,28 @@
     0 22px 70px rgba(0,0,0,.45);
 }
 
-/* ============== RESPONSIVE ============== */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (max-width: 980px){
-  .chat-wrap{
-    grid-template-columns: 1fr;
-  }
+  .chat-wrap{ grid-template-columns: 1fr; }
   .chat-side{ order:2; }
-  .chat-panel{
-    order:1;
-    min-height: 70vh;
-  }
-
-  .chat-hero{ display:block; padding:12px 12px 0; }
-  .chat-hero-inner{
-    position:relative;
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.12);
-    background: rgba(0,0,0,.18);
-    box-shadow: 0 18px 55px rgba(0,0,0,.45);
-  }
-  .chat-hero-img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    display:block;
-    filter: saturate(1.05) contrast(1.05);
-  }
-  .chat-hero-overlay{
-    position:absolute; inset:0;
-    background: linear-gradient(180deg, transparent, rgba(0,0,0,.55));
-  }
-  .chat-hero-card{
-    position:absolute;
-    left:12px; right:12px; bottom:12px;
-    padding:10px 12px;
-    border-radius:16px;
-    background: rgba(6,8,21,.55);
-    border:1px solid rgba(255,255,255,.12);
-    backdrop-filter: blur(8px);
-  }
-  .chat-hero-card .hero-title{
-    margin:0 0 4px;
-    font-weight:1000;
-    font-size:13px;
-    color: rgba(255,255,255,.92);
-  }
-  .chat-hero-card .hero-desc{
-    margin:0;
-    font-size:12px;
-    color: rgba(255,255,255,.72);
-    line-height:1.35;
-  }
+  .chat-panel{ order:1; min-height: 70vh; }
 }
 
 @media (max-width:520px){
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
+
+  /* queue adaptée au plus petit avatar */
+  .msg-ai::before{ left: 38px; top: 24px; }
+  .msg-ai::after{ left: 36px; top: 22px; }
 }
 
-/* ============== ACCESSIBILITY ============== */
+/* =========================
+   ACCESSIBILITY
+========================= */
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior:auto !important; }
-   }
-/* ===== FIX QUEUE BULLE IA (à coller à la FIN) ===== */
-
-/* important: ne pas couper la pointe */
-.msg-bubble{
-  overflow: visible !important;
-}
-
-/* la bulle doit pouvoir afficher sa pointe */
-.msg-ai .msg-bubble{
-  position: relative;
-  overflow: visible !important;
-}
-
-/* la queue */
-.msg-ai .msg-bubble::before{
-  content:"";
-  position:absolute;
-  left:-8px;
-  top:18px;
-  width:16px;
-  height:16px;
-
-  /* même couleur que la bulle IA */
-  background: rgba(0,0,0,.24);
-
-  border-left:1px solid rgba(255,255,255,.14);
-  border-bottom:1px solid rgba(255,255,255,.14);
-
-  transform: rotate(45deg);
-  border-bottom-left-radius:3px;
-  z-index: 2;
-}
-
-/* optionnel: si tu veux que la queue ait aussi le halo astro */
-.msg-ai .msg-bubble::after{
-  content:"";
-  position:absolute;
-  left:-10px;
-  top:16px;
-  width:20px;
-  height:20px;
-  border-radius:6px;
-  transform: rotate(45deg);
-  background: rgba(146,112,255,.10);
-  filter: blur(2px);
-  z-index: 1;
-  pointer-events:none;
-}
-/* ===============================
-   FIX QUEUE: queue sur la ligne IA
-   (ne dépend PAS de overflow de .msg-bubble)
-================================ */
-
-/* Assure-toi que ces tailles matchent ton layout */
-.msg-ai{
-  position: relative;         /* nécessaire pour l'absolu */
-  align-items: flex-start;
-  gap: 12px;
-}
-
-/* Avatar au-dessus de la queue (sinon la queue peut être cachée) */
-.msg-ai .msg-avatar{
-  position: relative;
-  z-index: 3;
-}
-
-/* La bulle au-dessus du fond */
-.msg-ai .msg-bubble{
-  position: relative;
-  z-index: 2;
-}
-
-/* LA QUEUE (entre l’avatar et la bulle) */
-.msg-ai::before{
-  content:"";
-  position:absolute;
-
-  /* Ajuste si tu changes avatar/gap:
-     avatar 36px + gap 12px => départ bulle ~48px */
-  left: 44px;        /* position horizontale de la queue */
-  top: 26px;         /* position verticale (descends/monte) */
-
-  width: 16px;
-  height: 16px;
-
-  background: rgba(0,0,0,.24);
-  border-left: 1px solid rgba(255,255,255,.14);
-  border-bottom: 1px solid rgba(255,255,255,.14);
-
-  transform: rotate(45deg);
-  border-bottom-left-radius: 3px;
-
-  z-index: 4;        /* au-dessus de la bulle */
-  pointer-events: none;
-}
-
-/* Petit halo astro derrière la queue (optionnel, mais beau) */
-.msg-ai::after{
-  content:"";
-  position:absolute;
-  left: 42px;
-  top: 24px;
-  width: 20px;
-  height: 20px;
-  background: rgba(146,112,255,.12);
-  filter: blur(2px);
-  transform: rotate(45deg);
-  border-radius: 6px;
-  z-index: 1;
-  pointer-events: none;
-}
+     }
