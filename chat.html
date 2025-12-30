@@ -112,7 +112,26 @@
       }
       .ai-name{font-weight:800; font-size:16px}
       .ai-tag{color:rgba(255,255,255,.70); font-size:13px; margin-top:2px}
-      .ai-disclaimer{margin-top:auto; color:var(--muted2); font-size:12px; line-height:1.45}
+
+      /* ✅ description sous "Signe :" (desktop) */
+      .ai-desc{
+        margin-top:10px;
+        color: var(--muted);
+        font-size:13px;
+        line-height:1.5;
+        padding:12px 12px;
+        border-radius:16px;
+        background: rgba(255,255,255,.04);
+        border:1px solid rgba(255,255,255,.10);
+        white-space:pre-wrap;
+      }
+
+      .ai-disclaimer{
+        margin-top:auto;
+        color:var(--muted2);
+        font-size:12px;
+        line-height:1.45
+      }
 
       /* PANEL */
       .chat-panel{
@@ -289,17 +308,20 @@
         <div class="ai-face-wrap">
           <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
         </div>
+
         <div>
           <div class="ai-name">Luna</div>
           <div class="ai-tag" id="aiTag">Signe : —</div>
+          <div class="ai-desc" id="aiDesc">—</div>
         </div>
+
         <div class="ai-disclaimer">
           Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
         </div>
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
-        <!-- HERO MOBILE : description du signe uniquement ici -->
+        <!-- HERO MOBILE : description du signe affichée ici -->
         <div class="chat-hero">
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
@@ -354,7 +376,6 @@
         poissons: "Poissons ♓",
       };
 
-      // ✅ Description courte par signe : affichée UNIQUEMENT dans la carte mobile
       const SIGN_DESC = {
         belier:
           "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
@@ -385,13 +406,19 @@
       const rawKey = qs("signe") || qs("sign") || "belier";
       const signKey = norm(rawKey) || "belier";
       const signName = SIGNS[signKey] || "—";
-      const signDesc = SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+      const signDesc =
+        SIGN_DESC[signKey] ||
+        "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
       // Header label + sidebar (desktop)
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-      // Carte mobile (seulement)
+      // ✅ description sous le signe (desktop)
+      const aiDescEl = document.getElementById("aiDesc");
+      if (aiDescEl) aiDescEl.textContent = signDesc;
+
+      // Carte mobile
       document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
       document.getElementById("heroDesc").textContent = signDesc;
 
@@ -424,7 +451,7 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
-      // ✅ Intro IA : pas de signe, pas de description (comme tu veux)
+      // ✅ Intro IA : pas de signe, pas de description dans le chat
       addMessage(
         "ai",
         "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
