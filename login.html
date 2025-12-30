@@ -4,15 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Luna Astralis — Mon compte</title>
+
     <meta name="description" content="Connexion Luna Astralis." />
-    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- ✅ CSS split -->
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/auth.css" />
   </head>
 
   <body class="auth-body">
-    <header class="top">
-      <a class="brand" href="./index.html">
-        <div class="logo">
-          <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+    <header class="top" role="banner">
+      <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
+        <div class="logo" aria-hidden="true">
+          <img src="./logo-luna-astralis-transparent.png" alt="" />
         </div>
 
         <div class="brand-text">
@@ -21,13 +25,13 @@
         </div>
       </a>
 
-      <nav class="nav">
+      <nav class="nav" aria-label="Navigation">
         <a class="btn btn-small" href="./signup.html">Créer un compte</a>
       </nav>
     </header>
 
-    <main class="wrap auth-wrap">
-      <section class="auth-card">
+    <main class="wrap auth-wrap" role="main">
+      <section class="auth-card" aria-label="Connexion">
         <h1 class="auth-title">Mon compte</h1>
         <p class="auth-sub">
           Connecte-toi pour continuer la discussion et retrouver tes échanges.
@@ -44,7 +48,7 @@
           Continuer avec Google
         </button>
 
-        <div class="auth-sep">
+        <div class="auth-sep" aria-hidden="true">
           <span>ou</span>
         </div>
 
@@ -72,9 +76,7 @@
             autocomplete="current-password"
           />
 
-          <button class="btn auth-submit" type="submit">
-            Se connecter
-          </button>
+          <button class="btn auth-submit" type="submit">Se connecter</button>
 
           <button type="button" class="auth-forgot" id="forgot">
             Mot de passe oublié ?
