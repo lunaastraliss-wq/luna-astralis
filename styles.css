@@ -1,12 +1,12 @@
 /* ==========================================================
    Luna Astralis — styles.css (COMPLET)
-   - Fond plus riche + étoiles TRÈS visibles partout
-   - Étoiles aussi sur les grosses cartes/hero (pour pas “disparaître”)
-   - Fix badge "LE PLUS POPULAIRE" qui chevauche le titre
+   - Fond riche + étoiles TRÈS visibles (toutes pages)
+   - Étoiles aussi sur les grosses cartes/hero
+   - Fix badge "LE PLUS POPULAIRE" (ne chevauche jamais)
    - Home (index), pricing, auth (login/signup), chat
 ========================================================== */
 
-/* ============== THEME ============== */
+/* ================= THEME ================= */
 :root{
   --bg:#050714;
   --bg2:#070B22;
@@ -30,6 +30,7 @@
   --max:1120px;
 }
 
+/* ================= RESET ================= */
 *{box-sizing:border-box}
 html{height:auto}
 body{
@@ -37,10 +38,10 @@ body{
   min-height:100%;
   height:auto;
   position:relative;
+
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
   color:var(--text);
 
-  /* Fond plus profond + coloré */
   background:
     radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.22), transparent 60%),
     radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.18), transparent 58%),
@@ -56,7 +57,7 @@ img{max-width:100%; display:block}
 
 /* ==========================================================
    FOND ASTRAL — ÉTOILES TRÈS VISIBLES (toutes pages)
-   IMPORTANT: on met 3 couches + scintillement doux
+   2 couches + drift + twinkle
 ========================================================== */
 
 @keyframes starTwinkle1{
@@ -72,7 +73,7 @@ img{max-width:100%; display:block}
   100%{ transform: translate3d(-12px, 8px, 0); }
 }
 
-/* Couche A — étoiles nettes (petites + nombreuses) */
+/* Couche A — étoiles nettes */
 body::before{
   content:"";
   position:fixed;
@@ -81,7 +82,6 @@ body::before{
   z-index:0;
 
   background-image:
-    /* beaucoup de petites étoiles */
     radial-gradient(1px 1px at 6% 14%, rgba(255,255,255,.95), transparent),
     radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.85), transparent),
     radial-gradient(1px 1px at 14% 26%, rgba(255,255,255,.95), transparent),
@@ -103,7 +103,6 @@ body::before{
     radial-gradient(1px 1px at 92% 14%, rgba(255,255,255,.86), transparent),
     radial-gradient(1px 1px at 96% 70%, rgba(255,255,255,.82), transparent),
 
-    /* quelques étoiles plus grosses (2px) */
     radial-gradient(2px 2px at 12% 34%, rgba(255,255,255,.55), transparent 60%),
     radial-gradient(2px 2px at 28% 72%, rgba(215,199,255,.40), transparent 62%),
     radial-gradient(2px 2px at 44% 20%, rgba(159,211,255,.38), transparent 62%),
@@ -114,7 +113,7 @@ body::before{
   animation: starTwinkle1 6.5s ease-in-out infinite alternate;
 }
 
-/* Couche B — voile scintillant + léger “drift” */
+/* Couche B — poussière + drift */
 body::after{
   content:"";
   position:fixed;
@@ -123,7 +122,6 @@ body::after{
   z-index:0;
 
   background-image:
-    /* “poussière d’étoiles” plus dense */
     radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,.40), transparent),
     radial-gradient(1px 1px at 16% 52%, rgba(255,255,255,.32), transparent),
     radial-gradient(1px 1px at 24% 82%, rgba(255,255,255,.30), transparent),
@@ -135,7 +133,6 @@ body::after{
     radial-gradient(1px 1px at 82% 66%, rgba(255,255,255,.30), transparent),
     radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,.34), transparent),
 
-    /* halos colorés très légers */
     radial-gradient(260px 200px at 18% 18%, rgba(215,199,255,.10), transparent 70%),
     radial-gradient(260px 200px at 82% 26%, rgba(159,211,255,.08), transparent 70%);
 
@@ -143,20 +140,16 @@ body::after{
   animation: starTwinkle2 9s ease-in-out infinite alternate, starDrift 30s linear infinite;
 }
 
-/* ==========================================================
-   LAYOUT GLOBAL
-========================================================== */
+/* ================= LAYOUT GLOBAL ================= */
 .wrap{
   max-width:var(--max);
   margin:0 auto;
   padding:22px 18px 30px;
   position:relative;
-  z-index:1; /* contenu au-dessus des étoiles */
+  z-index:1;
 }
 
-/* ==========================================================
-   HEADER (top)
-========================================================== */
+/* ================= HEADER ================= */
 .top{
   max-width:var(--max);
   margin:0 auto;
@@ -220,11 +213,11 @@ body::after{
   box-shadow: 0 12px 30px rgba(0,0,0,.35);
 }
 
-/* ==========================================================
-   BOUTONS
-========================================================== */
+/* ================= BUTTONS ================= */
 .btn{
-  display:inline-flex; align-items:center; justify-content:center;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:12px 14px;
   border-radius:14px;
   background: linear-gradient(90deg, rgba(215,199,255,.40), rgba(159,211,255,.32));
@@ -271,7 +264,7 @@ body::after{
   overflow:hidden;
 }
 
-/* étoiles visibles SUR la couverture (pas seulement en fond global) */
+/* étoiles sur HERO */
 .hero-left::after{
   content:"";
   position:absolute;
@@ -349,7 +342,8 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 }
 .box::after{
   content:"";
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   pointer-events:none;
   opacity:.55;
   background-image:
@@ -415,7 +409,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   position:relative;
 }
 
-/* étoiles visibles sur le HERO tarifs */
+/* étoiles sur HERO tarifs */
 .pricing-hero-inner::after{
   content:"";
   position:absolute;
@@ -431,7 +425,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
     radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%);
   mix-blend-mode: screen;
 }
-
 .pricing-hero-inner > *{ position:relative; z-index:1; }
 
 .pricing-kicker{
@@ -467,7 +460,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 }
 
 .pricing-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-
 .pricing-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
 .hero-cta{ border-radius:14px; }
 .hero-cta.ghost{
@@ -476,7 +468,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   box-shadow:none;
 }
 
-/* texte confiance (si tu l’ajoutes dans pricing.html) */
 .pricing-trust{
   margin-top:10px;
   color: rgba(255,255,255,.74);
@@ -506,7 +497,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   flex-direction:column;
 }
 
-/* étoiles visibles sur chaque carte (important) */
+/* étoiles sur cartes */
 .price-card::after{
   content:"";
   position:absolute;
@@ -539,7 +530,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 .price-features,
 .price-cta{ position:relative; z-index:1; }
 
-/* IMPORTANT: on ajoute un espace en haut pour que le badge ne chevauche JAMAIS le titre */
+/* IMPORTANT: espace pour le badge */
 .price-head{ padding-top: 24px; }
 
 .price-name{ font-weight:1000; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
@@ -574,7 +565,11 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   font-weight:1000;
   transition: transform .12s ease, filter .12s ease, background .12s ease;
 }
-.price-cta:hover{ transform: translateY(-1px); filter: brightness(1.06); background: rgba(255,255,255,.14); }
+.price-cta:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  background: rgba(255,255,255,.14);
+}
 
 .price-featured{
   border:1px solid rgba(215,199,255,.55);
@@ -593,7 +588,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   text-shadow: 0 10px 30px rgba(0,0,0,.55);
 }
 
-/* Badge — position fixe, jamais sur le titre */
+/* Badge */
 .price-badge{
   position:absolute;
   top:12px;
@@ -615,12 +610,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   color: rgba(26,18,0,.96);
 }
 
-.btn-primary{
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  color: rgba(7,10,22,.95);
-  border: 1px solid rgba(255,255,255,.22);
-}
-
 /* Responsive pricing */
 @media (max-width:1100px){
   .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -633,7 +622,13 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 /* ==========================================================
    AUTH (login/signup)
 ========================================================== */
-.auth-wrap{display:grid;place-items:center;padding-top:28px; position:relative; z-index:1;}
+.auth-wrap{
+  display:grid;
+  place-items:center;
+  padding-top:28px;
+  position:relative;
+  z-index:1;
+}
 .auth-card{
   width:min(520px, 100%);
   padding:18px;
@@ -644,10 +639,12 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   position:relative;
   overflow:hidden;
 }
-/* étoiles visibles sur auth card */
+
+/* étoiles sur auth card */
 .auth-card::after{
   content:"";
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   pointer-events:none;
   opacity:.55;
   background-image:
@@ -688,6 +685,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   height:1px;
   background: rgba(255,255,255,.12);
 }
+
 .auth-form{display:grid;gap:10px}
 .auth-label{font-size:12px;color: rgba(255,255,255,.78);margin-top:2px}
 .auth-input{
@@ -704,6 +702,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   box-shadow: 0 0 0 3px rgba(215,199,255,.14);
 }
 .auth-submit{width:100%;margin-top:4px}
+
 .auth-forgot{
   border:0;
   background: transparent;
@@ -714,6 +713,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   cursor:pointer;
 }
 .auth-forgot:hover{ color: rgba(255,255,255,.94); }
+
 .auth-legal{
   margin:10px 0 0;
   font-size:11px;
@@ -728,7 +728,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 }
 
 /* ==========================================================
-   CHAT (si tu l’utilises)
+   CHAT
 ========================================================== */
 .chat-body{
   margin:0;
@@ -816,9 +816,11 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   position:relative;
   overflow:hidden;
 }
+
 .chat-panel::after{
   content:"";
-  position:absolute; inset:0;
+  position:absolute;
+  inset:0;
   pointer-events:none;
   opacity:.45;
   background-image:
@@ -827,7 +829,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
     radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.40), transparent);
   mix-blend-mode: screen;
 }
-
 .chat-panel > *{ position:relative; z-index:1; }
 
 .chat-messages{
@@ -861,6 +862,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   border-color: rgba(215,199,255,.45);
   box-shadow: 0 0 0 3px rgba(215,199,255,.14);
 }
+
 .chat-send{
   padding:12px 14px;
   border-radius:14px;
@@ -952,4 +954,4 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   .pricing-hero-inner::after,
   .auth-card::after,
   .chat-panel::after{ animation:none !important; }
-                   }
+}
