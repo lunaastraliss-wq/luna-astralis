@@ -4,42 +4,46 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Luna Astralis — Tarifs</title>
+
     <meta
       name="description"
       content="Tarifs Luna Astralis — Astro & psycho. Accès 24h/7. Prix en dollars US."
     />
-    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- ✅ CSS split -->
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/pricing.css" />
   </head>
 
   <body class="pricing-body">
     <!-- HEADER -->
-    <header class="top">
+    <header class="top" role="banner">
       <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
-        <div class="logo">
-          <img src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+        <div class="logo" aria-hidden="true">
+          <img src="./logo-luna-astralis-transparent.png" alt="" />
         </div>
+
         <div class="brand-text">
           <div class="brand-name">LUNA ASTRALIS</div>
           <div class="brand-sub">Astro & psycho</div>
         </div>
       </a>
 
-      <nav class="nav" aria-label="Navigation">
+      <nav class="nav" aria-label="Navigation principale">
         <a href="./index.html">Accueil</a>
         <a class="active" href="./pricing.html">Tarifs</a>
-        <a href="./login.html">Connexion</a>
+        <a class="btn btn-small btn-ghost" href="./login.html">Connexion</a>
         <a class="btn btn-small" href="./signup.html">Créer un compte</a>
       </nav>
     </header>
 
     <!-- MAIN -->
-    <main class="wrap">
+    <main class="wrap" role="main">
       <!-- HERO -->
       <section class="pricing-hero" aria-label="Présentation des tarifs">
         <div class="pricing-hero-inner">
           <div class="pricing-kicker">Accès 24h/7</div>
-
-          <div class="pricing-kicker" style="opacity:.9; margin-top:.35rem;">TARIFS</div>
+          <div class="pricing-kicker pricing-kicker-alt">TARIFS</div>
 
           <h1 class="pricing-title">Choisis le forfait qui te convient</h1>
 
@@ -49,23 +53,22 @@
 
           <div class="pricing-chips" aria-label="Informations">
             <span class="chip">Prix en dollars US (USD)</span>
-            <span class="chip">Annule ou change en tout moment</span>
+            <span class="chip">Annule ou change en tout temps</span>
           </div>
-
-          <!-- ✅ On enlève les boutons ici (comme demandé) -->
         </div>
       </section>
 
-      <!-- Confiance (version astro) -->
+      <!-- Confiance -->
       <section class="section" aria-label="Confiance">
         <div class="pricing-trust">
           <div class="trust-line">
             ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
           </div>
-
           <div class="trust-sub">
             Paiement sécurisé • Annulation en tout temps • Aucun frais caché
           </div>
+        </div>
+      </section>
 
       <!-- GRID -->
       <section class="section" aria-label="Formules">
@@ -93,7 +96,6 @@
 
           <!-- Mensuel — Illimité -->
           <article class="price-card price-featured" aria-label="Mensuel Illimité">
-            <!-- ✅ badge séparé, “par-dessus” (ne touche plus la ligne du titre) -->
             <div class="price-badge">LE PLUS POPULAIRE</div>
 
             <div class="price-head">
@@ -124,7 +126,9 @@
                 <span class="price-now">49,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong></div>
+              <div class="price-mini">
+                Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
+              </div>
             </div>
 
             <ul class="price-features">
@@ -148,7 +152,9 @@
                 <span class="price-now">99,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong></div>
+              <div class="price-mini">
+                Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
+              </div>
             </div>
 
             <ul class="price-features">
@@ -164,7 +170,7 @@
       </section>
 
       <!-- FOOTER -->
-      <footer class="footer">
+      <footer class="footer" role="contentinfo">
         <div>© <span id="y"></span> Luna Astralis</div>
         <div class="footer-note">Prix en USD • Accès 24h/7</div>
       </footer>
