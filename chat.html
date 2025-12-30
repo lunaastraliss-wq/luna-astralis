@@ -6,326 +6,19 @@
     <title>Luna Astralis — Chat</title>
     <meta name="description" content="Chat Luna Astralis — Astro & psycho" />
 
-    <style>
-      :root{
-        --bg:#070A16;
-        --bg2:#0B1026;
-        --border:rgba(255,255,255,.10);
-        --text:rgba(255,255,255,.92);
-        --muted:rgba(255,255,255,.72);
-        --muted2:rgba(255,255,255,.55);
-        --shadow:0 20px 60px rgba(0,0,0,.45);
-        --radius2:24px;
-      }
-
-      *{box-sizing:border-box}
-      html,body{height:100%}
-      body{
-        margin:0;
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-        background:
-          radial-gradient(1200px 700px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
-          radial-gradient(900px 600px at 80% 30%, rgba(159,211,255,.14), transparent 55%),
-          linear-gradient(180deg, var(--bg), var(--bg2));
-        color:var(--text);
-      }
-      a{color:inherit; text-decoration:none}
-
-      /* éviter double scroll */
-      .chat-body{ min-height:100dvh; overflow:hidden; }
-
-      /* TOP BAR */
-      .chat-top{
-        position:sticky;
-        top:0;
-        z-index:50;
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        gap:12px;
-        padding:12px 14px;
-        background: rgba(7,10,22,.70);
-        backdrop-filter: blur(10px);
-        border-bottom:1px solid var(--border);
-      }
-      .chat-brand{ display:flex; align-items:center; gap:10px; min-width:0; }
-      .chat-logo{
-        width:38px; height:38px;
-        border-radius:12px;
-        border:1px solid var(--border);
-        background: rgba(255,255,255,.06);
-        object-fit:contain;
-        flex:0 0 auto;
-      }
-      .chat-brand-text{min-width:0}
-      .chat-brand-name{
-        font-weight:800; font-size:12px; letter-spacing:.22em; opacity:.9;
-        white-space:nowrap; overflow:hidden; text-overflow:ellipsis
-      }
-      .chat-brand-sub{font-size:12px; color:var(--muted2); margin-top:2px}
-      .chat-back{
-        font-size:12px;
-        color:rgba(255,255,255,.78);
-        padding:10px 12px;
-        border-radius:12px;
-        border:1px solid var(--border);
-        background: rgba(255,255,255,.06);
-        white-space:nowrap;
-      }
-
-      /* LAYOUT */
-      .chat-wrap{
-        max-width:1120px;
-        margin:0 auto;
-        padding:14px;
-        display:grid;
-        grid-template-columns: 320px 1fr;
-        gap:14px;
-        height: calc(100dvh - 64px);
-        min-height:0;
-      }
-
-      /* SIDE (desktop) */
-      .chat-side{
-        min-height:0;
-        border-radius: var(--radius2);
-        background: rgba(255,255,255,.05);
-        border:1px solid var(--border);
-        box-shadow: var(--shadow);
-        padding:14px;
-        display:flex;
-        flex-direction:column;
-        gap:12px;
-      }
-      .ai-face-wrap{
-        border-radius:18px;
-        overflow:hidden;
-        border:1px solid var(--border);
-        background: rgba(255,255,255,.06);
-      }
-      .ai-face{
-        width:100%;
-        height:260px;
-        object-fit:cover;
-        object-position:center 10%;
-        display:block;
-      }
-      .ai-name{font-weight:800; font-size:16px}
-      .ai-tag{color:rgba(255,255,255,.70); font-size:13px; margin-top:2px}
-
-      /* description sous "Signe :" (desktop) */
-      .ai-desc{
-        margin-top:10px;
-        color: var(--muted);
-        font-size:13px;
-        line-height:1.5;
-        padding:12px 12px;
-        border-radius:16px;
-        background: rgba(255,255,255,.04);
-        border:1px solid rgba(255,255,255,.10);
-        white-space:pre-wrap;
-      }
-
-      .ai-disclaimer{
-        margin-top:auto;
-        color:var(--muted2);
-        font-size:12px;
-        line-height:1.45
-      }
-
-      /* PANEL */
-      .chat-panel{
-        min-height:0;
-        display:flex;
-        flex-direction:column;
-        border-radius: var(--radius2);
-        background: rgba(255,255,255,.05);
-        border:1px solid var(--border);
-        box-shadow: var(--shadow);
-        overflow:hidden;
-      }
-
-      /* HERO (mobile) */
-      .chat-hero{display:none}
-      .chat-hero-inner{position:relative}
-      .chat-hero-img{
-        width:100%;
-        height:360px;
-        object-fit:cover;
-        object-position:center 10%;
-        display:block;
-      }
-      .chat-hero-overlay{
-        position:absolute; inset:0;
-        background:
-          linear-gradient(to bottom, rgba(7,10,22,.06), rgba(7,10,22,.86) 85%),
-          radial-gradient(700px 260px at 50% 10%, rgba(215,199,255,.16), transparent 60%);
-        pointer-events:none;
-      }
-      .chat-hero-card{
-        position:absolute;
-        left:12px; right:12px; bottom:12px;
-        padding:12px 12px;
-        border-radius:16px;
-        border:1px solid rgba(255,255,255,.12);
-        background: rgba(7,10,22,.55);
-        backdrop-filter: blur(10px);
-      }
-      .hero-title{
-        font-weight:900;
-        font-size:14px;
-        margin:0 0 6px;
-        letter-spacing:.01em;
-      }
-      .hero-desc{
-        margin:0;
-        color:rgba(255,255,255,.78);
-        font-size:13px;
-        line-height:1.45;
-      }
-
-      /* HEADER PANEL */
-      .chat-header{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:12px;
-        padding:12px 12px;
-        border-bottom:1px solid var(--border);
-        background: rgba(255,255,255,.03);
-      }
-      .chat-title{font-weight:800; font-size:14px}
-      .chat-pill{
-        display:inline-block;
-        margin-left:8px;
-        padding:6px 10px;
-        border-radius:999px;
-        border:1px solid var(--border);
-        background: rgba(255,255,255,.06);
-        font-weight:800;
-        font-size:12px;
-      }
-      .ai-face-mini-wrap{
-        width:32px; height:32px;
-        border-radius:12px;
-        overflow:hidden;
-        border:1px solid var(--border);
-      }
-      .ai-face-mini{
-        width:100%; height:100%;
-        object-fit:cover;
-        object-position:center 10%;
-        display:block;
-      }
-
-      .chat-messages{
-        flex:1;
-        min-height:0;
-        overflow:auto;
-        padding:12px 12px 90px;
-      }
-
-      .chat-inputbar{
-        position:sticky;
-        bottom:0;
-        z-index:10;
-        display:flex;
-        gap:10px;
-        padding:10px 12px;
-        border-top:1px solid var(--border);
-        background: rgba(7,10,22,.75);
-        backdrop-filter: blur(10px);
-      }
-      .chat-input{
-        flex:1;
-        height:44px;
-        border-radius:14px;
-        border:1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.06);
-        color:#fff;
-        padding:0 12px;
-        outline:none;
-      }
-      .chat-send{
-        height:44px;
-        padding:0 14px;
-        border-radius:14px;
-        border:1px solid rgba(255,255,255,.14);
-        background: linear-gradient(90deg, rgba(215,199,255,.22), rgba(159,211,255,.20));
-        color:#fff;
-        font-weight:800;
-      }
-
-      /* MESSAGES */
-      .msg-row{display:flex; gap:10px; margin:10px 0; align-items:flex-end}
-      .msg-avatar,.msg-avatar-spacer{width:34px; height:34px; border-radius:12px; flex:0 0 auto}
-      .msg-avatar{object-fit:cover; object-position:center 10%; border:1px solid rgba(255,255,255,.14)}
-      .msg-avatar-spacer{opacity:0}
-      .msg-bubble{
-        max-width:78%;
-        padding:10px 12px;
-        border-radius:16px;
-        border:1px solid rgba(255,255,255,.10);
-        background: rgba(255,255,255,.06);
-        line-height:1.45;
-        font-size:14px;
-        white-space:pre-wrap;
-      }
-      .msg-user{justify-content:flex-end}
-      .msg-user .msg-bubble{
-        background: rgba(215,199,255,.14);
-        border-color: rgba(215,199,255,.20);
-      }
-
-      /* MOBILE */
-      @media (max-width: 920px){
-        .chat-wrap{ grid-template-columns: 1fr; }
-        .chat-side{display:none}
-        .chat-panel{height: calc(100dvh - 64px)}
-        .chat-hero{display:block}
-      }
-
-      @media (prefers-reduced-motion: reduce){
-        *{scroll-behavior:auto!important}
-      }
-
-      /* ===== ANIMATION DOUCE — SEULEMENT grandes images ===== */
-      @keyframes lunaFloat{
-        0%   { transform: translate3d(0,0,0) scale(1); }
-        50%  { transform: translate3d(0,-2px,0) scale(1.005); }
-        100% { transform: translate3d(0,0,0) scale(1); }
-      }
-
-      /* ✅ On anime seulement la grande image IA (desktop + mobile) */
-      .ai-face,
-      .chat-hero-img{
-        animation: lunaFloat 7.5s ease-in-out infinite;
-        will-change: transform;
-        transform-origin: center center;
-      }
-
-      /* ❌ Le petit avatar et les avatars de messages ne bougent PAS */
-      .ai-face-mini,
-      .msg-avatar{
-        animation:none !important;
-        transform:none !important;
-      }
-
-      /* Accessibilité : si l'utilisateur réduit les animations, on coupe */
-      @media (prefers-reduced-motion: reduce){
-        .ai-face,
-        .chat-hero-img{
-          animation:none !important;
-          transform:none !important;
-        }
-      }
-    </style>
+    <!-- ✅ CSS split -->
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/chat.css" />
   </head>
 
   <body class="chat-body">
-    <header class="chat-top">
+    <header class="chat-top" role="banner">
       <a class="chat-brand" href="./index.html" aria-label="Retour à l’accueil">
-        <img class="chat-logo" src="./logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+        <img
+          class="chat-logo"
+          src="./logo-luna-astralis-transparent.png"
+          alt="Luna Astralis"
+        />
         <div class="chat-brand-text">
           <div class="chat-brand-name">LUNA ASTRALIS</div>
           <div class="chat-brand-sub">Astro & psycho</div>
@@ -334,7 +27,7 @@
       <a class="chat-back" href="./index.html#signes">Changer de signe</a>
     </header>
 
-    <main class="chat-wrap">
+    <main class="chat-wrap" role="main">
       <aside class="chat-side" aria-label="Profil IA">
         <div class="ai-face-wrap">
           <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
@@ -347,13 +40,14 @@
         </div>
 
         <div class="ai-disclaimer">
-          Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+          Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
+          aucun diagnostic.
         </div>
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
         <!-- HERO MOBILE -->
-        <div class="chat-hero">
+        <div class="chat-hero" aria-hidden="true">
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
             <div class="chat-hero-overlay"></div>
@@ -374,10 +68,21 @@
           </div>
         </div>
 
-        <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
+        <div
+          class="chat-messages"
+          id="messages"
+          role="log"
+          aria-live="polite"
+        ></div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
-          <input id="input" type="text" class="chat-input" placeholder="Écris ton message…" autocomplete="off" />
+          <input
+            id="input"
+            type="text"
+            class="chat-input"
+            placeholder="Écris ton message…"
+            autocomplete="off"
+          />
           <button class="chat-send" type="submit">Envoyer</button>
         </form>
       </section>
