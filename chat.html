@@ -38,7 +38,7 @@
           <div class="ai-tag" id="aiTag">Signe : —</div>
           <div class="ai-desc" id="aiDesc">—</div>
 
-          <!-- ✅ LIEN AMAZON DU SIGNE -->
+          <!-- ✅ Lien Amazon (affiché seulement si on a un lien pour ce signe) -->
           <div class="ai-book" id="aiBookWrap" style="display:none;">
             <a
               id="aiBookLink"
@@ -81,7 +81,12 @@
           </div>
         </div>
 
-        <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
+        <div
+          class="chat-messages"
+          id="messages"
+          role="log"
+          aria-live="polite"
+        ></div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
           <input
@@ -154,7 +159,7 @@
         gemeaux: "https://a.co/d/5rzhkCv",
         cancer: "https://a.co/d/9T3gj30",
         lion: "https://a.co/d/eQ0Fa2u",
-        vierge: "https://a.co/d/7mMxP9f", // choisi par toi
+        vierge: "https://a.co/d/7mMxP9f",
         balance: "https://a.co/d/i93cts5",
         scorpion: "https://a.co/d/0HQBCE8",
         sagittaire: "https://a.co/d/iOLDHqS",
@@ -163,13 +168,16 @@
         poissons: "https://a.co/d/hIM81yC",
       };
 
+      /* --- récupérer le signe --- */
       const rawKey = qs("signe") || qs("sign") || "belier";
       const signKey = norm(rawKey) || "belier";
+
       const signName = SIGNS[signKey] || "—";
       const signDesc =
         SIGN_DESC[signKey] ||
         "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
+      /* --- UI côté + header --- */
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
@@ -188,6 +196,7 @@
         link.href = bookUrl;
       }
 
+      /* --- chat --- */
       const messagesEl = document.getElementById("messages");
       const form = document.getElementById("form");
       const input = document.getElementById("input");
