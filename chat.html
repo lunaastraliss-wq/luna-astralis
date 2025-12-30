@@ -37,6 +37,19 @@
           <div class="ai-name">Luna</div>
           <div class="ai-tag" id="aiTag">Signe : —</div>
           <div class="ai-desc" id="aiDesc">—</div>
+
+          <!-- ✅ LIEN AMAZON DU SIGNE -->
+          <div class="ai-book" id="aiBookWrap" style="display:none;">
+            <a
+              id="aiBookLink"
+              class="ai-book-link"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📘 Voir le livre sur Amazon
+            </a>
+          </div>
         </div>
 
         <div class="ai-disclaimer">
@@ -68,12 +81,7 @@
           </div>
         </div>
 
-        <div
-          class="chat-messages"
-          id="messages"
-          role="log"
-          aria-live="polite"
-        ></div>
+        <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
           <input
@@ -139,6 +147,22 @@
           "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
       };
 
+      /* ✅ LIENS AMAZON (a.co) */
+      const SIGN_BOOKS = {
+        belier: "https://a.co/d/ipv7KsG",
+        taureau: "https://a.co/d/cNzESwI",
+        gemeaux: "https://a.co/d/5rzhkCv",
+        cancer: "https://a.co/d/9T3gj30",
+        lion: "https://a.co/d/eQ0Fa2u",
+        vierge: "https://a.co/d/7mMxP9f", // choisi par toi
+        balance: "https://a.co/d/i93cts5",
+        scorpion: "https://a.co/d/0HQBCE8",
+        sagittaire: "https://a.co/d/iOLDHqS",
+        capricorne: "https://a.co/d/4JuWLu1",
+        verseau: "https://a.co/d/de3Ukra",
+        poissons: "https://a.co/d/hIM81yC",
+      };
+
       const rawKey = qs("signe") || qs("sign") || "belier";
       const signKey = norm(rawKey) || "belier";
       const signName = SIGNS[signKey] || "—";
@@ -154,6 +178,15 @@
 
       document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
       document.getElementById("heroDesc").textContent = signDesc;
+
+      /* ✅ injecter le lien Amazon dans le panneau de côté */
+      const bookUrl = SIGN_BOOKS[signKey];
+      const wrap = document.getElementById("aiBookWrap");
+      const link = document.getElementById("aiBookLink");
+      if (wrap && link && bookUrl) {
+        wrap.style.display = "block";
+        link.href = bookUrl;
+      }
 
       const messagesEl = document.getElementById("messages");
       const form = document.getElementById("form");
