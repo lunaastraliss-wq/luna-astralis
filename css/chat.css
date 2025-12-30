@@ -431,3 +431,77 @@
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior:auto !important; }
 }
+/* =========================
+   CHAT — Avatar rond + bulle premium (patch)
+   Colle à la FIN de css/chat.css
+========================= */
+
+/* 1) alignement ligne */
+.msg-row{
+  align-items:flex-start; /* au lieu de flex-end */
+}
+
+/* 2) AVATAR rond + ring */
+.msg-avatar{
+  width:40px;
+  height:40px;
+  border-radius:999px;      /* rond parfait */
+  object-fit:cover;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:
+    0 0 0 3px rgba(6,8,21,.55),           /* "gap" sombre */
+    0 0 0 6px rgba(146,112,255,.18),      /* ring violet */
+    0 18px 40px rgba(0,0,0,.45);          /* profondeur */
+}
+
+/* si tu gardes le spacer côté user */
+.msg-avatar-spacer{
+  width:40px;
+  height:40px;
+}
+
+/* 3) BULLE : plus premium + moins "pâle" */
+.msg-bubble{
+  position:relative;
+  padding:12px 14px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background:
+    radial-gradient(240px 140px at 18% 20%, rgba(215,199,255,.14), transparent 62%),
+    radial-gradient(260px 160px at 82% 25%, rgba(159,211,255,.10), transparent 62%),
+    rgba(0,0,0,.24);
+  box-shadow: 0 14px 40px rgba(0,0,0,.40);
+}
+
+/* 4) Petite pointe (tail) côté IA */
+.msg-ai .msg-bubble::before{
+  content:"";
+  position:absolute;
+  left:-7px;
+  top:16px;
+  width:14px;
+  height:14px;
+  background: rgba(0,0,0,.24);
+  border-left:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  transform: rotate(45deg);
+  border-bottom-left-radius:3px;
+}
+
+/* 5) IA : bordure un peu plus “violet/astro” */
+.msg-ai .msg-bubble{
+  border-color: rgba(215,199,255,.20);
+}
+
+/* 6) USER : bulle un peu différente (optionnel mais beau) */
+.msg-user .msg-bubble{
+  background:
+    radial-gradient(240px 140px at 20% 30%, rgba(146,112,255,.12), transparent 62%),
+    rgba(0,0,0,.26);
+  border-color: rgba(159,211,255,.16);
+}
+
+/* 7) Sur petits écrans : avatar légèrement plus petit */
+@media (max-width:520px){
+  .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
+}
