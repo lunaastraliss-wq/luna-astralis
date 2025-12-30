@@ -9,6 +9,26 @@
     <!-- ✅ CSS split -->
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/chat.css" />
+
+    <!-- ✅ mini style local (pour un lien TRÈS discret, sans “Amazon”) -->
+    <style>
+      .ai-book {
+        margin-top: 10px;
+      }
+      .ai-book-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        opacity: 0.65;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        color: rgba(255, 255, 255, 0.92);
+      }
+      .ai-book-link:hover {
+        opacity: 0.9;
+      }
+    </style>
   </head>
 
   <body class="chat-body">
@@ -38,7 +58,7 @@
           <div class="ai-tag" id="aiTag">Signe : —</div>
           <div class="ai-desc" id="aiDesc">—</div>
 
-          <!-- ✅ Lien Amazon (affiché seulement si on a un lien pour ce signe) -->
+          <!-- ✅ lien discret (PAS “Amazon”), affiché seulement si lien existe -->
           <div class="ai-book" id="aiBookWrap" style="display:none;">
             <a
               id="aiBookLink"
@@ -46,8 +66,10 @@
               href="#"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Approfondir ce signe"
+              title="Approfondir ce signe"
             >
-              📘 Voir le livre sur Amazon
+              ✦ Approfondir ce signe
             </a>
           </div>
         </div>
@@ -81,12 +103,7 @@
           </div>
         </div>
 
-        <div
-          class="chat-messages"
-          id="messages"
-          role="log"
-          aria-live="polite"
-        ></div>
+        <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
           <input
@@ -152,7 +169,7 @@
           "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
       };
 
-      /* ✅ LIENS AMAZON (a.co) */
+      /* ✅ LIENS (a.co) — utilisés, mais jamais affichés comme “Amazon” */
       const SIGN_BOOKS = {
         belier: "https://a.co/d/ipv7KsG",
         taureau: "https://a.co/d/cNzESwI",
@@ -187,7 +204,7 @@
       document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
       document.getElementById("heroDesc").textContent = signDesc;
 
-      /* ✅ injecter le lien Amazon dans le panneau de côté */
+      /* ✅ lien discret “Approfondir ce signe” (si dispo) */
       const bookUrl = SIGN_BOOKS[signKey];
       const wrap = document.getElementById("aiBookWrap");
       const link = document.getElementById("aiBookLink");
