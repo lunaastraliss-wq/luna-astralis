@@ -465,3 +465,48 @@
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior:auto !important; }
      }
+/* ===== QUEUE NATURELLE (remplace le losange) ===== */
+
+/* 1) on enlève la queue losange */
+.msg-ai::before,
+.msg-ai::after{
+  content: none !important;
+  display: none !important;
+}
+
+/* 2) bulle IA : queue arrondie, plus "chat app" */
+.msg-ai .msg-bubble{
+  position: relative;
+  overflow: visible; /* important */
+}
+
+/* queue arrondie */
+.msg-ai .msg-bubble::before{
+  content:"";
+  position:absolute;
+
+  /* place la queue près de l’avatar */
+  left:-10px;
+  top:22px;
+
+  width:18px;
+  height:18px;
+
+  /* même “matière” que la bulle */
+  background: rgba(0,0,0,.24);
+
+  /* arrondi = naturel */
+  border-radius: 0 0 0 10px;
+
+  /* petite bordure douce comme la bulle */
+  border-left: 1px solid rgba(255,255,255,.14);
+  border-bottom: 1px solid rgba(255,255,255,.14);
+
+  /* au lieu d’un diamant, on fait une forme "goutte" */
+  transform: rotate(45deg);
+}
+
+/* 3) option : queue un peu plus fondue */
+.msg-ai .msg-bubble::before{
+  filter: blur(.1px);
+}
