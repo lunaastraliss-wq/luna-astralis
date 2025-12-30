@@ -7,10 +7,10 @@
 
     <meta
       name="description"
-      content="Astro & psycho : explore ton monde intérieur à travers ton signe astrologique, avec une IA douce et introspective."
+      content="Astro & psycho : explore ton monde intérieur à travers ton signe astrologique, avec une IA douce, lucide et introspective."
     />
 
-    <!-- ✅ CSS split -->
+    <!-- CSS split -->
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/index.css" />
   </head>
@@ -51,8 +51,8 @@
           <h1 class="hero-title">Astro & psycho</h1>
 
           <p class="lead">
-            Un miroir intérieur à travers ton signe. Explore tes émotions, tes
-            schémas et tes relations avec une IA douce, lucide et introspective.
+            Comprends mieux tes émotions, tes schémas et tes besoins — à travers ton signe —
+            avec une IA douce, lucide et introspective.
           </p>
 
           <div class="astro-chips" aria-label="Thèmes">
@@ -62,22 +62,21 @@
             <span class="chip">🧠 Schémas</span>
           </div>
 
+          <!-- mini bénéfices (plus vendeur) -->
+          <div class="hero-points" aria-label="Bénéfices">
+            <div class="hp">✓ Clair, direct, sans blabla</div>
+            <div class="hp">✓ Questions guidées + reflets</div>
+            <div class="hp">✓ Focus : compréhension, pas étiquette</div>
+          </div>
+
           <div class="cta">
-            <a class="btn btn-primary" href="#signes">Commencer maintenant</a>
-            <a class="btn btn-ghost" href="#comment">Voir comment ça marche</a>
+            <a class="btn btn-primary" href="#signes">Choisir mon signe</a>
+            <a class="btn btn-ghost" href="#comment">Voir les étapes</a>
           </div>
 
           <p class="note">
-            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
-            aucun diagnostic.
+            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
           </p>
-        </div>
-
-        <!-- Visuel / ambiance -->
-        <div class="hero-visual" aria-hidden="true">
-          <div class="visual-orb visual-orb-1"></div>
-          <div class="visual-orb visual-orb-2"></div>
-          <div class="visual-stars"></div>
         </div>
       </section>
 
@@ -87,7 +86,7 @@
           <div class="trust-ico" aria-hidden="true">✦</div>
           <div class="trust-txt">
             <div class="trust-title">Doux, mais précis</div>
-            <div class="trust-sub">Des mots clairs pour mieux te comprendre.</div>
+            <div class="trust-sub">Des mots simples pour mieux te comprendre.</div>
           </div>
         </div>
 
@@ -113,7 +112,7 @@
         <div class="section-head">
           <h2>Comment ça fonctionne</h2>
           <p class="section-sub">
-            4 étapes simples. Tu choisis un signe, puis tu commences la discussion.
+            Simple, rapide, efficace : choisis un signe, puis commence l’exploration.
           </p>
         </div>
 
@@ -150,8 +149,8 @@
               <span class="step-n">04</span>
               <span class="step-ico" aria-hidden="true">☾</span>
             </div>
-            <h3>Pas de thérapie</h3>
-            <p>Aucun diagnostic. Seulement de la compréhension personnelle.</p>
+            <h3>Cadre clair</h3>
+            <p>Exploration personnelle uniquement : aucun diagnostic.</p>
           </div>
         </div>
       </section>
@@ -180,9 +179,12 @@
           <a class="sign sign-water" role="listitem" href="./chat.html?signe=poissons">♓ Poissons</a>
         </div>
 
-        <div class="section-cta">
-          <a class="btn btn-primary" href="./signup.html">Créer mon compte</a>
-          <a class="btn btn-ghost" href="./pricing.html">Voir les tarifs</a>
+        <!-- légende éléments (discrète et premium) -->
+        <div class="elements" aria-label="Éléments">
+          <span class="el sign-fire">Feu</span>
+          <span class="el sign-earth">Terre</span>
+          <span class="el sign-air">Air</span>
+          <span class="el sign-water">Eau</span>
         </div>
       </section>
 
@@ -197,4 +199,3 @@
     </script>
   </body>
 </html>
-
