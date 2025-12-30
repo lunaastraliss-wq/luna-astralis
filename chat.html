@@ -6,7 +6,6 @@
     <title>Luna Astralis — Chat</title>
     <meta name="description" content="Chat Luna Astralis — Astro & psycho" />
 
-    <!-- ✅ CSS intégré pour test (aucun dépendance) -->
     <style>
       :root{
         --bg:#070A16;
@@ -31,11 +30,8 @@
       }
       a{color:inherit; text-decoration:none}
 
-      /* ✅ éviter double scroll */
-      .chat-body{
-        min-height:100dvh;
-        overflow:hidden;
-      }
+      /* éviter double scroll */
+      .chat-body{ min-height:100dvh; overflow:hidden; }
 
       /* TOP BAR */
       .chat-top{
@@ -51,12 +47,7 @@
         backdrop-filter: blur(10px);
         border-bottom:1px solid var(--border);
       }
-      .chat-brand{
-        display:flex;
-        align-items:center;
-        gap:10px;
-        min-width:0;
-      }
+      .chat-brand{ display:flex; align-items:center; gap:10px; min-width:0; }
       .chat-logo{
         width:38px; height:38px;
         border-radius:12px;
@@ -66,7 +57,10 @@
         flex:0 0 auto;
       }
       .chat-brand-text{min-width:0}
-      .chat-brand-name{font-weight:800; font-size:12px; letter-spacing:.22em; opacity:.9; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+      .chat-brand-name{
+        font-weight:800; font-size:12px; letter-spacing:.22em; opacity:.9;
+        white-space:nowrap; overflow:hidden; text-overflow:ellipsis
+      }
       .chat-brand-sub{font-size:12px; color:rgba(255,255,255,.55); margin-top:2px}
       .chat-back{
         font-size:12px;
@@ -108,7 +102,13 @@
         border:1px solid var(--border);
         background: rgba(255,255,255,.06);
       }
-      .ai-face{width:100%; height:260px; object-fit:cover; object-position:center 25%; display:block}
+      .ai-face{
+        width:100%;
+        height:260px;
+        object-fit:cover;
+        object-position:center 10%; /* ✅ remonte le cadrage (évite tête coupée) */
+        display:block
+      }
       .ai-name{font-weight:800; font-size:16px}
       .ai-tag{color:rgba(255,255,255,.70); font-size:13px; margin-top:2px}
       .ai-disclaimer{margin-top:auto; color:rgba(255,255,255,.55); font-size:12px; line-height:1.45}
@@ -127,11 +127,41 @@
 
       /* HERO (mobile) */
       .chat-hero{display:none}
-      .chat-hero-img{width:100%; height:40dvh; object-fit:cover; object-position:center 25%; display:block}
+      .chat-hero-inner{position:relative}
+      .chat-hero-img{
+        width:100%;
+        height:320px; /* ✅ plus haut pour ne pas couper */
+        object-fit:cover;
+        object-position:center 10%; /* ✅ remonte le cadrage */
+        display:block
+      }
       .chat-hero-overlay{
         position:absolute; inset:0;
-        background: linear-gradient(to bottom, rgba(7,10,22,.08), rgba(7,10,22,.58));
+        background:
+          linear-gradient(to bottom, rgba(7,10,22,.06), rgba(7,10,22,.82) 85%),
+          radial-gradient(700px 260px at 50% 10%, rgba(215,199,255,.16), transparent 60%);
         pointer-events:none;
+      }
+      .chat-hero-card{
+        position:absolute;
+        left:12px; right:12px; bottom:12px;
+        padding:12px 12px;
+        border-radius:16px;
+        border:1px solid rgba(255,255,255,.12);
+        background: rgba(7,10,22,.55);
+        backdrop-filter: blur(10px);
+      }
+      .hero-title{
+        font-weight:900;
+        font-size:14px;
+        margin:0 0 6px;
+        letter-spacing:.01em;
+      }
+      .hero-desc{
+        margin:0;
+        color:rgba(255,255,255,.78);
+        font-size:13px;
+        line-height:1.45;
       }
 
       .chat-header{
@@ -154,8 +184,13 @@
         font-weight:800;
         font-size:12px;
       }
-      .ai-face-mini-wrap{width:32px; height:32px; border-radius:12px; overflow:hidden; border:1px solid var(--border)}
-      .ai-face-mini{width:100%; height:100%; object-fit:cover; display:block}
+      .ai-face-mini-wrap{
+        width:32px; height:32px;
+        border-radius:12px;
+        overflow:hidden;
+        border:1px solid var(--border)
+      }
+      .ai-face-mini{width:100%; height:100%; object-fit:cover; object-position:center 10%; display:block}
 
       .chat-messages{
         flex:1;
@@ -198,7 +233,7 @@
       /* MESSAGES */
       .msg-row{display:flex; gap:10px; margin:10px 0; align-items:flex-end}
       .msg-avatar,.msg-avatar-spacer{width:34px; height:34px; border-radius:12px; flex:0 0 auto}
-      .msg-avatar{object-fit:cover; border:1px solid rgba(255,255,255,.14)}
+      .msg-avatar{object-fit:cover; object-position:center 10%; border:1px solid rgba(255,255,255,.14)}
       .msg-avatar-spacer{opacity:0}
       .msg-bubble{
         max-width:78%;
@@ -208,6 +243,7 @@
         background: rgba(255,255,255,.06);
         line-height:1.45;
         font-size:14px;
+        white-space:pre-wrap;
       }
       .msg-user{justify-content:flex-end}
       .msg-user .msg-bubble{
@@ -217,16 +253,15 @@
 
       /* MOBILE */
       @media (max-width: 920px){
-        .chat-wrap{
-          grid-template-columns: 1fr;
-        }
+        .chat-wrap{ grid-template-columns: 1fr; }
         .chat-side{display:none}
         .chat-panel{height: calc(100dvh - 64px)}
-        .chat-hero{
-          display:block;
-          position:relative;
-          max-height:40dvh;
-        }
+        .chat-hero{display:block}
+        .chat-hero-img{height:360px} /* ✅ encore plus safe sur cell */
+      }
+
+      @media (prefers-reduced-motion: reduce){
+        *{scroll-behavior:auto!important}
       }
     </style>
   </head>
@@ -258,9 +293,17 @@
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
-        <div class="chat-hero" aria-hidden="true">
-          <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
-          <div class="chat-hero-overlay"></div>
+        <!-- HERO MOBILE + description du signe -->
+        <div class="chat-hero" aria-hidden="false">
+          <div class="chat-hero-inner">
+            <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
+            <div class="chat-hero-overlay"></div>
+
+            <div class="chat-hero-card">
+              <p class="hero-title" id="heroTitle">—</p>
+              <p class="hero-desc" id="heroDesc">—</p>
+            </div>
+          </div>
         </div>
 
         <div class="chat-header">
@@ -305,12 +348,46 @@
         poissons: "Poissons ♓",
       };
 
+      // ✅ Description courte par signe (texte d’intro affiché dans le cadre du haut)
+      const SIGN_DESC = {
+        belier:
+          "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
+        taureau:
+          "Besoin de stabilité et de concret. On explore l’attachement, le plaisir, la sécurité intérieure, et comment lâcher sans perdre ton ancrage.",
+        gemeaux:
+          "Mental rapide et curiosité. On explore tes pensées en boucle, ta dualité, et comment clarifier ce que tu ressens derrière ce que tu analyses.",
+        cancer:
+          "Hyper-sensibilité et protection. On explore tes besoins affectifs, tes limites, et comment te sentir en sécurité sans tout porter seul·e.",
+        lion:
+          "Rayonnement et fierté du cœur. On explore l’estime de soi, la reconnaissance, et comment briller sans te suradapter au regard des autres.",
+        vierge:
+          "Lucidité et exigence. On explore le contrôle, la charge mentale, et comment trouver du calme quand tu veux que tout soit “bien fait”.",
+        balance:
+          "Équilibre et relation. On explore la peur du conflit, le besoin d’harmonie, et comment dire “non” sans culpabilité.",
+        scorpion:
+          "Intensité et transformation. On explore la confiance, la jalousie/la peur de perdre, et comment traverser une émotion sans te fermer.",
+        sagittaire:
+          "Sens et liberté. On explore l’ennui, l’envie d’ailleurs, et comment rester aligné·e quand tu te sens coincé·e ou limité·e.",
+        capricorne:
+          "Structure et responsabilité. On explore la pression, la performance, et comment te reposer sans te sentir “inutile”.",
+        verseau:
+          "Indépendance et vision. On explore la distance émotionnelle, ton besoin d’espace, et comment te connecter sans te sentir envahi·e.",
+        poissons:
+          "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
+      };
+
       const rawKey = qs("signe") || qs("sign") || "belier";
       const signKey = norm(rawKey) || "belier";
       const signName = SIGNS[signKey] || "—";
+      const signDesc = SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
+      // Labels
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
+
+      // Hero (mobile)
+      document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
+      document.getElementById("heroDesc").textContent = signDesc;
 
       const messagesEl = document.getElementById("messages");
       const form = document.getElementById("form");
@@ -341,13 +418,15 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
+      // Intro IA (personnalisé)
       addMessage(
         "ai",
-        `Salut ✨ On commence avec ton signe : ${signName}. Dis-moi ce que tu veux comprendre (émotions, relations, stress, schémas…).`
+        `Salut ✨ On commence avec ton signe : ${signName}.\n${signDesc}\n\nDis-moi ce que tu veux comprendre (émotions, relations, stress, schémas…).`
       );
 
+      // Placeholder reply
       function aiReply() {
-        return `Je t’écoute. Pour ${signName}, donne-moi un exemple concret (une situation précise) et ce que tu as ressenti.`;
+        return `Parfait. Pour ${signName}, on va y aller concret :\n1) Qu’est-ce qui s’est passé ?\n2) Qu’as-tu ressenti dans ton corps ?\n3) Quelle pensée automatique est arrivée ?\n\nDonne-moi un exemple précis.`;
       }
 
       form.addEventListener("submit", (e) => {
