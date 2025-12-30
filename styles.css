@@ -1,25 +1,24 @@
 /* ==========================================================
    Luna Astralis — styles.css (COMPLET)
-   - Plus de couleur (moins fade)
-   - Étoiles plus visibles + scintillement
+   - Fond plus riche + étoiles TRÈS visibles partout
+   - Étoiles aussi sur les grosses cartes/hero (pour pas “disparaître”)
+   - Fix badge "LE PLUS POPULAIRE" qui chevauche le titre
    - Home (index), pricing, auth (login/signup), chat
-   - Ne dépend PAS d’un dossier /assets
 ========================================================== */
 
 /* ============== THEME ============== */
 :root{
-  --bg:#060815;            /* plus profond */
-  --bg2:#0A1030;
+  --bg:#050714;
+  --bg2:#070B22;
 
   --card:rgba(255,255,255,.08);
   --card2:rgba(255,255,255,.11);
-  --border:rgba(255,255,255,.14);
+  --border:rgba(255,255,255,.16);
 
   --text:rgba(255,255,255,.94);
-  --muted:rgba(255,255,255,.72);
+  --muted:rgba(255,255,255,.74);
   --muted2:rgba(255,255,255,.58);
 
-  /* accents plus “colorés” */
   --accent:#D7C7FF;
   --accent2:#9FD3FF;
   --accent3:#7CFFDF;
@@ -41,11 +40,11 @@ body{
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
   color:var(--text);
 
-  /* plus de couleur en fond */
+  /* Fond plus profond + coloré */
   background:
-    radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.24), transparent 60%),
-    radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.20), transparent 58%),
-    radial-gradient(700px 450px at 60% 85%, rgba(124,255,223,.10), transparent 62%),
+    radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.22), transparent 60%),
+    radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.18), transparent 58%),
+    radial-gradient(800px 520px at 60% 92%, rgba(124,255,223,.10), transparent 62%),
     linear-gradient(180deg, var(--bg), var(--bg2));
 
   overflow-x:hidden;
@@ -56,75 +55,92 @@ a{color:inherit; text-decoration:none}
 img{max-width:100%; display:block}
 
 /* ==========================================================
-   FOND ASTRAL — étoiles plus visibles + scintillement
+   FOND ASTRAL — ÉTOILES TRÈS VISIBLES (toutes pages)
+   IMPORTANT: on met 3 couches + scintillement doux
 ========================================================== */
-@keyframes twinkleA{
-  0%,100%{ opacity:.55; filter: blur(.10px); transform: translate3d(0,0,0); }
-  50%{ opacity:.95; filter: blur(.35px); transform: translate3d(0,-1px,0); }
+
+@keyframes starTwinkle1{
+  0%,100%{ opacity:.70; filter: blur(.05px); transform: translate3d(0,0,0); }
+  50%{ opacity:1; filter: blur(.25px); transform: translate3d(0,-1px,0); }
 }
-@keyframes twinkleB{
-  0%,100%{ opacity:.35; filter: blur(.25px); transform: translate3d(0,0,0); }
-  50%{ opacity:.70; filter: blur(.60px); transform: translate3d(0,1px,0); }
+@keyframes starTwinkle2{
+  0%,100%{ opacity:.55; filter: blur(.20px); transform: translate3d(0,0,0); }
+  50%{ opacity:.85; filter: blur(.55px); transform: translate3d(0,1px,0); }
+}
+@keyframes starDrift{
+  0%{ transform: translate3d(0,0,0); }
+  100%{ transform: translate3d(-12px, 8px, 0); }
 }
 
-/* couche 1: petites étoiles */
+/* Couche A — étoiles nettes (petites + nombreuses) */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   z-index:0;
-  mix-blend-mode:screen;
 
   background-image:
+    /* beaucoup de petites étoiles */
     radial-gradient(1px 1px at 6% 14%, rgba(255,255,255,.95), transparent),
-    radial-gradient(1px 1px at 14% 66%, rgba(255,255,255,.70), transparent),
-    radial-gradient(1px 1px at 26% 28%, rgba(255,255,255,.85), transparent),
-    radial-gradient(1px 1px at 38% 80%, rgba(255,255,255,.60), transparent),
-    radial-gradient(1px 1px at 48% 40%, rgba(255,255,255,.78), transparent),
-    radial-gradient(1px 1px at 57% 12%, rgba(255,255,255,.66), transparent),
-    radial-gradient(1px 1px at 66% 56%, rgba(255,255,255,.72), transparent),
-    radial-gradient(1px 1px at 76% 22%, rgba(255,255,255,.86), transparent),
-    radial-gradient(1px 1px at 86% 72%, rgba(255,255,255,.60), transparent),
-    radial-gradient(1px 1px at 94% 36%, rgba(255,255,255,.74), transparent),
+    radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 14% 26%, rgba(255,255,255,.95), transparent),
+    radial-gradient(1px 1px at 18% 78%, rgba(255,255,255,.80), transparent),
+    radial-gradient(1px 1px at 22% 40%, rgba(255,255,255,.90), transparent),
+    radial-gradient(1px 1px at 28% 12%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 32% 66%, rgba(255,255,255,.92), transparent),
+    radial-gradient(1px 1px at 36% 88%, rgba(255,255,255,.78), transparent),
+    radial-gradient(1px 1px at 41% 30%, rgba(255,255,255,.88), transparent),
+    radial-gradient(1px 1px at 46% 56%, rgba(255,255,255,.92), transparent),
+    radial-gradient(1px 1px at 52% 18%, rgba(255,255,255,.86), transparent),
+    radial-gradient(1px 1px at 58% 78%, rgba(255,255,255,.80), transparent),
+    radial-gradient(1px 1px at 63% 42%, rgba(255,255,255,.92), transparent),
+    radial-gradient(1px 1px at 68% 12%, rgba(255,255,255,.86), transparent),
+    radial-gradient(1px 1px at 72% 64%, rgba(255,255,255,.92), transparent),
+    radial-gradient(1px 1px at 76% 26%, rgba(255,255,255,.88), transparent),
+    radial-gradient(1px 1px at 82% 80%, rgba(255,255,255,.80), transparent),
+    radial-gradient(1px 1px at 86% 38%, rgba(255,255,255,.90), transparent),
+    radial-gradient(1px 1px at 92% 14%, rgba(255,255,255,.86), transparent),
+    radial-gradient(1px 1px at 96% 70%, rgba(255,255,255,.82), transparent),
 
-    radial-gradient(2px 2px at 18% 36%, rgba(215,199,255,.35), transparent 60%),
-    radial-gradient(2px 2px at 62% 28%, rgba(159,211,255,.30), transparent 60%),
-    radial-gradient(2px 2px at 74% 64%, rgba(255,255,255,.26), transparent 60%),
+    /* quelques étoiles plus grosses (2px) */
+    radial-gradient(2px 2px at 12% 34%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(2px 2px at 28% 72%, rgba(215,199,255,.40), transparent 62%),
+    radial-gradient(2px 2px at 44% 20%, rgba(159,211,255,.38), transparent 62%),
+    radial-gradient(2px 2px at 66% 54%, rgba(255,255,255,.45), transparent 62%),
+    radial-gradient(2px 2px at 84% 22%, rgba(159,211,255,.35), transparent 62%);
 
-    radial-gradient(3px 3px at 32% 72%, rgba(215,199,255,.18), transparent 65%),
-    radial-gradient(3px 3px at 82% 18%, rgba(159,211,255,.18), transparent 65%);
-
-  opacity:.75;
-  animation: twinkleA 6.2s ease-in-out infinite alternate;
+  opacity:1;
+  animation: starTwinkle1 6.5s ease-in-out infinite alternate;
 }
 
-/* couche 2: voile d’étoiles + glow */
+/* Couche B — voile scintillant + léger “drift” */
 body::after{
   content:"";
   position:fixed;
-  inset:0;
+  inset:-40px;
   pointer-events:none;
   z-index:0;
-  mix-blend-mode:screen;
 
   background-image:
-    radial-gradient(1px 1px at 12% 10%, rgba(255,255,255,.40), transparent),
-    radial-gradient(1px 1px at 18% 48%, rgba(255,255,255,.35), transparent),
-    radial-gradient(1px 1px at 28% 78%, rgba(255,255,255,.30), transparent),
-    radial-gradient(1px 1px at 36% 26%, rgba(255,255,255,.36), transparent),
-    radial-gradient(1px 1px at 44% 60%, rgba(255,255,255,.28), transparent),
-    radial-gradient(1px 1px at 52% 88%, rgba(255,255,255,.30), transparent),
-    radial-gradient(1px 1px at 63% 18%, rgba(255,255,255,.32), transparent),
-    radial-gradient(1px 1px at 72% 44%, rgba(255,255,255,.26), transparent),
-    radial-gradient(1px 1px at 84% 66%, rgba(255,255,255,.30), transparent),
+    /* “poussière d’étoiles” plus dense */
+    radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,.40), transparent),
+    radial-gradient(1px 1px at 16% 52%, rgba(255,255,255,.32), transparent),
+    radial-gradient(1px 1px at 24% 82%, rgba(255,255,255,.30), transparent),
+    radial-gradient(1px 1px at 34% 24%, rgba(255,255,255,.34), transparent),
+    radial-gradient(1px 1px at 42% 60%, rgba(255,255,255,.28), transparent),
+    radial-gradient(1px 1px at 50% 88%, rgba(255,255,255,.30), transparent),
+    radial-gradient(1px 1px at 60% 16%, rgba(255,255,255,.32), transparent),
+    radial-gradient(1px 1px at 70% 44%, rgba(255,255,255,.26), transparent),
+    radial-gradient(1px 1px at 82% 66%, rgba(255,255,255,.30), transparent),
     radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,.34), transparent),
 
-    radial-gradient(220px 180px at 18% 18%, rgba(215,199,255,.12), transparent 70%),
-    radial-gradient(220px 180px at 82% 26%, rgba(159,211,255,.10), transparent 70%);
+    /* halos colorés très légers */
+    radial-gradient(260px 200px at 18% 18%, rgba(215,199,255,.10), transparent 70%),
+    radial-gradient(260px 200px at 82% 26%, rgba(159,211,255,.08), transparent 70%);
 
-  opacity:.55;
-  animation: twinkleB 9.2s ease-in-out infinite alternate;
+  opacity:.95;
+  animation: starTwinkle2 9s ease-in-out infinite alternate, starDrift 30s linear infinite;
 }
 
 /* ==========================================================
@@ -135,7 +151,7 @@ body::after{
   margin:0 auto;
   padding:22px 18px 30px;
   position:relative;
-  z-index:1; /* au-dessus des étoiles */
+  z-index:1; /* contenu au-dessus des étoiles */
 }
 
 /* ==========================================================
@@ -174,15 +190,34 @@ body::after{
   overflow:hidden;
   text-overflow:ellipsis;
 }
-.brand-sub{font-size:12px; color:var(--muted2); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.brand-sub{
+  font-size:12px;
+  color:var(--muted2);
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
 .nav{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
-.nav a{font-size:13px; color:var(--muted); padding:8px 10px; border-radius:12px}
-.nav a:hover{color:var(--text); background: rgba(255,255,255,.06)}
-.nav a.active{
+.nav a{
+  font-size:13px;
+  color:rgba(255,255,255,.80);
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid transparent;
+}
+.nav a:hover{
   color:var(--text);
-  background: rgba(215,199,255,.12);
-  border:1px solid rgba(215,199,255,.20);
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.10);
+}
+.nav a.active{
+  color: rgba(7,10,22,.95);
+  font-weight:1000;
+  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
 }
 
 /* ==========================================================
@@ -201,9 +236,9 @@ body::after{
   gap:10px;
   transition: transform .12s ease, filter .12s ease;
 }
-.btn:hover{transform: translateY(-1px); filter: brightness(1.05)}
+.btn:hover{transform: translateY(-1px); filter: brightness(1.06)}
 .btn:active{transform: translateY(0px)}
-.btn-small{padding:10px 12px; font-size:13px; border-radius:12px}
+.btn-small{padding:10px 12px; font-size:13px; border-radius:999px}
 .btn-ghost{
   background: rgba(255,255,255,.07);
   border:1px solid rgba(255,255,255,.14);
@@ -236,18 +271,34 @@ body::after{
   overflow:hidden;
 }
 
+/* étoiles visibles SUR la couverture (pas seulement en fond global) */
+.hero-left::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.70;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.70), transparent),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.78), transparent),
+    radial-gradient(1px 1px at 62% 70%, rgba(255,255,255,.72), transparent),
+    radial-gradient(2px 2px at 78% 22%, rgba(159,211,255,.30), transparent 60%),
+    radial-gradient(2px 2px at 30% 78%, rgba(215,199,255,.26), transparent 60%);
+  mix-blend-mode: screen;
+}
+
 .hero-left::before{
   content:"";
   position:absolute;
   inset:-2px;
   pointer-events:none;
   background:
-    radial-gradient(620px 280px at 18% 22%, rgba(215,199,255,.26), transparent 62%),
-    radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.22), transparent 60%),
+    radial-gradient(620px 280px at 18% 22%, rgba(215,199,255,.24), transparent 62%),
+    radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.20), transparent 60%),
     radial-gradient(420px 260px at 60% 90%, rgba(124,255,223,.10), transparent 60%);
   opacity:.95;
 }
-
 .hero-left > *{ position:relative; z-index:1; }
 
 .astro-mark{
@@ -277,6 +328,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   color: rgba(255,255,255,.86);
   background: rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
 }
 
 .cta{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
@@ -292,7 +344,21 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   border-radius:16px;
   background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.06));
   border:1px solid rgba(255,255,255,.14);
+  position:relative;
+  overflow:hidden;
 }
+.box::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.60), transparent);
+  mix-blend-mode: screen;
+}
+.box > *{position:relative; z-index:1;}
 .box h3{margin:0 0 6px; font-size:13px}
 .box p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
 
@@ -335,20 +401,39 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 ========================================================== */
 .pricing-body .wrap{ padding-top:18px; }
 
-.pricing-hero{
-  margin-top:18px;
-}
+.pricing-hero{ margin-top:18px; }
 .pricing-hero-inner{
   padding:18px 18px;
   border-radius:24px;
   background:
-    radial-gradient(760px 300px at 15% 20%, rgba(215,199,255,.28), transparent 62%),
-    radial-gradient(720px 300px at 85% 30%, rgba(159,211,255,.22), transparent 60%),
+    radial-gradient(760px 300px at 15% 20%, rgba(215,199,255,.26), transparent 62%),
+    radial-gradient(720px 300px at 85% 30%, rgba(159,211,255,.20), transparent 60%),
     rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.16);
   box-shadow: var(--shadow);
   overflow:hidden;
+  position:relative;
 }
+
+/* étoiles visibles sur le HERO tarifs */
+.pricing-hero-inner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.65;
+  background-image:
+    radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.80), transparent),
+    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.65), transparent),
+    radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.60), transparent),
+    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
+    radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.pricing-hero-inner > *{ position:relative; z-index:1; }
+
 .pricing-kicker{
   display:inline-flex;
   align-items:center;
@@ -356,13 +441,49 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   border-radius:999px;
   background: rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.84);
+  color: rgba(255,255,255,.86);
   font-weight:1000;
   font-size:12px;
   letter-spacing:.14em;
   text-transform:uppercase;
   margin-bottom:10px;
 }
+
+.pricing-title{
+  margin:0 0 8px;
+  font-size:40px;
+  letter-spacing:-.02em;
+  background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #ffe7ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+}
+
+.pricing-subtitle{
+  margin:0 0 10px;
+  color: rgba(255,255,255,.78);
+  line-height:1.55;
+  font-size:14px;
+}
+
+.pricing-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+
+.pricing-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.hero-cta{ border-radius:14px; }
+.hero-cta.ghost{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:none;
+}
+
+/* texte confiance (si tu l’ajoutes dans pricing.html) */
+.pricing-trust{
+  margin-top:10px;
+  color: rgba(255,255,255,.74);
+  font-size:12px;
+  line-height:1.55;
+}
+.pricing-trust strong{ color: rgba(255,255,255,.92); }
 
 .pricing-grid{
   display:grid;
@@ -371,17 +492,35 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   align-items:stretch;
 }
 
+/* cartes */
 .price-card{
   position:relative;
   padding:16px 16px 14px;
-  border-radius:18px;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow: 0 16px 52px rgba(0,0,0,.40);
+  border-radius:22px;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow: 0 18px 60px rgba(0,0,0,.46);
   overflow:hidden;
   min-height:292px;
   display:flex;
   flex-direction:column;
+}
+
+/* étoiles visibles sur chaque carte (important) */
+.price-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 14% 20%, rgba(255,255,255,.70), transparent),
+    radial-gradient(1px 1px at 22% 62%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,.62), transparent),
+    radial-gradient(1px 1px at 68% 70%, rgba(255,255,255,.50), transparent),
+    radial-gradient(2px 2px at 82% 18%, rgba(159,211,255,.22), transparent 60%),
+    radial-gradient(2px 2px at 32% 82%, rgba(215,199,255,.18), transparent 60%);
+  mix-blend-mode: screen;
 }
 
 .price-card::before{
@@ -396,7 +535,13 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   pointer-events:none;
 }
 
-.price-head{ position:relative; z-index:1; }
+.price-head,
+.price-features,
+.price-cta{ position:relative; z-index:1; }
+
+/* IMPORTANT: on ajoute un espace en haut pour que le badge ne chevauche JAMAIS le titre */
+.price-head{ padding-top: 24px; }
+
 .price-name{ font-weight:1000; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
 .price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .price-was{ color:rgba(255,255,255,.55); font-weight:900; font-size:14px; }
@@ -405,8 +550,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 .price-mini{ margin-top:8px; color:rgba(255,255,255,.70); font-size:12px; line-height:1.35; }
 
 .price-features{
-  position:relative;
-  z-index:1;
   margin:14px 0 14px;
   padding-left:18px;
   color:rgba(255,255,255,.90);
@@ -417,8 +560,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 .price-features li::marker{ color: rgba(159,211,255,.98); }
 
 .price-cta{
-  position:relative;
-  z-index:1;
   margin-top:auto;
   display:inline-flex;
   justify-content:center;
@@ -426,55 +567,72 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   width:100%;
   padding:12px 14px;
   border-radius:14px;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
   color: rgba(255,255,255,.95);
   font-weight:1000;
-  transition: transform .12s ease, filter .12s ease;
+  transition: transform .12s ease, filter .12s ease, background .12s ease;
 }
-.price-cta:hover{ transform: translateY(-1px); filter: brightness(1.07); }
+.price-cta:hover{ transform: translateY(-1px); filter: brightness(1.06); background: rgba(255,255,255,.14); }
 
 .price-featured{
-  border:1px solid rgba(215,199,255,.52);
-  background: linear-gradient(180deg, rgba(215,199,255,.22), rgba(255,255,255,.06));
-  box-shadow: 0 20px 60px rgba(0,0,0,.48);
-  transform: translateY(-2px);
+  border:1px solid rgba(215,199,255,.55);
+  background:
+    radial-gradient(520px 320px at 30% 10%, rgba(215,199,255,.28), transparent 60%),
+    radial-gradient(520px 320px at 90% 20%, rgba(159,211,255,.22), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+  box-shadow:
+    0 22px 70px rgba(0,0,0,.55),
+    0 0 0 1px rgba(215,199,255,.10) inset;
+  transform: translateY(-4px);
 }
-.price-featured .price-now{ color: var(--accent); }
 
+.price-featured .price-now{
+  font-size:34px;
+  text-shadow: 0 10px 30px rgba(0,0,0,.55);
+}
+
+/* Badge — position fixe, jamais sur le titre */
 .price-badge{
   position:absolute;
   top:12px;
   right:12px;
-  z-index:2;
+  z-index:3;
   padding:6px 10px;
   border-radius:999px;
   font-size:11px;
   font-weight:1100;
-  letter-spacing:.14em;
+  letter-spacing:.16em;
   text-transform:uppercase;
-  color: rgba(7,10,22,.94);
+  color: rgba(7,10,22,.96);
   background: linear-gradient(90deg, rgba(215,199,255,.98), rgba(159,211,255,.98));
-  border:1px solid rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow: 0 12px 26px rgba(0,0,0,.40);
 }
 .price-badge.premium{
-  background: linear-gradient(90deg, rgba(159,211,255,.98), rgba(124,255,223,.92));
+  background: linear-gradient(90deg, rgba(250,204,21,.98), rgba(245,158,11,.92));
+  color: rgba(26,18,0,.96);
 }
 
+.btn-primary{
+  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
+  color: rgba(7,10,22,.95);
+  border: 1px solid rgba(255,255,255,.22);
+}
+
+/* Responsive pricing */
 @media (max-width:1100px){
   .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 @media (max-width:560px){
   .pricing-grid{ grid-template-columns: 1fr; }
+  .pricing-title{ font-size:32px; }
 }
 
 /* ==========================================================
    AUTH (login/signup)
 ========================================================== */
-.auth-body{
-  /* on garde le même fond mais tu peux l’utiliser en body class */
-}
-
 .auth-wrap{display:grid;place-items:center;padding-top:28px; position:relative; z-index:1;}
 .auth-card{
   width:min(520px, 100%);
@@ -483,9 +641,27 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
   border:1px solid rgba(255,255,255,.14);
   box-shadow: var(--shadow);
+  position:relative;
+  overflow:hidden;
 }
+/* étoiles visibles sur auth card */
+.auth-card::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.65), transparent),
+    radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 70% 64%, rgba(255,255,255,.50), transparent),
+    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.18), transparent 60%);
+  mix-blend-mode: screen;
+}
+.auth-card > *{ position:relative; z-index:1; }
+
 .auth-title{margin:4px 0 6px;font-size:22px;letter-spacing:-.01em}
 .auth-sub{margin:0 0 14px;color: var(--muted);font-size:13px;line-height:1.5}
+
 .auth-google{
   width:100%;
   justify-content:center;
@@ -496,6 +672,7 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 }
 .auth-google:hover{ background: rgba(255,255,255,.14); }
 .google-icon{width:18px;height:18px;display:block}
+
 .auth-sep{
   display:grid;
   grid-template-columns: 1fr auto 1fr;
@@ -575,7 +752,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 }
 
 .chat-brand{ display:flex; align-items:center; gap:10px; min-width:0; }
-
 .chat-logo{
   width:36px;
   height:36px;
@@ -637,64 +813,22 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
   border:1px solid rgba(255,255,255,.12);
   box-shadow: var(--shadow);
   margin:14px;
-}
-
-/* HERO mobile */
-.chat-hero{
   position:relative;
-  height:220px;
   overflow:hidden;
-  border-bottom:1px solid rgba(255,255,255,.12);
 }
-.chat-hero-img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 25%;
-  display:block;
-}
-.chat-hero-overlay{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(7,10,22,.06), rgba(7,10,22,.88) 85%),
-    radial-gradient(700px 280px at 50% 15%, rgba(215,199,255,.22), transparent 60%);
+.chat-panel::after{
+  content:"";
+  position:absolute; inset:0;
   pointer-events:none;
+  opacity:.45;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.45), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.40), transparent);
+  mix-blend-mode: screen;
 }
 
-.chat-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  padding:12px 14px;
-  background: rgba(255,255,255,.06);
-  border-bottom:1px solid rgba(255,255,255,.12);
-}
-.chat-title{font-weight:1100; font-size:14px}
-.chat-pill{
-  display:inline-flex;
-  align-items:center;
-  padding:6px 10px;
-  border-radius:999px;
-  margin-left:8px;
-  font-size:12px;
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  color: rgba(255,255,255,.90);
-}
-
-.ai-face-mini-wrap{
-  width:32px; height:32px;
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.14);
-}
-.ai-face-mini{
-  width:100%; height:100%;
-  object-fit:cover;
-  display:block;
-}
+.chat-panel > *{ position:relative; z-index:1; }
 
 .chat-messages{
   flex:1 1 auto;
@@ -792,23 +926,6 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
     overflow:auto;
     min-height:0;
   }
-  .ai-face-wrap{
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.14);
-    background: rgba(255,255,255,.08);
-  }
-  .ai-face{
-    width:100%;
-    height:280px;
-    object-fit:cover;
-    object-position:center 25%;
-    display:block;
-  }
-  .ai-name{font-weight:1100; font-size:16px}
-  .ai-tag{color:var(--muted); font-size:13px; margin-top:4px}
-  .ai-disclaimer{margin-top:auto; color:var(--muted2); font-size:12px; line-height:1.45}
-  .chat-hero{display:none}
 }
 
 /* ==========================================================
@@ -830,271 +947,9 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 ========================================================== */
 @media (prefers-reduced-motion: reduce){
   body::before, body::after{ animation:none !important; }
-                               }
-/* ==========================
-   PATCH "PLUS DE COULEUR"
-   (COLLER À LA FIN de styles.css)
-========================== */
-
-/* 1) BACKGROUND un peu plus vivant */
-body{
-  background:
-    radial-gradient(1000px 520px at 18% 10%, rgba(215,199,255,.28), transparent 62%),
-    radial-gradient(900px 520px at 85% 18%, rgba(159,211,255,.22), transparent 62%),
-    radial-gradient(760px 520px at 60% 92%, rgba(124,255,223,.10), transparent 65%),
-    linear-gradient(180deg, #050718, #070B24 55%, #050718);
-}
-
-/* 2) HEADER: menu plus clean et "Tarifs" plus visible */
-.top{
-  padding-top: 14px;
-}
-
-.nav a{
-  color: rgba(255,255,255,.78);
-  background: transparent;
-  border: 1px solid transparent;
-}
-
-.nav a:hover{
-  background: rgba(255,255,255,.06);
-  border-color: rgba(255,255,255,.10);
-}
-
-/* onglet actif (Tarifs) = pilule gradient */
-.nav a.active{
-  color: rgba(7,10,22,.95);
-  font-weight: 1000;
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  border-color: rgba(255,255,255,.18);
-  box-shadow: 0 12px 30px rgba(0,0,0,.35);
-}
-
-/* bouton Signup = plus punchy */
-.nav .btn{
-  background: linear-gradient(90deg, rgba(215,199,255,.90), rgba(159,211,255,.85));
-  color: rgba(7,10,22,.95);
-  border: 1px solid rgba(255,255,255,.18);
-}
-
-/* 3) Cards: un peu plus contrastées (moins fade) */
-.price-card{
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 18px 60px rgba(0,0,0,.46);
-}
-
-/* 4) LE PLAN "Mensuel — Illimité" = HERO */
-.price-featured{
-  transform: translateY(-6px) scale(1.02);
-  border: 1px solid rgba(215,199,255,.55);
-  background:
-    radial-gradient(520px 320px at 30% 10%, rgba(215,199,255,.32), transparent 60%),
-    radial-gradient(520px 320px at 90% 20%, rgba(159,211,255,.25), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
-  box-shadow:
-    0 22px 70px rgba(0,0,0,.55),
-    0 0 0 1px rgba(215,199,255,.10) inset;
-}
-
-/* Glow autour du plan vedette */
-.price-featured::after{
-  content:"";
-  position:absolute;
-  inset:-10px;
-  border-radius: 22px;
-  pointer-events:none;
-  background:
-    radial-gradient(520px 260px at 35% 15%, rgba(215,199,255,.35), transparent 60%),
-    radial-gradient(520px 260px at 85% 25%, rgba(159,211,255,.26), transparent 60%);
-  filter: blur(10px);
-  opacity:.85;
-}
-
-/* le prix du plan vedette plus “wow” */
-.price-featured .price-now{
-  font-size: 34px;
-  color: rgba(255,255,255,.96);
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
-}
-
-/* 5) BADGES: "Meilleure valeur" lisible (avant il se perdait) */
-.price-badge{
-  font-size: 11px;
-  font-weight: 1100;
-  letter-spacing: .16em;
-  color: rgba(7,10,22,.96);
-  background: linear-gradient(90deg, rgba(215,199,255,.98), rgba(159,211,255,.98));
-  border: 1px solid rgba(255,255,255,.22);
-  box-shadow: 0 12px 26px rgba(0,0,0,.40);
-}
-
-/* Premium = légèrement différent */
-.price-badge.premium{
-  background: linear-gradient(90deg, rgba(159,211,255,.98), rgba(124,255,223,.92));
-}
-
-/* 6) Boutons des cartes: plus contrastés */
-.price-cta{
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  box-shadow: 0 12px 28px rgba(0,0,0,.28);
-}
-
-.price-cta:hover{
-  background: rgba(255,255,255,.14);
-}
-
-.price-cta.btn-primary{
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  color: rgba(7,10,22,.95);
-  border: 1px solid rgba(255,255,255,.22);
-}
-
-/* 7) Titre "Tarifs" un peu plus “premium” */
-.pricing-hero-inner h1{
-  letter-spacing: -.02em;
-}
-
-.pricing-hero-inner{
-  border: 1px solid rgba(255,255,255,.16);
-  box-shadow: 0 22px 70px rgba(0,0,0,.48);
-}
-
-/* 8) Petites étoiles plus visibles (sans tout casser) */
-body::before{ opacity:.85; }
-body::after{ opacity:.65; }
-/* =========================================================
-   LUNA ASTRALIS — TARIFS (PALETTE ASTRO)
-   À coller à la FIN de styles.css
-========================================================= */
-
-/* 🌌 Fond général */
-.pricing-body {
-  background:
-    radial-gradient(1200px 600px at 20% -10%, rgba(167,139,250,.15), transparent 40%),
-    radial-gradient(900px 500px at 80% 0%, rgba(99,102,241,.12), transparent 45%),
-    radial-gradient(700px 400px at 50% 100%, rgba(236,72,153,.10), transparent 50%),
-    #0b0f1a;
-  color: rgba(255,255,255,.92);
-}
-
-/* 🌙 HERO */
-.pricing-hero {
-  background:
-    radial-gradient(600px 300px at 50% 0%, rgba(167,139,250,.18), transparent 60%);
-  border-radius: 24px;
-}
-
-.pricing-kicker {
-  color: #f5d0fe;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-
-.pricing-title {
-  background: linear-gradient(90deg, #c4b5fd, #93c5fd, #f5d0fe);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.pricing-subtitle {
-  color: rgba(255,255,255,.75);
-}
-
-/* 🌠 Chips info */
-.chip {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.12);
-  color: rgba(255,255,255,.8);
-  backdrop-filter: blur(6px);
-}
-
-/* ✨ Boutons hero */
-.hero-cta {
-  background: linear-gradient(135deg, #8b5cf6, #6366f1);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(99,102,241,.35);
-}
-
-.hero-cta.ghost {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,.25);
-  color: #e5e7eb;
-}
-
-/* 🪐 CARTES TARIFS */
-.price-card {
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 22px;
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.45);
-}
-
-/* Carte mise en avant — Mensuel Illimité */
-.price-card.price-featured {
-  border: 1px solid rgba(167,139,250,.55);
-  box-shadow:
-    0 0 0 1px rgba(167,139,250,.35),
-    0 30px 70px rgba(99,102,241,.45);
-  background:
-    radial-gradient(400px 200px at 50% 0%, rgba(167,139,250,.25), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-}
-
-/* 🏷 Badges */
-.price-badge {
-  background: linear-gradient(135deg, #8b5cf6, #ec4899);
-  color: #fff;
-  box-shadow: 0 8px 20px rgba(236,72,153,.35);
-}
-
-.price-badge.premium {
-  background: linear-gradient(135deg, #facc15, #f59e0b);
-  color: #1a1200;
-}
-
-/* 💰 Prix */
-.price-now {
-  color: #e9d5ff;
-}
-
-.price-was {
-  color: rgba(255,255,255,.5);
-}
-
-.price-mini {
-  color: rgba(255,255,255,.7);
-}
-
-/* 📜 Liste features */
-.price-features li {
-  color: rgba(255,255,255,.85);
-}
-
-/* 🌟 CTA cartes */
-.price-cta {
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.18);
-  color: #fff;
-}
-
-.price-cta:hover {
-  background: rgba(255,255,255,.14);
-}
-
-/* CTA principal */
-.btn-primary {
-  background: linear-gradient(135deg, #a78bfa, #6366f1);
-  color: #fff;
-  box-shadow: 0 12px 35px rgba(99,102,241,.45);
-}
-
-/* 🧭 Footer */
-.footer-note {
-  color: rgba(255,255,255,.6);
-}
+  .price-card::after,
+  .hero-left::after,
+  .pricing-hero-inner::after,
+  .auth-card::after,
+  .chat-panel::after{ animation:none !important; }
+                   }
