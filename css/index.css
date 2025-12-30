@@ -1,13 +1,9 @@
 /* ==========================================================
-   Luna Astralis — css/index.css (HOME) — REFAIT
-   - Hero propre
-   - Étoiles plus visibles (hero + boxes)
-   - Scintillement discret (optionnel, respecte prefers-reduced-motion)
-   - Éléments : Feu / Eau / Terre / Air (si tu ajoutes le HTML)
+   Luna Astralis — css/index.css (HOME) — REFAIT pour TON HTML
+   Cible: .hero-card, .hero-visual, .trust, .grid4, .signs-grid, .sign-fire/earth/air/water
 ========================================================== */
 
-
-/* ============== HERO ============== */
+/* ============== HERO LAYOUT ============== */
 .hero{
   margin-top:18px;
   display:grid;
@@ -16,7 +12,8 @@
   align-items:stretch;
 }
 
-.hero-left{
+/* ta carte = .hero-card (pas .hero-left) */
+.hero-card{
   padding:22px;
   border-radius: var(--radius2);
   background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
@@ -24,10 +21,13 @@
   box-shadow: var(--shadow);
   position:relative;
   overflow:hidden;
+
+  /* ✅ important pour que les étoiles/effets du ::after restent visibles */
+  isolation:isolate;
 }
 
-/* halo coloré en fond */
-.hero-left::before{
+/* halo coloré */
+.hero-card::before{
   content:"";
   position:absolute;
   inset:-2px;
@@ -37,11 +37,10 @@
     radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.22), transparent 60%),
     radial-gradient(420px 260px at 60% 90%, rgba(124,255,223,.12), transparent 60%);
   opacity:.95;
-  filter: blur(.2px);
 }
 
-/* étoiles visibles + scintillement (léger) */
-.hero-left::after{
+/* étoiles visibles sur la carte hero */
+.hero-card::after{
   content:"";
   position:absolute;
   inset:0;
@@ -59,12 +58,20 @@
     radial-gradient(2px 2px at 28% 86%, rgba(215,199,255,.32), transparent 60%),
     radial-gradient(2px 2px at 58% 84%, rgba(124,255,223,.18), transparent 60%);
   mix-blend-mode: screen;
-  animation: twinkle 6.5s ease-in-out infinite;
+  animation: twinkle 6.8s ease-in-out infinite;
 }
 
-.hero-left > *{ position:relative; z-index:1; }
+.hero-card > *{ position:relative; z-index:1; }
 
-/* ============== TITRES / TEXTE ============== */
+/* header lignes dans la carte */
+.hero-kicker{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
 .astro-mark{
   display:inline-flex;
   align-items:center;
@@ -78,10 +85,21 @@
   font-size:12px;
   letter-spacing:.16em;
   text-transform: uppercase;
-  margin-bottom: 10px;
 }
 
-h1{
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.74);
+  font-weight:800;
+  font-size:12px;
+}
+
+.hero-title{
   margin:0 0 10px;
   font-size:42px;
   letter-spacing:-.02em;
@@ -95,14 +113,13 @@ h1{
   max-width:66ch;
 }
 
-/* ============== CHIPS ============== */
+/* chips */
 .astro-chips{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   margin-top:14px;
 }
-
 .chip{
   padding:8px 10px;
   border-radius:999px;
@@ -113,26 +130,48 @@ h1{
   backdrop-filter: blur(6px);
 }
 
-/* ============== CTA / NOTE ============== */
-.cta{
-  display:flex;
-  gap:12px;
-  margin-top:18px;
-  flex-wrap:wrap;
+/* CTA / note */
+.cta{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
+.note{ margin-top:14px; color:var(--muted2); font-size:12px; }
+
+/* Visuel hero à droite (si tu le gardes) */
+.hero-visual{
+  border-radius: var(--radius2);
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+  min-height: 220px;
+  position:relative;
+  overflow:hidden;
 }
 
-.note{
+/* ============== TRUST STRIP ============== */
+.trust{
   margin-top:14px;
-  color:var(--muted2);
-  font-size:12px;
-}
-
-/* ============== GRID 4 BOXES ============== */
-.grid4{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap:12px;
 }
+.trust-item{
+  padding:14px;
+  border-radius:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.14);
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.trust-ico{
+  width:28px; height:28px;
+  border-radius:10px;
+  display:grid; place-items:center;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+}
+.trust-title{ font-weight:1000; font-size:13px; margin-bottom:2px; }
+.trust-sub{ color:var(--muted); font-size:13px; line-height:1.4; }
+
+/* ============== GRID 4 STEPS ============== */
+.grid4{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
 
 .box{
   padding:14px;
@@ -141,6 +180,7 @@ h1{
   border:1px solid rgba(255,255,255,.16);
   position:relative;
   overflow:hidden;
+  isolation:isolate;
 }
 
 .box::after{
@@ -148,22 +188,20 @@ h1{
   position:absolute;
   inset:0;
   pointer-events:none;
-  opacity:.70;
+  opacity:.55;
   background-image:
-    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 44% 58%, rgba(255,255,255,.62), transparent),
-    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.70), transparent),
-    radial-gradient(2px 2px at 66% 18%, rgba(215,199,255,.22), transparent 60%);
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.78), transparent),
+    radial-gradient(1px 1px at 44% 58%, rgba(255,255,255,.60), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.68), transparent);
   mix-blend-mode: screen;
-  animation: twinkle 7.8s ease-in-out infinite;
+  animation: twinkle 8s ease-in-out infinite;
 }
-
 .box > *{ position:relative; z-index:1; }
 .box h3{ margin:0 0 6px; font-size:13px; }
 .box p{ margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
 
-/* ============== SIGNS ============== */
-.signs{
+/* ============== SIGNS GRID ============== */
+.signs.signs-grid{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
   gap:10px;
@@ -177,29 +215,44 @@ h1{
   font-weight:1000;
   color: rgba(255,255,255,.94);
   text-align:center;
+  text-decoration:none;
   transition: transform .12s ease, background .12s ease, border-color .12s ease;
 }
 
 .sign:hover{
   transform: translateY(-1px);
   background: rgba(255,255,255,.12);
-  border-color: rgba(215,199,255,.28);
 }
 
-/* ============== ELEMENTS (Feu / Eau / Terre / Air) ==============
-   À utiliser si tu ajoutes ce HTML sous .signs :
+/* ✅ Couleurs par élément (ça donne enfin des couleurs à tes signes) */
+.sign.sign-fire{
+  border-color: rgba(255,170,120,.42);
+  box-shadow: 0 0 0 1px rgba(255,170,120,.10), 0 16px 40px rgba(0,0,0,.30);
+}
+.sign.sign-water{
+  border-color: rgba(159,211,255,.50);
+  box-shadow: 0 0 0 1px rgba(159,211,255,.12), 0 16px 40px rgba(0,0,0,.30);
+}
+.sign.sign-earth{
+  border-color: rgba(124,255,223,.34);
+  box-shadow: 0 0 0 1px rgba(124,255,223,.10), 0 16px 40px rgba(0,0,0,.30);
+}
+.sign.sign-air{
+  border-color: rgba(215,199,255,.50);
+  box-shadow: 0 0 0 1px rgba(215,199,255,.12), 0 16px 40px rgba(0,0,0,.30);
+}
 
-   <div class="elements">
-     <span class="el el-fire">Feu</span>
-     <span class="el el-water">Eau</span>
-     <span class="el el-earth">Terre</span>
-     <span class="el el-air">Air</span>
-   </div>
-*/
+/* hover coloré subtil */
+.sign.sign-fire:hover{ background: rgba(255,170,120,.10); }
+.sign.sign-water:hover{ background: rgba(159,211,255,.10); }
+.sign.sign-earth:hover{ background: rgba(124,255,223,.08); }
+.sign.sign-air:hover{ background: rgba(215,199,255,.10); }
+
+/* ============== LÉGENDE ÉLÉMENTS ============== */
 .elements{
   display:flex;
-  flex-wrap:wrap;
   gap:10px;
+  flex-wrap:wrap;
   margin-top:12px;
 }
 
@@ -210,28 +263,16 @@ h1{
   font-weight:1000;
   letter-spacing:.06em;
   text-transform: uppercase;
-  border:1px solid rgba(255,255,255,.14);
   background: rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.14);
   color: rgba(255,255,255,.90);
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
 }
 
-.el-fire{
-  border-color: rgba(255,170,120,.30);
-  background: radial-gradient(220px 120px at 30% 20%, rgba(255,170,120,.18), rgba(255,255,255,.06));
-}
-.el-water{
-  border-color: rgba(159,211,255,.34);
-  background: radial-gradient(220px 120px at 30% 20%, rgba(159,211,255,.18), rgba(255,255,255,.06));
-}
-.el-earth{
-  border-color: rgba(124,255,223,.24);
-  background: radial-gradient(220px 120px at 30% 20%, rgba(124,255,223,.12), rgba(255,255,255,.06));
-}
-.el-air{
-  border-color: rgba(215,199,255,.32);
-  background: radial-gradient(220px 120px at 30% 20%, rgba(215,199,255,.18), rgba(255,255,255,.06));
-}
+/* mêmes couleurs que les boutons de signes */
+.el.sign-fire{ border-color: rgba(255,170,120,.42); background: rgba(255,170,120,.10); }
+.el.sign-water{ border-color: rgba(159,211,255,.50); background: rgba(159,211,255,.10); }
+.el.sign-earth{ border-color: rgba(124,255,223,.34); background: rgba(124,255,223,.08); }
+.el.sign-air{ border-color: rgba(215,199,255,.50); background: rgba(215,199,255,.10); }
 
 /* ============== ANIM ============== */
 @keyframes twinkle{
@@ -241,20 +282,17 @@ h1{
 
 /* ============== RESPONSIVE ============== */
 @media (max-width: 920px){
-  h1{ font-size:36px; }
+  .hero-title{ font-size:36px; }
   .grid4{ grid-template-columns: 1fr 1fr; }
-  .signs{ grid-template-columns: 1fr 1fr 1fr; }
+  .trust{ grid-template-columns: 1fr; }
+  .signs.signs-grid{ grid-template-columns: 1fr 1fr 1fr; }
 }
-
 @media (max-width: 520px){
   .grid4{ grid-template-columns: 1fr; }
-  .signs{ grid-template-columns: 1fr 1fr; }
+  .signs.signs-grid{ grid-template-columns: 1fr 1fr; }
 }
 
 /* ============== ACCESSIBILITY ============== */
 @media (prefers-reduced-motion: reduce){
-  .hero-left::after,
-  .box::after{
-    animation:none !important;
-  }
-}
+  .hero-card::after, .box::after{ animation:none !important; }
+   }
