@@ -6,8 +6,6 @@
    - Éléments : Feu / Eau / Terre / Air (si tu ajoutes le HTML)
 ========================================================== */
 
-/* TEST (tu peux enlever après) */
-body{ outline:6px solid #ff2d2d !important; }
 
 /* ============== HERO ============== */
 .hero{
