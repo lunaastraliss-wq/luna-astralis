@@ -631,3 +631,22 @@
     0 26px 90px rgba(140,107,255,.35),
     0 18px 60px rgba(0,0,0,.45);
 }
+/* === Micro-contraste premium (final) === */
+.hero-free{
+  position: relative;
+}
+
+.hero-free::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  pointer-events:none;
+  background:
+    radial-gradient(
+      420px 180px at 50% -20%,
+      rgba(215,199,255,.18),
+      transparent 60%
+    );
+  opacity:.9;
+}
