@@ -2,7 +2,7 @@
    Luna Astralis — styles.css (COMPLET + animation douce)
    Objectif:
    - Grand avatar bouge TRÈS DOUX (sidebar + hero mobile)
-   - Petit avatar (header) NE BOUGE PAS
+   - Petit avatar (mini header) NE BOUGE PAS
    - Avatars messages NE BOUGENT PAS
 ========================================================== */
 
@@ -113,17 +113,15 @@ body::after{
 
 /* =========================
    ✅ Animation AVATAR (douce, premium)
-   - Très faible amplitude
 ========================= */
 @keyframes lunaFloatSoft{
   0%   { transform: translate3d(0,0,0) scale(1); }
-  50%  { transform: translate3d(0,-4px,0) scale(1.008); }
+  50%  { transform: translate3d(0,-3px,0) scale(1.008); }
   100% { transform: translate3d(0,0,0) scale(1); }
 }
-
 @keyframes lunaGlowSoft{
   0%   { box-shadow: 0 0 0 rgba(215,199,255,0); }
-  50%  { box-shadow: 0 0 22px rgba(215,199,255,.08); }
+  50%  { box-shadow: 0 0 18px rgba(215,199,255,.08); }
   100% { box-shadow: 0 0 0 rgba(215,199,255,0); }
 }
 
@@ -541,8 +539,8 @@ h1{ margin:0 0 10px; font-size:40px; letter-spacing:-.02em; }
   width:100%; height:100%;
   object-fit:cover;
   display:block;
-  animation:none !important;   /* ✅ JAMAIS d’animation */
-  transform:none !important;   /* ✅ JAMAIS de transform */
+  animation:none !important;
+  transform:none !important;
 }
 
 .chat-messages{
@@ -602,8 +600,8 @@ h1{ margin:0 0 10px; font-size:40px; letter-spacing:-.02em; }
 .msg-avatar{
   object-fit:cover;
   border:1px solid rgba(255,255,255,.12);
-  animation:none !important;  /* ✅ PAS d’animation */
-  transform:none !important;  /* ✅ PAS de transform */
+  animation:none !important;
+  transform:none !important;
 }
 .msg-avatar-spacer{opacity:0}
 .msg-bubble{
@@ -664,23 +662,18 @@ h1{ margin:0 0 10px; font-size:40px; letter-spacing:-.02em; }
 
 /* ==========================================================
    ✅ ANIMATION: seulement GRAND avatar + grand cadre
-   - pas de petit avatar
-   - pas de message avatar
 ========================================================== */
 @media (prefers-reduced-motion: no-preference){
-  /* GRAND avatar (desktop sidebar) */
   .ai-face{
     animation: lunaFloatSoft 7.5s ease-in-out infinite;
     will-change: transform;
     transform-origin:center;
   }
-  /* GRAND avatar (mobile hero) */
   .chat-hero-img{
     animation: lunaFloatSoft 7.5s ease-in-out infinite;
     will-change: transform;
     transform-origin:center;
   }
-  /* Halo ultra soft (cadres du grand avatar seulement) */
   .ai-face-wrap,
   .chat-hero{
     animation: lunaGlowSoft 7.5s ease-in-out infinite;
@@ -694,4 +687,4 @@ h1{ margin:0 0 10px; font-size:40px; letter-spacing:-.02em; }
   .ai-face, .chat-hero-img{ animation:none !important; transform:none !important; }
   .ai-face-wrap, .chat-hero{ animation:none !important; }
   .ai-face-mini, .msg-avatar{ animation:none !important; transform:none !important; }
-                    }
+   }
