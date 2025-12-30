@@ -1,4 +1,4 @@
-/* ==========================================================
+7/* ==========================================================
    Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PULSE + COULEURS)
    - Hero haut centré (kicker/titre/texte)
    - Bloc “Commence gratuitement” centré + ✅ CTA VIOLET + pulse léger
@@ -591,4 +591,43 @@
       0 34px 130px rgba(120,78,255,.30),
       0 26px 90px rgba(0,0,0,.46);
   }
+}
+/* =========================================
+   FINAL CONTRASTE — enlève l’effet gris pâle
+========================================= */
+
+/* Assombrir le bloc gratuit (verre fumé) */
+.hero-free{
+  background:
+    radial-gradient(520px 240px at 12% 0%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.12), transparent 62%),
+    linear-gradient(
+      180deg,
+      rgba(20,24,45,.72),
+      rgba(12,14,30,.82)
+    );
+  border-color: rgba(215,199,255,.28);
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Texte du bloc plus contrasté */
+.hero-free-title{
+  color: rgba(255,255,255,.96);
+}
+
+.hero-free-sub{
+  color: rgba(255,255,255,.72);
+}
+
+/* CTA encore plus lisible par contraste */
+.hero-free-btn{
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(215,199,255,.85), transparent 62%),
+    radial-gradient(260px 160px at 82% 30%, rgba(159,211,255,.60), transparent 62%),
+    linear-gradient(180deg, #EDE7FF, #8C6BFF);
+  box-shadow:
+    0 26px 90px rgba(140,107,255,.35),
+    0 18px 60px rgba(0,0,0,.45);
 }
