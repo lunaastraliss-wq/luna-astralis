@@ -788,3 +788,27 @@ h1{
   .ai-face, .chat-hero-img, .msg-avatar{ animation:none !important; }
   .ai-face-wrap, .chat-hero{ animation:none !important; }
 }
+/* ===== FORCE ANIMATION (à mettre TOUT À LA FIN du CSS) ===== */
+
+@keyframes lunaFloatForce{
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(0,-10px,0) scale(1.04); }
+  100% { transform: translate3d(0,0,0) scale(1); }
+}
+
+/* Force sur les images IA du chat */
+.ai-face,
+.chat-hero-img,
+.ai-face-mini,
+.msg-avatar{
+  animation: lunaFloatForce 4s ease-in-out infinite !important;
+  will-change: transform !important;
+  transform-origin: center center !important;
+}
+
+/* (optionnel) si un parent bloque le rendu, on s'assure que l'image peut bouger */
+.ai-face-wrap,
+.chat-hero,
+.ai-face-mini-wrap{
+  transform: translateZ(0);
+}
