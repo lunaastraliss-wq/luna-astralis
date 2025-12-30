@@ -288,6 +288,33 @@
       @media (prefers-reduced-motion: reduce){
         *{scroll-behavior:auto!important}
       }
+
+      /* ===== ANIMATION (bouge l'image) ===== */
+      @keyframes lunaFloat{
+        0%   { transform: translate3d(0,0,0) scale(1); }
+        50%  { transform: translate3d(0,-10px,0) scale(1.04); }
+        100% { transform: translate3d(0,0,0) scale(1); }
+      }
+
+      /* On anime l'image IA + mini + avatar chat */
+      .ai-face,
+      .chat-hero-img,
+      .ai-face-mini,
+      .msg-avatar{
+        animation: lunaFloat 4s ease-in-out infinite;
+        will-change: transform;
+        transform-origin: center center;
+      }
+
+      /* Accessibilité : si l'utilisateur réduit les animations, on coupe */
+      @media (prefers-reduced-motion: reduce){
+        .ai-face,
+        .chat-hero-img,
+        .ai-face-mini,
+        .msg-avatar{
+          animation:none !important;
+        }
+      }
     </style>
   </head>
 
@@ -321,7 +348,7 @@
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
-        <!-- HERO MOBILE : description du signe affichée ici -->
+        <!-- HERO MOBILE -->
         <div class="chat-hero">
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
@@ -414,7 +441,7 @@
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-      // ✅ description sous le signe (desktop)
+      // description sous le signe (desktop)
       const aiDescEl = document.getElementById("aiDesc");
       if (aiDescEl) aiDescEl.textContent = signDesc;
 
@@ -451,7 +478,7 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
-      // ✅ Intro IA : pas de signe, pas de description dans le chat
+      // Intro IA : pas de signe, pas de description dans le chat
       addMessage(
         "ai",
         "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
