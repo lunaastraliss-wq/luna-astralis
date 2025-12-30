@@ -1,6 +1,6 @@
 /* ==========================================================
    Luna Astralis — css/index.css (HOME) — COMPLET (REFONTE)
-   - Hero propre (pas de bloc vide)
+   - Hero + bloc "Commencer gratuitement" (remplit la zone vide)
    - Trust + Steps + Signs
    - Couleurs plein bouton par élément (feu/terre/air/eau)
    - Hover + Glow premium + Focus clavier
@@ -130,12 +130,90 @@
   backdrop-filter: blur(6px);
 }
 
-/* CTA + note */
-.cta{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
-.note{ margin-top:12px; color:var(--muted2); font-size:12px; }
-
 /* IMPORTANT: neutralise tout bloc visuel qui crée une “case vide” */
 .hero-visual{ display:none !important; }
+
+/* ================= BLOC "COMMENCER GRATUITEMENT" ================= */
+.hero-free{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.16);
+  background:
+    radial-gradient(520px 240px at 10% 0%, rgba(215,199,255,.18), transparent 60%),
+    radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.16), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+  box-shadow: 0 18px 55px rgba(0,0,0,.28);
+}
+
+.hero-free-title{
+  margin:0 0 6px;
+  font-size:22px;
+  letter-spacing:-.02em;
+  line-height:1.15;
+}
+
+.hero-free-sub{
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+  max-width:62ch;
+}
+
+/* GROS bouton coloré (attire l’œil en 1 sec) */
+.hero-free-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px 16px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:1000;
+  letter-spacing:.02em;
+  color: rgba(10,12,22,.92);
+  border:1px solid rgba(255,255,255,.22);
+  background:
+    radial-gradient(220px 140px at 20% 30%, rgba(124,255,223,.45), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.42), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.95), rgba(159,211,255,.75));
+  box-shadow:
+    0 16px 50px rgba(159,211,255,.18),
+    0 16px 50px rgba(0,0,0,.35);
+  transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+}
+
+.hero-free-btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+  box-shadow:
+    0 20px 60px rgba(215,199,255,.20),
+    0 20px 60px rgba(0,0,0,.38);
+}
+
+.hero-free-btn:focus-visible{
+  outline:0;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.14),
+    0 0 0 6px rgba(159,211,255,.22),
+    0 22px 70px rgba(0,0,0,.45);
+}
+
+.hero-free-note{
+  margin-top:10px;
+  color: rgba(255,255,255,.70);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+
+/* Note bas de hero */
+.note{
+  margin-top:12px;
+  color:var(--muted2);
+  font-size:12px;
+}
 
 /* ================= TRUST ================= */
 .trust{
@@ -345,6 +423,8 @@
 @media (max-width: 520px){
   .grid4{ grid-template-columns: 1fr; }
   .signs.signs-grid{ grid-template-columns: 1fr 1fr; }
+  .hero-free-title{ font-size:20px; }
+  .hero-free{ padding:14px; }
 }
 
 /* ================= ACCESSIBILITY ================= */
