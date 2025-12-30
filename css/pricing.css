@@ -1,29 +1,33 @@
 /* ==========================================================
-   Luna Astralis — css/pricing.css (TARIFS) — REFAIT (PLUS COLORÉ)
-   - Plus de couleur (premium, pas flashy)
-   - 1 carte "featured" plus attirante
-   - CTA principal en dégradé astro
-   - Badges plus lisibles
+   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (PLUS COLORÉ + HALO PULSANT VISIBLE)
+   - Premium, pas flashy
+   - 1 carte featured (avec halo pulsant visible)
+   - CTA featured en dégradé astro
+   - Badges lisibles
+   IMPORTANT: Le halo est sur .price-halo (wrapper) car .price-card a overflow:hidden
 ========================================================== */
 
 .pricing-body .wrap{ padding-top:18px; }
 
+/* ============== HERO ============== */
 .pricing-hero{ margin-top:18px; }
+
 .pricing-hero-inner{
   padding:20px 20px;
   border-radius:24px;
+  position:relative;
+  overflow:hidden;
+
   background:
-    radial-gradient(880px 320px at 18% 18%, rgba(215,199,255,.30), transparent 62%),
+    radial-gradient(900px 340px at 18% 18%, rgba(215,199,255,.30), transparent 62%),
     radial-gradient(860px 320px at 86% 26%, rgba(159,211,255,.24), transparent 60%),
-    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.10), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
+
   border:1px solid rgba(255,255,255,.16);
   box-shadow: var(--shadow);
-  overflow:hidden;
-  position:relative;
 }
 
-/* étoiles visibles sur le hero pricing */
 .pricing-hero-inner::after{
   content:"";
   position:absolute;
@@ -32,14 +36,15 @@
   opacity:.70;
   background-image:
     radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.65), transparent),
+    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.62), transparent),
     radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.75), transparent),
-    radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.60), transparent),
+    radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.58), transparent),
     radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
     radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%),
     radial-gradient(1px 1px at 90% 72%, rgba(255,255,255,.55), transparent);
   mix-blend-mode: screen;
 }
+
 .pricing-hero-inner > *{ position:relative; z-index:1; }
 
 .pricing-kicker{
@@ -61,6 +66,7 @@
   margin:0 0 8px;
   font-size:40px;
   letter-spacing:-.02em;
+
   background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #7cffdf, #ffe7ff);
   -webkit-background-clip:text;
   background-clip:text;
@@ -92,6 +98,7 @@
 }
 .pricing-trust strong{ color: rgba(255,255,255,.92); }
 
+/* ============== GRID ============== */
 .pricing-grid{
   display:grid;
   grid-template-columns: repeat(4, minmax(0,1fr));
@@ -102,18 +109,19 @@
 /* =========================
    CARTES
 ========================= */
-
 .price-card{
   position:relative;
   padding:16px 16px 14px;
   border-radius:22px;
+
   background:
     radial-gradient(520px 260px at 18% 10%, rgba(215,199,255,.14), transparent 62%),
     radial-gradient(520px 260px at 86% 18%, rgba(159,211,255,.12), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+
   border:1px solid rgba(255,255,255,.16);
   box-shadow: 0 18px 60px rgba(0,0,0,.46);
-  overflow:hidden;
+  overflow:hidden;              /* garde les étoiles/gradients propres (mais coupe un halo externe) */
   min-height:292px;
   display:flex;
   flex-direction:column;
@@ -139,7 +147,7 @@
 .price-head, .price-features, .price-cta{ position:relative; z-index:1; }
 
 /* espace pour le badge */
-.price-head{ padding-top: 26px; }
+.price-head{ padding-top:26px; }
 
 .price-name{ font-weight:1100; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
 .price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
@@ -181,10 +189,9 @@
 }
 
 /* =========================
-   CARTE FEATURED (LA STAR)
-   -> mets la classe .price-featured sur UNE carte
+   FEATURED (LA STAR)
+   -> .price-card.price-featured
 ========================= */
-
 .price-featured{
   border:1px solid rgba(215,199,255,.60);
   background:
@@ -223,7 +230,6 @@
 /* =========================
    BADGES
 ========================= */
-
 .price-badge{
   position:absolute;
   top:12px;
@@ -242,6 +248,7 @@
     0 0 0 4px rgba(215,199,255,.10),
     0 12px 28px rgba(0,0,0,.42);
 }
+
 .price-badge.premium{
   background: linear-gradient(90deg, rgba(250,204,21,.98), rgba(245,158,11,.92));
   color: rgba(26,18,0,.96);
@@ -251,9 +258,57 @@
 }
 
 /* =========================
+   HALO ASTRO PULSANT (VISIBLE)
+   IMPORTANT: Le halo est sur un wrapper .price-halo
+========================= */
+.price-halo{
+  position:relative;
+}
+
+.price-halo::before{
+  content:"";
+  position:absolute;
+  inset:-26px;                 /* halo externe */
+  border-radius:32px;
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      60% 60% at 50% 50%,
+      rgba(215,199,255,.42),
+      rgba(159,211,255,.28),
+      rgba(124,255,223,.14),
+      transparent 72%
+    );
+
+  filter: blur(28px);
+  opacity:.70;
+  z-index:0;
+
+  animation: astroPulse 7.2s ease-in-out infinite;
+}
+
+/* la carte doit être au-dessus du halo */
+.price-halo > .price-card{
+  position:relative;
+  z-index:1;
+}
+
+@keyframes astroPulse{
+  0%   { opacity:.50; transform: scale(1); }
+  50%  { opacity:.92; transform: scale(1.04); }
+  100% { opacity:.50; transform: scale(1); }
+}
+
+/* Option: halo un peu plus “présent” au hover */
+.price-halo:hover::before{
+  opacity: 1;
+  filter: blur(26px);
+}
+
+/* =========================
    RESPONSIVE
 ========================= */
-
 @media (max-width:1100px){
   .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
@@ -263,60 +318,11 @@
   .pricing-title{ font-size:32px; }
 }
 
+/* Accessibilité */
 @media (prefers-reduced-motion: reduce){
   .pricing-hero-inner::after,
-  .price-card::after{ animation:none !important; }
-   }
-/* =========================
-   HALO ASTRO PULSANT (PREMIUM)
-========================= */
-
-.price-featured{
-  position: relative;
-  z-index: 2;
-}
-
-/* halo */
-.price-featured::after{
-  content:"";
-  position:absolute;
-  inset:-12px;
-  border-radius:26px;
-  pointer-events:none;
-
-  background:
-    radial-gradient(
-      60% 60% at 50% 50%,
-      rgba(215,199,255,.35),
-      rgba(159,211,255,.25),
-      transparent 70%
-    );
-
-  filter: blur(22px);
-  opacity:.55;
-
-  animation: astroPulse 7s ease-in-out infinite;
-}
-
-/* animation douce */
-@keyframes astroPulse{
-  0%{
-    opacity:.45;
-    transform: scale(1);
+  .price-card::after,
+  .price-halo::before{
+    animation:none !important;
   }
-  50%{
-    opacity:.75;
-    transform: scale(1.03);
-  }
-  100%{
-    opacity:.45;
-    transform: scale(1);
-  }
-}
-
-/* respect accessibilité */
-@media (prefers-reduced-motion: reduce){
-  .price-featured::after{
-    animation:none;
-  }
-}
+                               }
