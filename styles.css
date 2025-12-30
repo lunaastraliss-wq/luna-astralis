@@ -1,9 +1,9 @@
 /* ==========================================================
-   Luna Astralis — styles.css (COMPLET)
-   - Fond plus riche + étoiles TRÈS visibles partout
-   - Étoiles aussi sur les grosses cartes/hero (pour pas “disparaître”)
-   - Fix badge "LE PLUS POPULAIRE" qui chevauche le titre
-   - Home (index), pricing, auth (login/signup), chat
+   Luna Astralis — css/style.css (GLOBAL)
+   Commun à TOUTES les pages: index, pricing, login, signup, chat
+   - Thème + fond + étoiles
+   - Layout global + header + nav + boutons + footer
+   - Responsive global + accessibilité
 ========================================================== */
 
 /* ============== THEME ============== */
@@ -30,6 +30,7 @@
   --max:1120px;
 }
 
+/* ============== RESET ============== */
 *{box-sizing:border-box}
 html{height:auto}
 body{
@@ -37,10 +38,11 @@ body{
   min-height:100%;
   height:auto;
   position:relative;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    "Apple Color Emoji","Segoe UI Emoji";
   color:var(--text);
 
-  /* Fond plus profond + coloré */
   background:
     radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.22), transparent 60%),
     radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.18), transparent 58%),
@@ -55,10 +57,8 @@ a{color:inherit; text-decoration:none}
 img{max-width:100%; display:block}
 
 /* ==========================================================
-   FOND ASTRAL — ÉTOILES TRÈS VISIBLES (toutes pages)
-   IMPORTANT: on met 3 couches + scintillement doux
+   FOND ASTRAL — ÉTOILES (toutes pages)
 ========================================================== */
-
 @keyframes starTwinkle1{
   0%,100%{ opacity:.70; filter: blur(.05px); transform: translate3d(0,0,0); }
   50%{ opacity:1; filter: blur(.25px); transform: translate3d(0,-1px,0); }
@@ -72,7 +72,7 @@ img{max-width:100%; display:block}
   100%{ transform: translate3d(-12px, 8px, 0); }
 }
 
-/* Couche A — étoiles nettes (petites + nombreuses) */
+/* Couche A — étoiles nettes */
 body::before{
   content:"";
   position:fixed;
@@ -81,7 +81,6 @@ body::before{
   z-index:0;
 
   background-image:
-    /* beaucoup de petites étoiles */
     radial-gradient(1px 1px at 6% 14%, rgba(255,255,255,.95), transparent),
     radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.85), transparent),
     radial-gradient(1px 1px at 14% 26%, rgba(255,255,255,.95), transparent),
@@ -103,7 +102,6 @@ body::before{
     radial-gradient(1px 1px at 92% 14%, rgba(255,255,255,.86), transparent),
     radial-gradient(1px 1px at 96% 70%, rgba(255,255,255,.82), transparent),
 
-    /* quelques étoiles plus grosses (2px) */
     radial-gradient(2px 2px at 12% 34%, rgba(255,255,255,.55), transparent 60%),
     radial-gradient(2px 2px at 28% 72%, rgba(215,199,255,.40), transparent 62%),
     radial-gradient(2px 2px at 44% 20%, rgba(159,211,255,.38), transparent 62%),
@@ -114,7 +112,7 @@ body::before{
   animation: starTwinkle1 6.5s ease-in-out infinite alternate;
 }
 
-/* Couche B — voile scintillant + léger “drift” */
+/* Couche B — poussière + drift */
 body::after{
   content:"";
   position:fixed;
@@ -123,7 +121,6 @@ body::after{
   z-index:0;
 
   background-image:
-    /* “poussière d’étoiles” plus dense */
     radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,.40), transparent),
     radial-gradient(1px 1px at 16% 52%, rgba(255,255,255,.32), transparent),
     radial-gradient(1px 1px at 24% 82%, rgba(255,255,255,.30), transparent),
@@ -135,7 +132,6 @@ body::after{
     radial-gradient(1px 1px at 82% 66%, rgba(255,255,255,.30), transparent),
     radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,.34), transparent),
 
-    /* halos colorés très légers */
     radial-gradient(260px 200px at 18% 18%, rgba(215,199,255,.10), transparent 70%),
     radial-gradient(260px 200px at 82% 26%, rgba(159,211,255,.08), transparent 70%);
 
@@ -151,11 +147,11 @@ body::after{
   margin:0 auto;
   padding:22px 18px 30px;
   position:relative;
-  z-index:1; /* contenu au-dessus des étoiles */
+  z-index:1;
 }
 
 /* ==========================================================
-   HEADER (top)
+   HEADER (top) — commun
 ========================================================== */
 .top{
   max-width:var(--max);
@@ -180,6 +176,7 @@ body::after{
   flex:0 0 auto;
 }
 .logo img{width:100%; height:100%; object-fit:contain}
+
 .brand-text{min-width:0}
 .brand-name{
   letter-spacing:.22em;
@@ -221,7 +218,7 @@ body::after{
 }
 
 /* ==========================================================
-   BOUTONS
+   BOUTONS — commun
 ========================================================== */
 .btn{
   display:inline-flex; align-items:center; justify-content:center;
@@ -251,135 +248,16 @@ body::after{
 }
 
 /* ==========================================================
-   HOME (index)
+   SECTIONS / TYPO — commun (minimal)
 ========================================================== */
-.hero{
-  margin-top:18px;
-  display:grid;
-  grid-template-columns: 1fr;
-  gap:18px;
-  align-items:stretch;
-}
-
-.hero-left{
-  padding:22px;
-  border-radius: var(--radius2);
-  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow: var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-
-/* étoiles visibles SUR la couverture (pas seulement en fond global) */
-.hero-left::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.70;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.85), transparent),
-    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.70), transparent),
-    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.78), transparent),
-    radial-gradient(1px 1px at 62% 70%, rgba(255,255,255,.72), transparent),
-    radial-gradient(2px 2px at 78% 22%, rgba(159,211,255,.30), transparent 60%),
-    radial-gradient(2px 2px at 30% 78%, rgba(215,199,255,.26), transparent 60%);
-  mix-blend-mode: screen;
-}
-
-.hero-left::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  pointer-events:none;
-  background:
-    radial-gradient(620px 280px at 18% 22%, rgba(215,199,255,.24), transparent 62%),
-    radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.20), transparent 60%),
-    radial-gradient(420px 260px at 60% 90%, rgba(124,255,223,.10), transparent 60%);
-  opacity:.95;
-}
-.hero-left > *{ position:relative; z-index:1; }
-
-.astro-mark{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:8px 12px;
-  border-radius:999px;
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.82);
-  font-weight:1000;
-  font-size:12px;
-  letter-spacing:.16em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
-.lead{ margin:0; color:var(--muted); line-height:1.60; font-size:15px; max-width:66ch; }
-
-.astro-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 14px; }
-.chip{
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:12px;
-  color: rgba(255,255,255,.86);
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(6px);
-}
-
-.cta{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
-.note{ margin-top:14px; color:var(--muted2); font-size:12px; }
-
+h1,h2,h3{font-family: inherit}
 .section{margin-top:22px}
 .section h2{margin:0 0 10px; font-size:18px; letter-spacing:.01em}
 .sub{margin:0 0 14px; color:var(--muted2); font-size:13px}
 
-.grid4{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
-.box{
-  padding:14px;
-  border-radius:16px;
-  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.14);
-  position:relative;
-  overflow:hidden;
-}
-.box::after{
-  content:"";
-  position:absolute; inset:0;
-  pointer-events:none;
-  opacity:.55;
-  background-image:
-    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75), transparent),
-    radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.60), transparent);
-  mix-blend-mode: screen;
-}
-.box > *{position:relative; z-index:1;}
-.box h3{margin:0 0 6px; font-size:13px}
-.box p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
-
-.signs{ display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
-.sign{
-  padding:12px 12px;
-  border-radius:14px;
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  font-weight:1000;
-  color:rgba(255,255,255,.94);
-  text-align:center;
-  transition: transform .12s ease, background .12s ease, border-color .12s ease;
-}
-.sign:hover{
-  transform: translateY(-1px);
-  background: rgba(255,255,255,.12);
-  border-color: rgba(215,199,255,.28);
-}
-
-/* FOOTER */
+/* ==========================================================
+   FOOTER — commun
+========================================================== */
 .footer{
   margin-top:22px;
   padding-top:14px;
@@ -397,549 +275,12 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 .footer-note{color:var(--muted2)}
 
 /* ==========================================================
-   PRICING (pricing.html)
+   RESPONSIVE GLOBAL
 ========================================================== */
-.pricing-body .wrap{ padding-top:18px; }
-
-.pricing-hero{ margin-top:18px; }
-.pricing-hero-inner{
-  padding:18px 18px;
-  border-radius:24px;
-  background:
-    radial-gradient(760px 300px at 15% 20%, rgba(215,199,255,.26), transparent 62%),
-    radial-gradient(720px 300px at 85% 30%, rgba(159,211,255,.20), transparent 60%),
-    rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow: var(--shadow);
-  overflow:hidden;
-  position:relative;
-}
-
-/* étoiles visibles sur le HERO tarifs */
-.pricing-hero-inner::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.65;
-  background-image:
-    radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.65), transparent),
-    radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.75), transparent),
-    radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.60), transparent),
-    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
-    radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%);
-  mix-blend-mode: screen;
-}
-
-.pricing-hero-inner > *{ position:relative; z-index:1; }
-
-.pricing-kicker{
-  display:inline-flex;
-  align-items:center;
-  padding:8px 12px;
-  border-radius:999px;
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16);
-  color: rgba(255,255,255,.86);
-  font-weight:1000;
-  font-size:12px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin-bottom:10px;
-}
-
-.pricing-title{
-  margin:0 0 8px;
-  font-size:40px;
-  letter-spacing:-.02em;
-  background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #ffe7ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color: transparent;
-}
-
-.pricing-subtitle{
-  margin:0 0 10px;
-  color: rgba(255,255,255,.78);
-  line-height:1.55;
-  font-size:14px;
-}
-
-.pricing-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
-
-.pricing-actions{ display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
-.hero-cta{ border-radius:14px; }
-.hero-cta.ghost{
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow:none;
-}
-
-/* texte confiance (si tu l’ajoutes dans pricing.html) */
-.pricing-trust{
-  margin-top:10px;
-  color: rgba(255,255,255,.74);
-  font-size:12px;
-  line-height:1.55;
-}
-.pricing-trust strong{ color: rgba(255,255,255,.92); }
-
-.pricing-grid{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
-  gap:14px;
-  align-items:stretch;
-}
-
-/* cartes */
-.price-card{
-  position:relative;
-  padding:16px 16px 14px;
-  border-radius:22px;
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow: 0 18px 60px rgba(0,0,0,.46);
-  overflow:hidden;
-  min-height:292px;
-  display:flex;
-  flex-direction:column;
-}
-
-/* étoiles visibles sur chaque carte (important) */
-.price-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.55;
-  background-image:
-    radial-gradient(1px 1px at 14% 20%, rgba(255,255,255,.70), transparent),
-    radial-gradient(1px 1px at 22% 62%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,.62), transparent),
-    radial-gradient(1px 1px at 68% 70%, rgba(255,255,255,.50), transparent),
-    radial-gradient(2px 2px at 82% 18%, rgba(159,211,255,.22), transparent 60%),
-    radial-gradient(2px 2px at 32% 82%, rgba(215,199,255,.18), transparent 60%);
-  mix-blend-mode: screen;
-}
-
-.price-card::before{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  background:
-    radial-gradient(420px 240px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
-    radial-gradient(420px 240px at 85% 0%, rgba(159,211,255,.16), transparent 62%),
-    radial-gradient(420px 240px at 55% 100%, rgba(124,255,223,.10), transparent 62%);
-  opacity:.95;
-  pointer-events:none;
-}
-
-.price-head,
-.price-features,
-.price-cta{ position:relative; z-index:1; }
-
-/* IMPORTANT: on ajoute un espace en haut pour que le badge ne chevauche JAMAIS le titre */
-.price-head{ padding-top: 24px; }
-
-.price-name{ font-weight:1000; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
-.price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
-.price-was{ color:rgba(255,255,255,.55); font-weight:900; font-size:14px; }
-.price-now{ color:rgba(255,255,255,.95); font-weight:1100; font-size:32px; letter-spacing:-.02em; }
-.price-period{ color:rgba(255,255,255,.74); font-weight:1000; font-size:13px; }
-.price-mini{ margin-top:8px; color:rgba(255,255,255,.70); font-size:12px; line-height:1.35; }
-
-.price-features{
-  margin:14px 0 14px;
-  padding-left:18px;
-  color:rgba(255,255,255,.90);
-  line-height:1.45;
-  font-size:13px;
-}
-.price-features li{ margin:8px 0; }
-.price-features li::marker{ color: rgba(159,211,255,.98); }
-
-.price-cta{
-  margin-top:auto;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  width:100%;
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.10);
-  box-shadow: 0 12px 28px rgba(0,0,0,.28);
-  color: rgba(255,255,255,.95);
-  font-weight:1000;
-  transition: transform .12s ease, filter .12s ease, background .12s ease;
-}
-.price-cta:hover{ transform: translateY(-1px); filter: brightness(1.06); background: rgba(255,255,255,.14); }
-
-.price-featured{
-  border:1px solid rgba(215,199,255,.55);
-  background:
-    radial-gradient(520px 320px at 30% 10%, rgba(215,199,255,.28), transparent 60%),
-    radial-gradient(520px 320px at 90% 20%, rgba(159,211,255,.22), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
-  box-shadow:
-    0 22px 70px rgba(0,0,0,.55),
-    0 0 0 1px rgba(215,199,255,.10) inset;
-  transform: translateY(-4px);
-}
-
-.price-featured .price-now{
-  font-size:34px;
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
-}
-
-/* Badge — position fixe, jamais sur le titre */
-.price-badge{
-  position:absolute;
-  top:12px;
-  right:12px;
-  z-index:3;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:1100;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color: rgba(7,10,22,.96);
-  background: linear-gradient(90deg, rgba(215,199,255,.98), rgba(159,211,255,.98));
-  border:1px solid rgba(255,255,255,.22);
-  box-shadow: 0 12px 26px rgba(0,0,0,.40);
-}
-.price-badge.premium{
-  background: linear-gradient(90deg, rgba(250,204,21,.98), rgba(245,158,11,.92));
-  color: rgba(26,18,0,.96);
-}
-
-.btn-primary{
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  color: rgba(7,10,22,.95);
-  border: 1px solid rgba(255,255,255,.22);
-}
-
-/* Responsive pricing */
-@media (max-width:1100px){
-  .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-}
-@media (max-width:560px){
-  .pricing-grid{ grid-template-columns: 1fr; }
-  .pricing-title{ font-size:32px; }
-}
-
-/* ==========================================================
-   AUTH (login/signup)
-========================================================== */
-.auth-wrap{display:grid;place-items:center;padding-top:28px; position:relative; z-index:1;}
-.auth-card{
-  width:min(520px, 100%);
-  padding:18px;
-  border-radius: var(--radius2);
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow: var(--shadow);
-  position:relative;
-  overflow:hidden;
-}
-/* étoiles visibles sur auth card */
-.auth-card::after{
-  content:"";
-  position:absolute; inset:0;
-  pointer-events:none;
-  opacity:.55;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.65), transparent),
-    radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 70% 64%, rgba(255,255,255,.50), transparent),
-    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.18), transparent 60%);
-  mix-blend-mode: screen;
-}
-.auth-card > *{ position:relative; z-index:1; }
-
-.auth-title{margin:4px 0 6px;font-size:22px;letter-spacing:-.01em}
-.auth-sub{margin:0 0 14px;color: var(--muted);font-size:13px;line-height:1.5}
-
-.auth-google{
-  width:100%;
-  justify-content:center;
-  gap:12px;
-  background: rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow:none;
-}
-.auth-google:hover{ background: rgba(255,255,255,.14); }
-.google-icon{width:18px;height:18px;display:block}
-
-.auth-sep{
-  display:grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items:center;
-  gap:12px;
-  margin:14px 0;
-  color: rgba(255,255,255,.60);
-  font-size:12px;
-}
-.auth-sep::before,
-.auth-sep::after{
-  content:"";
-  height:1px;
-  background: rgba(255,255,255,.12);
-}
-.auth-form{display:grid;gap:10px}
-.auth-label{font-size:12px;color: rgba(255,255,255,.78);margin-top:2px}
-.auth-input{
-  width:100%;
-  padding:12px 12px;
-  border-radius:12px;
-  outline:none;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.08);
-  color:#fff;
-}
-.auth-input:focus{
-  border-color: rgba(215,199,255,.45);
-  box-shadow: 0 0 0 3px rgba(215,199,255,.14);
-}
-.auth-submit{width:100%;margin-top:4px}
-.auth-forgot{
-  border:0;
-  background: transparent;
-  color: rgba(255,255,255,.74);
-  text-align:left;
-  padding:0;
-  font-size:12px;
-  cursor:pointer;
-}
-.auth-forgot:hover{ color: rgba(255,255,255,.94); }
-.auth-legal{
-  margin:10px 0 0;
-  font-size:11px;
-  line-height:1.45;
-  color: rgba(255,255,255,.58);
-}
-.auth-switch{margin:10px 0 0;font-size:12px;color: rgba(255,255,255,.74)}
-.auth-link{
-  color: rgba(255,255,255,.95);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-/* ==========================================================
-   CHAT (si tu l’utilises)
-========================================================== */
-.chat-body{
-  margin:0;
-  min-height:100svh;
-  color:var(--text);
-  overflow:hidden;
-}
-
-.chat-top{
-  position:sticky;
-  top:0;
-  z-index:50;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:12px 14px;
-  background: rgba(7,10,22,.76);
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(255,255,255,.12);
-}
-
-.chat-brand{ display:flex; align-items:center; gap:10px; min-width:0; }
-.chat-logo{
-  width:36px;
-  height:36px;
-  border-radius:12px;
-  background: rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  padding:6px;
-  object-fit:contain;
-  flex:0 0 auto;
-}
-
-.chat-brand-text{min-width:0}
-.chat-brand-name{
-  font-weight:1100;
-  font-size:11px;
-  letter-spacing:.22em;
-  opacity:.94;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.chat-brand-sub{
-  font-size:11px;
-  color:var(--muted2);
-  margin-top:2px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.chat-back{
-  font-size:12px;
-  color:rgba(255,255,255,.80);
-  padding:10px 12px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.08);
-  white-space:nowrap;
-}
-
-.chat-wrap{
-  max-width:var(--max);
-  margin:0 auto;
-  height: calc(100svh - 60px);
-  min-height:0;
-  display:grid;
-  grid-template-columns: 1fr;
-}
-
-.chat-side{display:none}
-
-.chat-panel{
-  min-height:0;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  border-radius: var(--radius2);
-  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
-  border:1px solid rgba(255,255,255,.12);
-  box-shadow: var(--shadow);
-  margin:14px;
-  position:relative;
-  overflow:hidden;
-}
-.chat-panel::after{
-  content:"";
-  position:absolute; inset:0;
-  pointer-events:none;
-  opacity:.45;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.45), transparent),
-    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.40), transparent);
-  mix-blend-mode: screen;
-}
-
-.chat-panel > *{ position:relative; z-index:1; }
-
-.chat-messages{
-  flex:1 1 auto;
-  min-height:0;
-  overflow:auto;
-  padding:14px 14px 10px;
-}
-
-.chat-inputbar{
-  flex:0 0 auto;
-  display:flex;
-  gap:10px;
-  padding:12px 12px calc(12px + env(safe-area-inset-bottom));
-  background: rgba(7,10,22,.78);
-  backdrop-filter: blur(10px);
-  border-top:1px solid rgba(255,255,255,.12);
-}
-
-.chat-input{
-  flex:1;
-  width:100%;
-  padding:12px 12px;
-  border-radius:14px;
-  outline:none;
-  border:1px solid rgba(255,255,255,.16);
-  background: rgba(255,255,255,.08);
-  color:#fff;
-}
-.chat-input:focus{
-  border-color: rgba(215,199,255,.45);
-  box-shadow: 0 0 0 3px rgba(215,199,255,.14);
-}
-.chat-send{
-  padding:12px 14px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.16);
-  background: linear-gradient(90deg, rgba(215,199,255,.45), rgba(159,211,255,.36));
-  color:var(--text);
-  font-weight:1100;
-}
-
-/* bulles */
-.msg-row{
-  display:grid;
-  grid-template-columns: 34px 1fr;
-  gap:10px;
-  margin:10px 0;
-  align-items:flex-end;
-}
-.msg-avatar, .msg-avatar-spacer{
-  width:34px;
-  height:34px;
-  border-radius:14px;
-  flex:0 0 auto;
-}
-.msg-avatar{
-  object-fit:cover;
-  border:1px solid rgba(255,255,255,.14);
-}
-.msg-avatar-spacer{opacity:0}
-.msg-bubble{
-  padding:12px 12px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.08);
-  color: rgba(255,255,255,.92);
-  line-height:1.45;
-  font-size:14px;
-  max-width:70ch;
-  white-space:pre-wrap;
-}
-.msg-user .msg-bubble{
-  justify-self:end;
-  background: rgba(215,199,255,.16);
-  border-color: rgba(215,199,255,.26);
-}
-
-/* Desktop sidebar */
-@media (min-width: 920px){
-  .chat-wrap{
-    grid-template-columns: 360px 1fr;
-    padding:14px;
-    height: calc(100vh - 60px);
-  }
-  .chat-panel{margin:0}
-  .chat-side{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    padding:14px;
-    border-radius: var(--radius2);
-    background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
-    border:1px solid rgba(255,255,255,.12);
-    box-shadow: var(--shadow);
-    overflow:auto;
-    min-height:0;
-  }
-}
-
-/* ==========================================================
-   RESPONSIVE (home)
-========================================================== */
-@media (max-width: 920px){
-  h1{font-size:36px}
-  .grid4{grid-template-columns: 1fr 1fr}
-  .signs{grid-template-columns: 1fr 1fr 1fr}
-}
 @media (max-width: 520px){
-  .grid4{grid-template-columns: 1fr}
-  .signs{grid-template-columns: 1fr 1fr}
   .nav a:not(.btn){display:none}
+  .top{padding:14px 14px 0}
+  .wrap{padding:18px 14px 26px}
 }
 
 /* ==========================================================
@@ -947,9 +288,4 @@ h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
 ========================================================== */
 @media (prefers-reduced-motion: reduce){
   body::before, body::after{ animation:none !important; }
-  .price-card::after,
-  .hero-left::after,
-  .pricing-hero-inner::after,
-  .auth-card::after,
-  .chat-panel::after{ animation:none !important; }
 }
