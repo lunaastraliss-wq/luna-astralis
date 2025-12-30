@@ -482,3 +482,51 @@
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior:auto !important; }
    }
+/* ===== FIX QUEUE BULLE IA (à coller à la FIN) ===== */
+
+/* important: ne pas couper la pointe */
+.msg-bubble{
+  overflow: visible !important;
+}
+
+/* la bulle doit pouvoir afficher sa pointe */
+.msg-ai .msg-bubble{
+  position: relative;
+  overflow: visible !important;
+}
+
+/* la queue */
+.msg-ai .msg-bubble::before{
+  content:"";
+  position:absolute;
+  left:-8px;
+  top:18px;
+  width:16px;
+  height:16px;
+
+  /* même couleur que la bulle IA */
+  background: rgba(0,0,0,.24);
+
+  border-left:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+
+  transform: rotate(45deg);
+  border-bottom-left-radius:3px;
+  z-index: 2;
+}
+
+/* optionnel: si tu veux que la queue ait aussi le halo astro */
+.msg-ai .msg-bubble::after{
+  content:"";
+  position:absolute;
+  left:-10px;
+  top:16px;
+  width:20px;
+  height:20px;
+  border-radius:6px;
+  transform: rotate(45deg);
+  background: rgba(146,112,255,.10);
+  filter: blur(2px);
+  z-index: 1;
+  pointer-events:none;
+}
