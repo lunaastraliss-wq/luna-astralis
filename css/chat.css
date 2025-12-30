@@ -1,0 +1,202 @@
+/* ==========================================================
+   Luna Astralis — css/chat.css (CHAT)
+========================================================== */
+
+.chat-body{
+  margin:0;
+  min-height:100svh;
+  color:var(--text);
+  overflow:hidden;
+}
+
+.chat-top{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background: rgba(7,10,22,.76);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+.chat-brand{ display:flex; align-items:center; gap:10px; min-width:0; }
+.chat-logo{
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  background: rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  padding:6px;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+
+.chat-brand-text{min-width:0}
+.chat-brand-name{
+  font-weight:1100;
+  font-size:11px;
+  letter-spacing:.22em;
+  opacity:.94;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.chat-brand-sub{
+  font-size:11px;
+  color:var(--muted2);
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.chat-back{
+  font-size:12px;
+  color:rgba(255,255,255,.80);
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08);
+  white-space:nowrap;
+}
+
+.chat-wrap{
+  max-width:var(--max);
+  margin:0 auto;
+  height: calc(100svh - 60px);
+  min-height:0;
+  display:grid;
+  grid-template-columns: 1fr;
+}
+
+.chat-side{display:none}
+
+.chat-panel{
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  border-radius: var(--radius2);
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow: var(--shadow);
+  margin:14px;
+  position:relative;
+}
+.chat-panel::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.45;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.45), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.40), transparent);
+  mix-blend-mode: screen;
+}
+.chat-panel > *{ position:relative; z-index:1; }
+
+.chat-messages{
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  padding:14px 14px 10px;
+}
+
+.chat-inputbar{
+  flex:0 0 auto;
+  display:flex;
+  gap:10px;
+  padding:12px 12px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(7,10,22,.78);
+  backdrop-filter: blur(10px);
+  border-top:1px solid rgba(255,255,255,.12);
+}
+
+.chat-input{
+  flex:1;
+  width:100%;
+  padding:12px 12px;
+  border-radius:14px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  color:#fff;
+}
+.chat-input:focus{
+  border-color: rgba(215,199,255,.45);
+  box-shadow: 0 0 0 3px rgba(215,199,255,.14);
+}
+
+.chat-send{
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.16);
+  background: linear-gradient(90deg, rgba(215,199,255,.45), rgba(159,211,255,.36));
+  color:var(--text);
+  font-weight:1100;
+}
+
+/* bulles */
+.msg-row{
+  display:grid;
+  grid-template-columns: 34px 1fr;
+  gap:10px;
+  margin:10px 0;
+  align-items:flex-end;
+}
+.msg-avatar, .msg-avatar-spacer{
+  width:34px;
+  height:34px;
+  border-radius:14px;
+  flex:0 0 auto;
+}
+.msg-avatar{ object-fit:cover; border:1px solid rgba(255,255,255,.14); }
+.msg-avatar-spacer{opacity:0}
+
+.msg-bubble{
+  padding:12px 12px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.08);
+  color: rgba(255,255,255,.92);
+  line-height:1.45;
+  font-size:14px;
+  max-width:70ch;
+  white-space:pre-wrap;
+}
+.msg-user .msg-bubble{
+  justify-self:end;
+  background: rgba(215,199,255,.16);
+  border-color: rgba(215,199,255,.26);
+}
+
+/* desktop sidebar */
+@media (min-width: 920px){
+  .chat-wrap{
+    grid-template-columns: 360px 1fr;
+    padding:14px;
+    height: calc(100vh - 60px);
+  }
+  .chat-panel{margin:0}
+  .chat-side{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    padding:14px;
+    border-radius: var(--radius2);
+    background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow: var(--shadow);
+    overflow:auto;
+    min-height:0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .chat-panel::after{ animation:none !important; }
+}
