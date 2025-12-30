@@ -267,3 +267,56 @@
   .pricing-hero-inner::after,
   .price-card::after{ animation:none !important; }
    }
+/* =========================
+   HALO ASTRO PULSANT (PREMIUM)
+========================= */
+
+.price-featured{
+  position: relative;
+  z-index: 2;
+}
+
+/* halo */
+.price-featured::after{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border-radius:26px;
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      60% 60% at 50% 50%,
+      rgba(215,199,255,.35),
+      rgba(159,211,255,.25),
+      transparent 70%
+    );
+
+  filter: blur(22px);
+  opacity:.55;
+
+  animation: astroPulse 7s ease-in-out infinite;
+}
+
+/* animation douce */
+@keyframes astroPulse{
+  0%{
+    opacity:.45;
+    transform: scale(1);
+  }
+  50%{
+    opacity:.75;
+    transform: scale(1.03);
+  }
+  100%{
+    opacity:.45;
+    transform: scale(1);
+  }
+}
+
+/* respect accessibilité */
+@media (prefers-reduced-motion: reduce){
+  .price-featured::after{
+    animation:none;
+  }
+}
