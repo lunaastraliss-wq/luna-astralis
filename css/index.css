@@ -1,8 +1,11 @@
 /* ==========================================================
-   Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PULSE)
-   - Haut centré (kicker/titre/texte/chips)
-   - Bloc “Commence gratuitement” centré
-   - Bouton punchy + pulse léger (désactivé si reduce-motion)
+   Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PULSE + COULEURS)
+   - Hero haut centré (kicker/titre/texte)
+   - Bloc “Commence gratuitement” centré + bouton pulse léger
+   - Trust + Steps + Signs
+   - ✅ Couleurs par élément (feu/terre/air/eau) RESTAURÉES
+   - ✅ Punch coloré pour les 4 cartes (Steps)
+   - Hover + Focus clavier + Reduced-motion ok
 ========================================================== */
 
 /* ================= HERO ================= */
@@ -71,7 +74,6 @@
   text-align:center;
   display:grid;
   justify-items:center;
-  gap:0;
 }
 
 .hero-kicker{
@@ -81,9 +83,7 @@
   flex-wrap:wrap;
   margin-bottom:10px;
 }
-.hero-kicker-center{
-  justify-content:center;
-}
+.hero-kicker-center{ justify-content:center; }
 
 .astro-mark{
   display:inline-flex;
@@ -128,16 +128,15 @@
 }
 .lead-center{ text-align:center; }
 
-/* Chips centrées */
+/* Chips (si tu les gardes) */
 .astro-chips{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   margin-top:14px;
 }
-.astro-chips-center{
-  justify-content:center;
-}
+.astro-chips-center{ justify-content:center; }
+
 .chip{
   padding:8px 10px;
   border-radius:999px;
@@ -165,15 +164,13 @@
   background:
     radial-gradient(520px 240px at 10% 0%, rgba(215,199,255,.18), transparent 60%),
     radial-gradient(520px 260px at 90% 20%, rgba(159,211,255,.16), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+    linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
   box-shadow: 0 18px 55px rgba(0,0,0,.28);
-  max-width: 520px;
-  width:min(520px, 100%);
+  max-width: 540px;
+  width:min(540px, 100%);
 }
 
-.hero-free-center{
-  text-align:center;
-}
+.hero-free-center{ text-align:center; }
 
 .hero-free-title{
   margin:0 0 6px;
@@ -214,7 +211,6 @@
     0 16px 50px rgba(0,0,0,.35);
   transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
 }
-
 .hero-free-btn:hover{
   transform: translateY(-2px);
   filter: brightness(1.04);
@@ -222,7 +218,6 @@
     0 22px 70px rgba(215,199,255,.22),
     0 22px 70px rgba(0,0,0,.40);
 }
-
 .hero-free-btn:focus-visible{
   outline:0;
   box-shadow:
@@ -231,12 +226,11 @@
     0 22px 70px rgba(0,0,0,.45);
 }
 
-/* ✅ Pulse léger (pas agressif) */
+/* ✅ Pulse léger */
 .hero-free-btn--pulse{
   animation: pulseGlow 2.2s ease-in-out infinite;
   transform-origin:center;
 }
-
 @keyframes pulseGlow{
   0%, 100%{
     transform: translateY(0) scale(1);
@@ -313,6 +307,7 @@
   isolation:isolate;
 }
 
+/* étoiles dans cartes */
 .box::after{
   content:"";
   position:absolute;
@@ -344,6 +339,39 @@
 }
 .step-ico{ font-size:14px; opacity:.95; }
 
+/* ✅ PUNCH coloré des 4 cartes (Steps) */
+.box.step:nth-child(1){
+  border-color: rgba(215,199,255,.26);
+  background:
+    radial-gradient(420px 220px at 20% 10%, rgba(215,199,255,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+}
+.box.step:nth-child(2){
+  border-color: rgba(159,211,255,.28);
+  background:
+    radial-gradient(420px 220px at 20% 10%, rgba(159,211,255,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+}
+.box.step:nth-child(3){
+  border-color: rgba(255,170,120,.26);
+  background:
+    radial-gradient(420px 220px at 20% 10%, rgba(255,170,120,.16), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+}
+.box.step:nth-child(4){
+  border-color: rgba(124,255,223,.22);
+  background:
+    radial-gradient(420px 220px at 20% 10%, rgba(124,255,223,.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+}
+
+/* Petit hover premium sur steps */
+.box.step:hover{
+  transform: translateY(-2px);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  box-shadow: 0 18px 55px rgba(0,0,0,.34);
+}
+
 /* ================= SIGNS GRID ================= */
 .signs.signs-grid{
   display:grid;
@@ -363,12 +391,10 @@
   box-shadow: 0 14px 40px rgba(0,0,0,.30);
   transition: transform .12s ease, filter .12s ease, border-color .12s ease, box-shadow .12s ease;
 }
-
 .sign:hover{
   transform: translateY(-2px);
   filter: brightness(1.05);
 }
-
 .sign:focus-visible{
   outline: 0;
   box-shadow:
@@ -376,6 +402,88 @@
     0 0 0 6px rgba(159,211,255,.18),
     0 18px 55px rgba(0,0,0,.40);
 }
+
+/* ================= COULEURS PAR ÉLÉMENT (RESTORE) ================= */
+/* FEU */
+.sign.sign-fire{
+  border-color: rgba(255,170,120,.55);
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(255,170,120,.28), transparent 62%),
+    linear-gradient(180deg, rgba(255,170,120,.18), rgba(255,255,255,.05));
+}
+.sign.sign-fire:hover{
+  border-color: rgba(255,170,120,.90);
+  box-shadow:
+    0 18px 55px rgba(255,170,120,.14),
+    0 18px 55px rgba(0,0,0,.38);
+}
+
+/* EAU */
+.sign.sign-water{
+  border-color: rgba(159,211,255,.60);
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(159,211,255,.28), transparent 62%),
+    linear-gradient(180deg, rgba(159,211,255,.16), rgba(255,255,255,.05));
+}
+.sign.sign-water:hover{
+  border-color: rgba(159,211,255,.95);
+  box-shadow:
+    0 18px 55px rgba(159,211,255,.16),
+    0 18px 55px rgba(0,0,0,.38);
+}
+
+/* TERRE */
+.sign.sign-earth{
+  border-color: rgba(124,255,223,.45);
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(124,255,223,.22), transparent 62%),
+    linear-gradient(180deg, rgba(124,255,223,.12), rgba(255,255,255,.05));
+}
+.sign.sign-earth:hover{
+  border-color: rgba(124,255,223,.78);
+  box-shadow:
+    0 18px 55px rgba(124,255,223,.12),
+    0 18px 55px rgba(0,0,0,.38);
+}
+
+/* AIR */
+.sign.sign-air{
+  border-color: rgba(215,199,255,.65);
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(215,199,255,.26), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.16), rgba(255,255,255,.05));
+}
+.sign.sign-air:hover{
+  border-color: rgba(215,199,255,.96);
+  box-shadow:
+    0 18px 55px rgba(215,199,255,.16),
+    0 18px 55px rgba(0,0,0,.38);
+}
+
+/* ================= LÉGENDE ÉLÉMENTS ================= */
+.elements{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.el{
+  padding:7px 10px;
+  border-radius:14px;
+  font-size:12px;
+  font-weight:1000;
+  letter-spacing:.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.07);
+}
+
+.el.sign-fire{ border-color: rgba(255,170,120,.55); background: rgba(255,170,120,.12); }
+.el.sign-water{ border-color: rgba(159,211,255,.60); background: rgba(159,211,255,.12); }
+.el.sign-earth{ border-color: rgba(124,255,223,.45); background: rgba(124,255,223,.10); }
+.el.sign-air{ border-color: rgba(215,199,255,.65); background: rgba(215,199,255,.12); }
 
 /* ================= ANIM ================= */
 @keyframes twinkle{
@@ -400,6 +508,11 @@
 
 /* ================= ACCESSIBILITY ================= */
 @media (prefers-reduced-motion: reduce){
-  .hero-card::after, .box::after{ animation:none !important; }
-  .hero-free-btn--pulse{ animation:none !important; }
-                   }
+  .hero-card::after,
+  .box::after{
+    animation:none !important;
+  }
+  .hero-free-btn--pulse{
+    animation:none !important;
+  }
+}
