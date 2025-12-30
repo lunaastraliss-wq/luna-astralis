@@ -1,0 +1,141 @@
+/* ==========================================================
+   Luna Astralis — css/index.css (HOME)
+========================================================== */
+
+.hero{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:18px;
+  align-items:stretch;
+}
+
+.hero-left{
+  padding:22px;
+  border-radius: var(--radius2);
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+/* étoiles visibles sur la carte hero */
+.hero-left::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.70;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.85), transparent),
+    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.70), transparent),
+    radial-gradient(1px 1px at 44% 28%, rgba(255,255,255,.78), transparent),
+    radial-gradient(1px 1px at 62% 70%, rgba(255,255,255,.72), transparent),
+    radial-gradient(2px 2px at 78% 22%, rgba(159,211,255,.30), transparent 60%),
+    radial-gradient(2px 2px at 30% 78%, rgba(215,199,255,.26), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.hero-left::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  pointer-events:none;
+  background:
+    radial-gradient(620px 280px at 18% 22%, rgba(215,199,255,.24), transparent 62%),
+    radial-gradient(520px 260px at 80% 18%, rgba(159,211,255,.20), transparent 60%),
+    radial-gradient(420px 260px at 60% 90%, rgba(124,255,223,.10), transparent 60%);
+  opacity:.95;
+}
+
+.hero-left > *{ position:relative; z-index:1; }
+
+.astro-mark{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color: rgba(255,255,255,.82);
+  font-weight:1000;
+  font-size:12px;
+  letter-spacing:.16em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+h1{ margin:0 0 10px; font-size:42px; letter-spacing:-.02em; }
+.lead{ margin:0; color:var(--muted); line-height:1.60; font-size:15px; max-width:66ch; }
+
+.astro-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 14px; }
+.chip{
+  padding:8px 10px;
+  border-radius:999px;
+  font-size:12px;
+  color: rgba(255,255,255,.86);
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+}
+
+.cta{ display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
+.note{ margin-top:14px; color:var(--muted2); font-size:12px; }
+
+.grid4{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
+.box{
+  padding:14px;
+  border-radius:16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.14);
+  position:relative;
+  overflow:hidden;
+}
+.box::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75), transparent),
+    radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.60), transparent);
+  mix-blend-mode: screen;
+}
+.box > *{position:relative; z-index:1;}
+.box h3{margin:0 0 6px; font-size:13px}
+.box p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
+
+.signs{ display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; }
+.sign{
+  padding:12px 12px;
+  border-radius:14px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  font-weight:1000;
+  color:rgba(255,255,255,.94);
+  text-align:center;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.sign:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.12);
+  border-color: rgba(215,199,255,.28);
+}
+
+/* responsive home */
+@media (max-width: 920px){
+  h1{font-size:36px}
+  .grid4{grid-template-columns: 1fr 1fr}
+  .signs{grid-template-columns: 1fr 1fr 1fr}
+}
+@media (max-width: 520px){
+  .grid4{grid-template-columns: 1fr}
+  .signs{grid-template-columns: 1fr 1fr}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero-left::after, .box::after{ animation:none !important; }
+}
