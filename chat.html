@@ -13,6 +13,7 @@
         --border:rgba(255,255,255,.10);
         --text:rgba(255,255,255,.92);
         --muted:rgba(255,255,255,.72);
+        --muted2:rgba(255,255,255,.55);
         --shadow:0 20px 60px rgba(0,0,0,.45);
         --radius2:24px;
       }
@@ -61,7 +62,7 @@
         font-weight:800; font-size:12px; letter-spacing:.22em; opacity:.9;
         white-space:nowrap; overflow:hidden; text-overflow:ellipsis
       }
-      .chat-brand-sub{font-size:12px; color:rgba(255,255,255,.55); margin-top:2px}
+      .chat-brand-sub{font-size:12px; color:var(--muted2); margin-top:2px}
       .chat-back{
         font-size:12px;
         color:rgba(255,255,255,.78);
@@ -106,12 +107,12 @@
         width:100%;
         height:260px;
         object-fit:cover;
-        object-position:center 10%; /* ✅ remonte le cadrage (évite tête coupée) */
-        display:block
+        object-position:center 10%;
+        display:block;
       }
       .ai-name{font-weight:800; font-size:16px}
       .ai-tag{color:rgba(255,255,255,.70); font-size:13px; margin-top:2px}
-      .ai-disclaimer{margin-top:auto; color:rgba(255,255,255,.55); font-size:12px; line-height:1.45}
+      .ai-disclaimer{margin-top:auto; color:var(--muted2); font-size:12px; line-height:1.45}
 
       /* PANEL */
       .chat-panel{
@@ -130,15 +131,15 @@
       .chat-hero-inner{position:relative}
       .chat-hero-img{
         width:100%;
-        height:320px; /* ✅ plus haut pour ne pas couper */
+        height:360px;
         object-fit:cover;
-        object-position:center 10%; /* ✅ remonte le cadrage */
-        display:block
+        object-position:center 10%;
+        display:block;
       }
       .chat-hero-overlay{
         position:absolute; inset:0;
         background:
-          linear-gradient(to bottom, rgba(7,10,22,.06), rgba(7,10,22,.82) 85%),
+          linear-gradient(to bottom, rgba(7,10,22,.06), rgba(7,10,22,.86) 85%),
           radial-gradient(700px 260px at 50% 10%, rgba(215,199,255,.16), transparent 60%);
         pointer-events:none;
       }
@@ -164,6 +165,7 @@
         line-height:1.45;
       }
 
+      /* HEADER PANEL */
       .chat-header{
         display:flex;
         align-items:center;
@@ -188,9 +190,14 @@
         width:32px; height:32px;
         border-radius:12px;
         overflow:hidden;
-        border:1px solid var(--border)
+        border:1px solid var(--border);
       }
-      .ai-face-mini{width:100%; height:100%; object-fit:cover; object-position:center 10%; display:block}
+      .ai-face-mini{
+        width:100%; height:100%;
+        object-fit:cover;
+        object-position:center 10%;
+        display:block;
+      }
 
       .chat-messages{
         flex:1;
@@ -257,7 +264,6 @@
         .chat-side{display:none}
         .chat-panel{height: calc(100dvh - 64px)}
         .chat-hero{display:block}
-        .chat-hero-img{height:360px} /* ✅ encore plus safe sur cell */
       }
 
       @media (prefers-reduced-motion: reduce){
@@ -293,8 +299,8 @@
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
-        <!-- HERO MOBILE + description du signe -->
-        <div class="chat-hero" aria-hidden="false">
+        <!-- HERO MOBILE : description du signe uniquement ici -->
+        <div class="chat-hero">
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
             <div class="chat-hero-overlay"></div>
@@ -348,7 +354,7 @@
         poissons: "Poissons ♓",
       };
 
-      // ✅ Description courte par signe (texte d’intro affiché dans le cadre du haut)
+      // ✅ Description courte par signe : affichée UNIQUEMENT dans la carte mobile
       const SIGN_DESC = {
         belier:
           "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
@@ -381,11 +387,11 @@
       const signName = SIGNS[signKey] || "—";
       const signDesc = SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
-      // Labels
+      // Header label + sidebar (desktop)
       document.getElementById("signLabel").textContent = signName;
       document.getElementById("aiTag").textContent = "Signe : " + signName;
 
-      // Hero (mobile)
+      // Carte mobile (seulement)
       document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
       document.getElementById("heroDesc").textContent = signDesc;
 
@@ -418,15 +424,14 @@
         messagesEl.scrollTop = messagesEl.scrollHeight;
       }
 
-      // Intro IA (personnalisé)
+      // ✅ Intro IA : pas de signe, pas de description (comme tu veux)
       addMessage(
         "ai",
-        `Salut ✨ On commence avec ton signe : ${signName}.\n${signDesc}\n\nDis-moi ce que tu veux comprendre (émotions, relations, stress, schémas…).`
+        "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
       );
 
-      // Placeholder reply
       function aiReply() {
-        return `Parfait. Pour ${signName}, on va y aller concret :\n1) Qu’est-ce qui s’est passé ?\n2) Qu’as-tu ressenti dans ton corps ?\n3) Quelle pensée automatique est arrivée ?\n\nDonne-moi un exemple précis.`;
+        return "Parfait. Donne-moi un exemple précis :\n1) Qu’est-ce qui s’est passé ?\n2) Qu’as-tu ressenti dans ton corps ?\n3) Quelle pensée automatique est arrivée ?";
       }
 
       form.addEventListener("submit", (e) => {
