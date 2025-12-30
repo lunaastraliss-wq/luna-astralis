@@ -39,7 +39,7 @@
         <div class="pricing-hero-inner">
           <div class="pricing-kicker">Accès 24h/7</div>
 
-          <div class="hero-badge">TARIFS</div>
+          <div class="pricing-kicker" style="opacity:.9; margin-top:.35rem;">TARIFS</div>
 
           <h1 class="pricing-title">Choisis le forfait qui te convient</h1>
 
@@ -52,9 +52,23 @@
             <span class="chip">Annule ou change à tout moment</span>
           </div>
 
-          <div class="pricing-actions">
-            <a class="btn hero-cta" href="./signup.html">Créer mon compte</a>
-            <a class="btn hero-cta ghost" href="./login.html">Me connecter</a>
+          <!-- ✅ On enlève les boutons ici (comme demandé) -->
+        </div>
+      </section>
+
+      <!-- Confiance (version astro) -->
+      <section class="section" aria-label="Confiance">
+        <div class="pricing-trust">
+          <div class="trust-line">
+            ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
+          </div>
+
+          <div class="trust-sub">
+            Paiement sécurisé • Annulation en tout temps • Aucun frais caché
+          </div>
+
+          <div class="trust-sub" style="opacity:.85;">
+            Luna Astralis n’est pas une thérapie : c’est un outil d’exploration personnelle.
           </div>
         </div>
       </section>
@@ -62,7 +76,7 @@
       <!-- GRID -->
       <section class="section" aria-label="Formules">
         <div class="pricing-grid">
-          <!-- Mensuel Essentiel -->
+          <!-- Mensuel — Essentiel -->
           <article class="price-card" aria-label="Mensuel Essentiel">
             <div class="price-head">
               <div class="price-name">Mensuel — Essentiel</div>
@@ -83,8 +97,9 @@
             <a class="price-cta" href="./signup.html">Commencer</a>
           </article>
 
-          <!-- Mensuel Illimité -->
+          <!-- Mensuel — Illimité -->
           <article class="price-card price-featured" aria-label="Mensuel Illimité">
+            <!-- ✅ badge séparé, “par-dessus” (ne touche plus la ligne du titre) -->
             <div class="price-badge">LE PLUS POPULAIRE</div>
 
             <div class="price-head">
@@ -103,12 +118,10 @@
               <li>Exploration approfondie</li>
             </ul>
 
-            <a class="price-cta btn-primary" href="./signup.html">
-              Accès illimité 24h/7
-            </a>
+            <a class="price-cta btn-primary" href="./signup.html">Accès illimité 24h/7</a>
           </article>
 
-          <!-- Annuel Essentiel -->
+          <!-- Annuel — Essentiel -->
           <article class="price-card" aria-label="Annuel Essentiel">
             <div class="price-head">
               <div class="price-name">Annuel — Essentiel</div>
@@ -117,9 +130,7 @@
                 <span class="price-now">49,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
-              </div>
+              <div class="price-mini">Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong></div>
             </div>
 
             <ul class="price-features">
@@ -132,8 +143,8 @@
             <a class="price-cta" href="./signup.html">Choisir l’annuel</a>
           </article>
 
-          <!-- Annuel Illimité -->
-          <article class="price-card" aria-label="Annuel Illimité">
+          <!-- Annuel — Illimité -->
+          <article class="price-card premium" aria-label="Annuel Illimité">
             <div class="price-badge premium">MEILLEURE VALEUR</div>
 
             <div class="price-head">
@@ -143,9 +154,7 @@
                 <span class="price-now">99,99&nbsp;$</span>
                 <span class="price-period">/ an</span>
               </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
-              </div>
+              <div class="price-mini">Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong></div>
             </div>
 
             <ul class="price-features">
@@ -155,7 +164,7 @@
               <li>Futur : Tarot, Lune, Ascendant</li>
             </ul>
 
-            <a class="price-cta" href="./signup.html">Accès illimité annuel</a>
+            <a class="price-cta btn-primary" href="./signup.html">Accès illimité annuel</a>
           </article>
         </div>
       </section>
@@ -163,9 +172,7 @@
       <!-- FOOTER -->
       <footer class="footer">
         <div>© <span id="y"></span> Luna Astralis</div>
-        <div class="footer-note">
-          Prix en USD • Accès 24h/7 • Exploration personnelle — non thérapeutique
-        </div>
+        <div class="footer-note">Prix en USD • Accès 24h/7</div>
       </footer>
     </main>
 
