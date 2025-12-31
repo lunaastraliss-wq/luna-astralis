@@ -4,10 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Luna Astralis — Mon compte</title>
-
     <meta name="description" content="Connexion Luna Astralis." />
 
-    <!-- ✅ CSS split -->
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/auth.css" />
   </head>
@@ -26,7 +24,7 @@
       </a>
 
       <nav class="nav" aria-label="Navigation">
-        <a class="btn btn-small" href="./signup.html">Créer un compte</a>
+        <a class="btn btn-small" id="signupLink" href="./signup.html">Créer un compte</a>
       </nav>
     </header>
 
@@ -37,23 +35,25 @@
           Connecte-toi pour continuer la discussion et retrouver tes échanges.
         </p>
 
+        <!-- message -->
+        <div
+          id="msg"
+          class="auth-msg"
+          role="status"
+          aria-live="polite"
+          style="display:none;"
+        ></div>
+
         <!-- Google -->
         <button type="button" class="btn auth-google" id="googleLogin">
-          <img
-            src="./google-g.png"
-            alt=""
-            class="google-icon"
-            aria-hidden="true"
-          />
+          <img src="./google-g.png" alt="" class="google-icon" aria-hidden="true" />
           Continuer avec Google
         </button>
 
-        <div class="auth-sep" aria-hidden="true">
-          <span>ou</span>
-        </div>
+        <div class="auth-sep" aria-hidden="true"><span>ou</span></div>
 
         <!-- Email / password -->
-        <form class="auth-form" id="loginForm" autocomplete="on">
+        <form class="auth-form" id="loginForm" autocomplete="on" novalidate>
           <label class="auth-label" for="email">Email</label>
           <input
             class="auth-input"
@@ -63,6 +63,7 @@
             placeholder="ex. toi@email.com"
             required
             autocomplete="email"
+            inputmode="email"
           />
 
           <label class="auth-label" for="password">Mot de passe</label>
@@ -76,7 +77,9 @@
             autocomplete="current-password"
           />
 
-          <button class="btn auth-submit" type="submit">Se connecter</button>
+          <button class="btn auth-submit" id="submitBtn" type="submit">
+            Se connecter
+          </button>
 
           <button type="button" class="auth-forgot" id="forgot">
             Mot de passe oublié ?
@@ -84,27 +87,192 @@
 
           <p class="auth-switch">
             Pas encore de compte ?
-            <a class="auth-link" href="./signup.html">Créer un compte</a>
+            <a class="auth-link" id="signupLink2" href="./signup.html">Créer un compte</a>
           </p>
         </form>
       </section>
     </main>
 
+    <!-- Supabase JS (UMD v2) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-      // UI only (à connecter à ton auth plus tard)
-      document.getElementById("googleLogin").addEventListener("click", () => {
-        alert("Google login : à connecter (Supabase/Firebase/Google Identity).");
-      });
+      (function () {
+        /* =========================
+           SUPABASE (1 seul client)
+        ========================= */
+        const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-      document.getElementById("loginForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value.trim();
-        alert("Login email/password : à connecter. Email: " + email);
-      });
+        const supabase =
+          window.__LA_SUPABASE__ ||
+          (window.__LA_SUPABASE__ = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          ));
 
-      document.getElementById("forgot").addEventListener("click", () => {
-        alert("Réinitialisation du mot de passe : à connecter.");
-      });
+        /* =========================
+           Helpers
+        ========================= */
+        const msgEl = document.getElementById("msg");
+        const submitBtn = document.getElementById("submitBtn");
+        const googleBtn = document.getElementById("googleLogin");
+
+        function showMsg(text, type = "info") {
+          msgEl.style.display = "block";
+          msgEl.textContent = text;
+          msgEl.classList.remove("is-ok", "is-err", "is-info");
+          msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+        }
+        function clearMsg() {
+          msgEl.style.display = "none";
+          msgEl.textContent = "";
+          msgEl.classList.remove("is-ok", "is-err", "is-info");
+        }
+        function setLoading(v) {
+          submitBtn.disabled = v;
+          googleBtn.disabled = v;
+          submitBtn.style.opacity = v ? "0.7" : "1";
+          googleBtn.style.opacity = v ? "0.7" : "1";
+        }
+
+        function origin() {
+          return window.location.origin; // https://www.luna-astralis.app ou https://luna-astralis.app
+        }
+
+        function getNext() {
+          // next peut être: "chat.html?signe=belier" ou "chat.html"
+          const p = new URLSearchParams(location.search).get("next");
+          return p && p.trim() ? p.trim() : "chat.html";
+        }
+
+        function safeNext(next) {
+          // sécurité simple: seulement des pages du site (pas http)
+          if (!next || next.includes("http://") || next.includes("https://") || next.startsWith("//")) {
+            return "chat.html";
+          }
+          // autorise chat/login/signup/index + query
+          return next.replace(/^\//, "");
+        }
+
+        function goNext() {
+          const next = safeNext(getNext());
+          window.location.href = "./" + next;
+        }
+
+        // mettre next dans les liens signup
+        const next = encodeURIComponent(safeNext(getNext()));
+        document.getElementById("signupLink").href = "./signup.html?next=" + next;
+        document.getElementById("signupLink2").href = "./signup.html?next=" + next;
+
+        /* =========================
+           Si déjà connecté -> next
+        ========================= */
+        (async () => {
+          try {
+            const { data } = await supabase.auth.getSession();
+            if (data?.session) goNext();
+          } catch (_) {}
+        })();
+
+        /* =========================
+           Login email/password
+        ========================= */
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearMsg();
+
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+
+          if (!email || !email.includes("@")) return showMsg("Entre un email valide.", "err");
+          if (!password || password.length < 6) return showMsg("Mot de passe invalide.", "err");
+
+          setLoading(true);
+          showMsg("Connexion…", "info");
+
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (error) {
+            setLoading(false);
+            return showMsg(error.message, "err");
+          }
+
+          if (data?.session) {
+            showMsg("Connecté. Redirection…", "ok");
+            return goNext();
+          }
+
+          setLoading(false);
+          showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
+        });
+
+        /* =========================
+           Google OAuth
+        ========================= */
+        document.getElementById("googleLogin").addEventListener("click", async () => {
+          clearMsg();
+          setLoading(true);
+          showMsg("Ouverture de Google…", "info");
+
+          const next = safeNext(getNext());
+
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              // Google revient ici après auth
+              redirectTo: origin() + "/login.html?next=" + encodeURIComponent(next),
+            },
+          });
+
+          if (error) {
+            setLoading(false);
+            showMsg(error.message, "err");
+          }
+          // sinon redirection automatique vers Google
+        });
+
+        /* =========================
+           Forgot password (email)
+        ========================= */
+        document.getElementById("forgot").addEventListener("click", async () => {
+          clearMsg();
+
+          const email = document.getElementById("email").value.trim();
+          if (!email || !email.includes("@")) {
+            return showMsg("Entre ton email, puis clique “Mot de passe oublié ?”.", "err");
+          }
+
+          setLoading(true);
+          showMsg("Envoi du lien de réinitialisation…", "info");
+
+          const next = safeNext(getNext());
+
+          // Après reset, Supabase peut renvoyer sur une URL.
+          // Ici on renvoie vers login avec next (tu pourras ajouter une page reset plus tard si tu veux).
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: origin() + "/login.html?next=" + encodeURIComponent(next),
+          });
+
+          setLoading(false);
+
+          if (error) return showMsg(error.message, "err");
+
+          showMsg("Email envoyé. Vérifie ta boîte de réception (et indésirables).", "ok");
+        });
+
+        /* =========================
+           Après retour OAuth: si session existe -> next
+        ========================= */
+        supabase.auth.onAuthStateChange((event, session) => {
+          if (session) {
+            goNext();
+          }
+        });
+      })();
     </script>
   </body>
 </html>
