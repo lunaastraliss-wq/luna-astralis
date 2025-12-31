@@ -44,6 +44,18 @@
           style="display:none;"
         ></div>
 
+        <!-- Déjà connecté (affiché seulement si session existe) -->
+        <div id="already" style="display:none; margin-top:12px;">
+          <p class="auth-sub" style="margin:0 0 10px 0;">
+            Tu es déjà connectée.
+          </p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn" id="goNextBtn" href="./chat.html">Continuer</a>
+            <button type="button" class="btn btn-ghost" id="logoutBtn">Se déconnecter</button>
+          </div>
+          <div class="auth-sep" aria-hidden="true" style="margin-top:14px;"><span>ou</span></div>
+        </div>
+
         <!-- Google -->
         <button type="button" class="btn auth-google" id="googleLogin">
           <img src="./google-g.png" alt="" class="google-icon" aria-hidden="true" />
@@ -112,17 +124,23 @@
           ));
 
         /* =========================
-           Helpers
+           Helpers UI
         ========================= */
         const msgEl = document.getElementById("msg");
         const submitBtn = document.getElementById("submitBtn");
         const googleBtn = document.getElementById("googleLogin");
 
+        const alreadyBox = document.getElementById("already");
+        const goNextBtn = document.getElementById("goNextBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+
         function showMsg(text, type = "info") {
           msgEl.style.display = "block";
           msgEl.textContent = text;
           msgEl.classList.remove("is-ok", "is-err", "is-info");
-          msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+          msgEl.classList.add(
+            type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info"
+          );
         }
         function clearMsg() {
           msgEl.style.display = "none";
@@ -137,46 +155,67 @@
         }
 
         function origin() {
-          return window.location.origin; // https://www.luna-astralis.app ou https://luna-astralis.app
+          return window.location.origin;
         }
 
         function getNext() {
-          // next peut être: "chat.html?signe=belier" ou "chat.html"
+          // next peut être "chat.html?signe=belier" ou "chat.html"
           const p = new URLSearchParams(location.search).get("next");
+          // ✅ IMPORTANT: ne force pas chat par défaut ici.
+          // Si rien, on met chat quand même (parce que ton site l'utilise),
+          // mais on NE redirige PLUS automatiquement; on affiche un bouton "Continuer".
           return p && p.trim() ? p.trim() : "chat.html";
         }
 
         function safeNext(next) {
-          // sécurité simple: seulement des pages du site (pas http)
-          if (!next || next.includes("http://") || next.includes("https://") || next.startsWith("//")) {
+          if (
+            !next ||
+            next.includes("http://") ||
+            next.includes("https://") ||
+            next.startsWith("//")
+          ) {
             return "chat.html";
           }
-          // autorise chat/login/signup/index + query
           return next.replace(/^\//, "");
         }
 
-        function goNext() {
-          const next = safeNext(getNext());
-          window.location.href = "./" + next;
+        function nextUrl() {
+          return "./" + safeNext(getNext());
         }
 
-        // mettre next dans les liens signup
+        function setAlreadyConnectedUI(isConnected) {
+          alreadyBox.style.display = isConnected ? "block" : "none";
+          if (isConnected) {
+            goNextBtn.href = nextUrl();
+          }
+        }
+
+        // Mettre next dans les liens signup
         const next = encodeURIComponent(safeNext(getNext()));
         document.getElementById("signupLink").href = "./signup.html?next=" + next;
         document.getElementById("signupLink2").href = "./signup.html?next=" + next;
 
         /* =========================
-           Si déjà connecté -> next
+           ✅ IMPORTANT: PAS DE REDIRECTION AUTO
+           On vérifie juste si connecté pour afficher "Continuer"
         ========================= */
         (async () => {
           try {
             const { data } = await supabase.auth.getSession();
-            if (data?.session) goNext();
-          } catch (_) {}
+            if (data?.session) {
+              setAlreadyConnectedUI(true);
+              showMsg("Tu es déjà connectée.", "ok");
+            } else {
+              setAlreadyConnectedUI(false);
+            }
+          } catch (_) {
+            // silence
+          }
         })();
 
         /* =========================
            Login email/password
+           ✅ redirection seulement APRÈS submit réussi
         ========================= */
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -203,7 +242,8 @@
 
           if (data?.session) {
             showMsg("Connecté. Redirection…", "ok");
-            return goNext();
+            window.location.href = nextUrl();
+            return;
           }
 
           setLoading(false);
@@ -212,6 +252,8 @@
 
         /* =========================
            Google OAuth
+           ✅ on laisse Google revenir ici
+           ✅ la redirection finale sera gérée par onAuthStateChange
         ========================= */
         document.getElementById("googleLogin").addEventListener("click", async () => {
           clearMsg();
@@ -223,7 +265,6 @@
           const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
-              // Google revient ici après auth
               redirectTo: origin() + "/login.html?next=" + encodeURIComponent(next),
             },
           });
@@ -232,11 +273,10 @@
             setLoading(false);
             showMsg(error.message, "err");
           }
-          // sinon redirection automatique vers Google
         });
 
         /* =========================
-           Forgot password (email)
+           Forgot password
         ========================= */
         document.getElementById("forgot").addEventListener("click", async () => {
           clearMsg();
@@ -251,8 +291,6 @@
 
           const next = safeNext(getNext());
 
-          // Après reset, Supabase peut renvoyer sur une URL.
-          // Ici on renvoie vers login avec next (tu pourras ajouter une page reset plus tard si tu veux).
           const { error } = await supabase.auth.resetPasswordForEmail(email, {
             redirectTo: origin() + "/login.html?next=" + encodeURIComponent(next),
           });
@@ -265,11 +303,43 @@
         });
 
         /* =========================
-           Après retour OAuth: si session existe -> next
+           Logout (si déjà connecté)
+        ========================= */
+        logoutBtn.addEventListener("click", async () => {
+          clearMsg();
+          setLoading(true);
+          showMsg("Déconnexion…", "info");
+          const { error } = await supabase.auth.signOut();
+          setLoading(false);
+
+          if (error) return showMsg(error.message, "err");
+
+          setAlreadyConnectedUI(false);
+          showMsg("Déconnectée.", "ok");
+        });
+
+        /* =========================
+           Retour OAuth:
+           ✅ on ne "bang" plus: on contrôle.
+           Ici, on redirige UNIQUEMENT si on revient d'un OAuth (event === 'SIGNED_IN')
+           Sinon, si session existe déjà, on affiche seulement la box.
         ========================= */
         supabase.auth.onAuthStateChange((event, session) => {
           if (session) {
-            goNext();
+            setAlreadyConnectedUI(true);
+
+            // Si c'est un vrai retour de connexion (email/password ou OAuth),
+            // tu peux rediriger. Pour éviter le "bang" sur simple visite,
+            // on limite à SIGNED_IN.
+            if (event === "SIGNED_IN") {
+              window.location.href = nextUrl();
+              return;
+            }
+
+            // Sinon, juste info.
+            setLoading(false);
+          } else {
+            setAlreadyConnectedUI(false);
           }
         });
       })();
