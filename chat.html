@@ -1,346 +1,229 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Luna Astralis — Chat</title>
-    <meta name="description" content="Chat Luna Astralis — Astro & psycho" />
+<script>
+  (function () {
+    /* =========================
+       SUPABASE (1 seul client)
+    ========================= */
+    const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/chat.css" />
+    const supabase =
+      window.__LA_SUPABASE__ ||
+      (window.__LA_SUPABASE__ = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      ));
 
-    <style>
-      .ai-book { margin-top: 10px; }
-      .ai-book-link{
-        display:inline-flex; align-items:center; gap:8px;
-        font-size:12px; opacity:.65;
-        text-decoration:underline; text-underline-offset:3px;
-        color:rgba(255,255,255,.92);
+    function currentPathWithQuery() {
+      const p = location.pathname.split("/").pop() || "chat.html";
+      return p + location.search; // ex: chat.html?signe=belier
+    }
+
+    function redirectToLogin() {
+      const next = encodeURIComponent(currentPathWithQuery());
+      window.location.href = "./login.html?next=" + next;
+    }
+
+    let SESSION = null;
+
+    async function requireSession() {
+      // si déjà connue, on évite de rappeler Supabase
+      if (SESSION) return SESSION;
+
+      const { data, error } = await supabase.auth.getSession();
+      if (error || !data?.session) {
+        redirectToLogin();
+        return null;
       }
-      .ai-book-link:hover{ opacity:.9; }
+      SESSION = data.session;
+      return SESSION;
+    }
 
-      /* mini bouton logout discret */
-      .chat-logout{
-        margin-left: 12px;
-        font-size: 13px;
-        opacity:.75;
-        text-decoration: underline;
-        text-underline-offset: 3px;
+    /* =========================
+       SIGNE UI
+    ========================= */
+    const qs = (k) => new URLSearchParams(location.search).get(k) || "";
+    const norm = (s) =>
+      (s || "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z]/g, "");
+
+    const SIGNS = {
+      belier: "Bélier ♈",
+      taureau: "Taureau ♉",
+      gemeaux: "Gémeaux ♊",
+      cancer: "Cancer ♋",
+      lion: "Lion ♌",
+      vierge: "Vierge ♍",
+      balance: "Balance ♎",
+      scorpion: "Scorpion ♏",
+      sagittaire: "Sagittaire ♐",
+      capricorne: "Capricorne ♑",
+      verseau: "Verseau ♒",
+      poissons: "Poissons ♓",
+    };
+
+    const SIGN_DESC = {
+      belier:
+        "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
+      taureau:
+        "Besoin de stabilité et de concret. On explore l’attachement, le plaisir, la sécurité intérieure, et comment lâcher sans perdre ton ancrage.",
+      gemeaux:
+        "Mental rapide et curiosité. On explore tes pensées en boucle, ta dualité, et comment clarifier ce que tu ressens derrière ce que tu analyses.",
+      cancer:
+        "Hyper-sensibilité et protection. On explore tes besoins affectifs, tes limites, et comment te sentir en sécurité sans tout porter seul·e.",
+      lion:
+        "Rayonnement et fierté du cœur. On explore l’estime de soi, la reconnaissance, et comment briller sans te suradapter au regard des autres.",
+      vierge:
+        "Lucidité et exigence. On explore le contrôle, la charge mentale, et comment trouver du calme quand tu veux que tout soit “bien fait”.",
+      balance:
+        "Équilibre et relation. On explore la peur du conflit, le besoin d’harmonie, et comment dire “non” sans culpabilité.",
+      scorpion:
+        "Intensité et transformation. On explore la confiance, la jalousie/la peur de perdre, et comment traverser une émotion sans te fermer.",
+      sagittaire:
+        "Sens et liberté. On explore l’ennui, l’envie d’ailleurs, et comment rester aligné·e quand tu te sens coincé·e ou limité·e.",
+      capricorne:
+        "Structure et responsabilité. On explore la pression, la performance, et comment te reposer sans te sentir “inutile”.",
+      verseau:
+        "Indépendance et vision. On explore la distance émotionnelle, ton besoin d’espace, et comment te connecter sans te sentir envahi·e.",
+      poissons:
+        "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
+    };
+
+    const SIGN_BOOKS = {
+      belier: "https://a.co/d/ipv7KsG",
+      taureau: "https://a.co/d/cNzESwI",
+      gemeaux: "https://a.co/d/5rzhkCv",
+      cancer: "https://a.co/d/9T3gj30",
+      lion: "https://a.co/d/eQ0Fa2u",
+      vierge: "https://a.co/d/7mMxP9f",
+      balance: "https://a.co/d/i93cts5",
+      scorpion: "https://a.co/d/0HQBCE8",
+      sagittaire: "https://a.co/d/iOLDHqS",
+      capricorne: "https://a.co/d/4JuWLu1",
+      verseau: "https://a.co/d/de3Ukra",
+      poissons: "https://a.co/d/hIM81yC",
+    };
+
+    const rawKey = qs("signe") || qs("sign") || "belier";
+    const signKey = norm(rawKey) || "belier";
+
+    const signName = SIGNS[signKey] || "—";
+    const signDesc =
+      SIGN_DESC[signKey] ||
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+
+    document.getElementById("signLabel").textContent = signName;
+    document.getElementById("aiTag").textContent = "Signe : " + signName;
+    document.getElementById("aiDesc").textContent = signDesc;
+
+    document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
+    document.getElementById("heroDesc").textContent = signDesc;
+
+    const bookUrl = SIGN_BOOKS[signKey];
+    const wrap = document.getElementById("aiBookWrap");
+    const link = document.getElementById("aiBookLink");
+    if (wrap && link && bookUrl) {
+      wrap.style.display = "block";
+      link.href = bookUrl;
+    }
+
+    /* =========================
+       CHAT UI
+    ========================= */
+    const messagesEl = document.getElementById("messages");
+    const form = document.getElementById("form");
+    const input = document.getElementById("input");
+    const userEmailEl = document.getElementById("userEmail");
+    const logoutLink = document.getElementById("logoutLink");
+
+    function addMessage(role, text) {
+      const row = document.createElement("div");
+      row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
+
+      if (role === "ai") {
+        const avatar = document.createElement("img");
+        avatar.className = "msg-avatar";
+        avatar.src = "./ia-luna-astralis.png";
+        avatar.alt = "Luna (IA)";
+        row.appendChild(avatar);
+      } else {
+        const spacer = document.createElement("div");
+        spacer.className = "msg-avatar-spacer";
+        row.appendChild(spacer);
       }
-      .chat-logout:hover{ opacity:1; }
-    </style>
-  </head>
 
-  <body class="chat-body">
-    <header class="chat-top" role="banner">
-      <a class="chat-brand" href="./index.html" aria-label="Retour à l’accueil">
-        <img
-          class="chat-logo"
-          src="./logo-luna-astralis-transparent.png"
-          alt="Luna Astralis"
-        />
-        <div class="chat-brand-text">
-          <div class="chat-brand-name">LUNA ASTRALIS</div>
-          <div class="chat-brand-sub">Astro & psycho</div>
-        </div>
-      </a>
+      const bubble = document.createElement("div");
+      bubble.className = "msg-bubble";
+      bubble.textContent = text;
 
-      <div style="display:flex; align-items:center; gap:14px;">
-        <a class="chat-back" href="./index.html#signes">Changer de signe</a>
-        <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
-      </div>
-    </header>
+      row.appendChild(bubble);
+      messagesEl.appendChild(row);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
 
-    <main class="chat-wrap" role="main">
-      <aside class="chat-side" aria-label="Profil IA">
-        <div class="ai-face-wrap">
-          <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
-        </div>
+    function aiReply() {
+      return (
+        "Parfait. Donne-moi un exemple précis :\n" +
+        "1) Qu’est-ce qui s’est passé ?\n" +
+        "2) Qu’as-tu ressenti dans ton corps ?\n" +
+        "3) Quelle pensée automatique est arrivée ?"
+      );
+    }
 
-        <div>
-          <div class="ai-name">Luna</div>
-          <div class="ai-tag" id="aiTag">Signe : —</div>
-          <div class="ai-desc" id="aiDesc">—</div>
+    /* =========================
+       INIT + AUTH GUARD
+    ========================= */
+    (async () => {
+      const session = await requireSession();
+      if (!session) return;
 
-          <div class="ai-book" id="aiBookWrap" style="display:none;">
-            <a
-              id="aiBookLink"
-              class="ai-book-link"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Approfondir ce signe"
-              title="Approfondir ce signe"
-            >
-              ✦ Approfondir ce signe
-            </a>
-          </div>
+      userEmailEl.textContent = session.user?.email ? session.user.email : "";
+      logoutLink.style.display = "inline";
 
-          <div style="margin-top:10px; font-size:12px; opacity:.7;" id="userEmail"></div>
-        </div>
+      addMessage(
+        "ai",
+        "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
+      );
+    })();
 
-        <div class="ai-disclaimer">
-          Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
-          aucun diagnostic.
-        </div>
-      </aside>
+    /* =========================
+       Auth changes: si déconnecté => login
+    ========================= */
+    supabase.auth.onAuthStateChange((event, session) => {
+      SESSION = session || null;
+      if (!SESSION) {
+        redirectToLogin();
+      }
+    });
 
-      <section class="chat-panel" aria-label="Discussion">
-        <!-- HERO MOBILE -->
-        <div class="chat-hero" aria-hidden="true">
-          <div class="chat-hero-inner">
-            <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
-            <div class="chat-hero-overlay"></div>
+    /* =========================
+       SEND
+    ========================= */
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-            <div class="chat-hero-card">
-              <p class="hero-title" id="heroTitle">—</p>
-              <p class="hero-desc" id="heroDesc">—</p>
-            </div>
-          </div>
-        </div>
+      const session = await requireSession();
+      if (!session) return;
 
-        <div class="chat-header">
-          <div class="chat-title">
-            Discussion <span class="chat-pill" id="signLabel">—</span>
-          </div>
-          <div class="ai-face-mini-wrap" aria-hidden="true">
-            <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="" />
-          </div>
-        </div>
+      const text = (input.value || "").trim();
+      if (!text) return;
 
-        <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
+      addMessage("user", text);
+      input.value = "";
+      input.focus();
 
-        <form class="chat-inputbar" id="form" autocomplete="off">
-          <input
-            id="input"
-            type="text"
-            class="chat-input"
-            placeholder="Écris ton message…"
-            autocomplete="off"
-          />
-          <button class="chat-send" type="submit">Envoyer</button>
-        </form>
-      </section>
-    </main>
+      setTimeout(() => addMessage("ai", aiReply(text)), 320);
+    });
 
-    <!-- Supabase JS (UMD v2) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script>
-      (function () {
-        /* =========================
-           SUPABASE (1 seul client)
-        ========================= */
-        const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
-        const SUPABASE_KEY =
-          "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
-
-        const supabase =
-          window.__LA_SUPABASE__ ||
-          (window.__LA_SUPABASE__ = window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-          ));
-
-        function currentPathWithQuery() {
-          // ex: /chat.html?signe=belier
-          const p = location.pathname.split("/").pop() || "chat.html";
-          return p + location.search;
-        }
-
-        async function requireSessionOrRedirect() {
-          const { data, error } = await supabase.auth.getSession();
-          if (error || !data?.session) {
-            // on renvoie vers login avec next= (retour exact au chat + signe)
-            const next = encodeURIComponent(currentPathWithQuery());
-            window.location.href = "./login.html?next=" + next;
-            return null;
-          }
-          return data.session;
-        }
-
-        /* =========================
-           SIGNE UI (comme ton code)
-        ========================= */
-        const qs = (k) => new URLSearchParams(location.search).get(k) || "";
-        const norm = (s) =>
-          (s || "")
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[^a-z]/g, "");
-
-        const SIGNS = {
-          belier: "Bélier ♈",
-          taureau: "Taureau ♉",
-          gemeaux: "Gémeaux ♊",
-          cancer: "Cancer ♋",
-          lion: "Lion ♌",
-          vierge: "Vierge ♍",
-          balance: "Balance ♎",
-          scorpion: "Scorpion ♏",
-          sagittaire: "Sagittaire ♐",
-          capricorne: "Capricorne ♑",
-          verseau: "Verseau ♒",
-          poissons: "Poissons ♓",
-        };
-
-        const SIGN_DESC = {
-          belier:
-            "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
-          taureau:
-            "Besoin de stabilité et de concret. On explore l’attachement, le plaisir, la sécurité intérieure, et comment lâcher sans perdre ton ancrage.",
-          gemeaux:
-            "Mental rapide et curiosité. On explore tes pensées en boucle, ta dualité, et comment clarifier ce que tu ressens derrière ce que tu analyses.",
-          cancer:
-            "Hyper-sensibilité et protection. On explore tes besoins affectifs, tes limites, et comment te sentir en sécurité sans tout porter seul·e.",
-          lion:
-            "Rayonnement et fierté du cœur. On explore l’estime de soi, la reconnaissance, et comment briller sans te suradapter au regard des autres.",
-          vierge:
-            "Lucidité et exigence. On explore le contrôle, la charge mentale, et comment trouver du calme quand tu veux que tout soit “bien fait”.",
-          balance:
-            "Équilibre et relation. On explore la peur du conflit, le besoin d’harmonie, et comment dire “non” sans culpabilité.",
-          scorpion:
-            "Intensité et transformation. On explore la confiance, la jalousie/la peur de perdre, et comment traverser une émotion sans te fermer.",
-          sagittaire:
-            "Sens et liberté. On explore l’ennui, l’envie d’ailleurs, et comment rester aligné·e quand tu te sens coincé·e ou limité·e.",
-          capricorne:
-            "Structure et responsabilité. On explore la pression, la performance, et comment te reposer sans te sentir “inutile”.",
-          verseau:
-            "Indépendance et vision. On explore la distance émotionnelle, ton besoin d’espace, et comment te connecter sans te sentir envahi·e.",
-          poissons:
-            "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
-        };
-
-        const SIGN_BOOKS = {
-          belier: "https://a.co/d/ipv7KsG",
-          taureau: "https://a.co/d/cNzESwI",
-          gemeaux: "https://a.co/d/5rzhkCv",
-          cancer: "https://a.co/d/9T3gj30",
-          lion: "https://a.co/d/eQ0Fa2u",
-          vierge: "https://a.co/d/7mMxP9f",
-          balance: "https://a.co/d/i93cts5",
-          scorpion: "https://a.co/d/0HQBCE8",
-          sagittaire: "https://a.co/d/iOLDHqS",
-          capricorne: "https://a.co/d/4JuWLu1",
-          verseau: "https://a.co/d/de3Ukra",
-          poissons: "https://a.co/d/hIM81yC",
-        };
-
-        const rawKey = qs("signe") || qs("sign") || "belier";
-        const signKey = norm(rawKey) || "belier";
-
-        const signName = SIGNS[signKey] || "—";
-        const signDesc =
-          SIGN_DESC[signKey] ||
-          "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
-
-        document.getElementById("signLabel").textContent = signName;
-        document.getElementById("aiTag").textContent = "Signe : " + signName;
-        document.getElementById("aiDesc").textContent = signDesc;
-
-        document.getElementById("heroTitle").textContent =
-          "Ton signe : " + signName;
-        document.getElementById("heroDesc").textContent = signDesc;
-
-        const bookUrl = SIGN_BOOKS[signKey];
-        const wrap = document.getElementById("aiBookWrap");
-        const link = document.getElementById("aiBookLink");
-        if (wrap && link && bookUrl) {
-          wrap.style.display = "block";
-          link.href = bookUrl;
-        }
-
-        /* =========================
-           CHAT UI
-        ========================= */
-        const messagesEl = document.getElementById("messages");
-        const form = document.getElementById("form");
-        const input = document.getElementById("input");
-        const userEmailEl = document.getElementById("userEmail");
-        const logoutLink = document.getElementById("logoutLink");
-
-        function addMessage(role, text) {
-          const row = document.createElement("div");
-          row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
-
-          if (role === "ai") {
-            const avatar = document.createElement("img");
-            avatar.className = "msg-avatar";
-            avatar.src = "./ia-luna-astralis.png";
-            avatar.alt = "Luna (IA)";
-            row.appendChild(avatar);
-          } else {
-            const spacer = document.createElement("div");
-            spacer.className = "msg-avatar-spacer";
-            row.appendChild(spacer);
-          }
-
-          const bubble = document.createElement("div");
-          bubble.className = "msg-bubble";
-          bubble.textContent = text;
-
-          row.appendChild(bubble);
-          messagesEl.appendChild(row);
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-
-        function aiReply() {
-          return (
-            "Parfait. Donne-moi un exemple précis :\n" +
-            "1) Qu’est-ce qui s’est passé ?\n" +
-            "2) Qu’as-tu ressenti dans ton corps ?\n" +
-            "3) Quelle pensée automatique est arrivée ?"
-          );
-        }
-
-        /* =========================
-           INIT + AUTH GUARD
-        ========================= */
-        (async () => {
-          const session = await requireSessionOrRedirect();
-          if (!session) return;
-
-          // afficher email + logout
-          userEmailEl.textContent = session.user?.email ? session.user.email : "";
-          logoutLink.style.display = "inline";
-
-          // message d’accueil
-          addMessage(
-            "ai",
-            "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
-          );
-        })();
-
-        /* =========================
-           SEND
-        ========================= */
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-
-          const session = await requireSessionOrRedirect();
-          if (!session) return;
-
-          const text = (input.value || "").trim();
-          if (!text) return;
-
-          addMessage("user", text);
-          input.value = "";
-          input.focus();
-
-          setTimeout(() => addMessage("ai", aiReply(text)), 320);
-        });
-
-        /* =========================
-           LOGOUT
-        ========================= */
-        logoutLink.addEventListener("click", async (e) => {
-          e.preventDefault();
-          await supabase.auth.signOut();
-          const next = encodeURIComponent(currentPathWithQuery());
-          window.location.href = "./login.html?next=" + next;
-        });
-      })();
-    </script>
-  </body>
-</html>
+    /* =========================
+       LOGOUT
+    ========================= */
+    logoutLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+      await supabase.auth.signOut();
+      // onAuthStateChange va rediriger
+    });
+  })();
+</script>
