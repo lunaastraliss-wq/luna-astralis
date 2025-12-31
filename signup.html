@@ -44,6 +44,19 @@
           style="display:none;"
         ></div>
 
+        <!-- Déjà connecté (affiché seulement si session existe) -->
+        <div id="already" style="display:none; margin-top:12px;">
+          <p class="auth-sub" style="margin:0 0 10px 0;">
+            Tu es déjà connectée.
+          </p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn" id="goNextBtn" href="./chat.html">Continuer</a>
+            <a class="btn btn-ghost" id="goAccountBtn" href="./login.html">Mon compte</a>
+            <button type="button" class="btn btn-ghost" id="logoutBtn">Se déconnecter</button>
+          </div>
+          <div class="auth-sep" aria-hidden="true" style="margin-top:14px;"><span>ou</span></div>
+        </div>
+
         <!-- Google -->
         <button type="button" class="btn auth-google" id="googleSignup">
           <img src="./google-g.png" alt="" class="google-icon" aria-hidden="true" />
@@ -114,18 +127,25 @@
           ));
 
         /* =========================
-           Helpers UI
+           UI helpers
         ========================= */
         const msgEl = document.getElementById("msg");
         const submitBtn = document.getElementById("submitBtn");
         const googleBtn = document.getElementById("googleSignup");
         const form = document.getElementById("signupForm");
 
+        const alreadyBox = document.getElementById("already");
+        const goNextBtn = document.getElementById("goNextBtn");
+        const goAccountBtn = document.getElementById("goAccountBtn");
+        const logoutBtn = document.getElementById("logoutBtn");
+
         function showMsg(text, type = "info") {
           msgEl.style.display = "block";
           msgEl.textContent = text;
           msgEl.classList.remove("is-ok", "is-err", "is-info");
-          msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+          msgEl.classList.add(
+            type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info"
+          );
         }
         function clearMsg() {
           msgEl.style.display = "none";
@@ -140,7 +160,7 @@
         }
 
         function origin() {
-          return window.location.origin; // ex: https://www.luna-astralis.app
+          return window.location.origin;
         }
 
         function getNext() {
@@ -149,15 +169,29 @@
         }
 
         function safeNext(next) {
-          if (!next || next.includes("http://") || next.includes("https://") || next.startsWith("//")) {
+          if (
+            !next ||
+            next.includes("http://") ||
+            next.includes("https://") ||
+            next.startsWith("//")
+          ) {
             return "chat.html";
           }
           return next.replace(/^\//, "");
         }
 
-        function goNext() {
-          const next = safeNext(getNext());
-          window.location.href = "./" + next;
+        function nextUrl() {
+          return "./" + safeNext(getNext());
+        }
+
+        function setAlreadyConnectedUI(isConnected) {
+          alreadyBox.style.display = isConnected ? "block" : "none";
+          if (isConnected) {
+            goNextBtn.href = nextUrl();
+            // ramène vers login (mon compte) en gardant next
+            const nextEnc = encodeURIComponent(safeNext(getNext()));
+            goAccountBtn.href = "./login.html?next=" + nextEnc;
+          }
         }
 
         // injecter next dans les liens vers login
@@ -166,17 +200,24 @@
         document.getElementById("loginLink2").href = "./login.html?next=" + nextEnc;
 
         /* =========================
-           Si déjà connecté -> next
+           ✅ IMPORTANT: PAS DE REDIRECTION AUTO
+           On affiche juste l'état "déjà connectée"
         ========================= */
         (async () => {
           try {
             const { data } = await supabase.auth.getSession();
-            if (data?.session) goNext();
+            if (data?.session) {
+              setAlreadyConnectedUI(true);
+              showMsg("Tu es déjà connectée.", "ok");
+            } else {
+              setAlreadyConnectedUI(false);
+            }
           } catch (_) {}
         })();
 
         /* =========================
            Signup email/password
+           ✅ redirection seulement si session immédiate
         ========================= */
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
@@ -186,7 +227,8 @@
           const password = document.getElementById("password").value;
 
           if (!email || !email.includes("@")) return showMsg("Entre un email valide.", "err");
-          if (!password || password.length < 8) return showMsg("Mot de passe : minimum 8 caractères.", "err");
+          if (!password || password.length < 8)
+            return showMsg("Mot de passe : minimum 8 caractères.", "err");
 
           setLoading(true);
           showMsg("Création du compte…", "info");
@@ -197,7 +239,7 @@
             email,
             password,
             options: {
-              // après confirmation email, on repasse par login qui gère next
+              // Après confirmation email: on repasse par login avec next
               emailRedirectTo: origin() + "/login.html?next=" + encodeURIComponent(next),
             },
           });
@@ -210,7 +252,8 @@
           // Si confirmation email désactivée => session immédiate
           if (data?.session) {
             showMsg("Compte créé. Redirection…", "ok");
-            return goNext();
+            window.location.href = nextUrl();
+            return;
           }
 
           // Sinon: email de confirmation requis
@@ -223,7 +266,7 @@
 
         /* =========================
            Google OAuth
-           (le plus fiable: revenir sur login.html?next=...)
+           ✅ revenir sur login.html?next=...
         ========================= */
         googleBtn.addEventListener("click", async () => {
           clearMsg();
@@ -243,15 +286,36 @@
             setLoading(false);
             showMsg(error.message, "err");
           }
-          // sinon redirection automatique vers Google
         });
 
         /* =========================
-           Si session apparaît (rare ici),
-           on redirige quand même vers next
+           Logout (si déjà connecté)
+        ========================= */
+        logoutBtn.addEventListener("click", async () => {
+          clearMsg();
+          setLoading(true);
+          showMsg("Déconnexion…", "info");
+          const { error } = await supabase.auth.signOut();
+          setLoading(false);
+
+          if (error) return showMsg(error.message, "err");
+
+          setAlreadyConnectedUI(false);
+          showMsg("Déconnectée.", "ok");
+        });
+
+        /* =========================
+           Auth state change:
+           ✅ pas de "bang" redirect.
+           On met juste l'UI à jour.
         ========================= */
         supabase.auth.onAuthStateChange((event, session) => {
-          if (session) goNext();
+          if (session) {
+            setAlreadyConnectedUI(true);
+            setLoading(false);
+          } else {
+            setAlreadyConnectedUI(false);
+          }
         });
       })();
     </script>
