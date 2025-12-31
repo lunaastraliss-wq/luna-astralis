@@ -621,3 +621,10 @@
     animation:none !important;
   }
                                    }
+.note-micro{
+  margin-top:6px;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.02em;
+  color: rgba(255,255,255,.80);
+}
