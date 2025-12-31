@@ -4,10 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Luna Astralis — Créer un compte</title>
-
     <meta name="description" content="Créer un compte Luna Astralis." />
 
-    <!-- ✅ CSS split -->
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/auth.css" />
   </head>
@@ -37,14 +35,12 @@
           Sauvegarde tes échanges et continue après les messages gratuits.
         </p>
 
+        <!-- Message zone -->
+        <div id="msg" class="auth-msg" role="status" aria-live="polite" style="display:none;"></div>
+
         <!-- Google -->
         <button type="button" class="btn auth-google" id="googleSignup">
-          <img
-            src="./google-g.png"
-            alt=""
-            class="google-icon"
-            aria-hidden="true"
-          />
+          <img src="./google-g.png" alt="" class="google-icon" aria-hidden="true" />
           Continuer avec Google
         </button>
 
@@ -77,7 +73,9 @@
             autocomplete="new-password"
           />
 
-          <button class="btn auth-submit" type="submit">Créer mon compte</button>
+          <button class="btn auth-submit" id="submitBtn" type="submit">
+            Créer mon compte
+          </button>
 
           <p class="auth-legal">
             En créant un compte, tu acceptes que cet outil soit une exploration
@@ -92,17 +90,138 @@
       </section>
     </main>
 
+    <!-- Supabase JS (UMD) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-      // UI only (à connecter à ton auth plus tard)
-      document.getElementById("googleSignup").addEventListener("click", () => {
-        alert("Google signup : à connecter (Supabase/Firebase/Google Identity).");
+      // =============================
+      // 1) Mets tes vraies valeurs ici
+      // =============================
+      const SUPABASE_URL = "https://TON-PROJECT-REF.supabase.co";
+      const SUPABASE_ANON_KEY = "TON_ANON_PUBLISHABLE_KEY";
+
+      // Safety
+      if (!SUPABASE_URL.startsWith("https://") || SUPABASE_ANON_KEY.length < 20) {
+        console.error("Supabase keys missing/invalid. Update SUPABASE_URL and SUPABASE_ANON_KEY.");
+      }
+
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // =============================
+      // Helpers UI
+      // =============================
+      const msgEl = document.getElementById("msg");
+      const submitBtn = document.getElementById("submitBtn");
+      const googleBtn = document.getElementById("googleSignup");
+
+      function showMsg(text, type = "info") {
+        msgEl.style.display = "block";
+        msgEl.textContent = text;
+
+        // classe optionnelle si tu veux styliser (auth.css)
+        msgEl.classList.remove("is-ok", "is-err", "is-info");
+        msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+      }
+
+      function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        googleBtn.disabled = isLoading;
+        submitBtn.style.opacity = isLoading ? "0.7" : "1";
+        googleBtn.style.opacity = isLoading ? "0.7" : "1";
+      }
+
+      function getRedirectBase() {
+        // évite les bugs avec /signup.html
+        return window.location.origin;
+      }
+
+      // =============================
+      // 2) Signup email/password (Supabase)
+      // =============================
+      document.getElementById("signupForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!email) return showMsg("Entre un email valide.", "err");
+        if (!password || password.length < 8) return showMsg("Mot de passe : minimum 8 caractères.", "err");
+
+        setLoading(true);
+        showMsg("Création du compte…", "info");
+
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              // IMPORTANT: doit être autorisé dans Supabase Auth > URL Configuration
+              emailRedirectTo: getRedirectBase() + "/login.html"
+            }
+          });
+
+          if (error) {
+            showMsg(error.message, "err");
+            setLoading(false);
+            return;
+          }
+
+          // Selon ton config, Supabase peut demander confirmation email
+          // Si email confirmé désactivé, la session existe et tu peux rediriger direct.
+          if (data?.session) {
+            showMsg("Compte créé. Redirection…", "ok");
+            window.location.href = "./chat.html";
+            return;
+          }
+
+          showMsg(
+            "Compte créé ! Vérifie tes emails pour confirmer, puis connecte-toi.",
+            "ok"
+          );
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+          showMsg("Erreur inattendue. Réessaie.", "err");
+          setLoading(false);
+        }
       });
 
-      document.getElementById("signupForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value.trim();
-        alert("Signup email/password : à connecter. Email: " + email);
+      // =============================
+      // 3) Google OAuth (Supabase)
+      // =============================
+      document.getElementById("googleSignup").addEventListener("click", async () => {
+        setLoading(true);
+        showMsg("Ouverture de Google…", "info");
+
+        try {
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: getRedirectBase() + "/chat.html"
+            }
+          });
+
+          if (error) {
+            showMsg(error.message, "err");
+            setLoading(false);
+          }
+          // sinon: redirection automatique vers Google
+        } catch (err) {
+          console.error(err);
+          showMsg("Erreur Google. Réessaie.", "err");
+          setLoading(false);
+        }
       });
+
+      // =============================
+      // 4) Optionnel: si l’utilisateur est déjà connecté
+      // =============================
+      (async () => {
+        const { data } = await supabase.auth.getSession();
+        if (data?.session) {
+          window.location.href = "./chat.html";
+        }
+      })();
     </script>
   </body>
 </html>
