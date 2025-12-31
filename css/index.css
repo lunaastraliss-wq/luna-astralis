@@ -1,12 +1,11 @@
 /* ==========================================================
-   Luna Astralis — css/index.css (HOME) — COMPLET (CENTRÉ + PULSE + COULEURS)
-   - Hero haut centré (kicker/titre/texte)
-   - Bloc “Commence gratuitement” centré + ✅ CTA VIOLET + pulse léger
+   Luna Astralis — css/index.css (HOME) — COMPLET
+   - Hero centré + CTA violet + pulse
    - Trust + Steps + Signs
-   - ✅ Couleurs par élément (feu/terre/air/eau) RESTAURÉES
-   - ✅ Punch coloré pour les 4 cartes (Steps)
-   - Hover + Focus clavier + Reduced-motion OK
-   - ✅ FOOTER légal séparé (liens propres + séparateurs)
+   - Couleurs par élément (feu/terre/air/eau)
+   - Footer légal
+   - ✅ Ajout: .hero-tech (texte visible) + .hero-disclaimer (tout petit)
+   - Reduced-motion OK
 ========================================================== */
 
 /* ================= HERO ================= */
@@ -128,25 +127,6 @@
   max-width:66ch;
 }
 .lead-center{ text-align:center; }
-
-/* Chips */
-.astro-chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:14px;
-}
-.astro-chips-center{ justify-content:center; }
-
-.chip{
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:12px;
-  color: rgba(255,255,255,.88);
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(6px);
-}
 
 /* ================= BLOC GRATUIT (CENTRÉ) ================= */
 .hero-free-wrap{
@@ -283,22 +263,26 @@
   letter-spacing:.02em;
 }
 
-/* ✅✅ MICRO TEXTE (ce qui te manque) */
-.hero-free-micro{
-  margin-top:8px;
-  font-size:12px;
-  line-height:1.35;
-  color: rgba(255,255,255,.78);
-  font-weight:900;
-  letter-spacing:.01em;
-  text-align:center;
-}
-.hero-free-micro--dim{
-  margin-top:4px;
-  color: rgba(255,255,255,.62);
-  font-weight:800;
+/* ================= ✅ TEXTE SOUS LE BLOC GRATUIT ================= */
+/* Le gros texte (à la place de “Exploration personnelle…”) */
+.hero-tech{
+  margin-top:10px;
+  font-size:13px;
+  font-weight:1000;
+  letter-spacing:.02em;
+  color: rgba(255,255,255,.92);
+  text-shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
+/* Le petit contexte (en dessous) */
+.hero-disclaimer{
+  margin-top:4px;
+  font-size:10px;
+  font-weight:800;
+  color: rgba(255,255,255,.55);
+}
+
+/* Notes génériques */
 .note{
   margin-top:12px;
   color:var(--muted2);
@@ -382,7 +366,7 @@
 }
 .step-ico{ font-size:14px; opacity:.95; }
 
-/* ✅ PUNCH coloré des 4 cartes (Steps) */
+/* Punch coloré */
 .box.step:nth-child(1){
   border-color: rgba(215,199,255,.28);
   background:
@@ -408,7 +392,6 @@
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
 }
 
-/* Petit hover premium sur steps */
 .box.step:hover{
   transform: translateY(-2px);
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
@@ -446,7 +429,6 @@
     0 18px 55px rgba(0,0,0,.40);
 }
 
-/* ================= COULEURS PAR ÉLÉMENT ================= */
 /* FEU */
 .sign.sign-fire{
   border-color: rgba(255,170,120,.55);
@@ -573,7 +555,7 @@
   padding:4px 8px;
 }
 
-/* ✅ séparateurs “•” automatiques */
+/* séparateurs “•” */
 .footer-links a + a::before{
   content:"•";
   display:inline-block;
@@ -620,11 +602,4 @@
   .hero-free-btn--pulse{
     animation:none !important;
   }
-                                   }
-.note-micro{
-  margin-top:6px;
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.02em;
-  color: rgba(255,255,255,.80);
 }
