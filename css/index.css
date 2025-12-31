@@ -283,6 +283,22 @@
   letter-spacing:.02em;
 }
 
+/* ✅✅ MICRO TEXTE (ce qui te manque) */
+.hero-free-micro{
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.35;
+  color: rgba(255,255,255,.78);
+  font-weight:900;
+  letter-spacing:.01em;
+  text-align:center;
+}
+.hero-free-micro--dim{
+  margin-top:4px;
+  color: rgba(255,255,255,.62);
+  font-weight:800;
+}
+
 .note{
   margin-top:12px;
   color:var(--muted2);
@@ -604,4 +620,4 @@
   .hero-free-btn--pulse{
     animation:none !important;
   }
-}
+                                   }
