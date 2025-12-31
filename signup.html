@@ -35,31 +35,21 @@
           Sauvegarde tes échanges et continue après les messages gratuits.
         </p>
 
-        <!-- Message zone -->
         <div
           id="msg"
           class="auth-msg"
           role="status"
           aria-live="polite"
-          style="display: none"
+          style="display:none;"
         ></div>
 
-        <!-- Google -->
         <button type="button" class="btn auth-google" id="googleSignup">
-          <img
-            src="./google-g.png"
-            alt=""
-            class="google-icon"
-            aria-hidden="true"
-          />
+          <img src="./google-g.png" alt="" class="google-icon" aria-hidden="true" />
           Continuer avec Google
         </button>
 
-        <div class="auth-sep" aria-hidden="true">
-          <span>ou</span>
-        </div>
+        <div class="auth-sep" aria-hidden="true"><span>ou</span></div>
 
-        <!-- Email / password -->
         <form class="auth-form" id="signupForm" autocomplete="on" novalidate>
           <label class="auth-label" for="email">Email</label>
           <input
@@ -106,119 +96,80 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-      /* =========================================================
-         CONFIG — mets TES valeurs (Publishable / anon-like)
-         ========================================================= */
-      const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
-      const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
+      (() => {
+        const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
+        const SUPABASE_PUBLISHABLE_KEY =
+          "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-      // IMPORTANT:
-      // - Utilise la "Publishable key" (pas la secret)
-      // - Ton SUPABASE_URL doit finir par .supabase.co
+        const msgEl = document.getElementById("msg");
+        const submitBtn = document.getElementById("submitBtn");
+        const googleBtn = document.getElementById("googleSignup");
+        const form = document.getElementById("signupForm");
 
-      /* =========================================================
-         UI helpers
-         ========================================================= */
-      const msgEl = document.getElementById("msg");
-      const submitBtn = document.getElementById("submitBtn");
-      const googleBtn = document.getElementById("googleSignup");
-
-      function showMsg(text, type = "info") {
-        msgEl.style.display = "block";
-        msgEl.textContent = text;
-
-        msgEl.classList.remove("is-ok", "is-err", "is-info");
-        msgEl.classList.add(
-          type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info"
-        );
-      }
-
-      function clearMsg() {
-        msgEl.style.display = "none";
-        msgEl.textContent = "";
-        msgEl.classList.remove("is-ok", "is-err", "is-info");
-      }
-
-      function setLoading(isLoading) {
-        submitBtn.disabled = isLoading;
-        googleBtn.disabled = isLoading;
-        submitBtn.style.opacity = isLoading ? "0.7" : "1";
-        googleBtn.style.opacity = isLoading ? "0.7" : "1";
-      }
-
-      function origin() {
-        return window.location.origin; // https://www.luna-astralis.app OU https://luna-astralis.app
-      }
-
-      function normalizeConfigOrFail() {
-        if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-          showMsg(
-            "Config Supabase manquante: ajoute SUPABASE_URL et SUPABASE_PUBLISHABLE_KEY.",
-            "err"
+        function showMsg(text, type = "info") {
+          msgEl.style.display = "block";
+          msgEl.textContent = text;
+          msgEl.classList.remove("is-ok", "is-err", "is-info");
+          msgEl.classList.add(
+            type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info"
           );
-          return false;
         }
-        if (!SUPABASE_URL.startsWith("https://") || !SUPABASE_URL.includes(".supabase.co")) {
-          showMsg("SUPABASE_URL invalide (doit être https://xxxx.supabase.co).", "err");
-          return false;
+
+        function setLoading(isLoading) {
+          submitBtn.disabled = isLoading;
+          googleBtn.disabled = isLoading;
+          submitBtn.style.opacity = isLoading ? "0.7" : "1";
+          googleBtn.style.opacity = isLoading ? "0.7" : "1";
         }
-        if (SUPABASE_PUBLISHABLE_KEY.length < 20) {
-          showMsg("Clé Supabase invalide (publishable key).", "err");
-          return false;
+
+        function origin() {
+          return window.location.origin; // ex: https://www.luna-astralis.app
         }
-        return true;
-      }
 
-      /* =========================================================
-         Supabase client
-         ========================================================= */
-      const supabase = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+        function configOk() {
+          if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+            showMsg("Config Supabase manquante.", "err");
+            return false;
+          }
+          if (!SUPABASE_URL.startsWith("https://") || !SUPABASE_URL.includes(".supabase.co")) {
+            showMsg("SUPABASE_URL invalide.", "err");
+            return false;
+          }
+          if (SUPABASE_PUBLISHABLE_KEY.length < 20) {
+            showMsg("Clé Supabase invalide.", "err");
+            return false;
+          }
+          return true;
+        }
 
-      /* =========================================================
-         Optionnel: si déjà connecté -> chat
-         ========================================================= */
-      (async () => {
-        if (!normalizeConfigOrFail()) return;
+        if (!configOk()) return;
 
-        try {
-          const { data, error } = await supabase.auth.getSession();
-          if (error) return;
+        // ✅ Anti-duplicate: on réutilise le même client si déjà créé
+        const supabase =
+          window.__LA_SUPABASE__ ??
+          (window.__LA_SUPABASE__ = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+          ));
+
+        // Si déjà connecté -> chat
+        supabase.auth.getSession().then(({ data }) => {
           if (data?.session) window.location.href = "./chat.html";
-        } catch (_) {}
-      })();
+        });
 
-      /* =========================================================
-         Signup email/password
-         ========================================================= */
-      document.getElementById("signupForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        clearMsg();
+        // Signup email/password
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
 
-        if (!normalizeConfigOrFail()) return;
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+          if (!email || !email.includes("@")) return showMsg("Entre un email valide.", "err");
+          if (!password || password.length < 8) return showMsg("Mot de passe: minimum 8 caractères.", "err");
 
-        // validations simples
-        if (!email || !email.includes("@")) {
-          showMsg("Entre un email valide.", "err");
-          return;
-        }
-        if (!password || password.length < 8) {
-          showMsg("Mot de passe : minimum 8 caractères.", "err");
-          return;
-        }
+          setLoading(true);
+          showMsg("Création du compte…", "info");
 
-        setLoading(true);
-        showMsg("Création du compte…", "info");
-
-        try {
-          // IMPORTANT:
-          // emailRedirectTo doit être autorisé dans Supabase:
-          // Auth > URL Configuration > Redirect URLs
           const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -233,55 +184,32 @@
             return;
           }
 
-          // Si confirmation email désactivée -> session directe
           if (data?.session) {
             showMsg("Compte créé. Redirection…", "ok");
             window.location.href = "./chat.html";
             return;
           }
 
-          // Si confirmation email activée
-          showMsg(
-            "Compte créé ! Vérifie tes emails pour confirmer, puis connecte-toi.",
-            "ok"
-          );
+          showMsg("Compte créé ! Vérifie tes emails pour confirmer.", "ok");
           setLoading(false);
-        } catch (err) {
-          console.error(err);
-          showMsg("Erreur inattendue. Réessaie.", "err");
-          setLoading(false);
-        }
-      });
+        });
 
-      /* =========================================================
-         Google OAuth signup
-         ========================================================= */
-      document.getElementById("googleSignup").addEventListener("click", async () => {
-        clearMsg();
-        if (!normalizeConfigOrFail()) return;
+        // Google OAuth
+        googleBtn.addEventListener("click", async () => {
+          setLoading(true);
+          showMsg("Ouverture de Google…", "info");
 
-        setLoading(true);
-        showMsg("Ouverture de Google…", "info");
-
-        try {
           const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
-            options: {
-              redirectTo: origin() + "/chat.html",
-            },
+            options: { redirectTo: origin() + "/chat.html" },
           });
 
           if (error) {
             showMsg(error.message, "err");
             setLoading(false);
           }
-          // sinon, redirection automatique vers Google
-        } catch (err) {
-          console.error(err);
-          showMsg("Erreur Google. Réessaie.", "err");
-          setLoading(false);
-        }
-      });
+        });
+      })();
     </script>
   </body>
 </html>
