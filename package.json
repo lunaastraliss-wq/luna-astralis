@@ -1,0 +1,9 @@
+{
+  "name": "luna-astralis",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "openai": "^5.0.0",
+    "@supabase/supabase-js": "^2.0.0"
+  }
+}
