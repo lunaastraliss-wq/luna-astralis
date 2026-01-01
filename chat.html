@@ -28,7 +28,6 @@
       }
       .chat-logout:hover{ opacity:1; }
 
-      /* message visible si redirection login */
       .auth-redirect {
         padding: 12px 14px;
         border-radius: 14px;
@@ -40,7 +39,6 @@
         margin: 12px;
       }
 
-      /* mini bouton upgrade (si tu veux l'afficher plus tard) */
       .chat-upgrade{
         margin-left: 10px;
         font-size: 13px;
@@ -49,6 +47,20 @@
         text-underline-offset: 3px;
       }
       .chat-upgrade:hover{ opacity:1; }
+
+      .chat-paywall{
+        margin: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.12);
+        color: rgba(255,255,255,.92);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+      .chat-paywall strong{ font-weight: 700; }
+      .chat-input[disabled]{ opacity:.6; }
+      .chat-send[disabled]{ opacity:.6; cursor:not-allowed; }
     </style>
   </head>
 
@@ -64,10 +76,7 @@
 
       <div style="display:flex; align-items:center; gap:14px;">
         <a class="chat-back" href="./index.html#signes">Changer de signe</a>
-
-        <!-- (optionnel) upgrade à afficher seulement quand paywall -->
         <a class="chat-upgrade" href="#" id="upgradeLink" style="display:none;">Upgrade</a>
-
         <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
       </div>
     </header>
@@ -138,7 +147,7 @@
             placeholder="Écris ton message…"
             autocomplete="off"
           />
-          <button class="chat-send" type="submit">Envoyer</button>
+          <button class="chat-send" id="sendBtn" type="submit">Envoyer</button>
         </form>
       </section>
     </main>
@@ -149,12 +158,17 @@
     <script>
       (function () {
         /* =========================
-           SUPABASE (1 seul client)
+           CONFIG
         ========================= */
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        // ⚠️ si window.supabase n'existe pas, on évite un crash silencieux
+        // ✅ LIMITE (tu as dit: 15 max, pareil pour tous)
+        const MAX_USER_MESSAGES_PER_CHAT = 15;
+
+        /* =========================
+           Supabase client
+        ========================= */
         if (!window.supabase || !window.supabase.createClient) {
           document.body.innerHTML =
             '<div style="padding:18px;color:#fff;font-family:system-ui">Erreur: Supabase JS non chargé (cdn). Vérifie le script supabase-js.</div>';
@@ -169,26 +183,31 @@
           ));
 
         /* =========================
-           ELEMENTS UI
+           Elements
         ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
+        const sendBtn = document.getElementById("sendBtn");
         const userEmailEl = document.getElementById("userEmail");
         const logoutLink = document.getElementById("logoutLink");
         const upgradeLink = document.getElementById("upgradeLink");
 
-        // garde un minimum visible si CSS/JS bug
         if (!messagesEl) return;
+
+        function safeText(s) { return (s || "").toString(); }
 
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
-          return p + location.search;
+          return p + location.search; // ex: chat.html?signe=belier
+        }
+
+        function showNotice(html) {
+          messagesEl.innerHTML = html;
         }
 
         function showRedirectNotice(text) {
-          messagesEl.innerHTML =
-            '<div class="auth-redirect">' + (text || "Connexion requise. Redirection…") + "</div>";
+          showNotice('<div class="auth-redirect">' + safeText(text || "Connexion requise. Redirection…") + "</div>");
         }
 
         function redirectToLogin() {
@@ -201,11 +220,11 @@
 
         function pricingUrl() {
           const next = encodeURIComponent(currentPathWithQuery());
-          return "./pricing.html?next=" + next; // <-- change ici si ton pricing a un autre nom
+          return "./pricing.html?next=" + next;
         }
 
         /* =========================
-           SESSION CACHE (évite spam getSession)
+           Session cache
         ========================= */
         let SESSION = null;
 
@@ -231,7 +250,7 @@
         }
 
         /* =========================
-           SIGNE UI
+           Sign UI
         ========================= */
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
@@ -327,7 +346,7 @@
         }
 
         /* =========================
-           CHAT UI
+           Chat UI
         ========================= */
         function addMessage(role, text) {
           const row = document.createElement("div");
@@ -347,14 +366,14 @@
 
           const bubble = document.createElement("div");
           bubble.className = "msg-bubble";
-          bubble.textContent = text;
+          bubble.textContent = safeText(text);
 
           row.appendChild(bubble);
           messagesEl.appendChild(row);
           messagesEl.scrollTop = messagesEl.scrollHeight;
         }
 
-        function aiReply() {
+        function aiReplyFallback() {
           return (
             "Parfait. Donne-moi un exemple précis :\n" +
             "1) Qu’est-ce qui s’est passé ?\n" +
@@ -363,21 +382,193 @@
           );
         }
 
+        function setInputEnabled(enabled) {
+          if (input) input.disabled = !enabled;
+          if (sendBtn) sendBtn.disabled = !enabled;
+        }
+
+        function showPaywall() {
+          // show upgrade link + disable input
+          if (upgradeLink) {
+            upgradeLink.href = pricingUrl();
+            upgradeLink.style.display = "inline";
+          }
+          setInputEnabled(false);
+          addMessage(
+            "ai",
+            "Tu as atteint la limite de ce chat. Clique sur “Upgrade” pour voir les options."
+          );
+        }
+
         /* =========================
-           INIT + AUTH GUARD
+           Conversation / Messages (DB)
+        ========================= */
+        function getConversationIdFromUrl() {
+          const p = new URLSearchParams(location.search);
+          return p.get("c") || "";
+        }
+
+        function setConversationIdInUrl(conversationId) {
+          const url = new URL(location.href);
+          url.searchParams.set("c", conversationId);
+          history.replaceState({}, "", url.toString());
+        }
+
+        async function insertConversation(session) {
+          // On tente AVEC sign_key, puis on retente SANS si la colonne n'existe pas
+          const payloadA = { user_id: session.user.id, sign_key: signKey };
+          const payloadB = { user_id: session.user.id };
+
+          let res = await supabase
+            .from("conversations")
+            .insert(payloadA)
+            .select("id")
+            .single();
+
+          if (res.error) {
+            const msg = (res.error.message || "").toLowerCase();
+            const maybeColumnMissing =
+              msg.includes("column") && (msg.includes("sign_key") || msg.includes("signkey"));
+            if (maybeColumnMissing) {
+              res = await supabase
+                .from("conversations")
+                .insert(payloadB)
+                .select("id")
+                .single();
+            }
+          }
+
+          return res;
+        }
+
+        async function ensureConversation(session) {
+          const existing = getConversationIdFromUrl();
+          if (existing) return existing;
+
+          const { data, error } = await insertConversation(session);
+
+          if (error || !data?.id) {
+            console.error("create conversation error:", error);
+            addMessage("ai", "Erreur: impossible de créer la conversation (Supabase).");
+            return null;
+          }
+
+          setConversationIdInUrl(data.id);
+          return data.id;
+        }
+
+        async function loadMessages(conversationId) {
+          const { data, error } = await supabase
+            .from("chat_messages")
+            .select("role, content, created_at")
+            .eq("conversation_id", conversationId)
+            .order("created_at", { ascending: true });
+
+          if (error) {
+            console.error("load messages error:", error);
+            addMessage("ai", "Erreur: impossible de charger l’historique (Supabase).");
+            return [];
+          }
+
+          messagesEl.innerHTML = "";
+          for (const m of data || []) {
+            addMessage(m.role === "ai" ? "ai" : "user", m.content || "");
+          }
+          return data || [];
+        }
+
+        async function insertChatMessage({ conversationId, session, role, content }) {
+          // On tente AVEC sign_key, puis SANS si colonne absente
+          const rowA = {
+            conversation_id: conversationId,
+            user_id: session.user.id,
+            role,
+            content,
+            sign_key: signKey,
+          };
+          const rowB = {
+            conversation_id: conversationId,
+            user_id: session.user.id,
+            role,
+            content,
+          };
+
+          let res = await supabase.from("chat_messages").insert(rowA);
+          if (res.error) {
+            const msg = (res.error.message || "").toLowerCase();
+            const maybeColumnMissing =
+              msg.includes("column") && (msg.includes("sign_key") || msg.includes("signkey"));
+            if (maybeColumnMissing) {
+              res = await supabase.from("chat_messages").insert(rowB);
+            }
+          }
+          return res;
+        }
+
+        async function countUserMessages(conversationId) {
+          // count user messages only (role='user')
+          const { count, error } = await supabase
+            .from("chat_messages")
+            .select("id", { count: "exact", head: true })
+            .eq("conversation_id", conversationId)
+            .eq("role", "user");
+
+          if (error) {
+            console.error("count user messages error:", error);
+            return 0;
+          }
+          return count || 0;
+        }
+
+        async function enforceLimit(conversationId) {
+          const used = await countUserMessages(conversationId);
+          if (used >= MAX_USER_MESSAGES_PER_CHAT) {
+            showPaywall();
+            return false;
+          }
+          // si proche de la limite, tu peux montrer upgrade (optionnel)
+          if (upgradeLink && used >= Math.max(1, MAX_USER_MESSAGES_PER_CHAT - 3)) {
+            upgradeLink.href = pricingUrl();
+            upgradeLink.style.display = "inline";
+          }
+          return true;
+        }
+
+        /* =========================
+           INIT
         ========================= */
         (async () => {
+          // affiche quelque chose tout de suite si jamais auth prend 1-2 sec
+          showNotice('<div class="auth-redirect">Chargement…</div>');
+
           const session = await requireSessionOrRedirect();
           if (!session) return;
 
-          // affichage email + logout
           if (userEmailEl) userEmailEl.textContent = session.user?.email ? session.user.email : "";
           if (logoutLink) logoutLink.style.display = "inline";
 
-          addMessage(
-            "ai",
-            "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
-          );
+          const conversationId = await ensureConversation(session);
+          if (!conversationId) return;
+
+          const history = await loadMessages(conversationId);
+
+          // Limite (15)
+          const ok = await enforceLimit(conversationId);
+          if (!ok) return;
+
+          // Message d’accueil seulement si vide
+          if (!history.length) {
+            const welcome =
+              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
+            addMessage("ai", welcome);
+            await insertChatMessage({ conversationId, session, role: "ai", content: welcome });
+          }
+
+          // Upgrade link (au cas où)
+          if (upgradeLink) {
+            upgradeLink.href = pricingUrl();
+            upgradeLink.style.display = "none";
+          }
         })();
 
         /* =========================
@@ -390,16 +581,49 @@
             const session = await requireSessionOrRedirect();
             if (!session) return;
 
+            const conversationId = getConversationIdFromUrl();
+            if (!conversationId) {
+              addMessage("ai", "Erreur: conversation introuvable.");
+              return;
+            }
+
+            // check limit BEFORE sending
+            const ok = await enforceLimit(conversationId);
+            if (!ok) return;
+
             const text = (input && input.value ? input.value : "").trim();
             if (!text) return;
 
+            // UI
             addMessage("user", text);
             if (input) {
               input.value = "";
               input.focus();
             }
 
-            setTimeout(() => addMessage("ai", aiReply(text)), 320);
+            // DB save user message
+            const insUser = await insertChatMessage({ conversationId, session, role: "user", content: text });
+            if (insUser.error) {
+              console.error("insert user msg error:", insUser.error);
+              addMessage("ai", "Erreur: impossible d’enregistrer ton message.");
+              return;
+            }
+
+            // check limit AFTER saving user message
+            const okAfter = await enforceLimit(conversationId);
+            if (!okAfter) return;
+
+            // AI reply (fallback local for now)
+            setTimeout(async () => {
+              const reply = aiReplyFallback();
+              addMessage("ai", reply);
+
+              const insAi = await insertChatMessage({ conversationId, session, role: "ai", content: reply });
+              if (insAi.error) {
+                console.error("insert ai msg error:", insAi.error);
+                // pas bloquant
+              }
+            }, 320);
           });
         }
 
@@ -415,17 +639,17 @@
         }
 
         /* =========================
-           UPGRADE (optionnel)
+           UPGRADE link
         ========================= */
         if (upgradeLink) {
           upgradeLink.href = pricingUrl();
-          upgradeLink.addEventListener("click", (e) => {
-            // laisse le lien fonctionner normalement
+          upgradeLink.addEventListener("click", () => {
+            // lien normal
           });
         }
 
         /* =========================
-           Si session change (déco ailleurs) -> login
+           Session change -> login
         ========================= */
         supabase.auth.onAuthStateChange((event, session) => {
           SESSION = session || null;
