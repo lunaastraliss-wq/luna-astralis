@@ -497,11 +497,9 @@
         }
 
         /* =========================
-           COUNTER (UI indicatif)
-           - On garde un compteur local pour afficher "X restants"
-           - Le serveur est le vrai garde-fou
+           COUNTER (UI indicatif) — GLOBAL
         ========================= */
-        const KEY_UI_USED = STORAGE_PREFIX + "ui_used_" + signKey;
+        const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
 
         function getUiUsed() {
           const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
@@ -628,7 +626,7 @@
             renderThread(thread);
           } else {
             const hello =
-              "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
+              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
             addMessage("ai", hello);
             saveThread([{ role: "ai", text: hello }]);
           }
@@ -643,7 +641,7 @@
             renderThread(thread);
           } else {
             const hello =
-              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
+              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
             addMessage("ai", hello);
             saveThread([{ role: "ai", text: hello }]);
           }
