@@ -13,18 +13,25 @@ import { createClient } from "@supabase/supabase-js";
 const FREE_LIMIT = 15;
 
 // ✅ OpenAI (server-side)
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // ✅ Supabase (server-side) — SERVICE ROLE KEY uniquement côté serveur
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  { auth: { persistSession: false } }
 );
 
 /* =========================
    Utils
 ========================= */
-function safeParse(body) {
+function clean(v) {
+  return (v == null ? "" : String(v)).trim();
+}
+
+function safeJson(body) {
+  if (body == null) return {};
+  if (typeof body === "object") return body;
   if (typeof body === "string") {
     try {
       return JSON.parse(body);
@@ -32,19 +39,14 @@ function safeParse(body) {
       return {};
     }
   }
-  return body || {};
-}
-
-function clean(v) {
-  return (v == null ? "" : String(v)).trim();
+  return {};
 }
 
 function getOutputText(response) {
-  // SDK "responses" renvoie souvent output_text
   const t = response?.output_text;
   if (typeof t === "string" && t.trim()) return t.trim();
 
-  // fallback (structure variable selon modèle)
+  // fallback (structure parfois différente)
   const fallback = response?.output?.[0]?.content?.[0]?.text;
   return typeof fallback === "string" ? fallback.trim() : "";
 }
@@ -53,28 +55,29 @@ function getOutputText(response) {
    Guest usage helpers
 ========================= */
 async function getOrInitGuestUsed(guestId) {
-  // 1) Lire
   const { data, error } = await supabase
     .from("guest_usage")
     .select("used")
     .eq("guest_id", guestId)
     .single();
 
-  // Supabase PostgREST: "no rows" arrive parfois comme erreur.
-  // On init seulement si "pas trouvé", sinon on throw.
   if (error) {
     const msg = String(error.message || "").toLowerCase();
     const code = String(error.code || "");
     const isNoRows =
       code === "PGRST116" || msg.includes("no rows") || msg.includes("0 rows");
 
-    if (!isNoRows) throw new Error(error.message || "Erreur lecture guest_usage");
+    if (!isNoRows) {
+      throw new Error(`Supabase read guest_usage: ${error.message || "Erreur"}`);
+    }
 
     const { error: insErr } = await supabase
       .from("guest_usage")
       .insert([{ guest_id: guestId, used: 0 }]);
 
-    if (insErr) throw new Error(insErr.message);
+    if (insErr) {
+      throw new Error(`Supabase insert guest_usage: ${insErr.message}`);
+    }
     return 0;
   }
 
@@ -87,14 +90,14 @@ async function incrementGuestUsed(guestId, newUsed) {
     .update({ used: newUsed, updated_at: new Date().toISOString() })
     .eq("guest_id", guestId);
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(`Supabase update guest_usage: ${error.message}`);
 }
 
 /* =========================
    Handler
 ========================= */
 export default async function handler(req, res) {
-  // CORS simple (ok Vercel)
+  // CORS simple
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -111,20 +114,25 @@ export default async function handler(req, res) {
         error: "OPENAI_API_KEY manquante (Vercel > Environment Variables).",
       });
     }
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    if (!process.env.SUPABASE_URL) {
       return res.status(500).json({
-        error: "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquante.",
+        error: "SUPABASE_URL manquante (Vercel > Environment Variables).",
+      });
+    }
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return res.status(500).json({
+        error:
+          "SUPABASE_SERVICE_ROLE_KEY manquante (Vercel > Environment Variables).",
       });
     }
 
-    const body = safeParse(req.body);
+    const body = safeJson(req.body);
 
     const message = clean(body.message);
     const signKey = clean(body.signKey);
     const signName = clean(body.signName);
     const history = Array.isArray(body.history) ? body.history : [];
 
-    // guest control
     const mode = clean(body.mode) || "guest"; // "guest" ou "auth"
     const guestId = clean(body.guestId); // requis si mode=guest
 
@@ -135,9 +143,7 @@ export default async function handler(req, res) {
     ========================= */
     if (mode === "guest") {
       if (!guestId) {
-        return res.status(400).json({
-          error: "guestId manquant (mode invité).",
-        });
+        return res.status(400).json({ error: "guestId manquant (mode invité)." });
       }
 
       const used = await getOrInitGuestUsed(guestId);
@@ -150,7 +156,7 @@ export default async function handler(req, res) {
         });
       }
 
-      // ✅ incrémente avant l’appel OpenAI
+      // Incrémente avant l'appel OpenAI (anti-spam)
       await incrementGuestUsed(guestId, used + 1);
     }
 
@@ -180,7 +186,7 @@ Signe actuel : ${signLabel}
 `.trim();
 
     /* =========================
-       3) HISTORIQUE (optionnel)
+       3) HISTORIQUE
     ========================= */
     const recentHistory = history
       .slice(-12)
@@ -190,19 +196,15 @@ Signe actuel : ${signLabel}
       }))
       .filter((m) => m.content);
 
-    const input = [
-      ...recentHistory,
-      { role: "user", content: message },
-    ];
+    const input = [...recentHistory, { role: "user", content: message }];
 
     /* =========================
-       4) OPENAI (✅ modèles + params valides)
+       4) OPENAI
     ========================= */
-    const response = await client.responses.create({
-      model: "gpt-5-mini", // ✅ remplace "gpt-5.2"
+    const response = await openai.responses.create({
+      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
       instructions,
       input,
-      reasoning: { effort: "minimal" }, // ✅ remplace "low"
       max_output_tokens: 450,
     });
 
@@ -212,8 +214,16 @@ Signe actuel : ${signLabel}
       reply: reply || "Je t’écoute. Peux-tu préciser ce que tu ressens ?",
     });
   } catch (err) {
+    // ✅ Debug utile côté navigateur + logs Vercel
+    const msg = err?.message || "Erreur serveur";
     return res.status(500).json({
-      error: err?.message || "Erreur serveur",
+      error: msg,
+      // tu peux enlever debug ensuite
+      debug: {
+        hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
+        hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
+        hasServiceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+      },
     });
   }
 }
