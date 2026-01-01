@@ -28,17 +28,6 @@
       }
       .chat-logout:hover{ opacity:1; }
 
-      .auth-redirect {
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(255,255,255,.07);
-        border: 1px solid rgba(255,255,255,.12);
-        color: rgba(255,255,255,.92);
-        font-size: 14px;
-        line-height: 1.35;
-        margin: 12px;
-      }
-
       .chat-upgrade{
         margin-left: 10px;
         font-size: 13px;
@@ -257,7 +246,7 @@
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        const FREE_LIMIT = 15; // <-- change à 15 si tu veux
+        const FREE_LIMIT = 15;
         const STORAGE_PREFIX = "la_chat_";
 
         /* =========================
@@ -289,7 +278,6 @@
         const logoutLink = document.getElementById("logoutLink");
         const upgradeLink = document.getElementById("upgradeLink");
 
-        const modePill = document.getElementById("modePill");
         const modeDot = document.getElementById("modeDot");
         const modeText = document.getElementById("modeText");
 
@@ -437,16 +425,46 @@
           row.appendChild(bubble);
           messagesEl.appendChild(row);
           messagesEl.scrollTop = messagesEl.scrollHeight;
+          return row;
         }
 
-        function aiReply(userText) {
-          // Placeholder (pas d’OpenAI pour l’instant)
-          return (
-            "Parfait. Donne-moi un exemple précis :\n" +
-            "1) Qu’est-ce qui s’est passé ?\n" +
-            "2) Qu’as-tu ressenti dans ton corps ?\n" +
-            "3) Quelle pensée automatique est arrivée ?"
-          );
+        function replaceLastAiTyping(newText) {
+          const last = messagesEl.querySelector(".msg-row.msg-ai:last-child .msg-bubble");
+          if (last && last.textContent === "…") {
+            last.textContent = newText;
+            return true;
+          }
+          return false;
+        }
+
+        /* =========================
+           CALL YOUR SERVER (OpenAI)
+           IMPORTANT: requires /api/chat on Vercel
+        ========================= */
+        async function askLuna(userText, threadForContext, isAuth) {
+          const payload = {
+            message: userText,
+            signKey,
+            signName,
+            signDesc,
+            mode: isAuth ? "auth" : "guest",
+            // on envoie juste un petit contexte récent
+            history: (threadForContext || []).slice(-12)
+          };
+
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            const err = data?.error || "Erreur serveur (/api/chat).";
+            throw new Error(err);
+          }
+          if (!data?.reply) throw new Error("Réponse vide.");
+          return data.reply;
         }
 
         /* =========================
@@ -485,23 +503,18 @@
 
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
-          if (modeDot) {
-            modeDot.classList.remove("green");
-          }
+          if (modeDot) modeDot.classList.remove("green");
           if (logoutLink) logoutLink.style.display = "none";
           if (upgradeLink) upgradeLink.style.display = "none";
           if (userEmailEl) userEmailEl.textContent = "";
-          updateFreeCounter();
+          updateFreeCounter(false);
         }
 
         function setModeAuth(email) {
           if (modeText) modeText.textContent = "Connecté";
-          if (modeDot) {
-            modeDot.classList.add("green");
-          }
+          if (modeDot) modeDot.classList.add("green");
           if (logoutLink) logoutLink.style.display = "inline";
           if (userEmailEl) userEmailEl.textContent = email || "";
-          // upgradeLink: on l’affichera quand tu activeras paywall plan
           updateFreeCounter(true);
         }
 
@@ -532,9 +545,7 @@
           paywallEl.style.display = "none";
         }
 
-        if (paywallClose) {
-          paywallClose.addEventListener("click", closePaywall);
-        }
+        if (paywallClose) paywallClose.addEventListener("click", closePaywall);
         if (paywallEl) {
           paywallEl.addEventListener("click", (e) => {
             if (e.target === paywallEl) closePaywall();
@@ -557,15 +568,12 @@
         }
 
         async function ensureConversation(session) {
-          // conversation_id est requis dans chat_messages -> on crée une conversation si possible.
-          // On garde un cache local (par signe) pour réutiliser la même.
           const cacheKey = STORAGE_PREFIX + "conv_" + signKey;
           const cached = localStorage.getItem(cacheKey);
           if (cached) return cached;
 
           const user_id = session.user.id;
 
-          // 1) try insert with sign_key
           let convId = null;
           try {
             let r = await supabase
@@ -577,7 +585,6 @@
             if (!r.error && r.data?.id) convId = r.data.id;
           } catch (_) {}
 
-          // 2) fallback: insert only user_id
           if (!convId) {
             try {
               let r2 = await supabase
@@ -590,7 +597,6 @@
             } catch (_) {}
           }
 
-          // 3) last resort: if we still have nothing, return null (DB schema unknown)
           if (!convId) return null;
 
           try { localStorage.setItem(cacheKey, convId); } catch (_) {}
@@ -598,19 +604,13 @@
         }
 
         async function saveMessageDB(session, conversation_id, role, content) {
-          // Selon tes captures: public.chat_messages: (id int8, created_at, user_id, role, content, conversation_id uuid)
           const user_id = session.user.id;
           const payload = { user_id, role, content, conversation_id };
-
-          const { error } = await supabase
-            .from("chat_messages")
-            .insert([payload]);
-
+          const { error } = await supabase.from("chat_messages").insert([payload]);
           return !error;
         }
 
         async function migrateGuestToDB(session) {
-          // on migre une seule fois par signe
           try {
             if (localStorage.getItem(KEY_MIGRATED) === "1") return;
           } catch (_) {}
@@ -622,24 +622,14 @@
           }
 
           const conversation_id = await ensureConversation(session);
-          if (!conversation_id) {
-            // si conversations table ne correspond pas -> on n’efface rien
-            return;
-          }
+          if (!conversation_id) return;
 
-          // insère dans DB dans l’ordre
           for (const m of thread) {
             const ok = await saveMessageDB(session, conversation_id, m.role, m.text);
-            if (!ok) {
-              // stop si erreur, on garde les données locales
-              return;
-            }
+            if (!ok) return;
           }
 
-          // si tout ok: on marque migré (on peut garder local ou nettoyer)
           try { localStorage.setItem(KEY_MIGRATED, "1"); } catch (_) {}
-          // optionnel: nettoyer l’historique local
-          // saveGuestThread([]);
         }
 
         /* =========================
@@ -657,11 +647,10 @@
           if (thread.length) {
             renderThread(thread);
           } else {
-            addMessage(
-              "ai",
-              "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
-            );
-            saveGuestThread([{ role: "ai", text: "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."}]);
+            const hello =
+              "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
+            addMessage("ai", hello);
+            saveGuestThread([{ role: "ai", text: hello }]);
           }
         }
 
@@ -669,11 +658,8 @@
           const email = session.user?.email || "";
           setModeAuth(email);
 
-          // migration des messages invités -> DB (optionnel mais utile)
           await migrateGuestToDB(session);
 
-          // Pour l’instant on affiche le thread local (simple)
-          // Plus tard, tu pourras charger l’historique DB ici.
           const thread = loadGuestThread();
           if (thread.length) {
             renderThread(thread);
@@ -687,16 +673,20 @@
 
         (async () => {
           SESSION = await getSession();
-          if (SESSION) {
-            await bootAuth(SESSION);
-          } else {
-            bootGuest();
-          }
+          if (SESSION) await bootAuth(SESSION);
+          else bootGuest();
         })();
 
         /* =========================
-           SEND
+           SEND (NOW CALLS /api/chat)
         ========================= */
+        async function handleSend(userText, isAuth) {
+          // on prend le thread local comme contexte (simple)
+          const thread = loadGuestThread();
+          const reply = await askLuna(userText, thread, isAuth);
+          return reply;
+        }
+
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -704,21 +694,21 @@
             const text = (input && input.value ? input.value : "").trim();
             if (!text) return;
 
-            // refresh session (si user se connecte dans un autre onglet)
+            // refresh session
             SESSION = await getSession();
 
-            // MODE GUEST
+            // ===== GUEST MODE =====
             if (!SESSION) {
               const used = getGuestCount();
               if (used >= FREE_LIMIT) {
                 openPaywall();
-                updateFreeCounter();
+                updateFreeCounter(false);
                 return;
               }
 
               addMessage("user", text);
               const n = incGuestCount();
-              updateFreeCounter();
+              updateFreeCounter(false);
 
               const thread = loadGuestThread();
               thread.push({ role: "user", text });
@@ -726,43 +716,60 @@
 
               if (input) { input.value = ""; input.focus(); }
 
-              setTimeout(() => {
-                const reply = aiReply(text);
-                addMessage("ai", reply);
+              // typing
+              addMessage("ai", "…");
+
+              try {
+                const reply = await handleSend(text, false);
+
+                replaceLastAiTyping(reply) || addMessage("ai", reply);
 
                 const t2 = loadGuestThread();
                 t2.push({ role: "ai", text: reply });
                 saveGuestThread(t2);
 
-                // si on vient d’atteindre la limite, on ouvre le paywall après la réponse
                 if (n >= FREE_LIMIT) {
                   openPaywall();
-                  updateFreeCounter();
+                  updateFreeCounter(false);
                 }
-              }, 320);
+              } catch (err) {
+                const msg =
+                  "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+                  (err?.message ? ("(" + err.message + ")") : "");
+                replaceLastAiTyping(msg) || addMessage("ai", msg);
+              }
 
               return;
             }
 
-            // MODE AUTH
+            // ===== AUTH MODE =====
             addMessage("user", text);
             if (input) { input.value = ""; input.focus(); }
 
-            // sauvegarde DB (si possible)
             const conversation_id = await ensureConversation(SESSION);
-            if (conversation_id) {
-              await saveMessageDB(SESSION, conversation_id, "user", text);
+            if (conversation_id) await saveMessageDB(SESSION, conversation_id, "user", text);
+
+            // typing
+            addMessage("ai", "…");
+
+            try {
+              const reply = await handleSend(text, true);
+
+              replaceLastAiTyping(reply) || addMessage("ai", reply);
+
+              if (conversation_id) await saveMessageDB(SESSION, conversation_id, "ai", reply);
+
+              // aussi garder local (simple)
+              const t2 = loadGuestThread();
+              t2.push({ role: "user", text });
+              t2.push({ role: "ai", text: reply });
+              saveGuestThread(t2);
+            } catch (err) {
+              const msg =
+                "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+                (err?.message ? ("(" + err.message + ")") : "");
+              replaceLastAiTyping(msg) || addMessage("ai", msg);
             }
-
-            // réponse IA (placeholder)
-            setTimeout(async () => {
-              const reply = aiReply(text);
-              addMessage("ai", reply);
-
-              if (conversation_id) {
-                await saveMessageDB(SESSION, conversation_id, "ai", reply);
-              }
-            }, 320);
           });
         }
 
@@ -782,21 +789,16 @@
         /* =========================
            UPGRADE (optionnel)
         ========================= */
-        if (upgradeLink) {
-          upgradeLink.href = pricingUrl();
-        }
+        if (upgradeLink) upgradeLink.href = pricingUrl();
 
         /* =========================
-           Auth change (login/logout ailleurs)
+           Auth change
         ========================= */
         supabase.auth.onAuthStateChange(async (event, session) => {
           SESSION = session || null;
           closePaywall();
-          if (SESSION) {
-            await bootAuth(SESSION);
-          } else {
-            bootGuest();
-          }
+          if (SESSION) await bootAuth(SESSION);
+          else bootGuest();
         });
 
         // Liens paywall
