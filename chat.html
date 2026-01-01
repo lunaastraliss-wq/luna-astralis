@@ -48,19 +48,88 @@
       }
       .chat-upgrade:hover{ opacity:1; }
 
-      .chat-paywall{
-        margin: 12px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(255,255,255,.07);
-        border: 1px solid rgba(255,255,255,.12);
+      /* ===== Paywall overlay (Replika-like) ===== */
+      .paywall {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(0,0,0,.55);
+        backdrop-filter: blur(6px);
+        z-index: 9999;
+      }
+      .paywall-card{
+        width: min(520px, 100%);
+        border-radius: 22px;
+        padding: 18px 18px 16px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.14);
+        box-shadow: 0 25px 70px rgba(0,0,0,.55);
         color: rgba(255,255,255,.92);
+      }
+      .paywall-title{
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0 0 6px;
+        letter-spacing: .2px;
+      }
+      .paywall-desc{
+        margin: 0 0 14px;
+        opacity: .85;
+        line-height: 1.35;
         font-size: 14px;
+      }
+      .paywall-actions{
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn{
+        appearance: none;
+        border: 1px solid rgba(255,255,255,.18);
+        background: rgba(255,255,255,.10);
+        color: rgba(255,255,255,.92);
+        padding: 10px 12px;
+        border-radius: 14px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+      }
+      .btn:hover{ background: rgba(255,255,255,.14); }
+      .btn-primary{
+        background: rgba(215,199,255,.18);
+        border-color: rgba(215,199,255,.28);
+      }
+      .btn-primary:hover{ background: rgba(215,199,255,.24); }
+      .paywall-foot{
+        margin-top: 12px;
+        font-size: 12px;
+        opacity: .75;
         line-height: 1.35;
       }
-      .chat-paywall strong{ font-weight: 700; }
-      .chat-input[disabled]{ opacity:.6; }
-      .chat-send[disabled]{ opacity:.6; cursor:not-allowed; }
+
+      .mode-pill{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        font-size: 12px;
+        opacity: .85;
+      }
+      .mode-dot{
+        width:8px;height:8px;border-radius:999px;
+        background: rgba(255,255,255,.75);
+      }
+      .mode-dot.green{ background: rgba(120,255,190,.85); }
     </style>
   </head>
 
@@ -76,6 +145,12 @@
 
       <div style="display:flex; align-items:center; gap:14px;">
         <a class="chat-back" href="./index.html#signes">Changer de signe</a>
+
+        <span class="mode-pill" id="modePill" title="Mode actuel">
+          <span class="mode-dot" id="modeDot"></span>
+          <span id="modeText">Invité</span>
+        </span>
+
         <a class="chat-upgrade" href="#" id="upgradeLink" style="display:none;">Upgrade</a>
         <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
       </div>
@@ -107,6 +182,7 @@
           </div>
 
           <div style="margin-top:10px; font-size:12px; opacity:.7;" id="userEmail"></div>
+          <div style="margin-top:6px; font-size:12px; opacity:.7;" id="freeCounter"></div>
         </div>
 
         <div class="ai-disclaimer">
@@ -147,10 +223,28 @@
             placeholder="Écris ton message…"
             autocomplete="off"
           />
-          <button class="chat-send" id="sendBtn" type="submit">Envoyer</button>
+          <button class="chat-send" type="submit">Envoyer</button>
         </form>
       </section>
     </main>
+
+    <!-- Paywall overlay -->
+    <div class="paywall" id="paywall">
+      <div class="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
+        <h3 class="paywall-title">Continuer la discussion</h3>
+        <p class="paywall-desc" id="paywallDesc">
+          Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.
+        </p>
+        <div class="paywall-actions">
+          <a class="btn btn-primary" id="paywallLogin" href="./login.html">Créer un compte / Se connecter</a>
+          <a class="btn" id="paywallPricing" href="./pricing.html">Voir les offres</a>
+          <button class="btn" id="paywallClose" type="button">Fermer</button>
+        </div>
+        <div class="paywall-foot">
+          Astuce : tu peux démarrer en invité. Le compte sert à sauvegarder ton historique et débloquer plus de messages.
+        </div>
+      </div>
+    </div>
 
     <!-- Supabase JS (UMD v2) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -163,11 +257,11 @@
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        // ✅ LIMITE (tu as dit: 15 max, pareil pour tous)
-        const MAX_USER_MESSAGES_PER_CHAT = 15;
+        const FREE_LIMIT = 15; // <-- change à 15 si tu veux
+        const STORAGE_PREFIX = "la_chat_";
 
         /* =========================
-           Supabase client
+           SAFE SUPABASE LOAD
         ========================= */
         if (!window.supabase || !window.supabase.createClient) {
           document.body.innerHTML =
@@ -183,74 +277,47 @@
           ));
 
         /* =========================
-           Elements
+           ELEMENTS
         ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
-        const sendBtn = document.getElementById("sendBtn");
+
         const userEmailEl = document.getElementById("userEmail");
+        const freeCounterEl = document.getElementById("freeCounter");
+
         const logoutLink = document.getElementById("logoutLink");
         const upgradeLink = document.getElementById("upgradeLink");
 
+        const modePill = document.getElementById("modePill");
+        const modeDot = document.getElementById("modeDot");
+        const modeText = document.getElementById("modeText");
+
+        const paywallEl = document.getElementById("paywall");
+        const paywallLogin = document.getElementById("paywallLogin");
+        const paywallPricing = document.getElementById("paywallPricing");
+        const paywallClose = document.getElementById("paywallClose");
+
         if (!messagesEl) return;
 
-        function safeText(s) { return (s || "").toString(); }
-
+        /* =========================
+           URL helpers
+        ========================= */
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
-          return p + location.search; // ex: chat.html?signe=belier
+          return p + location.search;
         }
-
-        function showNotice(html) {
-          messagesEl.innerHTML = html;
-        }
-
-        function showRedirectNotice(text) {
-          showNotice('<div class="auth-redirect">' + safeText(text || "Connexion requise. Redirection…") + "</div>");
-        }
-
-        function redirectToLogin() {
+        function loginUrl() {
           const next = encodeURIComponent(currentPathWithQuery());
-          showRedirectNotice("Connexion requise. Redirection vers “Mon compte”…");
-          setTimeout(() => {
-            window.location.href = "./login.html?next=" + next;
-          }, 120);
+          return "./login.html?next=" + next;
         }
-
         function pricingUrl() {
           const next = encodeURIComponent(currentPathWithQuery());
           return "./pricing.html?next=" + next;
         }
 
         /* =========================
-           Session cache
-        ========================= */
-        let SESSION = null;
-
-        async function getSessionCached() {
-          if (SESSION) return SESSION;
-          try {
-            const { data, error } = await supabase.auth.getSession();
-            if (error || !data?.session) return null;
-            SESSION = data.session;
-            return SESSION;
-          } catch (_) {
-            return null;
-          }
-        }
-
-        async function requireSessionOrRedirect() {
-          const session = await getSessionCached();
-          if (!session) {
-            redirectToLogin();
-            return null;
-          }
-          return session;
-        }
-
-        /* =========================
-           Sign UI
+           SIGN
         ========================= */
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
@@ -319,7 +386,6 @@
 
         const rawKey = qs("signe") || qs("sign") || "belier";
         const signKey = norm(rawKey) || "belier";
-
         const signName = SIGNS[signKey] || "—";
         const signDesc =
           SIGN_DESC[signKey] ||
@@ -346,7 +412,7 @@
         }
 
         /* =========================
-           Chat UI
+           CHAT UI
         ========================= */
         function addMessage(role, text) {
           const row = document.createElement("div");
@@ -366,14 +432,15 @@
 
           const bubble = document.createElement("div");
           bubble.className = "msg-bubble";
-          bubble.textContent = safeText(text);
+          bubble.textContent = text;
 
           row.appendChild(bubble);
           messagesEl.appendChild(row);
           messagesEl.scrollTop = messagesEl.scrollHeight;
         }
 
-        function aiReplyFallback() {
+        function aiReply(userText) {
+          // Placeholder (pas d’OpenAI pour l’instant)
           return (
             "Parfait. Donne-moi un exemple précis :\n" +
             "1) Qu’est-ce qui s’est passé ?\n" +
@@ -382,192 +449,248 @@
           );
         }
 
-        function setInputEnabled(enabled) {
-          if (input) input.disabled = !enabled;
-          if (sendBtn) sendBtn.disabled = !enabled;
+        /* =========================
+           STORAGE (guest)
+        ========================= */
+        const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
+        const KEY_COUNT = STORAGE_PREFIX + "count_" + signKey;
+        const KEY_MIGRATED = STORAGE_PREFIX + "migrated_" + signKey;
+
+        function loadGuestThread() {
+          try {
+            const raw = localStorage.getItem(KEY_THREAD);
+            const arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+          } catch (_) {
+            return [];
+          }
         }
 
-        function showPaywall() {
-          // show upgrade link + disable input
-          if (upgradeLink) {
-            upgradeLink.href = pricingUrl();
-            upgradeLink.style.display = "inline";
+        function saveGuestThread(arr) {
+          try {
+            localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
+          } catch (_) {}
+        }
+
+        function getGuestCount() {
+          const n = Number(localStorage.getItem(KEY_COUNT) || "0");
+          return Number.isFinite(n) ? n : 0;
+        }
+
+        function incGuestCount() {
+          const n = getGuestCount() + 1;
+          try { localStorage.setItem(KEY_COUNT, String(n)); } catch (_) {}
+          return n;
+        }
+
+        function setModeGuest() {
+          if (modeText) modeText.textContent = "Invité";
+          if (modeDot) {
+            modeDot.classList.remove("green");
           }
-          setInputEnabled(false);
-          addMessage(
-            "ai",
-            "Tu as atteint la limite de ce chat. Clique sur “Upgrade” pour voir les options."
-          );
+          if (logoutLink) logoutLink.style.display = "none";
+          if (upgradeLink) upgradeLink.style.display = "none";
+          if (userEmailEl) userEmailEl.textContent = "";
+          updateFreeCounter();
+        }
+
+        function setModeAuth(email) {
+          if (modeText) modeText.textContent = "Connecté";
+          if (modeDot) {
+            modeDot.classList.add("green");
+          }
+          if (logoutLink) logoutLink.style.display = "inline";
+          if (userEmailEl) userEmailEl.textContent = email || "";
+          // upgradeLink: on l’affichera quand tu activeras paywall plan
+          updateFreeCounter(true);
+        }
+
+        function updateFreeCounter(isAuth) {
+          if (!freeCounterEl) return;
+          if (isAuth) {
+            freeCounterEl.textContent = "";
+            return;
+          }
+          const used = getGuestCount();
+          const left = Math.max(0, FREE_LIMIT - used);
+          freeCounterEl.textContent = left > 0
+            ? `Gratuit : ${left} message(s) restant(s)`
+            : `Limite gratuite atteinte`;
         }
 
         /* =========================
-           Conversation / Messages (DB)
+           PAYWALL
         ========================= */
-        function getConversationIdFromUrl() {
-          const p = new URLSearchParams(location.search);
-          return p.get("c") || "";
+        function openPaywall() {
+          if (!paywallEl) return;
+          if (paywallLogin) paywallLogin.href = loginUrl();
+          if (paywallPricing) paywallPricing.href = pricingUrl();
+          paywallEl.style.display = "flex";
+        }
+        function closePaywall() {
+          if (!paywallEl) return;
+          paywallEl.style.display = "none";
         }
 
-        function setConversationIdInUrl(conversationId) {
-          const url = new URL(location.href);
-          url.searchParams.set("c", conversationId);
-          history.replaceState({}, "", url.toString());
+        if (paywallClose) {
+          paywallClose.addEventListener("click", closePaywall);
+        }
+        if (paywallEl) {
+          paywallEl.addEventListener("click", (e) => {
+            if (e.target === paywallEl) closePaywall();
+          });
         }
 
-        async function insertConversation(session) {
-          // On tente AVEC sign_key, puis on retente SANS si la colonne n'existe pas
-          const payloadA = { user_id: session.user.id, sign_key: signKey };
-          const payloadB = { user_id: session.user.id };
+        /* =========================
+           AUTH
+        ========================= */
+        let SESSION = null;
 
-          let res = await supabase
-            .from("conversations")
-            .insert(payloadA)
-            .select("id")
-            .single();
-
-          if (res.error) {
-            const msg = (res.error.message || "").toLowerCase();
-            const maybeColumnMissing =
-              msg.includes("column") && (msg.includes("sign_key") || msg.includes("signkey"));
-            if (maybeColumnMissing) {
-              res = await supabase
-                .from("conversations")
-                .insert(payloadB)
-                .select("id")
-                .single();
-            }
+        async function getSession() {
+          try {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) return null;
+            return data?.session || null;
+          } catch (_) {
+            return null;
           }
-
-          return res;
         }
 
         async function ensureConversation(session) {
-          const existing = getConversationIdFromUrl();
-          if (existing) return existing;
+          // conversation_id est requis dans chat_messages -> on crée une conversation si possible.
+          // On garde un cache local (par signe) pour réutiliser la même.
+          const cacheKey = STORAGE_PREFIX + "conv_" + signKey;
+          const cached = localStorage.getItem(cacheKey);
+          if (cached) return cached;
 
-          const { data, error } = await insertConversation(session);
+          const user_id = session.user.id;
 
-          if (error || !data?.id) {
-            console.error("create conversation error:", error);
-            addMessage("ai", "Erreur: impossible de créer la conversation (Supabase).");
-            return null;
+          // 1) try insert with sign_key
+          let convId = null;
+          try {
+            let r = await supabase
+              .from("conversations")
+              .insert([{ user_id, sign_key: signKey }])
+              .select("id")
+              .single();
+
+            if (!r.error && r.data?.id) convId = r.data.id;
+          } catch (_) {}
+
+          // 2) fallback: insert only user_id
+          if (!convId) {
+            try {
+              let r2 = await supabase
+                .from("conversations")
+                .insert([{ user_id }])
+                .select("id")
+                .single();
+
+              if (!r2.error && r2.data?.id) convId = r2.data.id;
+            } catch (_) {}
           }
 
-          setConversationIdInUrl(data.id);
-          return data.id;
+          // 3) last resort: if we still have nothing, return null (DB schema unknown)
+          if (!convId) return null;
+
+          try { localStorage.setItem(cacheKey, convId); } catch (_) {}
+          return convId;
         }
 
-        async function loadMessages(conversationId) {
-          const { data, error } = await supabase
+        async function saveMessageDB(session, conversation_id, role, content) {
+          // Selon tes captures: public.chat_messages: (id int8, created_at, user_id, role, content, conversation_id uuid)
+          const user_id = session.user.id;
+          const payload = { user_id, role, content, conversation_id };
+
+          const { error } = await supabase
             .from("chat_messages")
-            .select("role, content, created_at")
-            .eq("conversation_id", conversationId)
-            .order("created_at", { ascending: true });
+            .insert([payload]);
 
-          if (error) {
-            console.error("load messages error:", error);
-            addMessage("ai", "Erreur: impossible de charger l’historique (Supabase).");
-            return [];
-          }
-
-          messagesEl.innerHTML = "";
-          for (const m of data || []) {
-            addMessage(m.role === "ai" ? "ai" : "user", m.content || "");
-          }
-          return data || [];
+          return !error;
         }
 
-        async function insertChatMessage({ conversationId, session, role, content }) {
-          // On tente AVEC sign_key, puis SANS si colonne absente
-          const rowA = {
-            conversation_id: conversationId,
-            user_id: session.user.id,
-            role,
-            content,
-            sign_key: signKey,
-          };
-          const rowB = {
-            conversation_id: conversationId,
-            user_id: session.user.id,
-            role,
-            content,
-          };
+        async function migrateGuestToDB(session) {
+          // on migre une seule fois par signe
+          try {
+            if (localStorage.getItem(KEY_MIGRATED) === "1") return;
+          } catch (_) {}
 
-          let res = await supabase.from("chat_messages").insert(rowA);
-          if (res.error) {
-            const msg = (res.error.message || "").toLowerCase();
-            const maybeColumnMissing =
-              msg.includes("column") && (msg.includes("sign_key") || msg.includes("signkey"));
-            if (maybeColumnMissing) {
-              res = await supabase.from("chat_messages").insert(rowB);
+          const thread = loadGuestThread();
+          if (!thread.length) {
+            try { localStorage.setItem(KEY_MIGRATED, "1"); } catch (_) {}
+            return;
+          }
+
+          const conversation_id = await ensureConversation(session);
+          if (!conversation_id) {
+            // si conversations table ne correspond pas -> on n’efface rien
+            return;
+          }
+
+          // insère dans DB dans l’ordre
+          for (const m of thread) {
+            const ok = await saveMessageDB(session, conversation_id, m.role, m.text);
+            if (!ok) {
+              // stop si erreur, on garde les données locales
+              return;
             }
           }
-          return res;
-        }
 
-        async function countUserMessages(conversationId) {
-          // count user messages only (role='user')
-          const { count, error } = await supabase
-            .from("chat_messages")
-            .select("id", { count: "exact", head: true })
-            .eq("conversation_id", conversationId)
-            .eq("role", "user");
-
-          if (error) {
-            console.error("count user messages error:", error);
-            return 0;
-          }
-          return count || 0;
-        }
-
-        async function enforceLimit(conversationId) {
-          const used = await countUserMessages(conversationId);
-          if (used >= MAX_USER_MESSAGES_PER_CHAT) {
-            showPaywall();
-            return false;
-          }
-          // si proche de la limite, tu peux montrer upgrade (optionnel)
-          if (upgradeLink && used >= Math.max(1, MAX_USER_MESSAGES_PER_CHAT - 3)) {
-            upgradeLink.href = pricingUrl();
-            upgradeLink.style.display = "inline";
-          }
-          return true;
+          // si tout ok: on marque migré (on peut garder local ou nettoyer)
+          try { localStorage.setItem(KEY_MIGRATED, "1"); } catch (_) {}
+          // optionnel: nettoyer l’historique local
+          // saveGuestThread([]);
         }
 
         /* =========================
            INIT
         ========================= */
-        (async () => {
-          // affiche quelque chose tout de suite si jamais auth prend 1-2 sec
-          showNotice('<div class="auth-redirect">Chargement…</div>');
+        function renderThread(thread) {
+          messagesEl.innerHTML = "";
+          for (const m of thread) addMessage(m.role, m.text);
+        }
 
-          const session = await requireSessionOrRedirect();
-          if (!session) return;
+        function bootGuest() {
+          setModeGuest();
 
-          if (userEmailEl) userEmailEl.textContent = session.user?.email ? session.user.email : "";
-          if (logoutLink) logoutLink.style.display = "inline";
-
-          const conversationId = await ensureConversation(session);
-          if (!conversationId) return;
-
-          const history = await loadMessages(conversationId);
-
-          // Limite (15)
-          const ok = await enforceLimit(conversationId);
-          if (!ok) return;
-
-          // Message d’accueil seulement si vide
-          if (!history.length) {
-            const welcome =
-              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
-            addMessage("ai", welcome);
-            await insertChatMessage({ conversationId, session, role: "ai", content: welcome });
+          const thread = loadGuestThread();
+          if (thread.length) {
+            renderThread(thread);
+          } else {
+            addMessage(
+              "ai",
+              "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
+            );
+            saveGuestThread([{ role: "ai", text: "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."}]);
           }
+        }
 
-          // Upgrade link (au cas où)
-          if (upgradeLink) {
-            upgradeLink.href = pricingUrl();
-            upgradeLink.style.display = "none";
+        async function bootAuth(session) {
+          const email = session.user?.email || "";
+          setModeAuth(email);
+
+          // migration des messages invités -> DB (optionnel mais utile)
+          await migrateGuestToDB(session);
+
+          // Pour l’instant on affiche le thread local (simple)
+          // Plus tard, tu pourras charger l’historique DB ici.
+          const thread = loadGuestThread();
+          if (thread.length) {
+            renderThread(thread);
+          } else {
+            addMessage(
+              "ai",
+              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
+            );
+          }
+        }
+
+        (async () => {
+          SESSION = await getSession();
+          if (SESSION) {
+            await bootAuth(SESSION);
+          } else {
+            bootGuest();
           }
         })();
 
@@ -578,50 +701,66 @@
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const session = await requireSessionOrRedirect();
-            if (!session) return;
-
-            const conversationId = getConversationIdFromUrl();
-            if (!conversationId) {
-              addMessage("ai", "Erreur: conversation introuvable.");
-              return;
-            }
-
-            // check limit BEFORE sending
-            const ok = await enforceLimit(conversationId);
-            if (!ok) return;
-
             const text = (input && input.value ? input.value : "").trim();
             if (!text) return;
 
-            // UI
-            addMessage("user", text);
-            if (input) {
-              input.value = "";
-              input.focus();
-            }
+            // refresh session (si user se connecte dans un autre onglet)
+            SESSION = await getSession();
 
-            // DB save user message
-            const insUser = await insertChatMessage({ conversationId, session, role: "user", content: text });
-            if (insUser.error) {
-              console.error("insert user msg error:", insUser.error);
-              addMessage("ai", "Erreur: impossible d’enregistrer ton message.");
+            // MODE GUEST
+            if (!SESSION) {
+              const used = getGuestCount();
+              if (used >= FREE_LIMIT) {
+                openPaywall();
+                updateFreeCounter();
+                return;
+              }
+
+              addMessage("user", text);
+              const n = incGuestCount();
+              updateFreeCounter();
+
+              const thread = loadGuestThread();
+              thread.push({ role: "user", text });
+              saveGuestThread(thread);
+
+              if (input) { input.value = ""; input.focus(); }
+
+              setTimeout(() => {
+                const reply = aiReply(text);
+                addMessage("ai", reply);
+
+                const t2 = loadGuestThread();
+                t2.push({ role: "ai", text: reply });
+                saveGuestThread(t2);
+
+                // si on vient d’atteindre la limite, on ouvre le paywall après la réponse
+                if (n >= FREE_LIMIT) {
+                  openPaywall();
+                  updateFreeCounter();
+                }
+              }, 320);
+
               return;
             }
 
-            // check limit AFTER saving user message
-            const okAfter = await enforceLimit(conversationId);
-            if (!okAfter) return;
+            // MODE AUTH
+            addMessage("user", text);
+            if (input) { input.value = ""; input.focus(); }
 
-            // AI reply (fallback local for now)
+            // sauvegarde DB (si possible)
+            const conversation_id = await ensureConversation(SESSION);
+            if (conversation_id) {
+              await saveMessageDB(SESSION, conversation_id, "user", text);
+            }
+
+            // réponse IA (placeholder)
             setTimeout(async () => {
-              const reply = aiReplyFallback();
+              const reply = aiReply(text);
               addMessage("ai", reply);
 
-              const insAi = await insertChatMessage({ conversationId, session, role: "ai", content: reply });
-              if (insAi.error) {
-                console.error("insert ai msg error:", insAi.error);
-                // pas bloquant
+              if (conversation_id) {
+                await saveMessageDB(SESSION, conversation_id, "ai", reply);
               }
             }, 320);
           });
@@ -634,29 +773,35 @@
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
             await supabase.auth.signOut();
-            redirectToLogin();
+            SESSION = null;
+            closePaywall();
+            bootGuest();
           });
         }
 
         /* =========================
-           UPGRADE link
+           UPGRADE (optionnel)
         ========================= */
         if (upgradeLink) {
           upgradeLink.href = pricingUrl();
-          upgradeLink.addEventListener("click", () => {
-            // lien normal
-          });
         }
 
         /* =========================
-           Session change -> login
+           Auth change (login/logout ailleurs)
         ========================= */
-        supabase.auth.onAuthStateChange((event, session) => {
+        supabase.auth.onAuthStateChange(async (event, session) => {
           SESSION = session || null;
-          if (!SESSION) {
-            redirectToLogin();
+          closePaywall();
+          if (SESSION) {
+            await bootAuth(SESSION);
+          } else {
+            bootGuest();
           }
         });
+
+        // Liens paywall
+        if (paywallLogin) paywallLogin.href = loginUrl();
+        if (paywallPricing) paywallPricing.href = pricingUrl();
       })();
     </script>
   </body>
