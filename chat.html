@@ -119,6 +119,12 @@
         background: rgba(255,255,255,.75);
       }
       .mode-dot.green{ background: rgba(120,255,190,.85); }
+
+      /* petit état "bloqué" quand paywall */
+      .input-disabled{
+        opacity: .6;
+        pointer-events: none;
+      }
     </style>
   </head>
 
@@ -212,7 +218,7 @@
             placeholder="Écris ton message…"
             autocomplete="off"
           />
-          <button class="chat-send" type="submit">Envoyer</button>
+          <button class="chat-send" id="sendBtn" type="submit">Envoyer</button>
         </form>
       </section>
     </main>
@@ -271,6 +277,7 @@
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
+        const sendBtn = document.getElementById("sendBtn");
 
         const userEmailEl = document.getElementById("userEmail");
         const freeCounterEl = document.getElementById("freeCounter");
@@ -400,7 +407,7 @@
         }
 
         /* =========================
-           GUEST ID (pour limiter côté serveur)
+           GUEST ID (limite serveur)
         ========================= */
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
@@ -416,6 +423,15 @@
           } catch (_) {
             return "guest_" + Math.random().toString(36).slice(2) + Date.now();
           }
+        }
+
+        /* =========================
+           UI helpers
+        ========================= */
+        function setInputEnabled(enabled) {
+          if (input) input.disabled = !enabled;
+          if (sendBtn) sendBtn.disabled = !enabled;
+          if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
         /* =========================
@@ -457,51 +473,83 @@
         }
 
         /* =========================
-           CALL YOUR SERVER (OpenAI)
-           IMPORTANT: requires /api/chat on Vercel
+           PAYWALL
         ========================= */
-        async function askLuna(userText, threadForContext, isAuth) {
-          const payload = {
-            message: userText,
-            signKey,
-            signName,
-            signDesc,
-            mode: isAuth ? "auth" : "guest",
-            guestId: isAuth ? null : getGuestId(),
-            // on envoie juste un petit contexte récent
-            history: (threadForContext || []).slice(-12),
-          };
+        function openPaywall() {
+          if (!paywallEl) return;
+          if (paywallLogin) paywallLogin.href = loginUrl();
+          if (paywallPricing) paywallPricing.href = pricingUrl();
+          paywallEl.style.display = "flex";
+          setInputEnabled(false);
+        }
+        function closePaywall() {
+          if (!paywallEl) return;
+          paywallEl.style.display = "none";
+          // On ne réactive que si utilisateur est connecté.
+          // En invité, s’il a atteint la limite, le serveur rebloquera.
+        }
 
-          const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
+        if (paywallClose) paywallClose.addEventListener("click", closePaywall);
+        if (paywallEl) {
+          paywallEl.addEventListener("click", (e) => {
+            if (e.target === paywallEl) closePaywall();
           });
-
-          const data = await res.json().catch(() => ({}));
-
-          if (!res.ok) {
-            // si l'API renvoie FREE_LIMIT_REACHED, on ouvre le popup
-            if (data?.error === "FREE_LIMIT_REACHED") {
-              openPaywall();
-              throw new Error("FREE_LIMIT_REACHED");
-            }
-            const err = data?.error || "Erreur serveur (/api/chat).";
-            throw new Error(err);
-          }
-
-          if (!data?.reply) throw new Error("Réponse vide.");
-          return data.reply;
         }
 
         /* =========================
-           STORAGE (guest)
+           COUNTER (UI indicatif)
+           - On garde un compteur local pour afficher "X restants"
+           - Le serveur est le vrai garde-fou
+        ========================= */
+        const KEY_UI_USED = STORAGE_PREFIX + "ui_used_" + signKey;
+
+        function getUiUsed() {
+          const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
+          return Number.isFinite(n) ? n : 0;
+        }
+        function incUiUsed() {
+          const n = getUiUsed() + 1;
+          try { localStorage.setItem(KEY_UI_USED, String(n)); } catch (_) {}
+          return n;
+        }
+        function updateFreeCounter(isAuth) {
+          if (!freeCounterEl) return;
+          if (isAuth) { freeCounterEl.textContent = ""; return; }
+          const used = getUiUsed();
+          const left = Math.max(0, FREE_LIMIT - used);
+          freeCounterEl.textContent =
+            left > 0 ? `Gratuit : ${left} message(s) restant(s)` : `Limite gratuite atteinte`;
+        }
+
+        /* =========================
+           MODE UI
+        ========================= */
+        function setModeGuest() {
+          if (modeText) modeText.textContent = "Invité";
+          if (modeDot) modeDot.classList.remove("green");
+          if (logoutLink) logoutLink.style.display = "none";
+          if (upgradeLink) upgradeLink.style.display = "none";
+          if (userEmailEl) userEmailEl.textContent = "";
+          updateFreeCounter(false);
+          setInputEnabled(true);
+        }
+
+        function setModeAuth(email) {
+          if (modeText) modeText.textContent = "Connecté";
+          if (modeDot) modeDot.classList.add("green");
+          if (logoutLink) logoutLink.style.display = "inline";
+          if (upgradeLink) upgradeLink.style.display = "inline";
+          if (userEmailEl) userEmailEl.textContent = email || "";
+          updateFreeCounter(true);
+          setInputEnabled(true);
+        }
+
+        /* =========================
+           STORAGE THREAD
         ========================= */
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
-        const KEY_COUNT = STORAGE_PREFIX + "count_" + signKey;
-        const KEY_MIGRATED = STORAGE_PREFIX + "migrated_" + signKey;
 
-        function loadGuestThread() {
+        function loadThread() {
           try {
             const raw = localStorage.getItem(KEY_THREAD);
             const arr = raw ? JSON.parse(raw) : [];
@@ -511,71 +559,13 @@
           }
         }
 
-        function saveGuestThread(arr) {
-          try {
-            localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
-          } catch (_) {}
+        function saveThread(arr) {
+          try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
-        function getGuestCount() {
-          const n = Number(localStorage.getItem(KEY_COUNT) || "0");
-          return Number.isFinite(n) ? n : 0;
-        }
-
-        function incGuestCount() {
-          const n = getGuestCount() + 1;
-          try { localStorage.setItem(KEY_COUNT, String(n)); } catch (_) {}
-          return n;
-        }
-
-        function setModeGuest() {
-          if (modeText) modeText.textContent = "Invité";
-          if (modeDot) modeDot.classList.remove("green");
-          if (logoutLink) logoutLink.style.display = "none";
-          if (upgradeLink) upgradeLink.style.display = "none";
-          if (userEmailEl) userEmailEl.textContent = "";
-          updateFreeCounter(false);
-        }
-
-        function setModeAuth(email) {
-          if (modeText) modeText.textContent = "Connecté";
-          if (modeDot) modeDot.classList.add("green");
-          if (logoutLink) logoutLink.style.display = "inline";
-          if (userEmailEl) userEmailEl.textContent = email || "";
-          updateFreeCounter(true);
-        }
-
-        function updateFreeCounter(isAuth) {
-          if (!freeCounterEl) return;
-          if (isAuth) {
-            freeCounterEl.textContent = "";
-            return;
-          }
-          const used = getGuestCount();
-          const left = Math.max(0, FREE_LIMIT - used);
-          freeCounterEl.textContent =
-            left > 0 ? `Gratuit : ${left} message(s) restant(s)` : `Limite gratuite atteinte`;
-        }
-
-        /* =========================
-           PAYWALL
-        ========================= */
-        function openPaywall() {
-          if (!paywallEl) return;
-          if (paywallLogin) paywallLogin.href = loginUrl();
-          if (paywallPricing) paywallPricing.href = pricingUrl();
-          paywallEl.style.display = "flex";
-        }
-        function closePaywall() {
-          if (!paywallEl) return;
-          paywallEl.style.display = "none";
-        }
-
-        if (paywallClose) paywallClose.addEventListener("click", closePaywall);
-        if (paywallEl) {
-          paywallEl.addEventListener("click", (e) => {
-            if (e.target === paywallEl) closePaywall();
-          });
+        function renderThread(thread) {
+          messagesEl.innerHTML = "";
+          for (const m of thread) addMessage(m.role, m.text);
         }
 
         /* =========================
@@ -593,126 +583,81 @@
           }
         }
 
-        async function ensureConversation(session) {
-          const cacheKey = STORAGE_PREFIX + "conv_" + signKey;
-          const cached = localStorage.getItem(cacheKey);
-          if (cached) return cached;
+        /* =========================
+           API CALL
+        ========================= */
+        async function askLuna(userText, threadForContext, isAuth) {
+          const payload = {
+            message: userText,
+            signKey,
+            signName,
+            signDesc,
+            mode: isAuth ? "auth" : "guest",
+            guestId: isAuth ? undefined : getGuestId(),
+            history: (threadForContext || []).slice(-12),
+          };
 
-          const user_id = session.user.id;
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-          let convId = null;
-          try {
-            let r = await supabase
-              .from("conversations")
-              .insert([{ user_id, sign_key: signKey }])
-              .select("id")
-              .single();
+          const data = await res.json().catch(() => ({}));
 
-            if (!r.error && r.data?.id) convId = r.data.id;
-          } catch (_) {}
-
-          if (!convId) {
-            try {
-              let r2 = await supabase
-                .from("conversations")
-                .insert([{ user_id }])
-                .select("id")
-                .single();
-
-              if (!r2.error && r2.data?.id) convId = r2.data.id;
-            } catch (_) {}
+          if (!res.ok) {
+            if (data?.error === "FREE_LIMIT_REACHED") {
+              openPaywall();
+              throw new Error("FREE_LIMIT_REACHED");
+            }
+            throw new Error(data?.error || "Erreur serveur (/api/chat).");
           }
 
-          if (!convId) return null;
-
-          try { localStorage.setItem(cacheKey, convId); } catch (_) {}
-          return convId;
-        }
-
-        async function saveMessageDB(session, conversation_id, role, content) {
-          const user_id = session.user.id;
-          const payload = { user_id, role, content, conversation_id };
-          const { error } = await supabase.from("chat_messages").insert([payload]);
-          return !error;
-        }
-
-        async function migrateGuestToDB(session) {
-          try {
-            if (localStorage.getItem(KEY_MIGRATED) === "1") return;
-          } catch (_) {}
-
-          const thread = loadGuestThread();
-          if (!thread.length) {
-            try { localStorage.setItem(KEY_MIGRATED, "1"); } catch (_) {}
-            return;
-          }
-
-          const conversation_id = await ensureConversation(session);
-          if (!conversation_id) return;
-
-          for (const m of thread) {
-            const ok = await saveMessageDB(session, conversation_id, m.role, m.text);
-            if (!ok) return;
-          }
-
-          try { localStorage.setItem(KEY_MIGRATED, "1"); } catch (_) {}
+          if (!data?.reply) throw new Error("Réponse vide.");
+          return data.reply;
         }
 
         /* =========================
-           INIT
+           BOOT
         ========================= */
-        function renderThread(thread) {
-          messagesEl.innerHTML = "";
-          for (const m of thread) addMessage(m.role, m.text);
-        }
-
         function bootGuest() {
           setModeGuest();
 
-          const thread = loadGuestThread();
+          const thread = loadThread();
           if (thread.length) {
             renderThread(thread);
           } else {
             const hello =
               "Salut ✨ Tu peux commencer sans compte. Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
             addMessage("ai", hello);
-            saveGuestThread([{ role: "ai", text: hello }]);
+            saveThread([{ role: "ai", text: hello }]);
           }
         }
 
-        async function bootAuth(session) {
+        function bootAuth(session) {
           const email = session.user?.email || "";
           setModeAuth(email);
 
-          await migrateGuestToDB(session);
-
-          const thread = loadGuestThread();
+          const thread = loadThread();
           if (thread.length) {
             renderThread(thread);
           } else {
-            addMessage(
-              "ai",
-              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…)."
-            );
+            const hello =
+              "Salut ✨ Dis-moi ce que tu veux comprendre aujourd’hui (émotions, relations, stress, schémas…).";
+            addMessage("ai", hello);
+            saveThread([{ role: "ai", text: hello }]);
           }
         }
 
         (async () => {
           SESSION = await getSession();
-          if (SESSION) await bootAuth(SESSION);
+          if (SESSION) bootAuth(SESSION);
           else bootGuest();
         })();
 
         /* =========================
-           SEND (NOW CALLS /api/chat)
+           SEND
         ========================= */
-        async function handleSend(userText, isAuth) {
-          // on prend le thread local comme contexte (simple)
-          const thread = loadGuestThread();
-          const reply = await askLuna(userText, thread, isAuth);
-          return reply;
-        }
-
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -720,50 +665,50 @@
             const text = (input && input.value ? input.value : "").trim();
             if (!text) return;
 
-            // refresh session
             SESSION = await getSession();
 
-            // ===== GUEST MODE =====
+            // GUEST
             if (!SESSION) {
-              // (UI) limite locale + (Serveur) limite réelle
-              const used = getGuestCount();
-              if (used >= FREE_LIMIT) {
+              // Indicateur UI (pas la vraie sécurité)
+              const usedUi = getUiUsed();
+              if (usedUi >= FREE_LIMIT) {
                 openPaywall();
                 updateFreeCounter(false);
                 return;
               }
 
               addMessage("user", text);
-              const n = incGuestCount();
+
+              // Compteur UI
+              incUiUsed();
               updateFreeCounter(false);
 
-              const thread = loadGuestThread();
+              // Thread
+              const thread = loadThread();
               thread.push({ role: "user", text });
-              saveGuestThread(thread);
+              saveThread(thread);
 
               if (input) { input.value = ""; input.focus(); }
 
-              // typing
               addMessage("ai", "…");
 
               try {
-                const reply = await handleSend(text, false);
+                const reply = await askLuna(text, thread, false);
 
                 replaceLastAiTyping(reply) || addMessage("ai", reply);
 
-                const t2 = loadGuestThread();
+                const t2 = loadThread();
                 t2.push({ role: "ai", text: reply });
-                saveGuestThread(t2);
+                saveThread(t2);
 
-                if (n >= FREE_LIMIT) {
-                  openPaywall();
-                  updateFreeCounter(false);
-                }
               } catch (err) {
                 if (err?.message === "FREE_LIMIT_REACHED") {
-                  // le serveur a bloqué -> popup déjà ouvert
-                  replaceLastAiTyping("Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.") ||
-                    addMessage("ai", "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.");
+                  replaceLastAiTyping(
+                    "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer."
+                  ) || addMessage(
+                    "ai",
+                    "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer."
+                  );
                   updateFreeCounter(false);
                   return;
                 }
@@ -777,28 +722,25 @@
               return;
             }
 
-            // ===== AUTH MODE =====
+            // AUTH
             addMessage("user", text);
             if (input) { input.value = ""; input.focus(); }
 
-            const conversation_id = await ensureConversation(SESSION);
-            if (conversation_id) await saveMessageDB(SESSION, conversation_id, "user", text);
+            const thread = loadThread();
+            thread.push({ role: "user", text });
+            saveThread(thread);
 
-            // typing
             addMessage("ai", "…");
 
             try {
-              const reply = await handleSend(text, true);
+              const reply = await askLuna(text, thread, true);
 
               replaceLastAiTyping(reply) || addMessage("ai", reply);
 
-              if (conversation_id) await saveMessageDB(SESSION, conversation_id, "ai", reply);
-
-              // aussi garder local (simple)
-              const t2 = loadGuestThread();
-              t2.push({ role: "user", text });
+              const t2 = loadThread();
               t2.push({ role: "ai", text: reply });
-              saveGuestThread(t2);
+              saveThread(t2);
+
             } catch (err) {
               const msg =
                 "Erreur. Vérifie que /api/chat existe sur Vercel. " +
@@ -822,7 +764,7 @@
         }
 
         /* =========================
-           UPGRADE (optionnel)
+           UPGRADE
         ========================= */
         if (upgradeLink) upgradeLink.href = pricingUrl();
 
@@ -832,7 +774,7 @@
         supabase.auth.onAuthStateChange(async (event, session) => {
           SESSION = session || null;
           closePaywall();
-          if (SESSION) await bootAuth(SESSION);
+          if (SESSION) bootAuth(SESSION);
           else bootGuest();
         });
 
