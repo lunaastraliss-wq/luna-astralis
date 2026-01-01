@@ -7,19 +7,23 @@ import { createClient } from "@supabase/supabase-js";
   - Astrologie + psychologie douce
   - Aucun diagnostic médical
   - Limite INVITÉE: 15 messages (table public.guest_usage)
-  - Usage via fetch("/api/chat") depuis chat.html
+  - Appelé via fetch("/api/chat") depuis chat.html
 */
 
+const FREE_LIMIT = 15;
+
+// ✅ OpenAI (server-side)
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// ⚠️ IMPORTANT : utiliser la SERVICE ROLE KEY côté serveur (Vercel env vars)
+// ✅ Supabase (server-side) — SERVICE ROLE KEY uniquement côté serveur
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const FREE_LIMIT = 15;
-
+/* =========================
+   Utils
+========================= */
 function safeParse(body) {
   if (typeof body === "string") {
     try {
@@ -36,31 +40,45 @@ function clean(v) {
 }
 
 function getOutputText(response) {
-  if (response?.output_text) return response.output_text.trim();
+  // SDK "responses" renvoie souvent output_text
+  const t = response?.output_text;
+  if (typeof t === "string" && t.trim()) return t.trim();
+
+  // fallback (structure variable selon modèle)
   const fallback = response?.output?.[0]?.content?.[0]?.text;
   return typeof fallback === "string" ? fallback.trim() : "";
 }
 
+/* =========================
+   Guest usage helpers
+========================= */
 async function getOrInitGuestUsed(guestId) {
-  // 1) Essayer de lire
+  // 1) Lire
   const { data, error } = await supabase
     .from("guest_usage")
     .select("used")
     .eq("guest_id", guestId)
     .single();
 
-  // Si pas trouvé (ou erreur "no rows"), on crée
-  if (error || !data) {
+  // Supabase PostgREST: "no rows" arrive parfois comme erreur.
+  // On init seulement si "pas trouvé", sinon on throw.
+  if (error) {
+    const msg = String(error.message || "").toLowerCase();
+    const code = String(error.code || "");
+    const isNoRows =
+      code === "PGRST116" || msg.includes("no rows") || msg.includes("0 rows");
+
+    if (!isNoRows) throw new Error(error.message || "Erreur lecture guest_usage");
+
     const { error: insErr } = await supabase
       .from("guest_usage")
       .insert([{ guest_id: guestId, used: 0 }]);
 
     if (insErr) throw new Error(insErr.message);
-
     return 0;
   }
 
-  return Number(data.used || 0);
+  return Number(data?.used || 0);
 }
 
 async function incrementGuestUsed(guestId, newUsed) {
@@ -72,6 +90,9 @@ async function incrementGuestUsed(guestId, newUsed) {
   if (error) throw new Error(error.message);
 }
 
+/* =========================
+   Handler
+========================= */
 export default async function handler(req, res) {
   // CORS simple (ok Vercel)
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -84,15 +105,15 @@ export default async function handler(req, res) {
   }
 
   try {
+    // ✅ Vérifs ENV
     if (!process.env.OPENAI_API_KEY) {
       return res.status(500).json({
-        error: "Clé OPENAI_API_KEY manquante (Vercel > Environment Variables).",
+        error: "OPENAI_API_KEY manquante (Vercel > Environment Variables).",
       });
     }
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       return res.status(500).json({
-        error:
-          "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquante (Vercel > Environment Variables).",
+        error: "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquante.",
       });
     }
 
@@ -104,17 +125,19 @@ export default async function handler(req, res) {
     const history = Array.isArray(body.history) ? body.history : [];
 
     // guest control
-    const mode = clean(body.mode) || "guest"; // "guest" ou "auth" (ton front l'envoie déjà)
-    const guestId = clean(body.guestId);      // requis si mode=guest
+    const mode = clean(body.mode) || "guest"; // "guest" ou "auth"
+    const guestId = clean(body.guestId); // requis si mode=guest
 
     if (!message) return res.status(400).json({ error: "Message vide." });
 
     /* =========================
-       1) LIMITE INVITÉ (15)
+       1) LIMITE INVITÉ
     ========================= */
     if (mode === "guest") {
       if (!guestId) {
-        return res.status(400).json({ error: "guestId manquant (mode invité)." });
+        return res.status(400).json({
+          error: "guestId manquant (mode invité).",
+        });
       }
 
       const used = await getOrInitGuestUsed(guestId);
@@ -127,7 +150,7 @@ export default async function handler(req, res) {
         });
       }
 
-      // on incrémente AVANT l'appel OpenAI (plus safe contre spam)
+      // ✅ incrémente avant l’appel OpenAI
       await incrementGuestUsed(guestId, used + 1);
     }
 
@@ -144,15 +167,13 @@ Ton approche est bienveillante, claire et introspective.
 Aucun diagnostic médical.
 L’astrologie est un outil de lecture symbolique, jamais une fatalité.
 
-Règles de réponse :
+Règles :
 - Réponds uniquement en français.
 - Ton calme, doux et structurant.
 - Réponse claire et utile, pas trop longue.
 - Pose au maximum 1 à 3 questions.
-- Si la demande est floue, guide avec :
-  événement → émotion → pensée → besoin.
-- Si une détresse grave est exprimée (suicide, automutilation),
-  encourage clairement à contacter une aide professionnelle immédiate.
+- Si la demande est floue, guide avec : événement → émotion → pensée → besoin.
+- Si détresse grave (suicide / automutilation), encourage clairement à contacter une aide immédiate.
 
 Contexte :
 Signe actuel : ${signLabel}
@@ -171,17 +192,17 @@ Signe actuel : ${signLabel}
 
     const input = [
       ...recentHistory,
-      { role: "user", content: `Message utilisateur : ${message}` },
+      { role: "user", content: message },
     ];
 
     /* =========================
-       4) OPENAI
+       4) OPENAI (✅ modèles + params valides)
     ========================= */
     const response = await client.responses.create({
-      model: "gpt-5.2",
+      model: "gpt-5-mini", // ✅ remplace "gpt-5.2"
       instructions,
       input,
-      reasoning: { effort: "low" },
+      reasoning: { effort: "minimal" }, // ✅ remplace "low"
       max_output_tokens: 450,
     });
 
