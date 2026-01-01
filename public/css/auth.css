@@ -1,1 +1,115 @@
+/* ==========================================================
+   Luna Astralis — css/auth.css (LOGIN + SIGNUP)
+========================================================== */
 
+.auth-wrap{
+  display:grid;
+  place-items:center;
+  padding-top:28px;
+  position:relative;
+  z-index:1;
+}
+
+.auth-card{
+  width:min(520px, 100%);
+  padding:18px;
+  border-radius: var(--radius2);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+/* étoiles visibles sur auth card */
+.auth-card::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.65), transparent),
+    radial-gradient(1px 1px at 40% 28%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 70% 64%, rgba(255,255,255,.50), transparent),
+    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.18), transparent 60%);
+  mix-blend-mode: screen;
+}
+.auth-card > *{ position:relative; z-index:1; }
+
+.auth-title{margin:4px 0 6px;font-size:22px;letter-spacing:-.01em}
+.auth-sub{margin:0 0 14px;color: var(--muted);font-size:13px;line-height:1.5}
+
+.auth-google{
+  width:100%;
+  justify-content:center;
+  gap:12px;
+  background: rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:none;
+}
+.auth-google:hover{ background: rgba(255,255,255,.14); }
+
+.google-icon{width:18px;height:18px;display:block}
+
+.auth-sep{
+  display:grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items:center;
+  gap:12px;
+  margin:14px 0;
+  color: rgba(255,255,255,.60);
+  font-size:12px;
+}
+.auth-sep::before,
+.auth-sep::after{
+  content:"";
+  height:1px;
+  background: rgba(255,255,255,.12);
+}
+
+.auth-form{display:grid;gap:10px}
+.auth-label{font-size:12px;color: rgba(255,255,255,.78);margin-top:2px}
+.auth-input{
+  width:100%;
+  padding:12px 12px;
+  border-radius:12px;
+  outline:none;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  color:#fff;
+}
+.auth-input:focus{
+  border-color: rgba(215,199,255,.45);
+  box-shadow: 0 0 0 3px rgba(215,199,255,.14);
+}
+
+.auth-submit{width:100%;margin-top:4px}
+
+.auth-forgot{
+  border:0;
+  background: transparent;
+  color: rgba(255,255,255,.74);
+  text-align:left;
+  padding:0;
+  font-size:12px;
+  cursor:pointer;
+}
+.auth-forgot:hover{ color: rgba(255,255,255,.94); }
+
+.auth-legal{
+  margin:10px 0 0;
+  font-size:11px;
+  line-height:1.45;
+  color: rgba(255,255,255,.58);
+}
+
+.auth-switch{margin:10px 0 0;font-size:12px;color: rgba(255,255,255,.74)}
+.auth-link{
+  color: rgba(255,255,255,.95);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .auth-card::after{ animation:none !important; }
+}
