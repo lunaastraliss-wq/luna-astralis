@@ -37,7 +37,18 @@
         color: rgba(255,255,255,.92);
         font-size: 14px;
         line-height: 1.35;
+        margin: 12px;
       }
+
+      /* mini bouton upgrade (si tu veux l'afficher plus tard) */
+      .chat-upgrade{
+        margin-left: 10px;
+        font-size: 13px;
+        opacity: .9;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      .chat-upgrade:hover{ opacity:1; }
     </style>
   </head>
 
@@ -53,6 +64,10 @@
 
       <div style="display:flex; align-items:center; gap:14px;">
         <a class="chat-back" href="./index.html#signes">Changer de signe</a>
+
+        <!-- (optionnel) upgrade à afficher seulement quand paywall -->
+        <a class="chat-upgrade" href="#" id="upgradeLink" style="display:none;">Upgrade</a>
+
         <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
       </div>
     </header>
@@ -139,42 +154,61 @@
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
+        // ⚠️ si window.supabase n'existe pas, on évite un crash silencieux
+        if (!window.supabase || !window.supabase.createClient) {
+          document.body.innerHTML =
+            '<div style="padding:18px;color:#fff;font-family:system-ui">Erreur: Supabase JS non chargé (cdn). Vérifie le script supabase-js.</div>';
+          return;
+        }
+
         const supabase =
           window.__LA_SUPABASE__ ||
-          (window.__LA_SUPABASE__ = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY));
+          (window.__LA_SUPABASE__ = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+          ));
 
         /* =========================
-           ELEMENTS UI (on les prend tôt)
+           ELEMENTS UI
         ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
         const userEmailEl = document.getElementById("userEmail");
         const logoutLink = document.getElementById("logoutLink");
+        const upgradeLink = document.getElementById("upgradeLink");
+
+        // garde un minimum visible si CSS/JS bug
+        if (!messagesEl) return;
 
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
-          return p + location.search; // ex: chat.html?signe=belier
+          return p + location.search;
         }
 
-        function showRedirectNotice() {
-          // au moins quelque chose de visible avant le redirect
-          if (!messagesEl) return;
+        function showRedirectNotice(text) {
           messagesEl.innerHTML =
-            '<div class="auth-redirect">Connexion requise. Redirection vers “Mon compte”…</div>';
+            '<div class="auth-redirect">' + (text || "Connexion requise. Redirection…") + "</div>";
         }
 
         function redirectToLogin() {
           const next = encodeURIComponent(currentPathWithQuery());
-          // petit délai pour laisser le DOM afficher le message
-          showRedirectNotice();
+          showRedirectNotice("Connexion requise. Redirection vers “Mon compte”…");
           setTimeout(() => {
             window.location.href = "./login.html?next=" + next;
           }, 120);
         }
 
-        // Cache session (évite appels répétés et comportements "bizarres")
+        function pricingUrl() {
+          const next = encodeURIComponent(currentPathWithQuery());
+          return "./pricing.html?next=" + next; // <-- change ici si ton pricing a un autre nom
+        }
+
+        /* =========================
+           SESSION CACHE (évite spam getSession)
+        ========================= */
         let SESSION = null;
+
         async function getSessionCached() {
           if (SESSION) return SESSION;
           try {
@@ -272,11 +306,17 @@
           SIGN_DESC[signKey] ||
           "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
-        document.getElementById("signLabel").textContent = signName;
-        document.getElementById("aiTag").textContent = "Signe : " + signName;
-        document.getElementById("aiDesc").textContent = signDesc;
-        document.getElementById("heroTitle").textContent = "Ton signe : " + signName;
-        document.getElementById("heroDesc").textContent = signDesc;
+        const signLabelEl = document.getElementById("signLabel");
+        const aiTagEl = document.getElementById("aiTag");
+        const aiDescEl = document.getElementById("aiDesc");
+        const heroTitleEl = document.getElementById("heroTitle");
+        const heroDescEl = document.getElementById("heroDesc");
+
+        if (signLabelEl) signLabelEl.textContent = signName;
+        if (aiTagEl) aiTagEl.textContent = "Signe : " + signName;
+        if (aiDescEl) aiDescEl.textContent = signDesc;
+        if (heroTitleEl) heroTitleEl.textContent = "Ton signe : " + signName;
+        if (heroDescEl) heroDescEl.textContent = signDesc;
 
         const bookUrl = SIGN_BOOKS[signKey];
         const wrap = document.getElementById("aiBookWrap");
@@ -330,8 +370,9 @@
           const session = await requireSessionOrRedirect();
           if (!session) return;
 
-          userEmailEl.textContent = session.user?.email ? session.user.email : "";
-          logoutLink.style.display = "inline";
+          // affichage email + logout
+          if (userEmailEl) userEmailEl.textContent = session.user?.email ? session.user.email : "";
+          if (logoutLink) logoutLink.style.display = "inline";
 
           addMessage(
             "ai",
@@ -342,31 +383,46 @@
         /* =========================
            SEND
         ========================= */
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
+        if (form) {
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-          const session = await requireSessionOrRedirect();
-          if (!session) return;
+            const session = await requireSessionOrRedirect();
+            if (!session) return;
 
-          const text = (input.value || "").trim();
-          if (!text) return;
+            const text = (input && input.value ? input.value : "").trim();
+            if (!text) return;
 
-          addMessage("user", text);
-          input.value = "";
-          input.focus();
+            addMessage("user", text);
+            if (input) {
+              input.value = "";
+              input.focus();
+            }
 
-          setTimeout(() => addMessage("ai", aiReply(text)), 320);
-        });
+            setTimeout(() => addMessage("ai", aiReply(text)), 320);
+          });
+        }
 
         /* =========================
            LOGOUT
         ========================= */
-        logoutLink.addEventListener("click", async (e) => {
-          e.preventDefault();
-          await supabase.auth.signOut();
-          // on force redirection login avec next
-          redirectToLogin();
-        });
+        if (logoutLink) {
+          logoutLink.addEventListener("click", async (e) => {
+            e.preventDefault();
+            await supabase.auth.signOut();
+            redirectToLogin();
+          });
+        }
+
+        /* =========================
+           UPGRADE (optionnel)
+        ========================= */
+        if (upgradeLink) {
+          upgradeLink.href = pricingUrl();
+          upgradeLink.addEventListener("click", (e) => {
+            // laisse le lien fonctionner normalement
+          });
+        }
 
         /* =========================
            Si session change (déco ailleurs) -> login
