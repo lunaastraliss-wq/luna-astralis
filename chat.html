@@ -400,6 +400,25 @@
         }
 
         /* =========================
+           GUEST ID (pour limiter côté serveur)
+        ========================= */
+        const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
+        function getGuestId() {
+          try {
+            let id = localStorage.getItem(KEY_GUEST_ID);
+            if (!id) {
+              id =
+                (crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                ("guest_" + Math.random().toString(36).slice(2) + Date.now());
+              localStorage.setItem(KEY_GUEST_ID, id);
+            }
+            return id;
+          } catch (_) {
+            return "guest_" + Math.random().toString(36).slice(2) + Date.now();
+          }
+        }
+
+        /* =========================
            CHAT UI
         ========================= */
         function addMessage(role, text) {
@@ -448,21 +467,29 @@
             signName,
             signDesc,
             mode: isAuth ? "auth" : "guest",
+            guestId: isAuth ? null : getGuestId(),
             // on envoie juste un petit contexte récent
-            history: (threadForContext || []).slice(-12)
+            history: (threadForContext || []).slice(-12),
           };
 
           const res = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
           });
 
           const data = await res.json().catch(() => ({}));
+
           if (!res.ok) {
+            // si l'API renvoie FREE_LIMIT_REACHED, on ouvre le popup
+            if (data?.error === "FREE_LIMIT_REACHED") {
+              openPaywall();
+              throw new Error("FREE_LIMIT_REACHED");
+            }
             const err = data?.error || "Erreur serveur (/api/chat).";
             throw new Error(err);
           }
+
           if (!data?.reply) throw new Error("Réponse vide.");
           return data.reply;
         }
@@ -526,9 +553,8 @@
           }
           const used = getGuestCount();
           const left = Math.max(0, FREE_LIMIT - used);
-          freeCounterEl.textContent = left > 0
-            ? `Gratuit : ${left} message(s) restant(s)`
-            : `Limite gratuite atteinte`;
+          freeCounterEl.textContent =
+            left > 0 ? `Gratuit : ${left} message(s) restant(s)` : `Limite gratuite atteinte`;
         }
 
         /* =========================
@@ -699,6 +725,7 @@
 
             // ===== GUEST MODE =====
             if (!SESSION) {
+              // (UI) limite locale + (Serveur) limite réelle
               const used = getGuestCount();
               if (used >= FREE_LIMIT) {
                 openPaywall();
@@ -733,6 +760,14 @@
                   updateFreeCounter(false);
                 }
               } catch (err) {
+                if (err?.message === "FREE_LIMIT_REACHED") {
+                  // le serveur a bloqué -> popup déjà ouvert
+                  replaceLastAiTyping("Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.") ||
+                    addMessage("ai", "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.");
+                  updateFreeCounter(false);
+                  return;
+                }
+
                 const msg =
                   "Erreur. Vérifie que /api/chat existe sur Vercel. " +
                   (err?.message ? ("(" + err.message + ")") : "");
