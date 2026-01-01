@@ -1,0 +1,374 @@
+/* ==========================================================
+   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (HALO EXTERNE VISIBLE)
+   ✅ Fix principal: stacking des items de la grid (sinon le halo est recouvert)
+   ✅ Fix secondaire: overflow visible (même si styles.css coupe)
+   - Premium, pas flashy
+   - Halo EXTERNE vraiment visible (anneau net + glow blur)
+   - 1 carte featured (.price-featured) WRAPPÉE dans .price-halo
+   - CTA featured en dégradé astro
+   IMPORTANT HTML:
+     <div class="price-halo">
+       <article class="price-card price-featured">...</article>
+     </div>
+========================================================== */
+
+.pricing-body .wrap{ padding-top:18px; }
+
+/* ✅ ne pas couper le halo */
+.section, .wrap, .pricing-grid{
+  overflow: visible !important;
+}
+
+/* ✅ FIX #1 (LE PLUS IMPORTANT):
+   Les enfants de la grid doivent être "positioned" pour que z-index fonctionne entre siblings.
+   Sinon le halo déborde mais se fait recouvrir par les autres cartes. */
+.pricing-grid > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* le wrapper halo passe au-dessus */
+.pricing-grid > .price-halo{
+  z-index: 50;
+}
+
+/* ============== HERO ============== */
+.pricing-hero{ margin-top:18px; }
+
+.pricing-hero-inner{
+  padding:20px 20px;
+  border-radius:24px;
+  position:relative;
+  overflow:hidden;
+
+  background:
+    radial-gradient(900px 340px at 18% 18%, rgba(215,199,255,.32), transparent 62%),
+    radial-gradient(860px 320px at 86% 26%, rgba(159,211,255,.26), transparent 60%),
+    radial-gradient(900px 360px at 55% 110%, rgba(124,255,223,.14), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow: var(--shadow);
+}
+
+.pricing-hero-inner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.72;
+  background-image:
+    radial-gradient(1px 1px at 10% 18%, rgba(255,255,255,.86), transparent),
+    radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,.62), transparent),
+    radial-gradient(1px 1px at 48% 22%, rgba(255,255,255,.78), transparent),
+    radial-gradient(1px 1px at 70% 58%, rgba(255,255,255,.58), transparent),
+    radial-gradient(2px 2px at 84% 18%, rgba(159,211,255,.30), transparent 60%),
+    radial-gradient(2px 2px at 36% 78%, rgba(215,199,255,.24), transparent 60%),
+    radial-gradient(1px 1px at 90% 72%, rgba(255,255,255,.55), transparent);
+  mix-blend-mode: screen;
+}
+
+.pricing-hero-inner > *{ position:relative; z-index:1; }
+
+.pricing-kicker{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 12px;
+  border-radius:999px;
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16);
+  color: rgba(255,255,255,.88);
+  font-weight:1100;
+  font-size:12px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.pricing-title{
+  margin:0 0 8px;
+  font-size:40px;
+  letter-spacing:-.02em;
+  background: linear-gradient(90deg, #d7c7ff, #9fd3ff, #7cffdf, #ffe7ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color: transparent;
+}
+
+.pricing-subtitle{
+  margin:0 0 10px;
+  color: rgba(255,255,255,.80);
+  line-height:1.55;
+  font-size:14px;
+}
+
+.pricing-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+
+.pricing-trust{
+  margin-top:10px;
+  color: rgba(255,255,255,.76);
+  font-size:12px;
+  line-height:1.55;
+}
+.pricing-trust strong{ color: rgba(255,255,255,.92); }
+
+/* ============== GRID ============== */
+.pricing-grid{
+  display:grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap:14px;
+  align-items:stretch;
+
+  position: relative; /* pour cohérence */
+  z-index: 1;
+}
+
+/* =========================
+   CARTES
+========================= */
+.price-card{
+  position:relative;
+  z-index: 1;
+  padding:16px 16px 14px;
+  border-radius:22px;
+
+  background:
+    radial-gradient(520px 260px at 18% 10%, rgba(215,199,255,.14), transparent 62%),
+    radial-gradient(520px 260px at 86% 18%, rgba(159,211,255,.12), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow: 0 18px 60px rgba(0,0,0,.46);
+  overflow:hidden;
+  min-height:292px;
+  display:flex;
+  flex-direction:column;
+}
+
+/* étoiles subtiles */
+.price-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background-image:
+    radial-gradient(1px 1px at 14% 20%, rgba(255,255,255,.74), transparent),
+    radial-gradient(1px 1px at 22% 62%, rgba(255,255,255,.55), transparent),
+    radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,.62), transparent),
+    radial-gradient(1px 1px at 68% 70%, rgba(255,255,255,.50), transparent),
+    radial-gradient(2px 2px at 82% 18%, rgba(159,211,255,.22), transparent 60%),
+    radial-gradient(2px 2px at 32% 82%, rgba(215,199,255,.18), transparent 60%);
+  mix-blend-mode: screen;
+}
+
+.price-head, .price-features, .price-cta{ position:relative; z-index:1; }
+.price-head{ padding-top:26px; }
+
+.price-name{ font-weight:1100; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
+.price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+.price-was{ color:rgba(255,255,255,.55); font-weight:900; font-size:14px; }
+.price-now{ color:rgba(255,255,255,.95); font-weight:1100; font-size:32px; letter-spacing:-.02em; }
+.price-period{ color:rgba(255,255,255,.74); font-weight:1000; font-size:13px; }
+.price-mini{ margin-top:8px; color:rgba(255,255,255,.72); font-size:12px; line-height:1.35; }
+
+.price-features{
+  margin:14px 0 14px;
+  padding-left:18px;
+  color:rgba(255,255,255,.90);
+  line-height:1.45;
+  font-size:13px;
+}
+.price-features li{ margin:8px 0; }
+.price-features li::marker{ color: rgba(159,211,255,.98); }
+
+/* CTA default */
+.price-cta{
+  margin-top:auto;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.10);
+  box-shadow: 0 12px 28px rgba(0,0,0,.28);
+  color: rgba(255,255,255,.95);
+  font-weight:1100;
+  transition: transform .12s ease, filter .12s ease, background .12s ease;
+}
+.price-cta:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  background: rgba(255,255,255,.14);
+}
+
+/* =========================
+   FEATURED (LA STAR)
+========================= */
+.price-featured{
+  border:1px solid rgba(215,199,255,.60);
+  background:
+    radial-gradient(640px 360px at 22% 6%, rgba(215,199,255,.34), transparent 60%),
+    radial-gradient(640px 360px at 92% 18%, rgba(159,211,255,.28), transparent 60%),
+    radial-gradient(640px 360px at 52% 115%, rgba(124,255,223,.13), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.06));
+  box-shadow:
+    0 26px 78px rgba(0,0,0,.58),
+    0 0 0 1px rgba(215,199,255,.12) inset;
+  transform: translateY(-6px);
+}
+
+.price-featured .price-now{
+  font-size:34px;
+  text-shadow: 0 10px 30px rgba(0,0,0,.55);
+}
+
+/* CTA featured (dégradé astro) */
+.price-featured .price-cta{
+  border:1px solid rgba(255,255,255,.22);
+  color: rgba(10,12,22,.96);
+  background:
+    radial-gradient(220px 140px at 20% 30%, rgba(215,199,255,.78), transparent 62%),
+    radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.58), transparent 62%),
+    linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.86));
+  box-shadow:
+    0 18px 55px rgba(0,0,0,.42),
+    0 18px 55px rgba(146,112,255,.22);
+}
+.price-featured .price-cta:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+/* =========================
+   BADGES
+========================= */
+.price-badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  z-index:3;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:1200;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color: rgba(7,10,22,.96);
+  background: linear-gradient(90deg, rgba(215,199,255,.98), rgba(159,211,255,.98));
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:
+    0 0 0 4px rgba(215,199,255,.10),
+    0 12px 28px rgba(0,0,0,.42);
+}
+
+.price-badge.premium{
+  background: linear-gradient(90deg, rgba(250,204,21,.98), rgba(245,158,11,.92));
+  color: rgba(26,18,0,.96);
+  box-shadow:
+    0 0 0 4px rgba(250,204,21,.10),
+    0 12px 28px rgba(0,0,0,.42);
+}
+
+/* =========================
+   HALO EXTERNE ULTRA VISIBLE
+   -> sur wrapper .price-halo
+   ✅ glow blur large + anneau net
+   ✅ mix-blend-mode screen pour ressortir
+========================= */
+.price-halo{
+  position:relative;
+  overflow:visible;
+  isolation:isolate;
+  border-radius:28px;
+}
+
+/* Couche A: glow blur large (extérieur) */
+.price-halo::before{
+  content:"";
+  position:absolute;
+  inset:-80px;
+  border-radius:80px;
+  pointer-events:none;
+  z-index:0;
+
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(215,199,255,.95) 0%,
+      rgba(159,211,255,.62) 30%,
+      rgba(124,255,223,.32) 52%,
+      transparent 74%
+    );
+
+  filter: blur(12px);
+  opacity:.95;
+  mix-blend-mode: screen;
+
+  animation: glowPulse 5.2s ease-in-out infinite;
+}
+
+/* Couche B: anneau net */
+.price-halo::after{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  border-radius:36px;
+  pointer-events:none;
+  z-index:1;
+
+  box-shadow:
+    0 0 0 2px rgba(215,199,255,.42),
+    0 0 16px rgba(215,199,255,.40),
+    0 0 34px rgba(159,211,255,.26),
+    0 0 62px rgba(124,255,223,.18);
+
+  opacity:.82;
+  mix-blend-mode: screen;
+
+  animation: ringPulse 5.2s ease-in-out infinite;
+}
+
+/* carte au-dessus des halos */
+.price-halo > .price-card{
+  position:relative;
+  z-index:2;
+}
+
+/* pulse doux, externe */
+@keyframes glowPulse{
+  0%   { transform: scale(.98); opacity:.70; }
+  50%  { transform: scale(1.07); opacity:1; }
+  100% { transform: scale(.98); opacity:.70; }
+}
+
+@keyframes ringPulse{
+  0%   { transform: scale(1); opacity:.55; }
+  50%  { transform: scale(1.02); opacity:.98; }
+  100% { transform: scale(1); opacity:.55; }
+}
+
+.price-halo:hover::before{ opacity:1; }
+.price-halo:hover::after{ opacity:1; }
+
+/* ============== RESPONSIVE ============== */
+@media (max-width:1100px){
+  .pricing-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+
+@media (max-width:560px){
+  .pricing-grid{ grid-template-columns: 1fr; }
+  .pricing-title{ font-size:32px; }
+}
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce){
+  .price-halo::before,
+  .price-halo::after{ animation:none !important; }
+}
