@@ -4,19 +4,19 @@ import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 
 /*
-  Luna Astralis — API Chat (FR) — FAST + ULTRA SHORT GUEST
-  - Limite INVITÉE: 15 messages (table public.guest_usage)
-  - Anti-reset: quota lié à guestId + ip_hash (hash IP + User-Agent)
-  - Guest: 2 phrases max + 1 question finale + 240 chars max
-  - Optimisé vitesse: historique réduit, tokens réduits
+  Luna Astralis — API Chat (FR)
+  ✅ La vraie règle est côté API (pas contournable par le front)
+  - Guest (pas de session): FREE_LIMIT via public.guest_usage
+  - Auth (session trouvée): PREMIUM obligatoire => sinon PREMIUM_REQUIRED
+  - Réponse guest ultra courte (2 phrases + 1 question, 240 chars)
 */
 
 const FREE_LIMIT = 15;
 
-// OpenAI (server-side)
+// OpenAI
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// Supabase (server-side) — SERVICE ROLE KEY uniquement côté serveur
+// Supabase (service role, server-only)
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY,
@@ -46,20 +46,142 @@ function getOutputText(response) {
   return typeof fallback === "string" ? fallback.trim() : "";
 }
 
+function sha256(s) {
+  return crypto.createHash("sha256").update(String(s)).digest("hex");
+}
+
 function getClientIp(req) {
   const xff = clean(req.headers["x-forwarded-for"]);
   if (xff) return xff.split(",")[0].trim();
   return clean(req.socket?.remoteAddress) || "";
 }
 
-function sha256(s) {
-  return crypto.createHash("sha256").update(String(s)).digest("hex");
-}
-
 function makeIpHash(req) {
   const ip = getClientIp(req);
   const ua = clean(req.headers["user-agent"]);
   return sha256(`${ip}||${ua}`);
+}
+
+function parseCookies(cookieHeader) {
+  const out = {};
+  const raw = clean(cookieHeader);
+  if (!raw) return out;
+  raw.split(";").forEach((pair) => {
+    const idx = pair.indexOf("=");
+    if (idx === -1) return;
+    const k = clean(pair.slice(0, idx));
+    const v = clean(pair.slice(idx + 1));
+    if (!k) return;
+    out[k] = v;
+  });
+  return out;
+}
+
+/* =========================
+   Supabase session (cookie -> access_token)
+   - Fonctionne si ton site est sur le même domaine que Supabase Auth cookies
+   - On supporte plusieurs formats de cookies (robuste)
+========================= */
+function tryExtractAccessTokenFromCookies(req) {
+  const cookies = parseCookies(req.headers?.cookie || "");
+  const keys = Object.keys(cookies);
+
+  // 1) cookie moderne: sb-<project-ref>-auth-token
+  const authTokenKey = keys.find((k) => k.startsWith("sb-") && k.endsWith("-auth-token"));
+  if (authTokenKey) {
+    const raw = cookies[authTokenKey];
+    // souvent URL-encoded
+    const decoded = (() => {
+      try { return decodeURIComponent(raw); } catch { return raw; }
+    })();
+
+    // ce cookie peut être JSON string: {"access_token": "...", ...}
+    try {
+      const obj = JSON.parse(decoded);
+      if (obj?.access_token) return clean(obj.access_token);
+    } catch (_) {
+      // parfois c’est un token direct (rare)
+      if (decoded.split(".").length === 3) return clean(decoded);
+    }
+  }
+
+  // 2) fallback: sb-access-token (ancien / certains setups)
+  const accessKey = keys.find((k) => k === "sb-access-token" || k.endsWith("access-token"));
+  if (accessKey) {
+    const v = (() => {
+      try { return decodeURIComponent(cookies[accessKey]); } catch { return cookies[accessKey]; }
+    })();
+    if (v && v.split(".").length === 3) return clean(v);
+  }
+
+  return "";
+}
+
+async function getAuthUserFromRequest(req) {
+  // Support optionnel Authorization: Bearer <jwt>
+  const auth = clean(req.headers?.authorization || "");
+  let token = "";
+  if (auth.toLowerCase().startsWith("bearer ")) token = clean(auth.slice(7));
+
+  if (!token) token = tryExtractAccessTokenFromCookies(req);
+  if (!token) return null;
+
+  try {
+    const { data, error } = await supabase.auth.getUser(token);
+    if (error) return null;
+    return data?.user || null;
+  } catch (_) {
+    return null;
+  }
+}
+
+/* =========================
+   Premium check (IMPORTANT)
+   👉 Tu dois dire où tu stockes le statut premium.
+   Ici je fais un check "multi-try" sans casser:
+   - table: profiles (id uuid, is_premium boolean)  OU
+   - table: subscriptions (user_id uuid, status text, current_period_end timestamptz)
+   Ajuste selon TON schéma.
+========================= */
+async function isPremiumUser(userId) {
+  if (!userId) return false;
+
+  // Try #1: profiles.is_premium
+  try {
+    const q1 = await supabase
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (!q1.error && q1.data && typeof q1.data.is_premium === "boolean") {
+      return q1.data.is_premium === true;
+    }
+  } catch (_) {}
+
+  // Try #2: subscriptions.status + current_period_end
+  try {
+    const q2 = await supabase
+      .from("subscriptions")
+      .select("status,current_period_end,plan")
+      .eq("user_id", userId)
+      .order("current_period_end", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (!q2.error && q2.data) {
+      const status = clean(q2.data.status).toLowerCase();
+      const cpe = q2.data.current_period_end ? new Date(q2.data.current_period_end) : null;
+      const now = new Date();
+
+      const activeLike = status === "active" || status === "trialing";
+      const notExpired = cpe ? cpe.getTime() > now.getTime() : true;
+
+      if (activeLike && notExpired) return true;
+    }
+  } catch (_) {}
+
+  return false;
 }
 
 /* =========================
@@ -72,7 +194,6 @@ function makeIpHash(req) {
    )
 ========================= */
 async function getOrInitGuestRow({ guestId, ipHash }) {
-  // 1) chercher par ip_hash (anti-reset)
   const byIp = await supabase
     .from("guest_usage")
     .select("guest_id, ip_hash, used")
@@ -82,7 +203,6 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
   if (byIp.error) throw new Error(`Supabase read guest_usage (ip_hash): ${byIp.error.message}`);
 
   if (byIp.data) {
-    // sync guest_id si nécessaire (non bloquant)
     if (guestId && byIp.data.guest_id !== guestId) {
       await supabase
         .from("guest_usage")
@@ -92,7 +212,6 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
     return { used: Number(byIp.data.used || 0) };
   }
 
-  // 2) chercher par guest_id (fallback)
   if (guestId) {
     const byGuest = await supabase
       .from("guest_usage")
@@ -113,7 +232,6 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
     }
   }
 
-  // 3) créer une nouvelle ligne
   const ins = await supabase
     .from("guest_usage")
     .insert([
@@ -153,33 +271,25 @@ async function incrementGuestUsedByIpHash(ipHash, nextUsed) {
 
 /* =========================
    Guest shortener (ULTRA)
-   - 2 phrases max
-   - 1 seule question (dernière)
-   - 240 chars max
 ========================= */
 function normalizeSpaces(s) {
   return clean(s).replace(/\s+/g, " ");
 }
-
 function splitSentencesFR(text) {
   const t = normalizeSpaces(text);
   if (!t) return [];
   const parts = t.split(/(?<=[.!?])\s+/).map((p) => clean(p)).filter(Boolean);
   return parts.length ? parts : [t];
 }
-
 function enforceGuestReply(raw) {
   let t = normalizeSpaces(raw);
   if (!t) return "";
 
-  // retire puces/listes
   t = t.replace(/•\s*/g, "").replace(/-\s+/g, "");
 
-  // max 2 phrases
   let sentences = splitSentencesFR(t).slice(0, 2);
   t = sentences.join(" ").trim();
 
-  // Une seule question totale, et elle doit être à la fin
   const qCount = (t.match(/\?/g) || []).length;
   if (qCount > 1) {
     const lastIdx = t.lastIndexOf("?");
@@ -188,18 +298,15 @@ function enforceGuestReply(raw) {
     t = (before + "?" + after).replace(/\.\s*\./g, ".").trim();
   }
 
-  // Si pas de question, on en ajoute une
   if (!t.includes("?")) {
     if (!/[.!]$/.test(t)) t += ".";
     t += " Qu’est-ce qui te touche le plus là-dedans ?";
   } else {
-    // coupe tout après le dernier ?
     const lastQ = t.lastIndexOf("?");
     const tail = t.slice(lastQ + 1).trim();
     if (tail.length > 0) t = t.slice(0, lastQ + 1).trim();
   }
 
-  // Coupe stricte chars
   const MAX_CHARS = 240;
   if (t.length > MAX_CHARS) {
     t = t.slice(0, MAX_CHARS).trim().replace(/[.,;:!?]$/g, "") + "…";
@@ -214,20 +321,20 @@ function enforceGuestReply(raw) {
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Méthode non autorisée" });
 
   try {
     if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: "OPENAI_API_KEY manquante (Vercel > Environment Variables)." });
+      return res.status(500).json({ error: "OPENAI_API_KEY manquante." });
     }
     if (!process.env.SUPABASE_URL) {
-      return res.status(500).json({ error: "SUPABASE_URL manquante (Vercel > Environment Variables)." });
+      return res.status(500).json({ error: "SUPABASE_URL manquante." });
     }
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante (Vercel > Environment Variables)." });
+      return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante." });
     }
 
     const body = safeJson(req.body);
@@ -237,26 +344,36 @@ export default async function handler(req, res) {
     const signName = clean(body.signName);
     const history = Array.isArray(body.history) ? body.history : [];
 
-    const mode = clean(body.mode) || "guest";
+    // guestId sert uniquement si PAS connecté
     const guestId = clean(body.guestId);
 
     if (!message) return res.status(400).json({ error: "Message vide." });
 
+    // ✅ 1) Déterminer AUTH uniquement via session (cookies/Authorization)
+    const user = await getAuthUserFromRequest(req);
+    const isAuth = !!user;
+
+    // ✅ 2) ENFORCEMENT
     const ipHash = makeIpHash(req);
 
-    // 1) Limite invité
-    if (mode === "guest") {
+    if (!isAuth) {
+      // GUEST: limiter ici
       const row = await getOrInitGuestRow({ guestId, ipHash });
       const used = Number(row.used || 0);
 
       if (used >= FREE_LIMIT) {
         return res.status(403).json({ error: "FREE_LIMIT_REACHED", limit: FREE_LIMIT, used });
       }
-
       await incrementGuestUsedByIpHash(ipHash, used + 1);
+    } else {
+      // AUTH: premium obligatoire
+      const premium = await isPremiumUser(user.id);
+      if (!premium) {
+        return res.status(403).json({ error: "PREMIUM_REQUIRED" });
+      }
     }
 
-    // 2) Instructions (courtes)
+    // ✅ 3) Instructions
     const signLabel = signName || signKey || "non précisé";
 
     const baseStyle = `
@@ -270,12 +387,11 @@ Ton: doux, calme, clair.
     const guestRules = `
 MODE INVITÉ:
 - Réponds en 1 à 2 phrases maximum, puis 1 question finale.
-- Ne fais pas d’analyse complète, pas de listes.
-- Sois directe, courte, et donne envie d’aller plus loin.
+- Pas de listes, pas d’analyse complète.
 `.trim();
 
     const authRules = `
-MODE CONNECTÉ:
+MODE PREMIUM:
 - Tu peux approfondir, nuancer, et donner des pistes concrètes.
 `.trim();
 
@@ -286,11 +402,11 @@ Si détresse grave (suicide / automutilation), encourage à contacter une aide i
     const instructions = `
 ${baseStyle}
 Signe actuel : ${signLabel}
-${mode === "guest" ? guestRules : authRules}
+${isAuth ? authRules : guestRules}
 ${safety}
 `.trim();
 
-    // 3) Historique réduit (vitesse)
+    // ✅ 4) Historique réduit
     const recentHistory = history
       .slice(-4)
       .map((m) => ({
@@ -301,8 +417,8 @@ ${safety}
 
     const input = [...recentHistory, { role: "user", content: message }];
 
-    // 4) OpenAI (vitesse)
-    const maxTokens = mode === "guest" ? 90 : 380;
+    // ✅ 5) OpenAI
+    const maxTokens = isAuth ? 420 : 90;
 
     const response = await openai.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
@@ -312,15 +428,12 @@ ${safety}
     });
 
     let reply = getOutputText(response);
-
-    if (mode === "guest") reply = enforceGuestReply(reply);
-    else reply = clean(reply);
+    reply = isAuth ? clean(reply) : enforceGuestReply(reply);
 
     if (!reply) {
-      reply =
-        mode === "guest"
-          ? "Je t’écoute. Qu’est-ce qui te touche le plus en ce moment ?"
-          : "Je t’écoute. Dis-moi ce que tu vis, et ce que tu veux comprendre.";
+      reply = isAuth
+        ? "Je t’écoute. Dis-moi ce que tu vis, et ce que tu veux comprendre."
+        : "Je t’écoute. Qu’est-ce qui te touche le plus en ce moment ?";
     }
 
     return res.status(200).json({ reply });
