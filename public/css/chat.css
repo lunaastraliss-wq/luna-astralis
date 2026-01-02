@@ -1,9 +1,9 @@
 /* ==========================================================
-   Luna Astralis — css/chat.css (CHAT) — CLEAN FINAL
+   Luna Astralis — css/chat.css (CHAT) — CLEAN FINAL (QUEUE NATURELLE)
    - Contraste + look astro (halo violet/bleu + étoiles fines)
    - Sidebar + panel cohérents
    - Bulles premium
-   - Queue IA FIABLE (sur .msg-ai::before)
+   - ✅ Queue IA naturelle (sur .msg-bubble::before)
    - Avatar rond + crop visage (object-position)
 ========================================================== */
 
@@ -277,7 +277,7 @@
   gap:12px;
   margin: 10px 0;
   align-items:flex-start;
-  position:relative; /* pour la queue IA (sur .msg-ai) */
+  position:relative;
 }
 
 /* Avatar IA — rond + crop visage */
@@ -304,7 +304,7 @@
   flex-shrink:0;
 }
 
-/* Bulle */
+/* Bulle (base) */
 .msg-bubble{
   position:relative;
   max-width:72ch;
@@ -327,51 +327,45 @@
   border-color: rgba(215,199,255,.20);
 }
 
-/* ✅ QUEUE IA FIABLE (ne dépend pas de ::before sur la bulle) */
-.msg-ai::before{
+/* ✅ QUEUE IA NATURELLE (sur la bulle, type “chat app”) */
+.msg-ai .msg-bubble{
+  overflow: visible; /* important */
+}
+
+.msg-ai .msg-bubble::before{
   content:"";
   position:absolute;
+  left:-9px;
+  top:22px;
+  width:18px;
+  height:18px;
 
-  /* Avatar 40px + gap 12px = début bulle ~52px
-     On place la pointe entre les 2 */
-  left: 44px;
-  top: 26px;
-
-  width: 16px;
-  height: 16px;
-
+  /* matière bulle */
   background: rgba(0,0,0,.24);
+
+  /* bordure douce */
   border-left: 1px solid rgba(255,255,255,.14);
   border-bottom: 1px solid rgba(255,255,255,.14);
 
+  /* forme arrondie + rotation */
+  border-radius: 0 0 0 10px;
   transform: rotate(45deg);
-  border-bottom-left-radius: 3px;
-
-  z-index: 3;
-  pointer-events:none;
+  filter: blur(.1px);
 }
 
-/* Petit halo derrière la queue (subtil) */
-.msg-ai::after{
+/* (Optionnel) mini halo discret autour de la queue */
+.msg-ai .msg-bubble::after{
   content:"";
   position:absolute;
-  left: 42px;
-  top: 24px;
-  width: 20px;
-  height: 20px;
-  background: rgba(146,112,255,.12);
-  filter: blur(2px);
-  transform: rotate(45deg);
-  border-radius: 6px;
-  z-index: 1;
+  left:-11px;
+  top:20px;
+  width:22px;
+  height:22px;
+  background: rgba(146,112,255,.10);
+  filter: blur(3px);
+  border-radius: 10px;
+  z-index:-1;
   pointer-events:none;
-}
-
-/* IMPORTANT: on neutralise toute ancienne queue sur la bulle */
-.msg-ai .msg-bubble::before,
-.msg-ai .msg-bubble::after{
-  content:none !important;
-  display:none !important;
 }
 
 /* USER */
@@ -454,9 +448,9 @@
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
 
-  /* queue adaptée au plus petit avatar */
-  .msg-ai::before{ left: 38px; top: 24px; }
-  .msg-ai::after{ left: 36px; top: 22px; }
+  /* queue adaptée */
+  .msg-ai .msg-bubble::before{ left:-8px; top:20px; width:16px; height:16px; }
+  .msg-ai .msg-bubble::after{ left:-10px; top:18px; width:20px; height:20px; }
 }
 
 /* =========================
@@ -464,49 +458,4 @@
 ========================= */
 @media (prefers-reduced-motion: reduce){
   *{ scroll-behavior:auto !important; }
-     }
-/* ===== QUEUE NATURELLE (remplace le losange) ===== */
-
-/* 1) on enlève la queue losange */
-.msg-ai::before,
-.msg-ai::after{
-  content: none !important;
-  display: none !important;
-}
-
-/* 2) bulle IA : queue arrondie, plus "chat app" */
-.msg-ai .msg-bubble{
-  position: relative;
-  overflow: visible; /* important */
-}
-
-/* queue arrondie */
-.msg-ai .msg-bubble::before{
-  content:"";
-  position:absolute;
-
-  /* place la queue près de l’avatar */
-  left:-10px;
-  top:22px;
-
-  width:18px;
-  height:18px;
-
-  /* même “matière” que la bulle */
-  background: rgba(0,0,0,.24);
-
-  /* arrondi = naturel */
-  border-radius: 0 0 0 10px;
-
-  /* petite bordure douce comme la bulle */
-  border-left: 1px solid rgba(255,255,255,.14);
-  border-bottom: 1px solid rgba(255,255,255,.14);
-
-  /* au lieu d’un diamant, on fait une forme "goutte" */
-  transform: rotate(45deg);
-}
-
-/* 3) option : queue un peu plus fondue */
-.msg-ai .msg-bubble::before{
-  filter: blur(.1px);
-}
+   }
