@@ -4,11 +4,11 @@ import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
 
 /*
-  Luna Astralis — API Chat (FR)
+  Luna Astralis — API Chat (FR) — FAST + ULTRA SHORT GUEST
   - Limite INVITÉE: 15 messages (table public.guest_usage)
   - Anti-reset: quota lié à guestId + ip_hash (hash IP + User-Agent)
-  - Mode guest: réponses COURTES + 1 question finale (conversion)
-  - Optimisé vitesse: historique réduit, tokens réduits, post-traitement strict
+  - Guest: 2 phrases max + 1 question finale + 240 chars max
+  - Optimisé vitesse: historique réduit, tokens réduits
 */
 
 const FREE_LIMIT = 15;
@@ -34,11 +34,7 @@ function safeJson(body) {
   if (body == null) return {};
   if (typeof body === "object") return body;
   if (typeof body === "string") {
-    try {
-      return JSON.parse(body);
-    } catch {
-      return {};
-    }
+    try { return JSON.parse(body); } catch { return {}; }
   }
   return {};
 }
@@ -51,7 +47,6 @@ function getOutputText(response) {
 }
 
 function getClientIp(req) {
-  // Vercel / proxies: x-forwarded-for peut contenir "ip, ip, ip"
   const xff = clean(req.headers["x-forwarded-for"]);
   if (xff) return xff.split(",")[0].trim();
   return clean(req.socket?.remoteAddress) || "";
@@ -84,9 +79,7 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
     .eq("ip_hash", ipHash)
     .maybeSingle();
 
-  if (byIp.error) {
-    throw new Error(`Supabase read guest_usage (ip_hash): ${byIp.error.message}`);
-  }
+  if (byIp.error) throw new Error(`Supabase read guest_usage (ip_hash): ${byIp.error.message}`);
 
   if (byIp.data) {
     // sync guest_id si nécessaire (non bloquant)
@@ -107,12 +100,9 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
       .eq("guest_id", guestId)
       .maybeSingle();
 
-    if (byGuest.error) {
-      throw new Error(`Supabase read guest_usage (guest_id): ${byGuest.error.message}`);
-    }
+    if (byGuest.error) throw new Error(`Supabase read guest_usage (guest_id): ${byGuest.error.message}`);
 
     if (byGuest.data) {
-      // si ip_hash manquait (ancienne donnée), on le met
       if (!byGuest.data.ip_hash) {
         await supabase
           .from("guest_usage")
@@ -136,7 +126,6 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
     ]);
 
   if (ins.error) {
-    // Course/contrainte unique: relire
     const msg = String(ins.error.message || "").toLowerCase();
     if (msg.includes("duplicate") || msg.includes("unique")) {
       const reread = await supabase
@@ -144,10 +133,7 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
         .select("used")
         .eq("ip_hash", ipHash)
         .maybeSingle();
-
-      if (reread.error) {
-        throw new Error(`Supabase reread guest_usage: ${reread.error.message}`);
-      }
+      if (reread.error) throw new Error(`Supabase reread guest_usage: ${reread.error.message}`);
       return { used: Number(reread.data?.used || 0) };
     }
     throw new Error(`Supabase insert guest_usage: ${ins.error.message}`);
@@ -166,10 +152,10 @@ async function incrementGuestUsedByIpHash(ipHash, nextUsed) {
 }
 
 /* =========================
-   Enforce short guest replies
-   - max 3 phrases
-   - 1 seule question (la dernière)
-   - coupe stricte en caractères
+   Guest shortener (ULTRA)
+   - 2 phrases max
+   - 1 seule question (dernière)
+   - 240 chars max
 ========================= */
 function normalizeSpaces(s) {
   return clean(s).replace(/\s+/g, " ");
@@ -178,7 +164,6 @@ function normalizeSpaces(s) {
 function splitSentencesFR(text) {
   const t = normalizeSpaces(text);
   if (!t) return [];
-  // Split simple sur fin de phrase.
   const parts = t.split(/(?<=[.!?])\s+/).map((p) => clean(p)).filter(Boolean);
   return parts.length ? parts : [t];
 }
@@ -187,18 +172,18 @@ function enforceGuestReply(raw) {
   let t = normalizeSpaces(raw);
   if (!t) return "";
 
-  // Retire puces/listes
+  // retire puces/listes
   t = t.replace(/•\s*/g, "").replace(/-\s+/g, "");
 
-  // Max 3 phrases
-  const sentences = splitSentencesFR(t).slice(0, 3);
-  t = sentences.join(" ");
+  // max 2 phrases
+  let sentences = splitSentencesFR(t).slice(0, 2);
+  t = sentences.join(" ").trim();
 
-  // Une seule question, à la fin
+  // Une seule question totale, et elle doit être à la fin
   const qCount = (t.match(/\?/g) || []).length;
   if (qCount > 1) {
     const lastIdx = t.lastIndexOf("?");
-    const before = t.slice(0, lastIdx).replace(/\?/g, "."); // remplace questions intermédiaires
+    const before = t.slice(0, lastIdx).replace(/\?/g, ".");
     const after = t.slice(lastIdx + 1);
     t = (before + "?" + after).replace(/\.\s*\./g, ".").trim();
   }
@@ -206,21 +191,18 @@ function enforceGuestReply(raw) {
   // Si pas de question, on en ajoute une
   if (!t.includes("?")) {
     if (!/[.!]$/.test(t)) t += ".";
-    t += " Qu’est-ce qui te préoccupe le plus en ce moment ?";
+    t += " Qu’est-ce qui te touche le plus là-dedans ?";
   } else {
-    // Coupe tout après le dernier ?
+    // coupe tout après le dernier ?
     const lastQ = t.lastIndexOf("?");
     const tail = t.slice(lastQ + 1).trim();
-    if (tail.length > 0) t = t.slice(0, lastQ + 1);
+    if (tail.length > 0) t = t.slice(0, lastQ + 1).trim();
   }
 
   // Coupe stricte chars
-  const MAX_CHARS = 380;
+  const MAX_CHARS = 240;
   if (t.length > MAX_CHARS) {
-    t = t
-      .slice(0, MAX_CHARS)
-      .trim()
-      .replace(/[.,;:!?]$/g, "") + "…";
+    t = t.slice(0, MAX_CHARS).trim().replace(/[.,;:!?]$/g, "") + "…";
   }
 
   return t.trim();
@@ -230,7 +212,6 @@ function enforceGuestReply(raw) {
    Handler
 ========================= */
 export default async function handler(req, res) {
-  // CORS simple
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -239,21 +220,14 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Méthode non autorisée" });
 
   try {
-    // Vérifs ENV
     if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({
-        error: "OPENAI_API_KEY manquante (Vercel > Environment Variables).",
-      });
+      return res.status(500).json({ error: "OPENAI_API_KEY manquante (Vercel > Environment Variables)." });
     }
     if (!process.env.SUPABASE_URL) {
-      return res.status(500).json({
-        error: "SUPABASE_URL manquante (Vercel > Environment Variables).",
-      });
+      return res.status(500).json({ error: "SUPABASE_URL manquante (Vercel > Environment Variables)." });
     }
     if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return res.status(500).json({
-        error: "SUPABASE_SERVICE_ROLE_KEY manquante (Vercel > Environment Variables).",
-      });
+      return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante (Vercel > Environment Variables)." });
     }
 
     const body = safeJson(req.body);
@@ -263,87 +237,62 @@ export default async function handler(req, res) {
     const signName = clean(body.signName);
     const history = Array.isArray(body.history) ? body.history : [];
 
-    const mode = clean(body.mode) || "guest"; // "guest" ou "auth"
+    const mode = clean(body.mode) || "guest";
     const guestId = clean(body.guestId);
 
     if (!message) return res.status(400).json({ error: "Message vide." });
 
     const ipHash = makeIpHash(req);
 
-    /* =========================
-       1) LIMITE INVITÉ (anti-reset)
-    ========================= */
+    // 1) Limite invité
     if (mode === "guest") {
       const row = await getOrInitGuestRow({ guestId, ipHash });
       const used = Number(row.used || 0);
 
       if (used >= FREE_LIMIT) {
-        return res.status(403).json({
-          error: "FREE_LIMIT_REACHED",
-          limit: FREE_LIMIT,
-          used,
-        });
+        return res.status(403).json({ error: "FREE_LIMIT_REACHED", limit: FREE_LIMIT, used });
       }
 
-      // incrémente avant OpenAI (anti-spam)
       await incrementGuestUsedByIpHash(ipHash, used + 1);
     }
 
-    /* =========================
-       2) INSTRUCTIONS (FR)
-    ========================= */
+    // 2) Instructions (courtes)
     const signLabel = signName || signKey || "non précisé";
 
     const baseStyle = `
 Tu es Luna Astralis.
-Tu combines astrologie (lecture symbolique) et psychologie douce (non thérapeutique).
-Aucun diagnostic médical.
+Astrologie = lecture symbolique, jamais une fatalité.
+Psychologie douce (non thérapeutique). Aucun diagnostic.
 Réponds uniquement en français.
 Ton: doux, calme, clair.
 `.trim();
 
     const guestRules = `
-MODE INVITÉ (gratuit) — RÈGLES STRICTES :
-- Réponds très directement (pas de préambule).
-- MAXIMUM 3 PHRASES.
-- MAXIMUM 380 caractères.
-- UNE seule question au total, et elle doit être la dernière phrase.
-- Pas de liste, pas de plan, pas d’analyse complète.
-- Donne un aperçu + une petite piste, puis invite à préciser.
+MODE INVITÉ:
+- Réponds en 1 à 2 phrases maximum, puis 1 question finale.
+- Ne fais pas d’analyse complète, pas de listes.
+- Sois directe, courte, et donne envie d’aller plus loin.
 `.trim();
 
     const authRules = `
-MODE CONNECTÉ :
-- Tu peux approfondir et structurer si utile.
-- Donne des pistes concrètes et nuancées.
-- 1 à 3 questions max si pertinent.
+MODE CONNECTÉ:
+- Tu peux approfondir, nuancer, et donner des pistes concrètes.
 `.trim();
 
     const safety = `
-Si détresse grave (suicide / automutilation) :
-- Encourage immédiatement à contacter une aide locale / urgence.
-- Reste bref et bienveillant.
+Si détresse grave (suicide / automutilation), encourage à contacter une aide immédiate.
 `.trim();
 
     const instructions = `
 ${baseStyle}
-
-Contexte :
 Signe actuel : ${signLabel}
-
 ${mode === "guest" ? guestRules : authRules}
-
-Règle de conduite :
-- Si la demande est floue, guide avec : événement → émotion → pensée → besoin.
 ${safety}
 `.trim();
 
-    /* =========================
-       3) HISTORIQUE (OPTIMISÉ VITESSE)
-       - 6 messages au lieu de 12
-    ========================= */
+    // 3) Historique réduit (vitesse)
     const recentHistory = history
-      .slice(-6)
+      .slice(-4)
       .map((m) => ({
         role: m.role === "ai" ? "assistant" : "user",
         content: clean(m.text),
@@ -352,11 +301,8 @@ ${safety}
 
     const input = [...recentHistory, { role: "user", content: message }];
 
-    /* =========================
-       4) OPENAI (OPTIMISÉ)
-       - guest: tokens bas
-    ========================= */
-    const maxTokens = mode === "guest" ? 120 : 520;
+    // 4) OpenAI (vitesse)
+    const maxTokens = mode === "guest" ? 90 : 380;
 
     const response = await openai.responses.create({
       model: process.env.OPENAI_MODEL || "gpt-4o-mini",
@@ -367,22 +313,20 @@ ${safety}
 
     let reply = getOutputText(response);
 
-    // Post-traitement strict guest
     if (mode === "guest") reply = enforceGuestReply(reply);
     else reply = clean(reply);
 
     if (!reply) {
       reply =
         mode === "guest"
-          ? "Je t’écoute. Qu’est-ce qui te préoccupe le plus en ce moment ?"
-          : "Je t’écoute. Dis-moi ce que tu vis en ce moment, et ce qui te pèse le plus.";
+          ? "Je t’écoute. Qu’est-ce qui te touche le plus en ce moment ?"
+          : "Je t’écoute. Dis-moi ce que tu vis, et ce que tu veux comprendre.";
     }
 
     return res.status(200).json({ reply });
   } catch (err) {
-    const msg = err?.message || "Erreur serveur";
     return res.status(500).json({
-      error: msg,
+      error: err?.message || "Erreur serveur",
       debug: {
         hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
         hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
