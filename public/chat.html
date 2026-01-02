@@ -498,6 +498,7 @@
         const modeText = document.getElementById("modeText");
 
         const paywallEl = document.getElementById("paywall");
+        const paywallDescEl = document.getElementById("paywallDesc"); // ✅ AJOUT
         const paywallLogin = document.getElementById("paywallLogin");
         const paywallPricing = document.getElementById("paywallPricing");
         const paywallClose = document.getElementById("paywallClose");
@@ -795,15 +796,54 @@
         }
 
         // =========================
-        // PAYWALL
+        // PAYWALL (✅ VERSION CONNECTÉ vs INVITÉ)
         // =========================
-        function openPaywall() {
+        async function openPaywall() {
           if (!paywallEl) return;
-          if (paywallLogin) paywallLogin.href = loginUrl();
-          if (paywallPricing) paywallPricing.href = pricingUrl();
+
+          // ✅ on vérifie si l’utilisateur est connecté
+          SESSION = await getSession();
+          const isAuth = !!SESSION;
+
+          const next = encodeURIComponent(currentPathWithQuery());
+
+          if (isAuth) {
+            // ✅ CONNECTÉ → on ne renvoie PAS vers login
+            if (paywallDescEl) {
+              paywallDescEl.textContent =
+                "Tu as atteint la limite de ton forfait actuel. Choisis une offre pour continuer.";
+            }
+
+            if (paywallLogin) {
+              paywallLogin.textContent = "Voir les offres";
+              paywallLogin.href = "./pricing.html?next=" + next;
+            }
+
+            if (paywallPricing) {
+              paywallPricing.style.display = "none"; // optionnel (évite doublon)
+            }
+          } else {
+            // ✅ INVITÉ → login + pricing
+            if (paywallDescEl) {
+              paywallDescEl.textContent =
+                "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
+            }
+
+            if (paywallLogin) {
+              paywallLogin.textContent = "Créer un compte / Se connecter";
+              paywallLogin.href = "./login.html?next=" + next;
+            }
+
+            if (paywallPricing) {
+              paywallPricing.style.display = "inline-flex";
+              paywallPricing.href = "./pricing.html?next=" + next;
+            }
+          }
+
           paywallEl.style.display = "flex";
           setInputEnabled(false);
         }
+
         function closePaywall() {
           if (!paywallEl) return;
           paywallEl.style.display = "none";
@@ -901,7 +941,7 @@
 
           if (!res.ok) {
             if (data?.error === "FREE_LIMIT_REACHED") {
-              openPaywall();
+              await openPaywall(); // ✅ CHANGÉ (await)
               throw new Error("FREE_LIMIT_REACHED");
             }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
@@ -967,7 +1007,7 @@
             if (!SESSION) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
-                openPaywall();
+                await openPaywall(); // ✅ CHANGÉ (await)
                 updateFreeCounter(false);
                 return;
               }
@@ -1081,7 +1121,7 @@
           else bootGuest();
         });
 
-        // Liens paywall
+        // Liens paywall (fallback au chargement)
         if (paywallLogin) paywallLogin.href = loginUrl();
         if (paywallPricing) paywallPricing.href = pricingUrl();
       })();
