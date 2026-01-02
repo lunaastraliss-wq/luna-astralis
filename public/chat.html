@@ -10,39 +10,28 @@
     <link rel="stylesheet" href="./css/chat.css" />
 
     <style>
-      /* =========================
-         FIX: le panel ne “grandit” jamais
-         - scroll UNIQUEMENT dans .chat-messages
-         - input sticky en bas
-         - bouton “Historique” pro
-      ========================= */
-
       /* IMPORTANT: page sans scroll */
       html, body { height: 100%; }
       body.chat-body { height: 100%; overflow: hidden; }
 
-      /* Layout: le main ne pousse pas la page */
       .chat-wrap { min-height: 0; }
 
-      /* Panel chat: colonne + min-height:0 pour autoriser overflow interne */
       .chat-panel{
         display:flex;
         flex-direction:column;
-        min-height:0;          /* clé */
+        min-height:0;
         position:relative;
       }
 
-      /* Zone messages: seul endroit qui scroll */
       .chat-messages{
         flex:1;
-        min-height:0;          /* clé */
+        min-height:0;
         overflow-y:auto;
         overscroll-behavior: contain;
         scroll-behavior: smooth;
         padding-bottom: 12px;
       }
 
-      /* Input collé en bas du panel */
       .chat-inputbar{
         position: sticky;
         bottom: 0;
@@ -50,7 +39,6 @@
         backdrop-filter: blur(6px);
       }
 
-      /* Bouton “aller en bas” */
       .to-bottom{
         position: absolute;
         right: 12px;
@@ -61,7 +49,7 @@
       .to-bottom .to-bottom-btn{
         appearance:none;
         border: 1px solid rgba(255,255,255,.16);
-        background: rgba(15,18,32,.92); /* moins transparent */
+        background: rgba(15,18,32,.92);
         color: rgba(255,255,255,.92);
         padding: 10px 12px;
         border-radius: 999px;
@@ -71,11 +59,6 @@
       }
       .to-bottom .to-bottom-btn:hover{ filter: brightness(1.06); }
 
-      /* =========================
-         HISTORIQUE (overlay pro)
-         - fond opaque (pas transparent)
-         - scroll dedans
-      ========================= */
       .chat-history-btn{
         appearance:none;
         border:1px solid rgba(255,255,255,.14);
@@ -107,7 +90,7 @@
         border-radius: 22px;
         overflow: hidden;
         border: 1px solid rgba(255,255,255,.14);
-        background: rgba(10,12,24,.98); /* opaque */
+        background: rgba(10,12,24,.98);
         box-shadow: 0 25px 80px rgba(0,0,0,.65);
         color: rgba(255,255,255,.92);
         display:flex;
@@ -145,7 +128,7 @@
 
       .history-body{
         padding: 14px;
-        overflow:auto; /* scroll ici */
+        overflow:auto;
         flex: 1;
       }
 
@@ -191,9 +174,6 @@
         background: rgba(14,16,30,.98);
       }
 
-      /* =========================
-         Petits éléments existants
-      ========================= */
       .ai-book { margin-top: 10px; }
       .ai-book-link{
         display:inline-flex; align-items:center; gap:8px;
@@ -221,7 +201,6 @@
       }
       .chat-upgrade:hover{ opacity:1; }
 
-      /* ===== Paywall overlay ===== */
       .paywall {
         position: fixed;
         inset: 0;
@@ -309,7 +288,6 @@
         pointer-events: none;
       }
 
-      /* Responsive: en petit écran, on permet le scroll page si sidebar passe dessous */
       @media (max-width: 980px){
         body.chat-body{ overflow: auto; }
       }
@@ -374,7 +352,6 @@
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
-        <!-- HERO MOBILE -->
         <div class="chat-hero" aria-hidden="true">
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
@@ -420,7 +397,6 @@
       </section>
     </main>
 
-    <!-- Paywall overlay -->
     <div class="paywall" id="paywall">
       <div class="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
         <h3 class="paywall-title">Continuer la discussion</h3>
@@ -438,7 +414,6 @@
       </div>
     </div>
 
-    <!-- Historique overlay -->
     <div class="history" id="history">
       <div class="history-card" role="dialog" aria-modal="true" aria-label="Historique">
         <div class="history-top">
@@ -455,7 +430,6 @@
       </div>
     </div>
 
-    <!-- Supabase JS (UMD v2) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -466,9 +440,8 @@
         const FREE_LIMIT = 15;
         const STORAGE_PREFIX = "la_chat_";
 
-        // DOM: on limite ce qu’on affiche pour garder l’écran “stable”
-        const MAX_VISIBLE = 14;      // visibles dans le chat (sans scroll page)
-        const CONTEXT_HISTORY = 8;   // ce qu’on envoie à l’API
+        const MAX_VISIBLE = 14;
+        const CONTEXT_HISTORY = 8;
 
         if (!window.supabase || !window.supabase.createClient) {
           document.body.innerHTML =
@@ -498,7 +471,7 @@
         const modeText = document.getElementById("modeText");
 
         const paywallEl = document.getElementById("paywall");
-        const paywallDescEl = document.getElementById("paywallDesc"); // ✅ AJOUT
+        const paywallDescEl = document.getElementById("paywallDesc");
         const paywallLogin = document.getElementById("paywallLogin");
         const paywallPricing = document.getElementById("paywallPricing");
         const paywallClose = document.getElementById("paywallClose");
@@ -506,7 +479,6 @@
         const toBottomWrap = document.getElementById("toBottomWrap");
         const toBottomBtn = document.getElementById("toBottomBtn");
 
-        // Historique
         const historyEl = document.getElementById("history");
         const historyBtn = document.getElementById("historyBtn");
         const historyClose = document.getElementById("historyClose");
@@ -645,7 +617,10 @@
 
         function isNearBottom() {
           const threshold = 140;
-          return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
+          return (
+            messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) <
+            threshold
+          );
         }
         function scrollToBottom(force) {
           if (force || isNearBottom()) {
@@ -658,14 +633,14 @@
 
         if (messagesEl) {
           messagesEl.addEventListener("scroll", () => {
-            if (toBottomWrap) toBottomWrap.style.display = isNearBottom() ? "none" : "block";
+            if (toBottomWrap)
+              toBottomWrap.style.display = isNearBottom() ? "none" : "block";
           });
         }
         if (toBottomBtn) {
           toBottomBtn.addEventListener("click", () => scrollToBottom(true));
         }
 
-        // Thread local
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
 
         function loadThread() {
@@ -678,7 +653,9 @@
           }
         }
         function saveThread(arr) {
-          try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
+          try {
+            localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
+          } catch (_) {}
         }
 
         function addMessage(role, text) {
@@ -704,7 +681,6 @@
           row.appendChild(bubble);
           messagesEl.appendChild(row);
 
-          // ✅ garde seulement les derniers messages visibles (stabilité)
           while (messagesEl.children.length > MAX_VISIBLE) {
             messagesEl.removeChild(messagesEl.firstChild);
           }
@@ -714,7 +690,9 @@
         }
 
         function replaceLastAiTyping(newText) {
-          const last = messagesEl.querySelector(".msg-row.msg-ai:last-child .msg-bubble");
+          const last = messagesEl.querySelector(
+            ".msg-row.msg-ai:last-child .msg-bubble"
+          );
           if (last && last.textContent === "…") {
             last.textContent = newText;
             return true;
@@ -722,7 +700,6 @@
           return false;
         }
 
-        // Rendu initial: on affiche seulement la fin
         function renderThreadTail(thread) {
           messagesEl.innerHTML = "";
           const tail = (thread || []).slice(-MAX_VISIBLE);
@@ -730,15 +707,13 @@
           scrollToBottom(true);
         }
 
-        // =========================
-        // HISTORIQUE (overlay)
-        // =========================
-        function renderHistory(thread){
+        function renderHistory(thread) {
           if (!historyBody) return;
           historyBody.innerHTML = "";
-          for (const m of (thread || [])) {
+          for (const m of thread || []) {
             const item = document.createElement("div");
-            item.className = "history-item " + (m.role === "user" ? "user" : "ai");
+            item.className =
+              "history-item " + (m.role === "user" ? "user" : "ai");
 
             if (m.role !== "user") {
               const av = document.createElement("img");
@@ -763,13 +738,13 @@
           historyBody.scrollTop = historyBody.scrollHeight;
         }
 
-        function openHistory(){
+        function openHistory() {
           if (!historyEl) return;
           renderHistory(loadThread());
           historyEl.style.display = "flex";
           setInputEnabled(false);
         }
-        function closeHistory(){
+        function closeHistory() {
           if (!historyEl) return;
           historyEl.style.display = "none";
           setInputEnabled(true);
@@ -789,51 +764,60 @@
         }
         if (historyClear) {
           historyClear.addEventListener("click", () => {
-            try { localStorage.removeItem(KEY_THREAD); } catch(_){}
-            bootGuest();            // remet hello + fin
+            try {
+              localStorage.removeItem(KEY_THREAD);
+            } catch (_) {}
+            bootGuest();
             renderHistory(loadThread());
           });
         }
 
         // =========================
-        // PAYWALL (✅ VERSION CONNECTÉ vs INVITÉ)
+        // PAYWALL (SANS DOUBLONS)
         // =========================
+        let SESSION = null;
+
+        async function getSession() {
+          try {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) return null;
+            return data?.session || null;
+          } catch (_) {
+            return null;
+          }
+        }
+
         async function openPaywall() {
           if (!paywallEl) return;
 
-          // ✅ on vérifie si l’utilisateur est connecté
+          if (paywallPricing) paywallPricing.style.display = "inline-flex";
+
           SESSION = await getSession();
           const isAuth = !!SESSION;
 
           const next = encodeURIComponent(currentPathWithQuery());
 
           if (isAuth) {
-            // ✅ CONNECTÉ → on ne renvoie PAS vers login
             if (paywallDescEl) {
               paywallDescEl.textContent =
                 "Tu as atteint la limite de ton forfait actuel. Choisis une offre pour continuer.";
             }
-
             if (paywallLogin) {
               paywallLogin.textContent = "Voir les offres";
               paywallLogin.href = "./pricing.html?next=" + next;
             }
-
             if (paywallPricing) {
-              paywallPricing.style.display = "none"; // optionnel (évite doublon)
+              paywallPricing.style.display = "none";
             }
           } else {
-            // ✅ INVITÉ → login + pricing
             if (paywallDescEl) {
               paywallDescEl.textContent =
                 "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
             }
-
             if (paywallLogin) {
               paywallLogin.textContent = "Créer un compte / Se connecter";
               paywallLogin.href = "./login.html?next=" + next;
             }
-
             if (paywallPricing) {
               paywallPricing.style.display = "inline-flex";
               paywallPricing.href = "./pricing.html?next=" + next;
@@ -847,8 +831,10 @@
         function closePaywall() {
           if (!paywallEl) return;
           paywallEl.style.display = "none";
+          setInputEnabled(true);
         }
 
+        // ✅ ICI: une seule fois (doublons retirés)
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
         if (paywallEl) {
           paywallEl.addEventListener("click", (e) => {
@@ -903,21 +889,6 @@
         }
 
         // =========================
-        // AUTH
-        // =========================
-        let SESSION = null;
-
-        async function getSession() {
-          try {
-            const { data, error } = await supabase.auth.getSession();
-            if (error) return null;
-            return data?.session || null;
-          } catch (_) {
-            return null;
-          }
-        }
-
-        // =========================
         // API CALL
         // =========================
         async function askLuna(userText, threadForContext, isAuth) {
@@ -941,7 +912,7 @@
 
           if (!res.ok) {
             if (data?.error === "FREE_LIMIT_REACHED") {
-              await openPaywall(); // ✅ CHANGÉ (await)
+              await openPaywall();
               throw new Error("FREE_LIMIT_REACHED");
             }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
@@ -1003,21 +974,18 @@
 
             SESSION = await getSession();
 
-            // GUEST
             if (!SESSION) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
-                await openPaywall(); // ✅ CHANGÉ (await)
+                await openPaywall();
                 updateFreeCounter(false);
                 return;
               }
 
-              // Thread complet (storage)
               const thread = loadThread();
               thread.push({ role: "user", text });
               saveThread(thread);
 
-              // UI: n’affiche que la fin
               addMessage("user", text);
 
               incUiUsed();
@@ -1033,7 +1001,6 @@
                 replaceLastAiTyping(reply) || addMessage("ai", reply);
 
                 const t2 = loadThread();
-                // remplace le dernier "…" si présent en storage, sinon push
                 if (t2.length && t2[t2.length - 1].role === "ai" && t2[t2.length - 1].text === "…") {
                   t2[t2.length - 1].text = reply;
                 } else {
@@ -1064,7 +1031,6 @@
               return;
             }
 
-            // AUTH
             addMessage("user", text);
 
             const thread = loadThread();
@@ -1121,7 +1087,6 @@
           else bootGuest();
         });
 
-        // Liens paywall (fallback au chargement)
         if (paywallLogin) paywallLogin.href = loginUrl();
         if (paywallPricing) paywallPricing.href = pricingUrl();
       })();
