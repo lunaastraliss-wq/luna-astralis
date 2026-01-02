@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/chat.css" />
 
+    <!-- ✅ CSS temporaire seulement pour le “panel fixe / scroll interne”.
+         (Ton vrai CSS est déjà ailleurs; garde ceci si tu veux le fix “panel ne grandit jamais”.) -->
     <style>
-      /* IMPORTANT: page sans scroll */
       html, body { height: 100%; }
       body.chat-body { height: 100%; overflow: hidden; }
-
       .chat-wrap { min-height: 0; }
 
       .chat-panel{
@@ -59,19 +59,6 @@
       }
       .to-bottom .to-bottom-btn:hover{ filter: brightness(1.06); }
 
-      .chat-history-btn{
-        appearance:none;
-        border:1px solid rgba(255,255,255,.14);
-        background: rgba(0,0,0,.25);
-        color: rgba(255,255,255,.92);
-        padding: 10px 12px;
-        border-radius: 999px;
-        font-weight: 900;
-        font-size: 12px;
-        cursor:pointer;
-      }
-      .chat-history-btn:hover{ filter: brightness(1.06); }
-
       .history{
         position: fixed;
         inset: 0;
@@ -83,7 +70,6 @@
         backdrop-filter: blur(10px);
         z-index: 99999;
       }
-
       .history-card{
         width: min(760px, 100%);
         max-height: min(78vh, 740px);
@@ -96,7 +82,6 @@
         display:flex;
         flex-direction:column;
       }
-
       .history-top{
         display:flex;
         align-items:center;
@@ -106,13 +91,11 @@
         border-bottom: 1px solid rgba(255,255,255,.10);
         background: rgba(14,16,30,.98);
       }
-
       .history-title{
         font-weight: 1000;
         font-size: 14px;
         letter-spacing: .02em;
       }
-
       .history-close{
         appearance:none;
         border:1px solid rgba(255,255,255,.14);
@@ -125,20 +108,17 @@
         font-size: 12px;
       }
       .history-close:hover{ background: rgba(255,255,255,.10); }
-
       .history-body{
         padding: 14px;
         overflow:auto;
         flex: 1;
       }
-
       .history-item{
         display:flex;
         gap: 10px;
         margin: 10px 0;
         align-items:flex-start;
       }
-
       .history-avatar{
         width: 34px;
         height: 34px;
@@ -148,7 +128,6 @@
         border: 1px solid rgba(255,255,255,.18);
         background: rgba(0,0,0,.25);
       }
-
       .history-bubble{
         max-width: 72ch;
         padding: 12px 14px;
@@ -158,13 +137,11 @@
         line-height: 1.45;
         white-space: pre-wrap;
       }
-
       .history-item.user{ justify-content:flex-end; }
       .history-item.user .history-bubble{
         background: rgba(146,112,255,.10);
         border-color: rgba(159,211,255,.14);
       }
-
       .history-foot{
         display:flex;
         gap:10px;
@@ -173,33 +150,6 @@
         border-top: 1px solid rgba(255,255,255,.10);
         background: rgba(14,16,30,.98);
       }
-
-      .ai-book { margin-top: 10px; }
-      .ai-book-link{
-        display:inline-flex; align-items:center; gap:8px;
-        font-size:12px; opacity:.65;
-        text-decoration:underline; text-underline-offset:3px;
-        color:rgba(255,255,255,.92);
-      }
-      .ai-book-link:hover{ opacity:.9; }
-
-      .chat-logout{
-        margin-left: 12px;
-        font-size: 13px;
-        opacity:.75;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-      }
-      .chat-logout:hover{ opacity:1; }
-
-      .chat-upgrade{
-        margin-left: 10px;
-        font-size: 13px;
-        opacity: .9;
-        text-decoration: underline;
-        text-underline-offset: 3px;
-      }
-      .chat-upgrade:hover{ opacity:1; }
 
       .paywall {
         position: fixed;
@@ -221,23 +171,9 @@
         box-shadow: 0 25px 70px rgba(0,0,0,.55);
         color: rgba(255,255,255,.92);
       }
-      .paywall-title{
-        font-size: 18px;
-        font-weight: 700;
-        margin: 0 0 6px;
-        letter-spacing: .2px;
-      }
-      .paywall-desc{
-        margin: 0 0 14px;
-        opacity: .85;
-        line-height: 1.35;
-        font-size: 14px;
-      }
-      .paywall-actions{
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-      }
+      .paywall-title{ font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+      .paywall-desc{ margin: 0 0 14px; opacity: .85; line-height: 1.35; font-size: 14px; }
+      .paywall-actions{ display:flex; gap:10px; flex-wrap:wrap; }
       .btn{
         appearance: none;
         border: 1px solid rgba(255,255,255,.18);
@@ -259,12 +195,7 @@
         border-color: rgba(215,199,255,.28);
       }
       .btn-primary:hover{ background: rgba(215,199,255,.24); }
-      .paywall-foot{
-        margin-top: 12px;
-        font-size: 12px;
-        opacity: .75;
-        line-height: 1.35;
-      }
+      .paywall-foot{ margin-top: 12px; font-size: 12px; opacity: .75; line-height: 1.35; }
 
       .mode-pill{
         display:inline-flex;
@@ -283,10 +214,7 @@
       }
       .mode-dot.green{ background: rgba(120,255,190,.85); }
 
-      .input-disabled{
-        opacity: .6;
-        pointer-events: none;
-      }
+      .input-disabled{ opacity:.6; pointer-events:none; }
 
       @media (max-width: 980px){
         body.chat-body{ overflow: auto; }
@@ -337,9 +265,7 @@
               rel="noopener noreferrer"
               aria-label="Approfondir ce signe"
               title="Approfondir ce signe"
-            >
-              ✦ Approfondir ce signe
-            </a>
+            >✦ Approfondir ce signe</a>
           </div>
 
           <div style="margin-top:10px; font-size:12px; opacity:.7;" id="userEmail"></div>
@@ -356,7 +282,6 @@
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
             <div class="chat-hero-overlay"></div>
-
             <div class="chat-hero-card">
               <p class="hero-title" id="heroTitle">—</p>
               <p class="hero-desc" id="heroDesc">—</p>
@@ -371,7 +296,6 @@
 
           <div style="display:flex; align-items:center; gap:10px;">
             <button class="chat-history-btn" id="historyBtn" type="button">Historique</button>
-
             <div class="ai-face-mini-wrap" aria-hidden="true">
               <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="" />
             </div>
@@ -385,18 +309,13 @@
         </div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
-          <input
-            id="input"
-            type="text"
-            class="chat-input"
-            placeholder="Écris ton message…"
-            autocomplete="off"
-          />
+          <input id="input" type="text" class="chat-input" placeholder="Écris ton message…" autocomplete="off" />
           <button class="chat-send" id="sendBtn" type="submit">Envoyer</button>
         </form>
       </section>
     </main>
 
+    <!-- Paywall -->
     <div class="paywall" id="paywall">
       <div class="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
         <h3 class="paywall-title">Continuer la discussion</h3>
@@ -414,15 +333,14 @@
       </div>
     </div>
 
+    <!-- Historique -->
     <div class="history" id="history">
       <div class="history-card" role="dialog" aria-modal="true" aria-label="Historique">
         <div class="history-top">
           <div class="history-title">Historique</div>
           <button class="history-close" id="historyClose" type="button">Fermer</button>
         </div>
-
         <div class="history-body" id="historyBody"></div>
-
         <div class="history-foot">
           <button class="btn" id="historyScrollBottom" type="button">Aller au bas</button>
           <button class="btn btn-primary" id="historyClear" type="button">Effacer (local)</button>
@@ -430,6 +348,7 @@
       </div>
     </div>
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
@@ -439,7 +358,6 @@
 
         const FREE_LIMIT = 15;
         const STORAGE_PREFIX = "la_chat_";
-
         const MAX_VISIBLE = 14;
         const CONTEXT_HISTORY = 8;
 
@@ -449,13 +367,23 @@
           return;
         }
 
+        // ✅ IMPORTANT: options auth pour que la session reste après signup/login
         const supabase =
           window.__LA_SUPABASE__ ||
           (window.__LA_SUPABASE__ = window.supabase.createClient(
             SUPABASE_URL,
-            SUPABASE_KEY
+            SUPABASE_KEY,
+            {
+              auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true,
+                storage: window.localStorage,
+              },
+            }
           ));
 
+        // DOM
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -488,6 +416,7 @@
 
         if (!messagesEl) return;
 
+        // Helpers URL
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
           return p + location.search;
@@ -501,6 +430,7 @@
           return "./pricing.html?next=" + next;
         }
 
+        // Query & signe
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
           (s || "")
@@ -569,9 +499,7 @@
         const rawKey = qs("signe") || qs("sign") || "belier";
         const signKey = norm(rawKey) || "belier";
         const signName = SIGNS[signKey] || "—";
-        const signDesc =
-          SIGN_DESC[signKey] ||
-          "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+        const signDesc = SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
         const signLabelEl = document.getElementById("signLabel");
         const aiTagEl = document.getElementById("aiTag");
@@ -593,6 +521,7 @@
           link.href = bookUrl;
         }
 
+        // Guest id
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
           try {
@@ -609,18 +538,17 @@
           }
         }
 
+        // Input enable/disable
         function setInputEnabled(enabled) {
           if (input) input.disabled = !enabled;
           if (sendBtn) sendBtn.disabled = !enabled;
           if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
+        // Scroll helpers
         function isNearBottom() {
           const threshold = 140;
-          return (
-            messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) <
-            threshold
-          );
+          return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
         }
         function scrollToBottom(force) {
           if (force || isNearBottom()) {
@@ -633,14 +561,12 @@
 
         if (messagesEl) {
           messagesEl.addEventListener("scroll", () => {
-            if (toBottomWrap)
-              toBottomWrap.style.display = isNearBottom() ? "none" : "block";
+            if (toBottomWrap) toBottomWrap.style.display = isNearBottom() ? "none" : "block";
           });
         }
-        if (toBottomBtn) {
-          toBottomBtn.addEventListener("click", () => scrollToBottom(true));
-        }
+        if (toBottomBtn) toBottomBtn.addEventListener("click", () => scrollToBottom(true));
 
+        // Thread local (par signe)
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
 
         function loadThread() {
@@ -653,11 +579,10 @@
           }
         }
         function saveThread(arr) {
-          try {
-            localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
-          } catch (_) {}
+          try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
+        // Render messages (tail only)
         function addMessage(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
@@ -690,9 +615,7 @@
         }
 
         function replaceLastAiTyping(newText) {
-          const last = messagesEl.querySelector(
-            ".msg-row.msg-ai:last-child .msg-bubble"
-          );
+          const last = messagesEl.querySelector(".msg-row.msg-ai:last-child .msg-bubble");
           if (last && last.textContent === "…") {
             last.textContent = newText;
             return true;
@@ -707,13 +630,13 @@
           scrollToBottom(true);
         }
 
+        // Historique overlay
         function renderHistory(thread) {
           if (!historyBody) return;
           historyBody.innerHTML = "";
-          for (const m of thread || []) {
+          for (const m of (thread || [])) {
             const item = document.createElement("div");
-            item.className =
-              "history-item " + (m.role === "user" ? "user" : "ai");
+            item.className = "history-item " + (m.role === "user" ? "user" : "ai");
 
             if (m.role !== "user") {
               const av = document.createElement("img");
@@ -752,101 +675,18 @@
 
         if (historyBtn) historyBtn.addEventListener("click", openHistory);
         if (historyClose) historyClose.addEventListener("click", closeHistory);
-        if (historyEl) {
-          historyEl.addEventListener("click", (e) => {
-            if (e.target === historyEl) closeHistory();
-          });
-        }
-        if (historyScrollBottom) {
-          historyScrollBottom.addEventListener("click", () => {
-            if (historyBody) historyBody.scrollTop = historyBody.scrollHeight;
-          });
-        }
+        if (historyEl) historyEl.addEventListener("click", (e) => { if (e.target === historyEl) closeHistory(); });
+        if (historyScrollBottom) historyScrollBottom.addEventListener("click", () => { if (historyBody) historyBody.scrollTop = historyBody.scrollHeight; });
         if (historyClear) {
           historyClear.addEventListener("click", () => {
-            try {
-              localStorage.removeItem(KEY_THREAD);
-            } catch (_) {}
+            try { localStorage.removeItem(KEY_THREAD); } catch(_){}
             bootGuest();
             renderHistory(loadThread());
           });
         }
 
-        // =========================
-        // PAYWALL (SANS DOUBLONS)
-        // =========================
-        let SESSION = null;
-
-        async function getSession() {
-          try {
-            const { data, error } = await supabase.auth.getSession();
-            if (error) return null;
-            return data?.session || null;
-          } catch (_) {
-            return null;
-          }
-        }
-
-        async function openPaywall() {
-          if (!paywallEl) return;
-
-          if (paywallPricing) paywallPricing.style.display = "inline-flex";
-
-          SESSION = await getSession();
-          const isAuth = !!SESSION;
-
-          const next = encodeURIComponent(currentPathWithQuery());
-
-          if (isAuth) {
-            if (paywallDescEl) {
-              paywallDescEl.textContent =
-                "Tu as atteint la limite de ton forfait actuel. Choisis une offre pour continuer.";
-            }
-            if (paywallLogin) {
-              paywallLogin.textContent = "Voir les offres";
-              paywallLogin.href = "./pricing.html?next=" + next;
-            }
-            if (paywallPricing) {
-              paywallPricing.style.display = "none";
-            }
-          } else {
-            if (paywallDescEl) {
-              paywallDescEl.textContent =
-                "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
-            }
-            if (paywallLogin) {
-              paywallLogin.textContent = "Créer un compte / Se connecter";
-              paywallLogin.href = "./login.html?next=" + next;
-            }
-            if (paywallPricing) {
-              paywallPricing.style.display = "inline-flex";
-              paywallPricing.href = "./pricing.html?next=" + next;
-            }
-          }
-
-          paywallEl.style.display = "flex";
-          setInputEnabled(false);
-        }
-
-        function closePaywall() {
-          if (!paywallEl) return;
-          paywallEl.style.display = "none";
-          setInputEnabled(true);
-        }
-
-        // ✅ ICI: une seule fois (doublons retirés)
-        if (paywallClose) paywallClose.addEventListener("click", closePaywall);
-        if (paywallEl) {
-          paywallEl.addEventListener("click", (e) => {
-            if (e.target === paywallEl) closePaywall();
-          });
-        }
-
-        // =========================
-        // COUNTER (UI indicatif)
-        // =========================
+        // Counter (guest only)
         const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
-
         function getUiUsed() {
           const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
           return Number.isFinite(n) ? n : 0;
@@ -861,13 +701,12 @@
           if (isAuth) { freeCounterEl.textContent = ""; return; }
           const used = getUiUsed();
           const left = Math.max(0, FREE_LIMIT - used);
-          freeCounterEl.textContent =
-            left > 0 ? `Gratuit : ${left} message(s) restant(s)` : `Limite gratuite atteinte`;
+          freeCounterEl.textContent = left > 0
+            ? `Gratuit : ${left} message(s) restant(s)`
+            : `Limite gratuite atteinte`;
         }
 
-        // =========================
-        // MODE UI
-        // =========================
+        // Mode UI
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
           if (modeDot) modeDot.classList.remove("green");
@@ -888,9 +727,63 @@
           setInputEnabled(true);
         }
 
-        // =========================
-        // API CALL
-        // =========================
+        // Auth
+        let SESSION = null;
+        async function getSession() {
+          try {
+            const { data, error } = await supabase.auth.getSession();
+            if (error) return null;
+            return data?.session || null;
+          } catch (_) {
+            return null;
+          }
+        }
+
+        // Paywall (sans doublons)
+        async function openPaywall() {
+          if (!paywallEl) return;
+
+          if (paywallPricing) paywallPricing.style.display = "inline-flex";
+
+          SESSION = await getSession();
+          const isAuth = !!SESSION;
+          const next = encodeURIComponent(currentPathWithQuery());
+
+          if (isAuth) {
+            if (paywallDescEl) paywallDescEl.textContent =
+              "Tu as atteint la limite de ton forfait actuel. Choisis une offre pour continuer.";
+            if (paywallLogin) {
+              paywallLogin.textContent = "Voir les offres";
+              paywallLogin.href = "./pricing.html?next=" + next;
+            }
+            if (paywallPricing) paywallPricing.style.display = "none";
+          } else {
+            if (paywallDescEl) paywallDescEl.textContent =
+              "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
+            if (paywallLogin) {
+              paywallLogin.textContent = "Créer un compte / Se connecter";
+              paywallLogin.href = "./login.html?next=" + next;
+            }
+            if (paywallPricing) {
+              paywallPricing.style.display = "inline-flex";
+              paywallPricing.href = "./pricing.html?next=" + next;
+            }
+          }
+
+          paywallEl.style.display = "flex";
+          setInputEnabled(false);
+        }
+
+        function closePaywall() {
+          if (!paywallEl) return;
+          paywallEl.style.display = "none";
+          setInputEnabled(true);
+        }
+
+        if (paywallClose) paywallClose.addEventListener("click", closePaywall);
+        if (paywallEl) paywallEl.addEventListener("click", (e) => { if (e.target === paywallEl) closePaywall(); });
+
+        // API call
         async function askLuna(userText, threadForContext, isAuth) {
           const payload = {
             message: userText,
@@ -922,12 +815,9 @@
           return data.reply;
         }
 
-        // =========================
-        // BOOT
-        // =========================
+        // Boot
         function bootGuest() {
           setModeGuest();
-
           const thread = loadThread();
           if (thread.length) {
             renderThreadTail(thread);
@@ -943,7 +833,6 @@
         function bootAuth(session) {
           const email = session.user?.email || "";
           setModeAuth(email);
-
           const thread = loadThread();
           if (thread.length) {
             renderThreadTail(thread);
@@ -958,13 +847,15 @@
 
         (async () => {
           SESSION = await getSession();
+          if (!SESSION) {
+            await new Promise(r => setTimeout(r, 300)); // petit délai post-login
+            SESSION = await getSession();
+          }
           if (SESSION) bootAuth(SESSION);
           else bootGuest();
         })();
 
-        // =========================
-        // SEND
-        // =========================
+        // Send
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -974,6 +865,7 @@
 
             SESSION = await getSession();
 
+            // GUEST
             if (!SESSION) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
@@ -997,40 +889,27 @@
 
               try {
                 const reply = await askLuna(text, thread, false);
-
                 replaceLastAiTyping(reply) || addMessage("ai", reply);
 
                 const t2 = loadThread();
-                if (t2.length && t2[t2.length - 1].role === "ai" && t2[t2.length - 1].text === "…") {
-                  t2[t2.length - 1].text = reply;
-                } else {
-                  t2.push({ role: "ai", text: reply });
-                }
+                t2.push({ role: "ai", text: reply });
                 saveThread(t2);
-
               } catch (err) {
-                if (err?.message === "FREE_LIMIT_REACHED") {
-                  const msg = "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.";
-                  replaceLastAiTyping(msg) || addMessage("ai", msg);
-                  const t2 = loadThread();
-                  t2.push({ role: "ai", text: msg });
-                  saveThread(t2);
-                  updateFreeCounter(false);
-                  return;
-                }
+                if (err?.message === "FREE_LIMIT_REACHED") return;
 
                 const msg =
                   "Erreur. Vérifie que /api/chat existe sur Vercel. " +
                   (err?.message ? ("(" + err.message + ")") : "");
                 replaceLastAiTyping(msg) || addMessage("ai", msg);
+
                 const t2 = loadThread();
                 t2.push({ role: "ai", text: msg });
                 saveThread(t2);
               }
-
               return;
             }
 
+            // AUTH
             addMessage("user", text);
 
             const thread = loadThread();
@@ -1042,22 +921,17 @@
 
             try {
               const reply = await askLuna(text, thread, true);
-
               replaceLastAiTyping(reply) || addMessage("ai", reply);
 
               const t2 = loadThread();
-              if (t2.length && t2[t2.length - 1].role === "ai" && t2[t2.length - 1].text === "…") {
-                t2[t2.length - 1].text = reply;
-              } else {
-                t2.push({ role: "ai", text: reply });
-              }
+              t2.push({ role: "ai", text: reply });
               saveThread(t2);
-
             } catch (err) {
               const msg =
                 "Erreur. Vérifie que /api/chat existe sur Vercel. " +
                 (err?.message ? ("(" + err.message + ")") : "");
               replaceLastAiTyping(msg) || addMessage("ai", msg);
+
               const t2 = loadThread();
               t2.push({ role: "ai", text: msg });
               saveThread(t2);
@@ -1065,7 +939,7 @@
           });
         }
 
-        // LOGOUT
+        // Logout
         if (logoutLink) {
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -1076,7 +950,7 @@
           });
         }
 
-        // UPGRADE
+        // Upgrade link
         if (upgradeLink) upgradeLink.href = pricingUrl();
 
         // Auth change
@@ -1087,6 +961,7 @@
           else bootGuest();
         });
 
+        // Paywall fallback links
         if (paywallLogin) paywallLogin.href = loginUrl();
         if (paywallPricing) paywallPricing.href = pricingUrl();
       })();
