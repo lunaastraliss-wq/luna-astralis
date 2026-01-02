@@ -10,6 +10,75 @@
     <link rel="stylesheet" href="./css/chat.css" />
 
     <style>
+      /* =========================
+         PETITS AJOUTS UI (performance + long chat)
+      ========================= */
+
+      /* Assure que le panel chat ne “grandit” pas et que le scroll reste DANS messages */
+      .chat-panel{
+        display:flex;
+        flex-direction:column;
+        min-height:0; /* important pour overflow */
+      }
+      .chat-messages{
+        flex:1;
+        min-height:0;
+        overflow-y:auto;
+        overscroll-behavior: contain;
+        scroll-behavior: smooth;
+        padding-bottom: 12px;
+      }
+      .chat-inputbar{
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+        backdrop-filter: blur(6px);
+      }
+
+      /* Charger plus (en haut du chat) */
+      .chat-loadmore{
+        position: sticky;
+        top: 0;
+        z-index: 9;
+        display:none;
+        padding: 10px 10px 0;
+        background: linear-gradient(to bottom, rgba(6,8,21,.92), rgba(6,8,21,.55), rgba(6,8,21,0));
+      }
+      .chat-loadmore .btn-mini{
+        width:100%;
+        appearance:none;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.90);
+        padding: 10px 12px;
+        border-radius: 14px;
+        font-size: 13px;
+        cursor:pointer;
+      }
+      .chat-loadmore .btn-mini:hover{ background: rgba(255,255,255,.10); }
+
+      /* Bouton “aller en bas” quand user a scroll up */
+      .to-bottom{
+        position: absolute;
+        right: 12px;
+        bottom: 70px; /* au-dessus de l’input */
+        z-index: 20;
+        display:none;
+      }
+      .to-bottom .to-bottom-btn{
+        appearance:none;
+        border: 1px solid rgba(255,255,255,.16);
+        background: rgba(255,255,255,.10);
+        color: rgba(255,255,255,.92);
+        padding: 10px 12px;
+        border-radius: 999px;
+        cursor:pointer;
+        font-size: 13px;
+        box-shadow: 0 18px 40px rgba(0,0,0,.45);
+      }
+      .to-bottom .to-bottom-btn:hover{ background: rgba(255,255,255,.14); }
+
+      /* Ton existant */
       .ai-book { margin-top: 10px; }
       .ai-book-link{
         display:inline-flex; align-items:center; gap:8px;
@@ -185,7 +254,7 @@
         </div>
       </aside>
 
-      <section class="chat-panel" aria-label="Discussion">
+      <section class="chat-panel" aria-label="Discussion" style="position:relative;">
         <!-- HERO MOBILE -->
         <div class="chat-hero" aria-hidden="true">
           <div class="chat-hero-inner">
@@ -208,7 +277,17 @@
           </div>
         </div>
 
+        <!-- Charger plus (sticky en haut de la zone messages) -->
+        <div class="chat-loadmore" id="loadMoreWrap">
+          <button class="btn-mini" id="loadMoreBtn" type="button">Charger les messages précédents</button>
+        </div>
+
         <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
+
+        <!-- Bouton aller en bas (quand on a scroll up) -->
+        <div class="to-bottom" id="toBottomWrap">
+          <button class="to-bottom-btn" id="toBottomBtn" type="button">⬇️ Aller en bas</button>
+        </div>
 
         <form class="chat-inputbar" id="form" autocomplete="off">
           <input
@@ -255,6 +334,11 @@
         const FREE_LIMIT = 15;
         const STORAGE_PREFIX = "la_chat_";
 
+        /* PERF UI (important quand le chat grandit) */
+        const RENDER_WINDOW = 60;  // nombre max de messages rendus (DOM)
+        const LOAD_STEP = 30;      // combien on ajoute quand on “Charger plus”
+        const CONTEXT_HISTORY = 6; // ce qu’on envoie à l’API (vitesse)
+
         /* =========================
            SAFE SUPABASE LOAD
         ========================= */
@@ -292,6 +376,12 @@
         const paywallLogin = document.getElementById("paywallLogin");
         const paywallPricing = document.getElementById("paywallPricing");
         const paywallClose = document.getElementById("paywallClose");
+
+        const loadMoreWrap = document.getElementById("loadMoreWrap");
+        const loadMoreBtn = document.getElementById("loadMoreBtn");
+
+        const toBottomWrap = document.getElementById("toBottomWrap");
+        const toBottomBtn = document.getElementById("toBottomBtn");
 
         if (!messagesEl) return;
 
@@ -435,9 +525,60 @@
         }
 
         /* =========================
-           CHAT UI
+           SCROLL helpers
         ========================= */
-        function addMessage(role, text) {
+        function isNearBottom() {
+          const threshold = 120; // px
+          return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
+        }
+        function scrollToBottom(force) {
+          if (force || isNearBottom()) {
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+            if (toBottomWrap) toBottomWrap.style.display = "none";
+          } else {
+            if (toBottomWrap) toBottomWrap.style.display = "block";
+          }
+        }
+
+        if (messagesEl) {
+          messagesEl.addEventListener("scroll", () => {
+            if (toBottomWrap) {
+              toBottomWrap.style.display = isNearBottom() ? "none" : "block";
+            }
+          });
+        }
+        if (toBottomBtn) {
+          toBottomBtn.addEventListener("click", () => scrollToBottom(true));
+        }
+
+        /* =========================
+           CHAT RENDER (IMPORTANT)
+           - on stocke tout en localStorage
+           - mais on NE rend pas tout (DOM limité)
+        ========================= */
+        const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
+
+        let THREAD = [];          // thread complet (storage)
+        let renderStart = 0;      // index de départ de ce qu’on affiche
+
+        function loadThread() {
+          try {
+            const raw = localStorage.getItem(KEY_THREAD);
+            const arr = raw ? JSON.parse(raw) : [];
+            return Array.isArray(arr) ? arr : [];
+          } catch (_) {
+            return [];
+          }
+        }
+        function saveThread(arr) {
+          try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
+        }
+
+        function clearMessagesDom() {
+          messagesEl.innerHTML = "";
+        }
+
+        function addMessageDom(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
 
@@ -459,11 +600,73 @@
 
           row.appendChild(bubble);
           messagesEl.appendChild(row);
-          messagesEl.scrollTop = messagesEl.scrollHeight;
           return row;
         }
 
+        function renderThreadWindow({ preserveScroll } = { preserveScroll: false }) {
+          // On rend seulement la fenêtre [renderStart .. end)
+          const end = THREAD.length;
+          const beforeHeight = messagesEl.scrollHeight;
+          const beforeTop = messagesEl.scrollTop;
+
+          clearMessagesDom();
+
+          for (let i = renderStart; i < end; i++) {
+            const m = THREAD[i];
+            addMessageDom(m.role, m.text);
+          }
+
+          // load more visible ?
+          const hasMore = renderStart > 0;
+          if (loadMoreWrap) loadMoreWrap.style.display = hasMore ? "block" : "none";
+
+          if (preserveScroll) {
+            // préserver la position quand on précharge l’historique (sinon ça “saute”)
+            const afterHeight = messagesEl.scrollHeight;
+            const delta = afterHeight - beforeHeight;
+            messagesEl.scrollTop = beforeTop + delta;
+          } else {
+            scrollToBottom(true);
+          }
+        }
+
+        function ensureRenderWindowAtBottom() {
+          // Toujours garder au moins les derniers RENDER_WINDOW
+          renderStart = Math.max(0, THREAD.length - RENDER_WINDOW);
+        }
+
+        if (loadMoreBtn) {
+          loadMoreBtn.addEventListener("click", () => {
+            const nextStart = Math.max(0, renderStart - LOAD_STEP);
+            if (nextStart === renderStart) return;
+            renderStart = nextStart;
+            renderThreadWindow({ preserveScroll: true });
+          });
+        }
+
+        function pushToThread(role, text) {
+          THREAD.push({ role, text });
+          saveThread(THREAD);
+
+          // si on est déjà sur la fin, on garde la fenêtre vers le bas
+          const wasNearBottom = isNearBottom();
+
+          // si ça dépasse la fenêtre, on décale le start (pour limiter DOM)
+          ensureRenderWindowAtBottom();
+
+          // rendu
+          renderThreadWindow({ preserveScroll: false });
+
+          // si l’utilisateur lisait plus haut, on ne force pas le scroll
+          if (!wasNearBottom) {
+            if (toBottomWrap) toBottomWrap.style.display = "block";
+          } else {
+            scrollToBottom(true);
+          }
+        }
+
         function replaceLastAiTyping(newText) {
+          // Remplace le dernier bubble AI si c’est "…"
           const last = messagesEl.querySelector(".msg-row.msg-ai:last-child .msg-bubble");
           if (last && last.textContent === "…") {
             last.textContent = newText;
@@ -486,7 +689,6 @@
           if (!paywallEl) return;
           paywallEl.style.display = "none";
           // On ne réactive que si utilisateur est connecté.
-          // En invité, s’il a atteint la limite, le serveur rebloquera.
         }
 
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
@@ -543,30 +745,6 @@
         }
 
         /* =========================
-           STORAGE THREAD
-        ========================= */
-        const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
-
-        function loadThread() {
-          try {
-            const raw = localStorage.getItem(KEY_THREAD);
-            const arr = raw ? JSON.parse(raw) : [];
-            return Array.isArray(arr) ? arr : [];
-          } catch (_) {
-            return [];
-          }
-        }
-
-        function saveThread(arr) {
-          try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
-        }
-
-        function renderThread(thread) {
-          messagesEl.innerHTML = "";
-          for (const m of thread) addMessage(m.role, m.text);
-        }
-
-        /* =========================
            AUTH
         ========================= */
         let SESSION = null;
@@ -583,6 +761,9 @@
 
         /* =========================
            API CALL
+           NOTE: la “lenteur” ressentie vient surtout du temps modèle + réseau.
+           Côté UI, on affiche "…" instantanément.
+           Côté API, on envoie moins d’historique (CONTEXT_HISTORY) pour accélérer.
         ========================= */
         async function askLuna(userText, threadForContext, isAuth) {
           const payload = {
@@ -592,14 +773,23 @@
             signDesc,
             mode: isAuth ? "auth" : "guest",
             guestId: isAuth ? undefined : getGuestId(),
-            history: (threadForContext || []).slice(-12),
+            history: (threadForContext || []).slice(-CONTEXT_HISTORY),
           };
 
-          const res = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 25000); // 25s max
+
+          let res;
+          try {
+            res = await fetch("/api/chat", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+              signal: controller.signal,
+            });
+          } finally {
+            clearTimeout(timeout);
+          }
 
           const data = await res.json().catch(() => ({}));
 
@@ -607,6 +797,9 @@
             if (data?.error === "FREE_LIMIT_REACHED") {
               openPaywall();
               throw new Error("FREE_LIMIT_REACHED");
+            }
+            if (controller.signal.aborted) {
+              throw new Error("TIMEOUT");
             }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
           }
@@ -618,33 +811,32 @@
         /* =========================
            BOOT
         ========================= */
+        function ensureHelloIfEmpty() {
+          if (THREAD.length) return;
+
+          const hello =
+            `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+
+          THREAD = [{ role: "ai", text: hello }];
+          saveThread(THREAD);
+        }
+
         function bootGuest() {
           setModeGuest();
-
-          const thread = loadThread();
-          if (thread.length) {
-            renderThread(thread);
-          } else {
-            const hello =
-              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
-            addMessage("ai", hello);
-            saveThread([{ role: "ai", text: hello }]);
-          }
+          THREAD = loadThread();
+          ensureHelloIfEmpty();
+          ensureRenderWindowAtBottom();
+          renderThreadWindow({ preserveScroll: false });
         }
 
         function bootAuth(session) {
           const email = session.user?.email || "";
           setModeAuth(email);
 
-          const thread = loadThread();
-          if (thread.length) {
-            renderThread(thread);
-          } else {
-            const hello =
-              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
-            addMessage("ai", hello);
-            saveThread([{ role: "ai", text: hello }]);
-          }
+          THREAD = loadThread();
+          ensureHelloIfEmpty();
+          ensureRenderWindowAtBottom();
+          renderThreadWindow({ preserveScroll: false });
         }
 
         (async () => {
@@ -665,9 +857,8 @@
 
             SESSION = await getSession();
 
-            // GUEST
+            // -------- GUEST --------
             if (!SESSION) {
-              // Indicateur UI (pas la vraie sécurité)
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
                 openPaywall();
@@ -675,75 +866,92 @@
                 return;
               }
 
-              addMessage("user", text);
+              // UI: ajoute user + typing instant
+              pushToThread("user", text);
 
-              // Compteur UI
               incUiUsed();
               updateFreeCounter(false);
 
-              // Thread
-              const thread = loadThread();
-              thread.push({ role: "user", text });
-              saveThread(thread);
-
               if (input) { input.value = ""; input.focus(); }
 
-              addMessage("ai", "…");
+              // typing "…" (on l’ajoute seulement dans le DOM + thread)
+              pushToThread("ai", "…");
 
               try {
-                const reply = await askLuna(text, thread, false);
+                const reply = await askLuna(text, THREAD, false);
 
-                replaceLastAiTyping(reply) || addMessage("ai", reply);
-
-                const t2 = loadThread();
-                t2.push({ role: "ai", text: reply });
-                saveThread(t2);
+                // remplace "…" par la vraie réponse
+                // 1) update thread (remplacer le dernier)
+                if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
+                  THREAD[THREAD.length - 1].text = reply;
+                  saveThread(THREAD);
+                  // 2) update DOM
+                  replaceLastAiTyping(reply) || renderThreadWindow({ preserveScroll: false });
+                } else {
+                  pushToThread("ai", reply);
+                }
 
               } catch (err) {
                 if (err?.message === "FREE_LIMIT_REACHED") {
-                  replaceLastAiTyping(
-                    "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer."
-                  ) || addMessage(
-                    "ai",
-                    "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer."
-                  );
+                  const msg = "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.";
+                  if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
+                    THREAD[THREAD.length - 1].text = msg;
+                    saveThread(THREAD);
+                    replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
+                  } else {
+                    pushToThread("ai", msg);
+                  }
                   updateFreeCounter(false);
                   return;
                 }
 
                 const msg =
-                  "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-                  (err?.message ? ("(" + err.message + ")") : "");
-                replaceLastAiTyping(msg) || addMessage("ai", msg);
+                  err?.message === "TIMEOUT"
+                    ? "La réponse prend trop de temps. Réessaie maintenant."
+                    : ("Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? ("(" + err.message + ")") : ""));
+
+                if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
+                  THREAD[THREAD.length - 1].text = msg;
+                  saveThread(THREAD);
+                  replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
+                } else {
+                  pushToThread("ai", msg);
+                }
               }
 
               return;
             }
 
-            // AUTH
-            addMessage("user", text);
+            // -------- AUTH --------
+            pushToThread("user", text);
             if (input) { input.value = ""; input.focus(); }
 
-            const thread = loadThread();
-            thread.push({ role: "user", text });
-            saveThread(thread);
-
-            addMessage("ai", "…");
+            pushToThread("ai", "…");
 
             try {
-              const reply = await askLuna(text, thread, true);
+              const reply = await askLuna(text, THREAD, true);
 
-              replaceLastAiTyping(reply) || addMessage("ai", reply);
-
-              const t2 = loadThread();
-              t2.push({ role: "ai", text: reply });
-              saveThread(t2);
+              if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
+                THREAD[THREAD.length - 1].text = reply;
+                saveThread(THREAD);
+                replaceLastAiTyping(reply) || renderThreadWindow({ preserveScroll: false });
+              } else {
+                pushToThread("ai", reply);
+              }
 
             } catch (err) {
               const msg =
-                "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-                (err?.message ? ("(" + err.message + ")") : "");
-              replaceLastAiTyping(msg) || addMessage("ai", msg);
+                err?.message === "TIMEOUT"
+                  ? "La réponse prend trop de temps. Réessaie maintenant."
+                  : ("Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? ("(" + err.message + ")") : ""));
+
+              if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
+                THREAD[THREAD.length - 1].text = msg;
+                saveThread(THREAD);
+                replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
+              } else {
+                pushToThread("ai", msg);
+              }
             }
           });
         }
@@ -782,4 +990,4 @@
       })();
     </script>
   </body>
-</html>
+  </html>
