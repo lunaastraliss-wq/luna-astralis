@@ -1,9 +1,9 @@
 /* ==========================================================
-   Luna Astralis — css/chat.css (CHAT) — FINAL (NO TAIL)
-   - Page FIXE : ne grandit jamais
+   Luna Astralis — css/chat.css (CHAT) — FINAL STABLE (NO TAIL + COUNTER BOTTOM)
+   - Page FIXE : aucun scroll page
    - Scroll UNIQUEMENT dans .chat-messages
-   - Look astro (halo violet/bleu + étoiles fines)
-   - Bulles premium SANS queue
+   - Sidebar: contenu scrollable + ✅ compteur collé en bas (toujours visible)
+   - Bulles premium SANS queue (neutralisation globale)
    - Historique PRO (overlay opaque + scroll dedans)
 ========================================================== */
 
@@ -11,7 +11,8 @@
    BASE / PAGE FIXE
 ========================= */
 :root{
-  --topH: 64px; /* ajuste si besoin (ex: 70px) */
+  --topH: 64px;   /* hauteur header */
+  --gap: 14px;
 }
 
 html, body{ height:100%; }
@@ -91,26 +92,25 @@ body.chat-body{
 
 /* =========================
    LAYOUT (FIXE)
-   - Le main prend TOUT l'écran restant sous le header
 ========================= */
 .chat-wrap{
   max-width: 1200px;
   margin: 0 auto;
-  padding: 14px 18px 18px;
+  padding: var(--gap) 18px 18px;
   display:grid;
   grid-template-columns: 330px 1fr;
-  gap:14px;
+  gap: var(--gap);
   align-items:stretch;
 
-  height: calc(100dvh - var(--topH));  /* ✅ fixe */
+  height: calc(100dvh - var(--topH));
   max-height: calc(100dvh - var(--topH));
-  overflow:hidden;                     /* ✅ rien ne déborde */
+  overflow:hidden;
   min-height:0;
   box-sizing: border-box;
 }
 
 /* =========================
-   SIDEBAR
+   SIDEBAR (CONTENU SCROLL + COMPTEUR BOTTOM)
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -120,13 +120,16 @@ body.chat-body{
     radial-gradient(520px 260px at 82% 20%, rgba(159,211,255,.12), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
   box-shadow: 0 22px 70px rgba(0,0,0,.45);
-  padding:14px;
   position:relative;
   overflow:hidden;
   isolation:isolate;
 
   height:100%;
   min-height:0;
+
+  /* ✅ pour coller le compteur en bas */
+  display:flex;
+  flex-direction:column;
 }
 
 .chat-side::after{
@@ -145,8 +148,39 @@ body.chat-body{
   mix-blend-mode: screen;
 }
 
+/* ✅ tout le contenu de sidebar doit rester au-dessus de l’overlay étoiles */
 .chat-side > *{ position:relative; z-index:1; }
 
+/* ✅ zone scrollable dans sidebar
+   IMPORTANT: il faut wrapper le contenu dans <div class="chat-side-content"> ... </div>
+*/
+.chat-side-content{
+  padding:14px;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:auto;
+  overflow-x:hidden;
+}
+
+/* ✅ compteur collé en bas (toujours visible)
+   IMPORTANT: ton compteur doit être le dernier élément, ex: <div id="freeCounter">...</div>
+*/
+#freeCounter{
+  flex: 0 0 auto;
+  padding:12px 14px;
+  margin: 0 14px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(10,12,24,.94);
+  backdrop-filter: blur(8px);
+  color: rgba(255,255,255,.92);
+  font-weight:1000;
+  font-size:13px;
+  text-align:center;
+  box-shadow: 0 -10px 30px rgba(0,0,0,.35);
+}
+
+/* ---- contenu sidebar ---- */
 .ai-face-wrap{
   width:100%;
   border-radius:18px;
@@ -217,7 +251,7 @@ body.chat-body{
   display:flex;
   flex-direction:column;
   height:100%;
-  min-height:0; /* ✅ crucial */
+  min-height:0;
 }
 
 .chat-panel::after{
@@ -288,8 +322,8 @@ body.chat-body{
 .chat-messages{
   padding:14px;
   flex: 1 1 auto;
-  min-height:0;       /* ✅ crucial */
-  overflow-y:auto;    /* ✅ scroll ici */
+  min-height:0;
+  overflow-y:auto;
   overflow-x:hidden;
   scroll-behavior:smooth;
   overscroll-behavior: contain;
@@ -426,15 +460,16 @@ body.chat-body{
    RESPONSIVE
 ========================= */
 @media (max-width: 980px){
-  .chat-wrap{
-    grid-template-columns: 1fr;
-  }
+  .chat-wrap{ grid-template-columns: 1fr; }
   .chat-side{ order:2; }
   .chat-panel{ order:1; }
+
+  /* sidebar garde compteur visible */
+  #freeCounter{ margin: 0 14px 14px; }
 }
 
 @media (max-width:520px){
-  :root{ --topH: 64px; } /* laisse pareil, ajuste si besoin */
+  :root{ --topH: 64px; }
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
@@ -484,7 +519,7 @@ body.chat-body{
   border-radius: 22px;
   overflow: hidden;
   border: 1px solid rgba(255,255,255,.14);
-  background: rgba(10,12,24,.98); /* ✅ solide */
+  background: rgba(10,12,24,.98);
   box-shadow: 0 25px 80px rgba(0,0,0,.65);
   color: rgba(255,255,255,.92);
   display:flex;
@@ -522,7 +557,7 @@ body.chat-body{
 
 .history-body{
   padding: 14px;
-  overflow:auto; /* ✅ scroll dedans */
+  overflow:auto;
   flex: 1;
 }
 
@@ -572,4 +607,4 @@ body.chat-body{
   padding: 12px 14px;
   border-top: 1px solid rgba(255,255,255,.10);
   background: rgba(14,16,30,.98);
-   }
+}
