@@ -11,23 +11,38 @@
 
     <style>
       /* =========================
-         PETITS AJOUTS UI (performance + long chat)
+         FIX: le panel ne “grandit” jamais
+         - scroll UNIQUEMENT dans .chat-messages
+         - input sticky en bas
+         - bouton “Historique” pro
       ========================= */
 
-      /* Assure que le panel chat ne “grandit” pas et que le scroll reste DANS messages */
+      /* IMPORTANT: page sans scroll */
+      html, body { height: 100%; }
+      body.chat-body { height: 100%; overflow: hidden; }
+
+      /* Layout: le main ne pousse pas la page */
+      .chat-wrap { min-height: 0; }
+
+      /* Panel chat: colonne + min-height:0 pour autoriser overflow interne */
       .chat-panel{
         display:flex;
         flex-direction:column;
-        min-height:0; /* important pour overflow */
+        min-height:0;          /* clé */
+        position:relative;
       }
+
+      /* Zone messages: seul endroit qui scroll */
       .chat-messages{
         flex:1;
-        min-height:0;
+        min-height:0;          /* clé */
         overflow-y:auto;
         overscroll-behavior: contain;
         scroll-behavior: smooth;
         padding-bottom: 12px;
       }
+
+      /* Input collé en bas du panel */
       .chat-inputbar{
         position: sticky;
         bottom: 0;
@@ -35,40 +50,18 @@
         backdrop-filter: blur(6px);
       }
 
-      /* Charger plus (en haut du chat) */
-      .chat-loadmore{
-        position: sticky;
-        top: 0;
-        z-index: 9;
-        display:none;
-        padding: 10px 10px 0;
-        background: linear-gradient(to bottom, rgba(6,8,21,.92), rgba(6,8,21,.55), rgba(6,8,21,0));
-      }
-      .chat-loadmore .btn-mini{
-        width:100%;
-        appearance:none;
-        border: 1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.06);
-        color: rgba(255,255,255,.90);
-        padding: 10px 12px;
-        border-radius: 14px;
-        font-size: 13px;
-        cursor:pointer;
-      }
-      .chat-loadmore .btn-mini:hover{ background: rgba(255,255,255,.10); }
-
-      /* Bouton “aller en bas” quand user a scroll up */
+      /* Bouton “aller en bas” */
       .to-bottom{
         position: absolute;
         right: 12px;
-        bottom: 70px; /* au-dessus de l’input */
+        bottom: 70px;
         z-index: 20;
         display:none;
       }
       .to-bottom .to-bottom-btn{
         appearance:none;
         border: 1px solid rgba(255,255,255,.16);
-        background: rgba(255,255,255,.10);
+        background: rgba(15,18,32,.92); /* moins transparent */
         color: rgba(255,255,255,.92);
         padding: 10px 12px;
         border-radius: 999px;
@@ -76,9 +69,131 @@
         font-size: 13px;
         box-shadow: 0 18px 40px rgba(0,0,0,.45);
       }
-      .to-bottom .to-bottom-btn:hover{ background: rgba(255,255,255,.14); }
+      .to-bottom .to-bottom-btn:hover{ filter: brightness(1.06); }
 
-      /* Ton existant */
+      /* =========================
+         HISTORIQUE (overlay pro)
+         - fond opaque (pas transparent)
+         - scroll dedans
+      ========================= */
+      .chat-history-btn{
+        appearance:none;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.25);
+        color: rgba(255,255,255,.92);
+        padding: 10px 12px;
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 12px;
+        cursor:pointer;
+      }
+      .chat-history-btn:hover{ filter: brightness(1.06); }
+
+      .history{
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(0,0,0,.75);
+        backdrop-filter: blur(10px);
+        z-index: 99999;
+      }
+
+      .history-card{
+        width: min(760px, 100%);
+        max-height: min(78vh, 740px);
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(10,12,24,.98); /* opaque */
+        box-shadow: 0 25px 80px rgba(0,0,0,.65);
+        color: rgba(255,255,255,.92);
+        display:flex;
+        flex-direction:column;
+      }
+
+      .history-top{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding: 14px 14px;
+        border-bottom: 1px solid rgba(255,255,255,.10);
+        background: rgba(14,16,30,.98);
+      }
+
+      .history-title{
+        font-weight: 1000;
+        font-size: 14px;
+        letter-spacing: .02em;
+      }
+
+      .history-close{
+        appearance:none;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.92);
+        padding: 10px 12px;
+        border-radius: 14px;
+        cursor:pointer;
+        font-weight: 900;
+        font-size: 12px;
+      }
+      .history-close:hover{ background: rgba(255,255,255,.10); }
+
+      .history-body{
+        padding: 14px;
+        overflow:auto; /* scroll ici */
+        flex: 1;
+      }
+
+      .history-item{
+        display:flex;
+        gap: 10px;
+        margin: 10px 0;
+        align-items:flex-start;
+      }
+
+      .history-avatar{
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        object-fit: cover;
+        object-position: 50% 18%;
+        border: 1px solid rgba(255,255,255,.18);
+        background: rgba(0,0,0,.25);
+      }
+
+      .history-bubble{
+        max-width: 72ch;
+        padding: 12px 14px;
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.05);
+        line-height: 1.45;
+        white-space: pre-wrap;
+      }
+
+      .history-item.user{ justify-content:flex-end; }
+      .history-item.user .history-bubble{
+        background: rgba(146,112,255,.10);
+        border-color: rgba(159,211,255,.14);
+      }
+
+      .history-foot{
+        display:flex;
+        gap:10px;
+        flex-wrap: wrap;
+        padding: 12px 14px;
+        border-top: 1px solid rgba(255,255,255,.10);
+        background: rgba(14,16,30,.98);
+      }
+
+      /* =========================
+         Petits éléments existants
+      ========================= */
       .ai-book { margin-top: 10px; }
       .ai-book-link{
         display:inline-flex; align-items:center; gap:8px;
@@ -106,7 +221,7 @@
       }
       .chat-upgrade:hover{ opacity:1; }
 
-      /* ===== Paywall overlay (Replika-like) ===== */
+      /* ===== Paywall overlay ===== */
       .paywall {
         position: fixed;
         inset: 0;
@@ -189,10 +304,14 @@
       }
       .mode-dot.green{ background: rgba(120,255,190,.85); }
 
-      /* petit état "bloqué" quand paywall */
       .input-disabled{
         opacity: .6;
         pointer-events: none;
+      }
+
+      /* Responsive: en petit écran, on permet le scroll page si sidebar passe dessous */
+      @media (max-width: 980px){
+        body.chat-body{ overflow: auto; }
       }
     </style>
   </head>
@@ -254,7 +373,7 @@
         </div>
       </aside>
 
-      <section class="chat-panel" aria-label="Discussion" style="position:relative;">
+      <section class="chat-panel" aria-label="Discussion">
         <!-- HERO MOBILE -->
         <div class="chat-hero" aria-hidden="true">
           <div class="chat-hero-inner">
@@ -272,19 +391,18 @@
           <div class="chat-title">
             Discussion <span class="chat-pill" id="signLabel">—</span>
           </div>
-          <div class="ai-face-mini-wrap" aria-hidden="true">
-            <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="" />
-          </div>
-        </div>
 
-        <!-- Charger plus (sticky en haut de la zone messages) -->
-        <div class="chat-loadmore" id="loadMoreWrap">
-          <button class="btn-mini" id="loadMoreBtn" type="button">Charger les messages précédents</button>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="chat-history-btn" id="historyBtn" type="button">Historique</button>
+
+            <div class="ai-face-mini-wrap" aria-hidden="true">
+              <img class="ai-face-mini" src="./ia-luna-astralis.png" alt="" />
+            </div>
+          </div>
         </div>
 
         <div class="chat-messages" id="messages" role="log" aria-live="polite"></div>
 
-        <!-- Bouton aller en bas (quand on a scroll up) -->
         <div class="to-bottom" id="toBottomWrap">
           <button class="to-bottom-btn" id="toBottomBtn" type="button">⬇️ Aller en bas</button>
         </div>
@@ -320,31 +438,41 @@
       </div>
     </div>
 
+    <!-- Historique overlay -->
+    <div class="history" id="history">
+      <div class="history-card" role="dialog" aria-modal="true" aria-label="Historique">
+        <div class="history-top">
+          <div class="history-title">Historique</div>
+          <button class="history-close" id="historyClose" type="button">Fermer</button>
+        </div>
+
+        <div class="history-body" id="historyBody"></div>
+
+        <div class="history-foot">
+          <button class="btn" id="historyScrollBottom" type="button">Aller au bas</button>
+          <button class="btn btn-primary" id="historyClear" type="button">Effacer (local)</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Supabase JS (UMD v2) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
       (function () {
-        /* =========================
-           CONFIG
-        ========================= */
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
         const FREE_LIMIT = 15;
         const STORAGE_PREFIX = "la_chat_";
 
-        /* PERF UI (important quand le chat grandit) */
-        const RENDER_WINDOW = 60;  // nombre max de messages rendus (DOM)
-        const LOAD_STEP = 30;      // combien on ajoute quand on “Charger plus”
-        const CONTEXT_HISTORY = 6; // ce qu’on envoie à l’API (vitesse)
+        // DOM: on limite ce qu’on affiche pour garder l’écran “stable”
+        const MAX_VISIBLE = 14;      // visibles dans le chat (sans scroll page)
+        const CONTEXT_HISTORY = 8;   // ce qu’on envoie à l’API
 
-        /* =========================
-           SAFE SUPABASE LOAD
-        ========================= */
         if (!window.supabase || !window.supabase.createClient) {
           document.body.innerHTML =
-            '<div style="padding:18px;color:#fff;font-family:system-ui">Erreur: Supabase JS non chargé (cdn). Vérifie le script supabase-js.</div>';
+            '<div style="padding:18px;color:#fff;font-family:system-ui">Erreur: Supabase JS non chargé (cdn).</div>';
           return;
         }
 
@@ -355,9 +483,6 @@
             SUPABASE_KEY
           ));
 
-        /* =========================
-           ELEMENTS
-        ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -377,17 +502,19 @@
         const paywallPricing = document.getElementById("paywallPricing");
         const paywallClose = document.getElementById("paywallClose");
 
-        const loadMoreWrap = document.getElementById("loadMoreWrap");
-        const loadMoreBtn = document.getElementById("loadMoreBtn");
-
         const toBottomWrap = document.getElementById("toBottomWrap");
         const toBottomBtn = document.getElementById("toBottomBtn");
 
+        // Historique
+        const historyEl = document.getElementById("history");
+        const historyBtn = document.getElementById("historyBtn");
+        const historyClose = document.getElementById("historyClose");
+        const historyBody = document.getElementById("historyBody");
+        const historyClear = document.getElementById("historyClear");
+        const historyScrollBottom = document.getElementById("historyScrollBottom");
+
         if (!messagesEl) return;
 
-        /* =========================
-           URL helpers
-        ========================= */
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
           return p + location.search;
@@ -401,9 +528,6 @@
           return "./pricing.html?next=" + next;
         }
 
-        /* =========================
-           SIGN
-        ========================= */
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
           (s || "")
@@ -496,9 +620,6 @@
           link.href = bookUrl;
         }
 
-        /* =========================
-           GUEST ID (limite serveur)
-        ========================= */
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
           try {
@@ -515,20 +636,14 @@
           }
         }
 
-        /* =========================
-           UI helpers
-        ========================= */
         function setInputEnabled(enabled) {
           if (input) input.disabled = !enabled;
           if (sendBtn) sendBtn.disabled = !enabled;
           if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
-        /* =========================
-           SCROLL helpers
-        ========================= */
         function isNearBottom() {
-          const threshold = 120; // px
+          const threshold = 140;
           return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
         }
         function scrollToBottom(force) {
@@ -542,24 +657,15 @@
 
         if (messagesEl) {
           messagesEl.addEventListener("scroll", () => {
-            if (toBottomWrap) {
-              toBottomWrap.style.display = isNearBottom() ? "none" : "block";
-            }
+            if (toBottomWrap) toBottomWrap.style.display = isNearBottom() ? "none" : "block";
           });
         }
         if (toBottomBtn) {
           toBottomBtn.addEventListener("click", () => scrollToBottom(true));
         }
 
-        /* =========================
-           CHAT RENDER (IMPORTANT)
-           - on stocke tout en localStorage
-           - mais on NE rend pas tout (DOM limité)
-        ========================= */
+        // Thread local
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
-
-        let THREAD = [];          // thread complet (storage)
-        let renderStart = 0;      // index de départ de ce qu’on affiche
 
         function loadThread() {
           try {
@@ -574,11 +680,7 @@
           try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
-        function clearMessagesDom() {
-          messagesEl.innerHTML = "";
-        }
-
-        function addMessageDom(role, text) {
+        function addMessage(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
 
@@ -600,73 +702,17 @@
 
           row.appendChild(bubble);
           messagesEl.appendChild(row);
+
+          // ✅ garde seulement les derniers messages visibles (stabilité)
+          while (messagesEl.children.length > MAX_VISIBLE) {
+            messagesEl.removeChild(messagesEl.firstChild);
+          }
+
+          scrollToBottom(true);
           return row;
         }
 
-        function renderThreadWindow({ preserveScroll } = { preserveScroll: false }) {
-          // On rend seulement la fenêtre [renderStart .. end)
-          const end = THREAD.length;
-          const beforeHeight = messagesEl.scrollHeight;
-          const beforeTop = messagesEl.scrollTop;
-
-          clearMessagesDom();
-
-          for (let i = renderStart; i < end; i++) {
-            const m = THREAD[i];
-            addMessageDom(m.role, m.text);
-          }
-
-          // load more visible ?
-          const hasMore = renderStart > 0;
-          if (loadMoreWrap) loadMoreWrap.style.display = hasMore ? "block" : "none";
-
-          if (preserveScroll) {
-            // préserver la position quand on précharge l’historique (sinon ça “saute”)
-            const afterHeight = messagesEl.scrollHeight;
-            const delta = afterHeight - beforeHeight;
-            messagesEl.scrollTop = beforeTop + delta;
-          } else {
-            scrollToBottom(true);
-          }
-        }
-
-        function ensureRenderWindowAtBottom() {
-          // Toujours garder au moins les derniers RENDER_WINDOW
-          renderStart = Math.max(0, THREAD.length - RENDER_WINDOW);
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener("click", () => {
-            const nextStart = Math.max(0, renderStart - LOAD_STEP);
-            if (nextStart === renderStart) return;
-            renderStart = nextStart;
-            renderThreadWindow({ preserveScroll: true });
-          });
-        }
-
-        function pushToThread(role, text) {
-          THREAD.push({ role, text });
-          saveThread(THREAD);
-
-          // si on est déjà sur la fin, on garde la fenêtre vers le bas
-          const wasNearBottom = isNearBottom();
-
-          // si ça dépasse la fenêtre, on décale le start (pour limiter DOM)
-          ensureRenderWindowAtBottom();
-
-          // rendu
-          renderThreadWindow({ preserveScroll: false });
-
-          // si l’utilisateur lisait plus haut, on ne force pas le scroll
-          if (!wasNearBottom) {
-            if (toBottomWrap) toBottomWrap.style.display = "block";
-          } else {
-            scrollToBottom(true);
-          }
-        }
-
         function replaceLastAiTyping(newText) {
-          // Remplace le dernier bubble AI si c’est "…"
           const last = messagesEl.querySelector(".msg-row.msg-ai:last-child .msg-bubble");
           if (last && last.textContent === "…") {
             last.textContent = newText;
@@ -675,9 +721,82 @@
           return false;
         }
 
-        /* =========================
-           PAYWALL
-        ========================= */
+        // Rendu initial: on affiche seulement la fin
+        function renderThreadTail(thread) {
+          messagesEl.innerHTML = "";
+          const tail = (thread || []).slice(-MAX_VISIBLE);
+          for (const m of tail) addMessage(m.role, m.text);
+          scrollToBottom(true);
+        }
+
+        // =========================
+        // HISTORIQUE (overlay)
+        // =========================
+        function renderHistory(thread){
+          if (!historyBody) return;
+          historyBody.innerHTML = "";
+          for (const m of (thread || [])) {
+            const item = document.createElement("div");
+            item.className = "history-item " + (m.role === "user" ? "user" : "ai");
+
+            if (m.role !== "user") {
+              const av = document.createElement("img");
+              av.className = "history-avatar";
+              av.src = "./ia-luna-astralis.png";
+              av.alt = "Luna (IA)";
+              item.appendChild(av);
+            } else {
+              const spacer = document.createElement("div");
+              spacer.style.width = "34px";
+              spacer.style.height = "34px";
+              item.appendChild(spacer);
+            }
+
+            const bubble = document.createElement("div");
+            bubble.className = "history-bubble";
+            bubble.textContent = m.text || "";
+            item.appendChild(bubble);
+
+            historyBody.appendChild(item);
+          }
+          historyBody.scrollTop = historyBody.scrollHeight;
+        }
+
+        function openHistory(){
+          if (!historyEl) return;
+          renderHistory(loadThread());
+          historyEl.style.display = "flex";
+          setInputEnabled(false);
+        }
+        function closeHistory(){
+          if (!historyEl) return;
+          historyEl.style.display = "none";
+          setInputEnabled(true);
+        }
+
+        if (historyBtn) historyBtn.addEventListener("click", openHistory);
+        if (historyClose) historyClose.addEventListener("click", closeHistory);
+        if (historyEl) {
+          historyEl.addEventListener("click", (e) => {
+            if (e.target === historyEl) closeHistory();
+          });
+        }
+        if (historyScrollBottom) {
+          historyScrollBottom.addEventListener("click", () => {
+            if (historyBody) historyBody.scrollTop = historyBody.scrollHeight;
+          });
+        }
+        if (historyClear) {
+          historyClear.addEventListener("click", () => {
+            try { localStorage.removeItem(KEY_THREAD); } catch(_){}
+            bootGuest();            // remet hello + fin
+            renderHistory(loadThread());
+          });
+        }
+
+        // =========================
+        // PAYWALL
+        // =========================
         function openPaywall() {
           if (!paywallEl) return;
           if (paywallLogin) paywallLogin.href = loginUrl();
@@ -688,7 +807,6 @@
         function closePaywall() {
           if (!paywallEl) return;
           paywallEl.style.display = "none";
-          // On ne réactive que si utilisateur est connecté.
         }
 
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
@@ -698,9 +816,9 @@
           });
         }
 
-        /* =========================
-           COUNTER (UI indicatif) — GLOBAL
-        ========================= */
+        // =========================
+        // COUNTER (UI indicatif)
+        // =========================
         const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
 
         function getUiUsed() {
@@ -721,9 +839,9 @@
             left > 0 ? `Gratuit : ${left} message(s) restant(s)` : `Limite gratuite atteinte`;
         }
 
-        /* =========================
-           MODE UI
-        ========================= */
+        // =========================
+        // MODE UI
+        // =========================
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
           if (modeDot) modeDot.classList.remove("green");
@@ -744,9 +862,9 @@
           setInputEnabled(true);
         }
 
-        /* =========================
-           AUTH
-        ========================= */
+        // =========================
+        // AUTH
+        // =========================
         let SESSION = null;
 
         async function getSession() {
@@ -759,12 +877,9 @@
           }
         }
 
-        /* =========================
-           API CALL
-           NOTE: la “lenteur” ressentie vient surtout du temps modèle + réseau.
-           Côté UI, on affiche "…" instantanément.
-           Côté API, on envoie moins d’historique (CONTEXT_HISTORY) pour accélérer.
-        ========================= */
+        // =========================
+        // API CALL
+        // =========================
         async function askLuna(userText, threadForContext, isAuth) {
           const payload = {
             message: userText,
@@ -776,20 +891,11 @@
             history: (threadForContext || []).slice(-CONTEXT_HISTORY),
           };
 
-          const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 25000); // 25s max
-
-          let res;
-          try {
-            res = await fetch("/api/chat", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-              signal: controller.signal,
-            });
-          } finally {
-            clearTimeout(timeout);
-          }
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
           const data = await res.json().catch(() => ({}));
 
@@ -798,9 +904,6 @@
               openPaywall();
               throw new Error("FREE_LIMIT_REACHED");
             }
-            if (controller.signal.aborted) {
-              throw new Error("TIMEOUT");
-            }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
           }
 
@@ -808,35 +911,38 @@
           return data.reply;
         }
 
-        /* =========================
-           BOOT
-        ========================= */
-        function ensureHelloIfEmpty() {
-          if (THREAD.length) return;
-
-          const hello =
-            `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
-
-          THREAD = [{ role: "ai", text: hello }];
-          saveThread(THREAD);
-        }
-
+        // =========================
+        // BOOT
+        // =========================
         function bootGuest() {
           setModeGuest();
-          THREAD = loadThread();
-          ensureHelloIfEmpty();
-          ensureRenderWindowAtBottom();
-          renderThreadWindow({ preserveScroll: false });
+
+          const thread = loadThread();
+          if (thread.length) {
+            renderThreadTail(thread);
+          } else {
+            const hello =
+              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+            const t = [{ role: "ai", text: hello }];
+            saveThread(t);
+            renderThreadTail(t);
+          }
         }
 
         function bootAuth(session) {
           const email = session.user?.email || "";
           setModeAuth(email);
 
-          THREAD = loadThread();
-          ensureHelloIfEmpty();
-          ensureRenderWindowAtBottom();
-          renderThreadWindow({ preserveScroll: false });
+          const thread = loadThread();
+          if (thread.length) {
+            renderThreadTail(thread);
+          } else {
+            const hello =
+              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+            const t = [{ role: "ai", text: hello }];
+            saveThread(t);
+            renderThreadTail(t);
+          }
         }
 
         (async () => {
@@ -845,9 +951,9 @@
           else bootGuest();
         })();
 
-        /* =========================
-           SEND
-        ========================= */
+        // =========================
+        // SEND
+        // =========================
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -857,7 +963,7 @@
 
             SESSION = await getSession();
 
-            // -------- GUEST --------
+            // GUEST
             if (!SESSION) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
@@ -866,99 +972,94 @@
                 return;
               }
 
-              // UI: ajoute user + typing instant
-              pushToThread("user", text);
+              // Thread complet (storage)
+              const thread = loadThread();
+              thread.push({ role: "user", text });
+              saveThread(thread);
+
+              // UI: n’affiche que la fin
+              addMessage("user", text);
 
               incUiUsed();
               updateFreeCounter(false);
 
               if (input) { input.value = ""; input.focus(); }
 
-              // typing "…" (on l’ajoute seulement dans le DOM + thread)
-              pushToThread("ai", "…");
+              addMessage("ai", "…");
 
               try {
-                const reply = await askLuna(text, THREAD, false);
+                const reply = await askLuna(text, thread, false);
 
-                // remplace "…" par la vraie réponse
-                // 1) update thread (remplacer le dernier)
-                if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
-                  THREAD[THREAD.length - 1].text = reply;
-                  saveThread(THREAD);
-                  // 2) update DOM
-                  replaceLastAiTyping(reply) || renderThreadWindow({ preserveScroll: false });
+                replaceLastAiTyping(reply) || addMessage("ai", reply);
+
+                const t2 = loadThread();
+                // remplace le dernier "…" si présent en storage, sinon push
+                if (t2.length && t2[t2.length - 1].role === "ai" && t2[t2.length - 1].text === "…") {
+                  t2[t2.length - 1].text = reply;
                 } else {
-                  pushToThread("ai", reply);
+                  t2.push({ role: "ai", text: reply });
                 }
+                saveThread(t2);
 
               } catch (err) {
                 if (err?.message === "FREE_LIMIT_REACHED") {
                   const msg = "Tu as atteint la limite gratuite. Crée un compte (gratuit) ou choisis une offre pour continuer.";
-                  if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
-                    THREAD[THREAD.length - 1].text = msg;
-                    saveThread(THREAD);
-                    replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
-                  } else {
-                    pushToThread("ai", msg);
-                  }
+                  replaceLastAiTyping(msg) || addMessage("ai", msg);
+                  const t2 = loadThread();
+                  t2.push({ role: "ai", text: msg });
+                  saveThread(t2);
                   updateFreeCounter(false);
                   return;
                 }
 
                 const msg =
-                  err?.message === "TIMEOUT"
-                    ? "La réponse prend trop de temps. Réessaie maintenant."
-                    : ("Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? ("(" + err.message + ")") : ""));
-
-                if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
-                  THREAD[THREAD.length - 1].text = msg;
-                  saveThread(THREAD);
-                  replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
-                } else {
-                  pushToThread("ai", msg);
-                }
+                  "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+                  (err?.message ? ("(" + err.message + ")") : "");
+                replaceLastAiTyping(msg) || addMessage("ai", msg);
+                const t2 = loadThread();
+                t2.push({ role: "ai", text: msg });
+                saveThread(t2);
               }
 
               return;
             }
 
-            // -------- AUTH --------
-            pushToThread("user", text);
-            if (input) { input.value = ""; input.focus(); }
+            // AUTH
+            addMessage("user", text);
 
-            pushToThread("ai", "…");
+            const thread = loadThread();
+            thread.push({ role: "user", text });
+            saveThread(thread);
+
+            if (input) { input.value = ""; input.focus(); }
+            addMessage("ai", "…");
 
             try {
-              const reply = await askLuna(text, THREAD, true);
+              const reply = await askLuna(text, thread, true);
 
-              if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
-                THREAD[THREAD.length - 1].text = reply;
-                saveThread(THREAD);
-                replaceLastAiTyping(reply) || renderThreadWindow({ preserveScroll: false });
+              replaceLastAiTyping(reply) || addMessage("ai", reply);
+
+              const t2 = loadThread();
+              if (t2.length && t2[t2.length - 1].role === "ai" && t2[t2.length - 1].text === "…") {
+                t2[t2.length - 1].text = reply;
               } else {
-                pushToThread("ai", reply);
+                t2.push({ role: "ai", text: reply });
               }
+              saveThread(t2);
 
             } catch (err) {
               const msg =
-                err?.message === "TIMEOUT"
-                  ? "La réponse prend trop de temps. Réessaie maintenant."
-                  : ("Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? ("(" + err.message + ")") : ""));
-
-              if (THREAD.length && THREAD[THREAD.length - 1].role === "ai" && THREAD[THREAD.length - 1].text === "…") {
-                THREAD[THREAD.length - 1].text = msg;
-                saveThread(THREAD);
-                replaceLastAiTyping(msg) || renderThreadWindow({ preserveScroll: false });
-              } else {
-                pushToThread("ai", msg);
-              }
+                "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+                (err?.message ? ("(" + err.message + ")") : "");
+              replaceLastAiTyping(msg) || addMessage("ai", msg);
+              const t2 = loadThread();
+              t2.push({ role: "ai", text: msg });
+              saveThread(t2);
             }
           });
         }
 
-        /* =========================
-           LOGOUT
-        ========================= */
+        // LOGOUT
         if (logoutLink) {
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -969,14 +1070,10 @@
           });
         }
 
-        /* =========================
-           UPGRADE
-        ========================= */
+        // UPGRADE
         if (upgradeLink) upgradeLink.href = pricingUrl();
 
-        /* =========================
-           Auth change
-        ========================= */
+        // Auth change
         supabase.auth.onAuthStateChange(async (event, session) => {
           SESSION = session || null;
           closePaywall();
@@ -990,4 +1087,4 @@
       })();
     </script>
   </body>
-  </html>
+</html>
