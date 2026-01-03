@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/chat.css" />
 
-    <!-- ✅ CSS temporaire seulement pour le “panel fixe / scroll interne”.
-         (Ton vrai CSS est déjà ailleurs; garde ceci si tu veux le fix “panel ne grandit jamais”.) -->
+    <!-- (Ton fix panel fixe / scroll interne — inchangé) -->
     <style>
       html, body { height: 100%; }
       body.chat-body { height: 100%; overflow: hidden; }
@@ -319,17 +318,13 @@
     <div class="paywall" id="paywall">
       <div class="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
         <h3 class="paywall-title">Continuer la discussion</h3>
-        <p class="paywall-desc" id="paywallDesc">
-          Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.
-        </p>
+        <p class="paywall-desc" id="paywallDesc"></p>
         <div class="paywall-actions">
-          <a class="btn btn-primary" id="paywallLogin" href="./login.html">Créer un compte / Se connecter</a>
-          <a class="btn" id="paywallPricing" href="./pricing.html">Voir les offres</a>
+          <a class="btn btn-primary" id="paywallMain" href="./login.html">Créer un compte / Se connecter</a>
+          <a class="btn" id="paywallSecondary" href="./pricing.html">Voir les offres</a>
           <button class="btn" id="paywallClose" type="button">Fermer</button>
         </div>
-        <div class="paywall-foot">
-          Astuce : tu peux démarrer en invité. Le compte sert à sauvegarder ton historique et débloquer plus de messages.
-        </div>
+        <div class="paywall-foot" id="paywallFoot"></div>
       </div>
     </div>
 
@@ -353,10 +348,13 @@
 
     <script>
       (function () {
+        /* =========================
+           CONFIG
+        ========================= */
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        const FREE_LIMIT = 15;
+        const FREE_LIMIT = 15;                 // UI seulement (la vraie règle est côté API)
         const STORAGE_PREFIX = "la_chat_";
         const MAX_VISIBLE = 14;
         const CONTEXT_HISTORY = 8;
@@ -367,7 +365,7 @@
           return;
         }
 
-        // ✅ IMPORTANT: options auth pour que la session reste après signup/login
+        // ✅ Session persistée (login/signup -> retour chat OK)
         const supabase =
           window.__LA_SUPABASE__ ||
           (window.__LA_SUPABASE__ = window.supabase.createClient(
@@ -383,7 +381,9 @@
             }
           ));
 
-        // DOM
+        /* =========================
+           DOM
+        ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -400,8 +400,9 @@
 
         const paywallEl = document.getElementById("paywall");
         const paywallDescEl = document.getElementById("paywallDesc");
-        const paywallLogin = document.getElementById("paywallLogin");
-        const paywallPricing = document.getElementById("paywallPricing");
+        const paywallMain = document.getElementById("paywallMain");
+        const paywallSecondary = document.getElementById("paywallSecondary");
+        const paywallFoot = document.getElementById("paywallFoot");
         const paywallClose = document.getElementById("paywallClose");
 
         const toBottomWrap = document.getElementById("toBottomWrap");
@@ -416,7 +417,9 @@
 
         if (!messagesEl) return;
 
-        // Helpers URL
+        /* =========================
+           URL helpers
+        ========================= */
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
           return p + location.search;
@@ -430,7 +433,9 @@
           return "./pricing.html?next=" + next;
         }
 
-        // Query & signe
+        /* =========================
+           SIGN
+        ========================= */
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
           (s || "")
@@ -521,14 +526,16 @@
           link.href = bookUrl;
         }
 
-        // Guest id
+        /* =========================
+           Guest id (local)
+        ========================= */
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
           try {
             let id = localStorage.getItem(KEY_GUEST_ID);
             if (!id) {
               id =
-                (crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
                 ("guest_" + Math.random().toString(36).slice(2) + Date.now());
               localStorage.setItem(KEY_GUEST_ID, id);
             }
@@ -538,14 +545,18 @@
           }
         }
 
-        // Input enable/disable
+        /* =========================
+           UI enable/disable
+        ========================= */
         function setInputEnabled(enabled) {
           if (input) input.disabled = !enabled;
           if (sendBtn) sendBtn.disabled = !enabled;
           if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
-        // Scroll helpers
+        /* =========================
+           Scroll helpers
+        ========================= */
         function isNearBottom() {
           const threshold = 140;
           return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
@@ -558,15 +569,14 @@
             if (toBottomWrap) toBottomWrap.style.display = "block";
           }
         }
-
-        if (messagesEl) {
-          messagesEl.addEventListener("scroll", () => {
-            if (toBottomWrap) toBottomWrap.style.display = isNearBottom() ? "none" : "block";
-          });
-        }
+        messagesEl.addEventListener("scroll", () => {
+          if (toBottomWrap) toBottomWrap.style.display = isNearBottom() ? "none" : "block";
+        });
         if (toBottomBtn) toBottomBtn.addEventListener("click", () => scrollToBottom(true));
 
-        // Thread local (par signe)
+        /* =========================
+           Thread local (par signe)
+        ========================= */
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
 
         function loadThread() {
@@ -582,7 +592,9 @@
           try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
-        // Render messages (tail only)
+        /* =========================
+           Render messages (tail only)
+        ========================= */
         function addMessage(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
@@ -630,7 +642,9 @@
           scrollToBottom(true);
         }
 
-        // Historique overlay
+        /* =========================
+           Historique overlay
+        ========================= */
         function renderHistory(thread) {
           if (!historyBody) return;
           historyBody.innerHTML = "";
@@ -685,7 +699,9 @@
           });
         }
 
-        // Counter (guest only)
+        /* =========================
+           UI free counter (guest)
+        ========================= */
         const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
         function getUiUsed() {
           const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
@@ -706,7 +722,9 @@
             : `Limite gratuite atteinte`;
         }
 
-        // Mode UI
+        /* =========================
+           Mode UI
+        ========================= */
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
           if (modeDot) modeDot.classList.remove("green");
@@ -727,8 +745,11 @@
           setInputEnabled(true);
         }
 
-        // Auth
+        /* =========================
+           Auth helpers
+        ========================= */
         let SESSION = null;
+
         async function getSession() {
           try {
             const { data, error } = await supabase.auth.getSession();
@@ -739,36 +760,53 @@
           }
         }
 
-        // Paywall (sans doublons)
-        async function openPaywall() {
+        async function getAccessToken() {
+          const s = await getSession();
+          return s?.access_token || "";
+        }
+
+        /* =========================
+           Paywall
+        ========================= */
+        function openPaywallGuest() {
           if (!paywallEl) return;
-
-          if (paywallPricing) paywallPricing.style.display = "inline-flex";
-
-          SESSION = await getSession();
-          const isAuth = !!SESSION;
           const next = encodeURIComponent(currentPathWithQuery());
 
-          if (isAuth) {
-            if (paywallDescEl) paywallDescEl.textContent =
-              "Tu as atteint la limite de ton forfait actuel. Choisis une offre pour continuer.";
-            if (paywallLogin) {
-              paywallLogin.textContent = "Voir les offres";
-              paywallLogin.href = "./pricing.html?next=" + next;
-            }
-            if (paywallPricing) paywallPricing.style.display = "none";
-          } else {
-            if (paywallDescEl) paywallDescEl.textContent =
-              "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
-            if (paywallLogin) {
-              paywallLogin.textContent = "Créer un compte / Se connecter";
-              paywallLogin.href = "./login.html?next=" + next;
-            }
-            if (paywallPricing) {
-              paywallPricing.style.display = "inline-flex";
-              paywallPricing.href = "./pricing.html?next=" + next;
-            }
+          if (paywallDescEl) paywallDescEl.textContent =
+            "Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.";
+
+          if (paywallMain) {
+            paywallMain.textContent = "Créer un compte / Se connecter";
+            paywallMain.href = "./login.html?next=" + next;
           }
+          if (paywallSecondary) {
+            paywallSecondary.style.display = "inline-flex";
+            paywallSecondary.textContent = "Voir les offres";
+            paywallSecondary.href = "./pricing.html?next=" + next;
+          }
+          if (paywallFoot) paywallFoot.textContent =
+            "Astuce : le compte sert à sauvegarder ton historique. L’accès complet est disponible via une offre.";
+
+          paywallEl.style.display = "flex";
+          setInputEnabled(false);
+        }
+
+        function openPaywallPremiumRequired() {
+          if (!paywallEl) return;
+          const next = encodeURIComponent(currentPathWithQuery());
+
+          if (paywallDescEl) paywallDescEl.textContent =
+            "Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés. Choisis une offre pour continuer.";
+
+          if (paywallMain) {
+            paywallMain.textContent = "Voir les offres";
+            paywallMain.href = "./pricing.html?next=" + next;
+          }
+          if (paywallSecondary) {
+            paywallSecondary.style.display = "none";
+          }
+          if (paywallFoot) paywallFoot.textContent =
+            "Après paiement, reviens ici : l’accès se débloquera automatiquement.";
 
           paywallEl.style.display = "flex";
           setInputEnabled(false);
@@ -783,30 +821,43 @@
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
         if (paywallEl) paywallEl.addEventListener("click", (e) => { if (e.target === paywallEl) closePaywall(); });
 
-        // API call
-        async function askLuna(userText, threadForContext, isAuth) {
+        /* =========================
+           API call (IMPORTANT)
+           ✅ on envoie Authorization Bearer si loggé
+           ✅ on n'envoie PLUS "mode"
+        ========================= */
+        async function askLuna(userText, threadForContext) {
+          const accessToken = await getAccessToken();
+
           const payload = {
             message: userText,
             signKey,
             signName,
-            signDesc,
-            mode: isAuth ? "auth" : "guest",
-            guestId: isAuth ? undefined : getGuestId(),
+            // signDesc n'est pas nécessaire côté API (et tu ne l'utilises pas)
             history: (threadForContext || []).slice(-CONTEXT_HISTORY),
+            guestId: accessToken ? undefined : getGuestId(),
           };
+
+          const headers = { "Content-Type": "application/json" };
+          if (accessToken) headers["Authorization"] = "Bearer " + accessToken;
 
           const res = await fetch("/api/chat", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             body: JSON.stringify(payload),
           });
 
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok) {
+            // ✅ ton API renvoie ces codes
             if (data?.error === "FREE_LIMIT_REACHED") {
-              await openPaywall();
+              openPaywallGuest();
               throw new Error("FREE_LIMIT_REACHED");
+            }
+            if (data?.error === "PREMIUM_REQUIRED") {
+              openPaywallPremiumRequired();
+              throw new Error("PREMIUM_REQUIRED");
             }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
           }
@@ -815,47 +866,45 @@
           return data.reply;
         }
 
-        // Boot
+        /* =========================
+           Boot
+        ========================= */
+        function ensureHello(thread) {
+          if (thread && thread.length) return thread;
+          const hello =
+            `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+          const t = [{ role: "ai", text: hello }];
+          saveThread(t);
+          return t;
+        }
+
         function bootGuest() {
           setModeGuest();
-          const thread = loadThread();
-          if (thread.length) {
-            renderThreadTail(thread);
-          } else {
-            const hello =
-              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
-            const t = [{ role: "ai", text: hello }];
-            saveThread(t);
-            renderThreadTail(t);
-          }
+          const thread = ensureHello(loadThread());
+          renderThreadTail(thread);
         }
 
         function bootAuth(session) {
-          const email = session.user?.email || "";
+          const email = session?.user?.email || "";
           setModeAuth(email);
-          const thread = loadThread();
-          if (thread.length) {
-            renderThreadTail(thread);
-          } else {
-            const hello =
-              `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
-            const t = [{ role: "ai", text: hello }];
-            saveThread(t);
-            renderThreadTail(t);
-          }
+          const thread = ensureHello(loadThread());
+          renderThreadTail(thread);
         }
 
         (async () => {
           SESSION = await getSession();
           if (!SESSION) {
-            await new Promise(r => setTimeout(r, 300)); // petit délai post-login
+            // petit délai post-login au cas où l'URL contient des tokens
+            await new Promise(r => setTimeout(r, 250));
             SESSION = await getSession();
           }
           if (SESSION) bootAuth(SESSION);
           else bootGuest();
         })();
 
-        // Send
+        /* =========================
+           Send
+        ========================= */
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -864,69 +913,46 @@
             if (!text) return;
 
             SESSION = await getSession();
+            const isAuth = !!SESSION;
 
-            // GUEST
-            if (!SESSION) {
+            // UI limit guest (soft) — la vraie règle est côté API
+            if (!isAuth) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
-                await openPaywall();
+                openPaywallGuest();
                 updateFreeCounter(false);
                 return;
               }
-
-              const thread = loadThread();
-              thread.push({ role: "user", text });
-              saveThread(thread);
-
-              addMessage("user", text);
-
-              incUiUsed();
-              updateFreeCounter(false);
-
-              if (input) { input.value = ""; input.focus(); }
-
-              addMessage("ai", "…");
-
-              try {
-                const reply = await askLuna(text, thread, false);
-                replaceLastAiTyping(reply) || addMessage("ai", reply);
-
-                const t2 = loadThread();
-                t2.push({ role: "ai", text: reply });
-                saveThread(t2);
-              } catch (err) {
-                if (err?.message === "FREE_LIMIT_REACHED") return;
-
-                const msg =
-                  "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-                  (err?.message ? ("(" + err.message + ")") : "");
-                replaceLastAiTyping(msg) || addMessage("ai", msg);
-
-                const t2 = loadThread();
-                t2.push({ role: "ai", text: msg });
-                saveThread(t2);
-              }
-              return;
             }
 
-            // AUTH
-            addMessage("user", text);
-
+            // store user msg
             const thread = loadThread();
             thread.push({ role: "user", text });
             saveThread(thread);
 
+            addMessage("user", text);
             if (input) { input.value = ""; input.focus(); }
+
+            if (!isAuth) {
+              incUiUsed();
+              updateFreeCounter(false);
+            } else {
+              updateFreeCounter(true);
+            }
+
             addMessage("ai", "…");
 
             try {
-              const reply = await askLuna(text, thread, true);
+              const reply = await askLuna(text, thread);
               replaceLastAiTyping(reply) || addMessage("ai", reply);
 
               const t2 = loadThread();
               t2.push({ role: "ai", text: reply });
               saveThread(t2);
             } catch (err) {
+              // si paywall a été ouvert, pas besoin de spammer un msg d'erreur
+              if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") return;
+
               const msg =
                 "Erreur. Vérifie que /api/chat existe sur Vercel. " +
                 (err?.message ? ("(" + err.message + ")") : "");
@@ -939,7 +965,9 @@
           });
         }
 
-        // Logout
+        /* =========================
+           Logout / Upgrade
+        ========================= */
         if (logoutLink) {
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -950,20 +978,21 @@
           });
         }
 
-        // Upgrade link
         if (upgradeLink) upgradeLink.href = pricingUrl();
 
-        // Auth change
-        supabase.auth.onAuthStateChange(async (event, session) => {
+        /* =========================
+           Auth change
+        ========================= */
+        supabase.auth.onAuthStateChange(async (_event, session) => {
           SESSION = session || null;
           closePaywall();
           if (SESSION) bootAuth(SESSION);
           else bootGuest();
         });
 
-        // Paywall fallback links
-        if (paywallLogin) paywallLogin.href = loginUrl();
-        if (paywallPricing) paywallPricing.href = pricingUrl();
+        // initial links (safe)
+        if (paywallMain) paywallMain.href = loginUrl();
+        if (paywallSecondary) paywallSecondary.href = pricingUrl();
       })();
     </script>
   </body>
