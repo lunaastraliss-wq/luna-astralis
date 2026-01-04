@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/chat.css" />
 
-    <!-- Fix panel fixe / scroll interne + Mobile: cacher grosse image du hero (garder texte + lien livre) -->
     <style>
       html, body { height: 100%; }
       body.chat-body { height: 100%; overflow: hidden; }
@@ -215,12 +214,9 @@
 
       .input-disabled{ opacity:.6; pointer-events:none; }
 
-      /* ✅ Mobile: enlever la grosse image IA dans le hero, garder texte + lien livre */
       @media (max-width: 720px){
         .chat-hero-img{ display:none !important; }
         .chat-hero-overlay{ display:none !important; }
-
-        /* le hero devient un bloc texte compact */
         .chat-hero-inner{
           min-height:auto !important;
           padding: 12px 12px 6px !important;
@@ -233,7 +229,6 @@
         .hero-book{ margin-top: 10px; }
       }
 
-      /* Ton ancien fallback */
       @media (max-width: 980px){
         body.chat-body{ overflow: auto; }
       }
@@ -258,41 +253,48 @@
           <span id="modeText">Invité</span>
         </span>
 
-        <a class="chat-upgrade" href="#" id="upgradeLink" style="display:none;">Upgrade</a>
+        <!-- ✅ Upgrade toujours visible (invité ou connecté) -->
+        <a class="chat-upgrade" href="./pricing.html" id="upgradeLink">Upgrade</a>
+
         <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
       </div>
     </header>
 
     <main class="chat-wrap" role="main">
       <aside class="chat-side" aria-label="Profil IA">
-        <div class="ai-face-wrap">
-          <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
-        </div>
-
-        <div>
-          <div class="ai-name">Luna</div>
-          <div class="ai-tag" id="aiTag">Signe : —</div>
-          <div class="ai-desc" id="aiDesc">—</div>
-
-          <div class="ai-book" id="aiBookWrap" style="display:none;">
-            <a
-              id="aiBookLink"
-              class="ai-book-link"
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Approfondir ce signe"
-              title="Approfondir ce signe"
-            >✦ Approfondir ce signe</a>
+        <!-- ✅ zone scrollable -->
+        <div class="chat-side-content">
+          <div class="ai-face-wrap">
+            <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
           </div>
 
-          <div style="margin-top:10px; font-size:12px; opacity:.7;" id="userEmail"></div>
-          <div style="margin-top:6px; font-size:12px; opacity:.7;" id="freeCounter"></div>
+          <div>
+            <div class="ai-name">Luna</div>
+            <div class="ai-tag" id="aiTag">Signe : —</div>
+            <div class="ai-desc" id="aiDesc">—</div>
+
+            <div class="ai-book" id="aiBookWrap" style="display:none;">
+              <a
+                id="aiBookLink"
+                class="ai-book-link"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Approfondir ce signe"
+                title="Approfondir ce signe"
+              >✦ Approfondir ce signe</a>
+            </div>
+
+            <div style="margin-top:10px; font-size:12px; opacity:.7;" id="userEmail"></div>
+          </div>
+
+          <div class="ai-disclaimer">
+            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+          </div>
         </div>
 
-        <div class="ai-disclaimer">
-          Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
-        </div>
+        <!-- ✅ compteur collé en bas (CSS #freeCounter) -->
+        <div id="freeCounter"></div>
       </aside>
 
       <section class="chat-panel" aria-label="Discussion">
@@ -305,7 +307,6 @@
               <p class="hero-title" id="heroTitle">—</p>
               <p class="hero-desc" id="heroDesc">—</p>
 
-              <!-- ✅ lien du livre aussi dans le hero (utile sur mobile) -->
               <div class="hero-book" id="heroBookWrap" style="display:none;">
                 <a
                   id="heroBookLink"
@@ -381,13 +382,10 @@
 
     <script>
       (function () {
-        /* =========================
-           CONFIG
-        ========================= */
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        const FREE_LIMIT = 15;                 // UI seulement (la vraie règle est côté API)
+        const FREE_LIMIT = 15;                 // UI seulement
         const STORAGE_PREFIX = "la_chat_";
         const MAX_VISIBLE = 14;
         const CONTEXT_HISTORY = 8;
@@ -398,7 +396,6 @@
           return;
         }
 
-        // ✅ Session persistée (login/signup -> retour chat OK)
         const supabase =
           window.__LA_SUPABASE__ ||
           (window.__LA_SUPABASE__ = window.supabase.createClient(
@@ -414,9 +411,6 @@
             }
           ));
 
-        /* =========================
-           DOM
-        ========================= */
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -448,15 +442,11 @@
         const historyClear = document.getElementById("historyClear");
         const historyScrollBottom = document.getElementById("historyScrollBottom");
 
-        // ✅ Hero book link (mobile)
         const heroBookWrap = document.getElementById("heroBookWrap");
         const heroBookLink = document.getElementById("heroBookLink");
 
         if (!messagesEl) return;
 
-        /* =========================
-           URL helpers
-        ========================= */
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
           return p + location.search;
@@ -470,9 +460,9 @@
           return "./pricing.html?next=" + next;
         }
 
-        /* =========================
-           SIGN
-        ========================= */
+        // ✅ upgrade doit toujours envoyer vers pricing avec next
+        if (upgradeLink) upgradeLink.href = pricingUrl();
+
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
           (s || "")
@@ -555,25 +545,14 @@
         if (heroTitleEl) heroTitleEl.textContent = "Ton signe : " + signName;
         if (heroDescEl) heroDescEl.textContent = signDesc;
 
-        // ✅ Lien du livre (sidebar + hero mobile)
         const bookUrl = SIGN_BOOKS[signKey];
         const wrap = document.getElementById("aiBookWrap");
         const link = document.getElementById("aiBookLink");
-
         if (bookUrl) {
-          if (wrap && link) {
-            wrap.style.display = "block";
-            link.href = bookUrl;
-          }
-          if (heroBookWrap && heroBookLink) {
-            heroBookWrap.style.display = "block";
-            heroBookLink.href = bookUrl;
-          }
+          if (wrap && link) { wrap.style.display = "block"; link.href = bookUrl; }
+          if (heroBookWrap && heroBookLink) { heroBookWrap.style.display = "block"; heroBookLink.href = bookUrl; }
         }
 
-        /* =========================
-           Guest id (local)
-        ========================= */
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
           try {
@@ -590,18 +569,12 @@
           }
         }
 
-        /* =========================
-           UI enable/disable
-        ========================= */
         function setInputEnabled(enabled) {
           if (input) input.disabled = !enabled;
           if (sendBtn) sendBtn.disabled = !enabled;
           if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
-        /* =========================
-           Scroll helpers
-        ========================= */
         function isNearBottom() {
           const threshold = 140;
           return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
@@ -619,27 +592,18 @@
         });
         if (toBottomBtn) toBottomBtn.addEventListener("click", () => scrollToBottom(true));
 
-        /* =========================
-           Thread local (par signe)
-        ========================= */
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
-
         function loadThread() {
           try {
             const raw = localStorage.getItem(KEY_THREAD);
             const arr = raw ? JSON.parse(raw) : [];
             return Array.isArray(arr) ? arr : [];
-          } catch (_) {
-            return [];
-          }
+          } catch (_) { return []; }
         }
         function saveThread(arr) {
           try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
-        /* =========================
-           Render messages (tail only)
-        ========================= */
         function addMessage(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
@@ -687,9 +651,6 @@
           scrollToBottom(true);
         }
 
-        /* =========================
-           Historique overlay
-        ========================= */
         function renderHistory(thread) {
           if (!historyBody) return;
           historyBody.innerHTML = "";
@@ -714,7 +675,6 @@
             bubble.className = "history-bubble";
             bubble.textContent = m.text || "";
             item.appendChild(bubble);
-
             historyBody.appendChild(item);
           }
           historyBody.scrollTop = historyBody.scrollHeight;
@@ -744,9 +704,6 @@
           });
         }
 
-        /* =========================
-           UI free counter (guest)
-        ========================= */
         const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
         function getUiUsed() {
           const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
@@ -767,14 +724,10 @@
             : `Limite gratuite atteinte`;
         }
 
-        /* =========================
-           Mode UI
-        ========================= */
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
           if (modeDot) modeDot.classList.remove("green");
           if (logoutLink) logoutLink.style.display = "none";
-          if (upgradeLink) upgradeLink.style.display = "none";
           if (userEmailEl) userEmailEl.textContent = "";
           updateFreeCounter(false);
           setInputEnabled(true);
@@ -784,15 +737,11 @@
           if (modeText) modeText.textContent = "Connecté";
           if (modeDot) modeDot.classList.add("green");
           if (logoutLink) logoutLink.style.display = "inline";
-          if (upgradeLink) upgradeLink.style.display = "inline";
           if (userEmailEl) userEmailEl.textContent = email || "";
           updateFreeCounter(true);
           setInputEnabled(true);
         }
 
-        /* =========================
-           Auth helpers
-        ========================= */
         let SESSION = null;
 
         async function getSession() {
@@ -800,9 +749,7 @@
             const { data, error } = await supabase.auth.getSession();
             if (error) return null;
             return data?.session || null;
-          } catch (_) {
-            return null;
-          }
+          } catch (_) { return null; }
         }
 
         async function getAccessToken() {
@@ -810,9 +757,6 @@
           return s?.access_token || "";
         }
 
-        /* =========================
-           Paywall
-        ========================= */
         function openPaywallGuest() {
           if (!paywallEl) return;
           const next = encodeURIComponent(currentPathWithQuery());
@@ -847,9 +791,8 @@
             paywallMain.textContent = "Voir les offres";
             paywallMain.href = "./pricing.html?next=" + next;
           }
-          if (paywallSecondary) {
-            paywallSecondary.style.display = "none";
-          }
+          if (paywallSecondary) paywallSecondary.style.display = "none";
+
           if (paywallFoot) paywallFoot.textContent =
             "Après paiement, reviens ici : l’accès se débloquera automatiquement.";
 
@@ -866,11 +809,6 @@
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
         if (paywallEl) paywallEl.addEventListener("click", (e) => { if (e.target === paywallEl) closePaywall(); });
 
-        /* =========================
-           API call
-           ✅ Authorization Bearer si loggé
-           ✅ plus de "mode"
-        ========================= */
         async function askLuna(userText, threadForContext) {
           const accessToken = await getAccessToken();
 
@@ -894,14 +832,8 @@
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok) {
-            if (data?.error === "FREE_LIMIT_REACHED") {
-              openPaywallGuest();
-              throw new Error("FREE_LIMIT_REACHED");
-            }
-            if (data?.error === "PREMIUM_REQUIRED") {
-              openPaywallPremiumRequired();
-              throw new Error("PREMIUM_REQUIRED");
-            }
+            if (data?.error === "FREE_LIMIT_REACHED") { openPaywallGuest(); throw new Error("FREE_LIMIT_REACHED"); }
+            if (data?.error === "PREMIUM_REQUIRED") { openPaywallPremiumRequired(); throw new Error("PREMIUM_REQUIRED"); }
             throw new Error(data?.error || "Erreur serveur (/api/chat).");
           }
 
@@ -909,9 +841,6 @@
           return data.reply;
         }
 
-        /* =========================
-           Boot
-        ========================= */
         function ensureHello(thread) {
           if (thread && thread.length) return thread;
           const hello =
@@ -944,9 +873,6 @@
           else bootGuest();
         })();
 
-        /* =========================
-           Send
-        ========================= */
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -973,12 +899,8 @@
             addMessage("user", text);
             if (input) { input.value = ""; input.focus(); }
 
-            if (!isAuth) {
-              incUiUsed();
-              updateFreeCounter(false);
-            } else {
-              updateFreeCounter(true);
-            }
+            if (!isAuth) { incUiUsed(); updateFreeCounter(false); }
+            else { updateFreeCounter(true); }
 
             addMessage("ai", "…");
 
@@ -1004,9 +926,6 @@
           });
         }
 
-        /* =========================
-           Logout / Upgrade
-        ========================= */
         if (logoutLink) {
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -1017,11 +936,6 @@
           });
         }
 
-        if (upgradeLink) upgradeLink.href = pricingUrl();
-
-        /* =========================
-           Auth change
-        ========================= */
         supabase.auth.onAuthStateChange(async (_event, session) => {
           SESSION = session || null;
           closePaywall();
@@ -1029,7 +943,6 @@
           else bootGuest();
         });
 
-        // initial links (safe)
         if (paywallMain) paywallMain.href = loginUrl();
         if (paywallSecondary) paywallSecondary.href = pricingUrl();
       })();
