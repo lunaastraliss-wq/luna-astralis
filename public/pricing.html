@@ -10,9 +10,28 @@
       content="Tarifs Luna Astralis — Astro & psycho. Accès 24h/7. Prix en dollars US."
     />
 
-    <!-- CSS split -->
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/pricing.css" />
+
+    <style>
+      /* Petit bloc message (optionnel) */
+      .pricing-msg{
+        margin: 14px 0 0;
+        padding: 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.92);
+        line-height: 1.35;
+        display:none;
+      }
+      .pricing-msg.is-ok{ background: rgba(120,255,190,.10); border-color: rgba(120,255,190,.22); }
+      .pricing-msg.is-err{ background: rgba(255,90,90,.10); border-color: rgba(255,90,90,.22); }
+      .pricing-msg.is-info{ background: rgba(159,211,255,.10); border-color: rgba(159,211,255,.22); }
+
+      /* CTA loading */
+      .price-cta[aria-busy="true"]{ opacity:.75; pointer-events:none; }
+    </style>
   </head>
 
   <body class="pricing-body">
@@ -32,8 +51,8 @@
       <nav class="nav" aria-label="Navigation principale">
         <a href="./index.html">Accueil</a>
         <a class="active" href="./pricing.html">Tarifs</a>
-        <a class="btn btn-small btn-ghost" href="./login.html">Connexion</a>
-        <a class="btn btn-small" href="./signup.html">Créer un compte</a>
+        <a class="btn btn-small btn-ghost" id="loginLink" href="./login.html">Connexion</a>
+        <a class="btn btn-small" id="signupLink" href="./signup.html">Créer un compte</a>
       </nav>
     </header>
 
@@ -55,6 +74,9 @@
             <span class="chip">Prix en dollars US (USD)</span>
             <span class="chip">Annule ou change en tout temps</span>
           </div>
+
+          <!-- Message status -->
+          <div class="pricing-msg" id="msg" role="status" aria-live="polite"></div>
         </div>
       </section>
 
@@ -91,10 +113,13 @@
               <li>Compatible mobile</li>
             </ul>
 
-            <a class="price-cta" href="./signup.html">Commencer</a>
+            <!-- ✅ Stripe -->
+            <button class="price-cta" data-plan="monthly_essential" type="button">
+              Commencer
+            </button>
           </article>
 
-          <!-- Mensuel — Illimité (FEATURED + HALO) -->
+          <!-- Mensuel — Illimité -->
           <div class="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
             <article class="price-card price-featured" aria-label="Mensuel — Illimité">
               <div class="price-badge">LE PLUS POPULAIRE</div>
@@ -115,7 +140,10 @@
                 <li>Exploration approfondie</li>
               </ul>
 
-              <a class="price-cta btn-primary" href="./signup.html">Accès illimité 24h/7</a>
+              <!-- ✅ Stripe -->
+              <button class="price-cta btn-primary" data-plan="monthly_unlimited" type="button">
+                Accès illimité 24h/7
+              </button>
             </article>
           </div>
 
@@ -140,7 +168,10 @@
               <li>Le plus économique</li>
             </ul>
 
-            <a class="price-cta" href="./signup.html">Choisir l’annuel</a>
+            <!-- ✅ Stripe -->
+            <button class="price-cta" data-plan="yearly_essential" type="button">
+              Choisir l’annuel
+            </button>
           </article>
 
           <!-- Annuel — Illimité -->
@@ -166,7 +197,10 @@
               <li>Futur : Tarot, Lune, Ascendant</li>
             </ul>
 
-            <a class="price-cta btn-primary" href="./signup.html">Accès illimité annuel</a>
+            <!-- ✅ Stripe -->
+            <button class="price-cta btn-primary" data-plan="yearly_unlimited" type="button">
+              Accès illimité annuel
+            </button>
           </article>
         </div>
       </section>
@@ -178,8 +212,137 @@
       </footer>
     </main>
 
+    <!-- Supabase (pour savoir si la personne est connectée) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
+
+      (function () {
+        const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
+
+        const msgEl = document.getElementById("msg");
+
+        function showMsg(text, type){
+          if(!msgEl) return;
+          msgEl.style.display = "block";
+          msgEl.textContent = text;
+          msgEl.classList.remove("is-ok","is-err","is-info");
+          msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+        }
+
+        function currentPathWithQuery(){
+          const p = location.pathname.split("/").pop() || "pricing.html";
+          return p + location.search;
+        }
+
+        function safeNext(next){
+          if(!next || next.includes("http://") || next.includes("https://") || next.startsWith("//")){
+            return "pricing.html";
+          }
+          return next.replace(/^\//, "");
+        }
+
+        function loginUrl(){
+          const next = encodeURIComponent(safeNext(currentPathWithQuery()));
+          return "./login.html?next=" + next;
+        }
+
+        // Garder un “next” propre pour login / signup dans le header
+        const loginLink = document.getElementById("loginLink");
+        const signupLink = document.getElementById("signupLink");
+        if(loginLink) loginLink.href = loginUrl();
+        if(signupLink) signupLink.href = "./signup.html?next=" + encodeURIComponent(safeNext(currentPathWithQuery()));
+
+        // Supabase client (session persistée)
+        if (!window.supabase || typeof window.supabase.createClient !== "function") {
+          showMsg("Supabase JS non chargé (CDN). Impossible de vérifier la session.", "err");
+          return;
+        }
+
+        const supabase =
+          window.__LA_SUPABASE__ ||
+          (window.__LA_SUPABASE__ = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY,
+            { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage } }
+          ));
+
+        async function isLoggedIn(){
+          try{
+            const { data, error } = await supabase.auth.getSession();
+            if(error) return false;
+            return !!data?.session;
+          }catch(_){
+            return false;
+          }
+        }
+
+        async function startCheckout(plan, btn){
+          const logged = await isLoggedIn();
+          if(!logged){
+            // Ton /api/checkout exige un user authentifié → on force login
+            window.location.href = loginUrl();
+            return;
+          }
+
+          try{
+            if(btn){
+              btn.setAttribute("aria-busy","true");
+              btn.textContent = "Redirection…";
+            }
+            showMsg("Ouverture de Stripe…", "info");
+
+            const res = await fetch("/api/checkout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ plan, lang: "fr" })
+            });
+
+            const data = await res.json().catch(() => ({}));
+            if(!res.ok){
+              throw new Error(data?.error || "Erreur checkout.");
+            }
+            if(!data?.url){
+              throw new Error("URL Stripe manquante.");
+            }
+
+            window.location.href = data.url;
+          }catch(err){
+            if(btn){
+              btn.removeAttribute("aria-busy");
+              // remettre texte original selon plan
+              const map = {
+                monthly_essential: "Commencer",
+                monthly_unlimited: "Accès illimité 24h/7",
+                yearly_essential: "Choisir l’annuel",
+                yearly_unlimited: "Accès illimité annuel"
+              };
+              btn.textContent = map[plan] || "Continuer";
+            }
+            showMsg("Erreur: " + (err?.message || String(err)), "err");
+          }
+        }
+
+        // Canceled / paid messages
+        const sp = new URLSearchParams(location.search);
+        if(sp.get("canceled") === "1"){
+          showMsg("Paiement annulé. Tu peux réessayer quand tu veux.", "info");
+        }
+        if(sp.get("paid") === "1"){
+          showMsg("Paiement reçu. Merci ✨ Tu peux retourner au chat.", "ok");
+        }
+
+        // Bind buttons
+        document.querySelectorAll("button.price-cta[data-plan]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const plan = btn.getAttribute("data-plan");
+            if(!plan) return;
+            startCheckout(plan, btn);
+          });
+        });
+      })();
     </script>
   </body>
 </html>
