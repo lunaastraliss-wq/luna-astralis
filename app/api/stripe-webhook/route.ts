@@ -1,136 +1,112 @@
-// /api/stripe-webhook.js
+// app/api/stripe-webhook/route.ts
 import Stripe from "stripe";
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-export const config = {
-  api: { bodyParser: false }, // IMPORTANT: Stripe exige le RAW body
-};
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16",
-});
+// Stripe
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
-  { auth: { persistSession: false } }
-);
+// Supabase (Service Role)
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? "";
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
-/* =========================
-   Utils
-========================= */
-function clean(v) {
+function clean(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
 
-// ✅ RAW body en Buffer (NE PAS setEncoding utf8)
-function getRawBody(req) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    req.on("data", (chunk) => chunks.push(chunk));
-    req.on("end", () => resolve(Buffer.concat(chunks)));
-    req.on("error", reject);
-  });
-}
-
-function pickPlanFromSession(session) {
-  // 1) metadata.plan (le plus fiable si tu l’envoies)
-  const metaPlan = clean(session?.metadata?.plan);
-  if (metaPlan) return metaPlan;
-
-  // 2) lookup_key sur price (si expand line_items.data.price)
-  const line = session?.line_items?.data?.[0];
-  const lookup = clean(line?.price?.lookup_key);
-  if (lookup) return lookup;
-
-  // 3) fallback
-  return "premium";
-}
-
-function hasEnv(name) {
+function hasEnv(name: string) {
   return Boolean(clean(process.env[name]));
 }
 
-/* =========================
-   Handler
-========================= */
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+const stripe = STRIPE_SECRET_KEY
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  : null;
 
+const supabase =
+  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+        auth: { persistSession: false },
+      })
+    : null;
+
+function pickPlan(session: Stripe.Checkout.Session) {
+  // 1) metadata.plan (le plus fiable)
+  const metaPlan = clean((session as any)?.metadata?.plan);
+  if (metaPlan) return metaPlan;
+
+  // 2) fallback
+  return "free";
+}
+
+async function upgradeByUserId(userId: string, payload: Record<string, any>) {
+  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+
+  const { error } = await supabase.from("profiles").update(payload).eq("id", userId);
+  if (error) throw new Error("Supabase update failed: " + error.message);
+}
+
+async function downgradeByCustomerId(customerId: string, payload: Record<string, any>) {
+  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+
+  const { error } = await supabase.from("profiles").update(payload).eq("stripe_customer_id", customerId);
+  if (error) throw new Error("Supabase downgrade failed: " + error.message);
+}
+
+export async function POST(req: Request) {
   try {
-    // Vérifs env (utile pour debug)
-    if (!hasEnv("STRIPE_SECRET_KEY")) {
-      return res.status(500).json({ error: "Missing STRIPE_SECRET_KEY" });
+    // ENV checks
+    if (!stripe) return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+    if (!STRIPE_WEBHOOK_SECRET) {
+      return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
     }
-    if (!hasEnv("STRIPE_WEBHOOK_SECRET")) {
-      return res.status(500).json({ error: "Missing STRIPE_WEBHOOK_SECRET" });
-    }
-    if (!hasEnv("SUPABASE_URL")) {
-      return res.status(500).json({ error: "Missing SUPABASE_URL" });
-    }
-    if (!hasEnv("SUPABASE_SERVICE_ROLE_KEY")) {
-      return res.status(500).json({ error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
-    }
-
-    const sig = req.headers["stripe-signature"];
-    if (!sig) {
-      return res.status(400).json({ error: "Missing stripe-signature" });
-    }
-
-    const rawBody = await getRawBody(req);
-
-    let event;
-    try {
-      event = stripe.webhooks.constructEvent(
-        rawBody,
-        sig,
-        process.env.STRIPE_WEBHOOK_SECRET
+    if (!supabase) {
+      return NextResponse.json(
+        { error: "Missing SUPABASE_URL / NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
+        { status: 500 }
       );
-    } catch (err) {
-      return res
-        .status(400)
-        .json({ error: "Invalid signature", details: err?.message || String(err) });
+    }
+
+    const sig = req.headers.get("stripe-signature");
+    if (!sig) return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
+
+    // IMPORTANT: raw body
+    const rawBody = await req.text();
+
+    let event: Stripe.Event;
+    try {
+      event = stripe.webhooks.constructEvent(rawBody, sig, STRIPE_WEBHOOK_SECRET);
+    } catch (err: any) {
+      return NextResponse.json(
+        { error: "Invalid signature", details: err?.message || String(err) },
+        { status: 400 }
+      );
     }
 
     // =========================
-    // 1) Paiement Checkout terminé
+    // checkout.session.completed
     // =========================
     if (event.type === "checkout.session.completed") {
-      const session = event.data.object;
+      const session = event.data.object as Stripe.Checkout.Session;
 
-      // ✅ IMPORTANT: tu dois avoir mis client_reference_id = user.id au moment du checkout
-      // sinon userId sera vide et tu ne peux pas relier au profil.
-      const userId = clean(session?.client_reference_id);
+      const userId = clean(session.client_reference_id) || clean((session.metadata as any)?.user_id);
+      const customerId = clean(session.customer);
+      const plan = pickPlan(session);
 
-      // Stripe customer id: cus_xxx
-      const customerId = clean(session?.customer);
-
-      // Si tu préfères: fallback metadata.user_id (si tu l’envoies)
-      const metaUserId = clean(session?.metadata?.user_id);
-      const finalUserId = userId || metaUserId;
-
-      if (!finalUserId) {
-        return res.status(200).json({
-          received: true,
-          warning:
-            "Missing client_reference_id (and metadata.user_id). Cannot link payment to Supabase user.",
-        });
+      if (!userId || userId === "guest") {
+        // Invité: on ne peut pas lier à un user Supabase
+        return NextResponse.json(
+          {
+            received: true,
+            warning: "guest checkout: no user_id to link. (client_reference_id/metadata.user_id missing)",
+          },
+          { status: 200 }
+        );
       }
 
-      // Optionnel: récupérer line_items avec expand
-      let fullSession = session;
-      try {
-        fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-          expand: ["line_items.data.price"],
-        });
-      } catch (_) {}
-
-      const plan = pickPlanFromSession(fullSession);
-
-      // ✅ Update profiles
-      // ⚠️ Si ta table profiles n'a pas updated_at, enlève ce champ.
       const payload = {
         is_premium: true,
         plan,
@@ -138,24 +114,42 @@ export default async function handler(req, res) {
         updated_at: new Date().toISOString(),
       };
 
-      const { error } = await supabase
-        .from("profiles")
-        .update(payload)
-        .eq("id", finalUserId);
-
-      if (error) {
-        return res
-          .status(500)
-          .json({ error: "Supabase update failed", details: error.message });
-      }
+      await upgradeByUserId(userId, payload);
+      return NextResponse.json({ received: true }, { status: 200 });
     }
 
     // =========================
-    // 2) Abonnement annulé
+    // customer.subscription.updated
+    // (utile pour statut / cancel_at_period_end)
+    // =========================
+    if (event.type === "customer.subscription.updated") {
+      const sub = event.data.object as Stripe.Subscription;
+
+      const customerId = clean(sub.customer);
+      const status = clean(sub.status); // active, trialing, canceled, unpaid, etc.
+
+      // Si tu veux refléter l'état réel:
+      // active/trialing => premium true
+      // canceled/unpaid/incomplete_expired => premium false
+      const isActive = status === "active" || status === "trialing";
+
+      if (customerId) {
+        const payload = {
+          is_premium: isActive,
+          updated_at: new Date().toISOString(),
+        };
+        await downgradeByCustomerId(customerId, payload);
+      }
+
+      return NextResponse.json({ received: true }, { status: 200 });
+    }
+
+    // =========================
+    // customer.subscription.deleted
     // =========================
     if (event.type === "customer.subscription.deleted") {
-      const sub = event.data.object;
-      const customerId = clean(sub?.customer);
+      const sub = event.data.object as Stripe.Subscription;
+      const customerId = clean(sub.customer);
 
       if (customerId) {
         const payload = {
@@ -163,32 +157,26 @@ export default async function handler(req, res) {
           plan: "free",
           updated_at: new Date().toISOString(),
         };
-
-        const { error } = await supabase
-          .from("profiles")
-          .update(payload)
-          .eq("stripe_customer_id", customerId);
-
-        // Ici on ne casse pas le webhook si ça échoue, mais on loguerait en prod
-        if (error) {
-          return res.status(500).json({
-            error: "Supabase downgrade failed",
-            details: error.message,
-          });
-        }
+        await downgradeByCustomerId(customerId, payload);
       }
+
+      return NextResponse.json({ received: true }, { status: 200 });
     }
 
-    return res.status(200).json({ received: true });
-  } catch (err) {
-    return res.status(500).json({
-      error: err?.message || "Webhook error",
-      debug: {
-        hasStripeSecretKey: hasEnv("STRIPE_SECRET_KEY"),
-        hasStripeWebhookSecret: hasEnv("STRIPE_WEBHOOK_SECRET"),
-        hasSupabaseUrl: hasEnv("SUPABASE_URL"),
-        hasServiceRole: hasEnv("SUPABASE_SERVICE_ROLE_KEY"),
+    // autres events ignorés
+    return NextResponse.json({ received: true }, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json(
+      {
+        error: err?.message || "Webhook error",
+        debug: {
+          hasStripeSecretKey: hasEnv("STRIPE_SECRET_KEY"),
+          hasStripeWebhookSecret: hasEnv("STRIPE_WEBHOOK_SECRET"),
+          hasSupabaseUrl: hasEnv("SUPABASE_URL") || hasEnv("NEXT_PUBLIC_SUPABASE_URL"),
+          hasServiceRole: hasEnv("SUPABASE_SERVICE_ROLE_KEY"),
+        },
       },
-    });
+      { status: 500 }
+    );
   }
 }
