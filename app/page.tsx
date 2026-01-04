@@ -1,1 +1,222 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
+  <title>Luna Astralis — Astro & psycho</title>
+  <meta
+    name="description"
+    content="Ce que ton signe révèle de toi — au-delà des clichés. Une exploration douce et guidée."
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="stylesheet" href="./css/index.css" />
+</head>
+
+<body class="page-astro">
+
+  <!-- HEADER -->
+  <header class="top" role="banner">
+    <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
+      <div class="logo" aria-hidden="true">
+        <img src="./logo-luna-astralis-transparent.png" alt="" />
+      </div>
+
+      <div class="brand-text">
+        <div class="brand-name">LUNA ASTRALIS</div>
+        <div class="brand-sub">Astro & psycho</div>
+      </div>
+    </a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#comment">Comment ça fonctionne</a>
+      <a href="#signes">Choisir un signe</a>
+      <a class="btn btn-small btn-ghost" href="./pricing.html">Tarifs</a>
+      <a class="btn btn-small btn-ghost" href="./login.html">Mon compte</a>
+      <a class="btn btn-small" href="./signup.html">Créer un compte</a>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="wrap" role="main">
+
+    <!-- HERO -->
+    <section class="hero hero-astro" aria-label="Présentation">
+      <div class="hero-card">
+
+        <div class="hero-top hero-top-center">
+          <div class="hero-kicker hero-kicker-center">
+            <span class="astro-mark">☾ Luna Astralis</span>
+            <span class="hero-badge">Exploration guidée</span>
+          </div>
+
+          <h1 class="hero-title hero-title-center">Astro & psycho</h1>
+
+          <p class="lead lead-center">
+            Ce que ton signe révèle de toi — au-delà des clichés.
+          </p>
+        </div>
+
+        <!-- BLOC GRATUIT -->
+        <div class="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage gratuit">
+          <div class="hero-free hero-free-center">
+            <h2 class="hero-free-title">Commence gratuitement.</h2>
+
+            <p class="hero-free-sub">
+              Choisis ton signe et commence maintenant.
+            </p>
+
+            <a href="#signes" class="hero-free-btn hero-free-btn--pulse">
+              Choisir mon signe →
+            </a>
+
+            <div class="hero-free-note">Sans compte · Sans carte</div>
+          </div>
+        </div>
+
+        <!-- ✅ TEXTE VISIBLE (remplace “Exploration personnelle…”) -->
+        <p class="hero-tech note-center">
+          Fonctionne instantanément sur mobile · Aucun téléchargement
+        </p>
+
+        <!-- ✅ CONTEXTE EN TOUT PETIT (en dessous) -->
+        <p class="hero-disclaimer note-center">
+          Exploration personnelle (non thérapeutique).
+        </p>
+
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section class="trust" aria-label="Promesse">
+      <div class="trust-item">
+        <div class="trust-ico" aria-hidden="true">✦</div>
+        <div>
+          <div class="trust-title">Doux, mais précis</div>
+          <div class="trust-sub">Des mots clairs, sans blabla.</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-ico" aria-hidden="true">☾</div>
+        <div>
+          <div class="trust-title">Guidé</div>
+          <div class="trust-sub">Questions + reflets pour avancer.</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-ico" aria-hidden="true">◎</div>
+        <div>
+          <div class="trust-title">Sans jugement</div>
+          <div class="trust-sub">On explore. On n’étiquette pas.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMENT -->
+    <section id="comment" class="section">
+      <div class="section-head">
+        <h2>Comment ça fonctionne</h2>
+        <p class="section-sub">4 étapes simples.</p>
+      </div>
+
+      <div class="grid4">
+        <div class="box step">
+          <div class="step-top">
+            <span class="step-n">01</span>
+            <span class="step-ico" aria-hidden="true">♈</span>
+          </div>
+          <h3>Choisis ton signe</h3>
+          <p>Tu démarres en 1 clic.</p>
+        </div>
+
+        <div class="box step">
+          <div class="step-top">
+            <span class="step-n">02</span>
+            <span class="step-ico" aria-hidden="true">✧</span>
+          </div>
+          <h3>Reçois un miroir</h3>
+          <p>Forces, angles morts, besoins.</p>
+        </div>
+
+        <div class="box step">
+          <div class="step-top">
+            <span class="step-n">03</span>
+            <span class="step-ico" aria-hidden="true">🧠</span>
+          </div>
+          <h3>Comprends tes schémas</h3>
+          <p>Émotions, stress, relations.</p>
+        </div>
+
+        <div class="box step">
+          <div class="step-top">
+            <span class="step-n">04</span>
+            <span class="step-ico" aria-hidden="true">☾</span>
+          </div>
+          <h3>Garde le contrôle</h3>
+          <p>Exploration personnelle uniquement.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGNES -->
+    <section id="signes" class="section">
+      <div class="section-head">
+        <h2>Choisir un signe</h2>
+        <p class="section-sub">Commence ici.</p>
+      </div>
+
+      <div class="signs signs-grid" role="list">
+        <a class="sign sign-fire" role="listitem" href="./chat.html?signe=belier">♈ Bélier</a>
+        <a class="sign sign-earth" role="listitem" href="./chat.html?signe=taureau">♉ Taureau</a>
+        <a class="sign sign-air" role="listitem" href="./chat.html?signe=gemeaux">♊ Gémeaux</a>
+        <a class="sign sign-water" role="listitem" href="./chat.html?signe=cancer">♋ Cancer</a>
+
+        <a class="sign sign-fire" role="listitem" href="./chat.html?signe=lion">♌ Lion</a>
+        <a class="sign sign-earth" role="listitem" href="./chat.html?signe=vierge">♍ Vierge</a>
+        <a class="sign sign-air" role="listitem" href="./chat.html?signe=balance">♎ Balance</a>
+        <a class="sign sign-water" role="listitem" href="./chat.html?signe=scorpion">♏ Scorpion</a>
+
+        <a class="sign sign-fire" role="listitem" href="./chat.html?signe=sagittaire">♐ Sagittaire</a>
+        <a class="sign sign-earth" role="listitem" href="./chat.html?signe=capricorne">♑ Capricorne</a>
+        <a class="sign sign-air" role="listitem" href="./chat.html?signe=verseau">♒ Verseau</a>
+        <a class="sign sign-water" role="listitem" href="./chat.html?signe=poissons">♓ Poissons</a>
+      </div>
+
+      <div class="elements" aria-label="Éléments">
+        <span class="el sign-fire">Feu</span>
+        <span class="el sign-earth">Terre</span>
+        <span class="el sign-air">Air</span>
+        <span class="el sign-water">Eau</span>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-top">
+        <div>© <span id="y"></span> Luna Astralis</div>
+
+        <nav class="footer-links" aria-label="Liens légaux">
+          <a href="./mentions-legales.html">Mentions légales</a>
+          <a href="./confidentialite.html">Confidentialité (RGPD)</a>
+          <a href="./conditions.html">Conditions d’utilisation</a>
+          <a href="./age-18.html">18+</a>
+        </nav>
+      </div>
+
+      <div class="footer-note">
+        Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
