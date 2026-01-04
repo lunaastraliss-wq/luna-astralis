@@ -114,6 +114,7 @@ export default function LoginPage() {
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
+    // (window seulement) — page client
     const origin = window.location.origin;
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
@@ -129,7 +130,7 @@ export default function LoginPage() {
     }
 
     // Normalement ça redirige; fallback UX si popup bloquée
-    setTimeout(() => {
+    window.setTimeout(() => {
       setBusy(false);
       showMsg("Si rien ne s’ouvre, autorise les popups puis réessaie.", "info");
     }, 2500);
@@ -147,7 +148,6 @@ export default function LoginPage() {
     showMsg("Envoi du lien de réinitialisation…", "info");
 
     const origin = window.location.origin;
-    // ✅ Idéalement: /reset-password (page dédiée)
     const { error } = await supabase.auth.resetPasswordForEmail(em, {
       redirectTo: `${origin}/reset-password?next=${encodeURIComponent(nextUrl)}`,
     });
@@ -198,11 +198,15 @@ export default function LoginPage() {
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Connexion">
           <h1 className="auth-title">Mon compte</h1>
-          <p className="auth-sub">Connecte-toi pour continuer la discussion et retrouver tes échanges.</p>
+          <p className="auth-sub">
+            Connecte-toi pour continuer la discussion et retrouver tes échanges.
+          </p>
 
           {msg ? (
             <div
-              className={`auth-msg ${msg.type === "ok" ? "is-ok" : msg.type === "err" ? "is-err" : "is-info"}`}
+              className={`auth-msg ${
+                msg.type === "ok" ? "is-ok" : msg.type === "err" ? "is-err" : "is-info"
+              }`}
               role="status"
               aria-live="polite"
             >
@@ -215,11 +219,17 @@ export default function LoginPage() {
               <p className="auth-sub" style={{ margin: "0 0 10px 0" }}>
                 Tu es déjà connectée.
               </p>
+
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 <Link className="btn" href={nextUrl}>
                   Continuer
                 </Link>
-                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={onLogout}
+                  disabled={busy}
+                >
                   Se déconnecter
                 </button>
               </div>
@@ -279,7 +289,12 @@ export default function LoginPage() {
               disabled={busy}
             />
 
-            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
+            <button
+              className="btn auth-submit"
+              type="submit"
+              disabled={busy}
+              style={{ opacity: busy ? 0.7 : 1 }}
+            >
               Se connecter
             </button>
 
