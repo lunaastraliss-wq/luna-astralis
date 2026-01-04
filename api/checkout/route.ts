@@ -1,158 +1,161 @@
 // /app/api/checkout/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
-import { cookies } from "next/headers";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type PlanId = "chat" | "plus" | "unlimited";
-type Locale = "fr" | "en" | "es";
+/**
+ * Luna Astralis – Plans Stripe (Price IDs)
+ * ✅ PAS de DB pricing_plans ici: on lit directement les env vars
+ * ✅ Fonctionne si l'utilisateur est CONNECTÉ ou INVITÉ
+ * ✅ Trial 3 jours activé (modifiable via TRIAL_DAYS)
+ */
 
-const PLANS_TABLE = "pricing_plans";
+type PlanId =
+  | "monthly_essential"
+  | "monthly_unlimited"
+  | "yearly_essential"
+  | "yearly_unlimited";
 
-// =======================================================
-// Helpers
-// =======================================================
 function isPlan(v: unknown): v is PlanId {
-  return v === "chat" || v === "plus" || v === "unlimited";
-}
-
-function isLocale(v: unknown): v is Locale {
-  return v === "fr" || v === "en" || v === "es";
+  return (
+    v === "monthly_essential" ||
+    v === "monthly_unlimited" ||
+    v === "yearly_essential" ||
+    v === "yearly_unlimited"
+  );
 }
 
 function cleanUrl(url: string) {
   return url.endsWith("/") ? url.slice(0, -1) : url;
 }
 
+function safeNext(next: unknown) {
+  if (typeof next !== "string") return "chat.html";
+  const s = next.trim();
+  if (!s) return "chat.html";
+  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat.html";
+  // empêche les chemins absolus bizarres
+  return s.replace(/^\//, "");
+}
+
 function jsonError(message: string, status = 500) {
   return NextResponse.json({ error: message }, { status });
 }
 
-// =======================================================
+// =====================
 // ENV
-// =======================================================
+// =====================
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+
+const STRIPE_PRICE_MONTHLY_ESSENTIAL = process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL ?? "";
+const STRIPE_PRICE_MONTHLY_UNLIMITED = process.env.STRIPE_PRICE_MONTHLY_UNLIMITED ?? "";
+const STRIPE_PRICE_YEARLY_ESSENTIAL = process.env.STRIPE_PRICE_YEARLY_ESSENTIAL ?? "";
+const STRIPE_PRICE_YEARLY_UNLIMITED = process.env.STRIPE_PRICE_YEARLY_UNLIMITED ?? "";
 
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
 
-const supabaseAdmin =
-  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { persistSession: false },
-      })
-    : null;
+function priceIdFromPlan(plan: PlanId) {
+  switch (plan) {
+    case "monthly_essential":
+      return STRIPE_PRICE_MONTHLY_ESSENTIAL;
+    case "monthly_unlimited":
+      return STRIPE_PRICE_MONTHLY_UNLIMITED;
+    case "yearly_essential":
+      return STRIPE_PRICE_YEARLY_ESSENTIAL;
+    case "yearly_unlimited":
+      return STRIPE_PRICE_YEARLY_UNLIMITED;
+    default:
+      return "";
+  }
+}
 
-// =======================================================
-// Route
-// =======================================================
 export async function POST(req: Request) {
   try {
-    // Sanity checks
     if (!stripe) return jsonError("Stripe non configuré: STRIPE_SECRET_KEY manquante.", 500);
-    if (!supabaseAdmin) {
-      return jsonError(
-        "Supabase admin non configuré: NEXT_PUBLIC_SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquante.",
-        500
-      );
-    }
     if (!SITE_URL) return jsonError("NEXT_PUBLIC_SITE_URL manquante.", 500);
 
     // Body
     const body = (await req.json().catch(() => ({}))) as {
       plan?: unknown;
-      lang?: unknown;
+      next?: unknown; // ex: "chat.html?signe=belier"
     };
 
     if (!isPlan(body.plan)) return jsonError("Plan invalide.", 400);
-    const plan: PlanId = body.plan;
+    const plan = body.plan;
+    const priceId = priceIdFromPlan(plan);
 
-    const lang: Locale = isLocale(body.lang) ? body.lang : "fr";
+    if (!priceId) {
+      return jsonError(
+        `Price ID manquant en ENV pour le plan "${plan}". Vérifie STRIPE_PRICE_* dans Vercel.`,
+        500
+      );
+    }
 
-    // Auth (user logged in)
-    const supabaseAuth = createRouteHandlerClient({ cookies });
-    const { data: userData, error: userErr } = await supabaseAuth.auth.getUser();
-    if (userErr || !userData?.user) return jsonError("Utilisateur non authentifié.", 401);
-
-    const user_id = userData.user.id;
-    const user_email = userData.user.email ?? null;
-
-    // Get Stripe price from DB
-    const { data: planRow, error: planErr } = await supabaseAdmin
-      .from(PLANS_TABLE)
-      .select("stripe_price_id")
-      .eq("code", plan)
-      .maybeSingle();
-
-    if (planErr) return jsonError(`Supabase pricing_plans: ${planErr.message}`, 500);
-
-    const priceId = (planRow?.stripe_price_id as string | null) ?? null;
-    if (!priceId) return jsonError(`stripe_price_id manquant pour le plan "${plan}".`, 500);
-
-    // URLs
     const site = cleanUrl(SITE_URL);
+    const next = safeNext(body.next);
 
+    // URLs: tu reviens où tu veux (chat) + flags
     const successUrl =
-      `${site}/my-amoria?lang=${encodeURIComponent(lang)}` +
-      `&session_id={CHECKOUT_SESSION_ID}&paid=1`;
+      `${site}/${next}` +
+      `${next.includes("?") ? "&" : "?"}paid=1&session_id={CHECKOUT_SESSION_ID}`;
 
-    const cancelUrl = `${site}/pricing?lang=${encodeURIComponent(lang)}&canceled=1`;
+    const cancelUrl = `${site}/pricing.html?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // ✅ Trial (test Stripe)
-    const TRIAL_DAYS = 3; // mets 0 pour enlever le trial en prod
+    // Auth (optionnel)
+    const supabase = createRouteHandlerClient({ cookies });
+    const { data } = await supabase.auth.getUser();
 
-    // Create Stripe Checkout Session (subscription)
+    const user_id = data?.user?.id ?? null;
+    const user_email = data?.user?.email ?? null;
+
+    // Trial
+    const TRIAL_DAYS = 3; // mets 0 pour enlever en prod
+
+    // Create session
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true,
 
       success_url: successUrl,
       cancel_url: cancelUrl,
 
-      // Lien user <-> Stripe
-      client_reference_id: user_id,
-
-      // Important pour retrouver / regrouper dans Stripe Dashboard
+      // Si connecté: ça aide pour relier Stripe ↔ utilisateur
+      ...(user_id ? { client_reference_id: user_id } : {}),
       ...(user_email ? { customer_email: user_email } : {}),
 
-      // Metadata sur la session (utile pour webhook checkout.session.completed)
+      // metadata session
       metadata: {
-        user_id,
+        app: "luna-astralis",
         plan,
-        lang,
+        user_id: user_id ?? "guest",
       },
 
-      // Subscription metadata + trial
+      // metadata subscription + trial
       subscription_data: {
         metadata: {
-          user_id,
+          app: "luna-astralis",
           plan,
-          lang,
+          user_id: user_id ?? "guest",
         },
         ...(TRIAL_DAYS > 0 ? { trial_period_days: TRIAL_DAYS } : {}),
       },
 
-      // Optionnel: garde le comportement standard
       payment_method_collection: "always",
     });
 
     if (!session.url) return jsonError("Session Stripe créée, mais URL manquante.", 500);
 
-    // Retourne url + session_id (pratique pour sync/debug)
-    return NextResponse.json(
-      { url: session.url, session_id: session.id },
-      { status: 200 }
-    );
+    return NextResponse.json({ url: session.url, session_id: session.id }, { status: 200 });
   } catch (err: unknown) {
-    console.error("[checkout] ERROR:", err);
+    console.error("[luna/checkout] ERROR:", err);
     const msg = err instanceof Error ? err.message : "Erreur serveur checkout.";
     return NextResponse.json({ error: msg }, { status: 500 });
   }
