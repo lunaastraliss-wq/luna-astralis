@@ -1,4 +1,4 @@
-// /app/api/checkout/route.ts
+// app/api/checkout/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
 
 /**
  * Luna Astralis – Checkout Stripe (Subscription)
- * ✅ Pas de table pricing_plans: lit directement les ENV
- * ✅ Fonctionne si l'utilisateur est CONNECTÉ ou INVITÉ
- * ✅ Trial contrôlé par ENV: STRIPE_TRIAL_DAYS (ex: 3 en test, 0 en prod)
+ * - Lit les Price IDs depuis les ENV
+ * - Fonctionne si utilisateur connecté ou invité
+ * - Trial contrôlé par STRIPE_TRIAL_DAYS (ex: 3 en test, 0 en prod)
  */
 
 type PlanId =
@@ -30,15 +30,23 @@ function isPlan(v: unknown): v is PlanId {
 }
 
 function cleanUrl(url: string) {
-  return url.endsWith("/") ? url.slice(0, -1) : url;
+  const s = (url || "").trim();
+  if (!s) return "";
+  return s.endsWith("/") ? s.slice(0, -1) : s;
 }
 
+// ✅ next doit toujours être un chemin interne ABSOLU (commence par "/")
 function safeNext(next: unknown) {
-  if (typeof next !== "string") return "chat.html";
+  const fallback = "/chat?signe=belier";
+  if (typeof next !== "string") return fallback;
+
   const s = next.trim();
-  if (!s) return "chat.html";
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat.html";
-  return s.replace(/^\//, "");
+  if (!s) return fallback;
+
+  // block external/open-redirect
+  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+
+  return s.startsWith("/") ? s : `/${s}`;
 }
 
 function jsonError(message: string, status = 500) {
@@ -57,7 +65,7 @@ const STRIPE_PRICE_MONTHLY_UNLIMITED = process.env.STRIPE_PRICE_MONTHLY_UNLIMITE
 const STRIPE_PRICE_YEARLY_ESSENTIAL = process.env.STRIPE_PRICE_YEARLY_ESSENTIAL ?? "";
 const STRIPE_PRICE_YEARLY_UNLIMITED = process.env.STRIPE_PRICE_YEARLY_UNLIMITED ?? "";
 
-// Trial (ex: 3 en test, 0 en prod)
+// Trial
 const STRIPE_TRIAL_DAYS_RAW = process.env.STRIPE_TRIAL_DAYS ?? "0";
 const STRIPE_TRIAL_DAYS = Number.isFinite(Number(STRIPE_TRIAL_DAYS_RAW))
   ? Math.max(0, Math.floor(Number(STRIPE_TRIAL_DAYS_RAW)))
@@ -85,12 +93,14 @@ function priceIdFromPlan(plan: PlanId) {
 export async function POST(req: Request) {
   try {
     if (!stripe) return jsonError("Stripe non configuré: STRIPE_SECRET_KEY manquante.", 500);
-    if (!SITE_URL) return jsonError("NEXT_PUBLIC_SITE_URL manquante.", 500);
+
+    const site = cleanUrl(SITE_URL);
+    if (!site) return jsonError("NEXT_PUBLIC_SITE_URL manquante.", 500);
 
     // Body
     const body = (await req.json().catch(() => ({}))) as {
       plan?: unknown;
-      next?: unknown; // ex: "chat.html?signe=belier"
+      next?: unknown; // ex: "/chat?signe=belier"
     };
 
     if (!isPlan(body.plan)) return jsonError("Plan invalide.", 400);
@@ -105,15 +115,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const site = cleanUrl(SITE_URL);
     const next = safeNext(body.next);
 
-    // URLs: retour sur la page demandée + flags
+    // ✅ URLs correctes Next.js
     const successUrl =
-      `${site}/${next}` +
+      `${site}${next}` +
       `${next.includes("?") ? "&" : "?"}paid=1&session_id={CHECKOUT_SESSION_ID}`;
 
-    const cancelUrl = `${site}/pricing.html?canceled=1&next=${encodeURIComponent(next)}`;
+    const cancelUrl = `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
     // Auth (optionnel)
     const supabase = createRouteHandlerClient({ cookies });
@@ -122,7 +131,6 @@ export async function POST(req: Request) {
     const user_id = data?.user?.id ?? null;
     const user_email = data?.user?.email ?? null;
 
-    // Create session
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
@@ -131,27 +139,27 @@ export async function POST(req: Request) {
       success_url: successUrl,
       cancel_url: cancelUrl,
 
-      // Si connecté: lien Stripe ↔ user
       ...(user_id ? { client_reference_id: user_id } : {}),
       ...(user_email ? { customer_email: user_email } : {}),
 
-      // metadata session
       metadata: {
         app: "luna-astralis",
         plan,
         user_id: user_id ?? "guest",
+        next,
       },
 
-      // metadata subscription + trial
       subscription_data: {
         metadata: {
           app: "luna-astralis",
           plan,
           user_id: user_id ?? "guest",
+          next,
         },
         ...(STRIPE_TRIAL_DAYS > 0 ? { trial_period_days: STRIPE_TRIAL_DAYS } : {}),
       },
 
+      // optionnel (Stripe peut le gérer tout seul)
       payment_method_collection: "always",
     });
 
@@ -159,7 +167,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ url: session.url, session_id: session.id }, { status: 200 });
   } catch (err: unknown) {
-    console.error("[luna/checkout] ERROR:", err);
+    console.error("[api/checkout] ERROR:", err);
     const msg = err instanceof Error ? err.message : "Erreur serveur checkout.";
     return NextResponse.json({ error: msg }, { status: 500 });
   }
