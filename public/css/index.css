@@ -1,12 +1,22 @@
 /* ==========================================================
-   Luna Astralis — css/index.css (HOME) — COMPLET
+   Luna Astralis — css/index.css (HOME) — COMPLET (AUTONOME)
    - Hero centré + CTA violet + pulse
    - Trust + Steps + Signs
-   - Couleurs par élément (feu/terre/air/eau)
+   - Couleurs feu/terre/air/eau
    - Footer légal
-   - ✅ Ajout: .hero-tech (texte visible) + .hero-disclaimer (tout petit)
-   - Reduced-motion OK
+   - ✅ .hero-tech + .hero-disclaimer
+   - ✅ Ne dépend PAS de variables externes
 ========================================================== */
+
+/* =================
+   BASE SAFE
+================== */
+:root{
+  --la-muted: rgba(255,255,255,.72);
+  --la-muted2: rgba(255,255,255,.62);
+  --la-radius2: 22px;
+  --la-shadow: 0 22px 70px rgba(0,0,0,.45);
+}
 
 /* ================= HERO ================= */
 .hero{
@@ -20,10 +30,10 @@
 /* Carte du hero */
 .hero-card{
   padding:22px;
-  border-radius: var(--radius2);
+  border-radius: var(--la-radius2);
   background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
   border:1px solid rgba(255,255,255,.16);
-  box-shadow: var(--shadow);
+  box-shadow: var(--la-shadow);
   position:relative;
   overflow:hidden;
   isolation:isolate;
@@ -121,7 +131,7 @@
 
 .lead{
   margin:0;
-  color:var(--muted);
+  color: var(--la-muted);
   line-height:1.60;
   font-size:15px;
   max-width:66ch;
@@ -264,7 +274,6 @@
 }
 
 /* ================= ✅ TEXTE SOUS LE BLOC GRATUIT ================= */
-/* Le gros texte (à la place de “Exploration personnelle…”) */
 .hero-tech{
   margin-top:10px;
   font-size:13px;
@@ -274,7 +283,6 @@
   text-shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
-/* Le petit contexte (en dessous) */
 .hero-disclaimer{
   margin-top:4px;
   font-size:10px;
@@ -285,7 +293,7 @@
 /* Notes génériques */
 .note{
   margin-top:12px;
-  color:var(--muted2);
+  color: var(--la-muted2);
   font-size:12px;
 }
 .note-center{ text-align:center; }
@@ -314,12 +322,12 @@
   border:1px solid rgba(255,255,255,.14);
 }
 .trust-title{ font-weight:1000; font-size:13px; margin-bottom:2px; }
-.trust-sub{ color:var(--muted); font-size:13px; line-height:1.4; }
+.trust-sub{ color: var(--la-muted); font-size:13px; line-height:1.4; }
 
 /* ================= SECTIONS ================= */
 .section{ margin-top:18px; }
 .section-head h2{ margin:0 0 6px; }
-.section-sub{ margin:0; color:var(--muted); }
+.section-sub{ margin:0; color: var(--la-muted); }
 
 /* ================= STEPS GRID ================= */
 .grid4{ display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; }
@@ -350,7 +358,7 @@
 }
 .box > *{ position:relative; z-index:1; }
 .box h3{ margin:0 0 6px; font-size:13px; }
-.box p{ margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
+.box p{ margin:0; color: var(--la-muted); font-size:13px; line-height:1.45; }
 
 .step-top{
   display:flex;
@@ -510,7 +518,7 @@
 .el.sign-earth{ border-color: rgba(124,255,223,.45); background: rgba(124,255,223,.10); }
 .el.sign-air{ border-color: rgba(215,199,255,.65); background: rgba(215,199,255,.12); }
 
-/* ================= FOOTER (liens séparés) ================= */
+/* ================= FOOTER ================= */
 .footer{
   margin-top:18px;
   padding:16px 12px;
@@ -596,10 +604,6 @@
 /* ================= ACCESSIBILITY ================= */
 @media (prefers-reduced-motion: reduce){
   .hero-card::after,
-  .box::after{
-    animation:none !important;
-  }
-  .hero-free-btn--pulse{
-    animation:none !important;
-  }
+  .box::after{ animation:none !important; }
+  .hero-free-btn--pulse{ animation:none !important; }
 }
