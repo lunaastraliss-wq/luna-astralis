@@ -7,6 +7,19 @@ import { useSearchParams } from "next/navigation";
 
 type MsgType = "ok" | "err" | "info";
 
+function safeNext(v: string | null) {
+  const s = (v || "").trim();
+  const fallback = "/chat?signe=belier";
+
+  if (!s) return fallback;
+
+  // block external/open-redirect
+  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+
+  // force absolute internal path
+  return s.startsWith("/") ? s : `/${s}`;
+}
+
 export default function PricingPage() {
   const sp = useSearchParams();
 
@@ -15,21 +28,21 @@ export default function PricingPage() {
 
   const y = useMemo(() => new Date().getFullYear(), []);
 
-  function safeNext(next: string | null) {
-    const s = (next || "").trim();
-    if (!s) return "chat?signe=belier";
-    if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat?signe=belier";
-    return s.replace(/^\//, "");
-  }
-
-  const next = useMemo(() => safeNext(sp.get("next")), [sp]);
-  const nextEnc = useMemo(() => encodeURIComponent(next), [next]);
+  const nextRaw = sp.get("next");
+  const nextUrl = useMemo(() => safeNext(nextRaw), [nextRaw]);
+  const nextEnc = useMemo(() => encodeURIComponent(nextUrl), [nextUrl]);
 
   useEffect(() => {
     const canceled = sp.get("canceled");
     const paid = sp.get("paid");
-    if (canceled === "1") setMsg({ text: "Paiement annulé. Tu peux réessayer quand tu veux.", type: "info" });
-    if (paid === "1") setMsg({ text: "Paiement reçu. Merci ✨ Tu peux retourner au chat.", type: "ok" });
+
+    if (canceled === "1") {
+      setMsg({ text: "Paiement annulé. Tu peux réessayer quand tu veux.", type: "info" });
+    } else if (paid === "1") {
+      setMsg({ text: "Paiement reçu. Merci ✨ Tu peux retourner au chat.", type: "ok" });
+    } else {
+      setMsg(null);
+    }
   }, [sp]);
 
   async function startCheckout(plan: string) {
@@ -40,10 +53,11 @@ export default function PricingPage() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, next }),
+        body: JSON.stringify({ plan, next: nextUrl }),
       });
 
       const data = (await res.json().catch(() => ({}))) as any;
+
       if (!res.ok) throw new Error(data?.error || "Erreur checkout.");
       if (!data?.url) throw new Error("URL Stripe manquante.");
 
@@ -59,7 +73,6 @@ export default function PricingPage() {
 
   return (
     <div className="pricing-body">
-      {/* HEADER */}
       <header className="top" role="banner">
         <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
           <div className="logo" aria-hidden="true">
@@ -74,7 +87,7 @@ export default function PricingPage() {
 
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
-          <Link className="active" href="/pricing">
+          <Link className="active" href={`/pricing?next=${nextEnc}`}>
             Tarifs
           </Link>
           <Link className="btn btn-small btn-ghost" href={`/login?next=${nextEnc}`}>
@@ -86,9 +99,7 @@ export default function PricingPage() {
         </nav>
       </header>
 
-      {/* MAIN */}
       <main className="wrap" role="main">
-        {/* HERO */}
         <section className="pricing-hero" aria-label="Présentation des tarifs">
           <div className="pricing-hero-inner">
             <div className="pricing-kicker">Accès 24h/7</div>
@@ -105,19 +116,14 @@ export default function PricingPage() {
               <span className="chip">Annule ou change en tout temps</span>
             </div>
 
-            <div
-              id="msg"
-              role="status"
-              aria-live="polite"
-              className={`pricing-msg ${msgClass}`}
-              style={{ display: msg ? "block" : "none" }}
-            >
-              {msg?.text}
-            </div>
+            {msg ? (
+              <div role="status" aria-live="polite" className={`pricing-msg ${msgClass}`}>
+                {msg.text}
+              </div>
+            ) : null}
           </div>
         </section>
 
-        {/* Confiance */}
         <section className="section" aria-label="Confiance">
           <div className="pricing-trust">
             <div className="trust-line">✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.</div>
@@ -125,10 +131,8 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* GRID */}
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
-            {/* Mensuel — Essentiel */}
             <article className="price-card" aria-label="Mensuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Mensuel — Essentiel</div>
@@ -157,7 +161,6 @@ export default function PricingPage() {
               </button>
             </article>
 
-            {/* Mensuel — Illimité */}
             <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
               <article className="price-card price-featured" aria-label="Mensuel — Illimité">
                 <div className="price-badge">LE PLUS POPULAIRE</div>
@@ -190,7 +193,6 @@ export default function PricingPage() {
               </article>
             </div>
 
-            {/* Annuel — Essentiel */}
             <article className="price-card" aria-label="Annuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Annuel — Essentiel</div>
@@ -224,7 +226,6 @@ export default function PricingPage() {
               </button>
             </article>
 
-            {/* Annuel — Illimité */}
             <article className="price-card premium" aria-label="Annuel — Illimité">
               <div className="price-badge premium">MEILLEURE VALEUR</div>
 
@@ -262,14 +263,12 @@ export default function PricingPage() {
           </div>
         </section>
 
-        {/* FOOTER */}
         <footer className="footer" role="contentinfo">
           <div>© {y} Luna Astralis</div>
           <div className="footer-note">Prix en USD • Accès 24h/7</div>
         </footer>
       </main>
 
-      {/* Styles spécifiques (reprend ton <style> inline) */}
       <style jsx>{`
         .pricing-msg {
           margin: 14px 0 0;
@@ -279,7 +278,6 @@ export default function PricingPage() {
           background: rgba(255, 255, 255, 0.06);
           color: rgba(255, 255, 255, 0.92);
           line-height: 1.35;
-          display: none;
         }
         .pricing-msg.is-ok {
           background: rgba(120, 255, 190, 0.1);
