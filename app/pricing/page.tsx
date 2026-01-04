@@ -1,304 +1,303 @@
-<!doctype html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Luna Astralis — Tarifs</title>
+// app/pricing/page.tsx
+"use client";
 
-    <meta
-      name="description"
-      content="Tarifs Luna Astralis — Astro & psycho. Accès 24h/7. Prix en dollars US."
-    />
+import React, { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/pricing.css" />
+type MsgType = "ok" | "err" | "info";
 
-    <style>
-      .pricing-msg{
-        margin: 14px 0 0;
-        padding: 12px 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(255,255,255,.14);
-        background: rgba(255,255,255,.06);
-        color: rgba(255,255,255,.92);
-        line-height: 1.35;
-        display:none;
-      }
-      .pricing-msg.is-ok{ background: rgba(120,255,190,.10); border-color: rgba(120,255,190,.22); }
-      .pricing-msg.is-err{ background: rgba(255,90,90,.10); border-color: rgba(255,90,90,.22); }
-      .pricing-msg.is-info{ background: rgba(159,211,255,.10); border-color: rgba(159,211,255,.22); }
+export default function PricingPage() {
+  const sp = useSearchParams();
 
-      .price-cta[aria-busy="true"]{ opacity:.75; pointer-events:none; }
-    </style>
-  </head>
+  const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
+  const [busyPlan, setBusyPlan] = useState<string | null>(null);
 
-  <body class="pricing-body">
-    <!-- HEADER -->
-    <header class="top" role="banner">
-      <a class="brand" href="./index.html" aria-label="Accueil Luna Astralis">
-        <div class="logo" aria-hidden="true">
-          <img src="./logo-luna-astralis-transparent.png" alt="" />
-        </div>
+  const y = useMemo(() => new Date().getFullYear(), []);
 
-        <div class="brand-text">
-          <div class="brand-name">LUNA ASTRALIS</div>
-          <div class="brand-sub">Astro & psycho</div>
-        </div>
-      </a>
+  function safeNext(next: string | null) {
+    const s = (next || "").trim();
+    if (!s) return "chat?signe=belier";
+    if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat?signe=belier";
+    return s.replace(/^\//, "");
+  }
 
-      <nav class="nav" aria-label="Navigation principale">
-        <a href="./index.html">Accueil</a>
-        <a class="active" href="./pricing.html">Tarifs</a>
-        <a class="btn btn-small btn-ghost" id="loginLink" href="./login.html">Connexion</a>
-        <a class="btn btn-small" id="signupLink" href="./signup.html">Créer un compte</a>
-      </nav>
-    </header>
+  const next = useMemo(() => safeNext(sp.get("next")), [sp]);
+  const nextEnc = useMemo(() => encodeURIComponent(next), [next]);
 
-    <!-- MAIN -->
-    <main class="wrap" role="main">
-      <!-- HERO -->
-      <section class="pricing-hero" aria-label="Présentation des tarifs">
-        <div class="pricing-hero-inner">
-          <div class="pricing-kicker">Accès 24h/7</div>
-          <div class="pricing-kicker pricing-kicker-alt">TARIFS</div>
+  useEffect(() => {
+    const canceled = sp.get("canceled");
+    const paid = sp.get("paid");
+    if (canceled === "1") setMsg({ text: "Paiement annulé. Tu peux réessayer quand tu veux.", type: "info" });
+    if (paid === "1") setMsg({ text: "Paiement reçu. Merci ✨ Tu peux retourner au chat.", type: "ok" });
+  }, [sp]);
 
-          <h1 class="pricing-title">Choisis le forfait qui te convient</h1>
+  async function startCheckout(plan: string) {
+    try {
+      setBusyPlan(plan);
+      setMsg({ text: "Ouverture de Stripe…", type: "info" });
 
-          <p class="pricing-subtitle">
-            Tu peux payer tout de suite (même en invité). Si tu crées un compte, tu gardes ton historique.
-          </p>
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, next }),
+      });
 
-          <div class="pricing-chips" aria-label="Informations">
-            <span class="chip">Prix en dollars US (USD)</span>
-            <span class="chip">Annule ou change en tout temps</span>
+      const data = (await res.json().catch(() => ({}))) as any;
+      if (!res.ok) throw new Error(data?.error || "Erreur checkout.");
+      if (!data?.url) throw new Error("URL Stripe manquante.");
+
+      window.location.href = data.url;
+    } catch (err: any) {
+      setBusyPlan(null);
+      setMsg({ text: "Erreur: " + (err?.message || String(err)), type: "err" });
+    }
+  }
+
+  const msgClass =
+    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
+
+  return (
+    <div className="pricing-body">
+      {/* HEADER */}
+      <header className="top" role="banner">
+        <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
+          <div className="logo" aria-hidden="true">
+            <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
 
-          <div class="pricing-msg" id="msg" role="status" aria-live="polite"></div>
-        </div>
-      </section>
-
-      <!-- Confiance -->
-      <section class="section" aria-label="Confiance">
-        <div class="pricing-trust">
-          <div class="trust-line">
-            ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
+          <div className="brand-text">
+            <div className="brand-name">LUNA ASTRALIS</div>
+            <div className="brand-sub">Astro & psycho</div>
           </div>
-          <div class="trust-sub">
-            Paiement sécurisé • Annulation en tout temps • Aucun frais caché
-          </div>
-        </div>
-      </section>
+        </Link>
 
-      <!-- GRID -->
-      <section class="section" aria-label="Formules">
-        <div class="pricing-grid">
-          <!-- Mensuel — Essentiel -->
-          <article class="price-card" aria-label="Mensuel — Essentiel">
-            <div class="price-head">
-              <div class="price-name">Mensuel — Essentiel</div>
-              <div class="price-value">
-                <span class="price-now">4,99&nbsp;$</span>
-                <span class="price-period">/ mois</span>
-              </div>
-              <div class="price-mini">Accès 24h/7</div>
+        <nav className="nav" aria-label="Navigation principale">
+          <Link href="/">Accueil</Link>
+          <Link className="active" href="/pricing">
+            Tarifs
+          </Link>
+          <Link className="btn btn-small btn-ghost" href={`/login?next=${nextEnc}`}>
+            Connexion
+          </Link>
+          <Link className="btn btn-small" href={`/signup?next=${nextEnc}`}>
+            Créer un compte
+          </Link>
+        </nav>
+      </header>
+
+      {/* MAIN */}
+      <main className="wrap" role="main">
+        {/* HERO */}
+        <section className="pricing-hero" aria-label="Présentation des tarifs">
+          <div className="pricing-hero-inner">
+            <div className="pricing-kicker">Accès 24h/7</div>
+            <div className="pricing-kicker pricing-kicker-alt">TARIFS</div>
+
+            <h1 className="pricing-title">Choisis le forfait qui te convient</h1>
+
+            <p className="pricing-subtitle">
+              Tu peux payer tout de suite (même en invité). Si tu crées un compte, tu gardes ton historique.
+            </p>
+
+            <div className="pricing-chips" aria-label="Informations">
+              <span className="chip">Prix en dollars US (USD)</span>
+              <span className="chip">Annule ou change en tout temps</span>
             </div>
 
-            <ul class="price-features">
-              <li>100 messages / mois</li>
-              <li>Tous les signes astrologiques</li>
-              <li>Astro & psycho</li>
-              <li>Compatible mobile</li>
-            </ul>
+            <div
+              id="msg"
+              role="status"
+              aria-live="polite"
+              className={`pricing-msg ${msgClass}`}
+              style={{ display: msg ? "block" : "none" }}
+            >
+              {msg?.text}
+            </div>
+          </div>
+        </section>
 
-            <button class="price-cta" data-plan="monthly_essential" type="button">
-              Commencer
-            </button>
-          </article>
+        {/* Confiance */}
+        <section className="section" aria-label="Confiance">
+          <div className="pricing-trust">
+            <div className="trust-line">✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.</div>
+            <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
+          </div>
+        </section>
 
-          <!-- Mensuel — Illimité -->
-          <div class="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
-            <article class="price-card price-featured" aria-label="Mensuel — Illimité">
-              <div class="price-badge">LE PLUS POPULAIRE</div>
-
-              <div class="price-head">
-                <div class="price-name">Mensuel — Illimité</div>
-                <div class="price-value">
-                  <span class="price-now">9,99&nbsp;$</span>
-                  <span class="price-period">/ mois</span>
+        {/* GRID */}
+        <section className="section" aria-label="Formules">
+          <div className="pricing-grid">
+            {/* Mensuel — Essentiel */}
+            <article className="price-card" aria-label="Mensuel — Essentiel">
+              <div className="price-head">
+                <div className="price-name">Mensuel — Essentiel</div>
+                <div className="price-value">
+                  <span className="price-now">4,99&nbsp;$</span>
+                  <span className="price-period">/ mois</span>
                 </div>
-                <div class="price-mini">Accès 24h/7</div>
+                <div className="price-mini">Accès 24h/7</div>
               </div>
 
-              <ul class="price-features">
-                <li>Messages illimités</li>
+              <ul className="price-features">
+                <li>100 messages / mois</li>
                 <li>Tous les signes astrologiques</li>
-                <li>Historique des conversations</li>
-                <li>Exploration approfondie</li>
+                <li>Astro & psycho</li>
+                <li>Compatible mobile</li>
               </ul>
 
-              <button class="price-cta btn-primary" data-plan="monthly_unlimited" type="button">
-                Accès illimité 24h/7
+              <button
+                className="price-cta"
+                aria-busy={busyPlan === "monthly_essential"}
+                type="button"
+                onClick={() => startCheckout("monthly_essential")}
+                disabled={!!busyPlan}
+              >
+                {busyPlan === "monthly_essential" ? "Redirection…" : "Commencer"}
+              </button>
+            </article>
+
+            {/* Mensuel — Illimité */}
+            <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
+              <article className="price-card price-featured" aria-label="Mensuel — Illimité">
+                <div className="price-badge">LE PLUS POPULAIRE</div>
+
+                <div className="price-head">
+                  <div className="price-name">Mensuel — Illimité</div>
+                  <div className="price-value">
+                    <span className="price-now">9,99&nbsp;$</span>
+                    <span className="price-period">/ mois</span>
+                  </div>
+                  <div className="price-mini">Accès 24h/7</div>
+                </div>
+
+                <ul className="price-features">
+                  <li>Messages illimités</li>
+                  <li>Tous les signes astrologiques</li>
+                  <li>Historique des conversations</li>
+                  <li>Exploration approfondie</li>
+                </ul>
+
+                <button
+                  className="price-cta btn-primary"
+                  aria-busy={busyPlan === "monthly_unlimited"}
+                  type="button"
+                  onClick={() => startCheckout("monthly_unlimited")}
+                  disabled={!!busyPlan}
+                >
+                  {busyPlan === "monthly_unlimited" ? "Redirection…" : "Accès illimité 24h/7"}
+                </button>
+              </article>
+            </div>
+
+            {/* Annuel — Essentiel */}
+            <article className="price-card" aria-label="Annuel — Essentiel">
+              <div className="price-head">
+                <div className="price-name">Annuel — Essentiel</div>
+                <div className="price-value">
+                  <span className="price-was">
+                    <s>59,99&nbsp;$</s>
+                  </span>
+                  <span className="price-now">49,99&nbsp;$</span>
+                  <span className="price-period">/ an</span>
+                </div>
+                <div className="price-mini">
+                  Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
+                </div>
+              </div>
+
+              <ul className="price-features">
+                <li>100 messages / mois</li>
+                <li>Tous les signes astrologiques</li>
+                <li>Astro & psycho</li>
+                <li>Le plus économique</li>
+              </ul>
+
+              <button
+                className="price-cta"
+                aria-busy={busyPlan === "yearly_essential"}
+                type="button"
+                onClick={() => startCheckout("yearly_essential")}
+                disabled={!!busyPlan}
+              >
+                {busyPlan === "yearly_essential" ? "Redirection…" : "Choisir l’annuel"}
+              </button>
+            </article>
+
+            {/* Annuel — Illimité */}
+            <article className="price-card premium" aria-label="Annuel — Illimité">
+              <div className="price-badge premium">MEILLEURE VALEUR</div>
+
+              <div className="price-head">
+                <div className="price-name">Annuel — Illimité</div>
+                <div className="price-value">
+                  <span className="price-was">
+                    <s>119,99&nbsp;$</s>
+                  </span>
+                  <span className="price-now">99,99&nbsp;$</span>
+                  <span className="price-period">/ an</span>
+                </div>
+                <div className="price-mini">
+                  Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
+                </div>
+              </div>
+
+              <ul className="price-features">
+                <li>Messages illimités</li>
+                <li>Tous les signes astrologiques</li>
+                <li>Accès prioritaire</li>
+                <li>Futur : Tarot, Lune, Ascendant</li>
+              </ul>
+
+              <button
+                className="price-cta btn-primary"
+                aria-busy={busyPlan === "yearly_unlimited"}
+                type="button"
+                onClick={() => startCheckout("yearly_unlimited")}
+                disabled={!!busyPlan}
+              >
+                {busyPlan === "yearly_unlimited" ? "Redirection…" : "Accès illimité annuel"}
               </button>
             </article>
           </div>
+        </section>
 
-          <!-- Annuel — Essentiel -->
-          <article class="price-card" aria-label="Annuel — Essentiel">
-            <div class="price-head">
-              <div class="price-name">Annuel — Essentiel</div>
-              <div class="price-value">
-                <span class="price-was"><s>59,99&nbsp;$</s></span>
-                <span class="price-now">49,99&nbsp;$</span>
-                <span class="price-period">/ an</span>
-              </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
-              </div>
-            </div>
+        {/* FOOTER */}
+        <footer className="footer" role="contentinfo">
+          <div>© {y} Luna Astralis</div>
+          <div className="footer-note">Prix en USD • Accès 24h/7</div>
+        </footer>
+      </main>
 
-            <ul class="price-features">
-              <li>100 messages / mois</li>
-              <li>Tous les signes astrologiques</li>
-              <li>Astro & psycho</li>
-              <li>Le plus économique</li>
-            </ul>
-
-            <button class="price-cta" data-plan="yearly_essential" type="button">
-              Choisir l’annuel
-            </button>
-          </article>
-
-          <!-- Annuel — Illimité -->
-          <article class="price-card premium" aria-label="Annuel — Illimité">
-            <div class="price-badge premium">MEILLEURE VALEUR</div>
-
-            <div class="price-head">
-              <div class="price-name">Annuel — Illimité</div>
-              <div class="price-value">
-                <span class="price-was"><s>119,99&nbsp;$</s></span>
-                <span class="price-now">99,99&nbsp;$</span>
-                <span class="price-period">/ an</span>
-              </div>
-              <div class="price-mini">
-                Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
-              </div>
-            </div>
-
-            <ul class="price-features">
-              <li>Messages illimités</li>
-              <li>Tous les signes astrologiques</li>
-              <li>Accès prioritaire</li>
-              <li>Futur : Tarot, Lune, Ascendant</li>
-            </ul>
-
-            <button class="price-cta btn-primary" data-plan="yearly_unlimited" type="button">
-              Accès illimité annuel
-            </button>
-          </article>
-        </div>
-      </section>
-
-      <!-- FOOTER -->
-      <footer class="footer" role="contentinfo">
-        <div>© <span id="y"></span> Luna Astralis</div>
-        <div class="footer-note">Prix en USD • Accès 24h/7</div>
-      </footer>
-    </main>
-
-    <script>
-      document.getElementById("y").textContent = new Date().getFullYear();
-
-      (function () {
-        const msgEl = document.getElementById("msg");
-
-        function showMsg(text, type){
-          if(!msgEl) return;
-          msgEl.style.display = "block";
-          msgEl.textContent = text;
-          msgEl.classList.remove("is-ok","is-err","is-info");
-          msgEl.classList.add(type === "ok" ? "is-ok" : type === "err" ? "is-err" : "is-info");
+      {/* Styles spécifiques (reprend ton <style> inline) */}
+      <style jsx>{`
+        .pricing-msg {
+          margin: 14px 0 0;
+          padding: 12px 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: rgba(255, 255, 255, 0.06);
+          color: rgba(255, 255, 255, 0.92);
+          line-height: 1.35;
+          display: none;
         }
-
-        function currentPageWithQuery(){
-          const p = location.pathname.split("/").pop() || "pricing.html";
-          return p + location.search;
+        .pricing-msg.is-ok {
+          background: rgba(120, 255, 190, 0.1);
+          border-color: rgba(120, 255, 190, 0.22);
         }
-
-        function safeNext(next){
-          if (typeof next !== "string") return "chat.html";
-          const s = next.trim();
-          if(!s) return "chat.html";
-          if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat.html";
-          return s.replace(/^\//, "");
+        .pricing-msg.is-err {
+          background: rgba(255, 90, 90, 0.1);
+          border-color: rgba(255, 90, 90, 0.22);
         }
-
-        function getNextFromQuery(){
-          const q = new URLSearchParams(location.search).get("next");
-          return safeNext(q || "chat.html");
+        .pricing-msg.is-info {
+          background: rgba(159, 211, 255, 0.1);
+          border-color: rgba(159, 211, 255, 0.22);
         }
-
-        // Header links (garde next)
-        const nextEnc = encodeURIComponent(getNextFromQuery());
-        const loginLink = document.getElementById("loginLink");
-        const signupLink = document.getElementById("signupLink");
-        if (loginLink) loginLink.href = "./login.html?next=" + nextEnc;
-        if (signupLink) signupLink.href = "./signup.html?next=" + nextEnc;
-
-        function setBtnBusy(btn, busy, plan){
-          if(!btn) return;
-          if(busy){
-            btn.setAttribute("aria-busy","true");
-            btn.dataset._oldText = btn.textContent || "";
-            btn.textContent = "Redirection…";
-          }else{
-            btn.removeAttribute("aria-busy");
-            const old = btn.dataset._oldText;
-            if(old) btn.textContent = old;
-          }
+        .price-cta[aria-busy="true"] {
+          opacity: 0.75;
+          pointer-events: none;
         }
-
-        // Messages paid/canceled
-        const sp = new URLSearchParams(location.search);
-        if(sp.get("canceled") === "1"){
-          showMsg("Paiement annulé. Tu peux réessayer quand tu veux.", "info");
-        }
-        if(sp.get("paid") === "1"){
-          showMsg("Paiement reçu. Merci ✨ Tu peux retourner au chat.", "ok");
-        }
-
-        async function startCheckout(plan, btn){
-          try{
-            setBtnBusy(btn, true, plan);
-            showMsg("Ouverture de Stripe…", "info");
-
-            // next = page à ouvrir après paiement (si tu veux revenir au chat, passe ?next=chat.html?signe=belier)
-            const next = getNextFromQuery();
-
-            const res = await fetch("/api/checkout", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ plan, next })
-            });
-
-            const data = await res.json().catch(() => ({}));
-            if(!res.ok) throw new Error(data?.error || "Erreur checkout.");
-            if(!data?.url) throw new Error("URL Stripe manquante.");
-
-            window.location.href = data.url;
-          }catch(err){
-            setBtnBusy(btn, false, plan);
-            showMsg("Erreur: " + (err?.message || String(err)), "err");
-          }
-        }
-
-        document.querySelectorAll("button.price-cta[data-plan]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const plan = btn.getAttribute("data-plan");
-            if(!plan) return;
-            startCheckout(plan, btn);
-          });
-        });
-      })();
-    </script>
-  </body>
-</html>
+      `}</style>
+    </div>
+  );
+}
