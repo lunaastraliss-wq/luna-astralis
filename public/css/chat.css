@@ -90,6 +90,21 @@ body.chat-body{
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
 }
 
+/* (optionnel) Upgrade / Logout si présents */
+.chat-upgrade,
+.chat-logout{
+  text-decoration:none;
+  font-weight:1000;
+  font-size:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  color: rgba(255,255,255,.90);
+  background: rgba(0,0,0,.20);
+  border:1px solid rgba(255,255,255,.14);
+}
+.chat-upgrade:hover,
+.chat-logout:hover{ filter: brightness(1.06); }
+
 /* =========================
    LAYOUT (FIXE)
 ========================= */
@@ -148,11 +163,11 @@ body.chat-body{
   mix-blend-mode: screen;
 }
 
-/* ✅ tout le contenu de sidebar doit rester au-dessus de l’overlay étoiles */
+/* ✅ contenu au-dessus de l’overlay étoiles */
 .chat-side > *{ position:relative; z-index:1; }
 
 /* ✅ zone scrollable dans sidebar
-   IMPORTANT: il faut wrapper le contenu dans <div class="chat-side-content"> ... </div>
+   IMPORTANT: wrapper le contenu dans <div class="chat-side-content"> ... </div>
 */
 .chat-side-content{
   padding:14px;
@@ -163,7 +178,7 @@ body.chat-body{
 }
 
 /* ✅ compteur collé en bas (toujours visible)
-   IMPORTANT: ton compteur doit être le dernier élément, ex: <div id="freeCounter">...</div>
+   IMPORTANT: ton compteur doit être le dernier élément dans .chat-side
 */
 #freeCounter{
   flex: 0 0 auto;
@@ -222,6 +237,22 @@ body.chat-body{
   font-size:13px;
   line-height:1.5;
 }
+
+.ai-book{ margin-top: 10px; }
+.ai-book-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  text-decoration:none;
+  font-weight:1000;
+  font-size:12px;
+  padding:10px 12px;
+  border-radius: 14px;
+  color: rgba(255,255,255,.92);
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.20);
+}
+.ai-book-link:hover{ filter: brightness(1.06); }
 
 .ai-disclaimer{
   margin-top:12px;
@@ -314,6 +345,7 @@ body.chat-body{
   object-fit:cover;
 }
 
+/* Hero off (tu gères le mobile via html inline si besoin) */
 .chat-hero{ display:none; }
 
 /* =========================
@@ -457,6 +489,11 @@ body.chat-body{
 }
 
 /* =========================
+   UTIL: input disabled (JS toggles)
+========================= */
+.input-disabled{ opacity:.6; pointer-events:none; }
+
+/* =========================
    RESPONSIVE
 ========================= */
 @media (max-width: 980px){
@@ -497,6 +534,10 @@ body.chat-body{
   cursor:pointer;
 }
 .chat-history-btn:hover{ filter: brightness(1.06); }
+.chat-history-btn:focus-visible{
+  outline:0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
+}
 
 /* =========================
    OVERLAY HISTORIQUE (PRO)
@@ -554,6 +595,10 @@ body.chat-body{
   font-size: 12px;
 }
 .history-close:hover{ background: rgba(255,255,255,.10); }
+.history-close:focus-visible{
+  outline:0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
+}
 
 .history-body{
   padding: 14px;
