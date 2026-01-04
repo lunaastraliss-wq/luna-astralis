@@ -1,460 +1,679 @@
-// /api/chat.js
-import OpenAI from "openai";
-import { createClient } from "@supabase/supabase-js";
-import crypto from "crypto";
+// app/chat/page.tsx
+"use client";
 
-/*
-  Luna Astralis — API Chat (FR)
-  ✅ La vraie règle est côté API (pas contournable par le front)
-  - Guest (pas de session): FREE_LIMIT via public.guest_usage
-  - Auth (session trouvée): PREMIUM obligatoire => sinon PREMIUM_REQUIRED
-  - Réponse guest ultra courte (2 phrases + 1 question, 240 chars)
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
 
-  ✅ BUG FIX IMPORTANT (compteur 15):
-  - On NE consomme PAS 1 message guest tant que OpenAI n'a pas répondu OK.
-  - Donc si OpenAI/serveur plante, le "used" ne monte pas.
-*/
+type ThreadMsg = { role: "user" | "ai"; text: string };
 
-const FREE_LIMIT = 15;
+const FREE_LIMIT = 15; // UI seulement (la vraie règle = côté API)
+const STORAGE_PREFIX = "la_chat_";
+const MAX_VISIBLE = 14;
+const CONTEXT_HISTORY = 8;
 
-// OpenAI
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const SIGNS: Record<string, string> = {
+  belier: "Bélier ♈",
+  taureau: "Taureau ♉",
+  gemeaux: "Gémeaux ♊",
+  cancer: "Cancer ♋",
+  lion: "Lion ♌",
+  vierge: "Vierge ♍",
+  balance: "Balance ♎",
+  scorpion: "Scorpion ♏",
+  sagittaire: "Sagittaire ♐",
+  capricorne: "Capricorne ♑",
+  verseau: "Verseau ♒",
+  poissons: "Poissons ♓",
+};
 
-// Supabase (service role, server-only)
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
-  { auth: { persistSession: false } }
-);
+const SIGN_DESC: Record<string, string> = {
+  belier:
+    "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
+  taureau:
+    "Besoin de stabilité et de concret. On explore l’attachement, le plaisir, la sécurité intérieure, et comment lâcher sans perdre ton ancrage.",
+  gemeaux:
+    "Mental rapide et curiosité. On explore tes pensées en boucle, ta dualité, et comment clarifier ce que tu ressens derrière ce que tu analyses.",
+  cancer:
+    "Hyper-sensibilité et protection. On explore tes besoins affectifs, tes limites, et comment te sentir en sécurité sans tout porter seul·e.",
+  lion:
+    "Rayonnement et fierté du cœur. On explore l’estime de soi, la reconnaissance, et comment briller sans te suradapter au regard des autres.",
+  vierge:
+    "Lucidité et exigence. On explore le contrôle, la charge mentale, et comment trouver du calme quand tu veux que tout soit “bien fait”.",
+  balance:
+    "Équilibre et relation. On explore la peur du conflit, le besoin d’harmonie, et comment dire “non” sans culpabilité.",
+  scorpion:
+    "Intensité et transformation. On explore la confiance, la jalousie/la peur de perdre, et comment traverser une émotion sans te fermer.",
+  sagittaire:
+    "Sens et liberté. On explore l’ennui, l’envie d’ailleurs, et comment rester aligné·e quand tu te sens coincé·e ou limité·e.",
+  capricorne:
+    "Structure et responsabilité. On explore la pression, la performance, et comment te reposer sans te sentir “inutile”.",
+  verseau:
+    "Indépendance et vision. On explore la distance émotionnelle, ton besoin d’espace, et comment te connecter sans te sentir envahi·e.",
+  poissons:
+    "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
+};
 
-/* =========================
-   Utils
-========================= */
-function clean(v) {
-  return (v == null ? "" : String(v)).trim();
+const SIGN_BOOKS: Record<string, string> = {
+  belier: "https://a.co/d/ipv7KsG",
+  taureau: "https://a.co/d/cNzESwI",
+  gemeaux: "https://a.co/d/5rzhkCv",
+  cancer: "https://a.co/d/9T3gj30",
+  lion: "https://a.co/d/eQ0Fa2u",
+  vierge: "https://a.co/d/7mMxP9f",
+  balance: "https://a.co/d/i93cts5",
+  scorpion: "https://a.co/d/0HQBCE8",
+  sagittaire: "https://a.co/d/iOLDHqS",
+  capricorne: "https://a.co/d/4JuWLu1",
+  verseau: "https://a.co/d/de3Ukra",
+  poissons: "https://a.co/d/hIM81yC",
+};
+
+function norm(s: string) {
+  return (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z]/g, "");
 }
 
-function safeJson(body) {
-  if (body == null) return {};
-  if (typeof body === "object") return body;
-  if (typeof body === "string") {
+export default function ChatPage() {
+  const sp = useSearchParams();
+  const rawKey = sp.get("signe") || sp.get("sign") || "belier";
+
+  const signKey = useMemo(() => norm(rawKey) || "belier", [rawKey]);
+  const signName = SIGNS[signKey] || "—";
+  const signDesc =
+    SIGN_DESC[signKey] ||
+    "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+  const bookUrl = SIGN_BOOKS[signKey] || "";
+
+  const messagesRef = useRef<HTMLDivElement | null>(null);
+
+  const [sessionEmail, setSessionEmail] = useState<string>("");
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+
+  const [thread, setThread] = useState<ThreadMsg[]>([]);
+  const [input, setInput] = useState<string>("");
+
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
+
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [uiUsed, setUiUsed] = useState<number>(0);
+
+  const KEY_THREAD = useMemo(() => STORAGE_PREFIX + "thread_" + signKey, [signKey]);
+  const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
+  const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
+
+  function currentPathWithQuery() {
+    // En App Router, on est sur /chat
+    return "chat" + (typeof window !== "undefined" ? window.location.search : "");
+  }
+
+  function getGuestId() {
     try {
-      return JSON.parse(body);
+      const existing = localStorage.getItem(KEY_GUEST_ID);
+      if (existing) return existing;
+
+      const id =
+        (window.crypto && "randomUUID" in crypto && crypto.randomUUID()) ||
+        "guest_" + Math.random().toString(36).slice(2) + Date.now();
+      localStorage.setItem(KEY_GUEST_ID, id);
+      return id;
     } catch {
-      return {};
+      return "guest_" + Math.random().toString(36).slice(2) + Date.now();
     }
   }
-  return {};
-}
 
-function getOutputText(response) {
-  const t = response?.output_text;
-  if (typeof t === "string" && t.trim()) return t.trim();
-  const fallback = response?.output?.[0]?.content?.[0]?.text;
-  return typeof fallback === "string" ? fallback.trim() : "";
-}
+  function loadThread(): ThreadMsg[] {
+    try {
+      const raw = localStorage.getItem(KEY_THREAD);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? (arr as ThreadMsg[]) : [];
+    } catch {
+      return [];
+    }
+  }
 
-function sha256(s) {
-  return crypto.createHash("sha256").update(String(s)).digest("hex");
-}
+  function saveThread(arr: ThreadMsg[]) {
+    try {
+      localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
+    } catch {}
+  }
 
-function getClientIp(req) {
-  const xff = clean(req.headers["x-forwarded-for"]);
-  if (xff) return xff.split(",")[0].trim();
-  return clean(req.socket?.remoteAddress) || "";
-}
+  function ensureHello(existing: ThreadMsg[]) {
+    if (existing.length) return existing;
+    const hello = `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+    const t: ThreadMsg[] = [{ role: "ai", text: hello }];
+    saveThread(t);
+    return t;
+  }
 
-function makeIpHash(req) {
-  const ip = getClientIp(req);
-  const ua = clean(req.headers["user-agent"]);
-  return sha256(`${ip}||${ua}`);
-}
+  function getUiUsed() {
+    const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
+    return Number.isFinite(n) ? n : 0;
+  }
 
-function parseCookies(cookieHeader) {
-  const out = {};
-  const raw = clean(cookieHeader);
-  if (!raw) return out;
-  raw.split(";").forEach((pair) => {
-    const idx = pair.indexOf("=");
-    if (idx === -1) return;
-    const k = clean(pair.slice(0, idx));
-    const v = clean(pair.slice(idx + 1));
-    if (!k) return;
-    out[k] = v;
-  });
-  return out;
-}
+  function incUiUsed() {
+    const n = getUiUsed() + 1;
+    try {
+      localStorage.setItem(KEY_UI_USED, String(n));
+    } catch {}
+    setUiUsed(n);
+    return n;
+  }
 
-/* =========================
-   Supabase session (cookie -> access_token)
-   - Supporte Authorization: Bearer <jwt>
-   - Supporte cookies supabase (robuste)
-========================= */
-function tryExtractAccessTokenFromCookies(req) {
-  const cookies = parseCookies(req.headers?.cookie || "");
-  const keys = Object.keys(cookies);
+  function scrollToBottom(force = false) {
+    const el = messagesRef.current;
+    if (!el) return;
+    if (force) {
+      el.scrollTop = el.scrollHeight;
+      return;
+    }
+    const threshold = 140;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    if (nearBottom) el.scrollTop = el.scrollHeight;
+  }
 
-  // 1) cookie moderne: sb-<project-ref>-auth-token
-  const authTokenKey = keys.find((k) => k.startsWith("sb-") && k.endsWith("-auth-token"));
-  if (authTokenKey) {
-    const raw = cookies[authTokenKey];
-    const decoded = (() => {
-      try {
-        return decodeURIComponent(raw);
-      } catch {
-        return raw;
+  function openPaywallGuest() {
+    setPaywallMode("guest");
+    setPaywallOpen(true);
+  }
+  function openPaywallPremiumRequired() {
+    setPaywallMode("premium");
+    setPaywallOpen(true);
+  }
+  function closePaywall() {
+    setPaywallOpen(false);
+  }
+
+  async function getSessionSafe() {
+    if (!supabase) return null;
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) return null;
+      return data?.session || null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function getAccessToken() {
+    const s = await getSessionSafe();
+    return s?.access_token || "";
+  }
+
+  async function askLuna(userText: string, threadForContext: ThreadMsg[]) {
+    const accessToken = await getAccessToken();
+
+    const payload: any = {
+      message: userText,
+      signKey,
+      signName,
+      history: (threadForContext || []).slice(-CONTEXT_HISTORY),
+      guestId: accessToken ? undefined : getGuestId(),
+    };
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (accessToken) headers["Authorization"] = "Bearer " + accessToken;
+
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      if (data?.error === "FREE_LIMIT_REACHED") {
+        openPaywallGuest();
+        throw new Error("FREE_LIMIT_REACHED");
       }
+      if (data?.error === "PREMIUM_REQUIRED") {
+        openPaywallPremiumRequired();
+        throw new Error("PREMIUM_REQUIRED");
+      }
+      throw new Error(data?.error || "Erreur serveur (/api/chat).");
+    }
+
+    if (!data?.reply) throw new Error("Réponse vide.");
+    return String(data.reply);
+  }
+
+  // Boot
+  useEffect(() => {
+    // UI used
+    setUiUsed(getUiUsed());
+
+    // Thread
+    const t = ensureHello(loadThread());
+    setThread(t);
+
+    // Auth
+    (async () => {
+      const s1 = await getSessionSafe();
+      if (!s1) {
+        await new Promise((r) => setTimeout(r, 250));
+      }
+      const s2 = (await getSessionSafe()) || s1;
+
+      const authed = !!s2;
+      setIsAuth(authed);
+      setSessionEmail(s2?.user?.email || "");
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [KEY_THREAD, signName]);
+
+  // Auth changes
+  useEffect(() => {
+    if (!supabase) return;
+    const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      closePaywall();
+      setIsAuth(!!session);
+      setSessionEmail(session?.user?.email || "");
+
+      const t = ensureHello(loadThread());
+      setThread(t);
+    });
+    return () => data.subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [KEY_THREAD, signName]);
+
+  // Auto scroll on thread change
+  useEffect(() => {
+    scrollToBottom(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [thread.length]);
+
+  const freeLeft = Math.max(0, FREE_LIMIT - uiUsed);
+
+  const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
+
+  async function onSend(e: React.FormEvent) {
+    e.preventDefault();
+    const text = (input || "").trim();
+    if (!text) return;
+
+    const s = await getSessionSafe();
+    const authed = !!s;
+    setIsAuth(authed);
+    setSessionEmail(s?.user?.email || "");
+
+    // guest UI gate
+    if (!authed && getUiUsed() >= FREE_LIMIT) {
+      openPaywallGuest();
+      return;
+    }
+
+    const t = loadThread();
+    const t1 = [...t, { role: "user" as const, text }];
+    saveThread(t1);
+    setThread(t1);
+    setInput("");
+
+    if (!authed) incUiUsed();
+
+    // typing placeholder
+    const tTyping = [...t1, { role: "ai" as const, text: "…" }];
+    setThread(tTyping);
 
     try {
-      const obj = JSON.parse(decoded);
-      if (obj?.access_token) return clean(obj.access_token);
-    } catch (_) {
-      if (decoded.split(".").length === 3) return clean(decoded);
-    }
-  }
+      const reply = await askLuna(text, t1);
 
-  // 2) fallback: sb-access-token / *access-token
-  const accessKey = keys.find((k) => k === "sb-access-token" || k.endsWith("access-token"));
-  if (accessKey) {
-    const v = (() => {
-      try {
-        return decodeURIComponent(cookies[accessKey]);
-      } catch {
-        return cookies[accessKey];
+      // replace last typing
+      const t2 = [...t1, { role: "ai" as const, text: reply }];
+      saveThread(t2);
+      setThread(t2);
+    } catch (err: any) {
+      if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+        // leave paywall open; keep the typing bubble removed
+        const t2 = [...t1];
+        setThread(t2);
+        return;
       }
-    })();
-    if (v && v.split(".").length === 3) return clean(v);
+
+      const msg =
+        "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+        (err?.message ? `(${err.message})` : "");
+
+      const t2 = [...t1, { role: "ai" as const, text: msg }];
+      saveThread(t2);
+      setThread(t2);
+    }
   }
 
-  return "";
+  async function onLogout(e: React.MouseEvent) {
+    e.preventDefault();
+    if (!supabase) return;
+    await supabase.auth.signOut();
+    closePaywall();
+    setIsAuth(false);
+    setSessionEmail("");
+    const t = ensureHello(loadThread());
+    setThread(t);
+  }
+
+  function onClearHistoryLocal() {
+    try {
+      localStorage.removeItem(KEY_THREAD);
+    } catch {}
+    const t = ensureHello([]);
+    setThread(t);
+  }
+
+  return (
+    <>
+      {/* Styles “panel fixe / scroll interne” + mobile hero image hide */}
+      <style>{`
+        html, body { height: 100%; }
+        body { height: 100%; overflow: hidden; }
+        .chat-wrap { min-height: 0; }
+
+        .chat-panel{
+          display:flex;
+          flex-direction:column;
+          min-height:0;
+          position:relative;
+        }
+        .chat-messages{
+          flex:1;
+          min-height:0;
+          overflow-y:auto;
+          overscroll-behavior: contain;
+          scroll-behavior: smooth;
+          padding-bottom: 12px;
+        }
+        .chat-inputbar{
+          position: sticky;
+          bottom: 0;
+          z-index: 10;
+          backdrop-filter: blur(6px);
+        }
+
+        @media (max-width: 720px){
+          .chat-hero-img{ display:none !important; }
+          .chat-hero-overlay{ display:none !important; }
+          .chat-hero-inner{
+            min-height:auto !important;
+            padding: 12px 12px 6px !important;
+          }
+          .chat-hero-card{
+            position: relative !important;
+            transform: none !important;
+            margin: 0 !important;
+          }
+          .hero-book{ margin-top: 10px; }
+        }
+      `}</style>
+
+      <header className="chat-top" role="banner">
+        <Link className="chat-brand" href="/" aria-label="Retour à l’accueil">
+          <img
+            className="chat-logo"
+            src="/logo-luna-astralis-transparent.png"
+            alt="Luna Astralis"
+          />
+          <div className="chat-brand-text">
+            <div className="chat-brand-name">LUNA ASTRALIS</div>
+            <div className="chat-brand-sub">Astro & psycho</div>
+          </div>
+        </Link>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <Link className="chat-back" href="/#signes">
+            Changer de signe
+          </Link>
+
+          <span className="mode-pill" title="Mode actuel">
+            <span className={"mode-dot " + (isAuth ? "green" : "")} />
+            <span>{isAuth ? "Connecté" : "Invité"}</span>
+          </span>
+
+          {isAuth ? (
+            <>
+              <Link className="chat-upgrade" href="/pricing">
+                Upgrade
+              </Link>
+              <a className="chat-logout" href="#" onClick={onLogout}>
+                Déconnexion
+              </a>
+            </>
+          ) : (
+            <Link className="chat-upgrade" href="/pricing">
+              Offres
+            </Link>
+          )}
+        </div>
+      </header>
+
+      <main className="chat-wrap" role="main">
+        <aside className="chat-side" aria-label="Profil IA">
+          <div className="ai-face-wrap">
+            <img className="ai-face" src="/ia-luna-astralis.png" alt="Luna (IA)" />
+          </div>
+
+          <div>
+            <div className="ai-name">Luna</div>
+            <div className="ai-tag">Signe : {signName}</div>
+            <div className="ai-desc">{signDesc}</div>
+
+            {!!bookUrl && (
+              <div className="ai-book" style={{ marginTop: 10 }}>
+                <a
+                  className="ai-book-link"
+                  href={bookUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Approfondir ce signe"
+                  title="Approfondir ce signe"
+                >
+                  ✦ Approfondir ce signe
+                </a>
+              </div>
+            )}
+
+            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>
+              {isAuth ? sessionEmail : ""}
+            </div>
+            <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>
+              {!isAuth ? (
+                freeLeft > 0 ? (
+                  <>Gratuit : {freeLeft} message(s) restant(s)</>
+                ) : (
+                  <>Limite gratuite atteinte</>
+                )
+              ) : null}
+            </div>
+          </div>
+
+          <div className="ai-disclaimer">
+            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
+          </div>
+        </aside>
+
+        <section className="chat-panel" aria-label="Discussion">
+          <div className="chat-hero" aria-hidden="true">
+            <div className="chat-hero-inner">
+              <img className="chat-hero-img" src="/ia-luna-astralis.png" alt="" />
+              <div className="chat-hero-overlay" />
+
+              <div className="chat-hero-card">
+                <p className="hero-title">Ton signe : {signName}</p>
+                <p className="hero-desc">{signDesc}</p>
+
+                {!!bookUrl && (
+                  <div className="hero-book" style={{ display: "block" }}>
+                    <a
+                      className="ai-book-link"
+                      href={bookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Approfondir ce signe"
+                      title="Approfondir ce signe"
+                    >
+                      ✦ Approfondir ce signe
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="chat-header">
+            <div className="chat-title">
+              Discussion <span className="chat-pill">{signName}</span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <button
+                className="chat-history-btn"
+                type="button"
+                onClick={() => setHistoryOpen(true)}
+              >
+                Historique
+              </button>
+              <div className="ai-face-mini-wrap" aria-hidden="true">
+                <img className="ai-face-mini" src="/ia-luna-astralis.png" alt="" />
+              </div>
+            </div>
+          </div>
+
+          <div className="chat-messages" id="messages" ref={messagesRef} role="log" aria-live="polite">
+            {tail.map((m, idx) => (
+              <div
+                key={idx}
+                className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
+              >
+                {m.role === "ai" ? (
+                  <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
+                ) : (
+                  <div className="msg-avatar-spacer" />
+                )}
+                <div className="msg-bubble">{m.text}</div>
+              </div>
+            ))}
+          </div>
+
+          <form className="chat-inputbar" onSubmit={onSend} autoComplete="off">
+            <input
+              className="chat-input"
+              placeholder="Écris ton message…"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              autoComplete="off"
+              disabled={paywallOpen || historyOpen}
+            />
+            <button className="chat-send" type="submit" disabled={paywallOpen || historyOpen}>
+              Envoyer
+            </button>
+          </form>
+        </section>
+      </main>
+
+      {/* PAYWALL */}
+      {paywallOpen && (
+        <div className="paywall" style={{ display: "flex" }} onClick={(e) => {
+          if (e.target === e.currentTarget) closePaywall();
+        }}>
+          <div className="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
+            <h3 className="paywall-title">Continuer la discussion</h3>
+
+            {paywallMode === "guest" ? (
+              <>
+                <p className="paywall-desc">
+                  Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.
+                </p>
+                <div className="paywall-actions">
+                  <Link className="btn btn-primary" href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                    Créer un compte / Se connecter
+                  </Link>
+                  <Link className="btn" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                    Voir les offres
+                  </Link>
+                  <button className="btn" type="button" onClick={closePaywall}>
+                    Fermer
+                  </button>
+                </div>
+                <div className="paywall-foot">
+                  Astuce : le compte sert à sauvegarder ton historique. L’accès complet est disponible via une offre.
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="paywall-desc">
+                  Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés. Choisis une offre pour continuer.
+                </p>
+                <div className="paywall-actions">
+                  <Link className="btn btn-primary" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                    Voir les offres
+                  </Link>
+                  <button className="btn" type="button" onClick={closePaywall}>
+                    Fermer
+                  </button>
+                </div>
+                <div className="paywall-foot">
+                  Après paiement, reviens ici : l’accès se débloquera automatiquement.
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* HISTORIQUE */}
+      {historyOpen && (
+        <div className="history" style={{ display: "flex" }} onClick={(e) => {
+          if (e.target === e.currentTarget) setHistoryOpen(false);
+        }}>
+          <div className="history-card" role="dialog" aria-modal="true" aria-label="Historique">
+            <div className="history-top">
+              <div className="history-title">Historique</div>
+              <button className="history-close" type="button" onClick={() => setHistoryOpen(false)}>
+                Fermer
+              </button>
+            </div>
+
+            <div className="history-body">
+              {thread.map((m, idx) => (
+                <div
+                  key={idx}
+                  className={"history-item " + (m.role === "user" ? "user" : "ai")}
+                  style={{ justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}
+                >
+                  {m.role !== "user" ? (
+                    <img className="history-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
+                  ) : (
+                    <div style={{ width: 34, height: 34 }} />
+                  )}
+                  <div className="history-bubble">{m.text}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="history-foot">
+              <button
+                className="btn"
+                type="button"
+                onClick={() => {
+                  const el = document.querySelector(".history-body") as HTMLDivElement | null;
+                  if (el) el.scrollTop = el.scrollHeight;
+                }}
+              >
+                Aller au bas
+              </button>
+              <button className="btn btn-primary" type="button" onClick={onClearHistoryLocal}>
+                Effacer (local)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 }
-
-async function getAuthUserFromRequest(req) {
-  const auth = clean(req.headers?.authorization || "");
-  let token = "";
-
-  if (auth.toLowerCase().startsWith("bearer ")) token = clean(auth.slice(7));
-  if (!token) token = tryExtractAccessTokenFromCookies(req);
-  if (!token) return null;
-
-  try {
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error) return null;
-    return data?.user || null;
-  } catch (_) {
-    return null;
-  }
-}
-
-/* =========================
-   Premium check
-   - profiles.is_premium OU subscriptions.status + current_period_end
-========================= */
-async function isPremiumUser(userId) {
-  if (!userId) return false;
-
-  // Try #1: profiles.is_premium
-  try {
-    const q1 = await supabase
-      .from("profiles")
-      .select("is_premium")
-      .eq("id", userId)
-      .maybeSingle();
-
-    if (!q1.error && q1.data && typeof q1.data.is_premium === "boolean") {
-      return q1.data.is_premium === true;
-    }
-  } catch (_) {}
-
-  // Try #2: subscriptions.status + current_period_end
-  try {
-    const q2 = await supabase
-      .from("subscriptions")
-      .select("status,current_period_end,plan")
-      .eq("user_id", userId)
-      .order("current_period_end", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (!q2.error && q2.data) {
-      const status = clean(q2.data.status).toLowerCase();
-      const cpe = q2.data.current_period_end ? new Date(q2.data.current_period_end) : null;
-      const now = new Date();
-
-      const activeLike = status === "active" || status === "trialing";
-      const notExpired = cpe ? cpe.getTime() > now.getTime() : true;
-
-      if (activeLike && notExpired) return true;
-    }
-  } catch (_) {}
-
-  return false;
-}
-
-/* =========================
-   Guest usage (anti-reset)
-   Table: guest_usage(
-     guest_id text unique,
-     ip_hash  text unique,
-     used     int,
-     updated_at timestamptz
-   )
-========================= */
-async function getOrInitGuestRow({ guestId, ipHash }) {
-  const byIp = await supabase
-    .from("guest_usage")
-    .select("guest_id, ip_hash, used")
-    .eq("ip_hash", ipHash)
-    .maybeSingle();
-
-  if (byIp.error) throw new Error(`Supabase read guest_usage (ip_hash): ${byIp.error.message}`);
-
-  if (byIp.data) {
-    if (guestId && byIp.data.guest_id !== guestId) {
-      await supabase
-        .from("guest_usage")
-        .update({ guest_id: guestId, updated_at: new Date().toISOString() })
-        .eq("ip_hash", ipHash);
-    }
-    return { used: Number(byIp.data.used || 0), guest_id: byIp.data.guest_id || guestId || "" };
-  }
-
-  if (guestId) {
-    const byGuest = await supabase
-      .from("guest_usage")
-      .select("guest_id, ip_hash, used")
-      .eq("guest_id", guestId)
-      .maybeSingle();
-
-    if (byGuest.error) throw new Error(`Supabase read guest_usage (guest_id): ${byGuest.error.message}`);
-
-    if (byGuest.data) {
-      if (!byGuest.data.ip_hash) {
-        await supabase
-          .from("guest_usage")
-          .update({ ip_hash: ipHash, updated_at: new Date().toISOString() })
-          .eq("guest_id", guestId);
-      }
-      return { used: Number(byGuest.data.used || 0), guest_id: byGuest.data.guest_id || guestId };
-    }
-  }
-
-  const newGuestId = guestId || `guest_${ipHash.slice(0, 16)}`;
-
-  const ins = await supabase
-    .from("guest_usage")
-    .insert([
-      {
-        guest_id: newGuestId,
-        ip_hash: ipHash,
-        used: 0,
-        updated_at: new Date().toISOString(),
-      },
-    ]);
-
-  if (ins.error) {
-    const msg = String(ins.error.message || "").toLowerCase();
-    if (msg.includes("duplicate") || msg.includes("unique")) {
-      const reread = await supabase
-        .from("guest_usage")
-        .select("guest_id, used")
-        .eq("ip_hash", ipHash)
-        .maybeSingle();
-      if (reread.error) throw new Error(`Supabase reread guest_usage: ${reread.error.message}`);
-      return { used: Number(reread.data?.used || 0), guest_id: reread.data?.guest_id || newGuestId };
-    }
-    throw new Error(`Supabase insert guest_usage: ${ins.error.message}`);
-  }
-
-  return { used: 0, guest_id: newGuestId };
-}
-
-async function updateGuestUsedByIpHash(ipHash, nextUsed) {
-  const upd = await supabase
-    .from("guest_usage")
-    .update({ used: nextUsed, updated_at: new Date().toISOString() })
-    .eq("ip_hash", ipHash);
-
-  if (upd.error) throw new Error(`Supabase update guest_usage: ${upd.error.message}`);
-}
-
-/* =========================
-   Guest shortener (ULTRA)
-========================= */
-function normalizeSpaces(s) {
-  return clean(s).replace(/\s+/g, " ");
-}
-function splitSentencesFR(text) {
-  const t = normalizeSpaces(text);
-  if (!t) return [];
-  const parts = t.split(/(?<=[.!?])\s+/).map((p) => clean(p)).filter(Boolean);
-  return parts.length ? parts : [t];
-}
-function enforceGuestReply(raw) {
-  let t = normalizeSpaces(raw);
-  if (!t) return "";
-
-  t = t.replace(/•\s*/g, "").replace(/-\s+/g, "");
-
-  let sentences = splitSentencesFR(t).slice(0, 2);
-  t = sentences.join(" ").trim();
-
-  const qCount = (t.match(/\?/g) || []).length;
-  if (qCount > 1) {
-    const lastIdx = t.lastIndexOf("?");
-    const before = t.slice(0, lastIdx).replace(/\?/g, ".");
-    const after = t.slice(lastIdx + 1);
-    t = (before + "?" + after).replace(/\.\s*\./g, ".").trim();
-  }
-
-  if (!t.includes("?")) {
-    if (!/[.!]$/.test(t)) t += ".";
-    t += " Qu’est-ce qui te touche le plus là-dedans ?";
-  } else {
-    const lastQ = t.lastIndexOf("?");
-    const tail = t.slice(lastQ + 1).trim();
-    if (tail.length > 0) t = t.slice(0, lastQ + 1).trim();
-  }
-
-  const MAX_CHARS = 240;
-  if (t.length > MAX_CHARS) {
-    t = t.slice(0, MAX_CHARS).trim().replace(/[.,;:!?]$/g, "") + "…";
-  }
-
-  return t.trim();
-}
-
-/* =========================
-   Handler
-========================= */
-export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-  if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "POST") return res.status(405).json({ error: "Méthode non autorisée" });
-
-  try {
-    // ENV checks
-    if (!process.env.OPENAI_API_KEY) return res.status(500).json({ error: "OPENAI_API_KEY manquante." });
-    if (!process.env.SUPABASE_URL) return res.status(500).json({ error: "SUPABASE_URL manquante." });
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante." });
-
-    const body = safeJson(req.body);
-
-    const message = clean(body.message);
-    const signKey = clean(body.signKey);
-    const signName = clean(body.signName);
-    const history = Array.isArray(body.history) ? body.history : [];
-    const guestId = clean(body.guestId); // seulement si pas connecté
-
-    if (!message) return res.status(400).json({ error: "Message vide." });
-
-    // ✅ 1) Déterminer AUTH via session (cookies/Authorization)
-    const user = await getAuthUserFromRequest(req);
-    const isAuth = !!user;
-
-    // ✅ 2) ENFORCEMENT (pré-check) — mais on NE consomme pas tout de suite
-    const ipHash = makeIpHash(req);
-
-    let guestUsedBefore = null;
-
-    if (!isAuth) {
-      const row = await getOrInitGuestRow({ guestId, ipHash });
-      const used = Number(row.used || 0);
-      guestUsedBefore = used;
-
-      if (used >= FREE_LIMIT) {
-        return res.status(403).json({ error: "FREE_LIMIT_REACHED", limit: FREE_LIMIT, used });
-      }
-      // ❗ IMPORTANT: on n'update PAS ici (bugfix)
-    } else {
-      const premium = await isPremiumUser(user.id);
-      if (!premium) {
-        return res.status(403).json({ error: "PREMIUM_REQUIRED" });
-      }
-    }
-
-    // ✅ 3) Instructions
-    const signLabel = signName || signKey || "non précisé";
-
-    const baseStyle = `
-Tu es Luna Astralis.
-Astrologie = lecture symbolique, jamais une fatalité.
-Psychologie douce (non thérapeutique). Aucun diagnostic.
-Réponds uniquement en français.
-Ton: doux, calme, clair.
-`.trim();
-
-    const guestRules = `
-MODE INVITÉ:
-- Réponds en 1 à 2 phrases maximum, puis 1 question finale.
-- Pas de listes, pas d’analyse complète.
-`.trim();
-
-    const authRules = `
-MODE PREMIUM:
-- Tu peux approfondir, nuancer, et donner des pistes concrètes.
-`.trim();
-
-    const safety = `
-Si détresse grave (suicide / automutilation), encourage à contacter une aide immédiate.
-`.trim();
-
-    const instructions = `
-${baseStyle}
-Signe actuel : ${signLabel}
-${isAuth ? authRules : guestRules}
-${safety}
-`.trim();
-
-    // ✅ 4) Historique réduit
-    const recentHistory = history
-      .slice(-4)
-      .map((m) => ({
-        role: m.role === "ai" ? "assistant" : "user",
-        content: clean(m.text),
-      }))
-      .filter((m) => m.content);
-
-    const input = [...recentHistory, { role: "user", content: message }];
-
-    // ✅ 5) OpenAI
-    const maxTokens = isAuth ? 420 : 90;
-
-    const response = await openai.responses.create({
-      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
-      instructions,
-      input,
-      max_output_tokens: maxTokens,
-    });
-
-    let reply = getOutputText(response);
-    reply = isAuth ? clean(reply) : enforceGuestReply(reply);
-
-    if (!reply) {
-      reply = isAuth
-        ? "Je t’écoute. Dis-moi ce que tu vis, et ce que tu veux comprendre."
-        : "Je t’écoute. Qu’est-ce qui te touche le plus en ce moment ?";
-    }
-
-    // ✅ 6) Consommer 1 message guest SEULEMENT après succès OpenAI
-    if (!isAuth) {
-      const used = Number(guestUsedBefore ?? 0);
-      await updateGuestUsedByIpHash(ipHash, used + 1);
-    }
-
-    return res.status(200).json({ reply });
-  } catch (err) {
-    return res.status(500).json({
-      error: err?.message || "Erreur serveur",
-      debug: {
-        hasOpenAIKey: Boolean(process.env.OPENAI_API_KEY),
-        hasSupabaseUrl: Boolean(process.env.SUPABASE_URL),
-        hasServiceRole: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-      },
-    });
-  }
-    }
