@@ -8,10 +8,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
- * Luna Astralis – Plans Stripe (Price IDs)
- * ✅ PAS de DB pricing_plans ici: on lit directement les env vars
+ * Luna Astralis – Checkout Stripe (Subscription)
+ * ✅ Pas de table pricing_plans: lit directement les ENV
  * ✅ Fonctionne si l'utilisateur est CONNECTÉ ou INVITÉ
- * ✅ Trial 3 jours activé (modifiable via TRIAL_DAYS)
+ * ✅ Trial contrôlé par ENV: STRIPE_TRIAL_DAYS (ex: 3 en test, 0 en prod)
  */
 
 type PlanId =
@@ -38,7 +38,6 @@ function safeNext(next: unknown) {
   const s = next.trim();
   if (!s) return "chat.html";
   if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "chat.html";
-  // empêche les chemins absolus bizarres
   return s.replace(/^\//, "");
 }
 
@@ -52,10 +51,17 @@ function jsonError(message: string, status = 500) {
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
+// Price IDs
 const STRIPE_PRICE_MONTHLY_ESSENTIAL = process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL ?? "";
 const STRIPE_PRICE_MONTHLY_UNLIMITED = process.env.STRIPE_PRICE_MONTHLY_UNLIMITED ?? "";
 const STRIPE_PRICE_YEARLY_ESSENTIAL = process.env.STRIPE_PRICE_YEARLY_ESSENTIAL ?? "";
 const STRIPE_PRICE_YEARLY_UNLIMITED = process.env.STRIPE_PRICE_YEARLY_UNLIMITED ?? "";
+
+// Trial (ex: 3 en test, 0 en prod)
+const STRIPE_TRIAL_DAYS_RAW = process.env.STRIPE_TRIAL_DAYS ?? "0";
+const STRIPE_TRIAL_DAYS = Number.isFinite(Number(STRIPE_TRIAL_DAYS_RAW))
+  ? Math.max(0, Math.floor(Number(STRIPE_TRIAL_DAYS_RAW)))
+  : 0;
 
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
@@ -88,6 +94,7 @@ export async function POST(req: Request) {
     };
 
     if (!isPlan(body.plan)) return jsonError("Plan invalide.", 400);
+
     const plan = body.plan;
     const priceId = priceIdFromPlan(plan);
 
@@ -101,7 +108,7 @@ export async function POST(req: Request) {
     const site = cleanUrl(SITE_URL);
     const next = safeNext(body.next);
 
-    // URLs: tu reviens où tu veux (chat) + flags
+    // URLs: retour sur la page demandée + flags
     const successUrl =
       `${site}/${next}` +
       `${next.includes("?") ? "&" : "?"}paid=1&session_id={CHECKOUT_SESSION_ID}`;
@@ -115,9 +122,6 @@ export async function POST(req: Request) {
     const user_id = data?.user?.id ?? null;
     const user_email = data?.user?.email ?? null;
 
-    // Trial
-    const TRIAL_DAYS = 3; // mets 0 pour enlever en prod
-
     // Create session
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -127,7 +131,7 @@ export async function POST(req: Request) {
       success_url: successUrl,
       cancel_url: cancelUrl,
 
-      // Si connecté: ça aide pour relier Stripe ↔ utilisateur
+      // Si connecté: lien Stripe ↔ user
       ...(user_id ? { client_reference_id: user_id } : {}),
       ...(user_email ? { customer_email: user_email } : {}),
 
@@ -145,7 +149,7 @@ export async function POST(req: Request) {
           plan,
           user_id: user_id ?? "guest",
         },
-        ...(TRIAL_DAYS > 0 ? { trial_period_days: TRIAL_DAYS } : {}),
+        ...(STRIPE_TRIAL_DAYS > 0 ? { trial_period_days: STRIPE_TRIAL_DAYS } : {}),
       },
 
       payment_method_collection: "always",
