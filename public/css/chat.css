@@ -1,10 +1,6 @@
 /* ==========================================================
    Luna Astralis — css/chat.css (CHAT) — FINAL STABLE (NO TAIL + COUNTER BOTTOM)
-   - Page FIXE : aucun scroll page
-   - Scroll UNIQUEMENT dans .chat-messages
-   - Sidebar: contenu scrollable + ✅ compteur collé en bas (toujours visible)
-   - Bulles premium SANS queue (neutralisation globale)
-   - Historique PRO (overlay opaque + scroll dedans)
+   ✅ Next.js friendly: cible .chat-body (wrapper) au lieu de body.chat-body
 ========================================================== */
 
 /* =========================
@@ -15,9 +11,11 @@
   --gap: 14px;
 }
 
-html, body{ height:100%; }
-
-body.chat-body{
+/* ✅ Wrapper principal (à mettre dans ta page TSX)
+   <div class="chat-body"> ... </div>
+*/
+.chat-body{
+  height: 100dvh;
   margin:0;
   overflow:hidden; /* ✅ pas de scroll page */
   min-height:100%;
@@ -345,9 +343,6 @@ body.chat-body{
   object-fit:cover;
 }
 
-/* Hero off (tu gères le mobile via html inline si besoin) */
-.chat-hero{ display:none; }
-
 /* =========================
    MESSAGES (SCROLL ICI SEULEMENT)
 ========================= */
@@ -500,8 +495,6 @@ body.chat-body{
   .chat-wrap{ grid-template-columns: 1fr; }
   .chat-side{ order:2; }
   .chat-panel{ order:1; }
-
-  /* sidebar garde compteur visible */
   #freeCounter{ margin: 0 14px 14px; }
 }
 
