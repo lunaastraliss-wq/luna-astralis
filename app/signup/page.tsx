@@ -10,8 +10,9 @@ type MsgType = "ok" | "err" | "info";
 
 function safeNext(v: string | null) {
   const s = (v || "").trim();
-  if (!s) return "/chat?signe=belier";
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "/chat?signe=belier";
+  const fallback = "/chat?signe=belier";
+  if (!s) return fallback;
+  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
   return s.startsWith("/") ? s : "/" + s;
 }
 
@@ -38,17 +39,21 @@ export default function SignupPage() {
     let mounted = true;
 
     (async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (!mounted) return;
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!mounted) return;
 
-      if (error) {
-        showMsg("Erreur session: " + error.message, "err");
-        return;
+        if (error) {
+          showMsg("Erreur session: " + error.message, "err");
+          return;
+        }
+
+        const hasSession = !!data?.session;
+        setAlreadyConnected(hasSession);
+        if (hasSession) showMsg("Tu es déjà connectée.", "ok");
+      } catch (e: any) {
+        showMsg("Erreur JS: " + (e?.message || String(e)), "err");
       }
-
-      const hasSession = !!data?.session;
-      setAlreadyConnected(hasSession);
-      if (hasSession) showMsg("Tu es déjà connectée.", "ok");
     })();
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -120,7 +125,7 @@ export default function SignupPage() {
     }
 
     // fallback UX si popup bloquée
-    setTimeout(() => {
+    window.setTimeout(() => {
       setBusy(false);
       showMsg("Si rien ne s’ouvre, autorise les popups puis réessaie.", "info");
     }, 2500);
@@ -171,7 +176,9 @@ export default function SignupPage() {
 
           {msg ? (
             <div
-              className={`auth-msg ${msg.type === "ok" ? "is-ok" : msg.type === "err" ? "is-err" : "is-info"}`}
+              className={`auth-msg ${
+                msg.type === "ok" ? "is-ok" : msg.type === "err" ? "is-err" : "is-info"
+              }`}
               role="status"
               aria-live="polite"
             >
@@ -192,7 +199,12 @@ export default function SignupPage() {
                 <Link className="btn btn-ghost" href={loginHref}>
                   Mon compte
                 </Link>
-                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={onLogout}
+                  disabled={busy}
+                >
                   Se déconnecter
                 </button>
               </div>
@@ -203,7 +215,13 @@ export default function SignupPage() {
             </div>
           ) : null}
 
-          <button type="button" className="btn auth-google" onClick={onGoogle} disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
+          <button
+            type="button"
+            className="btn auth-google"
+            onClick={onGoogle}
+            disabled={busy}
+            style={{ opacity: busy ? 0.7 : 1 }}
+          >
             <img src="/google-g.png" alt="" className="google-icon" aria-hidden="true" />
             Continuer avec Google
           </button>
@@ -247,7 +265,12 @@ export default function SignupPage() {
               disabled={busy}
             />
 
-            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
+            <button
+              className="btn auth-submit"
+              type="submit"
+              disabled={busy}
+              style={{ opacity: busy ? 0.7 : 1 }}
+            >
               Créer mon compte
             </button>
 
