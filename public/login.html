@@ -44,7 +44,7 @@
           style="display:none;"
         ></div>
 
-        <!-- ✅ Déjà connecté (affiché seulement si session existe) -->
+        <!-- ✅ Déjà connecté -->
         <div id="already" style="display:none; margin-top:12px;">
           <p class="auth-sub" style="margin:0 0 10px 0;">
             Tu es déjà connectée.
@@ -117,7 +117,6 @@
           const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
           const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-          // ✅ Erreur visible si la lib n'a pas chargé
           if (!window.supabase || typeof window.supabase.createClient !== "function") {
             const el = document.getElementById("msg");
             if (el) {
@@ -129,15 +128,24 @@
             return;
           }
 
+          // ✅ Même config que chat.html (plus stable)
           const supabase =
             window.__LA_SUPABASE__ ||
             (window.__LA_SUPABASE__ = window.supabase.createClient(
               SUPABASE_URL,
-              SUPABASE_KEY
+              SUPABASE_KEY,
+              {
+                auth: {
+                  persistSession: true,
+                  autoRefreshToken: true,
+                  detectSessionInUrl: true,
+                  storage: window.localStorage,
+                },
+              }
             ));
 
           /* =========================
-             Helpers UI
+             DOM / UI
           ========================= */
           const msgEl = document.getElementById("msg");
           const submitBtn = document.getElementById("submitBtn");
@@ -152,19 +160,20 @@
           const loginForm = document.getElementById("loginForm");
           const forgotBtn = document.getElementById("forgot");
 
-          // ✅ Guard: si un id manque, on l'affiche au lieu d'un écran vide
-          const missing = [];
-          if (!msgEl) missing.push("#msg");
-          if (!submitBtn) missing.push("#submitBtn");
-          if (!googleBtn) missing.push("#googleLogin");
-          if (!alreadyBox) missing.push("#already");
-          if (!goNextBtn) missing.push("#goNextBtn");
-          if (!logoutBtn) missing.push("#logoutBtn");
-          if (!signup1) missing.push("#signupLink");
-          if (!signup2) missing.push("#signupLink2");
-          if (!loginForm) missing.push("#loginForm");
-          if (!forgotBtn) missing.push("#forgot");
+          const requiredEls = [
+            ["#msg", msgEl],
+            ["#submitBtn", submitBtn],
+            ["#googleLogin", googleBtn],
+            ["#already", alreadyBox],
+            ["#goNextBtn", goNextBtn],
+            ["#logoutBtn", logoutBtn],
+            ["#signupLink", signup1],
+            ["#signupLink2", signup2],
+            ["#loginForm", loginForm],
+            ["#forgot", forgotBtn],
+          ];
 
+          const missing = requiredEls.filter(([, el]) => !el).map(([id]) => id);
           if (missing.length) {
             const box = document.createElement("div");
             box.style.cssText =
@@ -213,6 +222,7 @@
             ) {
               return "chat.html";
             }
+            // garde query/hash, enlève juste "/" au début
             return next.replace(/^\//, "");
           }
 
@@ -220,25 +230,24 @@
             return "./" + safeNext(getNext());
           }
 
-          function setAlreadyConnectedUI(isConnected) {
-            alreadyBox.style.display = isConnected ? "block" : "none";
-            if (isConnected) {
-              goNextBtn.href = nextUrl();
-            }
-          }
-
           function cameFromOAuth() {
             return new URLSearchParams(location.search).get("oauth") === "1";
           }
 
-          // Garder next dans les liens signup
+          function setAlreadyConnectedUI(isConnected) {
+            alreadyBox.style.display = isConnected ? "block" : "none";
+            if (isConnected) goNextBtn.href = nextUrl();
+          }
+
+          // garder next dans les liens signup
           const nextEnc = encodeURIComponent(safeNext(getNext()));
           signup1.href = "./signup.html?next=" + nextEnc;
           signup2.href = "./signup.html?next=" + nextEnc;
 
           /* =========================
-             ✅ IMPORTANT: PAS de redirect auto sur simple visite
-             On affiche seulement la box "déjà connecté"
+             ✅ BOOT: 1 seul flux
+             - si oauth=1 ET session OK -> redirect
+             - sinon -> affiche "déjà connecté" seulement (pas de redirect auto)
           ========================= */
           (async () => {
             try {
@@ -247,7 +256,22 @@
                 showMsg("Erreur session: " + error.message, "err");
                 return;
               }
-              if (data?.session) {
+
+              const hasSession = !!data?.session;
+
+              if (cameFromOAuth()) {
+                if (hasSession) {
+                  window.location.href = nextUrl();
+                  return;
+                } else {
+                  setLoading(false);
+                  setAlreadyConnectedUI(false);
+                  showMsg("Connexion Google incomplète. Réessaie.", "err");
+                  return;
+                }
+              }
+
+              if (hasSession) {
                 setAlreadyConnectedUI(true);
                 showMsg("Tu es déjà connectée.", "ok");
               } else {
@@ -260,7 +284,6 @@
 
           /* =========================
              Login email/password
-             ✅ redirect seulement après succès
           ========================= */
           loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -297,7 +320,6 @@
 
           /* =========================
              Google OAuth
-             ✅ revient sur login.html?oauth=1
           ========================= */
           googleBtn.addEventListener("click", async () => {
             clearMsg();
@@ -318,30 +340,6 @@
               showMsg(error.message, "err");
             }
           });
-
-          /* =========================
-             ✅ Au retour OAuth: redirect uniquement si oauth=1
-          ========================= */
-          (async () => {
-            if (!cameFromOAuth()) return;
-
-            try {
-              const { data, error } = await supabase.auth.getSession();
-              if (error) {
-                setLoading(false);
-                return showMsg("Erreur session: " + error.message, "err");
-              }
-              if (data?.session) {
-                window.location.href = nextUrl();
-              } else {
-                setLoading(false);
-                showMsg("Connexion Google incomplète. Réessaie.", "err");
-              }
-            } catch (err) {
-              setLoading(false);
-              showMsg("Erreur JS: " + (err?.message || String(err)), "err");
-            }
-          })();
 
           /* =========================
              Forgot password
@@ -371,7 +369,7 @@
           });
 
           /* =========================
-             Logout (box déjà connecté)
+             Logout
           ========================= */
           logoutBtn.addEventListener("click", async () => {
             clearMsg();
@@ -388,9 +386,9 @@
           });
 
           /* =========================
-             onAuthStateChange = UI seulement (PAS redirect)
+             Auth state change = UI seulement
           ========================= */
-          supabase.auth.onAuthStateChange((event, session) => {
+          supabase.auth.onAuthStateChange((_event, session) => {
             if (session) {
               setAlreadyConnectedUI(true);
               setLoading(false);
@@ -403,4 +401,3 @@
     </script>
   </body>
 </html>
-
