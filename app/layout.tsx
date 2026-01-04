@@ -1,17 +1,22 @@
 // app/layout.tsx
-import "./css/styles.css";
-import "./css/pricing.css";
-import "./css/chat.css";
+import "../public/css/styles.css";
+import "../public/css/index.css";
+import "../public/css/pricing.css";
+import "../public/css/chat.css";
 
 export const metadata = {
-  title: "Luna Astralis",
-  description: "Astro & psycho",
+  title: "Luna Astralis — Astro & psycho",
+  description: "Exploration douce et guidée",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body className="page-astro">{children}</body>
     </html>
   );
 }
