@@ -9,6 +9,10 @@ import crypto from "crypto";
   - Guest (pas de session): FREE_LIMIT via public.guest_usage
   - Auth (session trouvée): PREMIUM obligatoire => sinon PREMIUM_REQUIRED
   - Réponse guest ultra courte (2 phrases + 1 question, 240 chars)
+
+  ✅ BUG FIX IMPORTANT (compteur 15):
+  - On NE consomme PAS 1 message guest tant que OpenAI n'a pas répondu OK.
+  - Donc si OpenAI/serveur plante, le "used" ne monte pas.
 */
 
 const FREE_LIMIT = 15;
@@ -34,7 +38,11 @@ function safeJson(body) {
   if (body == null) return {};
   if (typeof body === "object") return body;
   if (typeof body === "string") {
-    try { return JSON.parse(body); } catch { return {}; }
+    try {
+      return JSON.parse(body);
+    } catch {
+      return {};
+    }
   }
   return {};
 }
@@ -79,8 +87,8 @@ function parseCookies(cookieHeader) {
 
 /* =========================
    Supabase session (cookie -> access_token)
-   - Fonctionne si ton site est sur le même domaine que Supabase Auth cookies
-   - On supporte plusieurs formats de cookies (robuste)
+   - Supporte Authorization: Bearer <jwt>
+   - Supporte cookies supabase (robuste)
 ========================= */
 function tryExtractAccessTokenFromCookies(req) {
   const cookies = parseCookies(req.headers?.cookie || "");
@@ -90,26 +98,31 @@ function tryExtractAccessTokenFromCookies(req) {
   const authTokenKey = keys.find((k) => k.startsWith("sb-") && k.endsWith("-auth-token"));
   if (authTokenKey) {
     const raw = cookies[authTokenKey];
-    // souvent URL-encoded
     const decoded = (() => {
-      try { return decodeURIComponent(raw); } catch { return raw; }
+      try {
+        return decodeURIComponent(raw);
+      } catch {
+        return raw;
+      }
     })();
 
-    // ce cookie peut être JSON string: {"access_token": "...", ...}
     try {
       const obj = JSON.parse(decoded);
       if (obj?.access_token) return clean(obj.access_token);
     } catch (_) {
-      // parfois c’est un token direct (rare)
       if (decoded.split(".").length === 3) return clean(decoded);
     }
   }
 
-  // 2) fallback: sb-access-token (ancien / certains setups)
+  // 2) fallback: sb-access-token / *access-token
   const accessKey = keys.find((k) => k === "sb-access-token" || k.endsWith("access-token"));
   if (accessKey) {
     const v = (() => {
-      try { return decodeURIComponent(cookies[accessKey]); } catch { return cookies[accessKey]; }
+      try {
+        return decodeURIComponent(cookies[accessKey]);
+      } catch {
+        return cookies[accessKey];
+      }
     })();
     if (v && v.split(".").length === 3) return clean(v);
   }
@@ -118,11 +131,10 @@ function tryExtractAccessTokenFromCookies(req) {
 }
 
 async function getAuthUserFromRequest(req) {
-  // Support optionnel Authorization: Bearer <jwt>
   const auth = clean(req.headers?.authorization || "");
   let token = "";
-  if (auth.toLowerCase().startsWith("bearer ")) token = clean(auth.slice(7));
 
+  if (auth.toLowerCase().startsWith("bearer ")) token = clean(auth.slice(7));
   if (!token) token = tryExtractAccessTokenFromCookies(req);
   if (!token) return null;
 
@@ -136,12 +148,8 @@ async function getAuthUserFromRequest(req) {
 }
 
 /* =========================
-   Premium check (IMPORTANT)
-   👉 Tu dois dire où tu stockes le statut premium.
-   Ici je fais un check "multi-try" sans casser:
-   - table: profiles (id uuid, is_premium boolean)  OU
-   - table: subscriptions (user_id uuid, status text, current_period_end timestamptz)
-   Ajuste selon TON schéma.
+   Premium check
+   - profiles.is_premium OU subscriptions.status + current_period_end
 ========================= */
 async function isPremiumUser(userId) {
   if (!userId) return false;
@@ -209,7 +217,7 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
         .update({ guest_id: guestId, updated_at: new Date().toISOString() })
         .eq("ip_hash", ipHash);
     }
-    return { used: Number(byIp.data.used || 0) };
+    return { used: Number(byIp.data.used || 0), guest_id: byIp.data.guest_id || guestId || "" };
   }
 
   if (guestId) {
@@ -228,15 +236,17 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
           .update({ ip_hash: ipHash, updated_at: new Date().toISOString() })
           .eq("guest_id", guestId);
       }
-      return { used: Number(byGuest.data.used || 0) };
+      return { used: Number(byGuest.data.used || 0), guest_id: byGuest.data.guest_id || guestId };
     }
   }
+
+  const newGuestId = guestId || `guest_${ipHash.slice(0, 16)}`;
 
   const ins = await supabase
     .from("guest_usage")
     .insert([
       {
-        guest_id: guestId || `guest_${ipHash.slice(0, 16)}`,
+        guest_id: newGuestId,
         ip_hash: ipHash,
         used: 0,
         updated_at: new Date().toISOString(),
@@ -248,19 +258,19 @@ async function getOrInitGuestRow({ guestId, ipHash }) {
     if (msg.includes("duplicate") || msg.includes("unique")) {
       const reread = await supabase
         .from("guest_usage")
-        .select("used")
+        .select("guest_id, used")
         .eq("ip_hash", ipHash)
         .maybeSingle();
       if (reread.error) throw new Error(`Supabase reread guest_usage: ${reread.error.message}`);
-      return { used: Number(reread.data?.used || 0) };
+      return { used: Number(reread.data?.used || 0), guest_id: reread.data?.guest_id || newGuestId };
     }
     throw new Error(`Supabase insert guest_usage: ${ins.error.message}`);
   }
 
-  return { used: 0 };
+  return { used: 0, guest_id: newGuestId };
 }
 
-async function incrementGuestUsedByIpHash(ipHash, nextUsed) {
+async function updateGuestUsedByIpHash(ipHash, nextUsed) {
   const upd = await supabase
     .from("guest_usage")
     .update({ used: nextUsed, updated_at: new Date().toISOString() })
@@ -327,15 +337,10 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Méthode non autorisée" });
 
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: "OPENAI_API_KEY manquante." });
-    }
-    if (!process.env.SUPABASE_URL) {
-      return res.status(500).json({ error: "SUPABASE_URL manquante." });
-    }
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante." });
-    }
+    // ENV checks
+    if (!process.env.OPENAI_API_KEY) return res.status(500).json({ error: "OPENAI_API_KEY manquante." });
+    if (!process.env.SUPABASE_URL) return res.status(500).json({ error: "SUPABASE_URL manquante." });
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) return res.status(500).json({ error: "SUPABASE_SERVICE_ROLE_KEY manquante." });
 
     const body = safeJson(req.body);
 
@@ -343,30 +348,29 @@ export default async function handler(req, res) {
     const signKey = clean(body.signKey);
     const signName = clean(body.signName);
     const history = Array.isArray(body.history) ? body.history : [];
-
-    // guestId sert uniquement si PAS connecté
-    const guestId = clean(body.guestId);
+    const guestId = clean(body.guestId); // seulement si pas connecté
 
     if (!message) return res.status(400).json({ error: "Message vide." });
 
-    // ✅ 1) Déterminer AUTH uniquement via session (cookies/Authorization)
+    // ✅ 1) Déterminer AUTH via session (cookies/Authorization)
     const user = await getAuthUserFromRequest(req);
     const isAuth = !!user;
 
-    // ✅ 2) ENFORCEMENT
+    // ✅ 2) ENFORCEMENT (pré-check) — mais on NE consomme pas tout de suite
     const ipHash = makeIpHash(req);
 
+    let guestUsedBefore = null;
+
     if (!isAuth) {
-      // GUEST: limiter ici
       const row = await getOrInitGuestRow({ guestId, ipHash });
       const used = Number(row.used || 0);
+      guestUsedBefore = used;
 
       if (used >= FREE_LIMIT) {
         return res.status(403).json({ error: "FREE_LIMIT_REACHED", limit: FREE_LIMIT, used });
       }
-      await incrementGuestUsedByIpHash(ipHash, used + 1);
+      // ❗ IMPORTANT: on n'update PAS ici (bugfix)
     } else {
-      // AUTH: premium obligatoire
       const premium = await isPremiumUser(user.id);
       if (!premium) {
         return res.status(403).json({ error: "PREMIUM_REQUIRED" });
@@ -436,6 +440,12 @@ ${safety}
         : "Je t’écoute. Qu’est-ce qui te touche le plus en ce moment ?";
     }
 
+    // ✅ 6) Consommer 1 message guest SEULEMENT après succès OpenAI
+    if (!isAuth) {
+      const used = Number(guestUsedBefore ?? 0);
+      await updateGuestUsedByIpHash(ipHash, used + 1);
+    }
+
     return res.status(200).json({ reply });
   } catch (err) {
     return res.status(500).json({
@@ -447,4 +457,4 @@ ${safety}
       },
     });
   }
-}
+    }
