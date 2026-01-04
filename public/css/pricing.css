@@ -1,27 +1,35 @@
 /* ==========================================================
-   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (HALO EXTERNE VISIBLE)
-   ✅ Fix principal: stacking des items de la grid (sinon le halo est recouvert)
-   ✅ Fix secondaire: overflow visible (même si styles.css coupe)
+   Luna Astralis — css/pricing.css (TARIFS) — COMPLET (AUTONOME)
+   ✅ Halo externe visible + stacking OK + overflow visible
+   ✅ Ne dépend PAS de styles.css (pas de var(--shadow))
    - Premium, pas flashy
-   - Halo EXTERNE vraiment visible (anneau net + glow blur)
-   - 1 carte featured (.price-featured) WRAPPÉE dans .price-halo
-   - CTA featured en dégradé astro
    IMPORTANT HTML:
-     <div class="price-halo">
-       <article class="price-card price-featured">...</article>
+     <div class="pricing-grid">
+       <article class="price-card">...</article>
+
+       <div class="price-halo">
+         <article class="price-card price-featured">...</article>
+       </div>
+
+       <article class="price-card">...</article>
      </div>
 ========================================================== */
 
+/* =================
+   BASE SAFE
+================== */
+:root{
+  --la-shadow: 0 22px 70px rgba(0,0,0,.45);
+}
+
 .pricing-body .wrap{ padding-top:18px; }
 
-/* ✅ ne pas couper le halo */
+/* ✅ ne pas couper le halo (peu importe styles.css) */
 .section, .wrap, .pricing-grid{
   overflow: visible !important;
 }
 
-/* ✅ FIX #1 (LE PLUS IMPORTANT):
-   Les enfants de la grid doivent être "positioned" pour que z-index fonctionne entre siblings.
-   Sinon le halo déborde mais se fait recouvrir par les autres cartes. */
+/* ✅ FIX #1: stacking entre siblings de la grid */
 .pricing-grid > *{
   position: relative;
   z-index: 1;
@@ -48,7 +56,7 @@
     linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
 
   border:1px solid rgba(255,255,255,.16);
-  box-shadow: var(--shadow);
+  box-shadow: var(--la-shadow);
 }
 
 .pricing-hero-inner::after{
@@ -78,7 +86,7 @@
   background: rgba(255,255,255,.08);
   border:1px solid rgba(255,255,255,.16);
   color: rgba(255,255,255,.88);
-  font-weight:1100;
+  font-weight:1000;
   font-size:12px;
   letter-spacing:.14em;
   text-transform:uppercase;
@@ -123,8 +131,7 @@
   grid-template-columns: repeat(4, minmax(0,1fr));
   gap:14px;
   align-items:stretch;
-
-  position: relative; /* pour cohérence */
+  position: relative;
   z-index: 1;
 }
 
@@ -170,11 +177,11 @@
 .price-head, .price-features, .price-cta{ position:relative; z-index:1; }
 .price-head{ padding-top:26px; }
 
-.price-name{ font-weight:1100; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
+.price-name{ font-weight:1000; font-size:13px; letter-spacing:.03em; margin-bottom:8px; }
 .price-value{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
 .price-was{ color:rgba(255,255,255,.55); font-weight:900; font-size:14px; }
-.price-now{ color:rgba(255,255,255,.95); font-weight:1100; font-size:32px; letter-spacing:-.02em; }
-.price-period{ color:rgba(255,255,255,.74); font-weight:1000; font-size:13px; }
+.price-now{ color:rgba(255,255,255,.95); font-weight:1000; font-size:32px; letter-spacing:-.02em; }
+.price-period{ color:rgba(255,255,255,.74); font-weight:900; font-size:13px; }
 .price-mini{ margin-top:8px; color:rgba(255,255,255,.72); font-size:12px; line-height:1.35; }
 
 .price-features{
@@ -200,7 +207,7 @@
   background: rgba(255,255,255,.10);
   box-shadow: 0 12px 28px rgba(0,0,0,.28);
   color: rgba(255,255,255,.95);
-  font-weight:1100;
+  font-weight:1000;
   transition: transform .12s ease, filter .12s ease, background .12s ease;
 }
 .price-cta:hover{
@@ -258,7 +265,7 @@
   padding:6px 10px;
   border-radius:999px;
   font-size:11px;
-  font-weight:1200;
+  font-weight:1100;
   letter-spacing:.16em;
   text-transform:uppercase;
   color: rgba(7,10,22,.96);
@@ -280,8 +287,6 @@
 /* =========================
    HALO EXTERNE ULTRA VISIBLE
    -> sur wrapper .price-halo
-   ✅ glow blur large + anneau net
-   ✅ mix-blend-mode screen pour ressortir
 ========================= */
 .price-halo{
   position:relative;
