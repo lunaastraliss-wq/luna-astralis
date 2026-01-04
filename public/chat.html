@@ -230,7 +230,7 @@
       }
 
       @media (max-width: 980px){
-        body.chat-body{ overflow: auto; }
+        body.chat-body{ overflow: auto; } /* garde ton comportement mobile */
       }
     </style>
   </head>
@@ -253,16 +253,13 @@
           <span id="modeText">Invité</span>
         </span>
 
-        <!-- ✅ Upgrade toujours visible (invité ou connecté) -->
         <a class="chat-upgrade" href="./pricing.html" id="upgradeLink">Upgrade</a>
-
         <a class="chat-logout" href="#" id="logoutLink" style="display:none;">Déconnexion</a>
       </div>
     </header>
 
     <main class="chat-wrap" role="main">
       <aside class="chat-side" aria-label="Profil IA">
-        <!-- ✅ zone scrollable -->
         <div class="chat-side-content">
           <div class="ai-face-wrap">
             <img class="ai-face" src="./ia-luna-astralis.png" alt="Luna (IA)" />
@@ -293,7 +290,6 @@
           </div>
         </div>
 
-        <!-- ✅ compteur collé en bas (CSS #freeCounter) -->
         <div id="freeCounter"></div>
       </aside>
 
@@ -382,10 +378,13 @@
 
     <script>
       (function () {
+        // =========================
+        // Config
+        // =========================
         const SUPABASE_URL = "https://auxhexhkrfyizqjvnpvn.supabase.co";
         const SUPABASE_KEY = "sb_publishable_jSrj1sEIrDuu73hJHhrnXw_vK7mlQeg";
 
-        const FREE_LIMIT = 15;                 // UI seulement
+        const FREE_LIMIT = 15;                 // UI + paywall local (la vraie limite doit aussi être côté /api/chat)
         const STORAGE_PREFIX = "la_chat_";
         const MAX_VISIBLE = 14;
         const CONTEXT_HISTORY = 8;
@@ -411,6 +410,9 @@
             }
           ));
 
+        // =========================
+        // DOM
+        // =========================
         const messagesEl = document.getElementById("messages");
         const form = document.getElementById("form");
         const input = document.getElementById("input");
@@ -447,6 +449,9 @@
 
         if (!messagesEl) return;
 
+        // =========================
+        // URL helpers
+        // =========================
         function currentPathWithQuery() {
           const p = location.pathname.split("/").pop() || "chat.html";
           return p + location.search;
@@ -459,10 +464,11 @@
           const next = encodeURIComponent(currentPathWithQuery());
           return "./pricing.html?next=" + next;
         }
-
-        // ✅ upgrade doit toujours envoyer vers pricing avec next
         if (upgradeLink) upgradeLink.href = pricingUrl();
 
+        // =========================
+        // Signs
+        // =========================
         const qs = (k) => new URLSearchParams(location.search).get(k) || "";
         const norm = (s) =>
           (s || "")
@@ -531,7 +537,9 @@
         const rawKey = qs("signe") || qs("sign") || "belier";
         const signKey = norm(rawKey) || "belier";
         const signName = SIGNS[signKey] || "—";
-        const signDesc = SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+        const signDesc =
+          SIGN_DESC[signKey] ||
+          "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
 
         const signLabelEl = document.getElementById("signLabel");
         const aiTagEl = document.getElementById("aiTag");
@@ -553,6 +561,9 @@
           if (heroBookWrap && heroBookLink) { heroBookWrap.style.display = "block"; heroBookLink.href = bookUrl; }
         }
 
+        // =========================
+        // Guest id (global)
+        // =========================
         const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
         function getGuestId() {
           try {
@@ -569,12 +580,18 @@
           }
         }
 
+        // =========================
+        // Input enable/disable
+        // =========================
         function setInputEnabled(enabled) {
           if (input) input.disabled = !enabled;
           if (sendBtn) sendBtn.disabled = !enabled;
           if (form) form.classList.toggle("input-disabled", !enabled);
         }
 
+        // =========================
+        // Scroll / bottom button
+        // =========================
         function isNearBottom() {
           const threshold = 140;
           return messagesEl.scrollHeight - (messagesEl.scrollTop + messagesEl.clientHeight) < threshold;
@@ -592,6 +609,9 @@
         });
         if (toBottomBtn) toBottomBtn.addEventListener("click", () => scrollToBottom(true));
 
+        // =========================
+        // Thread storage (par signe)
+        // =========================
         const KEY_THREAD = STORAGE_PREFIX + "thread_" + signKey;
         function loadThread() {
           try {
@@ -604,6 +624,9 @@
           try { localStorage.setItem(KEY_THREAD, JSON.stringify(arr || [])); } catch (_) {}
         }
 
+        // =========================
+        // Render messages
+        // =========================
         function addMessage(role, text) {
           const row = document.createElement("div");
           row.className = "msg-row " + (role === "ai" ? "msg-ai" : "msg-user");
@@ -651,6 +674,9 @@
           scrollToBottom(true);
         }
 
+        // =========================
+        // History modal
+        // =========================
         function renderHistory(thread) {
           if (!historyBody) return;
           historyBody.innerHTML = "";
@@ -704,16 +730,24 @@
           });
         }
 
+        // =========================
+        // FREE LIMIT (GLOBAL) + BUGFIX
+        // BUG FIX: ne pas “consommer” un message si /api/chat échoue (timeout, 500, etc.)
+        // =========================
         const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
+
         function getUiUsed() {
           const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
           return Number.isFinite(n) ? n : 0;
         }
-        function incUiUsed() {
-          const n = getUiUsed() + 1;
-          try { localStorage.setItem(KEY_UI_USED, String(n)); } catch (_) {}
-          return n;
+        function setUiUsed(n) {
+          const v = Math.max(0, Math.floor(Number(n) || 0));
+          try { localStorage.setItem(KEY_UI_USED, String(v)); } catch (_) {}
+          return v;
         }
+        function incUiUsed() { return setUiUsed(getUiUsed() + 1); }
+        function decUiUsed() { return setUiUsed(getUiUsed() - 1); }
+
         function updateFreeCounter(isAuth) {
           if (!freeCounterEl) return;
           if (isAuth) { freeCounterEl.textContent = ""; return; }
@@ -724,6 +758,9 @@
             : `Limite gratuite atteinte`;
         }
 
+        // =========================
+        // Mode UI
+        // =========================
         function setModeGuest() {
           if (modeText) modeText.textContent = "Invité";
           if (modeDot) modeDot.classList.remove("green");
@@ -742,6 +779,9 @@
           setInputEnabled(true);
         }
 
+        // =========================
+        // Session helpers
+        // =========================
         let SESSION = null;
 
         async function getSession() {
@@ -757,6 +797,9 @@
           return s?.access_token || "";
         }
 
+        // =========================
+        // Paywall
+        // =========================
         function openPaywallGuest() {
           if (!paywallEl) return;
           const next = encodeURIComponent(currentPathWithQuery());
@@ -809,6 +852,9 @@
         if (paywallClose) paywallClose.addEventListener("click", closePaywall);
         if (paywallEl) paywallEl.addEventListener("click", (e) => { if (e.target === paywallEl) closePaywall(); });
 
+        // =========================
+        // API call
+        // =========================
         async function askLuna(userText, threadForContext) {
           const accessToken = await getAccessToken();
 
@@ -817,6 +863,7 @@
             signKey,
             signName,
             history: (threadForContext || []).slice(-CONTEXT_HISTORY),
+            // important: guestId global => 15 global côté serveur aussi (si tu l’utilises)
             guestId: accessToken ? undefined : getGuestId(),
           };
 
@@ -841,6 +888,9 @@
           return data.reply;
         }
 
+        // =========================
+        // First message
+        // =========================
         function ensureHello(thread) {
           if (thread && thread.length) return thread;
           const hello =
@@ -873,6 +923,9 @@
           else bootGuest();
         })();
 
+        // =========================
+        // Submit
+        // =========================
         if (form) {
           form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -883,9 +936,10 @@
             SESSION = await getSession();
             const isAuth = !!SESSION;
 
+            // UI gate (guest)
             if (!isAuth) {
-              const usedUi = getUiUsed();
-              if (usedUi >= FREE_LIMIT) {
+              const used = getUiUsed();
+              if (used >= FREE_LIMIT) {
                 openPaywallGuest();
                 updateFreeCounter(false);
                 return;
@@ -899,20 +953,39 @@
             addMessage("user", text);
             if (input) { input.value = ""; input.focus(); }
 
-            if (!isAuth) { incUiUsed(); updateFreeCounter(false); }
-            else { updateFreeCounter(true); }
+            // ⛔ BUGFIX: on ne consomme le crédit UI qu’après une requête OK
+            // (sinon une erreur réseau “mange” des messages)
+            let consumed = false;
 
             addMessage("ai", "…");
 
             try {
               const reply = await askLuna(text, thread);
+
+              // ✅ maintenant seulement: consommer 1 message gratuit (si invité)
+              if (!isAuth) {
+                incUiUsed();
+                consumed = true;
+                updateFreeCounter(false);
+              } else {
+                updateFreeCounter(true);
+              }
+
               replaceLastAiTyping(reply) || addMessage("ai", reply);
 
               const t2 = loadThread();
               t2.push({ role: "ai", text: reply });
               saveThread(t2);
             } catch (err) {
-              if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") return;
+              // si le serveur répond FREE_LIMIT_REACHED/PREMIUM_REQUIRED, paywall déjà ouvert
+              if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+                // si jamais tu avais déjà consommé (normalement non avec ce fix), on rollback
+                if (!isAuth && consumed) { decUiUsed(); updateFreeCounter(false); }
+                return;
+              }
+
+              // rollback sécurité (au cas où)
+              if (!isAuth && consumed) { decUiUsed(); updateFreeCounter(false); }
 
               const msg =
                 "Erreur. Vérifie que /api/chat existe sur Vercel. " +
@@ -926,6 +999,9 @@
           });
         }
 
+        // =========================
+        // Logout
+        // =========================
         if (logoutLink) {
           logoutLink.addEventListener("click", async (e) => {
             e.preventDefault();
@@ -936,6 +1012,9 @@
           });
         }
 
+        // =========================
+        // Auth change
+        // =========================
         supabase.auth.onAuthStateChange(async (_event, session) => {
           SESSION = session || null;
           closePaywall();
@@ -943,6 +1022,7 @@
           else bootGuest();
         });
 
+        // liens paywall par défaut (avec next)
         if (paywallMain) paywallMain.href = loginUrl();
         if (paywallSecondary) paywallSecondary.href = pricingUrl();
       })();
