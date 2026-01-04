@@ -1,3 +1,4 @@
+// app/auth/callback/route.ts
 import { NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
@@ -15,12 +16,10 @@ export async function GET(req: Request) {
 
   const supabase = createRouteHandlerClient({ cookies });
 
-  // échange code -> session
   const { error } = await supabase.auth.exchangeCodeForSession(url);
 
-  // même en cas d’erreur, on redirige vers login avec un flag
   if (error) {
-    return NextResponse.redirect(new URL(`/login?oauth=1&next=${encodeURIComponent(next)}`, url.origin));
+    return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, url.origin));
   }
 
   return NextResponse.redirect(new URL(next, url.origin));
