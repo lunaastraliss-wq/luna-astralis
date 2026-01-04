@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="stylesheet" href="./css/chat.css" />
 
-    <!-- (Ton fix panel fixe / scroll interne — inchangé) -->
+    <!-- Fix panel fixe / scroll interne + Mobile: cacher grosse image du hero (garder texte + lien livre) -->
     <style>
       html, body { height: 100%; }
       body.chat-body { height: 100%; overflow: hidden; }
@@ -215,6 +215,25 @@
 
       .input-disabled{ opacity:.6; pointer-events:none; }
 
+      /* ✅ Mobile: enlever la grosse image IA dans le hero, garder texte + lien livre */
+      @media (max-width: 720px){
+        .chat-hero-img{ display:none !important; }
+        .chat-hero-overlay{ display:none !important; }
+
+        /* le hero devient un bloc texte compact */
+        .chat-hero-inner{
+          min-height:auto !important;
+          padding: 12px 12px 6px !important;
+        }
+        .chat-hero-card{
+          position: relative !important;
+          transform: none !important;
+          margin: 0 !important;
+        }
+        .hero-book{ margin-top: 10px; }
+      }
+
+      /* Ton ancien fallback */
       @media (max-width: 980px){
         body.chat-body{ overflow: auto; }
       }
@@ -281,9 +300,23 @@
           <div class="chat-hero-inner">
             <img class="chat-hero-img" src="./ia-luna-astralis.png" alt="" />
             <div class="chat-hero-overlay"></div>
+
             <div class="chat-hero-card">
               <p class="hero-title" id="heroTitle">—</p>
               <p class="hero-desc" id="heroDesc">—</p>
+
+              <!-- ✅ lien du livre aussi dans le hero (utile sur mobile) -->
+              <div class="hero-book" id="heroBookWrap" style="display:none;">
+                <a
+                  id="heroBookLink"
+                  class="ai-book-link"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Approfondir ce signe"
+                  title="Approfondir ce signe"
+                >✦ Approfondir ce signe</a>
+              </div>
             </div>
           </div>
         </div>
@@ -415,6 +448,10 @@
         const historyClear = document.getElementById("historyClear");
         const historyScrollBottom = document.getElementById("historyScrollBottom");
 
+        // ✅ Hero book link (mobile)
+        const heroBookWrap = document.getElementById("heroBookWrap");
+        const heroBookLink = document.getElementById("heroBookLink");
+
         if (!messagesEl) return;
 
         /* =========================
@@ -518,12 +555,20 @@
         if (heroTitleEl) heroTitleEl.textContent = "Ton signe : " + signName;
         if (heroDescEl) heroDescEl.textContent = signDesc;
 
+        // ✅ Lien du livre (sidebar + hero mobile)
         const bookUrl = SIGN_BOOKS[signKey];
         const wrap = document.getElementById("aiBookWrap");
         const link = document.getElementById("aiBookLink");
-        if (wrap && link && bookUrl) {
-          wrap.style.display = "block";
-          link.href = bookUrl;
+
+        if (bookUrl) {
+          if (wrap && link) {
+            wrap.style.display = "block";
+            link.href = bookUrl;
+          }
+          if (heroBookWrap && heroBookLink) {
+            heroBookWrap.style.display = "block";
+            heroBookLink.href = bookUrl;
+          }
         }
 
         /* =========================
@@ -822,9 +867,9 @@
         if (paywallEl) paywallEl.addEventListener("click", (e) => { if (e.target === paywallEl) closePaywall(); });
 
         /* =========================
-           API call (IMPORTANT)
-           ✅ on envoie Authorization Bearer si loggé
-           ✅ on n'envoie PLUS "mode"
+           API call
+           ✅ Authorization Bearer si loggé
+           ✅ plus de "mode"
         ========================= */
         async function askLuna(userText, threadForContext) {
           const accessToken = await getAccessToken();
@@ -833,7 +878,6 @@
             message: userText,
             signKey,
             signName,
-            // signDesc n'est pas nécessaire côté API (et tu ne l'utilises pas)
             history: (threadForContext || []).slice(-CONTEXT_HISTORY),
             guestId: accessToken ? undefined : getGuestId(),
           };
@@ -850,7 +894,6 @@
           const data = await res.json().catch(() => ({}));
 
           if (!res.ok) {
-            // ✅ ton API renvoie ces codes
             if (data?.error === "FREE_LIMIT_REACHED") {
               openPaywallGuest();
               throw new Error("FREE_LIMIT_REACHED");
@@ -894,7 +937,6 @@
         (async () => {
           SESSION = await getSession();
           if (!SESSION) {
-            // petit délai post-login au cas où l'URL contient des tokens
             await new Promise(r => setTimeout(r, 250));
             SESSION = await getSession();
           }
@@ -915,7 +957,6 @@
             SESSION = await getSession();
             const isAuth = !!SESSION;
 
-            // UI limit guest (soft) — la vraie règle est côté API
             if (!isAuth) {
               const usedUi = getUiUsed();
               if (usedUi >= FREE_LIMIT) {
@@ -925,7 +966,6 @@
               }
             }
 
-            // store user msg
             const thread = loadThread();
             thread.push({ role: "user", text });
             saveThread(thread);
@@ -950,7 +990,6 @@
               t2.push({ role: "ai", text: reply });
               saveThread(t2);
             } catch (err) {
-              // si paywall a été ouvert, pas besoin de spammer un msg d'erreur
               if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") return;
 
               const msg =
