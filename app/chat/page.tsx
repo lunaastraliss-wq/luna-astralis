@@ -114,10 +114,7 @@ export default function ChatPage() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [uiUsed, setUiUsed] = useState(0);
 
-  const KEY_THREAD = useMemo(
-    () => STORAGE_PREFIX + "thread_" + signKey,
-    [signKey]
-  );
+  const KEY_THREAD = useMemo(() => STORAGE_PREFIX + "thread_" + signKey, [signKey]);
   const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
   const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
 
@@ -199,9 +196,7 @@ export default function ChatPage() {
     }
 
     const threshold = 140;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
-
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }
 
@@ -227,11 +222,6 @@ export default function ChatPage() {
     }
   }
 
-  /**
-   * IMPORTANT:
-   * Ton API (app/api/chat/route.ts) attend: { lang, messages }
-   * et renvoie: { message, ... } (PAS reply)
-   */
   async function askLuna(userText: string, threadForContext: ThreadMsg[]) {
     const session = await getSessionSafe();
     const authed = !!session;
@@ -353,17 +343,13 @@ export default function ChatPage() {
       saveThread(t2);
       setThread(t2);
     } catch (err: any) {
-      if (
-        err?.message === "FREE_LIMIT_REACHED" ||
-        err?.message === "PREMIUM_REQUIRED"
-      ) {
+      if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
         setThread([...t1]); // retire “...”
         return;
       }
 
       const msg =
-        "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-        (err?.message ? `(${err.message})` : "");
+        "Erreur. Vérifie que /api/chat existe sur Vercel. " + (err?.message ? `(${err.message})` : "");
 
       const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
       saveThread(t2);
@@ -442,11 +428,7 @@ export default function ChatPage() {
 
       <header className="chat-top" role="banner">
         <Link className="chat-brand" href="/" aria-label="Retour à l’accueil">
-          <img
-            className="chat-logo"
-            src="/logo-luna-astralis-transparent.png"
-            alt="Luna Astralis"
-          />
+          <img className="chat-logo" src="/logo-luna-astralis-transparent.png" alt="Luna Astralis" />
           <div className="chat-brand-text">
             <div className="chat-brand-name">LUNA ASTRALIS</div>
             <div className="chat-brand-sub">Astro & psycho</div>
@@ -506,17 +488,11 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>
-              {isAuth ? sessionEmail : ""}
-            </div>
+            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>{isAuth ? sessionEmail : ""}</div>
 
             {!isAuth && (
               <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>
-                {freeLeft > 0 ? (
-                  <>Gratuit : {freeLeft} message(s) restant(s)</>
-                ) : (
-                  <>Limite gratuite atteinte</>
-                )}
+                {freeLeft > 0 ? <>Gratuit : {freeLeft} message(s) restant(s)</> : <>Limite gratuite atteinte</>}
               </div>
             )}
           </div>
@@ -560,11 +536,7 @@ export default function ChatPage() {
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button
-                className="chat-history-btn"
-                type="button"
-                onClick={() => setHistoryOpen(true)}
-              >
+              <button className="chat-history-btn" type="button" onClick={() => setHistoryOpen(true)}>
                 Historique
               </button>
               <div className="ai-face-mini-wrap" aria-hidden="true">
@@ -573,18 +545,9 @@ export default function ChatPage() {
             </div>
           </div>
 
-          <div
-            className="chat-messages"
-            id="messages"
-            ref={messagesRef}
-            role="log"
-            aria-live="polite"
-          >
+          <div className="chat-messages" id="messages" ref={messagesRef} role="log" aria-live="polite">
             {tail.map((m, idx) => (
-              <div
-                key={idx}
-                className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
-              >
+              <div key={idx} className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}>
                 {m.role === "ai" ? (
                   <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
                 ) : (
@@ -604,11 +567,7 @@ export default function ChatPage() {
               autoComplete="off"
               disabled={paywallOpen || historyOpen}
             />
-            <button
-              className="chat-send"
-              type="submit"
-              disabled={paywallOpen || historyOpen}
-            >
+            <button className="chat-send" type="submit" disabled={paywallOpen || historyOpen}>
               Envoyer
             </button>
           </form>
@@ -624,12 +583,7 @@ export default function ChatPage() {
             if (e.target === e.currentTarget) closePaywall();
           }}
         >
-          <div
-            className="paywall-card"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Continuer la discussion"
-          >
+          <div className="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
             <h3 className="paywall-title">Continuer la discussion</h3>
 
             {paywallMode === "guest" ? (
@@ -638,16 +592,10 @@ export default function ChatPage() {
                   Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.
                 </p>
                 <div className="paywall-actions">
-                  <Link
-                    className="btn btn-primary"
-                    href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}
-                  >
+                  <Link className="btn btn-primary" href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}>
                     Créer un compte / Se connecter
                   </Link>
-                  <Link
-                    className="btn"
-                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
-                  >
+                  <Link className="btn" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
                     Voir les offres
                   </Link>
                   <button className="btn" type="button" onClick={closePaywall}>
@@ -661,22 +609,18 @@ export default function ChatPage() {
             ) : (
               <>
                 <p className="paywall-desc">
-                  Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés. Choisis une offre pour continuer.
+                  Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés. Choisis une offre pour
+                  continuer.
                 </p>
                 <div className="paywall-actions">
-                  <Link
-                    className="btn btn-primary"
-                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
-                  >
+                  <Link className="btn btn-primary" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
                     Voir les offres
                   </Link>
                   <button className="btn" type="button" onClick={closePaywall}>
                     Fermer
                   </button>
                 </div>
-                <div className="paywall-foot">
-                  Après paiement, reviens ici : l’accès se débloquera automatiquement.
-                </div>
+                <div className="paywall-foot">Après paiement, reviens ici : l’accès se débloquera automatiquement.</div>
               </>
             )}
           </div>
