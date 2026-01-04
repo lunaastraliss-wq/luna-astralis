@@ -80,6 +80,15 @@ function norm(s: string) {
     .replace(/[^a-z]/g, "");
 }
 
+function safeJsonParse<T>(raw: string | null, fallback: T): T {
+  try {
+    if (!raw) return fallback;
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
+
 export default function ChatPage() {
   const sp = useSearchParams();
   const rawKey = sp.get("signe") || sp.get("sign") || "belier";
@@ -105,15 +114,20 @@ export default function ChatPage() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [uiUsed, setUiUsed] = useState(0);
 
-  const KEY_THREAD = useMemo(() => STORAGE_PREFIX + "thread_" + signKey, [signKey]);
+  const KEY_THREAD = useMemo(
+    () => STORAGE_PREFIX + "thread_" + signKey,
+    [signKey]
+  );
   const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
   const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
 
   function currentPathWithQuery() {
-    return "/chat" + (typeof window !== "undefined" ? window.location.search : "");
+    if (typeof window === "undefined") return "/chat";
+    return "/chat" + window.location.search;
   }
 
   function getGuestId() {
+    if (typeof window === "undefined") return "guest_server";
     try {
       const existing = localStorage.getItem(KEY_GUEST_ID);
       if (existing) return existing;
@@ -121,6 +135,7 @@ export default function ChatPage() {
       const id =
         (window.crypto &&
           "randomUUID" in window.crypto &&
+          typeof window.crypto.randomUUID === "function" &&
           window.crypto.randomUUID()) ||
         "guest_" + Math.random().toString(36).slice(2) + Date.now();
 
@@ -132,16 +147,13 @@ export default function ChatPage() {
   }
 
   function loadThread(): ThreadMsg[] {
-    try {
-      const raw = localStorage.getItem(KEY_THREAD);
-      const arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? (arr as ThreadMsg[]) : [];
-    } catch {
-      return [];
-    }
+    if (typeof window === "undefined") return [];
+    const arr = safeJsonParse<unknown>(localStorage.getItem(KEY_THREAD), []);
+    return Array.isArray(arr) ? (arr as ThreadMsg[]) : [];
   }
 
   function saveThread(arr: ThreadMsg[]) {
+    if (typeof window === "undefined") return;
     try {
       localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
     } catch {}
@@ -149,22 +161,30 @@ export default function ChatPage() {
 
   function ensureHello(existing: ThreadMsg[]) {
     if (existing.length) return existing;
-    const hello = `Bonjour ✨\nAvec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\nQu’est-ce qui te préoccupe aujourd’hui ?`;
+
+    const hello =
+      `Bonjour ✨\n` +
+      `Avec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\n` +
+      `Qu’est-ce qui te préoccupe aujourd’hui ?`;
+
     const t: ThreadMsg[] = [{ role: "ai", text: hello }];
     saveThread(t);
     return t;
   }
 
   function getUiUsed() {
+    if (typeof window === "undefined") return 0;
     const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
     return Number.isFinite(n) ? n : 0;
   }
 
   function incUiUsed() {
     const n = getUiUsed() + 1;
-    try {
-      localStorage.setItem(KEY_UI_USED, String(n));
-    } catch {}
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(KEY_UI_USED, String(n));
+      } catch {}
+    }
     setUiUsed(n);
     return n;
   }
@@ -172,12 +192,16 @@ export default function ChatPage() {
   function scrollToBottom(force = false) {
     const el = messagesRef.current;
     if (!el) return;
+
     if (force) {
       el.scrollTop = el.scrollHeight;
       return;
     }
+
     const threshold = 140;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }
 
@@ -215,32 +239,25 @@ export default function ChatPage() {
     const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
 
     const messages = [
-      // “Sign context”
       { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
-
-      // Historique converti au format API
       ...context.map((m) => ({
         role: m.role === "ai" ? "assistant" : "user",
         content: m.text,
       })),
-
-      // Message actuel
       { role: "user", content: userText },
     ];
 
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // cookies same-origin envoyés automatiquement (auth via cookies côté API)
       body: JSON.stringify({
         lang: "fr",
         messages,
-        // optionnel: si ton API veut tracker invité
         guestId: authed ? undefined : getGuestId(),
       }),
     });
 
-    const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => ({} as any));
 
     if (!res.ok) {
       if (data?.error === "FREE_LIMIT_REACHED") {
@@ -254,12 +271,11 @@ export default function ChatPage() {
       throw new Error(data?.error || "Erreur serveur (/api/chat).");
     }
 
-    // Ton API renvoie "message"
     if (!data?.message) throw new Error("Réponse vide.");
     return String(data.message);
   }
 
-  // Boot
+  // Boot (sign change => reload local thread + uiUsed)
   useEffect(() => {
     setUiUsed(getUiUsed());
 
@@ -275,7 +291,7 @@ export default function ChatPage() {
       setSessionEmail(s2?.user?.email || "");
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [KEY_THREAD, signName]);
+  }, [KEY_THREAD]);
 
   // Auth changes
   useEffect(() => {
@@ -287,11 +303,14 @@ export default function ChatPage() {
       const t = ensureHello(loadThread());
       setThread(t);
     });
-    return () => data.subscription.unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [KEY_THREAD, signName]);
 
-  // Auto scroll
+    return () => {
+      data.subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [KEY_THREAD]);
+
+  // Auto scroll on new messages
   useEffect(() => {
     scrollToBottom(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -311,7 +330,7 @@ export default function ChatPage() {
     setIsAuth(authed);
     setSessionEmail(s?.user?.email || "");
 
-    // gate UI invité
+    // gate UI invité (UI uniquement)
     if (!authed && getUiUsed() >= FREE_LIMIT) {
       openPaywallGuest();
       return;
@@ -334,7 +353,10 @@ export default function ChatPage() {
       saveThread(t2);
       setThread(t2);
     } catch (err: any) {
-      if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+      if (
+        err?.message === "FREE_LIMIT_REACHED" ||
+        err?.message === "PREMIUM_REQUIRED"
+      ) {
         setThread([...t1]); // retire “...”
         return;
       }
@@ -351,7 +373,10 @@ export default function ChatPage() {
 
   async function onLogout(e: React.MouseEvent) {
     e.preventDefault();
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+
     closePaywall();
     setIsAuth(false);
     setSessionEmail("");
@@ -361,16 +386,17 @@ export default function ChatPage() {
   }
 
   function onClearHistoryLocal() {
-    try {
-      localStorage.removeItem(KEY_THREAD);
-    } catch {}
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.removeItem(KEY_THREAD);
+      } catch {}
+    }
     const t = ensureHello([]);
     setThread(t);
   }
 
   return (
     <>
-      {/* Panel fixe / scroll interne + mobile: cacher grosse image du hero */}
       <style>{`
         html, body { height: 100%; }
         body { height: 100%; overflow: hidden; }
@@ -396,6 +422,7 @@ export default function ChatPage() {
           z-index: 10;
           backdrop-filter: blur(6px);
         }
+        .msg-bubble{ white-space: pre-wrap; }
 
         @media (max-width: 720px){
           .chat-hero-img{ display:none !important; }
@@ -415,7 +442,11 @@ export default function ChatPage() {
 
       <header className="chat-top" role="banner">
         <Link className="chat-brand" href="/" aria-label="Retour à l’accueil">
-          <img className="chat-logo" src="/logo-luna-astralis-transparent.png" alt="Luna Astralis" />
+          <img
+            className="chat-logo"
+            src="/logo-luna-astralis-transparent.png"
+            alt="Luna Astralis"
+          />
           <div className="chat-brand-text">
             <div className="chat-brand-name">LUNA ASTRALIS</div>
             <div className="chat-brand-sub">Astro & psycho</div>
@@ -529,7 +560,11 @@ export default function ChatPage() {
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button className="chat-history-btn" type="button" onClick={() => setHistoryOpen(true)}>
+              <button
+                className="chat-history-btn"
+                type="button"
+                onClick={() => setHistoryOpen(true)}
+              >
                 Historique
               </button>
               <div className="ai-face-mini-wrap" aria-hidden="true">
@@ -538,9 +573,18 @@ export default function ChatPage() {
             </div>
           </div>
 
-          <div className="chat-messages" id="messages" ref={messagesRef} role="log" aria-live="polite">
+          <div
+            className="chat-messages"
+            id="messages"
+            ref={messagesRef}
+            role="log"
+            aria-live="polite"
+          >
             {tail.map((m, idx) => (
-              <div key={idx} className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}>
+              <div
+                key={idx}
+                className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
+              >
                 {m.role === "ai" ? (
                   <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
                 ) : (
@@ -560,7 +604,11 @@ export default function ChatPage() {
               autoComplete="off"
               disabled={paywallOpen || historyOpen}
             />
-            <button className="chat-send" type="submit" disabled={paywallOpen || historyOpen}>
+            <button
+              className="chat-send"
+              type="submit"
+              disabled={paywallOpen || historyOpen}
+            >
               Envoyer
             </button>
           </form>
@@ -576,7 +624,12 @@ export default function ChatPage() {
             if (e.target === e.currentTarget) closePaywall();
           }}
         >
-          <div className="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
+          <div
+            className="paywall-card"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Continuer la discussion"
+          >
             <h3 className="paywall-title">Continuer la discussion</h3>
 
             {paywallMode === "guest" ? (
@@ -585,10 +638,16 @@ export default function ChatPage() {
                   Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et retrouver tes échanges.
                 </p>
                 <div className="paywall-actions">
-                  <Link className="btn btn-primary" href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                  <Link
+                    className="btn btn-primary"
+                    href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}
+                  >
                     Créer un compte / Se connecter
                   </Link>
-                  <Link className="btn" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                  <Link
+                    className="btn"
+                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
+                  >
                     Voir les offres
                   </Link>
                   <button className="btn" type="button" onClick={closePaywall}>
@@ -605,7 +664,10 @@ export default function ChatPage() {
                   Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés. Choisis une offre pour continuer.
                 </p>
                 <div className="paywall-actions">
-                  <Link className="btn btn-primary" href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}>
+                  <Link
+                    className="btn btn-primary"
+                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
+                  >
                     Voir les offres
                   </Link>
                   <button className="btn" type="button" onClick={closePaywall}>
