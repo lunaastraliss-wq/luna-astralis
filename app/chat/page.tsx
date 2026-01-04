@@ -8,7 +8,9 @@ import { supabase } from "@/lib/supabase/client";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
 
-const FREE_LIMIT = 15; // UI seulement (la vraie règle = côté API)
+// UI uniquement (la vraie règle doit rester côté API)
+const FREE_LIMIT = 15;
+
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 const CONTEXT_HISTORY = 8;
@@ -91,25 +93,24 @@ export default function ChatPage() {
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
-  const [sessionEmail, setSessionEmail] = useState<string>("");
-  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [sessionEmail, setSessionEmail] = useState("");
+  const [isAuth, setIsAuth] = useState(false);
 
   const [thread, setThread] = useState<ThreadMsg[]>([]);
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState("");
 
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
 
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [uiUsed, setUiUsed] = useState<number>(0);
+  const [uiUsed, setUiUsed] = useState(0);
 
   const KEY_THREAD = useMemo(() => STORAGE_PREFIX + "thread_" + signKey, [signKey]);
   const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
   const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
 
   function currentPathWithQuery() {
-    // En App Router, on est sur /chat
-    return "chat" + (typeof window !== "undefined" ? window.location.search : "");
+    return "/chat" + (typeof window !== "undefined" ? window.location.search : "");
   }
 
   function getGuestId() {
@@ -118,8 +119,11 @@ export default function ChatPage() {
       if (existing) return existing;
 
       const id =
-        (window.crypto && "randomUUID" in crypto && crypto.randomUUID()) ||
+        (window.crypto &&
+          "randomUUID" in window.crypto &&
+          window.crypto.randomUUID()) ||
         "guest_" + Math.random().toString(36).slice(2) + Date.now();
+
       localStorage.setItem(KEY_GUEST_ID, id);
       return id;
     } catch {
@@ -173,8 +177,7 @@ export default function ChatPage() {
       return;
     }
     const threshold = 140;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }
 
@@ -191,7 +194,6 @@ export default function ChatPage() {
   }
 
   async function getSessionSafe() {
-    if (!supabase) return null;
     try {
       const { data, error } = await supabase.auth.getSession();
       if (error) return null;
@@ -201,31 +203,41 @@ export default function ChatPage() {
     }
   }
 
-  async function getAccessToken() {
-    const s = await getSessionSafe();
-    return s?.access_token || "";
-  }
-
+  /**
+   * IMPORTANT:
+   * Ton API (app/api/chat/route.ts) attend: { lang, messages }
+   * et renvoie: { message, ... } (PAS reply)
+   */
   async function askLuna(userText: string, threadForContext: ThreadMsg[]) {
-    const accessToken = await getAccessToken();
+    const session = await getSessionSafe();
+    const authed = !!session;
 
-    const payload: any = {
-      message: userText,
-      signKey,
-      signName,
-      history: (threadForContext || []).slice(-CONTEXT_HISTORY),
-      guestId: accessToken ? undefined : getGuestId(),
-    };
+    const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
 
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (accessToken) headers["Authorization"] = "Bearer " + accessToken;
+    const messages = [
+      // “Sign context”
+      { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
+
+      // Historique converti au format API
+      ...context.map((m) => ({
+        role: m.role === "ai" ? "assistant" : "user",
+        content: m.text,
+      })),
+
+      // Message actuel
+      { role: "user", content: userText },
+    ];
 
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers,
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" },
+      // cookies same-origin envoyés automatiquement (auth via cookies côté API)
+      body: JSON.stringify({
+        lang: "fr",
+        messages,
+        // optionnel: si ton API veut tracker invité
+        guestId: authed ? undefined : getGuestId(),
+      }),
     });
 
     const data = await res.json().catch(() => ({}));
@@ -242,29 +254,24 @@ export default function ChatPage() {
       throw new Error(data?.error || "Erreur serveur (/api/chat).");
     }
 
-    if (!data?.reply) throw new Error("Réponse vide.");
-    return String(data.reply);
+    // Ton API renvoie "message"
+    if (!data?.message) throw new Error("Réponse vide.");
+    return String(data.message);
   }
 
   // Boot
   useEffect(() => {
-    // UI used
     setUiUsed(getUiUsed());
 
-    // Thread
     const t = ensureHello(loadThread());
     setThread(t);
 
-    // Auth
     (async () => {
       const s1 = await getSessionSafe();
-      if (!s1) {
-        await new Promise((r) => setTimeout(r, 250));
-      }
+      if (!s1) await new Promise((r) => setTimeout(r, 250));
       const s2 = (await getSessionSafe()) || s1;
 
-      const authed = !!s2;
-      setIsAuth(authed);
+      setIsAuth(!!s2);
       setSessionEmail(s2?.user?.email || "");
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -272,7 +279,6 @@ export default function ChatPage() {
 
   // Auth changes
   useEffect(() => {
-    if (!supabase) return;
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       closePaywall();
       setIsAuth(!!session);
@@ -285,14 +291,13 @@ export default function ChatPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [KEY_THREAD, signName]);
 
-  // Auto scroll on thread change
+  // Auto scroll
   useEffect(() => {
     scrollToBottom(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thread.length]);
 
   const freeLeft = Math.max(0, FREE_LIMIT - uiUsed);
-
   const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
 
   async function onSend(e: React.FormEvent) {
@@ -302,39 +307,35 @@ export default function ChatPage() {
 
     const s = await getSessionSafe();
     const authed = !!s;
+
     setIsAuth(authed);
     setSessionEmail(s?.user?.email || "");
 
-    // guest UI gate
+    // gate UI invité
     if (!authed && getUiUsed() >= FREE_LIMIT) {
       openPaywallGuest();
       return;
     }
 
     const t = loadThread();
-    const t1 = [...t, { role: "user" as const, text }];
+    const t1: ThreadMsg[] = [...t, { role: "user", text }];
     saveThread(t1);
     setThread(t1);
     setInput("");
 
     if (!authed) incUiUsed();
 
-    // typing placeholder
-    const tTyping = [...t1, { role: "ai" as const, text: "…" }];
-    setThread(tTyping);
+    // placeholder typing
+    setThread([...t1, { role: "ai", text: "…" }]);
 
     try {
       const reply = await askLuna(text, t1);
-
-      // replace last typing
-      const t2 = [...t1, { role: "ai" as const, text: reply }];
+      const t2: ThreadMsg[] = [...t1, { role: "ai", text: reply }];
       saveThread(t2);
       setThread(t2);
     } catch (err: any) {
       if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
-        // leave paywall open; keep the typing bubble removed
-        const t2 = [...t1];
-        setThread(t2);
+        setThread([...t1]); // retire “...”
         return;
       }
 
@@ -342,7 +343,7 @@ export default function ChatPage() {
         "Erreur. Vérifie que /api/chat existe sur Vercel. " +
         (err?.message ? `(${err.message})` : "");
 
-      const t2 = [...t1, { role: "ai" as const, text: msg }];
+      const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
       saveThread(t2);
       setThread(t2);
     }
@@ -350,11 +351,11 @@ export default function ChatPage() {
 
   async function onLogout(e: React.MouseEvent) {
     e.preventDefault();
-    if (!supabase) return;
     await supabase.auth.signOut();
     closePaywall();
     setIsAuth(false);
     setSessionEmail("");
+
     const t = ensureHello(loadThread());
     setThread(t);
   }
@@ -369,7 +370,7 @@ export default function ChatPage() {
 
   return (
     <>
-      {/* Styles “panel fixe / scroll interne” + mobile hero image hide */}
+      {/* Panel fixe / scroll interne + mobile: cacher grosse image du hero */}
       <style>{`
         html, body { height: 100%; }
         body { height: 100%; overflow: hidden; }
@@ -414,11 +415,7 @@ export default function ChatPage() {
 
       <header className="chat-top" role="banner">
         <Link className="chat-brand" href="/" aria-label="Retour à l’accueil">
-          <img
-            className="chat-logo"
-            src="/logo-luna-astralis-transparent.png"
-            alt="Luna Astralis"
-          />
+          <img className="chat-logo" src="/logo-luna-astralis-transparent.png" alt="Luna Astralis" />
           <div className="chat-brand-text">
             <div className="chat-brand-name">LUNA ASTRALIS</div>
             <div className="chat-brand-sub">Astro & psycho</div>
@@ -481,15 +478,16 @@ export default function ChatPage() {
             <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>
               {isAuth ? sessionEmail : ""}
             </div>
-            <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>
-              {!isAuth ? (
-                freeLeft > 0 ? (
+
+            {!isAuth && (
+              <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>
+                {freeLeft > 0 ? (
                   <>Gratuit : {freeLeft} message(s) restant(s)</>
                 ) : (
                   <>Limite gratuite atteinte</>
-                )
-              ) : null}
-            </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="ai-disclaimer">
@@ -531,11 +529,7 @@ export default function ChatPage() {
             </div>
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button
-                className="chat-history-btn"
-                type="button"
-                onClick={() => setHistoryOpen(true)}
-              >
+              <button className="chat-history-btn" type="button" onClick={() => setHistoryOpen(true)}>
                 Historique
               </button>
               <div className="ai-face-mini-wrap" aria-hidden="true">
@@ -546,10 +540,7 @@ export default function ChatPage() {
 
           <div className="chat-messages" id="messages" ref={messagesRef} role="log" aria-live="polite">
             {tail.map((m, idx) => (
-              <div
-                key={idx}
-                className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
-              >
+              <div key={idx} className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}>
                 {m.role === "ai" ? (
                   <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
                 ) : (
@@ -578,9 +569,13 @@ export default function ChatPage() {
 
       {/* PAYWALL */}
       {paywallOpen && (
-        <div className="paywall" style={{ display: "flex" }} onClick={(e) => {
-          if (e.target === e.currentTarget) closePaywall();
-        }}>
+        <div
+          className="paywall"
+          style={{ display: "flex" }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closePaywall();
+          }}
+        >
           <div className="paywall-card" role="dialog" aria-modal="true" aria-label="Continuer la discussion">
             <h3 className="paywall-title">Continuer la discussion</h3>
 
@@ -628,9 +623,13 @@ export default function ChatPage() {
 
       {/* HISTORIQUE */}
       {historyOpen && (
-        <div className="history" style={{ display: "flex" }} onClick={(e) => {
-          if (e.target === e.currentTarget) setHistoryOpen(false);
-        }}>
+        <div
+          className="history"
+          style={{ display: "flex" }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setHistoryOpen(false);
+          }}
+        >
           <div className="history-card" role="dialog" aria-modal="true" aria-label="Historique">
             <div className="history-top">
               <div className="history-title">Historique</div>
