@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 function safeNext(v: string | null) {
   const s = (v || "").trim();
   if (!s) return "/chat";
@@ -19,7 +22,9 @@ export async function GET(req: Request) {
   const { error } = await supabase.auth.exchangeCodeForSession(url);
 
   if (error) {
-    return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(next)}`, url.origin));
+    return NextResponse.redirect(
+      new URL(`/login?oauth=1&next=${encodeURIComponent(next)}`, url.origin)
+    );
   }
 
   return NextResponse.redirect(new URL(next, url.origin));
