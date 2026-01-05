@@ -818,33 +818,6 @@ export default function ChatClient() {
           </div>
         </aside>
 
-        <section className="chat-panel" aria-label="Discussion">
-          <div className="chat-hero" aria-hidden="true">
-            <div className="chat-hero-inner">
-              <img className="chat-hero-img" src="/ia-luna-astralis.png" alt="" />
-              <div className="chat-hero-overlay" />
-              <div className="chat-hero-card">
-                <p className="hero-title">Ton signe : {signName}</p>
-                <p className="hero-desc">{signDesc}</p>
-
-                {!!bookUrl && (
-                  <div className="hero-book">
-                    <a
-                      className="ai-book-link"
-                      href={bookUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Approfondir ce signe"
-                      title="Approfondir ce signe"
-                    >
-                      ✦ Approfondir ce signe
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
           <div className="chat-header">
             <div className="chat-title">
               Discussion <span className="chat-pill">{signName}</span>
