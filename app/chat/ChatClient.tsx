@@ -88,7 +88,7 @@ function safeJsonParse<T>(raw: string | null, fallback: T): T {
   }
 }
 
-export default function ChatPage() {
+export default function ChatClient() {
   const sp = useSearchParams();
   const rawKey = sp.get("signe") || sp.get("sign") || "belier";
 
@@ -348,7 +348,8 @@ export default function ChatPage() {
       }
 
       const msg =
-        "Erreur. Vérifie que /api/chat existe sur Vercel. " + (err?.message ? `(${err.message})` : "");
+        "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+        (err?.message ? `(${err.message})` : "");
 
       const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
       saveThread(t2);
@@ -487,11 +488,17 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>{isAuth ? sessionEmail : ""}</div>
+            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>
+              {isAuth ? sessionEmail : ""}
+            </div>
 
             {!isAuth && (
               <div style={{ marginTop: 6, fontSize: 12, opacity: 0.7 }}>
-                {freeLeft > 0 ? <>Gratuit : {freeLeft} message(s) restant(s)</> : <>Limite gratuite atteinte</>}
+                {freeLeft > 0 ? (
+                  <>Gratuit : {freeLeft} message(s) restant(s)</>
+                ) : (
+                  <>Limite gratuite atteinte</>
+                )}
               </div>
             )}
           </div>
@@ -680,4 +687,4 @@ export default function ChatPage() {
       )}
     </>
   );
-}
+      }
