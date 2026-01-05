@@ -28,8 +28,13 @@ const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
-// ✅ Corrigé: un seul nom
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+// ✅ IMPORTANT: accepte SUPABASE_URL (souvent utilisé côté serveur) OU NEXT_PUBLIC_SUPABASE_URL
+const SUPABASE_URL =
+  process.env.SUPABASE_URL ??
+  process.env.NEXT_PUBLIC_SUPABASE_URL ??
+  process.env.NEXT_PUBLIC_SUPABASE_URL ??
+  "";
+
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 // ✅ Pour lire la session cookies
@@ -168,15 +173,16 @@ async function isPremiumActive(user_id: string) {
 }
 
 function setGuestCookie(res: NextResponse, guest_id: string) {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
   res.headers.append(
     "Set-Cookie",
-    `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax`
+    `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
   );
 }
 
 function readBearer(req: Request) {
   const h = req.headers.get("authorization") || "";
-  const m = h.match(/^Bearer\s+(.+)$/i);
+  const m = h.match(/^Bearer\\s+(.+)$/i);
   return m ? m[1].trim() : "";
 }
 
@@ -204,7 +210,7 @@ function buildChatMessages(body: any) {
   return msgs.filter((m: any) => m.content);
 }
 
-// ✅ Pour tester sans confusion (ouvre /api/chat et tu vois ok)
+// ✅ Pour tester vite: GET /api/chat => ok
 export async function GET() {
   return NextResponse.json({ ok: true, hint: "Use POST /api/chat" });
 }
@@ -239,7 +245,6 @@ export async function POST(req: Request) {
         const { data } = await supabaseAuth.auth.getSession();
         user_id = data?.session?.user?.id ?? null;
       } catch {
-        // ✅ si session cookies impossible (env manquante), on reste guest
         user_id = null;
       }
     }
@@ -289,7 +294,7 @@ Signe: ${signName || signKey || "—"}.
       const remaining = Math.max(0, FREE_LIMIT - newCount);
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
-        const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+        const candidate = (short + UPSELL (UPSELL_TEXT_FR)).replace(/\s+/g, " ").trim();
         short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
       }
 
@@ -324,10 +329,7 @@ Signe: ${signName || signKey || "—"}.
 
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
-    return NextResponse.json(
-      { message: answer, reply: answer, mode: "auth" },
-      { status: 200 }
-    );
+    return NextResponse.json({ message: answer, reply: answer, mode: "auth" }, { status: 200 });
   } catch (e: any) {
     return NextResponse.json(
       { error: "SERVER_ERROR", detail: cleanStr(e?.message) },
