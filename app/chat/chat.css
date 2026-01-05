@@ -1,10 +1,9 @@
-
 /* ==========================================================
    Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR)
    - 2 colonnes (sidebar + chat)
    - Page fixe: scroll UNIQUEMENT dans .chat-messages
-   - Sidebar: AUCUNE barre (pas de scroll) + image plus petite
-   - Compteur collé en bas (footer)
+   - Sidebar: aucune barre (pas de scroll) + image plus petite
+   - Compteur collé en bas (footer sidebar)
    - Next.js friendly: wrapper .chat-body
    - Fix "lettres collées": reset letter-spacing
    - Bulles sans queue
@@ -18,7 +17,7 @@
   --gap: 14px;
   --sideW: 330px;
 
-  /* ✅ Ajuste ici si tu veux encore plus petit */
+  /* image sidebar */
   --sideImgH: 220px;
 }
 
@@ -154,7 +153,8 @@
 
 /* =========================
    SIDEBAR (BLOC À GAUCHE)
-   ✅ Objectif: aucune barre + tout le texte visible
+   - AUCUN scroll
+   - Footer collé en bas
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -178,7 +178,7 @@
   border-bottom:1px solid rgba(255,255,255,.10);
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center; /* ✅ titre centré */
   gap:10px;
   flex: 0 0 auto;
 }
@@ -189,26 +189,31 @@
   letter-spacing:.01em;
 }
 
-/* ✅ IMPORTANT: on empêche tout scroll dans la sidebar */
+/* contenu sidebar: pas de scroll */
 .chat-side-content{
   padding:14px;
   flex: 1 1 auto;
   min-height:0;
 
-  overflow: hidden !important; /* <-- enlève la barre */
-  overflow-x: hidden !important;
+  overflow: hidden !important; /* ✅ pas de barre */
 }
 
-/* ✅ Image plus petite */
+/* centre le contenu texte */
+.chat-side-center{
+  text-align:center;
+}
+
+/* image sidebar (petite + centrée) */
 .ai-face-wrap{
   width: 100%;
+  max-width: 240px;
+  margin: 0 auto 12px;
+
   border-radius: 18px;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.20);
   box-shadow: 0 16px 50px rgba(0,0,0,.45);
-
-  max-height: var(--sideImgH);
 }
 
 .ai-face{
@@ -221,22 +226,22 @@
 
 /* Texte sidebar */
 .chat-side-p{
-  margin: 10px 0 0;
-  color: rgba(255,255,255,.86);
-  font-weight:800;
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.90);
+  font-weight:900;
   line-height:1.5;
-  font-size: 12px;
+  font-size:12px;
 }
 
 .chat-side-muted{
   margin: 8px 0 0;
-  color: rgba(255,255,255,.70);
-  font-weight:700;
+  color: rgba(255,255,255,.72);
+  font-weight:800;
   line-height:1.45;
   font-size:12px;
 }
 
-/* Bouton livre */
+/* bouton livre */
 .book-btn{
   display:inline-flex;
   align-items:center;
@@ -264,7 +269,7 @@
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
-/* ✅ Compteur collé en bas (footer), ne pousse pas le contenu */
+/* compteur gratuit collé en bas (footer sidebar) */
 #freeCounter{
   margin: 12px 14px 14px;
   padding:10px 12px;
@@ -274,6 +279,8 @@
   color: rgba(255,255,255,.90);
   font-weight:900;
   font-size:12px;
+
+  text-align:center;
   flex: 0 0 auto;
 }
 
@@ -334,12 +341,14 @@
   font-weight:1000;
   font-size:14px;
   letter-spacing: .01em;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
 .chat-pill{
   display:inline-flex;
   align-items:center;
-  margin-left:8px;
   padding:6px 10px;
   border-radius:999px;
 
@@ -351,6 +360,39 @@
   border:1px solid rgba(255,255,255,.14);
 }
 
+/* ✅ zone droite: Historique + mini avatar */
+.chat-header-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* bouton historique */
+.chat-history-btn{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.92);
+
+  padding: 10px 12px;
+  border-radius: 999px;
+
+  font-weight: 900;
+  font-size: 12px;
+  cursor:pointer;
+
+  letter-spacing: .01em;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+.chat-history-btn:hover{ filter: brightness(1.06); }
+.chat-history-btn:focus-visible{
+  outline:0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
+}
+
+/* mini avatar à droite */
 .ai-face-mini-wrap{
   width:34px;
   height:34px;
@@ -358,6 +400,10 @@
   overflow:hidden;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.20);
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 .ai-face-mini{
   width:100%;
@@ -421,8 +467,8 @@
 
   line-height:1.55;
   white-space:pre-wrap;
-
   letter-spacing: .01em;
+
   box-shadow: 0 14px 40px rgba(0,0,0,.40);
 }
 
@@ -471,7 +517,6 @@
   font-weight:800;
 
   outline:none;
-
   letter-spacing: .01em;
   line-height: 1.35;
 }
@@ -513,30 +558,6 @@
 .input-disabled{ opacity:.6; pointer-events:none; }
 
 /* =========================
-   BOUTON HISTORIQUE
-========================= */
-.chat-history-btn{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.25);
-  color: rgba(255,255,255,.92);
-
-  padding: 10px 12px;
-  border-radius: 999px;
-
-  font-weight: 900;
-  font-size: 12px;
-  cursor:pointer;
-
-  letter-spacing: .01em;
-}
-.chat-history-btn:hover{ filter: brightness(1.06); }
-.chat-history-btn:focus-visible{
-  outline:0;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
-}
-
-/* =========================
    RESPONSIVE
 ========================= */
 @media (max-width: 980px){
@@ -566,89 +587,3 @@
 }
 .chat-hero{ padding: 14px; }
 .chat-hero-inner{ position: relative; }
-/* =========================
-   SIDEBAR: centrer texte + image
-========================= */
-.ai-face-wrap{
-  margin: 0 auto;              /* centre le bloc image */
-}
-
-.ai-name,
-.ai-tag,
-.ai-desc,
-.ai-book,
-.ai-disclaimer{
-  text-align: center;          /* centre tout le texte */
-}
-
-.ai-name{
-  margin-top: 10px;
-  font-weight: 1000;
-  font-size: 14px;
-}
-
-.ai-tag{
-  margin-top: 6px;
-  font-weight: 900;
-  font-size: 12px;
-  opacity: .9;
-}
-
-.ai-desc{
-  margin-top: 8px;
-  font-weight: 800;
-  font-size: 12px;
-  line-height: 1.45;
-  opacity: .88;
-}
-
-.ai-book{
-  margin-top: 10px;
-}
-
-.ai-book-link{
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 14px;
-  text-decoration: none;
-  font-weight: 1000;
-  font-size: 12px;
-  color: rgba(10,12,22,.96);
-  border: 1px solid rgba(255,255,255,.20);
-  background: rgba(255,255,255,.08);
-}
-
-.ai-disclaimer{
-  margin-top: 10px;
-  font-size: 11px;
-  opacity: .75;
-}
-
-/* ✅ compteur gratuit: 1 fois, centré */
-#freeCounter{
-  text-align: center;
-}
-
-/* =========================
-   HEADER CHAT: bouton + mini avatar alignés / centrés
-   (si ton HTML met les 2 dans la même zone)
-========================= */
-.chat-header-right{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.chat-history-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.ai-face-mini-wrap{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-}
