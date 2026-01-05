@@ -4,10 +4,6 @@ import React from "react";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
 
-function encodeNext(nextUrl: string) {
-  return encodeURIComponent(nextUrl || "/chat");
-}
-
 function TopBar({
   isAuth,
   onLogout,
@@ -29,7 +25,7 @@ function TopBar({
         </div>
       </a>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <div className="chat-top-actions">
         <a className="chat-back" href="/#signes">
           Changer de signe
         </a>
@@ -76,17 +72,19 @@ export default function ChatPanel(props: {
 
   return (
     <section className="chat-panel" aria-label="Discussion">
-      {/* ✅ UN SEUL header */}
       <div className="chat-header">
         <div className="chat-title">
           Discussion <span className="chat-pill">{signName}</span>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        {/* ✅ important: utiliser la classe CSS */}
+        <div className="chat-header-right">
           <button
             className="chat-history-btn"
             type="button"
             onClick={onOpenHistory}
+            aria-label="Ouvrir l’historique"
+            disabled={disabled}
           >
             Historique
           </button>
@@ -110,7 +108,11 @@ export default function ChatPanel(props: {
             className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
           >
             {m.role === "ai" ? (
-              <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
+              <img
+                className="msg-avatar"
+                src="/ia-luna-astralis.png"
+                alt="Luna (IA)"
+              />
             ) : (
               <div className="msg-avatar-spacer" />
             )}
