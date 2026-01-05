@@ -17,9 +17,12 @@ export const dynamic = "force-dynamic";
  * - Upsell seulement quand remaining <= UPSELL_WHEN_REMAINING_LTE
  *
  * ✅ Compat:
- * - Accepte payload "ancien": { messages: [{role, content}], lang }
+ * - Accepte payload "ancien": { messages: [{role, content}], lang, guestId }
  * - Accepte payload "nouveau": { message, history: [{role,text}], signKey, signName, guestId }
- * - Répond TOUJOURS: { reply: "..." } + erreurs { error: "..." }
+ *
+ * ✅ Répond (pour ton UI):
+ * - OK: { message: "...", reply: "...", mode: "...", remaining? }
+ * - Erreur: { error: "..." }
  */
 
 const FREE_LIMIT = 15;
@@ -40,7 +43,7 @@ const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -177,6 +180,7 @@ async function isPremiumActive(user_id: string) {
 }
 
 function setGuestCookie(res: NextResponse, guest_id: string) {
+  // Tu peux ajouter Secure; en prod si tu veux.
   res.headers.append(
     "Set-Cookie",
     `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax`
@@ -208,12 +212,10 @@ function buildChatMessages(body: any) {
   const hist = Array.isArray(body?.history) ? body.history : [];
   const last = cleanStr(body?.message);
 
-  const msgs = [
-    ...hist.map((m: any) => ({
-      role: m?.role === "ai" || m?.role === "assistant" ? "assistant" : "user",
-      content: cleanStr(m?.text ?? m?.content),
-    })),
-  ];
+  const msgs = hist.map((m: any) => ({
+    role: m?.role === "ai" || m?.role === "assistant" ? "assistant" : "user",
+    content: cleanStr(m?.text ?? m?.content),
+  }));
 
   if (last) msgs.push({ role: "user", content: last });
 
@@ -235,7 +237,7 @@ export async function POST(req: Request) {
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
 
-    // ===== Auth: d’abord Bearer, sinon cookies
+    // ===== Auth: d’abord Bearer, sinon cookies session
     let user_id: string | null = null;
 
     const bearer = readBearer(req);
@@ -245,6 +247,7 @@ export async function POST(req: Request) {
     }
 
     if (!user_id) {
+      // ⚠️ App Router: cookies() pas await
       const supabaseAuth = createRouteHandlerClient({ cookies });
       const { data } = await supabaseAuth.auth.getSession();
       user_id = data?.session?.user?.id ?? null;
@@ -253,7 +256,7 @@ export async function POST(req: Request) {
     const isAuthed = !!user_id;
 
     // ===== Guest id: payload guestId > cookie > new
-    const cookieStore = await cookies();
+    const cookieStore = cookies(); // ✅ PAS await
     const cookieGid = cookieStore.get("la_gid")?.value;
     const payloadGid = cleanStr(body.guestId);
     const guest_id = payloadGid || cookieGid || makeGuestId();
@@ -300,7 +303,14 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const res = NextResponse.json(
-        { reply: short, mode: "guest", remaining },
+        {
+          // ✅ IMPORTANT: ton UI lit data.message
+          message: short,
+          // ✅ Compat si tu as d’autres pages qui lisent reply
+          reply: short,
+          mode: "guest",
+          remaining,
+        },
         { status: 200 }
       );
       setGuestCookie(res, guest_id);
@@ -310,7 +320,7 @@ Signe: ${signName || signKey || "—"}.
     // =========================
     // AUTH FLOW (premium required)
     // =========================
-    const premium = await isPremiumActive(user_id);
+    const premium = await isPremiumActive(user_id!);
     if (!premium) return jsonError("PREMIUM_REQUIRED", 402);
 
     const system = `
@@ -329,7 +339,15 @@ Signe: ${signName || signKey || "—"}.
     });
 
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
-    return NextResponse.json({ reply: answer, mode: "auth" }, { status: 200 });
+
+    return NextResponse.json(
+      {
+        message: answer, // ✅ UI
+        reply: answer,   // ✅ compat
+        mode: "auth",
+      },
+      { status: 200 }
+    );
   } catch (e: any) {
     return NextResponse.json(
       { error: "SERVER_ERROR", detail: cleanStr(e?.message) },
