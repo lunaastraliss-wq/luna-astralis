@@ -93,19 +93,19 @@ export default function ChatClient() {
   const sp = useSearchParams();
 
   const rawKey = useMemo(() => {
-    // ✅ on garde belier par défaut
     return sp.get("signe") || sp.get("sign") || "belier";
   }, [sp]);
 
   const signKey = useMemo(() => norm(rawKey) || "belier", [rawKey]);
-
   const signName = useMemo(() => SIGNS[signKey] || "—", [signKey]);
+
   const signDesc = useMemo(
     () =>
       SIGN_DESC[signKey] ||
       "Exploration douce : émotions, relations, stress, schémas, besoins, limites.",
     [signKey]
   );
+
   const bookUrl = useMemo(() => SIGN_BOOKS[signKey] || "", [signKey]);
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
@@ -122,11 +122,7 @@ export default function ChatClient() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [uiUsed, setUiUsed] = useState(0);
 
-  // ✅ clés storage stables
-  const KEY_THREAD = useMemo(
-    () => `${STORAGE_PREFIX}thread_${signKey}`,
-    [signKey]
-  );
+  const KEY_THREAD = useMemo(() => `${STORAGE_PREFIX}thread_${signKey}`, [signKey]);
   const KEY_UI_USED = `${STORAGE_PREFIX}ui_used_global`;
   const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
 
@@ -137,7 +133,6 @@ export default function ChatClient() {
 
   const getGuestId = useCallback(() => {
     if (typeof window === "undefined") return "guest_server";
-
     try {
       const existing = localStorage.getItem(KEY_GUEST_ID);
       if (existing) return existing;
@@ -215,9 +210,7 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
-
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -231,9 +224,7 @@ export default function ChatClient() {
     setPaywallOpen(true);
   }, []);
 
-  const closePaywall = useCallback(() => {
-    setPaywallOpen(false);
-  }, []);
+  const closePaywall = useCallback(() => setPaywallOpen(false), []);
 
   const getSessionSafe = useCallback(async () => {
     try {
@@ -252,7 +243,6 @@ export default function ChatClient() {
 
       const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
 
-      // ✅ payload: messages[{role, content}]
       const messages = [
         { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
         ...context.map((m) => ({
@@ -302,7 +292,7 @@ export default function ChatClient() {
     ]
   );
 
-  // ✅ Boot / quand on change de signe (KEY_THREAD change)
+  // Boot / change de signe
   useEffect(() => {
     setUiUsed(getUiUsed());
 
@@ -326,7 +316,7 @@ export default function ChatClient() {
     };
   }, [KEY_THREAD, ensureHello, getSessionSafe, getUiUsed, loadThread]);
 
-  // ✅ Auth changes
+  // Auth changes
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       closePaywall();
@@ -342,7 +332,7 @@ export default function ChatClient() {
     };
   }, [closePaywall, ensureHello, loadThread]);
 
-  // ✅ Auto scroll
+  // Auto scroll
   useEffect(() => {
     scrollToBottom(true);
   }, [thread.length, scrollToBottom]);
@@ -362,7 +352,6 @@ export default function ChatClient() {
       setIsAuth(authed);
       setSessionEmail(s?.user?.email || "");
 
-      // UI gate invité (UI uniquement)
       if (!authed && getUiUsed() >= FREE_LIMIT) {
         openPaywallGuest();
         return;
@@ -376,7 +365,6 @@ export default function ChatClient() {
 
       if (!authed) incUiUsed();
 
-      // placeholder typing
       setThread([...t1, { role: "ai", text: "…" }]);
 
       try {
@@ -385,11 +373,8 @@ export default function ChatClient() {
         saveThread(t2);
         setThread(t2);
       } catch (err: any) {
-        if (
-          err?.message === "FREE_LIMIT_REACHED" ||
-          err?.message === "PREMIUM_REQUIRED"
-        ) {
-          setThread([...t1]); // retire “...”
+        if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+          setThread([...t1]);
           return;
         }
 
@@ -443,32 +428,48 @@ export default function ChatClient() {
 
   return (
     <div className="chat-body">
+      {/* Header sticky */}
       <div className="chat-top">
         <ChatPanel.TopBar isAuth={isAuth} onLogout={onLogout} />
       </div>
 
+      {/* ✅ 2 colonnes FIXES (sidebar + panel) */}
       <main className="chat-wrap" role="main">
-        <ChatSidebar
-          isAuth={isAuth}
-          sessionEmail={sessionEmail}
-          freeLeft={freeLeft}
-          signName={signName}
-          signDesc={signDesc}
-          bookUrl={bookUrl}
-        />
+        {/* ✅ Sidebar : structure EXACTE attendue par ton chat.css */}
+        <aside className="chat-side">
+          <div className="chat-side-content">
+            <ChatSidebar
+              isAuth={isAuth}
+              sessionEmail={sessionEmail}
+              freeLeft={freeLeft}
+              signName={signName}
+              signDesc={signDesc}
+              bookUrl={bookUrl}
+            />
+          </div>
 
-        <ChatPanel
-          signName={signName}
-          tail={tail}
-          messagesRef={messagesRef}
-          input={input}
-          setInput={setInput}
-          onSend={onSend}
-          onOpenHistory={() => setHistoryOpen(true)}
-          disabled={paywallOpen || historyOpen}
-        />
+          {/* ✅ Compteur collé en bas */}
+          <div id="freeCounter">
+            Gratuit : {freeLeft} message(s) restant(s)
+          </div>
+        </aside>
+
+        {/* Panel chat */}
+        <section className="chat-panel">
+          <ChatPanel
+            signName={signName}
+            tail={tail}
+            messagesRef={messagesRef}
+            input={input}
+            setInput={setInput}
+            onSend={onSend}
+            onOpenHistory={() => setHistoryOpen(true)}
+            disabled={paywallOpen || historyOpen}
+          />
+        </section>
       </main>
 
+      {/* Modals */}
       <ChatModals
         paywallOpen={paywallOpen}
         paywallMode={paywallMode}
@@ -481,4 +482,4 @@ export default function ChatClient() {
       />
     </div>
   );
-}
+                       }
