@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase/client";
 
@@ -91,14 +91,22 @@ function safeJsonParse<T>(raw: string | null, fallback: T): T {
 
 export default function ChatClient() {
   const sp = useSearchParams();
-  const rawKey = sp.get("signe") || sp.get("sign") || "belier";
+
+  const rawKey = useMemo(() => {
+    // ✅ on garde belier par défaut
+    return sp.get("signe") || sp.get("sign") || "belier";
+  }, [sp]);
 
   const signKey = useMemo(() => norm(rawKey) || "belier", [rawKey]);
-  const signName = SIGNS[signKey] || "—";
-  const signDesc =
-    SIGN_DESC[signKey] ||
-    "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
-  const bookUrl = SIGN_BOOKS[signKey] || "";
+
+  const signName = useMemo(() => SIGNS[signKey] || "—", [signKey]);
+  const signDesc = useMemo(
+    () =>
+      SIGN_DESC[signKey] ||
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.",
+    [signKey]
+  );
+  const bookUrl = useMemo(() => SIGN_BOOKS[signKey] || "", [signKey]);
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
@@ -114,20 +122,22 @@ export default function ChatClient() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [uiUsed, setUiUsed] = useState(0);
 
+  // ✅ clés storage stables
   const KEY_THREAD = useMemo(
-    () => STORAGE_PREFIX + "thread_" + signKey,
+    () => `${STORAGE_PREFIX}thread_${signKey}`,
     [signKey]
   );
-  const KEY_UI_USED = STORAGE_PREFIX + "ui_used_global";
-  const KEY_GUEST_ID = STORAGE_PREFIX + "guest_id";
+  const KEY_UI_USED = `${STORAGE_PREFIX}ui_used_global`;
+  const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
 
-  function currentPathWithQuery() {
+  const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/chat";
     return "/chat" + window.location.search;
-  }
+  }, []);
 
-  function getGuestId() {
+  const getGuestId = useCallback(() => {
     if (typeof window === "undefined") return "guest_server";
+
     try {
       const existing = localStorage.getItem(KEY_GUEST_ID);
       if (existing) return existing;
@@ -144,41 +154,47 @@ export default function ChatClient() {
     } catch {
       return "guest_" + Math.random().toString(36).slice(2) + Date.now();
     }
-  }
+  }, []);
 
-  function loadThread(): ThreadMsg[] {
+  const loadThread = useCallback((): ThreadMsg[] => {
     if (typeof window === "undefined") return [];
     const arr = safeJsonParse<unknown>(localStorage.getItem(KEY_THREAD), []);
     return Array.isArray(arr) ? (arr as ThreadMsg[]) : [];
-  }
+  }, [KEY_THREAD]);
 
-  function saveThread(arr: ThreadMsg[]) {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
-    } catch {}
-  }
+  const saveThread = useCallback(
+    (arr: ThreadMsg[]) => {
+      if (typeof window === "undefined") return;
+      try {
+        localStorage.setItem(KEY_THREAD, JSON.stringify(arr || []));
+      } catch {}
+    },
+    [KEY_THREAD]
+  );
 
-  function ensureHello(existing: ThreadMsg[]) {
-    if (existing.length) return existing;
+  const ensureHello = useCallback(
+    (existing: ThreadMsg[]) => {
+      if (existing.length) return existing;
 
-    const hello =
-      `Bonjour ✨\n` +
-      `Avec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\n` +
-      `Qu’est-ce qui te préoccupe aujourd’hui ?`;
+      const hello =
+        `Bonjour ✨\n` +
+        `Avec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\n` +
+        `Qu’est-ce qui te préoccupe aujourd’hui ?`;
 
-    const t: ThreadMsg[] = [{ role: "ai", text: hello }];
-    saveThread(t);
-    return t;
-  }
+      const t: ThreadMsg[] = [{ role: "ai", text: hello }];
+      saveThread(t);
+      return t;
+    },
+    [saveThread, signName]
+  );
 
-  function getUiUsed() {
+  const getUiUsed = useCallback(() => {
     if (typeof window === "undefined") return 0;
     const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
     return Number.isFinite(n) ? n : 0;
-  }
+  }, []);
 
-  function incUiUsed() {
+  const incUiUsed = useCallback(() => {
     const n = getUiUsed() + 1;
     if (typeof window !== "undefined") {
       try {
@@ -187,9 +203,9 @@ export default function ChatClient() {
     }
     setUiUsed(n);
     return n;
-  }
+  }, [getUiUsed]);
 
-  function scrollToBottom(force = false) {
+  const scrollToBottom = useCallback((force = false) => {
     const el = messagesRef.current;
     if (!el) return;
 
@@ -201,22 +217,25 @@ export default function ChatClient() {
     const threshold = 160;
     const nearBottom =
       el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
-    if (nearBottom) el.scrollTop = el.scrollHeight;
-  }
 
-  function openPaywallGuest() {
+    if (nearBottom) el.scrollTop = el.scrollHeight;
+  }, []);
+
+  const openPaywallGuest = useCallback(() => {
     setPaywallMode("guest");
     setPaywallOpen(true);
-  }
-  function openPaywallPremiumRequired() {
+  }, []);
+
+  const openPaywallPremiumRequired = useCallback(() => {
     setPaywallMode("premium");
     setPaywallOpen(true);
-  }
-  function closePaywall() {
-    setPaywallOpen(false);
-  }
+  }, []);
 
-  async function getSessionSafe() {
+  const closePaywall = useCallback(() => {
+    setPaywallOpen(false);
+  }, []);
+
+  const getSessionSafe = useCallback(async () => {
     try {
       const { data, error } = await supabase.auth.getSession();
       if (error) return null;
@@ -224,183 +243,208 @@ export default function ChatClient() {
     } catch {
       return null;
     }
-  }
+  }, []);
 
-  async function askLuna(userText: string, threadForContext: ThreadMsg[]) {
-    const session = await getSessionSafe();
-    const authed = !!session;
+  const askLuna = useCallback(
+    async (userText: string, threadForContext: ThreadMsg[]) => {
+      const session = await getSessionSafe();
+      const authed = !!session;
 
-    const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
+      const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
 
-    // ✅ payload "ancien": messages[{role, content}]
-    const messages = [
-      { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
-      ...context.map((m) => ({
-        role: m.role === "ai" ? "assistant" : "user",
-        content: m.text,
-      })),
-      { role: "user", content: userText },
-    ];
+      // ✅ payload: messages[{role, content}]
+      const messages = [
+        { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
+        ...context.map((m) => ({
+          role: m.role === "ai" ? "assistant" : "user",
+          content: m.text,
+        })),
+        { role: "user", content: userText },
+      ];
 
-    const res = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        lang: "fr",
-        messages,
-        guestId: authed ? undefined : getGuestId(),
-        signKey,
-        signName,
-      }),
-    });
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lang: "fr",
+          messages,
+          guestId: authed ? undefined : getGuestId(),
+          signKey,
+          signName,
+        }),
+      });
 
-    const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch(() => ({} as any));
 
-    if (!res.ok) {
-      if (data?.error === "FREE_LIMIT_REACHED") {
-        openPaywallGuest();
-        throw new Error("FREE_LIMIT_REACHED");
+      if (!res.ok) {
+        if (data?.error === "FREE_LIMIT_REACHED") {
+          openPaywallGuest();
+          throw new Error("FREE_LIMIT_REACHED");
+        }
+        if (data?.error === "PREMIUM_REQUIRED") {
+          openPaywallPremiumRequired();
+          throw new Error("PREMIUM_REQUIRED");
+        }
+        throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
-      if (data?.error === "PREMIUM_REQUIRED") {
-        openPaywallPremiumRequired();
-        throw new Error("PREMIUM_REQUIRED");
-      }
-      throw new Error(data?.error || "Erreur serveur (/api/chat).");
-    }
 
-    // ✅ ton API renvoie reply (et parfois message selon tes tests)
-    const reply = data?.reply ?? data?.message;
-    if (!reply) throw new Error("Réponse vide.");
-    return String(reply);
-  }
+      const reply = data?.reply ?? data?.message;
+      if (!reply) throw new Error("Réponse vide.");
+      return String(reply);
+    },
+    [
+      getSessionSafe,
+      getGuestId,
+      openPaywallGuest,
+      openPaywallPremiumRequired,
+      signKey,
+      signName,
+    ]
+  );
 
-  // Boot
+  // ✅ Boot / quand on change de signe (KEY_THREAD change)
   useEffect(() => {
     setUiUsed(getUiUsed());
 
-    const t = ensureHello(loadThread());
-    setThread(t);
+    const t0 = ensureHello(loadThread());
+    setThread(t0);
+
+    let cancelled = false;
 
     (async () => {
       const s1 = await getSessionSafe();
       if (!s1) await new Promise((r) => setTimeout(r, 250));
       const s2 = (await getSessionSafe()) || s1;
 
+      if (cancelled) return;
       setIsAuth(!!s2);
       setSessionEmail(s2?.user?.email || "");
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [KEY_THREAD]);
 
-  // Auth changes
+    return () => {
+      cancelled = true;
+    };
+  }, [KEY_THREAD, ensureHello, getSessionSafe, getUiUsed, loadThread]);
+
+  // ✅ Auth changes
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       closePaywall();
       setIsAuth(!!session);
       setSessionEmail(session?.user?.email || "");
 
-      const t = ensureHello(loadThread());
-      setThread(t);
+      const t0 = ensureHello(loadThread());
+      setThread(t0);
     });
 
     return () => {
       data.subscription.unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [KEY_THREAD]);
+  }, [closePaywall, ensureHello, loadThread]);
 
-  // Auto scroll
+  // ✅ Auto scroll
   useEffect(() => {
     scrollToBottom(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [thread.length]);
+  }, [thread.length, scrollToBottom]);
 
   const freeLeft = Math.max(0, FREE_LIMIT - uiUsed);
   const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
 
-  async function onSend(e: React.FormEvent) {
-    e.preventDefault();
-    const text = (input || "").trim();
-    if (!text) return;
+  const onSend = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      const text = (input || "").trim();
+      if (!text) return;
 
-    const s = await getSessionSafe();
-    const authed = !!s;
+      const s = await getSessionSafe();
+      const authed = !!s;
 
-    setIsAuth(authed);
-    setSessionEmail(s?.user?.email || "");
+      setIsAuth(authed);
+      setSessionEmail(s?.user?.email || "");
 
-    // UI gate invité (UI uniquement)
-    if (!authed && getUiUsed() >= FREE_LIMIT) {
-      openPaywallGuest();
-      return;
-    }
-
-    const t = loadThread();
-    const t1: ThreadMsg[] = [...t, { role: "user", text }];
-    saveThread(t1);
-    setThread(t1);
-    setInput("");
-
-    if (!authed) incUiUsed();
-
-    // placeholder typing
-    setThread([...t1, { role: "ai", text: "…" }]);
-
-    try {
-      const reply = await askLuna(text, t1);
-      const t2: ThreadMsg[] = [...t1, { role: "ai", text: reply }];
-      saveThread(t2);
-      setThread(t2);
-    } catch (err: any) {
-      if (
-        err?.message === "FREE_LIMIT_REACHED" ||
-        err?.message === "PREMIUM_REQUIRED"
-      ) {
-        setThread([...t1]); // retire “...”
+      // UI gate invité (UI uniquement)
+      if (!authed && getUiUsed() >= FREE_LIMIT) {
+        openPaywallGuest();
         return;
       }
 
-      const msg =
-        "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-        (err?.message ? `(${err.message})` : "");
+      const t = loadThread();
+      const t1: ThreadMsg[] = [...t, { role: "user", text }];
+      saveThread(t1);
+      setThread(t1);
+      setInput("");
 
-      const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
-      saveThread(t2);
-      setThread(t2);
-    }
-  }
+      if (!authed) incUiUsed();
 
-  async function onLogout(e: React.MouseEvent) {
-    e.preventDefault();
-    try {
-      await supabase.auth.signOut();
-    } catch {}
+      // placeholder typing
+      setThread([...t1, { role: "ai", text: "…" }]);
 
-    closePaywall();
-    setIsAuth(false);
-    setSessionEmail("");
+      try {
+        const reply = await askLuna(text, t1);
+        const t2: ThreadMsg[] = [...t1, { role: "ai", text: reply }];
+        saveThread(t2);
+        setThread(t2);
+      } catch (err: any) {
+        if (
+          err?.message === "FREE_LIMIT_REACHED" ||
+          err?.message === "PREMIUM_REQUIRED"
+        ) {
+          setThread([...t1]); // retire “...”
+          return;
+        }
 
-    const t = ensureHello(loadThread());
-    setThread(t);
-  }
+        const msg =
+          "Erreur. Vérifie que /api/chat existe sur Vercel. " +
+          (err?.message ? `(${err.message})` : "");
 
-  function onClearHistoryLocal() {
+        const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
+        saveThread(t2);
+        setThread(t2);
+      }
+    },
+    [
+      askLuna,
+      getSessionSafe,
+      getUiUsed,
+      incUiUsed,
+      input,
+      loadThread,
+      openPaywallGuest,
+      saveThread,
+    ]
+  );
+
+  const onLogout = useCallback(
+    async (e: React.MouseEvent) => {
+      e.preventDefault();
+      try {
+        await supabase.auth.signOut();
+      } catch {}
+
+      closePaywall();
+      setIsAuth(false);
+      setSessionEmail("");
+
+      const t0 = ensureHello(loadThread());
+      setThread(t0);
+    },
+    [closePaywall, ensureHello, loadThread]
+  );
+
+  const onClearHistoryLocal = useCallback(() => {
     if (typeof window !== "undefined") {
       try {
         localStorage.removeItem(KEY_THREAD);
       } catch {}
     }
-    const t = ensureHello([]);
-    setThread(t);
-  }
+    const t0 = ensureHello([]);
+    setThread(t0);
+  }, [KEY_THREAD, ensureHello]);
 
   return (
     <div className="chat-body">
       <div className="chat-top">
-        <ChatPanel.TopBar
-          isAuth={isAuth}
-          onLogout={onLogout}
-        />
+        <ChatPanel.TopBar isAuth={isAuth} onLogout={onLogout} />
       </div>
 
       <main className="chat-wrap" role="main">
