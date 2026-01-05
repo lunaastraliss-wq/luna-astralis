@@ -1,27 +1,25 @@
 /* ==========================================================
-   Luna Astralis — css/chat.css (CHAT) — FINAL STABLE
-   - NO TAIL
-   - Counter bottom (sidebar)
-   - Next.js friendly: cible .chat-body (wrapper)
-   - FIX "lettres trop collées" : reset letter-spacing partout dans le chat
+   Luna Astralis — chat/chat.css — FINAL (NO SIDEBAR)
+   - 1 colonne (pas de sidebar)
+   - Page fixe: scroll UNIQUEMENT dans .chat-messages
+   - Next.js friendly: wrapper .chat-body
+   - Fix "lettres collées": reset letter-spacing
+   - Bulles sans queue
 ========================================================== */
 
 /* =========================
    BASE / PAGE FIXE
 ========================= */
 :root{
-  --topH: 64px;   /* hauteur header */
+  --topH: 64px;
   --gap: 14px;
 }
 
-/* ✅ Wrapper principal (dans ta page TSX)
-   <div class="chat-body"> ... </div>
-*/
 .chat-body{
   height: 100dvh;
   margin:0;
   min-height:100%;
-  overflow:hidden; /* ✅ pas de scroll page */
+  overflow:hidden;
 
   background:
     radial-gradient(900px 520px at 65% 20%, rgba(146,112,255,.14), transparent 60%),
@@ -30,7 +28,6 @@
 
   color: rgba(255,255,255,.92);
 
-  /* ✅ lisibilité / anti "lettres collées" */
   letter-spacing: normal;
   line-height: 1.5;
   text-rendering: geometricPrecision;
@@ -38,7 +35,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ✅ si un CSS global force letter-spacing sur tout, on neutralise dans le chat */
+/* Si un CSS global force letter-spacing, on neutralise DANS le chat */
 .chat-body *{
   letter-spacing: normal;
 }
@@ -86,10 +83,10 @@
   gap:2px;
 }
 
+/* ✅ Ton titre peut rester "premium", MAIS on évite d’étirer la page */
 .chat-brand-name{
   font-weight:1000;
-  /* ⚠️ si tu veux éviter que ça "étire" trop, baisse un peu */
-  letter-spacing: .08em;
+  letter-spacing: .06em; /* un peu moins agressif */
   font-size:12px;
 }
 
@@ -116,7 +113,6 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
 }
 
-/* (optionnel) Upgrade / Logout */
 .chat-upgrade,
 .chat-logout{
   text-decoration:none;
@@ -133,18 +129,14 @@
 .chat-logout:hover{ filter: brightness(1.06); }
 
 /* =========================
-   LAYOUT (FIXE)
+   LAYOUT (1 COLONNE, FIXE)
 ========================= */
 .chat-wrap{
   max-width: 1200px;
   margin: 0 auto;
   padding: var(--gap) 18px 18px;
 
-  display:grid;
-  grid-template-columns: 330px 1fr;
-  gap: var(--gap);
-  align-items:stretch;
-
+  display:block;
   height: calc(100dvh - var(--topH));
   max-height: calc(100dvh - var(--topH));
   overflow:hidden;
@@ -153,151 +145,12 @@
 }
 
 /* =========================
-   SIDEBAR (CONTENU SCROLL + COMPTEUR BOTTOM)
+   SIDEBAR (DÉSACTIVÉE)
 ========================= */
-.chat-side{
-  border-radius: 22px;
-  border:1px solid rgba(255,255,255,.14);
-  background:
-    radial-gradient(520px 260px at 18% 10%, rgba(215,199,255,.14), transparent 62%),
-    radial-gradient(520px 260px at 82% 20%, rgba(159,211,255,.12), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-  box-shadow: 0 22px 70px rgba(0,0,0,.45);
-
-  position:relative;
-  overflow:hidden;
-  isolation:isolate;
-
-  height:100%;
-  min-height:0;
-
-  /* ✅ compteur collé en bas */
-  display:flex;
-  flex-direction:column;
-}
-
-.chat-side::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.70;
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 24% 72%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 40% 30%, rgba(255,255,255,.62), transparent),
-    radial-gradient(1px 1px at 58% 62%, rgba(255,255,255,.58), transparent),
-    radial-gradient(2px 2px at 78% 22%, rgba(159,211,255,.24), transparent 60%),
-    radial-gradient(2px 2px at 30% 86%, rgba(215,199,255,.20), transparent 60%);
-  mix-blend-mode: screen;
-}
-
-.chat-side > *{ position:relative; z-index:1; }
-
-/* ✅ zone scrollable dans sidebar
-   IMPORTANT: wrapper dans <div class="chat-side-content"> ... </div>
-*/
-.chat-side-content{
-  padding:14px;
-  flex:1 1 auto;
-  min-height:0;
-  overflow:auto;
-  overflow-x:hidden;
-}
-
-/* ✅ compteur en bas (dernier élément dans .chat-side) */
+.chat-side,
+.chat-side-content,
 #freeCounter{
-  flex: 0 0 auto;
-  padding:12px 14px;
-  margin: 0 14px 14px;
-
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(10,12,24,.94);
-  backdrop-filter: blur(8px);
-
-  color: rgba(255,255,255,.92);
-  font-weight:1000;
-  font-size:13px;
-  text-align:center;
-
-  box-shadow: 0 -10px 30px rgba(0,0,0,.35);
-}
-
-/* ---- contenu sidebar ---- */
-.ai-face-wrap{
-  width:100%;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.18);
-  box-shadow: 0 16px 55px rgba(0,0,0,.42);
-}
-
-.ai-face{
-  width:100%;
-  display:block;
-  object-fit:cover;
-  transform: scale(1.02);
-}
-
-.ai-name{
-  margin:12px 0 4px;
-  font-size:18px;
-  font-weight:1000;
-}
-
-.ai-tag{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin: 0 0 10px;
-  padding:8px 10px;
-  border-radius:999px;
-
-  font-weight:900;
-  font-size:12px;
-  color: rgba(255,255,255,.90);
-
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.14);
-}
-
-.ai-desc{
-  color: rgba(255,255,255,.74);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.ai-book{ margin-top: 10px; }
-.ai-book-link{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-
-  text-decoration:none;
-  font-weight:1000;
-  font-size:12px;
-
-  padding:10px 12px;
-  border-radius: 14px;
-
-  color: rgba(255,255,255,.92);
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.20);
-}
-.ai-book-link:hover{ filter: brightness(1.06); }
-
-.ai-disclaimer{
-  margin-top:12px;
-  padding:10px 12px;
-  border-radius:14px;
-  font-size:12px;
-  line-height:1.45;
-
-  color: rgba(255,255,255,.70);
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.18);
+  display:none !important;
 }
 
 /* =========================
@@ -339,6 +192,9 @@
 }
 .chat-panel > *{ position:relative; z-index:1; }
 
+/* =========================
+   HEADER DU CHAT
+========================= */
 .chat-header{
   display:flex;
   align-items:center;
@@ -353,7 +209,7 @@
 .chat-title{
   font-weight:1000;
   font-size:14px;
-  letter-spacing: .01em; /* ✅ un micro espace agréable */
+  letter-spacing: .01em;
 }
 
 .chat-pill{
@@ -425,14 +281,13 @@
     0 16px 40px rgba(0,0,0,.45);
 }
 
-/* Spacer user */
 .msg-avatar-spacer{
   width:40px;
   height:40px;
   flex-shrink:0;
 }
 
-/* Bulle (base) — ✅ sans queue */
+/* Bulle base (sans queue) */
 .msg-bubble{
   position:relative;
   max-width:72ch;
@@ -446,13 +301,10 @@
   line-height:1.55;
   white-space:pre-wrap;
 
-  /* ✅ lisibilité */
   letter-spacing: .01em;
-
   box-shadow: 0 14px 40px rgba(0,0,0,.40);
 }
 
-/* ✅ Neutralise toute queue éventuelle */
 .msg-bubble::before,
 .msg-bubble::after{ content:none !important; display:none !important; }
 
@@ -475,7 +327,7 @@
 }
 
 /* =========================
-   INPUT BAR (COLLÉ EN BAS DU PANEL)
+   INPUT BAR (COLLÉ EN BAS)
 ========================= */
 .chat-inputbar{
   display:flex;
@@ -501,7 +353,6 @@
 
   outline:none;
 
-  /* ✅ lisibilité */
   letter-spacing: .01em;
   line-height: 1.35;
 }
@@ -548,15 +399,7 @@
 /* =========================
    RESPONSIVE
 ========================= */
-@media (max-width: 980px){
-  .chat-wrap{ grid-template-columns: 1fr; }
-  .chat-side{ order:2; }
-  .chat-panel{ order:1; }
-  #freeCounter{ margin: 0 14px 14px; }
-}
-
 @media (max-width:520px){
-  :root{ --topH: 64px; }
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
@@ -703,7 +546,6 @@
   white-space: pre-wrap;
 }
 
-/* ✅ pas de queue */
 .history-bubble::before,
 .history-bubble::after{ content:none !important; display:none !important; }
 
@@ -721,30 +563,21 @@
   padding: 12px 14px;
   border-top: 1px solid rgba(255,255,255,.10);
   background: rgba(14,16,30,.98);
-   }
+}
+
 /* ==========================================================
    ENLEVER L'IMAGE D'ARRIÈRE-PLAN (HERO)
-   - garde la "chat-hero-card"
-   - supprime complètement l'image + l'overlay
 ========================================================== */
-
 .chat-hero-img,
 .chat-hero-overlay{
   display:none !important;
 }
 
-/* si jamais un background-image est appliqué sur le conteneur */
 .chat-hero,
 .chat-hero-inner{
   background-image:none !important;
   background:none !important;
 }
 
-/* optionnel: un peu d'espace propre autour de la carte */
-.chat-hero{
-  padding: 14px;
-}
-.chat-hero-inner{
-  position: relative;
-}
-
+.chat-hero{ padding: 14px; }
+.chat-hero-inner{ position: relative; }
