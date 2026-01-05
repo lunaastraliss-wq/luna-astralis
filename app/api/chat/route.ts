@@ -38,11 +38,7 @@ const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
 // accepte SUPABASE_URL (serveur) OU NEXT_PUBLIC_SUPABASE_URL (public)
-const SUPABASE_URL =
-  process.env.SUPABASE_URL ??
-  process.env.NEXT_PUBLIC_SUPABASE_URL ??
-  "";
-
+const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
@@ -111,14 +107,14 @@ function enforceGuestFormat(input: string) {
 
   if (out.length > 240) {
     out = out.slice(0, 239).trimEnd();
-    // évite couper un surrogate pair
-    out = out.replace(/[\uD800-\uDBFF]$/g, "");
+    out = out.replace(/[\uD800-\uDBFF]$/g, ""); // évite couper un surrogate pair
     if (!/[?]\s*$/.test(out)) {
       out = out.replace(/[.!…]\s*$/g, "").trimEnd();
       if (out.length > 238) out = out.slice(0, 238).trimEnd();
       out += " ?";
     }
   }
+
   return out;
 }
 
@@ -229,7 +225,6 @@ function buildChatMessages(body: any) {
    ROUTES
 =========================== */
 export async function GET() {
-  // test rapide : /api/chat
   return NextResponse.json({
     ok: true,
     hint: "Use POST /api/chat",
@@ -359,10 +354,8 @@ Signe: ${signName || signKey || "—"}.
     );
   } catch (e: any) {
     return NextResponse.json(
-      {
-        error: "SERVER_ERROR",
-        detail: cleanStr(e?.message),
-      },
+      { error: "SERVER_ERROR", detail: cleanStr(e?.message) },
       { status: 500 }
     );
   }
+}
