@@ -19,7 +19,7 @@ function safeNext(v: string | null) {
   return s.startsWith("/") ? s : `/${s}`;
 }
 
-export default function PricingPage() {
+export default function PricingClient() {
   const sp = useSearchParams();
 
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
@@ -68,7 +68,13 @@ export default function PricingPage() {
   }
 
   const msgClass =
-    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
+    msg?.type === "ok"
+      ? "is-ok"
+      : msg?.type === "err"
+      ? "is-err"
+      : msg?.type === "info"
+      ? "is-info"
+      : "";
 
   return (
     <div className="pricing-body">
@@ -86,12 +92,15 @@ export default function PricingPage() {
 
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
+
           <Link className="active" href={`/pricing?next=${nextEnc}`}>
             Tarifs
           </Link>
+
           <Link className="btn btn-small btn-ghost" href={`/login?next=${nextEnc}`}>
             Connexion
           </Link>
+
           <Link className="btn btn-small" href={`/signup?next=${nextEnc}`}>
             Créer un compte
           </Link>
@@ -125,13 +134,16 @@ export default function PricingPage() {
 
         <section className="section" aria-label="Confiance">
           <div className="pricing-trust">
-            <div className="trust-line">✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.</div>
+            <div className="trust-line">
+              ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
+            </div>
             <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
           </div>
         </section>
 
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
+            {/* Mensuel — Essentiel */}
             <article className="price-card" aria-label="Mensuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Mensuel — Essentiel</div>
@@ -160,6 +172,7 @@ export default function PricingPage() {
               </button>
             </article>
 
+            {/* Mensuel — Illimité */}
             <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
               <article className="price-card price-featured" aria-label="Mensuel — Illimité">
                 <div className="price-badge">LE PLUS POPULAIRE</div>
@@ -192,6 +205,7 @@ export default function PricingPage() {
               </article>
             </div>
 
+            {/* Annuel — Essentiel */}
             <article className="price-card" aria-label="Annuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Annuel — Essentiel</div>
@@ -225,6 +239,7 @@ export default function PricingPage() {
               </button>
             </article>
 
+            {/* Annuel — Illimité */}
             <article className="price-card premium" aria-label="Annuel — Illimité">
               <div className="price-badge premium">MEILLEURE VALEUR</div>
 
@@ -297,4 +312,4 @@ export default function PricingPage() {
       `}</style>
     </div>
   );
-}
+                    }
