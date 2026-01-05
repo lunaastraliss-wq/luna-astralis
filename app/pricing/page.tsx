@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import ChatClient from "./ChatClient";
+import PricingClient from "./PricingClient";
 
 export default function Page() {
   return (
     <Suspense fallback={null}>
-      <ChatClient />
+      <PricingClient />
     </Suspense>
   );
 }
