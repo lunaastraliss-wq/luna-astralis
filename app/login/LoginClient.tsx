@@ -14,10 +14,12 @@ function safeNext(v: string | null) {
   return s.startsWith("/") ? s : "/" + s;
 }
 
-export default function LoginPage() {
+export default function LoginClient() {
   const router = useRouter();
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
+
+  const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +27,6 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [alreadyConnected, setAlreadyConnected] = useState(false);
-
-  const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
 
   function showMsg(text: string, type: MsgType = "info") {
     setMsg({ text, type });
@@ -62,6 +62,7 @@ export default function LoginPage() {
     })();
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
       if (session) {
         setAlreadyConnected(true);
         setBusy(false);
@@ -107,13 +108,12 @@ export default function LoginPage() {
     showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
   }
 
-  // ✅ Google OAuth — redirige vers /auth/callback (server) qui échange le code -> session
+  // Google OAuth
   async function onGoogle() {
     clearMsg();
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    // (window seulement) — page client
     const origin = window.location.origin;
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
@@ -128,7 +128,6 @@ export default function LoginPage() {
       return;
     }
 
-    // Normalement ça redirige; fallback UX si popup bloquée
     window.setTimeout(() => {
       setBusy(false);
       showMsg("Si rien ne s’ouvre, autorise les popups puis réessaie.", "info");
@@ -154,7 +153,7 @@ export default function LoginPage() {
     setBusy(false);
 
     if (error) return showMsg(error.message, "err");
-    showMsg("Email envoyé. Vérifie ta boîte de réception (et indésirables).", "ok");
+    showMsg("Email envoyé. Vérifie ta boîte (et indésirables).", "ok");
   }
 
   async function onLogout() {
@@ -197,9 +196,7 @@ export default function LoginPage() {
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Connexion">
           <h1 className="auth-title">Mon compte</h1>
-          <p className="auth-sub">
-            Connecte-toi pour continuer la discussion et retrouver tes échanges.
-          </p>
+          <p className="auth-sub">Connecte-toi pour continuer la discussion et retrouver tes échanges.</p>
 
           {msg ? (
             <div
@@ -223,12 +220,7 @@ export default function LoginPage() {
                 <Link className="btn" href={nextUrl}>
                   Continuer
                 </Link>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={onLogout}
-                  disabled={busy}
-                >
+                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
                   Se déconnecter
                 </button>
               </div>
@@ -288,12 +280,7 @@ export default function LoginPage() {
               disabled={busy}
             />
 
-            <button
-              className="btn auth-submit"
-              type="submit"
-              disabled={busy}
-              style={{ opacity: busy ? 0.7 : 1 }}
-            >
+            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
               Se connecter
             </button>
 
@@ -312,4 +299,4 @@ export default function LoginPage() {
       </main>
     </div>
   );
-}
+    }
