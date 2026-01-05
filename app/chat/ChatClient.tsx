@@ -1,15 +1,16 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase/client";
 
+import ChatSidebar from "./ChatSidebar";
+import ChatPanel from "./ChatPanel";
+import ChatModals from "./ChatModals";
+
 type ThreadMsg = { role: "user" | "ai"; text: string };
 
-// UI uniquement (la vraie règle doit rester côté API)
 const FREE_LIMIT = 15;
-
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 const CONTEXT_HISTORY = 8;
@@ -231,6 +232,7 @@ export default function ChatClient() {
 
     const context = (threadForContext || []).slice(-CONTEXT_HISTORY);
 
+    // ✅ payload "ancien": messages[{role, content}]
     const messages = [
       { role: "user", content: `Signe: ${signName} (key=${signKey}).` },
       ...context.map((m) => ({
@@ -247,6 +249,8 @@ export default function ChatClient() {
         lang: "fr",
         messages,
         guestId: authed ? undefined : getGuestId(),
+        signKey,
+        signName,
       }),
     });
 
@@ -264,8 +268,10 @@ export default function ChatClient() {
       throw new Error(data?.error || "Erreur serveur (/api/chat).");
     }
 
-    if (!data?.message) throw new Error("Réponse vide.");
-    return String(data.message);
+    // ✅ ton API renvoie reply (et parfois message selon tes tests)
+    const reply = data?.reply ?? data?.message;
+    if (!reply) throw new Error("Réponse vide.");
+    return String(reply);
   }
 
   // Boot
@@ -323,7 +329,7 @@ export default function ChatClient() {
     setIsAuth(authed);
     setSessionEmail(s?.user?.email || "");
 
-    // gate UI invité (UI uniquement)
+    // UI gate invité (UI uniquement)
     if (!authed && getUiUsed() >= FREE_LIMIT) {
       openPaywallGuest();
       return;
@@ -337,7 +343,7 @@ export default function ChatClient() {
 
     if (!authed) incUiUsed();
 
-    // placeholder typing (sans sauvegarder)
+    // placeholder typing
     setThread([...t1, { role: "ai", text: "…" }]);
 
     try {
@@ -389,875 +395,46 @@ export default function ChatClient() {
   }
 
   return (
-    <>
-      {/* CSS complet */}
-      <style>{`
-        :root{
-          --topH: 64px;
-          --cardBg: rgba(10,10,14,.58);
-          --panelBg: rgba(10,10,14,.46);
-          --bd: rgba(255,255,255,.10);
-          --bd2: rgba(255,255,255,.08);
-          --txt: rgba(255,255,255,.92);
-          --muted: rgba(255,255,255,.74);
-        }
-
-        html, body { height: 100%; }
-        body{
-          height: 100%;
-          overflow: hidden;
-          color: var(--txt);
-          letter-spacing: .15px;
-          line-height: 1.45;
-          -webkit-font-smoothing: antialiased;
-          text-rendering: optimizeLegibility;
-        }
-
-        /* ===== LAYOUT ===== */
-        .chat-top{
-          height: var(--topH);
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          padding: 0 16px;
-          border-bottom: 1px solid var(--bd2);
-          background: rgba(8,8,12,.62);
-          backdrop-filter: blur(10px);
-        }
-
-        .chat-wrap{
-          height: calc(100dvh - var(--topH));
-          min-height: 0;
-          display: grid;
-          grid-template-columns: 360px 1fr;
-          gap: 16px;
-          padding: 16px;
-        }
-
-        .chat-side{
-          min-height: 0;
-          overflow: hidden;
-          border-radius: 18px;
-          border: 1px solid var(--bd2);
-          background: var(--cardBg);
-          backdrop-filter: blur(10px);
-          display:flex;
-          flex-direction:column;
-          padding: 14px;
-        }
-
-        .chat-panel{
-          min-height: 0;
-          overflow: hidden;
-          border-radius: 18px;
-          border: 1px solid var(--bd2);
-          background: var(--panelBg);
-          backdrop-filter: blur(10px);
-          display:flex;
-          flex-direction:column;
-          position:relative;
-        }
-
-        /* ===== SIDE (profil) ===== */
-        .ai-face-wrap{
-          border-radius: 16px;
-          overflow:hidden;
-          border: 1px solid var(--bd2);
-          margin-bottom: 12px;
-        }
-        .ai-face{ width: 100%; height: auto; display:block; }
-
-        .ai-name{
-          font-size: 18px;
-          font-weight: 800;
-          letter-spacing: .25px;
-          margin-bottom: 8px;
-        }
-        .ai-tag{
-          display:inline-flex;
-          align-items:center;
-          gap: 8px;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.06);
-          font-size: 13px;
-          color: var(--muted);
-          margin-bottom: 10px;
-        }
-        .ai-desc{
-          font-size: 14px;
-          line-height: 1.55;
-          color: var(--txt);
-          margin-bottom: 12px;
-        }
-        .ai-book-link{
-          display:inline-flex;
-          align-items:center;
-          gap: 8px;
-          padding: 10px 12px;
-          border-radius: 14px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.06);
-          text-decoration: none;
-          color: var(--txt);
-          font-weight: 700;
-          letter-spacing: .15px;
-        }
-        .ai-disclaimer{
-          margin-top: auto;
-          font-size: 12px;
-          color: rgba(255,255,255,.65);
-          line-height: 1.5;
-          padding-top: 12px;
-          border-top: 1px solid var(--bd2);
-        }
-
-        /* ===== HERO (image en haut du chat) ===== */
-        .chat-hero{
-          position: relative;
-          flex: 0 0 auto;
-          height: 220px;
-          overflow: hidden;
-          border-bottom: 1px solid var(--bd2);
-        }
-        .chat-hero-inner{ position:relative; height:100%; }
-        .chat-hero-img{
-          position:absolute; inset:0;
-          width:100%; height:100%;
-          object-fit: cover;
-          transform: scale(1.03);
-        }
-        .chat-hero-overlay{
-          position:absolute; inset:0;
-          background:
-            radial-gradient(700px 280px at 30% 20%, rgba(120,80,255,.22), transparent 60%),
-            linear-gradient(to bottom, rgba(0,0,0,.08), rgba(0,0,0,.72));
-          pointer-events:none;
-        }
-        .chat-hero-card{
-          position:absolute;
-          left: 14px; right: 14px; bottom: 12px;
-          z-index:2;
-          max-width: 720px;
-          padding: 12px 14px;
-          border-radius: 16px;
-          border: 1px solid var(--bd2);
-          background: rgba(8,8,12,.62);
-          backdrop-filter: blur(10px);
-        }
-        .hero-title{
-          margin: 0 0 6px 0;
-          font-weight: 900;
-          letter-spacing: .2px;
-          font-size: 16px;
-        }
-        .hero-desc{
-          margin: 0;
-          font-size: 13.5px;
-          line-height: 1.55;
-          color: rgba(255,255,255,.86);
-        }
-        .hero-book{ margin-top: 10px; }
-
-        /* ===== HEADER CHAT ===== */
-        .chat-header{
-          flex: 0 0 auto;
-          padding: 12px 14px;
-          border-bottom: 1px solid var(--bd2);
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap: 12px;
-        }
-        .chat-title{
-          font-size: 14px;
-          font-weight: 800;
-          letter-spacing: .2px;
-        }
-        .chat-pill{
-          margin-left: 8px;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.06);
-          font-size: 12px;
-          color: var(--muted);
-        }
-
-        /* ===== MESSAGES ===== */
-        .chat-messages{
-          flex: 1;
-          min-height: 0;
-          overflow-y: auto;
-          overscroll-behavior: contain;
-          scroll-behavior: smooth;
-          padding: 14px;
-          padding-bottom: 92px;
-        }
-        .msg-row{
-          display:flex;
-          gap: 10px;
-          margin-bottom: 12px;
-          align-items:flex-end;
-        }
-        .msg-avatar{
-          width: 34px;
-          height: 34px;
-          border-radius: 999px;
-          border: 1px solid var(--bd2);
-          object-fit: cover;
-          flex: 0 0 auto;
-        }
-        .msg-avatar-spacer{ width: 34px; height: 34px; }
-
-        .msg-bubble{
-          white-space: pre-wrap;
-          max-width: 760px;
-          padding: 12px 14px;
-          border-radius: 16px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.06);
-          line-height: 1.6;
-          font-size: 14px;
-          letter-spacing: .15px;
-        }
-        .msg-user{ justify-content: flex-end; }
-        .msg-user .msg-bubble{
-          background: rgba(120,80,255,.14);
-          border-color: rgba(120,80,255,.26);
-        }
-
-        /* ===== INPUT ===== */
-        .chat-inputbar{
-          position: sticky;
-          bottom: 0;
-          z-index: 10;
-          display:flex;
-          gap: 10px;
-          padding: 12px 14px;
-          background: rgba(10,10,14,.84);
-          border-top: 1px solid var(--bd2);
-          backdrop-filter: blur(12px);
-        }
-        .chat-input{
-          flex: 1;
-          height: 46px;
-          border-radius: 14px;
-          padding: 0 14px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.06);
-          color: var(--txt);
-          outline: none;
-          letter-spacing: .2px;
-        }
-        .chat-input::placeholder{ color: rgba(255,255,255,.55); }
-        .chat-send{
-          height: 46px;
-          padding: 0 16px;
-          border-radius: 14px;
-          border: 1px solid rgba(120,80,255,.35);
-          background: rgba(120,80,255,.22);
-          color: var(--txt);
-          font-weight: 800;
-          letter-spacing: .2px;
-          cursor: pointer;
-        }
-        .chat-send:disabled,
-        .chat-input:disabled{
-          opacity: .55;
-          cursor: not-allowed;
-        }
-
-        /* ===== TOP ===== */
-        .chat-brand{ display:flex; align-items:center; gap: 10px; text-decoration:none; color: var(--txt); }
-        .chat-logo{ width: 34px; height: 34px; object-fit: contain; }
-        .chat-brand-name{ font-weight: 900; letter-spacing: .6px; line-height: 1.05; }
-        .chat-brand-sub{ font-size: 12px; color: rgba(255,255,255,.65); letter-spacing:.2px; margin-top: 2px; }
-
-        .chat-back, .chat-upgrade{
-          text-decoration:none;
-          color: rgba(255,255,255,.86);
-          padding: 8px 10px;
-          border-radius: 12px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.05);
-          font-weight: 700;
-          letter-spacing: .15px;
-          font-size: 13px;
-        }
-        .chat-logout{
-          text-decoration:none;
-          color: rgba(255,255,255,.78);
-          padding: 8px 10px;
-          border-radius: 12px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.04);
-          font-weight: 700;
-          font-size: 13px;
-        }
-        .mode-pill{
-          display:inline-flex;
-          align-items:center;
-          gap: 8px;
-          padding: 8px 10px;
-          border-radius: 999px;
-          border: 1px solid var(--bd2);
-          background: rgba(255,255,255,.05);
-          font-size: 13px;
-          color: rgba(255,255,255,.80);
-          letter-spacing: .15px;
-        }
-        .mode-dot{
-          width: 8px; height: 8px;
-          border-radius: 999px;
-          background: rgba(255,255,255,.35);
-        }
-        .mode-dot.green{ background: rgba(60, 255, 160, .75); }
-
-        /* ===== MOBILE ===== */
-        @media (max-width: 920px){
-          .chat-wrap{
-            grid-template-columns: 1fr;
-            padding: 12px;
-          }
-          .chat-side{ order: 2; }
-          .chat-panel{ order: 1; }
-        }
-        @media (max-width: 720px){
-          .chat-hero{ display:none !important; }
-          .chat-messages{ padding-bottom: 98px; }
-          .msg-bubble{ font-size: 14px; line-height: 1.62; }
-        }
-      `}</style>
-
-      <header className="chat-top" role="banner">
-        <Link className="chat-brand" href="/" aria-label="Retour à l’accueil">
-          <img
-            className="chat-logo"
-            src="/logo-luna-astralis-transparent.png"
-            alt="Luna Astralis"
-          />
-          <div className="chat-brand-text">
-            <div className="chat-brand-name">LUNA ASTRALIS</div>
-            <div className="chat-brand-sub">Astro & psycho</div>
-          </div>
-        </Link>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link className="chat-back" href="/#signes">
-            Changer de signe
-          </Link>
-
-          <span className="mode-pill" title="Mode actuel">
-            <span className={"mode-dot " + (isAuth ? "green" : "")} />
-            <span>{isAuth ? "Connecté" : "Invité"}</span>
-          </span>
-
-          {isAuth ? (
-            <>
-              <Link className="chat-upgrade" href="/pricing">
-                Upgrade
-              </Link>
-              <a className="chat-logout" href="#" onClick={onLogout}>
-                Déconnexion
-              </a>
-            </>
-          ) : (
-            <Link className="chat-upgrade" href="/pricing">
-              Offres
-            </Link>
-          )}
-        </div>
-      </header>
+    <div className="chat-body">
+      <div className="chat-top">
+        <ChatPanel.TopBar
+          isAuth={isAuth}
+          onLogout={onLogout}
+        />
+      </div>
 
       <main className="chat-wrap" role="main">
-        <aside className="chat-side" aria-label="Profil IA">
-          <div className="ai-face-wrap">
-            <img className="ai-face" src="/ia-luna-astralis.png" alt="Luna (IA)" />
-          </div>
+        <ChatSidebar
+          isAuth={isAuth}
+          sessionEmail={sessionEmail}
+          freeLeft={freeLeft}
+          signName={signName}
+          signDesc={signDesc}
+          bookUrl={bookUrl}
+        />
 
-          <div>
-            <div className="ai-name">Luna</div>
-            <div className="ai-tag">Signe : {signName}</div>
-            <div className="ai-desc">{signDesc}</div>
-
-            {!!bookUrl && (
-              <div className="ai-book" style={{ marginTop: 10 }}>
-                <a
-                  className="ai-book-link"
-                  href={bookUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Approfondir ce signe"
-                  title="Approfondir ce signe"
-                >
-                  ✦ Approfondir ce signe
-                </a>
-              </div>
-            )}
-
-            <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75 }}>
-              {isAuth ? sessionEmail : ""}
-            </div>
-
-            {!isAuth && (
-              <div style={{ marginTop: 8, fontSize: 12, opacity: 0.75 }}>
-                {freeLeft > 0 ? (
-                  <>Gratuit : {freeLeft} message(s) restant(s)</>
-                ) : (
-                  <>Limite gratuite atteinte</>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div className="ai-disclaimer">
-            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
-            aucun diagnostic.
-          </div>
-        </aside>
-
-        <section className="chat-panel" aria-label="Discussion">
-          {/* HERO (optionnel) */}
-          <div className="chat-hero" aria-hidden="true">
-            <div className="chat-hero-inner">
-              <img className="chat-hero-img" src="/hero-luna.jpg" alt="" />
-              <div className="chat-hero-overlay" />
-              <div className="chat-hero-card">
-                <p className="hero-title">Discussion — {signName}</p>
-                <p className="hero-desc">
-                  Une exploration douce : émotions, schémas, besoins, limites.
-                </p>
-                {!!bookUrl && (
-                  <div className="hero-book">
-                    <a
-                      className="ai-book-link"
-                      href={bookUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      ✦ Approfondir ce signe
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="chat-header">
-            <div className="chat-title">
-              Discussion <span className="chat-pill">{signName}</span>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <button
-                type="button"
-                onClick={() => setHistoryOpen(true)}
-                style={{
-                  padding: "8px 10px",
-                  borderRadius: 12,
-                  border: "1px solid rgba(255,255,255,.10)",
-                  background: "rgba(255,255,255,.05)",
-                  color: "rgba(255,255,255,.86)",
-                  fontWeight: 800,
-                  letterSpacing: ".15px",
-                  cursor: "pointer",
-                }}
-              >
-                Historique
-              </button>
-
-              <div
-                aria-hidden="true"
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 999,
-                  overflow: "hidden",
-                  border: "1px solid rgba(255,255,255,.10)",
-                }}
-              >
-                <img
-                  src="/ia-luna-astralis.png"
-                  alt=""
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="chat-messages"
-            id="messages"
-            ref={messagesRef}
-            role="log"
-            aria-live="polite"
-          >
-            {tail.map((m, idx) => (
-              <div
-                key={idx}
-                className={"msg-row " + (m.role === "ai" ? "msg-ai" : "msg-user")}
-              >
-                {m.role === "ai" ? (
-                  <img className="msg-avatar" src="/ia-luna-astralis.png" alt="Luna (IA)" />
-                ) : (
-                  <div className="msg-avatar-spacer" />
-                )}
-                <div className="msg-bubble">{m.text}</div>
-              </div>
-            ))}
-          </div>
-
-          <form className="chat-inputbar" onSubmit={onSend} autoComplete="off">
-            <input
-              className="chat-input"
-              placeholder="Écris ton message…"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              autoComplete="off"
-              disabled={paywallOpen || historyOpen}
-            />
-            <button
-              className="chat-send"
-              type="submit"
-              disabled={paywallOpen || historyOpen}
-            >
-              Envoyer
-            </button>
-          </form>
-        </section>
+        <ChatPanel
+          signName={signName}
+          tail={tail}
+          messagesRef={messagesRef}
+          input={input}
+          setInput={setInput}
+          onSend={onSend}
+          onOpenHistory={() => setHistoryOpen(true)}
+          disabled={paywallOpen || historyOpen}
+        />
       </main>
 
-      {/* PAYWALL */}
-      {paywallOpen && (
-        <div
-          className="paywall"
-          style={{
-            display: "flex",
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,.55)",
-            backdropFilter: "blur(6px)",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 16,
-            zIndex: 50,
-          }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) closePaywall();
-          }}
-        >
-          <div
-            className="paywall-card"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Continuer la discussion"
-            style={{
-              width: "min(520px, 100%)",
-              borderRadius: 18,
-              border: "1px solid rgba(255,255,255,.10)",
-              background: "rgba(10,10,14,.92)",
-              padding: 16,
-            }}
-          >
-            <h3 style={{ margin: 0, fontSize: 18, letterSpacing: ".2px" }}>
-              Continuer la discussion
-            </h3>
-
-            {paywallMode === "guest" ? (
-              <>
-                <p
-                  style={{
-                    marginTop: 10,
-                    color: "rgba(255,255,255,.82)",
-                    lineHeight: 1.55,
-                  }}
-                >
-                  Tu as atteint la limite gratuite. Crée un compte (gratuit)
-                  pour continuer et retrouver tes échanges.
-                </p>
-
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
-                  <Link
-                    href={`/login?next=${encodeURIComponent(currentPathWithQuery())}`}
-                    style={{
-                      padding: "10px 12px",
-                      borderRadius: 14,
-                      border: "1px solid rgba(120,80,255,.35)",
-                      background: "rgba(120,80,255,.22)",
-                      color: "rgba(255,255,255,.92)",
-                      fontWeight: 900,
-                      textDecoration: "none",
-                    }}
-                  >
-                    Créer un compte / Se connecter
-                  </Link>
-
-                  <Link
-                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
-                    style={{
-                      padding: "10px 12px",
-                      borderRadius: 14,
-                      border: "1px solid rgba(255,255,255,.12)",
-                      background: "rgba(255,255,255,.06)",
-                      color: "rgba(255,255,255,.90)",
-                      fontWeight: 800,
-                      textDecoration: "none",
-                    }}
-                  >
-                    Voir les offres
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={closePaywall}
-                    style={{
-                      padding: "10px 12px",
-                      borderRadius: 14,
-                      border: "1px solid rgba(255,255,255,.12)",
-                      background: "rgba(255,255,255,.04)",
-                      color: "rgba(255,255,255,.85)",
-                      fontWeight: 800,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Fermer
-                  </button>
-                </div>
-
-                <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>
-                  Astuce : le compte sert à sauvegarder ton historique. L’accès complet est
-                  disponible via une offre.
-                </div>
-              </>
-            ) : (
-              <>
-                <p
-                  style={{
-                    marginTop: 10,
-                    color: "rgba(255,255,255,.82)",
-                    lineHeight: 1.55,
-                  }}
-                >
-                  Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés.
-                  Choisis une offre pour continuer.
-                </p>
-
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
-                  <Link
-                    href={`/pricing?next=${encodeURIComponent(currentPathWithQuery())}`}
-                    style={{
-                      padding: "10px 12px",
-                      borderRadius: 14,
-                      border: "1px solid rgba(120,80,255,.35)",
-                      background: "rgba(120,80,255,.22)",
-                      color: "rgba(255,255,255,.92)",
-                      fontWeight: 900,
-                      textDecoration: "none",
-                    }}
-                  >
-                    Voir les offres
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={closePaywall}
-                    style={{
-                      padding: "10px 12px",
-                      borderRadius: 14,
-                      border: "1px solid rgba(255,255,255,.12)",
-                      background: "rgba(255,255,255,.04)",
-                      color: "rgba(255,255,255,.85)",
-                      fontWeight: 800,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Fermer
-                  </button>
-                </div>
-
-                <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75, lineHeight: 1.5 }}>
-                  Après paiement, reviens ici : l’accès se débloquera automatiquement.
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* HISTORIQUE */}
-      {historyOpen && (
-        <div
-          className="history"
-          style={{
-            display: "flex",
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,.55)",
-            backdropFilter: "blur(6px)",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 16,
-            zIndex: 60,
-          }}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setHistoryOpen(false);
-          }}
-        >
-          <div
-            className="history-card"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Historique"
-            style={{
-              width: "min(860px, 100%)",
-              height: "min(78vh, 820px)",
-              borderRadius: 18,
-              border: "1px solid rgba(255,255,255,.10)",
-              background: "rgba(10,10,14,.92)",
-              overflow: "hidden",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              className="history-top"
-              style={{
-                padding: 14,
-                borderBottom: "1px solid rgba(255,255,255,.10)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 10,
-              }}
-            >
-              <div style={{ fontWeight: 900, letterSpacing: ".2px" }}>Historique</div>
-              <button
-                type="button"
-                onClick={() => setHistoryOpen(false)}
-                style={{
-                  padding: "8px 10px",
-                  borderRadius: 12,
-                  border: "1px solid rgba(255,255,255,.12)",
-                  background: "rgba(255,255,255,.05)",
-                  color: "rgba(255,255,255,.90)",
-                  fontWeight: 900,
-                  cursor: "pointer",
-                }}
-              >
-                Fermer
-              </button>
-            </div>
-
-            <div
-              className="history-body"
-              style={{
-                flex: 1,
-                minHeight: 0,
-                overflowY: "auto",
-                padding: 14,
-              }}
-            >
-              {thread.map((m, idx) => (
-                <div
-                  key={idx}
-                  className={"history-item " + (m.role === "user" ? "user" : "ai")}
-                  style={{
-                    display: "flex",
-                    gap: 10,
-                    justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-                    marginBottom: 12,
-                    alignItems: "flex-end",
-                  }}
-                >
-                  {m.role !== "user" ? (
-                    <img
-                      src="/ia-luna-astralis.png"
-                      alt="Luna (IA)"
-                      style={{
-                        width: 34,
-                        height: 34,
-                        borderRadius: 999,
-                        border: "1px solid rgba(255,255,255,.10)",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <div style={{ width: 34, height: 34 }} />
-                  )}
-
-                  <div
-                    className="history-bubble"
-                    style={{
-                      maxWidth: 760,
-                      padding: "12px 14px",
-                      borderRadius: 16,
-                      border: "1px solid rgba(255,255,255,.10)",
-                      background:
-                        m.role === "user"
-                          ? "rgba(120,80,255,.14)"
-                          : "rgba(255,255,255,.06)",
-                      lineHeight: 1.6,
-                      letterSpacing: ".15px",
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
-                    {m.text}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div
-              className="history-foot"
-              style={{
-                padding: 14,
-                borderTop: "1px solid rgba(255,255,255,.10)",
-                display: "flex",
-                gap: 10,
-                justifyContent: "flex-end",
-                flexWrap: "wrap",
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  const el = document.querySelector(".history-body") as HTMLDivElement | null;
-                  if (el) el.scrollTop = el.scrollHeight;
-                }}
-                style={{
-                  padding: "10px 12px",
-                  borderRadius: 14,
-                  border: "1px solid rgba(255,255,255,.12)",
-                  background: "rgba(255,255,255,.05)",
-                  color: "rgba(255,255,255,.90)",
-                  fontWeight: 900,
-                  cursor: "pointer",
-                }}
-              >
-                Aller au bas
-              </button>
-
-              <button
-                type="button"
-                onClick={onClearHistoryLocal}
-                style={{
-                  padding: "10px 12px",
-                  borderRadius: 14,
-                  border: "1px solid rgba(120,80,255,.35)",
-                  background: "rgba(120,80,255,.22)",
-                  color: "rgba(255,255,255,.92)",
-                  fontWeight: 900,
-                  cursor: "pointer",
-                }}
-              >
-                Effacer (local)
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+      <ChatModals
+        paywallOpen={paywallOpen}
+        paywallMode={paywallMode}
+        historyOpen={historyOpen}
+        thread={thread}
+        onClosePaywall={closePaywall}
+        onCloseHistory={() => setHistoryOpen(false)}
+        onClearHistoryLocal={onClearHistoryLocal}
+        nextUrl={currentPathWithQuery()}
+      />
+    </div>
   );
 }
