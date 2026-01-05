@@ -14,44 +14,52 @@ export default function ChatSidebar(props: {
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
+      <div className="chat-side-header">
+        <div className="chat-side-title">Luna</div>
+      </div>
+
       <div className="chat-side-content">
-        <div className="ai-face-wrap">
-          <img className="ai-face" src="/ia-luna-astralis.png" alt="Luna (IA)" />
+        <div className="ai-face-wrap ai-face-small">
+          <img
+            className="ai-face"
+            src="/ia-luna-astralis.png"
+            alt="Luna (IA)"
+            loading="lazy"
+          />
         </div>
 
-        <div className="ai-name">Luna</div>
-        <div className="ai-tag">Signe : {signName}</div>
-        <div className="ai-desc">{signDesc}</div>
+        <p className="chat-side-p">Signe : {signName}</p>
+        <p className="chat-side-muted">{signDesc}</p>
 
         {!!bookUrl && (
-          <div className="ai-book">
-            <a
-              className="ai-book-link"
-              href={bookUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Approfondir ce signe"
-              title="Approfondir ce signe"
-            >
-              ✦ Approfondir ce signe
-            </a>
-          </div>
+          <a
+            className="book-btn"
+            href={bookUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Approfondir ce signe"
+            title="Approfondir ce signe"
+          >
+            ✦ Approfondir ce signe
+          </a>
         )}
 
         {isAuth && !!sessionEmail && (
-          <div style={{ marginTop: 10, fontSize: 12, opacity: 0.75 }}>
+          <p className="chat-side-muted" style={{ marginTop: 10 }}>
             {sessionEmail}
-          </div>
+          </p>
         )}
 
-        <div className="ai-disclaimer">
+        <p className="chat-side-muted" style={{ marginTop: 12 }}>
           Outil d’exploration personnelle, non thérapeutique. Aucune thérapie, aucun diagnostic.
-        </div>
+        </p>
       </div>
 
       {!isAuth && (
         <div id="freeCounter">
-          {freeLeft > 0 ? `Gratuit : ${freeLeft} message(s) restant(s)` : "Limite gratuite atteinte"}
+          {freeLeft > 0
+            ? `Gratuit : ${freeLeft} message(s) restant(s)`
+            : "Limite gratuite atteinte"}
         </div>
       )}
     </aside>
