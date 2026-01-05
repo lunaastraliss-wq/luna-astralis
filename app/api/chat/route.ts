@@ -366,4 +366,3 @@ Signe: ${signName || signKey || "—"}.
       { status: 500 }
     );
   }
-  }
