@@ -9,22 +9,6 @@ import crypto from "crypto";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/**
- * Luna Astralis — API Chat
- * - Guest: FREE_LIMIT via public.guest_usage
- * - Auth: PREMIUM obligatoire sinon PREMIUM_REQUIRED
- * - Guest réponse courte: 2 phrases + 1 question, max 240 chars
- * - Upsell seulement quand remaining <= UPSELL_WHEN_REMAINING_LTE
- *
- * ✅ Compat:
- * - Accepte payload "ancien": { messages: [{role, content}], lang, guestId }
- * - Accepte payload "nouveau": { message, history: [{role,text}], signKey, signName, guestId }
- *
- * ✅ Répond (pour ton UI):
- * - OK: { message: "...", reply: "...", mode: "...", remaining? }
- * - Erreur: { error: "..." }
- */
-
 const FREE_LIMIT = 15;
 const UPSELL_WHEN_REMAINING_LTE = 2;
 
@@ -43,8 +27,13 @@ const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+
+// ✅ Corrigé: un seul nom
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+
+// ✅ Pour lire la session cookies
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
@@ -79,7 +68,6 @@ function toUnixMaybe(v: any): number | null {
   return null;
 }
 
-// 2 phrases + 1 question, max 240 chars
 function enforceGuestFormat(input: string) {
   let text = cleanStr(input).replace(/\s+/g, " ");
 
@@ -180,7 +168,6 @@ async function isPremiumActive(user_id: string) {
 }
 
 function setGuestCookie(res: NextResponse, guest_id: string) {
-  // Tu peux ajouter Secure; en prod si tu veux.
   res.headers.append(
     "Set-Cookie",
     `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax`
@@ -193,11 +180,6 @@ function readBearer(req: Request) {
   return m ? m[1].trim() : "";
 }
 
-/**
- * Normalise les messages OpenAI depuis:
- * - ancien: body.messages[{role, content}]
- * - nouveau: body.history[{role,text}] + body.message
- */
 function buildChatMessages(body: any) {
   const old = Array.isArray(body?.messages) ? body.messages : null;
   if (old) {
@@ -219,7 +201,12 @@ function buildChatMessages(body: any) {
 
   if (last) msgs.push({ role: "user", content: last });
 
-  return msgs.filter((m) => m.content);
+  return msgs.filter((m: any) => m.content);
+}
+
+// ✅ Pour tester sans confusion (ouvre /api/chat et tu vois ok)
+export async function GET() {
+  return NextResponse.json({ ok: true, hint: "Use POST /api/chat" });
 }
 
 export async function POST(req: Request) {
@@ -237,7 +224,7 @@ export async function POST(req: Request) {
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
 
-    // ===== Auth: d’abord Bearer, sinon cookies session
+    // ===== Auth: Bearer puis cookies session (SEULEMENT si ANON KEY dispo)
     let user_id: string | null = null;
 
     const bearer = readBearer(req);
@@ -246,17 +233,21 @@ export async function POST(req: Request) {
       if (!error && data?.user?.id) user_id = data.user.id;
     }
 
-    if (!user_id) {
-      // ⚠️ App Router: cookies() pas await
-      const supabaseAuth = createRouteHandlerClient({ cookies });
-      const { data } = await supabaseAuth.auth.getSession();
-      user_id = data?.session?.user?.id ?? null;
+    if (!user_id && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      try {
+        const supabaseAuth = createRouteHandlerClient({ cookies });
+        const { data } = await supabaseAuth.auth.getSession();
+        user_id = data?.session?.user?.id ?? null;
+      } catch {
+        // ✅ si session cookies impossible (env manquante), on reste guest
+        user_id = null;
+      }
     }
 
     const isAuthed = !!user_id;
 
-    // ===== Guest id: payload guestId > cookie > new
-    const cookieStore = cookies(); // ✅ PAS await
+    // ===== Guest id: payload > cookie > new
+    const cookieStore = cookies();
     const cookieGid = cookieStore.get("la_gid")?.value;
     const payloadGid = cleanStr(body.guestId);
     const guest_id = payloadGid || cookieGid || makeGuestId();
@@ -303,14 +294,7 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const res = NextResponse.json(
-        {
-          // ✅ IMPORTANT: ton UI lit data.message
-          message: short,
-          // ✅ Compat si tu as d’autres pages qui lisent reply
-          reply: short,
-          mode: "guest",
-          remaining,
-        },
+        { message: short, reply: short, mode: "guest", remaining },
         { status: 200 }
       );
       setGuestCookie(res, guest_id);
@@ -341,11 +325,7 @@ Signe: ${signName || signKey || "—"}.
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
     return NextResponse.json(
-      {
-        message: answer, // ✅ UI
-        reply: answer,   // ✅ compat
-        mode: "auth",
-      },
+      { message: answer, reply: answer, mode: "auth" },
       { status: 200 }
     );
   } catch (e: any) {
