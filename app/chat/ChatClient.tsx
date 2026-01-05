@@ -92,19 +92,17 @@ function safeJsonParse<T>(raw: string | null, fallback: T): T {
 export default function ChatClient() {
   const sp = useSearchParams();
 
-  const rawKey = useMemo(() => {
-    return sp.get("signe") || sp.get("sign") || "belier";
-  }, [sp]);
-
+  const rawKey = useMemo(() => sp.get("signe") || sp.get("sign") || "belier", [sp]);
   const signKey = useMemo(() => norm(rawKey) || "belier", [rawKey]);
+
   const signName = useMemo(() => SIGNS[signKey] || "—", [signKey]);
 
-  const signDesc = useMemo(
-    () =>
+  const signDesc = useMemo(() => {
+    return (
       SIGN_DESC[signKey] ||
-      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.",
-    [signKey]
-  );
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites."
+    );
+  }, [signKey]);
 
   const bookUrl = useMemo(() => SIGN_BOOKS[signKey] || "", [signKey]);
 
@@ -149,7 +147,7 @@ export default function ChatClient() {
     } catch {
       return "guest_" + Math.random().toString(36).slice(2) + Date.now();
     }
-  }, []);
+  }, [KEY_GUEST_ID]);
 
   const loadThread = useCallback((): ThreadMsg[] => {
     if (typeof window === "undefined") return [];
@@ -187,7 +185,7 @@ export default function ChatClient() {
     if (typeof window === "undefined") return 0;
     const n = Number(localStorage.getItem(KEY_UI_USED) || "0");
     return Number.isFinite(n) ? n : 0;
-  }, []);
+  }, [KEY_UI_USED]);
 
   const incUiUsed = useCallback(() => {
     const n = getUiUsed() + 1;
@@ -198,7 +196,7 @@ export default function ChatClient() {
     }
     setUiUsed(n);
     return n;
-  }, [getUiUsed]);
+  }, [getUiUsed, KEY_UI_USED]);
 
   const scrollToBottom = useCallback((force = false) => {
     const el = messagesRef.current;
@@ -435,23 +433,16 @@ export default function ChatClient() {
 
       {/* ✅ 2 colonnes FIXES (sidebar + panel) */}
       <main className="chat-wrap" role="main">
-        {/* ✅ Sidebar : structure EXACTE attendue par ton chat.css */}
-        <aside className="chat-side">
-          <div className="chat-side-content">
-            <ChatSidebar
-              isAuth={isAuth}
-              sessionEmail={sessionEmail}
-              freeLeft={freeLeft}
-              signName={signName}
-              signDesc={signDesc}
-              bookUrl={bookUrl}
-            />
-          </div>
-
-          {/* ✅ Compteur collé en bas */}
-          <div id="freeCounter">
-            Gratuit : {freeLeft} message(s) restant(s)
-          </div>
+        {/* ✅ Sidebar : UN SEUL conteneur .chat-side */}
+        <aside className="chat-side" aria-label="Profil IA">
+          <ChatSidebar
+            isAuth={isAuth}
+            sessionEmail={sessionEmail}
+            freeLeft={freeLeft}
+            signName={signName}
+            signDesc={signDesc}
+            bookUrl={bookUrl}
+          />
         </aside>
 
         {/* Panel chat */}
@@ -482,4 +473,4 @@ export default function ChatClient() {
       />
     </div>
   );
-                       }
+    }
