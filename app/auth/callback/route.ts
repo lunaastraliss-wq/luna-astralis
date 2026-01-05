@@ -19,7 +19,15 @@ export async function GET(req: Request) {
 
   const supabase = createRouteHandlerClient({ cookies });
 
-  const { error } = await supabase.auth.exchangeCodeForSession(url);
+  const code = url.searchParams.get("code");
+
+  if (!code) {
+    return NextResponse.redirect(
+      new URL(`/login?oauth=1&next=${encodeURIComponent(next)}`, url.origin)
+    );
+  }
+
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
     return NextResponse.redirect(
