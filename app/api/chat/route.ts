@@ -9,12 +9,18 @@ import crypto from "crypto";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/* ===========================
+   LIMITES
+=========================== */
 const FREE_LIMIT = 15;
 const UPSELL_WHEN_REMAINING_LTE = 2;
 
 const UPSELL_TEXT_FR =
   " Si tu veux approfondir davantage et comprendre ce qui se joue en profondeur, l’accès complet te permet d’aller beaucoup plus loin.";
 
+/* ===========================
+   DB TABLES
+=========================== */
 const GUEST_USAGE_TABLE = "guest_usage";
 const GUEST_USAGE_COL_ID = "guest_id";
 const GUEST_USAGE_COL_COUNT = "count";
@@ -26,18 +32,18 @@ const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
+/* ===========================
+   ENV
+=========================== */
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
-// ✅ IMPORTANT: accepte SUPABASE_URL (souvent utilisé côté serveur) OU NEXT_PUBLIC_SUPABASE_URL
+// accepte SUPABASE_URL (serveur) OU NEXT_PUBLIC_SUPABASE_URL (public)
 const SUPABASE_URL =
   process.env.SUPABASE_URL ??
-  process.env.NEXT_PUBLIC_SUPABASE_URL ??
   process.env.NEXT_PUBLIC_SUPABASE_URL ??
   "";
 
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
-
-// ✅ Pour lire la session cookies
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -49,6 +55,9 @@ const supabaseAdmin =
       })
     : null;
 
+/* ===========================
+   HELPERS
+=========================== */
 function cleanStr(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
@@ -73,6 +82,7 @@ function toUnixMaybe(v: any): number | null {
   return null;
 }
 
+// force: 2 phrases + 1 question (max ~240 chars)
 function enforceGuestFormat(input: string) {
   let text = cleanStr(input).replace(/\s+/g, " ");
 
@@ -101,6 +111,7 @@ function enforceGuestFormat(input: string) {
 
   if (out.length > 240) {
     out = out.slice(0, 239).trimEnd();
+    // évite couper un surrogate pair
     out = out.replace(/[\uD800-\uDBFF]$/g, "");
     if (!/[?]\s*$/.test(out)) {
       out = out.replace(/[.!…]\s*$/g, "").trimEnd();
@@ -138,6 +149,7 @@ async function ensureGuestRowAndGetCount(guest_id: string) {
 
 async function incrementGuestCount(guest_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
   const current = await ensureGuestRowAndGetCount(guest_id);
   const next = current + 1;
 
@@ -169,6 +181,7 @@ async function isPremiumActive(user_id: string) {
 
   const cpeUnix = toUnixMaybe((data as any)[SUBS_COL_CURRENT_PERIOD_END]);
   if (cpeUnix == null) return true;
+
   return cpeUnix > nowUnix();
 }
 
@@ -182,11 +195,12 @@ function setGuestCookie(res: NextResponse, guest_id: string) {
 
 function readBearer(req: Request) {
   const h = req.headers.get("authorization") || "";
-  const m = h.match(/^Bearer\\s+(.+)$/i);
+  const m = h.match(/^Bearer\s+(.+)$/i);
   return m ? m[1].trim() : "";
 }
 
 function buildChatMessages(body: any) {
+  // format "messages" (OpenAI-like)
   const old = Array.isArray(body?.messages) ? body.messages : null;
   if (old) {
     return old
@@ -197,6 +211,7 @@ function buildChatMessages(body: any) {
       .filter((m: any) => m.content);
   }
 
+  // format historique custom
   const hist = Array.isArray(body?.history) ? body.history : [];
   const last = cleanStr(body?.message);
 
@@ -210,9 +225,17 @@ function buildChatMessages(body: any) {
   return msgs.filter((m: any) => m.content);
 }
 
-// ✅ Pour tester vite: GET /api/chat => ok
+/* ===========================
+   ROUTES
+=========================== */
 export async function GET() {
-  return NextResponse.json({ ok: true, hint: "Use POST /api/chat" });
+  // test rapide : /api/chat
+  return NextResponse.json({
+    ok: true,
+    hint: "Use POST /api/chat",
+    hasOpenAIKey: !!OPENAI_API_KEY,
+    hasSupabaseAdmin: !!supabaseAdmin,
+  });
 }
 
 export async function POST(req: Request) {
@@ -230,7 +253,7 @@ export async function POST(req: Request) {
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
 
-    // ===== Auth: Bearer puis cookies session (SEULEMENT si ANON KEY dispo)
+    // ===== Auth: Bearer puis cookies session (si ANON KEY dispo)
     let user_id: string | null = null;
 
     const bearer = readBearer(req);
@@ -262,6 +285,7 @@ export async function POST(req: Request) {
     // =========================
     if (!isAuthed) {
       const count = await ensureGuestRowAndGetCount(guest_id);
+
       if (count >= FREE_LIMIT) {
         const res = NextResponse.json(
           { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT },
@@ -294,7 +318,7 @@ Signe: ${signName || signKey || "—"}.
       const remaining = Math.max(0, FREE_LIMIT - newCount);
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
-        const candidate = (short + UPSELL (UPSELL_TEXT_FR)).replace(/\s+/g, " ").trim();
+        const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
         short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
       }
 
@@ -329,11 +353,17 @@ Signe: ${signName || signKey || "—"}.
 
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
-    return NextResponse.json({ message: answer, reply: answer, mode: "auth" }, { status: 200 });
+    return NextResponse.json(
+      { message: answer, reply: answer, mode: "auth" },
+      { status: 200 }
+    );
   } catch (e: any) {
     return NextResponse.json(
-      { error: "SERVER_ERROR", detail: cleanStr(e?.message) },
+      {
+        error: "SERVER_ERROR",
+        detail: cleanStr(e?.message),
+      },
       { status: 500 }
     );
   }
-}
+  }
