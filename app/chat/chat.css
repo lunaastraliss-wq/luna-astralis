@@ -1,11 +1,11 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR)
+   Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR) — REFAIT
    - 2 colonnes (sidebar + chat)
    - Page fixe: scroll UNIQUEMENT dans .chat-messages
-   - Sidebar: aucune barre (pas de scroll) + image plus petite
+   - Sidebar: pas de scroll + contenu centré
+   - Image sidebar plus grande (réduit le “grand vide”)
+   - Typo sidebar légèrement plus grosse
    - Compteur collé en bas (footer sidebar)
-   - Next.js friendly: wrapper .chat-body
-   - Fix "lettres collées": reset letter-spacing
    - Bulles sans queue
 ========================================================== */
 
@@ -17,8 +17,16 @@
   --gap: 14px;
   --sideW: 330px;
 
-  /* image sidebar */
-  --sideImgH: 220px;
+  /* ✅ Ajuste ici (plus grand = moins de vide) */
+  --sideImgH: 280px;
+
+  /* Typo sidebar */
+  --sideTitle: 13px;
+  --sideText: 13px;
+
+  /* Typo chat */
+  --chatTitle: 14px;
+  --chatPill: 12px;
 }
 
 .chat-body{
@@ -40,8 +48,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/* Neutralise letter-spacing global dans le chat */
 .chat-body *{ letter-spacing: normal; }
 
 /* =========================
@@ -73,26 +79,22 @@
   text-decoration:none;
   color: rgba(255,255,255,.92);
 }
-
 .chat-logo{
   width:34px;
   height:34px;
   object-fit:contain;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
 }
-
 .chat-brand-text{
   display:flex;
   flex-direction:column;
   gap:2px;
 }
-
 .chat-brand-name{
   font-weight:1000;
   letter-spacing: .06em;
   font-size:12px;
 }
-
 .chat-brand-sub{
   color: rgba(255,255,255,.70);
   font-weight:800;
@@ -178,44 +180,45 @@
   border-bottom:1px solid rgba(255,255,255,.10);
   display:flex;
   align-items:center;
-  justify-content:center; /* ✅ titre centré */
+  justify-content:center;
   gap:10px;
   flex: 0 0 auto;
 }
-
 .chat-side-title{
   font-weight:1000;
-  font-size:13px;
+  font-size: var(--sideTitle);
   letter-spacing:.01em;
 }
 
-/* contenu sidebar: pas de scroll */
 .chat-side-content{
   padding:14px;
   flex: 1 1 auto;
   min-height:0;
 
-  overflow: hidden !important; /* ✅ pas de barre */
+  overflow: hidden !important; /* ✅ aucune barre */
 }
 
-/* centre le contenu texte */
-.chat-side-center{
+/* ✅ Centre le contenu dans la sidebar */
+.chat-side-content,
+.chat-side-content *{
   text-align:center;
 }
 
-/* image sidebar (petite + centrée) */
+/* ✅ Image plus grande + centrée */
 .ai-face-wrap{
   width: 100%;
-  max-width: 240px;
-  margin: 0 auto 12px;
+  max-width: 260px;
+  margin: 0 auto 10px;
 
   border-radius: 18px;
   overflow:hidden;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.20);
   box-shadow: 0 16px 50px rgba(0,0,0,.45);
-}
 
+  /* évite que ça “saute” */
+  max-height: var(--sideImgH);
+}
 .ai-face{
   width:100%;
   height: var(--sideImgH);
@@ -229,19 +232,18 @@
   margin: 8px 0 0;
   color: rgba(255,255,255,.90);
   font-weight:900;
-  line-height:1.5;
-  font-size:12px;
+  line-height:1.55;
+  font-size: var(--sideText);
 }
-
 .chat-side-muted{
   margin: 8px 0 0;
-  color: rgba(255,255,255,.72);
+  color: rgba(255,255,255,.74);
   font-weight:800;
-  line-height:1.45;
-  font-size:12px;
+  line-height:1.55;
+  font-size: var(--sideText);
 }
 
-/* bouton livre */
+/* Bouton livre */
 .book-btn{
   display:inline-flex;
   align-items:center;
@@ -266,17 +268,33 @@
     linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.80));
 
   box-shadow: 0 18px 55px rgba(0,0,0,.40), 0 18px 55px rgba(182,140,255,.18);
+  transition: transform .12s ease, filter .12s ease;
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
-/* compteur gratuit collé en bas (footer sidebar) */
+/* ✅ petite séparation visuelle (option “premium”, aide à casser le vide) */
+.chat-side-content::after{
+  content:"";
+  display:block;
+  margin: 12px auto 0;
+  height:1px;
+  width: 80%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,.14),
+    transparent
+  );
+}
+
+/* Footer: compteur collé en bas */
 #freeCounter{
   margin: 12px 14px 14px;
   padding:10px 12px;
   border-radius: 14px;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.22);
-  color: rgba(255,255,255,.90);
+  color: rgba(255,255,255,.92);
   font-weight:900;
   font-size:12px;
 
@@ -339,7 +357,7 @@
 
 .chat-title{
   font-weight:1000;
-  font-size:14px;
+  font-size: var(--chatTitle);
   letter-spacing: .01em;
   display:flex;
   align-items:center;
@@ -352,7 +370,7 @@
   padding:6px 10px;
   border-radius:999px;
 
-  font-size:12px;
+  font-size: var(--chatPill);
   font-weight:1000;
 
   color: rgba(255,255,255,.92);
@@ -360,14 +378,12 @@
   border:1px solid rgba(255,255,255,.14);
 }
 
-/* ✅ zone droite: Historique + mini avatar */
 .chat-header-right{
   display:flex;
   align-items:center;
   gap:10px;
 }
 
-/* bouton historique */
 .chat-history-btn{
   appearance:none;
   border:1px solid rgba(255,255,255,.14);
@@ -392,7 +408,6 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
 }
 
-/* mini avatar à droite */
 .ai-face-mini-wrap{
   width:34px;
   height:34px;
@@ -471,7 +486,6 @@
 
   box-shadow: 0 14px 40px rgba(0,0,0,.40);
 }
-
 .msg-bubble::before,
 .msg-bubble::after{ content:none !important; display:none !important; }
 
