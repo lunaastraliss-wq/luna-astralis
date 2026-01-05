@@ -11,16 +11,21 @@ function safeNext(v: string | null) {
   const s = (v || "").trim();
   const fallback = "/chat?signe=belier";
   if (!s) return fallback;
+
+  // block external/open-redirect
   if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+
+  // force internal absolute path
   return s.startsWith("/") ? s : "/" + s;
 }
 
-export default function SignupPage() {
+export default function SignupClient() {
   const router = useRouter();
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
-  const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
+  const nextRaw = sp.get("next");
+  const nextUrl = useMemo(() => safeNext(nextRaw), [nextRaw]);
   const nextEnc = useMemo(() => encodeURIComponent(nextUrl), [nextUrl]);
 
   const [email, setEmail] = useState("");
@@ -34,6 +39,7 @@ export default function SignupPage() {
     setMsg({ text, type });
   }
 
+  // BOOT + Auth listener
   useEffect(() => {
     let mounted = true;
 
@@ -79,7 +85,7 @@ export default function SignupPage() {
 
     const origin = window.location.origin;
 
-    // ✅ Quand l'email est confirmé, on repasse par /auth/callback (échange code -> session)
+    // ✅ Email confirmation -> repasse par /auth/callback (server) qui échange le code -> session
     const emailRedirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { data, error } = await supabase.auth.signUp({
@@ -198,12 +204,7 @@ export default function SignupPage() {
                 <Link className="btn btn-ghost" href={loginHref}>
                   Mon compte
                 </Link>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={onLogout}
-                  disabled={busy}
-                >
+                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
                   Se déconnecter
                 </button>
               </div>
@@ -264,12 +265,7 @@ export default function SignupPage() {
               disabled={busy}
             />
 
-            <button
-              className="btn auth-submit"
-              type="submit"
-              disabled={busy}
-              style={{ opacity: busy ? 0.7 : 1 }}
-            >
+            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
               Créer mon compte
             </button>
 
@@ -289,4 +285,4 @@ export default function SignupPage() {
       </main>
     </div>
   );
-}
+      }
