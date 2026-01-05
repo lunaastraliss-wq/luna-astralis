@@ -2,7 +2,8 @@
    Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR)
    - 2 colonnes (sidebar + chat)
    - Page fixe: scroll UNIQUEMENT dans .chat-messages
-   - Sidebar: PAS de barre (pas de scroll) + image plus petite
+   - Sidebar: AUCUNE barre (pas de scroll) + image plus petite
+   - Compteur collé en bas (footer)
    - Next.js friendly: wrapper .chat-body
    - Fix "lettres collées": reset letter-spacing
    - Bulles sans queue
@@ -17,7 +18,7 @@
   --sideW: 330px;
 
   /* ✅ Ajuste ici si tu veux encore plus petit */
-  --sideImgH: 260px;
+  --sideImgH: 220px;
 }
 
 .chat-body{
@@ -152,9 +153,7 @@
 
 /* =========================
    SIDEBAR (BLOC À GAUCHE)
-   ✅ IMPORTANT:
-   - plus de scroll => plus de barre de côté
-   - image plus petite pour voir tout le texte
+   ✅ Objectif: aucune barre + tout le texte visible
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -169,8 +168,8 @@
 
   display:flex;
   flex-direction:column;
-  min-height:0;
   height:100%;
+  min-height:0;
 }
 
 .chat-side-header{
@@ -189,20 +188,17 @@
   letter-spacing:.01em;
 }
 
-/* ✅ plus de scroll = plus de barre */
+/* ✅ IMPORTANT: on empêche tout scroll dans la sidebar */
 .chat-side-content{
   padding:14px;
-  flex:1 1 auto;
+  flex: 1 1 auto;
   min-height:0;
 
-  overflow: hidden !important;  /* <-- enlève la barre */
-  overflow-x:hidden !important;
-
-  /* optionnel: un peu moins de padding pour gagner de la place */
-  padding-bottom: 12px;
+  overflow: hidden !important; /* <-- enlève la barre */
+  overflow-x: hidden !important;
 }
 
-/* Image grande dans la sidebar */
+/* ✅ Image plus petite */
 .ai-face-wrap{
   width: 100%;
   border-radius: 18px;
@@ -211,15 +207,13 @@
   background: rgba(0,0,0,.20);
   box-shadow: 0 16px 50px rgba(0,0,0,.45);
 
-  /* ✅ limite la hauteur pour laisser le texte respirer */
   max-height: var(--sideImgH);
 }
 
 .ai-face{
   width:100%;
-  height: var(--sideImgH);  /* ✅ hauteur fixe */
+  height: var(--sideImgH);
   display:block;
-
   object-fit: cover;
   object-position: 50% 18%;
 }
@@ -230,7 +224,7 @@
   color: rgba(255,255,255,.86);
   font-weight:800;
   line-height:1.5;
-  font-size: 12px;            /* ✅ légèrement plus petit */
+  font-size: 12px;
 }
 
 .chat-side-muted{
@@ -241,19 +235,7 @@
   font-size:12px;
 }
 
-/* Compteur free (si présent) */
-#freeCounter{
-  margin-top: 10px;
-  padding:10px 12px;
-  border-radius: 14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.22);
-  color: rgba(255,255,255,.90);
-  font-weight:900;
-  font-size:12px;
-}
-
-/* Bouton livre (si présent) */
+/* Bouton livre */
 .book-btn{
   display:inline-flex;
   align-items:center;
@@ -280,6 +262,19 @@
   box-shadow: 0 18px 55px rgba(0,0,0,.40), 0 18px 55px rgba(182,140,255,.18);
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+
+/* ✅ Compteur collé en bas (footer), ne pousse pas le contenu */
+#freeCounter{
+  margin: 12px 14px 14px;
+  padding:10px 12px;
+  border-radius: 14px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  color: rgba(255,255,255,.90);
+  font-weight:900;
+  font-size:12px;
+  flex: 0 0 auto;
+}
 
 /* =========================
    PANEL CHAT (À DROITE)
@@ -544,12 +539,8 @@
    RESPONSIVE
 ========================= */
 @media (max-width: 980px){
-  .chat-wrap{
-    grid-template-columns: 1fr;
-  }
-  .chat-side{
-    display:none;
-  }
+  .chat-wrap{ grid-template-columns: 1fr; }
+  .chat-side{ display:none; }
 }
 
 @media (max-width:520px){
@@ -566,9 +557,7 @@
    ENLEVER L'IMAGE D'ARRIÈRE-PLAN (HERO)
 ========================================================== */
 .chat-hero-img,
-.chat-hero-overlay{
-  display:none !important;
-}
+.chat-hero-overlay{ display:none !important; }
 .chat-hero,
 .chat-hero-inner{
   background-image:none !important;
