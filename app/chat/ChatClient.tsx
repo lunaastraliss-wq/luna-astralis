@@ -337,7 +337,7 @@ export default function ChatClient() {
 
     if (!authed) incUiUsed();
 
-    // placeholder typing
+    // placeholder typing (sans sauvegarder)
     setThread([...t1, { role: "ai", text: "…" }]);
 
     try {
@@ -390,7 +390,7 @@ export default function ChatClient() {
 
   return (
     <>
-      {/* ✅ CSS complet: + d’espace, lettres moins collées, typographie plus lisible */}
+      {/* CSS complet */}
       <style>{`
         :root{
           --topH: 64px;
@@ -407,8 +407,8 @@ export default function ChatClient() {
           height: 100%;
           overflow: hidden;
           color: var(--txt);
-          letter-spacing: .15px;      /* ✅ évite l’effet “collé” */
-          line-height: 1.45;          /* ✅ lisibilité générale */
+          letter-spacing: .15px;
+          line-height: 1.45;
           -webkit-font-smoothing: antialiased;
           text-rendering: optimizeLegibility;
         }
@@ -487,7 +487,7 @@ export default function ChatClient() {
         }
         .ai-desc{
           font-size: 14px;
-          line-height: 1.55;          /* ✅ texte plus respirable */
+          line-height: 1.55;
           color: var(--txt);
           margin-bottom: 12px;
         }
@@ -555,7 +555,7 @@ export default function ChatClient() {
         .hero-desc{
           margin: 0;
           font-size: 13.5px;
-          line-height: 1.55;         /* ✅ pas collé */
+          line-height: 1.55;
           color: rgba(255,255,255,.86);
         }
         .hero-book{ margin-top: 10px; }
@@ -593,12 +593,12 @@ export default function ChatClient() {
           overscroll-behavior: contain;
           scroll-behavior: smooth;
           padding: 14px;
-          padding-bottom: 92px; /* ✅ espace pour l’input */
+          padding-bottom: 92px;
         }
         .msg-row{
           display:flex;
           gap: 10px;
-          margin-bottom: 12px;       /* ✅ + d’air */
+          margin-bottom: 12px;
           align-items:flex-end;
         }
         .msg-avatar{
@@ -614,11 +614,11 @@ export default function ChatClient() {
         .msg-bubble{
           white-space: pre-wrap;
           max-width: 760px;
-          padding: 12px 14px;        /* ✅ + padding = moins collé */
+          padding: 12px 14px;
           border-radius: 16px;
           border: 1px solid var(--bd2);
           background: rgba(255,255,255,.06);
-          line-height: 1.6;          /* ✅ texte respire */
+          line-height: 1.6;
           font-size: 14px;
           letter-spacing: .15px;
         }
@@ -669,7 +669,7 @@ export default function ChatClient() {
           cursor: not-allowed;
         }
 
-        /* ===== TOP (petites classes si ton chat.css les utilise déjà) ===== */
+        /* ===== TOP ===== */
         .chat-brand{ display:flex; align-items:center; gap: 10px; text-decoration:none; color: var(--txt); }
         .chat-logo{ width: 34px; height: 34px; object-fit: contain; }
         .chat-brand-name{ font-weight: 900; letter-spacing: .6px; line-height: 1.05; }
@@ -725,7 +725,7 @@ export default function ChatClient() {
           .chat-panel{ order: 1; }
         }
         @media (max-width: 720px){
-          .chat-hero{ display:none !important; } /* ✅ mobile: focus discussion */
+          .chat-hero{ display:none !important; }
           .chat-messages{ padding-bottom: 98px; }
           .msg-bubble{ font-size: 14px; line-height: 1.62; }
         }
@@ -819,8 +819,32 @@ export default function ChatClient() {
         </aside>
 
         <section className="chat-panel" aria-label="Discussion">
-  <div className="chat-header">
-    ...
+          {/* HERO (optionnel) */}
+          <div className="chat-hero" aria-hidden="true">
+            <div className="chat-hero-inner">
+              <img className="chat-hero-img" src="/hero-luna.jpg" alt="" />
+              <div className="chat-hero-overlay" />
+              <div className="chat-hero-card">
+                <p className="hero-title">Discussion — {signName}</p>
+                <p className="hero-desc">
+                  Une exploration douce : émotions, schémas, besoins, limites.
+                </p>
+                {!!bookUrl && (
+                  <div className="hero-book">
+                    <a
+                      className="ai-book-link"
+                      href={bookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ✦ Approfondir ce signe
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="chat-header">
             <div className="chat-title">
               Discussion <span className="chat-pill">{signName}</span>
@@ -828,7 +852,6 @@ export default function ChatClient() {
 
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <button
-                className="chat-history-btn"
                 type="button"
                 onClick={() => setHistoryOpen(true)}
                 style={{
@@ -846,7 +869,6 @@ export default function ChatClient() {
               </button>
 
               <div
-                className="ai-face-mini-wrap"
                 aria-hidden="true"
                 style={{
                   width: 34,
@@ -857,7 +879,6 @@ export default function ChatClient() {
                 }}
               >
                 <img
-                  className="ai-face-mini"
                   src="/ia-luna-astralis.png"
                   alt=""
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -946,9 +967,15 @@ export default function ChatClient() {
 
             {paywallMode === "guest" ? (
               <>
-                <p style={{ marginTop: 10, color: "rgba(255,255,255,.82)", lineHeight: 1.55 }}>
-                  Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et
-                  retrouver tes échanges.
+                <p
+                  style={{
+                    marginTop: 10,
+                    color: "rgba(255,255,255,.82)",
+                    lineHeight: 1.55,
+                  }}
+                >
+                  Tu as atteint la limite gratuite. Crée un compte (gratuit)
+                  pour continuer et retrouver tes échanges.
                 </p>
 
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 }}>
@@ -1006,7 +1033,13 @@ export default function ChatClient() {
               </>
             ) : (
               <>
-                <p style={{ marginTop: 10, color: "rgba(255,255,255,.82)", lineHeight: 1.55 }}>
+                <p
+                  style={{
+                    marginTop: 10,
+                    color: "rgba(255,255,255,.82)",
+                    lineHeight: 1.55,
+                  }}
+                >
                   Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés.
                   Choisis une offre pour continuer.
                 </p>
@@ -1099,9 +1132,7 @@ export default function ChatClient() {
                 gap: 10,
               }}
             >
-              <div style={{ fontWeight: 900, letterSpacing: ".2px" }}>
-                Historique
-              </div>
+              <div style={{ fontWeight: 900, letterSpacing: ".2px" }}>Historique</div>
               <button
                 type="button"
                 onClick={() => setHistoryOpen(false)}
@@ -1229,4 +1260,4 @@ export default function ChatClient() {
       )}
     </>
   );
-                    }
+}
