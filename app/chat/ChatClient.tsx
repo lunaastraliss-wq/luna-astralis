@@ -818,6 +818,9 @@ export default function ChatClient() {
           </div>
         </aside>
 
+        <section className="chat-panel" aria-label="Discussion">
+  <div className="chat-header">
+    ...
           <div className="chat-header">
             <div className="chat-title">
               Discussion <span className="chat-pill">{signName}</span>
