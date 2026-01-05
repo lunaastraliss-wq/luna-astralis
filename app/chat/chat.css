@@ -1,7 +1,8 @@
 /* ==========================================================
    Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR)
    - 2 colonnes (sidebar + chat)
-   - Page fixe: scroll UNIQUEMENT dans .chat-messages et .chat-side-content
+   - Page fixe: scroll UNIQUEMENT dans .chat-messages
+   - Sidebar: PAS de barre (pas de scroll) + image plus petite
    - Next.js friendly: wrapper .chat-body
    - Fix "lettres collées": reset letter-spacing
    - Bulles sans queue
@@ -14,6 +15,9 @@
   --topH: 64px;
   --gap: 14px;
   --sideW: 330px;
+
+  /* ✅ Ajuste ici si tu veux encore plus petit */
+  --sideImgH: 260px;
 }
 
 .chat-body{
@@ -148,6 +152,9 @@
 
 /* =========================
    SIDEBAR (BLOC À GAUCHE)
+   ✅ IMPORTANT:
+   - plus de scroll => plus de barre de côté
+   - image plus petite pour voir tout le texte
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -182,15 +189,20 @@
   letter-spacing:.01em;
 }
 
+/* ✅ plus de scroll = plus de barre */
 .chat-side-content{
   padding:14px;
   flex:1 1 auto;
   min-height:0;
-  overflow:auto;            /* ✅ scroll ici seulement */
-  overflow-x:hidden;
+
+  overflow: hidden !important;  /* <-- enlève la barre */
+  overflow-x:hidden !important;
+
+  /* optionnel: un peu moins de padding pour gagner de la place */
+  padding-bottom: 12px;
 }
 
-/* Avatar / photo grande dans la sidebar (si tu l’utilises) */
+/* Image grande dans la sidebar */
 .ai-face-wrap{
   width: 100%;
   border-radius: 18px;
@@ -198,24 +210,31 @@
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.20);
   box-shadow: 0 16px 50px rgba(0,0,0,.45);
+
+  /* ✅ limite la hauteur pour laisser le texte respirer */
+  max-height: var(--sideImgH);
 }
+
 .ai-face{
   width:100%;
-  height:auto;
+  height: var(--sideImgH);  /* ✅ hauteur fixe */
   display:block;
-  object-fit:cover;
+
+  object-fit: cover;
+  object-position: 50% 18%;
 }
 
 /* Texte sidebar */
 .chat-side-p{
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: rgba(255,255,255,.86);
   font-weight:800;
   line-height:1.5;
+  font-size: 12px;            /* ✅ légèrement plus petit */
 }
 
 .chat-side-muted{
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: rgba(255,255,255,.70);
   font-weight:700;
   line-height:1.45;
@@ -224,7 +243,7 @@
 
 /* Compteur free (si présent) */
 #freeCounter{
-  margin-top: 12px;
+  margin-top: 10px;
   padding:10px 12px;
   border-radius: 14px;
   border:1px solid rgba(255,255,255,.14);
@@ -241,7 +260,7 @@
   justify-content:center;
   gap:10px;
 
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 12px 12px;
   width: 100%;
 
@@ -529,7 +548,7 @@
     grid-template-columns: 1fr;
   }
   .chat-side{
-    display:none; /* sur écran moyen/petit: on cache la sidebar */
+    display:none;
   }
 }
 
