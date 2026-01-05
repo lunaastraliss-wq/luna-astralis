@@ -1,3 +1,4 @@
+
 /* ==========================================================
    Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR)
    - 2 colonnes (sidebar + chat)
@@ -565,3 +566,89 @@
 }
 .chat-hero{ padding: 14px; }
 .chat-hero-inner{ position: relative; }
+/* =========================
+   SIDEBAR: centrer texte + image
+========================= */
+.ai-face-wrap{
+  margin: 0 auto;              /* centre le bloc image */
+}
+
+.ai-name,
+.ai-tag,
+.ai-desc,
+.ai-book,
+.ai-disclaimer{
+  text-align: center;          /* centre tout le texte */
+}
+
+.ai-name{
+  margin-top: 10px;
+  font-weight: 1000;
+  font-size: 14px;
+}
+
+.ai-tag{
+  margin-top: 6px;
+  font-weight: 900;
+  font-size: 12px;
+  opacity: .9;
+}
+
+.ai-desc{
+  margin-top: 8px;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: .88;
+}
+
+.ai-book{
+  margin-top: 10px;
+}
+
+.ai-book-link{
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 1000;
+  font-size: 12px;
+  color: rgba(10,12,22,.96);
+  border: 1px solid rgba(255,255,255,.20);
+  background: rgba(255,255,255,.08);
+}
+
+.ai-disclaimer{
+  margin-top: 10px;
+  font-size: 11px;
+  opacity: .75;
+}
+
+/* ✅ compteur gratuit: 1 fois, centré */
+#freeCounter{
+  text-align: center;
+}
+
+/* =========================
+   HEADER CHAT: bouton + mini avatar alignés / centrés
+   (si ton HTML met les 2 dans la même zone)
+========================= */
+.chat-header-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.chat-history-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.ai-face-mini-wrap{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
