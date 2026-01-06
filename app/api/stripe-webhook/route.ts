@@ -13,9 +13,7 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
 
 const SUPABASE_URL =
-  process.env.SUPABASE_URL ??
-  process.env.NEXT_PUBLIC_SUPABASE_URL ??
-  "";
+  process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
@@ -39,17 +37,8 @@ const supabase =
     : null;
 
 // =====================
-// Helpers
+// Helpers (Stripe)
 // =====================
-function pickPlanFromMeta(meta: any): string {
-  const p = clean(meta?.plan);
-  return p || "free";
-}
-
-function pickPlanFromSession(session: Stripe.Checkout.Session): string {
-  return pickPlanFromMeta((session as any)?.metadata);
-}
-
 function pickUserIdFromSession(session: Stripe.Checkout.Session): string {
   const fromClientRef = clean(session.client_reference_id);
   const fromMeta = clean((session as any)?.metadata?.user_id);
@@ -59,24 +48,15 @@ function pickUserIdFromSession(session: Stripe.Checkout.Session): string {
 function pickCustomerIdFromSession(session: Stripe.Checkout.Session): string {
   const c = (session as any)?.customer;
   if (typeof c === "string") return clean(c);
-  if (c && typeof c === "object" && typeof c.id === "string") return clean(c.id);
+  if (c && typeof c === "object" && typeof (c as any).id === "string") return clean((c as any).id);
   return "";
 }
 
 function pickCustomerIdFromSub(sub: Stripe.Subscription): string {
   const c = (sub as any)?.customer;
   if (typeof c === "string") return clean(c);
-  if (c && typeof c === "object" && typeof c.id === "string") return clean(c.id);
+  if (c && typeof c === "object" && typeof (c as any).id === "string") return clean((c as any).id);
   return "";
-}
-
-function pickPlanFromSub(sub: Stripe.Subscription): string {
-  return pickPlanFromMeta((sub as any)?.metadata);
-}
-
-function isPremiumFromStatus(status: string): boolean {
-  const s = clean(status).toLowerCase();
-  return s === "active" || s === "trialing";
 }
 
 function toIsoFromUnixSeconds(n: unknown): string | null {
@@ -85,19 +65,42 @@ function toIsoFromUnixSeconds(n: unknown): string | null {
   return new Date(num * 1000).toISOString();
 }
 
-async function updateProfileByUserId(userId: string, payload: Record<string, any>) {
-  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
-  const { error } = await supabase.from("profiles").update(payload).eq("id", userId);
-  if (error) throw new Error("Supabase update failed: " + error.message);
+function pickPriceIdFromSub(sub: Stripe.Subscription): string {
+  const item = (sub as any)?.items?.data?.[0];
+  const priceId = item?.price?.id;
+  return clean(priceId);
 }
 
-async function updateProfileByCustomerId(customerId: string, payload: Record<string, any>) {
+// =====================
+// DB helpers (Supabase)
+// =====================
+async function upsertUserSubscriptionByUserId(userId: string, payload: Record<string, any>) {
   if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+
+  // On upsert par user_id (suppose une contrainte unique sur user_id,
+  // sinon ça insère des doublons; si tu as déjà une seule ligne par user, c'est OK)
+  const row = {
+    user_id: userId,
+    ...payload,
+    updated_at: new Date().toISOString(),
+  };
+
   const { error } = await supabase
-    .from("profiles")
-    .update(payload)
+    .from("user_subscriptions")
+    .upsert(row, { onConflict: "user_id" });
+
+  if (error) throw new Error("Supabase upsert user_subscriptions failed: " + error.message);
+}
+
+async function updateUserSubscriptionByCustomerId(customerId: string, payload: Record<string, any>) {
+  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+
+  const { error } = await supabase
+    .from("user_subscriptions")
+    .update({ ...payload, updated_at: new Date().toISOString() })
     .eq("stripe_customer_id", customerId);
-  if (error) throw new Error("Supabase update failed: " + error.message);
+
+  if (error) throw new Error("Supabase update user_subscriptions failed: " + error.message);
 }
 
 // =====================
@@ -140,25 +143,20 @@ export async function POST(req: Request) {
 
       const userId = pickUserIdFromSession(session);
       const customerId = pickCustomerIdFromSession(session);
-      const plan = pickPlanFromSession(session);
+      const checkoutSessionId = clean((session as any)?.id);
 
-      // Si pas de user id, on ne peut pas lier à profiles.id
+      // Sans user_id, on ne peut pas lier à user_subscriptions.user_id
       if (!userId || userId === "guest") {
         return NextResponse.json(
-          {
-            received: true,
-            warning:
-              "guest checkout: no user_id to link (client_reference_id/metadata.user_id missing).",
-          },
+          { received: true, warning: "guest checkout: missing user_id" },
           { status: 200 }
         );
       }
 
-      await updateProfileByUserId(userId, {
-        is_premium: true,               // trialing ou active => premium
-        plan,
+      await upsertUserSubscriptionByUserId(userId, {
+        current: true,
         stripe_customer_id: customerId || null,
-        updated_at: new Date().toISOString(),
+        stripe_checkout_session_id: checkoutSessionId || null,
       });
 
       return NextResponse.json({ received: true }, { status: 200 });
@@ -174,24 +172,21 @@ export async function POST(req: Request) {
       const sub = event.data.object as Stripe.Subscription;
 
       const customerId = pickCustomerIdFromSub(sub);
-      const status = clean((sub as any)?.status);
-      const is_premium = isPremiumFromStatus(status);
+      const status = clean((sub as any)?.status); // trialing / active / canceled / ...
+      const subId = clean((sub as any)?.id);
+      const priceId = pickPriceIdFromSub(sub);
 
-      const plan = pickPlanFromSub(sub); // vient de subscription_data.metadata.plan
-      const stripe_subscription_id = clean((sub as any)?.id);
-
-      const current_period_end = toIsoFromUnixSeconds((sub as any)?.current_period_end);
-      const trial_end = toIsoFromUnixSeconds((sub as any)?.trial_end);
+      const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
+      const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
 
       if (customerId) {
-        await updateProfileByCustomerId(customerId, {
-          is_premium,
-          plan: plan || "free",
-          stripe_subscription_id: stripe_subscription_id || null,
-          subscription_status: status || null,
-          current_period_end,
-          trial_end,
-          updated_at: new Date().toISOString(),
+        await updateUserSubscriptionByCustomerId(customerId, {
+          stripe_subscription_id: subId || null,
+          stripe_status: status || null,
+          stripe_price_id: priceId || null,
+          current_period_end: currentPeriodEnd,
+          canceled_at: canceledAt,
+          current: status === "active" || status === "trialing",
         });
       }
 
@@ -203,17 +198,16 @@ export async function POST(req: Request) {
     // =========================
     if (event.type === "customer.subscription.deleted") {
       const sub = event.data.object as Stripe.Subscription;
+
       const customerId = pickCustomerIdFromSub(sub);
+      const canceledAt = new Date().toISOString();
 
       if (customerId) {
-        await updateProfileByCustomerId(customerId, {
-          is_premium: false,
-          plan: "free",
-          stripe_subscription_id: null,
-          subscription_status: "canceled",
+        await updateUserSubscriptionByCustomerId(customerId, {
+          current: false,
+          stripe_status: "canceled",
+          canceled_at: canceledAt,
           current_period_end: null,
-          trial_end: null,
-          updated_at: new Date().toISOString(),
         });
       }
 
@@ -236,4 +230,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-  }
+}
