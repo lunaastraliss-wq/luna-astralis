@@ -26,7 +26,7 @@ function hasEnv(name: string): boolean {
 }
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
 
 const supabase =
