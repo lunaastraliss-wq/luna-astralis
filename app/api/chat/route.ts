@@ -23,7 +23,8 @@ const UPSELL_TEXT_FR =
 =========================== */
 const GUEST_USAGE_TABLE = "guest_usage";
 const GUEST_USAGE_COL_ID = "guest_id";
-const GUEST_USAGE_COL_COUNT = "count";
+const GUEST_USAGE_COL_USED = "used"; // ✅ correspond à ta DB
+const GUEST_USAGE_COL_UPDATED_AT = "updated_at";
 
 const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
@@ -43,6 +44,18 @@ const SUPABASE_URL =
 
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+
+/* ===========================
+   CLIENTS
+=========================== */
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
+const supabaseAdmin =
+  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+        auth: { persistSession: false },
+      })
+    : null;
 
 /* ===========================
    HELPERS
@@ -92,7 +105,6 @@ function readBearer(req: Request) {
  * - body.message seul
  */
 function buildChatMessages(body: any) {
-  // 1) format "messages"
   const old = Array.isArray(body?.messages) ? body.messages : null;
   if (old) {
     return old
@@ -103,7 +115,6 @@ function buildChatMessages(body: any) {
       .filter((m: any) => m.content);
   }
 
-  // 2) format historique custom
   const hist = Array.isArray(body?.history) ? body.history : [];
   const last = cleanStr(body?.message);
 
@@ -114,7 +125,6 @@ function buildChatMessages(body: any) {
 
   if (last) msgs.push({ role: "user", content: last });
 
-  // 3) message seul, sans history
   if (!msgs.length && last) {
     return [{ role: "user" as const, content: last }];
   }
@@ -151,7 +161,7 @@ function enforceGuestFormat(input: string) {
 
   if (out.length > 240) {
     out = out.slice(0, 239).trimEnd();
-    out = out.replace(/[\uD800-\uDBFF]$/g, ""); // évite couper un surrogate pair
+    out = out.replace(/[\uD800-\uDBFF]$/g, "");
     if (!/[?]\s*$/.test(out)) {
       out = out.replace(/[.!…]\s*$/g, "").trimEnd();
       if (out.length > 238) out = out.slice(0, 238).trimEnd();
@@ -162,37 +172,15 @@ function enforceGuestFormat(input: string) {
   return out;
 }
 
-function getSupabaseAdmin() {
-  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return null;
-
-  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-    auth: { persistSession: false },
-  });
-}
-
-function getOpenAI() {
-  return new OpenAI({ apiKey: OPENAI_API_KEY });
-}
-
-/**
- * Détecte si l'erreur ressemble à "relation does not exist"
- * (Postgres 42P01) ou message équivalent.
- */
-function isMissingTableError(err: any) {
-  const msg = cleanStr(err?.message || err?.hint || err?.details || "");
-  const code = cleanStr(err?.code);
-  return code === "42P01" || /relation .* does not exist/i.test(msg);
-}
-
 /* ===========================
    SUPABASE: QUOTA GUEST
 =========================== */
-async function ensureGuestRowAndGetCount(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, guest_id: string) {
+async function ensureGuestRowAndGetUsed(guest_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const { data: existing, error: readErr } = await supabaseAdmin
     .from(GUEST_USAGE_TABLE)
-    .select(`${GUEST_USAGE_COL_ID}, ${GUEST_USAGE_COL_COUNT}`)
+    .select(`${GUEST_USAGE_COL_ID}, ${GUEST_USAGE_COL_USED}`)
     .eq(GUEST_USAGE_COL_ID, guest_id)
     .maybeSingle();
 
@@ -201,26 +189,33 @@ async function ensureGuestRowAndGetCount(supabaseAdmin: ReturnType<typeof getSup
   if (!existing) {
     const { data: created, error: insErr } = await supabaseAdmin
       .from(GUEST_USAGE_TABLE)
-      .insert({ [GUEST_USAGE_COL_ID]: guest_id, [GUEST_USAGE_COL_COUNT]: 0 })
-      .select(`${GUEST_USAGE_COL_COUNT}`)
+      .insert({
+        [GUEST_USAGE_COL_ID]: guest_id,
+        [GUEST_USAGE_COL_USED]: 0,
+        [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+      })
+      .select(`${GUEST_USAGE_COL_USED}`)
       .single();
 
     if (insErr) throw insErr;
-    return created?.[GUEST_USAGE_COL_COUNT] ?? 0;
+    return Number(created?.[GUEST_USAGE_COL_USED] ?? 0);
   }
 
-  return existing?.[GUEST_USAGE_COL_COUNT] ?? 0;
+  return Number(existing?.[GUEST_USAGE_COL_USED] ?? 0);
 }
 
-async function incrementGuestCount(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, guest_id: string) {
+async function incrementGuestUsed(guest_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
-  const current = await ensureGuestRowAndGetCount(supabaseAdmin, guest_id);
+  const current = await ensureGuestRowAndGetUsed(guest_id);
   const next = current + 1;
 
   const { error: updErr } = await supabaseAdmin
     .from(GUEST_USAGE_TABLE)
-    .update({ [GUEST_USAGE_COL_COUNT]: next })
+    .update({
+      [GUEST_USAGE_COL_USED]: next,
+      [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+    })
     .eq(GUEST_USAGE_COL_ID, guest_id);
 
   if (updErr) throw updErr;
@@ -230,7 +225,7 @@ async function incrementGuestCount(supabaseAdmin: ReturnType<typeof getSupabaseA
 /* ===========================
    SUPABASE: PREMIUM
 =========================== */
-async function isPremiumActive(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, user_id: string) {
+async function isPremiumActive(user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const { data, error } = await supabaseAdmin
@@ -261,22 +256,15 @@ export async function GET() {
     ok: true,
     hint: "Use POST /api/chat",
     hasOpenAIKey: !!OPENAI_API_KEY,
-    hasSupabaseAdmin: !!(SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY),
+    hasSupabaseAdmin: !!supabaseAdmin,
   });
 }
 
 export async function POST(req: Request) {
   try {
-    // ===== ENV guards
     if (!OPENAI_API_KEY) return jsonError("OPENAI_API_KEY_MISSING", 500);
-    if (!SUPABASE_URL) return jsonError("SUPABASE_URL_MISSING", 500);
-    if (!SUPABASE_SERVICE_ROLE_KEY) return jsonError("SUPABASE_SERVICE_ROLE_KEY_MISSING", 500);
-
-    const openai = getOpenAI();
-    const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) return jsonError("SUPABASE_ADMIN_MISSING", 500);
 
-    // ===== Body
     const body = await req.json().catch(() => null);
     if (!body) return jsonError("INVALID_JSON", 400);
 
@@ -285,22 +273,18 @@ export async function POST(req: Request) {
     const signKey = cleanStr(body.signKey || "");
 
     const userMessages = buildChatMessages(body);
-    if (!userMessages.length) {
-      return jsonError("NO_MESSAGES", 400, { receivedKeys: Object.keys(body || {}) });
-    }
+    if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
 
-    // ===== Auth: Bearer puis session cookie
+    // ===== Auth: Bearer puis cookies session
     let user_id: string | null = null;
 
-    // 1) Bearer token
     const bearer = readBearer(req);
     if (bearer) {
       const { data, error } = await supabaseAdmin.auth.getUser(bearer);
       if (!error && data?.user?.id) user_id = data.user.id;
     }
 
-    // 2) Session cookie (si ANON KEY dispo)
-    if (!user_id && SUPABASE_ANON_KEY) {
+    if (!user_id && SUPABASE_URL && SUPABASE_ANON_KEY) {
       try {
         const supabaseAuth = createRouteHandlerClient({ cookies });
         const { data } = await supabaseAuth.auth.getSession();
@@ -322,30 +306,16 @@ export async function POST(req: Request) {
     // GUEST FLOW
     // =========================
     if (!isAuthed) {
-      let count = 0;
-
+      let used = 0;
       try {
-        count = await ensureGuestRowAndGetCount(supabaseAdmin, guest_id);
+        used = await ensureGuestRowAndGetUsed(guest_id);
       } catch (err: any) {
-        if (isMissingTableError(err)) {
-          // IMPORTANT: erreur explicite au lieu d'un 500 flou
-          const res = jsonError("GUEST_USAGE_TABLE_MISSING", 500, {
-            table: GUEST_USAGE_TABLE,
-            hint:
-              "Crée la table guest_usage (guest_id text PK, count int) dans Supabase, puis redeploy.",
-          });
-          setGuestCookie(res, guest_id);
-          return res;
-        }
-
-        const res = jsonError("GUEST_USAGE_READ_FAILED", 500, {
+        return jsonError("GUEST_USAGE_READ_FAILED", 500, {
           detail: cleanStr(err?.message || err),
         });
-        setGuestCookie(res, guest_id);
-        return res;
       }
 
-      if (count >= FREE_LIMIT) {
+      if (used >= FREE_LIMIT) {
         const res = NextResponse.json(
           { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT },
           { status: 402 }
@@ -373,31 +343,21 @@ Signe: ${signName || signKey || "—"}.
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
-      let newCount = 0;
+      let newUsed = used;
       try {
-        newCount = await incrementGuestCount(supabaseAdmin, guest_id);
+        newUsed = await incrementGuestUsed(guest_id);
       } catch (err: any) {
-        if (isMissingTableError(err)) {
-          const res = jsonError("GUEST_USAGE_TABLE_MISSING", 500, {
-            table: GUEST_USAGE_TABLE,
-            hint:
-              "Crée la table guest_usage (guest_id text PK, count int) dans Supabase, puis redeploy.",
-          });
-          setGuestCookie(res, guest_id);
-          return res;
-        }
-        const res = jsonError("GUEST_USAGE_UPDATE_FAILED", 500, {
+        return jsonError("GUEST_USAGE_UPDATE_FAILED", 500, {
           detail: cleanStr(err?.message || err),
         });
-        setGuestCookie(res, guest_id);
-        return res;
       }
 
-      const remaining = Math.max(0, FREE_LIMIT - newCount);
+      const remaining = Math.max(0, FREE_LIMIT - newUsed);
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
-        short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
+        short =
+          candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
       }
 
       const res = NextResponse.json(
@@ -413,7 +373,7 @@ Signe: ${signName || signKey || "—"}.
     // =========================
     let premium = false;
     try {
-      premium = await isPremiumActive(supabaseAdmin, user_id!);
+      premium = await isPremiumActive(user_id!);
     } catch (err: any) {
       return jsonError("SUBSCRIPTION_CHECK_FAILED", 500, {
         detail: cleanStr(err?.message || err),
