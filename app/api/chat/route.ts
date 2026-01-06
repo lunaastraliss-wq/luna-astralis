@@ -21,11 +21,18 @@ const UPSELL_TEXT_FR =
 /* ===========================
    DB TABLES
 =========================== */
+// quota invité
 const GUEST_USAGE_TABLE = "guest_usage";
 const GUEST_USAGE_COL_ID = "guest_id";
-const GUEST_USAGE_COL_USED = "used"; // ✅ correspond à ta DB
+const GUEST_USAGE_COL_USED = "used";
 const GUEST_USAGE_COL_UPDATED_AT = "updated_at";
 
+// chat invité (persistant)
+const GUEST_THREADS_TABLE = "guest_threads";
+const GUEST_MESSAGES_TABLE = "guest_messages";
+const GUEST_CONTEXT_LAST_N = 12;
+
+// subs
 const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
 const SUBS_COL_STATUS = "status";
@@ -124,12 +131,18 @@ function buildChatMessages(body: any) {
   }));
 
   if (last) msgs.push({ role: "user", content: last });
-
-  if (!msgs.length && last) {
-    return [{ role: "user" as const, content: last }];
-  }
+  if (!msgs.length && last) return [{ role: "user" as const, content: last }];
 
   return msgs.filter((m: any) => m.content);
+}
+
+function getLastUserMessage(userMessages: Array<{ role: string; content: string }>) {
+  for (let i = userMessages.length - 1; i >= 0; i--) {
+    if (userMessages[i]?.role === "user" && cleanStr(userMessages[i]?.content)) {
+      return cleanStr(userMessages[i].content);
+    }
+  }
+  return "";
 }
 
 // force: 2 phrases + 1 question (max ~240 chars)
@@ -223,6 +236,91 @@ async function incrementGuestUsed(guest_id: string) {
 }
 
 /* ===========================
+   SUPABASE: CHAT INVITÉ (persistant)
+=========================== */
+async function getOrCreateGuestThreadId(
+  guest_id: string,
+  signKey: string,
+  signName: string
+) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const sk = cleanStr(signKey || "");
+  const sn = cleanStr(signName || "");
+
+  const { data: existing, error: readErr } = await supabaseAdmin
+    .from(GUEST_THREADS_TABLE)
+    .select("id")
+    .eq("guest_id", guest_id)
+    .eq("sign_key", sk)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (readErr) throw readErr;
+
+  if (existing?.id != null) return Number(existing.id);
+
+  const { data: created, error: insErr } = await supabaseAdmin
+    .from(GUEST_THREADS_TABLE)
+    .insert({
+      guest_id,
+      sign_key: sk,
+      sign_name: sn,
+      updated_at: new Date().toISOString(),
+    })
+    .select("id")
+    .single();
+
+  if (insErr) throw insErr;
+  return Number(created?.id);
+}
+
+async function loadGuestContextMessages(threadId: number, lastN: number) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const { data, error } = await supabaseAdmin
+    .from(GUEST_MESSAGES_TABLE)
+    .select("role, content, created_at")
+    .eq("thread_id", threadId)
+    .order("created_at", { ascending: false })
+    .limit(lastN);
+
+  if (error) throw error;
+
+  const rows = Array.isArray(data) ? data : [];
+  rows.reverse(); // back to chronological
+
+  return rows
+    .map((m: any) => ({
+      role: m?.role === "assistant" ? ("assistant" as const) : ("user" as const),
+      content: cleanStr(m?.content),
+    }))
+    .filter((m) => m.content);
+}
+
+async function saveGuestMessage(threadId: number, role: "user" | "assistant", content: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const text = cleanStr(content);
+  if (!text) return;
+
+  const { error } = await supabaseAdmin.from(GUEST_MESSAGES_TABLE).insert({
+    thread_id: threadId,
+    role,
+    content: text,
+  });
+
+  if (error) throw error;
+
+  // ping updated_at (best effort)
+  await supabaseAdmin
+    .from(GUEST_THREADS_TABLE)
+    .update({ updated_at: new Date().toISOString() })
+    .eq("id", threadId);
+}
+
+/* ===========================
    SUPABASE: PREMIUM
 =========================== */
 async function isPremiumActive(user_id: string) {
@@ -275,6 +373,9 @@ export async function POST(req: Request) {
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
 
+    const lastUserText = getLastUserMessage(userMessages);
+    if (!lastUserText) return jsonError("NO_USER_MESSAGE", 400);
+
     // ===== Auth: Bearer puis cookies session
     let user_id: string | null = null;
 
@@ -302,10 +403,11 @@ export async function POST(req: Request) {
     const payloadGid = cleanStr(body.guestId);
     const guest_id = payloadGid || cookieGid || makeGuestId();
 
-    // =========================
-    // GUEST FLOW
-    // =========================
+    /* =========================
+       GUEST FLOW (quota + chat cross-device)
+    ========================= */
     if (!isAuthed) {
+      // quota
       let used = 0;
       try {
         used = await ensureGuestRowAndGetUsed(guest_id);
@@ -324,6 +426,35 @@ export async function POST(req: Request) {
         return res;
       }
 
+      // threadId: optional (front), sinon (guest_id + signKey)
+      const payloadThreadIdRaw = body?.threadId;
+      const payloadThreadId =
+        typeof payloadThreadIdRaw === "number"
+          ? payloadThreadIdRaw
+          : Number(payloadThreadIdRaw || 0) || 0;
+
+      let threadId = payloadThreadId;
+
+      if (!threadId) {
+        try {
+          threadId = await getOrCreateGuestThreadId(guest_id, signKey, signName);
+        } catch (err: any) {
+          return jsonError("GUEST_THREAD_FAILED", 500, {
+            detail: cleanStr(err?.message || err),
+          });
+        }
+      }
+
+      // contexte DB (dernier N)
+      let dbContext: Array<{ role: "user" | "assistant"; content: string }> = [];
+      try {
+        dbContext = (await loadGuestContextMessages(threadId, GUEST_CONTEXT_LAST_N)) as any;
+      } catch (err: any) {
+        return jsonError("GUEST_THREAD_LOAD_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+      }
+
       const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, calme, direct, sans dramatiser.
@@ -334,15 +465,23 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
+      // OpenAI
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         temperature: 0.7,
-        messages: [{ role: "system", content: system }, ...userMessages],
+        messages: [
+          { role: "system", content: system },
+          ...dbContext,
+          { role: "user", content: lastUserText },
+        ],
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
+      // Upsell (si proche de la fin)
+      // NOTE: on calcule remaining après increment. On applique ensuite l'upsell.
+      // Quota: on incrémente seulement si OpenAI a réussi
       let newUsed = used;
       try {
         newUsed = await incrementGuestUsed(guest_id);
@@ -356,21 +495,30 @@ Signe: ${signName || signKey || "—"}.
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
-        short =
-          candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
+        short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
+      }
+
+      // Sauvegarde DB (après succès OpenAI)
+      try {
+        await saveGuestMessage(threadId, "user", lastUserText);
+        await saveGuestMessage(threadId, "assistant", short);
+      } catch (err: any) {
+        return jsonError("GUEST_CHAT_SAVE_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
       }
 
       const res = NextResponse.json(
-        { message: short, reply: short, mode: "guest", remaining },
+        { message: short, reply: short, mode: "guest", remaining, guestId: guest_id, threadId },
         { status: 200 }
       );
       setGuestCookie(res, guest_id);
       return res;
     }
 
-    // =========================
-    // AUTH FLOW (premium required)
-    // =========================
+    /* =========================
+       AUTH FLOW (premium required)
+    ========================= */
     let premium = false;
     try {
       premium = await isPremiumActive(user_id!);
