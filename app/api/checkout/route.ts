@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
  * Luna Astralis – Checkout Stripe (Subscription)
  * - Lit les Price IDs depuis les ENV
  * - Fonctionne si utilisateur connecté ou invité
- * - Trial contrôlé par STRIPE_TRIAL_DAYS (ex: 3 en test, 0 en prod)
+ * - Trial contrôlé par STRIPE_TRIAL_DAYS (ex: 3 pour tester, 0 pour désactiver)
  */
 
 type PlanId =
@@ -35,7 +35,7 @@ function cleanUrl(url: string) {
   return s.endsWith("/") ? s.slice(0, -1) : s;
 }
 
-// ✅ next doit toujours être un chemin interne ABSOLU (commence par "/")
+// ✅ next: chemin interne ABSOLU (commence par "/"), anti open-redirect
 function safeNext(next: unknown) {
   const fallback = "/chat?signe=belier";
   if (typeof next !== "string") return fallback;
@@ -43,9 +43,7 @@ function safeNext(next: unknown) {
   const s = next.trim();
   if (!s) return fallback;
 
-  // block external/open-redirect
   if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
-
   return s.startsWith("/") ? s : `/${s}`;
 }
 
@@ -65,14 +63,14 @@ const STRIPE_PRICE_MONTHLY_UNLIMITED = process.env.STRIPE_PRICE_MONTHLY_UNLIMITE
 const STRIPE_PRICE_YEARLY_ESSENTIAL = process.env.STRIPE_PRICE_YEARLY_ESSENTIAL ?? "";
 const STRIPE_PRICE_YEARLY_UNLIMITED = process.env.STRIPE_PRICE_YEARLY_UNLIMITED ?? "";
 
-// Trial
+// Trial (3 jours pour tester, 0 pour désactiver)
 const STRIPE_TRIAL_DAYS_RAW = process.env.STRIPE_TRIAL_DAYS ?? "0";
 const STRIPE_TRIAL_DAYS = Number.isFinite(Number(STRIPE_TRIAL_DAYS_RAW))
   ? Math.max(0, Math.floor(Number(STRIPE_TRIAL_DAYS_RAW)))
   : 0;
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
   : null;
 
 function priceIdFromPlan(plan: PlanId) {
@@ -117,7 +115,7 @@ export async function POST(req: Request) {
 
     const next = safeNext(body.next);
 
-    // ✅ URLs correctes Next.js
+    // ✅ URLs
     const successUrl =
       `${site}${next}` +
       `${next.includes("?") ? "&" : "?"}paid=1&session_id={CHECKOUT_SESSION_ID}`;
@@ -131,6 +129,17 @@ export async function POST(req: Request) {
     const user_id = data?.user?.id ?? null;
     const user_email = data?.user?.email ?? null;
 
+    // ✅ Subscription_data: trial 3 jours si STRIPE_TRIAL_DAYS > 0
+    const subscription_data: Stripe.Checkout.SessionCreateParams.SubscriptionData = {
+      metadata: {
+        app: "luna-astralis",
+        plan,
+        user_id: user_id ?? "guest",
+        next,
+      },
+      ...(STRIPE_TRIAL_DAYS > 0 ? { trial_period_days: STRIPE_TRIAL_DAYS } : {}),
+    };
+
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
@@ -142,6 +151,7 @@ export async function POST(req: Request) {
       ...(user_id ? { client_reference_id: user_id } : {}),
       ...(user_email ? { customer_email: user_email } : {}),
 
+      // metadata session (utile pour debug / logs)
       metadata: {
         app: "luna-astralis",
         plan,
@@ -149,17 +159,10 @@ export async function POST(req: Request) {
         next,
       },
 
-      subscription_data: {
-        metadata: {
-          app: "luna-astralis",
-          plan,
-          user_id: user_id ?? "guest",
-          next,
-        },
-        ...(STRIPE_TRIAL_DAYS > 0 ? { trial_period_days: STRIPE_TRIAL_DAYS } : {}),
-      },
+      subscription_data,
 
-      // optionnel (Stripe peut le gérer tout seul)
+      // Pendant un trial, Stripe peut ne pas charger immédiatement,
+      // mais la carte est collectée pour le futur paiement.
       payment_method_collection: "always",
     });
 
