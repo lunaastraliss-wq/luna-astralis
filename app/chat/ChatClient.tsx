@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase/client";
 
 import ChatSidebar from "./ChatSidebar";
-import ChatPanel from "./ChatPanel";
+import ChatPanel, { TopBar } from "./ChatPanel";
 import ChatModals from "./ChatModals";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
@@ -428,12 +428,10 @@ export default function ChatClient() {
     <div className="chat-body">
       {/* Header sticky */}
       <div className="chat-top">
-        <ChatPanel.TopBar isAuth={isAuth} onLogout={onLogout} />
+        <TopBar isAuth={isAuth} onLogout={onLogout} />
       </div>
 
-      {/* ✅ 2 colonnes FIXES (sidebar + panel) */}
       <main className="chat-wrap" role="main">
-        {/* ✅ Sidebar : UN SEUL conteneur .chat-side */}
         <aside className="chat-side" aria-label="Profil IA">
           <ChatSidebar
             isAuth={isAuth}
@@ -445,7 +443,6 @@ export default function ChatClient() {
           />
         </aside>
 
-        {/* Panel chat */}
         <section className="chat-panel">
           <ChatPanel
             signName={signName}
@@ -460,7 +457,6 @@ export default function ChatClient() {
         </section>
       </main>
 
-      {/* Modals */}
       <ChatModals
         paywallOpen={paywallOpen}
         paywallMode={paywallMode}
@@ -473,4 +469,4 @@ export default function ChatClient() {
       />
     </div>
   );
-    }
+        }
