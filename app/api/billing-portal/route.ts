@@ -12,7 +12,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 const STRIPE_PORTAL_CONFIG_LUNA = process.env.STRIPE_PORTAL_CONFIG_LUNA ?? ""; // bpc_...
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
 
 function cleanUrl(url: string) {
