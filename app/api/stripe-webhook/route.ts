@@ -28,7 +28,7 @@ function hasEnv(name: string): boolean {
 }
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
   : null;
 
 const supabase =
@@ -41,12 +41,16 @@ const supabase =
 // =====================
 // Helpers
 // =====================
-function pickPlan(session: Stripe.Checkout.Session): string {
-  const metaPlan = clean((session as any)?.metadata?.plan);
-  return metaPlan || "free";
+function pickPlanFromMeta(meta: any): string {
+  const p = clean(meta?.plan);
+  return p || "free";
 }
 
-function pickUserId(session: Stripe.Checkout.Session): string {
+function pickPlanFromSession(session: Stripe.Checkout.Session): string {
+  return pickPlanFromMeta((session as any)?.metadata);
+}
+
+function pickUserIdFromSession(session: Stripe.Checkout.Session): string {
   const fromClientRef = clean(session.client_reference_id);
   const fromMeta = clean((session as any)?.metadata?.user_id);
   return fromClientRef || fromMeta;
@@ -66,27 +70,34 @@ function pickCustomerIdFromSub(sub: Stripe.Subscription): string {
   return "";
 }
 
+function pickPlanFromSub(sub: Stripe.Subscription): string {
+  return pickPlanFromMeta((sub as any)?.metadata);
+}
+
+function isPremiumFromStatus(status: string): boolean {
+  const s = clean(status).toLowerCase();
+  return s === "active" || s === "trialing";
+}
+
+function toIsoFromUnixSeconds(n: unknown): string | null {
+  const num = typeof n === "number" ? n : Number(n);
+  if (!Number.isFinite(num) || num <= 0) return null;
+  return new Date(num * 1000).toISOString();
+}
+
 async function updateProfileByUserId(userId: string, payload: Record<string, any>) {
   if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
-
   const { error } = await supabase.from("profiles").update(payload).eq("id", userId);
   if (error) throw new Error("Supabase update failed: " + error.message);
 }
 
 async function updateProfileByCustomerId(customerId: string, payload: Record<string, any>) {
   if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
-
   const { error } = await supabase
     .from("profiles")
     .update(payload)
     .eq("stripe_customer_id", customerId);
-
   if (error) throw new Error("Supabase update failed: " + error.message);
-}
-
-function isActiveStatus(status: string): boolean {
-  const s = clean(status).toLowerCase();
-  return s === "active" || s === "trialing";
 }
 
 // =====================
@@ -94,17 +105,13 @@ function isActiveStatus(status: string): boolean {
 // =====================
 export async function POST(req: Request) {
   try {
-    // Hard env checks (runtime)
     if (!stripe) return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
     if (!STRIPE_WEBHOOK_SECRET) {
       return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
     }
     if (!supabase) {
       return NextResponse.json(
-        {
-          error:
-            "Missing SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) or SUPABASE_SERVICE_ROLE_KEY",
-        },
+        { error: "Missing SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) or SUPABASE_SERVICE_ROLE_KEY" },
         { status: 500 }
       );
     }
@@ -112,7 +119,7 @@ export async function POST(req: Request) {
     const sig = req.headers.get("stripe-signature");
     if (!sig) return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
 
-    // IMPORTANT: must be raw body
+    // IMPORTANT: raw body
     const rawBody = await req.text();
 
     let event: Stripe.Event;
@@ -131,11 +138,11 @@ export async function POST(req: Request) {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      const userId = pickUserId(session);
+      const userId = pickUserIdFromSession(session);
       const customerId = pickCustomerIdFromSession(session);
-      const plan = pickPlan(session);
+      const plan = pickPlanFromSession(session);
 
-      // If no user id, we cannot link to a Supabase profile row
+      // Si pas de user id, on ne peut pas lier à profiles.id
       if (!userId || userId === "guest") {
         return NextResponse.json(
           {
@@ -148,7 +155,7 @@ export async function POST(req: Request) {
       }
 
       await updateProfileByUserId(userId, {
-        is_premium: true,
+        is_premium: true,               // trialing ou active => premium
         plan,
         stripe_customer_id: customerId || null,
         updated_at: new Date().toISOString(),
@@ -158,17 +165,32 @@ export async function POST(req: Request) {
     }
 
     // =========================
-    // customer.subscription.updated
+    // customer.subscription.created / updated
     // =========================
-    if (event.type === "customer.subscription.updated") {
+    if (
+      event.type === "customer.subscription.created" ||
+      event.type === "customer.subscription.updated"
+    ) {
       const sub = event.data.object as Stripe.Subscription;
 
       const customerId = pickCustomerIdFromSub(sub);
-      const active = isActiveStatus((sub as any)?.status);
+      const status = clean((sub as any)?.status);
+      const is_premium = isPremiumFromStatus(status);
+
+      const plan = pickPlanFromSub(sub); // vient de subscription_data.metadata.plan
+      const stripe_subscription_id = clean((sub as any)?.id);
+
+      const current_period_end = toIsoFromUnixSeconds((sub as any)?.current_period_end);
+      const trial_end = toIsoFromUnixSeconds((sub as any)?.trial_end);
 
       if (customerId) {
         await updateProfileByCustomerId(customerId, {
-          is_premium: active,
+          is_premium,
+          plan: plan || "free",
+          stripe_subscription_id: stripe_subscription_id || null,
+          subscription_status: status || null,
+          current_period_end,
+          trial_end,
           updated_at: new Date().toISOString(),
         });
       }
@@ -187,6 +209,10 @@ export async function POST(req: Request) {
         await updateProfileByCustomerId(customerId, {
           is_premium: false,
           plan: "free",
+          stripe_subscription_id: null,
+          subscription_status: "canceled",
+          current_period_end: null,
+          trial_end: null,
           updated_at: new Date().toISOString(),
         });
       }
@@ -210,4 +236,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+  }
