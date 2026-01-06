@@ -1,6 +1,10 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR) — REFAIT
-   ✅ FIX MOBILE: textarea + sticky composer + z-index + font-size 16px
+   Luna Astralis — chat/chat.css — FINAL
+   - Desktop: sidebar + chat
+   - Mobile: 1 colonne
+   - Scroll uniquement dans .chat-messages
+   - Composer sticky (input) + font-size 16px
+   - reCAPTCHA: discret (badge + bandeau)
 ========================================================== */
 
 /* =========================
@@ -10,15 +14,11 @@
   --topH: 64px;
   --gap: 14px;
   --sideW: 330px;
-
-  /* ✅ Ajuste ici (plus grand = moins de vide) */
   --sideImgH: 280px;
 
-  /* Typo sidebar */
   --sideTitle: 13px;
   --sideText: 13px;
 
-  /* Typo chat */
   --chatTitle: 14px;
   --chatPill: 12px;
 }
@@ -35,14 +35,12 @@
     linear-gradient(180deg, rgba(6,8,21,1), rgba(7,10,22,1));
 
   color: rgba(255,255,255,.92);
-
   letter-spacing: normal;
   line-height: 1.5;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* ✅ mobile: évite des comportements de zoom/text adjust */
   -webkit-text-size-adjust: 100%;
 }
 .chat-body *{ letter-spacing: normal; }
@@ -98,6 +96,12 @@
   font-size:12px;
 }
 
+.chat-top-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
 .chat-back{
   text-decoration:none;
   font-weight:900;
@@ -151,7 +155,7 @@
 }
 
 /* =========================
-   SIDEBAR (BLOC À GAUCHE)
+   SIDEBAR
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -189,11 +193,7 @@
   padding:14px;
   flex: 1 1 auto;
   min-height:0;
-  overflow: hidden !important;
-}
-
-.chat-side-content,
-.chat-side-content *{
+  overflow:hidden !important;
   text-align:center;
 }
 
@@ -279,13 +279,12 @@
   color: rgba(255,255,255,.92);
   font-weight:900;
   font-size:12px;
-
   text-align:center;
   flex: 0 0 auto;
 }
 
 /* =========================
-   PANEL CHAT (À DROITE)
+   CHAT PANEL
 ========================= */
 .chat-panel{
   border-radius: 22px;
@@ -305,7 +304,6 @@
   height:100%;
   min-height:0;
 }
-
 .chat-panel::after{
   content:"";
   position:absolute;
@@ -324,7 +322,7 @@
 .chat-panel > *{ position:relative; z-index:1; }
 
 /* =========================
-   HEADER DU CHAT
+   CHAT HEADER
 ========================= */
 .chat-header{
   display:flex;
@@ -385,10 +383,6 @@
   justify-content:center;
 }
 .chat-history-btn:hover{ filter: brightness(1.06); }
-.chat-history-btn:focus-visible{
-  outline:0;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.20);
-}
 
 .ai-face-mini-wrap{
   width:34px;
@@ -397,16 +391,11 @@
   overflow:hidden;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.20);
-
   display:inline-flex;
   align-items:center;
   justify-content:center;
 }
-.ai-face-mini{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
+.ai-face-mini{ width:100%; height:100%; object-fit:cover; }
 
 /* =========================
    MESSAGES (SCROLL ICI SEULEMENT)
@@ -420,6 +409,9 @@
   scroll-behavior:smooth;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+
+  /* ✅ donne de l'air au-dessus du composer sticky */
+  padding-bottom: 140px;
 }
 
 .msg-row{
@@ -427,7 +419,6 @@
   gap:12px;
   margin: 10px 0;
   align-items:flex-start;
-  position:relative;
 }
 
 .msg-avatar{
@@ -446,15 +437,9 @@
     0 0 0 6px rgba(146,112,255,.16),
     0 16px 40px rgba(0,0,0,.45);
 }
-
-.msg-avatar-spacer{
-  width:40px;
-  height:40px;
-  flex-shrink:0;
-}
+.msg-avatar-spacer{ width:40px; height:40px; flex-shrink:0; }
 
 .msg-bubble{
-  position:relative;
   max-width:72ch;
   padding:14px 16px;
   border-radius:18px;
@@ -479,7 +464,6 @@
     rgba(0,0,0,.24);
   border-color: rgba(215,199,255,.20);
 }
-
 .msg-user{ justify-content:flex-end; }
 .msg-user .msg-bubble{
   background:
@@ -489,7 +473,7 @@
 }
 
 /* =========================
-   INPUT BAR (COLLÉ EN BAS) — ✅ FIX MOBILE
+   INPUT BAR — STICKY + SAFE
 ========================= */
 .chat-inputbar{
   display:flex;
@@ -502,19 +486,15 @@
 
   flex: 0 0 auto;
 
-  /* ✅ important: au-dessus de tout et stable avec clavier */
   position: sticky;
   bottom: 0;
-  z-index: 9999;
-
-  /* ✅ assure que la zone est bien cliquable */
-  pointer-events: auto;
+  z-index: 40; /* ✅ assez haut, mais pas délirant */
 }
 
-/* ✅ textarea + input même classe */
+/* input */
 .chat-input{
   flex:1;
-  width: 100%;
+  width:100%;
 
   border-radius:14px;
   border:1px solid rgba(255,255,255,.14);
@@ -528,19 +508,8 @@
   letter-spacing: .01em;
   line-height: 1.35;
 
-  /* ✅ CRITIQUE mobile: sinon bugs de focus/zoom/clavier */
-  font-size: 16px;
-
-  /* ✅ textarea */
-  resize: none;
-  min-height: 44px;
-  max-height: 180px;
-  overflow-y: auto;
-
-  pointer-events: auto;
-  touch-action: manipulation;
+  font-size: 16px; /* ✅ stop zoom iOS/Android */
 }
-
 .chat-input::placeholder{ color: rgba(255,255,255,.55); }
 .chat-input:focus{
   border-color: rgba(146,112,255,.28);
@@ -562,29 +531,64 @@
     radial-gradient(260px 160px at 80% 30%, rgba(159,211,255,.50), transparent 62%),
     linear-gradient(180deg, rgba(215,199,255,.98), rgba(146,112,255,.80));
   box-shadow: 0 18px 55px rgba(0,0,0,.40), 0 18px 55px rgba(182,140,255,.18);
-  transition: transform .12s ease, filter .12s ease;
 }
-.chat-send:hover{
-  transform: translateY(-1px);
-  filter: brightness(1.06);
-}
-.chat-send:focus-visible{
-  outline:0;
-  box-shadow:
-    0 0 0 3px rgba(255,255,255,.12),
-    0 0 0 6px rgba(182,140,255,.22),
-    0 22px 70px rgba(0,0,0,.45);
-}
-
 .input-disabled{ opacity:.6; pointer-events:none; }
 
-/* ✅ ReCAPTCHA badge ne doit PAS bloquer l’input en bas */
-@media (max-width: 768px) {
+/* ==========================================================
+   reCAPTCHA DISCRET (BADGE OFFICIEL)
+========================================================== */
+.grecaptcha-badge{
+  position: fixed !important;
+  right: 6px !important;
+  bottom: 6px !important;
+
+  transform: scale(0.40);
+  transform-origin: bottom right;
+
+  opacity: 0.28;
+  z-index: 2;
+
+  pointer-events: none;
+}
+@media (max-width: 520px){
   .grecaptcha-badge{
-    bottom: 120px !important;
-    right: 10px !important;
-    z-index: 1 !important;
+    transform: scale(0.28);
+    opacity: 0.22;
+    right: 4px !important;
+    bottom: 4px !important;
   }
+}
+
+/* ==========================================================
+   Bandeau “protégé par reCAPTCHA” (si présent)
+   -> on le rend mini + on évite qu'il cache l'input
+========================================================== */
+/* Plusieurs libs utilisent ces classes/structures */
+.recaptcha,
+.recaptcha-container,
+.recaptcha-badge,
+.recaptcha-notice,
+.grecaptcha-container{
+  z-index: 1 !important;
+}
+
+/* Cas: un bandeau large en bas */
+.recaptcha-notice,
+.recaptcha-badge,
+.recaptcha{
+  max-width: 220px;
+  font-size: 10px;
+  line-height: 1.2;
+  opacity: 0.55;
+}
+
+/* S'il est placé dans le chat, on le force à ne pas recouvrir le composer */
+.chat-panel .recaptcha,
+.chat-panel .recaptcha-notice,
+.chat-panel .recaptcha-badge{
+  position: absolute !important;
+  right: 10px !important;
+  bottom: 78px !important; /* ✅ juste au-dessus de l'input */
 }
 
 /* =========================
@@ -594,15 +598,10 @@
   .chat-wrap{ grid-template-columns: 1fr; }
   .chat-side{ display:none; }
 }
-
 @media (max-width:520px){
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
-}
-
-@media (prefers-reduced-motion: reduce){
-  *{ scroll-behavior:auto !important; transition:none !important; }
 }
 
 /* ==========================================================
