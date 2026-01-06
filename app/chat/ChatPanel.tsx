@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
 
@@ -49,6 +49,12 @@ function TopBar({
   );
 }
 
+function autoGrow(el: HTMLTextAreaElement) {
+  el.style.height = "auto";
+  const maxPx = 180;
+  el.style.height = Math.min(el.scrollHeight, maxPx) + "px";
+}
+
 export default function ChatPanel(props: {
   signName: string;
   tail: ThreadMsg[];
@@ -70,6 +76,37 @@ export default function ChatPanel(props: {
     disabled,
   } = props;
 
+  const taRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Auto-grow + stabilité mobile
+  useEffect(() => {
+    const el = taRef.current;
+    if (!el) return;
+    autoGrow(el);
+  }, [input]);
+
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (disabled) return;
+
+      // Enter = envoyer / Shift+Enter = saut de ligne
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        // Déclenche le submit du form
+        const form = (e.currentTarget as any)?.form as HTMLFormElement | null;
+        form?.requestSubmit?.();
+      }
+    },
+    [disabled]
+  );
+
+  const onFocus = useCallback(() => {
+    // aide Android/iOS à ne pas cacher le champ sous le clavier
+    setTimeout(() => {
+      taRef.current?.scrollIntoView({ block: "nearest" });
+    }, 50);
+  }, []);
+
   return (
     <section className="chat-panel" aria-label="Discussion">
       <div className="chat-header">
@@ -77,7 +114,6 @@ export default function ChatPanel(props: {
           Discussion <span className="chat-pill">{signName}</span>
         </div>
 
-        {/* ✅ important: utiliser la classe CSS */}
         <div className="chat-header-right">
           <button
             className="chat-history-btn"
@@ -122,16 +158,26 @@ export default function ChatPanel(props: {
         ))}
       </div>
 
+      {/* ✅ textarea = beaucoup plus fiable sur mobile */}
       <form className="chat-inputbar" onSubmit={onSend} autoComplete="off">
-        <input
+        <textarea
+          ref={taRef}
           className="chat-input"
           placeholder="Écris ton message…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onKeyDown}
+          onFocus={onFocus}
           autoComplete="off"
           disabled={disabled}
+          rows={1}
+          // Mobile-friendly
+          inputMode="text"
+          autoCapitalize="sentences"
+          autoCorrect="on"
+          spellCheck
         />
-        <button className="chat-send" type="submit" disabled={disabled}>
+        <button className="chat-send" type="submit" disabled={disabled || !input.trim()}>
           Envoyer
         </button>
       </form>
@@ -139,4 +185,4 @@ export default function ChatPanel(props: {
   );
 }
 
-ChatPanel.TopBar = TopBar;
+(ChatPanel as any).TopBar = TopBar;
