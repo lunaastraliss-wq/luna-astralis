@@ -1,12 +1,6 @@
 /* ==========================================================
    Luna Astralis — chat/chat.css — FINAL (WITH SIDEBAR) — REFAIT
-   - 2 colonnes (sidebar + chat)
-   - Page fixe: scroll UNIQUEMENT dans .chat-messages
-   - Sidebar: pas de scroll + contenu centré
-   - Image sidebar plus grande (réduit le “grand vide”)
-   - Typo sidebar légèrement plus grosse
-   - Compteur collé en bas (footer sidebar)
-   - Bulles sans queue
+   ✅ FIX MOBILE: textarea + sticky composer + z-index + font-size 16px
 ========================================================== */
 
 /* =========================
@@ -47,6 +41,9 @@
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* ✅ mobile: évite des comportements de zoom/text adjust */
+  -webkit-text-size-adjust: 100%;
 }
 .chat-body *{ letter-spacing: normal; }
 
@@ -155,8 +152,6 @@
 
 /* =========================
    SIDEBAR (BLOC À GAUCHE)
-   - AUCUN scroll
-   - Footer collé en bas
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -194,17 +189,14 @@
   padding:14px;
   flex: 1 1 auto;
   min-height:0;
-
-  overflow: hidden !important; /* ✅ aucune barre */
+  overflow: hidden !important;
 }
 
-/* ✅ Centre le contenu dans la sidebar */
 .chat-side-content,
 .chat-side-content *{
   text-align:center;
 }
 
-/* ✅ Image plus grande + centrée */
 .ai-face-wrap{
   width: 100%;
   max-width: 260px;
@@ -216,7 +208,6 @@
   background: rgba(0,0,0,.20);
   box-shadow: 0 16px 50px rgba(0,0,0,.45);
 
-  /* évite que ça “saute” */
   max-height: var(--sideImgH);
 }
 .ai-face{
@@ -227,7 +218,6 @@
   object-position: 50% 18%;
 }
 
-/* Texte sidebar */
 .chat-side-p{
   margin: 8px 0 0;
   color: rgba(255,255,255,.90);
@@ -243,7 +233,6 @@
   font-size: var(--sideText);
 }
 
-/* Bouton livre */
 .book-btn{
   display:inline-flex;
   align-items:center;
@@ -272,22 +261,15 @@
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
-/* ✅ petite séparation visuelle (option “premium”, aide à casser le vide) */
 .chat-side-content::after{
   content:"";
   display:block;
   margin: 12px auto 0;
   height:1px;
   width: 80%;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(255,255,255,.14),
-    transparent
-  );
+  background: linear-gradient(to right, transparent, rgba(255,255,255,.14), transparent);
 }
 
-/* Footer: compteur collé en bas */
 #freeCounter{
   margin: 12px 14px 14px;
   padding:10px 12px;
@@ -437,6 +419,7 @@
   overflow-x:hidden;
   scroll-behavior:smooth;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .msg-row{
@@ -506,7 +489,7 @@
 }
 
 /* =========================
-   INPUT BAR (COLLÉ EN BAS)
+   INPUT BAR (COLLÉ EN BAS) — ✅ FIX MOBILE
 ========================= */
 .chat-inputbar{
   display:flex;
@@ -518,10 +501,21 @@
   backdrop-filter: blur(10px);
 
   flex: 0 0 auto;
+
+  /* ✅ important: au-dessus de tout et stable avec clavier */
+  position: sticky;
+  bottom: 0;
+  z-index: 9999;
+
+  /* ✅ assure que la zone est bien cliquable */
+  pointer-events: auto;
 }
 
+/* ✅ textarea + input même classe */
 .chat-input{
   flex:1;
+  width: 100%;
+
   border-radius:14px;
   border:1px solid rgba(255,255,255,.14);
   background: rgba(0,0,0,.22);
@@ -533,7 +527,20 @@
   outline:none;
   letter-spacing: .01em;
   line-height: 1.35;
+
+  /* ✅ CRITIQUE mobile: sinon bugs de focus/zoom/clavier */
+  font-size: 16px;
+
+  /* ✅ textarea */
+  resize: none;
+  min-height: 44px;
+  max-height: 180px;
+  overflow-y: auto;
+
+  pointer-events: auto;
+  touch-action: manipulation;
 }
+
 .chat-input::placeholder{ color: rgba(255,255,255,.55); }
 .chat-input:focus{
   border-color: rgba(146,112,255,.28);
@@ -570,6 +577,15 @@
 }
 
 .input-disabled{ opacity:.6; pointer-events:none; }
+
+/* ✅ ReCAPTCHA badge ne doit PAS bloquer l’input en bas */
+@media (max-width: 768px) {
+  .grecaptcha-badge{
+    bottom: 120px !important;
+    right: 10px !important;
+    z-index: 1 !important;
+  }
+}
 
 /* =========================
    RESPONSIVE
