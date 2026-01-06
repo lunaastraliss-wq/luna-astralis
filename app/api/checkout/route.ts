@@ -67,7 +67,7 @@ const PRICING_PLAN_MAP: Record<PlanId, string> = {
 };
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" })
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-06" })
   : null;
 
 function priceIdFromPlan(plan: PlanId) {
