@@ -38,18 +38,11 @@ const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY ?? "";
 
 // accepte SUPABASE_URL (serveur) OU NEXT_PUBLIC_SUPABASE_URL (public)
-const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+const SUPABASE_URL =
+  process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
+
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
-
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
-const supabaseAdmin =
-  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { persistSession: false },
-      })
-    : null;
 
 /* ===========================
    HELPERS
@@ -76,6 +69,57 @@ function toUnixMaybe(v: any): number | null {
   const t = Date.parse(String(v));
   if (Number.isFinite(t)) return Math.floor(t / 1000);
   return null;
+}
+
+function setGuestCookie(res: NextResponse, guest_id: string) {
+  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
+  res.headers.append(
+    "Set-Cookie",
+    `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
+  );
+}
+
+function readBearer(req: Request) {
+  const h = req.headers.get("authorization") || "";
+  const m = h.match(/^Bearer\s+(.+)$/i);
+  return m ? m[1].trim() : "";
+}
+
+/**
+ * Supporte:
+ * - body.messages (format OpenAI)
+ * - body.history + body.message (format custom)
+ * - body.message seul
+ */
+function buildChatMessages(body: any) {
+  // 1) format "messages"
+  const old = Array.isArray(body?.messages) ? body.messages : null;
+  if (old) {
+    return old
+      .map((m: any) => ({
+        role: m?.role === "assistant" ? "assistant" : "user",
+        content: cleanStr(m?.content),
+      }))
+      .filter((m: any) => m.content);
+  }
+
+  // 2) format historique custom
+  const hist = Array.isArray(body?.history) ? body.history : [];
+  const last = cleanStr(body?.message);
+
+  const msgs = hist.map((m: any) => ({
+    role: m?.role === "ai" || m?.role === "assistant" ? "assistant" : "user",
+    content: cleanStr(m?.text ?? m?.content),
+  }));
+
+  if (last) msgs.push({ role: "user", content: last });
+
+  // 3) message seul, sans history
+  if (!msgs.length && last) {
+    return [{ role: "user" as const, content: last }];
+  }
+
+  return msgs.filter((m: any) => m.content);
 }
 
 // force: 2 phrases + 1 question (max ~240 chars)
@@ -118,7 +162,32 @@ function enforceGuestFormat(input: string) {
   return out;
 }
 
-async function ensureGuestRowAndGetCount(guest_id: string) {
+function getSupabaseAdmin() {
+  if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) return null;
+
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    auth: { persistSession: false },
+  });
+}
+
+function getOpenAI() {
+  return new OpenAI({ apiKey: OPENAI_API_KEY });
+}
+
+/**
+ * Détecte si l'erreur ressemble à "relation does not exist"
+ * (Postgres 42P01) ou message équivalent.
+ */
+function isMissingTableError(err: any) {
+  const msg = cleanStr(err?.message || err?.hint || err?.details || "");
+  const code = cleanStr(err?.code);
+  return code === "42P01" || /relation .* does not exist/i.test(msg);
+}
+
+/* ===========================
+   SUPABASE: QUOTA GUEST
+=========================== */
+async function ensureGuestRowAndGetCount(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, guest_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const { data: existing, error: readErr } = await supabaseAdmin
@@ -143,10 +212,10 @@ async function ensureGuestRowAndGetCount(guest_id: string) {
   return existing?.[GUEST_USAGE_COL_COUNT] ?? 0;
 }
 
-async function incrementGuestCount(guest_id: string) {
+async function incrementGuestCount(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, guest_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
-  const current = await ensureGuestRowAndGetCount(guest_id);
+  const current = await ensureGuestRowAndGetCount(supabaseAdmin, guest_id);
   const next = current + 1;
 
   const { error: updErr } = await supabaseAdmin
@@ -158,7 +227,10 @@ async function incrementGuestCount(guest_id: string) {
   return next;
 }
 
-async function isPremiumActive(user_id: string) {
+/* ===========================
+   SUPABASE: PREMIUM
+=========================== */
+async function isPremiumActive(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const { data, error } = await supabaseAdmin
@@ -181,46 +253,6 @@ async function isPremiumActive(user_id: string) {
   return cpeUnix > nowUnix();
 }
 
-function setGuestCookie(res: NextResponse, guest_id: string) {
-  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  res.headers.append(
-    "Set-Cookie",
-    `la_gid=${guest_id}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`
-  );
-}
-
-function readBearer(req: Request) {
-  const h = req.headers.get("authorization") || "";
-  const m = h.match(/^Bearer\s+(.+)$/i);
-  return m ? m[1].trim() : "";
-}
-
-function buildChatMessages(body: any) {
-  // format "messages" (OpenAI-like)
-  const old = Array.isArray(body?.messages) ? body.messages : null;
-  if (old) {
-    return old
-      .map((m: any) => ({
-        role: m?.role === "assistant" ? "assistant" : "user",
-        content: cleanStr(m?.content),
-      }))
-      .filter((m: any) => m.content);
-  }
-
-  // format historique custom
-  const hist = Array.isArray(body?.history) ? body.history : [];
-  const last = cleanStr(body?.message);
-
-  const msgs = hist.map((m: any) => ({
-    role: m?.role === "ai" || m?.role === "assistant" ? "assistant" : "user",
-    content: cleanStr(m?.text ?? m?.content),
-  }));
-
-  if (last) msgs.push({ role: "user", content: last });
-
-  return msgs.filter((m: any) => m.content);
-}
-
 /* ===========================
    ROUTES
 =========================== */
@@ -229,15 +261,22 @@ export async function GET() {
     ok: true,
     hint: "Use POST /api/chat",
     hasOpenAIKey: !!OPENAI_API_KEY,
-    hasSupabaseAdmin: !!supabaseAdmin,
+    hasSupabaseAdmin: !!(SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY),
   });
 }
 
 export async function POST(req: Request) {
   try {
+    // ===== ENV guards
     if (!OPENAI_API_KEY) return jsonError("OPENAI_API_KEY_MISSING", 500);
+    if (!SUPABASE_URL) return jsonError("SUPABASE_URL_MISSING", 500);
+    if (!SUPABASE_SERVICE_ROLE_KEY) return jsonError("SUPABASE_SERVICE_ROLE_KEY_MISSING", 500);
+
+    const openai = getOpenAI();
+    const supabaseAdmin = getSupabaseAdmin();
     if (!supabaseAdmin) return jsonError("SUPABASE_ADMIN_MISSING", 500);
 
+    // ===== Body
     const body = await req.json().catch(() => null);
     if (!body) return jsonError("INVALID_JSON", 400);
 
@@ -246,18 +285,22 @@ export async function POST(req: Request) {
     const signKey = cleanStr(body.signKey || "");
 
     const userMessages = buildChatMessages(body);
-    if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
+    if (!userMessages.length) {
+      return jsonError("NO_MESSAGES", 400, { receivedKeys: Object.keys(body || {}) });
+    }
 
-    // ===== Auth: Bearer puis cookies session (si ANON KEY dispo)
+    // ===== Auth: Bearer puis session cookie
     let user_id: string | null = null;
 
+    // 1) Bearer token
     const bearer = readBearer(req);
     if (bearer) {
       const { data, error } = await supabaseAdmin.auth.getUser(bearer);
       if (!error && data?.user?.id) user_id = data.user.id;
     }
 
-    if (!user_id && SUPABASE_URL && SUPABASE_ANON_KEY) {
+    // 2) Session cookie (si ANON KEY dispo)
+    if (!user_id && SUPABASE_ANON_KEY) {
       try {
         const supabaseAuth = createRouteHandlerClient({ cookies });
         const { data } = await supabaseAuth.auth.getSession();
@@ -279,7 +322,28 @@ export async function POST(req: Request) {
     // GUEST FLOW
     // =========================
     if (!isAuthed) {
-      const count = await ensureGuestRowAndGetCount(guest_id);
+      let count = 0;
+
+      try {
+        count = await ensureGuestRowAndGetCount(supabaseAdmin, guest_id);
+      } catch (err: any) {
+        if (isMissingTableError(err)) {
+          // IMPORTANT: erreur explicite au lieu d'un 500 flou
+          const res = jsonError("GUEST_USAGE_TABLE_MISSING", 500, {
+            table: GUEST_USAGE_TABLE,
+            hint:
+              "Crée la table guest_usage (guest_id text PK, count int) dans Supabase, puis redeploy.",
+          });
+          setGuestCookie(res, guest_id);
+          return res;
+        }
+
+        const res = jsonError("GUEST_USAGE_READ_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+        setGuestCookie(res, guest_id);
+        return res;
+      }
 
       if (count >= FREE_LIMIT) {
         const res = NextResponse.json(
@@ -309,7 +373,26 @@ Signe: ${signName || signKey || "—"}.
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
-      const newCount = await incrementGuestCount(guest_id);
+      let newCount = 0;
+      try {
+        newCount = await incrementGuestCount(supabaseAdmin, guest_id);
+      } catch (err: any) {
+        if (isMissingTableError(err)) {
+          const res = jsonError("GUEST_USAGE_TABLE_MISSING", 500, {
+            table: GUEST_USAGE_TABLE,
+            hint:
+              "Crée la table guest_usage (guest_id text PK, count int) dans Supabase, puis redeploy.",
+          });
+          setGuestCookie(res, guest_id);
+          return res;
+        }
+        const res = jsonError("GUEST_USAGE_UPDATE_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+        setGuestCookie(res, guest_id);
+        return res;
+      }
+
       const remaining = Math.max(0, FREE_LIMIT - newCount);
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
@@ -328,7 +411,15 @@ Signe: ${signName || signKey || "—"}.
     // =========================
     // AUTH FLOW (premium required)
     // =========================
-    const premium = await isPremiumActive(user_id!);
+    let premium = false;
+    try {
+      premium = await isPremiumActive(supabaseAdmin, user_id!);
+    } catch (err: any) {
+      return jsonError("SUBSCRIPTION_CHECK_FAILED", 500, {
+        detail: cleanStr(err?.message || err),
+      });
+    }
+
     if (!premium) return jsonError("PREMIUM_REQUIRED", 402);
 
     const system = `
@@ -354,7 +445,7 @@ Signe: ${signName || signKey || "—"}.
     );
   } catch (e: any) {
     return NextResponse.json(
-      { error: "SERVER_ERROR", detail: cleanStr(e?.message) },
+      { error: "SERVER_ERROR", detail: cleanStr(e?.message || e) },
       { status: 500 }
     );
   }
