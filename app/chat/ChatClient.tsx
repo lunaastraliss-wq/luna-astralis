@@ -216,8 +216,8 @@ export default function ChatClient() {
 
       const hello =
         `Bonjour ✨\n` +
-        `Avec l’énergie de ton signe, ${signName}, on peut explorer ce que tu vis en ce moment.\n` +
-        `Qu’est-ce qui te préoccupe aujourd’hui ?`;
+        `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n` +
+        `De quoi as-tu envie de parler aujourd’hui ?`;
 
       const t: ThreadMsg[] = [{ role: "ai", text: hello }];
       saveThreadLocal(t);
