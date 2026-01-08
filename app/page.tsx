@@ -45,12 +45,18 @@ export default function HomePage() {
             <div className="hero-top hero-top-center">
               <div className="hero-kicker hero-kicker-center">
                 <span className="astro-mark">☾ Luna Astralis</span>
-                <span className="hero-badge">Exploration guidée</span>
+                <span className="hero-badge">Espace de discussion</span>
               </div>
 
-              <h1 className="hero-title hero-title-center">Astro & psycho</h1>
+              <h1 className="hero-title hero-title-center">
+                Ce n’est pas un horoscope.<br />
+                C’est une conversation.
+              </h1>
 
-              <p className="lead lead-center">Ce que ton signe révèle de toi — au-delà des clichés.</p>
+              <p className="lead lead-center">
+                Ici, on ne te dit pas ce qui va arriver.<br />
+                On parle de ce que tu vis, à travers ton signe.
+              </p>
             </div>
 
             {/* BLOC GRATUIT */}
@@ -236,3 +242,4 @@ export default function HomePage() {
     </div>
   );
 }
+
