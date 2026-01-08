@@ -14,11 +14,6 @@ const FREE_LIMIT = 15;
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 
-// ⚠️ IMPORTANT:
-// Avant, tu envoyais l’historique au backend.
-// Maintenant le backend lit le contexte depuis Supabase (guest_messages) via threadId,
-// donc on n’envoie plus "context history" (ça évite doublons + incohérences cross-device).
-
 const SIGNS: Record<string, string> = {
   belier: "Bélier ♈",
   taureau: "Taureau ♉",
@@ -98,6 +93,14 @@ function clampInt(v: any, fallback = 0) {
   return Number.isFinite(n) ? Math.trunc(n) : fallback;
 }
 
+function safePath(nextUrl: string) {
+  // Empêche toute redirection externe (sécurité)
+  if (!nextUrl) return "/";
+  if (nextUrl.startsWith("/") && !nextUrl.startsWith("//") && !nextUrl.includes("://"))
+    return nextUrl;
+  return "/";
+}
+
 export default function ChatClient() {
   const sp = useSearchParams();
 
@@ -126,11 +129,8 @@ export default function ChatClient() {
 
   const [historyOpen, setHistoryOpen] = useState(false);
 
-  // ✅ On ne fait plus confiance au compteur UI local pour le quota :
-  // on se base sur "remaining" renvoyé par l’API.
   const [freeLeft, setFreeLeft] = useState<number>(FREE_LIMIT);
 
-  // ✅ threadId serveur par signe (pour chat persistant invité)
   const KEY_THREAD_LOCAL = useMemo(() => `${STORAGE_PREFIX}thread_${signKey}`, [signKey]);
   const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
   const KEY_SERVER_THREAD_ID = useMemo(
@@ -139,9 +139,10 @@ export default function ChatClient() {
   );
   const KEY_SERVER_REMAINING = `${STORAGE_PREFIX}server_remaining`;
 
+  // ✅ IMPORTANT: renvoie l’URL réelle (pathname + query)
   const currentPathWithQuery = useCallback(() => {
-    if (typeof window === "undefined") return "/chat";
-    return "/chat" + window.location.search;
+    if (typeof window === "undefined") return "/";
+    return safePath(window.location.pathname + window.location.search);
   }, []);
 
   const getGuestId = useCallback(() => {
@@ -262,12 +263,6 @@ export default function ChatClient() {
     }
   }, []);
 
-  /**
-   * ✅ Appel API
-   * - Invité: envoie guestId + threadId (si connu)
-   * - N’envoie PAS l’historique (le serveur l’a en DB)
-   * - Récupère remaining + threadId et les persiste localement
-   */
   const askLuna = useCallback(
     async (userText: string) => {
       const session = await getSessionSafe();
@@ -277,7 +272,7 @@ export default function ChatClient() {
         lang: "fr",
         signKey,
         signName,
-        message: userText, // on peut envoyer message simple
+        message: userText,
       };
 
       if (!authed) {
@@ -308,7 +303,6 @@ export default function ChatClient() {
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
-      // ✅ Sync état serveur -> UI (invité)
       if (!authed) {
         if (typeof data?.remaining === "number") {
           const r = Math.max(0, Math.trunc(data.remaining));
@@ -320,13 +314,10 @@ export default function ChatClient() {
           if (tid) setServerThreadId(tid);
         }
         if (typeof data?.guestId === "string" && data.guestId) {
-          // optionnel : si le serveur renvoie guestId, on peut le stocker
           try {
             localStorage.setItem(KEY_GUEST_ID, String(data.guestId));
           } catch {}
         }
-      } else {
-        // premium => pas de remaining invité
       }
 
       const reply = data?.reply ?? data?.message;
@@ -347,9 +338,7 @@ export default function ChatClient() {
     ]
   );
 
-  // Boot / change de signe
   useEffect(() => {
-    // UI: charge remaining précédent (meilleur UX)
     const saved = getSavedRemaining();
     setFreeLeft(saved);
 
@@ -366,12 +355,8 @@ export default function ChatClient() {
       setIsAuth(!!s2);
       setSessionEmail(s2?.user?.email || "");
 
-      // si connecté: pas de quota invité (on laisse FREE_LIMIT affiché côté sidebar si tu veux)
-      if (!!s2) {
-        setFreeLeft(FREE_LIMIT);
-      } else {
-        setFreeLeft(getSavedRemaining());
-      }
+      if (!!s2) setFreeLeft(FREE_LIMIT);
+      else setFreeLeft(getSavedRemaining());
     })();
 
     return () => {
@@ -379,22 +364,17 @@ export default function ChatClient() {
     };
   }, [KEY_THREAD_LOCAL, ensureHello, getSessionSafe, loadThreadLocal, getSavedRemaining]);
 
-  // Auth changes
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       closePaywall();
       setIsAuth(!!session);
       setSessionEmail(session?.user?.email || "");
 
-      // quand on se connecte/déconnecte, on garde le thread local UI par signe
       const t0 = ensureHello(loadThreadLocal());
       setThread(t0);
 
-      if (session) {
-        setFreeLeft(FREE_LIMIT);
-      } else {
-        setFreeLeft(getSavedRemaining());
-      }
+      if (session) setFreeLeft(FREE_LIMIT);
+      else setFreeLeft(getSavedRemaining());
     });
 
     return () => {
@@ -402,7 +382,6 @@ export default function ChatClient() {
     };
   }, [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining]);
 
-  // Auto scroll
   useEffect(() => {
     scrollToBottom(true);
   }, [thread.length, scrollToBottom]);
@@ -432,7 +411,6 @@ export default function ChatClient() {
       setThread(t1);
       setInput("");
 
-      // placeholder
       setThread([...t1, { role: "ai", text: "…" }]);
 
       try {
@@ -463,6 +441,7 @@ export default function ChatClient() {
       loadThreadLocal,
       openPaywallGuest,
       saveThreadLocal,
+      saveThreadLocal,
     ]
   );
 
@@ -480,7 +459,6 @@ export default function ChatClient() {
       const t0 = ensureHello(loadThreadLocal());
       setThread(t0);
 
-      // restaurer quota invité affiché
       setFreeLeft(getSavedRemaining());
     },
     [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining]
@@ -498,7 +476,6 @@ export default function ChatClient() {
 
   return (
     <div className="chat-body">
-      {/* Header sticky */}
       <div className="chat-top">
         <TopBar isAuth={isAuth} onLogout={onLogout} />
       </div>
