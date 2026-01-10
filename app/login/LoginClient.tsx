@@ -10,8 +10,10 @@ type MsgType = "ok" | "err" | "info";
 function safeNext(v: string | null) {
   const s = (v || "").trim();
   if (!s) return "/chat";
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return "/chat";
-  return s.startsWith("/") ? s : "/" + s;
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
+  const path = s.startsWith("/") ? s : `/${s}`;
+  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) return "/chat";
+  return path;
 }
 
 export default function LoginClient() {
@@ -35,7 +37,7 @@ export default function LoginClient() {
     setMsg(null);
   }
 
-  // BOOT
+  // BOOT: détecte session
   useEffect(() => {
     let mounted = true;
 
@@ -50,12 +52,9 @@ export default function LoginClient() {
         }
 
         const hasSession = !!data?.session;
-        if (hasSession) {
-          setAlreadyConnected(true);
-          showMsg("Tu es déjà connectée.", "ok");
-        } else {
-          setAlreadyConnected(false);
-        }
+        setAlreadyConnected(hasSession);
+
+        if (hasSession) showMsg("Tu es déjà connectée.", "ok");
       } catch (e: any) {
         showMsg("Erreur JS: " + (e?.message || String(e)), "err");
       }
@@ -63,12 +62,8 @@ export default function LoginClient() {
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
-      if (session) {
-        setAlreadyConnected(true);
-        setBusy(false);
-      } else {
-        setAlreadyConnected(false);
-      }
+      setAlreadyConnected(!!session);
+      if (session) setBusy(false);
     });
 
     return () => {
@@ -108,14 +103,19 @@ export default function LoginClient() {
     showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
   }
 
-  // Google OAuth
+  // Google OAuth (version sans query string dans redirectTo)
   async function onGoogle() {
     clearMsg();
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
+    // On sauvegarde next localement pour le callback (évite ?next=...)
+    try {
+      sessionStorage.setItem("la_next_after_oauth", nextUrl);
+    } catch {}
+
     const origin = window.location.origin;
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
+    const redirectTo = `${origin}/auth/callback`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -147,7 +147,7 @@ export default function LoginClient() {
 
     const origin = window.location.origin;
     const { error } = await supabase.auth.resetPasswordForEmail(em, {
-      redirectTo: `${origin}/reset-password?next=${encodeURIComponent(nextUrl)}`,
+      redirectTo: `${origin}/reset-password`,
     });
 
     setBusy(false);
@@ -299,4 +299,4 @@ export default function LoginClient() {
       </main>
     </div>
   );
-    }
+}
