@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
+import { supabase } from "../../lib/supabase/client";
 
 type Props = {
   isAuth: boolean;
@@ -19,13 +20,57 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // Affiche le compteur seulement en mode guest (non connecté)
+  // Compteur seulement en mode guest (non connecté)
   const showFreeCounter = !isAuth;
 
-  const counterText =
-    freeLeft > 0
+  const counterText = useMemo(() => {
+    return freeLeft > 0
       ? `Gratuit : ${freeLeft} message(s) restant(s)`
       : "Limite gratuite atteinte";
+  }, [freeLeft]);
+
+  // ✅ Admin: limite à tes emails (ajuste si tu veux)
+  const isAdmin = useMemo(() => {
+    const email = (sessionEmail || "").toLowerCase().trim();
+    return (
+      email === "kemaprintstudio@gmail.com" ||
+      email === "spinoz.fr@gmail.com" ||
+      email === "comptanetquebec@gmail.com"
+    );
+  }, [sessionEmail]);
+
+  const resetApp = async () => {
+    const ok = confirm(
+      "Reset local (admin) : déconnexion + vider localStorage + cookies. Continuer ?"
+    );
+    if (!ok) return;
+
+    // 1) Déconnexion Supabase (client) si possible
+    try {
+      await supabase.auth.signOut();
+    } catch {}
+
+    // 2) localStorage
+    try {
+      localStorage.clear();
+    } catch {}
+
+    // 3) cookies
+    try {
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/");
+      });
+    } catch {}
+
+    // 4) reload
+    try {
+      location.assign("/");
+    } catch {
+      location.reload();
+    }
+  };
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
@@ -63,7 +108,7 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* ✅ Compteur (placé ici pour être visible sans scroller) */}
+          {/* ✅ Compteur guest (visible sans scroller) */}
           {showFreeCounter && (
             <div
               className="free-counter"
@@ -94,6 +139,28 @@ export default function ChatSidebar({
             Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
             aucun diagnostic.
           </p>
+
+          {/* ✅ Bouton reset (admin uniquement) */}
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={resetApp}
+              style={{
+                margin: "12px auto 0",
+                display: "block",
+                fontSize: 11,
+                opacity: 0.45,
+                background: "transparent",
+                border: "none",
+                color: "#9aa",
+                cursor: "pointer",
+              }}
+              aria-label="Reset admin"
+              title="Reset admin"
+            >
+              reset admin
+            </button>
+          )}
         </div>
       </div>
     </aside>
