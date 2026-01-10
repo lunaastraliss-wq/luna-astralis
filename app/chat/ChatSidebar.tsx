@@ -20,23 +20,23 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // Compteur seulement en mode guest (non connecté)
-  const showFreeCounter = !isAuth;
+  // ✅ Affiche le compteur aussi pour les users connectés.
+  // Si tu veux afficher le compteur seulement pour les guests, remets: const showCounter = !isAuth;
+  const showCounter = true;
 
   const counterText = useMemo(() => {
+    // Si user connecté, normalement freeLeft devrait être "infini" / non applicable
+    // mais on affiche quand même ce que tu passes.
+    if (typeof freeLeft !== "number") return "Compteur indisponible";
     return freeLeft > 0
       ? `Gratuit : ${freeLeft} message(s) restant(s)`
       : "Limite gratuite atteinte";
   }, [freeLeft]);
 
-  // ✅ Admin: limite à tes emails (ajuste si tu veux)
+  // ✅ Admin: recommande de garder seulement TON email perso
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
-    return (
-      email === "kemaprintstudio@gmail.com" ||
-      email === "spinoz.fr@gmail.com" ||
-      email === "comptanetquebec@gmail.com"
-    );
+    return email === "kemaprintstudio@gmail.com"; // <- mets seulement celui-là, ou enlève tout.
   }, [sessionEmail]);
 
   const resetApp = async () => {
@@ -45,17 +45,14 @@ export default function ChatSidebar({
     );
     if (!ok) return;
 
-    // 1) Déconnexion Supabase (client) si possible
     try {
       await supabase.auth.signOut();
     } catch {}
 
-    // 2) localStorage
     try {
       localStorage.clear();
     } catch {}
 
-    // 3) cookies
     try {
       document.cookie.split(";").forEach((c) => {
         document.cookie = c
@@ -64,7 +61,6 @@ export default function ChatSidebar({
       });
     } catch {}
 
-    // 4) reload
     try {
       location.assign("/");
     } catch {
@@ -108,8 +104,8 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* ✅ Compteur guest (visible sans scroller) */}
-          {showFreeCounter && (
+          {/* ✅ Compteur (toujours visible) */}
+          {showCounter && (
             <div
               className="free-counter"
               id="freeCounter"
@@ -125,6 +121,11 @@ export default function ChatSidebar({
               }}
             >
               {counterText}
+              {isAuth && (
+                <div style={{ marginTop: 6, fontSize: 11, opacity: 0.7 }}>
+                  (Connecté)
+                </div>
+              )}
             </div>
           )}
 
