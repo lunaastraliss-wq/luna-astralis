@@ -7,13 +7,38 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
+const LS_SIGN_KEY = "la_sign"; // ✅ même key que dans ChatClient
+const LS_NEXT_AFTER_OAUTH = "la_next_after_oauth";
+
 function safeNext(v: string | null) {
   const s = (v || "").trim();
   if (!s) return "/chat";
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
   const path = s.startsWith("/") ? s : `/${s}`;
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) return "/chat";
+  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth"))
+    return "/chat";
   return path;
+}
+
+function getStoredSign(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
+  } catch {
+    return "";
+  }
+}
+
+function computePostLoginTarget(nextUrl: string) {
+  // ✅ si next est déjà un /chat?sign=... ou autre page précise => on respecte next
+  if (nextUrl && nextUrl !== "/chat") return nextUrl;
+
+  // ✅ si pas de next précis, on redirige:
+  // - si signe déjà choisi => /chat?sign=...
+  // - sinon => onboarding signe
+  const s = getStoredSign();
+  if (s) return `/chat?sign=${encodeURIComponent(s)}`;
+  return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
 export default function LoginClient() {
@@ -95,7 +120,8 @@ export default function LoginClient() {
 
     if (data?.session) {
       showMsg("Connectée. Redirection…", "ok");
-      router.replace(nextUrl);
+      const target = computePostLoginTarget(nextUrl);
+      router.replace(target);
       return;
     }
 
@@ -109,9 +135,10 @@ export default function LoginClient() {
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    // On sauvegarde next localement pour le callback (évite ?next=...)
+    // ✅ On sauvegarde la meilleure destination pour le callback
+    const target = computePostLoginTarget(nextUrl);
     try {
-      sessionStorage.setItem("la_next_after_oauth", nextUrl);
+      sessionStorage.setItem(LS_NEXT_AFTER_OAUTH, target);
     } catch {}
 
     const origin = window.location.origin;
@@ -170,7 +197,11 @@ export default function LoginClient() {
     showMsg("Déconnectée.", "ok");
   }
 
+  // ✅ Signup doit garder le next
   const signupHref = `/signup?next=${encodeURIComponent(nextUrl)}`;
+
+  // ✅ Continuer doit aller au bon endroit (chat direct si signe connu sinon onboarding)
+  const continueHref = computePostLoginTarget(nextUrl);
 
   return (
     <div className="auth-body">
@@ -196,7 +227,9 @@ export default function LoginClient() {
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Connexion">
           <h1 className="auth-title">Mon compte</h1>
-          <p className="auth-sub">Connecte-toi pour continuer la discussion et retrouver tes échanges.</p>
+          <p className="auth-sub">
+            Connecte-toi pour continuer la discussion et retrouver tes échanges.
+          </p>
 
           {msg ? (
             <div
@@ -217,10 +250,15 @@ export default function LoginClient() {
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Link className="btn" href={nextUrl}>
+                <Link className="btn" href={continueHref}>
                   Continuer
                 </Link>
-                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={onLogout}
+                  disabled={busy}
+                >
                   Se déconnecter
                 </button>
               </div>
@@ -280,7 +318,12 @@ export default function LoginClient() {
               disabled={busy}
             />
 
-            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
+            <button
+              className="btn auth-submit"
+              type="submit"
+              disabled={busy}
+              style={{ opacity: busy ? 0.7 : 1 }}
+            >
               Se connecter
             </button>
 
@@ -299,4 +342,4 @@ export default function LoginClient() {
       </main>
     </div>
   );
-}
+              }
