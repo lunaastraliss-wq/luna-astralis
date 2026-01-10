@@ -12,6 +12,12 @@ type Props = {
   bookUrl: string;
 };
 
+const ADMIN_EMAILS = new Set([
+  "kemaprintstudio@gmail.com",
+  "spinoz.fr@gmail.com",
+  "comptanetquebec@gmail.com",
+]);
+
 export default function ChatSidebar({
   isAuth,
   sessionEmail,
@@ -27,17 +33,14 @@ export default function ChatSidebar({
     if (!showFreeCounter) return "";
     if (freeLeft <= 0) return "Limite gratuite atteinte";
 
-    const s = freeLeft > 1 ? "s" : "";
-    return `Il te reste ${freeLeft} message${s} gratuit${s}.`;
+    const plural = freeLeft > 1 ? "s" : "";
+    // "gratuits" / "gratuit" suit le pluriel
+    return `Il te reste ${freeLeft} message${plural} gratuit${plural}.`;
   }, [freeLeft, showFreeCounter]);
 
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
-    return (
-      email === "kemaprintstudio@gmail.com" ||
-      email === "spinoz.fr@gmail.com" ||
-      email === "comptanetquebec@gmail.com"
-    );
+    return ADMIN_EMAILS.has(email);
   }, [sessionEmail]);
 
   const resetApp = useCallback(async () => {
@@ -110,6 +113,7 @@ export default function ChatSidebar({
             <p className="chat-side-email">{sessionEmail}</p>
           )}
 
+          {/* ✅ phrase plus pâle/petite via CSS .chat-side-disclaimer */}
           <p className="chat-side-disclaimer">
             Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
             aucun diagnostic.
