@@ -1,11 +1,7 @@
 /* =========================================================
    app/onboarding/sign/page.tsx
    - Onboarding (connecté): choisir un signe -> save -> redirect
-   - RÈGLE: si gratuit (remaining > 0) => onboarding signe
-            sinon => redirect /pricing direct
-   - Pas de lien "Aller au chat"
-   - IMPORTANT: nécessite un endpoint GET /api/chat/quota qui renvoie:
-       { remaining: number, premium?: boolean }
+   - Responsive mobile + navigation robuste (fallback location.assign)
 ========================================================= */
 
 "use client";
@@ -54,14 +50,6 @@ function getStoredSign(): string {
   }
 }
 
-function clearStoredSign() {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.removeItem(LS_SIGN_KEY);
-  } catch {}
-  setCookie(LS_SIGN_KEY, "", 0);
-}
-
 function storeSign(signKey: string) {
   if (typeof window === "undefined") return;
   try {
@@ -76,11 +64,8 @@ function safeInternalPath(raw: string | null): string {
   if (!s.startsWith("/")) return "";
   if (s.startsWith("//")) return "";
   if (s.includes("://")) return "";
-
-  // éviter boucles / flows d'auth / onboarding
   const blocked = ["/login", "/signup", "/auth", "/onboarding"];
   if (blocked.some((p) => s.startsWith(p))) return "";
-
   return s;
 }
 
@@ -88,115 +73,57 @@ function buildChatUrl(signKey: string) {
   return `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(signKey)}`;
 }
 
-function buildPricingUrl(reason: "free" | "premium", nextUrl: string) {
-  const next = encodeURIComponent(nextUrl || "/chat");
-  return `/pricing?reason=${encodeURIComponent(reason)}&next=${next}`;
-}
-
 export default function OnboardingSignPage() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  const nextUrl = useMemo(() => safeInternalPath(sp.get("next")) || "/chat", [sp]);
+  const nextUrl = useMemo(() => safeInternalPath(sp.get("next")), [sp]);
 
   const [checking, setChecking] = useState(true);
   const [authed, setAuthed] = useState(false);
   const [selected, setSelected] = useState<string>("");
   const [busy, setBusy] = useState(false);
 
-  const [errorText, setErrorText] = useState<string>("");
-
-  const redirectPricing = useCallback(
-    (reason: "free" | "premium") => {
-      router.replace(buildPricingUrl(reason, nextUrl));
-    },
-    [router, nextUrl]
-  );
-
-  const getQuotaFromServer = useCallback(async () => {
-    // On suppose que /api/chat/quota existe et accepte Authorization Bearer
-    const { data } = await supabase.auth.getSession();
-    const token = data?.session?.access_token;
-    if (!token) return null;
-
-    try {
-      const res = await fetch("/api/chat/quota", {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res.ok) return null;
-      const json = await res.json().catch(() => ({} as any));
-
-      const remaining =
-        typeof json?.remaining === "number" && Number.isFinite(json.remaining)
-          ? Math.max(0, Math.trunc(json.remaining))
-          : null;
-
-      const premium = typeof json?.premium === "boolean" ? json.premium : null;
-
-      return { remaining, premium };
-    } catch {
-      return null;
-    }
-  }, []);
-
   useEffect(() => {
     let alive = true;
 
     (async () => {
-      setErrorText("");
-
-      // 1) vérifier session
       const { data, error } = await supabase.auth.getSession();
       const isAuthed = !error && !!data?.session?.user?.id;
 
       if (!alive) return;
       setAuthed(isAuthed);
 
-      // 2) pas connecté -> landing
       if (!isAuthed) {
         router.replace("/");
         return;
       }
 
-      // 3) check quota serveur: si premium => laisser passer; si remaining <= 0 => pricing
-      const quota = await getQuotaFromServer();
-
-      // Si l'endpoint n'existe pas / renvoie rien, on ne peut pas décider -> on laisse passer
-      // (l'API /api/chat restera la source de vérité au moment d'envoyer un message)
-      if (quota && alive) {
-        const { remaining, premium } = quota;
-
-        if (premium === true) {
-          // premium: pas besoin de bloquer
-        } else if (remaining !== null && remaining <= 0) {
-          redirectPricing("free");
-          return;
-        }
-      }
-
-      // 4) si déjà un signe stocké et valide -> chat direct
       const s = getStoredSign();
       if (s && SIGNS_SET.has(s)) {
-        router.replace(nextUrl === "/chat" ? buildChatUrl(s) : nextUrl);
+        router.replace(nextUrl || buildChatUrl(s));
         return;
       }
 
-      // si invalide, on nettoie
-      if (s && !SIGNS_SET.has(s)) clearStoredSign();
+      if (s && !SIGNS_SET.has(s)) {
+        try {
+          localStorage.removeItem(LS_SIGN_KEY);
+        } catch {}
+        setCookie(LS_SIGN_KEY, "", 0);
+      }
 
       setChecking(false);
-    })().catch((e) => {
-      if (!alive) return;
-      setChecking(false);
-      setErrorText(String((e as any)?.message || "Erreur inconnue"));
-    });
+    })();
 
     return () => {
       alive = false;
     };
-  }, [router, nextUrl, getQuotaFromServer, redirectPricing]);
+  }, [router, nextUrl]);
+
+  const hardNavigate = useCallback((url: string) => {
+    if (typeof window === "undefined") return;
+    window.location.assign(url);
+  }, []);
 
   const choose = useCallback(
     (signKey: string) => {
@@ -208,11 +135,22 @@ export default function OnboardingSignPage() {
 
       storeSign(signKey);
 
-      // IMPORTANT: replace (onboarding ne reste pas dans l'historique)
-      // Si nextUrl est /chat, on y passe avec ?sign=...
-      router.replace(nextUrl === "/chat" ? buildChatUrl(signKey) : nextUrl);
+      const target = nextUrl || buildChatUrl(signKey);
+
+      // 1) Next router
+      try {
+        router.replace(target);
+      } catch {}
+
+      // 2) Fallback: si jamais le router ne navigue pas (mobile/webview/cache)
+      setTimeout(() => {
+        // si on est encore sur /onboarding/sign après un court délai -> force navigation
+        if (typeof window !== "undefined" && window.location.pathname.includes("/onboarding/sign")) {
+          hardNavigate(target);
+        }
+      }, 180);
     },
-    [router, nextUrl, busy]
+    [busy, nextUrl, router, hardNavigate]
   );
 
   if (checking) {
@@ -220,7 +158,6 @@ export default function OnboardingSignPage() {
       <main style={styles.page}>
         <div style={styles.shell}>
           <h1 style={styles.h1}>Chargement…</h1>
-          {errorText ? <p style={styles.err}>{errorText}</p> : null}
         </div>
       </main>
     );
@@ -231,26 +168,23 @@ export default function OnboardingSignPage() {
   return (
     <main style={styles.page}>
       <div style={styles.shell}>
-        {/* Steps */}
+        {/* Steps (responsive) */}
         <div style={styles.stepsWrap}>
           <div style={styles.stepCard}>
             <div style={styles.stepNo}>01</div>
             <div style={styles.stepTitle}>Choisis ton signe</div>
             <div style={styles.stepText}>Tu démarres en 1 clic.</div>
           </div>
-
           <div style={styles.stepCard}>
             <div style={styles.stepNo}>02</div>
             <div style={styles.stepTitle}>Reçois un miroir</div>
             <div style={styles.stepText}>Forces, angles morts, besoins.</div>
           </div>
-
           <div style={styles.stepCard}>
             <div style={styles.stepNo}>03</div>
             <div style={styles.stepTitle}>Comprends tes schémas</div>
             <div style={styles.stepText}>Émotions, stress, relations.</div>
           </div>
-
           <div style={styles.stepCard}>
             <div style={styles.stepNo}>04</div>
             <div style={styles.stepTitle}>Garde le contrôle</div>
@@ -258,7 +192,6 @@ export default function OnboardingSignPage() {
           </div>
         </div>
 
-        {/* Header */}
         <div style={{ marginTop: 18 }}>
           <h1 style={styles.h1}>Choisir un signe</h1>
           <p style={styles.sub}>
@@ -267,24 +200,18 @@ export default function OnboardingSignPage() {
           </p>
         </div>
 
-        {/* Grid signs */}
+        {/* Grid signs (responsive) */}
         <div style={styles.grid}>
           {SIGNS.map((s) => {
             const active = selected === s.key;
             return (
               <button
                 key={s.key}
+                type="button"
                 onClick={() => choose(s.key)}
                 disabled={busy}
                 style={{
                   ...styles.signBtn,
-                  ...(s.element === "feu"
-                    ? styles.feu
-                    : s.element === "terre"
-                    ? styles.terre
-                    : s.element === "air"
-                    ? styles.air
-                    : styles.eau),
                   ...(active ? styles.active : null),
                   ...(busy ? styles.disabled : null),
                 }}
@@ -296,7 +223,6 @@ export default function OnboardingSignPage() {
           })}
         </div>
 
-        {/* Chips elements */}
         <div style={styles.chipsRow} aria-hidden="true">
           <span style={styles.chip}>FEU</span>
           <span style={styles.chip}>TERRE</span>
@@ -318,22 +244,14 @@ const styles: Record<string, React.CSSProperties> = {
     background:
       "radial-gradient(1200px 700px at 20% 10%, rgba(130,90,255,0.22), transparent 60%), radial-gradient(900px 600px at 80% 20%, rgba(0,200,255,0.12), transparent 55%), linear-gradient(180deg, #0b0c12 0%, #07070b 100%)",
     color: "rgba(255,255,255,0.92)",
-    padding: "28px 18px",
+    padding: "22px 14px",
   },
-  shell: {
-    maxWidth: 1020,
-    margin: "0 auto",
-  },
+  shell: { maxWidth: 1020, margin: "0 auto" },
 
-  err: {
-    marginTop: 10,
-    opacity: 0.85,
-    fontSize: 13,
-  },
-
+  // ✅ au lieu de 4 colonnes fixes -> auto-fit (mobile OK)
   stepsWrap: {
     display: "grid",
-    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
     gap: 12,
   },
   stepCard: {
@@ -350,15 +268,17 @@ const styles: Record<string, React.CSSProperties> = {
   h1: { fontSize: 26, fontWeight: 900, letterSpacing: -0.2, margin: 0 },
   sub: { marginTop: 8, marginBottom: 14, opacity: 0.84, maxWidth: 780, lineHeight: 1.45 },
 
+  // ✅ grid responsive (mobile -> 2/3 colonnes selon largeur)
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(145px, 1fr))",
     gap: 12,
     marginTop: 10,
   },
 
+  // ✅ boutons plus “touch-friendly”
   signBtn: {
-    padding: "14px 14px",
+    padding: "16px 14px",
     borderRadius: 16,
     border: "1px solid rgba(255,255,255,0.10)",
     background: "rgba(255,255,255,0.06)",
@@ -366,13 +286,9 @@ const styles: Record<string, React.CSSProperties> = {
     textAlign: "left",
     cursor: "pointer",
     transition: "transform 120ms ease, filter 120ms ease, border-color 120ms ease",
+    WebkitTapHighlightColor: "transparent",
   },
-  signLabel: { fontSize: 15, fontWeight: 800 },
-
-  feu: { filter: "saturate(1.05)" },
-  terre: { filter: "saturate(1.02)" },
-  air: { filter: "saturate(1.06)" },
-  eau: { filter: "saturate(1.04)" },
+  signLabel: { fontSize: 16, fontWeight: 900 },
 
   active: {
     borderColor: "rgba(255,255,255,0.22)",
@@ -381,7 +297,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   disabled: { opacity: 0.75, cursor: "default" },
 
-  chipsRow: { display: "flex", gap: 8, marginTop: 14 },
+  chipsRow: { display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" },
   chip: {
     fontSize: 11,
     letterSpacing: 0.8,
