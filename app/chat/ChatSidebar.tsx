@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useCallback } from "react";
@@ -26,9 +25,10 @@ export default function ChatSidebar({
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
-    return freeLeft > 0
-      ? `Il te reste ${freeLeft} message${freeLeft > 1 ? "s" : ""} gratuits.`
-      : "Limite gratuite atteinte";
+    if (freeLeft <= 0) return "Limite gratuite atteinte";
+
+    const s = freeLeft > 1 ? "s" : "";
+    return `Il te reste ${freeLeft} message${s} gratuit${s}.`;
   }, [freeLeft, showFreeCounter]);
 
   const isAdmin = useMemo(() => {
@@ -107,12 +107,10 @@ export default function ChatSidebar({
 
           {/* Email visible seulement si connecté */}
           {isAuth && !!sessionEmail && (
-            <p className="chat-side-muted" style={{ marginTop: 10 }}>
-              {sessionEmail}
-            </p>
+            <p className="chat-side-email">{sessionEmail}</p>
           )}
 
-          <p className="chat-side-muted" style={{ marginTop: 12 }}>
+          <p className="chat-side-disclaimer">
             Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
             aucun diagnostic.
           </p>
@@ -122,7 +120,7 @@ export default function ChatSidebar({
       <div className="chat-side-footer">
         {/* ✅ Compteur visible seulement en guest */}
         {showFreeCounter && (
-          <div className="free-counter" id="freeCounter">
+          <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
           </div>
         )}
