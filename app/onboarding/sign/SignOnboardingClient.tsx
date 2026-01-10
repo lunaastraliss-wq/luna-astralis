@@ -1,7 +1,11 @@
 /* =========================================================
    app/onboarding/sign/page.tsx
    - Onboarding (connecté): choisir un signe -> save -> redirect
+   - RÈGLE: si gratuit (remaining > 0) => onboarding signe
+            sinon => redirect /pricing direct
    - Pas de lien "Aller au chat"
+   - IMPORTANT: nécessite un endpoint GET /api/chat/quota qui renvoie:
+       { remaining: number, premium?: boolean }
 ========================================================= */
 
 "use client";
@@ -32,7 +36,6 @@ const SIGNS: Sign[] = [
 
 const LS_SIGN_KEY = "la_sign";
 const SIGN_QUERY_PARAM = "sign";
-
 const SIGNS_SET = new Set(SIGNS.map((s) => s.key));
 
 function setCookie(name: string, value: string, maxAgeSeconds = 31536000) {
@@ -49,6 +52,14 @@ function getStoredSign(): string {
   } catch {
     return "";
   }
+}
+
+function clearStoredSign() {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(LS_SIGN_KEY);
+  } catch {}
+  setCookie(LS_SIGN_KEY, "", 0);
 }
 
 function storeSign(signKey: string) {
@@ -77,57 +88,115 @@ function buildChatUrl(signKey: string) {
   return `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(signKey)}`;
 }
 
+function buildPricingUrl(reason: "free" | "premium", nextUrl: string) {
+  const next = encodeURIComponent(nextUrl || "/chat");
+  return `/pricing?reason=${encodeURIComponent(reason)}&next=${next}`;
+}
+
 export default function OnboardingSignPage() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  const nextUrl = useMemo(() => safeInternalPath(sp.get("next")), [sp]);
+  const nextUrl = useMemo(() => safeInternalPath(sp.get("next")) || "/chat", [sp]);
 
   const [checking, setChecking] = useState(true);
   const [authed, setAuthed] = useState(false);
   const [selected, setSelected] = useState<string>("");
   const [busy, setBusy] = useState(false);
 
+  const [errorText, setErrorText] = useState<string>("");
+
+  const redirectPricing = useCallback(
+    (reason: "free" | "premium") => {
+      router.replace(buildPricingUrl(reason, nextUrl));
+    },
+    [router, nextUrl]
+  );
+
+  const getQuotaFromServer = useCallback(async () => {
+    // On suppose que /api/chat/quota existe et accepte Authorization Bearer
+    const { data } = await supabase.auth.getSession();
+    const token = data?.session?.access_token;
+    if (!token) return null;
+
+    try {
+      const res = await fetch("/api/chat/quota", {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) return null;
+      const json = await res.json().catch(() => ({} as any));
+
+      const remaining =
+        typeof json?.remaining === "number" && Number.isFinite(json.remaining)
+          ? Math.max(0, Math.trunc(json.remaining))
+          : null;
+
+      const premium = typeof json?.premium === "boolean" ? json.premium : null;
+
+      return { remaining, premium };
+    } catch {
+      return null;
+    }
+  }, []);
+
   useEffect(() => {
     let alive = true;
 
     (async () => {
+      setErrorText("");
+
       // 1) vérifier session
       const { data, error } = await supabase.auth.getSession();
       const isAuthed = !error && !!data?.session?.user?.id;
 
       if (!alive) return;
-
       setAuthed(isAuthed);
 
-      // 2) Pas connecté -> landing
+      // 2) pas connecté -> landing
       if (!isAuthed) {
         router.replace("/");
         return;
       }
 
-      // 3) Si déjà un signe stocké et valide -> redirect direct
+      // 3) check quota serveur: si premium => laisser passer; si remaining <= 0 => pricing
+      const quota = await getQuotaFromServer();
+
+      // Si l'endpoint n'existe pas / renvoie rien, on ne peut pas décider -> on laisse passer
+      // (l'API /api/chat restera la source de vérité au moment d'envoyer un message)
+      if (quota && alive) {
+        const { remaining, premium } = quota;
+
+        if (premium === true) {
+          // premium: pas besoin de bloquer
+        } else if (remaining !== null && remaining <= 0) {
+          redirectPricing("free");
+          return;
+        }
+      }
+
+      // 4) si déjà un signe stocké et valide -> chat direct
       const s = getStoredSign();
       if (s && SIGNS_SET.has(s)) {
-        router.replace(nextUrl || buildChatUrl(s));
+        router.replace(nextUrl === "/chat" ? buildChatUrl(s) : nextUrl);
         return;
       }
 
-      // si invalide, on nettoie (évite boucles)
-      if (s && !SIGNS_SET.has(s)) {
-        try {
-          localStorage.removeItem(LS_SIGN_KEY);
-        } catch {}
-        setCookie(LS_SIGN_KEY, "", 0);
-      }
+      // si invalide, on nettoie
+      if (s && !SIGNS_SET.has(s)) clearStoredSign();
 
       setChecking(false);
-    })();
+    })().catch((e) => {
+      if (!alive) return;
+      setChecking(false);
+      setErrorText(String((e as any)?.message || "Erreur inconnue"));
+    });
 
     return () => {
       alive = false;
     };
-  }, [router, nextUrl]);
+  }, [router, nextUrl, getQuotaFromServer, redirectPricing]);
 
   const choose = useCallback(
     (signKey: string) => {
@@ -140,7 +209,8 @@ export default function OnboardingSignPage() {
       storeSign(signKey);
 
       // IMPORTANT: replace (onboarding ne reste pas dans l'historique)
-      router.replace(nextUrl || buildChatUrl(signKey));
+      // Si nextUrl est /chat, on y passe avec ?sign=...
+      router.replace(nextUrl === "/chat" ? buildChatUrl(signKey) : nextUrl);
     },
     [router, nextUrl, busy]
   );
@@ -150,6 +220,7 @@ export default function OnboardingSignPage() {
       <main style={styles.page}>
         <div style={styles.shell}>
           <h1 style={styles.h1}>Chargement…</h1>
+          {errorText ? <p style={styles.err}>{errorText}</p> : null}
         </div>
       </main>
     );
@@ -252,6 +323,12 @@ const styles: Record<string, React.CSSProperties> = {
   shell: {
     maxWidth: 1020,
     margin: "0 auto",
+  },
+
+  err: {
+    marginTop: 10,
+    opacity: 0.85,
+    fontSize: 13,
   },
 
   stepsWrap: {
