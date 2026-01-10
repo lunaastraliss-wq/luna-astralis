@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -100,7 +101,11 @@ function clampInt(v: any, fallback = 0) {
 
 function safePath(nextUrl: string) {
   if (!nextUrl) return "/";
-  if (nextUrl.startsWith("/") && !nextUrl.startsWith("//") && !nextUrl.includes("://")) {
+  if (
+    nextUrl.startsWith("/") &&
+    !nextUrl.startsWith("//") &&
+    !nextUrl.includes("://")
+  ) {
     return nextUrl;
   }
   return "/";
@@ -134,7 +139,6 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // accepte anciens liens (?signe=) mais stabilise ensuite en ?sign=
   const rawKeyFromUrl = useMemo(
     () => sp.get("signe") || sp.get(SIGN_QUERY_PARAM) || "",
     [sp]
@@ -144,7 +148,7 @@ export default function ChatClient() {
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
   const [sessionEmail, setSessionEmail] = useState("");
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState<boolean | null>(null); // ✅ IMPORTANT
   const [userId, setUserId] = useState<string>("");
 
   const [signKey, setSignKey] = useState<string>("");
@@ -190,7 +194,10 @@ export default function ChatClient() {
     );
   }, [signKey]);
 
-  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
+  const bookUrl = useMemo(
+    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
+    [signKey]
+  );
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -237,7 +244,6 @@ export default function ChatClient() {
   const getSavedRemaining = useCallback(() => {
     if (typeof window === "undefined") return FREE_LIMIT;
     const n = clampInt(localStorage.getItem(KEY_SERVER_REMAINING), FREE_LIMIT);
-    // IMPORTANT: ici, FREE_LIMIT n’est valable que pour guest. Pour user premium, on n’affiche pas.
     if (n < 0) return 0;
     if (n > FREE_LIMIT) return FREE_LIMIT;
     return n;
@@ -247,7 +253,10 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+        localStorage.setItem(
+          KEY_SERVER_REMAINING,
+          String(Math.max(0, Math.trunc(n)))
+        );
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -299,7 +308,8 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -341,18 +351,14 @@ export default function ChatClient() {
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
-
-      // premium => pas de quota à afficher
-      if (data?.mode === "auth_premium") return;
+      if (data?.mode === "auth_premium") return; // pas d'affichage
 
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
         setSavedRemaining(r);
       }
-    } catch {
-      // endpoint absent => on garde local
-    }
+    } catch {}
   }, [setSavedRemaining]);
 
   // A) Init session + quota local + refresh serveur
@@ -371,7 +377,6 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // quota local (clé dépend de uid)
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -464,7 +469,6 @@ export default function ChatClient() {
     };
   }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
 
-  // scroll
   useEffect(() => {
     scrollToBottom(true);
   }, [thread.length, scrollToBottom]);
@@ -565,7 +569,6 @@ export default function ChatClient() {
       const session = await getSessionSafe();
       const authed = !!session?.user?.id;
 
-      // Ne bloque que le guest quand quotaReady est true
       if (!authed && quotaReady && freeLeft <= 0) {
         openPaywallGuest();
         return;
@@ -584,7 +587,10 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
-        if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+        if (
+          err?.message === "FREE_LIMIT_REACHED" ||
+          err?.message === "PREMIUM_REQUIRED"
+        ) {
           setThread(t1);
           return;
         }
@@ -650,7 +656,7 @@ export default function ChatClient() {
     return (
       <div className="chat-body">
         <div className="chat-top">
-          <TopBar isAuth={isAuth} onLogout={onLogout} />
+          <TopBar isAuth={isAuth === true} onLogout={onLogout} />
         </div>
         <main className="chat-wrap" role="main" style={{ padding: 24 }}>
           <div>Chargement…</div>
@@ -662,13 +668,12 @@ export default function ChatClient() {
   return (
     <div className="chat-body">
       <div className="chat-top">
-        <TopBar isAuth={isAuth} onLogout={onLogout} />
+        <TopBar isAuth={isAuth === true} onLogout={onLogout} />
       </div>
 
       <main className="chat-wrap" role="main">
-        {/* ✅ PAS de wrapper <aside> ici : ChatSidebar rend déjà <aside className="chat-side"> */}
         <ChatSidebar
-          isAuth={isAuth}
+          isAuth={isAuth === true}
           sessionEmail={sessionEmail}
           freeLeft={freeLeft}
           signName={signName}
@@ -702,4 +707,4 @@ export default function ChatClient() {
       />
     </div>
   );
-         }
+    }
