@@ -71,7 +71,9 @@ async function getUsedLifetime(user_id: string) {
     .maybeSingle();
 
   if (error) return 0;
-  return Number((data as any)?.used ?? 0);
+
+  const raw = Number((data as any)?.used ?? 0);
+  return Number.isFinite(raw) ? Math.max(0, Math.trunc(raw)) : 0;
 }
 
 export async function GET() {
@@ -86,17 +88,17 @@ export async function GET() {
     const user_id = data?.session?.user?.id;
 
     if (!user_id) {
-      // pas connecté -> pas de quota user (ton flow guest gère ça ailleurs)
+      // pas connecté -> ton flow guest gère ça ailleurs
       return NextResponse.json({ remaining: FREE_LIMIT, premium: false, mode: "guest" });
     }
 
     const premium = await isPremiumActive(user_id);
     if (premium) {
-      return NextResponse.json({ remaining: null, premium: true, mode: "auth_premium" });
+      return NextResponse.json({ remaining: 999999, premium: true, mode: "auth_premium" });
     }
 
     const used = await getUsedLifetime(user_id);
-    const remaining = Math.max(0, FREE_LIMIT - Math.trunc(used));
+    const remaining = Math.max(0, FREE_LIMIT - used);
     return NextResponse.json({ remaining, premium: false, mode: "auth_free" });
   } catch (e: any) {
     return NextResponse.json(
