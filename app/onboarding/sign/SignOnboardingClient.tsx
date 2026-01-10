@@ -1,16 +1,13 @@
 /* =========================================================
    app/onboarding/sign/page.tsx
-   - Page onboarding (connecté) : choisir un signe -> save -> redirect
-   - UI style "premium" (steps + boutons)
-   - IMPORTANT: plus de lien "Aller au chat" (tu voulais l’enlever)
+   - Onboarding (connecté): choisir un signe -> save -> redirect
+   - Pas de lien "Aller au chat"
 ========================================================= */
 
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
-// ✅ adapte ce chemin selon ton projet
 import { supabase } from "@/lib/supabase/client";
 
 type Sign = { key: string; label: string; element: "feu" | "terre" | "air" | "eau" };
@@ -34,9 +31,12 @@ const SIGNS: Sign[] = [
 ];
 
 const LS_SIGN_KEY = "la_sign";
+const SIGN_QUERY_PARAM = "sign";
+
+const SIGNS_SET = new Set(SIGNS.map((s) => s.key));
 
 function setCookie(name: string, value: string, maxAgeSeconds = 31536000) {
-  // 1 an
+  if (typeof document === "undefined") return;
   document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
     value
   )}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax`;
@@ -44,12 +44,18 @@ function setCookie(name: string, value: string, maxAgeSeconds = 31536000) {
 
 function getStoredSign(): string {
   if (typeof window === "undefined") return "";
-  return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
+  try {
+    return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
+  } catch {
+    return "";
+  }
 }
 
 function storeSign(signKey: string) {
   if (typeof window === "undefined") return;
-  localStorage.setItem(LS_SIGN_KEY, signKey);
+  try {
+    localStorage.setItem(LS_SIGN_KEY, signKey);
+  } catch {}
   setCookie(LS_SIGN_KEY, signKey);
 }
 
@@ -59,9 +65,16 @@ function safeInternalPath(raw: string | null): string {
   if (!s.startsWith("/")) return "";
   if (s.startsWith("//")) return "";
   if (s.includes("://")) return "";
-  // évite boucles
-  if (s.startsWith("/login") || s.startsWith("/signup") || s.startsWith("/auth")) return "";
+
+  // éviter boucles / flows d'auth / onboarding
+  const blocked = ["/login", "/signup", "/auth", "/onboarding"];
+  if (blocked.some((p) => s.startsWith(p))) return "";
+
   return s;
+}
+
+function buildChatUrl(signKey: string) {
+  return `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(signKey)}`;
 }
 
 export default function OnboardingSignPage() {
@@ -80,24 +93,32 @@ export default function OnboardingSignPage() {
 
     (async () => {
       // 1) vérifier session
-      const { data } = await supabase.auth.getSession();
-      const isAuthed = !!data?.session?.user?.id;
+      const { data, error } = await supabase.auth.getSession();
+      const isAuthed = !error && !!data?.session?.user?.id;
 
       if (!alive) return;
 
       setAuthed(isAuthed);
 
-      // 2) Pas connecté -> retourne au flow normal (landing)
+      // 2) Pas connecté -> landing
       if (!isAuthed) {
         router.replace("/");
         return;
       }
 
-      // 3) Si déjà un signe stocké -> chat direct
+      // 3) Si déjà un signe stocké et valide -> redirect direct
       const s = getStoredSign();
-      if (s) {
-        router.replace(nextUrl || `/chat?sign=${encodeURIComponent(s)}`);
+      if (s && SIGNS_SET.has(s)) {
+        router.replace(nextUrl || buildChatUrl(s));
         return;
+      }
+
+      // si invalide, on nettoie (évite boucles)
+      if (s && !SIGNS_SET.has(s)) {
+        try {
+          localStorage.removeItem(LS_SIGN_KEY);
+        } catch {}
+        setCookie(LS_SIGN_KEY, "", 0);
       }
 
       setChecking(false);
@@ -109,16 +130,17 @@ export default function OnboardingSignPage() {
   }, [router, nextUrl]);
 
   const choose = useCallback(
-    async (signKey: string) => {
+    (signKey: string) => {
       if (busy) return;
+      if (!SIGNS_SET.has(signKey)) return;
+
       setBusy(true);
       setSelected(signKey);
 
-      // stock local + cookie
       storeSign(signKey);
 
-      // redirection chat
-      router.push(nextUrl || `/chat?sign=${encodeURIComponent(signKey)}`);
+      // IMPORTANT: replace (onboarding ne reste pas dans l'historique)
+      router.replace(nextUrl || buildChatUrl(signKey));
     },
     [router, nextUrl, busy]
   );
@@ -133,7 +155,6 @@ export default function OnboardingSignPage() {
     );
   }
 
-  // safety: si authed false, l'effet a déjà redirect
   if (!authed) return null;
 
   return (
@@ -204,7 +225,7 @@ export default function OnboardingSignPage() {
           })}
         </div>
 
-        {/* Chips elements (juste visuel, pas cliquable) */}
+        {/* Chips elements */}
         <div style={styles.chipsRow} aria-hidden="true">
           <span style={styles.chip}>FEU</span>
           <span style={styles.chip}>TERRE</span>
@@ -271,7 +292,6 @@ const styles: Record<string, React.CSSProperties> = {
   },
   signLabel: { fontSize: 15, fontWeight: 800 },
 
-  // teintes par élément (douces)
   feu: { filter: "saturate(1.05)" },
   terre: { filter: "saturate(1.02)" },
   air: { filter: "saturate(1.06)" },
