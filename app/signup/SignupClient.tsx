@@ -166,7 +166,7 @@ export default function SignupClient() {
 
     const origin = window.location.origin;
     // IMPORTANT : pas de query string dans redirectTo
-    const redirectTo = `${origin}/auth/callback`;
+   const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
