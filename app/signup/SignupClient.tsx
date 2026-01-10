@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -7,8 +8,14 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
+// ✅ même logique que LoginClient: si pas de signe stocké => onboarding
+const LS_SIGN_KEY = "la_sign";
+const SS_NEXT_AFTER_OAUTH = "la_next_after_oauth";
+
 function safeNext(v: string | null) {
-  const fallback = "/chat?signe=belier";
+  // ✅ plus de fallback "belier" en dur ici.
+  // On garde un next neutre, puis on calcule la vraie destination ensuite.
+  const fallback = "/chat";
   const s = (v || "").trim();
   if (!s) return fallback;
 
@@ -18,14 +25,34 @@ function safeNext(v: string | null) {
   const path = s.startsWith("/") ? s : `/${s}`;
 
   // évite boucles
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) return fallback;
+  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth"))
+    return fallback;
 
   return path;
 }
 
-function rememberNext(nextUrl: string) {
+function getStoredSign(): string {
+  if (typeof window === "undefined") return "";
   try {
-    sessionStorage.setItem("la_next_after_oauth", nextUrl);
+    return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
+  } catch {
+    return "";
+  }
+}
+
+function computePostAuthTarget(nextUrl: string) {
+  // ✅ si next est une page précise (ex: /chat?sign=lion, /pricing, etc.) => on respecte
+  if (nextUrl && nextUrl !== "/chat") return nextUrl;
+
+  // ✅ sinon: si signe déjà choisi => chat direct, sinon => onboarding signe
+  const s = getStoredSign();
+  if (s) return `/chat?sign=${encodeURIComponent(s)}`;
+  return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
+}
+
+function rememberNext(target: string) {
+  try {
+    sessionStorage.setItem(SS_NEXT_AFTER_OAUTH, target);
   } catch {}
 }
 
@@ -47,6 +74,9 @@ export default function SignupClient() {
 
   function showMsg(text: string, type: MsgType = "info") {
     setMsg({ text, type });
+  }
+  function clearMsg() {
+    setMsg(null);
   }
 
   // BOOT + listener
@@ -85,20 +115,21 @@ export default function SignupClient() {
 
   async function onSignupEmail(e: React.FormEvent) {
     e.preventDefault();
-    setMsg(null);
+    clearMsg();
 
     const em = email.trim();
     if (!em || !em.includes("@")) return showMsg("Entre un email valide.", "err");
-    if (!password || password.length < 8) return showMsg("Mot de passe : minimum 8 caractères.", "err");
+    if (!password || password.length < 8)
+      return showMsg("Mot de passe : minimum 8 caractères.", "err");
 
     setBusy(true);
     showMsg("Création du compte…", "info");
 
-    // On mémorise la page cible
-    rememberNext(nextUrl);
+    // ✅ destination réelle après signup/login
+    const target = computePostAuthTarget(nextUrl);
+    rememberNext(target);
 
     const origin = window.location.origin;
-
     // IMPORTANT : pas de query string dans emailRedirectTo
     const emailRedirectTo = `${origin}/auth/callback`;
 
@@ -116,7 +147,7 @@ export default function SignupClient() {
     // Si confirmation email OFF -> session immédiate
     if (data?.session) {
       showMsg("Compte créé. Redirection…", "ok");
-      router.replace(nextUrl);
+      router.replace(target);
       return;
     }
 
@@ -125,15 +156,15 @@ export default function SignupClient() {
   }
 
   async function onGoogle() {
-    setMsg(null);
+    clearMsg();
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    // On mémorise la page cible
-    rememberNext(nextUrl);
+    // ✅ destination réelle après OAuth
+    const target = computePostAuthTarget(nextUrl);
+    rememberNext(target);
 
     const origin = window.location.origin;
-
     // IMPORTANT : pas de query string dans redirectTo
     const redirectTo = `${origin}/auth/callback`;
 
@@ -155,7 +186,7 @@ export default function SignupClient() {
   }
 
   async function onLogout() {
-    setMsg(null);
+    clearMsg();
     setBusy(true);
     showMsg("Déconnexion…", "info");
 
@@ -169,7 +200,7 @@ export default function SignupClient() {
   }
 
   const loginHref = `/login?next=${nextEnc}`;
-  const goNextHref = nextUrl;
+  const continueHref = computePostAuthTarget(nextUrl);
 
   return (
     <div className="auth-body">
@@ -195,7 +226,9 @@ export default function SignupClient() {
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Créer un compte">
           <h1 className="auth-title">Créer un compte</h1>
-          <p className="auth-sub">Sauvegarde tes échanges et continue après les messages gratuits.</p>
+          <p className="auth-sub">
+            Sauvegarde tes échanges et continue après les messages gratuits.
+          </p>
 
           {msg ? (
             <div
@@ -216,13 +249,18 @@ export default function SignupClient() {
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Link className="btn" href={goNextHref}>
+                <Link className="btn" href={continueHref}>
                   Continuer
                 </Link>
                 <Link className="btn btn-ghost" href={loginHref}>
                   Mon compte
                 </Link>
-                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={onLogout}
+                  disabled={busy}
+                >
                   Se déconnecter
                 </button>
               </div>
@@ -283,13 +321,18 @@ export default function SignupClient() {
               disabled={busy}
             />
 
-            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
+            <button
+              className="btn auth-submit"
+              type="submit"
+              disabled={busy}
+              style={{ opacity: busy ? 0.7 : 1 }}
+            >
               Créer mon compte
             </button>
 
             <p className="auth-legal">
-              En créant un compte, tu acceptes que cet outil soit une exploration personnelle (non thérapeutique) et ne
-              remplace pas un professionnel.
+              En créant un compte, tu acceptes que cet outil soit une exploration personnelle
+              (non thérapeutique) et ne remplace pas un professionnel.
             </p>
 
             <p className="auth-switch">
