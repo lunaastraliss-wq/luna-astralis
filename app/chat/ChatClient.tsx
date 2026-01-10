@@ -100,7 +100,11 @@ function clampInt(v: any, fallback = 0) {
 
 function safePath(nextUrl: string) {
   if (!nextUrl) return "/";
-  if (nextUrl.startsWith("/") && !nextUrl.startsWith("//") && !nextUrl.includes("://")) {
+  if (
+    nextUrl.startsWith("/") &&
+    !nextUrl.startsWith("//") &&
+    !nextUrl.includes("://")
+  ) {
     return nextUrl;
   }
   return "/";
@@ -144,7 +148,6 @@ export default function ChatClient() {
 
   const [sessionEmail, setSessionEmail] = useState("");
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
-  const [isPremium, setIsPremium] = useState(false); // ✅ AJOUT
   const [userId, setUserId] = useState<string>("");
 
   const [signKey, setSignKey] = useState<string>("");
@@ -181,11 +184,16 @@ export default function ChatClient() {
   );
 
   const signDesc = useMemo(() => {
-    if (!signKey) return "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
-    return SIGN_DESC[signKey] || "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    const fallback =
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    if (!signKey) return fallback;
+    return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
 
-  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
+  const bookUrl = useMemo(
+    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
+    [signKey]
+  );
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -241,7 +249,10 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+        localStorage.setItem(
+          KEY_SERVER_REMAINING,
+          String(Math.max(0, Math.trunc(n)))
+        );
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -293,7 +304,8 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -329,19 +341,14 @@ export default function ChatClient() {
     }
   }, []);
 
+  // ✅ UI compteur = basé uniquement sur isAuth (dans ChatSidebar)
+  // Ici on récupère seulement remaining pour afficher le compteur guest / gérer le blocage guest
   const refreshQuotaFromServer = useCallback(async () => {
     try {
       const res = await fetch("/api/chat/quota", { method: "GET" });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
-
-      // ✅ la clé du bug: "premium" ≠ "auth"
-      const premium = data?.mode === "auth_premium";
-      setIsPremium(!!premium);
-
-      // premium => on cache compteur, mais on peut laisser freeLeft tel quel
-      if (premium) return;
 
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
@@ -367,6 +374,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
+      // localStorage restant (best-effort) pour éviter flash 15->x
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -457,7 +465,13 @@ export default function ChatClient() {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
+  }, [
+    closePaywall,
+    ensureHello,
+    loadThreadLocal,
+    signKey,
+    refreshQuotaFromServer,
+  ]);
 
   useEffect(() => {
     scrollToBottom(true);
@@ -559,7 +573,7 @@ export default function ChatClient() {
       const session = await getSessionSafe();
       const authed = !!session?.user?.id;
 
-      // ✅ bloque seulement le guest (pas auth_free)
+      // ✅ blocage seulement guest
       if (!authed && quotaReady && freeLeft <= 0) {
         openPaywallGuest();
         return;
@@ -578,7 +592,10 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
-        if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+        if (
+          err?.message === "FREE_LIMIT_REACHED" ||
+          err?.message === "PREMIUM_REQUIRED"
+        ) {
           setThread(t1);
           return;
         }
@@ -615,7 +632,6 @@ export default function ChatClient() {
 
       closePaywall();
       setIsAuth(false);
-      setIsPremium(false); // ✅ AJOUT
       setSessionEmail("");
       setUserId("");
 
@@ -626,7 +642,13 @@ export default function ChatClient() {
 
       setFreeLeft(getSavedRemaining());
     },
-    [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining, signKey]
+    [
+      closePaywall,
+      ensureHello,
+      loadThreadLocal,
+      getSavedRemaining,
+      signKey,
+    ]
   );
 
   const onClearHistoryLocal = useCallback(() => {
@@ -663,7 +685,6 @@ export default function ChatClient() {
       <main className="chat-wrap" role="main">
         <ChatSidebar
           isAuth={isAuth === true}
-          isPremium={isPremium}   // ✅ AJOUT
           sessionEmail={sessionEmail}
           freeLeft={freeLeft}
           signName={signName}
@@ -697,4 +718,4 @@ export default function ChatClient() {
       />
     </div>
   );
-          }
+                                      }
