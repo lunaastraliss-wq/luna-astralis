@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { supabase } from "../../lib/supabase/client";
 
 type Props = {
@@ -20,17 +21,16 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // ✅ Compteur UNIQUEMENT en mode guest
+  // ✅ compteur seulement en guest
   const showFreeCounter = !isAuth;
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
     return freeLeft > 0
-      ? `Il te reste ${freeLeft} messages gratuits.`
+      ? `Il te reste ${freeLeft} message${freeLeft > 1 ? "s" : ""} gratuits.`
       : "Limite gratuite atteinte";
   }, [freeLeft, showFreeCounter]);
 
-  // ✅ Admin : seulement tes emails
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
     return (
@@ -46,17 +46,14 @@ export default function ChatSidebar({
     );
     if (!ok) return;
 
-    // 1) Déconnexion Supabase (best-effort)
     try {
       await supabase.auth.signOut();
     } catch {}
 
-    // 2) localStorage (best-effort)
     try {
       localStorage.clear();
     } catch {}
 
-    // 3) cookies (best-effort)
     try {
       document.cookie.split(";").forEach((c) => {
         const name = c.split("=")[0]?.trim();
@@ -65,7 +62,6 @@ export default function ChatSidebar({
       });
     } catch {}
 
-    // 4) reload
     try {
       location.assign("/");
     } catch {
@@ -79,7 +75,6 @@ export default function ChatSidebar({
         <div className="chat-side-title">Luna</div>
       </div>
 
-      {/* Zone milieu */}
       <div className="chat-side-content">
         <div className="ai-face-wrap ai-face-small">
           <img
@@ -124,14 +119,14 @@ export default function ChatSidebar({
         </div>
       </div>
 
-      {/* Footer */}
       <div className="chat-side-footer">
         {/* ✅ Compteur visible seulement en guest */}
         {showFreeCounter && (
-          <div className="free-counter">{counterText}</div>
+          <div className="free-counter" id="freeCounter">
+            {counterText}
+          </div>
         )}
 
-        {/* Reset admin visible seulement pour tes mails */}
         {isAdmin && (
           <button
             type="button"
