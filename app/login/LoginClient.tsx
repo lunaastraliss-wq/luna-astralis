@@ -142,7 +142,7 @@ export default function LoginClient() {
     } catch {}
 
     const origin = window.location.origin;
-    const redirectTo = `${origin}/auth/callback`;
+    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
