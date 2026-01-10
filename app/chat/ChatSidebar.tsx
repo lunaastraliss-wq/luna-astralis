@@ -20,16 +20,24 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // ✅ Compteur visible seulement en mode guest
+  /**
+   * ✅ Règle demandée :
+   * - compteur affiché UNIQUEMENT quand c'est "free" (mode guest)
+   * - dès que c'est payant (donc auth), pas de compteur (ok)
+   */
   const showFreeCounter = !isAuth;
 
   const counterText = useMemo(() => {
+    if (!showFreeCounter) return "";
     return freeLeft > 0
       ? `Gratuit : ${freeLeft} message(s) restant(s)`
       : "Limite gratuite atteinte";
-  }, [freeLeft]);
+  }, [freeLeft, showFreeCounter]);
 
-  // ✅ Admin: limite à tes emails
+  /**
+   * ✅ Admin : seulement TES mails (comme tu voulais)
+   * (on garde exactement ta logique)
+   */
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
     return (
@@ -78,7 +86,7 @@ export default function ChatSidebar({
         <div className="chat-side-title">Luna</div>
       </div>
 
-      {/* ✅ Zone “milieu” (pas de scroll, peut être coupée si écran petit) */}
+      {/* ✅ Zone “milieu” (pas de scroll) */}
       <div className="chat-side-content">
         <div className="ai-face-wrap ai-face-small">
           <img
@@ -109,6 +117,7 @@ export default function ChatSidebar({
             </a>
           )}
 
+          {/* ✅ email visible seulement si connecté */}
           {isAuth && !!sessionEmail && (
             <p className="chat-side-muted" style={{ marginTop: 10 }}>
               {sessionEmail}
@@ -122,14 +131,16 @@ export default function ChatSidebar({
         </div>
       </div>
 
-      {/* ✅ Footer (toujours visible, sans scroll) */}
+      {/* ✅ Footer (toujours visible) */}
       <div className="chat-side-footer">
+        {/* ✅ Compteur visible seulement en free/guest */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter">
             {counterText}
           </div>
         )}
 
+        {/* ✅ Reset admin seulement pour tes mails */}
         {isAdmin && (
           <button
             type="button"
