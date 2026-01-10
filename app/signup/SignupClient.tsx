@@ -8,15 +8,25 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type MsgType = "ok" | "err" | "info";
 
 function safeNext(v: string | null) {
-  const s = (v || "").trim();
   const fallback = "/chat?signe=belier";
+  const s = (v || "").trim();
   if (!s) return fallback;
 
-  // block external/open-redirect
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+  // Bloque URLs externes
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
 
-  // force internal absolute path
-  return s.startsWith("/") ? s : "/" + s;
+  const path = s.startsWith("/") ? s : `/${s}`;
+
+  // évite boucles
+  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) return fallback;
+
+  return path;
+}
+
+function rememberNext(nextUrl: string) {
+  try {
+    sessionStorage.setItem("la_next_after_oauth", nextUrl);
+  } catch {}
 }
 
 export default function SignupClient() {
@@ -39,7 +49,7 @@ export default function SignupClient() {
     setMsg({ text, type });
   }
 
-  // BOOT + Auth listener
+  // BOOT + listener
   useEffect(() => {
     let mounted = true;
 
@@ -62,6 +72,7 @@ export default function SignupClient() {
     })();
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
       setAlreadyConnected(!!session);
       if (session) setBusy(false);
     });
@@ -83,10 +94,13 @@ export default function SignupClient() {
     setBusy(true);
     showMsg("Création du compte…", "info");
 
+    // On mémorise la page cible
+    rememberNext(nextUrl);
+
     const origin = window.location.origin;
 
-    // ✅ Email confirmation -> repasse par /auth/callback (server) qui échange le code -> session
-    const emailRedirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
+    // IMPORTANT : pas de query string dans emailRedirectTo
+    const emailRedirectTo = `${origin}/auth/callback`;
 
     const { data, error } = await supabase.auth.signUp({
       email: em,
@@ -99,7 +113,7 @@ export default function SignupClient() {
       return showMsg(error.message, "err");
     }
 
-    // Email confirmation OFF -> session immédiate
+    // Si confirmation email OFF -> session immédiate
     if (data?.session) {
       showMsg("Compte créé. Redirection…", "ok");
       router.replace(nextUrl);
@@ -115,8 +129,13 @@ export default function SignupClient() {
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
+    // On mémorise la page cible
+    rememberNext(nextUrl);
+
     const origin = window.location.origin;
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
+
+    // IMPORTANT : pas de query string dans redirectTo
+    const redirectTo = `${origin}/auth/callback`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -129,7 +148,6 @@ export default function SignupClient() {
       return;
     }
 
-    // fallback UX si popup bloquée
     window.setTimeout(() => {
       setBusy(false);
       showMsg("Si rien ne s’ouvre, autorise les popups puis réessaie.", "info");
@@ -285,4 +303,4 @@ export default function SignupClient() {
       </main>
     </div>
   );
-      }
+}
