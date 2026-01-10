@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -100,11 +101,7 @@ function clampInt(v: any, fallback = 0) {
 
 function safePath(nextUrl: string) {
   if (!nextUrl) return "/";
-  if (
-    nextUrl.startsWith("/") &&
-    !nextUrl.startsWith("//") &&
-    !nextUrl.includes("://")
-  ) {
+  if (nextUrl.startsWith("/") && !nextUrl.startsWith("//") && !nextUrl.includes("://")) {
     return nextUrl;
   }
   return "/";
@@ -184,8 +181,7 @@ export default function ChatClient() {
   );
 
   const signDesc = useMemo(() => {
-    const fallback =
-      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    const fallback = "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
     if (!signKey) return fallback;
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
@@ -249,10 +245,7 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(
-          KEY_SERVER_REMAINING,
-          String(Math.max(0, Math.trunc(n)))
-        );
+        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -304,8 +297,7 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -341,8 +333,7 @@ export default function ChatClient() {
     }
   }, []);
 
-  // ✅ UI compteur = basé uniquement sur isAuth (dans ChatSidebar)
-  // Ici on récupère seulement remaining pour afficher le compteur guest / gérer le blocage guest
+  // ✅ On récupère seulement remaining (utile surtout pour guest)
   const refreshQuotaFromServer = useCallback(async () => {
     try {
       const res = await fetch("/api/chat/quota", { method: "GET" });
@@ -374,7 +365,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // localStorage restant (best-effort) pour éviter flash 15->x
+      // Best-effort: évite flash 15 -> X
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -465,13 +456,7 @@ export default function ChatClient() {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [
-    closePaywall,
-    ensureHello,
-    loadThreadLocal,
-    signKey,
-    refreshQuotaFromServer,
-  ]);
+  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
 
   useEffect(() => {
     scrollToBottom(true);
@@ -494,6 +479,7 @@ export default function ChatClient() {
         guestId: getGuestId(),
       };
 
+      // threadId seulement pour guest
       if (!authed) {
         const tid = getServerThreadId();
         if (tid) payload.threadId = tid;
@@ -527,6 +513,7 @@ export default function ChatClient() {
         setSavedRemaining(r);
       }
 
+      // guest: mémoriser threadId + guestId
       if (!authed) {
         if (data?.threadId != null) {
           const tid = clampInt(data.threadId, 0);
@@ -592,10 +579,7 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
-        if (
-          err?.message === "FREE_LIMIT_REACHED" ||
-          err?.message === "PREMIUM_REQUIRED"
-        ) {
+        if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
           setThread(t1);
           return;
         }
@@ -642,13 +626,7 @@ export default function ChatClient() {
 
       setFreeLeft(getSavedRemaining());
     },
-    [
-      closePaywall,
-      ensureHello,
-      loadThreadLocal,
-      getSavedRemaining,
-      signKey,
-    ]
+    [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining, signKey]
   );
 
   const onClearHistoryLocal = useCallback(() => {
@@ -718,4 +696,4 @@ export default function ChatClient() {
       />
     </div>
   );
-                                      }
+                                 }
