@@ -21,11 +21,11 @@ export default function ChatSidebar({
   bookUrl,
 }: Props) {
   /**
-   * ✅ Règle demandée :
-   * - compteur affiché UNIQUEMENT quand c'est "free" (mode guest)
-   * - dès que c'est payant (donc auth), pas de compteur (ok)
+   * ✅ Règle :
+   * - compteur affiché UNIQUEMENT quand l'utilisateur est GUEST (pas connecté)
+   * - si connecté (peu importe free ou payant), pas de compteur
    */
-  const showFreeCounter = !isAuth;
+  const showFreeCounter = isAuth === false;
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
@@ -35,8 +35,7 @@ export default function ChatSidebar({
   }, [freeLeft, showFreeCounter]);
 
   /**
-   * ✅ Admin : seulement TES mails (comme tu voulais)
-   * (on garde exactement ta logique)
+   * ✅ Admin : seulement TES emails (bouton reset visible uniquement pour toi)
    */
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
@@ -86,7 +85,7 @@ export default function ChatSidebar({
         <div className="chat-side-title">Luna</div>
       </div>
 
-      {/* ✅ Zone “milieu” (pas de scroll) */}
+      {/* Zone milieu */}
       <div className="chat-side-content">
         <div className="ai-face-wrap ai-face-small">
           <img
@@ -117,8 +116,8 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* ✅ email visible seulement si connecté */}
-          {isAuth && !!sessionEmail && (
+          {/* Email visible seulement si connecté */}
+          {isAuth === true && !!sessionEmail && (
             <p className="chat-side-muted" style={{ marginTop: 10 }}>
               {sessionEmail}
             </p>
@@ -131,16 +130,16 @@ export default function ChatSidebar({
         </div>
       </div>
 
-      {/* ✅ Footer (toujours visible) */}
+      {/* Footer */}
       <div className="chat-side-footer">
-        {/* ✅ Compteur visible seulement en free/guest */}
+        {/* Compteur visible seulement en guest */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter">
             {counterText}
           </div>
         )}
 
-        {/* ✅ Reset admin seulement pour tes mails */}
+        {/* Reset admin visible seulement pour tes mails */}
         {isAdmin && (
           <button
             type="button"
