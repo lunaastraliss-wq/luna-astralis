@@ -18,7 +18,7 @@ const MAX_VISIBLE = 14;
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 
-// ✅ on standardise UN SEUL param : "sign"
+// ✅ standard: ?sign=
 const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
@@ -135,7 +135,7 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // ✅ accepte anciens liens (?signe=) mais on réécrit ensuite en ?sign=
+  // accepte anciens liens (?signe=) mais stabilise ensuite en ?sign=
   const rawKeyFromUrl = useMemo(
     () => sp.get("signe") || sp.get(SIGN_QUERY_PARAM) || "",
     [sp]
@@ -146,6 +146,7 @@ export default function ChatClient() {
 
   const [sessionEmail, setSessionEmail] = useState("");
   const [isAuth, setIsAuth] = useState(false);
+  const [userId, setUserId] = useState<string>("");
 
   const [signKey, setSignKey] = useState<string>("");
   const [thread, setThread] = useState<ThreadMsg[]>([]);
@@ -157,24 +158,34 @@ export default function ChatClient() {
 
   const [freeLeft, setFreeLeft] = useState<number>(FREE_LIMIT);
 
+  // Pour éviter les décisions basées sur une valeur locale “sale”
+  const [quotaReady, setQuotaReady] = useState(false);
+
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
     return safePath(window.location.pathname + window.location.search);
   }, []);
 
   const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
-  const KEY_SERVER_REMAINING = `${STORAGE_PREFIX}server_remaining`;
+
+  // ✅ clé quota PAR MODE (guest vs userId)
+  const KEY_SERVER_REMAINING = useMemo(() => {
+    if (!userId) return `${STORAGE_PREFIX}server_remaining_guest`;
+    return `${STORAGE_PREFIX}server_remaining_user_${userId}`;
+  }, [userId]);
 
   const KEY_THREAD_LOCAL = useMemo(
     () => (signKey ? `${STORAGE_PREFIX}thread_${signKey}` : ""),
     [signKey]
   );
+
   const KEY_SERVER_THREAD_ID = useMemo(
     () => (signKey ? `${STORAGE_PREFIX}server_thread_id_${signKey}` : ""),
     [signKey]
   );
 
   const signName = useMemo(() => (signKey ? SIGNS[signKey] || "—" : "—"), [signKey]);
+
   const signDesc = useMemo(() => {
     if (!signKey) return "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
     return (
@@ -182,6 +193,7 @@ export default function ChatClient() {
       "Exploration douce : émotions, relations, stress, schémas, besoins, limites."
     );
   }, [signKey]);
+
   const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
 
   const getGuestId = useCallback(() => {
@@ -227,14 +239,17 @@ export default function ChatClient() {
     if (n < 0) return 0;
     if (n > FREE_LIMIT) return FREE_LIMIT;
     return n;
-  }, []);
+  }, [KEY_SERVER_REMAINING]);
 
-  const setSavedRemaining = useCallback((n: number) => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
-    } catch {}
-  }, []);
+  const setSavedRemaining = useCallback(
+    (n: number) => {
+      if (typeof window === "undefined") return;
+      try {
+        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+      } catch {}
+    },
+    [KEY_SERVER_REMAINING]
+  );
 
   const loadThreadLocal = useCallback((): ThreadMsg[] => {
     if (typeof window === "undefined") return [];
@@ -318,21 +333,20 @@ export default function ChatClient() {
     }
   }, []);
 
-  // ✅ Optionnel mais utile : synchroniser le quota côté serveur dès l’ouverture (si /api/chat/quota existe)
+  // ✅ refresh quota (si /api/chat/quota existe)
+  // Important: il marche même si tu n’envoies PAS Authorization: Bearer (car ton quota route peut lire cookies)
   const refreshQuotaFromServer = useCallback(async () => {
-    const session = await getSessionSafe();
-    if (!session?.access_token) return; // pas connecté -> quota géré via guest + localStorage
-
     try {
-      const res = await fetch("/api/chat/quota", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
-      });
-
+      const res = await fetch("/api/chat/quota", { method: "GET" });
       if (!res.ok) return;
+
       const data = await res.json().catch(() => ({} as any));
+
+      // auth_premium => pas de quota à afficher
+      if (data?.mode === "auth_premium") {
+        setQuotaReady(true);
+        return;
+      }
 
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
@@ -340,11 +354,38 @@ export default function ChatClient() {
         setSavedRemaining(r);
       }
     } catch {
-      // si l’endpoint n’existe pas, on ignore
+      // endpoint absent => on garde local
+    } finally {
+      setQuotaReady(true);
     }
-  }, [getSessionSafe, setSavedRemaining]);
+  }, [setSavedRemaining]);
 
-  // ✅ 1) Déterminer le signe + redirections propres
+  // ✅ 0) Lire session (isAuth/userId) tôt
+  useEffect(() => {
+    let alive = true;
+
+    (async () => {
+      const session = await getSessionSafe();
+      if (!alive) return;
+
+      const authed = !!session?.user?.id;
+      setIsAuth(authed);
+      setSessionEmail(session?.user?.email || "");
+      setUserId(session?.user?.id || "");
+
+      // ⚠️ on n’appelle refreshQuotaFromServer qu’après avoir userId (pour clé localStorage correcte)
+      // Mais on peut déjà mettre une valeur locale
+      const saved = getSavedRemaining();
+      setFreeLeft(saved);
+      setQuotaReady(true);
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [getSessionSafe, getSavedRemaining]);
+
+  // ✅ 1) Déterminer le signe + stabiliser l’URL
   useEffect(() => {
     let cancelled = false;
 
@@ -353,8 +394,6 @@ export default function ChatClient() {
       const authed = !!session?.user?.id;
 
       if (cancelled) return;
-      setIsAuth(authed);
-      setSessionEmail(session?.user?.email || "");
 
       const stored = getStoredSign();
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
@@ -363,7 +402,7 @@ export default function ChatClient() {
         setSignKey(urlSign);
         storeSign(urlSign);
 
-        // ✅ on stabilise l’URL vers ?sign=
+        // stabilise ?sign=
         router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`);
         return;
       }
@@ -400,7 +439,7 @@ export default function ChatClient() {
         signKey,
         signName,
         message: userText,
-        guestId: getGuestId(), // utile même en authed pour merge éventuel
+        guestId: getGuestId(),
       };
 
       if (!authed) {
@@ -466,7 +505,7 @@ export default function ChatClient() {
     ]
   );
 
-  // ✅ 2) Charger thread + quota local dès que le signe est prêt
+  // ✅ 2) Charger thread + quota local dès que signKey prêt
   useEffect(() => {
     if (!signKey) return;
 
@@ -476,22 +515,25 @@ export default function ChatClient() {
     const t0 = ensureHello(loadThreadLocal());
     setThread(t0);
 
-    // ✅ si connecté, on tente de synchroniser depuis le serveur (si endpoint dispo)
+    // si tu as /api/chat/quota, ça remplace proprement la valeur locale
     refreshQuotaFromServer();
   }, [signKey, ensureHello, loadThreadLocal, getSavedRemaining, refreshQuotaFromServer]);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       closePaywall();
-      setIsAuth(!!session);
+
+      const authed = !!session?.user?.id;
+      setIsAuth(authed);
       setSessionEmail(session?.user?.email || "");
+      setUserId(session?.user?.id || "");
 
       if (signKey) {
         const t0 = ensureHello(loadThreadLocal());
         setThread(t0);
       }
 
-      // si login/logout, on resync quota si possible
+      // resync
       refreshQuotaFromServer();
     });
 
@@ -519,15 +561,16 @@ export default function ChatClient() {
         return;
       }
 
+      // ❗️Ne pas prendre de décision “pricing” sur un quota local tant que quotaReady n’est pas true.
+      // Et surtout: ne pas bloquer un user connecté ici (l’API décidera).
       const s = await getSessionSafe();
       const authed = !!s;
 
       setIsAuth(authed);
       setSessionEmail(s?.user?.email || "");
+      setUserId(s?.user?.id || "");
 
-      // ✅ IMPORTANT : on ne bloque pas un utilisateur connecté ici.
-      // L’API est la source de vérité (FREE_LIMIT_REACHED / PREMIUM_REQUIRED).
-      if (!authed && freeLeft <= 0) {
+      if (!authed && quotaReady && freeLeft <= 0) {
         openPaywallGuest();
         return;
       }
@@ -537,7 +580,6 @@ export default function ChatClient() {
       saveThreadLocal(t1);
       setInput("");
 
-      // affichage immédiat avec "…"
       setThread([...t1, { role: "ai", text: "…" }]);
 
       try {
@@ -563,6 +605,7 @@ export default function ChatClient() {
     [
       askLuna,
       freeLeft,
+      quotaReady,
       getSessionSafe,
       input,
       loadThreadLocal,
@@ -583,12 +626,14 @@ export default function ChatClient() {
       closePaywall();
       setIsAuth(false);
       setSessionEmail("");
+      setUserId("");
 
       if (signKey) {
         const t0 = ensureHello(loadThreadLocal());
         setThread(t0);
       }
 
+      // guest key
       setFreeLeft(getSavedRemaining());
     },
     [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining, signKey]
@@ -663,4 +708,4 @@ export default function ChatClient() {
       />
     </div>
   );
-            }
+                                      }
