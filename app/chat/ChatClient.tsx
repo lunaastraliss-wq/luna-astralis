@@ -15,8 +15,11 @@ const FREE_LIMIT = 15;
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 
-const LS_SIGN_KEY = "la_sign"; // ✅ signe choisi (user/guest)
+const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
+
+// ✅ on standardise UN SEUL param : "sign"
+const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
   belier: "Bélier ♈",
@@ -132,8 +135,11 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // ✅ récupère le signe depuis URL, sans fallback automatique
-  const rawKeyFromUrl = useMemo(() => sp.get("signe") || sp.get("sign") || "", [sp]);
+  // ✅ accepte anciens liens (?signe=) mais on réécrit ensuite en ?sign=
+  const rawKeyFromUrl = useMemo(
+    () => sp.get("signe") || sp.get(SIGN_QUERY_PARAM) || "",
+    [sp]
+  );
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
@@ -141,18 +147,16 @@ export default function ChatClient() {
   const [sessionEmail, setSessionEmail] = useState("");
   const [isAuth, setIsAuth] = useState(false);
 
-  const [signKey, setSignKey] = useState<string>(""); // ✅ déterminé par rules
+  const [signKey, setSignKey] = useState<string>("");
   const [thread, setThread] = useState<ThreadMsg[]>([]);
   const [input, setInput] = useState("");
 
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
-
   const [historyOpen, setHistoryOpen] = useState(false);
 
   const [freeLeft, setFreeLeft] = useState<number>(FREE_LIMIT);
 
-  // ✅ IMPORTANT: renvoie l’URL réelle (pathname + query)
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
     return safePath(window.location.pathname + window.location.search);
@@ -161,7 +165,6 @@ export default function ChatClient() {
   const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
   const KEY_SERVER_REMAINING = `${STORAGE_PREFIX}server_remaining`;
 
-  // Ces keys dépendent du signe (donc on les calcule après que signKey soit fixé)
   const KEY_THREAD_LOCAL = useMemo(
     () => (signKey ? `${STORAGE_PREFIX}thread_${signKey}` : ""),
     [signKey]
@@ -283,17 +286,14 @@ export default function ChatClient() {
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
-  // ✅ Redirect paywall vers page plans (au lieu d’un modal)
   const goPlans = useCallback(
     (reason: "free" | "premium") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      const url = `/pricing?reason=${encodeURIComponent(reason)}&next=${next}`;
-      router.push(url);
+      router.push(`/pricing?reason=${encodeURIComponent(reason)}&next=${next}`);
     },
     [router, currentPathWithQuery]
   );
 
-  // (Tu peux garder les modals si tu veux; là on redirige direct)
   const openPaywallGuest = useCallback(() => {
     setPaywallMode("guest");
     setPaywallOpen(false);
@@ -318,7 +318,33 @@ export default function ChatClient() {
     }
   }, []);
 
-  // ✅ 1) Déterminer le signe à utiliser + gérer onboarding
+  // ✅ Optionnel mais utile : synchroniser le quota côté serveur dès l’ouverture (si /api/chat/quota existe)
+  const refreshQuotaFromServer = useCallback(async () => {
+    const session = await getSessionSafe();
+    if (!session?.access_token) return; // pas connecté -> quota géré via guest + localStorage
+
+    try {
+      const res = await fetch("/api/chat/quota", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (!res.ok) return;
+      const data = await res.json().catch(() => ({} as any));
+
+      if (typeof data?.remaining === "number") {
+        const r = Math.max(0, Math.trunc(data.remaining));
+        setFreeLeft(r);
+        setSavedRemaining(r);
+      }
+    } catch {
+      // si l’endpoint n’existe pas, on ignore
+    }
+  }, [getSessionSafe, setSavedRemaining]);
+
+  // ✅ 1) Déterminer le signe + redirections propres
   useEffect(() => {
     let cancelled = false;
 
@@ -333,30 +359,27 @@ export default function ChatClient() {
       const stored = getStoredSign();
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
 
-      // Si un signe est dans l’URL, on le garde + on le sauvegarde
       if (urlSign) {
         setSignKey(urlSign);
         storeSign(urlSign);
+
+        // ✅ on stabilise l’URL vers ?sign=
+        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`);
         return;
       }
 
-      // Sinon, si on a un signe stocké, on l’utilise (et on stabilise l’URL)
       if (stored && SIGNS[stored]) {
         setSignKey(stored);
-        // stabiliser l’URL pour éviter "belier par défaut"
-        router.replace(`/chat?sign=${encodeURIComponent(stored)}`);
+        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`);
         return;
       }
 
-      // Sinon: pas de signe connu
       if (authed) {
-        // ✅ connecté: on va à l’onboarding signe
         const next = encodeURIComponent("/chat");
         router.replace(`/onboarding/sign?next=${next}`);
         return;
       }
 
-      // ✅ guest sans signe: on renvoie vers ta page choix signe (home)
       router.replace("/");
     })();
 
@@ -377,16 +400,12 @@ export default function ChatClient() {
         signKey,
         signName,
         message: userText,
+        guestId: getGuestId(), // utile même en authed pour merge éventuel
       };
 
-      // Guest: envoyer guestId + threadId
       if (!authed) {
-        payload.guestId = getGuestId();
         const tid = getServerThreadId();
         if (tid) payload.threadId = tid;
-      } else {
-        // Optionnel: tu peux quand même envoyer guestId pour le merge guest->user côté API
-        payload.guestId = getGuestId();
       }
 
       const res = await fetch("/api/chat", {
@@ -411,14 +430,12 @@ export default function ChatClient() {
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
-      // ✅ remaining peut venir en guest OU en auth_free
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
         setSavedRemaining(r);
       }
 
-      // threadId + guestId utiles surtout en guest
       if (!authed) {
         if (data?.threadId != null) {
           const tid = clampInt(data.threadId, 0);
@@ -449,7 +466,7 @@ export default function ChatClient() {
     ]
   );
 
-  // ✅ 2) Charger thread + remaining une fois le signe prêt
+  // ✅ 2) Charger thread + quota local dès que le signe est prêt
   useEffect(() => {
     if (!signKey) return;
 
@@ -459,9 +476,9 @@ export default function ChatClient() {
     const t0 = ensureHello(loadThreadLocal());
     setThread(t0);
 
-    // n’écrase plus le quota à 15 juste parce qu’on est connecté
-    // on garde la valeur "remaining" stockée / renvoyée par l’API
-  }, [signKey, ensureHello, loadThreadLocal, getSavedRemaining]);
+    // ✅ si connecté, on tente de synchroniser depuis le serveur (si endpoint dispo)
+    refreshQuotaFromServer();
+  }, [signKey, ensureHello, loadThreadLocal, getSavedRemaining, refreshQuotaFromServer]);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -469,17 +486,19 @@ export default function ChatClient() {
       setIsAuth(!!session);
       setSessionEmail(session?.user?.email || "");
 
-      // on ne reset pas freeLeft ici
       if (signKey) {
         const t0 = ensureHello(loadThreadLocal());
         setThread(t0);
       }
+
+      // si login/logout, on resync quota si possible
+      refreshQuotaFromServer();
     });
 
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [closePaywall, ensureHello, loadThreadLocal, signKey]);
+  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
 
   useEffect(() => {
     scrollToBottom(true);
@@ -494,7 +513,6 @@ export default function ChatClient() {
       if (!text) return;
 
       if (!signKey) {
-        // signe pas prêt -> onboarding/home
         const s = await getSessionSafe();
         if (s) router.push("/onboarding/sign?next=/chat");
         else router.push("/");
@@ -507,8 +525,9 @@ export default function ChatClient() {
       setIsAuth(authed);
       setSessionEmail(s?.user?.email || "");
 
-      // Si on sait déjà que c’est 0, on va direct aux plans
-      if (freeLeft <= 0) {
+      // ✅ IMPORTANT : on ne bloque pas un utilisateur connecté ici.
+      // L’API est la source de vérité (FREE_LIMIT_REACHED / PREMIUM_REQUIRED).
+      if (!authed && freeLeft <= 0) {
         openPaywallGuest();
         return;
       }
@@ -516,9 +535,9 @@ export default function ChatClient() {
       const t = loadThreadLocal();
       const t1: ThreadMsg[] = [...t, { role: "user", text }];
       saveThreadLocal(t1);
-      setThread(t1);
       setInput("");
 
+      // affichage immédiat avec "…"
       setThread([...t1, { role: "ai", text: "…" }]);
 
       try {
@@ -528,7 +547,7 @@ export default function ChatClient() {
         setThread(t2);
       } catch (err: any) {
         if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
-          setThread([...t1]);
+          setThread(t1);
           return;
         }
 
@@ -587,7 +606,6 @@ export default function ChatClient() {
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
-  // Tant que le signe n’est pas fixé, on évite de rendre un chat “incorrect”
   if (!signKey) {
     return (
       <div className="chat-body">
@@ -612,7 +630,7 @@ export default function ChatClient() {
           <ChatSidebar
             isAuth={isAuth}
             sessionEmail={sessionEmail}
-            freeLeft={freeLeft} // ✅ on affiche le vrai remaining, connecté ou non
+            freeLeft={freeLeft}
             signName={signName}
             signDesc={signDesc}
             bookUrl={bookUrl}
@@ -633,8 +651,6 @@ export default function ChatClient() {
         </section>
       </main>
 
-      {/* Tu peux garder tes modals pour l’historique.
-          PaywallOpen reste false (on redirige sur /pricing). */}
       <ChatModals
         paywallOpen={paywallOpen}
         paywallMode={paywallMode}
@@ -647,4 +663,4 @@ export default function ChatClient() {
       />
     </div>
   );
-}
+            }
