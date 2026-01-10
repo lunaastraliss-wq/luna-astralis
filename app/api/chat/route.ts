@@ -298,11 +298,12 @@ async function incrementUserUsed(user_id: string) {
 /* ===========================
    SUPABASE: LINK GUEST -> USER & MERGE USAGE
    (évite 15 + 15)
+   IMPORTANT: suppose que guest_user_links a une contrainte UNIQUE sur guest_id
 =========================== */
 async function linkGuestToUserAndMerge(guest_id: string, user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
-  // upsert lien (idempotent)
+  // lien (idempotent)
   const { error: linkErr } = await supabaseAdmin.from(GUEST_USER_LINKS_TABLE).upsert(
     {
       guest_id,
@@ -313,12 +314,11 @@ async function linkGuestToUserAndMerge(guest_id: string, user_id: string) {
   );
   if (linkErr) throw linkErr;
 
-  // merge usage: prendre le MAX (ne redonne jamais de quota)
+  // merge usage: MAX (ne redonne jamais du quota)
   const gUsed = await ensureGuestRowAndGetUsed(guest_id);
   const uUsed = await ensureUserRowAndGetUsed(user_id);
   const merged = Math.max(gUsed, uUsed);
 
-  // écrire merged dans user_usage_lifetime
   const { error: uUpdErr } = await supabaseAdmin
     .from(USER_USAGE_TABLE)
     .update({
@@ -386,7 +386,7 @@ async function loadGuestContextMessages(threadId: number, lastN: number) {
   if (error) throw error;
 
   const rows = Array.isArray(data) ? data : [];
-  rows.reverse(); // back to chronological
+  rows.reverse();
 
   return rows
     .map((m: any) => ({
@@ -414,7 +414,6 @@ async function saveGuestMessage(
 
   if (error) throw error;
 
-  // ping updated_at (best effort)
   await supabaseAdmin
     .from(GUEST_THREADS_TABLE)
     .update({ updated_at: new Date().toISOString() })
@@ -519,10 +518,9 @@ export async function POST(req: Request) {
     const guest_id = payloadGid || cookieGid || makeGuestId();
 
     /* =========================
-       GUEST FLOW (quota + chat cross-device)
+       GUEST FLOW (quota + chat persistant)
     ========================= */
     if (!isAuthed) {
-      // quota
       let used = 0;
       try {
         used = await ensureGuestRowAndGetUsed(guest_id);
@@ -534,7 +532,7 @@ export async function POST(req: Request) {
 
       if (used >= FREE_LIMIT) {
         const res = NextResponse.json(
-          { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT },
+          { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT, mode: "guest" },
           { status: 402 }
         );
         setGuestCookie(res, guest_id);
@@ -583,7 +581,7 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-      // OpenAI
+      // OpenAI (TS strict: cast messages)
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         temperature: 0.7,
@@ -591,13 +589,13 @@ Signe: ${signName || signKey || "—"}.
           { role: "system", content: system },
           ...dbContext,
           { role: "user", content: lastUserText },
-        ],
+        ] as any,
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
-      // Quota: incrémenter seulement si OpenAI a réussi
+      // incrément après succès OpenAI
       let newUsed = used;
       try {
         newUsed = await incrementGuestUsed(guest_id);
@@ -609,13 +607,13 @@ Signe: ${signName || signKey || "—"}.
 
       const remaining = Math.max(0, FREE_LIMIT - newUsed);
 
-      // Upsell (si proche de la fin)
+      // Upsell
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
         short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
       }
 
-      // Sauvegarde DB (après succès OpenAI)
+      // Sauvegarde DB
       try {
         await saveGuestMessage(threadId, "user", lastUserText);
         await saveGuestMessage(threadId, "assistant", short);
@@ -626,7 +624,14 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const res = NextResponse.json(
-        { message: short, reply: short, mode: "guest", remaining, guestId: guest_id, threadId },
+        {
+          message: short,
+          reply: short,
+          mode: "guest",
+          remaining,
+          guestId: guest_id,
+          threadId,
+        },
         { status: 200 }
       );
       setGuestCookie(res, guest_id);
@@ -635,9 +640,9 @@ Signe: ${signName || signKey || "—"}.
 
     /* =========================
        AUTH FLOW
-       - Premium: réponses longues (illimité/quota plan)
-       - Non premium: 15 messages lifetime (même logique que guest)
-       - Link guest->user pour éviter 15 + 15
+       - premium: long
+       - non premium: 15 lifetime (user_usage_lifetime)
+       - merge guest->user pour éviter 15 + 15
     ========================= */
     let premium = false;
     try {
@@ -648,10 +653,8 @@ Signe: ${signName || signKey || "—"}.
       });
     }
 
-    // Si pas premium => quota lifetime 15 (user_usage_lifetime)
+    // Non premium => quota lifetime 15
     if (!premium) {
-      // merge guest->user si on a un guest_id (cookie/payload)
-      // (idempotent; ne redonne jamais du quota)
       try {
         await linkGuestToUserAndMerge(guest_id, user_id!);
       } catch (err: any) {
@@ -674,7 +677,6 @@ Signe: ${signName || signKey || "—"}.
           { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT, mode: "auth_free" },
           { status: 402 }
         );
-        // on garde le cookie guest_id (utile pour lier si l'utilisateur switch device)
         setGuestCookie(res, guest_id);
         return res;
       }
@@ -689,19 +691,17 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-      // petit contexte depuis le front (pas de DB pour users ici)
       const context = pickLastNMessages(userMessages, 10);
 
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
         temperature: 0.7,
-        messages: [{ role: "system", content: system }, ...context],
+        messages: [{ role: "system", content: system }, ...context] as any,
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
-      // incrément après succès OpenAI
       let newUsed = used;
       try {
         newUsed = await incrementUserUsed(user_id!);
@@ -726,7 +726,7 @@ Signe: ${signName || signKey || "—"}.
       return res;
     }
 
-    // Premium => réponses longues (ton flow actuel)
+    // Premium => réponses longues
     const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, profond, clair, concret.
@@ -739,7 +739,7 @@ Signe: ${signName || signKey || "—"}.
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.8,
-      messages: [{ role: "system", content: system }, ...userMessages],
+      messages: [{ role: "system", content: system }, ...userMessages] as any,
     });
 
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
@@ -756,4 +756,4 @@ Signe: ${signName || signKey || "—"}.
       { status: 500 }
     );
   }
-     }
+}
