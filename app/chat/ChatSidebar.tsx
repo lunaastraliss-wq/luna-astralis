@@ -19,7 +19,13 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  const showFreeCounter = !isAuth; // ✅ un seul endroit
+  // Affiche le compteur seulement en mode guest (non connecté)
+  const showFreeCounter = !isAuth;
+
+  const counterText =
+    freeLeft > 0
+      ? `Gratuit : ${freeLeft} message(s) restant(s)`
+      : "Limite gratuite atteinte";
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
@@ -57,6 +63,27 @@ export default function ChatSidebar({
             </a>
           )}
 
+          {/* ✅ Compteur (placé ici pour être visible sans scroller) */}
+          {showFreeCounter && (
+            <div
+              className="free-counter"
+              id="freeCounter"
+              style={{
+                marginTop: 12,
+                padding: "10px 12px",
+                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.06)",
+                fontSize: 13,
+                fontWeight: 600,
+                textAlign: "center",
+              }}
+            >
+              {counterText}
+            </div>
+          )}
+
+          {/* Email seulement si connecté */}
           {isAuth && !!sessionEmail && (
             <p className="chat-side-muted" style={{ marginTop: 10 }}>
               {sessionEmail}
@@ -69,14 +96,6 @@ export default function ChatSidebar({
           </p>
         </div>
       </div>
-
-      {showFreeCounter && (
-        <div id="freeCounter" className="free-counter">
-          {freeLeft > 0
-            ? `Gratuit : ${freeLeft} message(s) restant(s)`
-            : "Limite gratuite atteinte"}
-        </div>
-      )}
     </aside>
   );
 }
