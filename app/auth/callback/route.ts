@@ -6,61 +6,72 @@ import { cookies } from "next/headers";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function safeNext(v: string | null) {
-  const s = (v || "").trim();
+/**
+ * Autorise uniquement des chemins internes (pas d'URL absolue),
+ * évite les boucles vers login/signup/auth, et force /chat par défaut.
+ */
+function safeNext(raw: string | null): string {
+  const s = (raw ?? "").trim();
   if (!s) return "/chat";
 
-  // Block absolute URLs / protocol-relative
+  // Bloque URLs absolues / protocol-relative
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
 
   const path = s.startsWith("/") ? s : `/${s}`;
 
-  // Avoid redirecting back to login/signup accidentally
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) {
+  // Évite boucles
+  if (
+    path.startsWith("/login") ||
+    path.startsWith("/signup") ||
+    path.startsWith("/auth")
+  ) {
     return "/chat";
   }
+
   return path;
 }
 
 export async function GET(req: Request) {
   const url = new URL(req.url);
-  const supabase = createRouteHandlerClient({ cookies });
+  const origin = url.origin;
 
-  const next = safeNext(url.searchParams.get("next"));
   const code = url.searchParams.get("code");
-  const error = url.searchParams.get("error");
-  const errorDesc = url.searchParams.get("error_description");
+  const next = safeNext(url.searchParams.get("next"));
 
-  // If provider returned an error (user cancelled, etc.)
-  if (error) {
-    return NextResponse.redirect(
-      new URL(
-        `/login?oauth=1&next=${encodeURIComponent(next)}&error=${encodeURIComponent(
-          error
-        )}&error_description=${encodeURIComponent(errorDesc || "")}`,
-        url.origin
-      )
-    );
+  // Erreurs OAuth (ex: user cancelled)
+  const oauthError = url.searchParams.get("error");
+  const oauthErrorDesc = url.searchParams.get("error_description");
+
+  if (oauthError) {
+    const redirectUrl = new URL("/login", origin);
+    redirectUrl.searchParams.set("oauth", "1");
+    redirectUrl.searchParams.set("next", next);
+    redirectUrl.searchParams.set("error", oauthError);
+    if (oauthErrorDesc) redirectUrl.searchParams.set("error_description", oauthErrorDesc);
+    return NextResponse.redirect(redirectUrl);
   }
 
+  // Si pas de code, on retourne au login (ou tu peux envoyer à / si tu préfères)
   if (!code) {
-    return NextResponse.redirect(
-      new URL(`/login?oauth=1&next=${encodeURIComponent(next)}`, url.origin)
-    );
+    const redirectUrl = new URL("/login", origin);
+    redirectUrl.searchParams.set("oauth", "1");
+    redirectUrl.searchParams.set("next", next);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  const { error: exchangeErr } = await supabase.auth.exchangeCodeForSession(code);
+  // Échange code -> session
+  const supabase = createRouteHandlerClient({ cookies });
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
-  if (exchangeErr) {
-    return NextResponse.redirect(
-      new URL(
-        `/login?oauth=1&next=${encodeURIComponent(next)}&error=${encodeURIComponent(
-          "exchange_failed"
-        )}&error_description=${encodeURIComponent(exchangeErr.message)}`,
-        url.origin
-      )
-    );
+  if (error) {
+    const redirectUrl = new URL("/login", origin);
+    redirectUrl.searchParams.set("oauth", "1");
+    redirectUrl.searchParams.set("next", next);
+    redirectUrl.searchParams.set("error", "exchange_failed");
+    redirectUrl.searchParams.set("error_description", error.message);
+    return NextResponse.redirect(redirectUrl);
   }
 
-  return NextResponse.redirect(new URL(next, url.origin));
+  // OK -> va au chat (ou au next)
+  return NextResponse.redirect(new URL(next, origin));
 }
