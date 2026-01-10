@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -101,7 +100,11 @@ function clampInt(v: any, fallback = 0) {
 
 function safePath(nextUrl: string) {
   if (!nextUrl) return "/";
-  if (nextUrl.startsWith("/") && !nextUrl.startsWith("//") && !nextUrl.includes("://")) {
+  if (
+    nextUrl.startsWith("/") &&
+    !nextUrl.startsWith("//") &&
+    !nextUrl.includes("://")
+  ) {
     return nextUrl;
   }
   return "/";
@@ -135,6 +138,7 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
+  // accepte ?sign=... et aussi ?signe=... (legacy)
   const rawKeyFromUrl = useMemo(
     () => sp.get("signe") || sp.get(SIGN_QUERY_PARAM) || "",
     [sp]
@@ -181,7 +185,8 @@ export default function ChatClient() {
   );
 
   const signDesc = useMemo(() => {
-    const fallback = "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    const fallback =
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
     if (!signKey) return fallback;
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
@@ -245,7 +250,10 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+        localStorage.setItem(
+          KEY_SERVER_REMAINING,
+          String(Math.max(0, Math.trunc(n)))
+        );
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -297,14 +305,17 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
   const goPlans = useCallback(
     (reason: "free" | "premium") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      router.push(`/pricing?reason=${encodeURIComponent(reason)}&next=${next}`);
+      router.push(
+        `/pricing?reason=${encodeURIComponent(reason)}&next=${next}`
+      );
     },
     [router, currentPathWithQuery]
   );
@@ -333,14 +344,13 @@ export default function ChatClient() {
     }
   }, []);
 
-  // ✅ On récupère seulement remaining (utile surtout pour guest)
+  // quota serveur (utile surtout pour guest)
   const refreshQuotaFromServer = useCallback(async () => {
     try {
       const res = await fetch("/api/chat/quota", { method: "GET" });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
-
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
@@ -365,11 +375,12 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // Best-effort: évite flash 15 -> X
+      // best-effort local pour éviter un "flash"
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
           : `${STORAGE_PREFIX}server_remaining_guest`;
+
         const n = clampInt(localStorage.getItem(key), FREE_LIMIT);
         const safe = Math.max(0, Math.min(FREE_LIMIT, n));
         setFreeLeft(safe);
@@ -401,13 +412,17 @@ export default function ChatClient() {
       if (urlSign) {
         setSignKey(urlSign);
         storeSign(urlSign);
-        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`);
+        router.replace(
+          `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`
+        );
         return;
       }
 
       if (stored && SIGNS[stored]) {
         setSignKey(stored);
-        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`);
+        router.replace(
+          `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`
+        );
         return;
       }
 
@@ -456,7 +471,13 @@ export default function ChatClient() {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
+  }, [
+    closePaywall,
+    ensureHello,
+    loadThreadLocal,
+    signKey,
+    refreshQuotaFromServer,
+  ]);
 
   useEffect(() => {
     scrollToBottom(true);
@@ -507,6 +528,7 @@ export default function ChatClient() {
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
+      // remaining utile surtout pour guest (mais ok de le recevoir)
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
@@ -579,7 +601,10 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
-        if (err?.message === "FREE_LIMIT_REACHED" || err?.message === "PREMIUM_REQUIRED") {
+        if (
+          err?.message === "FREE_LIMIT_REACHED" ||
+          err?.message === "PREMIUM_REQUIRED"
+        ) {
           setThread(t1);
           return;
         }
@@ -696,4 +721,4 @@ export default function ChatClient() {
       />
     </div>
   );
-                                 }
+        }
