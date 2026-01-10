@@ -1,8 +1,9 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL
+   Luna Astralis — chat/chat.css — FINAL (NO SIDEBAR SCROLL)
    - Desktop: sidebar + chat
    - Mobile: 1 colonne
    - Scroll uniquement dans .chat-messages
+   - Sidebar: contenu coupé si trop long, footer toujours visible
    - Composer sticky (input) + font-size 16px
    - reCAPTCHA: discret (badge + bandeau)
 ========================================================== */
@@ -155,7 +156,7 @@
 }
 
 /* =========================
-   SIDEBAR
+   SIDEBAR (NO SCROLL)
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -189,12 +190,21 @@
   letter-spacing:.01em;
 }
 
+/* ✅ milieu: prend l’espace, mais ne scroll pas */
 .chat-side-content{
   padding:14px;
   flex: 1 1 auto;
   min-height:0;
   overflow:hidden !important;
   text-align:center;
+}
+
+/* ✅ footer: toujours visible en bas */
+.chat-side-footer{
+  flex: 0 0 auto;
+  padding: 0 14px 14px;
+  border-top:1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.08);
 }
 
 .ai-face-wrap{
@@ -261,6 +271,7 @@
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
+/* ligne décorative (reste dans le contenu) */
 .chat-side-content::after{
   content:"";
   display:block;
@@ -270,8 +281,9 @@
   background: linear-gradient(to right, transparent, rgba(255,255,255,.14), transparent);
 }
 
+/* ✅ compteur dans le footer */
 #freeCounter{
-  margin: 12px 14px 14px;
+  margin: 12px 0 0;              /* ✅ plus de marge latérale (footer gère le padding) */
   padding:10px 12px;
   border-radius: 14px;
   border:1px solid rgba(255,255,255,.14);
@@ -280,7 +292,17 @@
   font-weight:900;
   font-size:12px;
   text-align:center;
-  flex: 0 0 auto;
+}
+
+.reset-admin-btn{
+  margin: 10px auto 0;
+  display:block;
+  font-size: 11px;
+  opacity: 0.45;
+  background: transparent;
+  border: none;
+  color: #9aa;
+  cursor: pointer;
 }
 
 /* =========================
@@ -488,7 +510,7 @@
 
   position: sticky;
   bottom: 0;
-  z-index: 40; /* ✅ assez haut, mais pas délirant */
+  z-index: 40;
 }
 
 /* input */
@@ -508,7 +530,7 @@
   letter-spacing: .01em;
   line-height: 1.35;
 
-  font-size: 16px; /* ✅ stop zoom iOS/Android */
+  font-size: 16px;
 }
 .chat-input::placeholder{ color: rgba(255,255,255,.55); }
 .chat-input:focus{
@@ -561,9 +583,7 @@
 
 /* ==========================================================
    Bandeau “protégé par reCAPTCHA” (si présent)
-   -> on le rend mini + on évite qu'il cache l'input
 ========================================================== */
-/* Plusieurs libs utilisent ces classes/structures */
 .recaptcha,
 .recaptcha-container,
 .recaptcha-badge,
@@ -572,7 +592,6 @@
   z-index: 1 !important;
 }
 
-/* Cas: un bandeau large en bas */
 .recaptcha-notice,
 .recaptcha-badge,
 .recaptcha{
@@ -582,13 +601,12 @@
   opacity: 0.55;
 }
 
-/* S'il est placé dans le chat, on le force à ne pas recouvrir le composer */
 .chat-panel .recaptcha,
 .chat-panel .recaptcha-notice,
 .chat-panel .recaptcha-badge{
   position: absolute !important;
   right: 10px !important;
-  bottom: 78px !important; /* ✅ juste au-dessus de l'input */
+  bottom: 78px !important;
 }
 
 /* =========================
