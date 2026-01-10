@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo, useCallback } from "react";
@@ -21,7 +22,7 @@ export default function ChatSidebar({
   bookUrl,
 }: Props) {
   /**
-   * ✅ Règle :
+   * Règle :
    * - compteur affiché UNIQUEMENT quand l'utilisateur est GUEST (pas connecté)
    * - si connecté (peu importe free ou payant), pas de compteur
    */
@@ -35,7 +36,7 @@ export default function ChatSidebar({
   }, [freeLeft, showFreeCounter]);
 
   /**
-   * ✅ Admin : seulement TES emails (bouton reset visible uniquement pour toi)
+   * Admin : seulement tes emails
    */
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
