@@ -27,6 +27,15 @@ const GUEST_USAGE_COL_ID = "guest_id";
 const GUEST_USAGE_COL_USED = "used";
 const GUEST_USAGE_COL_UPDATED_AT = "updated_at";
 
+// quota user (lifetime)
+const USER_USAGE_TABLE = "user_usage_lifetime";
+const USER_USAGE_COL_ID = "user_id";
+const USER_USAGE_COL_USED = "used";
+const USER_USAGE_COL_UPDATED_AT = "updated_at";
+
+// lien guest -> user (pour éviter 15 + 15)
+const GUEST_USER_LINKS_TABLE = "guest_user_links";
+
 // chat invité (persistant)
 const GUEST_THREADS_TABLE = "guest_threads";
 const GUEST_MESSAGES_TABLE = "guest_messages";
@@ -37,7 +46,6 @@ const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
 const SUBS_COL_STATUS = "status";
 const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
-
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
 /* ===========================
@@ -136,7 +144,9 @@ function buildChatMessages(body: any) {
   return msgs.filter((m: any) => m.content);
 }
 
-function getLastUserMessage(userMessages: Array<{ role: string; content: string }>) {
+function getLastUserMessage(
+  userMessages: Array<{ role: string; content: string }>
+) {
   for (let i = userMessages.length - 1; i >= 0; i--) {
     if (userMessages[i]?.role === "user" && cleanStr(userMessages[i]?.content)) {
       return cleanStr(userMessages[i].content);
@@ -236,6 +246,93 @@ async function incrementGuestUsed(guest_id: string) {
 }
 
 /* ===========================
+   SUPABASE: QUOTA USER (lifetime)
+=========================== */
+async function ensureUserRowAndGetUsed(user_id: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const { data: existing, error: readErr } = await supabaseAdmin
+    .from(USER_USAGE_TABLE)
+    .select(`${USER_USAGE_COL_ID}, ${USER_USAGE_COL_USED}`)
+    .eq(USER_USAGE_COL_ID, user_id)
+    .maybeSingle();
+
+  if (readErr) throw readErr;
+
+  if (!existing) {
+    const { data: created, error: insErr } = await supabaseAdmin
+      .from(USER_USAGE_TABLE)
+      .insert({
+        [USER_USAGE_COL_ID]: user_id,
+        [USER_USAGE_COL_USED]: 0,
+        [USER_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+      })
+      .select(`${USER_USAGE_COL_USED}`)
+      .single();
+
+    if (insErr) throw insErr;
+    return Number(created?.[USER_USAGE_COL_USED] ?? 0);
+  }
+
+  return Number(existing?.[USER_USAGE_COL_USED] ?? 0);
+}
+
+async function incrementUserUsed(user_id: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const current = await ensureUserRowAndGetUsed(user_id);
+  const next = current + 1;
+
+  const { error: updErr } = await supabaseAdmin
+    .from(USER_USAGE_TABLE)
+    .update({
+      [USER_USAGE_COL_USED]: next,
+      [USER_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+    })
+    .eq(USER_USAGE_COL_ID, user_id);
+
+  if (updErr) throw updErr;
+  return next;
+}
+
+/* ===========================
+   SUPABASE: LINK GUEST -> USER & MERGE USAGE
+   (évite 15 + 15)
+=========================== */
+async function linkGuestToUserAndMerge(guest_id: string, user_id: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  // upsert lien (idempotent)
+  const { error: linkErr } = await supabaseAdmin.from(GUEST_USER_LINKS_TABLE).upsert(
+    {
+      guest_id,
+      user_id,
+      linked_at: new Date().toISOString(),
+    },
+    { onConflict: "guest_id" }
+  );
+  if (linkErr) throw linkErr;
+
+  // merge usage: prendre le MAX (ne redonne jamais de quota)
+  const gUsed = await ensureGuestRowAndGetUsed(guest_id);
+  const uUsed = await ensureUserRowAndGetUsed(user_id);
+  const merged = Math.max(gUsed, uUsed);
+
+  // écrire merged dans user_usage_lifetime
+  const { error: uUpdErr } = await supabaseAdmin
+    .from(USER_USAGE_TABLE)
+    .update({
+      [USER_USAGE_COL_USED]: merged,
+      [USER_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+    })
+    .eq(USER_USAGE_COL_ID, user_id);
+
+  if (uUpdErr) throw uUpdErr;
+
+  return merged;
+}
+
+/* ===========================
    SUPABASE: CHAT INVITÉ (persistant)
 =========================== */
 async function getOrCreateGuestThreadId(
@@ -299,7 +396,11 @@ async function loadGuestContextMessages(threadId: number, lastN: number) {
     .filter((m) => m.content);
 }
 
-async function saveGuestMessage(threadId: number, role: "user" | "assistant", content: string) {
+async function saveGuestMessage(
+  threadId: number,
+  role: "user" | "assistant",
+  content: string
+) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const text = cleanStr(content);
@@ -344,6 +445,20 @@ async function isPremiumActive(user_id: string) {
   if (cpeUnix == null) return true;
 
   return cpeUnix > nowUnix();
+}
+
+function pickLastNMessages(
+  msgs: Array<{ role: string; content: string }>,
+  n: number
+) {
+  const arr = Array.isArray(msgs) ? msgs : [];
+  const sliced = arr.slice(Math.max(0, arr.length - n));
+  return sliced
+    .map((m) => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: cleanStr(m.content),
+    }))
+    .filter((m) => m.content);
 }
 
 /* ===========================
@@ -448,7 +563,10 @@ export async function POST(req: Request) {
       // contexte DB (dernier N)
       let dbContext: Array<{ role: "user" | "assistant"; content: string }> = [];
       try {
-        dbContext = (await loadGuestContextMessages(threadId, GUEST_CONTEXT_LAST_N)) as any;
+        dbContext = (await loadGuestContextMessages(
+          threadId,
+          GUEST_CONTEXT_LAST_N
+        )) as any;
       } catch (err: any) {
         return jsonError("GUEST_THREAD_LOAD_FAILED", 500, {
           detail: cleanStr(err?.message || err),
@@ -479,9 +597,7 @@ Signe: ${signName || signKey || "—"}.
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = enforceGuestFormat(raw);
 
-      // Upsell (si proche de la fin)
-      // NOTE: on calcule remaining après increment. On applique ensuite l'upsell.
-      // Quota: on incrémente seulement si OpenAI a réussi
+      // Quota: incrémenter seulement si OpenAI a réussi
       let newUsed = used;
       try {
         newUsed = await incrementGuestUsed(guest_id);
@@ -493,6 +609,7 @@ Signe: ${signName || signKey || "—"}.
 
       const remaining = Math.max(0, FREE_LIMIT - newUsed);
 
+      // Upsell (si proche de la fin)
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
         short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
@@ -517,7 +634,10 @@ Signe: ${signName || signKey || "—"}.
     }
 
     /* =========================
-       AUTH FLOW (premium required)
+       AUTH FLOW
+       - Premium: réponses longues (illimité/quota plan)
+       - Non premium: 15 messages lifetime (même logique que guest)
+       - Link guest->user pour éviter 15 + 15
     ========================= */
     let premium = false;
     try {
@@ -528,8 +648,85 @@ Signe: ${signName || signKey || "—"}.
       });
     }
 
-    if (!premium) return jsonError("PREMIUM_REQUIRED", 402);
+    // Si pas premium => quota lifetime 15 (user_usage_lifetime)
+    if (!premium) {
+      // merge guest->user si on a un guest_id (cookie/payload)
+      // (idempotent; ne redonne jamais du quota)
+      try {
+        await linkGuestToUserAndMerge(guest_id, user_id!);
+      } catch (err: any) {
+        return jsonError("GUEST_LINK_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+      }
 
+      let used = 0;
+      try {
+        used = await ensureUserRowAndGetUsed(user_id!);
+      } catch (err: any) {
+        return jsonError("USER_USAGE_READ_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+      }
+
+      if (used >= FREE_LIMIT) {
+        const res = NextResponse.json(
+          { error: "FREE_LIMIT_REACHED", free_limit: FREE_LIMIT, mode: "auth_free" },
+          { status: 402 }
+        );
+        // on garde le cookie guest_id (utile pour lier si l'utilisateur switch device)
+        setGuestCookie(res, guest_id);
+        return res;
+      }
+
+      const system = `
+Tu es l’assistante Luna Astralis.
+Style: chaleureux, calme, direct, sans dramatiser.
+Tu aides sur astrologie, psycho douce, relations, introspection.
+Tu ne prétends pas être médecin; pas de diagnostics.
+Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
+Langue: ${lang}.
+Signe: ${signName || signKey || "—"}.
+`.trim();
+
+      // petit contexte depuis le front (pas de DB pour users ici)
+      const context = pickLastNMessages(userMessages, 10);
+
+      const completion = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        temperature: 0.7,
+        messages: [{ role: "system", content: system }, ...context],
+      });
+
+      const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+      let short = enforceGuestFormat(raw);
+
+      // incrément après succès OpenAI
+      let newUsed = used;
+      try {
+        newUsed = await incrementUserUsed(user_id!);
+      } catch (err: any) {
+        return jsonError("USER_USAGE_UPDATE_FAILED", 500, {
+          detail: cleanStr(err?.message || err),
+        });
+      }
+
+      const remaining = Math.max(0, FREE_LIMIT - newUsed);
+
+      if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
+        const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+        short = candidate.length <= 240 ? candidate : enforceGuestFormat(candidate);
+      }
+
+      const res = NextResponse.json(
+        { message: short, reply: short, mode: "auth_free", remaining, guestId: guest_id },
+        { status: 200 }
+      );
+      setGuestCookie(res, guest_id);
+      return res;
+    }
+
+    // Premium => réponses longues (ton flow actuel)
     const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, profond, clair, concret.
@@ -547,14 +744,16 @@ Signe: ${signName || signKey || "—"}.
 
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
-    return NextResponse.json(
-      { message: answer, reply: answer, mode: "auth" },
+    const res = NextResponse.json(
+      { message: answer, reply: answer, mode: "auth_premium" },
       { status: 200 }
     );
+    setGuestCookie(res, guest_id);
+    return res;
   } catch (e: any) {
     return NextResponse.json(
       { error: "SERVER_ERROR", detail: cleanStr(e?.message || e) },
       { status: 500 }
     );
   }
-}
+     }
