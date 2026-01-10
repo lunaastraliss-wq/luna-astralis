@@ -1,7 +1,6 @@
-
 "use client";
 
-import React, { useMemo, useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { supabase } from "../../lib/supabase/client";
 
 type Props = {
@@ -21,23 +20,17 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  /**
-   * Règle :
-   * - compteur affiché UNIQUEMENT quand l'utilisateur est GUEST (pas connecté)
-   * - si connecté (peu importe free ou payant), pas de compteur
-   */
-  const showFreeCounter = isAuth === false;
+  // ✅ Compteur UNIQUEMENT en mode guest
+  const showFreeCounter = !isAuth;
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
     return freeLeft > 0
-      ? `Gratuit : ${freeLeft} message(s) restant(s)`
+      ? `Il te reste ${freeLeft} messages gratuits.`
       : "Limite gratuite atteinte";
   }, [freeLeft, showFreeCounter]);
 
-  /**
-   * Admin : seulement tes emails
-   */
+  // ✅ Admin : seulement tes emails
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
     return (
@@ -53,12 +46,12 @@ export default function ChatSidebar({
     );
     if (!ok) return;
 
-    // 1) Déconnexion Supabase
+    // 1) Déconnexion Supabase (best-effort)
     try {
       await supabase.auth.signOut();
     } catch {}
 
-    // 2) localStorage
+    // 2) localStorage (best-effort)
     try {
       localStorage.clear();
     } catch {}
@@ -118,7 +111,7 @@ export default function ChatSidebar({
           )}
 
           {/* Email visible seulement si connecté */}
-          {isAuth === true && !!sessionEmail && (
+          {isAuth && !!sessionEmail && (
             <p className="chat-side-muted" style={{ marginTop: 10 }}>
               {sessionEmail}
             </p>
@@ -133,11 +126,9 @@ export default function ChatSidebar({
 
       {/* Footer */}
       <div className="chat-side-footer">
-        {/* Compteur visible seulement en guest */}
+        {/* ✅ Compteur visible seulement en guest */}
         {showFreeCounter && (
-          <div className="free-counter" id="freeCounter">
-            {counterText}
-          </div>
+          <div className="free-counter">{counterText}</div>
         )}
 
         {/* Reset admin visible seulement pour tes mails */}
