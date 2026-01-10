@@ -79,26 +79,40 @@ async function getUsedLifetime(user_id: string) {
 export async function GET() {
   try {
     if (!supabaseAdmin) {
-      return NextResponse.json({ error: "SUPABASE_ADMIN_MISSING" }, { status: 500 });
+      return NextResponse.json(
+        { error: "SUPABASE_ADMIN_MISSING" },
+        { status: 500 }
+      );
     }
 
-    // Auth via cookies (session)
-    const supabaseAuth = createRouteHandlerClient({ cookies });
+    // ✅ Auth via cookies (session) - FIX IMPORTANT
+    const supabaseAuth = createRouteHandlerClient({
+      cookies: () => cookies(),
+    });
+
     const { data } = await supabaseAuth.auth.getSession();
     const user_id = data?.session?.user?.id;
 
     if (!user_id) {
-      // pas connecté -> ton flow guest gère ça ailleurs
-      return NextResponse.json({ remaining: FREE_LIMIT, premium: false, mode: "guest" });
+      return NextResponse.json({
+        remaining: FREE_LIMIT,
+        premium: false,
+        mode: "guest",
+      });
     }
 
     const premium = await isPremiumActive(user_id);
     if (premium) {
-      return NextResponse.json({ remaining: 999999, premium: true, mode: "auth_premium" });
+      return NextResponse.json({
+        remaining: 999999,
+        premium: true,
+        mode: "auth_premium",
+      });
     }
 
     const used = await getUsedLifetime(user_id);
     const remaining = Math.max(0, FREE_LIMIT - used);
+
     return NextResponse.json({ remaining, premium: false, mode: "auth_free" });
   } catch (e: any) {
     return NextResponse.json(
