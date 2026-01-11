@@ -4,7 +4,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "../lib/supabase/client"; // ✅ adapte si ton chemin diffère
+import { supabase } from "../lib/supabase/client";
 
 // ⚙️ Storage keys (doivent matcher LoginClient + ChatClient)
 const LS_SIGN_KEY = "la_sign";
@@ -48,7 +48,7 @@ export default function HomePage() {
 
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
-  // ✅ détecte session (optionnel, mais utile pour adapter CTA / comportement)
+  // ✅ détecte session
   useEffect(() => {
     let alive = true;
 
@@ -95,6 +95,27 @@ export default function HomePage() {
     [router, isAuth]
   );
 
+  // ✅ bouton CTA HERO: scroll doux + (facultatif) focus sur la grille
+  const onCtaScrollToSigns = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    if (typeof window === "undefined") return;
+
+    const el = document.getElementById("signes");
+    if (!el) {
+      window.location.hash = "#signes";
+      return;
+    }
+
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // optionnel: petit focus pour accessibilité/UX
+    window.setTimeout(() => {
+      const firstBtn = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
+      firstBtn?.focus?.();
+    }, 250);
+  }, []);
+
   return (
     <div className="page-astro">
       {/* HEADER */}
@@ -112,7 +133,11 @@ export default function HomePage() {
 
         <nav className="nav" aria-label="Navigation principale">
           <a href="#comment">Comment ça fonctionne</a>
-          <a href="#signes">Choisir un signe</a>
+
+          {/* ✅ LIEN NAV EN STYLE “PILL” (ton changement: pas fade) */}
+          <a href="#signes" className="btn btn-small btn-ghost">
+            Choisir un signe
+          </a>
 
           <Link className="btn btn-small btn-ghost" href="/pricing">
             Tarifs
@@ -154,11 +179,14 @@ export default function HomePage() {
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">
-                  Choisis ton signe, puis connecte-toi si nécessaire.
-                </p>
+                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi si nécessaire.</p>
 
-                <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
+                {/* ✅ TON CHANGEMENT: bouton CTA violet (index.css) */}
+                <a
+                  href="#signes"
+                  className="hero-free-btn hero-free-btn--pulse"
+                  onClick={onCtaScrollToSigns}
+                >
                   Choisir mon signe →
                 </a>
 
@@ -171,9 +199,7 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-            <p className="hero-disclaimer note-center">
-              Exploration personnelle (non thérapeutique).
-            </p>
+            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
           </div>
         </section>
 
