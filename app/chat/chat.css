@@ -1,11 +1,11 @@
 /* ==========================================================
    Luna Astralis — chat/chat.css — FINAL (REBUILD)
    - Desktop: sidebar + chat (2 colonnes)
-   - Mobile: sidebar devient une carte AU-DESSUS du chat
+   - Mobile/tablette: sidebar devient une carte AU-DESSUS du chat
    - Scroll uniquement dans .chat-messages
    - Composer sticky
-   - Fix: hide/show labels mobile + header mobile propre
-   - Fix: "Luna" (sidebar header) desktop-only
+   - Fix: hide/show labels
+   - Fix: desktop-only (fiable)
 ========================================================== */
 
 /* =========================
@@ -50,16 +50,19 @@
 .chat-body *{ letter-spacing: normal; }
 
 /* =========================
-   HELPERS (desktop-only)
+   HELPERS (desktop-only / mobile-only)
+   IMPORTANT: display:block (pas flex)
 ========================= */
-.desktop-only{ display:flex; }
+.desktop-only{ display:block !important; }
+.mobile-only{ display:none !important; }
+
 @media (max-width: 980px){
   .desktop-only{ display:none !important; }
+  .mobile-only{ display:block !important; }
 }
 
 /* =========================
    MOBILE LABELS (FIX doublons)
-   -> indispensable pour tes <span className="hide-mobile/show-mobile">
 ========================= */
 .hide-mobile{ display:inline !important; }
 .show-mobile{ display:none !important; }
@@ -170,9 +173,7 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
 }
 
-/* =========================
-   MOBILE header compact (pro)
-========================= */
+/* mobile header compact */
 @media (max-width: 520px){
   :root{ --topH: 56px; }
 
@@ -186,7 +187,6 @@
   .chat-brand-name{ font-size:11px; }
   .chat-brand-sub{ display:none; }
 
-  /* évite wrap bizarre */
   .chat-top-actions{
     gap:8px;
     flex: 0 0 auto;
@@ -243,10 +243,11 @@
   min-height:0;
 }
 
-/* ✅ Header "Luna" : desktop seulement via .desktop-only */
+/* Header (si tu l’as encore dans le JSX) */
 .chat-side-header{
   padding:14px 14px 10px;
   border-bottom:1px solid rgba(255,255,255,.10);
+  display:flex;
   align-items:center;
   justify-content:center;
   gap:10px;
@@ -273,6 +274,7 @@
   background: rgba(0,0,0,.08);
 }
 
+/* image bloc */
 .ai-face-wrap{
   width: 100%;
   max-width: 260px;
@@ -500,7 +502,7 @@
 .ai-face-mini{ width:100%; height:100%; object-fit:cover; }
 
 /* =========================
-   MESSAGES (SCROLL ICI SEULEMENT)
+   MESSAGES (scroll ici seulement)
 ========================= */
 .chat-messages{
   padding:14px;
@@ -573,7 +575,7 @@
 }
 
 /* =========================
-   INPUT BAR — STICKY
+   INPUT BAR — sticky
 ========================= */
 .chat-inputbar{
   display:flex;
@@ -634,7 +636,7 @@
 .input-disabled{ opacity:.6; pointer-events:none; }
 
 /* =========================
-   reCAPTCHA DISCRET (BADGE OFFICIEL)
+   reCAPTCHA badge
 ========================= */
 .grecaptcha-badge{
   position: fixed !important;
@@ -658,7 +660,7 @@
 }
 
 /* =========================
-   RESPONSIVE LAYOUT (SIDEBAR EN CARTE)
+   RESPONSIVE (sidebar en carte)
 ========================= */
 @media (max-width: 980px){
   .chat-wrap{
@@ -672,10 +674,9 @@
     min-height: 0;
   }
 
-  /* (le header est déjà desktop-only, mais on laisse aussi cette sécurité) */
-  .chat-side-header{ display:none; }
+  /* sécurité : cache header si jamais */
+  .chat-side-header{ display:none !important; }
 
-  /* carte: image + contenu */
   .chat-side-content{
     padding: 12px;
     text-align:left;
@@ -685,20 +686,9 @@
     align-items:flex-start;
   }
 
-  .ai-face-wrap{
-    width: 68px;
-    max-width: 68px;
-    height: 68px;
-    max-height: 68px;
-    margin: 0;
-    border-radius: 16px;
-    flex: 0 0 auto;
-  }
-  .ai-face{
-    width: 68px;
-    height: 68px;
-    object-position: 50% 20%;
-  }
+  /* ✅ ICI: on force l’image à disparaître en mode carte */
+  .ai-face-wrap{ display:none !important; }
+  .ai-face{ display:none !important; }
 
   .chat-side-center{
     flex: 1 1 auto;
@@ -720,7 +710,6 @@
     overflow: hidden;
   }
 
-  /* en mode carte, on enlève le séparateur */
   .chat-side-content::after{ display:none; }
 
   .book-btn{
