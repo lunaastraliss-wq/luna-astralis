@@ -15,8 +15,8 @@ function safeNext(v: string | null) {
   if (!s) return "/chat";
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
   const path = s.startsWith("/") ? s : `/${s}`;
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth"))
-    return "/chat";
+  // ✅ on évite les boucles login/auth
+  if (path.startsWith("/login") || path.startsWith("/auth")) return "/chat";
   return path;
 }
 
@@ -30,15 +30,24 @@ function getStoredSign(): string {
 }
 
 function computePostLoginTarget(nextUrl: string) {
-  // ✅ si next est déjà un /chat?sign=... ou autre page précise => on respecte next
+  // ✅ si next est déjà précis => on respecte next
   if (nextUrl && nextUrl !== "/chat") return nextUrl;
 
-  // ✅ si pas de next précis, on redirige:
-  // - si signe déjà choisi => /chat?sign=...
-  // - sinon => onboarding signe
+  // ✅ sinon on redirige selon le signe déjà choisi
   const s = getStoredSign();
-  if (s) return `/chat?sign=${encodeURIComponent(s)}`;
+  if (s) return `/chat?signe=${encodeURIComponent(s)}`;
   return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
+}
+
+// Petit helper pour détecter le cas "compte inexistant / mauvais identifiants"
+function looksLikeInvalidLogin(errorMessage: string) {
+  const m = (errorMessage || "").toLowerCase();
+  return (
+    m.includes("invalid login credentials") ||
+    m.includes("invalid credentials") ||
+    m.includes("email not confirmed") || // parfois renvoyé selon config
+    m.includes("invalid") // fallback (Supabase varie selon langue/proxy)
+  );
 }
 
 export default function LoginClient() {
@@ -78,7 +87,6 @@ export default function LoginClient() {
 
         const hasSession = !!data?.session;
         setAlreadyConnected(hasSession);
-
         if (hasSession) showMsg("Tu es déjà connectée.", "ok");
       } catch (e: any) {
         showMsg("Erreur JS: " + (e?.message || String(e)), "err");
@@ -103,39 +111,66 @@ export default function LoginClient() {
 
     const em = email.trim();
     if (!em || !em.includes("@")) return showMsg("Entre un email valide.", "err");
-    if (!password || password.length < 6) return showMsg("Mot de passe invalide.", "err");
+    if (!password || password.length < 6) return showMsg("Mot de passe (6 caractères min).", "err");
 
     setBusy(true);
     showMsg("Connexion…", "info");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    // 1) On tente de se connecter
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email: em,
       password,
     });
 
-    if (error) {
-      setBusy(false);
-      return showMsg(error.message, "err");
-    }
-
-    if (data?.session) {
+    if (signInData?.session) {
       showMsg("Connectée. Redirection…", "ok");
       const target = computePostLoginTarget(nextUrl);
       router.replace(target);
       return;
     }
 
+    // 2) Si échec “identifiants invalides”, on tente de créer le compte automatiquement
+    if (signInError && looksLikeInvalidLogin(signInError.message)) {
+      showMsg("Compte introuvable. Création du compte…", "info");
+
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: em,
+        password,
+      });
+
+      if (signUpError) {
+        setBusy(false);
+        return showMsg(signUpError.message, "err");
+      }
+
+      // Selon la config Supabase, session peut être null tant que l’email n’est pas confirmé
+      if (signUpData?.session) {
+        showMsg("Compte créé. Redirection…", "ok");
+        const target = computePostLoginTarget(nextUrl);
+        router.replace(target);
+        return;
+      }
+
+      setBusy(false);
+      showMsg(
+        "Compte créé. Vérifie ton email pour confirmer, puis reviens te connecter.",
+        "ok"
+      );
+      return;
+    }
+
+    // 3) Autres erreurs
     setBusy(false);
+    if (signInError) return showMsg(signInError.message, "err");
     showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
   }
 
-  // Google OAuth (version sans query string dans redirectTo)
+  // Google OAuth
   async function onGoogle() {
     clearMsg();
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    // ✅ On sauvegarde la meilleure destination pour le callback
     const target = computePostLoginTarget(nextUrl);
     try {
       sessionStorage.setItem(LS_NEXT_AFTER_OAUTH, target);
@@ -197,10 +232,6 @@ export default function LoginClient() {
     showMsg("Déconnectée.", "ok");
   }
 
-  // ✅ Signup doit garder le next
-  const signupHref = `/signup?next=${encodeURIComponent(nextUrl)}`;
-
-  // ✅ Continuer doit aller au bon endroit (chat direct si signe connu sinon onboarding)
   const continueHref = computePostLoginTarget(nextUrl);
 
   return (
@@ -218,17 +249,17 @@ export default function LoginClient() {
         </Link>
 
         <nav className="nav" aria-label="Navigation">
-          <Link className="btn btn-small" href={signupHref}>
-            Créer un compte
+          <Link className="btn btn-small btn-ghost" href="/pricing">
+            Tarifs
           </Link>
         </nav>
       </header>
 
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Connexion">
-          <h1 className="auth-title">Mon compte</h1>
+          <h1 className="auth-title">Se connecter</h1>
           <p className="auth-sub">
-            Connecte-toi pour continuer la discussion et retrouver tes échanges.
+            Connecte-toi pour continuer. Si tu n’as pas de compte, il sera créé automatiquement.
           </p>
 
           {msg ? (
@@ -253,12 +284,7 @@ export default function LoginClient() {
                 <Link className="btn" href={continueHref}>
                   Continuer
                 </Link>
-                <button
-                  type="button"
-                  className="btn btn-ghost"
-                  onClick={onLogout}
-                  disabled={busy}
-                >
+                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
                   Se déconnecter
                 </button>
               </div>
@@ -310,7 +336,7 @@ export default function LoginClient() {
               id="password"
               name="password"
               type="password"
-              placeholder="Ton mot de passe"
+              placeholder="6 caractères min."
               required
               autoComplete="current-password"
               value={password}
@@ -332,14 +358,12 @@ export default function LoginClient() {
             </button>
 
             <p className="auth-switch">
-              Pas encore de compte ?{" "}
-              <Link className="auth-link" href={signupHref}>
-                Créer un compte
-              </Link>
+              Pas de compte ? Entre ton email + mot de passe et clique <b>Se connecter</b> :
+              on le crée automatiquement.
             </p>
           </form>
         </section>
       </main>
     </div>
   );
-              }
+}
