@@ -1,11 +1,99 @@
 // app/page.tsx
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabase } from "./lib/supabase/client"; // ✅ adapte si ton chemin diffère
+
+// ⚙️ Storage keys (doivent matcher LoginClient + ChatClient)
+const LS_SIGN_KEY = "la_sign";
+
+const SIGNS: Array<{ key: string; label: string; cls: string }> = [
+  { key: "belier", label: "♈ Bélier", cls: "sign-fire" },
+  { key: "taureau", label: "♉ Taureau", cls: "sign-earth" },
+  { key: "gemeaux", label: "♊ Gémeaux", cls: "sign-air" },
+  { key: "cancer", label: "♋ Cancer", cls: "sign-water" },
+
+  { key: "lion", label: "♌ Lion", cls: "sign-fire" },
+  { key: "vierge", label: "♍ Vierge", cls: "sign-earth" },
+  { key: "balance", label: "♎ Balance", cls: "sign-air" },
+  { key: "scorpion", label: "♏ Scorpion", cls: "sign-water" },
+
+  { key: "sagittaire", label: "♐ Sagittaire", cls: "sign-fire" },
+  { key: "capricorne", label: "♑ Capricorne", cls: "sign-earth" },
+  { key: "verseau", label: "♒ Verseau", cls: "sign-air" },
+  { key: "poissons", label: "♓ Poissons", cls: "sign-water" },
+];
+
+function setCookie(name: string, value: string, maxAgeSeconds = 31536000) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
+    value
+  )}; Path=/; Max-Age=${maxAgeSeconds}; SameSite=Lax`;
+}
+
+function storeSign(signKey: string) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(LS_SIGN_KEY, signKey);
+  } catch {}
+  // cookie optionnel (si tu veux pouvoir le lire côté serveur plus tard)
+  setCookie(LS_SIGN_KEY, signKey);
+}
 
 export default function HomePage() {
+  const router = useRouter();
   const y = useMemo(() => new Date().getFullYear(), []);
+
+  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+
+  // ✅ détecte session (optionnel, mais utile pour adapter CTA / comportement)
+  useEffect(() => {
+    let alive = true;
+
+    (async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!alive) return;
+        if (error) {
+          setIsAuth(false);
+          return;
+        }
+        setIsAuth(!!data?.session?.user?.id);
+      } catch {
+        setIsAuth(false);
+      }
+    })();
+
+    const { data } = supabase.auth.onAuthStateChange((_evt, session) => {
+      setIsAuth(!!session?.user?.id);
+    });
+
+    return () => {
+      alive = false;
+      data.subscription.unsubscribe();
+    };
+  }, []);
+
+  // ✅ clic sur signe: on mémorise le signe puis:
+  // - si déjà connecté -> /chat?signe=...
+  // - sinon -> /login?next=/chat?signe=...
+  const onPickSign = useCallback(
+    (signKey: string) => {
+      storeSign(signKey);
+
+      const next = `/chat?signe=${encodeURIComponent(signKey)}`;
+
+      if (isAuth) {
+        router.push(next);
+        return;
+      }
+
+      router.push(`/login?next=${encodeURIComponent(next)}`);
+    },
+    [router, isAuth]
+  );
 
   return (
     <div className="page-astro">
@@ -30,9 +118,9 @@ export default function HomePage() {
             Tarifs
           </Link>
 
-          {/* ✅ Une seule entrée : login (qui sert aussi de "création de compte") */}
+          {/* ✅ Entrée unique */}
           <Link className="btn btn-small" href="/login">
-            Se connecter
+            {isAuth ? "Mon compte" : "Se connecter"}
           </Link>
         </nav>
       </header>
@@ -61,29 +149,31 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* BLOC DÉMARRAGE */}
+            {/* CTA */}
             <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
                 <p className="hero-free-sub">
-                  Connecte-toi, pour démarrer la conversation.
+                  Choisis ton signe, puis connecte-toi si nécessaire.
                 </p>
 
-                {/* ✅ CTA principal : login */}
-                <Link href="/login" className="hero-free-btn hero-free-btn--pulse">
-                  Se connecter pour commencer →
-                </Link>
+                <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
+                  Choisir mon signe →
+                </a>
 
-                <div className="hero-free-note">Compte requis · Gratuit au départ</div>
+                <div className="hero-free-note">
+                  {isAuth ? "Connectée · Accès immédiat" : "Compte requis · Gratuit au départ"}
+                </div>
               </div>
             </div>
 
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-
-            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
+            <p className="hero-disclaimer note-center">
+              Exploration personnelle (non thérapeutique).
+            </p>
           </div>
         </section>
 
@@ -132,22 +222,22 @@ export default function HomePage() {
               <div className="step-top">
                 <span className="step-n">01</span>
                 <span className="step-ico" aria-hidden="true">
-                  🔐
+                  ♈
                 </span>
               </div>
-              <h3>Connecte-toi</h3>
-              <p>Un compte permet de protéger l’accès et ton expérience.</p>
+              <h3>Choisis ton signe</h3>
+              <p>Tu démarres en 1 clic.</p>
             </div>
 
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
                 <span className="step-ico" aria-hidden="true">
-                  ♈
+                  🔐
                 </span>
               </div>
-              <h3>Choisis ton signe</h3>
-              <p>Tu démarres en 1 clic.</p>
+              <h3>Connecte-toi</h3>
+              <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
             </div>
 
             <div className="box step">
@@ -178,48 +268,24 @@ export default function HomePage() {
         <section id="signes" className="section">
           <div className="section-head">
             <h2>Choisir un signe</h2>
-            <p className="section-sub">Après connexion, commence ici.</p>
+            <p className="section-sub">
+              Clique un signe : si tu n’es pas connectée, on te redirige vers le login.
+            </p>
           </div>
 
           <div className="signs signs-grid" role="list">
-            <Link className="sign sign-fire" role="listitem" href="/chat?signe=belier">
-              ♈ Bélier
-            </Link>
-            <Link className="sign sign-earth" role="listitem" href="/chat?signe=taureau">
-              ♉ Taureau
-            </Link>
-            <Link className="sign sign-air" role="listitem" href="/chat?signe=gemeaux">
-              ♊ Gémeaux
-            </Link>
-            <Link className="sign sign-water" role="listitem" href="/chat?signe=cancer">
-              ♋ Cancer
-            </Link>
-
-            <Link className="sign sign-fire" role="listitem" href="/chat?signe=lion">
-              ♌ Lion
-            </Link>
-            <Link className="sign sign-earth" role="listitem" href="/chat?signe=vierge">
-              ♍ Vierge
-            </Link>
-            <Link className="sign sign-air" role="listitem" href="/chat?signe=balance">
-              ♎ Balance
-            </Link>
-            <Link className="sign sign-water" role="listitem" href="/chat?signe=scorpion">
-              ♏ Scorpion
-            </Link>
-
-            <Link className="sign sign-fire" role="listitem" href="/chat?signe=sagittaire">
-              ♐ Sagittaire
-            </Link>
-            <Link className="sign sign-earth" role="listitem" href="/chat?signe=capricorne">
-              ♑ Capricorne
-            </Link>
-            <Link className="sign sign-air" role="listitem" href="/chat?signe=verseau">
-              ♒ Verseau
-            </Link>
-            <Link className="sign sign-water" role="listitem" href="/chat?signe=poissons">
-              ♓ Poissons
-            </Link>
+            {SIGNS.map((s) => (
+              <button
+                key={s.key}
+                type="button"
+                role="listitem"
+                className={`sign ${s.cls}`}
+                onClick={() => onPickSign(s.key)}
+                style={{ cursor: "pointer" }}
+              >
+                {s.label}
+              </button>
+            ))}
           </div>
 
           <div className="elements" aria-label="Éléments">
@@ -229,10 +295,9 @@ export default function HomePage() {
             <span className="el sign-water">Eau</span>
           </div>
 
-          {/* ✅ CTA secondaire utile */}
           <div className="note-center" style={{ marginTop: 14 }}>
             <Link className="btn btn-small" href="/login">
-              Se connecter →
+              {isAuth ? "Mon compte →" : "Se connecter →"}
             </Link>
           </div>
         </section>
@@ -258,4 +323,3 @@ export default function HomePage() {
     </div>
   );
 }
-
