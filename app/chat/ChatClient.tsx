@@ -691,7 +691,7 @@ export default function ChatClient() {
             <div className="msc-row">
               <img
                 className="msc-avatar"
-                src="/luna-avatar.jpg"
+                src="/ia-luna-astralis.png"
                 alt="Luna"
                 loading="lazy"
               />
