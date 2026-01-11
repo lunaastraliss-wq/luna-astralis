@@ -7,6 +7,13 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/**
+ * Règle:
+ * - Compte requis (pas de quota "guest")
+ * - Free: 15 messages lifetime (user_usage_lifetime.used)
+ * - Premium: actif si status in (active, trialing) ET current_period_end (si présent) dans le futur
+ */
+
 const FREE_LIMIT = 15;
 
 const SUPABASE_URL =
@@ -24,13 +31,19 @@ function cleanStr(v: unknown) {
 function toUnixMaybe(v: any): number | null {
   if (!v) return null;
   if (typeof v === "number") return v;
+
   const t = Date.parse(String(v));
   if (Number.isFinite(t)) return Math.floor(t / 1000);
+
   return null;
 }
 
 function nowUnix() {
   return Math.floor(Date.now() / 1000);
+}
+
+function json(data: any, status = 200) {
+  return NextResponse.json(data, { status });
 }
 
 const supabaseAdmin =
@@ -57,7 +70,10 @@ async function isPremiumActive(user_id: string) {
   if (!ACTIVE_STATUSES.has(status)) return false;
 
   const cpeUnix = toUnixMaybe((data as any).current_period_end);
+
+  // Si pas de current_period_end (ou champ null), on considère actif
   if (cpeUnix == null) return true;
+
   return cpeUnix > nowUnix();
 }
 
@@ -79,45 +95,56 @@ async function getUsedLifetime(user_id: string) {
 export async function GET() {
   try {
     if (!supabaseAdmin) {
-      return NextResponse.json(
-        { error: "SUPABASE_ADMIN_MISSING" },
-        { status: 500 }
-      );
+      return json({ error: "SUPABASE_ADMIN_MISSING" }, 500);
     }
 
-    // ✅ Auth via cookies (session) - FIX IMPORTANT
+    // ✅ Session via cookies (supabase auth helpers)
     const supabaseAuth = createRouteHandlerClient({
       cookies: () => cookies(),
     });
 
-    const { data } = await supabaseAuth.auth.getSession();
+    const { data, error } = await supabaseAuth.auth.getSession();
+    if (error) {
+      return json({ error: "SESSION_ERROR", detail: cleanStr(error.message) }, 401);
+    }
+
     const user_id = data?.session?.user?.id;
 
+    // ✅ Compte requis
     if (!user_id) {
-      return NextResponse.json({
-        remaining: FREE_LIMIT,
+      return json({
+        remaining: 0,
         premium: false,
         mode: "guest",
+        require_auth: true,
+        limit: FREE_LIMIT,
       });
     }
 
     const premium = await isPremiumActive(user_id);
+
     if (premium) {
-      return NextResponse.json({
+      return json({
         remaining: 999999,
         premium: true,
         mode: "auth_premium",
+        require_auth: false,
+        limit: null,
       });
     }
 
     const used = await getUsedLifetime(user_id);
     const remaining = Math.max(0, FREE_LIMIT - used);
 
-    return NextResponse.json({ remaining, premium: false, mode: "auth_free" });
+    return json({
+      remaining,
+      premium: false,
+      mode: "auth_free",
+      require_auth: false,
+      limit: FREE_LIMIT,
+      used,
+    });
   } catch (e: any) {
-    return NextResponse.json(
-      { error: "SERVER_ERROR", detail: cleanStr(e?.message || e) },
-      { status: 500 }
-    );
+    return json({ error: "SERVER_ERROR", detail: cleanStr(e?.message || e) }, 500);
   }
 }
