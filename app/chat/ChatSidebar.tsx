@@ -30,6 +30,7 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
+  // ✅ compteur seulement si plan === "free"
   const showFreeCounter = plan === "free";
 
   const counterText = useMemo(() => {
@@ -77,8 +78,8 @@ export default function ChatSidebar({
   return (
     <aside className="chat-side" aria-label="Profil IA">
       <div className="chat-side-content">
-        {/* Image: desktop seulement */}
-        <div className="ai-face-wrap desktop-only">
+        {/* ✅ Image : DESKTOP SEULEMENT (mobile = rien du tout) */}
+        <div className="ai-face-wrap desktop-only" aria-hidden="true">
           <img
             className="ai-face"
             src="/ia-luna-astralis.png"
@@ -107,6 +108,7 @@ export default function ChatSidebar({
             </a>
           )}
 
+          {/* Email visible seulement si connecté */}
           {isAuth && !!sessionEmail && (
             <p className="chat-side-email">{sessionEmail}</p>
           )}
@@ -116,6 +118,7 @@ export default function ChatSidebar({
       </div>
 
       <div className="chat-side-footer">
+        {/* ✅ Compteur visible seulement en free */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
