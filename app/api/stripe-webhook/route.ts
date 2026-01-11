@@ -14,15 +14,10 @@ const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
 
 const SUPABASE_URL =
   process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 function clean(v: unknown): string {
   return (v == null ? "" : String(v)).trim();
-}
-
-function hasEnv(name: string): boolean {
-  return Boolean(clean(process.env[name]));
 }
 
 const stripe = STRIPE_SECRET_KEY
@@ -37,48 +32,44 @@ const supabase =
     : null;
 
 // =====================
-// Helpers (Stripe)
+// Helpers
 // =====================
-function pickUserIdFromSession(session: Stripe.Checkout.Session): string {
-  const fromClientRef = clean(session.client_reference_id);
-  const fromMeta = clean((session as any)?.metadata?.user_id);
-  return fromClientRef || fromMeta;
-}
-
-function pickCustomerIdFromSession(session: Stripe.Checkout.Session): string {
-  const c = (session as any)?.customer;
-  if (typeof c === "string") return clean(c);
-  if (c && typeof c === "object" && typeof (c as any).id === "string") return clean((c as any).id);
-  return "";
-}
-
-function pickCustomerIdFromSub(sub: Stripe.Subscription): string {
-  const c = (sub as any)?.customer;
-  if (typeof c === "string") return clean(c);
-  if (c && typeof c === "object" && typeof (c as any).id === "string") return clean((c as any).id);
-  return "";
-}
-
 function toIsoFromUnixSeconds(n: unknown): string | null {
   const num = typeof n === "number" ? n : Number(n);
   if (!Number.isFinite(num) || num <= 0) return null;
   return new Date(num * 1000).toISOString();
 }
 
+function pickCustomerId(x: any): string {
+  const c = x?.customer;
+  if (typeof c === "string") return clean(c);
+  if (c && typeof c === "object" && typeof c.id === "string") return clean(c.id);
+  return "";
+}
+
 function pickPriceIdFromSub(sub: Stripe.Subscription): string {
   const item = (sub as any)?.items?.data?.[0];
-  const priceId = item?.price?.id;
-  return clean(priceId);
+  return clean(item?.price?.id);
+}
+
+function pickUserIdFromCheckoutSession(session: Stripe.Checkout.Session): string {
+  const fromClientRef = clean(session.client_reference_id);
+  const fromMeta = clean((session as any)?.metadata?.user_id);
+  return fromClientRef || fromMeta;
+}
+
+function pickUserIdFromSubscription(sub: Stripe.Subscription): string {
+  // grâce à subscription_data.metadata envoyé au checkout
+  const fromMeta = clean((sub as any)?.metadata?.user_id);
+  return fromMeta;
 }
 
 // =====================
-// DB helpers (Supabase)
+// DB helpers
 // =====================
-async function upsertUserSubscriptionByUserId(userId: string, payload: Record<string, any>) {
-  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+async function upsertByUserId(userId: string, payload: Record<string, any>) {
+  if (!supabase) throw new Error("Supabase non configuré.");
 
-  // On upsert par user_id (suppose une contrainte unique sur user_id,
-  // sinon ça insère des doublons; si tu as déjà une seule ligne par user, c'est OK)
   const row = {
     user_id: userId,
     ...payload,
@@ -89,18 +80,41 @@ async function upsertUserSubscriptionByUserId(userId: string, payload: Record<st
     .from("user_subscriptions")
     .upsert(row, { onConflict: "user_id" });
 
-  if (error) throw new Error("Supabase upsert user_subscriptions failed: " + error.message);
+  if (error) throw new Error("Supabase upsert failed: " + error.message);
 }
 
-async function updateUserSubscriptionByCustomerId(customerId: string, payload: Record<string, any>) {
-  if (!supabase) throw new Error("Supabase non configuré (URL ou SERVICE_ROLE_KEY manquante).");
+async function upsertByCustomerId(customerId: string, payload: Record<string, any>) {
+  if (!supabase) throw new Error("Supabase non configuré.");
 
-  const { error } = await supabase
+  // Si tu as une contrainte unique sur stripe_customer_id, tu peux onConflict là-dessus.
+  // Si tu ne l’as pas, on fait update + fallback insert.
+  const { data: existing, error: readErr } = await supabase
     .from("user_subscriptions")
-    .update({ ...payload, updated_at: new Date().toISOString() })
-    .eq("stripe_customer_id", customerId);
+    .select("user_id")
+    .eq("stripe_customer_id", customerId)
+    .maybeSingle();
 
-  if (error) throw new Error("Supabase update user_subscriptions failed: " + error.message);
+  if (readErr) throw new Error("Supabase read failed: " + readErr.message);
+
+  if (existing?.user_id) {
+    const { error: updErr } = await supabase
+      .from("user_subscriptions")
+      .update({ ...payload, updated_at: new Date().toISOString() })
+      .eq("stripe_customer_id", customerId);
+
+    if (updErr) throw new Error("Supabase update failed: " + updErr.message);
+    return;
+  }
+
+  // Fallback: si pas de ligne existante, on insère une ligne "orphane"
+  // (ce cas devrait être rare si checkout.login requis)
+  const { error: insErr } = await supabase.from("user_subscriptions").insert({
+    stripe_customer_id: customerId,
+    ...payload,
+    updated_at: new Date().toISOString(),
+  });
+
+  if (insErr) throw new Error("Supabase insert failed: " + insErr.message);
 }
 
 // =====================
@@ -114,7 +128,7 @@ export async function POST(req: Request) {
     }
     if (!supabase) {
       return NextResponse.json(
-        { error: "Missing SUPABASE_URL (or NEXT_PUBLIC_SUPABASE_URL) or SUPABASE_SERVICE_ROLE_KEY" },
+        { error: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
         { status: 500 }
       );
     }
@@ -122,7 +136,6 @@ export async function POST(req: Request) {
     const sig = req.headers.get("stripe-signature");
     if (!sig) return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
 
-    // IMPORTANT: raw body
     const rawBody = await req.text();
 
     let event: Stripe.Event;
@@ -141,20 +154,18 @@ export async function POST(req: Request) {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      const userId = pickUserIdFromSession(session);
-      const customerId = pickCustomerIdFromSession(session);
+      const userId = pickUserIdFromCheckoutSession(session);
+      const customerId = pickCustomerId(session);
       const checkoutSessionId = clean((session as any)?.id);
 
-      // Sans user_id, on ne peut pas lier à user_subscriptions.user_id
       if (!userId || userId === "guest") {
         return NextResponse.json(
-          { received: true, warning: "guest checkout: missing user_id" },
+          { received: true, warning: "missing user_id (should not happen if login required)" },
           { status: 200 }
         );
       }
 
-      await upsertUserSubscriptionByUserId(userId, {
-        current: true,
+      await upsertByUserId(userId, {
         stripe_customer_id: customerId || null,
         stripe_checkout_session_id: checkoutSessionId || null,
       });
@@ -163,7 +174,7 @@ export async function POST(req: Request) {
     }
 
     // =========================
-    // customer.subscription.created / updated
+    // subscription created/updated
     // =========================
     if (
       event.type === "customer.subscription.created" ||
@@ -171,63 +182,75 @@ export async function POST(req: Request) {
     ) {
       const sub = event.data.object as Stripe.Subscription;
 
-      const customerId = pickCustomerIdFromSub(sub);
-      const status = clean((sub as any)?.status); // trialing / active / canceled / ...
+      const userId = pickUserIdFromSubscription(sub);
+      const customerId = pickCustomerId(sub);
+      const status = clean((sub as any)?.status).toLowerCase(); // active / trialing / canceled...
       const subId = clean((sub as any)?.id);
       const priceId = pickPriceIdFromSub(sub);
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
       const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
 
+      const payload = {
+        stripe_customer_id: customerId || null,
+        stripe_subscription_id: subId || null,
+        stripe_price_id: priceId || null,
+
+        // ✅ IMPORTANT: ton app lit "status" (pas stripe_status)
+        status: status || null,
+        current_period_end: currentPeriodEnd,
+        canceled_at: canceledAt,
+
+        current: status === "active" || status === "trialing",
+      };
+
+      if (userId) {
+        await upsertByUserId(userId, payload);
+        return NextResponse.json({ received: true }, { status: 200 });
+      }
+
+      // fallback si metadata manquante
       if (customerId) {
-        await updateUserSubscriptionByCustomerId(customerId, {
-          stripe_subscription_id: subId || null,
-          stripe_status: status || null,
-          stripe_price_id: priceId || null,
-          current_period_end: currentPeriodEnd,
-          canceled_at: canceledAt,
-          current: status === "active" || status === "trialing",
-        });
+        await upsertByCustomerId(customerId, payload);
       }
 
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
     // =========================
-    // customer.subscription.deleted
+    // subscription deleted
     // =========================
     if (event.type === "customer.subscription.deleted") {
       const sub = event.data.object as Stripe.Subscription;
 
-      const customerId = pickCustomerIdFromSub(sub);
+      const userId = pickUserIdFromSubscription(sub);
+      const customerId = pickCustomerId(sub);
+
       const canceledAt = new Date().toISOString();
+      const payload = {
+        status: "canceled",
+        current: false,
+        canceled_at: canceledAt,
+        current_period_end: null,
+      };
+
+      if (userId) {
+        await upsertByUserId(userId, payload);
+        return NextResponse.json({ received: true }, { status: 200 });
+      }
 
       if (customerId) {
-        await updateUserSubscriptionByCustomerId(customerId, {
-          current: false,
-          stripe_status: "canceled",
-          canceled_at: canceledAt,
-          current_period_end: null,
-        });
+        await upsertByCustomerId(customerId, payload);
       }
 
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
-    // Other events: acknowledge
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json(
-      {
-        error: err?.message || "Webhook error",
-        debug: {
-          hasStripeSecretKey: hasEnv("STRIPE_SECRET_KEY"),
-          hasStripeWebhookSecret: hasEnv("STRIPE_WEBHOOK_SECRET"),
-          hasSupabaseUrl: hasEnv("SUPABASE_URL") || hasEnv("NEXT_PUBLIC_SUPABASE_URL"),
-          hasServiceRole: hasEnv("SUPABASE_SERVICE_ROLE_KEY"),
-        },
-      },
+      { error: err?.message || "Webhook error" },
       { status: 500 }
     );
   }
-}
+  }
