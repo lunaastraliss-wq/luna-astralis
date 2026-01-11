@@ -8,13 +8,8 @@ type Plan = "guest" | "free" | "premium";
 type Props = {
   isAuth: boolean;
   sessionEmail: string;
-
-  // vient de /api/chat/quota
   plan: Plan;
-
-  // pour free seulement (ex: quota.freeLeft)
   freeLeft: number;
-
   signName: string;
   signDesc: string;
   bookUrl: string;
@@ -35,7 +30,6 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // compteur seulement si plan === "free"
   const showFreeCounter = plan === "free";
 
   const counterText = useMemo(() => {
@@ -82,18 +76,13 @@ export default function ChatSidebar({
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
-      {/* Desktop-only header */}
-      <div className="chat-side-header desktop-only">
-        <div className="chat-side-title">Luna</div>
-      </div>
-
       <div className="chat-side-content">
-        {/* ✅ Image desktop-only (sur mobile elle disparaît) */}
-        <div className="ai-face-wrap ai-face-small desktop-only">
+        {/* Image: desktop seulement */}
+        <div className="ai-face-wrap desktop-only">
           <img
             className="ai-face"
             src="/ia-luna-astralis.png"
-            alt="IA"
+            alt=""
             loading="lazy"
           />
         </div>
@@ -118,7 +107,6 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* Email visible seulement si connecté */}
           {isAuth && !!sessionEmail && (
             <p className="chat-side-email">{sessionEmail}</p>
           )}
@@ -128,7 +116,6 @@ export default function ChatSidebar({
       </div>
 
       <div className="chat-side-footer">
-        {/* Compteur visible seulement en free */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
