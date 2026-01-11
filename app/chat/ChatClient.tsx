@@ -20,8 +20,6 @@ const MAX_VISIBLE = 14;
 
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
-
-// ✅ Standardiser sur "signe" partout
 const SIGN_QUERY_PARAM = "signe";
 
 const SIGNS: Record<string, string> = {
@@ -89,6 +87,11 @@ function norm(s: string) {
     .replace(/[^a-z]/g, "");
 }
 
+function clampInt(v: any, fallback = 0) {
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.trunc(n) : fallback;
+}
+
 function safeJsonParse<T>(raw: string | null, fallback: T): T {
   try {
     if (!raw) return fallback;
@@ -96,11 +99,6 @@ function safeJsonParse<T>(raw: string | null, fallback: T): T {
   } catch {
     return fallback;
   }
-}
-
-function clampInt(v: any, fallback = 0) {
-  const n = Number(v);
-  return Number.isFinite(n) ? Math.trunc(n) : fallback;
 }
 
 function safePath(nextUrl: string) {
@@ -148,23 +146,19 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // ✅ accepte ?signe=... et aussi ?sign=... (legacy)
-  const rawKeyFromUrl = useMemo(
-    () => sp.get("signe") || sp.get("sign") || "",
-    [sp]
-  );
+  // URL accepte ?signe=... + legacy ?sign=...
+  const rawKeyFromUrl = useMemo(() => sp.get("signe") || sp.get("sign") || "", [sp]);
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
   const [sessionEmail, setSessionEmail] = useState("");
-  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
 
-  // ✅ plan renvoyé par /api/chat/quota
   const [plan, setPlan] = useState<Plan>("guest");
-
   const [signKey, setSignKey] = useState<string>("");
+
   const [thread, setThread] = useState<ThreadMsg[]>([]);
   const [input, setInput] = useState("");
 
@@ -174,6 +168,7 @@ export default function ChatClient() {
 
   const [freeLeft, setFreeLeft] = useState<number>(FREE_LIMIT);
   const [quotaReady, setQuotaReady] = useState(false);
+  const [booted, setBooted] = useState(false);
 
   const KEY_GUEST_ID = `${STORAGE_PREFIX}guest_id`;
 
@@ -192,10 +187,7 @@ export default function ChatClient() {
     [signKey]
   );
 
-  const signName = useMemo(
-    () => (signKey ? SIGNS[signKey] || "—" : "—"),
-    [signKey]
-  );
+  const signName = useMemo(() => (signKey ? SIGNS[signKey] || "—" : "—"), [signKey]);
 
   const signDesc = useMemo(() => {
     const fallback =
@@ -204,10 +196,7 @@ export default function ChatClient() {
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
 
-  const bookUrl = useMemo(
-    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
-    [signKey]
-  );
+  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -313,6 +302,145 @@ export default function ChatClient() {
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
+  const getSessionSafe = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) return null;
+      return data?.session || null;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const refreshQuotaFromServer = useCallback(async () => {
+    try {
+      const res = await fetch("/api/chat/quota", { method: "GET" });
+      if (!res.ok) return;
+
+      const data = await res.json().catch(() => ({} as any));
+
+      const nextPlan: Plan =
+        data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest"
+          ? data.plan
+          : "guest";
+      setPlan(nextPlan);
+
+      const r = clampInt(data?.freeLeft ?? data?.remaining, FREE_LIMIT);
+      const safe = Math.max(0, Math.min(FREE_LIMIT, r));
+
+      if (nextPlan === "premium") {
+        setFreeLeft(FREE_LIMIT);
+        setSavedRemaining(FREE_LIMIT);
+      } else {
+        setFreeLeft(safe);
+        setSavedRemaining(safe);
+      }
+    } catch {}
+  }, [setSavedRemaining]);
+
+  /* ===================== BOOT (1 seule fois) ===================== */
+  useEffect(() => {
+    let alive = true;
+
+    (async () => {
+      // 1) session
+      const session = await getSessionSafe();
+      if (!alive) return;
+
+      const authed = !!session?.user?.id;
+      const uid = session?.user?.id || "";
+      const email = session?.user?.email || "";
+
+      setIsAuth(authed);
+      setUserId(uid);
+      setSessionEmail(email);
+
+      // 2) quota (best-effort local)
+      try {
+        const key = uid
+          ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
+          : `${STORAGE_PREFIX}server_remaining_guest`;
+        const n = clampInt(localStorage.getItem(key), FREE_LIMIT);
+        setFreeLeft(Math.max(0, Math.min(FREE_LIMIT, n)));
+      } catch {
+        setFreeLeft(FREE_LIMIT);
+      }
+
+      // 3) refresh quota serveur
+      await refreshQuotaFromServer();
+      setQuotaReady(true);
+
+      // 4) signe: URL -> storage -> onboarding/home
+      const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
+      const stored = getStoredSign();
+      const storedOk = stored && SIGNS[stored] ? stored : "";
+
+      const chosen = urlSign || storedOk;
+
+      if (chosen) {
+        setSignKey(chosen);
+        storeSign(chosen);
+
+        // stabiliser l’URL (une seule fois)
+        if (typeof window !== "undefined") {
+          const already = sp.get(SIGN_QUERY_PARAM) === chosen;
+          if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
+        }
+      } else {
+        // pas de signe
+        if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
+        else router.replace("/");
+      }
+
+      setBooted(true);
+    })();
+
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // ✅ boot unique
+
+  /* ===================== AUTH LISTENER ===================== */
+  useEffect(() => {
+    const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      setPaywallOpen(false);
+
+      const authed = !!session?.user?.id;
+      const uid = session?.user?.id || "";
+      const email = session?.user?.email || "";
+
+      setIsAuth(authed);
+      setUserId(uid);
+      setSessionEmail(email);
+
+      await refreshQuotaFromServer();
+      setQuotaReady(true);
+
+      // recharge thread local (signKey identique)
+      if (signKey) {
+        const t0 = ensureHello(loadThreadLocal());
+        setThread(t0);
+      }
+    });
+
+    return () => data.subscription.unsubscribe();
+  }, [ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
+
+  /* ===================== THREAD LOAD ===================== */
+  useEffect(() => {
+    if (!signKey) return;
+    const t0 = ensureHello(loadThreadLocal());
+    setThread(t0);
+  }, [signKey, ensureHello, loadThreadLocal]);
+
+  useEffect(() => {
+    if (!booted) return;
+    scrollToBottom(true);
+  }, [booted, thread.length, scrollToBottom]);
+
+  const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
+
   const goPlans = useCallback(
     (reason: "free" | "premium") => {
       const next = encodeURIComponent(currentPathWithQuery());
@@ -335,162 +463,6 @@ export default function ChatClient() {
 
   const closePaywall = useCallback(() => setPaywallOpen(false), []);
 
-  const getSessionSafe = useCallback(async () => {
-    try {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) return null;
-      return data?.session || null;
-    } catch {
-      return null;
-    }
-  }, []);
-
-  // ✅ quota serveur (plan + freeLeft)
-  const refreshQuotaFromServer = useCallback(async () => {
-    try {
-      const res = await fetch("/api/chat/quota", { method: "GET" });
-      if (!res.ok) return;
-
-      const data = await res.json().catch(() => ({} as any));
-
-      const nextPlan: Plan = (data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest")
-        ? data.plan
-        : "guest";
-      setPlan(nextPlan);
-
-      // compat: freeLeft ou remaining
-      const r = clampInt(data?.freeLeft ?? data?.remaining, FREE_LIMIT);
-      const safe = Math.max(0, Math.min(FREE_LIMIT, r));
-
-      // si premium => on ne force pas un nombre, mais on garde freeLeft à FREE_LIMIT pour éviter NaN
-      if (nextPlan === "premium") {
-        setFreeLeft(FREE_LIMIT);
-        setSavedRemaining(FREE_LIMIT);
-      } else {
-        setFreeLeft(safe);
-        setSavedRemaining(safe);
-      }
-    } catch {}
-  }, [setSavedRemaining]);
-
-  // A) Init session + quota local + refresh serveur
-  useEffect(() => {
-    let alive = true;
-
-    (async () => {
-      const session = await getSessionSafe();
-      if (!alive) return;
-
-      const authed = !!session?.user?.id;
-      const uid = session?.user?.id || "";
-      const email = session?.user?.email || "";
-
-      setIsAuth(authed);
-      setUserId(uid);
-      setSessionEmail(email);
-
-      // best-effort local pour éviter un flash
-      try {
-        const key = uid
-          ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
-          : `${STORAGE_PREFIX}server_remaining_guest`;
-
-        const n = clampInt(localStorage.getItem(key), FREE_LIMIT);
-        const safe = Math.max(0, Math.min(FREE_LIMIT, n));
-        setFreeLeft(safe);
-      } catch {
-        setFreeLeft(FREE_LIMIT);
-      }
-
-      await refreshQuotaFromServer();
-      setQuotaReady(true);
-    })();
-
-    return () => {
-      alive = false;
-    };
-  }, [getSessionSafe, refreshQuotaFromServer]);
-
-  // B) Déterminer le signe + stabiliser URL
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      const session = await getSessionSafe();
-      const authed = !!session?.user?.id;
-      if (cancelled) return;
-
-      const stored = getStoredSign();
-      const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
-
-      if (urlSign) {
-        setSignKey(urlSign);
-        storeSign(urlSign);
-        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`);
-        return;
-      }
-
-      if (stored && SIGNS[stored]) {
-        setSignKey(stored);
-        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`);
-        return;
-      }
-
-      // ✅ Si connecté => onboarding signe
-      if (authed) {
-        router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
-        return;
-      }
-
-      // ✅ sinon => home
-      router.replace("/");
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [getSessionSafe, router, signFromUrl]);
-
-  // C) Charger thread local quand signKey prêt
-  useEffect(() => {
-    if (!signKey) return;
-    const t0 = ensureHello(loadThreadLocal());
-    setThread(t0);
-  }, [signKey, ensureHello, loadThreadLocal]);
-
-  // D) Listen auth changes
-  useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      closePaywall();
-
-      const authed = !!session?.user?.id;
-      const uid = session?.user?.id || "";
-      const email = session?.user?.email || "";
-
-      setIsAuth(authed);
-      setUserId(uid);
-      setSessionEmail(email);
-
-      if (signKey) {
-        const t0 = ensureHello(loadThreadLocal());
-        setThread(t0);
-      }
-
-      await refreshQuotaFromServer();
-      setQuotaReady(true);
-    });
-
-    return () => {
-      data.subscription.unsubscribe();
-    };
-  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
-
-  useEffect(() => {
-    scrollToBottom(true);
-  }, [thread.length, scrollToBottom]);
-
-  const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
-
   const askLuna = useCallback(
     async (userText: string) => {
       const session = await getSessionSafe();
@@ -506,7 +478,6 @@ export default function ChatClient() {
         guestId: getGuestId(),
       };
 
-      // threadId seulement pour guest (legacy)
       if (!authed) {
         const tid = getServerThreadId();
         if (tid) payload.threadId = tid;
@@ -521,7 +492,6 @@ export default function ChatClient() {
       const data = await res.json().catch(() => ({} as any));
 
       if (!res.ok) {
-        // ✅ COMPTE OBLIGATOIRE
         if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
           storeSign(signKey);
           const next = encodeURIComponent(currentPathWithQuery());
@@ -545,14 +515,12 @@ export default function ChatClient() {
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
-      // remaining (freeLeft) reçu du backend
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
         setSavedRemaining(r);
       }
 
-      // guest: mémoriser threadId + guestId (legacy)
       if (!authed) {
         if (data?.threadId != null) {
           const tid = clampInt(data.threadId, 0);
@@ -588,6 +556,7 @@ export default function ChatClient() {
   const onSend = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
+
       const text = (input || "").trim();
       if (!text) return;
 
@@ -598,7 +567,6 @@ export default function ChatClient() {
         return;
       }
 
-      // ✅ blocage seulement si plan free et quota atteint
       if (quotaReady && plan === "free" && freeLeft <= 0) {
         openPaywallGuest();
         return;
@@ -681,11 +649,13 @@ export default function ChatClient() {
         localStorage.removeItem(KEY_THREAD_LOCAL);
       } catch {}
     }
+
     const t0 = ensureHello([]);
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
-  if (!signKey) {
+  // Écran de boot (évite le "Chargement…" qui saute partout)
+  if (!booted || !signKey) {
     return (
       <div className="chat-body">
         <div className="chat-top">
@@ -741,4 +711,4 @@ export default function ChatClient() {
       />
     </div>
   );
-        }
+}
