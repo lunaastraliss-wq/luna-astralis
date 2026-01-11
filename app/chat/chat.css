@@ -1,10 +1,11 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL
+   Luna Astralis — chat/chat.css — FINAL (REBUILD)
    - Desktop: sidebar + chat (2 colonnes)
-   - Mobile: sidebar devient une carte compacte AU-DESSUS du chat (pas cachée)
+   - Mobile: sidebar devient une carte AU-DESSUS du chat
    - Scroll uniquement dans .chat-messages
    - Composer sticky
-   - Fix: labels mobile (hide/show) + header mobile propre
+   - Fix: hide/show labels mobile + header mobile propre
+   - Fix: "Luna" (sidebar header) desktop-only
 ========================================================== */
 
 /* =========================
@@ -13,6 +14,7 @@
 :root{
   --topH: 64px;
   --gap: 14px;
+
   --sideW: 330px;
   --sideImgH: 280px;
 
@@ -46,6 +48,26 @@
   -webkit-text-size-adjust: 100%;
 }
 .chat-body *{ letter-spacing: normal; }
+
+/* =========================
+   HELPERS (desktop-only)
+========================= */
+.desktop-only{ display:flex; }
+@media (max-width: 980px){
+  .desktop-only{ display:none !important; }
+}
+
+/* =========================
+   MOBILE LABELS (FIX doublons)
+   -> indispensable pour tes <span className="hide-mobile/show-mobile">
+========================= */
+.hide-mobile{ display:inline !important; }
+.show-mobile{ display:none !important; }
+
+@media (max-width: 520px){
+  .hide-mobile{ display:none !important; }
+  .show-mobile{ display:inline !important; }
+}
 
 /* =========================
    HEADER (TOP BAR)
@@ -149,18 +171,6 @@
 }
 
 /* =========================
-   MOBILE LABELS (FIX doublons)
-   -> indispensable pour tes <span className="hide-mobile/show-mobile">
-========================= */
-.hide-mobile{ display:inline !important; }
-.show-mobile{ display:none !important; }
-
-@media (max-width: 520px){
-  .hide-mobile{ display:none !important; }
-  .show-mobile{ display:inline !important; }
-}
-
-/* =========================
    MOBILE header compact (pro)
 ========================= */
 @media (max-width: 520px){
@@ -173,11 +183,10 @@
   }
 
   .chat-logo{ width:30px; height:30px; }
-
   .chat-brand-name{ font-size:11px; }
   .chat-brand-sub{ display:none; }
 
-  /* évite que les actions s'étalent trop / wrap bizarre */
+  /* évite wrap bizarre */
   .chat-top-actions{
     gap:8px;
     flex: 0 0 auto;
@@ -234,10 +243,10 @@
   min-height:0;
 }
 
+/* ✅ Header "Luna" : desktop seulement via .desktop-only */
 .chat-side-header{
   padding:14px 14px 10px;
   border-bottom:1px solid rgba(255,255,255,.10);
-  display:flex;
   align-items:center;
   justify-content:center;
   gap:10px;
@@ -300,7 +309,6 @@
   font-size: var(--sideText);
 }
 
-/* utilisés dans ton JSX */
 .chat-side-center{ min-width:0; }
 .chat-side-email{
   margin: 10px 0 0;
@@ -664,8 +672,10 @@
     min-height: 0;
   }
 
+  /* (le header est déjà desktop-only, mais on laisse aussi cette sécurité) */
   .chat-side-header{ display:none; }
 
+  /* carte: image + contenu */
   .chat-side-content{
     padding: 12px;
     text-align:left;
