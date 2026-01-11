@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo, useCallback } from "react";
@@ -9,7 +10,8 @@ type Props = {
   isAuth: boolean;
   sessionEmail: string;
   plan: Plan;
-  freeLeft: number | null; // ✅ important
+  freeLeft: number | null;
+
   signName: string;
   signDesc: string;
   bookUrl: string;
@@ -21,6 +23,12 @@ const ADMIN_EMAILS = new Set([
   "comptanetquebec@gmail.com",
 ]);
 
+function normalizeFreeLeft(v: number | null): number | null {
+  if (typeof v !== "number") return null;
+  if (!Number.isFinite(v)) return null;
+  return Math.max(0, Math.trunc(v));
+}
+
 export default function ChatSidebar({
   isAuth,
   sessionEmail,
@@ -30,16 +38,18 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // ✅ compteur seulement si plan === "free" ET freeLeft est un nombre
-  const showFreeCounter = plan === "free" && typeof freeLeft === "number";
+  const freeLeftNorm = useMemo(() => normalizeFreeLeft(freeLeft), [freeLeft]);
+
+  // ✅ compteur seulement si plan === "free" ET freeLeft est un nombre valide
+  const showFreeCounter = plan === "free" && freeLeftNorm !== null;
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
-    if (freeLeft <= 0) return "Limite gratuite atteinte";
+    if ((freeLeftNorm ?? 0) <= 0) return "Limite gratuite atteinte";
 
-    const plural = freeLeft > 1 ? "s" : "";
-    return `Il te reste ${freeLeft} message${plural} gratuit${plural}.`;
-  }, [freeLeft, showFreeCounter]);
+    const plural = (freeLeftNorm ?? 0) > 1 ? "s" : "";
+    return `Il te reste ${freeLeftNorm} message${plural} gratuit${plural}.`;
+  }, [showFreeCounter, freeLeftNorm]);
 
   const isAdmin = useMemo(() => {
     const email = (sessionEmail || "").toLowerCase().trim();
@@ -60,6 +70,8 @@ export default function ChatSidebar({
       localStorage.clear();
     } catch {}
 
+    // ⚠️ Note: supprimer TOUS les cookies peut être agressif,
+    // mais tu avais explicitement ce comportement pour admin.
     try {
       document.cookie.split(";").forEach((c) => {
         const name = c.split("=")[0]?.trim();
@@ -75,9 +87,13 @@ export default function ChatSidebar({
     }
   }, []);
 
+  const showEmail = isAuth && !!sessionEmail;
+  const isPremium = plan === "premium";
+
   return (
     <aside className="chat-side" aria-label="Profil IA">
       <div className="chat-side-content">
+        {/* Image: desktop seulement */}
         <div className="ai-face-wrap desktop-only" aria-hidden="true">
           <img
             className="ai-face"
@@ -107,15 +123,21 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {isAuth && !!sessionEmail && (
-            <p className="chat-side-email">{sessionEmail}</p>
+          {/* (Optionnel) badge premium */}
+          {isPremium && (
+            <p className="chat-side-premium" aria-label="Compte premium">
+              ✅ Accès premium
+            </p>
           )}
+
+          {showEmail && <p className="chat-side-email">{sessionEmail}</p>}
 
           <p className="chat-side-disclaimer">Outil d’exploration personnelle</p>
         </div>
       </div>
 
       <div className="chat-side-footer">
+        {/* Compteur visible seulement en free */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
