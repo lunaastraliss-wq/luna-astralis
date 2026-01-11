@@ -1,38 +1,36 @@
 /* ==========================================================
-   Luna Astralis — public/css/styles.css (GLOBAL) — FINAL V3
+   Luna Astralis — public/css/styles.css (GLOBAL) — FINAL V4
    Commun à TOUTES les pages (index, pricing, login, signup, chat)
-   - Thème + fond + étoiles (fixed)
-   - Layout global + header + nav + boutons + footer
-   - Utilitaires communs (wrap / cards / chips / grids)
-   - ✅ Compatible Next.js + chat.css (ne casse pas overflow)
-   - ✅ Ne “casse” pas index.css : classes communes restent neutres
+   Objectif V4:
+   - GLOBAL stable + cohérent (ne casse pas chat.css)
+   - Header mobile vraiment "friendly" (menu compact + pas de wrap)
+   - Footer mobile lisible
+   - Utilitaires réutilisables
+   - Évite les collisions: pas de règles agressives sur .chat-*
 ========================================================== */
 
 /* ===================== THEME ===================== */
 :root{
-  /* Background */
   --bg:#050714;
   --bg2:#070B22;
 
-  /* Surfaces (glass) */
   --card:rgba(255,255,255,.09);
   --card2:rgba(255,255,255,.12);
   --border:rgba(255,255,255,.14);
 
-  /* Text */
   --text:rgba(255,255,255,.94);
   --muted:rgba(255,255,255,.74);
   --muted2:rgba(255,255,255,.58);
 
-  /* Accent (CTA) — Or doux lunaire */
+  /* Accent (CTA) — Or lunaire */
   --accent:#C9A24D;
   --accent2:#E2C98A;
   --accentGlow:rgba(201,162,77,.28);
 
   /* Auras */
-  --a1:#D7C7FF; /* lavande */
-  --a2:#9FD3FF; /* bleu */
-  --a3:#7CFFDF; /* menthe */
+  --a1:#D7C7FF;
+  --a2:#9FD3FF;
+  --a3:#7CFFDF;
 
   /* FX */
   --shadow:0 22px 70px rgba(0,0,0,.55);
@@ -44,6 +42,9 @@
 
   /* Layout */
   --max:1120px;
+
+  /* Header height (pour pages qui veulent sticky en option) */
+  --topH: 64px;
 }
 
 /* ===================== RESET / BASE ===================== */
@@ -59,7 +60,6 @@ body{
     "Apple Color Emoji","Segoe UI Emoji";
   color:var(--text);
 
-  /* Fond cosmique */
   background:
     radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.20), transparent 60%),
     radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.16), transparent 58%),
@@ -67,15 +67,12 @@ body{
     linear-gradient(180deg, var(--bg), var(--bg2));
 
   overflow-x:hidden;
-  overflow-y:auto; /* chat.css doit gagner avec body.chat-body { overflow:hidden } */
+  overflow-y:auto; /* chat.css doit gagner via body.chat-body { overflow:hidden } */
 }
 
 a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; display:block; }
-
-::selection{
-  background: rgba(215,199,255,.22);
-}
+::selection{ background: rgba(215,199,255,.22); }
 
 /* ===================== FOND ASTRAL (toutes pages) ===================== */
 @keyframes la_starTwinkle1{
@@ -165,10 +162,9 @@ body::after{
   margin:0 auto;
   padding:22px 18px 30px;
   position:relative;
-  z-index:1; /* contenu au-dessus des étoiles */
+  z-index:1;
 }
 
-/* Optionnel: sections larges cohérentes */
 .container{
   max-width:var(--max);
   margin:0 auto;
@@ -191,14 +187,12 @@ body::after{
   position:relative;
   z-index:5;
 
-  /* Glass header */
   background: rgba(5,7,20,.35);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,.08);
   border-radius: 0 0 18px 18px;
 }
 
-/* Brand */
 .brand{
   display:flex;
   align-items:center;
@@ -228,7 +222,6 @@ body::after{
 }
 
 .brand-text{ min-width:0; }
-
 .brand-name{
   letter-spacing:.22em;
   font-weight:900;
@@ -238,7 +231,6 @@ body::after{
   overflow:hidden;
   text-overflow:ellipsis;
 }
-
 .brand-sub{
   font-size:12px;
   color:var(--muted2);
@@ -248,7 +240,7 @@ body::after{
   text-overflow:ellipsis;
 }
 
-/* Nav */
+/* Nav (desktop par défaut) */
 .nav{
   display:flex;
   align-items:center;
@@ -269,14 +261,6 @@ body::after{
   color:var(--text);
   background: rgba(255,255,255,.06);
   border-color: rgba(255,255,255,.10);
-}
-
-.nav a.active{
-  color: rgba(7,10,22,.95);
-  font-weight:1000;
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  border-color: rgba(255,255,255,.18);
-  box-shadow: 0 12px 30px rgba(0,0,0,.35);
 }
 
 /* ===================== BOUTONS — commun ===================== */
@@ -319,19 +303,15 @@ body::after{
   box-shadow:none;
 }
 
-/* CTA GOLD (global) */
 .btn-primary{
   background: linear-gradient(90deg, rgba(201,162,77,.95), rgba(226,201,138,.90));
   color: rgba(7,10,22,.96);
   border:1px solid rgba(255,255,255,.14);
   box-shadow: 0 18px 44px rgba(0,0,0,.42);
 }
+.btn-primary:hover{ filter: brightness(1.06); }
 
-.btn-primary:hover{
-  filter: brightness(1.06);
-}
-
-/* Accessibilité */
+/* Focus */
 .btn:focus-visible,
 .nav a:focus-visible{
   outline: 0;
@@ -352,7 +332,7 @@ body::after{
   backdrop-filter: blur(6px);
 }
 
-/* ✅ Garde .section / .grid4 / .box “neutres” pour laisser index.css les enrichir */
+/* Sections neutres */
 .section{ margin-top:22px; }
 .section-head{ margin-bottom:12px; }
 .section h2{ margin:0 0 10px; font-size:18px; letter-spacing:.01em; }
@@ -378,7 +358,6 @@ body::after{
   overflow:hidden;
 }
 
-/* léger sparkle, sans animation agressive (index.css peut animer) */
 .box::after{
   content:"";
   position:absolute;
@@ -396,7 +375,6 @@ body::after{
 .box h3{ margin:0 0 6px; font-size:13px; }
 .box p{ margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
 
-/* Card générique (utile pour pricing/login) */
 .card{
   padding:18px;
   border-radius: var(--radius2);
@@ -405,7 +383,6 @@ body::after{
   box-shadow: var(--shadowSoft);
 }
 
-/* Inputs génériques (si tu veux un look uniforme) */
 .input{
   width:100%;
   padding:12px 12px;
@@ -447,14 +424,88 @@ body::after{
   .grid4{ grid-template-columns: 1fr 1fr; }
 }
 
+/* ===================== MOBILE FRIENDLY HEADER (IMPORTANT) ===================== */
+/*
+  Tu as maintenant un menu mobile dans app/page.tsx:
+  - .nav-desktop (desktop links)
+  - .nav-burger (bouton ☰)
+  - .nav-mobile (panel)
+  Sur les autres pages où tu n’as pas ces classes, rien ne casse.
+*/
+
+.nav-desktop{ display:flex; align-items:center; gap:14px; }
+.nav-burger{ display:none; }
+.nav-mobile{ display:none; }
+
+.nav-burger{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  color: rgba(255,255,255,.92);
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  font-weight: 1000;
+  cursor:pointer;
+}
+
+.nav-mobile{
+  position:absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: min(280px, 88vw);
+
+  padding: 10px;
+  border-radius: 18px;
+
+  background: rgba(5,7,20,.92);
+  border:1px solid rgba(255,255,255,.14);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  z-index: 60;
+}
+
+.nav-mobile a{
+  display:block;
+  padding: 12px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  color: rgba(255,255,255,.92);
+}
+
+.nav-mobile a:hover{
+  background: rgba(255,255,255,.06);
+}
+
+.nav-mobile.open{ display:block; }
+
+@media (max-width: 720px){
+  .nav{ flex-wrap: nowrap; }
+  .nav-desktop{ display:none; }
+  .nav-burger{ display:inline-flex; align-items:center; justify-content:center; }
+}
+
 @media (max-width: 520px){
-  .nav a:not(.btn){ display:none; }
+  :root{ --topH: 56px; }
+
   .top{
-    padding:14px 14px 12px;
+    padding: 12px 12px 10px;
     border-radius: 0 0 16px 16px;
   }
+
+  .logo{ width: 38px; height: 38px; border-radius: 12px; }
+  .brand-name{ font-size: 11px; letter-spacing: .18em; }
+  .brand-sub{ display:none; }
+
   .wrap{ padding:18px 14px 26px; }
   .grid4{ grid-template-columns: 1fr; }
+
+  /* Footer: empilement propre */
+  .footer{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
 }
 
 /* ===================== ACCESSIBILITÉ : réduire animations ===================== */
@@ -463,7 +514,7 @@ body::after{
   body::after{ animation:none !important; }
 }
 
-/* ===== Chat: Mobile sign card ===== */
+/* ===================== CHAT: Mobile sign card (optionnel) ===================== */
 .mobile-sign-card{
   display:none;
   margin: 10px 10px 12px;
@@ -517,12 +568,6 @@ body::after{
   font-weight:900;
 }
 
-/* ✅ Mobile only */
 @media (max-width: 900px){
   .mobile-sign-card{ display:block; }
-
-  /* Cache la sidebar sur mobile (ChatSidebar = 1er enfant de .chat-wrap) */
-  .chat-wrap > :first-child{
-    display:none !important;
-  }
-}
+   }
