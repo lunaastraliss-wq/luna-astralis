@@ -9,9 +9,9 @@ export const dynamic = "force-dynamic";
 
 /**
  * Règle:
- * - Compte requis (pas de quota "guest")
+ * - Compte requis (pas de quota guest)
  * - Free: 15 messages lifetime (user_usage_lifetime.used)
- * - Premium: actif si status in (active, trialing) ET current_period_end (si présent) dans le futur
+ * - Premium: actif si status in (active, trialing) ET current_period_end (si présent) > now
  */
 
 const FREE_LIMIT = 15;
@@ -36,7 +36,6 @@ function toUnixMaybe(v: any): number | null {
 
   const t = Date.parse(String(v));
   if (Number.isFinite(t)) return Math.floor(t / 1000);
-
   return null;
 }
 
@@ -73,7 +72,7 @@ async function isPremiumActive(user_id: string) {
 
   const cpeUnix = toUnixMaybe((data as any).current_period_end);
 
-  // Si pas de current_period_end (ou champ null), on considère actif
+  // Si pas de current_period_end (null/inexistant), on considère actif
   if (cpeUnix == null) return true;
 
   return cpeUnix > nowUnix();
@@ -86,8 +85,10 @@ async function getUsedLifetime(user_id: string) {
     .from(USER_USAGE_TABLE)
     .select("used")
     .eq("user_id", user_id)
+    .limit(1)
     .maybeSingle();
 
+  // Si erreur (ex: multiple rows, RLS, etc.), on ne casse pas l’UI: on renvoie 0
   if (error) return 0;
 
   const raw = Number((data as any)?.used ?? 0);
@@ -100,7 +101,7 @@ export async function GET() {
       return json({ error: "SUPABASE_ADMIN_MISSING" }, 500);
     }
 
-    // ✅ Session via cookies (supabase auth helpers)
+    // ✅ Session via cookies
     const supabaseAuth = createRouteHandlerClient({
       cookies: () => cookies(),
     });
@@ -122,7 +123,7 @@ export async function GET() {
         require_auth: true,
         limit: FREE_LIMIT,
 
-        // compat + UI
+        // compat UI
         freeLeft: 0,
         remaining: 0,
         used: 0,
@@ -158,7 +159,6 @@ export async function GET() {
       require_auth: false,
       limit: FREE_LIMIT,
 
-      // compat + UI
       freeLeft: remaining,
       remaining,
       used,
@@ -166,4 +166,4 @@ export async function GET() {
   } catch (e: any) {
     return json({ error: "SERVER_ERROR", detail: cleanStr(e?.message || e) }, 500);
   }
-}
+  }
