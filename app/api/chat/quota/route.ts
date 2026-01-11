@@ -24,6 +24,8 @@ const USER_USAGE_TABLE = "user_usage_lifetime";
 const SUBS_TABLE = "user_subscriptions";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
+type Plan = "guest" | "free" | "premium";
+
 function cleanStr(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
@@ -112,36 +114,53 @@ export async function GET() {
 
     // ✅ Compte requis
     if (!user_id) {
+      const plan: Plan = "guest";
       return json({
-        remaining: 0,
+        plan,
         premium: false,
         mode: "guest",
         require_auth: true,
         limit: FREE_LIMIT,
+
+        // compat + UI
+        freeLeft: 0,
+        remaining: 0,
+        used: 0,
       });
     }
 
     const premium = await isPremiumActive(user_id);
 
     if (premium) {
+      const plan: Plan = "premium";
       return json({
-        remaining: 999999,
+        plan,
         premium: true,
         mode: "auth_premium",
         require_auth: false,
+
+        // payant = pas de compteur
         limit: null,
+        freeLeft: null,
+        remaining: null,
+        used: null,
       });
     }
 
     const used = await getUsedLifetime(user_id);
     const remaining = Math.max(0, FREE_LIMIT - used);
 
+    const plan: Plan = "free";
     return json({
-      remaining,
+      plan,
       premium: false,
       mode: "auth_free",
       require_auth: false,
       limit: FREE_LIMIT,
+
+      // compat + UI
+      freeLeft: remaining,
+      remaining,
       used,
     });
   } catch (e: any) {
