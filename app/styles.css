@@ -1,356 +1,281 @@
 /* ==========================================================
-   Luna Astralis — public/css/styles.css (GLOBAL) — FINAL V2
-   Commun à TOUTES les pages (index, pricing, login, signup, chat)
-   - Thème + fond + étoiles
-   - Layout global + header + nav + boutons + footer
-   - Utilitaires communs (grids, chips, cards)
-   - ✅ Compatible Next.js + chat.css (ne casse pas overflow)
+   HOME (index) — Hero + Trust + Signes
+   Ajoute ceci à la FIN de styles.css
 ========================================================== */
 
-/* ===================== THEME ===================== */
-:root{
-  /* Background */
-  --bg:#050714;
-  --bg2:#070B22;
-
-  /* Surfaces (cards/glass) */
-  --card:rgba(255,255,255,.09);
-  --card2:rgba(255,255,255,.12);
-  --border:rgba(255,255,255,.14);
-
-  /* Text */
-  --text:rgba(255,255,255,.94);
-  --muted:rgba(255,255,255,.74);
-  --muted2:rgba(255,255,255,.58);
-
-  /* Accent (CTA) — Lune / Or doux */
-  --accent:#C9A24D;
-  --accent2:#E2C98A; /* hover */
-  --accentGlow:rgba(201,162,77,.28);
-
-  /* Secondary accents (pour les halos/auras) */
-  --a1:#D7C7FF;  /* lavande */
-  --a2:#9FD3FF;  /* bleu */
-  --a3:#7CFFDF;  /* menthe */
-
-  /* FX */
-  --shadow:0 22px 70px rgba(0,0,0,.55);
-  --shadowSoft:0 14px 40px rgba(0,0,0,.35);
-  --radius:18px;
-  --radius2:26px;
-
-  /* Layout */
-  --max:1120px;
+/* ---------- HERO ---------- */
+.hero-astro{
+  padding-top: 10px;
 }
 
-/* ===================== RESET / BASE ===================== */
-*{ box-sizing:border-box; }
-html, body{ height:100%; }
-body{
-  margin:0;
-  min-height:100%;
-  position:relative;
+.hero-card{
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: 28px 22px;
+  position: relative;
+  overflow: hidden;
+}
 
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
-    "Apple Color Emoji","Segoe UI Emoji";
-  color:var(--text);
-
-  /* Fond “cosmique” : auras + gradient */
+/* halo doux (premium) */
+.hero-card::before{
+  content:"";
+  position:absolute;
+  inset:-120px;
+  pointer-events:none;
   background:
-    radial-gradient(1100px 650px at 18% 12%, rgba(215,199,255,.20), transparent 60%),
-    radial-gradient(900px 600px at 82% 25%, rgba(159,211,255,.16), transparent 58%),
-    radial-gradient(800px 520px at 60% 92%, rgba(124,255,223,.09), transparent 62%),
-    linear-gradient(180deg, var(--bg), var(--bg2));
-
-  overflow-x:hidden; /* OK global */
-  /* ⚠️ overflow-y: auto seulement si pas un body de chat.
-     chat.css met body.chat-body { overflow:hidden } et doit gagner. */
-  overflow-y:auto;
+    radial-gradient(460px 320px at 18% 18%, rgba(201,162,77,.10), transparent 70%),
+    radial-gradient(520px 360px at 82% 26%, rgba(159,211,255,.10), transparent 70%),
+    radial-gradient(520px 360px at 58% 92%, rgba(215,199,255,.08), transparent 70%);
+  opacity:.95;
 }
 
-a{ color:inherit; text-decoration:none; }
-img{ max-width:100%; display:block; }
+.hero-card > *{ position: relative; z-index: 1; }
 
-/* ===================== FOND ASTRAL (toutes pages) ===================== */
-@keyframes la_starTwinkle1{
-  0%,100%{ opacity:.70; filter: blur(.05px); transform: translate3d(0,0,0); }
-  50%{ opacity:1; filter: blur(.25px); transform: translate3d(0,-1px,0); }
-}
-@keyframes la_starTwinkle2{
-  0%,100%{ opacity:.55; filter: blur(.20px); transform: translate3d(0,0,0); }
-  50%{ opacity:.85; filter: blur(.55px); transform: translate3d(0,1px,0); }
-}
-@keyframes la_starDrift{
-  0%{ transform: translate3d(0,0,0); }
-  100%{ transform: translate3d(-12px, 8px, 0); }
-}
+.hero-top-center{ text-align:center; }
 
-/* Couche A — étoiles nettes */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-
-  background-image:
-    radial-gradient(1px 1px at 6% 14%, rgba(255,255,255,.95), transparent),
-    radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,.85), transparent),
-    radial-gradient(1px 1px at 14% 26%, rgba(255,255,255,.95), transparent),
-    radial-gradient(1px 1px at 18% 78%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 22% 40%, rgba(255,255,255,.90), transparent),
-    radial-gradient(1px 1px at 28% 12%, rgba(255,255,255,.85), transparent),
-    radial-gradient(1px 1px at 32% 66%, rgba(255,255,255,.92), transparent),
-    radial-gradient(1px 1px at 36% 88%, rgba(255,255,255,.78), transparent),
-    radial-gradient(1px 1px at 41% 30%, rgba(255,255,255,.88), transparent),
-    radial-gradient(1px 1px at 46% 56%, rgba(255,255,255,.92), transparent),
-    radial-gradient(1px 1px at 52% 18%, rgba(255,255,255,.86), transparent),
-    radial-gradient(1px 1px at 58% 78%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 63% 42%, rgba(255,255,255,.92), transparent),
-    radial-gradient(1px 1px at 68% 12%, rgba(255,255,255,.86), transparent),
-    radial-gradient(1px 1px at 72% 64%, rgba(255,255,255,.92), transparent),
-    radial-gradient(1px 1px at 76% 26%, rgba(255,255,255,.88), transparent),
-    radial-gradient(1px 1px at 82% 80%, rgba(255,255,255,.80), transparent),
-    radial-gradient(1px 1px at 86% 38%, rgba(255,255,255,.90), transparent),
-    radial-gradient(1px 1px at 92% 14%, rgba(255,255,255,.86), transparent),
-    radial-gradient(1px 1px at 96% 70%, rgba(255,255,255,.82), transparent),
-
-    radial-gradient(2px 2px at 12% 34%, rgba(255,255,255,.55), transparent 60%),
-    radial-gradient(2px 2px at 28% 72%, rgba(215,199,255,.38), transparent 62%),
-    radial-gradient(2px 2px at 44% 20%, rgba(159,211,255,.34), transparent 62%),
-    radial-gradient(2px 2px at 66% 54%, rgba(255,255,255,.45), transparent 62%),
-    radial-gradient(2px 2px at 84% 22%, rgba(159,211,255,.32), transparent 62%);
-
-  opacity:1;
-  animation: la_starTwinkle1 6.5s ease-in-out infinite alternate;
-}
-
-/* Couche B — poussière + drift */
-body::after{
-  content:"";
-  position:fixed;
-  inset:-40px;
-  pointer-events:none;
-  z-index:0;
-
-  background-image:
-    radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,.40), transparent),
-    radial-gradient(1px 1px at 16% 52%, rgba(255,255,255,.32), transparent),
-    radial-gradient(1px 1px at 24% 82%, rgba(255,255,255,.30), transparent),
-    radial-gradient(1px 1px at 34% 24%, rgba(255,255,255,.34), transparent),
-    radial-gradient(1px 1px at 42% 60%, rgba(255,255,255,.28), transparent),
-    radial-gradient(1px 1px at 50% 88%, rgba(255,255,255,.30), transparent),
-    radial-gradient(1px 1px at 60% 16%, rgba(255,255,255,.32), transparent),
-    radial-gradient(1px 1px at 70% 44%, rgba(255,255,255,.26), transparent),
-    radial-gradient(1px 1px at 82% 66%, rgba(255,255,255,.30), transparent),
-    radial-gradient(1px 1px at 92% 30%, rgba(255,255,255,.34), transparent),
-
-    radial-gradient(260px 200px at 18% 18%, rgba(215,199,255,.09), transparent 70%),
-    radial-gradient(260px 200px at 82% 26%, rgba(159,211,255,.07), transparent 70%);
-
-  opacity:.92;
-  animation: la_starTwinkle2 9s ease-in-out infinite alternate, la_starDrift 30s linear infinite;
-}
-
-/* ===================== LAYOUT GLOBAL ===================== */
-.wrap{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:22px 18px 30px;
-  position:relative;
-  z-index:1; /* contenu au-dessus des étoiles */
-}
-
-/* ===================== HEADER (top) — commun ===================== */
-.top{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:16px 18px 12px;
+.hero-kicker{
   display:flex;
+  gap:10px;
   align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  position:relative;
-  z-index:5;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+  margin-bottom: 12px;
+}
+.hero-kicker-center{ justify-content:center; }
 
-  /* Glass header */
-  background: rgba(5,7,20,.35);
+.astro-mark{
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  font-size: 12px;
+  color: rgba(255,255,255,.86);
+  letter-spacing: .06em;
+}
+
+.hero-badge{
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(201,162,77,.12);
+  border: 1px solid rgba(201,162,77,.26);
+  color: rgba(255,255,255,.90);
+  font-size: 12px;
+}
+
+.hero-title{
+  margin: 8px 0 8px;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.12;
+  letter-spacing: .01em;
+  font-weight: 900;
+}
+.hero-title-center{ text-align:center; }
+
+.lead{
+  margin: 0;
+  color: rgba(255,255,255,.78);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.lead-center{ text-align:center; }
+
+.note-center{
+  text-align:center;
+  color: rgba(255,255,255,.62);
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* ---------- CTA (Commence maintenant) ---------- */
+.hero-free-wrap{
+  margin-top: 18px;
+  display:flex;
+  justify-content:flex-start;
+}
+.hero-free-wrap-center{ justify-content:center; }
+
+.hero-free{
+  width: min(520px, 100%);
+  background: linear-gradient(180deg, rgba(5,7,20,.45), rgba(5,7,20,.20));
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 18px;
+  padding: 16px 16px 14px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.35);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,.08);
-  border-radius: 0 0 18px 18px;
 }
 
-.brand{ display:flex; align-items:center; gap:12px; min-width:0; }
-.logo{
-  width:44px; height:44px; border-radius:14px;
-  background: rgba(255,255,255,.10);
-  border:1px solid var(--border);
-  box-shadow: 0 10px 28px rgba(0,0,0,.30);
-  display:grid; place-items:center;
-  overflow:hidden;
-  flex:0 0 auto;
-}
-.logo img{ width:100%; height:100%; object-fit:contain; }
+.hero-free-center{ text-align:center; }
 
-.brand-text{ min-width:0; }
-.brand-name{
-  letter-spacing:.22em;
-  font-weight:900;
-  font-size:12px;
-  opacity:.96;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.brand-sub{
-  font-size:12px;
-  color:var(--muted2);
-  margin-top:2px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.hero-free-title{
+  margin: 0 0 6px;
+  font-weight: 900;
+  font-size: 16px;
 }
 
-.nav{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.nav a{
-  font-size:13px;
-  color:rgba(255,255,255,.80);
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid transparent;
-}
-.nav a:hover{
-  color:var(--text);
-  background: rgba(255,255,255,.06);
-  border-color: rgba(255,255,255,.10);
-}
-.nav a.active{
-  color: rgba(7,10,22,.95);
-  font-weight:1000;
-  background: linear-gradient(90deg, rgba(215,199,255,.95), rgba(159,211,255,.90));
-  border-color: rgba(255,255,255,.18);
-  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+.hero-free-sub{
+  margin: 0 0 12px;
+  color: rgba(255,255,255,.70);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
-/* ===================== BOUTONS — commun ===================== */
-.btn{
+/* CTA principal en OR (plus visible) */
+.hero-free-btn{
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:12px 14px;
-  border-radius:14px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-weight: 950;
+  letter-spacing: .01em;
 
-  /* Bouton “normal” (soft glass) */
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.16);
-  box-shadow: var(--shadowSoft);
+  background: linear-gradient(90deg, rgba(201,162,77,.98), rgba(226,201,138,.92));
+  color: rgba(7,10,22,.96);
+  border: 1px solid rgba(255,255,255,.16);
 
-  color:var(--text);
-  font-weight:900;
-  font-size:14px;
-  gap:10px;
-  transition: transform .12s ease, filter .12s ease, border-color .12s ease, background .12s ease;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.10),
+    0 18px 44px rgba(201,162,77,.28);
+
+  transition: transform .14s ease, filter .14s ease, box-shadow .14s ease;
 }
-.btn:hover{
+
+.hero-free-btn:hover{
   transform: translateY(-1px);
   filter: brightness(1.05);
-  border-color: rgba(255,255,255,.22);
-}
-.btn:active{ transform: translateY(0px); }
-.btn-small{ padding:10px 12px; font-size:13px; border-radius:999px; }
-
-.btn-ghost{
-  background: rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:none;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.18),
+    0 22px 54px rgba(201,162,77,.36);
 }
 
-.btn-primary{
-  background: linear-gradient(90deg, rgba(201,162,77,.95), rgba(226,201,138,.90));
-  color: rgba(7,10,22,.96);
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow: 0 18px 44px rgba(0,0,0,.42);
-}
-.btn-primary:hover{
-  filter: brightness(1.06);
+.hero-free-note{
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,.62);
 }
 
-/* ===================== UI COMMUNS ===================== */
-.chip{
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:12px;
-  color: rgba(255,255,255,.86);
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-  backdrop-filter: blur(6px);
+/* petit “pulse” discret */
+@keyframes laPulse{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-1px); }
+}
+.hero-free-btn--pulse{
+  animation: laPulse 2.2s ease-in-out infinite;
 }
 
-.section{ margin-top:22px; }
-.section-head{ margin-bottom:12px; }
-.section h2{ margin:0 0 10px; font-size:18px; letter-spacing:.01em; }
-.section-sub{ margin:0 0 14px; color:var(--muted2); font-size:13px; line-height:1.55; }
+/* ---------- TRUST ---------- */
+.trust{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
 
-.grid4{
+.trust-item{
+  display:flex;
+  gap: 12px;
+  align-items:flex-start;
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.trust-ico{
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display:grid;
+  place-items:center;
+  background: rgba(201,162,77,.10);
+  border: 1px solid rgba(201,162,77,.22);
+  color: rgba(255,255,255,.92);
+}
+
+.trust-title{ font-weight: 900; font-size: 13px; }
+.trust-sub{ color: rgba(255,255,255,.66); font-size: 12px; margin-top: 2px; }
+
+/* ---------- SIGNES ---------- */
+.signs-grid{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
-  gap:12px;
+  gap: 10px;
 }
 
-.box{
-  padding:14px;
-  border-radius:16px;
-  background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
-  border:1px solid rgba(255,255,255,.14);
-  position:relative;
-  overflow:hidden;
+.sign{
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+  color: rgba(255,255,255,.92);
+  font-weight: 900;
+  letter-spacing: .01em;
+  box-shadow: 0 12px 30px rgba(0,0,0,.28);
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease, filter .14s ease;
 }
-.box::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  opacity:.55;
-  background-image:
-    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.75), transparent),
-    radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,.55), transparent),
-    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.60), transparent);
-  mix-blend-mode: screen;
-}
-.box > *{ position:relative; z-index:1; }
-.box h3{ margin:0 0 6px; font-size:13px; }
-.box p{ margin:0; color:var(--muted); font-size:13px; line-height:1.45; }
 
-/* ===================== FOOTER — commun ===================== */
-.footer{
-  margin-top:22px;
-  padding-top:14px;
-  border-top:1px solid rgba(255,255,255,.12);
+.sign:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,.22);
+  filter: brightness(1.04);
+  box-shadow:
+    0 14px 36px rgba(0,0,0,.34),
+    0 0 0 1px rgba(255,255,255,.10);
+}
+
+/* couleurs éléments (subtiles, pas flashy) */
+.sign-fire{
+  background:
+    linear-gradient(90deg, rgba(201,162,77,.18), rgba(255,140,105,.10)),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+}
+.sign-earth{
+  background:
+    linear-gradient(90deg, rgba(124,255,223,.12), rgba(120,220,130,.10)),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+}
+.sign-air{
+  background:
+    linear-gradient(90deg, rgba(159,211,255,.16), rgba(215,199,255,.10)),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+}
+.sign-water{
+  background:
+    linear-gradient(90deg, rgba(120,170,255,.14), rgba(120,255,220,.08)),
+    linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+}
+
+/* chips éléments */
+.elements{
   display:flex;
-  justify-content:space-between;
+  gap: 10px;
   align-items:center;
-  gap:12px;
-  color:var(--muted2);
-  font-size:12px;
-  background:transparent;
-  position:relative;
-  z-index:2;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+  margin-top: 12px;
 }
-.footer-note{ color:var(--muted2); }
 
-/* ===================== RESPONSIVE GLOBAL ===================== */
+.el{
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .03em;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.07);
+  color: rgba(255,255,255,.86);
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 920px){
-  .grid4{ grid-template-columns: 1fr 1fr; }
+  .trust{ grid-template-columns: 1fr; }
+  .signs-grid{ grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 520px){
-  .nav a:not(.btn){ display:none; }
-  .top{ padding:14px 14px 12px; border-radius: 0 0 16px 16px; }
-  .wrap{ padding:18px 14px 26px; }
-  .grid4{ grid-template-columns: 1fr; }
-}
-
-/* ===================== ACCESSIBILITÉ : réduire animations ===================== */
-@media (prefers-reduced-motion: reduce){
-  body::before, body::after{ animation:none !important; }
+  .hero-card{ padding: 20px 16px; border-radius: 20px; }
+  .signs-grid{ grid-template-columns: 1fr; }
 }
