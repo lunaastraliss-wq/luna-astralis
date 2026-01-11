@@ -3,10 +3,18 @@
 import React, { useMemo, useCallback } from "react";
 import { supabase } from "../../lib/supabase/client";
 
+type Plan = "guest" | "free" | "premium";
+
 type Props = {
   isAuth: boolean;
   sessionEmail: string;
+
+  // ✅ vient de /api/chat/quota
+  plan: Plan;
+
+  // ✅ pour free seulement (ex: quota.freeLeft)
   freeLeft: number;
+
   signName: string;
   signDesc: string;
   bookUrl: string;
@@ -21,20 +29,20 @@ const ADMIN_EMAILS = new Set([
 export default function ChatSidebar({
   isAuth,
   sessionEmail,
+  plan,
   freeLeft,
   signName,
   signDesc,
   bookUrl,
 }: Props) {
-  // ✅ compteur seulement en guest
-  const showFreeCounter = !isAuth;
+  // ✅ compteur seulement si plan === "free"
+  const showFreeCounter = plan === "free";
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
     if (freeLeft <= 0) return "Limite gratuite atteinte";
 
     const plural = freeLeft > 1 ? "s" : "";
-    // "gratuits" / "gratuit" suit le pluriel
     return `Il te reste ${freeLeft} message${plural} gratuit${plural}.`;
   }, [freeLeft, showFreeCounter]);
 
@@ -113,15 +121,12 @@ export default function ChatSidebar({
             <p className="chat-side-email">{sessionEmail}</p>
           )}
 
-          {/* ✅ phrase plus pâle/petite via CSS .chat-side-disclaimer */}
-          <p className="chat-side-disclaimer">
-            Outil d’exploration personnelle
-          </p>
+          <p className="chat-side-disclaimer">Outil d’exploration personnelle</p>
         </div>
       </div>
 
       <div className="chat-side-footer">
-        {/* ✅ Compteur visible seulement en guest */}
+        {/* ✅ Compteur visible seulement en free */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
