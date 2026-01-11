@@ -601,6 +601,51 @@
   .footer-top{ flex-direction:column; align-items:flex-start; }
 }
 
+/* ================= CTA PRINCIPAL — HERO ================= */
+
+.hero-free-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  min-height:48px;
+  padding:12px 20px;
+  border-radius:16px;
+
+  font-weight:1000;
+  letter-spacing:.02em;
+
+  color: rgba(7,10,22,.96);
+  border: 1px solid rgba(255,255,255,.20);
+
+  background:
+    radial-gradient(220px 140px at 18% 28%, rgba(226,201,138,.55), transparent 62%),
+    linear-gradient(90deg, rgba(201,162,77,.98), rgba(226,201,138,.92));
+
+  box-shadow:
+    0 18px 55px rgba(201,162,77,.18),
+    0 18px 55px rgba(0,0,0,.42);
+
+  transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+}
+
+.hero-free-btn:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.06) saturate(1.10);
+  box-shadow:
+    0 24px 80px rgba(201,162,77,.22),
+    0 20px 70px rgba(0,0,0,.45);
+}
+
+.hero-free-btn:focus-visible{
+  outline:0;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.12),
+    0 0 0 7px rgba(201,162,77,.22),
+    0 24px 80px rgba(0,0,0,.45);
+}
+
 /* ================= ACCESSIBILITY ================= */
 @media (prefers-reduced-motion: reduce){
   .hero-card::after,
