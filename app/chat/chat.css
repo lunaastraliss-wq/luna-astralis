@@ -1,9 +1,10 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL (MOBILE PRO HEADER + SIDEBAR CARD)
+   Luna Astralis — chat/chat.css — FINAL
    - Desktop: sidebar + chat (2 colonnes)
    - Mobile: sidebar devient une carte compacte AU-DESSUS du chat (pas cachée)
    - Scroll uniquement dans .chat-messages
    - Composer sticky
+   - Fix: labels mobile (hide/show) + header mobile propre
 ========================================================== */
 
 /* =========================
@@ -47,7 +48,7 @@
 .chat-body *{ letter-spacing: normal; }
 
 /* =========================
-   HEADER (TOP BAR) — RESPONSIVE PRO
+   HEADER (TOP BAR)
 ========================= */
 .chat-top{
   position: sticky;
@@ -68,6 +69,7 @@
   backdrop-filter: blur(10px);
 }
 
+/* marque */
 .chat-brand{
   display:flex;
   align-items:center;
@@ -76,7 +78,6 @@
   color: rgba(255,255,255,.92);
   min-width: 0;
 }
-
 .chat-logo{
   width:34px;
   height:34px;
@@ -84,14 +85,12 @@
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
   flex: 0 0 auto;
 }
-
 .chat-brand-text{
   display:flex;
   flex-direction:column;
   gap:2px;
   min-width:0;
 }
-
 .chat-brand-name{
   font-weight:1000;
   letter-spacing: .06em;
@@ -100,7 +99,6 @@
   overflow:hidden;
   text-overflow:ellipsis;
 }
-
 .chat-brand-sub{
   color: rgba(255,255,255,.70);
   font-weight:800;
@@ -110,6 +108,7 @@
   text-overflow:ellipsis;
 }
 
+/* actions */
 .chat-top-actions{
   display:flex;
   align-items:center;
@@ -131,6 +130,10 @@
   background: rgba(0,0,0,.20);
   border:1px solid rgba(255,255,255,.14);
   white-space: nowrap;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
 .chat-back{ background: rgba(255,255,255,.06); }
 
@@ -145,13 +148,28 @@
   box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
 }
 
-/* Mobile header compact */
+/* =========================
+   MOBILE LABELS (FIX doublons)
+   -> indispensable pour tes <span className="hide-mobile/show-mobile">
+========================= */
+.hide-mobile{ display:inline !important; }
+.show-mobile{ display:none !important; }
+
+@media (max-width: 520px){
+  .hide-mobile{ display:none !important; }
+  .show-mobile{ display:inline !important; }
+}
+
+/* =========================
+   MOBILE header compact (pro)
+========================= */
 @media (max-width: 520px){
   :root{ --topH: 56px; }
 
   .chat-top{
     padding:10px 10px;
     gap:8px;
+    align-items:flex-start;
   }
 
   .chat-logo{ width:30px; height:30px; }
@@ -159,13 +177,20 @@
   .chat-brand-name{ font-size:11px; }
   .chat-brand-sub{ display:none; }
 
-  .chat-top-actions{ gap:8px; }
+  /* évite que les actions s'étalent trop / wrap bizarre */
+  .chat-top-actions{
+    gap:8px;
+    flex: 0 0 auto;
+    max-width: 62%;
+    justify-content:flex-end;
+  }
 
   .chat-back,
   .chat-upgrade,
   .chat-logout{
     padding:8px 10px;
     font-size:11px;
+    line-height: 1;
   }
 }
 
@@ -275,7 +300,7 @@
   font-size: var(--sideText);
 }
 
-/* (utilisés dans ton JSX) */
+/* utilisés dans ton JSX */
 .chat-side-center{ min-width:0; }
 .chat-side-email{
   margin: 10px 0 0;
@@ -625,8 +650,7 @@
 }
 
 /* =========================
-   RESPONSIVE LAYOUT
-   ✅ IMPORTANT: sidebar visible en mobile comme carte
+   RESPONSIVE LAYOUT (SIDEBAR EN CARTE)
 ========================= */
 @media (max-width: 980px){
   .chat-wrap{
@@ -642,7 +666,6 @@
 
   .chat-side-header{ display:none; }
 
-  /* carte: image + contenu */
   .chat-side-content{
     padding: 12px;
     text-align:left;
@@ -687,7 +710,7 @@
     overflow: hidden;
   }
 
-  /* ✅ IMPORTANT: on enlève le séparateur en mode carte */
+  /* en mode carte, on enlève le séparateur */
   .chat-side-content::after{ display:none; }
 
   .book-btn{
