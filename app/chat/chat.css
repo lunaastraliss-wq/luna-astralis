@@ -1,11 +1,9 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL (MOBILE HEADER PRO)
+   Luna Astralis — chat/chat.css — FINAL (MOBILE PRO HEADER + SIDEBAR CARD)
    - Desktop: sidebar + chat
-   - Mobile: 1 colonne
+   - Mobile: sidebar devient une carte compacte AU-DESSUS du chat (pas cachée)
    - Scroll uniquement dans .chat-messages
-   - Sidebar: contenu coupé si trop long, footer toujours visible
-   - Composer sticky (input) + font-size 16px
-   - reCAPTCHA: discret (badge + bandeau)
+   - Composer sticky
 ========================================================== */
 
 /* =========================
@@ -47,7 +45,7 @@
 .chat-body *{ letter-spacing: normal; }
 
 /* =========================
-   HEADER (TOP BAR)
+   HEADER (TOP BAR) — RESPONSIVE PRO
 ========================= */
 .chat-top{
   position: sticky;
@@ -57,9 +55,9 @@
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:16px;
+  gap:12px;
 
-  padding:14px 18px;
+  padding:12px 14px;
   min-height: var(--topH);
   box-sizing: border-box;
 
@@ -68,70 +66,55 @@
   backdrop-filter: blur(10px);
 }
 
+/* marque */
 .chat-brand{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:10px;
   text-decoration:none;
   color: rgba(255,255,255,.92);
-  min-width:0; /* important pour ellipsis */
+  min-width: 0;
 }
 .chat-logo{
   width:34px;
   height:34px;
   object-fit:contain;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
-  flex:0 0 auto;
+  flex: 0 0 auto;
 }
 .chat-brand-text{
   display:flex;
   flex-direction:column;
   gap:2px;
-  min-width:0;
+  min-width: 0;
 }
 .chat-brand-name{
   font-weight:1000;
   letter-spacing: .06em;
   font-size:12px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .chat-brand-sub{
   color: rgba(255,255,255,.70);
   font-weight:800;
   font-size:12px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Actions (desktop) */
+/* actions */
 .chat-top-actions{
   display:flex;
   align-items:center;
   gap:10px;
-  flex-wrap:nowrap;
+  flex-wrap: wrap;              /* ✅ important: wrap propre */
+  justify-content:flex-end;
 }
 
-/* Boutons header */
-.chat-back{
-  text-decoration:none;
-  font-weight:900;
-  font-size:12px;
-  padding:10px 12px;
-  border-radius:999px;
-
-  color: rgba(255,255,255,.88);
-  background: rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.14);
-}
-.chat-back:hover{ filter: brightness(1.06); }
-.chat-back:focus-visible{
-  outline:0;
-  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
-}
-
+.chat-back,
 .chat-upgrade,
 .chat-logout{
   text-decoration:none;
@@ -143,9 +126,47 @@
   color: rgba(255,255,255,.90);
   background: rgba(0,0,0,.20);
   border:1px solid rgba(255,255,255,.14);
+
+  white-space: nowrap;
 }
+.chat-back{ background: rgba(255,255,255,.06); }
+
+.chat-back:hover,
 .chat-upgrade:hover,
 .chat-logout:hover{ filter: brightness(1.06); }
+
+.chat-back:focus-visible,
+.chat-upgrade:focus-visible,
+.chat-logout:focus-visible{
+  outline:0;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.12), 0 0 0 6px rgba(146,112,255,.22);
+}
+
+/* ✅ Mobile: header compact (plus pro, moins “gros”) */
+@media (max-width: 520px){
+  :root{ --topH: 56px; }
+
+  .chat-top{
+    padding:10px 10px;
+    gap:8px;
+  }
+
+  .chat-logo{ width:30px; height:30px; }
+
+  .chat-brand-name{ font-size:11px; }
+  .chat-brand-sub{ display:none; }         /* ✅ enlève la 2e ligne, ça fait plus clean */
+
+  .chat-top-actions{
+    gap:8px;
+  }
+
+  .chat-back,
+  .chat-upgrade,
+  .chat-logout{
+    padding:8px 10px;
+    font-size:11px;
+  }
+}
 
 /* =========================
    LAYOUT (2 COLONNES, FIXE)
@@ -153,7 +174,7 @@
 .chat-wrap{
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--gap) 18px 18px;
+  padding: var(--gap) 14px 14px;
 
   display:grid;
   grid-template-columns: var(--sideW) 1fr;
@@ -168,7 +189,7 @@
 }
 
 /* =========================
-   SIDEBAR (NO SCROLL)
+   SIDEBAR (DESKTOP)
 ========================= */
 .chat-side{
   border-radius: 22px;
@@ -202,6 +223,7 @@
   letter-spacing:.01em;
 }
 
+/* milieu */
 .chat-side-content{
   padding:14px;
   flex: 1 1 auto;
@@ -210,6 +232,7 @@
   text-align:center;
 }
 
+/* footer */
 .chat-side-footer{
   flex: 0 0 auto;
   padding: 0 14px 14px;
@@ -253,6 +276,21 @@
   font-size: var(--sideText);
 }
 
+/* ajouté (ton JSX les utilise) */
+.chat-side-email{
+  margin: 10px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255,255,255,.72);
+  word-break: break-word;
+}
+.chat-side-disclaimer{
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: rgba(255,255,255,.60);
+}
+
 .book-btn{
   display:inline-flex;
   align-items:center;
@@ -281,6 +319,7 @@
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
+/* séparateur */
 .chat-side-content::after{
   content:"";
   display:block;
@@ -290,7 +329,9 @@
   background: linear-gradient(to right, transparent, rgba(255,255,255,.14), transparent);
 }
 
-#freeCounter{
+/* compteur */
+#freeCounter,
+.free-counter{
   margin: 12px 0 0;
   padding:10px 12px;
   border-radius: 14px;
@@ -440,7 +481,7 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 
-  padding-bottom: 140px;
+  padding-bottom: 140px; /* air au-dessus du composer sticky */
 }
 
 .msg-row{
@@ -502,7 +543,7 @@
 }
 
 /* =========================
-   INPUT BAR — STICKY + SAFE
+   INPUT BAR — STICKY
 ========================= */
 .chat-inputbar{
   display:flex;
@@ -588,93 +629,82 @@
 }
 
 /* ==========================================================
-   Bandeau “protégé par reCAPTCHA” (si présent)
+   RESPONSIVE LAYOUT
+   ✅ IMPORTANT: on NE cache PLUS la sidebar sur mobile.
+   Elle devient une carte compacte au-dessus du chat.
 ========================================================== */
-.recaptcha,
-.recaptcha-container,
-.recaptcha-badge,
-.recaptcha-notice,
-.grecaptcha-container{
-  z-index: 1 !important;
-}
-
-.recaptcha-notice,
-.recaptcha-badge,
-.recaptcha{
-  max-width: 220px;
-  font-size: 10px;
-  line-height: 1.2;
-  opacity: 0.55;
-}
-
-.chat-panel .recaptcha,
-.chat-panel .recaptcha-notice,
-.chat-panel .recaptcha-badge{
-  position: absolute !important;
-  right: 10px !important;
-  bottom: 78px !important;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
 @media (max-width: 980px){
-  .chat-wrap{ grid-template-columns: 1fr; }
-  .chat-side{ display:none; }
-
-  /* quand sidebar disparait, on peut donner plus d’air */
   .chat-wrap{
-    padding: var(--gap) 14px 14px;
+    grid-template-columns: 1fr;   /* 1 colonne */
+    height: calc(100dvh - var(--topH));
+    max-height: calc(100dvh - var(--topH));
+  }
+
+  /* sidebar devient carte */
+  .chat-side{
+    height: auto;
+    min-height: 0;
+  }
+
+  .chat-side-header{ display:none; }
+
+  .chat-side-content{
+    padding: 12px;
+    text-align:left;
+  }
+
+  /* carte compacte: image + textes sur 1 ligne */
+  .chat-side-content{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+  }
+
+  .ai-face-wrap{
+    width: 68px;
+    max-width: 68px;
+    height: 68px;
+    max-height: 68px;
+    margin: 0;
+    border-radius: 16px;
+    flex: 0 0 auto;
+  }
+  .ai-face{
+    width: 68px;
+    height: 68px;
+    object-position: 50% 20%;
+  }
+
+  /* le bloc texte */
+  .chat-side-center{
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .chat-side-p{
+    margin: 0;
+    font-size: 13px;
+  }
+  .chat-side-muted{
+    margin: 6px 0 0;
+    font-size: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .book-btn{
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .chat-side-footer{
+    padding: 10px 12px 12px;
   }
 }
 
-/* ===== MOBILE: HEADER PRO, COMPACT ===== */
-@media (max-width: 520px){
-  /* header en 2 rangées propres */
-  .chat-top{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap:10px;
-    padding:10px 12px;
-    min-height: unset; /* important */
-  }
-
-  .chat-brand{
-    justify-content:flex-start;
-  }
-  .chat-logo{
-    width:28px;
-    height:28px;
-  }
-  .chat-brand-name{ font-size:11px; }
-  .chat-brand-sub{ display:none; }
-
-  /* actions: 1 ligne scrollable si besoin */
-  .chat-top-actions{
-    width:100%;
-    gap:8px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom:2px;
-  }
-  .chat-top-actions::-webkit-scrollbar{ height:0; }
-
-  /* boutons plus petits */
-  .chat-back,
-  .chat-upgrade,
-  .chat-logout{
-    padding:8px 10px;
-    font-size:12px;
-    white-space:nowrap;
-  }
-
-  /* layout: la hauteur n’est plus calculée avec --topH fixe */
-  .chat-wrap{
-    height: calc(100dvh - 96px); /* header mobile ~2 rangées */
-    max-height: calc(100dvh - 96px);
-    padding: 12px 12px 12px;
-  }
-
+/* petits écrans */
+@media (max-width:520px){
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
