@@ -1,5 +1,5 @@
 /* ==========================================================
-   Luna Astralis — chat/chat.css — FINAL (NO SIDEBAR SCROLL)
+   Luna Astralis — chat/chat.css — FINAL (MOBILE HEADER PRO)
    - Desktop: sidebar + chat
    - Mobile: 1 colonne
    - Scroll uniquement dans .chat-messages
@@ -74,35 +74,47 @@
   gap:12px;
   text-decoration:none;
   color: rgba(255,255,255,.92);
+  min-width:0; /* important pour ellipsis */
 }
 .chat-logo{
   width:34px;
   height:34px;
   object-fit:contain;
   filter: drop-shadow(0 10px 18px rgba(0,0,0,.45));
+  flex:0 0 auto;
 }
 .chat-brand-text{
   display:flex;
   flex-direction:column;
   gap:2px;
+  min-width:0;
 }
 .chat-brand-name{
   font-weight:1000;
   letter-spacing: .06em;
   font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 .chat-brand-sub{
   color: rgba(255,255,255,.70);
   font-weight:800;
   font-size:12px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
+/* Actions (desktop) */
 .chat-top-actions{
   display:flex;
   align-items:center;
   gap:10px;
+  flex-wrap:nowrap;
 }
 
+/* Boutons header */
 .chat-back{
   text-decoration:none;
   font-weight:900;
@@ -190,7 +202,6 @@
   letter-spacing:.01em;
 }
 
-/* ✅ milieu: prend l’espace, mais ne scroll pas */
 .chat-side-content{
   padding:14px;
   flex: 1 1 auto;
@@ -199,7 +210,6 @@
   text-align:center;
 }
 
-/* ✅ footer: toujours visible en bas */
 .chat-side-footer{
   flex: 0 0 auto;
   padding: 0 14px 14px;
@@ -271,7 +281,6 @@
 }
 .book-btn:hover{ filter: brightness(1.06); transform: translateY(-1px); }
 
-/* ligne décorative (reste dans le contenu) */
 .chat-side-content::after{
   content:"";
   display:block;
@@ -281,9 +290,8 @@
   background: linear-gradient(to right, transparent, rgba(255,255,255,.14), transparent);
 }
 
-/* ✅ compteur dans le footer */
 #freeCounter{
-  margin: 12px 0 0;              /* ✅ plus de marge latérale (footer gère le padding) */
+  margin: 12px 0 0;
   padding:10px 12px;
   border-radius: 14px;
   border:1px solid rgba(255,255,255,.14);
@@ -432,7 +440,6 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 
-  /* ✅ donne de l'air au-dessus du composer sticky */
   padding-bottom: 140px;
 }
 
@@ -513,7 +520,6 @@
   z-index: 40;
 }
 
-/* input */
 .chat-input{
   flex:1;
   width:100%;
@@ -615,8 +621,60 @@
 @media (max-width: 980px){
   .chat-wrap{ grid-template-columns: 1fr; }
   .chat-side{ display:none; }
+
+  /* quand sidebar disparait, on peut donner plus d’air */
+  .chat-wrap{
+    padding: var(--gap) 14px 14px;
+  }
 }
-@media (max-width:520px){
+
+/* ===== MOBILE: HEADER PRO, COMPACT ===== */
+@media (max-width: 520px){
+  /* header en 2 rangées propres */
+  .chat-top{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:10px;
+    padding:10px 12px;
+    min-height: unset; /* important */
+  }
+
+  .chat-brand{
+    justify-content:flex-start;
+  }
+  .chat-logo{
+    width:28px;
+    height:28px;
+  }
+  .chat-brand-name{ font-size:11px; }
+  .chat-brand-sub{ display:none; }
+
+  /* actions: 1 ligne scrollable si besoin */
+  .chat-top-actions{
+    width:100%;
+    gap:8px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom:2px;
+  }
+  .chat-top-actions::-webkit-scrollbar{ height:0; }
+
+  /* boutons plus petits */
+  .chat-back,
+  .chat-upgrade,
+  .chat-logout{
+    padding:8px 10px;
+    font-size:12px;
+    white-space:nowrap;
+  }
+
+  /* layout: la hauteur n’est plus calculée avec --topH fixe */
+  .chat-wrap{
+    height: calc(100dvh - 96px); /* header mobile ~2 rangées */
+    max-height: calc(100dvh - 96px);
+    padding: 12px 12px 12px;
+  }
+
   .msg-avatar, .msg-avatar-spacer{ width:34px; height:34px; }
   .msg-avatar{ object-position:50% 16%; }
   .msg-bubble{ max-width: 90vw; }
