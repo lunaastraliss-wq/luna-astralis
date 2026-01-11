@@ -10,7 +10,6 @@ import ChatPanel, { TopBar } from "./ChatPanel";
 import ChatModals from "./ChatModals";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
-
 type Plan = "guest" | "free" | "premium";
 
 const FREE_LIMIT = 15;
@@ -146,7 +145,6 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // URL accepte ?signe=... + legacy ?sign=...
   const rawKeyFromUrl = useMemo(() => sp.get("signe") || sp.get("sign") || "", [sp]);
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
 
@@ -166,7 +164,8 @@ export default function ChatClient() {
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
   const [historyOpen, setHistoryOpen] = useState(false);
 
-  const [freeLeft, setFreeLeft] = useState<number>(FREE_LIMIT);
+  // ✅ IMPORTANT: freeLeft peut être null en premium
+  const [freeLeft, setFreeLeft] = useState<number | null>(FREE_LIMIT);
   const [quotaReady, setQuotaReady] = useState(false);
   const [booted, setBooted] = useState(false);
 
@@ -311,9 +310,10 @@ export default function ChatClient() {
     }
   }, []);
 
+  // ✅ IMPORTANT: no-store + premium => freeLeft null
   const refreshQuotaFromServer = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat/quota", { method: "GET" });
+      const res = await fetch("/api/chat/quota", { method: "GET", cache: "no-store" });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
@@ -322,18 +322,21 @@ export default function ChatClient() {
         data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest"
           ? data.plan
           : "guest";
+
       setPlan(nextPlan);
+
+      if (nextPlan === "premium") {
+        setFreeLeft(null); // ✅ clé: pas de quota en premium
+        // on garde le cache legacy à 15 pour ne pas casser des anciens flows
+        setSavedRemaining(FREE_LIMIT);
+        return;
+      }
 
       const r = clampInt(data?.freeLeft ?? data?.remaining, FREE_LIMIT);
       const safe = Math.max(0, Math.min(FREE_LIMIT, r));
 
-      if (nextPlan === "premium") {
-        setFreeLeft(FREE_LIMIT);
-        setSavedRemaining(FREE_LIMIT);
-      } else {
-        setFreeLeft(safe);
-        setSavedRemaining(safe);
-      }
+      setFreeLeft(safe);
+      setSavedRemaining(safe);
     } catch {}
   }, [setSavedRemaining]);
 
@@ -354,7 +357,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // 2) quota (best-effort local)
+      // 2) quota local best-effort (uniquement pour non-premium; on corrigera après refresh)
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -386,7 +389,6 @@ export default function ChatClient() {
           if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
         }
       } else {
-        // pas de signe
         if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         else router.replace("/");
       }
@@ -416,7 +418,6 @@ export default function ChatClient() {
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
-      // recharge thread local (signKey identique)
       if (signKey) {
         const t0 = ensureHello(loadThreadLocal());
         setThread(t0);
@@ -566,7 +567,8 @@ export default function ChatClient() {
         return;
       }
 
-      if (quotaReady && plan === "free" && freeLeft <= 0) {
+      // ✅ blocage seulement si FREE et freeLeft number
+      if (quotaReady && plan === "free" && typeof freeLeft === "number" && freeLeft <= 0) {
         openPaywallGuest();
         return;
       }
@@ -653,7 +655,6 @@ export default function ChatClient() {
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
-  // Écran de boot (évite le "Chargement…" qui saute partout)
   if (!booted || !signKey) {
     return (
       <div className="chat-body">
@@ -674,7 +675,6 @@ export default function ChatClient() {
       </div>
 
       <main className="chat-wrap" role="main">
-        {/* ✅ Sidebar desktop (cachée en CSS sur mobile) */}
         <ChatSidebar
           isAuth={isAuth === true}
           sessionEmail={sessionEmail}
@@ -686,7 +686,6 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
-          {/* ✅ Bloc MOBILE (profil du signe) */}
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
               <img
@@ -722,16 +721,20 @@ export default function ChatClient() {
                 Changer de signe
               </button>
 
-              <button
-                type="button"
-                className="btn btn-small btn-ghost"
-                onClick={() => router.push("/pricing?reason=free&next=%2Fchat")}
-              >
-                Upgrade
-              </button>
+              {/* ✅ Upgrade seulement si pas premium */}
+              {plan !== "premium" ? (
+                <button
+                  type="button"
+                  className="btn btn-small btn-ghost"
+                  onClick={() => router.push("/pricing?reason=free&next=%2Fchat")}
+                >
+                  Upgrade
+                </button>
+              ) : null}
             </div>
 
-            {plan !== "premium" ? (
+            {/* ✅ quota mobile seulement si plan === free */}
+            {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
                 {freeLeft > 0
                   ? `Il te reste ${freeLeft} message(s) gratuit(s).`
@@ -765,4 +768,4 @@ export default function ChatClient() {
       />
     </div>
   );
-}
+        }
