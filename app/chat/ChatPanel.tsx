@@ -26,22 +26,32 @@ export function TopBar({
       </a>
 
       <div className="chat-top-actions">
-        <a className="chat-back" href="/#signes">
-          Changer de signe
+        <a className="chat-back" href="/#signes" aria-label="Changer de signe">
+          <span className="hide-mobile">Changer de signe</span>
+          <span className="show-mobile">Signe</span>
         </a>
 
         {isAuth ? (
           <>
-            <a className="chat-upgrade" href="/pricing">
-              Upgrade
+            <a className="chat-upgrade" href="/pricing" aria-label="Voir les offres">
+              <span className="hide-mobile">Upgrade</span>
+              <span className="show-mobile">Offres</span>
             </a>
-            <a className="chat-logout" href="#" onClick={onLogout}>
-              Déconnexion
+
+            <a
+              className="chat-logout"
+              href="#"
+              onClick={onLogout}
+              aria-label="Déconnexion"
+            >
+              <span className="hide-mobile">Déconnexion</span>
+              <span className="show-mobile">Quitter</span>
             </a>
           </>
         ) : (
-          <a className="chat-upgrade" href="/pricing">
-            Offres
+          <a className="chat-upgrade" href="/pricing" aria-label="Voir les offres">
+            <span className="hide-mobile">Offres</span>
+            <span className="show-mobile">Offres</span>
           </a>
         )}
       </div>
@@ -85,7 +95,8 @@ export default function ChatPanel(props: {
             aria-label="Ouvrir l’historique"
             disabled={disabled}
           >
-            Historique
+            <span className="hide-mobile">Historique</span>
+            <span className="show-mobile">Hist.</span>
           </button>
 
           <div className="ai-face-mini-wrap" aria-hidden="true">
@@ -122,8 +133,6 @@ export default function ChatPanel(props: {
       </div>
 
       <form className="chat-inputbar" onSubmit={onSend} autoComplete="off">
-        {/* ✅ Si tu veux rester en <input>, garde input.
-            Si tu veux multi-ligne: remplace par <textarea> avec même className. */}
         <input
           className="chat-input"
           placeholder="Écris ton message…"
@@ -133,7 +142,8 @@ export default function ChatPanel(props: {
           disabled={disabled}
         />
         <button className="chat-send" type="submit" disabled={disabled}>
-          Envoyer
+          <span className="hide-mobile">Envoyer</span>
+          <span className="show-mobile">Go</span>
         </button>
       </form>
     </section>
