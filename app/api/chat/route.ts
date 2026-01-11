@@ -74,6 +74,10 @@ function toUnixMaybe(v: any): number | null {
   return null;
 }
 
+function pickOne(arr: string[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
 /**
  * Supporte:
  * - body.messages (format OpenAI)
@@ -112,9 +116,51 @@ function getLastUserMessage(msgs: Array<{ role: string; content: string }>) {
   return "";
 }
 
-// 2 phrases + 1 question max ~240 chars
-function enforceShortFormat(input: string) {
-  let text = cleanStr(input).replace(/\s+/g, " ");
+function pickLastNMessages(
+  msgs: Array<{ role: string; content: string }>,
+  n: number
+) {
+  const arr = Array.isArray(msgs) ? msgs : [];
+  const sliced = arr.slice(Math.max(0, arr.length - n));
+  return sliced
+    .map((m) => ({
+      role: m.role === "assistant" ? "assistant" : "user",
+      content: cleanStr(m.content),
+    }))
+    .filter((m) => m.content);
+}
+
+/* ===========================
+   SHORT FORMAT (2 phrases + 1 question) — anti-répétition
+=========================== */
+const S1_VARIANTS_FR = [
+  "Je te lis.",
+  "Je suis là.",
+  "D’accord, je comprends.",
+  "Merci de me le dire.",
+  "Ok, je t’écoute.",
+];
+
+const S2_VARIANTS_FR = [
+  "On va démêler ça ensemble.",
+  "On peut clarifier ça doucement.",
+  "On va y voir plus clair.",
+  "On peut mettre des mots dessus.",
+  "On avance une étape à la fois.",
+  "On peut explorer ça sans pression.",
+];
+
+const Q_VARIANTS_FR = [
+  "Qu’est-ce qui te pèse le plus là, maintenant ?",
+  "C’est quoi le point le plus difficile pour toi ?",
+  "Qu’est-ce que tu ressens le plus fort en ce moment ?",
+  "Tu veux qu’on commence par quoi ?",
+  "Qu’est-ce que tu as besoin d’entendre là, tout de suite ?",
+];
+
+// max ~240 chars, 2 phrases + 1 question
+function enforceShortFormatFR(input: string, lastS2?: string) {
+  const text = cleanStr(input).replace(/\s+/g, " ");
 
   const parts = text
     .split(/(?<=[.!?])\s+/)
@@ -129,9 +175,17 @@ function enforceShortFormat(input: string) {
   let s2 = nonQ[1] ?? "";
   let q = qSentence;
 
-  if (!s1) s1 = "Je te lis.";
-  if (!s2) s2 = "On peut éclaircir ça ensemble.";
-  if (!q) q = "Qu’est-ce qui te pèse le plus là, maintenant ?";
+  if (!s1) s1 = pickOne(S1_VARIANTS_FR);
+
+  if (!s2) {
+    // anti répétition basique : éviter de ressortir la même s2 2x de suite
+    const pool = lastS2
+      ? S2_VARIANTS_FR.filter((x) => x !== lastS2)
+      : S2_VARIANTS_FR;
+    s2 = pickOne(pool.length ? pool : S2_VARIANTS_FR);
+  }
+
+  if (!q) q = pickOne(Q_VARIANTS_FR);
 
   if (!/[?]\s*$/.test(q)) q = q.replace(/[.!…]\s*$/, "").trimEnd() + " ?";
   if (s1 && !/[.!?…]\s*$/.test(s1)) s1 += ".";
@@ -149,6 +203,17 @@ function enforceShortFormat(input: string) {
   }
 
   return out;
+}
+
+// extrait la 2e phrase pour anti répétition au prochain tour (best-effort)
+function extractSecondSentenceFR(text: string) {
+  const t = cleanStr(text).replace(/\s+/g, " ");
+  const parts = t
+    .split(/(?<=[.!?])\s+/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  // s1 s2 q -> s2 = index 1
+  return parts[1] ? parts[1].replace(/[.!?…]\s*$/, "").trim() : "";
 }
 
 /* ===========================
@@ -227,20 +292,6 @@ async function isPremiumActive(user_id: string) {
   return cpeUnix > nowUnix();
 }
 
-function pickLastNMessages(
-  msgs: Array<{ role: string; content: string }>,
-  n: number
-) {
-  const arr = Array.isArray(msgs) ? msgs : [];
-  const sliced = arr.slice(Math.max(0, arr.length - n));
-  return sliced
-    .map((m) => ({
-      role: m.role === "assistant" ? "assistant" : "user",
-      content: cleanStr(m.content),
-    }))
-    .filter((m) => m.content);
-}
-
 /* ===========================
    ROUTES
 =========================== */
@@ -291,7 +342,12 @@ export async function POST(req: Request) {
 
     const premium = await isPremiumActive(user_id);
 
-    // ===== Free (non premium): 15 lifetime, réponses courtes
+    // Renvoi un avatar centralisé (optionnel côté UI)
+    const avatarSrc = "/ia-luna-astralis.png"; // ✅ mets ce fichier dans /public
+
+    /* ===========================
+       FREE (non premium): 15 lifetime, réponses courtes
+    =========================== */
     if (!premium) {
       const used = await ensureUserRowAndGetUsed(user_id);
       if (used >= FREE_LIMIT) {
@@ -306,17 +362,36 @@ export async function POST(req: Request) {
         );
       }
 
-      const system = `
+      // contexte court
+      const context = pickLastNMessages(userMessages, 10);
+
+      // essaye d’extraire la s2 précédente pour éviter répétition
+      // (on prend le dernier assistant message)
+      const lastAssistant = [...context]
+        .reverse()
+        .find((m) => m.role === "assistant" && cleanStr(m.content));
+      const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
+
+      const system =
+        lang === "fr"
+          ? `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, calme, direct, sans dramatiser.
 Tu aides sur astrologie, psycho douce, relations, introspection.
 Tu ne prétends pas être médecin; pas de diagnostics.
 Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
-Langue: ${lang}.
+Évite les formulations répétitives d’une réponse à l’autre.
+Langue: fr.
 Signe: ${signName || signKey || "—"}.
+`.trim()
+          : `
+You are Luna Astralis.
+Warm, calm, direct.
+Very short answer: 2 sentences + 1 question, max 240 characters.
+Avoid repetitive stock phrases.
+Language: ${lang}.
+Sign: ${signName || signKey || "—"}.
 `.trim();
-
-      const context = pickLastNMessages(userMessages, 10);
 
       const completion = await openai.chat.completions.create({
         model: "gpt-4o-mini",
@@ -325,24 +400,40 @@ Signe: ${signName || signKey || "—"}.
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
-      let short = enforceShortFormat(raw);
+
+      // format final (FR amélioré)
+      let short =
+        lang === "fr"
+          ? enforceShortFormatFR(raw, lastS2 || undefined)
+          : raw; // si tu veux EN/ES strict aussi, dis-moi, je te le fais.
 
       // ✅ incrément après succès OpenAI
       const newUsed = await incrementUserUsed(user_id);
       const remaining = Math.max(0, FREE_LIMIT - newUsed);
 
-      if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
+      if (lang === "fr" && remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
-        short = candidate.length <= 240 ? candidate : enforceShortFormat(candidate);
+        short =
+          candidate.length <= 240
+            ? candidate
+            : enforceShortFormatFR(candidate, lastS2 || undefined);
       }
 
       return NextResponse.json(
-        { message: short, reply: short, mode: "auth_free", remaining },
+        {
+          message: short,
+          reply: short,
+          mode: "auth_free",
+          remaining,
+          avatarSrc,
+        },
         { status: 200 }
       );
     }
 
-    // ===== Premium: réponses longues
+    /* ===========================
+       PREMIUM: réponses longues
+    =========================== */
     const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, profond, clair, concret.
@@ -361,7 +452,7 @@ Signe: ${signName || signKey || "—"}.
     const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
     return NextResponse.json(
-      { message: answer, reply: answer, mode: "auth_premium" },
+      { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
       { status: 200 }
     );
   } catch (e: any) {
