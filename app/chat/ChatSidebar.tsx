@@ -115,8 +115,7 @@ export default function ChatSidebar({
 
           {/* ✅ phrase plus pâle/petite via CSS .chat-side-disclaimer */}
           <p className="chat-side-disclaimer">
-            Outil d’exploration personnelle, non thérapeutique. Aucune thérapie,
-            aucun diagnostic.
+            Outil d’exploration personnelle
           </p>
         </div>
       </div>
