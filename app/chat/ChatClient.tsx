@@ -1,3 +1,4 @@
+// app/chat/ChatClient.tsx
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -17,7 +18,9 @@ const MAX_VISIBLE = 14;
 
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
-const SIGN_QUERY_PARAM = "sign";
+
+// ✅ Standardiser sur "signe" partout
+const SIGN_QUERY_PARAM = "signe";
 
 const SIGNS: Record<string, string> = {
   belier: "Bélier ♈",
@@ -99,14 +102,9 @@ function clampInt(v: any, fallback = 0) {
 }
 
 function safePath(nextUrl: string) {
-  if (!nextUrl) return "/";
-  if (
-    nextUrl.startsWith("/") &&
-    !nextUrl.startsWith("//") &&
-    !nextUrl.includes("://")
-  ) {
-    return nextUrl;
-  }
+  const s = (nextUrl || "").trim();
+  if (!s) return "/";
+  if (s.startsWith("/") && !s.startsWith("//") && !s.includes("://")) return s;
   return "/";
 }
 
@@ -134,13 +132,24 @@ function storeSign(signKey: string) {
   setCookie(COOKIE_SIGN_KEY, signKey);
 }
 
+function makeGuestIdLocal(): string {
+  // align “simple & stable”
+  const rand =
+    (typeof window !== "undefined" &&
+      (window.crypto as any)?.randomUUID &&
+      typeof (window.crypto as any).randomUUID === "function" &&
+      (window.crypto as any).randomUUID()) ||
+    `${Math.random().toString(36).slice(2)}${Date.now()}`;
+  return String(rand).replace(/-/g, "");
+}
+
 export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // accepte ?sign=... et aussi ?signe=... (legacy)
+  // ✅ accepte ?signe=... et aussi ?sign=... (legacy)
   const rawKeyFromUrl = useMemo(
-    () => sp.get("signe") || sp.get(SIGN_QUERY_PARAM) || "",
+    () => sp.get("signe") || sp.get("sign") || "",
     [sp]
   );
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
@@ -191,10 +200,7 @@ export default function ChatClient() {
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
 
-  const bookUrl = useMemo(
-    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
-    [signKey]
-  );
+  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -207,17 +213,11 @@ export default function ChatClient() {
       const existing = localStorage.getItem(KEY_GUEST_ID);
       if (existing) return existing;
 
-      const id =
-        (window.crypto &&
-          "randomUUID" in window.crypto &&
-          typeof (window.crypto as any).randomUUID === "function" &&
-          (window.crypto as any).randomUUID()) ||
-        "guest_" + Math.random().toString(36).slice(2) + Date.now();
-
+      const id = makeGuestIdLocal();
       localStorage.setItem(KEY_GUEST_ID, id);
       return id;
     } catch {
-      return "guest_" + Math.random().toString(36).slice(2) + Date.now();
+      return makeGuestIdLocal();
     }
   }, [KEY_GUEST_ID]);
 
@@ -250,10 +250,7 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(
-          KEY_SERVER_REMAINING,
-          String(Math.max(0, Math.trunc(n)))
-        );
+        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -305,17 +302,14 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
   const goPlans = useCallback(
     (reason: "free" | "premium") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      router.push(
-        `/pricing?reason=${encodeURIComponent(reason)}&next=${next}`
-      );
+      router.push(`/pricing?reason=${encodeURIComponent(reason)}&next=${next}`);
     },
     [router, currentPathWithQuery]
   );
@@ -375,7 +369,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // best-effort local pour éviter un "flash"
+      // best-effort local pour éviter un flash
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -412,25 +406,23 @@ export default function ChatClient() {
       if (urlSign) {
         setSignKey(urlSign);
         storeSign(urlSign);
-        router.replace(
-          `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`
-        );
+        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(urlSign)}`);
         return;
       }
 
       if (stored && SIGNS[stored]) {
         setSignKey(stored);
-        router.replace(
-          `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`
-        );
+        router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(stored)}`);
         return;
       }
 
+      // ✅ Si connecté => onboarding signe
       if (authed) {
         router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         return;
       }
 
+      // ✅ sinon => home
       router.replace("/");
     })();
 
@@ -471,13 +463,7 @@ export default function ChatClient() {
     return () => {
       data.subscription.unsubscribe();
     };
-  }, [
-    closePaywall,
-    ensureHello,
-    loadThreadLocal,
-    signKey,
-    refreshQuotaFromServer,
-  ]);
+  }, [closePaywall, ensureHello, loadThreadLocal, signKey, refreshQuotaFromServer]);
 
   useEffect(() => {
     scrollToBottom(true);
@@ -515,20 +501,30 @@ export default function ChatClient() {
       const data = await res.json().catch(() => ({} as any));
 
       if (!res.ok) {
+        // ✅ COMPTE OBLIGATOIRE (si ton backend renvoie 401)
+        if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
+          storeSign(signKey);
+          const next = encodeURIComponent(currentPathWithQuery());
+          router.push(`/login?next=${next}`);
+          throw new Error("AUTH_REQUIRED");
+        }
+
         if (data?.error === "FREE_LIMIT_REACHED") {
           setFreeLeft(0);
           setSavedRemaining(0);
           openPaywallGuest();
           throw new Error("FREE_LIMIT_REACHED");
         }
+
         if (data?.error === "PREMIUM_REQUIRED") {
           openPaywallPremiumRequired();
           throw new Error("PREMIUM_REQUIRED");
         }
+
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
-      // remaining utile surtout pour guest (mais ok de le recevoir)
+      // remaining utile surtout pour guest (mais OK de le recevoir)
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
@@ -563,6 +559,8 @@ export default function ChatClient() {
       openPaywallGuest,
       openPaywallPremiumRequired,
       setSavedRemaining,
+      currentPathWithQuery,
+      router,
     ]
   );
 
@@ -582,7 +580,7 @@ export default function ChatClient() {
       const session = await getSessionSafe();
       const authed = !!session?.user?.id;
 
-      // ✅ blocage seulement guest
+      // ✅ blocage seulement guest (si tu gardes encore du guest)
       if (!authed && quotaReady && freeLeft <= 0) {
         openPaywallGuest();
         return;
@@ -601,9 +599,11 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
+        // erreurs “attendues”
         if (
           err?.message === "FREE_LIMIT_REACHED" ||
-          err?.message === "PREMIUM_REQUIRED"
+          err?.message === "PREMIUM_REQUIRED" ||
+          err?.message === "AUTH_REQUIRED"
         ) {
           setThread(t1);
           return;
@@ -721,4 +721,4 @@ export default function ChatClient() {
       />
     </div>
   );
-        }
+}
