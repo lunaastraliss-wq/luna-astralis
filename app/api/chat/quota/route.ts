@@ -11,7 +11,8 @@ export const dynamic = "force-dynamic";
  * Règle:
  * - Compte requis (pas de quota guest)
  * - Free: 15 messages lifetime (user_usage_lifetime.used)
- * - Premium: actif si status in (active, trialing) ET current_period_end (si présent) > now
+ * - Premium: actif si status in (active, trialing)
+ *   ET current_period_end (si présent) > now
  */
 
 const FREE_LIMIT = 15;
@@ -22,7 +23,6 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 const USER_USAGE_TABLE = "user_usage_lifetime";
 const SUBS_TABLE = "user_subscriptions";
-const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
 type Plan = "guest" | "free" | "premium";
 
@@ -30,12 +30,14 @@ function cleanStr(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
 
-function toUnixMaybe(v: any): number | null {
-  if (!v) return null;
-  if (typeof v === "number") return v;
+function toUnixMaybe(v: unknown): number | null {
+  if (v == null) return null;
+
+  if (typeof v === "number" && Number.isFinite(v)) return Math.floor(v);
 
   const t = Date.parse(String(v));
   if (Number.isFinite(t)) return Math.floor(t / 1000);
+
   return null;
 }
 
@@ -54,6 +56,11 @@ const supabaseAdmin =
       })
     : null;
 
+/**
+ * ✅ Premium actif si on trouve la plus récente subscription
+ * parmi les statuts (active|trialing).
+ * (Important: ne pas prendre "la dernière ligne" toutes statuses confondues)
+ */
 async function isPremiumActive(user_id: string) {
   if (!supabaseAdmin) return false;
 
@@ -61,6 +68,7 @@ async function isPremiumActive(user_id: string) {
     .from(SUBS_TABLE)
     .select("status,current_period_end,created_at")
     .eq("user_id", user_id)
+    .in("status", ["active", "trialing"]) // ✅ filtre ici (fix majeur)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
@@ -68,11 +76,11 @@ async function isPremiumActive(user_id: string) {
   if (error || !data) return false;
 
   const status = cleanStr((data as any).status).toLowerCase();
-  if (!ACTIVE_STATUSES.has(status)) return false;
+  if (status !== "active" && status !== "trialing") return false;
 
   const cpeUnix = toUnixMaybe((data as any).current_period_end);
 
-  // Si pas de current_period_end (null/inexistant), on considère actif
+  // si current_period_end est null/inexistant -> on considère actif
   if (cpeUnix == null) return true;
 
   return cpeUnix > nowUnix();
@@ -88,10 +96,10 @@ async function getUsedLifetime(user_id: string) {
     .limit(1)
     .maybeSingle();
 
-  // Si erreur (ex: multiple rows, RLS, etc.), on ne casse pas l’UI: on renvoie 0
-  if (error) return 0;
+  // ne pas casser l’UI
+  if (error || !data) return 0;
 
-  const raw = Number((data as any)?.used ?? 0);
+  const raw = Number((data as any).used ?? 0);
   return Number.isFinite(raw) ? Math.max(0, Math.trunc(raw)) : 0;
 }
 
@@ -107,11 +115,15 @@ export async function GET() {
     });
 
     const { data, error } = await supabaseAuth.auth.getSession();
+
     if (error) {
-      return json({ error: "SESSION_ERROR", detail: cleanStr(error.message) }, 401);
+      return json(
+        { error: "SESSION_ERROR", detail: cleanStr(error.message) },
+        401
+      );
     }
 
-    const user_id = data?.session?.user?.id;
+    const user_id = data?.session?.user?.id || "";
 
     // ✅ Compte requis
     if (!user_id) {
@@ -130,6 +142,7 @@ export async function GET() {
       });
     }
 
+    // ✅ Premium ?
     const premium = await isPremiumActive(user_id);
 
     if (premium) {
@@ -148,6 +161,7 @@ export async function GET() {
       });
     }
 
+    // ✅ Free (lifetime)
     const used = await getUsedLifetime(user_id);
     const remaining = Math.max(0, FREE_LIMIT - used);
 
@@ -164,6 +178,9 @@ export async function GET() {
       used,
     });
   } catch (e: any) {
-    return json({ error: "SERVER_ERROR", detail: cleanStr(e?.message || e) }, 500);
+    return json(
+      { error: "SERVER_ERROR", detail: cleanStr(e?.message || e) },
+      500
+    );
   }
-  }
+}
