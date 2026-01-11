@@ -25,14 +25,14 @@ export default function HomePage() {
         <nav className="nav" aria-label="Navigation principale">
           <a href="#comment">Comment ça fonctionne</a>
           <a href="#signes">Choisir un signe</a>
+
           <Link className="btn btn-small btn-ghost" href="/pricing">
             Tarifs
           </Link>
-          <Link className="btn btn-small btn-ghost" href="/login">
-            Mon compte
-          </Link>
-          <Link className="btn btn-small" href="/signup">
-            Créer un compte
+
+          {/* ✅ Une seule entrée : login (qui sert aussi de "création de compte") */}
+          <Link className="btn btn-small" href="/login">
+            Se connecter
           </Link>
         </nav>
       </header>
@@ -49,32 +49,39 @@ export default function HomePage() {
               </div>
 
               <h1 className="hero-title hero-title-center">
-                Ce n’est pas un horoscope.<br />
+                Ce n’est pas un horoscope.
+                <br />
                 C’est une conversation.
               </h1>
 
               <p className="lead lead-center">
-                Ici, on ne te dit pas ce qui va arriver.<br />
+                Ici, on ne te dit pas ce qui va arriver.
+                <br />
                 On parle de ce que tu vis, à travers ton signe.
               </p>
             </div>
 
-            {/* BLOC GRATUIT */}
-            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage gratuit">
+            {/* BLOC DÉMARRAGE */}
+            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
               <div className="hero-free hero-free-center">
-                <h2 className="hero-free-title">Commence gratuitement.</h2>
+                <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">Choisis ton signe et commence maintenant.</p>
+                <p className="hero-free-sub">
+                  Connecte-toi, puis choisis ton signe pour démarrer la conversation.
+                </p>
 
-                <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
-                  Choisir mon signe →
-                </a>
+                {/* ✅ CTA principal : login */}
+                <Link href="/login" className="hero-free-btn hero-free-btn--pulse">
+                  Se connecter pour commencer →
+                </Link>
 
-                <div className="hero-free-note">Sans compte · Sans carte</div>
+                <div className="hero-free-note">Compte requis · Gratuit au départ</div>
               </div>
             </div>
 
-            <p className="hero-tech note-center">Fonctionne instantanément sur mobile · Aucun téléchargement</p>
+            <p className="hero-tech note-center">
+              Fonctionne instantanément sur mobile · Aucun téléchargement
+            </p>
 
             <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
           </div>
@@ -125,6 +132,17 @@ export default function HomePage() {
               <div className="step-top">
                 <span className="step-n">01</span>
                 <span className="step-ico" aria-hidden="true">
+                  🔐
+                </span>
+              </div>
+              <h3>Connecte-toi</h3>
+              <p>Un compte permet de protéger l’accès et ton expérience.</p>
+            </div>
+
+            <div className="box step">
+              <div className="step-top">
+                <span className="step-n">02</span>
+                <span className="step-ico" aria-hidden="true">
                   ♈
                 </span>
               </div>
@@ -134,24 +152,13 @@ export default function HomePage() {
 
             <div className="box step">
               <div className="step-top">
-                <span className="step-n">02</span>
+                <span className="step-n">03</span>
                 <span className="step-ico" aria-hidden="true">
                   ✧
                 </span>
               </div>
               <h3>Reçois un miroir</h3>
               <p>Forces, angles morts, besoins.</p>
-            </div>
-
-            <div className="box step">
-              <div className="step-top">
-                <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">
-                  🧠
-                </span>
-              </div>
-              <h3>Comprends tes schémas</h3>
-              <p>Émotions, stress, relations.</p>
             </div>
 
             <div className="box step">
@@ -171,7 +178,7 @@ export default function HomePage() {
         <section id="signes" className="section">
           <div className="section-head">
             <h2>Choisir un signe</h2>
-            <p className="section-sub">Commence ici.</p>
+            <p className="section-sub">Après connexion, commence ici.</p>
           </div>
 
           <div className="signs signs-grid" role="list">
@@ -221,6 +228,13 @@ export default function HomePage() {
             <span className="el sign-air">Air</span>
             <span className="el sign-water">Eau</span>
           </div>
+
+          {/* ✅ CTA secondaire utile */}
+          <div className="note-center" style={{ marginTop: 14 }}>
+            <Link className="btn btn-small" href="/login">
+              Se connecter →
+            </Link>
+          </div>
         </section>
 
         {/* FOOTER */}
@@ -236,7 +250,9 @@ export default function HomePage() {
             </nav>
           </div>
 
-          <div className="footer-note">Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.</div>
+          <div className="footer-note">
+            Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.
+          </div>
         </footer>
       </main>
     </div>
