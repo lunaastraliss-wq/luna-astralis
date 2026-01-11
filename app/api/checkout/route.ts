@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 /**
  * Luna Astralis – Checkout Stripe (Subscription)
  * - Trial 3 jours
- * - Retour au chat après paiement
+ * - Retour au chat après paiement (success_url = SITE_URL + next)
  * - LOGIN REQUIS (sinon impossible de lier l’abonnement au user_id Supabase)
  * - Metadata complète pour le webhook
  */
@@ -20,6 +20,10 @@ type PlanId =
   | "monthly_unlimited"
   | "yearly_essential"
   | "yearly_unlimited";
+
+function cleanStr(v: unknown) {
+  return (v == null ? "" : String(v)).trim();
+}
 
 function isPlan(v: unknown): v is PlanId {
   return (
@@ -31,20 +35,30 @@ function isPlan(v: unknown): v is PlanId {
 }
 
 function cleanUrl(url: string) {
-  const s = (url || "").trim();
+  const s = cleanStr(url);
   if (!s) return "";
   return s.endsWith("/") ? s.slice(0, -1) : s;
 }
 
+/**
+ * Autorise uniquement des chemins internes (/...)
+ * Bloque les URL externes + les // + les http(s)
+ */
 function safeNext(next: unknown) {
   const fallback = "/chat?signe=belier";
-  if (typeof next !== "string") return fallback;
-
-  const s = next.trim();
+  const s = cleanStr(next);
   if (!s) return fallback;
 
   // bloque toute tentative d’URL externe
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+  if (
+    s.startsWith("http://") ||
+    s.startsWith("https://") ||
+    s.startsWith("//") ||
+    s.includes("http://") ||
+    s.includes("https://")
+  ) {
+    return fallback;
+  }
 
   return s.startsWith("/") ? s : `/${s}`;
 }
@@ -52,27 +66,26 @@ function safeNext(next: unknown) {
 // =====================
 // ENV
 // =====================
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const STRIPE_SECRET_KEY = cleanStr(process.env.STRIPE_SECRET_KEY);
+const SITE_URL = cleanStr(process.env.NEXT_PUBLIC_SITE_URL);
 
 // Stripe price IDs
-const STRIPE_PRICE_MONTHLY_ESSENTIAL = process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL ?? "";
-const STRIPE_PRICE_MONTHLY_UNLIMITED = process.env.STRIPE_PRICE_MONTHLY_UNLIMITED ?? "";
-const STRIPE_PRICE_YEARLY_ESSENTIAL = process.env.STRIPE_PRICE_YEARLY_ESSENTIAL ?? "";
-const STRIPE_PRICE_YEARLY_UNLIMITED = process.env.STRIPE_PRICE_YEARLY_UNLIMITED ?? "";
+const STRIPE_PRICE_MONTHLY_ESSENTIAL = cleanStr(process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL);
+const STRIPE_PRICE_MONTHLY_UNLIMITED = cleanStr(process.env.STRIPE_PRICE_MONTHLY_UNLIMITED);
+const STRIPE_PRICE_YEARLY_ESSENTIAL = cleanStr(process.env.STRIPE_PRICE_YEARLY_ESSENTIAL);
+const STRIPE_PRICE_YEARLY_UNLIMITED = cleanStr(process.env.STRIPE_PRICE_YEARLY_UNLIMITED);
 
 // Supabase pricing_plan_id (UUIDs) dans ta table pricing_plans
 const PRICING_PLAN_MAP: Record<PlanId, string> = {
-  monthly_essential: process.env.PRICING_PLAN_MONTHLY_ESSENTIAL ?? "",
-  monthly_unlimited: process.env.PRICING_PLAN_MONTHLY_UNLIMITED ?? "",
-  yearly_essential: process.env.PRICING_PLAN_YEARLY_ESSENTIAL ?? "",
-  yearly_unlimited: process.env.PRICING_PLAN_YEARLY_UNLIMITED ?? "",
+  monthly_essential: cleanStr(process.env.PRICING_PLAN_MONTHLY_ESSENTIAL),
+  monthly_unlimited: cleanStr(process.env.PRICING_PLAN_MONTHLY_UNLIMITED),
+  yearly_essential: cleanStr(process.env.PRICING_PLAN_YEARLY_ESSENTIAL),
+  yearly_unlimited: cleanStr(process.env.PRICING_PLAN_YEARLY_UNLIMITED),
 };
 
-const stripe =
-  STRIPE_SECRET_KEY
-    ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
-    : null;
+const stripe = STRIPE_SECRET_KEY
+  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  : null;
 
 function priceIdFromPlan(plan: PlanId) {
   switch (plan) {
@@ -98,10 +111,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "NEXT_PUBLIC_SITE_URL_MISSING" }, { status: 500 });
     }
 
-    const body = (await req.json().catch(() => ({}))) as {
-      plan?: unknown;
-      next?: unknown;
-    };
+    const body = (await req.json().catch(() => null)) as
+      | { plan?: unknown; next?: unknown }
+      | null;
+
+    if (!body) {
+      return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
+    }
 
     if (!isPlan(body.plan)) {
       return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
@@ -112,39 +128,35 @@ export async function POST(req: Request) {
     const pricing_plan_id = PRICING_PLAN_MAP[plan];
 
     if (!stripe_price_id || !pricing_plan_id) {
-      return NextResponse.json(
-        { error: "PLAN_CONFIG_MISSING" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
     }
 
     const next = safeNext(body.next);
 
-    // ✅ Retour au chat direct (tu peux garder ça)
-    // (option meilleure: passer par /pricing/success, mais je respecte ta demande “retour chat”)
     const success_url =
       `${site}${next}` +
       `${next.includes("?") ? "&" : "?"}paid=1&session_id={CHECKOUT_SESSION_ID}`;
 
     const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // ✅ LOGIN REQUIS
+    // ✅ LOGIN REQUIS (session cookies)
     const supabase = createRouteHandlerClient({ cookies });
-    const { data: userData, error: userErr } = await supabase.auth.getUser();
+    const { data: sess, error: sessErr } = await supabase.auth.getSession();
 
-    if (userErr) {
+    if (sessErr) {
       return NextResponse.json(
-        { error: "AUTH_ERROR", detail: userErr.message },
+        { error: "SESSION_ERROR", detail: sessErr.message, require_auth: true, next },
         { status: 401 }
       );
     }
 
-    const user_id = userData?.user?.id;
-    const user_email = userData?.user?.email;
+    const user = sess?.session?.user ?? null;
+    const user_id = user?.id ?? "";
+    const user_email = user?.email ?? "";
 
     if (!user_id || !user_email) {
       return NextResponse.json(
-        { error: "AUTH_REQUIRED", next },
+        { error: "AUTH_REQUIRED", require_auth: true, next },
         { status: 401 }
       );
     }
