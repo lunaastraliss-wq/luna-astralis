@@ -1,34 +1,49 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+"use client";
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+export default function CheckoutSuccessPage() {
+  const router = useRouter();
+  const sp = useSearchParams();
 
-  const { pathname, search } = req.nextUrl;
+  const next = sp.get("next") || "/chat";
+  const sessionId = sp.get("session_id") || "";
 
-  // 🔒 routes protégées
-  const protectedRoutes = ["/chat", "/api/chat", "/onboarding"];
+  useEffect(() => {
+    (async () => {
+      const supabase = createClientComponentClient();
 
-  const isProtected = protectedRoutes.some((p) =>
-    pathname.startsWith(p)
+      // Vérifie session
+      const { data } = await supabase.auth.getSession();
+      const isAuth = !!data.session;
+
+      // Si pas auth, on envoie au login (avec next)
+      if (!isAuth) {
+        router.replace(`/login?next=${encodeURIComponent(next)}`);
+        return;
+      }
+
+      // Si tu n'as pas /api/stripe/sync, enlève ce bloc
+      if (sessionId) {
+        try {
+          await fetch("/api/stripe/sync", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ session_id: sessionId }),
+          });
+        } catch {}
+      }
+
+      router.replace(next);
+    })();
+  }, [router, next, sessionId]);
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>Paiement confirmé</h1>
+      <p>Redirection en cours…</p>
+    </div>
   );
-
-  if (isProtected && !session) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("next", pathname + search);
-    return NextResponse.redirect(url);
-  }
-
-  return res;
 }
-
-export const config = {
-  matcher: ["/chat/:path*", "/api/chat/:path*", "/onboarding/:path*"],
-};
