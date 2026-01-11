@@ -67,7 +67,7 @@ export default function HomePage() {
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
                 <p className="hero-free-sub">
-                  Connecte-toi, puis choisis ton signe pour démarrer la conversation.
+                  Connecte-toi, pour démarrer la conversation.
                 </p>
 
                 {/* ✅ CTA principal : login */}
