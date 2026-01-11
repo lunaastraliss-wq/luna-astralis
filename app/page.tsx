@@ -38,7 +38,6 @@ function storeSign(signKey: string) {
   try {
     localStorage.setItem(LS_SIGN_KEY, signKey);
   } catch {}
-  // cookie optionnel (si tu veux pouvoir le lire côté serveur plus tard)
   setCookie(LS_SIGN_KEY, signKey);
 }
 
@@ -47,6 +46,10 @@ export default function HomePage() {
   const y = useMemo(() => new Date().getFullYear(), []);
 
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
+
+  // ✅ menu mobile (hamburger)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   // ✅ détecte session
   useEffect(() => {
@@ -76,9 +79,7 @@ export default function HomePage() {
     };
   }, []);
 
-  // ✅ clic sur signe: on mémorise le signe puis:
-  // - si déjà connecté -> /chat?signe=...
-  // - sinon -> /login?next=/chat?signe=...
+  // ✅ clic sur signe: store + redirect
   const onPickSign = useCallback(
     (signKey: string) => {
       storeSign(signKey);
@@ -95,10 +96,8 @@ export default function HomePage() {
     [router, isAuth]
   );
 
-  // ✅ bouton CTA HERO: scroll doux + (facultatif) focus sur la grille
-  const onCtaScrollToSigns = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
+  // ✅ scroll vers #signes (compatible <a> et <button>)
+  const scrollToSigns = useCallback(() => {
     if (typeof window === "undefined") return;
 
     const el = document.getElementById("signes");
@@ -109,18 +108,57 @@ export default function HomePage() {
 
     el.scrollIntoView({ behavior: "smooth", block: "start" });
 
-    // optionnel: petit focus pour accessibilité/UX
     window.setTimeout(() => {
-      const firstBtn = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
+      const firstBtn = el.querySelector("button, a, [tabindex]") as
+        | HTMLElement
+        | null;
       firstBtn?.focus?.();
     }, 250);
   }, []);
+
+  const onCtaScrollToSigns = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      scrollToSigns();
+    },
+    [scrollToSigns]
+  );
+
+  // ✅ helpers nav (mobile)
+  const onNavToComment = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      closeMenu();
+
+      const el = document.getElementById("comment");
+      if (!el) {
+        window.location.hash = "#comment";
+        return;
+      }
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    },
+    [closeMenu]
+  );
+
+  const onNavToSigns = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      closeMenu();
+      scrollToSigns();
+    },
+    [closeMenu, scrollToSigns]
+  );
+
+  // ferme le menu quand on devient connecté/déconnecté (évite état bizarre)
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [isAuth]);
 
   return (
     <div className="page-astro">
       {/* HEADER */}
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
+        <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -132,21 +170,52 @@ export default function HomePage() {
         </Link>
 
         <nav className="nav" aria-label="Navigation principale">
-          <a href="#comment">Comment ça fonctionne</a>
+          {/* DESKTOP NAV */}
+          <div className="nav-desktop">
+            <a href="#comment">Comment ça fonctionne</a>
 
-          {/* ✅ LIEN NAV EN STYLE “PILL” (ton changement: pas fade) */}
-          <a href="#signes" className="btn btn-small btn-ghost">
-            Choisir un signe
-          </a>
+            <a href="#signes" className="btn btn-small btn-ghost">
+              Choisir un signe
+            </a>
 
-          <Link className="btn btn-small btn-ghost" href="/pricing">
-            Tarifs
-          </Link>
+            <Link className="btn btn-small btn-ghost" href="/pricing">
+              Tarifs
+            </Link>
 
-          {/* ✅ Entrée unique */}
-          <Link className="btn btn-small" href="/login">
-            {isAuth ? "Mon compte" : "Se connecter"}
-          </Link>
+            <Link className="btn btn-small" href="/login">
+              {isAuth ? "Mon compte" : "Se connecter"}
+            </Link>
+          </div>
+
+          {/* MOBILE BUTTON */}
+          <button
+            type="button"
+            className="nav-burger"
+            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={menuOpen ? "true" : "false"}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            ☰
+          </button>
+
+          {/* MOBILE MENU */}
+          <div className={`nav-mobile ${menuOpen ? "open" : ""}`} role="menu">
+            <a href="#comment" onClick={onNavToComment} role="menuitem">
+              Comment ça fonctionne
+            </a>
+
+            <a href="#signes" onClick={onNavToSigns} role="menuitem">
+              Choisir un signe
+            </a>
+
+            <Link href="/pricing" onClick={closeMenu} role="menuitem">
+              Tarifs
+            </Link>
+
+            <Link href="/login" onClick={closeMenu} role="menuitem">
+              {isAuth ? "Mon compte" : "Se connecter"}
+            </Link>
+          </div>
         </nav>
       </header>
 
@@ -179,9 +248,10 @@ export default function HomePage() {
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi si nécessaire.</p>
+                <p className="hero-free-sub">
+                  Choisis ton signe, puis connecte-toi si nécessaire.
+                </p>
 
-                {/* ✅ TON CHANGEMENT: bouton CTA violet (index.css) */}
                 <a
                   href="#signes"
                   className="hero-free-btn hero-free-btn--pulse"
@@ -199,7 +269,9 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
+            <p className="hero-disclaimer note-center">
+              Exploration personnelle (non thérapeutique).
+            </p>
           </div>
         </section>
 
@@ -307,7 +379,6 @@ export default function HomePage() {
                 role="listitem"
                 className={`sign ${s.cls}`}
                 onClick={() => onPickSign(s.key)}
-                style={{ cursor: "pointer" }}
               >
                 {s.label}
               </button>
