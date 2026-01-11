@@ -9,7 +9,7 @@ type Props = {
   isAuth: boolean;
   sessionEmail: string;
   plan: Plan;
-  freeLeft: number;
+  freeLeft: number | null; // ✅ important
   signName: string;
   signDesc: string;
   bookUrl: string;
@@ -30,8 +30,8 @@ export default function ChatSidebar({
   signDesc,
   bookUrl,
 }: Props) {
-  // ✅ compteur seulement si plan === "free"
-  const showFreeCounter = plan === "free";
+  // ✅ compteur seulement si plan === "free" ET freeLeft est un nombre
+  const showFreeCounter = plan === "free" && typeof freeLeft === "number";
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
@@ -78,7 +78,6 @@ export default function ChatSidebar({
   return (
     <aside className="chat-side" aria-label="Profil IA">
       <div className="chat-side-content">
-        {/* ✅ Image : DESKTOP SEULEMENT (mobile = rien du tout) */}
         <div className="ai-face-wrap desktop-only" aria-hidden="true">
           <img
             className="ai-face"
@@ -108,7 +107,6 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* Email visible seulement si connecté */}
           {isAuth && !!sessionEmail && (
             <p className="chat-side-email">{sessionEmail}</p>
           )}
@@ -118,7 +116,6 @@ export default function ChatSidebar({
       </div>
 
       <div className="chat-side-footer">
-        {/* ✅ Compteur visible seulement en free */}
         {showFreeCounter && (
           <div className="free-counter" id="freeCounter" aria-live="polite">
             {counterText}
