@@ -190,8 +190,7 @@ export default function ChatClient() {
   const signName = useMemo(() => (signKey ? SIGNS[signKey] || "—" : "—"), [signKey]);
 
   const signDesc = useMemo(() => {
-    const fallback =
-      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    const fallback = "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
     if (!signKey) return fallback;
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
@@ -399,7 +398,7 @@ export default function ChatClient() {
       alive = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // ✅ boot unique
+  }, []);
 
   /* ===================== AUTH LISTENER ===================== */
   useEffect(() => {
@@ -675,6 +674,7 @@ export default function ChatClient() {
       </div>
 
       <main className="chat-wrap" role="main">
+        {/* ✅ Sidebar desktop (cachée en CSS sur mobile) */}
         <ChatSidebar
           isAuth={isAuth === true}
           sessionEmail={sessionEmail}
@@ -686,6 +686,60 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
+          {/* ✅ Bloc MOBILE (profil du signe) */}
+          <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
+            <div className="msc-row">
+              <img
+                className="msc-avatar"
+                src="/luna-avatar.jpg"
+                alt="Luna"
+                loading="lazy"
+              />
+
+              <div className="msc-text">
+                <div className="msc-title">{signName}</div>
+                <div className="msc-sub">{signDesc}</div>
+              </div>
+            </div>
+
+            <div className="msc-actions">
+              {bookUrl ? (
+                <a
+                  className="btn btn-small btn-ghost"
+                  href={bookUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Approfondir →
+                </a>
+              ) : null}
+
+              <button
+                type="button"
+                className="btn btn-small"
+                onClick={() => router.push("/onboarding/sign?next=/chat")}
+              >
+                Changer de signe
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-small btn-ghost"
+                onClick={() => router.push("/pricing?reason=free&next=%2Fchat")}
+              >
+                Upgrade
+              </button>
+            </div>
+
+            {plan !== "premium" ? (
+              <div className="msc-quota">
+                {freeLeft > 0
+                  ? `Il te reste ${freeLeft} message(s) gratuit(s).`
+                  : "Limite gratuite atteinte."}
+              </div>
+            ) : null}
+          </div>
+
           <ChatPanel
             signName={signName}
             tail={tail}
