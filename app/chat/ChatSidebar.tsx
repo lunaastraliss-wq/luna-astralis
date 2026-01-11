@@ -82,9 +82,9 @@ export default function ChatSidebar({
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
-      <div className="chat-side-header">
-        <div className="chat-side-title">Luna</div>
-      </div>
+      <div className="chat-side-header desktop-only">
+  <div className="chat-side-title">Luna</div>
+</div>
 
       <div className="chat-side-content">
         <div className="ai-face-wrap ai-face-small">
