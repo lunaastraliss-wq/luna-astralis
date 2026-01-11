@@ -11,6 +11,8 @@ import ChatModals from "./ChatModals";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
 
+type Plan = "guest" | "free" | "premium";
+
 const FREE_LIMIT = 15;
 
 const STORAGE_PREFIX = "la_chat_";
@@ -133,7 +135,6 @@ function storeSign(signKey: string) {
 }
 
 function makeGuestIdLocal(): string {
-  // align “simple & stable”
   const rand =
     (typeof window !== "undefined" &&
       (window.crypto as any)?.randomUUID &&
@@ -159,6 +160,9 @@ export default function ChatClient() {
   const [sessionEmail, setSessionEmail] = useState("");
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
   const [userId, setUserId] = useState<string>("");
+
+  // ✅ plan renvoyé par /api/chat/quota
+  const [plan, setPlan] = useState<Plan>("guest");
 
   const [signKey, setSignKey] = useState<string>("");
   const [thread, setThread] = useState<ThreadMsg[]>([]);
@@ -200,7 +204,10 @@ export default function ChatClient() {
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
 
-  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
+  const bookUrl = useMemo(
+    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
+    [signKey]
+  );
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -338,17 +345,30 @@ export default function ChatClient() {
     }
   }, []);
 
-  // quota serveur (utile surtout pour guest)
+  // ✅ quota serveur (plan + freeLeft)
   const refreshQuotaFromServer = useCallback(async () => {
     try {
       const res = await fetch("/api/chat/quota", { method: "GET" });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
-      if (typeof data?.remaining === "number") {
-        const r = Math.max(0, Math.trunc(data.remaining));
-        setFreeLeft(r);
-        setSavedRemaining(r);
+
+      const nextPlan: Plan = (data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest")
+        ? data.plan
+        : "guest";
+      setPlan(nextPlan);
+
+      // compat: freeLeft ou remaining
+      const r = clampInt(data?.freeLeft ?? data?.remaining, FREE_LIMIT);
+      const safe = Math.max(0, Math.min(FREE_LIMIT, r));
+
+      // si premium => on ne force pas un nombre, mais on garde freeLeft à FREE_LIMIT pour éviter NaN
+      if (nextPlan === "premium") {
+        setFreeLeft(FREE_LIMIT);
+        setSavedRemaining(FREE_LIMIT);
+      } else {
+        setFreeLeft(safe);
+        setSavedRemaining(safe);
       }
     } catch {}
   }, [setSavedRemaining]);
@@ -486,7 +506,7 @@ export default function ChatClient() {
         guestId: getGuestId(),
       };
 
-      // threadId seulement pour guest
+      // threadId seulement pour guest (legacy)
       if (!authed) {
         const tid = getServerThreadId();
         if (tid) payload.threadId = tid;
@@ -501,7 +521,7 @@ export default function ChatClient() {
       const data = await res.json().catch(() => ({} as any));
 
       if (!res.ok) {
-        // ✅ COMPTE OBLIGATOIRE (si ton backend renvoie 401)
+        // ✅ COMPTE OBLIGATOIRE
         if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
           storeSign(signKey);
           const next = encodeURIComponent(currentPathWithQuery());
@@ -510,6 +530,7 @@ export default function ChatClient() {
         }
 
         if (data?.error === "FREE_LIMIT_REACHED") {
+          setPlan("free");
           setFreeLeft(0);
           setSavedRemaining(0);
           openPaywallGuest();
@@ -524,14 +545,14 @@ export default function ChatClient() {
         throw new Error(data?.error || "Erreur serveur (/api/chat).");
       }
 
-      // remaining utile surtout pour guest (mais OK de le recevoir)
+      // remaining (freeLeft) reçu du backend
       if (typeof data?.remaining === "number") {
         const r = Math.max(0, Math.trunc(data.remaining));
         setFreeLeft(r);
         setSavedRemaining(r);
       }
 
-      // guest: mémoriser threadId + guestId
+      // guest: mémoriser threadId + guestId (legacy)
       if (!authed) {
         if (data?.threadId != null) {
           const tid = clampInt(data.threadId, 0);
@@ -577,11 +598,8 @@ export default function ChatClient() {
         return;
       }
 
-      const session = await getSessionSafe();
-      const authed = !!session?.user?.id;
-
-      // ✅ blocage seulement guest (si tu gardes encore du guest)
-      if (!authed && quotaReady && freeLeft <= 0) {
+      // ✅ blocage seulement si plan free et quota atteint
+      if (quotaReady && plan === "free" && freeLeft <= 0) {
         openPaywallGuest();
         return;
       }
@@ -599,7 +617,6 @@ export default function ChatClient() {
         saveThreadLocal(t2);
         setThread(t2);
       } catch (err: any) {
-        // erreurs “attendues”
         if (
           err?.message === "FREE_LIMIT_REACHED" ||
           err?.message === "PREMIUM_REQUIRED" ||
@@ -629,6 +646,7 @@ export default function ChatClient() {
       saveThreadLocal,
       router,
       signKey,
+      plan,
     ]
   );
 
@@ -643,6 +661,7 @@ export default function ChatClient() {
       setIsAuth(false);
       setSessionEmail("");
       setUserId("");
+      setPlan("guest");
 
       if (signKey) {
         const t0 = ensureHello(loadThreadLocal());
@@ -689,6 +708,7 @@ export default function ChatClient() {
         <ChatSidebar
           isAuth={isAuth === true}
           sessionEmail={sessionEmail}
+          plan={plan}
           freeLeft={freeLeft}
           signName={signName}
           signDesc={signDesc}
@@ -721,4 +741,4 @@ export default function ChatClient() {
       />
     </div>
   );
-}
+        }
