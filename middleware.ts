@@ -1,49 +1,65 @@
-"use client";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+export function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-export default function CheckoutSuccessPage() {
-  const router = useRouter();
-  const sp = useSearchParams();
+  // ✅ 1) Toujours ignorer les assets / next internals
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/robots.txt") ||
+    pathname.startsWith("/sitemap.xml") ||
+    /\.(png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt)$/i.test(pathname)
+  ) {
+    return NextResponse.next();
+  }
 
-  const next = sp.get("next") || "/chat";
-  const sessionId = sp.get("session_id") || "";
+  // ✅ 2) Routes publiques (IMPORTANT: checkout success)
+  if (
+    pathname === "/" ||
+    pathname.startsWith("/pricing") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/checkout/success") ||
+    pathname.startsWith("/api/")
+  ) {
+    return NextResponse.next();
+  }
 
-  useEffect(() => {
-    (async () => {
-      const supabase = createClientComponentClient();
+  // ✅ 3) Protéger /chat uniquement
+  if (pathname.startsWith("/chat")) {
+    /**
+     * Supabase cookies possibles :
+     * - Ancien: "sb-access-token"
+     * - Auth helpers: cookies qui contiennent "-auth-token"
+     * On accepte les 2 pour être robuste.
+     */
+    const hasOld = !!req.cookies.get("sb-access-token")?.value;
 
-      // Vérifie session
-      const { data } = await supabase.auth.getSession();
-      const isAuth = !!data.session;
+    const hasHelpers = req.cookies
+      .getAll()
+      .some((c) => c.name.includes("-auth-token") && !!c.value);
 
-      // Si pas auth, on envoie au login (avec next)
-      if (!isAuth) {
-        router.replace(`/login?next=${encodeURIComponent(next)}`);
-        return;
-      }
+    const isAuth = hasOld || hasHelpers;
 
-      // Si tu n'as pas /api/stripe/sync, enlève ce bloc
-      if (sessionId) {
-        try {
-          await fetch("/api/stripe/sync", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ session_id: sessionId }),
-          });
-        } catch {}
-      }
+    if (!isAuth) {
+      const loginUrl = req.nextUrl.clone();
+      loginUrl.pathname = "/login";
 
-      router.replace(next);
-    })();
-  }, [router, next, sessionId]);
+      // next = page demandée + querystring
+      const fullPath = pathname + (req.nextUrl.search || "");
+      loginUrl.searchParams.set("next", fullPath);
 
-  return (
-    <div style={{ padding: 24 }}>
-      <h1>Paiement confirmé</h1>
-      <p>Redirection en cours…</p>
-    </div>
-  );
+      return NextResponse.redirect(loginUrl);
+    }
+
+    return NextResponse.next();
+  }
+
+  return NextResponse.next();
 }
+
+// ✅ matcher = on applique le middleware seulement à /chat
+export const config = {
+  matcher: ["/chat/:path*"],
+};
