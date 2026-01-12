@@ -13,6 +13,9 @@ export const dynamic = "force-dynamic";
  * - Free: 15 messages lifetime (user_usage_lifetime.used)
  * - Premium: actif si status in (active, trialing)
  *   ET current_period_end (si présent) > now
+ *
+ * BONUS:
+ * - Renvoie planSlug / planName depuis user_subscriptions
  */
 
 const FREE_LIMIT = 15;
@@ -32,7 +35,6 @@ function cleanStr(v: unknown) {
 
 function toUnixMaybe(v: unknown): number | null {
   if (v == null) return null;
-
   if (typeof v === "number" && Number.isFinite(v)) return Math.floor(v);
 
   const t = Date.parse(String(v));
@@ -57,33 +59,44 @@ const supabaseAdmin =
     : null;
 
 /**
- * ✅ Premium actif si on trouve la plus récente subscription
- * parmi les statuts (active|trialing).
- * (Important: ne pas prendre "la dernière ligne" toutes statuses confondues)
+ * Retourne la subscription premium ACTIVE/TRIALING la plus récente
+ * + plan_slug/plan_name si présents
  */
-async function isPremiumActive(user_id: string) {
-  if (!supabaseAdmin) return false;
+async function getActivePremiumSubscription(user_id: string): Promise<null | {
+  status: string;
+  current_period_end: string | null;
+  plan_slug: string | null;
+  plan_name: string | null;
+}> {
+  if (!supabaseAdmin) return null;
 
   const { data, error } = await supabaseAdmin
     .from(SUBS_TABLE)
-    .select("status,current_period_end,created_at")
+    .select("status,current_period_end,created_at,plan_slug,plan_name")
     .eq("user_id", user_id)
-    .in("status", ["active", "trialing"]) // ✅ filtre ici (fix majeur)
+    .in("status", ["active", "trialing"])
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
-  if (error || !data) return false;
+  if (error || !data) return null;
 
   const status = cleanStr((data as any).status).toLowerCase();
-  if (status !== "active" && status !== "trialing") return false;
+  if (status !== "active" && status !== "trialing") return null;
 
   const cpeUnix = toUnixMaybe((data as any).current_period_end);
 
   // si current_period_end est null/inexistant -> on considère actif
-  if (cpeUnix == null) return true;
+  if (cpeUnix == null || cpeUnix > nowUnix()) {
+    return {
+      status,
+      current_period_end: (data as any).current_period_end ?? null,
+      plan_slug: cleanStr((data as any).plan_slug) || null,
+      plan_name: cleanStr((data as any).plan_name) || null,
+    };
+  }
 
-  return cpeUnix > nowUnix();
+  return null;
 }
 
 async function getUsedLifetime(user_id: string) {
@@ -96,7 +109,6 @@ async function getUsedLifetime(user_id: string) {
     .limit(1)
     .maybeSingle();
 
-  // ne pas casser l’UI
   if (error || !data) return 0;
 
   const raw = Number((data as any).used ?? 0);
@@ -139,13 +151,17 @@ export async function GET() {
         freeLeft: 0,
         remaining: 0,
         used: 0,
+
+        // plan info
+        planSlug: null,
+        planName: null,
       });
     }
 
-    // ✅ Premium ?
-    const premium = await isPremiumActive(user_id);
+    // ✅ Premium + plan info ?
+    const sub = await getActivePremiumSubscription(user_id);
 
-    if (premium) {
+    if (sub) {
       const plan: Plan = "premium";
       return json({
         plan,
@@ -158,6 +174,10 @@ export async function GET() {
         freeLeft: null,
         remaining: null,
         used: null,
+
+        // ✅ affichage UI
+        planSlug: sub.plan_slug,
+        planName: sub.plan_name,
       });
     }
 
@@ -176,6 +196,10 @@ export async function GET() {
       freeLeft: remaining,
       remaining,
       used,
+
+      // pas de plan payé
+      planSlug: null,
+      planName: null,
     });
   } catch (e: any) {
     return json(
