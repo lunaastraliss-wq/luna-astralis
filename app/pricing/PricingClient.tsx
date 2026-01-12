@@ -77,7 +77,7 @@ export default function PricingClient() {
       : "";
 
   return (
-    <div className="pricing-body">
+    <div className="pricing-body pricing-page">
       <header className="top" role="banner">
         <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
           <div className="logo" aria-hidden="true">
