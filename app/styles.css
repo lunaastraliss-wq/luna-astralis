@@ -578,3 +578,9 @@ body::after{
 @media (max-width: 900px){
   .mobile-sign-card{ display:block; }
    }
+/* ===================== PRICING / FOOTER — FIX FOND BAS ===================== */
+.footer{
+  background: linear-gradient(180deg, var(--bg2), var(--bg));
+  backdrop-filter: none;
+  border-top: 1px solid rgba(255,255,255,.14);
+}
