@@ -164,8 +164,9 @@ export default function ChatClient() {
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
   const [historyOpen, setHistoryOpen] = useState(false);
 
-  // ✅ IMPORTANT: freeLeft peut être null en premium
+  // ✅ premium => null
   const [freeLeft, setFreeLeft] = useState<number | null>(FREE_LIMIT);
+
   const [quotaReady, setQuotaReady] = useState(false);
   const [booted, setBooted] = useState(false);
 
@@ -310,7 +311,6 @@ export default function ChatClient() {
     }
   }, []);
 
-  // ✅ IMPORTANT: no-store + premium => freeLeft null
   const refreshQuotaFromServer = useCallback(async () => {
     try {
       const res = await fetch("/api/chat/quota", { method: "GET", cache: "no-store" });
@@ -326,8 +326,7 @@ export default function ChatClient() {
       setPlan(nextPlan);
 
       if (nextPlan === "premium") {
-        setFreeLeft(null); // ✅ clé: pas de quota en premium
-        // on garde le cache legacy à 15 pour ne pas casser des anciens flows
+        setFreeLeft(null);
         setSavedRemaining(FREE_LIMIT);
         return;
       }
@@ -340,12 +339,11 @@ export default function ChatClient() {
     } catch {}
   }, [setSavedRemaining]);
 
-  /* ===================== BOOT (1 seule fois) ===================== */
+  /* ===================== BOOT ===================== */
   useEffect(() => {
     let alive = true;
 
     (async () => {
-      // 1) session
       const session = await getSessionSafe();
       if (!alive) return;
 
@@ -357,7 +355,6 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // 2) quota local best-effort (uniquement pour non-premium; on corrigera après refresh)
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -368,25 +365,23 @@ export default function ChatClient() {
         setFreeLeft(FREE_LIMIT);
       }
 
-      // 3) refresh quota serveur
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
-      // 4) signe: URL -> storage -> onboarding/home
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
       const stored = getStoredSign();
       const storedOk = stored && SIGNS[stored] ? stored : "";
-
       const chosen = urlSign || storedOk;
 
       if (chosen) {
         setSignKey(chosen);
         storeSign(chosen);
 
-        // stabiliser l’URL (une seule fois)
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
-          if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
+          if (!already) {
+            router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
+          }
         }
       } else {
         if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
@@ -486,6 +481,7 @@ export default function ChatClient() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: "no-store",
         body: JSON.stringify(payload),
       });
 
@@ -512,7 +508,8 @@ export default function ChatClient() {
           throw new Error("PREMIUM_REQUIRED");
         }
 
-        throw new Error(data?.error || "Erreur serveur (/api/chat).");
+        const d = data?.detail ? ` | ${String(data.detail)}` : "";
+        throw new Error(`${data?.error || "Erreur serveur (/api/chat)."}${d}`);
       }
 
       if (typeof data?.remaining === "number") {
@@ -567,7 +564,6 @@ export default function ChatClient() {
         return;
       }
 
-      // ✅ blocage seulement si FREE et freeLeft number
       if (quotaReady && plan === "free" && typeof freeLeft === "number" && freeLeft <= 0) {
         openPaywallGuest();
         return;
@@ -596,8 +592,7 @@ export default function ChatClient() {
         }
 
         const msg =
-          "Erreur. Vérifie que /api/chat existe sur Vercel. " +
-          (err?.message ? `(${err.message})` : "");
+          "Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? `(${err.message})` : "");
 
         const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
         saveThreadLocal(t2);
@@ -703,12 +698,7 @@ export default function ChatClient() {
 
             <div className="msc-actions">
               {bookUrl ? (
-                <a
-                  className="btn btn-small btn-ghost"
-                  href={bookUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="btn btn-small btn-ghost" href={bookUrl} target="_blank" rel="noreferrer">
                   Approfondir →
                 </a>
               ) : null}
@@ -721,7 +711,6 @@ export default function ChatClient() {
                 Changer de signe
               </button>
 
-              {/* ✅ Upgrade seulement si pas premium */}
               {plan !== "premium" ? (
                 <button
                   type="button"
@@ -733,12 +722,9 @@ export default function ChatClient() {
               ) : null}
             </div>
 
-            {/* ✅ quota mobile seulement si plan === free */}
             {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
-                {freeLeft > 0
-                  ? `Il te reste ${freeLeft} message(s) gratuit(s).`
-                  : "Limite gratuite atteinte."}
+                {freeLeft > 0 ? `Il te reste ${freeLeft} message(s) gratuit(s).` : "Limite gratuite atteinte."}
               </div>
             ) : null}
           </div>
@@ -768,4 +754,4 @@ export default function ChatClient() {
       />
     </div>
   );
-        }
+      }
