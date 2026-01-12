@@ -59,7 +59,6 @@ function pickUserIdFromCheckoutSession(session: Stripe.Checkout.Session): string
 }
 
 function pickUserIdFromSubscription(sub: Stripe.Subscription): string {
-  // grâce à subscription_data.metadata envoyé au checkout
   const fromMeta = clean((sub as any)?.metadata?.user_id);
   return fromMeta;
 }
@@ -86,8 +85,6 @@ async function upsertByUserId(userId: string, payload: Record<string, any>) {
 async function upsertByCustomerId(customerId: string, payload: Record<string, any>) {
   if (!supabase) throw new Error("Supabase non configuré.");
 
-  // Si tu as une contrainte unique sur stripe_customer_id, tu peux onConflict là-dessus.
-  // Si tu ne l’as pas, on fait update + fallback insert.
   const { data: existing, error: readErr } = await supabase
     .from("user_subscriptions")
     .select("user_id")
@@ -106,8 +103,6 @@ async function upsertByCustomerId(customerId: string, payload: Record<string, an
     return;
   }
 
-  // Fallback: si pas de ligne existante, on insère une ligne "orphane"
-  // (ce cas devrait être rare si checkout.login requis)
   const { error: insErr } = await supabase.from("user_subscriptions").insert({
     stripe_customer_id: customerId,
     ...payload,
@@ -117,12 +112,40 @@ async function upsertByCustomerId(customerId: string, payload: Record<string, an
   if (insErr) throw new Error("Supabase insert failed: " + insErr.message);
 }
 
+/**
+ * ✅ Translate stripe_price_id -> plans.slug (+ name)
+ * Table plans doit contenir stripe_price_id, slug, name
+ */
+async function getPlanFromPriceId(priceId: string): Promise<{
+  slug: string | null;
+  name: string | null;
+}> {
+  if (!supabase) return { slug: null, name: null };
+  const pid = clean(priceId);
+  if (!pid) return { slug: null, name: null };
+
+  const { data, error } = await supabase
+    .from("plans")
+    .select("slug,name")
+    .eq("stripe_price_id", pid)
+    .maybeSingle();
+
+  if (error || !data) return { slug: null, name: null };
+
+  return {
+    slug: clean((data as any).slug) || null,
+    name: clean((data as any).name) || null,
+  };
+}
+
 // =====================
 // Route
 // =====================
 export async function POST(req: Request) {
   try {
-    if (!stripe) return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+    if (!stripe) {
+      return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+    }
     if (!STRIPE_WEBHOOK_SECRET) {
       return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
     }
@@ -184,9 +207,13 @@ export async function POST(req: Request) {
 
       const userId = pickUserIdFromSubscription(sub);
       const customerId = pickCustomerId(sub);
-      const status = clean((sub as any)?.status).toLowerCase(); // active / trialing / canceled...
+      const status = clean((sub as any)?.status).toLowerCase();
       const subId = clean((sub as any)?.id);
+
       const priceId = pickPriceIdFromSub(sub);
+
+      // ✅ On récupère le slug du plan (essential-month/unlimited-year/etc.)
+      const plan = await getPlanFromPriceId(priceId);
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
       const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
@@ -196,7 +223,11 @@ export async function POST(req: Request) {
         stripe_subscription_id: subId || null,
         stripe_price_id: priceId || null,
 
-        // ✅ IMPORTANT: ton app lit "status" (pas stripe_status)
+        // ✅ stockage plan
+        plan_slug: plan.slug,
+        plan_name: plan.name,
+
+        // ✅ ton app lit "status"
         status: status || null,
         current_period_end: currentPeriodEnd,
         canceled_at: canceledAt,
@@ -209,7 +240,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ received: true }, { status: 200 });
       }
 
-      // fallback si metadata manquante
       if (customerId) {
         await upsertByCustomerId(customerId, payload);
       }
@@ -232,6 +262,10 @@ export async function POST(req: Request) {
         current: false,
         canceled_at: canceledAt,
         current_period_end: null,
+
+        // optionnel: garder plan_slug ou le nuller
+        // plan_slug: null,
+        // plan_name: null,
       };
 
       if (userId) {
@@ -248,9 +282,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: err?.message || "Webhook error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err?.message || "Webhook error" }, { status: 500 });
   }
-  }
+         }
