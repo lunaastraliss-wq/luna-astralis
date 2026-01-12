@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useCallback } from "react";
@@ -9,8 +8,16 @@ type Plan = "guest" | "free" | "premium";
 type Props = {
   isAuth: boolean;
   sessionEmail: string;
+
+  // plan logique pour l’UI (guest/free/premium)
   plan: Plan;
+
+  // quota: seulement utile en free
   freeLeft: number | null;
+
+  // ✅ optionnel: slug exact du forfait payé (ex: "essential-month", "unlimited-year")
+  // si absent, on affichera juste "✅ Accès premium"
+  planSlug?: string | null;
 
   signName: string;
   signDesc: string;
@@ -29,11 +36,34 @@ function normalizeFreeLeft(v: number | null): number | null {
   return Math.max(0, Math.trunc(v));
 }
 
+function labelFromPlan(plan: Plan, planSlug?: string | null) {
+  if (plan === "guest") return "Invité";
+  if (plan === "free") return "Gratuit (15 messages)";
+  if (plan !== "premium") return "";
+
+  // premium
+  const slug = String(planSlug || "").trim().toLowerCase();
+
+  switch (slug) {
+    case "essential-month":
+      return "Essentiel · Mensuel";
+    case "unlimited-month":
+      return "Illimité · Mensuel";
+    case "essential-year":
+      return "Essentiel · Annuel";
+    case "unlimited-year":
+      return "Illimité · Annuel";
+    default:
+      return "Accès premium";
+  }
+}
+
 export default function ChatSidebar({
   isAuth,
   sessionEmail,
   plan,
   freeLeft,
+  planSlug,
   signName,
   signDesc,
   bookUrl,
@@ -46,7 +76,6 @@ export default function ChatSidebar({
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
     if ((freeLeftNorm ?? 0) <= 0) return "Limite gratuite atteinte";
-
     const plural = (freeLeftNorm ?? 0) > 1 ? "s" : "";
     return `Il te reste ${freeLeftNorm} message${plural} gratuit${plural}.`;
   }, [showFreeCounter, freeLeftNorm]);
@@ -70,8 +99,6 @@ export default function ChatSidebar({
       localStorage.clear();
     } catch {}
 
-    // ⚠️ Note: supprimer TOUS les cookies peut être agressif,
-    // mais tu avais explicitement ce comportement pour admin.
     try {
       document.cookie.split(";").forEach((c) => {
         const name = c.split("=")[0]?.trim();
@@ -88,7 +115,9 @@ export default function ChatSidebar({
   }, []);
 
   const showEmail = isAuth && !!sessionEmail;
-  const isPremium = plan === "premium";
+
+  const planLabel = useMemo(() => labelFromPlan(plan, planSlug), [plan, planSlug]);
+  const showPlanBadge = plan !== "guest"; // tu peux mettre true si tu veux toujours l’afficher
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
@@ -123,10 +152,11 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* (Optionnel) badge premium */}
-          {isPremium && (
-            <p className="chat-side-premium" aria-label="Compte premium">
-              ✅ Accès premium
+          {/* ✅ Badge forfait */}
+          {showPlanBadge && (
+            <p className="chat-side-plan" aria-label="Forfait">
+              {plan === "premium" ? "✅ " : ""}
+              {planLabel}
             </p>
           )}
 
