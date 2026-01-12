@@ -7,14 +7,6 @@ import { cookies } from "next/headers";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/**
- * Luna Astralis – Checkout Stripe (Subscription)
- * - Trial 3 jours
- * - LOGIN REQUIS (sinon impossible de lier l’abonnement au user_id Supabase)
- * - success_url -> /checkout/success (page publique tampon) -> redirige ensuite vers next (/chat...)
- * - Metadata complète pour le webhook
- */
-
 type PlanId =
   | "monthly_essential"
   | "monthly_unlimited"
@@ -40,16 +32,12 @@ function isPlan(v: unknown): v is PlanId {
   );
 }
 
-/**
- * Autorise uniquement des chemins internes (/...)
- * Bloque les URL externes + les // + les http(s)
- */
+/** Autorise uniquement des chemins internes (/...) */
 function safeNext(next: unknown) {
-  const fallback = "/chat?signe=belier";
+  const fallback = "/chat?sign=belier"; // ✅ FIX: sign (pas signe)
   const s = cleanStr(next);
   if (!s) return fallback;
 
-  // bloque toute tentative d’URL externe
   if (
     s.startsWith("http://") ||
     s.startsWith("https://") ||
@@ -69,7 +57,6 @@ function safeNext(next: unknown) {
 const STRIPE_SECRET_KEY = cleanStr(process.env.STRIPE_SECRET_KEY);
 const SITE_URL = cleanStr(process.env.NEXT_PUBLIC_SITE_URL);
 
-// Stripe price IDs
 const STRIPE_PRICE_MONTHLY_ESSENTIAL = cleanStr(
   process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL
 );
@@ -83,7 +70,6 @@ const STRIPE_PRICE_YEARLY_UNLIMITED = cleanStr(
   process.env.STRIPE_PRICE_YEARLY_UNLIMITED
 );
 
-// Supabase pricing_plan_id (UUIDs) dans ta table pricing_plans
 const PRICING_PLAN_MAP: Record<PlanId, string> = {
   monthly_essential: cleanStr(process.env.PRICING_PLAN_MONTHLY_ESSENTIAL),
   monthly_unlimited: cleanStr(process.env.PRICING_PLAN_MONTHLY_UNLIMITED),
@@ -110,7 +96,6 @@ function priceIdFromPlan(plan: PlanId) {
 
 export async function POST(req: Request) {
   try {
-    // 1) Stripe config
     if (!stripe) {
       return NextResponse.json(
         { error: "STRIPE_SECRET_KEY_MISSING" },
@@ -118,7 +103,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2) SITE_URL
     const site = cleanUrl(SITE_URL);
     if (!site) {
       return NextResponse.json(
@@ -127,15 +111,11 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3) Parse body
     const body = (await req.json().catch(() => null)) as
       | { plan?: unknown; next?: unknown }
       | null;
 
-    if (!body) {
-      return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
-    }
-
+    if (!body) return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
     if (!isPlan(body.plan)) {
       return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
     }
@@ -145,20 +125,11 @@ export async function POST(req: Request) {
     const pricing_plan_id = PRICING_PLAN_MAP[plan];
 
     if (!stripe_price_id || !pricing_plan_id) {
-      return NextResponse.json(
-        { error: "PLAN_CONFIG_MISSING" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
     }
 
-    // 4) next (interne seulement)
     const next = safeNext(body.next);
 
-    /**
-     * ✅ success_url: page tampon publique
-     * -> elle redirigera vers "next" si auth, sinon vers login?next=...
-     * -> évite "Stripe -> /chat -> middleware -> /login"
-     */
     const success_url =
       `${site}/checkout/success` +
       `?next=${encodeURIComponent(next)}` +
@@ -167,18 +138,13 @@ export async function POST(req: Request) {
     const cancel_url =
       `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // 5) LOGIN requis: session Supabase via cookies
+    // ✅ auth requis
     const supabase = createRouteHandlerClient({ cookies });
     const { data: sess, error: sessErr } = await supabase.auth.getSession();
 
     if (sessErr) {
       return NextResponse.json(
-        {
-          error: "SESSION_ERROR",
-          detail: sessErr.message,
-          require_auth: true,
-          next,
-        },
+        { error: "SESSION_ERROR", detail: sessErr.message, require_auth: true, next },
         { status: 401 }
       );
     }
@@ -194,7 +160,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // 6) Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: stripe_price_id, quantity: 1 }],
@@ -203,10 +168,10 @@ export async function POST(req: Request) {
       success_url,
       cancel_url,
 
-      // lien webhook -> user
+      // ✅ lien webhook -> user
       client_reference_id: user_id,
-      customer_email: user_email,
 
+      // metadata Checkout
       metadata: {
         app: "luna-astralis",
         plan,
@@ -217,6 +182,7 @@ export async function POST(req: Request) {
         next,
       },
 
+      // metadata Subscription (pour customer.subscription.*)
       subscription_data: {
         trial_period_days: 3,
         metadata: {
@@ -232,10 +198,7 @@ export async function POST(req: Request) {
       payment_method_collection: "always",
     });
 
-    return NextResponse.json(
-      { url: session.url, session_id: session.id },
-      { status: 200 }
-    );
+    return NextResponse.json({ url: session.url, session_id: session.id }, { status: 200 });
   } catch (err) {
     console.error("[checkout]", err);
     return NextResponse.json(
@@ -243,4 +206,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+        }
