@@ -109,7 +109,6 @@ export default function HomePage() {
       const t = e.target as HTMLElement | null;
       if (!t) return;
 
-      // si click dans nav-mobile ou sur burger, ne ferme pas
       if (t.closest(".nav-mobile")) return;
       if (t.closest(".nav-burger")) return;
 
@@ -262,7 +261,9 @@ export default function HomePage() {
               </div>
             </div>
 
-            <p className="hero-tech note-center">Fonctionne instantanément sur mobile · Aucun téléchargement</p>
+            <p className="hero-tech note-center">
+              Fonctionne instantanément sur mobile · Aucun téléchargement
+            </p>
             <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
           </div>
         </section>
@@ -377,27 +378,32 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FOOTER (plus pro) */}
-        <footer className="footer footer-pro" role="contentinfo">
-          <div className="footer-pro-top">
-            <div className="footer-pro-left">
-              <div className="footer-pro-brand">Luna Astralis</div>
-              <div className="footer-pro-copy">© {y} · Tous droits réservés</div>
+        {/* FOOTER (PRO / PAS COLLÉ) */}
+        <footer className="site-footer" role="contentinfo" aria-label="Pied de page">
+          <div className="footer-card">
+            <div className="footer-row">
+              <div className="footer-left">
+                <div className="footer-brand">Luna Astralis</div>
+                <div className="footer-copy">© {y} · Tous droits réservés</div>
+              </div>
+
+              <nav className="footer-links" aria-label="Liens légaux">
+                <Link href="/mentions-legales">Mentions légales</Link>
+                <span className="sep">•</span>
+                <Link href="/confidentialite">Confidentialité</Link>
+                <span className="sep">•</span>
+                <Link href="/conditions">Conditions</Link>
+                <span className="sep">•</span>
+                <Link href="/age-18">18+</Link>
+              </nav>
             </div>
 
-            <nav className="footer-pro-links" aria-label="Liens légaux">
-              <Link href="/mentions-legales">Mentions légales</Link>
-              <Link href="/confidentialite">Confidentialité</Link>
-              <Link href="/conditions">Conditions</Link>
-              <Link href="/age-18">18+</Link>
-            </nav>
-          </div>
-
-          <div className="footer-pro-note">
-            Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.
+            <div className="footer-note">
+              Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.
+            </div>
           </div>
         </footer>
       </main>
     </div>
   );
-}
+                }
