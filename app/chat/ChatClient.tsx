@@ -20,11 +20,7 @@ const MAX_VISIBLE = 14;
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 
-/**
- * ✅ IMPORTANT: on standardise partout sur "sign"
- * - /chat?sign=...
- * - onboarding/sign/page.tsx utilise "sign" aussi
- */
+/** ✅ Standard : /chat?sign=... */
 const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
@@ -151,7 +147,6 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // ✅ accepte les anciens liens ?signe=... mais on écrit toujours ?sign=...
   const rawKeyFromUrl = useMemo(
     () => sp.get(SIGN_QUERY_PARAM) || sp.get("signe") || sp.get("sign") || "",
     [sp]
@@ -174,7 +169,6 @@ export default function ChatClient() {
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
   const [historyOpen, setHistoryOpen] = useState(false);
 
-  // ✅ premium => null
   const [freeLeft, setFreeLeft] = useState<number | null>(FREE_LIMIT);
 
   const [quotaReady, setQuotaReady] = useState(false);
@@ -349,6 +343,35 @@ export default function ChatClient() {
     } catch {}
   }, [setSavedRemaining]);
 
+  /** ✅ URL pour changer de signe */
+  const changeSignUrl = useMemo(() => {
+    const next = encodeURIComponent("/chat");
+    return `/onboarding/sign?change=1&next=${next}`;
+  }, []);
+
+  /** ✅ Ouvre tes PLANS (nouvelle route demandée) */
+  const goPlans = useCallback(
+    (reason: "free" | "premium" | "nav" = "nav") => {
+      const next = encodeURIComponent(currentPathWithQuery());
+      router.push(`/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`);
+    },
+    [router, currentPathWithQuery]
+  );
+
+  const openPaywallGuest = useCallback(() => {
+    setPaywallMode("guest");
+    setPaywallOpen(false);
+    goPlans("free");
+  }, [goPlans]);
+
+  const openPaywallPremiumRequired = useCallback(() => {
+    setPaywallMode("premium");
+    setPaywallOpen(false);
+    goPlans("premium");
+  }, [goPlans]);
+
+  const closePaywall = useCallback(() => setPaywallOpen(false), []);
+
   /* ===================== BOOT ===================== */
   useEffect(() => {
     let alive = true;
@@ -365,7 +388,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // charge remaining local rapide
+      // remaining local rapide
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -379,7 +402,7 @@ export default function ChatClient() {
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
-      // ✅ signe: URL > localStorage
+      // signe: URL > localStorage
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
       const stored = getStoredSign();
       const storedOk = stored && SIGNS[stored] ? stored : "";
@@ -389,7 +412,7 @@ export default function ChatClient() {
         setSignKey(chosen);
         storeSign(chosen);
 
-        // ✅ réécrit l’URL en /chat?sign=... (standard)
+        // réécrit URL standard
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already) {
@@ -397,7 +420,7 @@ export default function ChatClient() {
           }
         }
       } else {
-        // ✅ pas de signe -> onboarding si connecté, sinon home
+        // pas de signe
         if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         else router.replace("/");
       }
@@ -449,28 +472,6 @@ export default function ChatClient() {
   }, [booted, thread.length, scrollToBottom]);
 
   const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
-
-  const goPlans = useCallback(
-    (reason: "free" | "premium") => {
-      const next = encodeURIComponent(currentPathWithQuery());
-      router.push(`/pricing?reason=${encodeURIComponent(reason)}&next=${next}`);
-    },
-    [router, currentPathWithQuery]
-  );
-
-  const openPaywallGuest = useCallback(() => {
-    setPaywallMode("guest");
-    setPaywallOpen(false);
-    goPlans("free");
-  }, [goPlans]);
-
-  const openPaywallPremiumRequired = useCallback(() => {
-    setPaywallMode("premium");
-    setPaywallOpen(false);
-    goPlans("premium");
-  }, [goPlans]);
-
-  const closePaywall = useCallback(() => setPaywallOpen(false), []);
 
   const askLuna = useCallback(
     async (userText: string) => {
@@ -664,11 +665,19 @@ export default function ChatClient() {
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
-  // ✅ URL unique pour changer de signe (force onboarding même si déjà un signe stocké)
-  const changeSignUrl = useMemo(() => {
-    const next = encodeURIComponent("/chat");
-    return `/onboarding/sign?change=1&next=${next}`;
-  }, []);
+  /** ✅ Top actions (alignées comme tu veux) */
+  const onOpenPlans = useCallback(() => {
+    // si user est free/guest -> on garde reason=free, sinon nav
+    if (plan === "premium") goPlans("nav");
+    else goPlans("free");
+  }, [plan, goPlans]);
+
+  const onChangeSign = useCallback(() => router.push(changeSignUrl), [router, changeSignUrl]);
+
+  const onLogin = useCallback(() => {
+    const next = encodeURIComponent(currentPathWithQuery());
+    router.push(`/login?next=${next}`);
+  }, [router, currentPathWithQuery]);
 
   if (!booted || !signKey) {
     return (
@@ -701,6 +710,7 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
+          {/* ✅ Mobile sign card : on garde juste Approfondir */}
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
               <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
@@ -716,20 +726,6 @@ export default function ChatClient() {
                   Approfondir →
                 </a>
               ) : null}
-
-              <button type="button" className="btn btn-small" onClick={() => router.push(changeSignUrl)}>
-                Changer de signe
-              </button>
-
-              {plan !== "premium" ? (
-                <button
-                  type="button"
-                  className="btn btn-small btn-ghost"
-                  onClick={() => router.push(`/pricing?reason=free&next=${encodeURIComponent("/chat")}`)}
-                >
-                  Upgrade
-                </button>
-              ) : null}
             </div>
 
             {plan === "free" && typeof freeLeft === "number" ? (
@@ -739,6 +735,37 @@ export default function ChatClient() {
             ) : null}
           </div>
 
+          {/* ✅ BARRE DU HAUT DU CHAT : Historique + Changer de signe + Forfaits (+ Login si guest) */}
+          <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
+            <div className="cab-left">
+              <span className="cab-pill">{signName}</span>
+            </div>
+
+            <div className="cab-right">
+              {!isAuth ? (
+                <button type="button" className="btn btn-small btn-ghost" onClick={onLogin}>
+                  Se connecter
+                </button>
+              ) : null}
+
+              <button type="button" className="btn btn-small btn-ghost" onClick={onChangeSign}>
+                Changer de signe
+              </button>
+
+              <button
+                type="button"
+                className={`btn btn-small ${plan !== "premium" ? "btn-primary" : "btn-ghost"}`}
+                onClick={onOpenPlans}
+              >
+                Forfaits
+              </button>
+
+              <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
+                Historique
+              </button>
+            </div>
+          </div>
+
           <ChatPanel
             signName={signName}
             tail={tail}
@@ -746,7 +773,7 @@ export default function ChatClient() {
             input={input}
             setInput={setInput}
             onSend={onSend}
-            onOpenHistory={() => setHistoryOpen(true)}
+            // ⚠️ on ne passe plus onOpenHistory à ChatPanel (sinon double bouton)
             disabled={paywallOpen || historyOpen}
           />
         </section>
@@ -762,6 +789,38 @@ export default function ChatClient() {
         onClearHistoryLocal={onClearHistoryLocal}
         nextUrl={currentPathWithQuery()}
       />
+
+      {/* Styles rapides pour la barre d’actions */}
+      <style jsx>{`
+        .chat-actions-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          padding: 10px 10px;
+          margin: 10px 0 8px;
+          border-radius: 14px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.06);
+        }
+        .cab-right {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+        }
+        .cab-pill {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 10px;
+          border-radius: 999px;
+          font-size: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.06);
+          opacity: 0.95;
+        }
+      `}</style>
     </div>
   );
-  }
+}
