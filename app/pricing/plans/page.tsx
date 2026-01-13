@@ -1,11 +1,11 @@
 // app/pricing/plans/page.tsx
 import React, { Suspense } from "react";
-import PlansClient from "./PlansClient";
+import PricingClient from "./PricingClient";
 
 export default function PlansPage() {
   return (
     <Suspense fallback={<div style={{ padding: 24 }}>Chargement…</div>}>
-      <PlansClient />
+      <PricingClient />
     </Suspense>
   );
 }
