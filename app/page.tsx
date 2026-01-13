@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase/client";
 
-// ⚙️ Storage keys (doivent matcher LoginClient + ChatClient)
 const LS_SIGN_KEY = "la_sign";
 
 const SIGNS: Array<{ key: string; label: string; cls: string }> = [
@@ -47,11 +46,26 @@ export default function HomePage() {
 
   const [isAuth, setIsAuth] = useState<boolean | null>(null);
 
-  // ✅ menu mobile (hamburger)
+  // menu mobile
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // ✅ détecte session
+  // scroll helper
+  const scrollToId = useCallback((id: string) => {
+    if (typeof window === "undefined") return;
+    const el = document.getElementById(id);
+    if (!el) {
+      window.location.hash = `#${id}`;
+      return;
+    }
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.setTimeout(() => {
+      const first = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
+      first?.focus?.();
+    }, 250);
+  }, []);
+
+  // détecte session
   useEffect(() => {
     let alive = true;
 
@@ -79,80 +93,62 @@ export default function HomePage() {
     };
   }, []);
 
-  // ✅ clic sur signe: store + redirect
+  // ferme menu si auth change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [isAuth]);
+
+  // ferme menu au clic dehors + ESC
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    const onClick = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (!t) return;
+
+      // si click dans nav-mobile ou sur burger, ne ferme pas
+      if (t.closest(".nav-mobile")) return;
+      if (t.closest(".nav-burger")) return;
+
+      closeMenu();
+    };
+
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("click", onClick);
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("click", onClick);
+    };
+  }, [menuOpen, closeMenu]);
+
+  // clic sur signe: store + redirect
   const onPickSign = useCallback(
     (signKey: string) => {
       storeSign(signKey);
-
       const next = `/chat?signe=${encodeURIComponent(signKey)}`;
 
       if (isAuth) {
         router.push(next);
         return;
       }
-
       router.push(`/login?next=${encodeURIComponent(next)}`);
     },
     [router, isAuth]
   );
 
-  // ✅ scroll vers #signes (compatible <a> et <button>)
-  const scrollToSigns = useCallback(() => {
-    if (typeof window === "undefined") return;
-
-    const el = document.getElementById("signes");
-    if (!el) {
-      window.location.hash = "#signes";
-      return;
-    }
-
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-
-    window.setTimeout(() => {
-      const firstBtn = el.querySelector("button, a, [tabindex]") as
-        | HTMLElement
-        | null;
-      firstBtn?.focus?.();
-    }, 250);
-  }, []);
-
-  const onCtaScrollToSigns = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      scrollToSigns();
-    },
-    [scrollToSigns]
-  );
-
-  // ✅ helpers nav (mobile)
-  const onNavToComment = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
+  // nav handlers (desktop + mobile)
+  const onNavTo = useCallback(
+    (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       closeMenu();
-
-      const el = document.getElementById("comment");
-      if (!el) {
-        window.location.hash = "#comment";
-        return;
-      }
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToId(id);
     },
-    [closeMenu]
+    [closeMenu, scrollToId]
   );
-
-  const onNavToSigns = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      closeMenu();
-      scrollToSigns();
-    },
-    [closeMenu, scrollToSigns]
-  );
-
-  // ferme le menu quand on devient connecté/déconnecté (évite état bizarre)
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [isAuth]);
 
   return (
     <div className="page-astro">
@@ -172,9 +168,11 @@ export default function HomePage() {
         <nav className="nav" aria-label="Navigation principale">
           {/* DESKTOP NAV */}
           <div className="nav-desktop">
-            <a href="#comment">Comment ça fonctionne</a>
+            <a href="#comment" onClick={onNavTo("comment")}>
+              Comment ça fonctionne
+            </a>
 
-            <a href="#signes" className="btn btn-small btn-ghost">
+            <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
               Choisir un signe
             </a>
 
@@ -200,11 +198,11 @@ export default function HomePage() {
 
           {/* MOBILE MENU */}
           <div className={`nav-mobile ${menuOpen ? "open" : ""}`} role="menu">
-            <a href="#comment" onClick={onNavToComment} role="menuitem">
+            <a href="#comment" onClick={onNavTo("comment")} role="menuitem">
               Comment ça fonctionne
             </a>
 
-            <a href="#signes" onClick={onNavToSigns} role="menuitem">
+            <a href="#signes" onClick={onNavTo("signes")} role="menuitem">
               Choisir un signe
             </a>
 
@@ -248,14 +246,12 @@ export default function HomePage() {
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">
-                  Choisis ton signe, puis connecte-toi si nécessaire.
-                </p>
+                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi si nécessaire.</p>
 
                 <a
                   href="#signes"
                   className="hero-free-btn hero-free-btn--pulse"
-                  onClick={onCtaScrollToSigns}
+                  onClick={onNavTo("signes")}
                 >
                   Choisir mon signe →
                 </a>
@@ -266,21 +262,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            <p className="hero-tech note-center">
-              Fonctionne instantanément sur mobile · Aucun téléchargement
-            </p>
-            <p className="hero-disclaimer note-center">
-              Exploration personnelle (non thérapeutique).
-            </p>
+            <p className="hero-tech note-center">Fonctionne instantanément sur mobile · Aucun téléchargement</p>
+            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
           </div>
         </section>
 
         {/* TRUST */}
         <section className="trust" aria-label="Promesse">
           <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">
-              ✦
-            </div>
+            <div className="trust-ico" aria-hidden="true">✦</div>
             <div>
               <div className="trust-title">Doux, mais précis</div>
               <div className="trust-sub">Des mots clairs, sans blabla.</div>
@@ -288,9 +278,7 @@ export default function HomePage() {
           </div>
 
           <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">
-              ☾
-            </div>
+            <div className="trust-ico" aria-hidden="true">☾</div>
             <div>
               <div className="trust-title">Guidé</div>
               <div className="trust-sub">Questions + reflets pour avancer.</div>
@@ -298,9 +286,7 @@ export default function HomePage() {
           </div>
 
           <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">
-              ◎
-            </div>
+            <div className="trust-ico" aria-hidden="true">◎</div>
             <div>
               <div className="trust-title">Sans jugement</div>
               <div className="trust-sub">On explore. On n’étiquette pas.</div>
@@ -319,9 +305,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">
-                  ♈
-                </span>
+                <span className="step-ico" aria-hidden="true">♈</span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -330,9 +314,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">
-                  🔐
-                </span>
+                <span className="step-ico" aria-hidden="true">🔐</span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -341,9 +323,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">
-                  ✧
-                </span>
+                <span className="step-ico" aria-hidden="true">✧</span>
               </div>
               <h3>Reçois un miroir</h3>
               <p>Forces, angles morts, besoins.</p>
@@ -352,9 +332,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">
-                  ☾
-                </span>
+                <span className="step-ico" aria-hidden="true">☾</span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Exploration personnelle uniquement.</p>
@@ -399,20 +377,23 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FOOTER */}
-        <footer className="footer" role="contentinfo">
-          <div className="footer-top">
-            <div>© {y} Luna Astralis</div>
+        {/* FOOTER (plus pro) */}
+        <footer className="footer footer-pro" role="contentinfo">
+          <div className="footer-pro-top">
+            <div className="footer-pro-left">
+              <div className="footer-pro-brand">Luna Astralis</div>
+              <div className="footer-pro-copy">© {y} · Tous droits réservés</div>
+            </div>
 
-            <nav className="footer-links" aria-label="Liens légaux">
+            <nav className="footer-pro-links" aria-label="Liens légaux">
               <Link href="/mentions-legales">Mentions légales</Link>
-              <Link href="/confidentialite">Confidentialité (RGPD)</Link>
-              <Link href="/conditions">Conditions d’utilisation</Link>
+              <Link href="/confidentialite">Confidentialité</Link>
+              <Link href="/conditions">Conditions</Link>
               <Link href="/age-18">18+</Link>
             </nav>
           </div>
 
-          <div className="footer-note">
+          <div className="footer-pro-note">
             Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.
           </div>
         </footer>
