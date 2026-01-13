@@ -7,16 +7,20 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
-const LS_SIGN_KEY = "la_sign"; // même key que ton ChatClient
+const LS_SIGN_KEY = "la_sign";
 const SS_POST_OAUTH_TARGET = "la_post_oauth_target";
 
 /** Empêche les redirections externes + évite les boucles login/auth */
 function safeNext(raw: string | null) {
   const s = (raw || "").trim();
-  if (!s) return "/chat";
-  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
+  const fallback = "/chat";
+
+  if (!s) return fallback;
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
+
   const path = s.startsWith("/") ? s : `/${s}`;
-  if (path.startsWith("/login") || path.startsWith("/auth")) return "/chat";
+  if (path.startsWith("/login") || path.startsWith("/auth")) return fallback;
+
   return path;
 }
 
@@ -30,11 +34,10 @@ function getStoredSign() {
 }
 
 /**
- * Logique demandée :
- * - si next est un chemin précis (ex: /pricing), on le respecte
- * - sinon (next absent ou /chat):
- *    - si signe existe => /chat?signe=...
- *    - sinon => onboarding choix du signe
+ * - si next est un chemin précis (ex: /pricing) => on respecte
+ * - sinon:
+ *    - si signe => /chat?signe=...
+ *    - sinon => /onboarding/sign
  */
 function computePostLoginTarget(nextUrl: string) {
   if (nextUrl && nextUrl !== "/chat") return nextUrl;
@@ -45,7 +48,12 @@ function computePostLoginTarget(nextUrl: string) {
   return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
-/** Détecte les erreurs “mauvais identifiants” (Supabase varie selon config/langue) */
+function isValidEmail(em: string) {
+  const v = (em || "").trim();
+  // simple (suffisant pour UI)
+  return v.includes("@") && v.includes(".");
+}
+
 function looksLikeInvalidLogin(message: string) {
   const m = (message || "").toLowerCase();
   return (
@@ -67,6 +75,8 @@ export default function LoginClient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPwd, setShowPwd] = useState(false);
+
   const [busy, setBusy] = useState(false);
   const [alreadyConnected, setAlreadyConnected] = useState(false);
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
@@ -87,21 +97,20 @@ export default function LoginClient() {
         if (!mounted) return;
 
         if (error) {
-          showMsg("Erreur session: " + error.message, "err");
+          showMsg("Erreur de session. Réessaie.", "err");
           return;
         }
 
         const hasSession = !!data?.session;
         setAlreadyConnected(hasSession);
 
-        // Si déjà connecté, on peut auto-continuer sans afficher AUTH_REQUIRED ailleurs
         if (hasSession) {
-          showMsg("Tu es déjà connectée. Redirection…", "ok");
+          showMsg("Connexion active. Redirection…", "ok");
           router.replace(postLoginTarget);
         }
-      } catch (e: any) {
+      } catch {
         if (!mounted) return;
-        showMsg("Erreur JS: " + (e?.message || String(e)), "err");
+        showMsg("Erreur. Réessaie.", "err");
       }
     })();
 
@@ -123,8 +132,9 @@ export default function LoginClient() {
     clearMsg();
 
     const em = email.trim();
-    if (!em || !em.includes("@")) return showMsg("Entre un email valide.", "err");
-    if (!password || password.length < 6) return showMsg("Mot de passe (6 caractères min).", "err");
+
+    if (!isValidEmail(em)) return showMsg("Entre un email valide.", "err");
+    if (!password || password.length < 6) return showMsg("Mot de passe : 6 caractères minimum.", "err");
 
     setBusy(true);
     showMsg("Connexion…", "info");
@@ -141,7 +151,7 @@ export default function LoginClient() {
       return;
     }
 
-    // 2) Si identifiants invalides => tentative signup auto (comme ton code actuel)
+    // 2) Identifiants invalides => tentative signup auto
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Compte introuvable. Création du compte…", "info");
 
@@ -161,16 +171,15 @@ export default function LoginClient() {
         return;
       }
 
-      // cas email confirmation requise
       setBusy(false);
-      showMsg("Compte créé. Vérifie ton email pour confirmer, puis reviens te connecter.", "ok");
+      showMsg("Compte créé. Confirme l’email reçu, puis reconnecte-toi.", "ok");
       return;
     }
 
     // 3) Autres erreurs
     setBusy(false);
     if (signInError) return showMsg(signInError.message, "err");
-    showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
+    showMsg("Connexion impossible. Réessaie.", "err");
   }
 
   async function onGoogle() {
@@ -178,14 +187,11 @@ export default function LoginClient() {
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    // On stocke LA cible finale (avec signe / onboarding)
     try {
       sessionStorage.setItem(SS_POST_OAUTH_TARGET, postLoginTarget);
     } catch {}
 
     const origin = window.location.origin;
-
-    // IMPORTANT: on garde next dans l’URL pour ton /auth/callback
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
@@ -209,12 +215,12 @@ export default function LoginClient() {
     clearMsg();
 
     const em = email.trim();
-    if (!em || !em.includes("@")) {
+    if (!isValidEmail(em)) {
       return showMsg("Entre ton email, puis clique “Mot de passe oublié ?”.", "err");
     }
 
     setBusy(true);
-    showMsg("Envoi du lien de réinitialisation…", "info");
+    showMsg("Envoi du lien…", "info");
 
     const origin = window.location.origin;
     const { error } = await supabase.auth.resetPasswordForEmail(em, {
@@ -222,9 +228,8 @@ export default function LoginClient() {
     });
 
     setBusy(false);
-
     if (error) return showMsg(error.message, "err");
-    showMsg("Email envoyé. Vérifie ta boîte (et indésirables).", "ok");
+    showMsg("Email envoyé. Vérifie la boîte de réception (et indésirables).", "ok");
   }
 
   async function onLogout() {
@@ -239,6 +244,9 @@ export default function LoginClient() {
     setAlreadyConnected(false);
     showMsg("Déconnectée.", "ok");
   }
+
+  const msgClass =
+    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
 
   return (
     <div className="auth-body">
@@ -264,18 +272,10 @@ export default function LoginClient() {
       <main className="wrap auth-wrap" role="main">
         <section className="auth-card" aria-label="Connexion">
           <h1 className="auth-title">Se connecter</h1>
-          <p className="auth-sub">
-            Connecte-toi pour continuer. Si tu n’as pas de compte, il sera créé automatiquement.
-          </p>
+          <p className="auth-sub">Connexion requise pour continuer.</p>
 
           {msg ? (
-            <div
-              className={`auth-msg ${
-                msg.type === "ok" ? "is-ok" : msg.type === "err" ? "is-err" : "is-info"
-              }`}
-              role="status"
-              aria-live="polite"
-            >
+            <div className={`auth-msg ${msgClass}`} role="status" aria-live="polite">
               {msg.text}
             </div>
           ) : null}
@@ -283,7 +283,7 @@ export default function LoginClient() {
           {alreadyConnected ? (
             <div style={{ marginTop: 12 }}>
               <p className="auth-sub" style={{ margin: "0 0 10px 0" }}>
-                Tu es déjà connectée.
+                Connexion active.
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
@@ -343,25 +343,35 @@ export default function LoginClient() {
             <label className="auth-label" htmlFor="password">
               Mot de passe
             </label>
-            <input
-              className="auth-input"
-              id="password"
-              name="password"
-              type="password"
-              placeholder="6 caractères min."
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={busy}
-            />
 
-            <button
-              className="btn auth-submit"
-              type="submit"
-              disabled={busy}
-              style={{ opacity: busy ? 0.7 : 1 }}
-            >
+            {/* ✅ champ + bouton œil */}
+            <div className="pwd-wrap">
+              <input
+                className="auth-input"
+                id="password"
+                name="password"
+                type={showPwd ? "text" : "password"}
+                placeholder="6 caractères min."
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={busy}
+              />
+
+              <button
+                type="button"
+                className="pwd-eye"
+                onClick={() => setShowPwd((v) => !v)}
+                disabled={busy}
+                aria-label={showPwd ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                title={showPwd ? "Masquer" : "Afficher"}
+              >
+                {showPwd ? "🙈" : "👁️"}
+              </button>
+            </div>
+
+            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
               Se connecter
             </button>
 
@@ -370,10 +380,51 @@ export default function LoginClient() {
             </button>
 
             <p className="auth-switch">
-              Pas de compte ? Entre ton email + mot de passe et clique <b>Se connecter</b> : on le crée
-              automatiquement.
+              Aucun compte ? Entre un email + un mot de passe, puis clique <b>Se connecter</b> pour créer le compte.
             </p>
           </form>
+
+          {/* ✅ CSS local minimal pour l’œil */}
+          <style jsx>{`
+            .pwd-wrap {
+              position: relative;
+              width: 100%;
+            }
+            .pwd-wrap :global(.auth-input) {
+              padding-right: 46px;
+            }
+            .pwd-eye {
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 34px;
+              height: 34px;
+              border-radius: 12px;
+              border: 1px solid rgba(255, 255, 255, 0.16);
+              background: rgba(255, 255, 255, 0.06);
+              color: rgba(255, 255, 255, 0.92);
+              cursor: pointer;
+              display: grid;
+              place-items: center;
+            }
+            .pwd-eye:disabled {
+              opacity: 0.6;
+              cursor: default;
+            }
+            .auth-msg.is-ok {
+              background: rgba(120, 255, 190, 0.1);
+              border-color: rgba(120, 255, 190, 0.22);
+            }
+            .auth-msg.is-err {
+              background: rgba(255, 90, 90, 0.1);
+              border-color: rgba(255, 90, 90, 0.22);
+            }
+            .auth-msg.is-info {
+              background: rgba(159, 211, 255, 0.1);
+              border-color: rgba(159, 211, 255, 0.22);
+            }
+          `}</style>
         </section>
       </main>
     </div>
