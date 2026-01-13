@@ -268,29 +268,32 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* TRUST */}
-        <section className="trust" aria-label="Promesse">
-          <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">✦</div>
-            <div>
-              <div className="trust-title">Doux, mais précis</div>
-              <div className="trust-sub">Des mots clairs, sans blabla.</div>
-            </div>
-          </div>
+        {/* PITCH (vendeur, remplace TRUST) */}
+        <section className="pitch" aria-label="Exploration personnelle">
+          <div className="pitch-card">
+            <div className="pitch-kicker">Exploration personnelle guidée</div>
 
-          <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">☾</div>
-            <div>
-              <div className="trust-title">Guidé</div>
-              <div className="trust-sub">Questions + reflets pour avancer.</div>
-            </div>
-          </div>
+            <h2 className="pitch-title">
+              Une conversation reliée à ton signe — pour comprendre ce que tu vis maintenant.
+            </h2>
 
-          <div className="trust-item">
-            <div className="trust-ico" aria-hidden="true">◎</div>
-            <div>
-              <div className="trust-title">Sans jugement</div>
-              <div className="trust-sub">On explore. On n’étiquette pas.</div>
+            <p className="pitch-sub">
+              Pas de prédictions. Pas de blabla.
+              <br />
+              Des questions, des reflets, et des pistes concrètes adaptées à ton énergie astrologique.
+            </p>
+
+            <div className="pitch-bullets" role="list">
+              <div className="pitch-bullet" role="listitem">• Forces & besoins (clairs)</div>
+              <div className="pitch-bullet" role="listitem">• Angles morts (sans jugement)</div>
+              <div className="pitch-bullet" role="listitem">• Décisions & limites (plus net)</div>
+            </div>
+
+            <div className="pitch-cta">
+              <a href="#signes" className="btn btn-primary" onClick={onNavTo("signes")}>
+                Choisir mon signe →
+              </a>
+              <span className="pitch-note">Gratuit au départ · Compte requis</span>
             </div>
           </div>
         </section>
@@ -406,4 +409,4 @@ export default function HomePage() {
       </main>
     </div>
   );
-                }
+      }
