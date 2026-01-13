@@ -8,9 +8,8 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type MsgType = "ok" | "err" | "info";
 
 const LS_SIGN_KEY = "la_sign";
-const SS_POST_OAUTH_TARGET = "la_post_oauth_target";
 
-/** Empêche les redirections externes + évite les boucles login/auth */
+/** ✅ Empêche les redirections externes + évite les boucles login/auth */
 function safeNext(raw: string | null) {
   const s = (raw || "").trim();
   const fallback = "/chat";
@@ -33,27 +32,20 @@ function getStoredSign() {
   }
 }
 
-/**
- * - si next est un chemin précis (ex: /pricing) => on respecte
- * - sinon:
- *    - si signe => /chat?signe=...
- *    - sinon => /onboarding/sign
- */
-function computePostLoginTarget(nextUrl: string) {
-  if (nextUrl && nextUrl !== "/chat") return nextUrl;
-
-  const s = getStoredSign();
-  if (s) return `/chat?signe=${encodeURIComponent(s)}`;
-
-  return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
+function setStoredSign(v: string) {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(LS_SIGN_KEY, v);
+  } catch {}
 }
 
+/** UI simple */
 function isValidEmail(em: string) {
   const v = (em || "").trim();
-  // simple (suffisant pour UI)
   return v.includes("@") && v.includes(".");
 }
 
+/** détecte “mauvais identifiants” (Supabase varie selon config/langue) */
 function looksLikeInvalidLogin(message: string) {
   const m = (message || "").toLowerCase();
   return (
@@ -62,6 +54,23 @@ function looksLikeInvalidLogin(message: string) {
     m.includes("email not confirmed") ||
     m.includes("invalid")
   );
+}
+
+/**
+ * ✅ RÈGLE FINALE (comme tu veux):
+ * Après login:
+ * - si next = /pricing => va /pricing
+ * - sinon:
+ *    - si signe déjà choisi => /chat?signe=...
+ *    - sinon => /onboarding/sign?next=/chat
+ */
+function computePostLoginTarget(nextUrl: string) {
+  if (nextUrl && nextUrl === "/pricing") return "/pricing";
+
+  const s = getStoredSign();
+  if (s) return `/chat?signe=${encodeURIComponent(s)}`;
+
+  return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
 export default function LoginClient() {
@@ -74,7 +83,6 @@ export default function LoginClient() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [showPwd, setShowPwd] = useState(false);
 
   const [busy, setBusy] = useState(false);
@@ -87,7 +95,7 @@ export default function LoginClient() {
 
   const clearMsg = useCallback(() => setMsg(null), []);
 
-  // Boot + écoute session
+  // Boot: si déjà connecté => direct onboarding/sign ou chat (selon signe) ou pricing
   useEffect(() => {
     let mounted = true;
 
@@ -105,7 +113,6 @@ export default function LoginClient() {
         setAlreadyConnected(hasSession);
 
         if (hasSession) {
-          showMsg("Connexion active. Redirection…", "ok");
           router.replace(postLoginTarget);
         }
       } catch {
@@ -146,14 +153,13 @@ export default function LoginClient() {
     });
 
     if (signInData?.session) {
-      showMsg("Connectée. Redirection…", "ok");
       router.replace(postLoginTarget);
       return;
     }
 
-    // 2) Identifiants invalides => tentative signup auto
+    // 2) Identifiants invalides => signup auto
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
-      showMsg("Compte introuvable. Création du compte…", "info");
+      showMsg("Création du compte…", "info");
 
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: em,
@@ -166,17 +172,16 @@ export default function LoginClient() {
       }
 
       if (signUpData?.session) {
-        showMsg("Compte créé. Redirection…", "ok");
         router.replace(postLoginTarget);
         return;
       }
 
+      // Email confirmation requise
       setBusy(false);
       showMsg("Compte créé. Confirme l’email reçu, puis reconnecte-toi.", "ok");
       return;
     }
 
-    // 3) Autres erreurs
     setBusy(false);
     if (signInError) return showMsg(signInError.message, "err");
     showMsg("Connexion impossible. Réessaie.", "err");
@@ -187,11 +192,10 @@ export default function LoginClient() {
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    try {
-      sessionStorage.setItem(SS_POST_OAUTH_TARGET, postLoginTarget);
-    } catch {}
-
     const origin = window.location.origin;
+
+    // ✅ IMPORTANT: après OAuth, on veut la MÊME logique (pricing vs onboarding)
+    // Donc on passe next dans callback (qui redirigera ensuite vers /login?next=... si tu fais comme d’hab)
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
@@ -242,11 +246,21 @@ export default function LoginClient() {
 
     if (error) return showMsg(error.message, "err");
     setAlreadyConnected(false);
+
+    // optionnel: si tu veux repartir “propre”
+    // setStoredSign("");
+
     showMsg("Déconnectée.", "ok");
   }
 
   const msgClass =
-    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
+    msg?.type === "ok"
+      ? "is-ok"
+      : msg?.type === "err"
+      ? "is-err"
+      : msg?.type === "info"
+      ? "is-info"
+      : "";
 
   return (
     <div className="auth-body">
@@ -287,12 +301,7 @@ export default function LoginClient() {
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={() => router.replace(postLoginTarget)}
-                  disabled={busy}
-                >
+                <button type="button" className="btn" onClick={() => router.replace(postLoginTarget)} disabled={busy}>
                   Continuer
                 </button>
 
@@ -344,7 +353,6 @@ export default function LoginClient() {
               Mot de passe
             </label>
 
-            {/* ✅ champ + bouton œil */}
             <div className="pwd-wrap">
               <input
                 className="auth-input"
@@ -384,7 +392,6 @@ export default function LoginClient() {
             </p>
           </form>
 
-          {/* ✅ CSS local minimal pour l’œil */}
           <style jsx>{`
             .pwd-wrap {
               position: relative;
@@ -429,4 +436,4 @@ export default function LoginClient() {
       </main>
     </div>
   );
-}
+                }
