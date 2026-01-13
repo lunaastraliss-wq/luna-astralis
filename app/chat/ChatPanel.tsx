@@ -26,32 +26,20 @@ export function TopBar({
       </a>
 
       <div className="chat-top-actions">
-        <a className="chat-back" href="/#signes" aria-label="Changer de signe">
-          <span className="hide-mobile">Changer de signe</span>
-          <span className="show-mobile">Signe</span>
-        </a>
-
         {isAuth ? (
-          <>
-            <a className="chat-upgrade" href="/pricing" aria-label="Voir les offres">
-              <span className="hide-mobile">Upgrade</span>
-              <span className="show-mobile">Offres</span>
-            </a>
-
-            <a
-              className="chat-logout"
-              href="#"
-              onClick={onLogout}
-              aria-label="Déconnexion"
-            >
-              <span className="hide-mobile">Déconnexion</span>
-              <span className="show-mobile">Quitter</span>
-            </a>
-          </>
+          <a
+            className="chat-logout"
+            href="#"
+            onClick={onLogout}
+            aria-label="Déconnexion"
+          >
+            <span className="hide-mobile">Déconnexion</span>
+            <span className="show-mobile">Quitter</span>
+          </a>
         ) : (
-          <a className="chat-upgrade" href="/pricing" aria-label="Voir les offres">
-            <span className="hide-mobile">Offres</span>
-            <span className="show-mobile">Offres</span>
+          <a className="chat-login" href="/login?next=%2Fchat" aria-label="Se connecter">
+            <span className="hide-mobile">Se connecter</span>
+            <span className="show-mobile">Login</span>
           </a>
         )}
       </div>
@@ -62,23 +50,13 @@ export function TopBar({
 export default function ChatPanel(props: {
   signName: string;
   tail: ThreadMsg[];
-  messagesRef: React.RefObject<HTMLDivElement>;
+  messagesRef: React.RefObject<HTMLDivElement | null>;
   input: string;
   setInput: (v: string) => void;
   onSend: (e: React.FormEvent) => void;
-  onOpenHistory: () => void;
   disabled: boolean;
 }) {
-  const {
-    signName,
-    tail,
-    messagesRef,
-    input,
-    setInput,
-    onSend,
-    onOpenHistory,
-    disabled,
-  } = props;
+  const { signName, tail, messagesRef, input, setInput, onSend, disabled } = props;
 
   return (
     <section className="chat-panel" aria-label="Discussion">
@@ -88,17 +66,6 @@ export default function ChatPanel(props: {
         </div>
 
         <div className="chat-header-right">
-          <button
-            className="chat-history-btn"
-            type="button"
-            onClick={onOpenHistory}
-            aria-label="Ouvrir l’historique"
-            disabled={disabled}
-          >
-            <span className="hide-mobile">Historique</span>
-            <span className="show-mobile">Hist.</span>
-          </button>
-
           <div className="ai-face-mini-wrap" aria-hidden="true">
             <img className="ai-face-mini" src="/ia-luna-astralis.png" alt="" />
           </div>
