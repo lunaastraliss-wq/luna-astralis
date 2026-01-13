@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useCallback } from "react";
+import Link from "next/link";
 import { supabase } from "../../lib/supabase/client";
 
 type Plan = "guest" | "free" | "premium";
@@ -16,7 +17,6 @@ type Props = {
   freeLeft: number | null;
 
   // ✅ optionnel: slug exact du forfait payé (ex: "essential-month", "unlimited-year")
-  // si absent, on affichera juste "✅ Accès premium"
   planSlug?: string | null;
 
   signName: string;
@@ -41,9 +41,7 @@ function labelFromPlan(plan: Plan, planSlug?: string | null) {
   if (plan === "free") return "Gratuit (15 messages)";
   if (plan !== "premium") return "";
 
-  // premium
   const slug = String(planSlug || "").trim().toLowerCase();
-
   switch (slug) {
     case "essential-month":
       return "Essentiel · Mensuel";
@@ -117,25 +115,30 @@ export default function ChatSidebar({
   const showEmail = isAuth && !!sessionEmail;
 
   const planLabel = useMemo(() => labelFromPlan(plan, planSlug), [plan, planSlug]);
-  const showPlanBadge = plan !== "guest"; // tu peux mettre true si tu veux toujours l’afficher
+  const showPlanBadge = plan !== "guest";
 
   return (
     <aside className="chat-side" aria-label="Profil IA">
       <div className="chat-side-content">
         {/* Image: desktop seulement */}
         <div className="ai-face-wrap desktop-only" aria-hidden="true">
-          <img
-            className="ai-face"
-            src="/ia-luna-astralis.png"
-            alt=""
-            loading="lazy"
-          />
+          <img className="ai-face" src="/ia-luna-astralis.png" alt="" loading="lazy" />
         </div>
 
         <div className="chat-side-center">
           <p className="chat-side-p">
             <strong>Signe :</strong> {signName}
           </p>
+
+          {/* ✅ Changer de signe */}
+          <Link
+            className="book-btn"
+            href="/onboarding/sign?change=1&next=/chat"
+            aria-label="Changer de signe"
+            title="Changer de signe"
+          >
+            ⇄ Changer de signe
+          </Link>
 
           <p className="chat-side-muted">{signDesc}</p>
 
@@ -188,4 +191,4 @@ export default function ChatSidebar({
       </div>
     </aside>
   );
-}
+          }
