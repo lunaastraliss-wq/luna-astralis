@@ -1,26 +1,26 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
-const LS_SIGN_KEY = "la_sign"; // ✅ même key que dans ChatClient
-const LS_NEXT_AFTER_OAUTH = "la_next_after_oauth";
+const LS_SIGN_KEY = "la_sign"; // même key que ton ChatClient
+const SS_POST_OAUTH_TARGET = "la_post_oauth_target";
 
-function safeNext(v: string | null) {
-  const s = (v || "").trim();
+/** Empêche les redirections externes + évite les boucles login/auth */
+function safeNext(raw: string | null) {
+  const s = (raw || "").trim();
   if (!s) return "/chat";
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return "/chat";
   const path = s.startsWith("/") ? s : `/${s}`;
-  // ✅ on évite les boucles login/auth
   if (path.startsWith("/login") || path.startsWith("/auth")) return "/chat";
   return path;
 }
 
-function getStoredSign(): string {
+function getStoredSign() {
   if (typeof window === "undefined") return "";
   try {
     return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
@@ -29,24 +29,30 @@ function getStoredSign(): string {
   }
 }
 
+/**
+ * Logique demandée :
+ * - si next est un chemin précis (ex: /pricing), on le respecte
+ * - sinon (next absent ou /chat):
+ *    - si signe existe => /chat?signe=...
+ *    - sinon => onboarding choix du signe
+ */
 function computePostLoginTarget(nextUrl: string) {
-  // ✅ si next est déjà précis => on respecte next
   if (nextUrl && nextUrl !== "/chat") return nextUrl;
 
-  // ✅ sinon on redirige selon le signe déjà choisi
   const s = getStoredSign();
   if (s) return `/chat?signe=${encodeURIComponent(s)}`;
+
   return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
-// Petit helper pour détecter le cas "compte inexistant / mauvais identifiants"
-function looksLikeInvalidLogin(errorMessage: string) {
-  const m = (errorMessage || "").toLowerCase();
+/** Détecte les erreurs “mauvais identifiants” (Supabase varie selon config/langue) */
+function looksLikeInvalidLogin(message: string) {
+  const m = (message || "").toLowerCase();
   return (
     m.includes("invalid login credentials") ||
     m.includes("invalid credentials") ||
-    m.includes("email not confirmed") || // parfois renvoyé selon config
-    m.includes("invalid") // fallback (Supabase varie selon langue/proxy)
+    m.includes("email not confirmed") ||
+    m.includes("invalid")
   );
 }
 
@@ -56,22 +62,22 @@ export default function LoginClient() {
   const supabase = useMemo(() => createClientComponentClient(), []);
 
   const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
+  const postLoginTarget = useMemo(() => computePostLoginTarget(nextUrl), [nextUrl]);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [alreadyConnected, setAlreadyConnected] = useState(false);
+  const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
 
-  function showMsg(text: string, type: MsgType = "info") {
+  const showMsg = useCallback((text: string, type: MsgType = "info") => {
     setMsg({ text, type });
-  }
-  function clearMsg() {
-    setMsg(null);
-  }
+  }, []);
 
-  // BOOT: détecte session
+  const clearMsg = useCallback(() => setMsg(null), []);
+
+  // Boot + écoute session
   useEffect(() => {
     let mounted = true;
 
@@ -87,23 +93,30 @@ export default function LoginClient() {
 
         const hasSession = !!data?.session;
         setAlreadyConnected(hasSession);
-        if (hasSession) showMsg("Tu es déjà connectée.", "ok");
+
+        // Si déjà connecté, on peut auto-continuer sans afficher AUTH_REQUIRED ailleurs
+        if (hasSession) {
+          showMsg("Tu es déjà connectée. Redirection…", "ok");
+          router.replace(postLoginTarget);
+        }
       } catch (e: any) {
+        if (!mounted) return;
         showMsg("Erreur JS: " + (e?.message || String(e)), "err");
       }
     })();
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
-      setAlreadyConnected(!!session);
-      if (session) setBusy(false);
+      const has = !!session;
+      setAlreadyConnected(has);
+      if (has) setBusy(false);
     });
 
     return () => {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, [supabase]);
+  }, [supabase, router, postLoginTarget, showMsg]);
 
   async function onEmailPassword(e: React.FormEvent) {
     e.preventDefault();
@@ -116,7 +129,7 @@ export default function LoginClient() {
     setBusy(true);
     showMsg("Connexion…", "info");
 
-    // 1) On tente de se connecter
+    // 1) Sign-in
     const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
       email: em,
       password,
@@ -124,12 +137,11 @@ export default function LoginClient() {
 
     if (signInData?.session) {
       showMsg("Connectée. Redirection…", "ok");
-      const target = computePostLoginTarget(nextUrl);
-      router.replace(target);
+      router.replace(postLoginTarget);
       return;
     }
 
-    // 2) Si échec “identifiants invalides”, on tente de créer le compte automatiquement
+    // 2) Si identifiants invalides => tentative signup auto (comme ton code actuel)
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Compte introuvable. Création du compte…", "info");
 
@@ -143,19 +155,15 @@ export default function LoginClient() {
         return showMsg(signUpError.message, "err");
       }
 
-      // Selon la config Supabase, session peut être null tant que l’email n’est pas confirmé
       if (signUpData?.session) {
         showMsg("Compte créé. Redirection…", "ok");
-        const target = computePostLoginTarget(nextUrl);
-        router.replace(target);
+        router.replace(postLoginTarget);
         return;
       }
 
+      // cas email confirmation requise
       setBusy(false);
-      showMsg(
-        "Compte créé. Vérifie ton email pour confirmer, puis reviens te connecter.",
-        "ok"
-      );
+      showMsg("Compte créé. Vérifie ton email pour confirmer, puis reviens te connecter.", "ok");
       return;
     }
 
@@ -165,18 +173,19 @@ export default function LoginClient() {
     showMsg("Connexion faite, mais session introuvable. Réessaie.", "err");
   }
 
-  // Google OAuth
   async function onGoogle() {
     clearMsg();
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    const target = computePostLoginTarget(nextUrl);
+    // On stocke LA cible finale (avec signe / onboarding)
     try {
-      sessionStorage.setItem(LS_NEXT_AFTER_OAUTH, target);
+      sessionStorage.setItem(SS_POST_OAUTH_TARGET, postLoginTarget);
     } catch {}
 
     const origin = window.location.origin;
+
+    // IMPORTANT: on garde next dans l’URL pour ton /auth/callback
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
@@ -227,12 +236,9 @@ export default function LoginClient() {
     setBusy(false);
 
     if (error) return showMsg(error.message, "err");
-
     setAlreadyConnected(false);
     showMsg("Déconnectée.", "ok");
   }
-
-  const continueHref = computePostLoginTarget(nextUrl);
 
   return (
     <div className="auth-body">
@@ -281,9 +287,15 @@ export default function LoginClient() {
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Link className="btn" href={continueHref}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => router.replace(postLoginTarget)}
+                  disabled={busy}
+                >
                   Continuer
-                </Link>
+                </button>
+
                 <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
                   Se déconnecter
                 </button>
@@ -358,8 +370,8 @@ export default function LoginClient() {
             </button>
 
             <p className="auth-switch">
-              Pas de compte ? Entre ton email + mot de passe et clique <b>Se connecter</b> :
-              on le crée automatiquement.
+              Pas de compte ? Entre ton email + mot de passe et clique <b>Se connecter</b> : on le crée
+              automatiquement.
             </p>
           </form>
         </section>
