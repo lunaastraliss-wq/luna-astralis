@@ -1,7 +1,8 @@
 /* =========================================================
    app/onboarding/sign/page.tsx
    - Onboarding (connecté): choisir un signe -> save -> redirect
-   - Responsive mobile + navigation robuste (fallback location.assign)
+   - ✅ Mode change: /onboarding/sign?change=1&next=/chat
+   - ✅ “Chat d’abord”: après choix -> /chat?sign=...
 ========================================================= */
 
 "use client";
@@ -78,6 +79,7 @@ export default function OnboardingSignPage() {
   const sp = useSearchParams();
 
   const nextUrl = useMemo(() => safeInternalPath(sp.get("next")), [sp]);
+  const changeMode = useMemo(() => sp.get("change") === "1", [sp]); // ✅ allow change sign
 
   const [checking, setChecking] = useState(true);
   const [authed, setAuthed] = useState(false);
@@ -100,11 +102,16 @@ export default function OnboardingSignPage() {
       }
 
       const s = getStoredSign();
-      if (s && SIGNS_SET.has(s)) {
+
+      // ✅ si signe déjà choisi:
+      // - onboarding normal: on redirige
+      // - changeMode: on reste sur la page pour permettre de changer
+      if (!changeMode && s && SIGNS_SET.has(s)) {
         router.replace(nextUrl || buildChatUrl(s));
         return;
       }
 
+      // nettoyage si signe invalide
       if (s && !SIGNS_SET.has(s)) {
         try {
           localStorage.removeItem(LS_SIGN_KEY);
@@ -118,7 +125,7 @@ export default function OnboardingSignPage() {
     return () => {
       alive = false;
     };
-  }, [router, nextUrl]);
+  }, [router, nextUrl, changeMode]);
 
   const hardNavigate = useCallback((url: string) => {
     if (typeof window === "undefined") return;
@@ -135,22 +142,22 @@ export default function OnboardingSignPage() {
 
       storeSign(signKey);
 
-      const target = nextUrl || buildChatUrl(signKey);
+      // ✅ CHAT D’ABORD: après choix => chat (pas pricing)
+      const target = buildChatUrl(signKey);
 
       // 1) Next router
       try {
         router.replace(target);
       } catch {}
 
-      // 2) Fallback: si jamais le router ne navigue pas (mobile/webview/cache)
+      // 2) Fallback: si jamais le router ne navigue pas
       setTimeout(() => {
-        // si on est encore sur /onboarding/sign après un court délai -> force navigation
         if (typeof window !== "undefined" && window.location.pathname.includes("/onboarding/sign")) {
           hardNavigate(target);
         }
       }, 180);
     },
-    [busy, nextUrl, router, hardNavigate]
+    [busy, router, hardNavigate]
   );
 
   if (checking) {
@@ -168,7 +175,6 @@ export default function OnboardingSignPage() {
   return (
     <main style={styles.page}>
       <div style={styles.shell}>
-        {/* Steps (responsive) */}
         <div style={styles.stepsWrap}>
           <div style={styles.stepCard}>
             <div style={styles.stepNo}>01</div>
@@ -193,14 +199,13 @@ export default function OnboardingSignPage() {
         </div>
 
         <div style={{ marginTop: 18 }}>
-          <h1 style={styles.h1}>Choisir un signe</h1>
+          <h1 style={styles.h1}>{changeMode ? "Changer de signe" : "Choisir un signe"}</h1>
           <p style={styles.sub}>
             Tu as droit à <b>15 messages gratuits à vie</b>. Après, tu pourras débloquer l’accès complet si tu le
             souhaites.
           </p>
         </div>
 
-        {/* Grid signs (responsive) */}
         <div style={styles.grid}>
           {SIGNS.map((s) => {
             const active = selected === s.key;
@@ -215,7 +220,7 @@ export default function OnboardingSignPage() {
                   ...(active ? styles.active : null),
                   ...(busy ? styles.disabled : null),
                 }}
-                aria-label={`Choisir ${s.label}`}
+                aria-label={`${changeMode ? "Changer pour" : "Choisir"} ${s.label}`}
               >
                 <span style={styles.signLabel}>{s.label}</span>
               </button>
@@ -248,7 +253,6 @@ const styles: Record<string, React.CSSProperties> = {
   },
   shell: { maxWidth: 1020, margin: "0 auto" },
 
-  // ✅ au lieu de 4 colonnes fixes -> auto-fit (mobile OK)
   stepsWrap: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
@@ -268,7 +272,6 @@ const styles: Record<string, React.CSSProperties> = {
   h1: { fontSize: 26, fontWeight: 900, letterSpacing: -0.2, margin: 0 },
   sub: { marginTop: 8, marginBottom: 14, opacity: 0.84, maxWidth: 780, lineHeight: 1.45 },
 
-  // ✅ grid responsive (mobile -> 2/3 colonnes selon largeur)
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(145px, 1fr))",
@@ -276,7 +279,6 @@ const styles: Record<string, React.CSSProperties> = {
     marginTop: 10,
   },
 
-  // ✅ boutons plus “touch-friendly”
   signBtn: {
     padding: "16px 14px",
     borderRadius: 16,
