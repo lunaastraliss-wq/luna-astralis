@@ -19,7 +19,13 @@ const MAX_VISIBLE = 14;
 
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
-const SIGN_QUERY_PARAM = "signe";
+
+/**
+ * ✅ IMPORTANT: on standardise partout sur "sign"
+ * - /chat?sign=...
+ * - onboarding/sign/page.tsx utilise "sign" aussi
+ */
+const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
   belier: "Bélier ♈",
@@ -145,7 +151,11 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  const rawKeyFromUrl = useMemo(() => sp.get("signe") || sp.get("sign") || "", [sp]);
+  // ✅ accepte les anciens liens ?signe=... mais on écrit toujours ?sign=...
+  const rawKeyFromUrl = useMemo(
+    () => sp.get(SIGN_QUERY_PARAM) || sp.get("signe") || sp.get("sign") || "",
+    [sp]
+  );
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
 
   const messagesRef = useRef<HTMLDivElement | null>(null);
@@ -355,6 +365,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
+      // charge remaining local rapide
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -368,6 +379,7 @@ export default function ChatClient() {
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
+      // ✅ signe: URL > localStorage
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
       const stored = getStoredSign();
       const storedOk = stored && SIGNS[stored] ? stored : "";
@@ -377,6 +389,7 @@ export default function ChatClient() {
         setSignKey(chosen);
         storeSign(chosen);
 
+        // ✅ réécrit l’URL en /chat?sign=... (standard)
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already) {
@@ -384,6 +397,7 @@ export default function ChatClient() {
           }
         }
       } else {
+        // ✅ pas de signe -> onboarding si connecté, sinon home
         if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         else router.replace("/");
       }
@@ -650,6 +664,12 @@ export default function ChatClient() {
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
+  // ✅ URL unique pour changer de signe (force onboarding même si déjà un signe stocké)
+  const changeSignUrl = useMemo(() => {
+    const next = encodeURIComponent("/chat");
+    return `/onboarding/sign?change=1&next=${next}`;
+  }, []);
+
   if (!booted || !signKey) {
     return (
       <div className="chat-body">
@@ -683,13 +703,7 @@ export default function ChatClient() {
         <section className="chat-panel">
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
-              <img
-                className="msc-avatar"
-                src="/ia-luna-astralis.png"
-                alt="Luna"
-                loading="lazy"
-              />
-
+              <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
               <div className="msc-text">
                 <div className="msc-title">{signName}</div>
                 <div className="msc-sub">{signDesc}</div>
@@ -703,11 +717,7 @@ export default function ChatClient() {
                 </a>
               ) : null}
 
-              <button
-                type="button"
-                className="btn btn-small"
-                onClick={() => router.push("/onboarding/sign?next=/chat")}
-              >
+              <button type="button" className="btn btn-small" onClick={() => router.push(changeSignUrl)}>
                 Changer de signe
               </button>
 
@@ -715,7 +725,7 @@ export default function ChatClient() {
                 <button
                   type="button"
                   className="btn btn-small btn-ghost"
-                  onClick={() => router.push("/pricing?reason=free&next=%2Fchat")}
+                  onClick={() => router.push(`/pricing?reason=free&next=${encodeURIComponent("/chat")}`)}
                 >
                   Upgrade
                 </button>
@@ -754,4 +764,4 @@ export default function ChatClient() {
       />
     </div>
   );
-      }
+  }
