@@ -24,9 +24,10 @@ export default function PricingClient() {
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
 
-          {/* ✅ Remplace "Tarifs" par "Mon compte" */}
-          <Link href="/account">Mon compte</Link>
+          {/* ✅ Se connecter -> login -> retour au chat */}
+          <Link href={`/login?next=${encodeURIComponent("/chat")}`}>Se connecter</Link>
 
+          {/* ✅ Retour vers l'accueil (vitrine) */}
           <Link className="btn btn-small btn-ghost" href="/">
             Retour
           </Link>
@@ -160,14 +161,22 @@ export default function PricingClient() {
           </div>
         </section>
 
-        {/* ✅ Footer retiré pour enlever la grosse bande en bas */}
+        {/* Footer volontairement retiré */}
+        <div className="pricing-foot" aria-label="Informations légales">
+          © {y} Luna Astralis • Prix en USD
+        </div>
       </main>
 
       <style jsx>{`
-        /* Rend les boutons clairement "non cliquables" */
         .price-cta:disabled {
           opacity: 0.6;
           cursor: not-allowed;
+        }
+        .pricing-foot {
+          margin-top: 18px;
+          font-size: 12px;
+          opacity: 0.7;
+          text-align: center;
         }
       `}</style>
     </div>
