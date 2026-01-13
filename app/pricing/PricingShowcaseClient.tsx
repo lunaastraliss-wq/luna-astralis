@@ -23,9 +23,10 @@ export default function PricingClient() {
 
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
-          <Link className="active" href="/pricing">
-            Tarifs
-          </Link>
+
+          {/* ✅ Remplace "Tarifs" par "Mon compte" */}
+          <Link href="/account">Mon compte</Link>
+
           <Link className="btn btn-small btn-ghost" href="/">
             Retour
           </Link>
@@ -38,27 +39,16 @@ export default function PricingClient() {
             <div className="pricing-kicker">Accès 24h/7</div>
             <div className="pricing-kicker pricing-kicker-alt">TARIFS</div>
 
-            <h1 className="pricing-title">Choisis le forfait qui te convient</h1>
+            <h1 className="pricing-title">Forfaits & prix</h1>
 
-            <p className="pricing-subtitle">Aperçu des prix. Abonnement disponible dans le chat.</p>
+            <p className="pricing-subtitle">
+              Cette page affiche seulement les prix. L’abonnement se fait dans le chat.
+            </p>
 
             <div className="pricing-chips" aria-label="Informations">
               <span className="chip">Prix en dollars US (USD)</span>
               <span className="chip">Annule ou change en tout temps</span>
             </div>
-
-            <div role="status" aria-live="polite" className="pricing-msg is-info">
-              Les abonnements se font dans le chat. Cette page affiche seulement les prix.
-            </div>
-          </div>
-        </section>
-
-        <section className="section" aria-label="Confiance">
-          <div className="pricing-trust">
-            <div className="trust-line">
-              ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
-            </div>
-            <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
           </div>
         </section>
 
@@ -82,7 +72,7 @@ export default function PricingClient() {
               </ul>
 
               <button className="price-cta" type="button" disabled aria-disabled="true">
-                Voir le prix
+                Prix
               </button>
             </article>
 
@@ -107,7 +97,7 @@ export default function PricingClient() {
                 </ul>
 
                 <button className="price-cta btn-primary" type="button" disabled aria-disabled="true">
-                  Voir le prix
+                  Prix
                 </button>
               </article>
             </div>
@@ -135,7 +125,7 @@ export default function PricingClient() {
               </ul>
 
               <button className="price-cta" type="button" disabled aria-disabled="true">
-                Voir le prix
+                Prix
               </button>
             </article>
 
@@ -164,33 +154,16 @@ export default function PricingClient() {
               </ul>
 
               <button className="price-cta btn-primary" type="button" disabled aria-disabled="true">
-                Voir le prix
+                Prix
               </button>
             </article>
           </div>
         </section>
 
-        <footer className="footer" role="contentinfo">
-          <div>© {y} Luna Astralis</div>
-          <div className="footer-note">Prix en USD • Accès 24h/7</div>
-        </footer>
+        {/* ✅ Footer retiré pour enlever la grosse bande en bas */}
       </main>
 
       <style jsx>{`
-        .pricing-msg {
-          margin: 14px 0 0;
-          padding: 12px 14px;
-          border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          background: rgba(255, 255, 255, 0.06);
-          color: rgba(255, 255, 255, 0.92);
-          line-height: 1.35;
-        }
-        .pricing-msg.is-info {
-          background: rgba(159, 211, 255, 0.1);
-          border-color: rgba(159, 211, 255, 0.22);
-        }
-
         /* Rend les boutons clairement "non cliquables" */
         .price-cta:disabled {
           opacity: 0.6;
