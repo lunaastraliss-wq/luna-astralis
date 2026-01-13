@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo, useCallback } from "react";
-import Link from "next/link";
 import { supabase } from "../../lib/supabase/client";
 
 type Plan = "guest" | "free" | "premium";
@@ -10,10 +9,7 @@ type Props = {
   isAuth: boolean;
   sessionEmail: string;
 
-  // plan logique pour l’UI (guest/free/premium)
   plan: Plan;
-
-  // quota: seulement utile en free
   freeLeft: number | null;
 
   // slug exact du forfait payé (ex: "essential-month", "unlimited-year")
@@ -29,8 +25,6 @@ const ADMIN_EMAILS = new Set([
   "spinoz.fr@gmail.com",
   "comptanetquebec@gmail.com",
 ]);
-
-const CHANGE_SIGN_HREF = "/onboarding/sign?change=1&next=/chat";
 
 function normalizeFreeLeft(v: number | null): number | null {
   if (typeof v !== "number") return null;
@@ -131,16 +125,6 @@ export default function ChatSidebar({
           <p className="chat-side-p">
             <strong>Signe :</strong> {signName}
           </p>
-
-          {/* ✅ Changer de signe (même URL que mobile) */}
-          <Link
-            className="book-btn"
-            href={CHANGE_SIGN_HREF}
-            aria-label="Changer de signe"
-            title="Changer de signe"
-          >
-            ⇄ Changer de signe
-          </Link>
 
           <p className="chat-side-muted">{signDesc}</p>
 
