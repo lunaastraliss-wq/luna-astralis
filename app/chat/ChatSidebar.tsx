@@ -16,7 +16,7 @@ type Props = {
   // quota: seulement utile en free
   freeLeft: number | null;
 
-  // ✅ optionnel: slug exact du forfait payé (ex: "essential-month", "unlimited-year")
+  // slug exact du forfait payé (ex: "essential-month", "unlimited-year")
   planSlug?: string | null;
 
   signName: string;
@@ -29,6 +29,8 @@ const ADMIN_EMAILS = new Set([
   "spinoz.fr@gmail.com",
   "comptanetquebec@gmail.com",
 ]);
+
+const CHANGE_SIGN_HREF = "/onboarding/sign?change=1&next=/chat";
 
 function normalizeFreeLeft(v: number | null): number | null {
   if (typeof v !== "number") return null;
@@ -68,7 +70,7 @@ export default function ChatSidebar({
 }: Props) {
   const freeLeftNorm = useMemo(() => normalizeFreeLeft(freeLeft), [freeLeft]);
 
-  // ✅ compteur seulement si plan === "free" ET freeLeft est un nombre valide
+  // compteur seulement si plan === "free" ET freeLeft est un nombre valide
   const showFreeCounter = plan === "free" && freeLeftNorm !== null;
 
   const counterText = useMemo(() => {
@@ -130,10 +132,10 @@ export default function ChatSidebar({
             <strong>Signe :</strong> {signName}
           </p>
 
-          {/* ✅ Changer de signe */}
+          {/* ✅ Changer de signe (même URL que mobile) */}
           <Link
             className="book-btn"
-            href="/onboarding/sign?change=1&next=/chat"
+            href={CHANGE_SIGN_HREF}
             aria-label="Changer de signe"
             title="Changer de signe"
           >
@@ -155,7 +157,7 @@ export default function ChatSidebar({
             </a>
           )}
 
-          {/* ✅ Badge forfait */}
+          {/* Badge forfait */}
           {showPlanBadge && (
             <p className="chat-side-plan" aria-label="Forfait">
               {plan === "premium" ? "✅ " : ""}
@@ -191,4 +193,4 @@ export default function ChatSidebar({
       </div>
     </aside>
   );
-          }
+}
