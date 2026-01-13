@@ -13,14 +13,11 @@ type ThreadMsg = { role: "user" | "ai"; text: string };
 type Plan = "guest" | "free" | "premium";
 
 const FREE_LIMIT = 15;
-
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
-
-/** ✅ Standard : /chat?sign=... */
 const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
@@ -156,11 +153,11 @@ export default function ChatClient() {
   const messagesRef = useRef<HTMLDivElement | null>(null);
 
   const [sessionEmail, setSessionEmail] = useState("");
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [userId, setUserId] = useState<string>("");
+  const [isAuth, setIsAuth] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const [plan, setPlan] = useState<Plan>("guest");
-  const [signKey, setSignKey] = useState<string>("");
+  const [signKey, setSignKey] = useState("");
 
   const [thread, setThread] = useState<ThreadMsg[]>([]);
   const [input, setInput] = useState("");
@@ -343,13 +340,11 @@ export default function ChatClient() {
     } catch {}
   }, [setSavedRemaining]);
 
-  /** ✅ URL pour changer de signe */
   const changeSignUrl = useMemo(() => {
     const next = encodeURIComponent("/chat");
     return `/onboarding/sign?change=1&next=${next}`;
   }, []);
 
-  /** ✅ Ouvre tes PLANS (nouvelle route demandée) */
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
@@ -372,7 +367,6 @@ export default function ChatClient() {
 
   const closePaywall = useCallback(() => setPaywallOpen(false), []);
 
-  /* ===================== BOOT ===================== */
   useEffect(() => {
     let alive = true;
 
@@ -388,7 +382,6 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
-      // remaining local rapide
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -402,7 +395,6 @@ export default function ChatClient() {
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
-      // signe: URL > localStorage
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
       const stored = getStoredSign();
       const storedOk = stored && SIGNS[stored] ? stored : "";
@@ -412,7 +404,6 @@ export default function ChatClient() {
         setSignKey(chosen);
         storeSign(chosen);
 
-        // réécrit URL standard
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already) {
@@ -420,7 +411,6 @@ export default function ChatClient() {
           }
         }
       } else {
-        // pas de signe
         if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         else router.replace("/");
       }
@@ -434,7 +424,6 @@ export default function ChatClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* ===================== AUTH LISTENER ===================== */
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setPaywallOpen(false);
@@ -459,7 +448,6 @@ export default function ChatClient() {
     return () => data.subscription.unsubscribe();
   }, [ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
 
-  /* ===================== THREAD LOAD ===================== */
   useEffect(() => {
     if (!signKey) return;
     const t0 = ensureHello(loadThreadLocal());
@@ -665,9 +653,7 @@ export default function ChatClient() {
     setThread(t0);
   }, [KEY_THREAD_LOCAL, ensureHello, signKey]);
 
-  /** ✅ Top actions (alignées comme tu veux) */
   const onOpenPlans = useCallback(() => {
-    // si user est free/guest -> on garde reason=free, sinon nav
     if (plan === "premium") goPlans("nav");
     else goPlans("free");
   }, [plan, goPlans]);
@@ -710,7 +696,6 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
-          {/* ✅ Mobile sign card : on garde juste Approfondir */}
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
               <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
@@ -735,7 +720,7 @@ export default function ChatClient() {
             ) : null}
           </div>
 
-          {/* ✅ BARRE DU HAUT DU CHAT : Historique + Changer de signe + Forfaits (+ Login si guest) */}
+          {/* ✅ Barre unique : Se connecter / Changer de signe / Forfaits / Historique */}
           <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
             <div className="cab-left">
               <span className="cab-pill">{signName}</span>
@@ -760,7 +745,11 @@ export default function ChatClient() {
                 Forfaits
               </button>
 
-              <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
+              <button
+                type="button"
+                className="btn btn-small btn-ghost"
+                onClick={() => setHistoryOpen(true)}
+              >
                 Historique
               </button>
             </div>
@@ -773,7 +762,6 @@ export default function ChatClient() {
             input={input}
             setInput={setInput}
             onSend={onSend}
-            // ⚠️ on ne passe plus onOpenHistory à ChatPanel (sinon double bouton)
             disabled={paywallOpen || historyOpen}
           />
         </section>
@@ -790,7 +778,6 @@ export default function ChatClient() {
         nextUrl={currentPathWithQuery()}
       />
 
-      {/* Styles rapides pour la barre d’actions */}
       <style jsx>{`
         .chat-actions-bar {
           display: flex;
@@ -823,4 +810,4 @@ export default function ChatClient() {
       `}</style>
     </div>
   );
-}
+        }
