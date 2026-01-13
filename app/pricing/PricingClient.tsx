@@ -1,3 +1,4 @@
+// app/pricing/PricingClient.tsx
 "use client";
 
 import React, { useEffect, useMemo, useState, useCallback } from "react";
@@ -6,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
+
 const LS_SIGN_KEY = "la_sign";
 
 function safeNext(v: string | null) {
@@ -35,11 +37,11 @@ export default function PricingClient() {
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
+  const [checking, setChecking] = useState(true);
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
 
   const y = useMemo(() => new Date().getFullYear(), []);
-
   const nextRaw = sp.get("next");
   const nextUrl = useMemo(() => safeNext(nextRaw), [nextRaw]);
   const nextEnc = useMemo(() => encodeURIComponent(nextUrl), [nextUrl]);
@@ -47,6 +49,45 @@ export default function PricingClient() {
   const showMsg = useCallback((text: string, type: MsgType = "info") => {
     setMsg({ text, type });
   }, []);
+
+  // ✅ RÈGLE: si tu arrives sur /pricing sans login => login -> onboarding -> chat
+  useEffect(() => {
+    let alive = true;
+
+    (async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!alive) return;
+
+        const authed = !error && !!data?.session?.user?.id;
+        const sign = getStoredSign();
+
+        // 1) pas connecté => login, puis onboarding, puis chat
+        if (!authed) {
+          const target = "/onboarding/sign?next=" + encodeURIComponent("/chat");
+          router.replace(`/login?next=${encodeURIComponent(target)}`);
+          return;
+        }
+
+        // 2) connecté mais pas de signe => onboarding -> chat
+        if (!sign) {
+          router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
+          return;
+        }
+
+        // 3) connecté + signe => OK, on peut afficher pricing
+        setChecking(false);
+      } catch {
+        // fallback: login -> onboarding -> chat
+        const target = "/onboarding/sign?next=" + encodeURIComponent("/chat");
+        router.replace(`/login?next=${encodeURIComponent(target)}`);
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
+  }, [supabase, router]);
 
   // Messages Stripe (retour checkout)
   useEffect(() => {
@@ -69,25 +110,22 @@ export default function PricingClient() {
 
       const { data } = await supabase.auth.getSession();
       const authed = !!data?.session?.user?.id;
+      const sign = getStoredSign();
 
-      // ✅ pas connecté -> login puis retour sur pricing avec plan
+      // ✅ sécurité (normalement déjà assuré par checking)
       if (!authed) {
-        const back = `/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
-        router.push(`/login?next=${encodeURIComponent(back)}`);
+        const target = "/onboarding/sign?next=" + encodeURIComponent("/chat");
+        router.push(`/login?next=${encodeURIComponent(target)}`);
         setBusyPlan(null);
         return;
       }
 
-      // ✅ connecté mais pas de signe -> onboarding puis retour pricing (même plan)
-      const s = getStoredSign();
-      if (!s) {
-        const back = `/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
-        router.push(`/onboarding/sign?next=${encodeURIComponent(back)}`);
+      if (!sign) {
+        router.push(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
         setBusyPlan(null);
         return;
       }
 
-      // ✅ connecté + signe ok -> checkout
       showMsg("Ouverture de Stripe…", "info");
 
       const res = await fetch("/api/checkout", {
@@ -107,37 +145,6 @@ export default function PricingClient() {
     }
   }
 
-  // ✅ Auto-checkout après login/onboarding si ?plan=... est présent
-  useEffect(() => {
-    const plan = sp.get("plan");
-    if (!plan) return;
-
-    let alive = true;
-
-    (async () => {
-      try {
-        const { data } = await supabase.auth.getSession();
-        if (!alive) return;
-
-        const authed = !!data?.session?.user?.id;
-        if (!authed) return;
-
-        const s = getStoredSign();
-        if (!s) return; // onboarding pas fait encore
-
-        // évite double clic / double call
-        if (busyPlan) return;
-
-        startCheckout(plan);
-      } catch {}
-    })();
-
-    return () => {
-      alive = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sp, supabase]);
-
   const msgClass =
     msg?.type === "ok"
       ? "is-ok"
@@ -146,6 +153,42 @@ export default function PricingClient() {
       : msg?.type === "info"
       ? "is-info"
       : "";
+
+  // ✅ évite le flash de pricing (important)
+  if (checking) {
+    return (
+      <div className="pricing-body pricing-page">
+        <header className="top" role="banner">
+          <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
+            <div className="logo" aria-hidden="true">
+              <img src="/logo-luna-astralis-transparent.png" alt="" />
+            </div>
+            <div className="brand-text">
+              <div className="brand-name">LUNA ASTRALIS</div>
+              <div className="brand-sub">Astro & psycho</div>
+            </div>
+          </Link>
+        </header>
+
+        <main className="wrap" role="main" style={{ paddingTop: 40 }}>
+          <div className="pricing-msg is-info">Vérification…</div>
+        </main>
+
+        <style jsx>{`
+          .pricing-msg {
+            margin: 14px 0 0;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(159, 211, 255, 0.1);
+            border-color: rgba(159, 211, 255, 0.22);
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.35;
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="pricing-body pricing-page">
@@ -195,13 +238,6 @@ export default function PricingClient() {
           </div>
         </section>
 
-        <section className="section" aria-label="Confiance">
-          <div className="pricing-trust">
-            <div className="trust-line">✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.</div>
-            <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
-          </div>
-        </section>
-
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
             <article className="price-card" aria-label="Mensuel — Essentiel">
@@ -211,15 +247,7 @@ export default function PricingClient() {
                   <span className="price-now">4,99&nbsp;$</span>
                   <span className="price-period">/ mois</span>
                 </div>
-                <div className="price-mini">Accès 24h/7</div>
               </div>
-
-              <ul className="price-features">
-                <li>100 messages / mois</li>
-                <li>Tous les signes astrologiques</li>
-                <li>Astro & psycho</li>
-                <li>Compatible mobile</li>
-              </ul>
 
               <button
                 className="price-cta"
@@ -232,59 +260,35 @@ export default function PricingClient() {
               </button>
             </article>
 
-            <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
-              <article className="price-card price-featured" aria-label="Mensuel — Illimité">
-                <div className="price-badge">LE PLUS POPULAIRE</div>
-
-                <div className="price-head">
-                  <div className="price-name">Mensuel — Illimité</div>
-                  <div className="price-value">
-                    <span className="price-now">9,99&nbsp;$</span>
-                    <span className="price-period">/ mois</span>
-                  </div>
-                  <div className="price-mini">Accès 24h/7</div>
+            <article className="price-card price-featured" aria-label="Mensuel — Illimité">
+              <div className="price-badge">LE PLUS POPULAIRE</div>
+              <div className="price-head">
+                <div className="price-name">Mensuel — Illimité</div>
+                <div className="price-value">
+                  <span className="price-now">9,99&nbsp;$</span>
+                  <span className="price-period">/ mois</span>
                 </div>
+              </div>
 
-                <ul className="price-features">
-                  <li>Messages illimités</li>
-                  <li>Tous les signes astrologiques</li>
-                  <li>Historique des conversations</li>
-                  <li>Exploration approfondie</li>
-                </ul>
-
-                <button
-                  className="price-cta btn-primary"
-                  aria-busy={busyPlan === "monthly_unlimited"}
-                  type="button"
-                  onClick={() => startCheckout("monthly_unlimited")}
-                  disabled={!!busyPlan}
-                >
-                  {busyPlan === "monthly_unlimited" ? "Redirection…" : "Accès illimité 24h/7"}
-                </button>
-              </article>
-            </div>
+              <button
+                className="price-cta btn-primary"
+                aria-busy={busyPlan === "monthly_unlimited"}
+                type="button"
+                onClick={() => startCheckout("monthly_unlimited")}
+                disabled={!!busyPlan}
+              >
+                {busyPlan === "monthly_unlimited" ? "Redirection…" : "Accès illimité 24h/7"}
+              </button>
+            </article>
 
             <article className="price-card" aria-label="Annuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Annuel — Essentiel</div>
                 <div className="price-value">
-                  <span className="price-was">
-                    <s>59,99&nbsp;$</s>
-                  </span>
                   <span className="price-now">49,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">
-                  Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
-                </div>
               </div>
-
-              <ul className="price-features">
-                <li>100 messages / mois</li>
-                <li>Tous les signes astrologiques</li>
-                <li>Astro & psycho</li>
-                <li>Le plus économique</li>
-              </ul>
 
               <button
                 className="price-cta"
@@ -298,28 +302,13 @@ export default function PricingClient() {
             </article>
 
             <article className="price-card premium" aria-label="Annuel — Illimité">
-              <div className="price-badge premium">MEILLEURE VALEUR</div>
-
               <div className="price-head">
                 <div className="price-name">Annuel — Illimité</div>
                 <div className="price-value">
-                  <span className="price-was">
-                    <s>119,99&nbsp;$</s>
-                  </span>
                   <span className="price-now">99,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">
-                  Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
-                </div>
               </div>
-
-              <ul className="price-features">
-                <li>Messages illimités</li>
-                <li>Tous les signes astrologiques</li>
-                <li>Accès prioritaire</li>
-                <li>Futur : Tarot, Lune, Ascendant</li>
-              </ul>
 
               <button
                 className="price-cta btn-primary"
@@ -369,4 +358,4 @@ export default function PricingClient() {
       `}</style>
     </div>
   );
-          }
+            }
