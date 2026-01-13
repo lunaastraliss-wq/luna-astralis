@@ -7,11 +7,9 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
-/** IMPORTANT:
- * - On ne met PLUS de fallback signe "belier"
- * - Si pas connecté => redirect /login?next=/pricing...
- * - Si next absent => fallback /chat (et ton LoginClient gère: signe -> chat, sinon onboarding/sign)
- */
+const LS_SIGN_KEY = "la_sign";
+
+/** ✅ pas de fallback “bélier” */
 function safeNext(v: string | null) {
   const s = (v || "").trim();
   const fallback = "/chat";
@@ -30,6 +28,15 @@ function safeNext(v: string | null) {
   return path;
 }
 
+function getStoredSign(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
+  } catch {
+    return "";
+  }
+}
+
 export default function PricingClient() {
   const router = useRouter();
   const sp = useSearchParams();
@@ -37,7 +44,7 @@ export default function PricingClient() {
 
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
-  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [checking, setChecking] = useState(true);
 
   const y = useMemo(() => new Date().getFullYear(), []);
 
@@ -49,7 +56,12 @@ export default function PricingClient() {
     setMsg({ text, type });
   }, []);
 
-  // ✅ PROTECTION: pricing exige une session
+  /**
+   * ✅ Règle finale:
+   * - /pricing = connecté obligatoire
+   * - si connecté MAIS pas de signe => onboarding d'abord (puis chat)
+   *   (ensuite, l’utilisateur peut revenir à /pricing depuis le chat si besoin)
+   */
   useEffect(() => {
     let mounted = true;
 
@@ -58,18 +70,20 @@ export default function PricingClient() {
         const { data, error } = await supabase.auth.getSession();
         if (!mounted) return;
 
-        if (error) {
-          // si session check bug, on renvoie quand même vers login (moins de friction)
+        // pas connecté => login
+        if (error || !data?.session) {
           router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
           return;
         }
 
-        if (!data?.session) {
-          router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
+        // connecté mais pas de signe => onboarding => chat
+        const s = getStoredSign();
+        if (!s) {
+          router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
           return;
         }
 
-        setCheckingAuth(false);
+        setChecking(false);
       } catch {
         if (!mounted) return;
         router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
@@ -81,7 +95,7 @@ export default function PricingClient() {
     };
   }, [supabase, router]);
 
-  // Messages Stripe (après retour)
+  // Messages Stripe (retour checkout)
   useEffect(() => {
     const canceled = sp.get("canceled");
     const paid = sp.get("paid");
@@ -127,8 +141,8 @@ export default function PricingClient() {
       ? "is-info"
       : "";
 
-  // Pendant la vérif auth, on évite un flash de pricing
-  if (checkingAuth) {
+  // évite le flash de pricing
+  if (checking) {
     return (
       <div className="pricing-body pricing-page">
         <header className="top" role="banner">
@@ -144,7 +158,7 @@ export default function PricingClient() {
         </header>
 
         <main className="wrap" role="main" style={{ paddingTop: 40 }}>
-          <div className="pricing-msg is-info">Vérification de la session…</div>
+          <div className="pricing-msg is-info">Vérification…</div>
         </main>
 
         <style jsx>{`
@@ -187,10 +201,8 @@ export default function PricingClient() {
             Tarifs
           </Link>
 
-          {/* ✅ comme ils sont connectés, ce bouton est optionnel.
-              Je le garde quand même (utile si ton check auth change plus tard). */}
-          <Link className="btn btn-small btn-ghost" href={`/login?next=${encodeURIComponent("/pricing")}`}>
-            Connexion
+          <Link className="btn btn-small btn-ghost" href="/chat">
+            Retour au chat
           </Link>
         </nav>
       </header>
@@ -203,9 +215,7 @@ export default function PricingClient() {
 
             <h1 className="pricing-title">Choisis le forfait qui te convient</h1>
 
-            <p className="pricing-subtitle">
-              Paiement sécurisé. Annulation possible en tout temps.
-            </p>
+            <p className="pricing-subtitle">Paiement sécurisé. Annulation possible en tout temps.</p>
 
             <div className="pricing-chips" aria-label="Informations">
               <span className="chip">Prix en dollars US (USD)</span>
@@ -222,9 +232,7 @@ export default function PricingClient() {
 
         <section className="section" aria-label="Confiance">
           <div className="pricing-trust">
-            <div className="trust-line">
-              ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
-            </div>
+            <div className="trust-line">✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.</div>
             <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
           </div>
         </section>
@@ -400,4 +408,4 @@ export default function PricingClient() {
       `}</style>
     </div>
   );
-}
+        }
