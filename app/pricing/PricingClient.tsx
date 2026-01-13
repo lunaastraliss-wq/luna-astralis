@@ -6,23 +6,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
-
 const LS_SIGN_KEY = "la_sign";
 
-/** ✅ pas de fallback “bélier” */
 function safeNext(v: string | null) {
   const s = (v || "").trim();
   const fallback = "/chat";
-
   if (!s) return fallback;
 
-  // block external/open-redirect
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
 
-  // force absolute internal path
   const path = s.startsWith("/") ? s : `/${s}`;
-
-  // éviter les boucles
   if (path.startsWith("/login") || path.startsWith("/auth")) return fallback;
 
   return path;
@@ -44,7 +37,6 @@ export default function PricingClient() {
 
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
-  const [checking, setChecking] = useState(true);
 
   const y = useMemo(() => new Date().getFullYear(), []);
 
@@ -55,45 +47,6 @@ export default function PricingClient() {
   const showMsg = useCallback((text: string, type: MsgType = "info") => {
     setMsg({ text, type });
   }, []);
-
-  /**
-   * ✅ Règle finale:
-   * - /pricing = connecté obligatoire
-   * - si connecté MAIS pas de signe => onboarding d'abord (puis chat)
-   *   (ensuite, l’utilisateur peut revenir à /pricing depuis le chat si besoin)
-   */
-  useEffect(() => {
-    let mounted = true;
-
-    (async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (!mounted) return;
-
-        // pas connecté => login
-        if (error || !data?.session) {
-          router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
-          return;
-        }
-
-        // connecté mais pas de signe => onboarding => chat
-        const s = getStoredSign();
-        if (!s) {
-          router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
-          return;
-        }
-
-        setChecking(false);
-      } catch {
-        if (!mounted) return;
-        router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-    };
-  }, [supabase, router]);
 
   // Messages Stripe (retour checkout)
   useEffect(() => {
@@ -112,6 +65,29 @@ export default function PricingClient() {
   async function startCheckout(plan: string) {
     try {
       setBusyPlan(plan);
+      showMsg("Vérification…", "info");
+
+      const { data } = await supabase.auth.getSession();
+      const authed = !!data?.session?.user?.id;
+
+      // ✅ pas connecté -> login puis retour sur pricing avec plan
+      if (!authed) {
+        const back = `/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
+        router.push(`/login?next=${encodeURIComponent(back)}`);
+        setBusyPlan(null);
+        return;
+      }
+
+      // ✅ connecté mais pas de signe -> onboarding puis retour pricing (même plan)
+      const s = getStoredSign();
+      if (!s) {
+        const back = `/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
+        router.push(`/onboarding/sign?next=${encodeURIComponent(back)}`);
+        setBusyPlan(null);
+        return;
+      }
+
+      // ✅ connecté + signe ok -> checkout
       showMsg("Ouverture de Stripe…", "info");
 
       const res = await fetch("/api/checkout", {
@@ -120,17 +96,47 @@ export default function PricingClient() {
         body: JSON.stringify({ plan, next: nextUrl }),
       });
 
-      const data = (await res.json().catch(() => ({}))) as any;
+      const out = (await res.json().catch(() => ({}))) as any;
+      if (!res.ok) throw new Error(out?.error || "Erreur checkout.");
+      if (!out?.url) throw new Error("URL Stripe manquante.");
 
-      if (!res.ok) throw new Error(data?.error || "Erreur checkout.");
-      if (!data?.url) throw new Error("URL Stripe manquante.");
-
-      window.location.href = data.url;
+      window.location.href = out.url;
     } catch (err: any) {
       setBusyPlan(null);
       showMsg("Erreur: " + (err?.message || String(err)), "err");
     }
   }
+
+  // ✅ Auto-checkout après login/onboarding si ?plan=... est présent
+  useEffect(() => {
+    const plan = sp.get("plan");
+    if (!plan) return;
+
+    let alive = true;
+
+    (async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (!alive) return;
+
+        const authed = !!data?.session?.user?.id;
+        if (!authed) return;
+
+        const s = getStoredSign();
+        if (!s) return; // onboarding pas fait encore
+
+        // évite double clic / double call
+        if (busyPlan) return;
+
+        startCheckout(plan);
+      } catch {}
+    })();
+
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sp, supabase]);
 
   const msgClass =
     msg?.type === "ok"
@@ -140,45 +146,6 @@ export default function PricingClient() {
       : msg?.type === "info"
       ? "is-info"
       : "";
-
-  // évite le flash de pricing
-  if (checking) {
-    return (
-      <div className="pricing-body pricing-page">
-        <header className="top" role="banner">
-          <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
-            <div className="logo" aria-hidden="true">
-              <img src="/logo-luna-astralis-transparent.png" alt="" />
-            </div>
-            <div className="brand-text">
-              <div className="brand-name">LUNA ASTRALIS</div>
-              <div className="brand-sub">Astro & psycho</div>
-            </div>
-          </Link>
-        </header>
-
-        <main className="wrap" role="main" style={{ paddingTop: 40 }}>
-          <div className="pricing-msg is-info">Vérification…</div>
-        </main>
-
-        <style jsx>{`
-          .pricing-msg {
-            margin: 14px 0 0;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.92);
-            line-height: 1.35;
-          }
-          .pricing-msg.is-info {
-            background: rgba(159, 211, 255, 0.1);
-            border-color: rgba(159, 211, 255, 0.22);
-          }
-        `}</style>
-      </div>
-    );
-  }
 
   return (
     <div className="pricing-body pricing-page">
@@ -196,13 +163,11 @@ export default function PricingClient() {
 
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
-
           <Link className="active" href={`/pricing?next=${nextEnc}`}>
             Tarifs
           </Link>
-
-          <Link className="btn btn-small btn-ghost" href="/chat">
-            Retour au chat
+          <Link className="btn btn-small btn-ghost" href={nextUrl || "/chat"}>
+            Retour
           </Link>
         </nav>
       </header>
@@ -239,7 +204,6 @@ export default function PricingClient() {
 
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
-            {/* Mensuel — Essentiel */}
             <article className="price-card" aria-label="Mensuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Mensuel — Essentiel</div>
@@ -268,7 +232,6 @@ export default function PricingClient() {
               </button>
             </article>
 
-            {/* Mensuel — Illimité */}
             <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
               <article className="price-card price-featured" aria-label="Mensuel — Illimité">
                 <div className="price-badge">LE PLUS POPULAIRE</div>
@@ -301,7 +264,6 @@ export default function PricingClient() {
               </article>
             </div>
 
-            {/* Annuel — Essentiel */}
             <article className="price-card" aria-label="Annuel — Essentiel">
               <div className="price-head">
                 <div className="price-name">Annuel — Essentiel</div>
@@ -335,7 +297,6 @@ export default function PricingClient() {
               </button>
             </article>
 
-            {/* Annuel — Illimité */}
             <article className="price-card premium" aria-label="Annuel — Illimité">
               <div className="price-badge premium">MEILLEURE VALEUR</div>
 
@@ -408,4 +369,4 @@ export default function PricingClient() {
       `}</style>
     </div>
   );
-        }
+          }
