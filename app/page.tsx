@@ -329,8 +329,8 @@ export default function HomePage() {
                 <span className="step-n">03</span>
                 <span className="step-ico" aria-hidden="true">✧</span>
               </div>
-              <h3>Reçois un miroir</h3>
-              <p>Forces, angles morts, besoins.</p>
+              <h3>Gagne en clarté</h3>
+              <p>Forces, blocages, besoins.</p>
             </div>
 
             <div className="box step">
@@ -339,7 +339,7 @@ export default function HomePage() {
                 <span className="step-ico" aria-hidden="true">☾</span>
               </div>
               <h3>Garde le contrôle</h3>
-              <p>Exploration personnelle uniquement.</p>
+              <p>Une exploration guidée, à travers ton signe.</p>
             </div>
           </div>
         </section>
