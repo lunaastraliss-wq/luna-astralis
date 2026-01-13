@@ -1,18 +1,17 @@
 /* ==========================================================
-   Luna Astralis — public/css/styles.css (GLOBAL) — FINAL V5 (OR + MAUVE) — FIX
-   Commun à TOUTES les pages (index, pricing, login, signup, chat)
-   Objectif V5:
-   - Même structure que ton V4 (stable)
-   - Palette + fond "or & mauve" plus premium
-   - Ne casse pas chat.css
-   - ✅ FIX: enlever le bandeau bas (footer)
+   Luna Astralis — GLOBAL CSS — V5.1 (OR + MAUVE) — CLEAN
+   - Commun à TOUTES les pages (index, pricing, login, signup, chat)
+   - Fond astral (2 couches)
+   - Header + nav responsive
+   - Footer pro (home) + override pricing
+   - Pages légales premium
+   - Ne casse pas chat.css (body.chat-body garde priorité)
 ========================================================== */
 
 /* ===================== THEME ===================== */
 :root{
-  /* Background (mauve premium) */
-  --bg:#120B1F;      /* deep plum */
-  --bg2:#070714;     /* night */
+  --bg:#120B1F;
+  --bg2:#070714;
 
   --card:rgba(255,255,255,.09);
   --card2:rgba(255,255,255,.12);
@@ -22,28 +21,21 @@
   --muted:rgba(255,255,255,.74);
   --muted2:rgba(255,255,255,.58);
 
-  /* Accent (CTA) — Or lunaire */
   --accent:#E0B45A;
   --accent2:#F3D88B;
   --accentGlow:rgba(224,180,90,.32);
 
-  /* Auras (mauve dominant + halo doré) */
-  --a1:#B79CFF;   /* mauve */
-  --a2:#6D7CFF;   /* indigo */
-  --a3:#FFD27A;   /* or doux */
+  --a1:#B79CFF;
+  --a2:#6D7CFF;
+  --a3:#FFD27A;
 
-  /* FX */
   --shadow:0 22px 70px rgba(0,0,0,.55);
   --shadowSoft:0 14px 40px rgba(0,0,0,.35);
 
-  /* Radius */
   --radius:18px;
   --radius2:26px;
 
-  /* Layout */
   --max:1120px;
-
-  /* Header height (pour pages qui veulent sticky en option) */
   --topH: 64px;
 }
 
@@ -60,7 +52,6 @@ body{
     "Apple Color Emoji","Segoe UI Emoji";
   color:var(--text);
 
-  /* ✅ Fond OR + MAUVE */
   background:
     radial-gradient(1100px 680px at 18% 12%, rgba(183,156,255,.22), transparent 60%),
     radial-gradient(980px 620px at 82% 22%, rgba(109,124,255,.14), transparent 60%),
@@ -75,7 +66,7 @@ a{ color:inherit; text-decoration:none; }
 img{ max-width:100%; display:block; }
 ::selection{ background: rgba(183,156,255,.22); }
 
-/* ===================== FOND ASTRAL (toutes pages) ===================== */
+/* ===================== FOND ASTRAL ===================== */
 @keyframes la_starTwinkle1{
   0%,100%{ opacity:.70; filter: blur(.05px); transform: translate3d(0,0,0); }
   50%{ opacity:1; filter: blur(.25px); transform: translate3d(0,-1px,0); }
@@ -89,7 +80,6 @@ img{ max-width:100%; display:block; }
   100%{ transform: translate3d(-12px, 8px, 0); }
 }
 
-/* Couche A — étoiles nettes */
 body::before{
   content:"";
   position:fixed;
@@ -129,7 +119,6 @@ body::before{
   animation: la_starTwinkle1 6.5s ease-in-out infinite alternate;
 }
 
-/* Couche B — poussière + drift */
 body::after{
   content:"";
   position:fixed;
@@ -174,7 +163,7 @@ body::after{
   z-index:1;
 }
 
-/* ===================== HEADER (top) — commun ===================== */
+/* ===================== HEADER (top) ===================== */
 .top{
   max-width:var(--max);
   margin:0 auto;
@@ -241,7 +230,7 @@ body::after{
   text-overflow:ellipsis;
 }
 
-/* Nav (desktop par défaut) */
+/* ===================== NAV ===================== */
 .nav{
   display:flex;
   align-items:center;
@@ -255,16 +244,17 @@ body::after{
   padding:8px 10px;
   border-radius:999px;
   border:1px solid transparent;
-  transition: background .12s ease, border-color .12s ease, color .12s ease;
+  transition: background .12s ease, border-color .12s ease, color .12s ease, transform .12s ease;
 }
 
 .nav a:hover{
   color:var(--text);
   background: rgba(255,255,255,.06);
   border-color: rgba(255,255,255,.10);
+  transform: translateY(-1px);
 }
 
-/* ===================== BOUTONS — commun ===================== */
+/* ===================== BOUTONS ===================== */
 .btn{
   display:inline-flex;
   align-items:center;
@@ -289,7 +279,6 @@ body::after{
   filter: brightness(1.05);
   border-color: rgba(255,255,255,.22);
 }
-
 .btn:active{ transform: translateY(0px); }
 
 .btn-small{
@@ -314,7 +303,6 @@ body::after{
 }
 .btn-primary:hover{ filter: brightness(1.06); }
 
-/* Focus */
 .btn:focus-visible,
 .nav a:focus-visible{
   outline: 0;
@@ -335,7 +323,6 @@ body::after{
   backdrop-filter: blur(6px);
 }
 
-/* Sections neutres */
 .section{ margin-top:22px; }
 .section-head{ margin-bottom:12px; }
 .section h2{ margin:0 0 10px; font-size:18px; letter-spacing:.01em; }
@@ -406,33 +393,71 @@ body::after{
   box-shadow: 0 0 0 3px rgba(183,156,255,.12);
 }
 
-/* ===================== FOOTER — commun ===================== */
+/* ===================== FOOTER (HOME / DEFAULT) ===================== */
 .footer{
   margin-top:22px;
   padding-top:14px;
   border-top:1px solid rgba(255,255,255,.12);
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-
   color:var(--muted2);
   font-size:12px;
-  background:transparent; /* ✅ pas de bandeau */
-
+  background:transparent;
   position:relative;
   z-index:2;
 }
 
-.footer-note{ color:var(--muted2); }
+/* Ton HTML home contient .footer-top + .footer-links */
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+.footer-links a{
+  font-size:12px;
+  color:rgba(255,255,255,.78);
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.05);
+  transition: background .12s ease, border-color .12s ease, color .12s ease, transform .12s ease;
+}
+
+.footer-links a:hover{
+  color:var(--text);
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.16);
+  transform: translateY(-1px);
+}
+
+.footer-note{
+  margin-top:12px;
+  color:var(--muted2);
+}
 
 /* ===================== RESPONSIVE GLOBAL ===================== */
 @media (max-width: 920px){
   .grid4{ grid-template-columns: 1fr 1fr; }
 }
 
-/* ===================== MOBILE FRIENDLY HEADER (IMPORTANT) ===================== */
+@media (max-width: 720px){
+  .footer-top{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .footer-links{
+    justify-content:flex-start;
+  }
+}
+
+/* ===================== NAV MOBILE ===================== */
 .nav-desktop{ display:flex; align-items:center; gap:14px; }
 .nav-burger{ display:none; }
 .nav-mobile{ display:none; }
@@ -473,10 +498,7 @@ body::after{
   color: rgba(255,255,255,.92);
 }
 
-.nav-mobile a:hover{
-  background: rgba(255,255,255,.06);
-}
-
+.nav-mobile a:hover{ background: rgba(255,255,255,.06); }
 .nav-mobile.open{ display:block; }
 
 @media (max-width: 720px){
@@ -499,15 +521,9 @@ body::after{
 
   .wrap{ padding:18px 14px 26px; }
   .grid4{ grid-template-columns: 1fr; }
-
-  .footer{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
 }
 
-/* ===================== ACCESSIBILITÉ : réduire animations ===================== */
+/* ===================== ACCESSIBILITÉ ===================== */
 @media (prefers-reduced-motion: reduce){
   body::before,
   body::after{ animation:none !important; }
@@ -579,31 +595,20 @@ body::after{
   box-shadow: none !important;
   backdrop-filter: none !important;
   padding-top: 0 !important;
-}
-/* FORCE: enlever le bandeau bas sur pricing */
-.pricing-page .footer{
-  background: transparent !important;
-  border-top: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  padding-top: 0 !important;
   margin-top: 14px !important;
 }
-
 .pricing-page .footer::before,
 .pricing-page .footer::after{
   content: none !important;
   display: none !important;
 }
-/* =========================
-   LEGAL PAGES (PRO / PREMIUM)
-   - Utilise: <main className="legal-page"><div className="legal-wrap">...</div></main>
-========================= */
+
+/* ===================== LEGAL PAGES (PRO / PREMIUM) ===================== */
 .legal-page{
   min-height: 100dvh;
   padding: 56px 18px;
   position: relative;
-  z-index: 1; /* au-dessus des étoiles (body::before/after) */
+  z-index: 1;
 }
 
 .legal-wrap{
@@ -631,19 +636,15 @@ body::after{
   opacity: .95;
 }
 
-.legal-wrap p, .legal-wrap li{
+.legal-wrap p,
+.legal-wrap li{
   font-size: 14.5px;
   line-height: 1.65;
   opacity: .92;
 }
 
-.legal-wrap ul{
-  margin: 10px 0 0 18px;
-}
-
-.legal-wrap strong{
-  opacity: .98;
-}
+.legal-wrap ul{ margin: 10px 0 0 18px; }
+.legal-wrap strong{ opacity: .98; }
 
 .legal-meta{
   margin: 0 0 14px 0;
