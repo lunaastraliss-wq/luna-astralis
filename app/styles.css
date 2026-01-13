@@ -595,3 +595,64 @@ body::after{
   content: none !important;
   display: none !important;
 }
+/* =========================
+   LEGAL PAGES (PRO / PREMIUM)
+   - Utilise: <main className="legal-page"><div className="legal-wrap">...</div></main>
+========================= */
+.legal-page{
+  min-height: 100dvh;
+  padding: 56px 18px;
+  position: relative;
+  z-index: 1; /* au-dessus des étoiles (body::before/after) */
+}
+
+.legal-wrap{
+  max-width: 980px;
+  margin: 0 auto;
+
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 22px;
+
+  padding: 26px 26px 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.35);
+  backdrop-filter: blur(10px);
+}
+
+.legal-wrap h1{
+  margin: 0 0 12px 0;
+  font-size: 34px;
+  letter-spacing: .2px;
+}
+
+.legal-wrap h2{
+  margin: 18px 0 8px 0;
+  font-size: 16px;
+  opacity: .95;
+}
+
+.legal-wrap p, .legal-wrap li{
+  font-size: 14.5px;
+  line-height: 1.65;
+  opacity: .92;
+}
+
+.legal-wrap ul{
+  margin: 10px 0 0 18px;
+}
+
+.legal-wrap strong{
+  opacity: .98;
+}
+
+.legal-meta{
+  margin: 0 0 14px 0;
+  font-size: 13px;
+  opacity: .75;
+}
+
+@media (max-width: 520px){
+  .legal-page{ padding: 34px 14px; }
+  .legal-wrap{ padding: 18px 16px 14px; border-radius: 18px; }
+  .legal-wrap h1{ font-size: 26px; }
+}
