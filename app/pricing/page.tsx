@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import PricingClient from "./PricingClient";
+import PricingShowcaseClient from "./PricingShowcaseClient";
 
 export default function Page() {
   return (
     <Suspense fallback={null}>
-      <PricingClient />
+      <PricingShowcaseClient />
     </Suspense>
   );
 }
