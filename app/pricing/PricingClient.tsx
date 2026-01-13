@@ -1,29 +1,43 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 type MsgType = "ok" | "err" | "info";
 
+/** IMPORTANT:
+ * - On ne met PLUS de fallback signe "belier"
+ * - Si pas connecté => redirect /login?next=/pricing...
+ * - Si next absent => fallback /chat (et ton LoginClient gère: signe -> chat, sinon onboarding/sign)
+ */
 function safeNext(v: string | null) {
   const s = (v || "").trim();
-  const fallback = "/chat?signe=belier";
+  const fallback = "/chat";
 
   if (!s) return fallback;
 
   // block external/open-redirect
-  if (s.includes("http://") || s.includes("https://") || s.startsWith("//")) return fallback;
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
 
   // force absolute internal path
-  return s.startsWith("/") ? s : `/${s}`;
+  const path = s.startsWith("/") ? s : `/${s}`;
+
+  // éviter les boucles
+  if (path.startsWith("/login") || path.startsWith("/auth")) return fallback;
+
+  return path;
 }
 
 export default function PricingClient() {
+  const router = useRouter();
   const sp = useSearchParams();
+  const supabase = useMemo(() => createClientComponentClient(), []);
 
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   const y = useMemo(() => new Date().getFullYear(), []);
 
@@ -31,23 +45,60 @@ export default function PricingClient() {
   const nextUrl = useMemo(() => safeNext(nextRaw), [nextRaw]);
   const nextEnc = useMemo(() => encodeURIComponent(nextUrl), [nextUrl]);
 
+  const showMsg = useCallback((text: string, type: MsgType = "info") => {
+    setMsg({ text, type });
+  }, []);
+
+  // ✅ PROTECTION: pricing exige une session
+  useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!mounted) return;
+
+        if (error) {
+          // si session check bug, on renvoie quand même vers login (moins de friction)
+          router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
+          return;
+        }
+
+        if (!data?.session) {
+          router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
+          return;
+        }
+
+        setCheckingAuth(false);
+      } catch {
+        if (!mounted) return;
+        router.replace(`/login?next=${encodeURIComponent("/pricing")}`);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [supabase, router]);
+
+  // Messages Stripe (après retour)
   useEffect(() => {
     const canceled = sp.get("canceled");
     const paid = sp.get("paid");
 
     if (canceled === "1") {
-      setMsg({ text: "Paiement annulé. Tu peux réessayer quand tu veux.", type: "info" });
+      showMsg("Paiement annulé. Tu peux réessayer quand tu veux.", "info");
     } else if (paid === "1") {
-      setMsg({ text: "Paiement reçu. Merci ✨ Tu peux retourner au chat.", type: "ok" });
+      showMsg("Paiement reçu. Merci ✨ Tu peux retourner au chat.", "ok");
     } else {
       setMsg(null);
     }
-  }, [sp]);
+  }, [sp, showMsg]);
 
   async function startCheckout(plan: string) {
     try {
       setBusyPlan(plan);
-      setMsg({ text: "Ouverture de Stripe…", type: "info" });
+      showMsg("Ouverture de Stripe…", "info");
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -63,7 +114,7 @@ export default function PricingClient() {
       window.location.href = data.url;
     } catch (err: any) {
       setBusyPlan(null);
-      setMsg({ text: "Erreur: " + (err?.message || String(err)), type: "err" });
+      showMsg("Erreur: " + (err?.message || String(err)), "err");
     }
   }
 
@@ -75,6 +126,45 @@ export default function PricingClient() {
       : msg?.type === "info"
       ? "is-info"
       : "";
+
+  // Pendant la vérif auth, on évite un flash de pricing
+  if (checkingAuth) {
+    return (
+      <div className="pricing-body pricing-page">
+        <header className="top" role="banner">
+          <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
+            <div className="logo" aria-hidden="true">
+              <img src="/logo-luna-astralis-transparent.png" alt="" />
+            </div>
+            <div className="brand-text">
+              <div className="brand-name">LUNA ASTRALIS</div>
+              <div className="brand-sub">Astro & psycho</div>
+            </div>
+          </Link>
+        </header>
+
+        <main className="wrap" role="main" style={{ paddingTop: 40 }}>
+          <div className="pricing-msg is-info">Vérification de la session…</div>
+        </main>
+
+        <style jsx>{`
+          .pricing-msg {
+            margin: 14px 0 0;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.35;
+          }
+          .pricing-msg.is-info {
+            background: rgba(159, 211, 255, 0.1);
+            border-color: rgba(159, 211, 255, 0.22);
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="pricing-body pricing-page">
@@ -97,12 +187,10 @@ export default function PricingClient() {
             Tarifs
           </Link>
 
-          <Link className="btn btn-small btn-ghost" href={`/login?next=${nextEnc}`}>
+          {/* ✅ comme ils sont connectés, ce bouton est optionnel.
+              Je le garde quand même (utile si ton check auth change plus tard). */}
+          <Link className="btn btn-small btn-ghost" href={`/login?next=${encodeURIComponent("/pricing")}`}>
             Connexion
-          </Link>
-
-          <Link className="btn btn-small" href={`/signup?next=${nextEnc}`}>
-            Créer un compte
           </Link>
         </nav>
       </header>
@@ -116,7 +204,7 @@ export default function PricingClient() {
             <h1 className="pricing-title">Choisis le forfait qui te convient</h1>
 
             <p className="pricing-subtitle">
-              Tu peux payer tout de suite (même en invité). Si tu crées un compte, tu gardes ton historique.
+              Paiement sécurisé. Annulation possible en tout temps.
             </p>
 
             <div className="pricing-chips" aria-label="Informations">
@@ -312,4 +400,4 @@ export default function PricingClient() {
       `}</style>
     </div>
   );
-                    }
+}
