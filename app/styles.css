@@ -1,10 +1,10 @@
 /* ==========================================================
-   Luna Astralis — GLOBAL CSS — V5.1 (OR + MAUVE) — CLEAN
+   Luna Astralis — GLOBAL CSS — V5.2 (OR + MAUVE) — CLEAN
    - Commun à TOUTES les pages (index, pricing, login, signup, chat)
    - Fond astral (2 couches)
    - Header + nav responsive
-   - Footer pro (home) + override pricing
-   - Pages légales premium
+   - Footer propre (pas collé)
+   - Pages légales SANS gros bloc
    - Ne casse pas chat.css (body.chat-body garde priorité)
 ========================================================== */
 
@@ -395,8 +395,8 @@ body::after{
 
 /* ===================== FOOTER (HOME / DEFAULT) ===================== */
 .footer{
-  margin-top:22px;
-  padding-top:14px;
+  margin-top:26px;
+  padding-top:18px;
   border-top:1px solid rgba(255,255,255,.12);
   color:var(--muted2);
   font-size:12px;
@@ -405,22 +405,43 @@ body::after{
   z-index:2;
 }
 
-/* Ton HTML home contient .footer-top + .footer-links */
-.footer-top{
+/* ✅ Footer plus propre (ton HomePage utilise .footer-pro / footer-pro-links) */
+.footer-pro{
+  margin-top:28px;
+  padding-top:18px;
+}
+
+.footer-pro-top{
   display:flex;
   justify-content:space-between;
   align-items:flex-start;
-  gap:12px;
+  gap:14px;
 }
 
-.footer-links{
+.footer-pro-left{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.footer-pro-brand{
+  font-weight:1000;
+  letter-spacing:.02em;
+  color: rgba(255,255,255,.92);
+}
+
+.footer-pro-copy{
+  color: rgba(255,255,255,.60);
+}
+
+.footer-pro-links{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   justify-content:flex-end;
 }
 
-.footer-links a{
+.footer-pro-links a{
   font-size:12px;
   color:rgba(255,255,255,.78);
   padding:8px 10px;
@@ -430,17 +451,48 @@ body::after{
   transition: background .12s ease, border-color .12s ease, color .12s ease, transform .12s ease;
 }
 
-.footer-links a:hover{
+.footer-pro-links a:hover{
   color:var(--text);
   background: rgba(255,255,255,.08);
   border-color: rgba(255,255,255,.16);
   transform: translateY(-1px);
 }
 
-.footer-note{
-  margin-top:12px;
-  color:var(--muted2);
+.footer-pro-note{
+  margin-top:14px;
+  color: rgba(255,255,255,.58);
+  line-height:1.55;
 }
+
+/* ⚠️ Compat: si tu as encore l’ancien HTML footer (.footer-top / .footer-links) */
+.footer-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:flex-end;
+}
+.footer-links a{
+  font-size:12px;
+  color:rgba(255,255,255,.78);
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.05);
+  transition: background .12s ease, border-color .12s ease, color .12s ease, transform .12s ease;
+}
+.footer-links a:hover{
+  color:var(--text);
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.16);
+  transform: translateY(-1px);
+}
+.footer-note{ margin-top:12px; color:var(--muted2); }
 
 /* ===================== RESPONSIVE GLOBAL ===================== */
 @media (max-width: 920px){
@@ -448,11 +500,13 @@ body::after{
 }
 
 @media (max-width: 720px){
-  .footer-top{
+  .footer-top,
+  .footer-pro-top{
     flex-direction:column;
     align-items:flex-start;
   }
-  .footer-links{
+  .footer-links,
+  .footer-pro-links{
     justify-content:flex-start;
   }
 }
@@ -603,10 +657,11 @@ body::after{
   display: none !important;
 }
 
-/* ===================== LEGAL PAGES (PRO / PREMIUM) ===================== */
+/* ===================== LEGAL PAGES (CLEAN / NO BIG BLOCK) ===================== */
+/* Nécessite: <main className="legal-page"><div className="legal-wrap">...</div></main> */
 .legal-page{
   min-height: 100dvh;
-  padding: 56px 18px;
+  padding: 56px 18px 74px;
   position: relative;
   z-index: 1;
 }
@@ -615,23 +670,24 @@ body::after{
   max-width: 980px;
   margin: 0 auto;
 
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 22px;
+  /* ✅ plus de gros bloc */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
 
-  padding: 26px 26px 18px;
-  box-shadow: 0 18px 50px rgba(0,0,0,.35);
-  backdrop-filter: blur(10px);
+  /* ✅ lecture comfy */
+  padding: 0;
 }
 
 .legal-wrap h1{
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   font-size: 34px;
   letter-spacing: .2px;
 }
 
 .legal-wrap h2{
-  margin: 18px 0 8px 0;
+  margin: 20px 0 8px 0;
   font-size: 16px;
   opacity: .95;
 }
@@ -639,12 +695,11 @@ body::after{
 .legal-wrap p,
 .legal-wrap li{
   font-size: 14.5px;
-  line-height: 1.65;
+  line-height: 1.72;
   opacity: .92;
 }
 
 .legal-wrap ul{ margin: 10px 0 0 18px; }
-.legal-wrap strong{ opacity: .98; }
 
 .legal-meta{
   margin: 0 0 14px 0;
@@ -653,7 +708,6 @@ body::after{
 }
 
 @media (max-width: 520px){
-  .legal-page{ padding: 34px 14px; }
-  .legal-wrap{ padding: 18px 16px 14px; border-radius: 18px; }
+  .legal-page{ padding: 34px 14px 60px; }
   .legal-wrap h1{ font-size: 26px; }
-}
+   }
