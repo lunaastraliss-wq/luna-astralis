@@ -60,7 +60,9 @@ export default function HomePage() {
     }
     el.scrollIntoView({ behavior: "smooth", block: "start" });
     window.setTimeout(() => {
-      const first = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
+      const first = el.querySelector(
+        "button, a, [tabindex]"
+      ) as HTMLElement | null;
       first?.focus?.();
     }, 250);
   }, []);
@@ -153,7 +155,12 @@ export default function HomePage() {
     <div className="page-astro">
       {/* HEADER */}
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
+        <Link
+          className="brand"
+          href="/"
+          aria-label="Accueil Luna Astralis"
+          onClick={closeMenu}
+        >
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -171,7 +178,11 @@ export default function HomePage() {
               Comment ça fonctionne
             </a>
 
-            <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
+            <a
+              href="#signes"
+              className="btn btn-small btn-ghost"
+              onClick={onNavTo("signes")}
+            >
               Choisir un signe
             </a>
 
@@ -245,7 +256,9 @@ export default function HomePage() {
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi si nécessaire.</p>
+                <p className="hero-free-sub">
+                  Choisis ton signe, puis connecte-toi si nécessaire.
+                </p>
 
                 <a
                   href="#signes"
@@ -264,24 +277,20 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
+            <p className="hero-disclaimer note-center">
+              Exploration personnelle (non thérapeutique).
+            </p>
           </div>
         </section>
 
-        {/* PITCH (vendeur, remplace TRUST) */}
+        {/* PITCH (sans le paragraphe "Pas de prédictions...") */}
         <section className="pitch" aria-label="Exploration personnelle">
           <div className="pitch-card">
-            <div className="pitch-kicker">Exploration personnelle guidée</div>
+            <div className="pitch-kicker">Exploration personnelle reliée à ton signe</div>
 
             <h2 className="pitch-title">
               Une conversation reliée à ton signe — pour comprendre ce que tu vis maintenant.
             </h2>
-
-            <p className="pitch-sub">
-              Pas de prédictions. Pas de blabla.
-              <br />
-              Des questions, des reflets, et des pistes concrètes adaptées à ton énergie astrologique.
-            </p>
 
             <div className="pitch-bullets" role="list">
               <div className="pitch-bullet" role="listitem">• Forces & besoins (clairs)</div>
@@ -309,7 +318,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">♈</span>
+                <span className="step-ico" aria-hidden="true">
+                  ♈
+                </span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -318,7 +329,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">🔐</span>
+                <span className="step-ico" aria-hidden="true">
+                  🔐
+                </span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -327,7 +340,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">✧</span>
+                <span className="step-ico" aria-hidden="true">
+                  ✧
+                </span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -336,7 +351,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">☾</span>
+                <span className="step-ico" aria-hidden="true">
+                  ☾
+                </span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
@@ -381,7 +398,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FOOTER (PRO / PAS COLLÉ) */}
+        {/* FOOTER */}
         <footer className="site-footer" role="contentinfo" aria-label="Pied de page">
           <div className="footer-card">
             <div className="footer-row">
@@ -409,4 +426,4 @@ export default function HomePage() {
       </main>
     </div>
   );
-      }
+}
