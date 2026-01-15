@@ -195,10 +195,10 @@ export default function OnboardingSignPage() {
 
         {/* STEPS */}
         <div style={styles.stepsWrap} aria-label="Étapes">
-          <StepCard no="01" icon="✨" title="Choisis ton signe" text="Tu démarres en 1 clic." />
-          <StepCard no="02" icon="🪞" title="Reçois un miroir" text="Forces, angles morts, besoins." />
-          <StepCard no="03" icon="🧠" title="Comprends tes schémas" text="Émotions, stress, relations." />
-          <StepCard no="04" icon="🛡️" title="Garde le contrôle" text="Exploration personnelle uniquement." />
+          <StepCard no="01" icon="♈" title="Choisis ton signe" text="Tu démarres en 1 clic." />
+          <StepCard no="02" icon="🔐" title="Connecte-toi" text="Ton accès est sécurisé et tes échanges sont protégés." />
+          <StepCard no="03" icon="✧" title="Gagne en clarté" text="Forces, blocages, besoins." />
+          <StepCard no="04" icon="☾" title="Garde le contrôle" text="Une exploration guidée, à travers ton signe." />
         </div>
 
         {/* GRID SIGNS */}
