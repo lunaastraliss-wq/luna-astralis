@@ -283,30 +283,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* PITCH (sans le paragraphe "Pas de prédictions...") */}
-        <section className="pitch" aria-label="Exploration personnelle">
-          <div className="pitch-card">
-            <div className="pitch-kicker">Exploration personnelle reliée à ton signe</div>
-
-            <h2 className="pitch-title">
-              Une conversation reliée à ton signe — pour comprendre ce que tu vis maintenant.
-            </h2>
-
-            <div className="pitch-bullets" role="list">
-              <div className="pitch-bullet" role="listitem">• Forces & besoins (clairs)</div>
-              <div className="pitch-bullet" role="listitem">• Angles morts (sans jugement)</div>
-              <div className="pitch-bullet" role="listitem">• Décisions & limites (plus net)</div>
-            </div>
-
-            <div className="pitch-cta">
-              <a href="#signes" className="btn btn-primary" onClick={onNavTo("signes")}>
-                Choisir mon signe →
-              </a>
-              <span className="pitch-note">Gratuit au départ · Compte requis</span>
-            </div>
-          </div>
-        </section>
-
         {/* COMMENT */}
         <section id="comment" className="section">
           <div className="section-head">
