@@ -34,7 +34,7 @@ function isPlan(v: unknown): v is PlanId {
 
 /** Autorise uniquement des chemins internes (/...) */
 function safeNext(next: unknown) {
-  const fallback = "/chat?sign=belier"; // ✅ FIX: sign (pas signe)
+  const fallback = "/chat?sign=belier";
   const s = cleanStr(next);
   if (!s) return fallback;
 
@@ -115,7 +115,9 @@ export async function POST(req: Request) {
       | { plan?: unknown; next?: unknown }
       | null;
 
-    if (!body) return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
+    if (!body)
+      return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
+
     if (!isPlan(body.plan)) {
       return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
     }
@@ -125,7 +127,10 @@ export async function POST(req: Request) {
     const pricing_plan_id = PRICING_PLAN_MAP[plan];
 
     if (!stripe_price_id || !pricing_plan_id) {
-      return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
+      return NextResponse.json(
+        { error: "PLAN_CONFIG_MISSING" },
+        { status: 500 }
+      );
     }
 
     const next = safeNext(body.next);
@@ -135,8 +140,9 @@ export async function POST(req: Request) {
       `?next=${encodeURIComponent(next)}` +
       `&session_id={CHECKOUT_SESSION_ID}`;
 
-    const cancel_url =
-      `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
+    const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(
+      next
+    )}`;
 
     // ✅ auth requis
     const supabase = createRouteHandlerClient({ cookies });
@@ -144,7 +150,12 @@ export async function POST(req: Request) {
 
     if (sessErr) {
       return NextResponse.json(
-        { error: "SESSION_ERROR", detail: sessErr.message, require_auth: true, next },
+        {
+          error: "SESSION_ERROR",
+          detail: sessErr.message,
+          require_auth: true,
+          next,
+        },
         { status: 401 }
       );
     }
@@ -184,7 +195,6 @@ export async function POST(req: Request) {
 
       // metadata Subscription (pour customer.subscription.*)
       subscription_data: {
-        trial_period_days: 3,
         metadata: {
           app: "luna-astralis",
           plan,
@@ -198,7 +208,10 @@ export async function POST(req: Request) {
       payment_method_collection: "always",
     });
 
-    return NextResponse.json({ url: session.url, session_id: session.id }, { status: 200 });
+    return NextResponse.json(
+      { url: session.url, session_id: session.id },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("[checkout]", err);
     return NextResponse.json(
@@ -206,4 +219,4 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-        }
+}
