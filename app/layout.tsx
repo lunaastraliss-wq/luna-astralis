@@ -22,6 +22,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body style={{ margin: 0, letterSpacing: "normal", lineHeight: 1.5 }}>
         {children}
 
+        {/* ✅ Google tag (gtag.js) - Google Ads */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17878472225"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-17878472225');
+          `}
+        </Script>
+
         {/* reCAPTCHA v3 global (utilisé seulement par le chat) */}
         {siteKey ? (
           <Script
