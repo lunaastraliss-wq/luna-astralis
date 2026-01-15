@@ -3,6 +3,8 @@
    - Onboarding (connecté): choisir un signe -> save -> redirect
    - ✅ Mode change: /onboarding/sign?change=1&next=/chat
    - ✅ “Chat d’abord”: après choix -> /chat?sign=...
+   - ✅ Steps: typographie UNIFORME avec les boutons (même style)
+   - ✅ Hover/active plus “premium” (sans casser la logique)
 ========================================================= */
 
 "use client";
@@ -11,7 +13,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 
-type Sign = { key: string; label: string; element: "feu" | "terre" | "air" | "eau" };
+type ElementKey = "feu" | "terre" | "air" | "eau";
+type Sign = { key: string; label: string; element: ElementKey };
 
 const SIGNS: Sign[] = [
   { key: "belier", label: "Bélier ♈", element: "feu" },
@@ -79,7 +82,7 @@ export default function OnboardingSignPage() {
   const sp = useSearchParams();
 
   const nextUrl = useMemo(() => safeInternalPath(sp.get("next")), [sp]);
-  const changeMode = useMemo(() => sp.get("change") === "1", [sp]); // ✅ allow change sign
+  const changeMode = useMemo(() => sp.get("change") === "1", [sp]);
 
   const [checking, setChecking] = useState(true);
   const [authed, setAuthed] = useState(false);
@@ -142,7 +145,7 @@ export default function OnboardingSignPage() {
 
       storeSign(signKey);
 
-      // ✅ CHAT D’ABORD: après choix => chat (pas pricing)
+      // ✅ CHAT D’ABORD: après choix => chat
       const target = buildChatUrl(signKey);
 
       // 1) Next router
@@ -152,7 +155,10 @@ export default function OnboardingSignPage() {
 
       // 2) Fallback: si jamais le router ne navigue pas
       setTimeout(() => {
-        if (typeof window !== "undefined" && window.location.pathname.includes("/onboarding/sign")) {
+        if (
+          typeof window !== "undefined" &&
+          window.location.pathname.includes("/onboarding/sign")
+        ) {
           hardNavigate(target);
         }
       }, 180);
@@ -164,7 +170,10 @@ export default function OnboardingSignPage() {
     return (
       <main style={styles.page}>
         <div style={styles.shell}>
-          <h1 style={styles.h1}>Chargement…</h1>
+          <div style={styles.loadingCard}>
+            <div style={styles.loadingTitle}>Chargement…</div>
+            <div style={styles.loadingSub}>Préparation de ton espace Luna Astralis</div>
+          </div>
         </div>
       </main>
     );
@@ -175,40 +184,35 @@ export default function OnboardingSignPage() {
   return (
     <main style={styles.page}>
       <div style={styles.shell}>
-        <div style={styles.stepsWrap}>
-          <div style={styles.stepCard}>
-            <div style={styles.stepNo}>01</div>
-            <div style={styles.stepTitle}>Choisis ton signe</div>
-            <div style={styles.stepText}>Tu démarres en 1 clic.</div>
-          </div>
-          <div style={styles.stepCard}>
-            <div style={styles.stepNo}>02</div>
-            <div style={styles.stepTitle}>Reçois un miroir</div>
-            <div style={styles.stepText}>Forces, angles morts, besoins.</div>
-          </div>
-          <div style={styles.stepCard}>
-            <div style={styles.stepNo}>03</div>
-            <div style={styles.stepTitle}>Comprends tes schémas</div>
-            <div style={styles.stepText}>Émotions, stress, relations.</div>
-          </div>
-          <div style={styles.stepCard}>
-            <div style={styles.stepNo}>04</div>
-            <div style={styles.stepTitle}>Garde le contrôle</div>
-            <div style={styles.stepText}>Exploration personnelle uniquement.</div>
-          </div>
-        </div>
-
-        <div style={{ marginTop: 18 }}>
+        {/* HEADER */}
+        <div style={styles.head}>
+          <div style={styles.kicker}>Exploration personnelle reliée à ton signe</div>
           <h1 style={styles.h1}>{changeMode ? "Changer de signe" : "Choisir un signe"}</h1>
           <p style={styles.sub}>
-            Tu as droit à <b>15 messages gratuits à vie</b>. Après, tu pourras débloquer l’accès complet si tu le
-            souhaites.
+            Tu as droit à <b>15 messages gratuits à vie</b>. Ensuite, tu peux débloquer l’accès complet si tu le souhaites.
           </p>
+        </div>
+
+        {/* STEPS */}
+        <div style={styles.stepsWrap} aria-label="Étapes">
+          <StepCard no="01" icon="✨" title="Choisis ton signe" text="Tu démarres en 1 clic." />
+          <StepCard no="02" icon="🪞" title="Reçois un miroir" text="Forces, angles morts, besoins." />
+          <StepCard no="03" icon="🧠" title="Comprends tes schémas" text="Émotions, stress, relations." />
+          <StepCard no="04" icon="🛡️" title="Garde le contrôle" text="Exploration personnelle uniquement." />
+        </div>
+
+        {/* GRID SIGNS */}
+        <div style={styles.sectionTitleRow}>
+          <div style={styles.sectionTitle}>Choisir un signe</div>
+          <div style={styles.sectionHint}>
+            Clique un signe : si tu n’es pas connectée, on te redirige vers le login.
+          </div>
         </div>
 
         <div style={styles.grid}>
           {SIGNS.map((s) => {
             const active = selected === s.key;
+
             return (
               <button
                 key={s.key}
@@ -217,8 +221,20 @@ export default function OnboardingSignPage() {
                 disabled={busy}
                 style={{
                   ...styles.signBtn,
+                  ...(styles[`sign_${s.element}`] as React.CSSProperties),
                   ...(active ? styles.active : null),
                   ...(busy ? styles.disabled : null),
+                }}
+                onMouseEnter={(e) => {
+                  if (busy) return;
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
+                  (e.currentTarget as HTMLButtonElement).style.filter = "brightness(1.06) saturate(1.1)";
+                }}
+                onMouseLeave={(e) => {
+                  if (busy) return;
+                  const el = e.currentTarget as HTMLButtonElement;
+                  el.style.transform = active ? "translateY(-1px)" : "translateY(0px)";
+                  el.style.filter = active ? "brightness(1.06) saturate(1.1)" : "none";
                 }}
                 aria-label={`${changeMode ? "Changer pour" : "Choisir"} ${s.label}`}
               >
@@ -228,18 +244,54 @@ export default function OnboardingSignPage() {
           })}
         </div>
 
+        {/* ELEMENT CHIPS */}
         <div style={styles.chipsRow} aria-hidden="true">
-          <span style={styles.chip}>FEU</span>
-          <span style={styles.chip}>TERRE</span>
-          <span style={styles.chip}>AIR</span>
-          <span style={styles.chip}>EAU</span>
+          <span style={{ ...styles.chip, ...styles.chip_feu }}>FEU</span>
+          <span style={{ ...styles.chip, ...styles.chip_terre }}>TERRE</span>
+          <span style={{ ...styles.chip, ...styles.chip_air }}>AIR</span>
+          <span style={{ ...styles.chip, ...styles.chip_eau }}>EAU</span>
         </div>
 
-        <div style={styles.footerHint}>
-          © {new Date().getFullYear()} Luna Astralis · Exploration personnelle — non thérapeutique.
+        {/* FOOTER */}
+        <div style={styles.footer}>
+          <div style={styles.footerLeft}>
+            <div style={styles.footerBrand}>Luna Astralis</div>
+            <div style={styles.footerCopy}>© {new Date().getFullYear()} · Tous droits réservés</div>
+          </div>
+
+          <div style={styles.footerRight}>
+            <div style={styles.footerNote}>Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.</div>
+          </div>
         </div>
       </div>
     </main>
+  );
+}
+
+function StepCard({
+  no,
+  icon,
+  title,
+  text,
+}: {
+  no: string;
+  icon: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div style={styles.stepCard}>
+      <div style={styles.stepTop}>
+        <div style={styles.stepNo}>{no}</div>
+        <div style={styles.stepIcon} aria-hidden="true">
+          {icon}
+        </div>
+      </div>
+
+      {/* ✅ typographie uniformisée (même esprit que signLabel) */}
+      <div style={styles.stepTitle}>{title}</div>
+      <div style={styles.stepText}>{text}</div>
+    </div>
   );
 }
 
@@ -253,28 +305,67 @@ const styles: Record<string, React.CSSProperties> = {
   },
   shell: { maxWidth: 1020, margin: "0 auto" },
 
-  stepsWrap: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
-    gap: 12,
-  },
-  stepCard: {
+  /* Loading */
+  loadingCard: {
+    marginTop: 12,
     background: "rgba(255,255,255,0.06)",
     border: "1px solid rgba(255,255,255,0.10)",
-    borderRadius: 16,
-    padding: 14,
-    minHeight: 86,
+    borderRadius: 18,
+    padding: 18,
+    maxWidth: 520,
   },
-  stepNo: { fontSize: 12, opacity: 0.75, fontWeight: 800, marginBottom: 6 },
-  stepTitle: { fontSize: 14, fontWeight: 800, marginBottom: 4 },
-  stepText: { fontSize: 13, opacity: 0.78 },
+  loadingTitle: { fontSize: 18, fontWeight: 900, letterSpacing: -0.2 },
+  loadingSub: { marginTop: 6, fontSize: 13, opacity: 0.78 },
 
-  h1: { fontSize: 26, fontWeight: 900, letterSpacing: -0.2, margin: 0 },
-  sub: { marginTop: 8, marginBottom: 14, opacity: 0.84, maxWidth: 780, lineHeight: 1.45 },
+  /* Head */
+  head: { marginBottom: 14 },
+  kicker: {
+    display: "inline-block",
+    fontSize: 12,
+    fontWeight: 900,
+    letterSpacing: 0.2,
+    opacity: 0.8,
+    padding: "7px 10px",
+    borderRadius: 999,
+    border: "1px solid rgba(255,255,255,0.12)",
+    background: "rgba(255,255,255,0.05)",
+    marginBottom: 10,
+  },
+  h1: { fontSize: 28, fontWeight: 900, letterSpacing: -0.3, margin: 0 },
+  sub: { marginTop: 8, marginBottom: 0, opacity: 0.84, maxWidth: 820, lineHeight: 1.45 },
 
+  /* Steps */
+  stepsWrap: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+    gap: 12,
+    marginTop: 14,
+    marginBottom: 16,
+  },
+  stepCard: {
+    background: "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04))",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 18,
+    padding: 14,
+    minHeight: 92,
+    boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
+  },
+  stepTop: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 },
+  stepNo: { fontSize: 12, opacity: 0.75, fontWeight: 900 },
+  stepIcon: { fontSize: 16, opacity: 0.92 },
+  // ✅ Typo harmonisée
+  stepTitle: { fontSize: 16, fontWeight: 900, letterSpacing: -0.15, marginBottom: 6 },
+  stepText: { fontSize: 13, fontWeight: 700, opacity: 0.82, lineHeight: 1.25 },
+
+  /* Section Title */
+  sectionTitleRow: { marginTop: 6, marginBottom: 10 },
+  sectionTitle: { fontSize: 16, fontWeight: 900, letterSpacing: -0.15 },
+  sectionHint: { marginTop: 6, fontSize: 13, opacity: 0.78 },
+
+  /* Grid */
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(145px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
     gap: 12,
     marginTop: 10,
   },
@@ -287,18 +378,39 @@ const styles: Record<string, React.CSSProperties> = {
     color: "rgba(255,255,255,0.92)",
     textAlign: "left",
     cursor: "pointer",
-    transition: "transform 120ms ease, filter 120ms ease, border-color 120ms ease",
+    transition: "transform 140ms ease, filter 140ms ease, border-color 140ms ease, box-shadow 140ms ease",
     WebkitTapHighlightColor: "transparent",
+    boxShadow: "0 12px 26px rgba(0,0,0,0.22)",
   },
-  signLabel: { fontSize: 16, fontWeight: 900 },
+  signLabel: { fontSize: 16, fontWeight: 900, letterSpacing: -0.1 },
+
+  // Couleurs douces par élément (sans changer ton UI)
+  sign_feu: {
+    background:
+      "linear-gradient(90deg, rgba(255,170,90,0.16), rgba(255,120,80,0.06))",
+  },
+  sign_terre: {
+    background:
+      "linear-gradient(90deg, rgba(120,255,170,0.14), rgba(80,200,140,0.06))",
+  },
+  sign_air: {
+    background:
+      "linear-gradient(90deg, rgba(170,200,255,0.14), rgba(120,160,255,0.06))",
+  },
+  sign_eau: {
+    background:
+      "linear-gradient(90deg, rgba(90,220,255,0.14), rgba(80,140,255,0.06))",
+  },
 
   active: {
     borderColor: "rgba(255,255,255,0.22)",
     transform: "translateY(-1px)",
-    filter: "brightness(1.05) saturate(1.08)",
+    filter: "brightness(1.06) saturate(1.1)",
+    boxShadow: "0 14px 34px rgba(0,0,0,0.30)",
   },
   disabled: { opacity: 0.75, cursor: "default" },
 
+  /* Chips */
   chipsRow: { display: "flex", gap: 8, marginTop: 14, flexWrap: "wrap" },
   chip: {
     fontSize: 11,
@@ -308,8 +420,27 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 999,
     border: "1px solid rgba(255,255,255,0.12)",
     background: "rgba(255,255,255,0.05)",
-    opacity: 0.9,
+    opacity: 0.92,
   },
+  chip_feu: { background: "rgba(255,160,90,0.12)" },
+  chip_terre: { background: "rgba(120,255,170,0.10)" },
+  chip_air: { background: "rgba(170,200,255,0.10)" },
+  chip_eau: { background: "rgba(90,220,255,0.10)" },
 
-  footerHint: { marginTop: 18, fontSize: 12, opacity: 0.7 },
+  /* Footer */
+  footer: {
+    marginTop: 18,
+    paddingTop: 14,
+    borderTop: "1px solid rgba(255,255,255,0.10)",
+    display: "flex",
+    gap: 12,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexWrap: "wrap",
+  },
+  footerLeft: {},
+  footerBrand: { fontSize: 14, fontWeight: 900, letterSpacing: -0.1 },
+  footerCopy: { marginTop: 4, fontSize: 12, opacity: 0.72 },
+  footerRight: { maxWidth: 540 },
+  footerNote: { fontSize: 12, opacity: 0.72, lineHeight: 1.35 },
 };
