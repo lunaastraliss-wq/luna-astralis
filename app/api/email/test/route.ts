@@ -7,14 +7,17 @@ export async function GET() {
   const key = process.env.RESEND_API_KEY;
 
   if (!key) {
-    return NextResponse.json({ ok: false, error: "Missing RESEND_API_KEY" }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, error: "Missing RESEND_API_KEY" },
+      { status: 400 }
+    );
   }
 
   const resend = new Resend(key);
 
-  const data = await resend.emails.send({
+  const { data, error } = await resend.emails.send({
     from: "onboarding@resend.dev",
-    to: "lunaastraliss@gmail.com",
+    to: "contactamoriai@gmail.com", // ✅ obligatoire en mode TEST Resend
     subject: "Test Luna Astralis",
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6">
@@ -23,6 +26,10 @@ export async function GET() {
       </div>
     `,
   });
+
+  if (error) {
+    return NextResponse.json({ ok: false, error }, { status: 400 });
+  }
 
   return NextResponse.json({ ok: true, data });
 }
