@@ -26,11 +26,9 @@ export async function GET(req: Request) {
   const resend = new Resend(resendKey);
 
   const now = Date.now();
-  const H = 60 * 60 * 1000;
-  const D = 24 * H;
   const M = 60 * 1000;
+  const D = 24 * 60 * 60 * 1000;
 
-  // ✅ On relance seulement les FREE non premium
   const { data: rows, error } = await supabase
     .from("email_reminders")
     .select("id,email,created_at,is_premium,sent_welcome_at,sent_r1_at,sent_r2_at,sent_r3_at")
@@ -45,9 +43,10 @@ export async function GET(req: Request) {
   let sent = 0;
 
   for (const r of rows ?? []) {
+    if (!r.created_at) continue;
+
     const createdAt = new Date(r.created_at).getTime();
 
-    // ✅ Envoi en cascade: Welcome (30 min) -> R1 (24h) -> R2 (72h) -> R3 (7j)
     const dueWelcome = !r.sent_welcome_at && now - createdAt >= 30 * M;
     const dueR1 = !r.sent_r1_at && now - createdAt >= 1 * D;
     const dueR2 = !r.sent_r2_at && now - createdAt >= 3 * D;
@@ -60,7 +59,7 @@ export async function GET(req: Request) {
     else if (dueR3) kind = "r3";
     if (!kind) continue;
 
-    // ✅ Anti “vient de payer” : on re-check juste avant l'envoi
+    // re-check premium
     const { data: latest, error: latestErr } = await supabase
       .from("email_reminders")
       .select("is_premium")
@@ -79,8 +78,9 @@ export async function GET(req: Request) {
         ? "Tu veux aller plus loin ? ✨"
         : "Un petit check-in 🌙";
 
-    const ctaHref =
-      kind === "r2" ? "https://www.luna-astralis.app/pricing" : "https://www.luna-astralis.app/chat";
+    const ctaHref = kind === "r2"
+      ? "https://www.luna-astralis.app/pricing"
+      : "https://www.luna-astralis.app/chat";
 
     const ctaText = kind === "r2" ? "Voir les offres" : "Revenir au chat";
 
