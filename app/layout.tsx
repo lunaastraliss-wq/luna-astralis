@@ -10,6 +10,7 @@ import "./auth.css";     // auth (login / signup)
 // ✅ PAS de chat.css ici (il est dans /app/chat/chat.css)
 
 import CookieBanner from "@/components/CookieBanner";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Luna Astralis — Astro & psycho",
@@ -23,6 +24,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr" suppressHydrationWarning>
       <body style={{ margin: 0, letterSpacing: "normal", lineHeight: 1.5 }}>
         {children}
+
+        {/* ✅ Footer support */}
+        <Footer />
+
+        {/* ✅ Bandeau cookies Luna Astralis */}
+        <CookieBanner />
 
         {/* ✅ Google tag (gtag.js) - Google Ads */}
         <Script
@@ -38,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             function gtag(){dataLayer.push(arguments);}
             window.gtag = window.gtag || gtag;
 
-            // ✅ Consent Mode : par défaut, on refuse tout (jusqu'au choix utilisateur)
+            // Consent Mode : par défaut, on refuse tout (jusqu'au choix utilisateur)
             gtag('consent', 'default', {
               ad_storage: 'denied',
               analytics_storage: 'denied',
@@ -58,9 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             strategy="afterInteractive"
           />
         ) : null}
-
-        {/* ✅ Bandeau cookies Luna Astralis */}
-        <CookieBanner />
       </body>
     </html>
   );
