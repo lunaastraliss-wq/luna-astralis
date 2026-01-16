@@ -16,8 +16,9 @@ export async function GET() {
   const resend = new Resend(key);
 
   const { data, error } = await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: "contactamoriai@gmail.com", // ✅ obligatoire en mode TEST Resend
+    from: "Luna Astralis <contact@luna-astralis.app>",
+    to: "lunaastraliss@gmail.com",
+    replyTo: "lunaastraliss@gmail.com",
     subject: "Test Luna Astralis",
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6">
