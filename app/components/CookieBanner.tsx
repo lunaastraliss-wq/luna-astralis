@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-// ✅ versionne la clé (si tu modifies le bandeau, ça peut re-s’afficher proprement)
+/**
+ * Luna Astralis — Cookie Banner (FR only)
+ * - Stocke le choix dans localStorage
+ * - Met à jour Google Consent Mode via gtag (Google Ads)
+ * - Valeur par défaut : refus des cookies non essentiels (case décochée)
+ */
+
 const CONSENT_KEY = "luna_astralis_cookie_consent_v1"; // values: "all" | "necessary"
 
 declare global {
@@ -15,8 +21,7 @@ function readConsent(): "all" | "necessary" | null {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
-    if (v === "all" || v === "necessary") return v;
-    return null;
+    return v === "all" || v === "necessary" ? v : null;
   } catch {
     return null;
   }
@@ -31,26 +36,43 @@ function writeConsent(v: "all" | "necessary") {
 }
 
 /**
- * ✅ Consent Mode (Google Ads / Analytics via gtag)
- * - allowAnalytics = true  => granted
- * - allowAnalytics = false => denied
+ * ✅ Google Consent Mode update (robuste: retry si gtag pas prêt)
+ * allowAnalytics = true  => granted
+ * allowAnalytics = false => denied
  */
 function pushGtagConsent(allowAnalytics: boolean) {
   if (typeof window === "undefined") return;
-  if (typeof window.gtag !== "function") return;
 
-  window.gtag("consent", "update", {
-    ad_storage: allowAnalytics ? "granted" : "denied",
-    analytics_storage: allowAnalytics ? "granted" : "denied",
-    ad_user_data: allowAnalytics ? "granted" : "denied",
-    ad_personalization: allowAnalytics ? "granted" : "denied",
-  });
+  const update = () => {
+    if (typeof window.gtag !== "function") return false;
+
+    window.gtag("consent", "update", {
+      ad_storage: allowAnalytics ? "granted" : "denied",
+      analytics_storage: allowAnalytics ? "granted" : "denied",
+      ad_user_data: allowAnalytics ? "granted" : "denied",
+      ad_personalization: allowAnalytics ? "granted" : "denied",
+    });
+
+    return true;
+  };
+
+  // tente tout de suite
+  if (update()) return;
+
+  // sinon, retry court (gtag peut charger afterInteractive)
+  let tries = 0;
+  const t = window.setInterval(() => {
+    tries++;
+    if (update() || tries >= 10) window.clearInterval(t); // ~2s max
+  }, 200);
 }
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [analyticsAllowed, setAnalyticsAllowed] = useState(true);
+
+  // ✅ Par défaut: analytics OFF tant que l’utilisateur n’a pas accepté
+  const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
 
   // ✅ au montage : lit le consent + applique le consent si déjà enregistré
   useEffect(() => {
@@ -60,7 +82,7 @@ export default function CookieBanner() {
 
     if (!consent) {
       setVisible(true);
-      setAnalyticsAllowed(true); // juste pour cocher la case dans Settings
+      setAnalyticsAllowed(false); // ✅ case décochée par défaut
       return;
     }
 
