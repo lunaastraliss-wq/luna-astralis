@@ -9,12 +9,16 @@ export const dynamic = "force-dynamic";
 /* =====================
    ENV
 ===================== */
-const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
-const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
+const STRIPE_SECRET_KEY = (process.env.STRIPE_SECRET_KEY ?? "").trim();
+const STRIPE_WEBHOOK_SECRET = (process.env.STRIPE_WEBHOOK_SECRET ?? "").trim();
 
-const SUPABASE_URL =
-  process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+const SUPABASE_URL = (
+  process.env.SUPABASE_URL ??
+  process.env.NEXT_PUBLIC_SUPABASE_URL ??
+  ""
+).trim();
+
+const SUPABASE_SERVICE_ROLE_KEY = (process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").trim();
 
 function clean(v: unknown): string {
   return (v == null ? "" : String(v)).trim();
@@ -157,10 +161,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     if (!stripe) {
-      return NextResponse.json(
-        { ok: false, error: "Missing STRIPE_SECRET_KEY" },
-        { status: 500 }
-      );
+      return NextResponse.json({ ok: false, error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
     }
     if (!STRIPE_WEBHOOK_SECRET) {
       return NextResponse.json(
@@ -177,10 +178,7 @@ export async function POST(req: Request) {
 
     const sig = req.headers.get("stripe-signature");
     if (!sig) {
-      return NextResponse.json(
-        { ok: false, error: "Missing stripe-signature" },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, error: "Missing stripe-signature" }, { status: 400 });
     }
 
     const rawBody = await req.text();
@@ -207,17 +205,17 @@ export async function POST(req: Request) {
 
       if (!userId || userId === "guest") {
         return NextResponse.json(
-          {
-            received: true,
-            warning: "missing user_id (should not happen if login required)",
-          },
+          { received: true, warning: "missing user_id (should not happen if login required)" },
           { status: 200 }
         );
       }
 
+      // ✅ IMPORTANT: status NOT NULL -> on met une valeur safe au 1er insert
       await upsertByUserId(userId, {
         stripe_customer_id: customerId || null,
         stripe_checkout_session_id: checkoutSessionId || null,
+        status: "pending",
+        current: false,
       });
 
       return NextResponse.json({ received: true }, { status: 200 });
@@ -234,16 +232,17 @@ export async function POST(req: Request) {
 
       const userId = pickUserIdFromSubscription(sub);
       const customerId = pickCustomerId(sub);
-      const status = clean((sub as any)?.status).toLowerCase();
+      const status = clean((sub as any)?.status).toLowerCase(); // active, trialing, canceled, etc.
       const subId = clean((sub as any)?.id);
 
       const priceId = pickPriceIdFromSub(sub);
-
-      // plan slug/name
       const plan = await getPlanFromPriceId(priceId);
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
       const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
+
+      // ✅ jamais null (ta DB veut NOT NULL)
+      const safeStatus = status || "unknown";
 
       const payload = {
         stripe_customer_id: customerId || null,
@@ -253,11 +252,11 @@ export async function POST(req: Request) {
         plan_slug: plan.slug,
         plan_name: plan.name,
 
-        status: status || null,
+        status: safeStatus,
         current_period_end: currentPeriodEnd,
         canceled_at: canceledAt,
 
-        current: status === "active" || status === "trialing",
+        current: safeStatus === "active" || safeStatus === "trialing",
       };
 
       if (userId) {
@@ -300,12 +299,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
-    // other events ignored
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err: any) {
-    return NextResponse.json(
-      { ok: false, error: err?.message || "Webhook error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, error: err?.message || "Webhook error" }, { status: 500 });
   }
 }
