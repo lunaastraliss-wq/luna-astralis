@@ -822,10 +822,11 @@ body::after{
   display: block;
   border-radius: 23px;
   background: rgba(2,6,23,.85);
+
   object-fit: cover;
 
-  /* ✅ Remonte l'image pour voir le haut de la tête */
-  transform: translateY(-12px);
+  /* ✅ ajuste le cadrage sans couper la tête */
+  object-position: center 15%;
 }
 
 /* ✅ Bouton son + hint (collé, propre) */
