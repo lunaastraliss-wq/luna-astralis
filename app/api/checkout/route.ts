@@ -55,6 +55,13 @@ const PRICING_PLAN_ID: Record<PlanId, string> = {
   yearly_unlimited: s(process.env.PRICING_PLAN_YEARLY_UNLIMITED),
 };
 
+// ✅ emails autorisés au trial (tests seulement)
+const TRIAL_TEST_EMAILS = new Set([
+  "kemaprintstudio@gmail.com",
+  "spinoz.fr@gmail.com",
+  "comptanetquebec@gmail.com",
+]);
+
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
@@ -90,7 +97,7 @@ export async function POST(req: Request) {
 
     const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // ✅ Auth requis (sinon pas de user_id -> FK)
+    // ✅ Auth requis
     const supabase = createRouteHandlerClient({ cookies });
     const { data, error } = await supabase.auth.getSession();
     if (error) {
@@ -102,12 +109,14 @@ export async function POST(req: Request) {
 
     const user = data?.session?.user;
     const user_id = user?.id || "";
-    const user_email = user?.email || "";
+    const user_email = (user?.email || "").toLowerCase();
     if (!user_id || !user_email) {
       return NextResponse.json({ error: "AUTH_REQUIRED", require_auth: true, next }, { status: 401 });
     }
 
-    // ✅ metadata UNIQUE pour relier checkout -> user (webhook)
+    // ✅ Trial 3 jours UNIQUEMENT pour toi (tests)
+    const isTrialTester = TRIAL_TEST_EMAILS.has(user_email);
+
     const commonMeta = {
       app: "luna-astralis",
       plan,
@@ -116,10 +125,9 @@ export async function POST(req: Request) {
       pricing_plan_id,
       stripe_price_id,
       next,
+      trial_test: isTrialTester ? "1" : "0",
     };
 
-    // ⚠️ Stripe: éviter customer_email si tu gères des customers autrement.
-    // Ici on le garde, MAIS on met aussi client_reference_id = user_id.
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: stripe_price_id, quantity: 1 }],
@@ -134,6 +142,8 @@ export async function POST(req: Request) {
       metadata: commonMeta,
 
       subscription_data: {
+        // ✅ 3 jours seulement si toi (sinon aucun trial)
+        ...(isTrialTester ? { trial_period_days: 3 } : {}),
         metadata: commonMeta,
       },
 
