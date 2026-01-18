@@ -711,3 +711,74 @@ body::after{
   .legal-page{ padding: 34px 14px 60px; }
   .legal-wrap h1{ font-size: 26px; }
    }
+/* ===================== HERO: MINI REVIEWS (3 cartes) ===================== */
+.mini-reviews{
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr; /* mobile */
+}
+
+@media (min-width: 900px){
+  .mini-reviews{
+    grid-template-columns: repeat(3, 1fr); /* desktop = 3 colonnes */
+  }
+}
+
+.mini-review{
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  box-shadow: var(--shadowSoft);
+  padding: 14px 14px 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mini-review::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.35;
+  background-image:
+    radial-gradient(1px 1px at 18% 22%, rgba(255,255,255,.60), transparent),
+    radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,.42), transparent),
+    radial-gradient(1px 1px at 78% 70%, rgba(255,255,255,.45), transparent);
+  mix-blend-mode: screen;
+}
+
+.mini-review > *{ position:relative; z-index:1; }
+
+.mini-review-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.mini-review-name{
+  font-weight: 1000;
+  font-size: 13px;
+  color: rgba(255,255,255,.92);
+}
+
+.mini-review-stars{
+  letter-spacing: .08em;
+  font-size: 14px;
+  color: var(--accent2);
+}
+
+.mini-review-sign{
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,.68);
+  font-weight: 900;
+}
+
+.mini-review-text{
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,.86);
+}
