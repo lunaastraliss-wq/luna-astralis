@@ -3,9 +3,25 @@ import { Resend } from "resend";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 function unauthorized() {
   return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+}
+
+function json(status: number, payload: any) {
+  return NextResponse.json(payload, {
+    status,
+    headers: { "Cache-Control": "no-store" },
+  });
+}
+
+function safeEmail(v: unknown): string | null {
+  if (typeof v !== "string") return null;
+  const s = v.trim().toLowerCase();
+  if (!s || s.length > 254) return null;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(s)) return null;
+  return s;
 }
 
 export async function GET(req: Request) {
@@ -18,9 +34,13 @@ export async function GET(req: Request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!resendKey) return NextResponse.json({ ok: false, error: "Missing RESEND_API_KEY" }, { status: 400 });
-  if (!supabaseUrl) return NextResponse.json({ ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL" }, { status: 400 });
-  if (!serviceRole) return NextResponse.json({ ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" }, { status: 400 });
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://luna-astralis.app").replace(/\/$/, "");
+  const fromEmail = process.env.FROM_EMAIL || "Luna Astralis <contact@luna-astralis.app>";
+  const replyTo = process.env.RESEND_REPLY_TO || "lunaastraliss@gmail.com";
+
+  if (!resendKey) return json(400, { ok: false, error: "Missing RESEND_API_KEY" });
+  if (!supabaseUrl) return json(400, { ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL" });
+  if (!serviceRole) return json(400, { ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
 
   const supabase = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
   const resend = new Resend(resendKey);
@@ -29,24 +49,38 @@ export async function GET(req: Request) {
   const M = 60 * 1000;
   const D = 24 * 60 * 60 * 1000;
 
+  // ⚠️ IMPORTANT:
+  // Ce code suppose que ta table `email_reminders` contient `last_seen_at` (timestamptz).
+  // Si tu ne l'as pas, ajoute-le, sinon enlève la logique last_seen_at (mais tu relanceras même ceux revenus).
   const { data: rows, error } = await supabase
     .from("email_reminders")
-    .select("id,email,created_at,is_premium,sent_welcome_at,sent_r1_at,sent_r2_at,sent_r3_at")
+    .select("id,email,created_at,is_premium,last_seen_at,sent_welcome_at,sent_r1_at,sent_r2_at,sent_r3_at")
     .eq("is_premium", false)
     .not("email", "is", null)
     .neq("email", "")
     .order("created_at", { ascending: true })
     .limit(200);
 
-  if (error) return NextResponse.json({ ok: false, error }, { status: 400 });
+  if (error) return json(400, { ok: false, error: error.message ?? error });
 
   let sent = 0;
+  const errors: Array<{ email: string; error: string }> = [];
 
   for (const r of rows ?? []) {
-    if (!r.created_at) continue;
+    if (!r?.created_at) continue;
+
+    const to = safeEmail(r.email);
+    if (!to) continue;
 
     const createdAt = new Date(r.created_at).getTime();
+    if (!Number.isFinite(createdAt)) continue;
 
+    // ✅ Ne relance pas si la personne est revenue après inscription
+    const lastSeenAt = r.last_seen_at ? new Date(r.last_seen_at).getTime() : null;
+    const hasReturned = lastSeenAt !== null && Number.isFinite(lastSeenAt) && lastSeenAt > createdAt;
+    if (hasReturned) continue;
+
+    // ✅ Schedules (welcome 30min, puis 1j/3j/7j)
     const dueWelcome = !r.sent_welcome_at && now - createdAt >= 30 * M;
     const dueR1 = !r.sent_r1_at && now - createdAt >= 1 * D;
     const dueR2 = !r.sent_r2_at && now - createdAt >= 3 * D;
@@ -59,16 +93,6 @@ export async function GET(req: Request) {
     else if (dueR3) kind = "r3";
     if (!kind) continue;
 
-    // re-check premium
-    const { data: latest, error: latestErr } = await supabase
-      .from("email_reminders")
-      .select("is_premium")
-      .eq("id", r.id)
-      .single();
-
-    if (latestErr) continue;
-    if (!latest || latest.is_premium) continue;
-
     const subject =
       kind === "welcome"
         ? "🌙 Bienvenue sur Luna Astralis"
@@ -78,24 +102,22 @@ export async function GET(req: Request) {
         ? "Tu veux aller plus loin ? ✨"
         : "Un petit check-in 🌙";
 
-    const ctaHref = kind === "r2"
-      ? "https://www.luna-astralis.app/pricing"
-      : "https://www.luna-astralis.app/chat";
-
+    const ctaHref = kind === "r2" ? `${siteUrl}/pricing` : `${siteUrl}/chat`;
     const ctaText = kind === "r2" ? "Voir les offres" : "Revenir au chat";
 
+    const bodyHtml =
+      kind === "welcome"
+        ? "<p>Bienvenue ✨ Tu peux commencer ton exploration dès maintenant.</p>"
+        : kind === "r1"
+        ? "<p>Ton signe t’attend. Reviens quand tu veux 💜</p>"
+        : kind === "r2"
+        ? "<p>Si tu veux une expérience plus complète, tu peux débloquer l’accès.</p>"
+        : "<p>Petit rappel doux : Luna Astralis est là quand tu es prête 🌙</p>";
+
     const html = `
-      <div style="font-family:Arial,sans-serif;line-height:1.6">
+      <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6">
         <h2>🌙 Luna Astralis</h2>
-        ${
-          kind === "welcome"
-            ? "<p>Bienvenue ✨ Tu peux commencer ton exploration dès maintenant.</p>"
-            : kind === "r1"
-            ? "<p>Ton signe t’attend. Reviens quand tu veux 💜</p>"
-            : kind === "r2"
-            ? "<p>Si tu veux une expérience plus complète, tu peux débloquer l’accès.</p>"
-            : "<p>Petit rappel doux : Luna Astralis est là quand tu es prête 🌙</p>"
-        }
+        ${bodyHtml}
         <p>
           <a href="${ctaHref}"
              style="display:inline-block;padding:12px 18px;background:#6d28d9;color:#fff;border-radius:10px;text-decoration:none;">
@@ -108,20 +130,29 @@ export async function GET(req: Request) {
       </div>
     `;
 
+    const text =
+      kind === "welcome"
+        ? `Bienvenue sur Luna Astralis ✨\n\nCommence ici : ${siteUrl}/chat\n\nRéponds à ce mail si tu as une question.`
+        : kind === "r1"
+        ? `Ton signe t’attend 🌙\n\nReviens au chat : ${siteUrl}/chat`
+        : kind === "r2"
+        ? `Tu veux aller plus loin ? ✨\n\nVoir les offres : ${siteUrl}/pricing`
+        : `Petit check-in 🌙\n\nLuna Astralis est là : ${siteUrl}/chat`;
+
     const { error: sendErr } = await resend.emails.send({
-      from: "Luna Astralis <contact@luna-astralis.app>",
-      to: r.email,
-      replyTo: "lunaastraliss@gmail.com",
+      from: fromEmail,
+      to,
+      replyTo,
       subject,
       html,
+      text,
+      tags: [{ name: "type", value: kind }],
     });
 
     if (sendErr) {
-      console.error("Resend error", r.email, sendErr);
+      errors.push({ email: to, error: sendErr.message ?? String(sendErr) });
       continue;
     }
-
-    sent++;
 
     const iso = new Date().toISOString();
     const patch: Record<string, string> = {};
@@ -131,8 +162,13 @@ export async function GET(req: Request) {
     if (kind === "r3") patch.sent_r3_at = iso;
 
     const { error: upErr } = await supabase.from("email_reminders").update(patch).eq("id", r.id);
-    if (upErr) console.error("Update error", r.id, upErr);
+    if (upErr) {
+      errors.push({ email: to, error: upErr.message ?? String(upErr) });
+      continue;
+    }
+
+    sent++;
   }
 
-  return NextResponse.json({ ok: true, sent });
+  return json(200, { ok: true, sent, errorsCount: errors.length, errors: errors.slice(0, 20) });
 }
