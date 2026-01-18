@@ -3,11 +3,10 @@ import type { Metadata } from "next";
 import React from "react";
 import Script from "next/script";
 
-import "./styles.css";   // variables globales, base
-import "./index.css";    // home
-import "./pricing.css";  // pricing
-import "./auth.css";     // auth (login / signup)
-// ✅ PAS de chat.css ici (il est dans /app/chat/chat.css)
+import "./styles.css";
+import "./index.css";
+import "./pricing.css";
+import "./auth.css";
 
 import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
@@ -22,18 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body style={{ margin: 0, letterSpacing: "normal", lineHeight: 1.5 }}>
-        {children}
-
-        {/* ✅ Footer support */}
-        <Footer />
-
-        {/* ✅ Bandeau cookies Luna Astralis */}
-        <CookieBanner />
-
+      <head>
         {/* ✅ Google tag (gtag.js) - Google Ads */}
         <Script
-          async
           src="https://www.googletagmanager.com/gtag/js?id=AW-17878472225"
           strategy="afterInteractive"
         />
@@ -58,13 +48,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
 
-        {/* reCAPTCHA v3 global (utilisé seulement par le chat) */}
+        {/* reCAPTCHA v3 global (utilisé seulement si tu l'appelles dans le chat) */}
         {siteKey ? (
           <Script
             src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
             strategy="afterInteractive"
           />
         ) : null}
+      </head>
+
+      <body style={{ margin: 0, letterSpacing: "normal", lineHeight: 1.5 }}>
+        {children}
+
+        {/* ✅ Footer support */}
+        <Footer />
+
+        {/* ✅ Bandeau cookies Luna Astralis (doit appeler gtag('consent','update',...) ) */}
+        <CookieBanner />
       </body>
     </html>
   );
