@@ -24,9 +24,64 @@ function safeEmail(v: unknown): string | null {
   return s;
 }
 
+// ✅ délais
+const M = 60 * 1000;
+const D = 24 * 60 * 60 * 1000;
+
+type Kind = "welcome" | "r1" | "r2" | "r3";
+
+function buildEmail(kind: Kind, siteUrl: string) {
+  const subject =
+    kind === "welcome"
+      ? "🌙 Bienvenue sur Luna Astralis"
+      : kind === "r1"
+      ? "Ton signe t’attend 🌙"
+      : kind === "r2"
+      ? "Tu veux aller plus loin ? ✨"
+      : "Un petit check-in 🌙";
+
+  const ctaHref = kind === "r2" ? `${siteUrl}/pricing` : `${siteUrl}/chat`;
+  const ctaText = kind === "r2" ? "Voir les offres" : "Revenir au chat";
+
+  const bodyHtml =
+    kind === "welcome"
+      ? "<p>Bienvenue ✨ Tu peux commencer ton exploration dès maintenant.</p>"
+      : kind === "r1"
+      ? "<p>Ton signe t’attend. Reviens quand tu veux 💜</p>"
+      : kind === "r2"
+      ? "<p>Si tu veux une expérience plus complète, tu peux débloquer l’accès.</p>"
+      : "<p>Petit rappel doux : Luna Astralis est là quand tu es prête 🌙</p>";
+
+  const html = `
+    <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6">
+      <h2>🌙 Luna Astralis</h2>
+      ${bodyHtml}
+      <p>
+        <a href="${ctaHref}"
+           style="display:inline-block;padding:12px 18px;background:#6d28d9;color:#fff;border-radius:10px;text-decoration:none;">
+          ${ctaText}
+        </a>
+      </p>
+      <p style="opacity:.75;font-size:12px;margin-top:18px">
+        Tu peux répondre à ce mail pour nous écrire.
+      </p>
+    </div>
+  `.trim();
+
+  const text =
+    kind === "welcome"
+      ? `Bienvenue sur Luna Astralis ✨\n\nCommence ici : ${siteUrl}/chat\n\nRéponds à ce mail si tu as une question.`
+      : kind === "r1"
+      ? `Ton signe t’attend 🌙\n\nReviens au chat : ${siteUrl}/chat`
+      : kind === "r2"
+      ? `Tu veux aller plus loin ? ✨\n\nVoir les offres : ${siteUrl}/pricing`
+      : `Un petit check-in 🌙\n\nLuna Astralis est là : ${siteUrl}/chat`;
+
+  return { subject, html, text };
+}
+
 export async function GET(req: Request) {
   const url = new URL(req.url);
-
   const secret = url.searchParams.get("secret");
   if (!secret || secret !== process.env.CRON_SECRET) return unauthorized();
 
@@ -46,12 +101,7 @@ export async function GET(req: Request) {
   const resend = new Resend(resendKey);
 
   const now = Date.now();
-  const M = 60 * 1000;
-  const D = 24 * 60 * 60 * 1000;
 
-  // ⚠️ IMPORTANT:
-  // Ce code suppose que ta table `email_reminders` contient `last_seen_at` (timestamptz).
-  // Si tu ne l'as pas, ajoute-le, sinon enlève la logique last_seen_at (mais tu relanceras même ceux revenus).
   const { data: rows, error } = await supabase
     .from("email_reminders")
     .select("id,email,created_at,is_premium,last_seen_at,sent_welcome_at,sent_r1_at,sent_r2_at,sent_r3_at")
@@ -75,69 +125,27 @@ export async function GET(req: Request) {
     const createdAt = new Date(r.created_at).getTime();
     if (!Number.isFinite(createdAt)) continue;
 
-    // ✅ Ne relance pas si la personne est revenue après inscription
+    // ✅ Stop si revenu (last_seen_at après created_at)
     const lastSeenAt = r.last_seen_at ? new Date(r.last_seen_at).getTime() : null;
     const hasReturned = lastSeenAt !== null && Number.isFinite(lastSeenAt) && lastSeenAt > createdAt;
     if (hasReturned) continue;
 
-    // ✅ Schedules (welcome 30min, puis 1j/3j/7j)
-    const dueWelcome = !r.sent_welcome_at && now - createdAt >= 30 * M;
-    const dueR1 = !r.sent_r1_at && now - createdAt >= 1 * D;
-    const dueR2 = !r.sent_r2_at && now - createdAt >= 3 * D;
-    const dueR3 = !r.sent_r3_at && now - createdAt >= 7 * D;
+    // ✅ Empêche d’envoyer r1/r2/r3 si welcome jamais envoyé
+    const hasWelcome = !!r.sent_welcome_at;
 
-    let kind: "welcome" | "r1" | "r2" | "r3" | null = null;
+    const dueWelcome = !r.sent_welcome_at && now - createdAt >= 30 * M;
+    const dueR1 = hasWelcome && !r.sent_r1_at && now - createdAt >= 1 * D;
+    const dueR2 = hasWelcome && !r.sent_r2_at && now - createdAt >= 3 * D;
+    const dueR3 = hasWelcome && !r.sent_r3_at && now - createdAt >= 7 * D;
+
+    let kind: Kind | null = null;
     if (dueWelcome) kind = "welcome";
     else if (dueR1) kind = "r1";
     else if (dueR2) kind = "r2";
     else if (dueR3) kind = "r3";
     if (!kind) continue;
 
-    const subject =
-      kind === "welcome"
-        ? "🌙 Bienvenue sur Luna Astralis"
-        : kind === "r1"
-        ? "Ton signe t’attend 🌙"
-        : kind === "r2"
-        ? "Tu veux aller plus loin ? ✨"
-        : "Un petit check-in 🌙";
-
-    const ctaHref = kind === "r2" ? `${siteUrl}/pricing` : `${siteUrl}/chat`;
-    const ctaText = kind === "r2" ? "Voir les offres" : "Revenir au chat";
-
-    const bodyHtml =
-      kind === "welcome"
-        ? "<p>Bienvenue ✨ Tu peux commencer ton exploration dès maintenant.</p>"
-        : kind === "r1"
-        ? "<p>Ton signe t’attend. Reviens quand tu veux 💜</p>"
-        : kind === "r2"
-        ? "<p>Si tu veux une expérience plus complète, tu peux débloquer l’accès.</p>"
-        : "<p>Petit rappel doux : Luna Astralis est là quand tu es prête 🌙</p>";
-
-    const html = `
-      <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.6">
-        <h2>🌙 Luna Astralis</h2>
-        ${bodyHtml}
-        <p>
-          <a href="${ctaHref}"
-             style="display:inline-block;padding:12px 18px;background:#6d28d9;color:#fff;border-radius:10px;text-decoration:none;">
-            ${ctaText}
-          </a>
-        </p>
-        <p style="opacity:.75;font-size:12px;margin-top:18px">
-          Tu peux répondre à ce mail pour nous écrire.
-        </p>
-      </div>
-    `;
-
-    const text =
-      kind === "welcome"
-        ? `Bienvenue sur Luna Astralis ✨\n\nCommence ici : ${siteUrl}/chat\n\nRéponds à ce mail si tu as une question.`
-        : kind === "r1"
-        ? `Ton signe t’attend 🌙\n\nReviens au chat : ${siteUrl}/chat`
-        : kind === "r2"
-        ? `Tu veux aller plus loin ? ✨\n\nVoir les offres : ${siteUrl}/pricing`
-        : `Petit check-in 🌙\n\nLuna Astralis est là : ${siteUrl}/chat`;
+    const { subject, html, text } = buildEmail(kind, siteUrl);
 
     const { error: sendErr } = await resend.emails.send({
       from: fromEmail,
