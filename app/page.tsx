@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase/client";
@@ -176,6 +176,58 @@ export default function HomePage() {
     [closeMenu, scrollToId]
   );
 
+  // ---------------------------
+  // VIDEO (son)
+  // ---------------------------
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [soundOn, setSoundOn] = useState(false);
+  const [soundReady, setSoundReady] = useState(false);
+
+  // démarre la vidéo en muet automatiquement (OK partout)
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    v.muted = true;
+    v.volume = 1;
+
+    const tryPlay = async () => {
+      try {
+        await v.play();
+      } catch {
+        // si le navigateur bloque, pas grave
+      }
+    };
+    tryPlay();
+  }, []);
+
+  // toggle son (nécessite un geste utilisateur)
+  const toggleSound = useCallback(async () => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    try {
+      if (!soundOn) {
+        // activer son
+        v.muted = false;
+        v.volume = 1;
+        await v.play(); // important
+        setSoundOn(true);
+        setSoundReady(true);
+      } else {
+        // couper son
+        v.muted = true;
+        setSoundOn(false);
+        setSoundReady(true);
+      }
+    } catch {
+      // si ça échoue, on revient en muet
+      v.muted = true;
+      setSoundOn(false);
+      setSoundReady(false);
+    }
+  }, [soundOn]);
+
   return (
     <div className="page-astro">
       {/* HEADER */}
@@ -299,10 +351,11 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* 🎥 VIDEO WELCOME (Astro frame) */}
+            {/* 🎥 VIDEO WELCOME (Astro frame + son) */}
             <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
               <div className="astro-video-frame">
                 <video
+                  ref={videoRef}
                   className="astro-video"
                   src="/luna_welcome_fr.mp4"
                   autoPlay
@@ -312,10 +365,25 @@ export default function HomePage() {
                   preload="metadata"
                 />
               </div>
+
+              <div className="astro-video-actions">
+                <button
+                  type="button"
+                  className="btn btn-small btn-ghost"
+                  onClick={toggleSound}
+                >
+                  {soundOn ? "Couper le son" : "Activer le son"}
+                </button>
+
+                <span className="astro-video-hint">
+                  {!soundReady ? "Le son démarre après un clic." : " "}
+                </span>
+              </div>
+
               <p className="astro-video-caption">Bienvenue sur Luna Astralis ✨</p>
             </div>
 
-            {/* ⭐ MINI REVIEWS (3 cartes côte à côte) */}
+            {/* ⭐ MINI REVIEWS */}
             <section className="mini-reviews" aria-label="Avis 5 étoiles">
               {MINI_REVIEWS.map((r) => (
                 <article key={r.name + r.sign} className="mini-review">
@@ -351,9 +419,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">
-                  ♈
-                </span>
+                <span className="step-ico" aria-hidden="true">♈</span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -362,9 +428,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">
-                  🔐
-                </span>
+                <span className="step-ico" aria-hidden="true">🔐</span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -373,9 +437,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">
-                  ✧
-                </span>
+                <span className="step-ico" aria-hidden="true">✧</span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -384,9 +446,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">
-                  ☾
-                </span>
+                <span className="step-ico" aria-hidden="true">☾</span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
@@ -460,4 +520,3 @@ export default function HomePage() {
     </div>
   );
 }
-
