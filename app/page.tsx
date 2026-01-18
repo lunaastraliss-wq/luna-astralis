@@ -40,6 +40,33 @@ function storeSign(signKey: string) {
   setCookie(LS_SIGN_KEY, signKey);
 }
 
+type MiniReview = {
+  sign: string;
+  name: string;
+  text: string;
+};
+
+const MINI_REVIEWS: MiniReview[] = [
+  {
+    sign: "♈ Bélier",
+    name: "Marie L.",
+    text:
+      "“Je suis Bélier et ça m’a fait du bien. Ça m’a aidée à ralentir sans me sentir faible, et à canaliser mon énergie au lieu de tout garder en dedans.”",
+  },
+  {
+    sign: "♊ Gémeaux",
+    name: "Julie R.",
+    text:
+      "“En tant que Gémeaux, j’ai toujours 1000 pensées en même temps… Là, j’ai enfin réussi à clarifier ce que je ressens. C’est comme si ça suivait mon rythme mental.”",
+  },
+  {
+    sign: "♋ Cancer",
+    name: "Camille D.",
+    text:
+      "“Je suis Cancer et j’ai été surprise… c’était tellement doux et juste. Ça m’a réconfortée et ça m’a aidée à comprendre ce que je porte émotionnellement.”",
+  },
+];
+
 export default function HomePage() {
   const router = useRouter();
   const y = useMemo(() => new Date().getFullYear(), []);
@@ -60,9 +87,7 @@ export default function HomePage() {
     }
     el.scrollIntoView({ behavior: "smooth", block: "start" });
     window.setTimeout(() => {
-      const first = el.querySelector(
-        "button, a, [tabindex]"
-      ) as HTMLElement | null;
+      const first = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
       first?.focus?.();
     }, 250);
   }, []);
@@ -155,12 +180,7 @@ export default function HomePage() {
     <div className="page-astro">
       {/* HEADER */}
       <header className="top" role="banner">
-        <Link
-          className="brand"
-          href="/"
-          aria-label="Accueil Luna Astralis"
-          onClick={closeMenu}
-        >
+        <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -178,11 +198,7 @@ export default function HomePage() {
               Comment ça fonctionne
             </a>
 
-            <a
-              href="#signes"
-              className="btn btn-small btn-ghost"
-              onClick={onNavTo("signes")}
-            >
+            <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
               Choisir un signe
             </a>
 
@@ -274,6 +290,20 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* ⭐ MINI REVIEWS (3 cartes côte à côte) */}
+            <section className="mini-reviews" aria-label="Avis 5 étoiles">
+              {MINI_REVIEWS.map((r) => (
+                <article key={r.name + r.sign} className="mini-review">
+                  <div className="mini-review-top">
+                    <div className="mini-review-name">{r.name}</div>
+                    <div className="mini-review-stars" aria-label="5 étoiles">★★★★★</div>
+                  </div>
+                  <div className="mini-review-sign">{r.sign}</div>
+                  <p className="mini-review-text">{r.text}</p>
+                </article>
+              ))}
+            </section>
+
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
@@ -294,9 +324,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">
-                  ♈
-                </span>
+                <span className="step-ico" aria-hidden="true">♈</span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -305,9 +333,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">
-                  🔐
-                </span>
+                <span className="step-ico" aria-hidden="true">🔐</span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -316,9 +342,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">
-                  ✧
-                </span>
+                <span className="step-ico" aria-hidden="true">✧</span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -327,9 +351,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">
-                  ☾
-                </span>
+                <span className="step-ico" aria-hidden="true">☾</span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
