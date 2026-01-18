@@ -1,4 +1,4 @@
-// app/api/stripe-webhook/route.ts
+// app/api/stripe/webhook/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
@@ -22,6 +22,10 @@ const SUPABASE_SERVICE_ROLE_KEY = (process.env.SUPABASE_SERVICE_ROLE_KEY ?? "").
 
 function clean(v: unknown): string {
   return (v == null ? "" : String(v)).trim();
+}
+
+function isUuid(v: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v);
 }
 
 /* =====================
@@ -109,6 +113,8 @@ async function upsertByCustomerId(customerId: string, payload: Record<string, an
     return;
   }
 
+  // ⚠️ Si ta table exige user_id NOT NULL / FK, cet INSERT peut échouer.
+  // On le laisse car certains modèles permettent user_id nullable.
   const { error: insErr } = await supabase.from("user_subscriptions").insert({
     stripe_customer_id: customerId,
     ...payload,
@@ -164,10 +170,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
     }
     if (!STRIPE_WEBHOOK_SECRET) {
-      return NextResponse.json(
-        { ok: false, error: "Missing STRIPE_WEBHOOK_SECRET" },
-        { status: 500 }
-      );
+      return NextResponse.json({ ok: false, error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
     }
     if (!supabase) {
       return NextResponse.json(
@@ -203,20 +206,36 @@ export async function POST(req: Request) {
       const customerId = pickCustomerId(session);
       const checkoutSessionId = clean((session as any)?.id);
 
-      if (!userId || userId === "guest") {
+      // ✅ stop retry if user_id absent/invalid
+      if (!userId || userId === "guest" || !isUuid(userId)) {
         return NextResponse.json(
-          { received: true, warning: "missing user_id (should not happen if login required)" },
+          { received: true, warning: "Missing/invalid user_id on checkout session" },
           { status: 200 }
         );
       }
 
-      // ✅ IMPORTANT: status NOT NULL -> on met une valeur safe au 1er insert
-      await upsertByUserId(userId, {
-        stripe_customer_id: customerId || null,
-        stripe_checkout_session_id: checkoutSessionId || null,
-        status: "pending",
-        current: false,
-      });
+      try {
+        await upsertByUserId(userId, {
+          stripe_customer_id: customerId || null,
+          stripe_checkout_session_id: checkoutSessionId || null,
+
+          // ✅ status NOT NULL (premier insert)
+          status: "pending",
+          current: false,
+        });
+      } catch (e: any) {
+        // ✅ IMPORTANT: ne jamais renvoyer 500 à Stripe pour ça (sinon retry infini)
+        const msg = e?.message || String(e);
+        return NextResponse.json(
+          {
+            received: true,
+            warning: "DB upsert failed on checkout.session.completed",
+            details: msg,
+            hint: "If FK user_id fails: check SUPABASE_URL + SERVICE_ROLE belong to the SAME Supabase project as your auth users.",
+          },
+          { status: 200 }
+        );
+      }
 
       return NextResponse.json({ received: true }, { status: 200 });
     }
@@ -224,25 +243,21 @@ export async function POST(req: Request) {
     // =========================
     // subscription created/updated
     // =========================
-    if (
-      event.type === "customer.subscription.created" ||
-      event.type === "customer.subscription.updated"
-    ) {
+    if (event.type === "customer.subscription.created" || event.type === "customer.subscription.updated") {
       const sub = event.data.object as Stripe.Subscription;
 
       const userId = pickUserIdFromSubscription(sub);
       const customerId = pickCustomerId(sub);
-      const status = clean((sub as any)?.status).toLowerCase(); // active, trialing, canceled, etc.
-      const subId = clean((sub as any)?.id);
 
+      const statusRaw = clean((sub as any)?.status).toLowerCase(); // active, trialing, canceled...
+      const safeStatus = statusRaw || "unknown";
+
+      const subId = clean((sub as any)?.id);
       const priceId = pickPriceIdFromSub(sub);
       const plan = await getPlanFromPriceId(priceId);
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
       const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
-
-      // ✅ jamais null (ta DB veut NOT NULL)
-      const safeStatus = status || "unknown";
 
       const payload = {
         stripe_customer_id: customerId || null,
@@ -259,13 +274,36 @@ export async function POST(req: Request) {
         current: safeStatus === "active" || safeStatus === "trialing",
       };
 
-      if (userId) {
-        await upsertByUserId(userId, payload);
-        return NextResponse.json({ received: true }, { status: 200 });
+      // ✅ priorité user_id si valide
+      if (userId && isUuid(userId)) {
+        try {
+          await upsertByUserId(userId, payload);
+          return NextResponse.json({ received: true }, { status: 200 });
+        } catch (e: any) {
+          const msg = e?.message || String(e);
+          return NextResponse.json(
+            {
+              received: true,
+              warning: "DB upsert failed on subscription.* by user_id",
+              details: msg,
+              hint: "Check Supabase env vars match the project that owns auth.users.",
+            },
+            { status: 200 }
+          );
+        }
       }
 
+      // fallback customer_id (si ton modèle le permet)
       if (customerId) {
-        await upsertByCustomerId(customerId, payload);
+        try {
+          await upsertByCustomerId(customerId, payload);
+        } catch (e: any) {
+          const msg = e?.message || String(e);
+          return NextResponse.json(
+            { received: true, warning: "DB upsert failed by customer_id", details: msg },
+            { status: 200 }
+          );
+        }
       }
 
       return NextResponse.json({ received: true }, { status: 200 });
@@ -287,13 +325,29 @@ export async function POST(req: Request) {
         current_period_end: null,
       };
 
-      if (userId) {
-        await upsertByUserId(userId, payload);
-        return NextResponse.json({ received: true }, { status: 200 });
+      if (userId && isUuid(userId)) {
+        try {
+          await upsertByUserId(userId, payload);
+          return NextResponse.json({ received: true }, { status: 200 });
+        } catch (e: any) {
+          const msg = e?.message || String(e);
+          return NextResponse.json(
+            { received: true, warning: "DB upsert failed on subscription.deleted", details: msg },
+            { status: 200 }
+          );
+        }
       }
 
       if (customerId) {
-        await upsertByCustomerId(customerId, payload);
+        try {
+          await upsertByCustomerId(customerId, payload);
+        } catch (e: any) {
+          const msg = e?.message || String(e);
+          return NextResponse.json(
+            { received: true, warning: "DB upsert failed by customer_id on deleted", details: msg },
+            { status: 200 }
+          );
+        }
       }
 
       return NextResponse.json({ received: true }, { status: 200 });
@@ -301,6 +355,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err: any) {
+    // ✅ on évite 500 si possible, mais ici c'est un crash global
     return NextResponse.json({ ok: false, error: err?.message || "Webhook error" }, { status: 500 });
   }
 }
