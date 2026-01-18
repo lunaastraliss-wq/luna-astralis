@@ -6,9 +6,9 @@ import { createClient } from "@supabase/supabase-js";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-// =====================
-// ENV
-// =====================
+/* =====================
+   ENV
+===================== */
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY ?? "";
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";
 
@@ -20,6 +20,9 @@ function clean(v: unknown): string {
   return (v == null ? "" : String(v)).trim();
 }
 
+/* =====================
+   Clients
+===================== */
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
@@ -31,9 +34,9 @@ const supabase =
       })
     : null;
 
-// =====================
-// Helpers
-// =====================
+/* =====================
+   Helpers
+===================== */
 function toIsoFromUnixSeconds(n: unknown): string | null {
   const num = typeof n === "number" ? n : Number(n);
   if (!Number.isFinite(num) || num <= 0) return null;
@@ -59,13 +62,12 @@ function pickUserIdFromCheckoutSession(session: Stripe.Checkout.Session): string
 }
 
 function pickUserIdFromSubscription(sub: Stripe.Subscription): string {
-  const fromMeta = clean((sub as any)?.metadata?.user_id);
-  return fromMeta;
+  return clean((sub as any)?.metadata?.user_id);
 }
 
-// =====================
-// DB helpers
-// =====================
+/* =====================
+   DB helpers
+===================== */
 async function upsertByUserId(userId: string, payload: Record<string, any>) {
   if (!supabase) throw new Error("Supabase non configuré.");
 
@@ -113,7 +115,7 @@ async function upsertByCustomerId(customerId: string, payload: Record<string, an
 }
 
 /**
- * ✅ Translate stripe_price_id -> plans.slug (+ name)
+ * Translate stripe_price_id -> plans.slug (+ name)
  * Table plans doit contenir stripe_price_id, slug, name
  */
 async function getPlanFromPriceId(priceId: string): Promise<{
@@ -121,6 +123,7 @@ async function getPlanFromPriceId(priceId: string): Promise<{
   name: string | null;
 }> {
   if (!supabase) return { slug: null, name: null };
+
   const pid = clean(priceId);
   if (!pid) return { slug: null, name: null };
 
@@ -138,26 +141,47 @@ async function getPlanFromPriceId(priceId: string): Promise<{
   };
 }
 
-// =====================
-// Route
-// =====================
+/* =====================
+   GET (avoid 405 in browser)
+===================== */
+export async function GET() {
+  return NextResponse.json(
+    { ok: true, message: "Stripe webhook endpoint. Use POST from Stripe only." },
+    { status: 200 }
+  );
+}
+
+/* =====================
+   POST (Stripe webhook)
+===================== */
 export async function POST(req: Request) {
   try {
     if (!stripe) {
-      return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+      return NextResponse.json(
+        { ok: false, error: "Missing STRIPE_SECRET_KEY" },
+        { status: 500 }
+      );
     }
     if (!STRIPE_WEBHOOK_SECRET) {
-      return NextResponse.json({ error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
+      return NextResponse.json(
+        { ok: false, error: "Missing STRIPE_WEBHOOK_SECRET" },
+        { status: 500 }
+      );
     }
     if (!supabase) {
       return NextResponse.json(
-        { error: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
+        { ok: false, error: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
         { status: 500 }
       );
     }
 
     const sig = req.headers.get("stripe-signature");
-    if (!sig) return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
+    if (!sig) {
+      return NextResponse.json(
+        { ok: false, error: "Missing stripe-signature" },
+        { status: 400 }
+      );
+    }
 
     const rawBody = await req.text();
 
@@ -166,7 +190,7 @@ export async function POST(req: Request) {
       event = stripe.webhooks.constructEvent(rawBody, sig, STRIPE_WEBHOOK_SECRET);
     } catch (err: any) {
       return NextResponse.json(
-        { error: "Invalid signature", details: err?.message || String(err) },
+        { ok: false, error: "Invalid signature", details: err?.message || String(err) },
         { status: 400 }
       );
     }
@@ -183,7 +207,10 @@ export async function POST(req: Request) {
 
       if (!userId || userId === "guest") {
         return NextResponse.json(
-          { received: true, warning: "missing user_id (should not happen if login required)" },
+          {
+            received: true,
+            warning: "missing user_id (should not happen if login required)",
+          },
           { status: 200 }
         );
       }
@@ -212,7 +239,7 @@ export async function POST(req: Request) {
 
       const priceId = pickPriceIdFromSub(sub);
 
-      // ✅ On récupère le slug du plan (essential-month/unlimited-year/etc.)
+      // plan slug/name
       const plan = await getPlanFromPriceId(priceId);
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
@@ -223,11 +250,9 @@ export async function POST(req: Request) {
         stripe_subscription_id: subId || null,
         stripe_price_id: priceId || null,
 
-        // ✅ stockage plan
         plan_slug: plan.slug,
         plan_name: plan.name,
 
-        // ✅ ton app lit "status"
         status: status || null,
         current_period_end: currentPeriodEnd,
         canceled_at: canceledAt,
@@ -256,16 +281,11 @@ export async function POST(req: Request) {
       const userId = pickUserIdFromSubscription(sub);
       const customerId = pickCustomerId(sub);
 
-      const canceledAt = new Date().toISOString();
       const payload = {
         status: "canceled",
         current: false,
-        canceled_at: canceledAt,
+        canceled_at: new Date().toISOString(),
         current_period_end: null,
-
-        // optionnel: garder plan_slug ou le nuller
-        // plan_slug: null,
-        // plan_name: null,
       };
 
       if (userId) {
@@ -280,8 +300,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ received: true }, { status: 200 });
     }
 
+    // other events ignored
     return NextResponse.json({ received: true }, { status: 200 });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Webhook error" }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, error: err?.message || "Webhook error" },
+      { status: 500 }
+    );
   }
-         }
+}
