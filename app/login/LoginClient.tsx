@@ -32,20 +32,11 @@ function getStoredSign() {
   }
 }
 
-function setStoredSign(v: string) {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(LS_SIGN_KEY, v);
-  } catch {}
-}
-
-/** UI simple */
 function isValidEmail(em: string) {
   const v = (em || "").trim();
   return v.includes("@") && v.includes(".");
 }
 
-/** détecte “mauvais identifiants” (Supabase varie selon config/langue) */
 function looksLikeInvalidLogin(message: string) {
   const m = (message || "").toLowerCase();
   return (
@@ -57,9 +48,9 @@ function looksLikeInvalidLogin(message: string) {
 }
 
 /**
- * ✅ RÈGLE FINALE (comme tu veux):
+ * ✅ RÈGLE FINALE:
  * Après login:
- * - si next = /pricing => va /pricing
+ * - si next = /pricing => /pricing
  * - sinon:
  *    - si signe déjà choisi => /chat?signe=...
  *    - sinon => /onboarding/sign?next=/chat
@@ -95,7 +86,16 @@ export default function LoginClient() {
 
   const clearMsg = useCallback(() => setMsg(null), []);
 
-  // Boot: si déjà connecté => direct onboarding/sign ou chat (selon signe) ou pricing
+  // ✅ Ping "seen" pour remplir email_reminders + last_seen_at
+  const pingSeen = useCallback(async () => {
+    try {
+      await fetch("/api/reminders/seen", { method: "POST" });
+    } catch {
+      // silent
+    }
+  }, []);
+
+  // Boot: si déjà connecté => pingSeen puis redirect
   useEffect(() => {
     let mounted = true;
 
@@ -113,6 +113,7 @@ export default function LoginClient() {
         setAlreadyConnected(hasSession);
 
         if (hasSession) {
+          await pingSeen();
           router.replace(postLoginTarget);
         }
       } catch {
@@ -121,18 +122,21 @@ export default function LoginClient() {
       }
     })();
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
       const has = !!session;
       setAlreadyConnected(has);
-      if (has) setBusy(false);
+      if (has) {
+        setBusy(false);
+        await pingSeen();
+      }
     });
 
     return () => {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, [supabase, router, postLoginTarget, showMsg]);
+  }, [supabase, router, postLoginTarget, showMsg, pingSeen]);
 
   async function onEmailPassword(e: React.FormEvent) {
     e.preventDefault();
@@ -153,6 +157,7 @@ export default function LoginClient() {
     });
 
     if (signInData?.session) {
+      await pingSeen();
       router.replace(postLoginTarget);
       return;
     }
@@ -171,12 +176,13 @@ export default function LoginClient() {
         return showMsg(signUpError.message, "err");
       }
 
+      // Si ta config Supabase crée une session directe (rare si email confirm required)
       if (signUpData?.session) {
+        await pingSeen();
         router.replace(postLoginTarget);
         return;
       }
 
-      // Email confirmation requise
       setBusy(false);
       showMsg("Compte créé. Confirme l’email reçu, puis reconnecte-toi.", "ok");
       return;
@@ -194,8 +200,7 @@ export default function LoginClient() {
 
     const origin = window.location.origin;
 
-    // ✅ IMPORTANT: après OAuth, on veut la MÊME logique (pricing vs onboarding)
-    // Donc on passe next dans callback (qui redirigera ensuite vers /login?next=... si tu fais comme d’hab)
+    // Après OAuth: ton flow /auth/callback doit finir en session => onAuthStateChange fera pingSeen()
     const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
@@ -246,9 +251,6 @@ export default function LoginClient() {
 
     if (error) return showMsg(error.message, "err");
     setAlreadyConnected(false);
-
-    // optionnel: si tu veux repartir “propre”
-    // setStoredSign("");
 
     showMsg("Déconnectée.", "ok");
   }
@@ -301,7 +303,15 @@ export default function LoginClient() {
               </p>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <button type="button" className="btn" onClick={() => router.replace(postLoginTarget)} disabled={busy}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={async () => {
+                    await pingSeen();
+                    router.replace(postLoginTarget);
+                  }}
+                  disabled={busy}
+                >
                   Continuer
                 </button>
 
@@ -436,4 +446,4 @@ export default function LoginClient() {
       </main>
     </div>
   );
-                }
+}
