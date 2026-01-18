@@ -16,12 +16,10 @@ type PlanId =
 function s(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
-
 function cleanUrl(url: string) {
   const x = s(url);
   return x.endsWith("/") ? x.slice(0, -1) : x;
 }
-
 function isPlan(v: unknown): v is PlanId {
   return (
     v === "monthly_essential" ||
@@ -30,7 +28,6 @@ function isPlan(v: unknown): v is PlanId {
     v === "yearly_unlimited"
   );
 }
-
 function safeNext(next: unknown) {
   const fallback = "/chat?sign=belier";
   const x = s(next);
@@ -75,15 +72,11 @@ export async function POST(req: Request) {
 
     const body = (await req.json().catch(() => null)) as { plan?: unknown; next?: unknown } | null;
     if (!body) return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
-
-    if (!isPlan(body.plan)) {
-      return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
-    }
+    if (!isPlan(body.plan)) return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
 
     const plan = body.plan;
     const stripe_price_id = PRICE[plan];
     const pricing_plan_id = PRICING_PLAN_ID[plan];
-
     if (!stripe_price_id || !pricing_plan_id) {
       return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
     }
@@ -97,7 +90,7 @@ export async function POST(req: Request) {
 
     const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // Auth requis
+    // ✅ Auth requis (sinon pas de user_id -> FK)
     const supabase = createRouteHandlerClient({ cookies });
     const { data, error } = await supabase.auth.getSession();
     if (error) {
@@ -114,36 +107,34 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "AUTH_REQUIRED", require_auth: true, next }, { status: 401 });
     }
 
+    // ✅ metadata UNIQUE pour relier checkout -> user (webhook)
+    const commonMeta = {
+      app: "luna-astralis",
+      plan,
+      user_id,
+      user_email,
+      pricing_plan_id,
+      stripe_price_id,
+      next,
+    };
+
+    // ⚠️ Stripe: éviter customer_email si tu gères des customers autrement.
+    // Ici on le garde, MAIS on met aussi client_reference_id = user_id.
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: stripe_price_id, quantity: 1 }],
       allow_promotion_codes: true,
+
       success_url,
       cancel_url,
 
-      // ✅ important: aide le webhook à relier au user
       client_reference_id: user_id,
-      customer_email: user_email, // ✅ utile si pas de customer existant
+      customer_email: user_email,
 
-      metadata: {
-        app: "luna-astralis",
-        plan,
-        user_id,
-        user_email,
-        pricing_plan_id,
-        stripe_price_id,
-        next,
-      },
+      metadata: commonMeta,
 
       subscription_data: {
-        metadata: {
-          app: "luna-astralis",
-          plan,
-          user_id,
-          user_email,
-          pricing_plan_id,
-          stripe_price_id,
-        },
+        metadata: commonMeta,
       },
 
       payment_method_collection: "always",
