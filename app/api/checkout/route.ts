@@ -13,14 +13,13 @@ type PlanId =
   | "yearly_essential"
   | "yearly_unlimited";
 
-function cleanStr(v: unknown) {
+function s(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
 
 function cleanUrl(url: string) {
-  const s = cleanStr(url);
-  if (!s) return "";
-  return s.endsWith("/") ? s.slice(0, -1) : s;
+  const x = s(url);
+  return x.endsWith("/") ? x.slice(0, -1) : x;
 }
 
 function isPlan(v: unknown): v is PlanId {
@@ -32,105 +31,61 @@ function isPlan(v: unknown): v is PlanId {
   );
 }
 
-/** Autorise uniquement des chemins internes (/...) */
 function safeNext(next: unknown) {
   const fallback = "/chat?sign=belier";
-  const s = cleanStr(next);
-  if (!s) return fallback;
-
-  if (
-    s.startsWith("http://") ||
-    s.startsWith("https://") ||
-    s.startsWith("//") ||
-    s.includes("http://") ||
-    s.includes("https://")
-  ) {
-    return fallback;
-  }
-
-  return s.startsWith("/") ? s : `/${s}`;
+  const x = s(next);
+  if (!x) return fallback;
+  if (x.startsWith("http://") || x.startsWith("https://") || x.startsWith("//")) return fallback;
+  if (x.includes("http://") || x.includes("https://")) return fallback;
+  return x.startsWith("/") ? x : `/${x}`;
 }
 
-// =====================
 // ENV
-// =====================
-const STRIPE_SECRET_KEY = cleanStr(process.env.STRIPE_SECRET_KEY);
-const SITE_URL = cleanStr(process.env.NEXT_PUBLIC_SITE_URL);
+const STRIPE_SECRET_KEY = s(process.env.STRIPE_SECRET_KEY);
+const SITE_URL = s(process.env.NEXT_PUBLIC_SITE_URL);
 
-const STRIPE_PRICE_MONTHLY_ESSENTIAL = cleanStr(
-  process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL
-);
-const STRIPE_PRICE_MONTHLY_UNLIMITED = cleanStr(
-  process.env.STRIPE_PRICE_MONTHLY_UNLIMITED
-);
-const STRIPE_PRICE_YEARLY_ESSENTIAL = cleanStr(
-  process.env.STRIPE_PRICE_YEARLY_ESSENTIAL
-);
-const STRIPE_PRICE_YEARLY_UNLIMITED = cleanStr(
-  process.env.STRIPE_PRICE_YEARLY_UNLIMITED
-);
+const PRICE: Record<PlanId, string> = {
+  monthly_essential: s(process.env.STRIPE_PRICE_MONTHLY_ESSENTIAL),
+  monthly_unlimited: s(process.env.STRIPE_PRICE_MONTHLY_UNLIMITED),
+  yearly_essential: s(process.env.STRIPE_PRICE_YEARLY_ESSENTIAL),
+  yearly_unlimited: s(process.env.STRIPE_PRICE_YEARLY_UNLIMITED),
+};
 
-const PRICING_PLAN_MAP: Record<PlanId, string> = {
-  monthly_essential: cleanStr(process.env.PRICING_PLAN_MONTHLY_ESSENTIAL),
-  monthly_unlimited: cleanStr(process.env.PRICING_PLAN_MONTHLY_UNLIMITED),
-  yearly_essential: cleanStr(process.env.PRICING_PLAN_YEARLY_ESSENTIAL),
-  yearly_unlimited: cleanStr(process.env.PRICING_PLAN_YEARLY_UNLIMITED),
+const PRICING_PLAN_ID: Record<PlanId, string> = {
+  monthly_essential: s(process.env.PRICING_PLAN_MONTHLY_ESSENTIAL),
+  monthly_unlimited: s(process.env.PRICING_PLAN_MONTHLY_UNLIMITED),
+  yearly_essential: s(process.env.PRICING_PLAN_YEARLY_ESSENTIAL),
+  yearly_unlimited: s(process.env.PRICING_PLAN_YEARLY_UNLIMITED),
 };
 
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
 
-function priceIdFromPlan(plan: PlanId) {
-  switch (plan) {
-    case "monthly_essential":
-      return STRIPE_PRICE_MONTHLY_ESSENTIAL;
-    case "monthly_unlimited":
-      return STRIPE_PRICE_MONTHLY_UNLIMITED;
-    case "yearly_essential":
-      return STRIPE_PRICE_YEARLY_ESSENTIAL;
-    case "yearly_unlimited":
-      return STRIPE_PRICE_YEARLY_UNLIMITED;
-  }
-}
-
 export async function POST(req: Request) {
   try {
     if (!stripe) {
-      return NextResponse.json(
-        { error: "STRIPE_SECRET_KEY_MISSING" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "STRIPE_SECRET_KEY_MISSING" }, { status: 500 });
     }
 
     const site = cleanUrl(SITE_URL);
     if (!site) {
-      return NextResponse.json(
-        { error: "NEXT_PUBLIC_SITE_URL_MISSING" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "NEXT_PUBLIC_SITE_URL_MISSING" }, { status: 500 });
     }
 
-    const body = (await req.json().catch(() => null)) as
-      | { plan?: unknown; next?: unknown }
-      | null;
-
-    if (!body)
-      return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
+    const body = (await req.json().catch(() => null)) as { plan?: unknown; next?: unknown } | null;
+    if (!body) return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
 
     if (!isPlan(body.plan)) {
       return NextResponse.json({ error: "INVALID_PLAN" }, { status: 400 });
     }
 
     const plan = body.plan;
-    const stripe_price_id = priceIdFromPlan(plan);
-    const pricing_plan_id = PRICING_PLAN_MAP[plan];
+    const stripe_price_id = PRICE[plan];
+    const pricing_plan_id = PRICING_PLAN_ID[plan];
 
     if (!stripe_price_id || !pricing_plan_id) {
-      return NextResponse.json(
-        { error: "PLAN_CONFIG_MISSING" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
     }
 
     const next = safeNext(body.next);
@@ -140,49 +95,36 @@ export async function POST(req: Request) {
       `?next=${encodeURIComponent(next)}` +
       `&session_id={CHECKOUT_SESSION_ID}`;
 
-    const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(
-      next
-    )}`;
+    const cancel_url = `${site}/pricing?canceled=1&next=${encodeURIComponent(next)}`;
 
-    // ✅ auth requis
+    // Auth requis
     const supabase = createRouteHandlerClient({ cookies });
-    const { data: sess, error: sessErr } = await supabase.auth.getSession();
-
-    if (sessErr) {
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
       return NextResponse.json(
-        {
-          error: "SESSION_ERROR",
-          detail: sessErr.message,
-          require_auth: true,
-          next,
-        },
+        { error: "SESSION_ERROR", detail: error.message, require_auth: true, next },
         { status: 401 }
       );
     }
 
-    const user = sess?.session?.user ?? null;
-    const user_id = user?.id ?? "";
-    const user_email = user?.email ?? "";
-
+    const user = data?.session?.user;
+    const user_id = user?.id || "";
+    const user_email = user?.email || "";
     if (!user_id || !user_email) {
-      return NextResponse.json(
-        { error: "AUTH_REQUIRED", require_auth: true, next },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "AUTH_REQUIRED", require_auth: true, next }, { status: 401 });
     }
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [{ price: stripe_price_id, quantity: 1 }],
       allow_promotion_codes: true,
-
       success_url,
       cancel_url,
 
-      // ✅ lien webhook -> user
+      // ✅ important: aide le webhook à relier au user
       client_reference_id: user_id,
+      customer_email: user_email, // ✅ utile si pas de customer existant
 
-      // metadata Checkout
       metadata: {
         app: "luna-astralis",
         plan,
@@ -193,7 +135,6 @@ export async function POST(req: Request) {
         next,
       },
 
-      // metadata Subscription (pour customer.subscription.*)
       subscription_data: {
         metadata: {
           app: "luna-astralis",
@@ -208,15 +149,9 @@ export async function POST(req: Request) {
       payment_method_collection: "always",
     });
 
-    return NextResponse.json(
-      { url: session.url, session_id: session.id },
-      { status: 200 }
-    );
-  } catch (err) {
+    return NextResponse.json({ url: session.url, session_id: session.id }, { status: 200 });
+  } catch (err: any) {
     console.error("[checkout]", err);
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "CHECKOUT_ERROR" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: err?.message || "CHECKOUT_ERROR" }, { status: 500 });
   }
 }
