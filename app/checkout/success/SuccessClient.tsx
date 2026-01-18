@@ -17,17 +17,17 @@ export default function SuccessClient() {
     ran.current = true;
 
     (async () => {
-      // ✅ 1) Déclenche conversion Google Ads (AVANT redirect)
+      // ✅ Conversion Google Ads (seulement si gtag existe déjà)
       try {
         // @ts-ignore
         window.gtag?.("event", "conversion", {
-          send_to: "AW-XXXXXXXXX/XXXXXXXXXXXX", // <-- ton code Google Ads
+          send_to: "AW-17878472225/YVPXCMjRqQcbEKGsj81C",
         });
       } catch {}
 
       const supabase = createClientComponentClient();
 
-      // ✅ 2) sync Stripe (optionnel)
+      // (optionnel) sync Stripe
       if (sessionId) {
         try {
           await fetch("/api/stripe/sync", {
@@ -38,7 +38,7 @@ export default function SuccessClient() {
         } catch {}
       }
 
-      // ✅ 3) redirect final
+      // redirect final
       const { data } = await supabase.auth.getSession();
       const isAuth = !!data.session;
 
@@ -57,3 +57,4 @@ export default function SuccessClient() {
     </div>
   );
 }
+
