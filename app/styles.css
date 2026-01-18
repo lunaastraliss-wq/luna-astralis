@@ -823,6 +823,9 @@ body::after{
   border-radius: 23px;
   background: rgba(2,6,23,.85);
   object-fit: cover;
+
+  /* ✅ Remonte l'image pour voir le haut de la tête */
+  transform: translateY(-12px);
 }
 
 /* ✅ Bouton son + hint (collé, propre) */
