@@ -51,19 +51,19 @@ const MINI_REVIEWS: MiniReview[] = [
     sign: "♈ Bélier",
     name: "Marie L.",
     text:
-      "“Je suis Bélier et ça m’a fait du bien. Ça m’a aidée à ralentir sans me sentir faible, et à canaliser mon énergie au lieu de tout garder en dedans.”",
+      "“Ça m’a fait du bien. J’ai ralenti sans culpabiliser, et j’ai enfin canalisé mon énergie.”",
   },
   {
     sign: "♊ Gémeaux",
     name: "Julie R.",
     text:
-      "“En tant que Gémeaux, j’ai toujours 1000 pensées en même temps… Là, j’ai enfin réussi à clarifier ce que je ressens. C’est comme si ça suivait mon rythme mental.”",
+      "“Je suis Gémeaux et j’ai mille pensées. Là, j’ai réussi à clarifier ce que je ressens. Ça suit vraiment mon rythme.”",
   },
   {
     sign: "♋ Cancer",
     name: "Camille D.",
     text:
-      "“Je suis Cancer et j’ai été surprise… c’était tellement doux et juste. Ça m’a réconfortée et ça m’a aidée à comprendre ce que je porte émotionnellement.”",
+      "“C’était doux, juste, et réconfortant. Ça m’a aidée à comprendre ce que je porte émotionnellement.”",
   },
 ];
 
