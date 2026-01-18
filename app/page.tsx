@@ -180,7 +180,12 @@ export default function HomePage() {
     <div className="page-astro">
       {/* HEADER */}
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
+        <Link
+          className="brand"
+          href="/"
+          aria-label="Accueil Luna Astralis"
+          onClick={closeMenu}
+        >
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -198,7 +203,11 @@ export default function HomePage() {
               Comment ça fonctionne
             </a>
 
-            <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
+            <a
+              href="#signes"
+              className="btn btn-small btn-ghost"
+              onClick={onNavTo("signes")}
+            >
               Choisir un signe
             </a>
 
@@ -290,13 +299,31 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* 🎥 VIDEO WELCOME (Astro frame) */}
+            <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
+              <div className="astro-video-frame">
+                <video
+                  className="astro-video"
+                  src="/luna_welcome_fr.mp4"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                />
+              </div>
+              <p className="astro-video-caption">Bienvenue sur Luna Astralis ✨</p>
+            </div>
+
             {/* ⭐ MINI REVIEWS (3 cartes côte à côte) */}
             <section className="mini-reviews" aria-label="Avis 5 étoiles">
               {MINI_REVIEWS.map((r) => (
                 <article key={r.name + r.sign} className="mini-review">
                   <div className="mini-review-top">
                     <div className="mini-review-name">{r.name}</div>
-                    <div className="mini-review-stars" aria-label="5 étoiles">★★★★★</div>
+                    <div className="mini-review-stars" aria-label="5 étoiles">
+                      ★★★★★
+                    </div>
                   </div>
                   <div className="mini-review-sign">{r.sign}</div>
                   <p className="mini-review-text">{r.text}</p>
@@ -324,7 +351,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">♈</span>
+                <span className="step-ico" aria-hidden="true">
+                  ♈
+                </span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -333,7 +362,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">🔐</span>
+                <span className="step-ico" aria-hidden="true">
+                  🔐
+                </span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -342,7 +373,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">✧</span>
+                <span className="step-ico" aria-hidden="true">
+                  ✧
+                </span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -351,7 +384,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">☾</span>
+                <span className="step-ico" aria-hidden="true">
+                  ☾
+                </span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
@@ -425,3 +460,4 @@ export default function HomePage() {
     </div>
   );
 }
+
