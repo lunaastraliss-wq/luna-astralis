@@ -793,17 +793,17 @@ body::after{
 
 /* ===== Astro video frame (smaller + sound button) ===== */
 .astro-video-wrap{
-  margin: 16px auto 10px;
+  margin: 10px auto 8px;              /* ⬅️ moins d’espace */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;                           /* ⬅️ plus compact */
 }
 
-/* ✅ Taille contrôlée (moins gros) */
+/* ✅ Taille contrôlée (moins gros + premium) */
 .astro-video-frame{
-  width: min(320px, 92vw);     /* ⬅️ plus petit */
-  height: 420px;              /* ⬅️ plus petit */
+  width: min(320px, 92vw);
+  height: 420px;
   border-radius: 26px;
   padding: 3px;
 
@@ -825,25 +825,32 @@ body::after{
   object-fit: cover;
 }
 
-/* ✅ Bouton son + hint */
+/* ✅ Bouton son + hint (collé, propre) */
 .astro-video-actions{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
+  margin-top: -2px;                   /* ⬅️ rapproche du frame */
 }
 
 .astro-video-hint{
+  margin: 0;
   font-size: 12px;
-  color: rgba(226,232,240,.72);
-  line-height: 1.4;
+  color: rgba(226,232,240,.68);
+  line-height: 1.35;
 }
 
+/* ✅ Caption plus premium (glow léger) */
 .astro-video-caption{
+  margin-top: 4px;
   font-size: 12px;
-  color: rgba(226,232,240,.80);
+  font-weight: 900;
+  letter-spacing: .01em;
+  color: rgba(255,255,255,.88);
   text-align: center;
+  text-shadow: 0 0 18px rgba(183,156,255,.20);
 }
 
 /* Option: encore plus petit sur très petits écrans */
