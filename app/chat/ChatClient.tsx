@@ -77,6 +77,8 @@ const SIGN_BOOKS: Record<string, string> = {
   poissons: "https://a.co/d/hIM81yC",
 };
 
+/* ---------------- helpers ---------------- */
+
 function norm(s: string) {
   return (s || "")
     .toLowerCase()
@@ -137,8 +139,11 @@ function makeGuestIdLocal(): string {
       typeof (window.crypto as any).randomUUID === "function" &&
       (window.crypto as any).randomUUID()) ||
     `${Math.random().toString(36).slice(2)}${Date.now()}`;
+
   return String(rand).replace(/-/g, "");
 }
+
+/* ---------------- component ---------------- */
 
 export default function ChatClient() {
   const router = useRouter();
@@ -188,15 +193,22 @@ export default function ChatClient() {
     [signKey]
   );
 
-  const signName = useMemo(() => (signKey ? SIGNS[signKey] || "—" : "—"), [signKey]);
+  const signName = useMemo(
+    () => (signKey ? SIGNS[signKey] || "—" : "—"),
+    [signKey]
+  );
 
   const signDesc = useMemo(() => {
-    const fallback = "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+    const fallback =
+      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
     if (!signKey) return fallback;
     return SIGN_DESC[signKey] || fallback;
   }, [signKey]);
 
-  const bookUrl = useMemo(() => (signKey ? SIGN_BOOKS[signKey] || "" : ""), [signKey]);
+  const bookUrl = useMemo(
+    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
+    [signKey]
+  );
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
@@ -234,19 +246,14 @@ export default function ChatClient() {
     [KEY_SERVER_THREAD_ID]
   );
 
-  const getSavedRemaining = useCallback(() => {
-    if (typeof window === "undefined") return FREE_LIMIT;
-    const n = clampInt(localStorage.getItem(KEY_SERVER_REMAINING), FREE_LIMIT);
-    if (n < 0) return 0;
-    if (n > FREE_LIMIT) return FREE_LIMIT;
-    return n;
-  }, [KEY_SERVER_REMAINING]);
-
   const setSavedRemaining = useCallback(
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+        localStorage.setItem(
+          KEY_SERVER_REMAINING,
+          String(Math.max(0, Math.trunc(n)))
+        );
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -298,7 +305,9 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -314,7 +323,10 @@ export default function ChatClient() {
 
   const refreshQuotaFromServer = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat/quota", { method: "GET", cache: "no-store" });
+      const res = await fetch("/api/chat/quota", {
+        method: "GET",
+        cache: "no-store",
+      });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
@@ -348,7 +360,9 @@ export default function ChatClient() {
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      router.push(`/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`);
+      router.push(
+        `/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`
+      );
     },
     [router, currentPathWithQuery]
   );
@@ -367,6 +381,8 @@ export default function ChatClient() {
 
   const closePaywall = useCallback(() => setPaywallOpen(false), []);
 
+  /* ---------------- boot logic ---------------- */
+
   useEffect(() => {
     let alive = true;
 
@@ -382,6 +398,7 @@ export default function ChatClient() {
       setUserId(uid);
       setSessionEmail(email);
 
+      // load cached remaining quickly
       try {
         const key = uid
           ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
@@ -395,6 +412,9 @@ export default function ChatClient() {
       await refreshQuotaFromServer();
       setQuotaReady(true);
 
+      // choose sign priority:
+      // 1) URL
+      // 2) stored
       const urlSign = signFromUrl && SIGNS[signFromUrl] ? signFromUrl : "";
       const stored = getStoredSign();
       const storedOk = stored && SIGNS[stored] ? stored : "";
@@ -404,6 +424,7 @@ export default function ChatClient() {
         setSignKey(chosen);
         storeSign(chosen);
 
+        // keep URL synced
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already) {
@@ -411,8 +432,12 @@ export default function ChatClient() {
           }
         }
       } else {
-        if (authed) router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
-        else router.replace("/");
+        // no sign known
+        if (authed) {
+          router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
+        } else {
+          router.replace("/");
+        }
       }
 
       setBooted(true);
@@ -461,6 +486,8 @@ export default function ChatClient() {
 
   const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
 
+  /* ---------------- chat call ---------------- */
+
   const askLuna = useCallback(
     async (userText: string) => {
       const session = await getSessionSafe();
@@ -476,6 +503,7 @@ export default function ChatClient() {
         guestId: getGuestId(),
       };
 
+      // guest: keep server thread id
       if (!authed) {
         const tid = getServerThreadId();
         if (tid) payload.threadId = tid;
@@ -567,7 +595,12 @@ export default function ChatClient() {
         return;
       }
 
-      if (quotaReady && plan === "free" && typeof freeLeft === "number" && freeLeft <= 0) {
+      if (
+        quotaReady &&
+        plan === "free" &&
+        typeof freeLeft === "number" &&
+        freeLeft <= 0
+      ) {
         openPaywallGuest();
         return;
       }
@@ -595,7 +628,8 @@ export default function ChatClient() {
         }
 
         const msg =
-          "Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? `(${err.message})` : "");
+          "Erreur. Vérifie /api/chat sur Vercel. " +
+          (err?.message ? `(${err.message})` : "");
 
         const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
         saveThreadLocal(t2);
@@ -617,7 +651,8 @@ export default function ChatClient() {
     ]
   );
 
-  // ✅ Déconnexion + retour à la page principale
+  /* ---------------- logout ---------------- */
+
   const onLogout = useCallback(
     async (e: React.MouseEvent) => {
       e.preventDefault();
@@ -626,27 +661,28 @@ export default function ChatClient() {
         await supabase.auth.signOut();
       } catch {}
 
-      // ferme tout
+      // close UI
       setPaywallOpen(false);
       setHistoryOpen(false);
-
       closePaywall();
 
-      // reset state
+      // reset auth state
       setIsAuth(false);
       setSessionEmail("");
       setUserId("");
       setPlan("guest");
 
-      // si tu préfères garder le signe, ne touche pas au storage.
-      // si tu veux effacer aussi, décommente :
-      // try { localStorage.removeItem(KEY_GUEST_ID); } catch {}
+      // IMPORTANT:
+      // On garde le dernier signe (la_sign) pour que la reconnexion retourne au bon signe.
 
-      // ✅ redirect accueil
+      // redirect accueil + refresh (évite les UI "stuck")
       router.replace("/");
+      router.refresh();
     },
     [closePaywall, router]
   );
+
+  /* ---------------- actions ---------------- */
 
   const onClearHistoryLocal = useCallback(() => {
     if (!signKey) return;
@@ -673,12 +709,15 @@ export default function ChatClient() {
     router.push(`/login?next=${next}`);
   }, [router, currentPathWithQuery]);
 
+  /* ---------------- render ---------------- */
+
   if (!booted || !signKey) {
     return (
       <div className="chat-body">
         <div className="chat-top">
           <TopBar isAuth={isAuth === true} onLogout={onLogout} />
         </div>
+
         <main className="chat-wrap" role="main" style={{ padding: 24 }}>
           <div>Chargement…</div>
         </main>
@@ -704,9 +743,15 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
+          {/* Mobile sign card */}
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
-              <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
+              <img
+                className="msc-avatar"
+                src="/ia-luna-astralis.png"
+                alt="Luna"
+                loading="lazy"
+              />
               <div className="msc-text">
                 <div className="msc-title">{signName}</div>
                 <div className="msc-sub">{signDesc}</div>
@@ -715,7 +760,12 @@ export default function ChatClient() {
 
             <div className="msc-actions">
               {bookUrl ? (
-                <a className="btn btn-small btn-ghost" href={bookUrl} target="_blank" rel="noreferrer">
+                <a
+                  className="btn btn-small btn-ghost"
+                  href={bookUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Approfondir →
                 </a>
               ) : null}
@@ -723,11 +773,14 @@ export default function ChatClient() {
 
             {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
-                {freeLeft > 0 ? `Il te reste ${freeLeft} message(s) gratuit(s).` : "Limite gratuite atteinte."}
+                {freeLeft > 0
+                  ? `Il te reste ${freeLeft} message(s) gratuit(s).`
+                  : "Limite gratuite atteinte."}
               </div>
             ) : null}
           </div>
 
+          {/* Actions bar */}
           <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
             <div className="cab-left">
               <span className="cab-pill">{signName}</span>
@@ -752,7 +805,11 @@ export default function ChatClient() {
                 Forfaits
               </button>
 
-              <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
+              <button
+                type="button"
+                className="btn btn-small btn-ghost"
+                onClick={() => setHistoryOpen(true)}
+              >
                 Historique
               </button>
             </div>
@@ -781,6 +838,7 @@ export default function ChatClient() {
         nextUrl={currentPathWithQuery()}
       />
 
+      {/* tu me donnes ton CSS après et je te le rends + premium */}
       <style jsx>{`
         .chat-actions-bar {
           display: flex;
