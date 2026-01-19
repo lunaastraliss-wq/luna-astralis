@@ -64,6 +64,25 @@ function computePostLoginTarget(nextUrl: string) {
   return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
+/** ✅ Conversion Google Ads = Login réussi (anti-double) */
+function trackLoginConversionOnce() {
+  if (typeof window === "undefined") return;
+
+  const g = (window as any).gtag;
+  if (typeof g !== "function") return;
+
+  // Anti-double: évite 2 conversions (boot + redirect, etc.)
+  if (sessionStorage.getItem("la_login_conv") === "1") return;
+  sessionStorage.setItem("la_login_conv", "1");
+
+  g("event", "conversion", {
+    // ⚠️ ton send_to actuel (snippet Google Ads)
+    send_to: "AW-17878472225/f8fMCMDpDy-gbEKGs181C",
+    value: 1.0,
+    currency: "CAD",
+  });
+}
+
 export default function LoginClient() {
   const router = useRouter();
   const sp = useSearchParams();
@@ -95,7 +114,7 @@ export default function LoginClient() {
     }
   }, []);
 
-  // Boot: si déjà connecté => pingSeen puis redirect
+  // Boot: si déjà connecté => conversion + pingSeen + redirect
   useEffect(() => {
     let mounted = true;
 
@@ -113,6 +132,7 @@ export default function LoginClient() {
         setAlreadyConnected(hasSession);
 
         if (hasSession) {
+          trackLoginConversionOnce();
           await pingSeen();
           router.replace(postLoginTarget);
         }
@@ -129,6 +149,7 @@ export default function LoginClient() {
       if (has) {
         setBusy(false);
         await pingSeen();
+        // ⚠️ ici, pas besoin de conversion, on l’envoie déjà au moment du login OK
       }
     });
 
@@ -157,6 +178,7 @@ export default function LoginClient() {
     });
 
     if (signInData?.session) {
+      trackLoginConversionOnce();
       await pingSeen();
       router.replace(postLoginTarget);
       return;
@@ -178,6 +200,7 @@ export default function LoginClient() {
 
       // Si ta config Supabase crée une session directe (rare si email confirm required)
       if (signUpData?.session) {
+        trackLoginConversionOnce();
         await pingSeen();
         router.replace(postLoginTarget);
         return;
@@ -252,6 +275,11 @@ export default function LoginClient() {
     if (error) return showMsg(error.message, "err");
     setAlreadyConnected(false);
 
+    // reset anti-double conversion pour le prochain login
+    try {
+      sessionStorage.removeItem("la_login_conv");
+    } catch {}
+
     showMsg("Déconnectée.", "ok");
   }
 
@@ -307,6 +335,7 @@ export default function LoginClient() {
                   type="button"
                   className="btn"
                   onClick={async () => {
+                    trackLoginConversionOnce();
                     await pingSeen();
                     router.replace(postLoginTarget);
                   }}
