@@ -8,19 +8,39 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type MsgType = "ok" | "err" | "info";
 
 const LS_SIGN_KEY = "la_sign";
+const FALLBACK_NEXT = "/chat";
 
-/** ✅ Empêche les redirections externes + évite les boucles login/auth */
+/** ✅ Anti open-redirect + évite boucles */
 function safeNext(raw: string | null) {
   const s = (raw || "").trim();
-  const fallback = "/chat";
+  if (!s) return FALLBACK_NEXT;
 
-  if (!s) return fallback;
-  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
+  // Block absolute / protocol-relative
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return FALLBACK_NEXT;
 
   const path = s.startsWith("/") ? s : `/${s}`;
-  if (path.startsWith("/login") || path.startsWith("/auth")) return fallback;
 
-  return path;
+  // ✅ Autorise uniquement /login?next=/chat (cas spécial OAuth)
+  if (path.startsWith("/login")) {
+    try {
+      const u = new URL(path, "http://dummy.local");
+      const n = (u.searchParams.get("next") || "").trim();
+      if (n === "/chat") return "/login?next=/chat";
+    } catch {}
+    return FALLBACK_NEXT;
+  }
+
+  // Evite loops
+  if (path.startsWith("/auth") || path.startsWith("/signup")) return FALLBACK_NEXT;
+
+  // Autorise zones utiles
+  const allowed =
+    path.startsWith("/chat") ||
+    path.startsWith("/pricing") ||
+    path.startsWith("/onboarding") ||
+    path.startsWith("/checkout/success");
+
+  return allowed ? path : FALLBACK_NEXT;
 }
 
 function getStoredSign() {
@@ -49,34 +69,31 @@ function looksLikeInvalidLogin(message: string) {
 
 /**
  * ✅ RÈGLE FINALE:
- * Après login:
  * - si next = /pricing => /pricing
  * - sinon:
- *    - si signe déjà choisi => /chat?signe=...
+ *    - si signe => /chat?sign=...
  *    - sinon => /onboarding/sign?next=/chat
  */
 function computePostLoginTarget(nextUrl: string) {
-  if (nextUrl && nextUrl === "/pricing") return "/pricing";
+  if (nextUrl === "/pricing") return "/pricing";
 
   const s = getStoredSign();
-  if (s) return `/chat?signe=${encodeURIComponent(s)}`;
+  if (s) return `/chat?sign=${encodeURIComponent(s)}`;
 
   return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
 }
 
-/** ✅ Conversion Google Ads = Login réussi (anti-double) */
+/** ✅ Conversion Google Ads = login OK (anti-double) */
 function trackLoginConversionOnce() {
   if (typeof window === "undefined") return;
 
   const g = (window as any).gtag;
   if (typeof g !== "function") return;
 
-  // Anti-double: évite 2 conversions (boot + redirect, etc.)
   if (sessionStorage.getItem("la_login_conv") === "1") return;
   sessionStorage.setItem("la_login_conv", "1");
 
   g("event", "conversion", {
-    // ⚠️ ton send_to actuel (snippet Google Ads)
     send_to: "AW-17878472225/f8fMCMDpDy-gbEKGs181C",
     value: 1.0,
     currency: "CAD",
@@ -88,7 +105,10 @@ export default function LoginClient() {
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
+  // next venant de l’URL
   const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
+
+  // destination finale après login (en fonction de la_sign)
   const postLoginTarget = useMemo(() => computePostLoginTarget(nextUrl), [nextUrl]);
 
   const [email, setEmail] = useState("");
@@ -105,16 +125,14 @@ export default function LoginClient() {
 
   const clearMsg = useCallback(() => setMsg(null), []);
 
-  // ✅ Ping "seen" pour remplir email_reminders + last_seen_at
+  // ping "seen"
   const pingSeen = useCallback(async () => {
     try {
       await fetch("/api/reminders/seen", { method: "POST" });
-    } catch {
-      // silent
-    }
+    } catch {}
   }, []);
 
-  // Boot: si déjà connecté => conversion + pingSeen + redirect
+  // Boot: si déjà connecté -> go direct
   useEffect(() => {
     let mounted = true;
 
@@ -132,6 +150,8 @@ export default function LoginClient() {
         setAlreadyConnected(hasSession);
 
         if (hasSession) {
+          // ✅ Ici, on est sûr que c’est un login "réussi" (session existante)
+          // (ex: après OAuth callback, ou déjà loggé)
           trackLoginConversionOnce();
           await pingSeen();
           router.replace(postLoginTarget);
@@ -144,12 +164,16 @@ export default function LoginClient() {
 
     const { data: sub } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
+
       const has = !!session;
       setAlreadyConnected(has);
+
       if (has) {
         setBusy(false);
+        // conversion + redirect ici aussi (OAuth termine souvent par onAuthStateChange)
+        trackLoginConversionOnce();
         await pingSeen();
-        // ⚠️ ici, pas besoin de conversion, on l’envoie déjà au moment du login OK
+        router.replace(postLoginTarget);
       }
     });
 
@@ -184,7 +208,7 @@ export default function LoginClient() {
       return;
     }
 
-    // 2) Identifiants invalides => signup auto
+    // 2) Si identifiants invalides -> signup auto
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Création du compte…", "info");
 
@@ -198,7 +222,6 @@ export default function LoginClient() {
         return showMsg(signUpError.message, "err");
       }
 
-      // Si ta config Supabase crée une session directe (rare si email confirm required)
       if (signUpData?.session) {
         trackLoginConversionOnce();
         await pingSeen();
@@ -223,8 +246,10 @@ export default function LoginClient() {
 
     const origin = window.location.origin;
 
-    // Après OAuth: ton flow /auth/callback doit finir en session => onAuthStateChange fera pingSeen()
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(nextUrl)}`;
+    // ✅ Forcer le retour via /login?next=/chat (pour relire localStorage la_sign)
+    const forcedNextAfterCallback = "/login?next=/chat";
+
+    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(forcedNextAfterCallback)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -247,9 +272,7 @@ export default function LoginClient() {
     clearMsg();
 
     const em = email.trim();
-    if (!isValidEmail(em)) {
-      return showMsg("Entre ton email, puis clique “Mot de passe oublié ?”.", "err");
-    }
+    if (!isValidEmail(em)) return showMsg("Entre ton email, puis clique “Mot de passe oublié ?”.", "err");
 
     setBusy(true);
     showMsg("Envoi du lien…", "info");
@@ -275,7 +298,6 @@ export default function LoginClient() {
     if (error) return showMsg(error.message, "err");
     setAlreadyConnected(false);
 
-    // reset anti-double conversion pour le prochain login
     try {
       sessionStorage.removeItem("la_login_conv");
     } catch {}
@@ -284,13 +306,7 @@ export default function LoginClient() {
   }
 
   const msgClass =
-    msg?.type === "ok"
-      ? "is-ok"
-      : msg?.type === "err"
-      ? "is-err"
-      : msg?.type === "info"
-      ? "is-info"
-      : "";
+    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
 
   return (
     <div className="auth-body">
