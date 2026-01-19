@@ -18,12 +18,22 @@ function safeNext(raw: string | null): string {
 
   const path = s.startsWith("/") ? s : `/${s}`;
 
-  // Avoid loops
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/auth")) {
+  // ✅ Cas spécial autorisé: /login?next=/chat (permet de repasser par LoginClient)
+  if (path.startsWith("/login")) {
+    try {
+      const u = new URL(path, "http://dummy.local");
+      const n = (u.searchParams.get("next") || "").trim();
+      if (n === "/chat") return "/login?next=/chat";
+    } catch {}
     return FALLBACK_NEXT;
   }
 
-  // Allow only your intended areas
+  // Avoid loops
+  if (path.startsWith("/signup") || path.startsWith("/auth")) {
+    return FALLBACK_NEXT;
+  }
+
+  // Allow only intended areas
   const allowed =
     path.startsWith("/chat") ||
     path.startsWith("/pricing") ||
@@ -36,13 +46,17 @@ function safeNext(raw: string | null): string {
 function buildLoginRedirect(origin: string, next: string, extra?: Record<string, string>) {
   const redirectUrl = new URL("/login", origin);
   redirectUrl.searchParams.set("oauth", "1");
-  redirectUrl.searchParams.set("next", next);
+
+  // ✅ IMPORTANT: on force next=/chat pour que LoginClient gère /chat?sign=...
+  // (LoginClient lit localStorage la_sign et redirige correctement)
+  redirectUrl.searchParams.set("next", "/chat");
 
   if (extra) {
     for (const [k, v] of Object.entries(extra)) {
       if (v !== undefined && v !== null) redirectUrl.searchParams.set(k, v);
     }
   }
+
   return NextResponse.redirect(redirectUrl);
 }
 
@@ -51,14 +65,17 @@ export async function GET(req: Request) {
   const origin = url.origin;
 
   const code = url.searchParams.get("code");
-  const next = safeNext(url.searchParams.get("next"));
+
+  // ✅ On accepte éventuellement un next fourni, mais on le "sanitize"
+  // (même si on force ensuite next=/chat dans buildLoginRedirect)
+  const _next = safeNext(url.searchParams.get("next"));
 
   // OAuth provider errors
   const oauthError = url.searchParams.get("error");
   const oauthErrorDesc = url.searchParams.get("error_description");
 
   if (oauthError) {
-    return buildLoginRedirect(origin, next, {
+    return buildLoginRedirect(origin, _next, {
       error: oauthError,
       error_description: oauthErrorDesc || "",
     });
@@ -66,7 +83,7 @@ export async function GET(req: Request) {
 
   // No code => return to login
   if (!code) {
-    return buildLoginRedirect(origin, next, { error: "missing_code" });
+    return buildLoginRedirect(origin, _next, { error: "missing_code" });
   }
 
   // Exchange code for session (sets auth cookies)
@@ -74,18 +91,17 @@ export async function GET(req: Request) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
-    return buildLoginRedirect(origin, next, {
+    return buildLoginRedirect(origin, _next, {
       error: "exchange_failed",
       error_description: error.message,
     });
   }
 
   /**
-   * ✅ IMPORTANT
-   * Après OAuth, on repasse TOUJOURS par /login.
-   * Car /login (client) peut lire localStorage (la_sign) et rediriger vers:
-   * - /chat?signe=...
+   * ✅ Après OAuth, on repasse TOUJOURS par /login.
+   * /login (client) lit localStorage (la_sign) et redirige vers:
+   * - /chat?sign=... (✅ PAS "signe")
    * - ou /onboarding/sign si aucun signe
    */
-  return buildLoginRedirect(origin, next);
+  return buildLoginRedirect(origin, _next);
 }
