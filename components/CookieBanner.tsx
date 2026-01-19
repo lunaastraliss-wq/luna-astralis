@@ -2,14 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-/**
- * Luna Astralis — Cookie Banner (FR only)
- * - Stocke le choix dans localStorage
- * - Met à jour Google Consent Mode via gtag (Google Ads)
- * - Valeur par défaut : refus des cookies non essentiels (case décochée)
- */
-
-const CONSENT_KEY = "luna_astralis_cookie_consent_v1"; // values: "all" | "necessary"
+const CONSENT_KEY = "luna_astralis_cookie_consent_v1"; // "all" | "necessary" | "analytics"
 
 declare global {
   interface Window {
@@ -17,53 +10,46 @@ declare global {
   }
 }
 
-function readConsent(): "all" | "necessary" | null {
+function readConsent(): "all" | "necessary" | "analytics" | null {
   if (typeof window === "undefined") return null;
   try {
     const v = localStorage.getItem(CONSENT_KEY);
-    return v === "all" || v === "necessary" ? v : null;
+    return v === "all" || v === "necessary" || v === "analytics" ? v : null;
   } catch {
     return null;
   }
 }
 
-function writeConsent(v: "all" | "necessary") {
+function writeConsent(v: "all" | "necessary" | "analytics") {
   try {
     localStorage.setItem(CONSENT_KEY, v);
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
-/**
- * ✅ Google Consent Mode update (robuste: retry si gtag pas prêt)
- * allowAnalytics = true  => granted
- * allowAnalytics = false => denied
- */
-function pushGtagConsent(allowAnalytics: boolean) {
+function pushGtagConsent(opts: { ads: boolean; analytics: boolean }) {
   if (typeof window === "undefined") return;
 
   const update = () => {
     if (typeof window.gtag !== "function") return false;
 
     window.gtag("consent", "update", {
-      ad_storage: allowAnalytics ? "granted" : "denied",
-      analytics_storage: allowAnalytics ? "granted" : "denied",
-      ad_user_data: allowAnalytics ? "granted" : "denied",
-      ad_personalization: allowAnalytics ? "granted" : "denied",
+      // Ads
+      ad_storage: opts.ads ? "granted" : "denied",
+      ad_user_data: opts.ads ? "granted" : "denied",
+      ad_personalization: opts.ads ? "granted" : "denied",
+      // Analytics
+      analytics_storage: opts.analytics ? "granted" : "denied",
     });
 
     return true;
   };
 
-  // tente tout de suite
   if (update()) return;
 
-  // sinon, retry court (gtag peut charger afterInteractive)
   let tries = 0;
   const t = window.setInterval(() => {
     tries++;
-    if (update() || tries >= 10) window.clearInterval(t); // ~2s max
+    if (update() || tries >= 10) window.clearInterval(t);
   }, 200);
 }
 
@@ -71,31 +57,44 @@ export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
-  // ✅ Par défaut: analytics OFF tant que l’utilisateur n’a pas accepté
+  // uniquement la mesure d’audience ici
   const [analyticsAllowed, setAnalyticsAllowed] = useState(false);
 
-  // ✅ au montage : lit le consent + applique le consent si déjà enregistré
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
     const consent = readConsent();
 
     if (!consent) {
+      // ✅ pas de choix => on garde tout refusé (et on applique au cas où)
+      pushGtagConsent({ ads: false, analytics: false });
+      setAnalyticsAllowed(false);
       setVisible(true);
-      setAnalyticsAllowed(false); // ✅ case décochée par défaut
       return;
     }
 
-    const allow = consent === "all";
-    setAnalyticsAllowed(allow);
-    pushGtagConsent(allow);
+    if (consent === "all") {
+      setAnalyticsAllowed(true);
+      pushGtagConsent({ ads: true, analytics: true });
+      setVisible(false);
+      return;
+    }
+
+    if (consent === "analytics") {
+      setAnalyticsAllowed(true);
+      pushGtagConsent({ ads: false, analytics: true });
+      setVisible(false);
+      return;
+    }
+
+    // necessary
+    setAnalyticsAllowed(false);
+    pushGtagConsent({ ads: false, analytics: false });
     setVisible(false);
   }, []);
 
   const acceptAll = () => {
     writeConsent("all");
     setAnalyticsAllowed(true);
-    pushGtagConsent(true);
+    pushGtagConsent({ ads: true, analytics: true });
     setShowSettings(false);
     setVisible(false);
   };
@@ -103,15 +102,19 @@ export default function CookieBanner() {
   const decline = () => {
     writeConsent("necessary");
     setAnalyticsAllowed(false);
-    pushGtagConsent(false);
+    pushGtagConsent({ ads: false, analytics: false });
     setShowSettings(false);
     setVisible(false);
   };
 
   const save = () => {
-    const allow = analyticsAllowed;
-    writeConsent(allow ? "all" : "necessary");
-    pushGtagConsent(allow);
+    if (analyticsAllowed) {
+      writeConsent("analytics"); // ✅ analytics oui, ads non
+      pushGtagConsent({ ads: false, analytics: true });
+    } else {
+      writeConsent("necessary");
+      pushGtagConsent({ ads: false, analytics: false });
+    }
     setShowSettings(false);
     setVisible(false);
   };
@@ -125,8 +128,8 @@ export default function CookieBanner() {
         inset: "auto 0 0 0",
         zIndex: 2147483647,
         padding: "14px 16px 18px",
-        background: "rgba(10,6,20,0.98)", // mauve très foncé
-        borderTop: "1px solid rgba(212,175,55,0.35)", // or doux
+        background: "rgba(10,6,20,0.98)",
+        borderTop: "1px solid rgba(212,175,55,0.35)",
         color: "#f3f4f6",
       }}
     >
@@ -141,8 +144,8 @@ export default function CookieBanner() {
         }}
       >
         <p style={{ fontSize: 13, textAlign: "center", lineHeight: 1.4, margin: 0 }}>
-          Luna Astralis utilise des cookies pour assurer le bon fonctionnement du site, améliorer ton
-          expérience et mesurer l’audience. Tu peux accepter ou refuser les cookies non essentiels.
+          Luna Astralis utilise des cookies pour assurer le bon fonctionnement du site et mesurer
+          l’audience. Tu peux accepter ou refuser les cookies non essentiels.
         </p>
 
         {showSettings && (
@@ -159,10 +162,6 @@ export default function CookieBanner() {
             <h3 style={{ margin: 0, marginBottom: 4, fontSize: 13, fontWeight: 800 }}>
               Paramètres des cookies
             </h3>
-            <p style={{ margin: 0, marginBottom: 10, fontSize: 12, opacity: 0.92 }}>
-              Tu peux choisir si tu acceptes les cookies de mesure d’audience. Les cookies essentiels
-              sont toujours activés pour que le site fonctionne correctement.
-            </p>
 
             <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <input type="checkbox" checked readOnly />
@@ -175,14 +174,14 @@ export default function CookieBanner() {
                 checked={analyticsAllowed}
                 onChange={(e) => setAnalyticsAllowed(e.target.checked)}
               />
-              <span style={{ fontSize: 12 }}>Cookies de mesure d’audience (analytics)</span>
+              <span style={{ fontSize: 12 }}>Mesure d’audience (analytics)</span>
             </label>
 
             <button
               onClick={save}
               style={{
                 marginTop: 6,
-                background: "linear-gradient(135deg, #d4af37, #f7e7a1)", // or
+                background: "linear-gradient(135deg, #d4af37, #f7e7a1)",
                 border: "none",
                 borderRadius: 999,
                 padding: "7px 16px",
@@ -235,7 +234,7 @@ export default function CookieBanner() {
           <button
             onClick={acceptAll}
             style={{
-              background: "linear-gradient(135deg, #7c3aed, #d4af37)", // mauve -> or
+              background: "linear-gradient(135deg, #7c3aed, #d4af37)",
               border: "none",
               borderRadius: 999,
               padding: "7px 16px",
