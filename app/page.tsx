@@ -318,13 +318,13 @@ export default function HomePage() {
               <h1 className="hero-title hero-title-center">
                 Ce n’est pas un horoscope.
                 <br />
-                C’est une conversation.
+                C’est toi, tes émotions, tes relations.
               </h1>
 
               <p className="lead lead-center">
-                Ici, on ne te dit pas ce qui va arriver.
+                Ici, on parle de toi.
                 <br />
-                On parle de ce que tu vis, à travers ton signe.
+                De ce que tu vis, à travers ton signe.
               </p>
             </div>
 
@@ -334,7 +334,7 @@ export default function HomePage() {
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
                 <p className="hero-free-sub">
-                  Choisis ton signe, puis connecte-toi si nécessaire.
+                  Choisis ton signe et connecte-toi.
                 </p>
 
                 <a
@@ -342,7 +342,7 @@ export default function HomePage() {
                   className="hero-free-btn hero-free-btn--pulse"
                   onClick={onNavTo("signes")}
                 >
-                  Choisir mon signe →
+                  Choisis ton signe. →
                 </a>
 
                 <div className="hero-free-note">
