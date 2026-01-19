@@ -617,27 +617,35 @@ export default function ChatClient() {
     ]
   );
 
+  // ✅ Déconnexion + retour à la page principale
   const onLogout = useCallback(
     async (e: React.MouseEvent) => {
       e.preventDefault();
+
       try {
         await supabase.auth.signOut();
       } catch {}
 
+      // ferme tout
+      setPaywallOpen(false);
+      setHistoryOpen(false);
+
       closePaywall();
+
+      // reset state
       setIsAuth(false);
       setSessionEmail("");
       setUserId("");
       setPlan("guest");
 
-      if (signKey) {
-        const t0 = ensureHello(loadThreadLocal());
-        setThread(t0);
-      }
+      // si tu préfères garder le signe, ne touche pas au storage.
+      // si tu veux effacer aussi, décommente :
+      // try { localStorage.removeItem(KEY_GUEST_ID); } catch {}
 
-      setFreeLeft(getSavedRemaining());
+      // ✅ redirect accueil
+      router.replace("/");
     },
-    [closePaywall, ensureHello, loadThreadLocal, getSavedRemaining, signKey]
+    [closePaywall, router]
   );
 
   const onClearHistoryLocal = useCallback(() => {
@@ -720,7 +728,6 @@ export default function ChatClient() {
             ) : null}
           </div>
 
-          {/* ✅ Barre unique : Se connecter / Changer de signe / Forfaits / Historique */}
           <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
             <div className="cab-left">
               <span className="cab-pill">{signName}</span>
@@ -745,11 +752,7 @@ export default function ChatClient() {
                 Forfaits
               </button>
 
-              <button
-                type="button"
-                className="btn btn-small btn-ghost"
-                onClick={() => setHistoryOpen(true)}
-              >
+              <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
                 Historique
               </button>
             </div>
@@ -810,4 +813,4 @@ export default function ChatClient() {
       `}</style>
     </div>
   );
-        }
+}
