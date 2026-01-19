@@ -334,7 +334,7 @@ export default function HomePage() {
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
                 <p className="hero-free-sub">
-                  Choisis ton signe et connecte-toi.
+                  Choisis ton signe, puis connecte-toi.
                 </p>
 
                 <a
