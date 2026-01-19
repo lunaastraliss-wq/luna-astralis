@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const FALLBACK_NEXT = "/chat";
 const SIGN_COOKIE = "la_sign";
 
-/** ✅ Origine fiable (Vercel/proxy-safe) */
+/** Origin fiable (Vercel/proxy-safe) */
 function getOrigin(reqUrl: string) {
   const h = headers();
   const proto = h.get("x-forwarded-proto") || "https";
@@ -18,22 +18,21 @@ function getOrigin(reqUrl: string) {
   return new URL(reqUrl).origin;
 }
 
-/** ✅ Anti open-redirect + évite boucles */
+/** Anti open-redirect + évite boucles */
 function safeNext(raw: string | null): string {
   const s = (raw ?? "").trim();
   if (!s) return FALLBACK_NEXT;
 
-  // block absolute / protocol-relative
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return FALLBACK_NEXT;
 
   const path = s.startsWith("/") ? s : `/${s}`;
 
-  // avoid loops
+  // évite boucles
   if (path.startsWith("/auth") || path.startsWith("/login") || path.startsWith("/signup")) {
     return FALLBACK_NEXT;
   }
 
-  // allow only intended areas
+  // autorise seulement zones prévues
   const allowed =
     path.startsWith("/chat") ||
     path.startsWith("/pricing") ||
@@ -44,23 +43,29 @@ function safeNext(raw: string | null): string {
   return allowed ? path : FALLBACK_NEXT;
 }
 
-/** ✅ Ajoute le signe au /chat si absent (via cookie la_sign) */
-function withSignIfNeeded(nextPath: string) {
-  // uniquement pour /chat (ou /chat?...), et si pas déjà "sign="
-  if (!nextPath.startsWith("/chat")) return nextPath;
-  if (/[?&]sign=/.test(nextPath)) return nextPath;
+/** Normalise le signe en clé (belier, cancer, etc.) */
+function normSign(raw: string) {
+  return (raw || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z]/g, "");
+}
 
-  const c = cookies().get(SIGN_COOKIE)?.value?.trim() || "";
-  if (!c) return nextPath;
+/** Ajoute sign au /chat si absent */
+function addSignToChat(path: string, sign: string) {
+  if (!path.startsWith("/chat")) return path;
+  if (!sign) return path;
+  if (/[?&]sign=/.test(path)) return path;
 
-  const sep = nextPath.includes("?") ? "&" : "?";
-  return `${nextPath}${sep}sign=${encodeURIComponent(c)}`;
+  const sep = path.includes("?") ? "&" : "?";
+  return `${path}${sep}sign=${encodeURIComponent(sign)}`;
 }
 
 function buildLogin(origin: string, extra?: Record<string, string>) {
   const u = new URL("/login", origin);
   u.searchParams.set("oauth", "1");
-  u.searchParams.set("next", "/chat"); // fallback simple
+  u.searchParams.set("next", "/chat");
 
   if (extra) {
     for (const [k, v] of Object.entries(extra)) {
@@ -76,10 +81,10 @@ export async function GET(req: Request) {
 
   const code = url.searchParams.get("code");
 
+  // erreurs provider
   const oauthError = url.searchParams.get("error");
   const oauthErrorDesc = url.searchParams.get("error_description");
 
-  // 1) Erreur provider
   if (oauthError) {
     return buildLogin(origin, {
       error: oauthError,
@@ -87,12 +92,11 @@ export async function GET(req: Request) {
     });
   }
 
-  // 2) Pas de code
   if (!code) {
     return buildLogin(origin, { error: "missing_code" });
   }
 
-  // 3) Exchange => session cookies
+  // échange code -> session (set cookies Supabase)
   const supabase = createRouteHandlerClient({ cookies });
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
@@ -103,12 +107,25 @@ export async function GET(req: Request) {
     });
   }
 
-  // 4) Redirection finale
-  // - on respecte ?next=... si fourni (sanitisé)
-  // - et on “injecte” le signe depuis cookie la_sign pour /chat
-  const nextRaw = url.searchParams.get("next");
-  const nextSafe = safeNext(nextRaw);
-  const finalPath = withSignIfNeeded(nextSafe);
+  // next (sanitisé)
+  const nextSafe = safeNext(url.searchParams.get("next"));
 
+  // ✅ signe vient du redirectTo (LoginClient)
+  const sign = normSign(url.searchParams.get("sign") || "");
+
+  // ✅ on le stocke côté serveur (cookie) + on le met dans l’URL de /chat
+  if (sign) {
+    const h = headers();
+    const proto = h.get("x-forwarded-proto") || "https";
+
+    cookies().set(SIGN_COOKIE, sign, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+      secure: proto === "https",
+    });
+  }
+
+  const finalPath = addSignToChat(nextSafe, sign || cookies().get(SIGN_COOKIE)?.value || "");
   return NextResponse.redirect(new URL(finalPath, origin));
 }
