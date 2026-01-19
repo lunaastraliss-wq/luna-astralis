@@ -3,7 +3,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "../../lib/supabase/client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import ChatSidebar from "./ChatSidebar";
 import ChatPanel, { TopBar } from "./ChatPanel";
@@ -149,6 +149,9 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
+  // ✅ IMPORTANT: utiliser auth-helpers (mêmes cookies/session que /auth/callback)
+  const supabase = useMemo(() => createClientComponentClient(), []);
+
   const rawKeyFromUrl = useMemo(
     () => sp.get(SIGN_QUERY_PARAM) || sp.get("signe") || sp.get("sign") || "",
     [sp]
@@ -250,10 +253,7 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(
-          KEY_SERVER_REMAINING,
-          String(Math.max(0, Math.trunc(n)))
-        );
+        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -305,9 +305,7 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom =
-      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
-
+    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -319,22 +317,17 @@ export default function ChatClient() {
     } catch {
       return null;
     }
-  }, []);
+  }, [supabase]);
 
   const refreshQuotaFromServer = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat/quota", {
-        method: "GET",
-        cache: "no-store",
-      });
+      const res = await fetch("/api/chat/quota", { method: "GET", cache: "no-store" });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
 
       const nextPlan: Plan =
-        data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest"
-          ? data.plan
-          : "guest";
+        data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest" ? data.plan : "guest";
 
       setPlan(nextPlan);
 
@@ -360,9 +353,7 @@ export default function ChatClient() {
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      router.push(
-        `/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`
-      );
+      router.push(`/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`);
     },
     [router, currentPathWithQuery]
   );
@@ -424,20 +415,14 @@ export default function ChatClient() {
         setSignKey(chosen);
         storeSign(chosen);
 
-        // keep URL synced
+        // keep URL synced (normalize to ?sign=...)
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
-          if (!already) {
-            router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
-          }
+          if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
         }
       } else {
-        // no sign known
-        if (authed) {
-          router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
-        } else {
-          router.replace("/");
-        }
+        // ✅ IMPORTANT: jamais renvoyer à "/" -> toujours aller choisir un signe
+        router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
       }
 
       setBooted(true);
@@ -471,7 +456,7 @@ export default function ChatClient() {
     });
 
     return () => data.subscription.unsubscribe();
-  }, [ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
+  }, [supabase, ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
 
   useEffect(() => {
     if (!signKey) return;
@@ -589,18 +574,11 @@ export default function ChatClient() {
       if (!text) return;
 
       if (!signKey) {
-        const s = await getSessionSafe();
-        if (s?.user?.id) router.push("/onboarding/sign?next=/chat");
-        else router.push("/");
+        router.push("/onboarding/sign?next=/chat");
         return;
       }
 
-      if (
-        quotaReady &&
-        plan === "free" &&
-        typeof freeLeft === "number" &&
-        freeLeft <= 0
-      ) {
+      if (quotaReady && plan === "free" && typeof freeLeft === "number" && freeLeft <= 0) {
         openPaywallGuest();
         return;
       }
@@ -628,27 +606,14 @@ export default function ChatClient() {
         }
 
         const msg =
-          "Erreur. Vérifie /api/chat sur Vercel. " +
-          (err?.message ? `(${err.message})` : "");
+          "Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? `(${err.message})` : "");
 
         const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
         saveThreadLocal(t2);
         setThread(t2);
       }
     },
-    [
-      askLuna,
-      freeLeft,
-      quotaReady,
-      getSessionSafe,
-      input,
-      loadThreadLocal,
-      openPaywallGuest,
-      saveThreadLocal,
-      router,
-      signKey,
-      plan,
-    ]
+    [askLuna, freeLeft, quotaReady, input, loadThreadLocal, openPaywallGuest, saveThreadLocal, router, signKey, plan]
   );
 
   /* ---------------- logout ---------------- */
@@ -661,25 +626,19 @@ export default function ChatClient() {
         await supabase.auth.signOut();
       } catch {}
 
-      // close UI
       setPaywallOpen(false);
       setHistoryOpen(false);
       closePaywall();
 
-      // reset auth state
       setIsAuth(false);
       setSessionEmail("");
       setUserId("");
       setPlan("guest");
 
-      // IMPORTANT:
-      // On garde le dernier signe (la_sign) pour que la reconnexion retourne au bon signe.
-
-      // redirect accueil + refresh (évite les UI "stuck")
       router.replace("/");
       router.refresh();
     },
-    [closePaywall, router]
+    [supabase, closePaywall, router]
   );
 
   /* ---------------- actions ---------------- */
@@ -743,15 +702,9 @@ export default function ChatClient() {
         />
 
         <section className="chat-panel">
-          {/* Mobile sign card */}
           <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
             <div className="msc-row">
-              <img
-                className="msc-avatar"
-                src="/ia-luna-astralis.png"
-                alt="Luna"
-                loading="lazy"
-              />
+              <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
               <div className="msc-text">
                 <div className="msc-title">{signName}</div>
                 <div className="msc-sub">{signDesc}</div>
@@ -760,12 +713,7 @@ export default function ChatClient() {
 
             <div className="msc-actions">
               {bookUrl ? (
-                <a
-                  className="btn btn-small btn-ghost"
-                  href={bookUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <a className="btn btn-small btn-ghost" href={bookUrl} target="_blank" rel="noreferrer">
                   Approfondir →
                 </a>
               ) : null}
@@ -773,14 +721,11 @@ export default function ChatClient() {
 
             {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
-                {freeLeft > 0
-                  ? `Il te reste ${freeLeft} message(s) gratuit(s).`
-                  : "Limite gratuite atteinte."}
+                {freeLeft > 0 ? `Il te reste ${freeLeft} message(s) gratuit(s).` : "Limite gratuite atteinte."}
               </div>
             ) : null}
           </div>
 
-          {/* Actions bar */}
           <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
             <div className="cab-left">
               <span className="cab-pill">{signName}</span>
@@ -805,11 +750,7 @@ export default function ChatClient() {
                 Forfaits
               </button>
 
-              <button
-                type="button"
-                className="btn btn-small btn-ghost"
-                onClick={() => setHistoryOpen(true)}
-              >
+              <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
                 Historique
               </button>
             </div>
@@ -838,7 +779,6 @@ export default function ChatClient() {
         nextUrl={currentPathWithQuery()}
       />
 
-      {/* tu me donnes ton CSS après et je te le rends + premium */}
       <style jsx>{`
         .chat-actions-bar {
           display: flex;
@@ -871,4 +811,4 @@ export default function ChatClient() {
       `}</style>
     </div>
   );
-}
+          }
