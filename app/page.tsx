@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabase/client";
 
 const LS_SIGN_KEY = "la_sign";
+const COOKIE_SIGN_KEY = "la_sign";
+const SIGN_PARAM = "sign"; // ✅ standard
 
 const SIGNS: Array<{ key: string; label: string; cls: string }> = [
   { key: "belier", label: "♈ Bélier", cls: "sign-fire" },
@@ -25,6 +27,30 @@ const SIGNS: Array<{ key: string; label: string; cls: string }> = [
   { key: "poissons", label: "♓ Poissons", cls: "sign-water" },
 ];
 
+type MiniReview = {
+  sign: string;
+  name: string;
+  text: string;
+};
+
+const MINI_REVIEWS: MiniReview[] = [
+  {
+    sign: "♈ Bélier",
+    name: "Marie L.",
+    text: "“Ça m’a fait du bien. J’ai ralenti sans culpabiliser, et j’ai enfin canalisé mon énergie.”",
+  },
+  {
+    sign: "♊ Gémeaux",
+    name: "Julie R.",
+    text: "“Je suis Gémeaux et j’ai mille pensées. Là, j’ai réussi à clarifier ce que je ressens. Ça suit vraiment mon rythme.”",
+  },
+  {
+    sign: "♋ Cancer",
+    name: "Camille D.",
+    text: "“C’était doux, juste, et réconfortant. Ça m’a aidée à comprendre ce que je porte émotionnellement.”",
+  },
+];
+
 function setCookie(name: string, value: string, maxAgeSeconds = 31536000) {
   if (typeof document === "undefined") return;
   document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
@@ -37,41 +63,14 @@ function storeSign(signKey: string) {
   try {
     localStorage.setItem(LS_SIGN_KEY, signKey);
   } catch {}
-  setCookie(LS_SIGN_KEY, signKey);
+  setCookie(COOKIE_SIGN_KEY, signKey);
 }
-
-type MiniReview = {
-  sign: string;
-  name: string;
-  text: string;
-};
-
-const MINI_REVIEWS: MiniReview[] = [
-  {
-    sign: "♈ Bélier",
-    name: "Marie L.",
-    text:
-      "“Ça m’a fait du bien. J’ai ralenti sans culpabiliser, et j’ai enfin canalisé mon énergie.”",
-  },
-  {
-    sign: "♊ Gémeaux",
-    name: "Julie R.",
-    text:
-      "“Je suis Gémeaux et j’ai mille pensées. Là, j’ai réussi à clarifier ce que je ressens. Ça suit vraiment mon rythme.”",
-  },
-  {
-    sign: "♋ Cancer",
-    name: "Camille D.",
-    text:
-      "“C’était doux, juste, et réconfortant. Ça m’a aidée à comprendre ce que je porte émotionnellement.”",
-  },
-];
 
 export default function HomePage() {
   const router = useRouter();
   const y = useMemo(() => new Date().getFullYear(), []);
 
-  const [isAuth, setIsAuth] = useState<boolean | null>(null);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
 
   // menu mobile
   const [menuOpen, setMenuOpen] = useState(false);
@@ -151,21 +150,6 @@ export default function HomePage() {
     };
   }, [menuOpen, closeMenu]);
 
-  // clic sur signe: store + redirect
-  const onPickSign = useCallback(
-    (signKey: string) => {
-      storeSign(signKey);
-      const next = `/chat?signe=${encodeURIComponent(signKey)}`;
-
-      if (isAuth) {
-        router.push(next);
-        return;
-      }
-      router.push(`/login?next=${encodeURIComponent(next)}`);
-    },
-    [router, isAuth]
-  );
-
   // nav handlers (desktop + mobile)
   const onNavTo = useCallback(
     (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -176,6 +160,23 @@ export default function HomePage() {
     [closeMenu, scrollToId]
   );
 
+  // clic sur signe: store + redirect (✅ next standard)
+  const onPickSign = useCallback(
+    (signKey: string) => {
+      storeSign(signKey);
+
+      const next = `/chat?${SIGN_PARAM}=${encodeURIComponent(signKey)}`;
+
+      if (isAuth) {
+        router.push(next);
+        return;
+      }
+
+      router.push(`/login?next=${encodeURIComponent(next)}`);
+    },
+    [router, isAuth]
+  );
+
   // ---------------------------
   // VIDEO (son)
   // ---------------------------
@@ -183,7 +184,6 @@ export default function HomePage() {
   const [soundOn, setSoundOn] = useState(false);
   const [soundReady, setSoundReady] = useState(false);
 
-  // démarre la vidéo en muet automatiquement (OK partout)
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -191,37 +191,32 @@ export default function HomePage() {
     v.muted = true;
     v.volume = 1;
 
-    const tryPlay = async () => {
+    (async () => {
       try {
         await v.play();
       } catch {
-        // si le navigateur bloque, pas grave
+        // ignore
       }
-    };
-    tryPlay();
+    })();
   }, []);
 
-  // toggle son (nécessite un geste utilisateur)
   const toggleSound = useCallback(async () => {
     const v = videoRef.current;
     if (!v) return;
 
     try {
       if (!soundOn) {
-        // activer son
         v.muted = false;
         v.volume = 1;
-        await v.play(); // important
+        await v.play();
         setSoundOn(true);
         setSoundReady(true);
       } else {
-        // couper son
         v.muted = true;
         setSoundOn(false);
         setSoundReady(true);
       }
     } catch {
-      // si ça échoue, on revient en muet
       v.muted = true;
       setSoundOn(false);
       setSoundReady(false);
@@ -232,12 +227,7 @@ export default function HomePage() {
     <div className="page-astro">
       {/* HEADER */}
       <header className="top" role="banner">
-        <Link
-          className="brand"
-          href="/"
-          aria-label="Accueil Luna Astralis"
-          onClick={closeMenu}
-        >
+        <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -255,11 +245,7 @@ export default function HomePage() {
               Comment ça fonctionne
             </a>
 
-            <a
-              href="#signes"
-              className="btn btn-small btn-ghost"
-              onClick={onNavTo("signes")}
-            >
+            <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
               Choisir un signe
             </a>
 
@@ -333,9 +319,7 @@ export default function HomePage() {
               <div className="hero-free hero-free-center">
                 <h2 className="hero-free-title">Commence maintenant.</h2>
 
-                <p className="hero-free-sub">
-                  Choisis ton signe, puis connecte-toi.
-                </p>
+                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi.</p>
 
                 <a
                   href="#signes"
@@ -367,11 +351,7 @@ export default function HomePage() {
               </div>
 
               <div className="astro-video-actions">
-                <button
-                  type="button"
-                  className="btn btn-small btn-ghost"
-                  onClick={toggleSound}
-                >
+                <button type="button" className="btn btn-small btn-ghost" onClick={toggleSound}>
                   {soundOn ? "Couper le son" : "Activer le son"}
                 </button>
 
@@ -402,9 +382,7 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-            <p className="hero-disclaimer note-center">
-              Exploration personnelle (non thérapeutique).
-            </p>
+            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
           </div>
         </section>
 
@@ -419,7 +397,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">♈</span>
+                <span className="step-ico" aria-hidden="true">
+                  ♈
+                </span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -428,7 +408,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">🔐</span>
+                <span className="step-ico" aria-hidden="true">
+                  🔐
+                </span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -437,7 +419,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">✧</span>
+                <span className="step-ico" aria-hidden="true">
+                  ✧
+                </span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -446,7 +430,9 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">☾</span>
+                <span className="step-ico" aria-hidden="true">
+                  ☾
+                </span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
