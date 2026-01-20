@@ -149,11 +149,11 @@ export default function ChatClient() {
   const router = useRouter();
   const sp = useSearchParams();
 
-  // ✅ IMPORTANT: utiliser auth-helpers (mêmes cookies/session que /auth/callback)
   const supabase = useMemo(() => createClientComponentClient(), []);
 
+  // ✅ sign standard + fallback "signe"
   const rawKeyFromUrl = useMemo(
-    () => sp.get(SIGN_QUERY_PARAM) || sp.get("signe") || sp.get("sign") || "",
+    () => sp.get(SIGN_QUERY_PARAM) || sp.get("signe") || "",
     [sp]
   );
   const signFromUrl = useMemo(() => norm(rawKeyFromUrl), [rawKeyFromUrl]);
@@ -327,7 +327,9 @@ export default function ChatClient() {
       const data = await res.json().catch(() => ({} as any));
 
       const nextPlan: Plan =
-        data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest" ? data.plan : "guest";
+        data?.plan === "free" || data?.plan === "premium" || data?.plan === "guest"
+          ? data.plan
+          : "guest";
 
       setPlan(nextPlan);
 
@@ -421,7 +423,6 @@ export default function ChatClient() {
           if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
         }
       } else {
-        // ✅ IMPORTANT: jamais renvoyer à "/" -> toujours aller choisir un signe
         router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
       }
 
@@ -811,4 +812,4 @@ export default function ChatClient() {
       `}</style>
     </div>
   );
-          }
+  }
