@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -8,22 +8,21 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 type MsgType = "ok" | "err" | "info";
 
 const LS_SIGN_KEY = "la_sign";
-const FALLBACK_NEXT = "/chat";
+const FALLBACK_NEXT = "/chat?sign=belier";
 
 function safeNext(raw: string | null) {
   const s = (raw || "").trim();
   if (!s) return FALLBACK_NEXT;
 
-  // Block absolute / protocol-relative
+  // block absolute / protocol-relative
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return FALLBACK_NEXT;
 
   const path = s.startsWith("/") ? s : `/${s}`;
 
-  // Evite loops
-  if (path.startsWith("/auth") || path.startsWith("/login") || path.startsWith("/signup"))
-    return FALLBACK_NEXT;
+  // éviter loops
+  if (path.startsWith("/auth") || path.startsWith("/login") || path.startsWith("/signup")) return FALLBACK_NEXT;
 
-  // Autorise zones utiles
+  // autoriser zones utiles
   const allowed =
     path.startsWith("/chat") ||
     path.startsWith("/pricing") ||
@@ -34,20 +33,13 @@ function safeNext(raw: string | null) {
   return allowed ? path : FALLBACK_NEXT;
 }
 
-function getStoredSign() {
+function getStoredSign(): string {
   if (typeof window === "undefined") return "";
   try {
     return (localStorage.getItem(LS_SIGN_KEY) || "").trim();
   } catch {
     return "";
   }
-}
-
-function storeSign(signKey: string) {
-  if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(LS_SIGN_KEY, signKey);
-  } catch {}
 }
 
 function isValidEmail(em: string) {
@@ -66,14 +58,54 @@ function looksLikeInvalidLogin(message: string) {
 }
 
 /**
+ * Normalise le "next" pour que le chat reçoive toujours ?sign=
+ * - accepte ?signe= (ancien) et le convertit en ?sign=
+ * - si next pointe déjà vers /chat, on respecte next (mais normalisé)
+ * - sinon, on reconstruit /chat?sign=... depuis localStorage si possible
+ */
+function normalizeChatNext(nextUrl: string) {
+  // si next n'est pas /chat, on retourne tel quel
+  if (!nextUrl.startsWith("/chat")) return nextUrl;
+
+  try {
+    const u = new URL(nextUrl, "http://dummy.local");
+    const signFromNext = (u.searchParams.get("sign") || u.searchParams.get("signe") || "").trim();
+
+    // on force le param "sign"
+    if (signFromNext) {
+      u.searchParams.set("sign", signFromNext);
+      u.searchParams.delete("signe");
+      return u.pathname + "?" + u.searchParams.toString();
+    }
+
+    // sinon, on tente localStorage
+    const s = getStoredSign();
+    if (s) {
+      u.searchParams.set("sign", s);
+      u.searchParams.delete("signe");
+      return u.pathname + "?" + u.searchParams.toString();
+    }
+
+    // fallback hard
+    return FALLBACK_NEXT;
+  } catch {
+    return FALLBACK_NEXT;
+  }
+}
+
+/**
  * Post-login:
  * - si next = /pricing => /pricing
+ * - si next = /chat... => next (normalisé sign)
  * - sinon:
- *    - si signe => /chat?sign=...
+ *    - si localStorage sign => /chat?sign=...
  *    - sinon => /onboarding/sign?next=/chat
  */
 function computePostLoginTarget(nextUrl: string) {
   if (nextUrl === "/pricing") return "/pricing";
+
+  // si on vient d'un next chat, on le respecte
+  if (nextUrl.startsWith("/chat")) return normalizeChatNext(nextUrl);
 
   const s = getStoredSign();
   if (s) return `/chat?sign=${encodeURIComponent(s)}`;
@@ -102,7 +134,12 @@ export default function LoginClient() {
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
-  const nextUrl = useMemo(() => safeNext(sp.get("next")), [sp]);
+  // 1) next depuis URL (sanitisé) + 2) normalisation du chat (?sign=)
+  const nextUrl = useMemo(() => {
+    const safe = safeNext(sp.get("next"));
+    return safe.startsWith("/chat") ? normalizeChatNext(safe) : safe;
+  }, [sp]);
+
   const postLoginTarget = useMemo(() => computePostLoginTarget(nextUrl), [nextUrl]);
 
   const [email, setEmail] = useState("");
@@ -113,10 +150,7 @@ export default function LoginClient() {
   const [alreadyConnected, setAlreadyConnected] = useState(false);
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
 
-  const showMsg = useCallback((text: string, type: MsgType = "info") => {
-    setMsg({ text, type });
-  }, []);
-
+  const showMsg = useCallback((text: string, type: MsgType = "info") => setMsg({ text, type }), []);
   const clearMsg = useCallback(() => setMsg(null), []);
 
   const pingSeen = useCallback(async () => {
@@ -196,12 +230,15 @@ export default function LoginClient() {
       return;
     }
 
+    // si mauvais login => on tente signup (ton UX actuelle)
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Création du compte…", "info");
 
       const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: em,
         password,
+        // IMPORTANT: si tu veux que le lien de confirmation ramène au bon endroit
+        // options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}` }
       });
 
       if (signUpError) {
@@ -233,12 +270,8 @@ export default function LoginClient() {
 
     const origin = window.location.origin;
 
-    // ✅ récupérer signe depuis localStorage (choisi avant)
-    const s = getStoredSign();
-    const signParam = s ? `&sign=${encodeURIComponent(s)}` : "";
-
-    // ✅ on demande au callback de renvoyer vers /chat (et on passe sign)
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent("/chat")}${signParam}`;
+    // On passe le "postLoginTarget" DIRECTEMENT au callback (déjà normalisé /chat?sign=...)
+    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
