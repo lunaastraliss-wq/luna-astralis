@@ -14,12 +14,14 @@ type PlanId =
   | "yearly_unlimited";
 
 function s(v: unknown) {
-  return (v == null ? "" : String(v)).trim();
+  return v == null ? "" : String(v).trim();
 }
+
 function cleanUrl(url: string) {
   const x = s(url);
   return x.endsWith("/") ? x.slice(0, -1) : x;
 }
+
 function isPlan(v: unknown): v is PlanId {
   return (
     v === "monthly_essential" ||
@@ -28,6 +30,7 @@ function isPlan(v: unknown): v is PlanId {
     v === "yearly_unlimited"
   );
 }
+
 function safeNext(next: unknown) {
   const fallback = "/chat?sign=belier";
   const x = s(next);
@@ -55,13 +58,6 @@ const PRICING_PLAN_ID: Record<PlanId, string> = {
   yearly_unlimited: s(process.env.PRICING_PLAN_YEARLY_UNLIMITED),
 };
 
-// ✅ emails autorisés au trial (tests seulement)
-const TRIAL_TEST_EMAILS = new Set([
-  "kemaprintstudio@gmail.com",
-  "spinoz.fr@gmail.com",
-  "comptanetquebec@gmail.com",
-]);
-
 const stripe = STRIPE_SECRET_KEY
   ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
   : null;
@@ -84,6 +80,7 @@ export async function POST(req: Request) {
     const plan = body.plan;
     const stripe_price_id = PRICE[plan];
     const pricing_plan_id = PRICING_PLAN_ID[plan];
+
     if (!stripe_price_id || !pricing_plan_id) {
       return NextResponse.json({ error: "PLAN_CONFIG_MISSING" }, { status: 500 });
     }
@@ -100,6 +97,7 @@ export async function POST(req: Request) {
     // ✅ Auth requis
     const supabase = createRouteHandlerClient({ cookies });
     const { data, error } = await supabase.auth.getSession();
+
     if (error) {
       return NextResponse.json(
         { error: "SESSION_ERROR", detail: error.message, require_auth: true, next },
@@ -110,12 +108,10 @@ export async function POST(req: Request) {
     const user = data?.session?.user;
     const user_id = user?.id || "";
     const user_email = (user?.email || "").toLowerCase();
+
     if (!user_id || !user_email) {
       return NextResponse.json({ error: "AUTH_REQUIRED", require_auth: true, next }, { status: 401 });
     }
-
-    // ✅ Trial 3 jours UNIQUEMENT pour toi (tests)
-    const isTrialTester = TRIAL_TEST_EMAILS.has(user_email);
 
     const commonMeta = {
       app: "luna-astralis",
@@ -125,7 +121,6 @@ export async function POST(req: Request) {
       pricing_plan_id,
       stripe_price_id,
       next,
-      trial_test: isTrialTester ? "1" : "0",
     };
 
     const session = await stripe.checkout.sessions.create({
@@ -142,8 +137,7 @@ export async function POST(req: Request) {
       metadata: commonMeta,
 
       subscription_data: {
-        // ✅ 3 jours seulement si toi (sinon aucun trial)
-        ...(isTrialTester ? { trial_period_days: 3 } : {}),
+        // ❌ plus de trial ici
         metadata: commonMeta,
       },
 
@@ -155,4 +149,4 @@ export async function POST(req: Request) {
     console.error("[checkout]", err);
     return NextResponse.json({ error: err?.message || "CHECKOUT_ERROR" }, { status: 500 });
   }
-}
+      }
