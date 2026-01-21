@@ -281,13 +281,13 @@ export default function ChatClient() {
     (existing: ThreadMsg[]) => {
       if (existing.length) return existing;
 
-      const hello =
-        `Bonjour ✨\n` +
-        (signName !== "—"
-          ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
-          : `On peut prendre un moment pour toi.\n`) +
-        `En amour, qu’est-ce qui te pèse ou te mélange en ce moment ?
-(une personne, un silence, une rupture, un doute…)`;
+   const hello =
+  `Bonjour ✨\n` +
+  (signName !== "-"
+    ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
+    : `On peut prendre un moment pour toi.\n`) +
+  `\nEn amour, qu’est-ce qui te pèse ou te mélange en ce moment ?\n` +
+  `(une personne, un silence, une rupture, un doute…)`;
 
       const t: ThreadMsg[] = [{ role: "ai", text: hello }];
       saveThreadLocal(t);
