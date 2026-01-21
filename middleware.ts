@@ -1,13 +1,14 @@
 // middleware.ts
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 
-const CANON_HOST = "luna-astralis.app"; // ✅ choisis 1 seul: soit ça, soit "www.luna-astralis.app"
+const CANON_HOST = "luna-astralis.app"; // mets TON domaine canon (avec ou sans www, mais un seul)
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
-  // ✅ 0) Force le domaine (évite www <-> non-www qui casse les cookies OAuth)
+  // ✅ 0) Force le domaine PARTOUT (important pour /auth/callback + cookies)
   const host = req.headers.get("host") || "";
   if (host && host !== CANON_HOST) {
     const url = req.nextUrl.clone();
@@ -28,39 +29,39 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // ✅ 2) Routes publiques
+  // ✅ 2) Routes publiques (IMPORTANT: auth/callback doit être public)
   if (
     pathname === "/" ||
     pathname.startsWith("/pricing") ||
     pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/auth/callback") ||
     pathname.startsWith("/checkout/success") ||
     pathname.startsWith("/api/")
   ) {
     return NextResponse.next();
   }
 
-  // ✅ 3) Protéger /chat uniquement
+  // ✅ 3) Protéger /chat uniquement (mais avec vraie session Supabase)
   if (pathname.startsWith("/chat")) {
-    const cookieNames = req.cookies.getAll().map((c) => c.name);
+    const res = NextResponse.next();
+    const supabase = createMiddlewareClient({ req, res });
+    const { data } = await supabase.auth.getSession();
 
-    // ✅ Auth helpers (souvent chunké: ...-auth-token.0 / .1)
-    const hasAuthHelpers = cookieNames.some((n) => n.includes("-auth-token"));
-
-    // (optionnel) ancien cookie
-    const hasOld = !!req.cookies.get("sb-access-token")?.value;
-
-    if (!hasAuthHelpers && !hasOld) {
+    if (!data.session) {
       const loginUrl = req.nextUrl.clone();
       loginUrl.pathname = "/login";
-      loginUrl.searchParams.set("next", pathname + (req.nextUrl.search || ""));
+      loginUrl.searchParams.set("next", pathname + (search || ""));
       return NextResponse.redirect(loginUrl);
     }
+
+    return res; // IMPORTANT: retourne res (pas NextResponse.next()) pour que les cookies soient bien gérés
   }
 
   return NextResponse.next();
 }
 
-// ✅ middleware seulement sur /chat
+// ✅ matcher large pour que la redirection de domaine marche aussi sur /auth/callback
 export const config = {
-  matcher: ["/chat/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
