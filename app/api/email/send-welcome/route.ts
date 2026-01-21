@@ -86,30 +86,49 @@ export async function POST() {
   const resend = new Resend(key);
 
   const { data, error } = await resend.emails.send({
-    from,
-    to: email,
-    replyTo,
-    subject: "🌙 Bienvenue sur Luna Astralis",
-    text: `Bienvenue sur Luna Astralis ✨\n\nCommence ici : ${chatUrl}\n\nRéponds à ce mail si tu as une question 💜`,
-    html: `
-      <div style="font-family:Arial,sans-serif;line-height:1.6">
-        <h2>🌙 Bienvenue sur Luna Astralis</h2>
-        <p>Je suis vraiment contente de te compter parmi nous ✨</p>
-        <p>
-          <a href="${chatUrl}"
-             style="display:inline-block;padding:12px 18px;background:#6d28d9;color:#fff;border-radius:10px;text-decoration:none;">
-            Commencer le chat
-          </a>
-        </p>
-        <p style="opacity:.8;font-size:13px;margin-top:18px;">
-          Si tu as une question, réponds simplement à ce mail 💜
-        </p>
-      </div>
-    `,
-    tags: [{ name: "type", value: "welcome" }],
-  });
+  from,
+  to: email,
+  replyTo,
+  subject: "🌙 Bienvenue — ton accès est prêt ✨",
+  text: `Bienvenue sur Luna Astralis ✨
 
-  if (error) return json(400, { ok: false, error: error.message ?? "Resend error" });
+Ton accès est prêt.
+Commence ici : ${chatUrl}
+
+🎁 Tu as 15 messages gratuits pour essayer.
+Si tu n’es pas déjà connecté(e), retourne sur le site et connecte-toi avec ton email et ton mot de passe.
+
+Réponds à ce mail si tu as une question 💜`,
+  html: `
+    <div style="font-family:Arial,sans-serif;line-height:1.6">
+      <h2>🌙 Bienvenue sur Luna Astralis</h2>
+      <p>Ton accès est prêt ✨</p>
+
+      <p>
+        <a href="${chatUrl}"
+           style="display:inline-block;padding:12px 18px;background:#6d28d9;color:#fff;border-radius:10px;text-decoration:none;">
+          Commencer le chat maintenant
+        </a>
+      </p>
+
+      <div style="margin-top:14px;padding:12px 14px;border-radius:12px;background:rgba(109,40,217,0.12)">
+        <b>🎁 15 messages gratuits</b><br/>
+        <span style="opacity:.9">Teste l’expérience et vois si ça te parle.</span>
+      </div>
+
+      <p style="margin-top:14px;font-size:14px;opacity:.9">
+        Si tu n’es pas déjà connecté(e), retourne sur le site et connecte-toi avec ton email et ton mot de passe.
+      </p>
+
+      <p style="opacity:.8;font-size:13px;margin-top:18px;">
+        Si tu as une question, réponds simplement à ce mail 💜
+      </p>
+    </div>
+  `,
+  tags: [{ name: "type", value: "welcome" }],
+});
+
+if (error) return json(400, { ok: false, error: error.message ?? "Resend error" });
 
   // 6) Marquer comme envoyé (uniquement si encore NULL)
   const { error: markErr } = await admin
