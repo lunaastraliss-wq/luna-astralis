@@ -236,11 +236,13 @@ export default function LoginClient() {
 
       const origin = window.location.origin;
 
+const CANON_ORIGIN = "https://luna-astralis.app";
+
 const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
   email: em,
   password,
   options: {
-    emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
+    emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
   },
 });
 
