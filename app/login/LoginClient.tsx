@@ -234,12 +234,15 @@ export default function LoginClient() {
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Création du compte…", "info");
 
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: em,
-        password,
-        // IMPORTANT: si tu veux que le lien de confirmation ramène au bon endroit
-        // options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}` }
-      });
+      const origin = window.location.origin;
+
+const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+  email: em,
+  password,
+  options: {
+    emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
+  },
+});
 
       if (signUpError) {
         setBusy(false);
