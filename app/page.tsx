@@ -304,13 +304,13 @@ export default function HomePage() {
               <h1 className="hero-title hero-title-center">
                 Ce n’est pas un horoscope.
                 <br />
-                C’est toi, tes émotions, tes relations.
+                C’est ta vie amoureuse expliquée.
               </h1>
 
               <p className="lead lead-center">
-                Ici, on parle de toi.
+                Tu veux comprendre ce qu'il ou qu'elle ressent?
                 <br />
-                De ce que tu vis, à travers ton signe.
+                Pose ta question et découvre la logique de ton signe en amour.
               </p>
             </div>
 
