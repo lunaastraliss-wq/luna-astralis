@@ -286,7 +286,8 @@ export default function ChatClient() {
         (signName !== "—"
           ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
           : `On peut prendre un moment pour toi.\n`) +
-        `De quoi as-tu envie de parler aujourd’hui ?`;
+        `En amour, qu’est-ce qui te pèse ou te mélange en ce moment ?
+(une personne, un silence, une rupture, un doute…)`;
 
       const t: ThreadMsg[] = [{ role: "ai", text: hello }];
       saveThreadLocal(t);
