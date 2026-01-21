@@ -92,12 +92,10 @@ export async function GET(req: Request) {
     });
   }
 
-  if (!code) {
-    return buildLogin(origin, { error: "missing_code" });
-  }
-
-  // échange code -> session (set cookies Supabase)
   const supabase = createRouteHandlerClient({ cookies });
+
+// 1) Cas PKCE / OAuth: ?code=...
+if (code) {
   const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error) {
@@ -106,6 +104,27 @@ export async function GET(req: Request) {
       error_description: error.message,
     });
   }
+} else {
+  // 2) Cas confirmation email: ?token_hash=...&type=signup (ou magiclink, recovery, etc.)
+  const token_hash = url.searchParams.get("token_hash");
+  const type = url.searchParams.get("type");
+
+  if (token_hash && type) {
+    const { error } = await supabase.auth.verifyOtp({
+      token_hash,
+      type: type as any,
+    });
+
+    if (error) {
+      return buildLogin(origin, {
+        error: "verify_failed",
+        error_description: error.message,
+      });
+    }
+  } else {
+    return buildLogin(origin, { error: "missing_code_or_token" });
+  }
+}
 
   // next (sanitisé)
   const nextSafe = safeNext(url.searchParams.get("next"));
