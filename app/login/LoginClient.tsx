@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -9,6 +10,9 @@ type MsgType = "ok" | "err" | "info";
 
 const LS_SIGN_KEY = "la_sign";
 const FALLBACK_NEXT = "/chat?sign=belier";
+
+// ✅ ton domaine canon (un seul, sans www si c’est celui que tu forces)
+const CANON_ORIGIN = "https://luna-astralis.app";
 
 function safeNext(raw: string | null) {
   const s = (raw || "").trim();
@@ -59,26 +63,20 @@ function looksLikeInvalidLogin(message: string) {
 
 /**
  * Normalise le "next" pour que le chat reçoive toujours ?sign=
- * - accepte ?signe= (ancien) et le convertit en ?sign=
- * - si next pointe déjà vers /chat, on respecte next (mais normalisé)
- * - sinon, on reconstruit /chat?sign=... depuis localStorage si possible
  */
 function normalizeChatNext(nextUrl: string) {
-  // si next n'est pas /chat, on retourne tel quel
   if (!nextUrl.startsWith("/chat")) return nextUrl;
 
   try {
     const u = new URL(nextUrl, "http://dummy.local");
     const signFromNext = (u.searchParams.get("sign") || u.searchParams.get("signe") || "").trim();
 
-    // on force le param "sign"
     if (signFromNext) {
       u.searchParams.set("sign", signFromNext);
       u.searchParams.delete("signe");
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    // sinon, on tente localStorage
     const s = getStoredSign();
     if (s) {
       u.searchParams.set("sign", s);
@@ -86,7 +84,6 @@ function normalizeChatNext(nextUrl: string) {
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    // fallback hard
     return FALLBACK_NEXT;
   } catch {
     return FALLBACK_NEXT;
@@ -94,17 +91,11 @@ function normalizeChatNext(nextUrl: string) {
 }
 
 /**
- * Post-login:
- * - si next = /pricing => /pricing
- * - si next = /chat... => next (normalisé sign)
- * - sinon:
- *    - si localStorage sign => /chat?sign=...
- *    - sinon => /onboarding/sign?next=/chat
+ * Post-login target
  */
 function computePostLoginTarget(nextUrl: string) {
   if (nextUrl === "/pricing") return "/pricing";
 
-  // si on vient d'un next chat, on le respecte
   if (nextUrl.startsWith("/chat")) return normalizeChatNext(nextUrl);
 
   const s = getStoredSign();
@@ -134,7 +125,6 @@ export default function LoginClient() {
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
-  // 1) next depuis URL (sanitisé) + 2) normalisation du chat (?sign=)
   const nextUrl = useMemo(() => {
     const safe = safeNext(sp.get("next"));
     return safe.startsWith("/chat") ? normalizeChatNext(safe) : safe;
@@ -159,7 +149,6 @@ export default function LoginClient() {
     } catch {}
   }, []);
 
-  // Boot: si déjà connecté -> go direct
   useEffect(() => {
     let mounted = true;
 
@@ -230,21 +219,17 @@ export default function LoginClient() {
       return;
     }
 
-    // si mauvais login => on tente signup (ton UX actuelle)
+    // si mauvais login => on tente signup
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
       showMsg("Création du compte…", "info");
 
-      const origin = window.location.origin;
-
-const CANON_ORIGIN = "https://luna-astralis.app";
-
-const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-  email: em,
-  password,
-  options: {
-    emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
-  },
-});
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: em,
+        password,
+        options: {
+          emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
+        },
+      });
 
       if (signUpError) {
         setBusy(false);
@@ -273,10 +258,8 @@ const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     setBusy(true);
     showMsg("Ouverture de Google…", "info");
 
-    const origin = window.location.origin;
-
-    // On passe le "postLoginTarget" DIRECTEMENT au callback (déjà normalisé /chat?sign=...)
-    const redirectTo = `${origin}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`;
+    // ✅ canon
+    const redirectTo = `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -299,9 +282,9 @@ const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
     setBusy(true);
     showMsg("Envoi du lien…", "info");
 
-    const origin = window.location.origin;
     const { error } = await supabase.auth.resetPasswordForEmail(em, {
-      redirectTo: `${origin}/reset-password`,
+      // ✅ canon
+      redirectTo: `${CANON_ORIGIN}/reset-password`,
     });
 
     setBusy(false);
@@ -513,4 +496,4 @@ const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       </main>
     </div>
   );
-      }
+}
