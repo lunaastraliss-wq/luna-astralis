@@ -110,13 +110,14 @@ export async function POST() {
   // Construire email (simple + safe)
   const subject = "Bienvenue sur Luna Astralis ✨";
   const html = `
-    <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.5">
-      <h2>Bienvenue ✨</h2>
-      <p>Merci de t’être inscrit(e) sur <strong>Luna Astralis</strong>.</p>
-      <p>Tu peux commencer ta lecture astrologique dès maintenant dans le chat.</p>
-      <p style="margin-top:16px">— Luna Astralis</p>
-    </div>
-  `;
+  <div style="font-family:Arial,Helvetica,sans-serif;line-height:1.5">
+    <h2>Bienvenue ✨</h2>
+    <p>Merci de t’être inscrit(e) sur <strong>Luna Astralis</strong>.</p>
+    <p>Ton compte est maintenant actif.</p>
+    <p>Le chat est accessible dès maintenant.</p>
+    <p style="margin-top:16px">— Luna Astralis</p>
+  </div>
+`;
 
   let sent = false;
   try {
