@@ -18,18 +18,15 @@ const UPSELL_TEXT_FR =
   " Si tu veux approfondir davantage et comprendre ce qui se joue en profondeur, l’accès complet te permet d’aller beaucoup plus loin.";
 
 /* ===========================
-   TABLES (NOUVEAU: chat_usage)
+   TABLES
 =========================== */
-const CHAT_USAGE_TABLE = "chat_usage"; // ✅ table simple (1 ligne par user/guest)
+const CHAT_USAGE_TABLE = "chat_usage";
 
 const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
 const SUBS_COL_STATUS = "status";
 const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
-
-// Optionnel (si tu veux garder un log minimal)
-const CHAT_EVENTS_TABLE = "chat_events";
 
 /* ===========================
    ENV
@@ -78,12 +75,6 @@ function pickOne(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-/**
- * Supporte:
- * - body.messages (format OpenAI)
- * - body.history + body.message (format custom)
- * - body.message seul
- */
 function buildChatMessages(body: any) {
   const old = Array.isArray(body?.messages) ? body.messages : null;
   if (old) {
@@ -116,10 +107,7 @@ function getLastUserMessage(msgs: Array<{ role: string; content: string }>) {
   return "";
 }
 
-function pickLastNMessages(
-  msgs: Array<{ role: string; content: string }>,
-  n: number
-) {
+function pickLastNMessages(msgs: Array<{ role: string; content: string }>, n: number) {
   const arr = Array.isArray(msgs) ? msgs : [];
   const sliced = arr.slice(Math.max(0, arr.length - n));
   return sliced
@@ -133,14 +121,7 @@ function pickLastNMessages(
 /* ===========================
    SHORT FORMAT (FR)
 =========================== */
-const S1_VARIANTS_FR = [
-  "Je te lis.",
-  "Je suis là.",
-  "D’accord, je comprends.",
-  "Merci de me le dire.",
-  "Ok, je t’écoute.",
-];
-
+const S1_VARIANTS_FR = ["Je te lis.", "Je suis là.", "D’accord, je comprends.", "Merci de me le dire.", "Ok, je t’écoute."];
 const S2_VARIANTS_FR = [
   "On va démêler ça ensemble.",
   "On peut clarifier ça doucement.",
@@ -149,7 +130,6 @@ const S2_VARIANTS_FR = [
   "On avance une étape à la fois.",
   "On peut explorer ça sans pression.",
 ];
-
 const Q_VARIANTS_FR = [
   "Qu’est-ce qui te pèse le plus là, maintenant ?",
   "C’est quoi le point le plus difficile pour toi ?",
@@ -160,7 +140,6 @@ const Q_VARIANTS_FR = [
 
 function enforceShortFormatFR(input: string, lastS2?: string) {
   const text = cleanStr(input).replace(/\s+/g, " ");
-
   const parts = text
     .split(/(?<=[.!?])\s+/)
     .map((p) => p.trim())
@@ -237,9 +216,7 @@ async function isPremiumActive(user_id: string) {
 }
 
 /* ===========================
-   CHAT_USAGE (COMPTEUR SIMPLE)
-   - 1 ligne par user OU guest
-   - on incrémente seulement ici (plus besoin de chat_events bruyant)
+   CHAT_USAGE (compteur + dates)
 =========================== */
 type UsageRow = {
   id: string;
@@ -253,31 +230,23 @@ type UsageRow = {
   created_at: string | null;
 };
 
-async function getOrCreateUsage(params: {
-  user_id: string | null;
-  guest_id: string | null;
-}) {
+async function getOrCreateUsage(params: { user_id: string | null; guest_id: string | null }) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
-  const { user_id, guest_id } = params;
-
-  // Sécurité: on ne mélange pas user+guest
-  const uid = user_id || null;
-  const gid = uid ? null : (guest_id || null);
+  const uid = params.user_id || null;
+  const gid = uid ? null : (params.guest_id || null);
 
   if (!uid && !gid) throw new Error("MISSING_ID_FOR_USAGE");
 
-  // 1) read
-  const q = supabaseAdmin.from(CHAT_USAGE_TABLE).select("*").limit(1);
+  const base = supabaseAdmin.from(CHAT_USAGE_TABLE).select("*").limit(1);
+
   const { data: existing, error: readErr } = uid
-    ? await q.eq("user_id", uid).maybeSingle()
-    : await q.eq("guest_id", gid as string).maybeSingle();
+    ? await base.eq("user_id", uid).maybeSingle()
+    : await base.eq("guest_id", gid as string).maybeSingle();
 
   if (readErr) throw readErr;
-
   if (existing) return existing as UsageRow;
 
-  // 2) create (messages_count=0, timestamps = now)
   const now = new Date().toISOString();
 
   const { data: created, error: insErr } = await supabaseAdmin
@@ -299,20 +268,15 @@ async function getOrCreateUsage(params: {
   return created as UsageRow;
 }
 
-async function incrementUsage(params: {
-  user_id: string | null;
-  guest_id: string | null;
-}) {
+async function incrementUsage(params: { user_id: string | null; guest_id: string | null }) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const row = await getOrCreateUsage(params);
   const next = Math.max(0, Number(row.messages_count || 0)) + 1;
 
   const now = new Date().toISOString();
-
   const firstAt = row.first_message_at || now;
-  const limitReachedAt =
-    row.limit_reached_at || (next >= FREE_LIMIT ? now : null);
+  const limitReachedAt = row.limit_reached_at || (next >= FREE_LIMIT ? now : null);
 
   const { data: updated, error: updErr } = await supabaseAdmin
     .from(CHAT_USAGE_TABLE)
@@ -328,37 +292,7 @@ async function incrementUsage(params: {
     .single();
 
   if (updErr) throw updErr;
-
   return updated as UsageRow;
-}
-
-/* ===========================
-   LOG MINIMAL (OPTIONNEL)
-   - seulement first_message et limit_reached
-=========================== */
-async function logMinimalEvent(params: {
-  user_id: string | null;
-  guest_id: string | null;
-  event_type: "first_message" | "limit_reached";
-  sign_key: string;
-  sign_name: string;
-  thread_id: string | null;
-  meta?: Record<string, any>;
-}) {
-  if (!supabaseAdmin) return;
-  try {
-    await supabaseAdmin.from(CHAT_EVENTS_TABLE).insert({
-      event_type: params.event_type,
-      user_id: params.user_id,
-      guest_id: params.guest_id,
-      sign_key: params.sign_key || null,
-      sign_name: params.sign_name || null,
-      thread_id: params.thread_id,
-      meta: params.meta ?? {},
-    });
-  } catch {
-    // best-effort
-  }
 }
 
 /* ===========================
@@ -394,20 +328,18 @@ export async function POST(req: Request) {
     const lastUserText = getLastUserMessage(userMessages);
     if (!lastUserText) return jsonError("NO_USER_MESSAGE", 400);
 
-    // session via cookies (si connecté)
     const supabaseAuth = createRouteHandlerClient({ cookies: () => cookies() });
     const { data: sess } = await supabaseAuth.auth.getSession();
     const user_id = sess?.session?.user?.id ?? null;
 
-    // avatar UI
     const avatarSrc = "/ia-luna-astralis.png";
 
-    // -------- Premium (si connecté et actif) --------
+    // PREMIUM (auth)
     if (user_id) {
       const premium = await isPremiumActive(user_id);
 
       if (premium) {
-        // ✅ PREMIUM: pas de limite, mais on peut quand même garder last_message_at si tu veux (optionnel)
+        // optionnel: garder last_message_at à jour
         await incrementUsage({ user_id, guest_id: null }).catch(() => {});
 
         const system = `
@@ -428,17 +360,12 @@ Signe: ${signName || signKey || "—"}.
         const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
         return NextResponse.json(
-          {
-            message: answer,
-            reply: answer,
-            mode: "auth_premium",
-            avatarSrc,
-          },
+          { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
           { status: 200 }
         );
       }
 
-      // -------- AUTH FREE (compteur simple dans chat_usage) --------
+      // AUTH FREE
       const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
       const used0 = Number(usage0.messages_count || 0);
 
@@ -457,14 +384,10 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const context = pickLastNMessages(userMessages, 10);
-      const lastAssistant = [...context]
-        .reverse()
-        .find((m) => m.role === "assistant" && cleanStr(m.content));
+      const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
       const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
-      const system =
-        lang === "fr"
-          ? `
+      const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, calme, direct, sans dramatiser.
 Tu aides sur astrologie, psycho douce, relations, introspection.
@@ -473,14 +396,6 @@ Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
 Évite les formulations répétitives d’une réponse à l’autre.
 Langue: fr.
 Signe: ${signName || signKey || "—"}.
-`.trim()
-          : `
-You are Luna Astralis.
-Warm, calm, direct.
-Very short answer: 2 sentences + 1 question, max 240 characters.
-Avoid repetitive stock phrases.
-Language: ${lang}.
-Sign: ${signName || signKey || "—"}.
 `.trim();
 
       const completion = await openai.chat.completions.create({
@@ -490,57 +405,25 @@ Sign: ${signName || signKey || "—"}.
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
-      let short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
+      let short = enforceShortFormatFR(raw, lastS2 || undefined);
 
-      // ✅ incrémente APRES la réponse (donc utilisé = messages envoyés)
+      // incrément APRES réponse
       const updated = await incrementUsage({ user_id, guest_id: null });
       const used = Number(updated.messages_count || 0);
       const remaining = Math.max(0, FREE_LIMIT - used);
 
-      // log minimal (optionnel)
-      if (used === 1) {
-        await logMinimalEvent({
-          user_id,
-          guest_id: null,
-          event_type: "first_message",
-          sign_key: signKey,
-          sign_name: signName || signKey,
-          thread_id: threadId,
-          meta: { lang, mode: "auth_free" },
-        });
-      }
-      if (used === FREE_LIMIT) {
-        await logMinimalEvent({
-          user_id,
-          guest_id: null,
-          event_type: "limit_reached",
-          sign_key: signKey,
-          sign_name: signName || signKey,
-          thread_id: threadId,
-          meta: { lang, mode: "auth_free" },
-        });
-      }
-
-      if (lang === "fr" && remaining <= UPSELL_WHEN_REMAINING_LTE) {
+      if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
         short = candidate.length <= 240 ? candidate : enforceShortFormatFR(candidate, lastS2 || undefined);
       }
 
       return NextResponse.json(
-        {
-          message: short,
-          reply: short,
-          mode: "auth_free",
-          used,
-          remaining,
-          free_limit: FREE_LIMIT,
-          avatarSrc,
-        },
+        { message: short, reply: short, mode: "auth_free", used, remaining, free_limit: FREE_LIMIT, avatarSrc },
         { status: 200 }
       );
     }
 
-    // -------- GUEST FREE (compteur simple dans chat_usage) --------
+    // GUEST FREE
     if (!guestId) {
       return NextResponse.json(
         { error: "GUEST_ID_MISSING", detail: "guestId requis pour le mode invité." },
@@ -566,25 +449,15 @@ Sign: ${signName || signKey || "—"}.
     }
 
     const context = pickLastNMessages(userMessages, 10);
-    const lastAssistant = [...context]
-      .reverse()
-      .find((m) => m.role === "assistant" && cleanStr(m.content));
+    const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
     const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
-    const system =
-      lang === "fr"
-        ? `
+    const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, calme, direct, sans dramatiser.
 Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
 Langue: fr.
 Signe: ${signName || signKey || "—"}.
-`.trim()
-        : `
-You are Luna Astralis.
-Very short answer: 2 sentences + 1 question, max 240 characters.
-Language: ${lang}.
-Sign: ${signName || signKey || "—"}.
 `.trim();
 
     const completion = await openai.chat.completions.create({
@@ -594,46 +467,14 @@ Sign: ${signName || signKey || "—"}.
     });
 
     const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
-    const short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
+    const short = enforceShortFormatFR(raw, lastS2 || undefined);
 
     const updated = await incrementUsage({ user_id: null, guest_id: guestId });
     const used = Number(updated.messages_count || 0);
     const remaining = Math.max(0, FREE_LIMIT - used);
 
-    // log minimal (optionnel)
-    if (used === 1) {
-      await logMinimalEvent({
-        user_id: null,
-        guest_id: guestId,
-        event_type: "first_message",
-        sign_key: signKey,
-        sign_name: signName || signKey,
-        thread_id: threadId,
-        meta: { lang, mode: "guest_free" },
-      });
-    }
-    if (used === FREE_LIMIT) {
-      await logMinimalEvent({
-        user_id: null,
-        guest_id: guestId,
-        event_type: "limit_reached",
-        sign_key: signKey,
-        sign_name: signName || signKey,
-        thread_id: threadId,
-        meta: { lang, mode: "guest_free" },
-      });
-    }
-
     return NextResponse.json(
-      {
-        message: short,
-        reply: short,
-        mode: "guest_free",
-        used,
-        remaining,
-        free_limit: FREE_LIMIT,
-        avatarSrc,
-      },
+      { message: short, reply: short, mode: "guest_free", used, remaining, free_limit: FREE_LIMIT, avatarSrc },
       { status: 200 }
     );
   } catch (e: any) {
