@@ -18,17 +18,9 @@ const UPSELL_TEXT_FR =
   " Si tu veux approfondir davantage et comprendre ce qui se joue en profondeur, l’accès complet te permet d’aller beaucoup plus loin.";
 
 /* ===========================
-   DB TABLES
+   TABLES (NOUVEAU: chat_usage)
 =========================== */
-const USER_USAGE_TABLE = "user_usage_lifetime";
-const USER_USAGE_COL_ID = "user_id";
-const USER_USAGE_COL_USED = "used";
-const USER_USAGE_COL_UPDATED_AT = "updated_at";
-
-const GUEST_USAGE_TABLE = "guest_usage_lifetime";
-const GUEST_USAGE_COL_ID = "guest_id";
-const GUEST_USAGE_COL_USED = "used";
-const GUEST_USAGE_COL_UPDATED_AT = "updated_at";
+const CHAT_USAGE_TABLE = "chat_usage"; // ✅ table simple (1 ligne par user/guest)
 
 const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
@@ -36,6 +28,7 @@ const SUBS_COL_STATUS = "status";
 const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
+// Optionnel (si tu veux garder un log minimal)
 const CHAT_EVENTS_TABLE = "chat_events";
 
 /* ===========================
@@ -138,7 +131,7 @@ function pickLastNMessages(
 }
 
 /* ===========================
-   SHORT FORMAT (2 phrases + 1 question) — anti-répétition
+   SHORT FORMAT (FR)
 =========================== */
 const S1_VARIANTS_FR = [
   "Je te lis.",
@@ -218,106 +211,6 @@ function extractSecondSentenceFR(text: string) {
 }
 
 /* ===========================
-   USAGE (USER)
-=========================== */
-async function ensureUserRowAndGetUsed(user_id: string) {
-  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
-
-  const { data: existing, error: readErr } = await supabaseAdmin
-    .from(USER_USAGE_TABLE)
-    .select(`${USER_USAGE_COL_ID}, ${USER_USAGE_COL_USED}`)
-    .eq(USER_USAGE_COL_ID, user_id)
-    .maybeSingle();
-
-  if (readErr) throw readErr;
-
-  if (!existing) {
-    const { data: created, error: insErr } = await supabaseAdmin
-      .from(USER_USAGE_TABLE)
-      .insert({
-        [USER_USAGE_COL_ID]: user_id,
-        [USER_USAGE_COL_USED]: 0,
-        [USER_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
-      })
-      .select(`${USER_USAGE_COL_USED}`)
-      .single();
-
-    if (insErr) throw insErr;
-    return Number(created?.[USER_USAGE_COL_USED] ?? 0);
-  }
-
-  return Number(existing?.[USER_USAGE_COL_USED] ?? 0);
-}
-
-async function incrementUserUsed(user_id: string) {
-  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
-
-  const current = await ensureUserRowAndGetUsed(user_id);
-  const next = current + 1;
-
-  const { error: updErr } = await supabaseAdmin
-    .from(USER_USAGE_TABLE)
-    .update({
-      [USER_USAGE_COL_USED]: next,
-      [USER_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
-    })
-    .eq(USER_USAGE_COL_ID, user_id);
-
-  if (updErr) throw updErr;
-  return next;
-}
-
-/* ===========================
-   USAGE (GUEST)
-=========================== */
-async function ensureGuestRowAndGetUsed(guest_id: string) {
-  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
-
-  const { data: existing, error: readErr } = await supabaseAdmin
-    .from(GUEST_USAGE_TABLE)
-    .select(`${GUEST_USAGE_COL_ID}, ${GUEST_USAGE_COL_USED}`)
-    .eq(GUEST_USAGE_COL_ID, guest_id)
-    .maybeSingle();
-
-  if (readErr) throw readErr;
-
-  if (!existing) {
-    const { data: created, error: insErr } = await supabaseAdmin
-      .from(GUEST_USAGE_TABLE)
-      .insert({
-        [GUEST_USAGE_COL_ID]: guest_id,
-        [GUEST_USAGE_COL_USED]: 0,
-        [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
-      })
-      .select(`${GUEST_USAGE_COL_USED}`)
-      .single();
-
-    if (insErr) throw insErr;
-    return Number(created?.[GUEST_USAGE_COL_USED] ?? 0);
-  }
-
-  return Number(existing?.[GUEST_USAGE_COL_USED] ?? 0);
-}
-
-async function incrementGuestUsed(guest_id: string) {
-  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
-
-  const current = await ensureGuestRowAndGetUsed(guest_id);
-  const next = current + 1;
-
-  const { error: updErr } = await supabaseAdmin
-    .from(GUEST_USAGE_TABLE)
-    .update({
-      [GUEST_USAGE_COL_USED]: next,
-      [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
-    })
-    .eq(GUEST_USAGE_COL_ID, guest_id);
-
-  if (updErr) throw updErr;
-  return next;
-}
-
-/* ===========================
    PREMIUM
 =========================== */
 async function isPremiumActive(user_id: string) {
@@ -344,28 +237,128 @@ async function isPremiumActive(user_id: string) {
 }
 
 /* ===========================
-   LOG EVENT
+   CHAT_USAGE (COMPTEUR SIMPLE)
+   - 1 ligne par user OU guest
+   - on incrémente seulement ici (plus besoin de chat_events bruyant)
 =========================== */
-async function logChatEvent(params: {
+type UsageRow = {
+  id: string;
   user_id: string | null;
   guest_id: string | null;
+  messages_count: number;
+  free_limit: number;
+  first_message_at: string | null;
+  last_message_at: string | null;
+  limit_reached_at: string | null;
+  created_at: string | null;
+};
+
+async function getOrCreateUsage(params: {
+  user_id: string | null;
+  guest_id: string | null;
+}) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const { user_id, guest_id } = params;
+
+  // Sécurité: on ne mélange pas user+guest
+  const uid = user_id || null;
+  const gid = uid ? null : (guest_id || null);
+
+  if (!uid && !gid) throw new Error("MISSING_ID_FOR_USAGE");
+
+  // 1) read
+  const q = supabaseAdmin.from(CHAT_USAGE_TABLE).select("*").limit(1);
+  const { data: existing, error: readErr } = uid
+    ? await q.eq("user_id", uid).maybeSingle()
+    : await q.eq("guest_id", gid as string).maybeSingle();
+
+  if (readErr) throw readErr;
+
+  if (existing) return existing as UsageRow;
+
+  // 2) create (messages_count=0, timestamps = now)
+  const now = new Date().toISOString();
+
+  const { data: created, error: insErr } = await supabaseAdmin
+    .from(CHAT_USAGE_TABLE)
+    .insert({
+      user_id: uid,
+      guest_id: gid,
+      messages_count: 0,
+      free_limit: FREE_LIMIT,
+      first_message_at: null,
+      last_message_at: null,
+      limit_reached_at: null,
+      created_at: now,
+    })
+    .select("*")
+    .single();
+
+  if (insErr) throw insErr;
+  return created as UsageRow;
+}
+
+async function incrementUsage(params: {
+  user_id: string | null;
+  guest_id: string | null;
+}) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const row = await getOrCreateUsage(params);
+  const next = Math.max(0, Number(row.messages_count || 0)) + 1;
+
+  const now = new Date().toISOString();
+
+  const firstAt = row.first_message_at || now;
+  const limitReachedAt =
+    row.limit_reached_at || (next >= FREE_LIMIT ? now : null);
+
+  const { data: updated, error: updErr } = await supabaseAdmin
+    .from(CHAT_USAGE_TABLE)
+    .update({
+      messages_count: next,
+      free_limit: FREE_LIMIT,
+      first_message_at: firstAt,
+      last_message_at: now,
+      limit_reached_at: limitReachedAt,
+    })
+    .eq("id", row.id)
+    .select("*")
+    .single();
+
+  if (updErr) throw updErr;
+
+  return updated as UsageRow;
+}
+
+/* ===========================
+   LOG MINIMAL (OPTIONNEL)
+   - seulement first_message et limit_reached
+=========================== */
+async function logMinimalEvent(params: {
+  user_id: string | null;
+  guest_id: string | null;
+  event_type: "first_message" | "limit_reached";
   sign_key: string;
   sign_name: string;
   thread_id: string | null;
-  message_len: number | null;
   meta?: Record<string, any>;
 }) {
   if (!supabaseAdmin) return;
-  await supabaseAdmin.from(CHAT_EVENTS_TABLE).insert({
-    event_type: "message",
-    user_id: params.user_id,
-    guest_id: params.guest_id,
-    sign_key: params.sign_key || null,
-    sign_name: params.sign_name || null,
-    thread_id: params.thread_id,
-    message_len: params.message_len,
-    meta: params.meta ?? {},
-  });
+  try {
+    await supabaseAdmin.from(CHAT_EVENTS_TABLE).insert({
+      event_type: params.event_type,
+      user_id: params.user_id,
+      guest_id: params.guest_id,
+      sign_key: params.sign_key || null,
+      sign_name: params.sign_name || null,
+      thread_id: params.thread_id,
+      meta: params.meta ?? {},
+    });
+  } catch {
+    // best-effort
+  }
 }
 
 /* ===========================
@@ -409,24 +402,14 @@ export async function POST(req: Request) {
     // avatar UI
     const avatarSrc = "/ia-luna-astralis.png";
 
-    // --- Log l'événement (avant OpenAI ok aussi, mais ici on le fait "best-effort")
-    // On loggue avec user_id si présent, sinon guest_id.
-    // IMPORTANT: si guestId est vide, on ne peut pas logger guest correctement.
-    await logChatEvent({
-      user_id,
-      guest_id: user_id ? null : (guestId || null),
-      sign_key: signKey,
-      sign_name: signName || signKey,
-      thread_id: threadId,
-      message_len: typeof lastUserText === "string" ? lastUserText.length : null,
-      meta: { lang, mode: user_id ? "auth" : "guest" },
-    });
-
-    // --- PREMIUM si connecté + abonnement actif
+    // -------- Premium (si connecté et actif) --------
     if (user_id) {
       const premium = await isPremiumActive(user_id);
 
       if (premium) {
+        // ✅ PREMIUM: pas de limite, mais on peut quand même garder last_message_at si tu veux (optionnel)
+        await incrementUsage({ user_id, guest_id: null }).catch(() => {});
+
         const system = `
 Tu es l’assistante Luna Astralis.
 Style: chaleureux, profond, clair, concret.
@@ -445,19 +428,28 @@ Signe: ${signName || signKey || "—"}.
         const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
         return NextResponse.json(
-          { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
+          {
+            message: answer,
+            reply: answer,
+            mode: "auth_premium",
+            avatarSrc,
+          },
           { status: 200 }
         );
       }
 
-      // --- AUTH FREE (limite lifetime)
-      const used = await ensureUserRowAndGetUsed(user_id);
-      if (used >= FREE_LIMIT) {
+      // -------- AUTH FREE (compteur simple dans chat_usage) --------
+      const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
+      const used0 = Number(usage0.messages_count || 0);
+
+      if (used0 >= FREE_LIMIT) {
         return NextResponse.json(
           {
             error: "FREE_LIMIT_REACHED",
             upgrade_required: true,
             free_limit: FREE_LIMIT,
+            used: used0,
+            remaining: 0,
             mode: "auth_free",
           },
           { status: 402 }
@@ -465,7 +457,9 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const context = pickLastNMessages(userMessages, 10);
-      const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
+      const lastAssistant = [...context]
+        .reverse()
+        .find((m) => m.role === "assistant" && cleanStr(m.content));
       const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
       const system =
@@ -498,8 +492,34 @@ Sign: ${signName || signKey || "—"}.
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
       let short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
 
-      const newUsed = await incrementUserUsed(user_id);
-      const remaining = Math.max(0, FREE_LIMIT - newUsed);
+      // ✅ incrémente APRES la réponse (donc utilisé = messages envoyés)
+      const updated = await incrementUsage({ user_id, guest_id: null });
+      const used = Number(updated.messages_count || 0);
+      const remaining = Math.max(0, FREE_LIMIT - used);
+
+      // log minimal (optionnel)
+      if (used === 1) {
+        await logMinimalEvent({
+          user_id,
+          guest_id: null,
+          event_type: "first_message",
+          sign_key: signKey,
+          sign_name: signName || signKey,
+          thread_id: threadId,
+          meta: { lang, mode: "auth_free" },
+        });
+      }
+      if (used === FREE_LIMIT) {
+        await logMinimalEvent({
+          user_id,
+          guest_id: null,
+          event_type: "limit_reached",
+          sign_key: signKey,
+          sign_name: signName || signKey,
+          thread_id: threadId,
+          meta: { lang, mode: "auth_free" },
+        });
+      }
 
       if (lang === "fr" && remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
@@ -507,27 +527,38 @@ Sign: ${signName || signKey || "—"}.
       }
 
       return NextResponse.json(
-        { message: short, reply: short, mode: "auth_free", remaining, avatarSrc },
+        {
+          message: short,
+          reply: short,
+          mode: "auth_free",
+          used,
+          remaining,
+          free_limit: FREE_LIMIT,
+          avatarSrc,
+        },
         { status: 200 }
       );
     }
 
-    // --- GUEST (limite lifetime sur guest_id)
+    // -------- GUEST FREE (compteur simple dans chat_usage) --------
     if (!guestId) {
-      // Sans guestId, on ne peut pas limiter correctement
       return NextResponse.json(
         { error: "GUEST_ID_MISSING", detail: "guestId requis pour le mode invité." },
         { status: 400 }
       );
     }
 
-    const usedG = await ensureGuestRowAndGetUsed(guestId);
-    if (usedG >= FREE_LIMIT) {
+    const usage0 = await getOrCreateUsage({ user_id: null, guest_id: guestId });
+    const used0 = Number(usage0.messages_count || 0);
+
+    if (used0 >= FREE_LIMIT) {
       return NextResponse.json(
         {
           error: "FREE_LIMIT_REACHED",
           upgrade_required: true,
           free_limit: FREE_LIMIT,
+          used: used0,
+          remaining: 0,
           mode: "guest_free",
         },
         { status: 402 }
@@ -535,7 +566,9 @@ Sign: ${signName || signKey || "—"}.
     }
 
     const context = pickLastNMessages(userMessages, 10);
-    const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
+    const lastAssistant = [...context]
+      .reverse()
+      .find((m) => m.role === "assistant" && cleanStr(m.content));
     const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
     const system =
@@ -563,15 +596,42 @@ Sign: ${signName || signKey || "—"}.
     const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
     const short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
 
-    const newUsedG = await incrementGuestUsed(guestId);
-    const remaining = Math.max(0, FREE_LIMIT - newUsedG);
+    const updated = await incrementUsage({ user_id: null, guest_id: guestId });
+    const used = Number(updated.messages_count || 0);
+    const remaining = Math.max(0, FREE_LIMIT - used);
+
+    // log minimal (optionnel)
+    if (used === 1) {
+      await logMinimalEvent({
+        user_id: null,
+        guest_id: guestId,
+        event_type: "first_message",
+        sign_key: signKey,
+        sign_name: signName || signKey,
+        thread_id: threadId,
+        meta: { lang, mode: "guest_free" },
+      });
+    }
+    if (used === FREE_LIMIT) {
+      await logMinimalEvent({
+        user_id: null,
+        guest_id: guestId,
+        event_type: "limit_reached",
+        sign_key: signKey,
+        sign_name: signName || signKey,
+        thread_id: threadId,
+        meta: { lang, mode: "guest_free" },
+      });
+    }
 
     return NextResponse.json(
       {
         message: short,
         reply: short,
         mode: "guest_free",
+        used,
         remaining,
+        free_limit: FREE_LIMIT,
         avatarSrc,
       },
       { status: 200 }
