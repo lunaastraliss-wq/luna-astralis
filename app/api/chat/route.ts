@@ -25,11 +25,18 @@ const USER_USAGE_COL_ID = "user_id";
 const USER_USAGE_COL_USED = "used";
 const USER_USAGE_COL_UPDATED_AT = "updated_at";
 
+const GUEST_USAGE_TABLE = "guest_usage_lifetime";
+const GUEST_USAGE_COL_ID = "guest_id";
+const GUEST_USAGE_COL_USED = "used";
+const GUEST_USAGE_COL_UPDATED_AT = "updated_at";
+
 const SUBS_TABLE = "user_subscriptions";
 const SUBS_COL_USER_ID = "user_id";
 const SUBS_COL_STATUS = "status";
 const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
+
+const CHAT_EVENTS_TABLE = "chat_events";
 
 /* ===========================
    ENV
@@ -158,7 +165,6 @@ const Q_VARIANTS_FR = [
   "Qu’est-ce que tu as besoin d’entendre là, tout de suite ?",
 ];
 
-// max ~240 chars, 2 phrases + 1 question
 function enforceShortFormatFR(input: string, lastS2?: string) {
   const text = cleanStr(input).replace(/\s+/g, " ");
 
@@ -178,10 +184,7 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
   if (!s1) s1 = pickOne(S1_VARIANTS_FR);
 
   if (!s2) {
-    // anti répétition basique : éviter de ressortir la même s2 2x de suite
-    const pool = lastS2
-      ? S2_VARIANTS_FR.filter((x) => x !== lastS2)
-      : S2_VARIANTS_FR;
+    const pool = lastS2 ? S2_VARIANTS_FR.filter((x) => x !== lastS2) : S2_VARIANTS_FR;
     s2 = pickOne(pool.length ? pool : S2_VARIANTS_FR);
   }
 
@@ -205,19 +208,17 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
   return out;
 }
 
-// extrait la 2e phrase pour anti répétition au prochain tour (best-effort)
 function extractSecondSentenceFR(text: string) {
   const t = cleanStr(text).replace(/\s+/g, " ");
   const parts = t
     .split(/(?<=[.!?])\s+/)
     .map((p) => p.trim())
     .filter(Boolean);
-  // s1 s2 q -> s2 = index 1
   return parts[1] ? parts[1].replace(/[.!?…]\s*$/, "").trim() : "";
 }
 
 /* ===========================
-   SUPABASE: USER USAGE (lifetime)
+   USAGE (USER)
 =========================== */
 async function ensureUserRowAndGetUsed(user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
@@ -267,7 +268,57 @@ async function incrementUserUsed(user_id: string) {
 }
 
 /* ===========================
-   SUPABASE: PREMIUM
+   USAGE (GUEST)
+=========================== */
+async function ensureGuestRowAndGetUsed(guest_id: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const { data: existing, error: readErr } = await supabaseAdmin
+    .from(GUEST_USAGE_TABLE)
+    .select(`${GUEST_USAGE_COL_ID}, ${GUEST_USAGE_COL_USED}`)
+    .eq(GUEST_USAGE_COL_ID, guest_id)
+    .maybeSingle();
+
+  if (readErr) throw readErr;
+
+  if (!existing) {
+    const { data: created, error: insErr } = await supabaseAdmin
+      .from(GUEST_USAGE_TABLE)
+      .insert({
+        [GUEST_USAGE_COL_ID]: guest_id,
+        [GUEST_USAGE_COL_USED]: 0,
+        [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+      })
+      .select(`${GUEST_USAGE_COL_USED}`)
+      .single();
+
+    if (insErr) throw insErr;
+    return Number(created?.[GUEST_USAGE_COL_USED] ?? 0);
+  }
+
+  return Number(existing?.[GUEST_USAGE_COL_USED] ?? 0);
+}
+
+async function incrementGuestUsed(guest_id: string) {
+  if (!supabaseAdmin) throw new Error("Supabase admin not configured");
+
+  const current = await ensureGuestRowAndGetUsed(guest_id);
+  const next = current + 1;
+
+  const { error: updErr } = await supabaseAdmin
+    .from(GUEST_USAGE_TABLE)
+    .update({
+      [GUEST_USAGE_COL_USED]: next,
+      [GUEST_USAGE_COL_UPDATED_AT]: new Date().toISOString(),
+    })
+    .eq(GUEST_USAGE_COL_ID, guest_id);
+
+  if (updErr) throw updErr;
+  return next;
+}
+
+/* ===========================
+   PREMIUM
 =========================== */
 async function isPremiumActive(user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
@@ -293,6 +344,31 @@ async function isPremiumActive(user_id: string) {
 }
 
 /* ===========================
+   LOG EVENT
+=========================== */
+async function logChatEvent(params: {
+  user_id: string | null;
+  guest_id: string | null;
+  sign_key: string;
+  sign_name: string;
+  thread_id: string | null;
+  message_len: number | null;
+  meta?: Record<string, any>;
+}) {
+  if (!supabaseAdmin) return;
+  await supabaseAdmin.from(CHAT_EVENTS_TABLE).insert({
+    event_type: "message",
+    user_id: params.user_id,
+    guest_id: params.guest_id,
+    sign_key: params.sign_key || null,
+    sign_name: params.sign_name || null,
+    thread_id: params.thread_id,
+    message_len: params.message_len,
+    meta: params.meta ?? {},
+  });
+}
+
+/* ===========================
    ROUTES
 =========================== */
 export async function GET() {
@@ -315,6 +391,9 @@ export async function POST(req: Request) {
     const lang = cleanStr(body.lang || "fr") || "fr";
     const signName = cleanStr(body.signName || "");
     const signKey = cleanStr(body.signKey || "");
+    const guestId = cleanStr(body.guestId || "");
+    const threadIdRaw = cleanStr(body.threadId || "");
+    const threadId = threadIdRaw ? threadIdRaw : null;
 
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
@@ -322,33 +401,56 @@ export async function POST(req: Request) {
     const lastUserText = getLastUserMessage(userMessages);
     if (!lastUserText) return jsonError("NO_USER_MESSAGE", 400);
 
-    // ✅ Compte requis (session via cookies)
-    const supabaseAuth = createRouteHandlerClient({
-      cookies: () => cookies(),
+    // session via cookies (si connecté)
+    const supabaseAuth = createRouteHandlerClient({ cookies: () => cookies() });
+    const { data: sess } = await supabaseAuth.auth.getSession();
+    const user_id = sess?.session?.user?.id ?? null;
+
+    // avatar UI
+    const avatarSrc = "/ia-luna-astralis.png";
+
+    // --- Log l'événement (avant OpenAI ok aussi, mais ici on le fait "best-effort")
+    // On loggue avec user_id si présent, sinon guest_id.
+    // IMPORTANT: si guestId est vide, on ne peut pas logger guest correctement.
+    await logChatEvent({
+      user_id,
+      guest_id: user_id ? null : (guestId || null),
+      sign_key: signKey,
+      sign_name: signName || signKey,
+      thread_id: threadId,
+      message_len: typeof lastUserText === "string" ? lastUserText.length : null,
+      meta: { lang, mode: user_id ? "auth" : "guest" },
     });
 
-    const { data: sess, error: sessErr } = await supabaseAuth.auth.getSession();
-    if (sessErr) {
-      return jsonError("SESSION_ERROR", 401, { detail: cleanStr(sessErr.message) });
-    }
+    // --- PREMIUM si connecté + abonnement actif
+    if (user_id) {
+      const premium = await isPremiumActive(user_id);
 
-    const user_id = sess?.session?.user?.id ?? null;
-    if (!user_id) {
-      return NextResponse.json(
-        { error: "AUTH_REQUIRED", require_auth: true },
-        { status: 401 }
-      );
-    }
+      if (premium) {
+        const system = `
+Tu es l’assistante Luna Astralis.
+Style: chaleureux, profond, clair, concret.
+Tu peux développer, proposer des pistes, poser des questions pertinentes.
+Tu ne prétends pas être médecin; pas de diagnostics.
+Langue: ${lang}.
+Signe: ${signName || signKey || "—"}.
+`.trim();
 
-    const premium = await isPremiumActive(user_id);
+        const completion = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          temperature: 0.8,
+          messages: [{ role: "system", content: system }, ...userMessages] as any,
+        });
 
-    // Renvoi un avatar centralisé (optionnel côté UI)
-    const avatarSrc = "/ia-luna-astralis.png"; // ✅ mets ce fichier dans /public
+        const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
-    /* ===========================
-       FREE (non premium): 15 lifetime, réponses courtes
-    =========================== */
-    if (!premium) {
+        return NextResponse.json(
+          { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
+          { status: 200 }
+        );
+      }
+
+      // --- AUTH FREE (limite lifetime)
       const used = await ensureUserRowAndGetUsed(user_id);
       if (used >= FREE_LIMIT) {
         return NextResponse.json(
@@ -362,14 +464,8 @@ export async function POST(req: Request) {
         );
       }
 
-      // contexte court
       const context = pickLastNMessages(userMessages, 10);
-
-      // essaye d’extraire la s2 précédente pour éviter répétition
-      // (on prend le dernier assistant message)
-      const lastAssistant = [...context]
-        .reverse()
-        .find((m) => m.role === "assistant" && cleanStr(m.content));
+      const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
       const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
       const system =
@@ -400,59 +496,84 @@ Sign: ${signName || signKey || "—"}.
       });
 
       const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+      let short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
 
-      // format final (FR amélioré)
-      let short =
-        lang === "fr"
-          ? enforceShortFormatFR(raw, lastS2 || undefined)
-          : raw; // si tu veux EN/ES strict aussi, dis-moi, je te le fais.
-
-      // ✅ incrément après succès OpenAI
       const newUsed = await incrementUserUsed(user_id);
       const remaining = Math.max(0, FREE_LIMIT - newUsed);
 
       if (lang === "fr" && remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
-        short =
-          candidate.length <= 240
-            ? candidate
-            : enforceShortFormatFR(candidate, lastS2 || undefined);
+        short = candidate.length <= 240 ? candidate : enforceShortFormatFR(candidate, lastS2 || undefined);
       }
 
       return NextResponse.json(
-        {
-          message: short,
-          reply: short,
-          mode: "auth_free",
-          remaining,
-          avatarSrc,
-        },
+        { message: short, reply: short, mode: "auth_free", remaining, avatarSrc },
         { status: 200 }
       );
     }
 
-    /* ===========================
-       PREMIUM: réponses longues
-    =========================== */
-    const system = `
+    // --- GUEST (limite lifetime sur guest_id)
+    if (!guestId) {
+      // Sans guestId, on ne peut pas limiter correctement
+      return NextResponse.json(
+        { error: "GUEST_ID_MISSING", detail: "guestId requis pour le mode invité." },
+        { status: 400 }
+      );
+    }
+
+    const usedG = await ensureGuestRowAndGetUsed(guestId);
+    if (usedG >= FREE_LIMIT) {
+      return NextResponse.json(
+        {
+          error: "FREE_LIMIT_REACHED",
+          upgrade_required: true,
+          free_limit: FREE_LIMIT,
+          mode: "guest_free",
+        },
+        { status: 402 }
+      );
+    }
+
+    const context = pickLastNMessages(userMessages, 10);
+    const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
+    const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
+
+    const system =
+      lang === "fr"
+        ? `
 Tu es l’assistante Luna Astralis.
-Style: chaleureux, profond, clair, concret.
-Tu peux développer, proposer des pistes, poser des questions pertinentes.
-Tu ne prétends pas être médecin; pas de diagnostics.
-Langue: ${lang}.
+Style: chaleureux, calme, direct, sans dramatiser.
+Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
+Langue: fr.
 Signe: ${signName || signKey || "—"}.
+`.trim()
+        : `
+You are Luna Astralis.
+Very short answer: 2 sentences + 1 question, max 240 characters.
+Language: ${lang}.
+Sign: ${signName || signKey || "—"}.
 `.trim();
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      temperature: 0.8,
-      messages: [{ role: "system", content: system }, ...userMessages] as any,
+      temperature: 0.7,
+      messages: [{ role: "system", content: system }, ...context] as any,
     });
 
-    const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+    const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+    const short = lang === "fr" ? enforceShortFormatFR(raw, lastS2 || undefined) : raw;
+
+    const newUsedG = await incrementGuestUsed(guestId);
+    const remaining = Math.max(0, FREE_LIMIT - newUsedG);
 
     return NextResponse.json(
-      { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
+      {
+        message: short,
+        reply: short,
+        mode: "guest_free",
+        remaining,
+        avatarSrc,
+      },
       { status: 200 }
     );
   } catch (e: any) {
