@@ -253,7 +253,10 @@ export default function ChatClient() {
     (n: number) => {
       if (typeof window === "undefined") return;
       try {
-        localStorage.setItem(KEY_SERVER_REMAINING, String(Math.max(0, Math.trunc(n))));
+        localStorage.setItem(
+          KEY_SERVER_REMAINING,
+          String(Math.max(0, Math.trunc(n)))
+        );
       } catch {}
     },
     [KEY_SERVER_REMAINING]
@@ -262,7 +265,10 @@ export default function ChatClient() {
   const loadThreadLocal = useCallback((): ThreadMsg[] => {
     if (typeof window === "undefined") return [];
     if (!KEY_THREAD_LOCAL) return [];
-    const arr = safeJsonParse<unknown>(localStorage.getItem(KEY_THREAD_LOCAL), []);
+    const arr = safeJsonParse<unknown>(
+      localStorage.getItem(KEY_THREAD_LOCAL),
+      []
+    );
     return Array.isArray(arr) ? (arr as ThreadMsg[]) : [];
   }, [KEY_THREAD_LOCAL]);
 
@@ -281,13 +287,13 @@ export default function ChatClient() {
     (existing: ThreadMsg[]) => {
       if (existing.length) return existing;
 
-   const hello =
-  `Bonjour ✨\n` +
-  (signName !== "-"
-    ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
-    : `On peut prendre un moment pour toi.\n`) +
-  `\nEn amour, qu’est-ce qui te pèse ou te mélange en ce moment ?\n` +
-  `(une personne, un silence, une rupture, un doute…)`;
+      const hello =
+        `Bonjour ✨\n` +
+        (signName !== "-"
+          ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
+          : `On peut prendre un moment pour toi.\n`) +
+        `\nEn amour, qu’est-ce qui te pèse ou te mélange en ce moment ?\n` +
+        `(une personne, un silence, une rupture, un doute…)`;
 
       const t: ThreadMsg[] = [{ role: "ai", text: hello }];
       saveThreadLocal(t);
@@ -306,7 +312,8 @@ export default function ChatClient() {
     }
 
     const threshold = 160;
-    const nearBottom = el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
+    const nearBottom =
+      el.scrollHeight - (el.scrollTop + el.clientHeight) < threshold;
     if (nearBottom) el.scrollTop = el.scrollHeight;
   }, []);
 
@@ -320,9 +327,32 @@ export default function ChatClient() {
     }
   }, [supabase]);
 
+  // --- TRACKING (Supabase) ---
+  const logEvent = useCallback(
+    async (event_type: "open_chat" | "send_message") => {
+      try {
+        const session = await getSessionSafe();
+        const uid = session?.user?.id ?? null;
+
+        await supabase.from("chat_events").insert({
+          user_id: uid,
+          guest_id: uid ? null : getGuestId(),
+          event_type,
+          sign_key: signKey || null,
+        });
+      } catch {
+        // ne bloque jamais le chat si le tracking échoue
+      }
+    },
+    [supabase, getSessionSafe, getGuestId, signKey]
+  );
+
   const refreshQuotaFromServer = useCallback(async () => {
     try {
-      const res = await fetch("/api/chat/quota", { method: "GET", cache: "no-store" });
+      const res = await fetch("/api/chat/quota", {
+        method: "GET",
+        cache: "no-store",
+      });
       if (!res.ok) return;
 
       const data = await res.json().catch(() => ({} as any));
@@ -356,7 +386,9 @@ export default function ChatClient() {
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
-      router.push(`/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`);
+      router.push(
+        `/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`
+      );
     },
     [router, currentPathWithQuery]
   );
@@ -421,7 +453,10 @@ export default function ChatClient() {
         // keep URL synced (normalize to ?sign=...)
         if (typeof window !== "undefined") {
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
-          if (!already) router.replace(`/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`);
+          if (!already)
+            router.replace(
+              `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
+            );
         }
       } else {
         router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
@@ -470,6 +505,12 @@ export default function ChatClient() {
     if (!booted) return;
     scrollToBottom(true);
   }, [booted, thread.length, scrollToBottom]);
+
+  // --- TRACKING: chat opened (once ready) ---
+  useEffect(() => {
+    if (!booted || !signKey) return;
+    logEvent("open_chat");
+  }, [booted, signKey, logEvent]);
 
   const tail = useMemo(() => thread.slice(-MAX_VISIBLE), [thread]);
 
@@ -575,12 +616,20 @@ export default function ChatClient() {
       const text = (input || "").trim();
       if (!text) return;
 
+      // --- TRACKING: message sent ---
+      await logEvent("send_message");
+
       if (!signKey) {
         router.push("/onboarding/sign?next=/chat");
         return;
       }
 
-      if (quotaReady && plan === "free" && typeof freeLeft === "number" && freeLeft <= 0) {
+      if (
+        quotaReady &&
+        plan === "free" &&
+        typeof freeLeft === "number" &&
+        freeLeft <= 0
+      ) {
         openPaywallGuest();
         return;
       }
@@ -608,14 +657,27 @@ export default function ChatClient() {
         }
 
         const msg =
-          "Erreur. Vérifie /api/chat sur Vercel. " + (err?.message ? `(${err.message})` : "");
+          "Erreur. Vérifie /api/chat sur Vercel. " +
+          (err?.message ? `(${err.message})` : "");
 
         const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
         saveThreadLocal(t2);
         setThread(t2);
       }
     },
-    [askLuna, freeLeft, quotaReady, input, loadThreadLocal, openPaywallGuest, saveThreadLocal, router, signKey, plan]
+    [
+      askLuna,
+      freeLeft,
+      quotaReady,
+      input,
+      loadThreadLocal,
+      openPaywallGuest,
+      saveThreadLocal,
+      router,
+      signKey,
+      plan,
+      logEvent,
+    ]
   );
 
   /* ---------------- logout ---------------- */
