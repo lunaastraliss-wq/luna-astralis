@@ -147,13 +147,7 @@ export default function PricingClient() {
   }, [sp, supabase]);
 
   const msgClass =
-    msg?.type === "ok"
-      ? "is-ok"
-      : msg?.type === "err"
-      ? "is-err"
-      : msg?.type === "info"
-      ? "is-info"
-      : "";
+    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
 
   return (
     <div className="pricing-body pricing-page">
@@ -181,18 +175,22 @@ export default function PricingClient() {
       </header>
 
       <main className="wrap" role="main">
+        {/* ===========================
+            HERO
+        =========================== */}
         <section className="pricing-hero" aria-label="Présentation des tarifs">
           <div className="pricing-hero-inner">
             <div className="pricing-kicker">Accès 24h/7</div>
             <div className="pricing-kicker pricing-kicker-alt">TARIFS</div>
 
-            <h1 className="pricing-title">Choisis le forfait qui te convient</h1>
+            <h1 className="pricing-title">Débloque une direction claire quand tu es dans le flou</h1>
 
-            <p className="pricing-subtitle">Paiement sécurisé. Annulation possible en tout temps.</p>
+            <p className="pricing-subtitle">Paiement sécurisé • Accès immédiat • Annule quand tu veux</p>
 
             <div className="pricing-chips" aria-label="Informations">
               <span className="chip">Prix en dollars US (USD)</span>
-              <span className="chip">Annule ou change en tout temps</span>
+              <span className="chip">Change ou annule en tout temps</span>
+              <span className="chip">Réponse claire en quelques minutes</span>
             </div>
 
             {msg ? (
@@ -203,32 +201,37 @@ export default function PricingClient() {
           </div>
         </section>
 
+        {/* ===========================
+            TRUST
+        =========================== */}
         <section className="section" aria-label="Confiance">
           <div className="pricing-trust">
-            <div className="trust-line">
-              ✦ Une expérience douce, inspirée de l’astrologie, pour mieux te comprendre.
-            </div>
-            <div className="trust-sub">Paiement sécurisé • Annulation en tout temps • Aucun frais caché</div>
+            <div className="trust-line">✦ Une guidance douce et directe pour comprendre ce qui se joue — et savoir quoi faire maintenant.</div>
+            <div className="trust-sub">Paiement sécurisé • Annulation simple • Aucun frais caché</div>
           </div>
         </section>
 
+        {/* ===========================
+            PLANS
+        =========================== */}
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
-            <article className="price-card" aria-label="Mensuel — Essentiel">
+            {/* Mensuel — Essentiel */}
+            <article className="price-card" aria-label="Mensuel — Débloquer la réponse">
               <div className="price-head">
-                <div className="price-name">Mensuel — Essentiel</div>
+                <div className="price-name">Débloquer la réponse</div>
                 <div className="price-value">
                   <span className="price-now">4,99&nbsp;$</span>
                   <span className="price-period">/ mois</span>
                 </div>
-                <div className="price-mini">Accès 24h/7</div>
+                <div className="price-mini">Quand tu veux une direction claire, tout de suite.</div>
               </div>
 
               <ul className="price-features">
-                <li>100 messages / mois</li>
-                <li>Tous les signes astrologiques</li>
-                <li>Astro & psycho</li>
-                <li>Compatible mobile</li>
+                <li>Clarifier ce qui se passe vraiment</li>
+                <li>Voir ta part + l’autre part (sans te juger)</li>
+                <li>Savoir quoi faire maintenant</li>
+                <li>Accès 24h/7 – mobile</li>
               </ul>
 
               <button
@@ -238,28 +241,29 @@ export default function PricingClient() {
                 onClick={() => startCheckout("monthly_essential")}
                 disabled={!!busyPlan}
               >
-                {busyPlan === "monthly_essential" ? "Redirection…" : "Commencer"}
+                {busyPlan === "monthly_essential" ? "Redirection…" : "Débloquer la réponse"}
               </button>
             </article>
 
+            {/* Mensuel — Illimité (populaire) */}
             <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
-              <article className="price-card price-featured" aria-label="Mensuel — Illimité">
+              <article className="price-card price-featured" aria-label="Mensuel — Aller au fond des choses">
                 <div className="price-badge">LE PLUS POPULAIRE</div>
 
                 <div className="price-head">
-                  <div className="price-name">Mensuel — Illimité</div>
+                  <div className="price-name">Aller au fond des choses</div>
                   <div className="price-value">
                     <span className="price-now">9,99&nbsp;$</span>
                     <span className="price-period">/ mois</span>
                   </div>
-                  <div className="price-mini">Accès 24h/7</div>
+                  <div className="price-mini">Pour avancer avec un vrai fil conducteur.</div>
                 </div>
 
                 <ul className="price-features">
-                  <li>Messages illimités</li>
-                  <li>Tous les signes astrologiques</li>
-                  <li>Historique des conversations</li>
-                  <li>Exploration approfondie</li>
+                  <li>Explorer en profondeur (patterns, émotions, répétitions)</li>
+                  <li>Historique pour suivre ton évolution</li>
+                  <li>Guidance plus complète (astro + psycho)</li>
+                  <li>Accès 24h/7 – sans limites</li>
                 </ul>
 
                 <button
@@ -274,9 +278,11 @@ export default function PricingClient() {
               </article>
             </div>
 
-            <article className="price-card" aria-label="Annuel — Essentiel">
+            {/* ===== Annuel (à “cacher” plus bas : ici c’est juste le copy, tu gères le layout via CSS plus tard) ===== */}
+
+            <article className="price-card" aria-label="Annuel — Essentiel (pour celles qui reviennent souvent)">
               <div className="price-head">
-                <div className="price-name">Annuel — Essentiel</div>
+                <div className="price-name">Annuel — Essentiel (pour celles qui reviennent souvent)</div>
                 <div className="price-value">
                   <span className="price-was">
                     <s>59,99&nbsp;$</s>
@@ -284,16 +290,14 @@ export default function PricingClient() {
                   <span className="price-now">49,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">
-                  Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
-                </div>
+                <div className="price-mini">Le plus économique si tu utilises Luna régulièrement.</div>
               </div>
 
               <ul className="price-features">
-                <li>100 messages / mois</li>
-                <li>Tous les signes astrologiques</li>
-                <li>Astro & psycho</li>
-                <li>Le plus économique</li>
+                <li>Direction claire quand tu en as besoin</li>
+                <li>Un rythme simple, sans pression</li>
+                <li>Accès 24h/7 toute l’année</li>
+                <li>Meilleur prix sur 12 mois</li>
               </ul>
 
               <button
@@ -307,11 +311,11 @@ export default function PricingClient() {
               </button>
             </article>
 
-            <article className="price-card premium" aria-label="Annuel — Illimité">
+            <article className="price-card premium" aria-label="Annuel — Illimité (accompagnement complet)">
               <div className="price-badge premium">MEILLEURE VALEUR</div>
 
               <div className="price-head">
-                <div className="price-name">Annuel — Illimité</div>
+                <div className="price-name">Annuel — Illimité (accompagnement complet)</div>
                 <div className="price-value">
                   <span className="price-was">
                     <s>119,99&nbsp;$</s>
@@ -319,16 +323,14 @@ export default function PricingClient() {
                   <span className="price-now">99,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">
-                  Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
-                </div>
+                <div className="price-mini">Si tu veux un espace stable pour te comprendre en profondeur.</div>
               </div>
 
               <ul className="price-features">
-                <li>Messages illimités</li>
-                <li>Tous les signes astrologiques</li>
+                <li>Illimité + historique complet</li>
                 <li>Accès prioritaire</li>
-                <li>Futur : Tarot, Lune, Ascendant</li>
+                <li>Évolution future (Tarot, Lune, Ascendant)</li>
+                <li>Le meilleur prix par mois</li>
               </ul>
 
               <button
