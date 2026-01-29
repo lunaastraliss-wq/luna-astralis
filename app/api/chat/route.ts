@@ -12,10 +12,13 @@ export const dynamic = "force-dynamic";
    LIMITES
 =========================== */
 const FREE_LIMIT = 15;
-const UPSELL_WHEN_REMAINING_LTE = 2;
 
+// ✅ Pousser plus tôt (au lieu de seulement quand il reste 2 messages)
+const UPSELL_WHEN_REMAINING_LTE = 5;
+
+// ✅ Upsell court + orienté décision (moins de chances d’être “écrasé” par enforceShortFormatFR)
 const UPSELL_TEXT_FR =
-  " Si tu veux approfondir davantage et comprendre ce qui se joue en profondeur, l’accès complet te permet d’aller beaucoup plus loin.";
+  " Pour trancher et savoir quoi faire maintenant: accès complet.";
 
 /* ===========================
    TABLES
@@ -107,7 +110,10 @@ function getLastUserMessage(msgs: Array<{ role: string; content: string }>) {
   return "";
 }
 
-function pickLastNMessages(msgs: Array<{ role: string; content: string }>, n: number) {
+function pickLastNMessages(
+  msgs: Array<{ role: string; content: string }>,
+  n: number
+) {
   const arr = Array.isArray(msgs) ? msgs : [];
   const sliced = arr.slice(Math.max(0, arr.length - n));
   return sliced
@@ -121,21 +127,33 @@ function pickLastNMessages(msgs: Array<{ role: string; content: string }>, n: nu
 /* ===========================
    SHORT FORMAT (FR)
 =========================== */
-const S1_VARIANTS_FR = ["Je te lis.", "Je suis là.", "D’accord, je comprends.", "Merci de me le dire.", "Ok, je t’écoute."];
-const S2_VARIANTS_FR = [
-  "On va démêler ça ensemble.",
-  "On peut clarifier ça doucement.",
-  "On va y voir plus clair.",
-  "On peut mettre des mots dessus.",
-  "On avance une étape à la fois.",
-  "On peut explorer ça sans pression.",
+const S1_VARIANTS_FR = [
+  "Je te lis.",
+  "Je suis là.",
+  "D’accord, je comprends.",
+  "Merci de me le dire.",
+  "Ok, je t’écoute.",
 ];
+
+// ✅ Phrase 2 orientée amour + tension (sans donner d’action)
+const S2_VARIANTS_FR = [
+  "Il y a une tension nette dans ce lien.",
+  "Je sens un déséquilibre affectif ici.",
+  "Ce lien te met dans l’attente et l’incertitude.",
+  "Il y a un tiraillement: attachement vs limites.",
+  "Quelque chose n’est pas aligné entre vos intentions.",
+  "On dirait une relation qui te laisse en suspens.",
+];
+
+// ✅ Questions orientées amour (levier principal en 240 caractères)
 const Q_VARIANTS_FR = [
-  "Qu’est-ce qui te pèse le plus là, maintenant ?",
-  "C’est quoi le point le plus difficile pour toi ?",
-  "Qu’est-ce que tu ressens le plus fort en ce moment ?",
-  "Tu veux qu’on commence par quoi ?",
-  "Qu’est-ce que tu as besoin d’entendre là, tout de suite ?",
+  "Depuis quand cette situation dure-t-elle ?",
+  "Qu’est-ce que tu attends vraiment de cette personne ?",
+  "Qu’est-ce qui te fait hésiter à trancher aujourd’hui ?",
+  "Qu’est-ce que tu refuses de voir dans ce lien ?",
+  "Qu’est-ce que tu crains de perdre si tu fais un choix ?",
+  "Est-ce que tu te sens choisi(e) ou seulement disponible ?",
+  "Qu’est-ce qui te fait rester, concrètement ?",
 ];
 
 function enforceShortFormatFR(input: string, lastS2?: string) {
@@ -156,7 +174,9 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
   if (!s1) s1 = pickOne(S1_VARIANTS_FR);
 
   if (!s2) {
-    const pool = lastS2 ? S2_VARIANTS_FR.filter((x) => x !== lastS2) : S2_VARIANTS_FR;
+    const pool = lastS2
+      ? S2_VARIANTS_FR.filter((x) => x !== lastS2)
+      : S2_VARIANTS_FR;
     s2 = pickOne(pool.length ? pool : S2_VARIANTS_FR);
   }
 
@@ -230,7 +250,10 @@ type UsageRow = {
   created_at: string | null;
 };
 
-async function getOrCreateUsage(params: { user_id: string | null; guest_id: string | null }) {
+async function getOrCreateUsage(params: {
+  user_id: string | null;
+  guest_id: string | null;
+}) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const uid = params.user_id || null;
@@ -268,7 +291,10 @@ async function getOrCreateUsage(params: { user_id: string | null; guest_id: stri
   return created as UsageRow;
 }
 
-async function incrementUsage(params: { user_id: string | null; guest_id: string | null }) {
+async function incrementUsage(params: {
+  user_id: string | null;
+  guest_id: string | null;
+}) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const row = await getOrCreateUsage(params);
@@ -339,14 +365,22 @@ export async function POST(req: Request) {
       const premium = await isPremiumActive(user_id);
 
       if (premium) {
-        // optionnel: garder last_message_at à jour
         await incrementUsage({ user_id, guest_id: null }).catch(() => {});
 
         const system = `
 Tu es l’assistante Luna Astralis.
+Spécialité: amour + astrologie (compatibilités, cycles, patterns relationnels, attachement, limites).
 Style: chaleureux, profond, clair, concret.
-Tu peux développer, proposer des pistes, poser des questions pertinentes.
-Tu ne prétends pas être médecin; pas de diagnostics.
+
+IMPORTANT:
+- Tu ne prétends pas être médecin; pas de diagnostics.
+- Tu donnes une lecture complète et actionnable en 4 blocs, avec titres courts:
+  1) Dynamique (ce qui se passe)
+  2) Tension (ce qui bloque/risque)
+  3) Direction claire (ce que ça demande maintenant)
+  4) Action immédiate (1 action simple, réaliste, non dramatique)
+- Tu évites les généralités, tu es spécifique au message, et tu conclus par une direction nette.
+
 Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
@@ -384,13 +418,22 @@ Signe: ${signName || signKey || "—"}.
       }
 
       const context = pickLastNMessages(userMessages, 10);
-      const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
+      const lastAssistant = [...context].reverse().find(
+        (m) => m.role === "assistant" && cleanStr(m.content)
+      );
       const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
       const system = `
 Tu es l’assistante Luna Astralis.
+Spécialité: amour + astrologie.
 Style: chaleureux, calme, direct, sans dramatiser.
-Tu aides sur astrologie, psycho douce, relations, introspection.
+
+RÈGLES (version gratuite):
+- Tu clarifies la situation amoureuse et tu nommes la tension (sans conclure).
+- Tu NE DONNES PAS de direction ni de décision (pas de "tu devrais", pas de plan, pas de verdict).
+- Tu évites de fermer la boucle ("tout ira bien", "la meilleure chose est...").
+- Tu termines toujours par 1 question courte, incisive, orientée amour (pas une question générale).
+
 Tu ne prétends pas être médecin; pas de diagnostics.
 Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
 Évite les formulations répétitives d’une réponse à l’autre.
@@ -414,7 +457,10 @@ Signe: ${signName || signKey || "—"}.
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
-        short = candidate.length <= 240 ? candidate : enforceShortFormatFR(candidate, lastS2 || undefined);
+        short =
+          candidate.length <= 240
+            ? candidate
+            : enforceShortFormatFR(candidate, lastS2 || undefined);
       }
 
       return NextResponse.json(
@@ -449,12 +495,21 @@ Signe: ${signName || signKey || "—"}.
     }
 
     const context = pickLastNMessages(userMessages, 10);
-    const lastAssistant = [...context].reverse().find((m) => m.role === "assistant" && cleanStr(m.content));
+    const lastAssistant = [...context].reverse().find(
+      (m) => m.role === "assistant" && cleanStr(m.content)
+    );
     const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
 
     const system = `
 Tu es l’assistante Luna Astralis.
+Spécialité: amour + astrologie.
 Style: chaleureux, calme, direct, sans dramatiser.
+
+RÈGLES (version gratuite):
+- Tu clarifies la situation amoureuse et tu nommes la tension (sans conclure).
+- Tu NE DONNES PAS de direction ni de décision.
+- Tu termines par 1 question courte, orientée amour.
+
 Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
 Langue: fr.
 Signe: ${signName || signKey || "—"}.
