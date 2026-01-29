@@ -776,13 +776,17 @@ export default function ChatClient() {
             </div>
 
             <div className="msc-actions">
-              {bookUrl ? (
-                <a className="btn btn-small btn-ghost" href={bookUrl} target="_blank" rel="noreferrer">
-                  Approfondir →
-                </a>
-              ) : null}
-            </div>
-
+  {bookUrl ? (
+    <a
+      className="btn btn-small btn-ghost"
+      href={bookUrl}
+      target="_blank"
+      rel="noreferrer"
+    >
+      Approfondir {signName} →
+    </a>
+  ) : null}
+</div>
             {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
                 {freeLeft > 0 ? `Il te reste ${freeLeft} message(s) gratuit(s).` : "Limite gratuite atteinte."}
