@@ -129,17 +129,17 @@ export default function ChatSidebar({
           <p className="chat-side-muted">{signDesc}</p>
 
           {!!bookUrl && (
-            <a
-              className="book-btn"
-              href={bookUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Approfondir ce signe"
-              title="Approfondir ce signe"
-            >
-              ✦ Approfondir ce signe
-            </a>
-          )}
+  <a
+    className="book-btn"
+    href={bookUrl}
+    target="_blank"
+    rel="noreferrer"
+    aria-label={`Approfondir ${signName}`}
+    title={`Approfondir ${signName}`}
+  >
+    ✦ Approfondir {signName}
+  </a>
+)}
 
           {/* Badge forfait */}
           {showPlanBadge && (
