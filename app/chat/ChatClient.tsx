@@ -12,7 +12,7 @@ import ChatModals from "./ChatModals";
 type ThreadMsg = { role: "user" | "ai"; text: string };
 type Plan = "guest" | "free" | "premium";
 
-const FREE_LIMIT = 15;
+const FALLBACK_FREE_LIMIT = 15; // juste un fallback si serveur down
 const STORAGE_PREFIX = "la_chat_";
 const MAX_VISIBLE = 14;
 
@@ -174,7 +174,7 @@ export default function ChatClient() {
   const [paywallMode, setPaywallMode] = useState<"guest" | "premium">("guest");
   const [historyOpen, setHistoryOpen] = useState(false);
 
-  const [freeLeft, setFreeLeft] = useState<number | null>(FREE_LIMIT);
+  const [freeLeft, setFreeLeft] = useState<number | null>(null);
 
   const [quotaReady, setQuotaReady] = useState(false);
   const [booted, setBooted] = useState(false);
@@ -365,16 +365,16 @@ export default function ChatClient() {
       setPlan(nextPlan);
 
       if (nextPlan === "premium") {
-        setFreeLeft(null);
-        setSavedRemaining(FREE_LIMIT);
-        return;
-      }
+  setFreeLeft(null);
+  setSavedRemaining(0);
+  return;
+}
 
-      const r = clampInt(data?.freeLeft ?? data?.remaining, FREE_LIMIT);
-      const safe = Math.max(0, Math.min(FREE_LIMIT, r));
+const r = clampInt(data?.freeLeft ?? data?.remaining, FALLBACK_FREE_LIMIT);
+const safe = Math.max(0, r);
 
-      setFreeLeft(safe);
-      setSavedRemaining(safe);
+setFreeLeft(safe);
+setSavedRemaining(safe);
     } catch {}
   }, [setSavedRemaining]);
 
@@ -426,14 +426,14 @@ export default function ChatClient() {
 
       // load cached remaining quickly
       try {
-        const key = uid
-          ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
-          : `${STORAGE_PREFIX}server_remaining_guest`;
-        const n = clampInt(localStorage.getItem(key), FREE_LIMIT);
-        setFreeLeft(Math.max(0, Math.min(FREE_LIMIT, n)));
-      } catch {
-        setFreeLeft(FREE_LIMIT);
-      }
+  const key = uid
+    ? `${STORAGE_PREFIX}server_remaining_user_${uid}`
+    : `${STORAGE_PREFIX}server_remaining_guest`;
+  const n = clampInt(localStorage.getItem(key), FALLBACK_FREE_LIMIT);
+  setFreeLeft(Math.max(0, n));
+} catch {
+  setFreeLeft(null);
+}
 
       await refreshQuotaFromServer();
       setQuotaReady(true);
