@@ -61,6 +61,21 @@ const SIGN_DESC: Record<string, string> = {
   poissons:
     "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
 };
+// --- DESC COURTE (mobile) ---
+const SIGN_DESC_MOBILE: Record<string, string> = {
+  belier: "Action, élan.",
+  taureau: "Stabilité, sécurité.",
+  gemeaux: "Mental, dualité.",
+  cancer: "Émotions, protection.",
+  lion: "Confiance, cœur.",
+  vierge: "Clarté, contrôle.",
+  balance: "Relation, équilibre.",
+  scorpion: "Intensité, confiance.",
+  sagittaire: "Liberté, sens.",
+  capricorne: "Pression, maîtrise.",
+  verseau: "Indépendance.",
+  poissons: "Intuition, empathie.",
+};
 
 const SIGN_BOOKS: Record<string, string> = {
   belier: "https://a.co/d/ipv7KsG",
@@ -196,22 +211,58 @@ export default function ChatClient() {
     [signKey]
   );
 
-  const signName = useMemo(
-    () => (signKey ? SIGNS[signKey] || "—" : "—"),
-    [signKey]
-  );
+// --- Détection mobile ---
+const [isMobile, setIsMobile] = useState(false);
 
-  const signDesc = useMemo(() => {
-    const fallback =
-      "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
-    if (!signKey) return fallback;
-    return SIGN_DESC[signKey] || fallback;
-  }, [signKey]);
+useEffect(() => {
+  if (typeof window === "undefined") return;
 
-  const bookUrl = useMemo(
-    () => (signKey ? SIGN_BOOKS[signKey] || "" : ""),
-    [signKey]
-  );
+  const mq = window.matchMedia("(max-width: 768px)");
+  const apply = () => setIsMobile(mq.matches);
+
+  apply();
+
+  if ("addEventListener" in mq) {
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  } else {
+    // vieux Safari
+    // @ts-ignore
+    mq.addListener(apply);
+    // @ts-ignore
+    return () => mq.removeListener(apply);
+  }
+}, []);
+
+// --- Nom du signe ---
+const signName = useMemo(() => {
+  return signKey ? SIGNS[signKey] || "—" : "—";
+}, [signKey]);
+
+// --- Desc desktop ---
+const signDescDesktop = useMemo(() => {
+  const fallback =
+    "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+  if (!signKey) return fallback;
+  return SIGN_DESC[signKey] || fallback;
+}, [signKey]);
+
+// --- Desc mobile ---
+const signDescMobile = useMemo(() => {
+  const fallback = "Exploration émotionnelle.";
+  if (!signKey) return fallback;
+  return SIGN_DESC_MOBILE[signKey] || fallback;
+}, [signKey]);
+
+// ✅ Desc finale utilisée partout
+const signDesc = useMemo(() => {
+  return isMobile ? signDescMobile : signDescDesktop;
+}, [isMobile, signDescMobile, signDescDesktop]);
+
+// --- Livre ---
+const bookUrl = useMemo(() => {
+  return signKey ? SIGN_BOOKS[signKey] || "" : "";
+}, [signKey]);
 
   const currentPathWithQuery = useCallback(() => {
     if (typeof window === "undefined") return "/";
