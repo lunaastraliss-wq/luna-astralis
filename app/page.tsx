@@ -302,16 +302,27 @@ export default function HomePage() {
               </div>
 
               <h1 className="hero-title hero-title-center">
-                Ce n’est pas un horoscope.
-                <br />
-                C’est ta vie amoureuse expliquée.
-              </h1>
+  Ce n’est pas un horoscope.
+  <br />
+  C’est ta vie amoureuse expliquée.
+</h1>
 
-              <p className="lead lead-center">
-                Tu veux comprendre ce qu'il ou qu'elle ressent?
-                <br />
-                Pose ta question et découvre la logique de ton signe en amour.
-              </p>
+{/* 1) Situation immédiate (UNE phrase) */}
+<p className="lead lead-center" style={{ marginTop: 10 }}>
+  Tu doutes de ce que l’autre ressent en ce moment ?
+</p>
+
+{/* 2) Bénéfice tangible (après 5–10 minutes) */}
+<p className="note-center" style={{ marginTop: 10, fontWeight: 700 }}>
+  En 5 minutes, tu mets des mots sur ce que tu vis — sans tourner en rond.
+</p>
+
+{/* 3) Miroirs (2–3 cas) */}
+<ul className="note-center" style={{ marginTop: 10, listStyle: "none", padding: 0, lineHeight: 1.65 }}>
+  <li>• Il/elle est distant(e) et tu ne sais plus quoi penser</li>
+  <li>• Tu attends un message, un signe, une confirmation</li>
+  <li>• Tu te demandes si tu t’accroches à quelque chose qui n’existe pas</li>
+</ul>
             </div>
 
             {/* CTA */}
