@@ -822,7 +822,7 @@ setSavedRemaining(safe);
               <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
               <div className="msc-text">
                 <div className="msc-title">{signName}</div>
-                <div className="msc-sub">{signDesc}</div>
+                <div className="msc-sub">{signDescMobile}</div>
               </div>
             </div>
 
