@@ -37,17 +37,17 @@ const MINI_REVIEWS: MiniReview[] = [
   {
     sign: "♈ Bélier",
     name: "Marie L.",
-    text: "“Ça m’a fait du bien. J’ai ralenti sans culpabiliser, et j’ai enfin canalisé mon énergie.”",
+    text: "“J’étais impatiente et un peu perdue. Ça m’a aidée à comprendre pourquoi je réagissais comme ça en amour, sans me juger.”",
   },
   {
     sign: "♊ Gémeaux",
     name: "Julie R.",
-    text: "“Je suis Gémeaux et j’ai mille pensées. Là, j’ai réussi à clarifier ce que je ressens. Ça suit vraiment mon rythme.”",
+    text: "“Je pensais trop à cette relation. En quelques échanges, j’ai réussi à clarifier ce que je ressentais vraiment pour lui.”",
   },
   {
     sign: "♋ Cancer",
     name: "Camille D.",
-    text: "“C’était doux, juste, et réconfortant. Ça m’a aidée à comprendre ce que je porte émotionnellement.”",
+    text: "“Je portais beaucoup émotionnellement dans cette histoire. Ça m’a fait du bien de mettre des mots sur ce que je vivais.”",
   },
 ];
 
