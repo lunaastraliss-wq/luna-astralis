@@ -34,7 +34,7 @@ function normalizeFreeLeft(v: number | null): number | null {
 
 function labelFromPlan(plan: Plan, planSlug?: string | null) {
   if (plan === "guest") return "Invité";
-  if (plan === "free") return "Gratuit (15 messages)";
+  if (plan === "free") return "Gratuit";
   if (plan !== "premium") return "";
 
   const slug = String(planSlug || "").trim().toLowerCase();
@@ -69,9 +69,9 @@ export default function ChatSidebar({
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
-    if ((freeLeftNorm ?? 0) <= 0) return "Limite gratuite atteinte";
+    if ((freeLeftNorm ?? 0) <= 0) return "Limite atteinte";
     const plural = (freeLeftNorm ?? 0) > 1 ? "s" : "";
-    return `Il te reste ${freeLeftNorm} message${plural} gratuit${plural}.`;
+    return `${freeLeftNorm} message${plural}`;
   }, [showFreeCounter, freeLeftNorm]);
 
   const isAdmin = useMemo(() => {
@@ -129,16 +129,16 @@ export default function ChatSidebar({
           <p className="chat-side-muted">{signDesc}</p>
 
           {!!bookUrl && (
-  <a
-    className="book-btn"
-    href={bookUrl}
-    target="_blank"
-    rel="noreferrer"
-    aria-label={`Approfondir ${signName}`}
-    title={`Approfondir ${signName}`}
-  >
-    ✦ Approfondir {signName}
-  </a>
+ <a
+  className="book-btn"
+  href={bookUrl}
+  target="_blank"
+  rel="noreferrer"
+  aria-label={`Approfondir ${signName}`}
+  title={`Approfondir ${signName}`}
+>
+  ✦ Livre
+</a>
 )}
 
           {/* Badge forfait */}
