@@ -8,18 +8,21 @@
   justify-content: center;
   padding: 20px;
   overflow: hidden;
+  isolation: isolate;
+  background: #050814;
 }
 
-/* ===== IMAGE + OVERLAY ANIMÉ ===== */
+/* ===== IMAGE DE FOND ANIMÉE ===== */
 .hero-astro::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -8%;
+  z-index: 0;
 
   background:
     linear-gradient(
-      rgba(5, 8, 20, 0.55),
-      rgba(5, 8, 20, 0.75)
+      rgba(5, 8, 20, 0.50),
+      rgba(5, 8, 20, 0.72)
     ),
     url("/bg-moon-silhouette.jpg");
 
@@ -27,139 +30,176 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  animation: bgZoom 30s ease-in-out infinite alternate;
-
-  z-index: 0;
+  transform: scale(1.08);
+  animation: heroBgMove 14s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-/* ===== GLOW LUXE ANIMÉ ===== */
+/* ===== GLOW COSMIQUE ===== */
 .hero-astro::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
 
   background:
     radial-gradient(
-      circle at 60% 40%,
-      rgba(120, 150, 255, 0.20),
-      transparent 60%
+      circle at 20% 30%,
+      rgba(120, 150, 255, 0.18),
+      transparent 30%
     ),
     radial-gradient(
-      circle at 30% 70%,
-      rgba(180, 140, 255, 0.15),
-      transparent 60%
+      circle at 75% 35%,
+      rgba(170, 120, 255, 0.15),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(255, 255, 255, 0.05),
+      transparent 20%
     );
 
-  animation: glowMove 12s ease-in-out infinite alternate;
-
-  pointer-events: none;
-  z-index: 0;
+  animation: heroGlowMove 10s ease-in-out infinite alternate;
+  will-change: transform, opacity;
 }
 
-/* ===== CONTENU ===== */
+/* ===== CONTENU AU-DESSUS ===== */
 .hero-astro > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* ===== CARTE PREMIUM ===== */
 .hero-card {
   max-width: 700px;
   width: 100%;
+  padding: 28px;
+  text-align: center;
+  border-radius: 24px;
 
   background: linear-gradient(
     180deg,
-    rgba(10, 15, 30, 0.75),
-    rgba(8, 12, 24, 0.65)
+    rgba(10, 15, 30, 0.78),
+    rgba(8, 12, 24, 0.66)
   );
 
+  border: 1px solid rgba(255, 255, 255, 0.10);
   backdrop-filter: blur(16px);
-  border-radius: 24px;
-  padding: 28px;
-
-  border: 1px solid rgba(255,255,255,0.08);
+  -webkit-backdrop-filter: blur(16px);
 
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.6),
-    0 0 40px rgba(120,140,255,0.2);
+    0 20px 60px rgba(0, 0, 0, 0.60),
+    0 0 40px rgba(120, 140, 255, 0.16);
 
-  text-align: center;
-
-  animation: fadeInUp 1s ease forwards;
+  animation: heroCardIn 1s ease forwards;
 }
 
 /* ===== TITRE ===== */
 .hero-title {
-  font-size: 30px;
-  font-weight: 900;
   margin-bottom: 14px;
-
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.1;
   color: #eaf2ff;
-  text-shadow: 0 0 14px rgba(120,150,255,0.45);
+  text-shadow: 0 0 14px rgba(120, 150, 255, 0.35);
 }
 
 /* ===== TEXTE ===== */
 .lead {
+  margin: 0;
   font-size: 16px;
+  line-height: 1.6;
   color: #cfd8ff;
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 /* ===== BOUTON PREMIUM ===== */
 .hero-free-btn {
+  display: inline-block;
   margin-top: 22px;
   padding: 14px 20px;
+  border: none;
   border-radius: 14px;
 
   background: linear-gradient(135deg, #facc15, #fde047);
   color: #000;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
 
-  box-shadow:
-    0 8px 25px rgba(250, 204, 21, 0.4);
-
-  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(250, 204, 21, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-free-btn:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow:
-    0 14px 35px rgba(250, 204, 21, 0.6);
+  box-shadow: 0 14px 35px rgba(250, 204, 21, 0.55);
 }
 
 /* ===== ANIMATIONS ===== */
 
-/* zoom lent background */
-@keyframes bgZoom {
+@keyframes heroBgMove {
   0% {
-    transform: scale(1);
+    transform: scale(1.08) translate3d(0, 0, 0);
   }
   100% {
-    transform: scale(1.08);
+    transform: scale(1.18) translate3d(-18px, -10px, 0);
   }
 }
 
-/* glow qui bouge */
-@keyframes glowMove {
+@keyframes heroGlowMove {
   0% {
-    transform: translate(0px, 0px);
-    opacity: 0.8;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.85;
   }
   100% {
-    transform: translate(-20px, 20px);
+    transform: translate3d(-24px, 18px, 0);
     opacity: 1;
   }
 }
 
-/* apparition carte */
-@keyframes fadeInUp {
+@keyframes heroCardIn {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(26px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hero-astro {
+    min-height: 92vh;
+    padding: 16px;
+  }
+
+  .hero-card {
+    padding: 22px;
+    border-radius: 20px;
+  }
+
+  .lead {
+    font-size: 15px;
+  }
+
+  .hero-astro::before {
+    inset: -12%;
+    animation: heroBgMove 12s ease-in-out infinite alternate;
+  }
+}
+
+/* ===== ACCESSIBILITÉ ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-astro::before,
+  .hero-astro::after,
+  .hero-card {
+    animation: none;
+  }
+
+  .hero-free-btn {
+    transition: none;
   }
 }
