@@ -9,19 +9,17 @@ import "./home.css";
 
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
-const SIGN_PARAM = "sign"; // ✅ standard
+const SIGN_PARAM = "sign";
 
 const SIGNS: Array<{ key: string; label: string; cls: string }> = [
   { key: "belier", label: "♈ Bélier", cls: "sign-fire" },
   { key: "taureau", label: "♉ Taureau", cls: "sign-earth" },
   { key: "gemeaux", label: "♊ Gémeaux", cls: "sign-air" },
   { key: "cancer", label: "♋ Cancer", cls: "sign-water" },
-
   { key: "lion", label: "♌ Lion", cls: "sign-fire" },
   { key: "vierge", label: "♍ Vierge", cls: "sign-earth" },
   { key: "balance", label: "♎ Balance", cls: "sign-air" },
   { key: "scorpion", label: "♏ Scorpion", cls: "sign-water" },
-
   { key: "sagittaire", label: "♐ Sagittaire", cls: "sign-fire" },
   { key: "capricorne", label: "♑ Capricorne", cls: "sign-earth" },
   { key: "verseau", label: "♒ Verseau", cls: "sign-air" },
@@ -72,12 +70,14 @@ export default function HomePage() {
   const y = useMemo(() => new Date().getFullYear(), []);
 
   const [isAuth, setIsAuth] = useState<boolean>(false);
-
-  // menu mobile
   const [menuOpen, setMenuOpen] = useState(false);
+  const [soundOn, setSoundOn] = useState(false);
+  const [soundReady, setSoundReady] = useState(false);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  // scroll helper
   const scrollToId = useCallback((id: string) => {
     if (typeof window === "undefined") return;
     const el = document.getElementById(id);
@@ -92,7 +92,6 @@ export default function HomePage() {
     }, 250);
   }, []);
 
-  // détecte session
   useEffect(() => {
     let alive = true;
 
@@ -120,25 +119,22 @@ export default function HomePage() {
     };
   }, []);
 
-  // ferme menu si auth change
   useEffect(() => {
     setMenuOpen(false);
   }, [isAuth]);
 
-  // ferme menu au clic dehors + ESC
   useEffect(() => {
     if (!menuOpen) return;
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeMenu();
     };
+
     const onClick = (e: MouseEvent) => {
       const t = e.target as HTMLElement | null;
       if (!t) return;
-
       if (t.closest(".nav-mobile")) return;
       if (t.closest(".nav-burger")) return;
-
       closeMenu();
     };
 
@@ -151,7 +147,6 @@ export default function HomePage() {
     };
   }, [menuOpen, closeMenu]);
 
-  // nav handlers (desktop + mobile)
   const onNavTo = useCallback(
     (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
@@ -161,7 +156,6 @@ export default function HomePage() {
     [closeMenu, scrollToId]
   );
 
-  // clic sur signe: store + redirect (✅ next standard)
   const onPickSign = useCallback(
     (signKey: string) => {
       storeSign(signKey);
@@ -178,13 +172,6 @@ export default function HomePage() {
     [router, isAuth]
   );
 
-  // ---------------------------
-  // VIDEO (son)
-  // ---------------------------
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [soundOn, setSoundOn] = useState(false);
-  const [soundReady, setSoundReady] = useState(false);
-
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -196,7 +183,7 @@ export default function HomePage() {
       try {
         await v.play();
       } catch {
-        // ignore
+        // ignore autoplay failure
       }
     })();
   }, []);
@@ -240,7 +227,6 @@ export default function HomePage() {
         </Link>
 
         <nav className="nav" aria-label="Navigation principale">
-          {/* DESKTOP NAV */}
           <div className="nav-desktop">
             <a href="#comment" onClick={onNavTo("comment")}>
               Comment ça fonctionne
@@ -259,7 +245,6 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {/* MOBILE BUTTON */}
           <button
             type="button"
             className="nav-burger"
@@ -270,7 +255,6 @@ export default function HomePage() {
             ☰
           </button>
 
-          {/* MOBILE MENU */}
           <div className={`nav-mobile ${menuOpen ? "open" : ""}`} role="menu">
             <a href="#comment" onClick={onNavTo("comment")} role="menuitem">
               Comment ça fonctionne
@@ -294,24 +278,7 @@ export default function HomePage() {
       {/* MAIN */}
       <main className="wrap" role="main">
         {/* HERO */}
-       <section
-  className="hero hero-astro"
-  aria-label="Présentation"
-  style={{
-    position: "relative",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundImage: `
-      linear-gradient(rgba(5,5,20,0.45), rgba(5,5,20,0.75)),
-      url("/bg-moon-silhouette.jpg")
-    `,
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat"
-  }}
->
+        <section className="hero hero-astro" aria-label="Présentation">
           <div className="hero-card">
             <div className="hero-top hero-top-center">
               <div className="hero-kicker hero-kicker-center">
@@ -319,42 +286,43 @@ export default function HomePage() {
                 <span className="hero-badge">Espace de discussion</span>
               </div>
 
-             <h1 className="hero-title hero-title-center">
-  Pourquoi tu revis toujours les mêmes relations ?
-</h1>
+              <h1 className="hero-title hero-title-center">
+                Pourquoi tu revis toujours les mêmes relations ?
+              </h1>
 
-<p className="hero-sub hero-sub-center">
-  Ce n’est pas un hasard.
-</p>
+              <p className="hero-sub hero-sub-center">
+                Ce n’est pas un hasard.
+              </p>
 
-<p className="lead lead-center">
-  Tu attires souvent le même type de personne.
-</p>
-</div>
+              <p className="lead lead-center">
+                Tu attires souvent le même type de personne.
+              </p>
+            </div>
 
-{/* CTA */}
-<div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
-  <div className="hero-free hero-free-center">
-    <h2 className="hero-free-title">Comprends enfin ce que tu vis.</h2>
+            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
+              <div className="hero-free hero-free-center">
+                <h2 className="hero-free-title">Comprends enfin ce que tu vis.</h2>
 
-    <p className="hero-free-sub">
-      En quelques minutes, vois plus clair dans ta situation amoureuse.
-    </p>
+                <p className="hero-free-sub">
+                  En quelques minutes, vois plus clair dans ta situation amoureuse.
+                </p>
 
-    <a
-      href="#signes"
-      className="hero-free-btn hero-free-btn--pulse"
-      onClick={onNavTo("signes")}
-    >
-      Découvrir pourquoi →
-    </a>
+                <a
+                  href="#signes"
+                  className="hero-free-btn hero-free-btn--pulse"
+                  onClick={onNavTo("signes")}
+                >
+                  Découvrir pourquoi →
+                </a>
 
-    <div className="hero-free-note">
-      {isAuth ? "Connectée · Accès immédiat" : "Gratuit pour commencer · Sans engagement"}
-    </div>
-  </div>
-</div>
-            {/* 🎥 VIDEO WELCOME (Astro frame + son) */}
+                <div className="hero-free-note">
+                  {isAuth
+                    ? "Connectée · Accès immédiat"
+                    : "Gratuit pour commencer · Sans engagement"}
+                </div>
+              </div>
+            </div>
+
             <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
               <div className="astro-video-frame">
                 <video
@@ -382,7 +350,6 @@ export default function HomePage() {
               <p className="astro-video-caption">Bienvenue sur Luna Astralis ✨</p>
             </div>
 
-            {/* ⭐ MINI REVIEWS */}
             <section className="mini-reviews" aria-label="Avis 5 étoiles">
               {MINI_REVIEWS.map((r) => (
                 <article key={r.name + r.sign} className="mini-review">
@@ -401,8 +368,22 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
-            <p className="hero-disclaimer note-center">Exploration personnelle (non thérapeutique).</p>
+            <p className="hero-disclaimer note-center">
+              Exploration personnelle (non thérapeutique).
+            </p>
           </div>
+        </section>
+
+        <section className="section-problem">
+          <p className="problem-intro">
+            En quelques minutes, tu comprends enfin ce que tu vis, sans te mentir.
+          </p>
+
+          <ul className="problem-list">
+            <li>Il ou elle est distant(e), et tu ne comprends pas pourquoi ?</li>
+            <li>Tu attends un message, mais rien ne vient ?</li>
+            <li>Tu sens que quelque chose cloche, sans savoir quoi ?</li>
+          </ul>
         </section>
 
         {/* COMMENT */}
