@@ -320,9 +320,9 @@ export default function HomePage() {
               </div>
 
               <h1 className="hero-title hero-title-center">
-  Ce n’est pas un horoscope.
+  Pourquoi tu revis toujours les mêmes relations?
   <br />
-  C’est ta vie amoureuse expliquée.
+  Ce n'est pas un hasard.  Ton énergie amoureuse attire toujours le même type de personne.
 </h1>
 
 {/* 1) Situation immédiate (UNE phrase) */}
@@ -332,34 +332,34 @@ export default function HomePage() {
 
 {/* 2) Bénéfice tangible (après 5–10 minutes) */}
 <p className="note-center" style={{ marginTop: 10, fontWeight: 700 }}>
-  En 5 minutes, tu mets des mots sur ce que tu vis — sans tourner en rond.
+  En quelques minutes, tu comprends enfin ce que tu vis - sans te mentir.
 </p>
 
 {/* 3) Miroirs (2–3 cas) */}
 <ul className="note-center" style={{ marginTop: 10, listStyle: "none", padding: 0, lineHeight: 1.65 }}>
-  <li>• Il/elle est distant(e) et tu ne sais plus quoi penser</li>
-  <li>• Tu attends un message, un signe, une confirmation</li>
-  <li>• Tu te demandes si tu t’accroches à quelque chose qui n’existe pas</li>
+  <li>• Il/elle distant distant(e)... et tu ne comprends pas pourquoi?</li>
+  <li>• Tu attends un message... mais rien ne vient?</li>
+  <li>• Tu sens que quelque chose cloche, mais tu ne sais pas quoi?</li>
 </ul>
             </div>
 
             {/* CTA */}
             <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
               <div className="hero-free hero-free-center">
-                <h2 className="hero-free-title">Commence maintenant.</h2>
+                <h2 className="hero-free-title">Comprend enfin ce que tu vis.</h2>
 
-                <p className="hero-free-sub">Choisis ton signe, puis connecte-toi.</p>
+                <p className="hero-free-sub">En quelques minutes, tu va enfin comprendre ce qui se passe vraiment.</p>
 
                 <a
                   href="#signes"
                   className="hero-free-btn hero-free-btn--pulse"
                   onClick={onNavTo("signes")}
                 >
-                  Choisis ton signe. →
+                  Découvrir pourquoi →
                 </a>
 
                 <div className="hero-free-note">
-                  {isAuth ? "Connectée · Accès immédiat" : "Compte requis · Gratuit au départ"}
+                  {isAuth ? "Connectée · Accès immédiat" : "Gratuit pour commencer - Sans engagement"}
                 </div>
               </div>
             </div>
