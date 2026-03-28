@@ -320,7 +320,7 @@ export default function HomePage() {
               </div>
 
               <h1 className="hero-title hero-title-center">
-  Pourquoi tu revis toujours les mêmes relations???
+  Pourquoi tu revis toujours les mêmes relations?
   <br />
   Ce n'est pas un hasard.  Ton énergie amoureuse attire toujours le même type de personne.
 </h1>
