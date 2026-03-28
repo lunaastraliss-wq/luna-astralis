@@ -1,4 +1,4 @@
-/* ===== HERO CLEAN LUNA ===== */
+/* ===== HERO PREMIUM LUNA ===== */
 
 .hero-astro {
   position: relative;
@@ -10,15 +10,16 @@
   overflow: hidden;
 }
 
-/* IMAGE DE FOND */
+/* ===== IMAGE + OVERLAY (PLUS VISIBLE) ===== */
 .hero-astro::before {
   content: "";
   position: absolute;
   inset: 0;
 
-  background: linear-gradient(
-      rgba(5, 5, 20, 0.6),
-      rgba(5, 5, 20, 0.85)
+  background:
+    linear-gradient(
+      rgba(5, 8, 20, 0.45),  /* 👈 plus visible */
+      rgba(5, 8, 20, 0.70)
     ),
     url("/bg-moon-silhouette.jpg");
 
@@ -29,44 +30,94 @@
   z-index: 0;
 }
 
-/* CONTENU AU-DESSUS */
+/* ===== GLOW LUXE ===== */
+.hero-astro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 65% 35%,
+      rgba(120, 150, 255, 0.18),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      rgba(180, 140, 255, 0.12),
+      transparent 50%
+    );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== CONTENU ===== */
 .hero-astro > * {
   position: relative;
   z-index: 1;
 }
 
-/* CARTE CENTRALE */
+/* ===== CARTE PREMIUM ===== */
 .hero-card {
   max-width: 700px;
   width: 100%;
 
-  background: rgba(10, 15, 30, 0.6);
-  border-radius: 24px;
-  padding: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 15, 30, 0.75),
+    rgba(8, 12, 24, 0.65)
+  );
 
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  backdrop-filter: blur(14px);
+  border-radius: 24px;
+  padding: 28px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 40px rgba(120,140,255,0.15);
+
   text-align: center;
 }
 
-/* TEXTE */
+/* ===== TITRE ===== */
 .hero-title {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 900;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+
+  color: #eaf2ff;
+  text-shadow: 0 0 12px rgba(120,150,255,0.35);
 }
 
+/* ===== TEXTE ===== */
 .lead {
   font-size: 16px;
-  opacity: 0.85;
+  color: #cfd8ff;
+  opacity: 0.9;
 }
 
+/* ===== BOUTON PREMIUM ===== */
 .hero-free-btn {
-  margin-top: 20px;
-  padding: 14px 18px;
+  margin-top: 22px;
+  padding: 14px 20px;
   border-radius: 14px;
 
-  background: #fbbf24;
+  background: linear-gradient(135deg, #facc15, #fde047);
   color: #000;
   font-weight: bold;
   cursor: pointer;
+
+  box-shadow:
+    0 8px 25px rgba(250, 204, 21, 0.4);
+
+  transition: all 0.3s ease;
+}
+
+.hero-free-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 30px rgba(250, 204, 21, 0.6);
 }
