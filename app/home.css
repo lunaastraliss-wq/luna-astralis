@@ -1,0 +1,72 @@
+/* ===== HERO CLEAN LUNA ===== */
+
+.hero-astro {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* IMAGE DE FOND */
+.hero-astro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+      rgba(5, 5, 20, 0.6),
+      rgba(5, 5, 20, 0.85)
+    ),
+    url("/bg-moon-silhouette.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  z-index: 0;
+}
+
+/* CONTENU AU-DESSUS */
+.hero-astro > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* CARTE CENTRALE */
+.hero-card {
+  max-width: 700px;
+  width: 100%;
+
+  background: rgba(10, 15, 30, 0.6);
+  border-radius: 24px;
+  padding: 24px;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+/* TEXTE */
+.hero-title {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.lead {
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.hero-free-btn {
+  margin-top: 20px;
+  padding: 14px 18px;
+  border-radius: 14px;
+
+  background: #fbbf24;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
