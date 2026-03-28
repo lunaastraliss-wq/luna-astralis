@@ -294,7 +294,24 @@ export default function HomePage() {
       {/* MAIN */}
       <main className="wrap" role="main">
         {/* HERO */}
-        <section className="hero hero-astro" aria-label="Présentation">
+       <section
+  className="hero hero-astro"
+  aria-label="Présentation"
+  style={{
+    position: "relative",
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundImage: `
+      linear-gradient(rgba(5,5,20,0.45), rgba(5,5,20,0.75)),
+      url("/bg-moon-silhouette.jpg")
+    `,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat"
+  }}
+>
           <div className="hero-card">
             <div className="hero-top hero-top-center">
               <div className="hero-kicker hero-kicker-center">
