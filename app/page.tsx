@@ -320,14 +320,13 @@ export default function HomePage() {
               </div>
 
               <h1 className="hero-title hero-title-center">
-  Pourquoi tu revis toujours les mêmes relations?
+  Pourquoi tu revis toujours les mêmes relations ?
   <br />
-  Ce n'est pas un hasard.  Ton énergie amoureuse attire toujours le même type de personne.
+  Ce n’est pas un hasard.
 </h1>
 
-{/* 1) Situation immédiate (UNE phrase) */}
 <p className="lead lead-center" style={{ marginTop: 10 }}>
-  Tu doutes de ce que l’autre ressent en ce moment ?
+  Tu attires toujours le même type de personne.
 </p>
 
 {/* 2) Bénéfice tangible (après 5–10 minutes) */}
