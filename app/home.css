@@ -1,4 +1,4 @@
-/* ===== HERO PREMIUM LUNA ===== */
+/* ===== HERO PREMIUM LUNA ANIMÉ ===== */
 
 .hero-astro {
   position: relative;
@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-/* ===== IMAGE + OVERLAY (PLUS VISIBLE) ===== */
+/* ===== IMAGE + OVERLAY ANIMÉ ===== */
 .hero-astro::before {
   content: "";
   position: absolute;
@@ -18,8 +18,8 @@
 
   background:
     linear-gradient(
-      rgba(5, 8, 20, 0.45),  /* 👈 plus visible */
-      rgba(5, 8, 20, 0.70)
+      rgba(5, 8, 20, 0.55),
+      rgba(5, 8, 20, 0.75)
     ),
     url("/bg-moon-silhouette.jpg");
 
@@ -27,10 +27,12 @@
   background-position: center;
   background-repeat: no-repeat;
 
+  animation: bgZoom 30s ease-in-out infinite alternate;
+
   z-index: 0;
 }
 
-/* ===== GLOW LUXE ===== */
+/* ===== GLOW LUXE ANIMÉ ===== */
 .hero-astro::after {
   content: "";
   position: absolute;
@@ -38,15 +40,17 @@
 
   background:
     radial-gradient(
-      circle at 65% 35%,
-      rgba(120, 150, 255, 0.18),
-      transparent 50%
+      circle at 60% 40%,
+      rgba(120, 150, 255, 0.20),
+      transparent 60%
     ),
     radial-gradient(
       circle at 30% 70%,
-      rgba(180, 140, 255, 0.12),
-      transparent 50%
+      rgba(180, 140, 255, 0.15),
+      transparent 60%
     );
+
+  animation: glowMove 12s ease-in-out infinite alternate;
 
   pointer-events: none;
   z-index: 0;
@@ -69,7 +73,7 @@
     rgba(8, 12, 24, 0.65)
   );
 
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
   border-radius: 24px;
   padding: 28px;
 
@@ -77,9 +81,11 @@
 
   box-shadow:
     0 20px 60px rgba(0,0,0,0.6),
-    0 0 40px rgba(120,140,255,0.15);
+    0 0 40px rgba(120,140,255,0.2);
 
   text-align: center;
+
+  animation: fadeInUp 1s ease forwards;
 }
 
 /* ===== TITRE ===== */
@@ -89,7 +95,7 @@
   margin-bottom: 14px;
 
   color: #eaf2ff;
-  text-shadow: 0 0 12px rgba(120,150,255,0.35);
+  text-shadow: 0 0 14px rgba(120,150,255,0.45);
 }
 
 /* ===== TEXTE ===== */
@@ -117,7 +123,43 @@
 }
 
 .hero-free-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.02);
   box-shadow:
-    0 12px 30px rgba(250, 204, 21, 0.6);
+    0 14px 35px rgba(250, 204, 21, 0.6);
+}
+
+/* ===== ANIMATIONS ===== */
+
+/* zoom lent background */
+@keyframes bgZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* glow qui bouge */
+@keyframes glowMove {
+  0% {
+    transform: translate(0px, 0px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-20px, 20px);
+    opacity: 1;
+  }
+}
+
+/* apparition carte */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
