@@ -319,50 +319,41 @@ export default function HomePage() {
                 <span className="hero-badge">Espace de discussion</span>
               </div>
 
-              <h1 className="hero-title hero-title-center">
+             <h1 className="hero-title hero-title-center">
   Pourquoi tu revis toujours les mêmes relations ?
-  <br />
-  Ce n’est pas un hasard.
 </h1>
 
-<p className="lead lead-center" style={{ marginTop: 10 }}>
-  Tu attires toujours le même type de personne.
+<p className="hero-sub hero-sub-center">
+  Ce n’est pas un hasard.
 </p>
 
-{/* 2) Bénéfice tangible (après 5–10 minutes) */}
-<p className="note-center" style={{ marginTop: 10, fontWeight: 700 }}>
-  En quelques minutes, tu comprends enfin ce que tu vis - sans te mentir.
+<p className="lead lead-center">
+  Tu attires souvent le même type de personne.
 </p>
+</div>
 
-{/* 3) Miroirs (2–3 cas) */}
-<ul className="note-center" style={{ marginTop: 10, listStyle: "none", padding: 0, lineHeight: 1.65 }}>
-  <li>• Il/elle distant distant(e)... et tu ne comprends pas pourquoi?</li>
-  <li>• Tu attends un message... mais rien ne vient?</li>
-  <li>• Tu sens que quelque chose cloche, mais tu ne sais pas quoi?</li>
-</ul>
-            </div>
+{/* CTA */}
+<div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
+  <div className="hero-free hero-free-center">
+    <h2 className="hero-free-title">Comprends enfin ce que tu vis.</h2>
 
-            {/* CTA */}
-            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
-              <div className="hero-free hero-free-center">
-                <h2 className="hero-free-title">Comprend enfin ce que tu vis.</h2>
+    <p className="hero-free-sub">
+      En quelques minutes, vois plus clair dans ta situation amoureuse.
+    </p>
 
-                <p className="hero-free-sub">En quelques minutes, tu va enfin comprendre ce qui se passe vraiment.</p>
+    <a
+      href="#signes"
+      className="hero-free-btn hero-free-btn--pulse"
+      onClick={onNavTo("signes")}
+    >
+      Découvrir pourquoi →
+    </a>
 
-                <a
-                  href="#signes"
-                  className="hero-free-btn hero-free-btn--pulse"
-                  onClick={onNavTo("signes")}
-                >
-                  Découvrir pourquoi →
-                </a>
-
-                <div className="hero-free-note">
-                  {isAuth ? "Connectée · Accès immédiat" : "Gratuit pour commencer - Sans engagement"}
-                </div>
-              </div>
-            </div>
-
+    <div className="hero-free-note">
+      {isAuth ? "Connectée · Accès immédiat" : "Gratuit pour commencer · Sans engagement"}
+    </div>
+  </div>
+</div>
             {/* 🎥 VIDEO WELCOME (Astro frame + son) */}
             <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
               <div className="astro-video-frame">
