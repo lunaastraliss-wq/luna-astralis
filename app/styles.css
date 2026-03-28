@@ -908,3 +908,17 @@ html, body{
 .section, .hero, .reviews, .how, .steps, .pricing {
   background: transparent !important;
 }
+.hero-astro {
+  position: relative;
+  min-height: 100vh;
+
+  background: linear-gradient(
+      rgba(10, 10, 30, 0.75),
+      rgba(10, 10, 30, 0.9)
+    ),
+    url("/bg-moon-silhouette.jpg") !important;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
