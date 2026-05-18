@@ -330,12 +330,12 @@ async function incrementUsage(params: {
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    hint: "Use POST /api/chat",
     hasOpenAIKey: !!OPENAI_API_KEY,
+    keyLength: OPENAI_API_KEY.length,
+    keyStart: OPENAI_API_KEY.slice(0, 8),
     hasSupabaseAdmin: !!supabaseAdmin,
   });
 }
-
 export async function POST(req: Request) {
   try {
     if (!OPENAI_API_KEY) return jsonError("OPENAI_API_KEY_MISSING", 500);
