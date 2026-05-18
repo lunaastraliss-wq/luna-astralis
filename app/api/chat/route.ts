@@ -389,10 +389,13 @@ Signe: ${signName || signKey || "—"}.
 `.trim();
 
         const completion = await openai.chat.completions.create({
-          model: "gpt-5.4-mini",
-          temperature: 0.8,
-          messages: [{ role: "system", content: system }, ...userMessages] as any,
-        });
+  model: "gpt-4o-mini",
+  temperature: 0.8,
+  messages: [
+    { role: "system", content: system },
+    ...userMessages
+  ],
+});
 
         const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
