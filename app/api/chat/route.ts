@@ -526,16 +526,15 @@ Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-   const completion = await openai.responses.create({
+  const completion = await openai.responses.create({
   model: "gpt-4o-mini",
-  temperature: 0.7,
   input: [
     { role: "system", content: system },
-    ...context,
-  ],
+    ...userMessages,
+  ] as any,
 });
 
-const raw = cleanStr(completion.output_text || "");
+const answer = cleanStr(completion.output_text || "");
     const short = enforceShortFormatFR(raw, lastS2 || undefined);
 
     const updated = await incrementUsage({ user_id: null, guest_id: guestId });
