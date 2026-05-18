@@ -45,7 +45,9 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 /* ===========================
    CLIENTS
 =========================== */
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const supabaseAdmin =
   SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
@@ -388,16 +390,15 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-       const completion = await openai.chat.completions.create({
-  model: "gpt-4.1-mini",
-  temperature: 0.7,
-  messages: [
+       const completion = await openai.responses.create({
+  model: "gpt-4o-mini",
+  input: [
     { role: "system", content: system },
     ...userMessages,
-  ] as any,
+  ],
 });
 
-const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+const answer = cleanStr(completion.output_text || "");
 
 return NextResponse.json(
   { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
