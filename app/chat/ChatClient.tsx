@@ -604,7 +604,9 @@ setSavedRemaining(safe);
           router.push(`/login?next=${next}`);
           throw new Error("AUTH_REQUIRED");
         }
-
+ const msg = data?.message || data?.detail || data?.error || "Erreur inconnue";
+  throw new Error(msg);
+}
         if (data?.error === "FREE_LIMIT_REACHED") {
           setPlan("free");
           setFreeLeft(0);
