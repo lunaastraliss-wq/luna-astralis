@@ -450,13 +450,16 @@ Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        temperature: 0.7,
-        messages: [{ role: "system", content: system }, ...context] as any,
-      });
+      const completion = await openai.responses.create({
+  model: "gpt-4o-mini",
+  temperature: 0.7,
+  input: [
+    { role: "system", content: system },
+    ...context,
+  ],
+});
 
-      const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+const raw = cleanStr(completion.output_text || "");
       let short = enforceShortFormatFR(raw, lastS2 || undefined);
 
       // incrément APRES réponse
@@ -524,13 +527,16 @@ Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      temperature: 0.7,
-      messages: [{ role: "system", content: system }, ...context] as any,
-    });
+   const completion = await openai.responses.create({
+  model: "gpt-4o-mini",
+  temperature: 0.7,
+  input: [
+    { role: "system", content: system },
+    ...context,
+  ],
+});
 
-    const raw = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+const raw = cleanStr(completion.output_text || "");
     const short = enforceShortFormatFR(raw, lastS2 || undefined);
 
     const updated = await incrementUsage({ user_id: null, guest_id: guestId });
