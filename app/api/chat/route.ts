@@ -35,6 +35,9 @@ const ACTIVE_STATUSES = new Set(["active", "trialing"]);
    ENV
 =========================== */
 const OPENAI_API_KEY = (process.env.OPENAI_API_KEY ?? "").trim();
+console.log("KEY LENGTH:", OPENAI_API_KEY.length);
+console.log("KEY START:", OPENAI_API_KEY.slice(0, 8));
+
 const SUPABASE_URL =
   process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
