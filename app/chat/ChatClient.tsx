@@ -597,39 +597,36 @@ setSavedRemaining(safe);
 
       const data = await res.json().catch(() => ({} as any));
 
-      if (!res.ok) {
-        if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
-          storeSign(signKey);
-          const next = encodeURIComponent(currentPathWithQuery());
-          router.push(`/login?next=${next}`);
-          throw new Error("AUTH_REQUIRED");
-        }
- const msg = data?.message || data?.detail || data?.error || "Erreur inconnue";
+if (!res.ok) {
+  if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
+    storeSign(signKey);
+    const next = encodeURIComponent(currentPathWithQuery());
+    router.push(`/login?next=${next}`);
+    throw new Error("AUTH_REQUIRED");
+  }
+
+  if (data?.error === "FREE_LIMIT_REACHED") {
+    setPlan("free");
+    setFreeLeft(0);
+    setSavedRemaining(0);
+    openPaywallGuest();
+    throw new Error("FREE_LIMIT_REACHED");
+  }
+
+  if (data?.error === "PREMIUM_REQUIRED") {
+    openPaywallPremiumRequired();
+    throw new Error("PREMIUM_REQUIRED");
+  }
+
+  const msg = data?.message || data?.detail || data?.error || "Erreur inconnue";
   throw new Error(msg);
 }
-        if (data?.error === "FREE_LIMIT_REACHED") {
-          setPlan("free");
-          setFreeLeft(0);
-          setSavedRemaining(0);
-          openPaywallGuest();
-          throw new Error("FREE_LIMIT_REACHED");
-        }
 
-        if (data?.error === "PREMIUM_REQUIRED") {
-          openPaywallPremiumRequired();
-          throw new Error("PREMIUM_REQUIRED");
-        }
-
-        const d = data?.detail ? ` | ${String(data.detail)}` : "";
-        throw new Error(`${data?.error || "Erreur serveur (/api/chat)."}${d}`);
-      }
-
-      if (typeof data?.remaining === "number") {
-        const r = Math.max(0, Math.trunc(data.remaining));
-        setFreeLeft(r);
-        setSavedRemaining(r);
-      }
-
+if (typeof data?.remaining === "number") {
+  const r = Math.max(0, Math.trunc(data.remaining));
+  setFreeLeft(r);
+  setSavedRemaining(r);
+}
       if (!authed) {
         if (data?.threadId != null) {
           const tid = clampInt(data.threadId, 0);
