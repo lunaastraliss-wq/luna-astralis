@@ -403,7 +403,7 @@ return NextResponse.json(
   { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
   { status: 200 }
 );
-
+}
       // AUTH FREE
       const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
       const used0 = Number(usage0.messages_count || 0);
