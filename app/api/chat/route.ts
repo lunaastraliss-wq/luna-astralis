@@ -330,11 +330,14 @@ async function incrementUsage(params: {
    ROUTES
 =========================== */
 export async function GET() {
+  const key = process.env.OPENAI_API_KEY || "";
+
   return NextResponse.json({
     ok: true,
-    hasOpenAIKey: !!OPENAI_API_KEY,
-    keyLength: OPENAI_API_KEY.length,
-    keyStart: OPENAI_API_KEY.slice(0, 8),
+    hasOpenAIKey: !!key,
+    keyLength: key.length,
+    keyStart: key.slice(0, 12),
+    keyEnd: key.slice(-12),
     hasSupabaseAdmin: !!supabaseAdmin,
   });
 }
