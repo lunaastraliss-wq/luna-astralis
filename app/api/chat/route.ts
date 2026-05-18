@@ -388,22 +388,21 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-        const completion = await openai.chat.completions.create({
+        const completion = await openai.responses.create({
   model: "gpt-4o-mini",
-  temperature: 0.8,
-  messages: [
+  input: [
     { role: "system", content: system },
     ...userMessages
-  ],
+  ]
 });
 
-        const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
+const text = completion.output_text;
+const answer = cleanStr(text);
 
-        return NextResponse.json(
-          { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
-          { status: 200 }
-        );
-      }
+return NextResponse.json(
+  { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
+  { status: 200 }
+);
 
       // AUTH FREE
       const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
