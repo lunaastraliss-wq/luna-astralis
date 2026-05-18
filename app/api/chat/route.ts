@@ -393,15 +393,15 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-       const completion = await openai.responses.create({
+      const completion = await openai.responses.create({
   model: "gpt-4o-mini",
   input: [
     { role: "system", content: system },
-    ...userMessages,
-  ],
+    ...context,
+  ] as any,
 });
 
-const answer = cleanStr(completion.output_text || "");
+const raw = cleanStr(completion.output_text || "");
 
 return NextResponse.json(
   { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
@@ -450,13 +450,12 @@ Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-      const completion = await openai.responses.create({
+     const completion = await openai.responses.create({
   model: "gpt-4o-mini",
-  temperature: 0.7,
   input: [
     { role: "system", content: system },
     ...context,
-  ],
+  ] as any,
 });
 
 const raw = cleanStr(completion.output_text || "");
