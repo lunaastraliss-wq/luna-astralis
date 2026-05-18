@@ -538,9 +538,16 @@ Signe: ${signName || signKey || "—"}.
       { status: 200 }
     );
   } catch (e: any) {
-    return NextResponse.json(
-      { error: "SERVER_ERROR", detail: cleanStr(e?.message || e) },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    {
+      error: "SERVER_ERROR",
+      message: e?.message || null,
+      status: e?.status || null,
+      code: e?.code || null,
+      type: e?.type || null,
+      param: e?.param || null,
+    },
+    { status: 500 }
+  );
+}
 }
