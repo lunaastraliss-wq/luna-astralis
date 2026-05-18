@@ -8,21 +8,11 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/* ===========================
-   LIMITES
-=========================== */
 const FREE_LIMIT = 15;
-
-// ✅ Pousser plus tôt (au lieu de seulement quand il reste 2 messages)
 const UPSELL_WHEN_REMAINING_LTE = 5;
-
-// ✅ Upsell court + orienté décision (moins de chances d’être “écrasé” par enforceShortFormatFR)
 const UPSELL_TEXT_FR =
   " Pour trancher et savoir quoi faire maintenant: accès complet.";
 
-/* ===========================
-   TABLES
-=========================== */
 const CHAT_USAGE_TABLE = "chat_usage";
 
 const SUBS_TABLE = "user_subscriptions";
@@ -31,22 +21,14 @@ const SUBS_COL_STATUS = "status";
 const SUBS_COL_CURRENT_PERIOD_END = "current_period_end";
 const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
-/* ===========================
-   ENV
-=========================== */
 const OPENAI_API_KEY = (process.env.OPENAI_API_KEY ?? "").trim();
-console.log("KEY LENGTH:", OPENAI_API_KEY.length);
-console.log("KEY START:", OPENAI_API_KEY.slice(0, 8));
 
 const SUPABASE_URL =
   process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
-/* ===========================
-   CLIENTS
-=========================== */
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 
 const supabaseAdmin =
@@ -56,9 +38,6 @@ const supabaseAdmin =
       })
     : null;
 
-/* ===========================
-   HELPERS
-=========================== */
 function cleanStr(v: unknown) {
   return (v == null ? "" : String(v)).trim();
 }
@@ -85,6 +64,7 @@ function pickOne(arr: string[]) {
 
 function buildChatMessages(body: any) {
   const old = Array.isArray(body?.messages) ? body.messages : null;
+
   if (old) {
     return old
       .map((m: any) => ({
@@ -103,12 +83,13 @@ function buildChatMessages(body: any) {
   }));
 
   if (last) msgs.push({ role: "user", content: last });
+
   return msgs.filter((m: any) => m.content);
 }
 
 function getLastUserMessage(msgs: Array<{ role: string; content: string }>) {
   for (let i = msgs.length - 1; i >= 0; i--) {
-    if (msgs[i]?.role === "user" && cleanStr(msgs[i]?.content)) {
+    if (msgs[i]?.role === "user" && cleanStr(msgs[i].content)) {
       return cleanStr(msgs[i].content);
     }
   }
@@ -119,9 +100,8 @@ function pickLastNMessages(
   msgs: Array<{ role: string; content: string }>,
   n: number
 ) {
-  const arr = Array.isArray(msgs) ? msgs : [];
-  const sliced = arr.slice(Math.max(0, arr.length - n));
-  return sliced
+  return msgs
+    .slice(Math.max(0, msgs.length - n))
     .map((m) => ({
       role: m.role === "assistant" ? "assistant" : "user",
       content: cleanStr(m.content),
@@ -129,9 +109,6 @@ function pickLastNMessages(
     .filter((m) => m.content);
 }
 
-/* ===========================
-   SHORT FORMAT (FR)
-=========================== */
 const S1_VARIANTS_FR = [
   "Je te lis.",
   "Je suis là.",
@@ -140,7 +117,6 @@ const S1_VARIANTS_FR = [
   "Ok, je t’écoute.",
 ];
 
-// ✅ Phrase 2 orientée amour + tension (sans donner d’action)
 const S2_VARIANTS_FR = [
   "Il y a une tension nette dans ce lien.",
   "Je sens un déséquilibre affectif ici.",
@@ -150,7 +126,6 @@ const S2_VARIANTS_FR = [
   "On dirait une relation qui te laisse en suspens.",
 ];
 
-// ✅ Questions orientées amour (levier principal en 240 caractères)
 const Q_VARIANTS_FR = [
   "Depuis quand cette situation dure-t-elle ?",
   "Qu’est-ce que tu attends vraiment de cette personne ?",
@@ -163,6 +138,7 @@ const Q_VARIANTS_FR = [
 
 function enforceShortFormatFR(input: string, lastS2?: string) {
   const text = cleanStr(input).replace(/\s+/g, " ");
+
   const parts = text
     .split(/(?<=[.!?])\s+/)
     .map((p) => p.trim())
@@ -182,6 +158,7 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
     const pool = lastS2
       ? S2_VARIANTS_FR.filter((x) => x !== lastS2)
       : S2_VARIANTS_FR;
+
     s2 = pickOne(pool.length ? pool : S2_VARIANTS_FR);
   }
 
@@ -195,9 +172,12 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
 
   if (out.length > 240) {
     out = out.slice(0, 239).trimEnd();
+
     if (!/[?]\s*$/.test(out)) {
       out = out.replace(/[.!…]\s*$/g, "").trimEnd();
+
       if (out.length > 238) out = out.slice(0, 238).trimEnd();
+
       out += " ?";
     }
   }
@@ -207,16 +187,15 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
 
 function extractSecondSentenceFR(text: string) {
   const t = cleanStr(text).replace(/\s+/g, " ");
+
   const parts = t
     .split(/(?<=[.!?])\s+/)
     .map((p) => p.trim())
     .filter(Boolean);
+
   return parts[1] ? parts[1].replace(/[.!?…]\s*$/, "").trim() : "";
 }
 
-/* ===========================
-   PREMIUM
-=========================== */
 async function isPremiumActive(user_id: string) {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
@@ -240,9 +219,6 @@ async function isPremiumActive(user_id: string) {
   return cpeUnix > nowUnix();
 }
 
-/* ===========================
-   CHAT_USAGE (compteur + dates)
-=========================== */
 type UsageRow = {
   id: string;
   user_id: string | null;
@@ -262,15 +238,15 @@ async function getOrCreateUsage(params: {
   if (!supabaseAdmin) throw new Error("Supabase admin not configured");
 
   const uid = params.user_id || null;
-  const gid = uid ? null : (params.guest_id || null);
+  const gid = uid ? null : params.guest_id || null;
 
   if (!uid && !gid) throw new Error("MISSING_ID_FOR_USAGE");
 
-  const base = supabaseAdmin.from(CHAT_USAGE_TABLE).select("*").limit(1);
+  let query = supabaseAdmin.from(CHAT_USAGE_TABLE).select("*").limit(1);
 
   const { data: existing, error: readErr } = uid
-    ? await base.eq("user_id", uid).maybeSingle()
-    : await base.eq("guest_id", gid as string).maybeSingle();
+    ? await query.eq("user_id", uid).maybeSingle()
+    : await query.eq("guest_id", gid as string).maybeSingle();
 
   if (readErr) throw readErr;
   if (existing) return existing as UsageRow;
@@ -293,6 +269,7 @@ async function getOrCreateUsage(params: {
     .single();
 
   if (insErr) throw insErr;
+
   return created as UsageRow;
 }
 
@@ -307,7 +284,8 @@ async function incrementUsage(params: {
 
   const now = new Date().toISOString();
   const firstAt = row.first_message_at || now;
-  const limitReachedAt = row.limit_reached_at || (next >= FREE_LIMIT ? now : null);
+  const limitReachedAt =
+    row.limit_reached_at || (next >= FREE_LIMIT ? now : null);
 
   const { data: updated, error: updErr } = await supabaseAdmin
     .from(CHAT_USAGE_TABLE)
@@ -323,12 +301,10 @@ async function incrementUsage(params: {
     .single();
 
   if (updErr) throw updErr;
+
   return updated as UsageRow;
 }
 
-/* ===========================
-   ROUTES
-=========================== */
 export async function GET() {
   const key = process.env.OPENAI_API_KEY || "";
 
@@ -341,6 +317,7 @@ export async function GET() {
     hasSupabaseAdmin: !!supabaseAdmin,
   });
 }
+
 export async function POST(req: Request) {
   try {
     if (!OPENAI_API_KEY) return jsonError("OPENAI_API_KEY_MISSING", 500);
@@ -353,8 +330,6 @@ export async function POST(req: Request) {
     const signName = cleanStr(body.signName || "");
     const signKey = cleanStr(body.signKey || "");
     const guestId = cleanStr(body.guestId || "");
-    const threadIdRaw = cleanStr(body.threadId || "");
-    const threadId = threadIdRaw ? threadIdRaw : null;
 
     const userMessages = buildChatMessages(body);
     if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
@@ -362,13 +337,15 @@ export async function POST(req: Request) {
     const lastUserText = getLastUserMessage(userMessages);
     if (!lastUserText) return jsonError("NO_USER_MESSAGE", 400);
 
-    const supabaseAuth = createRouteHandlerClient({ cookies: () => cookies() });
+    const supabaseAuth = createRouteHandlerClient({
+      cookies: () => cookies(),
+    });
+
     const { data: sess } = await supabaseAuth.auth.getSession();
     const user_id = sess?.session?.user?.id ?? null;
 
     const avatarSrc = "/ia-luna-astralis.png";
 
-    // PREMIUM (auth)
     if (user_id) {
       const premium = await isPremiumActive(user_id);
 
@@ -377,38 +354,44 @@ export async function POST(req: Request) {
 
         const system = `
 Tu es l’assistante Luna Astralis.
-Spécialité: amour + astrologie (compatibilités, cycles, patterns relationnels, attachement, limites).
+Spécialité: amour + astrologie.
 Style: chaleureux, profond, clair, concret.
 
 IMPORTANT:
 - Tu ne prétends pas être médecin; pas de diagnostics.
-- Tu donnes une lecture complète et actionnable en 4 blocs, avec titres courts:
-  1) Dynamique (ce qui se passe)
-  2) Tension (ce qui bloque/risque)
-  3) Direction claire (ce que ça demande maintenant)
-  4) Action immédiate (1 action simple, réaliste, non dramatique)
-- Tu évites les généralités, tu es spécifique au message, et tu conclus par une direction nette.
+- Tu donnes une lecture complète et actionnable en 4 blocs:
+  1) Dynamique
+  2) Tension
+  3) Direction claire
+  4) Action immédiate
+- Tu évites les généralités.
+- Tu conclus par une direction nette.
 
 Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-      const completion = await openai.responses.create({
-  model: "gpt-4o-mini",
-  input: [
-    { role: "system", content: system },
-    ...userMessages,
-  ] as any,
-});
+        const completion = await openai.responses.create({
+          model: "gpt-4o-mini",
+          input: [
+            { role: "system", content: system },
+            ...userMessages,
+          ] as any,
+        });
 
-const raw = cleanStr(completion.output_text || "");
+        const answer = cleanStr(completion.output_text || "");
 
-return NextResponse.json(
-  { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
-  { status: 200 }
-);
-}
-      // AUTH FREE
+        return NextResponse.json(
+          {
+            message: answer,
+            reply: answer,
+            mode: "auth_premium",
+            avatarSrc,
+          },
+          { status: 200 }
+        );
+      }
+
       const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
       const used0 = Number(usage0.messages_count || 0);
 
@@ -427,47 +410,49 @@ return NextResponse.json(
       }
 
       const context = pickLastNMessages(userMessages, 10);
-      const lastAssistant = [...context].reverse().find(
-        (m) => m.role === "assistant" && cleanStr(m.content)
-      );
-      const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
+
+      const lastAssistant = [...context]
+        .reverse()
+        .find((m) => m.role === "assistant" && cleanStr(m.content));
+
+      const lastS2 = lastAssistant
+        ? extractSecondSentenceFR(lastAssistant.content)
+        : "";
 
       const system = `
 Tu es l’assistante Luna Astralis.
 Spécialité: amour + astrologie.
 Style: chaleureux, calme, direct, sans dramatiser.
 
-RÈGLES (version gratuite):
-- Tu clarifies la situation amoureuse et tu nommes la tension (sans conclure).
-- Tu NE DONNES PAS de direction ni de décision (pas de "tu devrais", pas de plan, pas de verdict).
-- Tu évites de fermer la boucle ("tout ira bien", "la meilleure chose est...").
-- Tu termines toujours par 1 question courte, incisive, orientée amour (pas une question générale).
+RÈGLES version gratuite:
+- Tu clarifies la situation amoureuse.
+- Tu nommes la tension sans conclure.
+- Tu ne donnes pas de décision.
+- Tu termines toujours par 1 question courte orientée amour.
 
-Tu ne prétends pas être médecin; pas de diagnostics.
-Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
-Évite les formulations répétitives d’une réponse à l’autre.
+Réponse très courte: 2 phrases + 1 question, max 240 caractères.
 Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-     const completion = await openai.responses.create({
-  model: "gpt-4o-mini",
-  input: [
-    { role: "system", content: system },
-    ...context,
-  ] as any,
-});
+      const completion = await openai.responses.create({
+        model: "gpt-4o-mini",
+        input: [
+          { role: "system", content: system },
+          ...context,
+        ] as any,
+      });
 
-const raw = cleanStr(completion.output_text || "");
+      const raw = cleanStr(completion.output_text || "");
       let short = enforceShortFormatFR(raw, lastS2 || undefined);
 
-      // incrément APRES réponse
       const updated = await incrementUsage({ user_id, guest_id: null });
       const used = Number(updated.messages_count || 0);
       const remaining = Math.max(0, FREE_LIMIT - used);
 
       if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
         const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+
         short =
           candidate.length <= 240
             ? candidate
@@ -475,20 +460,34 @@ const raw = cleanStr(completion.output_text || "");
       }
 
       return NextResponse.json(
-        { message: short, reply: short, mode: "auth_free", used, remaining, free_limit: FREE_LIMIT, avatarSrc },
+        {
+          message: short,
+          reply: short,
+          mode: "auth_free",
+          used,
+          remaining,
+          free_limit: FREE_LIMIT,
+          avatarSrc,
+        },
         { status: 200 }
       );
     }
 
-    // GUEST FREE
     if (!guestId) {
       return NextResponse.json(
-        { error: "GUEST_ID_MISSING", detail: "guestId requis pour le mode invité." },
+        {
+          error: "GUEST_ID_MISSING",
+          detail: "guestId requis pour le mode invité.",
+        },
         { status: 400 }
       );
     }
 
-    const usage0 = await getOrCreateUsage({ user_id: null, guest_id: guestId });
+    const usage0 = await getOrCreateUsage({
+      user_id: null,
+      guest_id: guestId,
+    });
+
     const used0 = Number(usage0.messages_count || 0);
 
     if (used0 >= FREE_LIMIT) {
@@ -506,56 +505,82 @@ const raw = cleanStr(completion.output_text || "");
     }
 
     const context = pickLastNMessages(userMessages, 10);
-    const lastAssistant = [...context].reverse().find(
-      (m) => m.role === "assistant" && cleanStr(m.content)
-    );
-    const lastS2 = lastAssistant ? extractSecondSentenceFR(lastAssistant.content) : "";
+
+    const lastAssistant = [...context]
+      .reverse()
+      .find((m) => m.role === "assistant" && cleanStr(m.content));
+
+    const lastS2 = lastAssistant
+      ? extractSecondSentenceFR(lastAssistant.content)
+      : "";
 
     const system = `
 Tu es l’assistante Luna Astralis.
 Spécialité: amour + astrologie.
 Style: chaleureux, calme, direct, sans dramatiser.
 
-RÈGLES (version gratuite):
-- Tu clarifies la situation amoureuse et tu nommes la tension (sans conclure).
-- Tu NE DONNES PAS de direction ni de décision.
-- Tu termines par 1 question courte, orientée amour.
+RÈGLES version gratuite:
+- Tu clarifies la situation amoureuse.
+- Tu nommes la tension sans conclure.
+- Tu ne donnes pas de décision.
+- Tu termines par 1 question courte orientée amour.
 
-Réponse TRÈS courte: 2 phrases + 1 question, max 240 caractères.
+Réponse très courte: 2 phrases + 1 question, max 240 caractères.
 Langue: fr.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-  const completion = await openai.responses.create({
-  model: "gpt-4o-mini",
-  input: [
-    { role: "system", content: system },
-    ...userMessages,
-  ] as any,
-});
+    const completion = await openai.responses.create({
+      model: "gpt-4o-mini",
+      input: [
+        { role: "system", content: system },
+        ...context,
+      ] as any,
+    });
 
-const answer = cleanStr(completion.output_text || "");
-    const short = enforceShortFormatFR(raw, lastS2 || undefined);
+    const raw = cleanStr(completion.output_text || "");
+    let short = enforceShortFormatFR(raw, lastS2 || undefined);
 
-    const updated = await incrementUsage({ user_id: null, guest_id: guestId });
+    const updated = await incrementUsage({
+      user_id: null,
+      guest_id: guestId,
+    });
+
     const used = Number(updated.messages_count || 0);
     const remaining = Math.max(0, FREE_LIMIT - used);
 
+    if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
+      const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+
+      short =
+        candidate.length <= 240
+          ? candidate
+          : enforceShortFormatFR(candidate, lastS2 || undefined);
+    }
+
     return NextResponse.json(
-      { message: short, reply: short, mode: "guest_free", used, remaining, free_limit: FREE_LIMIT, avatarSrc },
+      {
+        message: short,
+        reply: short,
+        mode: "guest_free",
+        used,
+        remaining,
+        free_limit: FREE_LIMIT,
+        avatarSrc,
+      },
       { status: 200 }
     );
   } catch (e: any) {
-  return NextResponse.json(
-    {
-      error: "SERVER_ERROR",
-      message: e?.message || null,
-      status: e?.status || null,
-      code: e?.code || null,
-      type: e?.type || null,
-      param: e?.param || null,
-    },
-    { status: 500 }
-  );
-}
+    return NextResponse.json(
+      {
+        error: "SERVER_ERROR",
+        message: e?.message || null,
+        status: e?.status || null,
+        code: e?.code || null,
+        type: e?.type || null,
+        param: e?.param || null,
+      },
+      { status: 500 }
+    );
+  }
 }
