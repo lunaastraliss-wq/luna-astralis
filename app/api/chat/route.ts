@@ -388,16 +388,16 @@ Langue: ${lang}.
 Signe: ${signName || signKey || "—"}.
 `.trim();
 
-        const completion = await openai.responses.create({
+       const completion = await openai.chat.completions.create({
   model: "gpt-4o-mini",
-  input: [
+  temperature: 0.7,
+  messages: [
     { role: "system", content: system },
-    ...userMessages
-  ]
+    ...userMessages,
+  ] as any,
 });
 
-const text = completion.output_text;
-const answer = cleanStr(text);
+const answer = cleanStr(completion.choices?.[0]?.message?.content ?? "");
 
 return NextResponse.json(
   { message: answer, reply: answer, mode: "auth_premium", avatarSrc },
