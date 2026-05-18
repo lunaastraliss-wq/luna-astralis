@@ -397,7 +397,7 @@ Signe: ${signName || signKey || "—"}.
   model: "gpt-4o-mini",
   input: [
     { role: "system", content: system },
-    ...context,
+    ...userMessages,
   ] as any,
 });
 
