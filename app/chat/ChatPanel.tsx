@@ -110,7 +110,7 @@ export default function ChatPanel(props: {
         />
         <button className="chat-send" type="submit" disabled={disabled}>
           <span className="hide-mobile">Envoyer</span>
-          <span className="show-mobile">Go</span>
+          <span className="show-mobile">✨</span>
         </button>
       </form>
     </section>
