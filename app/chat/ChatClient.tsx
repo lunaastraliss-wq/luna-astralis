@@ -898,35 +898,82 @@ if (typeof data?.remaining === "number") {
       />
 
       <style jsx>{`
-        .chat-actions-bar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 10px;
-          padding: 10px 10px;
-          margin: 10px 0 8px;
-          border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.06);
-        }
-        .cab-right {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          flex-wrap: wrap;
-          justify-content: flex-end;
-        }
-        .cab-pill {
-          display: inline-flex;
-          align-items: center;
-          padding: 6px 10px;
-          border-radius: 999px;
-          font-size: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.06);
-          opacity: 0.95;
-        }
-      `}</style>
+  .chat-actions-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 10px;
+    margin: 10px 0 8px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .cab-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .cab-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    opacity: 0.95;
+  }
+
+  @media (max-width: 768px) {
+    .chat-actions-bar {
+      padding: 7px;
+      margin: 6px 0;
+      gap: 6px;
+    }
+
+    .cab-right {
+      gap: 6px;
+    }
+
+    .cab-pill {
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+
+    .mobile-sign-card {
+      padding: 10px !important;
+      margin-bottom: 6px !important;
+    }
+
+    .msc-avatar {
+      width: 52px !important;
+      height: 52px !important;
+    }
+
+    .msc-title {
+      font-size: 20px !important;
+    }
+
+    .msc-sub {
+      font-size: 13px !important;
+    }
+
+    .msc-actions .btn {
+      padding: 8px 12px !important;
+      font-size: 13px !important;
+    }
+
+    .msc-quota {
+      padding: 8px !important;
+      font-size: 13px !important;
+    }
+  }
+`}</style>
     </div>
   );
   }
