@@ -137,7 +137,7 @@ export async function POST(req: Request) {
       metadata: commonMeta,
 
       subscription_data: {
-        // ❌ plus de trial ici
+        trial_period_days: 2,
         metadata: commonMeta,
       },
 
