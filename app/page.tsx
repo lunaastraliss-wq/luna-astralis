@@ -309,8 +309,7 @@ export default function HomePage() {
           </h2>
 
           <p className="hero-free-sub">
-            Une conversation privée pour comprendre ce que tu vis
-            émotionnellement.
+            Une conversation privée pour mieux comprendre ce que tu ressens.
           </p>
 
           <a
