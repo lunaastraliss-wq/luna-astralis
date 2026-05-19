@@ -930,50 +930,35 @@ if (typeof data?.remaining === "number") {
   }
 
   @media (max-width: 768px) {
-    .chat-actions-bar {
-      padding: 7px;
-      margin: 6px 0;
-      gap: 6px;
-    }
-
-    .cab-right {
-      gap: 6px;
-    }
-
-    .cab-pill {
-      font-size: 11px;
-      padding: 4px 8px;
-    }
-
-    .mobile-sign-card {
-      padding: 10px !important;
-      margin-bottom: 6px !important;
-    }
-
-    .msc-avatar {
-      width: 52px !important;
-      height: 52px !important;
-    }
-
-    .msc-title {
-      font-size: 20px !important;
-    }
-
-    .msc-sub {
-      font-size: 13px !important;
-    }
-
-    .msc-actions .btn {
-      padding: 8px 12px !important;
-      font-size: 13px !important;
-    }
-
-    .msc-quota {
-      padding: 8px !important;
-      font-size: 13px !important;
-    }
+  .mobile-sign-card {
+    display: none !important;
   }
-`}</style>
-    </div>
-  );
+
+  .chat-actions-bar {
+    padding: 6px !important;
+    margin: 0 0 6px !important;
+    gap: 6px;
   }
+
+  .cab-left {
+    display: none !important;
+  }
+
+  .cab-right {
+    width: 100%;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    gap: 6px;
+  }
+
+  .cab-right .btn {
+    font-size: 12px !important;
+    padding: 8px 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .cab-pill {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}
