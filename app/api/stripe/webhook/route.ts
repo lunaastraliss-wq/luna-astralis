@@ -254,7 +254,11 @@ export async function POST(req: Request) {
 
       const subId = clean((sub as any)?.id);
       const priceId = pickPriceIdFromSub(sub);
-      const plan = await getPlanFromPriceId(priceId);
+       const planSlug = clean((sub as any)?.metadata?.plan);
+      const plan = {
+  slug: planSlug,
+  name: planSlug,
+};
 
       const currentPeriodEnd = toIsoFromUnixSeconds((sub as any)?.current_period_end);
       const canceledAt = toIsoFromUnixSeconds((sub as any)?.canceled_at);
