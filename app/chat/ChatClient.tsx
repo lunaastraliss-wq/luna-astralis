@@ -961,4 +961,8 @@ if (typeof data?.remaining === "number") {
     font-size: 11px;
     padding: 4px 8px;
   }
+ }
+`}</style>
+    </div>
+  );
 }
