@@ -275,53 +275,59 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* MAIN */}
-      <main className="wrap" role="main">
-        {/* HERO */}
-        <section className="hero hero-astro" aria-label="Présentation">
-          <div className="hero-card">
-            <div className="hero-top hero-top-center">
-              <div className="hero-kicker hero-kicker-center">
-                <span className="astro-mark">☾ Luna Astralis</span>
-                <span className="hero-badge">Espace de discussion</span>
-              </div>
+     {/* MAIN */}
+<main className="wrap" role="main">
+  {/* HERO */}
+  <section className="hero hero-astro" aria-label="Présentation">
+    <div className="hero-card">
+      <div className="hero-top hero-top-center">
+        <div className="hero-kicker hero-kicker-center">
+          <span className="astro-mark">☾ Luna Astralis</span>
+          <span className="hero-badge">Discussion privée astrologique</span>
+        </div>
 
-              <h1 className="hero-title hero-title-center">
-                Pourquoi tu revis toujours les mêmes relations ?
-              </h1>
+        <h1 className="hero-title hero-title-center">
+          Pourquoi certaines relations te bouleversent autant ?
+        </h1>
 
-              <p className="hero-sub hero-sub-center">
-                Ce n’est pas un hasard.
-              </p>
+        <p className="hero-sub hero-sub-center">
+          Ce que tu ressens a peut-être plus de sens que tu le crois.
+        </p>
 
-              <p className="lead lead-center">
-                Tu attires souvent le même type de personne.
-              </p>
-            </div>
+        <p className="lead lead-center">
+          Luna t’aide à voir plus clair à travers une discussion basée sur ton signe.
+        </p>
+      </div>
 
-            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
-              <div className="hero-free hero-free-center">
-                <h2 className="hero-free-title">Comprends enfin ce que tu vis.</h2>
+      <div
+        className="hero-free-wrap hero-free-wrap-center"
+        aria-label="Démarrage"
+      >
+        <div className="hero-free hero-free-center">
+          <h2 className="hero-free-title">
+            Parfois, tu as juste besoin d’en parler.
+          </h2>
 
-                <p className="hero-free-sub">
-                  En quelques minutes, vois plus clair dans ta situation amoureuse.
-                </p>
+          <p className="hero-free-sub">
+            Une conversation privée pour comprendre ce que tu vis
+            émotionnellement.
+          </p>
 
-                <a
-                  href="#signes"
-                  className="hero-free-btn hero-free-btn--pulse"
-                  onClick={onNavTo("signes")}
-                >
-                  Découvrir pourquoi →
-                </a>
+          <a
+            href="#signes"
+            className="hero-free-btn hero-free-btn--pulse"
+            onClick={onNavTo("signes")}
+          >
+            Parler avec Luna ✨
+          </a>
 
-                <div className="hero-free-note">
-                  {isAuth
-                    ? "Connectée · Accès immédiat"
-                    : "Gratuit pour commencer · Sans engagement"}
-                </div>
-              </div>
-            </div>
+          <div className="hero-free-note">
+            {isAuth
+              ? "Connectée · Accès immédiat"
+              : "Gratuit pour commencer · Discussion privée"}
+          </div>
+        </div>
+      </div>
 
             <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
               <div className="astro-video-frame">
