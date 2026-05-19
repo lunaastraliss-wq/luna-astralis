@@ -372,7 +372,7 @@ Signe: ${signName || signKey || "—"}.
 `.trim();
 
         const completion = await openai.responses.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4o",
           input: [
             { role: "system", content: system },
             ...userMessages,
