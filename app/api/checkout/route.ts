@@ -137,8 +137,7 @@ export async function POST(req: Request) {
       metadata: commonMeta,
 
       subscription_data: {
-        trial_period_days: 2,
-        metadata: commonMeta,
+      metadata: commonMeta,
       },
 
       payment_method_collection: "always",
