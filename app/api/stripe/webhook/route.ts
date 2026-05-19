@@ -268,6 +268,8 @@ export async function POST(req: Request) {
         stripe_subscription_id: subId || null,
         stripe_price_id: priceId || null,
 
+        user_email: clean((sub as any)?.metadata?.user_email),
+
         plan_slug: plan.slug,
         plan_name: plan.name,
 
