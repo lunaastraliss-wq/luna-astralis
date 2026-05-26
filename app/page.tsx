@@ -11,7 +11,7 @@ const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 const SIGN_PARAM = "sign";
 
-const AMAZON_AUTHOR_LINK = "TON_LIEN_AMAZON_AUTEUR";
+const AMAZON_AUTHOR_LINK = "https://www.amazon.com/stores/author/B0DLVLC7QF";
 
 const SIGNS = [
   { key: "belier", label: "♈ Bélier", cls: "sign-fire" },
@@ -407,7 +407,7 @@ export default function HomePage() {
             <div className="book-cta-text">
               <div className="hero-badge">Disponible sur Amazon</div>
 
-              <h2>L’Âme des Signes</h2>
+              <h2>L’âme des signes</h2>
 
               <p>
                 Un guide complet pour explorer les 144 compatibilités amoureuses
@@ -435,7 +435,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="btn btn-small btn-ghost"
                 >
-                  Voir tous mes livres
+                  ✨ Voir la collection Luna Astralis
                 </a>
               </div>
             </div>
