@@ -439,13 +439,6 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-
-            <div className="book-cta-cover" aria-label="Couverture du livre">
-              <img
-                src="/couverture-ame-des-signes.jpg"
-                alt="Couverture du livre L’Âme des Signes"
-              />
-            </div>
           </div>
         </section>
 
