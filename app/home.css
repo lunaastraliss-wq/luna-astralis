@@ -305,17 +305,8 @@
 }
 
 .problem-list li {
-  position: relative;
   margin-bottom: 12px;
-  padding-left: 18px;
   line-height: 1.7;
-}
-
-.problem-list li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: #facc15;
 }
 
 /* ===== ANIMATIONS ===== */
