@@ -11,7 +11,9 @@ const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 const SIGN_PARAM = "sign";
 
-const SIGNS: Array<{ key: string; label: string; cls: string }> = [
+const AMAZON_AUTHOR_LINK = "TON_LIEN_AMAZON_AUTEUR";
+
+const SIGNS = [
   { key: "belier", label: "♈ Bélier", cls: "sign-fire" },
   { key: "taureau", label: "♉ Taureau", cls: "sign-earth" },
   { key: "gemeaux", label: "♊ Gémeaux", cls: "sign-air" },
@@ -26,13 +28,7 @@ const SIGNS: Array<{ key: string; label: string; cls: string }> = [
   { key: "poissons", label: "♓ Poissons", cls: "sign-water" },
 ];
 
-type MiniReview = {
-  sign: string;
-  name: string;
-  text: string;
-};
-
-const MINI_REVIEWS: MiniReview[] = [
+const MINI_REVIEWS = [
   {
     sign: "♈ Bélier",
     name: "Marie L.",
@@ -69,7 +65,7 @@ export default function HomePage() {
   const router = useRouter();
   const y = useMemo(() => new Date().getFullYear(), []);
 
-  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(false);
   const [soundReady, setSoundReady] = useState(false);
@@ -86,11 +82,32 @@ export default function HomePage() {
       return;
     }
     el.scrollIntoView({ behavior: "smooth", block: "start" });
-    window.setTimeout(() => {
-      const first = el.querySelector("button, a, [tabindex]") as HTMLElement | null;
-      first?.focus?.();
-    }, 250);
   }, []);
+
+  const onNavTo = useCallback(
+    (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      closeMenu();
+      scrollToId(id);
+    },
+    [closeMenu, scrollToId]
+  );
+
+  const onPickSign = useCallback(
+    (signKey: string) => {
+      storeSign(signKey);
+
+      const next = `/chat?${SIGN_PARAM}=${encodeURIComponent(signKey)}`;
+
+      if (isAuth) {
+        router.push(next);
+        return;
+      }
+
+      router.push(`/login?next=${encodeURIComponent(next)}`);
+    },
+    [router, isAuth]
+  );
 
   useEffect(() => {
     let alive = true;
@@ -99,10 +116,12 @@ export default function HomePage() {
       try {
         const { data, error } = await supabase.auth.getSession();
         if (!alive) return;
+
         if (error) {
           setIsAuth(false);
           return;
         }
+
         setIsAuth(!!data?.session?.user?.id);
       } catch {
         setIsAuth(false);
@@ -147,31 +166,6 @@ export default function HomePage() {
     };
   }, [menuOpen, closeMenu]);
 
-  const onNavTo = useCallback(
-    (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      closeMenu();
-      scrollToId(id);
-    },
-    [closeMenu, scrollToId]
-  );
-
-  const onPickSign = useCallback(
-    (signKey: string) => {
-      storeSign(signKey);
-
-      const next = `/chat?${SIGN_PARAM}=${encodeURIComponent(signKey)}`;
-
-      if (isAuth) {
-        router.push(next);
-        return;
-      }
-
-      router.push(`/login?next=${encodeURIComponent(next)}`);
-    },
-    [router, isAuth]
-  );
-
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -182,9 +176,7 @@ export default function HomePage() {
     (async () => {
       try {
         await v.play();
-      } catch {
-        // ignore autoplay failure
-      }
+      } catch {}
     })();
   }, []);
 
@@ -213,7 +205,6 @@ export default function HomePage() {
 
   return (
     <div className="page-astro">
-      {/* HEADER */}
       <header className="top" role="banner">
         <Link className="brand" href="/" aria-label="Accueil Luna Astralis" onClick={closeMenu}>
           <div className="logo" aria-hidden="true">
@@ -230,6 +221,10 @@ export default function HomePage() {
           <div className="nav-desktop">
             <a href="#comment" onClick={onNavTo("comment")}>
               Comment ça fonctionne
+            </a>
+
+            <a href="#livres" onClick={onNavTo("livres")}>
+              Mes livres
             </a>
 
             <a href="#signes" className="btn btn-small btn-ghost" onClick={onNavTo("signes")}>
@@ -260,6 +255,10 @@ export default function HomePage() {
               Comment ça fonctionne
             </a>
 
+            <a href="#livres" onClick={onNavTo("livres")} role="menuitem">
+              Mes livres
+            </a>
+
             <a href="#signes" onClick={onNavTo("signes")} role="menuitem">
               Choisir un signe
             </a>
@@ -275,58 +274,62 @@ export default function HomePage() {
         </nav>
       </header>
 
-     {/* MAIN */}
-<main className="wrap" role="main">
-  {/* HERO */}
-  <section className="hero hero-astro" aria-label="Présentation">
-    <div className="hero-card">
-      <div className="hero-top hero-top-center">
-        <div className="hero-kicker hero-kicker-center">
-          <span className="astro-mark">☾ Luna Astralis</span>
-          <span className="hero-badge">Discussion privée astrologique</span>
-        </div>
+      <main className="wrap" role="main">
+        <section className="hero hero-astro" aria-label="Présentation">
+          <div className="hero-card">
+            <div className="hero-top hero-top-center">
+              <div className="hero-kicker hero-kicker-center">
+                <span className="astro-mark">☾ Luna Astralis</span>
+                <span className="hero-badge">Discussion privée astrologique</span>
+              </div>
 
-        <h1 className="hero-title hero-title-center">
-          Pourquoi certaines relations te bouleversent autant ?
-        </h1>
+              <h1 className="hero-title hero-title-center">
+                Pourquoi certaines relations te bouleversent autant ?
+              </h1>
 
-        <p className="hero-sub hero-sub-center">
-          Ce que tu ressens a peut-être plus de sens que tu le crois.
-        </p>
+              <p className="hero-sub hero-sub-center">
+                Ce que tu ressens a peut-être plus de sens que tu le crois.
+              </p>
 
-        <p className="lead lead-center">
-          Luna t’aide à voir plus clair à travers une discussion basée sur ton signe.
-        </p>
-      </div>
+              <p className="lead lead-center">
+                Luna t’aide à voir plus clair à travers une discussion basée sur ton signe.
+              </p>
+            </div>
 
-      <div
-        className="hero-free-wrap hero-free-wrap-center"
-        aria-label="Démarrage"
-      >
-        <div className="hero-free hero-free-center">
-          <h2 className="hero-free-title">
-            Parfois, tu as juste besoin d’en parler.
-          </h2>
+            <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
+              <div className="hero-free hero-free-center">
+                <h2 className="hero-free-title">
+                  Parfois, tu as juste besoin d’en parler.
+                </h2>
 
-          <p className="hero-free-sub">
-            Une conversation privée pour mieux comprendre ce que tu ressens.
-          </p>
+                <p className="hero-free-sub">
+                  Une conversation privée pour mieux comprendre ce que tu ressens.
+                </p>
 
-          <a
-            href="#signes"
-            className="hero-free-btn hero-free-btn--pulse"
-            onClick={onNavTo("signes")}
-          >
-            Parler avec Luna ✨
-          </a>
+                <a
+                  href="#signes"
+                  className="hero-free-btn hero-free-btn--pulse"
+                  onClick={onNavTo("signes")}
+                >
+                  Parler avec Luna ✨
+                </a>
 
-          <div className="hero-free-note">
-            {isAuth
-              ? "Connectée · Accès immédiat"
-              : "Gratuit pour commencer · Discussion privée"}
-          </div>
-        </div>
-      </div>
+                <a
+                  href="#livres"
+                  className="hero-free-btn"
+                  onClick={onNavTo("livres")}
+                  style={{ marginTop: 10 }}
+                >
+                  Découvrir les livres 📚
+                </a>
+
+                <div className="hero-free-note">
+                  {isAuth
+                    ? "Connectée · Accès immédiat"
+                    : "Gratuit pour commencer · Discussion privée"}
+                </div>
+              </div>
+            </div>
 
             <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
               <div className="astro-video-frame">
@@ -373,6 +376,7 @@ export default function HomePage() {
             <p className="hero-tech note-center">
               Fonctionne instantanément sur mobile · Aucun téléchargement
             </p>
+
             <p className="hero-disclaimer note-center">
               Exploration personnelle (non thérapeutique).
             </p>
@@ -391,7 +395,60 @@ export default function HomePage() {
           </ul>
         </section>
 
-        {/* COMMENT */}
+        <section id="livres" className="section">
+          <div className="section-head">
+            <h2>Les livres Luna Astralis</h2>
+            <p className="section-sub">
+              Guides astrologiques, compatibilités amoureuses et développement personnel.
+            </p>
+          </div>
+
+          <div className="book-cta">
+            <div className="book-cta-text">
+              <div className="hero-badge">Disponible sur Amazon</div>
+
+              <h2>L’Âme des Signes</h2>
+
+              <p>
+                Un guide complet pour explorer les 144 compatibilités amoureuses
+                entre les douze signes du zodiaque.
+              </p>
+
+              <p>
+                Découvre les forces, les défis, les dynamiques émotionnelles
+                et le potentiel d’évolution de chaque union astrologique.
+              </p>
+
+              <div className="book-actions">
+                <a
+                  href={AMAZON_AUTHOR_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero-free-btn"
+                >
+                  Voir le livre sur Amazon
+                </a>
+
+                <a
+                  href={AMAZON_AUTHOR_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-small btn-ghost"
+                >
+                  Voir tous mes livres
+                </a>
+              </div>
+            </div>
+
+            <div className="book-cta-cover" aria-label="Couverture du livre">
+              <img
+                src="/couverture-ame-des-signes.jpg"
+                alt="Couverture du livre L’Âme des Signes"
+              />
+            </div>
+          </div>
+        </section>
+
         <section id="comment" className="section">
           <div className="section-head">
             <h2>Comment ça fonctionne</h2>
@@ -402,9 +459,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">01</span>
-                <span className="step-ico" aria-hidden="true">
-                  ♈
-                </span>
+                <span className="step-ico" aria-hidden="true">♈</span>
               </div>
               <h3>Choisis ton signe</h3>
               <p>Tu démarres en 1 clic.</p>
@@ -413,9 +468,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">02</span>
-                <span className="step-ico" aria-hidden="true">
-                  🔐
-                </span>
+                <span className="step-ico" aria-hidden="true">🔐</span>
               </div>
               <h3>Connecte-toi</h3>
               <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
@@ -424,9 +477,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">03</span>
-                <span className="step-ico" aria-hidden="true">
-                  ✧
-                </span>
+                <span className="step-ico" aria-hidden="true">✧</span>
               </div>
               <h3>Gagne en clarté</h3>
               <p>Forces, blocages, besoins.</p>
@@ -435,9 +486,7 @@ export default function HomePage() {
             <div className="box step">
               <div className="step-top">
                 <span className="step-n">04</span>
-                <span className="step-ico" aria-hidden="true">
-                  ☾
-                </span>
+                <span className="step-ico" aria-hidden="true">☾</span>
               </div>
               <h3>Garde le contrôle</h3>
               <p>Une exploration guidée, à travers ton signe.</p>
@@ -445,7 +494,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SIGNES */}
         <section id="signes" className="section">
           <div className="section-head">
             <h2>Choisir un signe</h2>
@@ -482,7 +530,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FOOTER */}
         <footer className="site-footer" role="contentinfo" aria-label="Pied de page">
           <div className="footer-card">
             <div className="footer-row">
