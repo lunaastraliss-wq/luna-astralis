@@ -69,7 +69,7 @@ export default function HomePage() {
                   <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
                     Parler avec Luna ✨
                   </a>
-                  <Link href="/compatibilite" className="hero-free-btn">
+                  <Link href="/compatibilite" className="hero-free-btn" style={{ marginTop: 10 }}>
   💕 Compatibilité amoureuse (gratuit)
 </Link>
 
