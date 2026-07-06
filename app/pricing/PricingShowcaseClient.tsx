@@ -24,10 +24,10 @@ export default function PricingClient() {
         <nav className="nav" aria-label="Navigation principale">
           <Link href="/">Accueil</Link>
 
-          {/* ✅ Se connecter -> login -> retour au chat */}
-          <Link href={`/login?next=${encodeURIComponent("/chat")}`}>Se connecter</Link>
+          <Link href={`/login?next=${encodeURIComponent("/chat")}`}>
+            Se connecter
+          </Link>
 
-          {/* ✅ Retour vers l'accueil (vitrine) */}
           <Link className="btn btn-small btn-ghost" href="/">
             Retour
           </Link>
@@ -43,25 +43,27 @@ export default function PricingClient() {
             <h1 className="pricing-title">Forfaits & prix</h1>
 
             <p className="pricing-subtitle">
-              Cette page affiche seulement les prix. L’abonnement se fait dans le chat.
+              Cette page affiche seulement les prix. L'abonnement se fait après inscription.
             </p>
 
             <div className="pricing-chips" aria-label="Informations">
               <span className="chip">Prix en dollars US (USD)</span>
-              <span className="chip">Annule ou change en tout temps</span>
+              <span className="chip">Annulez ou changez en tout temps</span>
             </div>
           </div>
         </section>
 
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
-            <article className="price-card" aria-label="Mensuel — Essentiel">
+            <article className="price-card" aria-label="Mensuel - Essentiel">
               <div className="price-head">
-                <div className="price-name">Mensuel — Essentiel</div>
+                <div className="price-name">Mensuel - Essentiel</div>
+
                 <div className="price-value">
                   <span className="price-now">4,99&nbsp;$</span>
                   <span className="price-period">/ mois</span>
                 </div>
+
                 <div className="price-mini">Accès 24h/7</div>
               </div>
 
@@ -72,21 +74,33 @@ export default function PricingClient() {
                 <li>Compatible mobile</li>
               </ul>
 
-              <button className="price-cta" type="button" disabled aria-disabled="true">
-                Prix
-              </button>
+              <Link
+                className="price-cta"
+                href={`/signup?plan=${encodeURIComponent("mensuel-essentiel")}`}
+              >
+                Choisir ce forfait
+              </Link>
             </article>
 
-            <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
-              <article className="price-card price-featured" aria-label="Mensuel — Illimité">
+            <div
+              className="price-halo"
+              role="group"
+              aria-label="Mensuel - Illimité (le plus populaire)"
+            >
+              <article
+                className="price-card price-featured"
+                aria-label="Mensuel - Illimité"
+              >
                 <div className="price-badge">LE PLUS POPULAIRE</div>
 
                 <div className="price-head">
-                  <div className="price-name">Mensuel — Illimité</div>
+                  <div className="price-name">Mensuel - Illimité</div>
+
                   <div className="price-value">
                     <span className="price-now">9,99&nbsp;$</span>
                     <span className="price-period">/ mois</span>
                   </div>
+
                   <div className="price-mini">Accès 24h/7</div>
                 </div>
 
@@ -97,15 +111,19 @@ export default function PricingClient() {
                   <li>Exploration approfondie</li>
                 </ul>
 
-                <button className="price-cta btn-primary" type="button" disabled aria-disabled="true">
-                  Prix
-                </button>
+                <Link
+                  className="price-cta btn-primary"
+                  href={`/signup?plan=${encodeURIComponent("mensuel-illimite")}`}
+                >
+                  Choisir ce forfait
+                </Link>
               </article>
             </div>
 
-            <article className="price-card" aria-label="Annuel — Essentiel">
+            <article className="price-card" aria-label="Annuel - Essentiel">
               <div className="price-head">
-                <div className="price-name">Annuel — Essentiel</div>
+                <div className="price-name">Annuel - Essentiel</div>
+
                 <div className="price-value">
                   <span className="price-was">
                     <s>59,99&nbsp;$</s>
@@ -113,6 +131,7 @@ export default function PricingClient() {
                   <span className="price-now">49,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
+
                 <div className="price-mini">
                   Accès 24h/7 • <strong>Économisez 10&nbsp;$</strong>
                 </div>
@@ -125,16 +144,20 @@ export default function PricingClient() {
                 <li>Le plus économique</li>
               </ul>
 
-              <button className="price-cta" type="button" disabled aria-disabled="true">
-                Prix
-              </button>
+              <Link
+                className="price-cta"
+                href={`/signup?plan=${encodeURIComponent("annuel-essentiel")}`}
+              >
+                Choisir ce forfait
+              </Link>
             </article>
 
-            <article className="price-card premium" aria-label="Annuel — Illimité">
+            <article className="price-card premium" aria-label="Annuel - Illimité">
               <div className="price-badge premium">MEILLEURE VALEUR</div>
 
               <div className="price-head">
-                <div className="price-name">Annuel — Illimité</div>
+                <div className="price-name">Annuel - Illimité</div>
+
                 <div className="price-value">
                   <span className="price-was">
                     <s>119,99&nbsp;$</s>
@@ -142,6 +165,7 @@ export default function PricingClient() {
                   <span className="price-now">99,99&nbsp;$</span>
                   <span className="price-period">/ an</span>
                 </div>
+
                 <div className="price-mini">
                   Accès 24h/7 • <strong>Économisez 20&nbsp;$</strong>
                 </div>
@@ -154,24 +178,22 @@ export default function PricingClient() {
                 <li>Futur : Tarot, Lune, Ascendant</li>
               </ul>
 
-              <button className="price-cta btn-primary" type="button" disabled aria-disabled="true">
-                Prix
-              </button>
+              <Link
+                className="price-cta btn-primary"
+                href={`/signup?plan=${encodeURIComponent("annuel-illimite")}`}
+              >
+                Choisir ce forfait
+              </Link>
             </article>
           </div>
         </section>
 
-        {/* Footer volontairement retiré */}
         <div className="pricing-foot" aria-label="Informations légales">
-          © {y} Luna Astralis • Prix en USD
+          © {y} Luna Astralis - Prix en USD
         </div>
       </main>
 
       <style jsx>{`
-        .price-cta:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
         .pricing-foot {
           margin-top: 18px;
           font-size: 12px;
