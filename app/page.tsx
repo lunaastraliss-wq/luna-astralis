@@ -25,6 +25,7 @@ const MINI_REVIEWS = [
     text: "Il était distant et je tournais en rond. Ça m'a aidée à comprendre mes besoins et mes doutes.",
   },
 ];
+
 export default function HomePage() {
   const y = new Date().getFullYear();
 
@@ -90,6 +91,7 @@ export default function HomePage() {
                         ★★★★★
                       </div>
                     </div>
+
                     <div className="mini-review-sign">{r.sign}</div>
                     <p className="mini-review-text">{r.text}</p>
                   </article>
@@ -143,7 +145,7 @@ export default function HomePage() {
                 </p>
 
                 <div className="book-actions">
-                  
+                  <a
                     href={AMAZON_AUTHOR_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -152,7 +154,7 @@ export default function HomePage() {
                     Voir le livre sur Amazon
                   </a>
 
-                  
+                  <a
                     href={AMAZON_AUTHOR_LINK}
                     target="_blank"
                     rel="noopener noreferrer"
