@@ -59,11 +59,11 @@ export default function HomePage() {
               <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
                 <div className="hero-free hero-free-center">
                   <h2 className="hero-free-title">
-                    Parfois, tu as juste besoin d'en parler.
+                    Découvrez votre alchimie amoureuse
                   </h2>
 
                   <p className="hero-free-sub">
-                    Une conversation privée pour mieux comprendre ce que tu ressens.
+                    Comparez deux signes astrologiques et obtenez instantanément votre score de compatibilité
                   </p>
 
                  <Link href="/compatibilite" className="hero-free-btn hero-free-btn--pulse">
