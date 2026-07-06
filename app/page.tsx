@@ -67,7 +67,7 @@ export default function HomePage() {
                   </p>
 
                   <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
-                    Parler avec Luna ✨
+                    Parler avec Luna, 15 messages gratuits ✨
                   </a>
                   <Link href="/compatibilite" className="hero-free-btn" style={{ marginTop: 10 }}>
   💕 Compatibilité amoureuse (gratuit)
