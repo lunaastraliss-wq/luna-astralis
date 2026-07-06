@@ -69,36 +69,39 @@ export default function CompatibilityCard() {
 
   return (
     <div className="compat-wrap">
-      <div className="compat-selectors">
-        <select
-          value={signA}
-          onChange={(e) => setSignA(e.target.value as SignKey)}
-        >
-          {SIGNS.map((s) => (
-            <option key={s.key} value={s.key}>
-              {s.symbol} {s.label}
-            </option>
-          ))}
-        </select>
-        <span className="compat-plus">+</span>
-        <select
-          value={signB}
-          onChange={(e) => setSignB(e.target.value as SignKey)}
-        >
-          {SIGNS.map((s) => (
-            <option key={s.key} value={s.key}>
-              {s.symbol} {s.label}
-            </option>
-          ))}
-        </select>
-        <button
-          type="button"
-          className="btn btn-small"
-          onClick={() => setShowCard(true)}
-        >
-          Voir la compatibilité
-        </button>
-      </div>
+     <div className="compat-selectors">
+  <select
+    value={signA}
+    onChange={(e) => setSignA(e.target.value as SignKey)}
+  >
+    {SIGNS.map((s) => (
+      <option key={s.key} value={s.key}>
+        {s.symbol} {s.label}
+      </option>
+    ))}
+  </select>
+
+  <span className="compat-plus">+</span>
+
+  <select
+    value={signB}
+    onChange={(e) => setSignB(e.target.value as SignKey)}
+  >
+    {SIGNS.map((s) => (
+      <option key={s.key} value={s.key}>
+        {s.symbol} {s.label}
+      </option>
+    ))}
+  </select>
+
+  <button
+    type="button"
+    className="btn btn-small compat-main-btn"
+    onClick={() => setShowCard(true)}
+  >
+    Voir la compatibilité
+  </button>
+</div>
       {showCard && (
         <>
           <div ref={cardRef} className="compat-card">
