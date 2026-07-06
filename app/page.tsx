@@ -40,7 +40,7 @@ export default function HomePage() {
               <div className="hero-top hero-top-center">
                 <div className="hero-kicker hero-kicker-center">
                   <span className="astro-mark">☾ Luna Astralis</span>
-                  <span className="hero-badge">Discussion privée astrologique</span>
+                  <span className="hero-badge">Compatibilité amoureuse et IA astrologique</span>
                 </div>
 
                 <h1 className="hero-title hero-title-center">
