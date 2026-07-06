@@ -66,12 +66,13 @@ export default function HomePage() {
                     Une conversation privée pour mieux comprendre ce que tu ressens.
                   </p>
 
-                  <a href="#signes" className="hero-free-btn hero-free-btn--pulse">
-                    Parler avec Luna, 15 messages gratuits ✨
-                  </a>
-                  <Link href="/compatibilite" className="hero-free-btn" style={{ marginTop: 10 }}>
+                 <Link href="/compatibilite" className="hero-free-btn hero-free-btn--pulse">
   💕 Compatibilité amoureuse (gratuit)
 </Link>
+
+<a href="#signes" className="hero-free-btn" style={{ marginTop: 10 }}>
+  Parler avec Luna, 15 messages gratuits ✨
+</a>
 
                   <a href="#livres" className="hero-free-btn" style={{ marginTop: 10 }}>
                     Découvrir les livres 📚
