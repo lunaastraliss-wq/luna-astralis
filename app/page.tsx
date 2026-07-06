@@ -12,17 +12,17 @@ const MINI_REVIEWS = [
   {
     sign: "♈ Bélier",
     name: "Marie L.",
-    text: "“Je ne comprenais plus si ce qu'il ressentait était vrai ou juste un silence. Là, j'ai enfin mis des mots sur ce que je vivais.”,
+    text: "Je ne comprenais plus si ce qu'il ressentait était vrai ou juste un silence. Là, j'ai enfin mis des mots sur ce que je vivais.",
   },
   {
     sign: "♊ Gémeaux",
     name: "Julie R.",
-    text: "“J'attendais un message chaque jour. En quelques minutes, j'ai su si ça venait de lui ou de mes pensées.”,
+    text: "J'attendais un message chaque jour. En quelques minutes, j'ai su si ça venait de lui ou de mes pensées.",
   },
   {
     sign: "♋ Cancer",
     name: "Camille D.",
-    text: "“Il était distant et je tournais en rond. Ça m'a aidée à comprendre mes besoins et mes doutes.”,
+    text: "Il était distant et je tournais en rond. Ça m'a aidée à comprendre mes besoins et mes doutes.",
   },
 ];
 
