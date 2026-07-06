@@ -44,15 +44,15 @@ export default function HomePage() {
                 </div>
 
                 <h1 className="hero-title hero-title-center">
-                  Pourquoi certaines relations te bouleversent autant ?
+                  Découvrez votre compatibilité amoureuse gratuitement
                 </h1>
 
                 <p className="hero-sub hero-sub-center">
-                  Ce que tu ressens a peut-être plus de sens que tu le crois.
+                   Comparez deux signes astrologiques en quelques secondes.
                 </p>
 
                 <p className="lead lead-center">
-                  Luna t'aide à voir plus clair à travers une discussion basée sur ton signe.
+                  Découvrez votre score de compatibilité amoureuse, les forces de votre relation et les défis qui vous attendent.
                 </p>
               </div>
 
