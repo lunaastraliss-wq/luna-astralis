@@ -548,78 +548,109 @@
   }
 }
 .compat-wrap {
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 520px;
+  margin: 40px auto;
   text-align: center;
+  padding: 0 16px;
 }
 
 .compat-selectors {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 12px;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.compat-selectors select {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f0ff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.compat-selectors select option {
+  background: #1a1440;
+  color: #f5f0ff;
 }
 
 .compat-plus {
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
   opacity: 0.7;
+  color: #ffd782;
+}
+
+.compat-selectors button {
+  width: 100%;
+  margin-top: 8px;
 }
 
 .compat-card {
-  background: linear-gradient(160deg, #0b1024, #1a1440);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 32px 24px;
+  background: radial-gradient(circle at top, #1a1440 0%, #0b1024 100%);
+  border-radius: 24px;
+  padding: 40px 28px;
   color: #f5f0ff;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+  font-family: inherit;
+  border: 1px solid rgba(255, 215, 130, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  position: relative;
 }
 
 .compat-card-title {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 13px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  opacity: 0.7;
-  margin-bottom: 14px;
+  opacity: 0.6;
+  margin-bottom: 16px;
 }
 
 .compat-card-signs {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
 }
 
 .compat-card-score {
-  font-size: 52px;
+  font-size: 56px;
   font-weight: 800;
-  margin: 14px 0;
-
   background: linear-gradient(90deg, #ffd782, #ff9fd6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  margin: 16px 0;
+  line-height: 1;
 }
 
 .compat-card-text {
   font-size: 15px;
-  line-height: 1.7;
-  opacity: 0.92;
+  line-height: 1.6;
+  opacity: 0.85;
+  max-width: 380px;
+  margin: 0 auto;
 }
 
 .compat-card-footer {
   margin-top: 24px;
   font-size: 12px;
+  opacity: 0.5;
   letter-spacing: 1px;
-  opacity: 0.55;
 }
 
 .compat-actions {
   display: flex;
-  justify-content: center;
   gap: 12px;
-  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 20px;
+}
+
+.compat-actions button {
+  padding: 12px 24px;
 }
