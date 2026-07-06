@@ -15,7 +15,10 @@ export const metadata: Metadata = {
     default: "Luna Astralis — Astro & psycho",
     template: "%s | Luna Astralis",
   },
-  description: "Exploration douce et guidée à travers une discussion privée basée sur ton signe astrologique.",
+ description: "Exploration douce et guidée à travers une discussion privée basée sur ton signe astrologique.",
+  verification: {
+    google: "4QYboYsN4iM2g0qJTIJSvmJ_tb5PxmLUlLdaEKV6E6I",
+  },
   openGraph: {
     title: "Luna Astralis — Astro & psycho",
     description: "Exploration douce et guidée à travers une discussion privée basée sur ton signe astrologique.",
