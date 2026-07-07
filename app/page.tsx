@@ -66,8 +66,12 @@ export default function HomePage() {
                     Comparez deux signes astrologiques et obtenez instantanément votre score de compatibilité
                   </p>
 
-                 <Link href="/compatibilite" className="hero-free-btn hero-free-btn--pulse">
+                <Link href="/compatibilite" className="hero-free-btn hero-free-btn--pulse">
   💕 Compatibilité amoureuse (gratuit)
+</Link>
+
+<Link href="/carte-du-ciel" className="hero-free-btn" style={{ marginTop: 10 }}>
+  🌌 Créer ma carte du ciel gratuite
 </Link>
 
 <a href="#signes" className="hero-free-btn" style={{ marginTop: 10 }}>
