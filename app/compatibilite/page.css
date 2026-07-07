@@ -343,3 +343,42 @@
     padding: 24px;
   }
 }
+.compat-card {
+  max-width: 620px;
+  animation: compatFadeUp 0.45s ease both;
+}
+
+.compat-score-ring {
+  background:
+    radial-gradient(circle, rgba(255, 215, 130, 0.22), transparent 56%),
+    conic-gradient(from 180deg, #f4c95d, #fff1a8, #f4c95d);
+  padding: 2px;
+}
+
+.compat-score-ring::before {
+  content: "";
+  position: absolute;
+}
+
+.compat-card-text {
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.compat-actions button {
+  min-width: 170px;
+}
+
+@keyframes compatFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
