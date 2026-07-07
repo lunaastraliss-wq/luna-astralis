@@ -21,34 +21,43 @@ export default function CompatibilityCard() {
   const result = getCompatibility(signA, signB);
   const level = getLevel(result.score);
 
-const captureCard = async () => {
-  if (!cardRef.current) return null;
+  const captureCard = async () => {
+    if (!cardRef.current) return null;
 
-  await document.fonts.ready;
+    await document.fonts.ready;
 
-  return html2canvas(cardRef.current, {
-    backgroundColor: "#050816",
-    scale: 2,
-    useCORS: true,
-    logging: false,
-    onclone: (clonedDoc) => {
-      const score = clonedDoc.querySelector(
-        ".compat-result-score"
-      ) as HTMLElement | null;
+    return html2canvas(cardRef.current, {
+      backgroundColor: "#050816",
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      onclone: (clonedDoc) => {
+        const wrap = clonedDoc.querySelector(
+          ".compat-result-score-wrap"
+        ) as HTMLElement | null;
 
-      if (score) {
-  score.style.fontFamily =
-    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
-  score.style.letterSpacing = "0";
-  score.style.width = "auto";
-  score.style.height = "auto";
-  score.style.display = "block";
-  score.style.textAlign = "center";
-  score.style.transform = "translateX(4px)";
-}
-    },
-  });
-};
+        const score = clonedDoc.querySelector(
+          ".compat-result-score"
+        ) as HTMLElement | null;
+
+        if (wrap && score) {
+          wrap.style.position = "relative";
+          wrap.style.display = "block";
+
+          score.style.position = "absolute";
+          score.style.left = "50%";
+          score.style.top = "50%";
+          score.style.transform = "translate(-50%, -50%)";
+          score.style.width = "max-content";
+          score.style.height = "auto";
+          score.style.display = "block";
+          score.style.letterSpacing = "0";
+          score.style.textAlign = "center";
+        }
+      },
+    });
+  };
+
   const handleDownload = async () => {
     const canvas = await captureCard();
     if (!canvas) return;
@@ -146,13 +155,17 @@ const captureCard = async () => {
 
             <div className="compat-result-signs">
               <div>
-                <strong className="compat-result-name">{result.signA.label}</strong>
+                <strong className="compat-result-name">
+                  {result.signA.label}
+                </strong>
               </div>
 
               <div className="compat-result-love">❤️</div>
 
               <div>
-                <strong className="compat-result-name">{result.signB.label}</strong>
+                <strong className="compat-result-name">
+                  {result.signB.label}
+                </strong>
               </div>
             </div>
 
