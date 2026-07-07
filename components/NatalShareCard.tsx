@@ -47,11 +47,23 @@ export default function NatalShareCard({
       </div>
 
       <div className="natal-share-footer">
-        <strong>Votre thème astral est unique.</strong>
-        <span>Explorez-en toute la richesse sur Luna Astralis.</span>
-      </div>
+  <strong>Votre thème astral est unique.</strong>
+  <span>Explorez-en toute la richesse sur Luna Astralis.</span>
+</div>
 
-      <div className="natal-share-site">www.luna-astralis.app</div>
-    </div>
-  );
+<div className="natal-share-bottom">
+  <div className="natal-share-site">www.luna-astralis.app</div>
+
+  <img
+   <div className="natal-share-footer">
+  <strong>Votre thème astral est unique.</strong>
+  <span>Explorez-en toute la richesse sur Luna Astralis.</span>
+</div>
+
+<div className="natal-share-site">
+  www.luna-astralis.app
+</div>
+
+</div>
+);
 }
