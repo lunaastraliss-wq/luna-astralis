@@ -4,6 +4,14 @@ import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import { SIGNS, getCompatibility, SignKey } from "@/lib/compatibility";
 
+function getLevel(score: number) {
+  if (score >= 90) return "Union exceptionnelle";
+  if (score >= 80) return "Excellente compatibilité";
+  if (score >= 65) return "Belle harmonie";
+  if (score >= 50) return "Équilibre à construire";
+  return "Relation pleine de défis";
+}
+
 export default function CompatibilityCard() {
   const [signA, setSignA] = useState<SignKey>("belier");
   const [signB, setSignB] = useState<SignKey>("lion");
@@ -11,24 +19,16 @@ export default function CompatibilityCard() {
 
   const cardRef = useRef<HTMLDivElement | null>(null);
   const result = getCompatibility(signA, signB);
-
-  const fixScoreForCapture = (clonedDoc: Document) => {
-    const scoreEl = clonedDoc.querySelector(".compat-card-score") as HTMLElement | null;
-
-    if (scoreEl) {
-      scoreEl.style.background = "none";
-      scoreEl.style.webkitTextFillColor = "#ffd782";
-      scoreEl.style.color = "#ffd782";
-    }
-  };
+  const level = getLevel(result.score);
 
   const captureCard = async () => {
     if (!cardRef.current) return null;
 
     return html2canvas(cardRef.current, {
-      backgroundColor: "#0b1024",
-      scale: 2,
-      onclone: (clonedDoc) => fixScoreForCapture(clonedDoc),
+      backgroundColor: "#050816",
+      scale: 3,
+      useCORS: true,
+      logging: false,
     });
   };
 
@@ -124,32 +124,35 @@ export default function CompatibilityCard() {
 
       {showCard && (
         <>
-          <div ref={cardRef} className="compat-card">
-            <div className="compat-card-title">Luna Astralis</div>
+          <div ref={cardRef} className="compat-result-card">
+            <div className="compat-result-brand">Luna Astralis</div>
 
-            <div className="compat-card-signs">
-              <span>
-                {result.signA.symbol} {result.signA.label}
-              </span>
+            <div className="compat-result-signs">
+              <div>
+                <span className="compat-result-symbol">{result.signA.symbol}</span>
+                <strong>{result.signA.label}</strong>
+              </div>
 
-              <strong>❤️</strong>
+              <div className="compat-result-love">❤️</div>
 
-              <span>
-                {result.signB.symbol} {result.signB.label}
-              </span>
+              <div>
+                <span className="compat-result-symbol">{result.signB.symbol}</span>
+                <strong>{result.signB.label}</strong>
+              </div>
             </div>
 
-            <div className="compat-score-ring">
-              <div className="compat-card-score">{result.score}%</div>
+            <div className="compat-result-score-wrap">
+              <div className="compat-result-score">{result.score}%</div>
             </div>
 
-            <div className="compat-card-level">
-              Compatibilité amoureuse
+            <h3>{level}</h3>
+
+            <div className="compat-result-analysis">
+              <div>✨ Analyse</div>
+              <p>{result.text}</p>
             </div>
 
-            <p className="compat-card-text">{result.text}</p>
-
-            <div className="compat-card-footer">luna-astralis.app</div>
+            <div className="compat-result-footer">luna-astralis.app</div>
           </div>
 
           <div className="compat-actions">
