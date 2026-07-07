@@ -128,7 +128,8 @@ export default function NatalChartForm() {
         return;
       }
 
-      setResult(chartData.chart);
+      console.log("chartData =", chartData);
+setResult(chartData.chart);
     } catch (err: any) {
       setError("Une erreur est survenue. Réessaie.");
     } finally {
