@@ -129,15 +129,13 @@ export default function CompatibilityCard() {
 
             <div className="compat-result-signs">
               <div>
-                <span className="compat-result-symbol">{result.signA.symbol}</span>
-                <strong>{result.signA.label}</strong>
+                <strong className="compat-result-name">{result.signA.label}</strong>
               </div>
 
               <div className="compat-result-love">❤️</div>
 
               <div>
-                <span className="compat-result-symbol">{result.signB.symbol}</span>
-                <strong>{result.signB.label}</strong>
+                <strong className="compat-result-name">{result.signB.label}</strong>
               </div>
             </div>
 
