@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import NatalChartWheel from "./NatalChartWheel";
 import NatalShareCard from "./NatalShareCard";
+import NatalFreeSummary from "./NatalFreeSummary";
 
 const MAIN_PLANETS = [
   "Sun",
@@ -353,15 +354,21 @@ export default function NatalChartForm() {
                   {getSignName(p.signName)}
                 </div>
 
-                <div className="natal-planet-degree">
-                  {translateFormatted(p.formatted)}
-                  {p.isRetrograde && <span className="natal-retro"> R</span>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
+               <div className="natal-planet-degree">
+  {translateFormatted(p.formatted)}
+  {p.isRetrograde && <span className="natal-retro"> R</span>}
+</div>
+</div>
+))}
+</div>
+
+<NatalFreeSummary
+  planets={planets}
+  angles={angles}
+/>
+
+</div>
+)}
+</div>
+);
 }
