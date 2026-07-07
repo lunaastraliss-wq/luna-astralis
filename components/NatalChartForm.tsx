@@ -3,6 +3,19 @@
 import { useState } from "react";
 import NatalChartWheel from "./NatalChartWheel";
 
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
+
 const PLANET_FR: Record<string, string> = {
   Sun: "Soleil",
   Moon: "Lune",
@@ -14,10 +27,19 @@ const PLANET_FR: Record<string, string> = {
   Uranus: "Uranus",
   Neptune: "Neptune",
   Pluto: "Pluton",
-  Chiron: "Chiron",
-  "North Node": "Nœud Nord",
-  "South Node": "Nœud Sud",
-  Lilith: "Lilith",
+};
+
+const PLANET_GLYPH: Record<string, string> = {
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
 };
 
 const SIGN_FR: Record<string, string> = {
@@ -35,6 +57,21 @@ const SIGN_FR: Record<string, string> = {
   Pisces: "Poissons",
 };
 
+const SIGN_GLYPH: Record<string, string> = {
+  Aries: "♈",
+  Taurus: "♉",
+  Gemini: "♊",
+  Cancer: "♋",
+  Leo: "♌",
+  Virgo: "♍",
+  Libra: "♎",
+  Scorpio: "♏",
+  Sagittarius: "♐",
+  Capricorn: "♑",
+  Aquarius: "♒",
+  Pisces: "♓",
+};
+
 function translateFormatted(formatted: string): string {
   if (!formatted) return formatted;
 
@@ -49,6 +86,15 @@ function translateFormatted(formatted: string): string {
 
 function translatePlanetName(name: string): string {
   return PLANET_FR[name] || name;
+}
+
+function getSignGlyph(signName?: string): string {
+  if (!signName) return "";
+  return SIGN_GLYPH[signName] || "";
+}
+
+function getPlanetGlyph(name: string): string {
+  return PLANET_GLYPH[name] || "";
 }
 
 export default function NatalChartForm() {
@@ -126,7 +172,10 @@ export default function NatalChartForm() {
     }
   };
 
-  const planets = result?.planets || [];
+  const planets = (result?.planets || []).filter((p: any) =>
+    MAIN_PLANETS.includes(p.name)
+  );
+
   const angles = result?.angles || {};
 
   return (
@@ -229,10 +278,14 @@ export default function NatalChartForm() {
             {planets.map((p: any, i: number) => (
               <div key={i} className="natal-planet-row">
                 <span className="natal-planet-name">
+                  <span className="natal-glyph">{getPlanetGlyph(p.name)}</span>
                   {translatePlanetName(p.name)}
                 </span>
 
                 <span className="natal-planet-pos">
+                  <span className="natal-sign-glyph">
+                    {getSignGlyph(p.signName)}
+                  </span>
                   {translateFormatted(p.formatted)}
                 </span>
 
