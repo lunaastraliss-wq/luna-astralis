@@ -346,3 +346,120 @@
     gap: 8px;
   }
 }
+/* ========================= */
+/* Offre premium */
+/* ========================= */
+
+.natal-premium-offer {
+  margin-top: 38px;
+  padding: 28px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top, rgba(244, 201, 93, 0.18), transparent 42%),
+    rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  text-align: center;
+}
+
+.natal-premium-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: rgba(244, 201, 93, 0.14);
+  border: 1px solid rgba(244, 201, 93, 0.34);
+  color: #f4c95d;
+  font-weight: 900;
+}
+
+.natal-premium-offer h3 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.natal-premium-intro {
+  max-width: 560px;
+  margin: 0 auto 22px;
+  line-height: 1.7;
+  opacity: 0.86;
+}
+
+.natal-premium-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 620px;
+  margin: 0 auto 24px;
+  text-align: left;
+}
+
+.natal-premium-list span {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.natal-premium-price {
+  margin: 10px 0 18px;
+  color: #f4c95d;
+  font-size: 42px;
+  font-weight: 950;
+}
+
+.natal-premium-btn {
+  width: 100%;
+  max-width: 420px;
+  min-height: 56px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f4c95d, #fff0a8);
+  color: #120d2b;
+  font-size: 17px;
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.natal-premium-note {
+  margin: 14px 0 0;
+  font-size: 14px;
+  opacity: 0.72;
+}
+
+/* ========================= */
+/* Détails planètes */
+/* ========================= */
+
+.natal-details {
+  margin-top: 28px;
+}
+
+.natal-details-btn {
+  width: 100%;
+  min-height: 52px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  background: rgba(255, 255, 255, 0.045);
+  color: #f4c95d;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.natal-details .natal-planets-grid {
+  margin-top: 20px;
+}
+
+@media (max-width: 640px) {
+  .natal-premium-offer {
+    padding: 22px;
+  }
+
+  .natal-premium-list {
+    grid-template-columns: 1fr;
+  }
+
+  .natal-premium-price {
+    font-size: 36px;
+  }
+}
