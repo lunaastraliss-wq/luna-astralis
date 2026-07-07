@@ -37,10 +37,13 @@ const SIGN_FR: Record<string, string> = {
 
 function translateFormatted(formatted: string): string {
   if (!formatted) return formatted;
+
   let out = formatted;
+
   Object.keys(SIGN_FR).forEach((en) => {
     out = out.replace(new RegExp(en, "g"), SIGN_FR[en]);
   });
+
   return out;
 }
 
@@ -50,6 +53,7 @@ function translatePlanetName(name: string): string {
 
 function safeStringify(obj: any): string {
   const seen = new WeakSet();
+
   try {
     return JSON.stringify(
       obj,
@@ -58,6 +62,7 @@ function safeStringify(obj: any): string {
           if (seen.has(value)) return "[Circular]";
           seen.add(value);
         }
+
         return value;
       },
       2
@@ -78,6 +83,7 @@ export default function NatalChartForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setError("");
     setResult(null);
 
@@ -90,13 +96,17 @@ export default function NatalChartForm() {
 
     try {
       console.log("=== DÉBUT DU TEST ===");
+
       const geoRes = await fetch(
         "/api/geocode?city=" + encodeURIComponent(birthCity)
       );
+
       const geoData = await geoRes.json();
 
       if (!geoData?.ok || !geoData?.result) {
-        setError("Ville introuvable. Essaie avec le nom complet (ex. : Montréal, Canada).");
+        setError(
+          "Ville introuvable. Essaie avec le nom complet (ex. : Montréal, Canada)."
+        );
         setLoading(false);
         return;
       }
@@ -108,15 +118,17 @@ export default function NatalChartForm() {
 
       const chartRes = await fetch("/api/natal-chart", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           year: parseInt(yearStr, 10),
           month: parseInt(monthStr, 10),
           day: parseInt(dayStr, 10),
           hour: parseInt(hourStr, 10),
           minute: parseInt(minuteStr, 10),
-          latitude: latitude,
-          longitude: longitude,
+          latitude,
+          longitude,
           timezoneOffset: 0,
         }),
       });
@@ -130,7 +142,8 @@ export default function NatalChartForm() {
       }
 
       console.log("chartData =", chartData);
-setResult(chartData.chart);
+
+      setResult(chartData.chart);
     } catch (err: any) {
       setError("Une erreur est survenue. Réessaie.");
     } finally {
@@ -138,7 +151,7 @@ setResult(chartData.chart);
     }
   };
 
-  const calc = result?.calculated result;
+  const calc = result?.calculated || result;
   const planets = calc?.planets || [];
   const angles = calc?.angles || {};
 
@@ -185,7 +198,11 @@ setResult(chartData.chart);
           />
         </label>
 
-        <button type="submit" className="btn btn-small btn-primary" disabled={loading}>
+        <button
+          type="submit"
+          className="btn btn-small btn-primary"
+          disabled={loading}
+        >
           {loading ? "Calcul en cours..." : "Créer ma carte du ciel"}
         </button>
 
@@ -194,45 +211,66 @@ setResult(chartData.chart);
 
       {result && (
         <div className="natal-result">
-         <h3>
-  {firstName ? `Le thème astral de ${firstName}` : "Ta carte du ciel"}
-</h3>
+          <h3>
+            {firstName
+              ? `Le thème astral de ${firstName}`
+              : "Ta carte du ciel"}
+          </h3>
 
-<p
-  style={{
-    color: "red",
-    background: "yellow",
-    fontSize: "30px",
-    fontWeight: "bold",
-    padding: "20px",
-    marginBottom: "20px",
-  }}
->
-  DEBUG VISIBLE
-</p>
+          <p
+            style={{
+              color: "red",
+              background: "yellow",
+              fontSize: "30px",
+              fontWeight: "bold",
+              padding: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            DEBUG VISIBLE
+          </p>
 
-<div
-  style={{
-    background: "#000000",
-    color: "#00ff00",
-    padding: "16px",
-    borderRadius: "8px",
-    marginBottom: "24px",
-    maxHeight: "500px",
-    overflow: "auto",
-    border: "3px solid red",
-  }}
->
-            <p style={{ color: "#ffffff", fontWeight: "bold", marginBottom: "8px" }}>
+          <div
+            style={{
+              background: "#000000",
+              color: "#00ff00",
+              padding: "16px",
+              borderRadius: "8px",
+              marginBottom: "24px",
+              maxHeight: "500px",
+              overflow: "auto",
+              border: "3px solid red",
+            }}
+          >
+            <p
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+                marginBottom: "8px",
+              }}
+            >
               ZONE DE TEST VISIBLE - données reçues du calcul :
             </p>
 
-            <pre style={{ fontSize: "11px", whiteSpace: "pre-wrap", margin: 0 }}>
+            <pre
+              style={{
+                fontSize: "11px",
+                whiteSpace: "pre-wrap",
+                margin: 0,
+              }}
+            >
               {safeStringify(result)}
             </pre>
           </div>
 
-         <p style={{ color: "orange" }}>TEST123</p>
+          <p style={{ color: "orange" }}>TEST123</p>
+
+          <NatalChartWheel
+            planets={planets}
+            ascendantFormatted={angles?.ascendant?.formatted}
+            midheavenFormatted={angles?.midheaven?.formatted}
+            size={420}
+          />
 
           <div className="natal-angles">
             {angles?.ascendant && (
