@@ -41,6 +41,8 @@ interface NatalChartWheelProps {
   };
   ascendantLongitude?: number;
   midheavenLongitude?: number;
+  ascendantFormatted?: string;
+  midheavenFormatted?: string;
   size?: number;
 }
 
@@ -58,6 +60,8 @@ export default function NatalChartWheel({
   houses,
   ascendantLongitude = 0,
   midheavenLongitude,
+  ascendantFormatted,
+  midheavenFormatted,
   size = 480,
 }: NatalChartWheelProps) {
   const cx = size / 2;
@@ -121,9 +125,32 @@ export default function NatalChartWheel({
         height="auto"
         style={{ display: "block" }}
       >
-        <circle cx={cx} cy={cy} r={rOuter} fill="none" stroke="currentColor" strokeOpacity={0.3} />
-        <circle cx={cx} cy={cy} r={rSignRing} fill="none" stroke="currentColor" strokeOpacity={0.2} />
-        <circle cx={cx} cy={cy} r={rHouseRing} fill="none" stroke="currentColor" strokeOpacity={0.18} />
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rOuter}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.3}
+        />
+
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rSignRing}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.2}
+        />
+
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rHouseRing}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.18}
+        />
 
         {SIGN_GLYPH.map((glyph, i) => {
           const angle = toScreenAngle(i * 30);
@@ -131,12 +158,32 @@ export default function NatalChartWheel({
 
           const p1 = pointOnCircle(cx, cy, rSignRing, angle);
           const p2 = pointOnCircle(cx, cy, rOuter, angle);
-          const label = pointOnCircle(cx, cy, (rSignRing + rOuter) / 2, labelAngle);
+          const label = pointOnCircle(
+            cx,
+            cy,
+            (rSignRing + rOuter) / 2,
+            labelAngle
+          );
 
           return (
             <g key={i}>
-              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="currentColor" strokeOpacity={0.3} />
-              <text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="middle" fontSize={size * 0.035} fill="currentColor">
+              <line
+                x1={p1.x}
+                y1={p1.y}
+                x2={p2.x}
+                y2={p2.y}
+                stroke="currentColor"
+                strokeOpacity={0.3}
+              />
+
+              <text
+                x={label.x}
+                y={label.y}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize={size * 0.035}
+                fill="currentColor"
+              >
                 {glyph}
               </text>
             </g>
@@ -151,8 +198,23 @@ export default function NatalChartWheel({
 
           return (
             <g key={cusp.house}>
-              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="currentColor" strokeOpacity={0.35} />
-              <text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="middle" fontSize={size * 0.025} fill="currentColor">
+              <line
+                x1={p1.x}
+                y1={p1.y}
+                x2={p2.x}
+                y2={p2.y}
+                stroke="currentColor"
+                strokeOpacity={0.35}
+              />
+
+              <text
+                x={label.x}
+                y={label.y}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize={size * 0.025}
+                fill="currentColor"
+              >
                 {cusp.house}
               </text>
             </g>
@@ -160,56 +222,154 @@ export default function NatalChartWheel({
         })}
 
         {(() => {
-          const asc = pointOnCircle(cx, cy, rOuter, toScreenAngle(ascendantLongitude));
-          const desc = pointOnCircle(cx, cy, rOuter, toScreenAngle(ascendantLongitude + 180));
+          const asc = pointOnCircle(
+            cx,
+            cy,
+            rOuter,
+            toScreenAngle(ascendantLongitude)
+          );
+
+          const desc = pointOnCircle(
+            cx,
+            cy,
+            rOuter,
+            toScreenAngle(ascendantLongitude + 180)
+          );
 
           return (
             <>
-              <line x1={asc.x} y1={asc.y} x2={desc.x} y2={desc.y} stroke="currentColor" strokeWidth={1.8} strokeOpacity={0.7} />
-              <text x={asc.x} y={asc.y} textAnchor="end" dx={-6} fontSize={size * 0.03} fill="currentColor" fontWeight="bold">
+              <line
+                x1={asc.x}
+                y1={asc.y}
+                x2={desc.x}
+                y2={desc.y}
+                stroke="currentColor"
+                strokeWidth={1.8}
+                strokeOpacity={0.7}
+              />
+
+              <text
+                x={asc.x}
+                y={asc.y}
+                textAnchor="end"
+                dx={-6}
+                fontSize={size * 0.03}
+                fill="currentColor"
+                fontWeight="bold"
+              >
                 AC
               </text>
-              <text x={desc.x} y={desc.y} textAnchor="start" dx={6} fontSize={size * 0.03} fill="currentColor" fontWeight="bold">
+
+              <text
+                x={desc.x}
+                y={desc.y}
+                textAnchor="start"
+                dx={6}
+                fontSize={size * 0.03}
+                fill="currentColor"
+                fontWeight="bold"
+              >
                 DC
               </text>
             </>
           );
         })()}
 
-        {typeof midheavenLongitude === "number" && (
+        {typeof midheavenLongitude === "number" &&
           (() => {
-            const mc = pointOnCircle(cx, cy, rOuter, toScreenAngle(midheavenLongitude));
-            const ic = pointOnCircle(cx, cy, rOuter, toScreenAngle(midheavenLongitude + 180));
+            const mc = pointOnCircle(
+              cx,
+              cy,
+              rOuter,
+              toScreenAngle(midheavenLongitude)
+            );
+
+            const ic = pointOnCircle(
+              cx,
+              cy,
+              rOuter,
+              toScreenAngle(midheavenLongitude + 180)
+            );
 
             return (
               <>
-                <line x1={mc.x} y1={mc.y} x2={ic.x} y2={ic.y} stroke="currentColor" strokeWidth={1.5} strokeOpacity={0.6} strokeDasharray="4 3" />
-                <text x={mc.x} y={mc.y} textAnchor="middle" dy={-8} fontSize={size * 0.03} fill="currentColor" fontWeight="bold">
+                <line
+                  x1={mc.x}
+                  y1={mc.y}
+                  x2={ic.x}
+                  y2={ic.y}
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  strokeOpacity={0.6}
+                  strokeDasharray="4 3"
+                />
+
+                <text
+                  x={mc.x}
+                  y={mc.y}
+                  textAnchor="middle"
+                  dy={-8}
+                  fontSize={size * 0.03}
+                  fill="currentColor"
+                  fontWeight="bold"
+                >
                   MC
                 </text>
-                <text x={ic.x} y={ic.y} textAnchor="middle" dy={12} fontSize={size * 0.03} fill="currentColor" fontWeight="bold">
+
+                <text
+                  x={ic.x}
+                  y={ic.y}
+                  textAnchor="middle"
+                  dy={12}
+                  fontSize={size * 0.03}
+                  fill="currentColor"
+                  fontWeight="bold"
+                >
                   FC
                 </text>
               </>
             );
-          })()
-        )}
+          })()}
 
         {placedPlanets.map((p, i) => {
           const pos = pointOnCircle(cx, cy, p.radius, p.angle);
           const tickInner = pointOnCircle(cx, cy, rHouseRing, p.angle);
-          const tickOuter = pointOnCircle(cx, cy, rHouseRing - size * 0.02, p.angle);
+          const tickOuter = pointOnCircle(
+            cx,
+            cy,
+            rHouseRing - size * 0.02,
+            p.angle
+          );
 
           return (
             <g key={`${p.name}-${i}`}>
-              <line x1={tickInner.x} y1={tickInner.y} x2={tickOuter.x} y2={tickOuter.y} stroke="currentColor" strokeOpacity={0.45} />
+              <line
+                x1={tickInner.x}
+                y1={tickInner.y}
+                x2={tickOuter.x}
+                y2={tickOuter.y}
+                stroke="currentColor"
+                strokeOpacity={0.45}
+              />
 
-              <text x={pos.x} y={pos.y} textAnchor="middle" dominantBaseline="middle" fontSize={size * 0.045} fill="currentColor">
+              <text
+                x={pos.x}
+                y={pos.y}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fontSize={size * 0.045}
+                fill="currentColor"
+              >
                 {PLANET_GLYPH[p.name] || p.name.slice(0, 2)}
               </text>
 
               {p.isRetrograde ? (
-                <text x={pos.x + size * 0.03} y={pos.y - size * 0.02} fontSize={size * 0.02} fill="currentColor">
+                <text
+                  x={pos.x + size * 0.03}
+                  y={pos.y - size * 0.02}
+                  fontSize={size * 0.02}
+                  fill="currentColor"
+                >
                   R
                 </text>
               ) : null}
@@ -217,6 +377,32 @@ export default function NatalChartWheel({
           );
         })}
       </svg>
+
+      {(ascendantFormatted || midheavenFormatted) && (
+        <div
+          style={{
+            marginTop: 12,
+            display: "flex",
+            justifyContent: "center",
+            gap: 16,
+            flexWrap: "wrap",
+            fontSize: 14,
+            opacity: 0.85,
+          }}
+        >
+          {ascendantFormatted ? (
+            <span>
+              <strong>Ascendant :</strong> {ascendantFormatted}
+            </span>
+          ) : null}
+
+          {midheavenFormatted ? (
+            <span>
+              <strong>Milieu du ciel :</strong> {midheavenFormatted}
+            </span>
+          ) : null}
+        </div>
+      )}
     </div>
   );
 }
