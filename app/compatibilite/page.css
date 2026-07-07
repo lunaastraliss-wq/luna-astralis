@@ -488,3 +488,7 @@
     padding: 24px;
   }
 }
+.compat-result-name {
+  font-size: 42px;
+  line-height: 1;
+}
