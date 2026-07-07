@@ -21,7 +21,7 @@ export default function CompatibilityCard() {
   const result = getCompatibility(signA, signB);
   const level = getLevel(result.score);
 
- const captureCard = async () => {
+const captureCard = async () => {
   if (!cardRef.current) return null;
 
   await document.fonts.ready;
@@ -31,12 +31,22 @@ export default function CompatibilityCard() {
     scale: 2,
     useCORS: true,
     logging: false,
-    removeContainer: true,
-    windowWidth: cardRef.current.scrollWidth,
-    windowHeight: cardRef.current.scrollHeight,
+    onclone: (clonedDoc) => {
+      const score = clonedDoc.querySelector(
+        ".compat-result-score"
+      ) as HTMLElement | null;
+
+      if (score) {
+        score.style.fontFamily = "Arial, sans-serif";
+        score.style.letterSpacing = "0";
+        score.style.width = "auto";
+        score.style.height = "auto";
+        score.style.display = "block";
+        score.style.textAlign = "center";
+      }
+    },
   });
 };
-
   const handleDownload = async () => {
     const canvas = await captureCard();
     if (!canvas) return;
