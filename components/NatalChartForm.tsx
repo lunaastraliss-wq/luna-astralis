@@ -51,27 +51,6 @@ function translatePlanetName(name: string): string {
   return PLANET_FR[name] || name;
 }
 
-function safeStringify(obj: any): string {
-  const seen = new WeakSet();
-
-  try {
-    return JSON.stringify(
-      obj,
-      (key, value) => {
-        if (typeof value === "object" && value !== null) {
-          if (seen.has(value)) return "[Circular]";
-          seen.add(value);
-        }
-
-        return value;
-      },
-      2
-    );
-  } catch (e: any) {
-    return "Erreur de conversion JSON : " + (e?.message || "inconnue");
-  }
-}
-
 export default function NatalChartForm() {
   const [firstName, setFirstName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -95,8 +74,6 @@ export default function NatalChartForm() {
     setLoading(true);
 
     try {
-      console.log("=== DÉBUT DU TEST ===");
-
       const geoRes = await fetch(
         "/api/geocode?city=" + encodeURIComponent(birthCity)
       );
@@ -105,7 +82,7 @@ export default function NatalChartForm() {
 
       if (!geoData?.ok || !geoData?.result) {
         setError(
-          "Ville introuvable. Essaie avec le nom complet (ex. : Montréal, Canada)."
+          "Ville introuvable. Essaie avec le nom complet, par exemple : Montréal, Canada."
         );
         setLoading(false);
         return;
@@ -141,8 +118,6 @@ export default function NatalChartForm() {
         return;
       }
 
-      console.log("chartData =", chartData);
-
       setResult(chartData.chart);
     } catch (err: any) {
       setError("Une erreur est survenue. Réessaie.");
@@ -152,7 +127,7 @@ export default function NatalChartForm() {
   };
 
   const planets = result?.planets || [];
-const angles = result?.angles || {};
+  const angles = result?.angles || {};
 
   return (
     <div className="natal-form-wrap">
@@ -216,58 +191,17 @@ const angles = result?.angles || {};
               : "Ta carte du ciel"}
           </h3>
 
-          <p
-            style={{
-              color: "red",
-              background: "yellow",
-              fontSize: "30px",
-              fontWeight: "bold",
-              padding: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            DEBUG VISIBLE
-          </p>
-
-          <div
-            style={{
-              background: "#000000",
-              color: "#00ff00",
-              padding: "16px",
-              borderRadius: "8px",
-              marginBottom: "24px",
-              maxHeight: "500px",
-              overflow: "auto",
-              border: "3px solid red",
-            }}
-          >
-            <p
-              style={{
-                color: "#ffffff",
-                fontWeight: "bold",
-                marginBottom: "8px",
-              }}
-            >
-              ZONE DE TEST VISIBLE - données reçues du calcul :
-            </p>
-
-            <pre
-              style={{
-                fontSize: "11px",
-                whiteSpace: "pre-wrap",
-                margin: 0,
-              }}
-            >
-              {safeStringify(result)}
-            </pre>
-          </div>
-
-          <p style={{ color: "orange" }}>TEST123</p>
-
           <NatalChartWheel
             planets={planets}
-            ascendantFormatted={angles?.ascendant?.formatted}
-            midheavenFormatted={angles?.midheaven?.formatted}
+            houses={result?.houses}
+            ascendantLongitude={angles?.ascendant?.longitude}
+            midheavenLongitude={angles?.midheaven?.longitude}
+            ascendantFormatted={translateFormatted(
+              angles?.ascendant?.formatted || ""
+            )}
+            midheavenFormatted={translateFormatted(
+              angles?.midheaven?.formatted || ""
+            )}
             size={420}
           />
 
