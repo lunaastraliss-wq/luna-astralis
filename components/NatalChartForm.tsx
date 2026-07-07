@@ -192,22 +192,35 @@ export default function NatalChartForm() {
 
       {result && (
         <div className="natal-result">
-          <h3>
-            {firstName ? `Le thème astral de ${firstName}` : "Ta carte du ciel"}
-          </h3>
+         <h3>
+  {firstName ? `Le thème astral de ${firstName}` : "Ta carte du ciel"}
+</h3>
 
-          <div
-            style={{
-              background: "#000000",
-              color: "#00ff00",
-              padding: "16px",
-              borderRadius: "8px",
-              marginBottom: "24px",
-              maxHeight: "500px",
-              overflow: "auto",
-              border: "3px solid red",
-            }}
-          >
+<p
+  style={{
+    color: "red",
+    background: "yellow",
+    fontSize: "30px",
+    fontWeight: "bold",
+    padding: "20px",
+    marginBottom: "20px",
+  }}
+>
+  DEBUG VISIBLE
+</p>
+
+<div
+  style={{
+    background: "#000000",
+    color: "#00ff00",
+    padding: "16px",
+    borderRadius: "8px",
+    marginBottom: "24px",
+    maxHeight: "500px",
+    overflow: "auto",
+    border: "3px solid red",
+  }}
+>
             <p style={{ color: "#ffffff", fontWeight: "bold", marginBottom: "8px" }}>
               ZONE DE TEST VISIBLE - données reçues du calcul :
             </p>
