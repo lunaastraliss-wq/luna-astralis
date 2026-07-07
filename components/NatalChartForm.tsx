@@ -37,13 +37,10 @@ const SIGN_FR: Record<string, string> = {
 
 function translateFormatted(formatted: string): string {
   if (!formatted) return formatted;
-
   let out = formatted;
-
   Object.keys(SIGN_FR).forEach((en) => {
     out = out.replace(new RegExp(en, "g"), SIGN_FR[en]);
   });
-
   return out;
 }
 
@@ -62,7 +59,6 @@ export default function NatalChartForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setError("");
     setResult(null);
 
@@ -77,7 +73,6 @@ export default function NatalChartForm() {
       const geoRes = await fetch(
         "/api/geocode?city=" + encodeURIComponent(birthCity)
       );
-
       const geoData = await geoRes.json();
 
       if (!geoData?.ok || !geoData?.result) {
@@ -95,17 +90,15 @@ export default function NatalChartForm() {
 
       const chartRes = await fetch("/api/natal-chart", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           year: parseInt(yearStr, 10),
           month: parseInt(monthStr, 10),
           day: parseInt(dayStr, 10),
           hour: parseInt(hourStr, 10),
           minute: parseInt(minuteStr, 10),
-          latitude,
-          longitude,
+          latitude: latitude,
+          longitude: longitude,
           timezoneOffset: 0,
         }),
       });
@@ -188,9 +181,42 @@ export default function NatalChartForm() {
         <div className="natal-result">
           <h3>
             {firstName
-              ? `Le thème astral de ${firstName}`
+              ? "Le thème astral de " + firstName
               : "Ta carte du ciel"}
           </h3>
+
+          <div
+            style={{
+              background: "#000000",
+              color: "#00ff00",
+              padding: "16px",
+              borderRadius: "8px",
+              marginBottom: "24px",
+              maxHeight: "500px",
+              overflow: "auto",
+              border: "3px solid red",
+            }}
+          >
+            <p
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+                marginBottom: "8px",
+              }}
+            >
+              ZONE DE TEST VISIBLE - données reçues du calcul :
+            </p>
+
+            <pre
+              style={{
+                fontSize: "11px",
+                whiteSpace: "pre-wrap",
+                margin: 0,
+              }}
+            >
+              {JSON.stringify(result, null, 2)}
+            </pre>
+          </div>
 
           <NatalChartWheel
             planets={planets}
@@ -236,13 +262,6 @@ export default function NatalChartForm() {
               </div>
             ))}
           </div>
-
-          <details style={{ marginTop: "2rem" }}>
-            <summary>Debug (données brutes)</summary>
-            <pre style={{ fontSize: "10px", whiteSpace: "pre-wrap" }}>
-              {JSON.stringify(result, null, 2)}
-            </pre>
-          </details>
         </div>
       )}
     </div>
