@@ -36,82 +36,94 @@ export default function HomePage() {
 
         <main className="wrap" role="main">
           <section className="hero hero-astro" aria-label="Présentation">
-            <div className="hero-card">
+            <div className="hero-inner">
               <div className="hero-top hero-top-center">
                 <div className="hero-kicker hero-kicker-center">
                   <span className="astro-mark">☾ Luna Astralis</span>
                   <span className="hero-badge">
-                    Carte du ciel, compatibilité amoureuse et IA astrologique
+                    Carte du ciel · Compatibilité amoureuse · IA astrologique
                   </span>
                 </div>
 
                 <h1 className="hero-title hero-title-center">
-                  Carte du ciel et compatibilité amoureuse gratuites
+                  Carte du ciel gratuite et compatibilité amoureuse
                 </h1>
 
                 <p className="hero-sub hero-sub-center">
-                  Découvrez gratuitement votre thème astral et votre alchimie
-                  amoureuse en quelques secondes.
+                  Découvrez gratuitement votre Soleil, votre Lune, votre
+                  Ascendant et votre alchimie amoureuse.
                 </p>
 
                 <p className="lead lead-center">
-                  Créez votre carte du ciel, explorez votre ascendant, votre
-                  Lune, votre Soleil et comparez deux signes astrologiques
-                  instantanément.
+                  Créez votre carte du ciel, explorez votre thème astral et
+                  comparez deux signes astrologiques en quelques secondes.
                 </p>
               </div>
 
-              <div
-                className="hero-free-wrap hero-free-wrap-center"
-                aria-label="Démarrage"
-              >
-                <div className="hero-free hero-free-center">
-                  <h2 className="hero-free-title">
-                    Commencez gratuitement
-                  </h2>
-
-                  <p className="hero-free-sub">
-                    Choisissez votre outil astrologique gratuit.
+              <section className="hero-showcase" aria-label="Outils gratuits">
+                <article className="hero-tool-card">
+                  <div className="hero-tool-icon">🌌</div>
+                  <h2>Carte du ciel gratuite</h2>
+                  <p>
+                    Générez votre thème astral avec votre Soleil, votre Lune,
+                    votre Ascendant et votre roue astrologique.
                   </p>
+
+                  <ul>
+                    <li>☀️ Soleil</li>
+                    <li>🌙 Lune</li>
+                    <li>⬆️ Ascendant</li>
+                    <li>🪐 Roue astrologique</li>
+                    <li>✨ Résumé gratuit</li>
+                  </ul>
 
                   <Link
                     href="/carte-du-ciel"
                     className="hero-free-btn hero-free-btn--pulse"
                   >
-                    🌌 Créer ma carte du ciel gratuite
+                    Créer ma carte du ciel
                   </Link>
+                </article>
 
-                  <Link
-                    href="/compatibilite"
-                    className="hero-free-btn"
-                    style={{ marginTop: 10 }}
-                  >
-                    💕 Compatibilité amoureuse gratuite
-                  </Link>
-
-                  <a
-                    href="#signes"
-                    className="hero-free-btn"
-                    style={{ marginTop: 10 }}
-                  >
-                    ✨ Parler avec Luna, 15 messages gratuits
-                  </a>
-
-                  <a
-                    href="#livres"
-                    className="hero-free-btn"
-                    style={{ marginTop: 10 }}
-                  >
-                    📚 Découvrir les livres
-                  </a>
-
-                  <div className="hero-free-note">
-                    Gratuit pour commencer · Résultat instantané · Mobile
-                  </div>
+                <div className="hero-video-card">
+                  <WelcomeVideo />
                 </div>
+
+                <article className="hero-tool-card">
+                  <div className="hero-tool-icon">💕</div>
+                  <h2>Compatibilité amoureuse</h2>
+                  <p>
+                    Comparez deux signes astrologiques et obtenez votre score
+                    de compatibilité en quelques secondes.
+                  </p>
+
+                  <ul>
+                    <li>❤️ Score amoureux</li>
+                    <li>✨ Forces du couple</li>
+                    <li>⚠️ Défis possibles</li>
+                    <li>💡 Conseils relationnels</li>
+                    <li>📊 Analyse instantanée</li>
+                  </ul>
+
+                  <Link href="/compatibilite" className="hero-free-btn">
+                    Comparer deux signes
+                  </Link>
+                </article>
+              </section>
+
+              <div className="hero-secondary-actions">
+                <a href="#signes" className="hero-free-btn">
+                  ✨ Parler avec Luna, 15 messages gratuits
+                </a>
+
+                <a href="#livres" className="hero-free-btn">
+                  📚 Découvrir les livres
+                </a>
               </div>
 
-              <WelcomeVideo />
+              <div className="hero-free-note">
+                Gratuit pour commencer · Résultat instantané · Mobile
+              </div>
 
               <section className="mini-reviews" aria-label="Avis 5 étoiles">
                 {MINI_REVIEWS.map((r) => (
@@ -134,7 +146,7 @@ export default function HomePage() {
               </p>
 
               <p className="hero-disclaimer note-center">
-                Exploration personnelle (non thérapeutique).
+                Exploration personnelle non thérapeutique.
               </p>
             </div>
           </section>
@@ -166,8 +178,8 @@ export default function HomePage() {
                 <h2>L'âme des signes</h2>
 
                 <p>
-                  Un guide complet pour explorer les 144 compatibilités amoureuses
-                  entre les douze signes du zodiaque.
+                  Un guide complet pour explorer les 144 compatibilités
+                  amoureuses entre les douze signes du zodiaque.
                 </p>
 
                 <p>
