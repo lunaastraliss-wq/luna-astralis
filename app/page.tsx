@@ -161,53 +161,213 @@ export default function HomePage() {
             </ul>
           </section>
 
-          <section id="livres" className="section">
-            <div className="section-head">
-              <h2>Les livres Luna Astralis</h2>
-              <p className="section-sub">
-                Guides astrologiques, compatibilités amoureuses et développement personnel.
-              </p>
-            </div>
+         <section id="livres" className="section">
+  <div className="section-head">
+    <h2>La bibliothèque Luna Astralis</h2>
 
-            <div className="book-cta">
-              <div className="book-cta-text">
-                <div className="hero-badge">Disponible sur Amazon</div>
+    <p className="section-sub">
+      Découvrez une collection de guides astrologiques sur les signes du zodiaque,
+      la compatibilité amoureuse et le développement personnel.
+    </p>
+  </div>
 
-                <h2>L'âme des signes</h2>
+  <div className="books-intro">
+    <div className="hero-badge">Disponible sur Amazon</div>
 
-                <p>
-                  Un guide complet pour explorer les 144 compatibilités
-                  amoureuses entre les douze signes du zodiaque.
-                </p>
+    <h3>
+      Explorez votre univers astrologique
+    </h3>
 
-                <p>
-                  Découvre les forces, les défis, les dynamiques émotionnelles
-                  et le potentiel d'évolution de chaque union astrologique.
-                </p>
+    <p>
+      Des livres pour mieux comprendre votre personnalité, vos relations,
+      vos émotions et votre cheminement personnel à travers l'astrologie.
+    </p>
+  </div>
 
-                <div className="book-actions">
-                  <a
-                    href={AMAZON_AUTHOR_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hero-free-btn"
-                  >
-                    Voir le livre sur Amazon
-                  </a>
 
-                  <a
-                    href={AMAZON_AUTHOR_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-small btn-ghost"
-                  >
-                    ✨ Voir la collection Luna Astralis
-                  </a>
-                </div>
-              </div>
-            </div>
-          </section>
+  <div className="books-grid">
 
+    <article className="book-card">
+      <img
+        src="/livres/astro-101.jpg"
+        alt="Astro 101"
+      />
+
+      <h3>Astro 101</h3>
+
+      <a
+        href={AMAZON_AUTHOR_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+
+
+    <article className="book-card">
+      <img
+        src="/livres/chiromancie.png"
+        alt="Astrologie et Chiromancie"
+      />
+
+      <h3>Astrologie et Chiromancie</h3>
+
+      <a
+        href={AMAZON_AUTHOR_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+
+
+    <article className="book-card">
+      <img
+        src="/livres/compatibilite.jpg"
+        alt="Guide de Compatibilité Astrologique"
+      />
+
+      <h3>Guide de Compatibilité Astrologique</h3>
+
+      <a
+        href={AMAZON_AUTHOR_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+
+
+    <article className="book-card">
+      <img
+        src="/livres/developpement.jpg"
+        alt="Astrologie et Développement Personnel"
+      />
+
+      <h3>Astrologie et Développement Personnel</h3>
+
+      <a
+        href={AMAZON_AUTHOR_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+
+
+    <article className="book-card">
+      <img
+        src="/livres/transformation.jpg"
+        alt="Astrologie et Transformation Personnelle"
+      />
+
+      <h3>Astrologie et Transformation Personnelle</h3>
+
+      <a
+        href={AMAZON_AUTHOR_LINK}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+
+  </div>
+
+
+  <div className="sign-books-title">
+
+    <div className="hero-badge">
+      Collection L'Âme des Signes
+    </div>
+
+    <h3>
+      Un livre pour chaque signe du zodiaque
+    </h3>
+
+    <p>
+      Découvrez les forces, les émotions et les dynamiques propres à chaque signe.
+    </p>
+
+  </div>
+
+
+  <div className="sign-books-grid">
+
+    {[
+      ["Bélier","belier.jpg"],
+      ["Taureau","taureau.jpg"],
+      ["Gémeaux","gemeaux.jpg"],
+      ["Cancer","cancer.jpg"],
+      ["Lion","lion.jpg"],
+      ["Vierge","vierge.jpg"],
+      ["Balance","balance.jpg"],
+      ["Scorpion","scorpion.jpg"],
+      ["Sagittaire","sagittaire.jpg"],
+      ["Capricorne","capricorne.jpg"],
+      ["Verseau","verseau.jpg"],
+      ["Poissons","poissons.jpg"],
+    ].map(([title,image]) => (
+
+      <article
+        key={title}
+        className="book-card book-card-sign"
+      >
+
+        <img
+          src={`/livres/${image}`}
+          alt={`Livre ${title}`}
+        />
+
+        <h3>{title}</h3>
+
+        <a
+          href={AMAZON_AUTHOR_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hero-free-btn"
+        >
+          Voir sur Amazon
+        </a>
+
+      </article>
+
+    ))}
+
+  </div>
+
+
+  <div className="book-final-cta">
+
+    <h3>
+      Découvrez toute la collection Luna Astralis
+    </h3>
+
+    <p>
+      Retrouvez tous les guides astrologiques disponibles sur Amazon.
+    </p>
+
+    <a
+      href={AMAZON_AUTHOR_LINK}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hero-free-btn"
+    >
+      ✨ Voir toute la collection
+    </a>
+
+  </div>
+
+</section>
           <section id="comment" className="section">
             <div className="section-head">
               <h2>Comment ça fonctionne</h2>
