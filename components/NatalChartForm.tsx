@@ -89,6 +89,7 @@ export default function NatalChartForm() {
     setLoading(true);
 
     try {
+      console.log("=== DÉBUT DU TEST ===");
       const geoRes = await fetch(
         "/api/geocode?city=" + encodeURIComponent(birthCity)
       );
