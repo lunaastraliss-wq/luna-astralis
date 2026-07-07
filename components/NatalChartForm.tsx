@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import html2canvas from "html2canvas";
 import NatalChartWheel from "./NatalChartWheel";
+import NatalShareCard from "./NatalShareCard";
 
 const MAIN_PLANETS = [
   "Sun",
@@ -103,11 +105,14 @@ function getSignName(signName?: string): string {
 }
 
 export default function NatalChartForm() {
+  const shareRef = useRef<HTMLDivElement | null>(null);
+
   const [firstName, setFirstName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
   const [birthCity, setBirthCity] = useState("");
   const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<any>(null);
 
@@ -170,7 +175,7 @@ export default function NatalChartForm() {
       }
 
       setResult(chartData.chart);
-    } catch (err: any) {
+    } catch {
       setError("Une erreur est survenue. Réessaie.");
     } finally {
       setLoading(false);
@@ -182,6 +187,38 @@ export default function NatalChartForm() {
   );
 
   const angles = result?.angles || {};
+
+  const chartTitle = firstName
+    ? `Le thème astral de ${firstName}`
+    : "Ta carte du ciel";
+
+  const handleDownload = async () => {
+    if (!shareRef.current) return;
+
+    setError("");
+    setDownloading(true);
+
+    try {
+      const canvas = await html2canvas(shareRef.current, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+      });
+
+      const safeName = firstName
+        ? firstName.toLowerCase().replace(/[^a-z0-9-]/gi, "-")
+        : "luna-astralis";
+
+      const link = document.createElement("a");
+      link.download = `carte-du-ciel-${safeName}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch {
+      setError("Impossible de télécharger l'image. Réessaie.");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className="natal-form-wrap">
@@ -239,11 +276,7 @@ export default function NatalChartForm() {
 
       {result && (
         <div className="natal-result">
-          <h3>
-            {firstName
-              ? `Le thème astral de ${firstName}`
-              : "Ta carte du ciel"}
-          </h3>
+          <h3>{chartTitle}</h3>
 
           <NatalChartWheel
             planets={planets}
@@ -258,6 +291,31 @@ export default function NatalChartForm() {
             )}
             size={420}
           />
+
+          <button
+            type="button"
+            className="natal-download-btn"
+            onClick={handleDownload}
+            disabled={downloading}
+          >
+            {downloading
+              ? "Préparation de l'image..."
+              : "📷 Télécharger ma carte du ciel"}
+          </button>
+
+          <div className="natal-share-capture-zone">
+            <div ref={shareRef}>
+              <NatalShareCard
+                title={chartTitle}
+                birthDate={birthDate}
+                birthTime={birthTime}
+                birthCity={birthCity}
+                planets={planets}
+                houses={result?.houses}
+                angles={angles}
+              />
+            </div>
+          </div>
 
           <div className="natal-angles">
             {angles?.ascendant && (
