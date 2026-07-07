@@ -151,8 +151,8 @@ export default function NatalChartForm() {
     }
   };
 
-  const planets = calc?.planets || [];
-  const angles = calc?.angles || {};
+  const planets = result?.planets || [];
+const angles = result?.angles || {};
 
   return (
     <div className="natal-form-wrap">
