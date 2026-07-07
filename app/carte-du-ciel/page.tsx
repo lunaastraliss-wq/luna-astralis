@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import NatalChartWheel from "./NatalChartWheel";
 
 const PLANET_FR: Record<string, string> = {
   Sun: "Soleil",
@@ -36,10 +37,13 @@ const SIGN_FR: Record<string, string> = {
 
 function translateFormatted(formatted: string): string {
   if (!formatted) return formatted;
+
   let out = formatted;
+
   Object.keys(SIGN_FR).forEach((en) => {
     out = out.replace(new RegExp(en, "g"), SIGN_FR[en]);
   });
+
   return out;
 }
 
@@ -58,6 +62,7 @@ export default function NatalChartForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setError("");
     setResult(null);
 
@@ -72,6 +77,7 @@ export default function NatalChartForm() {
       const geoRes = await fetch(
         "/api/geocode?city=" + encodeURIComponent(birthCity)
       );
+
       const geoData = await geoRes.json();
 
       if (!geoData?.ok || !geoData?.result) {
@@ -89,7 +95,9 @@ export default function NatalChartForm() {
 
       const chartRes = await fetch("/api/natal-chart", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           year: parseInt(yearStr, 10),
           month: parseInt(monthStr, 10),
@@ -118,7 +126,7 @@ export default function NatalChartForm() {
     }
   };
 
-  const calc = result?.calculated;
+  const calc = result?.calculated || result;
   const planets = calc?.planets || [];
   const angles = calc?.angles || {};
 
@@ -165,7 +173,11 @@ export default function NatalChartForm() {
           />
         </label>
 
-        <button type="submit" className="btn btn-small btn-primary" disabled={loading}>
+        <button
+          type="submit"
+          className="btn btn-small btn-primary"
+          disabled={loading}
+        >
           {loading ? "Calcul en cours..." : "Créer ma carte du ciel"}
         </button>
 
@@ -177,6 +189,13 @@ export default function NatalChartForm() {
           <h3>
             {firstName ? `Le thème astral de ${firstName}` : "Ton thème astral"}
           </h3>
+
+          <NatalChartWheel
+            planets={planets}
+            ascendantFormatted={angles?.ascendant?.formatted}
+            midheavenFormatted={angles?.midheaven?.formatted}
+            size={420}
+          />
 
           <div className="natal-angles">
             {angles?.ascendant ? (
@@ -204,9 +223,11 @@ export default function NatalChartForm() {
                 <span className="natal-planet-name">
                   {translatePlanetName(p.name)}
                 </span>
+
                 <span className="natal-planet-pos">
                   {translateFormatted(p.formatted)}
                 </span>
+
                 {p.isRetrograde ? <span className="natal-retro">R</span> : null}
               </div>
             ))}
