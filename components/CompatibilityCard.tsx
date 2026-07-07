@@ -31,30 +31,6 @@ export default function CompatibilityCard() {
       scale: 2,
       useCORS: true,
       logging: false,
-      onclone: (clonedDoc) => {
-        const wrap = clonedDoc.querySelector(
-          ".compat-result-score-wrap"
-        ) as HTMLElement | null;
-
-        const score = clonedDoc.querySelector(
-          ".compat-result-score"
-        ) as HTMLElement | null;
-
-        if (wrap && score) {
-          wrap.style.position = "relative";
-          wrap.style.display = "block";
-
-          score.style.position = "absolute";
-          score.style.left = "50%";
-          score.style.top = "50%";
-          score.style.transform = "translate(-50%, -50%)";
-          score.style.width = "max-content";
-          score.style.height = "auto";
-          score.style.display = "block";
-          score.style.letterSpacing = "0";
-          score.style.textAlign = "center";
-        }
-      },
     });
   };
 
@@ -154,31 +130,22 @@ export default function CompatibilityCard() {
             <div className="compat-result-brand">Luna Astralis</div>
 
             <div className="compat-result-signs">
-              <div>
-                <strong className="compat-result-name">
-                  {result.signA.label}
-                </strong>
-              </div>
+              <strong className="compat-result-name">
+                {result.signA.symbol} {result.signA.label}
+              </strong>
 
-              <div className="compat-result-love">❤️</div>
+              <span className="compat-result-plus">+</span>
 
-              <div>
-                <strong className="compat-result-name">
-                  {result.signB.label}
-                </strong>
-              </div>
+              <strong className="compat-result-name">
+                {result.signB.symbol} {result.signB.label}
+              </strong>
             </div>
 
-            <div className="compat-result-score-wrap">
-              <div className="compat-result-score">{result.score}%</div>
-            </div>
+            <div className="compat-result-score">{result.score}%</div>
 
             <h3>{level}</h3>
 
-            <div className="compat-result-analysis">
-              <div>✨ Analyse</div>
-              <p>{result.text}</p>
-            </div>
+            <p className="compat-result-text">{result.text}</p>
 
             <div className="compat-result-footer">luna-astralis.app</div>
           </div>
