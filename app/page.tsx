@@ -40,50 +40,73 @@ export default function HomePage() {
               <div className="hero-top hero-top-center">
                 <div className="hero-kicker hero-kicker-center">
                   <span className="astro-mark">☾ Luna Astralis</span>
-                  <span className="hero-badge">Compatibilité amoureuse et IA astrologique</span>
+                  <span className="hero-badge">
+                    Carte du ciel, compatibilité amoureuse et IA astrologique
+                  </span>
                 </div>
 
                 <h1 className="hero-title hero-title-center">
-                  Découvrez votre compatibilité amoureuse gratuitement
+                  Carte du ciel et compatibilité amoureuse gratuites
                 </h1>
 
                 <p className="hero-sub hero-sub-center">
-                   Comparez deux signes astrologiques en quelques secondes.
+                  Découvrez gratuitement votre thème astral et votre alchimie
+                  amoureuse en quelques secondes.
                 </p>
 
                 <p className="lead lead-center">
-                  Découvrez votre score de compatibilité amoureuse, les forces de votre relation et les défis qui vous attendent.
+                  Créez votre carte du ciel, explorez votre ascendant, votre
+                  Lune, votre Soleil et comparez deux signes astrologiques
+                  instantanément.
                 </p>
               </div>
 
-              <div className="hero-free-wrap hero-free-wrap-center" aria-label="Démarrage">
+              <div
+                className="hero-free-wrap hero-free-wrap-center"
+                aria-label="Démarrage"
+              >
                 <div className="hero-free hero-free-center">
                   <h2 className="hero-free-title">
-                    Découvrez votre alchimie amoureuse
+                    Commencez gratuitement
                   </h2>
 
                   <p className="hero-free-sub">
-                    Comparez deux signes astrologiques et obtenez instantanément votre score de compatibilité
+                    Choisissez votre outil astrologique gratuit.
                   </p>
 
-                <Link href="/compatibilite" className="hero-free-btn hero-free-btn--pulse">
-  💕 Compatibilité amoureuse (gratuit)
-</Link>
+                  <Link
+                    href="/carte-du-ciel"
+                    className="hero-free-btn hero-free-btn--pulse"
+                  >
+                    🌌 Créer ma carte du ciel gratuite
+                  </Link>
 
-<Link href="/carte-du-ciel" className="hero-free-btn" style={{ marginTop: 10 }}>
-  🌌 Créer ma carte du ciel gratuite
-</Link>
+                  <Link
+                    href="/compatibilite"
+                    className="hero-free-btn"
+                    style={{ marginTop: 10 }}
+                  >
+                    💕 Compatibilité amoureuse gratuite
+                  </Link>
 
-<a href="#signes" className="hero-free-btn" style={{ marginTop: 10 }}>
-  Parler avec Luna, 15 messages gratuits ✨
-</a>
+                  <a
+                    href="#signes"
+                    className="hero-free-btn"
+                    style={{ marginTop: 10 }}
+                  >
+                    ✨ Parler avec Luna, 15 messages gratuits
+                  </a>
 
-                  <a href="#livres" className="hero-free-btn" style={{ marginTop: 10 }}>
-                    Découvrir les livres 📚
+                  <a
+                    href="#livres"
+                    className="hero-free-btn"
+                    style={{ marginTop: 10 }}
+                  >
+                    📚 Découvrir les livres
                   </a>
 
                   <div className="hero-free-note">
-                    Gratuit pour commencer · Discussion privée
+                    Gratuit pour commencer · Résultat instantané · Mobile
                   </div>
                 </div>
               </div>
@@ -187,17 +210,17 @@ export default function HomePage() {
                   <span className="step-n">01</span>
                   <span className="step-ico" aria-hidden="true">♈</span>
                 </div>
-                <h3>Choisis ton signe</h3>
-                <p>Tu démarres en 1 clic.</p>
+                <h3>Choisis ton outil</h3>
+                <p>Carte du ciel, compatibilité ou discussion avec Luna.</p>
               </div>
 
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">02</span>
-                  <span className="step-ico" aria-hidden="true">🔐</span>
+                  <span className="step-ico" aria-hidden="true">🌙</span>
                 </div>
-                <h3>Connecte-toi</h3>
-                <p>Ton accès est sécurisé et tes échanges sont protégés.</p>
+                <h3>Obtiens ton résultat</h3>
+                <p>Ton analyse apparaît en quelques secondes.</p>
               </div>
 
               <div className="box step">
@@ -206,16 +229,16 @@ export default function HomePage() {
                   <span className="step-ico" aria-hidden="true">✧</span>
                 </div>
                 <h3>Gagne en clarté</h3>
-                <p>Forces, blocages, besoins.</p>
+                <p>Forces, besoins, défis et dynamiques relationnelles.</p>
               </div>
 
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">04</span>
-                  <span className="step-ico" aria-hidden="true">☾</span>
+                  <span className="step-ico" aria-hidden="true">🔐</span>
                 </div>
-                <h3>Garde le contrôle</h3>
-                <p>Une exploration guidée, à travers ton signe.</p>
+                <h3>Va plus loin</h3>
+                <p>Rapport premium ou discussion privée selon ton besoin.</p>
               </div>
             </div>
           </section>
