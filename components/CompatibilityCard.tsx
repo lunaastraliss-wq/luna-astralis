@@ -17,8 +17,8 @@ export default function CompatibilityCard() {
     const scoreEl = clonedDoc.querySelector(".compat-card-score") as HTMLElement | null;
     if (scoreEl) {
       scoreEl.style.background = "none";
-      scoreEl.style.webkitTextFillColor = "#f4c95d";
-      scoreEl.style.color = "#f4c95d";
+      scoreEl.style.webkitTextFillColor = "#ffd782";
+      scoreEl.style.color = "#ffd782";
     }
   };
 
