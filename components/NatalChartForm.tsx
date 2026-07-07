@@ -236,6 +236,13 @@ export default function NatalChartForm() {
               </div>
             ))}
           </div>
+
+          <details style={{ marginTop: "2rem" }}>
+            <summary>Debug (données brutes)</summary>
+            <pre style={{ fontSize: "10px", whiteSpace: "pre-wrap" }}>
+              {JSON.stringify(result, null, 2)}
+            </pre>
+          </details>
         </div>
       )}
     </div>
