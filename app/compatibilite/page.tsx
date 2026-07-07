@@ -1,5 +1,5 @@
 import CompatibilityCard from "@/components/CompatibilityCard";
-import "../home.css";
+import "./page.css";
 
 export const metadata = {
   title: "Compatibilité amoureuse gratuite | Luna Astralis",
@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function CompatibilitePage() {
   return (
-    <div className="page-astro compat-page">
+    <div className="compat-page">
       <main className="compat-main">
         <section className="compat-hero">
           <div className="compat-badge">✨ Test gratuit</div>
@@ -17,25 +17,24 @@ export default function CompatibilitePage() {
           <h1>Compatibilité amoureuse</h1>
 
           <p>
-            Découvrez l’alchimie entre deux signes du zodiaque, obtenez votre
+            Découvrez l’alchimie entre deux signes astrologiques, obtenez votre
             score amoureux et partagez votre résultat gratuitement.
           </p>
         </section>
 
-        <section className="compat-panel">
+        <section className="compat-card">
           <CompatibilityCard />
         </section>
 
-        <section className="compat-upsell">
-          <h2>Vous voulez une analyse plus précise ?</h2>
+        <section className="compat-premium">
+          <h2>Une analyse plus précise ?</h2>
 
           <p>
-            La compatibilité par signe est un excellent début. Pour une lecture
-            complète, la carte du ciel utilise la date, l’heure et le lieu de
-            naissance.
+            La compatibilité par signe est un bon début. La carte du ciel va
+            plus loin avec la date, l’heure et le lieu de naissance.
           </p>
 
-          <a href="/carte-du-ciel" className="compat-cta">
+          <a href="/carte-du-ciel" className="compat-button">
             Découvrir ma carte du ciel
           </a>
         </section>
