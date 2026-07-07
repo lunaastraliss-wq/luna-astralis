@@ -43,6 +43,7 @@ const captureCard = async () => {
         score.style.height = "auto";
         score.style.display = "block";
         score.style.textAlign = "center";
+        score.style.transform = "translateX(6px)";
       }
     },
   });
