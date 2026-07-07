@@ -1,6 +1,9 @@
 "use client";
 
-const SIGN_GLYPH = ["♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓"];
+const SIGNS = [
+  "♈", "♉", "♊", "♋", "♌", "♍",
+  "♎", "♏", "♐", "♑", "♒", "♓",
+];
 
 const PLANET_GLYPH: Record<string, string> = {
   Sun: "☉",
@@ -13,28 +16,20 @@ const PLANET_GLYPH: Record<string, string> = {
   Uranus: "♅",
   Neptune: "♆",
   Pluto: "♇",
-  Chiron: "⚷",
-  "North Node": "☊",
-  "South Node": "☋",
-  Lilith: "⚸",
-  Ceres: "⚳",
-  Pallas: "⚴",
-  Juno: "⚵",
-  Vesta: "⚶",
 };
 
-interface WheelPlanet {
+type WheelPlanet = {
   name: string;
   longitude: number;
   isRetrograde?: boolean;
-}
+};
 
-interface HouseCusp {
+type HouseCusp = {
   house: number;
   longitude: number;
-}
+};
 
-interface NatalChartWheelProps {
+type Props = {
   planets: WheelPlanet[];
   houses?: {
     cusps?: HouseCusp[];
@@ -44,11 +39,10 @@ interface NatalChartWheelProps {
   ascendantFormatted?: string;
   midheavenFormatted?: string;
   size?: number;
-}
+};
 
-function pointOnCircle(cx: number, cy: number, r: number, angleDeg: number) {
-  const rad = (angleDeg * Math.PI) / 180;
-
+function point(cx: number, cy: number, r: number, angle: number) {
+  const rad = (angle * Math.PI) / 180;
   return {
     x: cx + r * Math.cos(rad),
     y: cy - r * Math.sin(rad),
@@ -62,40 +56,37 @@ export default function NatalChartWheel({
   midheavenLongitude,
   ascendantFormatted,
   midheavenFormatted,
-  size = 480,
-}: NatalChartWheelProps) {
+  size = 520,
+}: Props) {
   const cx = size / 2;
   const cy = size / 2;
 
-  const rOuter = size * 0.48;
-  const rSignRing = size * 0.41;
-  const rHouseRing = size * 0.34;
-  const rPlanetBase = size * 0.27;
-  const rPlanetAlt = size * 0.22;
+  const outer = size * 0.48;
+  const zodiacOuter = size * 0.455;
+  const zodiacInner = size * 0.385;
+  const houseRing = size * 0.32;
+  const planetRing = size * 0.245;
+  const planetRingAlt = size * 0.195;
 
-  const toScreenAngle = (longitude: number) => {
+  const toAngle = (longitude: number) => {
     const relative = ((longitude - ascendantLongitude) % 360 + 360) % 360;
     return 180 - relative;
   };
 
-  const validPlanets = planets.filter(
-    (p) => typeof p.longitude === "number" && Number.isFinite(p.longitude)
-  );
-
-  const sortedPlanets = [...validPlanets].sort(
-    (a, b) => a.longitude - b.longitude
-  );
+  const validPlanets = planets
+    .filter((p) => Number.isFinite(p.longitude))
+    .sort((a, b) => a.longitude - b.longitude);
 
   let lastAngle: number | null = null;
-  let toggle = false;
+  let alternate = false;
 
-  const placedPlanets = sortedPlanets.map((p) => {
-    const angle = toScreenAngle(p.longitude);
+  const placedPlanets = validPlanets.map((p) => {
+    const angle = toAngle(p.longitude);
 
     if (lastAngle !== null) {
       let diff = Math.abs(angle - lastAngle);
       if (diff > 180) diff = 360 - diff;
-      toggle = diff < 10 ? !toggle : false;
+      alternate = diff < 12 ? !alternate : false;
     }
 
     lastAngle = angle;
@@ -103,7 +94,7 @@ export default function NatalChartWheel({
     return {
       ...p,
       angle,
-      radius: toggle ? rPlanetAlt : rPlanetBase,
+      radius: alternate ? planetRingAlt : planetRing,
     };
   });
 
@@ -125,19 +116,44 @@ export default function NatalChartWheel({
         height="auto"
         style={{ display: "block" }}
       >
+        <defs>
+          <radialGradient id="wheelGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#f4c95d" stopOpacity="0.11" />
+            <stop offset="55%" stopColor="#ffffff" stopOpacity="0.025" />
+            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+          </radialGradient>
+
+          <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#fff0a8" />
+            <stop offset="50%" stopColor="#f4c95d" />
+            <stop offset="100%" stopColor="#b8892d" />
+          </linearGradient>
+        </defs>
+
+        <circle cx={cx} cy={cy} r={outer} fill="url(#wheelGlow)" />
+
         <circle
           cx={cx}
           cy={cy}
-          r={rOuter}
+          r={outer}
           fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.3}
+          stroke="url(#goldStroke)"
+          strokeWidth={2.2}
         />
 
         <circle
           cx={cx}
           cy={cy}
-          r={rSignRing}
+          r={zodiacOuter}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.24}
+        />
+
+        <circle
+          cx={cx}
+          cy={cy}
+          r={zodiacInner}
           fill="none"
           stroke="currentColor"
           strokeOpacity={0.2}
@@ -146,34 +162,43 @@ export default function NatalChartWheel({
         <circle
           cx={cx}
           cy={cy}
-          r={rHouseRing}
+          r={houseRing}
           fill="none"
           stroke="currentColor"
           strokeOpacity={0.18}
         />
 
-        {SIGN_GLYPH.map((glyph, i) => {
-          const angle = toScreenAngle(i * 30);
-          const labelAngle = toScreenAngle(i * 30 + 15);
+        <circle
+          cx={cx}
+          cy={cy}
+          r={size * 0.12}
+          fill="none"
+          stroke="currentColor"
+          strokeOpacity={0.12}
+        />
 
-          const p1 = pointOnCircle(cx, cy, rSignRing, angle);
-          const p2 = pointOnCircle(cx, cy, rOuter, angle);
-          const label = pointOnCircle(
+        {SIGNS.map((glyph, i) => {
+          const startAngle = toAngle(i * 30);
+          const labelAngle = toAngle(i * 30 + 15);
+
+          const lineA = point(cx, cy, zodiacInner, startAngle);
+          const lineB = point(cx, cy, outer, startAngle);
+          const label = point(
             cx,
             cy,
-            (rSignRing + rOuter) / 2,
+            (zodiacOuter + zodiacInner) / 2,
             labelAngle
           );
 
           return (
-            <g key={i}>
+            <g key={glyph}>
               <line
-                x1={p1.x}
-                y1={p1.y}
-                x2={p2.x}
-                y2={p2.y}
+                x1={lineA.x}
+                y1={lineA.y}
+                x2={lineB.x}
+                y2={lineB.y}
                 stroke="currentColor"
-                strokeOpacity={0.3}
+                strokeOpacity={0.26}
               />
 
               <text
@@ -181,8 +206,9 @@ export default function NatalChartWheel({
                 y={label.y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize={size * 0.035}
-                fill="currentColor"
+                fontSize={size * 0.045}
+                fill="#f4c95d"
+                fontWeight={700}
               >
                 {glyph}
               </text>
@@ -191,20 +217,20 @@ export default function NatalChartWheel({
         })}
 
         {cusps.map((cusp) => {
-          const angle = toScreenAngle(cusp.longitude);
-          const p1 = pointOnCircle(cx, cy, rHouseRing, angle);
-          const p2 = pointOnCircle(cx, cy, rOuter, angle);
-          const label = pointOnCircle(cx, cy, rHouseRing - size * 0.035, angle);
+          const angle = toAngle(cusp.longitude);
+          const a = point(cx, cy, size * 0.12, angle);
+          const b = point(cx, cy, zodiacInner, angle);
+          const label = point(cx, cy, houseRing - size * 0.035, angle);
 
           return (
             <g key={cusp.house}>
               <line
-                x1={p1.x}
-                y1={p1.y}
-                x2={p2.x}
-                y2={p2.y}
+                x1={a.x}
+                y1={a.y}
+                x2={b.x}
+                y2={b.y}
                 stroke="currentColor"
-                strokeOpacity={0.35}
+                strokeOpacity={0.22}
               />
 
               <text
@@ -212,8 +238,10 @@ export default function NatalChartWheel({
                 y={label.y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize={size * 0.025}
+                fontSize={size * 0.026}
                 fill="currentColor"
+                opacity={0.75}
+                fontWeight={700}
               >
                 {cusp.house}
               </text>
@@ -222,40 +250,30 @@ export default function NatalChartWheel({
         })}
 
         {(() => {
-          const asc = pointOnCircle(
-            cx,
-            cy,
-            rOuter,
-            toScreenAngle(ascendantLongitude)
-          );
-
-          const desc = pointOnCircle(
-            cx,
-            cy,
-            rOuter,
-            toScreenAngle(ascendantLongitude + 180)
-          );
+          const asc = point(cx, cy, outer, toAngle(ascendantLongitude));
+          const desc = point(cx, cy, outer, toAngle(ascendantLongitude + 180));
 
           return (
-            <>
+            <g>
               <line
                 x1={asc.x}
                 y1={asc.y}
                 x2={desc.x}
                 y2={desc.y}
-                stroke="currentColor"
-                strokeWidth={1.8}
-                strokeOpacity={0.7}
+                stroke="#f4c95d"
+                strokeWidth={2.2}
+                strokeOpacity={0.85}
               />
 
               <text
                 x={asc.x}
                 y={asc.y}
+                dx={-10}
                 textAnchor="end"
-                dx={-6}
-                fontSize={size * 0.03}
-                fill="currentColor"
-                fontWeight="bold"
+                dominantBaseline="middle"
+                fontSize={size * 0.034}
+                fill="#f4c95d"
+                fontWeight={900}
               >
                 AC
               </text>
@@ -263,93 +281,86 @@ export default function NatalChartWheel({
               <text
                 x={desc.x}
                 y={desc.y}
+                dx={10}
                 textAnchor="start"
-                dx={6}
-                fontSize={size * 0.03}
-                fill="currentColor"
-                fontWeight="bold"
+                dominantBaseline="middle"
+                fontSize={size * 0.034}
+                fill="#f4c95d"
+                fontWeight={900}
               >
                 DC
               </text>
-            </>
+            </g>
           );
         })()}
 
         {typeof midheavenLongitude === "number" &&
           (() => {
-            const mc = pointOnCircle(
-              cx,
-              cy,
-              rOuter,
-              toScreenAngle(midheavenLongitude)
-            );
-
-            const ic = pointOnCircle(
-              cx,
-              cy,
-              rOuter,
-              toScreenAngle(midheavenLongitude + 180)
-            );
+            const mc = point(cx, cy, outer, toAngle(midheavenLongitude));
+            const fc = point(cx, cy, outer, toAngle(midheavenLongitude + 180));
 
             return (
-              <>
+              <g>
                 <line
                   x1={mc.x}
                   y1={mc.y}
-                  x2={ic.x}
-                  y2={ic.y}
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                  strokeOpacity={0.6}
-                  strokeDasharray="4 3"
+                  x2={fc.x}
+                  y2={fc.y}
+                  stroke="#f4c95d"
+                  strokeWidth={1.8}
+                  strokeOpacity={0.72}
+                  strokeDasharray="6 5"
                 />
 
                 <text
                   x={mc.x}
                   y={mc.y}
+                  dy={-10}
                   textAnchor="middle"
-                  dy={-8}
-                  fontSize={size * 0.03}
-                  fill="currentColor"
-                  fontWeight="bold"
+                  fontSize={size * 0.032}
+                  fill="#f4c95d"
+                  fontWeight={900}
                 >
                   MC
                 </text>
 
                 <text
-                  x={ic.x}
-                  y={ic.y}
+                  x={fc.x}
+                  y={fc.y}
+                  dy={16}
                   textAnchor="middle"
-                  dy={12}
-                  fontSize={size * 0.03}
-                  fill="currentColor"
-                  fontWeight="bold"
+                  fontSize={size * 0.032}
+                  fill="#f4c95d"
+                  fontWeight={900}
                 >
                   FC
                 </text>
-              </>
+              </g>
             );
           })()}
 
         {placedPlanets.map((p, i) => {
-          const pos = pointOnCircle(cx, cy, p.radius, p.angle);
-          const tickInner = pointOnCircle(cx, cy, rHouseRing, p.angle);
-          const tickOuter = pointOnCircle(
-            cx,
-            cy,
-            rHouseRing - size * 0.02,
-            p.angle
-          );
+          const pos = point(cx, cy, p.radius, p.angle);
+          const tickA = point(cx, cy, houseRing, p.angle);
+          const tickB = point(cx, cy, zodiacInner, p.angle);
 
           return (
             <g key={`${p.name}-${i}`}>
               <line
-                x1={tickInner.x}
-                y1={tickInner.y}
-                x2={tickOuter.x}
-                y2={tickOuter.y}
-                stroke="currentColor"
-                strokeOpacity={0.45}
+                x1={tickA.x}
+                y1={tickA.y}
+                x2={tickB.x}
+                y2={tickB.y}
+                stroke="#f4c95d"
+                strokeOpacity={0.4}
+              />
+
+              <circle
+                cx={pos.x}
+                cy={pos.y}
+                r={size * 0.032}
+                fill="rgba(244, 201, 93, 0.12)"
+                stroke="rgba(244, 201, 93, 0.35)"
               />
 
               <text
@@ -357,50 +368,42 @@ export default function NatalChartWheel({
                 y={pos.y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fontSize={size * 0.045}
-                fill="currentColor"
+                fontSize={size * 0.047}
+                fill="#f4c95d"
+                fontWeight={800}
               >
                 {PLANET_GLYPH[p.name] || p.name.slice(0, 2)}
               </text>
 
-              {p.isRetrograde ? (
+              {p.isRetrograde && (
                 <text
-                  x={pos.x + size * 0.03}
-                  y={pos.y - size * 0.02}
-                  fontSize={size * 0.02}
-                  fill="currentColor"
+                  x={pos.x + size * 0.034}
+                  y={pos.y - size * 0.026}
+                  fontSize={size * 0.023}
+                  fill="#ffb4b4"
+                  fontWeight={900}
                 >
                   R
                 </text>
-              ) : null}
+              )}
             </g>
           );
         })}
       </svg>
 
       {(ascendantFormatted || midheavenFormatted) && (
-        <div
-          style={{
-            marginTop: 12,
-            display: "flex",
-            justifyContent: "center",
-            gap: 16,
-            flexWrap: "wrap",
-            fontSize: 14,
-            opacity: 0.85,
-          }}
-        >
-          {ascendantFormatted ? (
+        <div className="natal-wheel-caption">
+          {ascendantFormatted && (
             <span>
               <strong>Ascendant :</strong> {ascendantFormatted}
             </span>
-          ) : null}
+          )}
 
-          {midheavenFormatted ? (
+          {midheavenFormatted && (
             <span>
               <strong>Milieu du ciel :</strong> {midheavenFormatted}
             </span>
-          ) : null}
+          )}
         </div>
       )}
     </div>
