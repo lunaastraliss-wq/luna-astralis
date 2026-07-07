@@ -20,6 +20,7 @@ const PLANET_GLYPH: Record<string, string> = {
 interface WheelPlanet {
   name: string;
   formatted: string;
+  longitude?: number;
   isRetrograde?: boolean;
 }
 
@@ -73,9 +74,16 @@ export default function NatalChartWheel({
 
   // Prépare les planètes avec longitude + gestion des chevauchements
   const parsedPlanets = planets
-    .map((p) => ({ ...p, longitude: parseLongitude(p.formatted) }))
-    .filter((p) => p.longitude !== null) as (WheelPlanet & { longitude: number })[];
-
+  .map((p) => ({
+    ...p,
+    longitude:
+      typeof p.longitude === "number"
+        ? p.longitude
+        : parseLongitude(p.formatted),
+  }))
+  .filter((p) => typeof p.longitude === "number") as (WheelPlanet & {
+  longitude: number;
+})[];
   const sorted = [...parsedPlanets].sort((a, b) => a.longitude - b.longitude);
   let lastAngle: number | null = null;
   let toggle = false;
