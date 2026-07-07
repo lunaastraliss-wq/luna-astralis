@@ -138,7 +138,7 @@ setResult(chartData.chart);
     }
   };
 
-  const calc = result?.calculated;
+  const calc = result?.calculated; result;
   const planets = calc?.planets || [];
   const angles = calc?.angles || {};
 
