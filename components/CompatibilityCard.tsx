@@ -37,14 +37,15 @@ const captureCard = async () => {
       ) as HTMLElement | null;
 
       if (score) {
-        score.style.fontFamily = "Arial, sans-serif";
-        score.style.letterSpacing = "0";
-        score.style.width = "auto";
-        score.style.height = "auto";
-        score.style.display = "block";
-        score.style.textAlign = "center";
-        score.style.transform = "translateX(6px)";
-      }
+  score.style.fontFamily =
+    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+  score.style.letterSpacing = "0";
+  score.style.width = "auto";
+  score.style.height = "auto";
+  score.style.display = "block";
+  score.style.textAlign = "center";
+  score.style.transform = "translateX(4px)";
+}
     },
   });
 };
