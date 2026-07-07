@@ -17,8 +17,8 @@ export default function CarteDuCielPage() {
           <h1>Carte du ciel gratuite</h1>
 
           <p className="section-sub">
-             Obtiens gratuitement ta carte du ciel et découvre les positions de tes
-  planètes, de ton Ascendant et de ton Milieu du Ciel en quelques secondes.
+            Obtiens gratuitement ta carte du ciel avec les positions de tes
+            planètes, de ton Ascendant et de ton Milieu du Ciel.
           </p>
         </section>
 
