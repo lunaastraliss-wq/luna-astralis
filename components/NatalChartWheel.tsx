@@ -56,6 +56,7 @@ export default function NatalChartWheel({
   midheavenFormatted,
   size = 480,
 }: NatalChartWheelProps) {
+  console.log("Planètes reçues :", planets);
   const cx = size / 2;
   const cy = size / 2;
   const rOuter = size * 0.48;
