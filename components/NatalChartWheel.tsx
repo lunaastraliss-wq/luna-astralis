@@ -95,8 +95,25 @@ export default function NatalChartWheel({
   });
 
   return (
-    <div className="natal-wheel-wrap" style={{ width: "100%", maxWidth: size, margin: "0 auto" }}>
-      <svg viewBox={`0 0 ${size} ${size}`} width="100%" height="100%">
+    <div
+  className="natal-wheel-wrap"
+  style={{
+    width: "100%",
+    maxWidth: size,
+    margin: "0 auto",
+    aspectRatio: "1 / 1",
+  }}
+>
+  <svg
+    viewBox={`0 0 ${size} ${size}`}
+    width="100%"
+    height="auto"
+    style={{
+      display: "block",
+      width: "100%",
+      height: "auto",
+    }}
+  >
         {/* Cercle extérieur */}
         <circle cx={cx} cy={cy} r={rOuter} fill="none" stroke="currentColor" strokeOpacity={0.3} />
         <circle cx={cx} cy={cy} r={rSignRing} fill="none" stroke="currentColor" strokeOpacity={0.2} />
