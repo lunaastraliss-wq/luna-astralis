@@ -335,24 +335,20 @@ const bookUrl = useMemo(() => {
   );
 
   const ensureHello = useCallback(
-    (existing: ThreadMsg[]) => {
-      if (existing.length) return existing;
+  (existing: ThreadMsg[]) => {
+    if (existing.length) return existing;
 
-      const hello =
-        `Bonjour ✨\n` +
-        (signName !== "-"
-          ? `Avec l’énergie de ton signe, ${signName}, on peut prendre un moment pour toi.\n`
-          : `On peut prendre un moment pour toi.\n`) +
-        `\nEn amour, qu’est-ce qui te pèse ou te mélange en ce moment ?\n` +
-        `(une personne, un silence, une rupture, un doute…)`;
+    const hello =
+      (signName !== "-"
+        ? `Bonjour ✨ ${signName}, dis-moi — qu'est-ce qui t'occupe l'esprit en ce moment ?`
+        : `Bonjour ✨ Dis-moi — qu'est-ce qui t'occupe l'esprit en ce moment ?`);
 
-      const t: ThreadMsg[] = [{ role: "ai", text: hello }];
-      saveThreadLocal(t);
-      return t;
-    },
-    [saveThreadLocal, signName]
-  );
-
+    const t: ThreadMsg[] = [{ role: "ai", text: hello }];
+    saveThreadLocal(t);
+    return t;
+  },
+  [saveThreadLocal, signName]
+);
   const scrollToBottom = useCallback((force = false) => {
     const el = messagesRef.current;
     if (!el) return;
