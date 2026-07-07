@@ -217,12 +217,7 @@ export default function NatalChartForm() {
             </pre>
           </div>
 
-          <NatalChartWheel
-            planets={planets}
-            ascendantFormatted={angles?.ascendant?.formatted}
-            midheavenFormatted={angles?.midheaven?.formatted}
-            size={420}
-          />
+         <p style={{ color: "orange" }}>TEST123</p>
 
           <div className="natal-angles">
             {angles?.ascendant && (
