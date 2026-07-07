@@ -322,3 +322,27 @@
   font-size: 24px;
   font-weight: 800;
 }
+.natal-wheel-wrap {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.natal-wheel-caption {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.natal-wheel-caption strong {
+  color: #f4c95d;
+}
+
+@media (max-width: 640px) {
+  .natal-wheel-caption {
+    font-size: 13px;
+    gap: 8px;
+  }
+}
