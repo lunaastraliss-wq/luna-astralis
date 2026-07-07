@@ -599,3 +599,60 @@
   width:100%;
   max-width:420px;
 }
+.compat-card {
+  background: radial-gradient(circle at top, #24185c 0%, #0b1024 70%);
+  border-radius: 26px;
+  padding: 40px 28px;
+  color: #f5f0ff;
+  border: 1px solid rgba(255, 215, 130, 0.35);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(244, 201, 93, 0.12);
+}
+
+.compat-card-title {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 16px;
+}
+
+.compat-card-signs {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.compat-card-score {
+  font-size: 64px;
+  font-weight: 900;
+  background: linear-gradient(90deg, #ffd782, #ff9fd6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 18px 0;
+  line-height: 1;
+}
+
+.compat-card-text {
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 380px;
+  margin: 0 auto;
+  color: #e6dcff;
+}
+
+.compat-card-footer {
+  margin-top: 26px;
+  font-size: 13px;
+  opacity: 0.65;
+  letter-spacing: 1px;
+}
+
+.compat-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
