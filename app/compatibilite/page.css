@@ -349,15 +349,22 @@
 }
 
 .compat-score-ring {
+  position: relative;
   background:
-    radial-gradient(circle, rgba(255, 215, 130, 0.22), transparent 56%),
-    conic-gradient(from 180deg, #f4c95d, #fff1a8, #f4c95d);
-  padding: 2px;
+    radial-gradient(circle, rgba(255, 215, 130, 0.18), transparent 58%),
+    rgba(244, 201, 93, 0.16);
+  border: 2px solid rgba(244, 201, 93, 0.65);
+  box-shadow:
+    0 0 45px rgba(244, 201, 93, 0.22),
+    inset 0 0 35px rgba(244, 201, 93, 0.10);
 }
 
-.compat-score-ring::before {
-  content: "";
-  position: absolute;
+.compat-card-score {
+  position: relative;
+  z-index: 2;
+  color: #fff1a8;
+  background: none;
+  -webkit-text-fill-color: #fff1a8;
 }
 
 .compat-card-text {
