@@ -21,16 +21,21 @@ export default function CompatibilityCard() {
   const result = getCompatibility(signA, signB);
   const level = getLevel(result.score);
 
-  const captureCard = async () => {
-    if (!cardRef.current) return null;
+ const captureCard = async () => {
+  if (!cardRef.current) return null;
 
-    return html2canvas(cardRef.current, {
-      backgroundColor: "#050816",
-      scale: 3,
-      useCORS: true,
-      logging: false,
-    });
-  };
+  await document.fonts.ready;
+
+  return html2canvas(cardRef.current, {
+    backgroundColor: "#050816",
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    removeContainer: true,
+    windowWidth: cardRef.current.scrollWidth,
+    windowHeight: cardRef.current.scrollHeight,
+  });
+};
 
   const handleDownload = async () => {
     const canvas = await captureCard();
