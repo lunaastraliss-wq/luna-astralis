@@ -35,27 +35,27 @@ export default function HomePage() {
         <SiteHeader />
 
         <main className="wrap" role="main">
-          <section className="hero hero-astro" aria-label="Présentation">
+          <section className="hero-astro" aria-label="Présentation">
             <div className="hero-inner">
-              <div className="hero-top hero-top-center">
-                <div className="hero-kicker hero-kicker-center">
+              <div className="hero-top">
+                <div className="hero-kicker">
                   <span className="astro-mark">☾ Luna Astralis</span>
                   <span className="hero-badge">
-                    Carte du ciel · Compatibilité amoureuse · IA astrologique
+                    Carte du ciel · Compatibilité · IA astrologique
                   </span>
                 </div>
 
-                <h1 className="hero-title hero-title-center">
+                <h1 className="hero-title">
                   Carte du ciel gratuite et compatibilité amoureuse
                 </h1>
 
-                <p className="hero-sub hero-sub-center">
+                <p className="hero-sub">
                   Découvrez gratuitement votre Soleil, votre Lune, votre
                   Ascendant et votre alchimie amoureuse.
                 </p>
 
-                <p className="lead lead-center">
-                  Créez votre carte du ciel, explorez votre thème astral et
+                <p className="lead">
+                  Créez votre thème astral, explorez votre carte du ciel et
                   comparez deux signes astrologiques en quelques secondes.
                 </p>
               </div>
@@ -81,7 +81,7 @@ export default function HomePage() {
                     href="/carte-du-ciel"
                     className="hero-free-btn hero-free-btn--pulse"
                   >
-                    Créer ma carte du ciel
+                    Créer ma carte
                   </Link>
                 </article>
 
@@ -94,7 +94,7 @@ export default function HomePage() {
                   <h2>Compatibilité amoureuse</h2>
                   <p>
                     Comparez deux signes astrologiques et obtenez votre score
-                    de compatibilité en quelques secondes.
+                    de compatibilité instantanément.
                   </p>
 
                   <ul>
@@ -113,7 +113,7 @@ export default function HomePage() {
 
               <div className="hero-secondary-actions">
                 <a href="#signes" className="hero-free-btn">
-                  ✨ Parler avec Luna, 15 messages gratuits
+                  ✨ Parler avec Luna
                 </a>
 
                 <a href="#livres" className="hero-free-btn">
@@ -121,18 +121,16 @@ export default function HomePage() {
                 </a>
               </div>
 
-              <div className="hero-free-note">
+              <p className="hero-free-note">
                 Gratuit pour commencer · Résultat instantané · Mobile
-              </div>
+              </p>
 
               <section className="mini-reviews" aria-label="Avis 5 étoiles">
                 {MINI_REVIEWS.map((r) => (
                   <article key={r.name + r.sign} className="mini-review">
                     <div className="mini-review-top">
                       <div className="mini-review-name">{r.name}</div>
-                      <div className="mini-review-stars" aria-label="5 étoiles">
-                        ★★★★★
-                      </div>
+                      <div className="mini-review-stars">★★★★★</div>
                     </div>
 
                     <div className="mini-review-sign">{r.sign}</div>
@@ -141,11 +139,11 @@ export default function HomePage() {
                 ))}
               </section>
 
-              <p className="hero-tech note-center">
+              <p className="hero-tech">
                 Fonctionne instantanément sur mobile · Aucun téléchargement
               </p>
 
-              <p className="hero-disclaimer note-center">
+              <p className="hero-disclaimer">
                 Exploration personnelle non thérapeutique.
               </p>
             </div>
@@ -220,7 +218,7 @@ export default function HomePage() {
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">01</span>
-                  <span className="step-ico" aria-hidden="true">♈</span>
+                  <span className="step-ico">♈</span>
                 </div>
                 <h3>Choisis ton outil</h3>
                 <p>Carte du ciel, compatibilité ou discussion avec Luna.</p>
@@ -229,7 +227,7 @@ export default function HomePage() {
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">02</span>
-                  <span className="step-ico" aria-hidden="true">🌙</span>
+                  <span className="step-ico">🌙</span>
                 </div>
                 <h3>Obtiens ton résultat</h3>
                 <p>Ton analyse apparaît en quelques secondes.</p>
@@ -238,7 +236,7 @@ export default function HomePage() {
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">03</span>
-                  <span className="step-ico" aria-hidden="true">✧</span>
+                  <span className="step-ico">✧</span>
                 </div>
                 <h3>Gagne en clarté</h3>
                 <p>Forces, besoins, défis et dynamiques relationnelles.</p>
@@ -247,7 +245,7 @@ export default function HomePage() {
               <div className="box step">
                 <div className="step-top">
                   <span className="step-n">04</span>
-                  <span className="step-ico" aria-hidden="true">🔐</span>
+                  <span className="step-ico">🔐</span>
                 </div>
                 <h3>Va plus loin</h3>
                 <p>Rapport premium ou discussion privée selon ton besoin.</p>
@@ -257,7 +255,7 @@ export default function HomePage() {
 
           <SignGrid />
 
-          <footer className="site-footer" role="contentinfo" aria-label="Pied de page">
+          <footer className="site-footer">
             <div className="footer-card">
               <div className="footer-row">
                 <div className="footer-left">
@@ -265,7 +263,7 @@ export default function HomePage() {
                   <div className="footer-copy">© {y} · Tous droits réservés</div>
                 </div>
 
-                <nav className="footer-links" aria-label="Liens légaux">
+                <nav className="footer-links">
                   <Link href="/mentions-legales">Mentions légales</Link>
                   <span className="sep">•</span>
                   <Link href="/confidentialite">Confidentialité</Link>
