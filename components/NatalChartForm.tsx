@@ -88,13 +88,18 @@ function translatePlanetName(name: string): string {
   return PLANET_FR[name] || name;
 }
 
+function getPlanetGlyph(name: string): string {
+  return PLANET_GLYPH[name] || "";
+}
+
 function getSignGlyph(signName?: string): string {
   if (!signName) return "";
   return SIGN_GLYPH[signName] || "";
 }
 
-function getPlanetGlyph(name: string): string {
-  return PLANET_GLYPH[name] || "";
+function getSignName(signName?: string): string {
+  if (!signName) return "";
+  return SIGN_FR[signName] || signName;
 }
 
 export default function NatalChartForm() {
@@ -274,22 +279,26 @@ export default function NatalChartForm() {
             )}
           </div>
 
-          <div className="natal-planets">
+          <div className="natal-planets-grid">
             {planets.map((p: any, i: number) => (
-              <div key={i} className="natal-planet-row">
-                <span className="natal-planet-name">
-                  <span className="natal-glyph">{getPlanetGlyph(p.name)}</span>
+              <div key={i} className="natal-planet-card">
+                <div className="natal-planet-symbol">
+                  {getPlanetGlyph(p.name)}
+                </div>
+
+                <div className="natal-planet-title">
                   {translatePlanetName(p.name)}
-                </span>
+                </div>
 
-                <span className="natal-planet-pos">
-                  <span className="natal-sign-glyph">
-                    {getSignGlyph(p.signName)}
-                  </span>
+                <div className="natal-planet-sign">
+                  <span>{getSignGlyph(p.signName)}</span>
+                  {getSignName(p.signName)}
+                </div>
+
+                <div className="natal-planet-degree">
                   {translateFormatted(p.formatted)}
-                </span>
-
-                {p.isRetrograde && <span className="natal-retro">R</span>}
+                  {p.isRetrograde && <span className="natal-retro"> R</span>}
+                </div>
               </div>
             ))}
           </div>
