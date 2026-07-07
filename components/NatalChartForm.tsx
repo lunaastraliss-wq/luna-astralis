@@ -48,6 +48,25 @@ function translatePlanetName(name: string): string {
   return PLANET_FR[name] || name;
 }
 
+function safeStringify(obj: any): string {
+  const seen = new WeakSet();
+  try {
+    return JSON.stringify(
+      obj,
+      (key, value) => {
+        if (typeof value === "object" && value !== null) {
+          if (seen.has(value)) return "[Circular]";
+          seen.add(value);
+        }
+        return value;
+      },
+      2
+    );
+  } catch (e: any) {
+    return "Erreur de conversion JSON : " + (e?.message || "inconnue");
+  }
+}
+
 export default function NatalChartForm() {
   const [firstName, setFirstName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -76,9 +95,7 @@ export default function NatalChartForm() {
       const geoData = await geoRes.json();
 
       if (!geoData?.ok || !geoData?.result) {
-        setError(
-          "Ville introuvable. Essaie avec le nom complet (ex. : Montréal, Canada)."
-        );
+        setError("Ville introuvable. Essaie avec le nom complet (ex. : Montréal, Canada).");
         setLoading(false);
         return;
       }
@@ -166,11 +183,7 @@ export default function NatalChartForm() {
           />
         </label>
 
-        <button
-          type="submit"
-          className="btn btn-small btn-primary"
-          disabled={loading}
-        >
+        <button type="submit" className="btn btn-small btn-primary" disabled={loading}>
           {loading ? "Calcul en cours..." : "Créer ma carte du ciel"}
         </button>
 
@@ -180,9 +193,7 @@ export default function NatalChartForm() {
       {result && (
         <div className="natal-result">
           <h3>
-            {firstName
-              ? "Le thème astral de " + firstName
-              : "Ta carte du ciel"}
+            {firstName ? `Le thème astral de ${firstName}` : "Ta carte du ciel"}
           </h3>
 
           <div
@@ -197,24 +208,12 @@ export default function NatalChartForm() {
               border: "3px solid red",
             }}
           >
-            <p
-              style={{
-                color: "#ffffff",
-                fontWeight: "bold",
-                marginBottom: "8px",
-              }}
-            >
+            <p style={{ color: "#ffffff", fontWeight: "bold", marginBottom: "8px" }}>
               ZONE DE TEST VISIBLE - données reçues du calcul :
             </p>
 
-            <pre
-              style={{
-                fontSize: "11px",
-                whiteSpace: "pre-wrap",
-                margin: 0,
-              }}
-            >
-              {JSON.stringify(result, null, 2)}
+            <pre style={{ fontSize: "11px", whiteSpace: "pre-wrap", margin: 0 }}>
+              {safeStringify(result)}
             </pre>
           </div>
 
@@ -256,9 +255,7 @@ export default function NatalChartForm() {
                   {translateFormatted(p.formatted)}
                 </span>
 
-                {p.isRetrograde && (
-                  <span className="natal-retro">R</span>
-                )}
+                {p.isRetrograde && <span className="natal-retro">R</span>}
               </div>
             ))}
           </div>
