@@ -151,7 +151,6 @@ export default function NatalChartForm() {
     }
   };
 
-  const calc = result?.calculated || result;
   const planets = calc?.planets || [];
   const angles = calc?.angles || {};
 
