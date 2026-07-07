@@ -237,13 +237,13 @@
   box-shadow: 0 0 28px rgba(87,105,255,.30);
 }
 
-.compat-result-signs strong {
+.compat-result-name {
   display: block;
   text-align: center;
-  font-size: 34px;
+  font-size: 42px;
   line-height: 1;
+  font-weight: 950;
 }
-
 .compat-result-love {
   display: flex;
   align-items: center;
@@ -449,9 +449,9 @@
     margin: 30px auto 24px;
   }
 
-  .compat-result-signs strong {
-    font-size: 24px;
-  }
+  .compat-result-name {
+  font-size: 24px;
+}
 
   .compat-result-symbol {
     width: 48px;
@@ -487,8 +487,4 @@
   .compat-premium {
     padding: 24px;
   }
-}
-.compat-result-name {
-  font-size: 42px;
-  line-height: 1;
 }
