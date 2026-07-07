@@ -197,3 +197,52 @@
     text-align: center;
   }
 }
+.natal-planets-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.natal-planet-card {
+  padding: 20px 14px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  text-align: center;
+}
+
+.natal-planet-symbol {
+  color: #f4c95d;
+  font-size: 38px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.natal-planet-title {
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.natal-planet-sign {
+  color: #f4c95d;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.natal-planet-sign span {
+  margin-right: 6px;
+}
+
+.natal-planet-degree {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+@media (max-width: 640px) {
+  .natal-planets-grid {
+    grid-template-columns: 1fr;
+  }
+}
