@@ -1,4 +1,5 @@
 import NatalChartForm from "@/components/NatalChartForm";
+import "./page.css";
 
 export const metadata = {
   title: "Carte du ciel gratuite - Thème astral personnalisé",
