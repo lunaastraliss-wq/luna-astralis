@@ -5,6 +5,8 @@ import html2canvas from "html2canvas";
 import NatalChartWheel from "./NatalChartWheel";
 import NatalShareCard from "./NatalShareCard";
 import NatalFreeSummary from "./NatalFreeSummary";
+import NatalPlanetDetails from "./NatalPlanetDetails";
+import NatalPremiumOffer from "./NatalPremiumOffer";
 
 const MAIN_PLANETS = [
   "Sun",
@@ -290,8 +292,28 @@ export default function NatalChartForm() {
             midheavenFormatted={translateFormatted(
               angles?.midheaven?.formatted || ""
             )}
-            size={420}
+            size={460}
           />
+
+          <div className="natal-angles">
+            {angles?.ascendant && (
+              <div className="natal-angle-item">
+                <span className="natal-label">Ascendant</span>
+                <span className="natal-value">
+                  {translateFormatted(angles.ascendant.formatted)}
+                </span>
+              </div>
+            )}
+
+            {angles?.midheaven && (
+              <div className="natal-angle-item">
+                <span className="natal-label">Milieu du ciel</span>
+                <span className="natal-value">
+                  {translateFormatted(angles.midheaven.formatted)}
+                </span>
+              </div>
+            )}
+          </div>
 
           <button
             type="button"
@@ -318,57 +340,20 @@ export default function NatalChartForm() {
             </div>
           </div>
 
-          <div className="natal-angles">
-            {angles?.ascendant && (
-              <div className="natal-angle-item">
-                <span className="natal-label">Ascendant</span>
-                <span className="natal-value">
-                  {translateFormatted(angles.ascendant.formatted)}
-                </span>
-              </div>
-            )}
+          <NatalFreeSummary planets={planets} angles={angles} />
 
-            {angles?.midheaven && (
-              <div className="natal-angle-item">
-                <span className="natal-label">Milieu du ciel</span>
-                <span className="natal-value">
-                  {translateFormatted(angles.midheaven.formatted)}
-                </span>
-              </div>
-            )}
-          </div>
+          <NatalPremiumOffer firstName={firstName} />
 
-          <div className="natal-planets-grid">
-            {planets.map((p: any, i: number) => (
-              <div key={i} className="natal-planet-card">
-                <div className="natal-planet-symbol">
-                  {getPlanetGlyph(p.name)}
-                </div>
-
-                <div className="natal-planet-title">
-                  {translatePlanetName(p.name)}
-                </div>
-
-                <div className="natal-planet-sign">
-                  <span>{getSignGlyph(p.signName)}</span>
-                  {getSignName(p.signName)}
-                </div>
-
-               <div className="natal-planet-degree">
-  {translateFormatted(p.formatted)}
-  {p.isRetrograde && <span className="natal-retro"> R</span>}
-</div>
-</div>
-))}
-</div>
-
-<NatalFreeSummary
-  planets={planets}
-  angles={angles}
-/>
-
-</div>
-)}
-</div>
-);
+          <NatalPlanetDetails
+            planets={planets}
+            translateFormatted={translateFormatted}
+            translatePlanetName={translatePlanetName}
+            getPlanetGlyph={getPlanetGlyph}
+            getSignGlyph={getSignGlyph}
+            getSignName={getSignName}
+          />
+        </div>
+      )}
+    </div>
+  );
 }
