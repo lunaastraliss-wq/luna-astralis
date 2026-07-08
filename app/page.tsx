@@ -26,6 +26,25 @@ const MINI_REVIEWS = [
   },
 ];
 
+const BOOKS = [
+  ["ASTRO 101.jpg", "Astro 101"],
+  ["ASTROLOGIE ET CHIROMANCIE.png", "Astrologie et Chiromancie"],
+  ["ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg", "Développement personnel"],
+  ["Astrologie et transformation personnelle (1).jpg", "Transformation personnelle"],
+  ["Bélier.jpg", "Bélier"],
+  ["Taureau.jpg", "Taureau"],
+  ["Gémeaux.jpg", "Gémeaux"],
+  ["Cancer.jpg", "Cancer"],
+  ["Lion.png", "Lion"],
+  ["Vierge.jpg", "Vierge"],
+  ["Balance.jpg", "Balance"],
+  ["Scorpion.jpg", "Scorpion"],
+  ["Sagittaire.jpg", "Sagittaire"],
+  ["Capricorne.jpg", "Capricorne"],
+  ["Verseau.jpg", "Verseau"],
+  ["Poisson.jpg", "Poissons"],
+];
+
 export default function HomePage() {
   const y = new Date().getFullYear();
 
@@ -161,213 +180,68 @@ export default function HomePage() {
             </ul>
           </section>
 
-         <section id="livres" className="section">
-  <div className="section-head">
-    <h2>La bibliothèque Luna Astralis</h2>
+          <section id="livres" className="section books-section">
+            <div className="section-head">
+              <h2>La bibliothèque Luna Astralis</h2>
 
-    <p className="section-sub">
-      Découvrez une collection de guides astrologiques sur les signes du zodiaque,
-      la compatibilité amoureuse et le développement personnel.
-    </p>
-  </div>
+              <p className="section-sub">
+                Découvrez des guides astrologiques conçus pour mieux comprendre
+                votre personnalité, vos relations et votre évolution personnelle.
+              </p>
+            </div>
 
-  <div className="books-intro">
-    <div className="hero-badge">Disponible sur Amazon</div>
+            <div className="books-intro">
+              <div className="hero-badge">Disponible sur Amazon</div>
 
-    <h3>
-      Explorez votre univers astrologique
-    </h3>
+              <h3>Une collection complète d'astrologie</h3>
 
-    <p>
-      Des livres pour mieux comprendre votre personnalité, vos relations,
-      vos émotions et votre cheminement personnel à travers l'astrologie.
-    </p>
-  </div>
+              <p>
+                Signes du zodiaque, développement personnel, compatibilité
+                amoureuse et bien plus encore.
+              </p>
+            </div>
 
+            <div className="books-grid">
+              {BOOKS.map(([image, title]) => (
+                <article className="book-card" key={title}>
+                  <img
+                    src={`/books/${image}`}
+                    alt={title}
+                    loading="lazy"
+                  />
 
-  <div className="books-grid">
+                  <h3>{title}</h3>
 
-    <article className="book-card">
-      <img
-        src="/livres/astro-101.jpg"
-        alt="Astro 101"
-      />
+                  <a
+                    href={AMAZON_AUTHOR_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-free-btn"
+                  >
+                    Voir sur Amazon
+                  </a>
+                </article>
+              ))}
+            </div>
 
-      <h3>Astro 101</h3>
+            <div className="book-final-cta">
+              <h3>Découvrez toute la collection Luna Astralis</h3>
 
-      <a
-        href={AMAZON_AUTHOR_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-free-btn"
-      >
-        Voir sur Amazon
-      </a>
-    </article>
+              <p>
+                Retrouvez tous les guides astrologiques disponibles sur Amazon.
+              </p>
 
+              <a
+                href={AMAZON_AUTHOR_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hero-free-btn"
+              >
+                ✨ Voir toute la collection
+              </a>
+            </div>
+          </section>
 
-    <article className="book-card">
-      <img
-        src="/livres/chiromancie.png"
-        alt="Astrologie et Chiromancie"
-      />
-
-      <h3>Astrologie et Chiromancie</h3>
-
-      <a
-        href={AMAZON_AUTHOR_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-free-btn"
-      >
-        Voir sur Amazon
-      </a>
-    </article>
-
-
-    <article className="book-card">
-      <img
-        src="/livres/compatibilite.jpg"
-        alt="Guide de Compatibilité Astrologique"
-      />
-
-      <h3>Guide de Compatibilité Astrologique</h3>
-
-      <a
-        href={AMAZON_AUTHOR_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-free-btn"
-      >
-        Voir sur Amazon
-      </a>
-    </article>
-
-
-    <article className="book-card">
-      <img
-        src="/livres/developpement.jpg"
-        alt="Astrologie et Développement Personnel"
-      />
-
-      <h3>Astrologie et Développement Personnel</h3>
-
-      <a
-        href={AMAZON_AUTHOR_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-free-btn"
-      >
-        Voir sur Amazon
-      </a>
-    </article>
-
-
-    <article className="book-card">
-      <img
-        src="/livres/transformation.jpg"
-        alt="Astrologie et Transformation Personnelle"
-      />
-
-      <h3>Astrologie et Transformation Personnelle</h3>
-
-      <a
-        href={AMAZON_AUTHOR_LINK}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hero-free-btn"
-      >
-        Voir sur Amazon
-      </a>
-    </article>
-
-  </div>
-
-
-  <div className="sign-books-title">
-
-    <div className="hero-badge">
-      Collection L'Âme des Signes
-    </div>
-
-    <h3>
-      Un livre pour chaque signe du zodiaque
-    </h3>
-
-    <p>
-      Découvrez les forces, les émotions et les dynamiques propres à chaque signe.
-    </p>
-
-  </div>
-
-
-  <div className="sign-books-grid">
-
-    {[
-      ["Bélier","belier.jpg"],
-      ["Taureau","taureau.jpg"],
-      ["Gémeaux","gemeaux.jpg"],
-      ["Cancer","cancer.jpg"],
-      ["Lion","lion.jpg"],
-      ["Vierge","vierge.jpg"],
-      ["Balance","balance.jpg"],
-      ["Scorpion","scorpion.jpg"],
-      ["Sagittaire","sagittaire.jpg"],
-      ["Capricorne","capricorne.jpg"],
-      ["Verseau","verseau.jpg"],
-      ["Poissons","poissons.jpg"],
-    ].map(([title,image]) => (
-
-      <article
-        key={title}
-        className="book-card book-card-sign"
-      >
-
-        <img
-          src={`/livres/${image}`}
-          alt={`Livre ${title}`}
-        />
-
-        <h3>{title}</h3>
-
-        <a
-          href={AMAZON_AUTHOR_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hero-free-btn"
-        >
-          Voir sur Amazon
-        </a>
-
-      </article>
-
-    ))}
-
-  </div>
-
-
-  <div className="book-final-cta">
-
-    <h3>
-      Découvrez toute la collection Luna Astralis
-    </h3>
-
-    <p>
-      Retrouvez tous les guides astrologiques disponibles sur Amazon.
-    </p>
-
-    <a
-      href={AMAZON_AUTHOR_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hero-free-btn"
-    >
-      ✨ Voir toute la collection
-    </a>
-
-  </div>
-
-</section>
           <section id="comment" className="section">
             <div className="section-head">
               <h2>Comment ça fonctionne</h2>
