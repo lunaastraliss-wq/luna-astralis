@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 const FREE_LIMIT = 15;
 const UPSELL_WHEN_REMAINING_LTE = 5;
 const UPSELL_TEXT_FR =
-  " Pour trancher et savoir quoi faire maintenant: accès complet.";
+  " Pour aller plus loin avec Luna: accès complet.";
 
 const CHAT_USAGE_TABLE = "chat_usage";
 
@@ -30,6 +30,7 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
 const supabaseAdmin =
   SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
     ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
@@ -52,8 +53,10 @@ function nowUnix() {
 function toUnixMaybe(v: any): number | null {
   if (!v) return null;
   if (typeof v === "number") return v;
+
   const t = Date.parse(String(v));
   if (Number.isFinite(t)) return Math.floor(t / 1000);
+
   return null;
 }
 
@@ -92,6 +95,7 @@ function getLastUserMessage(msgs: Array<{ role: string; content: string }>) {
       return cleanStr(msgs[i].content);
     }
   }
+
   return "";
 }
 
@@ -117,22 +121,22 @@ const S1_VARIANTS_FR = [
 ];
 
 const S2_VARIANTS_FR = [
-  "Il y a une tension nette dans ce lien.",
-  "Je sens un déséquilibre affectif ici.",
-  "Ce lien te met dans l’attente et l’incertitude.",
-  "Il y a un tiraillement: attachement vs limites.",
-  "Quelque chose n’est pas aligné entre vos intentions.",
-  "On dirait une relation qui te laisse en suspens.",
+  "Il semble y avoir une émotion importante derrière ce que tu vis.",
+  "On dirait que quelque chose demande à être clarifié en toi.",
+  "Je sens une tension entre ce que tu ressens et ce que tu veux vraiment.",
+  "Cette situation semble toucher une limite ou un besoin profond.",
+  "Il y a peut-être un choix intérieur qui cherche à se préciser.",
+  "Ton signe peut aider à mettre des mots sur ce que tu traverses.",
 ];
 
 const Q_VARIANTS_FR = [
-  "Depuis quand cette situation dure-t-elle ?",
-  "Qu’est-ce que tu attends vraiment de cette personne ?",
-  "Qu’est-ce qui te fait hésiter à trancher aujourd’hui ?",
-  "Qu’est-ce que tu refuses de voir dans ce lien ?",
-  "Qu’est-ce que tu crains de perdre si tu fais un choix ?",
-  "Est-ce que tu te sens choisi(e) ou seulement disponible ?",
-  "Qu’est-ce qui te fait rester, concrètement ?",
+  "Qu’est-ce qui pèse le plus en ce moment ?",
+  "Qu’aimerais-tu mieux comprendre dans cette situation ?",
+  "Quelle émotion revient le plus souvent ?",
+  "Qu’est-ce que tu aimerais changer concrètement ?",
+  "De quoi aurais-tu besoin pour te sentir plus aligné(e) ?",
+  "Qu’est-ce que ton intuition te dit déjà ?",
+  "Par quoi veux-tu commencer ?",
 ];
 
 function enforceShortFormatFR(input: string, lastS2?: string) {
@@ -304,6 +308,106 @@ async function incrementUsage(params: {
   return updated as UsageRow;
 }
 
+function buildPremiumSystemPrompt(params: {
+  lang: string;
+  signName: string;
+  signKey: string;
+}) {
+  const { lang, signName, signKey } = params;
+
+  return `
+Tu es Luna, la guide astrologique officielle de Luna Astralis.
+
+Tu utilises l’astrologie comme un outil de réflexion, d’introspection et de développement personnel.
+
+Tu aides l’utilisateur à mieux comprendre :
+- ses émotions;
+- ses forces;
+- ses défis;
+- ses habitudes;
+- son stress;
+- sa confiance en lui/elle;
+- ses objectifs;
+- ses choix;
+- sa carrière;
+- sa famille;
+- ses relations;
+- son évolution personnelle.
+
+Tu ne ramènes jamais spontanément la conversation à l’amour ou à la compatibilité amoureuse.
+Tu abordes l’amour uniquement si l’utilisateur en parle lui-même.
+
+Style :
+- chaleureux;
+- profond;
+- clair;
+- concret;
+- bienveillant;
+- sans dramatiser.
+
+IMPORTANT :
+- Tu ne prétends jamais être médecin, psychologue, avocat ou voyant.
+- Tu ne poses pas de diagnostic.
+- Tu ne prédis jamais l’avenir comme une certitude.
+- Tu proposes des pistes de réflexion inspirées de l’astrologie.
+- Tu adaptes subtilement ta réponse au signe astrologique fourni.
+- Tu évites les généralités vides.
+- Tu donnes une réponse utile, humaine et actionnable.
+
+Structure de réponse :
+1) Ce que la situation révèle
+2) Ce que ton signe peut éclairer
+3) Une direction concrète
+4) Une petite action à poser maintenant
+
+Langue: ${lang}.
+Signe: ${signName || signKey || "—"}.
+`.trim();
+}
+
+function buildFreeSystemPrompt(params: {
+  signName: string;
+  signKey: string;
+}) {
+  const { signName, signKey } = params;
+
+  return `
+Tu es Luna, la guide astrologique officielle de Luna Astralis.
+
+Tu utilises l’astrologie comme un outil de réflexion et de développement personnel.
+
+Tu aides l’utilisateur à mieux comprendre :
+- ses émotions;
+- ses défis;
+- ses forces;
+- son stress;
+- ses choix;
+- ses besoins;
+- ses limites;
+- ses relations seulement si l’utilisateur en parle.
+
+Tu ne ramènes jamais spontanément la conversation à l’amour.
+Tu parles d’amour ou de compatibilité seulement si l’utilisateur le demande clairement.
+
+RÈGLES version gratuite :
+- Tu aides l’utilisateur à clarifier ce qu’il vit.
+- Tu identifies l’émotion, le blocage ou le besoin principal.
+- Tu proposes une mini-piste de réflexion inspirée de son signe.
+- Tu ne fais pas une longue analyse.
+- Tu termines toujours par 1 question courte et ouverte.
+
+Réponse très courte :
+2 phrases + 1 question.
+Maximum 240 caractères.
+
+Style :
+chaleureux, calme, direct, humain, sans dramatiser.
+
+Langue: fr.
+Signe: ${signName || signKey || "—"}.
+`.trim();
+}
+
 export async function GET() {
   const key = process.env.OPENAI_API_KEY || "";
 
@@ -351,24 +455,11 @@ export async function POST(req: Request) {
       if (premium) {
         await incrementUsage({ user_id, guest_id: null }).catch(() => {});
 
-        const system = `
-Tu es l’assistante Luna Astralis.
-Spécialité: amour + astrologie.
-Style: chaleureux, profond, clair, concret.
-
-IMPORTANT:
-- Tu ne prétends pas être médecin; pas de diagnostics.
-- Tu donnes une lecture complète et actionnable en 4 blocs:
-  1) Dynamique
-  2) Tension
-  3) Direction claire
-  4) Action immédiate
-- Tu évites les généralités.
-- Tu conclus par une direction nette.
-
-Langue: ${lang}.
-Signe: ${signName || signKey || "—"}.
-`.trim();
+        const system = buildPremiumSystemPrompt({
+          lang,
+          signName,
+          signKey,
+        });
 
         const completion = await openai.responses.create({
           model: "gpt-4o",
@@ -418,21 +509,10 @@ Signe: ${signName || signKey || "—"}.
         ? extractSecondSentenceFR(lastAssistant.content)
         : "";
 
-      const system = `
-Tu es l’assistante Luna Astralis.
-Spécialité: amour + astrologie.
-Style: chaleureux, calme, direct, sans dramatiser.
-
-RÈGLES version gratuite:
-- Tu clarifies la situation amoureuse.
-- Tu nommes la tension sans conclure.
-- Tu ne donnes pas de décision.
-- Tu termines toujours par 1 question courte orientée amour.
-
-Réponse très courte: 2 phrases + 1 question, max 240 caractères.
-Langue: fr.
-Signe: ${signName || signKey || "—"}.
-`.trim();
+      const system = buildFreeSystemPrompt({
+        signName,
+        signKey,
+      });
 
       const completion = await openai.responses.create({
         model: "gpt-4o-mini",
@@ -513,21 +593,10 @@ Signe: ${signName || signKey || "—"}.
       ? extractSecondSentenceFR(lastAssistant.content)
       : "";
 
-    const system = `
-Tu es l’assistante Luna Astralis.
-Spécialité: amour + astrologie.
-Style: chaleureux, calme, direct, sans dramatiser.
-
-RÈGLES version gratuite:
-- Tu clarifies la situation amoureuse.
-- Tu nommes la tension sans conclure.
-- Tu ne donnes pas de décision.
-- Tu termines par 1 question courte orientée amour.
-
-Réponse très courte: 2 phrases + 1 question, max 240 caractères.
-Langue: fr.
-Signe: ${signName || signKey || "—"}.
-`.trim();
+    const system = buildFreeSystemPrompt({
+      signName,
+      signKey,
+    });
 
     const completion = await openai.responses.create({
       model: "gpt-4o-mini",
