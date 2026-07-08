@@ -31,6 +31,7 @@ const BOOKS = [
   ["ASTROLOGIE ET CHIROMANCIE.png", "Astrologie et Chiromancie"],
   ["ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg", "Développement personnel"],
   ["Astrologie et transformation personnelle (1).jpg", "Transformation personnelle"],
+  ["guide-de-compatibilite-astrologique.jpg", "Guide de compatibilité astrologique"],
   ["Bélier.jpg", "Bélier"],
   ["Taureau.jpg", "Taureau"],
   ["Gémeaux.jpg", "Gémeaux"],
