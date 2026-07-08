@@ -27,25 +27,92 @@ const MINI_REVIEWS = [
 ];
 
 const BOOKS = [
-  ["ASTRO 101.jpg", "Astro 101"],
-  ["ASTROLOGIE ET CHIROMANCIE.png", "Astrologie et Chiromancie"],
-  ["ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg", "Développement personnel"],
-  ["Astrologie et transformation personnelle (1).jpg", "Transformation personnelle"],
-  ["guide-de-compatibilite-astrologique.jpg", "Guide de compatibilité astrologique"],
-  ["Bélier.jpg", "Bélier"],
-  ["Taureau.jpg", "Taureau"],
-  ["Gémeaux.jpg", "Gémeaux"],
-  ["Cancer.jpg", "Cancer"],
-  ["Lion.png", "Lion"],
-  ["Vierge.jpg", "Vierge"],
-  ["Balance.jpg", "Balance"],
-  ["Scorpion.jpg", "Scorpion"],
-  ["Sagittaire.jpg", "Sagittaire"],
-  ["Capricorne.jpg", "Capricorne"],
-  ["Verseau.jpg", "Verseau"],
-  ["Poisson.jpg", "Poissons"],
+  {
+    image: "ASTRO 101.jpg",
+    title: "Astro 101",
+    amazon: "https://a.co/d/05rwtdhp",
+  },
+  {
+    image: "ASTROLOGIE ET CHIROMANCIE.png",
+    title: "Astrologie et Chiromancie",
+    amazon: "https://a.co/d/03osw44E",
+  },
+  {
+    image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
+    title: "Développement personnel",
+    amazon: "https://a.co/d/05mlDRXi",
+  },
+  {
+    image: "Astrologie et transformation personnelle (1).jpg",
+    title: "Transformation personnelle",
+    amazon: "https://a.co/d/08qzDp1D",
+  },
+  {
+    image: "guide-de-compatibilite-astrologique.jpg",
+    title: "Guide de compatibilité astrologique",
+    amazon: "https://a.co/d/00V8gKyx",
+  },
+  {
+    image: "Bélier.jpg",
+    title: "Bélier",
+    amazon: "https://a.co/d/0h9C8bSp",
+  },
+  {
+    image: "Taureau.jpg",
+    title: "Taureau",
+    amazon: "https://a.co/d/06iXVhrd",
+  },
+  {
+    image: "Gémeaux.jpg",
+    title: "Gémeaux",
+    amazon: "https://a.co/d/02MIWm2d",
+  },
+  {
+    image: "Cancer.jpg",
+    title: "Cancer",
+    amazon: "https://a.co/d/0bfnfFhD",
+  },
+  {
+    image: "Lion.png",
+    title: "Lion",
+    amazon: "https://a.co/d/0cFooiSG",
+  },
+  {
+    image: "Vierge.jpg",
+    title: "Vierge",
+    amazon: "https://a.co/d/0aQhmhkB",
+  },
+  {
+    image: "Balance.jpg",
+    title: "Balance",
+    amazon: "https://a.co/d/0gnJSdeE",
+  },
+  {
+    image: "Scorpion.jpg",
+    title: "Scorpion",
+    amazon: "https://a.co/d/07JHWrTe",
+  },
+  {
+    image: "Sagittaire.jpg",
+    title: "Sagittaire",
+    amazon: "https://a.co/d/05jeVtb0",
+  },
+  {
+    image: "Capricorne.jpg",
+    title: "Capricorne",
+    amazon: "https://a.co/d/0cwFnIuC",
+  },
+  {
+    image: "Verseau.jpg",
+    title: "Verseau",
+    amazon: "https://a.co/d/07MPr0lj",
+  },
+  {
+    image: "Poisson.jpg",
+    title: "Poissons",
+    amazon: "https://a.co/d/04E0atUr",
+  },
 ];
-
 export default function HomePage() {
   const y = new Date().getFullYear();
 
@@ -202,29 +269,28 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="books-grid">
-              {BOOKS.map(([image, title]) => (
-                <article className="book-card" key={title}>
-                  <img
-                    src={`/books/${image}`}
-                    alt={title}
-                    loading="lazy"
-                  />
+<div className="books-grid">
+  {BOOKS.map((book) => (
+    <article className="book-card" key={book.title}>
+      <img
+        src={`/books/${book.image}`}
+        alt={book.title}
+        loading="lazy"
+      />
 
-                  <h3>{title}</h3>
+      <h3>{book.title}</h3>
 
-                  <a
-                    href={AMAZON_AUTHOR_LINK}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hero-free-btn"
-                  >
-                    Voir sur Amazon
-                  </a>
-                </article>
-              ))}
-            </div>
-
+      <a
+        href={book.amazon}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero-free-btn"
+      >
+        Voir sur Amazon
+      </a>
+    </article>
+  ))}
+</div>
             <div className="book-final-cta">
               <h3>Découvrez toute la collection Luna Astralis</h3>
 
