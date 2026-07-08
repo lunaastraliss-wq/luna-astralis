@@ -338,25 +338,24 @@ const bookUrl = useMemo(() => {
   (existing: ThreadMsg[]) => {
     if (existing.length) return existing;
 
-    const hello =
-      (signName !== "-"
-        ? `Bonjour ✨ ${signName}, dis-moi — qu'est-ce qui t'occupe l'esprit en ce moment ?`
-        : `Bonjour ✨ Dis-moi — qu'est-ce qui t'occupe l'esprit en ce moment ?`);
+const hello =
+  "Bonjour ✨ Je suis Luna. Je suis là pour t'aider à mieux comprendre tes émotions, tes défis et tes forces. Que souhaites-tu explorer aujourd'hui ?";
 
-    const t: ThreadMsg[] = [{ role: "ai", text: hello }];
-    saveThreadLocal(t);
-    return t;
-  },
-  [saveThreadLocal, signName]
+const t: ThreadMsg[] = [{ role: "ai", text: hello }];
+saveThreadLocal(t);
+return t;
+},
+[saveThreadLocal]
 );
-  const scrollToBottom = useCallback((force = false) => {
-    const el = messagesRef.current;
-    if (!el) return;
 
-    if (force) {
-      el.scrollTop = el.scrollHeight;
-      return;
-    }
+const scrollToBottom = useCallback((force = false) => {
+  const el = messagesRef.current;
+  if (!el) return;
+
+  if (force) {
+    el.scrollTop = el.scrollHeight;
+    return;
+  }
 
     const threshold = 160;
     const nearBottom =
