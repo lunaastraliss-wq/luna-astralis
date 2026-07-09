@@ -6,6 +6,51 @@ type Props = {
   firstName?: string;
 };
 
+const offers = [
+  {
+    key: "essential",
+    icon: "🌙",
+    name: "Essentielle",
+    price: "24,99 $",
+    button: "Choisir Essentielle",
+    features: [
+      "Soleil, Lune et Ascendant",
+      "Les 10 planètes",
+      "Résumé personnalisé",
+      "PDF téléchargeable",
+    ],
+  },
+  {
+    key: "premium",
+    icon: "⭐",
+    name: "Premium",
+    price: "49,99 $",
+    button: "Choisir Premium",
+    featured: true,
+    features: [
+      "Tout le rapport Essentielle",
+      "Les 12 maisons astrologiques",
+      "Amour, carrière et finances",
+      "Forces, défis et mission de vie",
+      "PDF détaillé",
+    ],
+  },
+  {
+    key: "signature",
+    icon: "👑",
+    name: "Signature",
+    price: "79,99 $",
+    button: "Choisir Signature",
+    features: [
+      "Tout le rapport Premium",
+      "Aspects astrologiques majeurs",
+      "Chiron et nœuds lunaires",
+      "Dominantes du thème",
+      "Analyse haut de gamme",
+    ],
+  },
+];
+
 export default function NatalPremiumOffer({ firstName }: Props) {
   const title = firstName
     ? `Choisissez le rapport astrologique de ${firstName}`
@@ -18,93 +63,45 @@ export default function NatalPremiumOffer({ firstName }: Props) {
       <h3>{title}</h3>
 
       <p className="natal-premium-intro">
-        Choisissez le niveau d'analyse qui correspond à vos besoins.
-        Tous les rapports sont personnalisés selon votre date,
-        votre heure et votre lieu de naissance.
+        Trois niveaux d'analyse personnalisée selon votre date, votre heure
+        et votre lieu de naissance.
       </p>
 
       <div className="natal-offers">
-
-        <div className="natal-offer-card">
-          <h4>🌙 Essentielle</h4>
-
-          <div className="natal-premium-list">
-            <span>✓ Soleil, Lune et Ascendant</span>
-            <span>✓ Les 10 planètes</span>
-            <span>✓ Résumé personnalisé</span>
-            <span>✓ PDF téléchargeable</span>
-          </div>
-
-          <div className="natal-premium-price">
-            24,99 $
-          </div>
-
-          <button
-            type="button"
-            className="natal-premium-btn"
+        {offers.map((offer) => (
+          <div
+            key={offer.key}
+            className={
+              offer.featured
+                ? "natal-offer-card featured"
+                : "natal-offer-card"
+            }
           >
-            Choisir Essentielle
-          </button>
-        </div>
+            {offer.featured && (
+              <div className="best-value">⭐ Le plus populaire</div>
+            )}
 
-        <div className="natal-offer-card featured">
-          <div className="best-value">
-            ★ Le plus populaire
+            <div className="natal-offer-icon">{offer.icon}</div>
+
+            <h4>{offer.name}</h4>
+
+            <ul className="natal-offer-features">
+              {offer.features.map((feature) => (
+                <li key={feature}>✓ {feature}</li>
+              ))}
+            </ul>
+
+            <div className="natal-premium-price">{offer.price}</div>
+
+            <button type="button" className="natal-premium-btn">
+              {offer.button}
+            </button>
           </div>
-
-          <h4>⭐ Premium</h4>
-
-          <div className="natal-premium-list">
-            <span>✓ Soleil, Lune et Ascendant</span>
-            <span>✓ Les 10 planètes</span>
-            <span>✓ Les 12 maisons</span>
-            <span>✓ Amour, carrière et finances</span>
-            <span>✓ Forces et défis</span>
-            <span>✓ Mission de vie</span>
-            <span>✓ PDF détaillé</span>
-          </div>
-
-          <div className="natal-premium-price">
-            49,99 $
-          </div>
-
-          <button
-            type="button"
-            className="natal-premium-btn"
-          >
-            Choisir Premium
-          </button>
-        </div>
-
-        <div className="natal-offer-card">
-          <h4>👑 Signature</h4>
-
-          <div className="natal-premium-list">
-            <span>✓ Rapport Premium complet</span>
-            <span>✓ Tous les aspects astrologiques</span>
-            <span>✓ Chiron</span>
-            <span>✓ Nœuds lunaires</span>
-            <span>✓ Dominantes</span>
-            <span>✓ Analyse approfondie</span>
-            <span>✓ Rapport haut de gamme</span>
-          </div>
-
-          <div className="natal-premium-price">
-            79,99 $
-          </div>
-
-          <button
-            type="button"
-            className="natal-premium-btn"
-          >
-            Choisir Signature
-          </button>
-        </div>
-
+        ))}
       </div>
 
       <p className="natal-premium-note">
-        Paiement unique • Aucun abonnement • Téléchargement immédiat
+        Paiement unique • Aucun abonnement • PDF téléchargeable
       </p>
     </section>
   );
