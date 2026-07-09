@@ -20,6 +20,18 @@ const SIGN_FR: Record<string, string> = {
   Pisces: "Poissons",
 };
 
+function translateSigns(value?: string) {
+  if (!value) return "";
+
+  let out = value;
+
+  Object.keys(SIGN_FR).forEach((en) => {
+    out = out.replace(new RegExp(en, "g"), SIGN_FR[en]);
+  });
+
+  return out;
+}
+
 function signFr(sign?: string) {
   if (!sign) return "";
   return SIGN_FR[sign] || sign;
@@ -42,11 +54,13 @@ function textForMoon(sign: string) {
 }
 
 function textForAscendant(formatted?: string) {
-  if (!formatted) {
+  const fr = translateSigns(formatted);
+
+  if (!fr) {
     return "Votre Ascendant représente l’image que vous projetez, votre première réaction face au monde et la façon dont les autres vous perçoivent.";
   }
 
-  return `Votre Ascendant en ${formatted} influence votre apparence extérieure, votre attitude spontanée et la première impression que vous laissez aux autres.`;
+  return `Votre Ascendant en ${fr} influence votre apparence extérieure, votre attitude spontanée et la première impression que vous laissez aux autres.`;
 }
 
 export default function NatalFreeSummary({ planets, angles }: Props) {
