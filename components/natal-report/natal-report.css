@@ -1,11 +1,11 @@
 .natal-premium-offer {
-  max-width: 1520px;
-  width: calc(100% - 40px);
-  margin: 70px auto;
-  padding: 60px;
+  width: 100%;
+  max-width: 1180px;
+  margin: 56px auto;
+  padding: 42px 34px;
   box-sizing: border-box;
-  border-radius: 40px;
 
+  border-radius: 36px;
   background: rgba(9, 14, 31, 0.86);
   border: 1px solid rgba(244, 201, 93, 0.26);
 
@@ -16,46 +16,52 @@
     0 30px 80px rgba(0, 0, 0, 0.45),
     0 0 55px rgba(244, 201, 93, 0.08);
 
-  overflow: visible;
+  text-align: center;
 }
 
 .natal-offers {
   display: grid;
-  grid-template-columns: repeat(3, minmax(320px, 1fr));
-  gap: 36px;
-  margin-top: 50px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 42px;
   align-items: stretch;
 }
 
 .natal-offer-card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  padding: 42px 34px;
-  box-sizing: border-box;
-  border-radius: 32px;
+
+  padding: 34px 28px;
+  border-radius: 28px;
 
   background: rgba(255, 255, 255, 0.07);
   border: 1px solid rgba(244, 201, 93, 0.28);
 
-  min-height: 650px;
+  min-height: 610px;
+
+  box-sizing: border-box;
 }
 
 .natal-offer-card.featured {
-  transform: scale(1.05);
-  border-color: rgba(244, 201, 93, 0.92);
-  box-shadow: 0 0 52px rgba(244, 201, 93, 0.24);
+  transform: scale(1.04);
+  border-color: rgba(244, 201, 93, 0.9);
+
+  box-shadow:
+    0 0 42px rgba(244, 201, 93, 0.22);
+
   z-index: 2;
 }
 
 .best-value {
   align-self: center;
-  margin-bottom: 20px;
+
+  margin-bottom: 18px;
   padding: 8px 18px;
+
   border-radius: 999px;
 
-  background: rgba(244, 201, 93, 0.2);
-  border: 1px solid rgba(244, 201, 93, 0.55);
+  background: rgba(244, 201, 93, 0.18);
+  border: 1px solid rgba(244, 201, 93, 0.45);
 
   color: #f4c95d;
   font-size: 14px;
@@ -63,143 +69,140 @@
 }
 
 .natal-offer-icon {
-  font-size: 42px;
-  text-align: center;
+  font-size: 40px;
   margin-bottom: 14px;
 }
 
 .natal-offer-card h4 {
-  margin: 0 0 30px;
-  text-align: center;
-  font-size: 36px;
+  margin: 0 0 26px;
+
   color: #f4c95d;
+
+  font-size: 34px;
+  text-align: center;
 }
 
 .natal-offer-features {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-
-  padding: 0;
-  margin: 0 0 36px;
-  list-style: none;
+  gap: 14px;
 
   flex: 1;
+
+  margin: 0 0 28px;
+  padding: 0;
+
+  list-style: none;
 }
 
 .natal-offer-features li {
-  padding: 18px 18px;
-  border-radius: 20px;
+  padding: 16px;
 
-  background: rgba(255, 255, 255, 0.075);
-  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 18px;
+
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.10);
 
   color: white;
-  font-size: 17px;
-  line-height: 1.42;
+  font-size: 16px;
+  line-height: 1.4;
+
   text-align: left;
 }
 
 .natal-premium-price {
   margin-top: auto;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+
+  color: #f4c95d;
+
+  font-size: 46px;
+  font-weight: 900;
 
   text-align: center;
-  font-size: 50px;
-  font-weight: 900;
-  color: #f4c95d;
 }
 
 .natal-premium-btn {
   width: 100%;
-  min-height: 64px;
+  min-height: 60px;
 
   border: none;
   border-radius: 999px;
 
-  background: linear-gradient(180deg, #ffe68a, #f4c95d);
+  background: linear-gradient(180deg,#ffe68a,#f4c95d);
+
   color: #080b18;
 
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
+
   cursor: pointer;
+
+  transition: .25s;
 }
 
 .natal-premium-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(244, 201, 93, 0.25);
+
+  box-shadow:
+    0 12px 24px rgba(244,201,93,.25);
 }
 
 .natal-premium-note {
-  margin-top: 42px;
+  margin-top: 32px;
+
+  color: rgba(255,255,255,.75);
 
   text-align: center;
-  color: rgba(255, 255, 255, 0.76);
-  font-size: 17px;
+  font-size: 16px;
 }
 
-/* Tablette */
-@media (max-width: 1200px) {
-  .natal-premium-offer {
-    max-width: 760px;
-    padding: 44px 28px;
+.natal-premium-wide {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+@media (max-width:1200px){
+
+  .natal-premium-offer{
+    max-width:760px;
   }
 
-  .natal-offers {
-    grid-template-columns: 1fr;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
+  .natal-offers{
+    grid-template-columns:1fr;
   }
 
   .natal-offer-card,
-  .natal-offer-card.featured {
-    min-height: auto;
-    transform: none;
+  .natal-offer-card.featured{
+    min-height:auto;
+    transform:none;
   }
+
 }
 
-/* Mobile */
-@media (max-width: 520px) {
-  .natal-premium-offer {
-    width: calc(100% - 24px);
-    margin: 42px auto;
-    padding: 28px 16px;
-    border-radius: 28px;
+@media (max-width:640px){
+
+  .natal-premium-offer{
+    padding:28px 18px;
+    border-radius:28px;
   }
 
-  .natal-offers {
-    gap: 22px;
-    margin-top: 32px;
+  .natal-offer-card{
+    padding:28px 20px;
   }
 
-  .natal-offer-card {
-    padding: 28px 20px;
-    border-radius: 24px;
+  .natal-offer-card h4{
+    font-size:30px;
   }
 
-  .natal-offer-card h4 {
-    font-size: 30px;
+  .natal-premium-price{
+    font-size:38px;
   }
 
-  .natal-offer-features li {
-    font-size: 15.5px;
-    padding: 14px 14px;
-  }
-
-  .natal-premium-price {
-    font-size: 38px;
-  }
-
-  .natal-premium-btn {
-    min-height: 56px;
-    font-size: 17px;
-  }
-}
-.natal-premium-wide {
-  width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 0 24px;
-  box-sizing: border-box;
 }
