@@ -1,6 +1,6 @@
 .natal-premium-wide {
   width: 100%;
-  max-width: 1700px;
+  max-width: 1850px;
   margin: 0 auto;
   padding: 0 24px;
   box-sizing: border-box;
@@ -43,7 +43,7 @@
 
 .natal-offers {
   display: grid;
-  grid-template-columns: repeat(3, minmax(360px, 1fr));
+  grid-template-columns: repeat(3, minmax(400px, 1fr));
   gap: 40px;
   align-items: stretch;
 }
@@ -106,8 +106,8 @@
   background: rgba(255,255,255,.06);
   border: 1px solid rgba(255,255,255,.08);
   color: white;
-  font-size: 15.5px;
-  line-height: 1.35;
+  font-size: 17px;
+  line-height: 1.45;
   text-align: left;
 }
 
@@ -138,7 +138,7 @@
   font-size: 16px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   .natal-offers {
     grid-template-columns: 1fr;
     max-width: 620px;
