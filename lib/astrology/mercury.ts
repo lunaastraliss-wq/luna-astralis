@@ -1,0 +1,97 @@
+export const MERCURY: Record<string, string> = {
+  Aries: `Mercure en Bélier révèle une manière de penser rapide, directe et spontanée. Votre esprit fonctionne avec vivacité et vous aimez aller droit au but. Lorsque vous avez une idée, vous ressentez souvent le besoin de l'exprimer immédiatement et d'agir sans perdre de temps.
+
+Vous appréciez les échanges dynamiques et les discussions stimulantes où chacun peut défendre ses idées avec franchise. Votre communication est naturelle, énergique et souvent très convaincante. Vous aimez relever les défis intellectuels et trouver rapidement des solutions.
+
+Votre plus grande qualité réside dans votre capacité à prendre des décisions rapidement. Vous savez réagir efficacement dans les situations imprévues et vous n'avez généralement pas peur d'exprimer votre opinion.
+
+Cependant, votre rapidité peut parfois vous conduire à parler avant d'avoir pleinement réfléchi ou à manquer de patience face aux personnes qui avancent à un rythme différent. En développant davantage l'écoute et la réflexion, vous renforcerez encore l'efficacité de votre communication.`,
+
+  Taurus: `Mercure en Taureau révèle un esprit réfléchi, patient et profondément pratique. Vous prenez le temps d'analyser les informations avant de tirer une conclusion et préférez les décisions fondées sur des faits concrets plutôt que sur l'impulsivité.
+
+Votre communication est calme, posée et rassurante. Vous choisissez vos mots avec soin et inspirez souvent confiance grâce à votre stabilité. Vous aimez apprendre progressivement et maîtriser un sujet en profondeur avant de passer au suivant.
+
+Votre plus grande force réside dans votre bon sens. Vous trouvez facilement des solutions réalistes et durables aux problèmes du quotidien. Votre mémoire est généralement excellente, surtout lorsqu'il s'agit de connaissances acquises par l'expérience.
+
+Cependant, votre prudence peut parfois ralentir certaines décisions et vous rendre plus hésitant face aux changements. En restant ouvert aux nouvelles idées tout en conservant votre remarquable sens pratique, vous développerez pleinement votre potentiel intellectuel.`,
+
+  Gemini: `Mercure en Gémeaux est l'une des positions les plus favorables pour cette planète. Votre esprit est curieux, vif et constamment en mouvement. Vous aimez apprendre, découvrir, poser des questions et partager vos connaissances avec enthousiasme.
+
+Votre communication est naturelle, fluide et souvent captivante. Vous savez adapter votre discours selon les personnes qui vous entourent et possédez un véritable talent pour transmettre les idées de façon claire et vivante.
+
+Votre plus grande qualité réside dans votre capacité d'adaptation. Vous assimilez rapidement de nouvelles informations et êtes capable de comprendre différents points de vue avec une grande facilité. Votre curiosité nourrit continuellement votre intelligence.
+
+Cependant, votre intérêt pour de nombreux sujets peut parfois vous disperser. Vous pouvez commencer plusieurs projets simultanément ou perdre de l'intérêt lorsque la routine s'installe. En développant davantage votre concentration, vous transformerez votre remarquable intelligence en une véritable expertise.`,
+
+  Cancer: `Mercure en Cancer révèle une intelligence intuitive et profondément influencée par les émotions. Vous comprenez souvent les situations grâce à votre ressenti autant que par la logique. Votre mémoire est particulièrement développée, notamment lorsqu'il s'agit de souvenirs, de personnes ou d'expériences marquantes.
+
+Votre manière de communiquer est douce, attentive et bienveillante. Vous choisissez souvent vos mots avec délicatesse afin de préserver les relations et d'éviter de blesser les autres. Votre écoute constitue l'une de vos plus grandes qualités.
+
+Vous aimez les conversations sincères, riches de sens et de profondeur. Votre intuition vous aide souvent à comprendre ce que les autres ressentent avant même qu'ils ne l'expriment clairement.
+
+Cependant, vos émotions peuvent parfois influencer vos décisions plus que nécessaire. Lorsque vous vous sentez blessé ou inquiet, il peut être plus difficile de garder un regard objectif. En conciliant davantage votre intuition avec votre esprit d'analyse, vous développerez une remarquable sagesse.`,
+
+  Leo: `Mercure en Lion révèle une manière de penser créative, ambitieuse et pleine d'assurance. Vous aimez exprimer vos idées avec enthousiasme et possédez souvent un véritable talent pour captiver votre auditoire. Votre communication est chaleureuse, expressive et naturellement inspirante.
+
+Vous aimez défendre vos convictions avec passion et recherchez des projets qui vous permettent de mettre votre créativité et votre intelligence en valeur. Votre optimisme encourage souvent les autres à croire en leurs propres capacités.
+
+Votre plus grande qualité réside dans votre capacité à motiver et à rassembler. Vous savez transmettre vos idées avec conviction et donner envie aux autres de participer à vos projets.
+
+Cependant, votre confiance peut parfois vous rendre moins réceptif aux critiques ou aux idées différentes des vôtres. En restant ouvert aux échanges tout en conservant votre enthousiasme naturel, vous développerez un leadership intellectuel particulièrement inspirant.`,
+
+  Virgo: `Mercure en Vierge est également l'une des positions les plus fortes de cette planète. Votre esprit est méthodique, analytique et particulièrement attentif aux détails. Vous aimez comprendre le fonctionnement des choses avec précision et recherchez constamment des solutions efficaces.
+
+Votre communication est claire, structurée et précise. Vous appréciez les explications logiques, les faits vérifiables et les raisonnements cohérents. Votre sens de l'organisation vous permet de traiter des informations complexes avec une grande facilité.
+
+Votre plus grande qualité réside dans votre capacité d'analyse. Vous remarquez rapidement les erreurs, les incohérences ou les éléments qui méritent d'être améliorés. Cette qualité fait de vous une personne très compétente dans les domaines nécessitant rigueur et précision.
+
+Cependant, votre recherche de perfection peut parfois vous conduire à trop analyser certaines situations ou à vous montrer exigeant envers vous-même. En apprenant à faire davantage confiance à votre intuition lorsque cela est approprié, vous développerez un équilibre remarquable entre logique, efficacité et créativité.`,
+
+   Libra: `Mercure en Balance révèle un esprit diplomate, réfléchi et naturellement orienté vers la recherche d'équilibre. Vous aimez examiner les différentes possibilités avant de prendre une décision et cherchez à comprendre les points de vue de chacun. Cette ouverture d'esprit fait de vous un excellent interlocuteur.
+
+Votre communication est élégante, respectueuse et agréable. Vous choisissez vos mots avec soin afin de préserver l'harmonie dans vos échanges. Vous appréciez les discussions constructives où chacun peut exprimer librement ses idées dans un climat de respect.
+
+Votre plus grande qualité réside dans votre capacité à rapprocher les personnes et à trouver des compromis intelligents. Vous savez analyser une situation sous plusieurs angles et proposer des solutions équilibrées qui tiennent compte des besoins de chacun.
+
+Cependant, votre désir de satisfaire tout le monde peut parfois rendre certaines décisions plus difficiles. Vous pouvez hésiter longtemps avant de choisir la meilleure option. En développant davantage votre confiance en votre propre jugement, vous renforcerez votre efficacité tout en conservant votre remarquable sens de la diplomatie.`,
+
+  Scorpio: `Mercure en Scorpion révèle un esprit profond, analytique et particulièrement perspicace. Vous cherchez rarement les réponses faciles et aimez comprendre ce qui se cache derrière les apparences. Votre intelligence vous pousse à explorer les sujets complexes avec patience et détermination.
+
+Votre communication est directe, réfléchie et souvent très percutante. Vous choisissez soigneusement vos mots et préférez les conversations sincères aux échanges superficiels. Votre intuition vous permet de percevoir rapidement les intentions et les motivations de vos interlocuteurs.
+
+Votre plus grande force réside dans votre capacité à analyser les situations avec une grande profondeur. Vous êtes capable de découvrir des détails importants qui échappent souvent aux autres et de résoudre des problèmes complexes grâce à votre persévérance.
+
+Cependant, votre tendance à vouloir tout comprendre peut parfois vous conduire à trop analyser certaines situations ou à conserver certaines pensées pour vous. En développant davantage la confiance et le partage de vos idées, vous enrichirez encore la qualité de vos relations et de votre communication.`,
+
+  Sagittarius: `Mercure en Sagittaire révèle un esprit ouvert, enthousiaste et toujours en quête de nouvelles connaissances. Vous aimez apprendre, découvrir différentes cultures, explorer de nouvelles idées et comprendre le monde dans son ensemble. Votre curiosité vous pousse naturellement vers les grands sujets philosophiques, culturels ou spirituels.
+
+Votre communication est spontanée, optimiste et inspirante. Vous aimez transmettre ce que vous apprenez et encourager les autres à élargir leurs horizons. Votre enthousiasme rend vos échanges vivants et stimulants.
+
+Votre plus grande qualité réside dans votre capacité à relier les idées entre elles et à conserver une vision d'ensemble. Vous voyez facilement les possibilités d'avenir et savez partager votre optimisme avec votre entourage.
+
+Cependant, votre intérêt pour les grandes idées peut parfois vous faire négliger certains détails pratiques. Il peut également vous arriver de parler avec beaucoup de franchise sans mesurer l'impact de vos paroles. En associant votre vision globale à davantage de précision, vous développerez une communication particulièrement inspirante.`,
+
+  Capricorn: `Mercure en Capricorne révèle un esprit méthodique, discipliné et particulièrement organisé. Vous réfléchissez avec prudence et préférez construire vos connaissances progressivement plutôt que de tirer des conclusions hâtives. Votre intelligence s'exprime avant tout par votre sens de la logique et votre capacité à planifier sur le long terme.
+
+Votre communication est claire, sérieuse et précise. Vous inspirez confiance grâce à votre rigueur et à votre capacité à analyser les situations avec calme. Vous aimez les échanges utiles, fondés sur des faits concrets et des arguments solides.
+
+Votre plus grande qualité réside dans votre capacité à transformer les idées en projets réalistes. Vous savez organiser vos pensées, établir des priorités et avancer avec constance jusqu'à atteindre vos objectifs.
+
+Cependant, votre prudence peut parfois limiter votre spontanéité ou vous rendre plus réservé dans l'expression de vos idées. En développant davantage votre créativité et votre confiance dans les nouvelles possibilités, vous renforcerez encore votre remarquable efficacité intellectuelle.`,
+
+  Aquarius: `Mercure en Verseau révèle une intelligence originale, inventive et tournée vers l'avenir. Vous aimez explorer des idées nouvelles, remettre en question les habitudes établies et imaginer des solutions innovantes. Votre esprit fonctionne souvent différemment de celui de la majorité, ce qui constitue l'une de vos plus grandes richesses.
+
+Votre communication est ouverte, stimulante et souvent visionnaire. Vous appréciez les échanges d'idées où chacun peut exprimer librement sa pensée. Les sujets liés à la science, aux nouvelles technologies, à l'innovation ou aux grands enjeux de société retiennent facilement votre attention.
+
+Votre plus grande qualité réside dans votre capacité à anticiper les changements et à imaginer des possibilités inédites. Vous inspirez souvent les autres grâce à votre créativité intellectuelle et à votre ouverture d'esprit.
+
+Cependant, votre besoin d'indépendance peut parfois vous rendre moins attentif aux aspects émotionnels de certaines discussions. En conciliant votre remarquable intelligence avec une écoute encore plus empathique, vous développerez une communication aussi brillante qu'humaine.`,
+
+  Pisces: `Mercure en Poissons révèle une intelligence intuitive, créative et profondément inspirée par l'imagination. Vous percevez souvent les situations à travers votre ressenti autant que par le raisonnement logique. Votre esprit associe facilement les idées, les images et les émotions pour former une compréhension très personnelle du monde.
+
+Votre communication est douce, sensible et souvent empreinte de poésie ou de créativité. Vous savez trouver les mots qui touchent le cœur et exprimer des émotions avec beaucoup de finesse. Les domaines artistiques, spirituels ou créatifs favorisent particulièrement l'expression de votre intelligence.
+
+Votre plus grande qualité réside dans votre intuition. Vous comprenez parfois instinctivement des situations complexes sans pouvoir toujours expliquer votre raisonnement. Cette capacité fait de vous une personne particulièrement inspirée et ouverte aux différentes dimensions de l'expérience humaine.
+
+Cependant, votre imagination peut parfois vous éloigner des aspects plus concrets ou pratiques de certaines situations. Il peut également vous arriver d'avoir du mal à organiser vos nombreuses idées. En développant davantage votre sens de la structure tout en préservant votre remarquable créativité, vous révélerez pleinement la richesse de votre intelligence.`,
+};
