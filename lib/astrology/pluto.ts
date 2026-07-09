@@ -1,0 +1,73 @@
+export const PLUTO: Record<string, string> = {
+  Aries: `Pluton en Bélier révèle une profonde capacité à vous réinventer par l'action et le courage. Les grandes transformations de votre vie vous poussent souvent à développer votre indépendance et à prendre pleinement votre place. Vous n'hésitez pas à repartir de zéro lorsque cela devient nécessaire.
+
+Vous possédez une énergie intérieure remarquable qui vous permet de surmonter les obstacles avec détermination. Les défis deviennent souvent des occasions de renforcer votre confiance et d'affirmer votre véritable identité.
+
+Votre plus grande qualité réside dans votre capacité à transformer les épreuves en nouvelles opportunités. En développant davantage la patience et la réflexion, vous donnerez encore plus de puissance à votre remarquable force intérieure.`,
+
+  Taurus: `Pluton en Taureau révèle une transformation progressive liée aux valeurs, à la sécurité et aux ressources. Vous apprenez que la véritable stabilité ne dépend pas uniquement de ce que vous possédez, mais surtout de la confiance que vous développez envers vous-même.
+
+Vous possédez une remarquable capacité à reconstruire votre vie sur des bases solides après les périodes de changement. Votre persévérance vous permet d'accomplir des réalisations durables.
+
+Votre plus grande qualité réside dans votre capacité à créer une sécurité profonde qui résiste aux épreuves du temps. En acceptant plus facilement les changements, vous découvrirez une liberté intérieure encore plus grande.`,
+
+  Gemini: `Pluton en Gémeaux révèle une profonde transformation de votre manière de penser et de communiquer. Votre curiosité vous pousse constamment à remettre vos connaissances en question afin d'élargir votre compréhension du monde.
+
+Vous aimez explorer des sujets complexes et découvrir les mécanismes cachés derrière les idées. Votre intelligence devient particulièrement puissante lorsque vous acceptez d'évoluer au contact de nouvelles expériences.
+
+Votre plus grande qualité réside dans votre capacité à transformer votre vision du monde et à transmettre des idées porteuses de changement. En développant davantage votre confiance dans vos intuitions, vous enrichirez encore votre remarquable intelligence.`,
+
+  Cancer: `Pluton en Cancer révèle une transformation profonde de votre monde émotionnel et de vos liens familiaux. Les expériences importantes de votre vie vous conduisent progressivement à développer une grande maturité affective et une remarquable force intérieure.
+
+Vous possédez une intuition exceptionnelle qui vous aide à comprendre les émotions humaines avec beaucoup de profondeur. Votre évolution personnelle passe souvent par l'acceptation de votre sensibilité comme une véritable force.
+
+Votre plus grande qualité réside dans votre capacité à reconstruire votre équilibre émotionnel après les épreuves. En faisant confiance à votre cœur tout en développant des limites saines, vous trouverez une stabilité durable.`,
+
+  Leo: `Pluton en Lion révèle une profonde transformation de votre créativité, de votre confiance et de votre capacité à rayonner. Les défis vous invitent progressivement à découvrir votre véritable valeur sans dépendre uniquement du regard des autres.
+
+Vous possédez une grande force de caractère qui vous permet de rebondir après les périodes difficiles. Votre créativité devient un puissant moteur de transformation personnelle.
+
+Votre plus grande qualité réside dans votre capacité à inspirer les autres par votre courage et votre authenticité. En développant une confiance toujours plus intérieure, vous révélerez pleinement votre potentiel de leader.`,
+
+  Virgo: `Pluton en Vierge révèle une transformation profonde de votre manière de travailler, d'apprendre et d'améliorer votre quotidien. Vous cherchez naturellement à comprendre les détails afin de créer des solutions plus efficaces et plus durables.
+
+Vous possédez une remarquable capacité d'analyse qui vous permet d'identifier rapidement les domaines nécessitant une évolution. Votre sens de l'organisation devient un véritable outil de transformation.
+
+Votre plus grande qualité réside dans votre capacité à améliorer progressivement tout ce que vous entreprenez. En laissant davantage de place à votre intuition sans perdre votre rigueur naturelle, vous atteindrez un remarquable équilibre entre efficacité et créativité.`,
+
+    Libra: `Pluton en Balance révèle une profonde transformation à travers les relations, les partenariats et la recherche d'équilibre. Les rencontres importantes de votre vie deviennent souvent de véritables moteurs d'évolution personnelle. Vous apprenez progressivement que les relations les plus solides naissent lorsque chacun reste fidèle à lui-même tout en respectant l'autre.
+
+Vous possédez une remarquable capacité à comprendre les dynamiques humaines et à percevoir les changements nécessaires dans vos relations. Votre sens de la justice vous pousse naturellement vers des liens fondés sur l'égalité, le respect et la confiance.
+
+Votre plus grande qualité réside dans votre aptitude à transformer les conflits en occasions de croissance. En développant davantage votre affirmation personnelle tout en conservant votre diplomatie naturelle, vous construirez des relations profondément équilibrées et durables.`,
+
+  Scorpio: `Pluton en Scorpion est dans son signe de prédilection et exprime pleinement sa puissance de transformation. Vous possédez une force intérieure exceptionnelle qui vous permet de traverser les périodes les plus difficiles sans perdre votre capacité à évoluer. Les crises deviennent souvent les étapes les plus importantes de votre développement personnel.
+
+Votre intuition est particulièrement profonde et vous aide à comprendre les mécanismes invisibles qui influencent les comportements humains. Vous recherchez naturellement la vérité et refusez les apparences superficielles.
+
+Votre plus grande qualité réside dans votre remarquable capacité de renaissance. En acceptant de partager davantage votre vulnérabilité tout en conservant votre force intérieure, vous découvrirez un équilibre qui fera de vous une source d'inspiration pour votre entourage.`,
+
+  Sagittarius: `Pluton en Sagittaire révèle une profonde transformation de vos croyances, de votre philosophie de vie et de votre compréhension du monde. Vous évoluez constamment grâce aux connaissances, aux voyages et aux expériences qui élargissent votre vision de l'existence.
+
+Vous aimez remettre en question les idées établies afin de découvrir votre propre vérité. Votre évolution personnelle passe souvent par des changements importants dans votre manière de penser et de percevoir la vie.
+
+Votre plus grande qualité réside dans votre capacité à transformer votre vision du monde tout en inspirant les autres à développer la leur. En conciliant votre ouverture d'esprit avec davantage d'ancrage dans le concret, vous réaliserez pleinement votre potentiel.`,
+
+  Capricorn: `Pluton en Capricorne révèle une profonde transformation des structures, des responsabilités et de votre rapport à la réussite. Les expériences importantes de votre vie vous enseignent progressivement que le véritable pouvoir repose sur la maîtrise de soi, la persévérance et l'intégrité.
+
+Vous possédez une remarquable capacité à reconstruire votre vie sur des bases solides après les périodes de changement. Votre discipline et votre détermination vous permettent d'accomplir des réalisations importantes au fil du temps.
+
+Votre plus grande qualité réside dans votre capacité à transformer les obstacles en fondations durables. En laissant davantage de place à la souplesse et à la créativité, vous renforcerez encore votre remarquable potentiel de réalisation.`,
+
+  Aquarius: `Pluton en Verseau révèle une profonde transformation de votre vision de la société, de l'innovation et de votre rôle dans le monde. Vous ressentez souvent le besoin de participer à des changements qui dépassent votre intérêt personnel et contribuent à l'évolution collective.
+
+Votre esprit visionnaire vous pousse naturellement vers les nouvelles idées, les technologies et les projets capables d'améliorer durablement la vie des autres. Vous aimez remettre les anciens modèles en question afin d'imaginer un avenir plus ouvert et plus humain.
+
+Votre plus grande qualité réside dans votre capacité à inspirer le changement grâce à votre intelligence et à votre créativité. En conciliant votre indépendance avec une véritable coopération, vous réaliserez des projets ayant un impact positif durable.`,
+
+  Pisces: `Pluton en Poissons révèle une profonde transformation spirituelle et émotionnelle. Votre évolution passe souvent par l'acceptation de votre sensibilité, de votre intuition et de votre capacité à percevoir les dimensions les plus subtiles de l'existence. Les expériences de vie vous invitent progressivement à développer une grande sagesse intérieure.
+
+Vous possédez une remarquable capacité d'empathie et comprenez naturellement les émotions des autres. Votre imagination, votre créativité et votre spiritualité deviennent de puissants outils de transformation personnelle.
+
+Votre plus grande qualité réside dans votre capacité à apporter espoir, compassion et réconfort tout en poursuivant votre propre évolution intérieure. En développant des limites émotionnelles solides sans perdre votre profonde humanité, vous révélerez pleinement la richesse de votre potentiel et votre capacité à transformer positivement la vie de ceux qui vous entourent.`,
+};
