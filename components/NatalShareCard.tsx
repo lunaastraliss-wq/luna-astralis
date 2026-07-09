@@ -12,6 +12,18 @@ type Props = {
   angles: any;
 };
 
+function formatDateFR(date: string): string {
+  if (!date) return "";
+
+  if (date.includes("/")) return date;
+
+  const [year, month, day] = date.split("-");
+
+  if (!year || !month || !day) return date;
+
+  return `${day}/${month}/${year}`;
+}
+
 export default function NatalShareCard({
   title,
   birthDate,
@@ -31,7 +43,7 @@ export default function NatalShareCard({
         <h2>{title}</h2>
 
         <p>
-          {birthDate}
+          {formatDateFR(birthDate)}
           {birthTime ? ` • ${birthTime}` : ""} • {birthCity}
         </p>
       </div>
