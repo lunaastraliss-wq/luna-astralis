@@ -1,49 +1,335 @@
-.essential-content-page {
-  text-align: left;
+/* ==========================================================
+   LUNA ASTRALIS
+   RAPPORT ESSENTIEL
+========================================================== */
+
+.essential-report {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.essential-page-header {
-  margin-bottom: 42px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid rgba(244, 201, 93, 0.22);
-}
+/* ==========================================================
+   PAGE
+========================================================== */
 
-.essential-page-header p {
-  margin: 0 0 10px;
-  color: #f4c95d;
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
+.essential-page {
+  width: 794px;
+  min-height: 1123px;
+  margin: 0 auto;
+  padding: 70px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 
-.essential-page-header h2 {
-  margin: 0;
+  background:
+    radial-gradient(circle at top,
+      rgba(244,201,93,.18),
+      transparent 35%),
+    linear-gradient(
+      180deg,
+      #10172f 0%,
+      #0b1124 55%,
+      #070b18 100%
+    );
+
   color: #fff8e7;
-  font-size: 42px;
-  line-height: 1.12;
-  font-weight: 500;
+  border-radius: 22px;
+  border: 1px solid rgba(244,201,93,.22);
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.45);
 }
 
-.essential-text {
-  display: grid;
-  gap: 22px;
+/* Décoration */
+
+.essential-page::before{
+  content:"✦";
+  position:absolute;
+  top:28px;
+  left:34px;
+  color:rgba(244,201,93,.28);
+  font-size:26px;
 }
 
-.essential-text p {
-  margin: 0;
-  color: rgba(255, 248, 231, 0.84);
-  font-size: 19px;
-  line-height: 1.72;
+.essential-page::after{
+  content:"☾";
+  position:absolute;
+  right:34px;
+  bottom:30px;
+  color:rgba(244,201,93,.25);
+  font-size:46px;
 }
 
-.essential-quote {
-  margin-top: 54px;
-  padding: 28px 32px;
-  border-left: 3px solid #f4c95d;
-  border-radius: 18px;
-  background: rgba(244, 201, 93, 0.08);
-  color: #f4c95d;
-  font-size: 22px;
-  line-height: 1.55;
-  font-style: italic;
+/* ==========================================================
+   COUVERTURE
+========================================================== */
+
+.essential-cover{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.essential-cover-inner{
+  width:100%;
+  max-width:560px;
+}
+
+.essential-badge{
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:10px 22px;
+
+  border-radius:999px;
+
+  background:rgba(244,201,93,.08);
+
+  border:1px solid rgba(244,201,93,.35);
+
+  color:#f4c95d;
+
+  font-size:14px;
+
+  letter-spacing:.18em;
+
+  text-transform:uppercase;
+}
+
+.essential-kicker{
+
+  margin:42px 0 14px;
+
+  color:rgba(255,248,231,.72);
+
+  text-transform:uppercase;
+
+  letter-spacing:.12em;
+
+  font-size:16px;
+}
+
+.essential-cover h1{
+
+  margin:0;
+
+  font-size:58px;
+
+  line-height:1.05;
+
+  font-weight:500;
+}
+
+.essential-divider{
+
+  width:130px;
+
+  height:2px;
+
+  margin:36px auto;
+
+  background:linear-gradient(
+      90deg,
+      transparent,
+      #f4c95d,
+      transparent
+  );
+}
+
+.essential-client-box{
+
+  margin-top:18px;
+
+  padding:34px;
+
+  border-radius:26px;
+
+  background:rgba(255,255,255,.04);
+
+  border:1px solid rgba(244,201,93,.25);
+
+  backdrop-filter:blur(10px);
+}
+
+.essential-label{
+
+  margin:0;
+
+  color:rgba(255,248,231,.55);
+
+  text-transform:uppercase;
+
+  letter-spacing:.15em;
+
+  font-size:13px;
+}
+
+.essential-client-box h2{
+
+  margin:10px 0 28px;
+
+  color:#f4c95d;
+
+  font-size:34px;
+
+  font-weight:500;
+}
+
+.essential-birth-info{
+
+  display:grid;
+
+  gap:16px;
+}
+
+.essential-birth-info p{
+
+  margin:0;
+
+  font-size:18px;
+
+  color:#fff8e7;
+}
+
+.essential-birth-info span{
+
+  display:block;
+
+  margin-bottom:4px;
+
+  color:rgba(255,248,231,.58);
+
+  font-size:13px;
+
+  letter-spacing:.08em;
+
+  text-transform:uppercase;
+}
+
+.essential-cover-note{
+
+  margin-top:38px;
+
+  color:rgba(255,248,231,.72);
+
+  line-height:1.8;
+
+  font-size:18px;
+}
+
+/* ==========================================================
+   PAGES DE CONTENU
+========================================================== */
+
+.essential-content-page{
+  text-align:left;
+}
+
+.essential-page-header{
+
+  margin-bottom:42px;
+
+  padding-bottom:24px;
+
+  border-bottom:1px solid rgba(244,201,93,.20);
+}
+
+.essential-page-header p{
+
+  margin:0 0 10px;
+
+  color:#f4c95d;
+
+  font-size:14px;
+
+  letter-spacing:.16em;
+
+  text-transform:uppercase;
+}
+
+.essential-page-header h2{
+
+  margin:0;
+
+  font-size:44px;
+
+  line-height:1.15;
+
+  font-weight:500;
+
+  color:#fff8e7;
+}
+
+/* ==========================================================
+   TEXTE
+========================================================== */
+
+.essential-text{
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:24px;
+}
+
+.essential-text p{
+
+  margin:0;
+
+  color:rgba(255,248,231,.86);
+
+  font-size:19px;
+
+  line-height:1.85;
+}
+
+/* ==========================================================
+   CITATION
+========================================================== */
+
+.essential-quote{
+
+  margin-top:60px;
+
+  padding:28px 34px;
+
+  border-left:4px solid #f4c95d;
+
+  background:rgba(244,201,93,.08);
+
+  border-radius:18px;
+
+  color:#f4c95d;
+
+  font-size:22px;
+
+  line-height:1.6;
+
+  font-style:italic;
+}
+
+/* ==========================================================
+   IMPRESSION PDF
+========================================================== */
+
+@media print{
+
+  .essential-page{
+
+      margin:0;
+
+      border:none;
+
+      border-radius:0;
+
+      box-shadow:none;
+
+      page-break-after:always;
+  }
+
 }
