@@ -1,137 +1,49 @@
-.essential-page {
-  width: 794px;
-  min-height: 1123px;
-  margin: 0 auto 32px;
-  padding: 64px;
-  background:
-    radial-gradient(circle at top, rgba(244, 201, 93, 0.18), transparent 34%),
-    linear-gradient(180deg, #10172f 0%, #070b18 100%);
-  color: #fff8e7;
-  font-family: Georgia, "Times New Roman", serif;
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
+.essential-content-page {
+  text-align: left;
 }
 
-.essential-cover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border: 1px solid rgba(244, 201, 93, 0.28);
+.essential-page-header {
+  margin-bottom: 42px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(244, 201, 93, 0.22);
 }
 
-.essential-cover::before {
-  content: "✦";
-  position: absolute;
-  top: 34px;
-  left: 46px;
-  color: rgba(244, 201, 93, 0.45);
-  font-size: 28px;
-}
-
-.essential-cover::after {
-  content: "☾";
-  position: absolute;
-  right: 48px;
-  bottom: 38px;
-  color: rgba(244, 201, 93, 0.35);
-  font-size: 52px;
-}
-
-.essential-cover-inner {
-  width: 100%;
-  max-width: 560px;
-}
-
-.essential-badge {
-  display: inline-flex;
-  padding: 9px 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(244, 201, 93, 0.45);
-  background: rgba(244, 201, 93, 0.08);
+.essential-page-header p {
+  margin: 0 0 10px;
   color: #f4c95d;
   font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.essential-kicker {
-  margin: 42px 0 14px;
-  color: rgba(255, 248, 231, 0.72);
-  font-size: 17px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.essential-cover h1 {
+.essential-page-header h2 {
   margin: 0;
-  font-size: 58px;
-  line-height: 1.05;
-  font-weight: 500;
   color: #fff8e7;
-}
-
-.essential-divider {
-  width: 120px;
-  height: 1px;
-  margin: 34px auto;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(244, 201, 93, 0.95),
-    transparent
-  );
-}
-
-.essential-client-box {
-  margin: 0 auto;
-  padding: 34px 28px;
-  border-radius: 28px;
-  border: 1px solid rgba(244, 201, 93, 0.28);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-}
-
-.essential-label {
-  margin: 0 0 8px;
-  color: rgba(255, 248, 231, 0.62);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.essential-client-box h2 {
-  margin: 0 0 26px;
-  color: #f4c95d;
-  font-size: 34px;
+  font-size: 42px;
+  line-height: 1.12;
   font-weight: 500;
 }
 
-.essential-birth-info {
+.essential-text {
   display: grid;
-  gap: 14px;
+  gap: 22px;
 }
 
-.essential-birth-info p {
+.essential-text p {
   margin: 0;
-  font-size: 18px;
-  color: #fff8e7;
+  color: rgba(255, 248, 231, 0.84);
+  font-size: 19px;
+  line-height: 1.72;
 }
 
-.essential-birth-info span {
-  display: block;
-  margin-bottom: 4px;
-  color: rgba(255, 248, 231, 0.58);
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.essential-cover-note {
-  max-width: 470px;
-  margin: 36px auto 0;
-  color: rgba(255, 248, 231, 0.72);
-  font-size: 17px;
-  line-height: 1.65;
+.essential-quote {
+  margin-top: 54px;
+  padding: 28px 32px;
+  border-left: 3px solid #f4c95d;
+  border-radius: 18px;
+  background: rgba(244, 201, 93, 0.08);
+  color: #f4c95d;
+  font-size: 22px;
+  line-height: 1.55;
+  font-style: italic;
 }
