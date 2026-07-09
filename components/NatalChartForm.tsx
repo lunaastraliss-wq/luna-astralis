@@ -165,7 +165,7 @@ export default function NatalChartForm() {
           minute: parseInt(minuteStr, 10),
           latitude,
           longitude,
-          timezoneOffset: 0,
+          timezoneOffset: -5,
         }),
       });
 
