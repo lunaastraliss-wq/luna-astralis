@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { pdf } from "@react-pdf/renderer";
+import { renderToBuffer } from "@react-pdf/renderer";
 import { calculateChart } from "celestine";
 import tzlookup from "tz-lookup";
 import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument";
@@ -208,16 +208,16 @@ export async function POST(req: Request) {
     const planets = (chart as any).planets || [];
     const angles = (chart as any).angles || {};
 
-    const pdfBuffer = await pdf(
-      <EssentialPdfDocument
-        firstName={firstName}
-        birthDate={birthDate}
-        birthTime={birthTime}
-        birthCity={birthCity}
-        planets={planets}
-        angles={angles}
-      />
-    ).toBuffer();
+    const pdfBuffer = await renderToBuffer(
+  <EssentialPdfDocument
+    firstName={firstName}
+    birthDate={birthDate}
+    birthTime={birthTime}
+    birthCity={birthCity}
+    planets={planets}
+    angles={angles}
+  />
+);
 
     const filePath = `${sessionId}/rapport-${order.product_type || "essential"}.pdf`;
 
