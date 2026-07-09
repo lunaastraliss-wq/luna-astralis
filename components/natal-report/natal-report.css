@@ -138,7 +138,7 @@
   font-size: 16px;
 }
 
-@media (max-width: 1350px) {
+@media (max-width: 1050px) {
   .natal-offers {
     grid-template-columns: 1fr;
     max-width: 620px;
