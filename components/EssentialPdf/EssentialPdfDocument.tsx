@@ -1,4 +1,5 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { SUN } from "@/lib/astrology/sun";
 
 type Props = {
   firstName?: string;
@@ -170,6 +171,11 @@ export default function EssentialPdfDocument({
           <Text>Lune : {signFr(moon?.sign)}</Text>
           <Text>Ascendant : {signFr(ascSign)}</Text>
         </View>
+        <Text style={styles.sectionTitle}>Votre Soleil</Text>
+
+<Text style={styles.text}>
+  {SUN[sun?.sign] || "Votre Soleil révèle votre identité profonde, votre vitalité et votre manière naturelle de rayonner."}
+</Text>
 
         <Text style={styles.text}>
           Le Soleil représente votre identité profonde. La Lune révèle votre
