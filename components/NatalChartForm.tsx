@@ -374,9 +374,14 @@ export default function NatalChartForm() {
             <NatalFreeSummary planets={planets} angles={angles} />
           </div>
 
-          <div className="natal-premium-wide">
-            <NatalPremiumOffer firstName={firstName} />
-          </div>
+         <div className="natal-premium-wide">
+  <NatalPremiumOffer
+    firstName={firstName}
+    birthDate={birthDate}
+    birthTime={birthTime}
+    birthCity={birthCity}
+  />
+</div>
 
           <div className="natal-result">
             <NatalPlanetDetails
