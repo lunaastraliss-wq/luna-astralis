@@ -1,0 +1,97 @@
+export const MARS: Record<string, string> = {
+  Aries: `Mars en Bélier est dans son signe de prédilection et exprime pleinement son énergie. Vous possédez un tempérament dynamique, courageux et entreprenant. Face aux défis, votre premier réflexe est d'agir rapidement plutôt que d'attendre. Vous aimez prendre des initiatives et ouvrir de nouvelles voies.
+
+Votre motivation naît souvent de la compétition, des objectifs ambitieux et du désir de progresser. Vous aimez sentir que vous avancez et que vos efforts produisent des résultats concrets. Votre enthousiasme est communicatif et vous inspirez souvent les autres à passer à l'action.
+
+Votre plus grande qualité réside dans votre courage. Même lorsque les circonstances sont difficiles, vous trouvez la force d'aller de l'avant et de défendre ce qui vous semble juste. Vous n'hésitez pas à relever des défis que d'autres jugeraient trop risqués.
+
+Cependant, votre impulsivité peut parfois vous pousser à agir avant d'avoir suffisamment réfléchi. En développant davantage votre patience et votre capacité à planifier, vous transformerez votre remarquable énergie en une force encore plus efficace et durable.`,
+
+  Taurus: `Mars en Taureau révèle une énergie stable, persévérante et particulièrement endurante. Vous préférez avancer à votre rythme plutôt que de vous précipiter. Une fois qu'un objectif est clairement défini, vous faites preuve d'une remarquable constance jusqu'à son accomplissement.
+
+Votre motivation provient du désir de construire quelque chose de solide et durable. Vous aimez voir les résultats concrets de votre travail et recherchez des réussites qui résistent au temps. Votre patience constitue un véritable avantage dans les projets de longue durée.
+
+Votre plus grande qualité réside dans votre persévérance. Même lorsque les difficultés apparaissent, vous refusez d'abandonner facilement. Cette stabilité vous permet souvent de réussir là où d'autres renoncent.
+
+Cependant, votre attachement à vos habitudes peut parfois ralentir certains changements nécessaires. En développant davantage votre souplesse tout en conservant votre remarquable détermination, vous serez capable d'accomplir des réalisations encore plus importantes.`,
+
+  Gemini: `Mars en Gémeaux révèle une énergie intellectuelle vive et une grande curiosité. Vous aimez entreprendre plusieurs projets, découvrir de nouvelles idées et relever des défis qui stimulent votre esprit. Votre motivation provient avant tout de la nouveauté et de la variété.
+
+Vous possédez une excellente capacité d'adaptation. Face à un problème, vous trouvez rapidement plusieurs solutions possibles et savez modifier votre stratégie lorsque les circonstances évoluent. Votre communication constitue souvent l'un de vos meilleurs outils d'action.
+
+Votre plus grande qualité réside dans votre polyvalence. Vous apprenez rapidement et êtes capable de vous adapter à des environnements très différents. Votre esprit vif vous permet de saisir rapidement les opportunités.
+
+Cependant, votre enthousiasme pour de nombreux projets peut parfois vous disperser. En développant davantage votre concentration et votre persévérance, vous transformerez votre curiosité naturelle en véritables réussites durables.`,
+
+  Cancer: `Mars en Cancer révèle une énergie guidée par les émotions et les valeurs personnelles. Vous agissez avec le cœur et trouvez votre motivation dans la protection de vos proches, de votre famille ou des personnes qui comptent pour vous. Vos décisions sont souvent influencées par votre intuition.
+
+Vous possédez une grande capacité de résilience. Même si vous semblez parfois prudent au départ, vous faites preuve d'une remarquable détermination lorsqu'il s'agit de défendre ceux que vous aimez ou les causes qui vous tiennent à cœur.
+
+Votre plus grande qualité réside dans votre capacité à agir avec bienveillance et sensibilité. Vous recherchez des solutions qui respectent les besoins de chacun et privilégiez souvent la coopération à la confrontation.
+
+Cependant, vos émotions peuvent parfois influencer votre manière d'agir plus fortement que prévu. En développant davantage votre confiance et votre affirmation personnelle, vous découvrirez une force intérieure capable de déplacer des montagnes.`,
+
+  Leo: `Mars en Lion révèle une énergie puissante, créative et ambitieuse. Vous aimez entreprendre des projets qui vous permettent d'exprimer pleinement vos talents et de laisser une empreinte positive autour de vous. Vous recherchez naturellement des défis à la hauteur de vos ambitions.
+
+Vous possédez une forte capacité de leadership. Votre enthousiasme, votre confiance et votre générosité motivent souvent votre entourage à vous suivre. Vous aimez agir avec conviction et donner le meilleur de vous-même.
+
+Votre plus grande qualité réside dans votre courage et votre capacité à inspirer les autres. Vous abordez les difficultés avec détermination et savez maintenir votre motivation même lorsque les obstacles se présentent.
+
+Cependant, votre désir de réussir peut parfois vous rendre plus sensible aux critiques ou au besoin de reconnaissance. En développant davantage votre confiance intérieure, indépendante du regard des autres, vous renforcerez encore votre remarquable capacité d'action.`,
+
+  Virgo: `Mars en Vierge révèle une énergie méthodique, réfléchie et tournée vers l'efficacité. Vous aimez préparer vos actions avec soin et analyser les situations avant d'agir. Votre motivation provient souvent du désir d'améliorer les choses, d'être utile et d'obtenir des résultats de qualité.
+
+Vous possédez un excellent sens de l'organisation. Vous savez découper les grands objectifs en étapes concrètes et progresser avec régularité. Votre discipline vous permet d'accomplir un travail précis et particulièrement fiable.
+
+Votre plus grande qualité réside dans votre capacité à résoudre les problèmes avec intelligence et patience. Vous remarquez rapidement les détails importants et trouvez souvent des solutions pratiques auxquelles les autres n'avaient pas pensé.
+
+Cependant, votre recherche de perfection peut parfois ralentir votre passage à l'action ou vous conduire à être trop exigeant envers vous-même. En acceptant que certaines situations n'exigent pas la perfection absolue, vous gagnerez en confiance, en efficacité et en sérénité.`,
+
+    Libra: `Mars en Balance révèle une manière d'agir réfléchie, diplomate et orientée vers la coopération. Avant de prendre une décision, vous aimez analyser les différentes possibilités et rechercher une solution qui respecte les intérêts de chacun. Vous préférez généralement le dialogue à la confrontation directe.
+
+Votre énergie s'exprime pleinement lorsque vous travaillez en équipe ou lorsque vous poursuivez un objectif qui favorise l'équilibre et la justice. Vous savez convaincre avec calme et intelligence plutôt que par la force.
+
+Votre plus grande qualité réside dans votre capacité à résoudre les conflits avec tact. Vous cherchez naturellement à rapprocher les personnes et à créer des relations harmonieuses, même dans les situations les plus délicates.
+
+Cependant, votre désir de préserver l'harmonie peut parfois ralentir certaines décisions importantes. En apprenant à agir avec davantage d'assurance lorsque la situation l'exige, vous développerez une remarquable efficacité tout en conservant votre sens naturel de la diplomatie.`,
+
+  Scorpio: `Mars en Scorpion est l'une des positions les plus puissantes de cette planète. Vous possédez une volonté exceptionnelle et une capacité remarquable à poursuivre vos objectifs jusqu'à leur accomplissement. Une fois votre décision prise, il est rare que vous abandonniez avant d'avoir atteint votre but.
+
+Votre énergie est profonde, intense et parfaitement maîtrisée. Vous préférez souvent observer avant d'agir, mais lorsque le moment est venu, vous faites preuve d'une détermination impressionnante. Votre intuition vous aide à choisir le meilleur moment pour passer à l'action.
+
+Votre plus grande qualité réside dans votre persévérance. Vous êtes capable de traverser des épreuves importantes sans perdre de vue vos objectifs. Cette force intérieure inspire souvent le respect de votre entourage.
+
+Cependant, votre intensité peut parfois vous conduire à vouloir tout contrôler ou à conserver certaines frustrations plus longtemps que nécessaire. En développant davantage le lâcher-prise et la confiance envers les autres, vous renforcerez encore votre remarquable puissance d'action.`,
+
+  Sagittarius: `Mars en Sagittaire révèle une énergie enthousiaste, optimiste et tournée vers l'aventure. Vous aimez relever de nouveaux défis, explorer des horizons inconnus et entreprendre des projets qui vous permettent de grandir. Votre motivation naît du désir d'apprendre, de découvrir et de progresser constamment.
+
+Vous possédez une grande confiance en vos capacités et abordez généralement les difficultés avec optimisme. Votre énergie communicative encourage souvent les autres à croire en leurs propres possibilités.
+
+Votre plus grande qualité réside dans votre capacité à transformer chaque expérience en occasion d'évolution. Vous avancez avec enthousiasme et savez inspirer votre entourage grâce à votre vision positive de l'avenir.
+
+Cependant, votre goût pour la nouveauté peut parfois vous pousser à multiplier les projets ou à sous-estimer certains détails. En développant davantage votre discipline, vous transformerez vos nombreuses idées en réalisations concrètes et durables.`,
+
+  Capricorn: `Mars en Capricorne est l'une des positions les plus disciplinées du thème natal. Vous possédez une remarquable capacité à travailler avec méthode, patience et persévérance. Vous ne recherchez pas les succès rapides, mais préférez construire progressivement des résultats solides.
+
+Votre motivation provient de vos ambitions et de votre désir de réussir grâce à vos propres efforts. Vous savez organiser vos priorités, gérer votre temps efficacement et avancer avec constance, même lorsque les objectifs sont particulièrement exigeants.
+
+Votre plus grande qualité réside dans votre endurance. Vous poursuivez vos projets avec une détermination remarquable et savez garder votre sang-froid face aux difficultés. Cette stabilité vous permet d'atteindre des objectifs importants sur le long terme.
+
+Cependant, votre exigence envers vous-même peut parfois vous conduire à travailler sans relâche ou à oublier de célébrer vos réussites. En accordant davantage de place à l'équilibre entre effort et repos, vous préserverez durablement votre énergie et votre motivation.`,
+
+  Aquarius: `Mars en Verseau révèle une énergie indépendante, originale et tournée vers l'innovation. Vous aimez agir différemment, explorer de nouvelles idées et remettre en question les méthodes traditionnelles lorsque vous estimez qu'il existe de meilleures solutions.
+
+Votre motivation naît souvent du désir d'améliorer le monde qui vous entoure. Vous appréciez les projets collectifs, les nouvelles technologies, les idées novatrices et toutes les initiatives qui permettent de faire évoluer les mentalités.
+
+Votre plus grande qualité réside dans votre créativité. Vous trouvez facilement des solutions originales aux problèmes complexes et savez envisager des possibilités que d'autres ne remarquent pas encore.
+
+Cependant, votre besoin d'indépendance peut parfois rendre difficile l'acceptation de certaines règles ou contraintes. En conciliant votre remarquable créativité avec davantage de patience et de coopération, vous développerez une capacité d'action particulièrement inspirante.`,
+
+  Pisces: `Mars en Poissons révèle une énergie intuitive, sensible et profondément inspirée par vos valeurs. Vous agissez rarement par impulsion. Vos décisions sont souvent guidées par votre intuition, votre compassion et votre désir d'apporter quelque chose de positif aux autres.
+
+Vous possédez une imagination remarquable qui nourrit votre créativité et vous permet de trouver des solutions originales. Les activités artistiques, spirituelles ou humanitaires représentent souvent des sources importantes de motivation.
+
+Votre plus grande qualité réside dans votre capacité à agir avec bienveillance. Vous recherchez naturellement des actions qui ont du sens et qui contribuent au bien-être de votre entourage. Votre empathie vous aide à comprendre les besoins des autres avec une grande finesse.
+
+Cependant, votre sensibilité peut parfois vous rendre hésitant lorsque des décisions difficiles doivent être prises rapidement. En développant davantage votre confiance en vous et votre affirmation personnelle, vous découvrirez une force intérieure capable de concrétiser vos plus belles inspirations tout en restant fidèle à vos valeurs.`,
+};
