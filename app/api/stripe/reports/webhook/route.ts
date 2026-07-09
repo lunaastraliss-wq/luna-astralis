@@ -5,21 +5,27 @@ import { createClient } from "@supabase/supabase-js";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function s(v: unknown) {
-  return v == null ? "" : String(v).trim();
+function clean(value: unknown) {
+  return value == null ? "" : String(value).trim();
 }
 
-const STRIPE_SECRET_KEY = s(process.env.STRIPE_SECRET_KEY);
-const STRIPE_REPORTS_WEBHOOK_SECRET = s(process.env.STRIPE_REPORTS_WEBHOOK_SECRET);
+const STRIPE_SECRET_KEY = clean(process.env.STRIPE_SECRET_KEY);
+const STRIPE_REPORTS_WEBHOOK_SECRET = clean(
+  process.env.STRIPE_REPORTS_WEBHOOK_SECRET
+);
 
-const SUPABASE_URL = s(
+const SUPABASE_URL = clean(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
-const SUPABASE_SERVICE_ROLE_KEY = s(process.env.SUPABASE_SERVICE_ROLE_KEY);
+const SUPABASE_SERVICE_ROLE_KEY = clean(
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, { apiVersion: "2023-10-16" })
+  ? new Stripe(STRIPE_SECRET_KEY, {
+      apiVersion: "2023-10-16",
+    })
   : null;
 
 const supabase =
@@ -32,7 +38,7 @@ const supabase =
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    message: "Reports Stripe webhook. Use POST from Stripe only.",
+    message: "Reports webhook is active. Stripe must call this route with POST.",
   });
 }
 
@@ -59,9 +65,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const sig = req.headers.get("stripe-signature");
+    const signature = req.headers.get("stripe-signature");
 
-    if (!sig) {
+    if (!signature) {
       return NextResponse.json(
         { error: "MISSING_STRIPE_SIGNATURE" },
         { status: 400 }
@@ -75,7 +81,7 @@ export async function POST(req: Request) {
     try {
       event = stripe.webhooks.constructEvent(
         rawBody,
-        sig,
+        signature,
         STRIPE_REPORTS_WEBHOOK_SECRET
       );
     } catch (err: any) {
@@ -89,7 +95,10 @@ export async function POST(req: Request) {
     }
 
     if (event.type !== "checkout.session.completed") {
-      return NextResponse.json({ received: true });
+      return NextResponse.json({
+        received: true,
+        ignored: event.type,
+      });
     }
 
     const session = event.data.object as Stripe.Checkout.Session;
@@ -97,7 +106,8 @@ export async function POST(req: Request) {
     if (session.payment_status !== "paid") {
       return NextResponse.json({
         received: true,
-        warning: "PAYMENT_NOT_PAID",
+        ignored: "PAYMENT_NOT_PAID",
+        payment_status: session.payment_status,
       });
     }
 
@@ -110,15 +120,7 @@ export async function POST(req: Request) {
       });
     }
 
-    let birthData: any = {};
-
-    try {
-      birthData = JSON.parse(metadata.birth_data || "{}");
-    } catch {
-      birthData = {};
-    }
-
-    const reportType = s(metadata.report_type);
+    const reportType = clean(metadata.report_type);
 
     if (!reportType) {
       return NextResponse.json({
@@ -127,18 +129,30 @@ export async function POST(req: Request) {
       });
     }
 
+    let birthData: Record<string, any> = {};
+
+    try {
+      birthData = JSON.parse(metadata.birth_data || "{}");
+    } catch {
+      birthData = {};
+    }
+
+    const customerEmail =
+      session.customer_details?.email || session.customer_email || null;
+
     const { error } = await supabase.from("orders").upsert(
       {
         stripe_session_id: session.id,
-        customer_email:
-          session.customer_details?.email || session.customer_email || null,
+        customer_email: customerEmail,
         product_type: reportType,
         status: "paid",
         birth_data: birthData,
         pdf_path: null,
         updated_at: new Date().toISOString(),
       },
-      { onConflict: "stripe_session_id" }
+      {
+        onConflict: "stripe_session_id",
+      }
     );
 
     if (error) {
@@ -160,7 +174,9 @@ export async function POST(req: Request) {
     });
   } catch (err: any) {
     return NextResponse.json(
-      { error: err?.message || "REPORTS_WEBHOOK_ERROR" },
+      {
+        error: err?.message || "REPORTS_WEBHOOK_ERROR",
+      },
       { status: 500 }
     );
   }
