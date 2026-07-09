@@ -205,6 +205,8 @@ export async function POST(req: Request) {
       longitude,
     });
 
+    console.log("CHART =", JSON.stringify(chart, null, 2));
+    
     const planets = (chart as any).planets || [];
     const angles = (chart as any).angles || {};
 
