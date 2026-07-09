@@ -26,9 +26,9 @@ const stripe = process.env.STRIPE_SECRET_KEY
 const SITE_URL = cleanUrl(process.env.NEXT_PUBLIC_SITE_URL || "");
 
 const REPORT_PRICE: Record<ReportType, string> = {
-  essential: s(process.env.STRIPE_PRICE_REPORT_ESSENTIAL),
-  premium: s(process.env.STRIPE_PRICE_REPORT_PREMIUM),
-  signature: s(process.env.STRIPE_PRICE_REPORT_SIGNATURE),
+  essential: s(process.env.STRIPE_PRICE_ESSENTIAL),
+  premium: s(process.env.STRIPE_PRICE_PREMIUM),
+  signature: s(process.env.STRIPE_PRICE_SIGNATURE),
 };
 
 export async function POST(req: Request) {
