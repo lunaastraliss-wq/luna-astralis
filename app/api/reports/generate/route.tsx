@@ -66,8 +66,17 @@ function getTimezoneOffsetHours(
 
   return (asUTC - utcDate.getTime()) / 60000 / 60;
 }
-
 function parseBirthDate(date: string) {
+  if (date.includes("/")) {
+    const [day, month, year] = date.split("/").map(Number);
+
+    return {
+      year,
+      month,
+      day,
+    };
+  }
+
   const [year, month, day] = date.split("-").map(Number);
 
   return {
