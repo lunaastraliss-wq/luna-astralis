@@ -9,6 +9,9 @@ import { URANUS } from "./uranus";
 import { NEPTUNE } from "./neptune";
 import { PLUTO } from "./pluto";
 
+import { SIGN_ELEMENT, ELEMENT_TEXT } from "./elements";
+import { SIGN_MODALITY, MODALITY_TEXT } from "./modalities";
+
 export {
   SUN,
   MOON,
@@ -20,4 +23,10 @@ export {
   URANUS,
   NEPTUNE,
   PLUTO,
+
+  SIGN_ELEMENT,
+  ELEMENT_TEXT,
+
+  SIGN_MODALITY,
+  MODALITY_TEXT,
 };
