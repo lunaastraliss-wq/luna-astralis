@@ -49,6 +49,23 @@ function point(cx: number, cy: number, r: number, angle: number) {
   };
 }
 
+function angleDiff(a: number, b: number) {
+  const diff = Math.abs(a - b) % 360;
+  return diff > 180 ? 360 - diff : diff;
+}
+
+function getAspect(diff: number) {
+  const aspects = [
+    { angle: 0, orb: 8, color: "#f4c95d", opacity: 0.42 },
+    { angle: 60, orb: 5, color: "#4fa3ff", opacity: 0.42 },
+    { angle: 90, orb: 6, color: "#ff5c5c", opacity: 0.48 },
+    { angle: 120, orb: 6, color: "#4fa3ff", opacity: 0.48 },
+    { angle: 180, orb: 8, color: "#ff5c5c", opacity: 0.5 },
+  ];
+
+  return aspects.find((a) => Math.abs(diff - a.angle) <= a.orb);
+}
+
 export default function NatalChartWheel({
   planets,
   houses,
@@ -67,6 +84,7 @@ export default function NatalChartWheel({
   const houseRing = size * 0.32;
   const planetRing = size * 0.245;
   const planetRingAlt = size * 0.195;
+  const aspectRing = size * 0.205;
 
   const toAngle = (longitude: number) => {
     const relative = ((longitude - ascendantLongitude) % 360 + 360) % 360;
@@ -97,6 +115,23 @@ export default function NatalChartWheel({
       radius: alternate ? planetRingAlt : planetRing,
     };
   });
+
+  const aspects = [];
+
+  for (let i = 0; i < validPlanets.length; i++) {
+    for (let j = i + 1; j < validPlanets.length; j++) {
+      const diff = angleDiff(validPlanets[i].longitude, validPlanets[j].longitude);
+      const aspect = getAspect(diff);
+
+      if (aspect) {
+        aspects.push({
+          p1: validPlanets[i],
+          p2: validPlanets[j],
+          aspect,
+        });
+      }
+    }
+  }
 
   const cusps = houses?.cusps || [];
 
@@ -141,41 +176,10 @@ export default function NatalChartWheel({
           strokeWidth={2.2}
         />
 
-        <circle
-          cx={cx}
-          cy={cy}
-          r={zodiacOuter}
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.24}
-        />
-
-        <circle
-          cx={cx}
-          cy={cy}
-          r={zodiacInner}
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.2}
-        />
-
-        <circle
-          cx={cx}
-          cy={cy}
-          r={houseRing}
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.18}
-        />
-
-        <circle
-          cx={cx}
-          cy={cy}
-          r={size * 0.12}
-          fill="none"
-          stroke="currentColor"
-          strokeOpacity={0.12}
-        />
+        <circle cx={cx} cy={cy} r={zodiacOuter} fill="none" stroke="currentColor" strokeOpacity={0.24} />
+        <circle cx={cx} cy={cy} r={zodiacInner} fill="none" stroke="currentColor" strokeOpacity={0.2} />
+        <circle cx={cx} cy={cy} r={houseRing} fill="none" stroke="currentColor" strokeOpacity={0.18} />
+        <circle cx={cx} cy={cy} r={size * 0.12} fill="none" stroke="currentColor" strokeOpacity={0.12} />
 
         {SIGNS.map((glyph, i) => {
           const startAngle = toAngle(i * 30);
@@ -183,23 +187,11 @@ export default function NatalChartWheel({
 
           const lineA = point(cx, cy, zodiacInner, startAngle);
           const lineB = point(cx, cy, outer, startAngle);
-          const label = point(
-            cx,
-            cy,
-            (zodiacOuter + zodiacInner) / 2,
-            labelAngle
-          );
+          const label = point(cx, cy, (zodiacOuter + zodiacInner) / 2, labelAngle);
 
           return (
             <g key={glyph}>
-              <line
-                x1={lineA.x}
-                y1={lineA.y}
-                x2={lineB.x}
-                y2={lineB.y}
-                stroke="currentColor"
-                strokeOpacity={0.26}
-              />
+              <line x1={lineA.x} y1={lineA.y} x2={lineB.x} y2={lineB.y} stroke="currentColor" strokeOpacity={0.26} />
 
               <text
                 x={label.x}
@@ -224,14 +216,7 @@ export default function NatalChartWheel({
 
           return (
             <g key={cusp.house}>
-              <line
-                x1={a.x}
-                y1={a.y}
-                x2={b.x}
-                y2={b.y}
-                stroke="currentColor"
-                strokeOpacity={0.22}
-              />
+              <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="currentColor" strokeOpacity={0.22} />
 
               <text
                 x={label.x}
@@ -249,45 +234,37 @@ export default function NatalChartWheel({
           );
         })}
 
+        {aspects.map((a, i) => {
+          const p1 = point(cx, cy, aspectRing, toAngle(a.p1.longitude));
+          const p2 = point(cx, cy, aspectRing, toAngle(a.p2.longitude));
+
+          return (
+            <line
+              key={`aspect-${i}`}
+              x1={p1.x}
+              y1={p1.y}
+              x2={p2.x}
+              y2={p2.y}
+              stroke={a.aspect.color}
+              strokeWidth={1.15}
+              strokeOpacity={a.aspect.opacity}
+            />
+          );
+        })}
+
         {(() => {
           const asc = point(cx, cy, outer, toAngle(ascendantLongitude));
           const desc = point(cx, cy, outer, toAngle(ascendantLongitude + 180));
 
           return (
             <g>
-              <line
-                x1={asc.x}
-                y1={asc.y}
-                x2={desc.x}
-                y2={desc.y}
-                stroke="#f4c95d"
-                strokeWidth={2.2}
-                strokeOpacity={0.85}
-              />
+              <line x1={asc.x} y1={asc.y} x2={desc.x} y2={desc.y} stroke="#f4c95d" strokeWidth={2.2} strokeOpacity={0.85} />
 
-              <text
-                x={asc.x}
-                y={asc.y}
-                dx={-10}
-                textAnchor="end"
-                dominantBaseline="middle"
-                fontSize={size * 0.034}
-                fill="#f4c95d"
-                fontWeight={900}
-              >
+              <text x={asc.x} y={asc.y} dx={-10} textAnchor="end" dominantBaseline="middle" fontSize={size * 0.034} fill="#f4c95d" fontWeight={900}>
                 AC
               </text>
 
-              <text
-                x={desc.x}
-                y={desc.y}
-                dx={10}
-                textAnchor="start"
-                dominantBaseline="middle"
-                fontSize={size * 0.034}
-                fill="#f4c95d"
-                fontWeight={900}
-              >
+              <text x={desc.x} y={desc.y} dx={10} textAnchor="start" dominantBaseline="middle" fontSize={size * 0.034} fill="#f4c95d" fontWeight={900}>
                 DC
               </text>
             </g>
@@ -301,38 +278,13 @@ export default function NatalChartWheel({
 
             return (
               <g>
-                <line
-                  x1={mc.x}
-                  y1={mc.y}
-                  x2={fc.x}
-                  y2={fc.y}
-                  stroke="#f4c95d"
-                  strokeWidth={1.8}
-                  strokeOpacity={0.72}
-                  strokeDasharray="6 5"
-                />
+                <line x1={mc.x} y1={mc.y} x2={fc.x} y2={fc.y} stroke="#f4c95d" strokeWidth={1.8} strokeOpacity={0.72} strokeDasharray="6 5" />
 
-                <text
-                  x={mc.x}
-                  y={mc.y}
-                  dy={-10}
-                  textAnchor="middle"
-                  fontSize={size * 0.032}
-                  fill="#f4c95d"
-                  fontWeight={900}
-                >
+                <text x={mc.x} y={mc.y} dy={-10} textAnchor="middle" fontSize={size * 0.032} fill="#f4c95d" fontWeight={900}>
                   MC
                 </text>
 
-                <text
-                  x={fc.x}
-                  y={fc.y}
-                  dy={16}
-                  textAnchor="middle"
-                  fontSize={size * 0.032}
-                  fill="#f4c95d"
-                  fontWeight={900}
-                >
+                <text x={fc.x} y={fc.y} dy={16} textAnchor="middle" fontSize={size * 0.032} fill="#f4c95d" fontWeight={900}>
                   FC
                 </text>
               </g>
@@ -346,14 +298,7 @@ export default function NatalChartWheel({
 
           return (
             <g key={`${p.name}-${i}`}>
-              <line
-                x1={tickA.x}
-                y1={tickA.y}
-                x2={tickB.x}
-                y2={tickB.y}
-                stroke="#f4c95d"
-                strokeOpacity={0.4}
-              />
+              <line x1={tickA.x} y1={tickA.y} x2={tickB.x} y2={tickB.y} stroke="#f4c95d" strokeOpacity={0.4} />
 
               <circle
                 cx={pos.x}
