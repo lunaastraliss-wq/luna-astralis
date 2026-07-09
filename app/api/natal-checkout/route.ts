@@ -1,74 +1,50 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export const runtime = "nodejs";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-06-30.basil",
+});
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const PRICES = {
-  essential: {
-    name: "Carte du ciel Essentielle",
-    amount: 2499,
-  },
-  premium: {
-    name: "Carte du ciel Premium",
-    amount: 4999,
-  },
-  signature: {
-    name: "Carte du ciel Signature",
-    amount: 7999,
-  },
-} as const;
-
-type Plan = keyof typeof PRICES;
+const prices = {
+  essential: process.env.STRIPE_PRICE_ESSENTIAL!,
+  premium: process.env.STRIPE_PRICE_PREMIUM!,
+  signature: process.env.STRIPE_PRICE_SIGNATURE!,
+};
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const plan = body.plan as Plan;
+    const { offer } = await req.json();
 
-    if (!plan || !PRICES[plan]) {
+    const price = prices[offer as keyof typeof prices];
+
+    if (!price) {
       return NextResponse.json(
-        { error: "Plan invalide." },
+        { error: "Offre invalide." },
         { status: 400 }
       );
     }
-
-    const selected = PRICES[plan];
-
-    const origin =
-      req.headers.get("origin") ||
-      process.env.NEXT_PUBLIC_SITE_URL ||
-      "https://luna-astralis.app";
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: selected.name,
-            },
-            unit_amount: selected.amount,
-          },
+          price,
           quantity: 1,
         },
       ],
-      metadata: {
-        plan,
-      },
-      success_url: `${origin}/natal-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/natal-report`,
+      success_url:
+        `${process.env.NEXT_PUBLIC_SITE_URL}/merci?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:
+        `${process.env.NEXT_PUBLIC_SITE_URL}/carte-du-ciel`,
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error("Natal checkout error:", error);
+  } catch (err) {
+    console.error(err);
 
     return NextResponse.json(
-      { error: "Erreur lors de la création du paiement." },
+      { error: "Erreur Stripe." },
       { status: 500 }
     );
   }
