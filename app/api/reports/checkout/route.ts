@@ -42,19 +42,14 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => null);
-
-    if (!body) {
-      return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
-    }
+    if (!body) return NextResponse.json({ error: "INVALID_JSON" }, { status: 400 });
 
     const reportType = s(body.reportType);
-
     if (!isReportType(reportType)) {
       return NextResponse.json({ error: "INVALID_REPORT_TYPE" }, { status: 400 });
     }
 
     const priceId = REPORT_PRICE[reportType];
-
     if (!priceId) {
       return NextResponse.json({ error: "REPORT_PRICE_MISSING" }, { status: 500 });
     }
@@ -77,7 +72,10 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      allow_promotion_codes: true,
+
+      // TEMPORAIRE POUR TESTS : coupon 100 %
+      discounts: [{ coupon: "GIsj9JR0" }],
+
       customer_email: s(body.email) || undefined,
 
       success_url: `${SITE_URL}/rapport/success?session_id={CHECKOUT_SESSION_ID}`,
