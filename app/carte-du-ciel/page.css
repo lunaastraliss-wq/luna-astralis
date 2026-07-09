@@ -37,8 +37,16 @@
 }
 
 .natal-form-wrap {
-  max-width: 760px;
+  width: 100%;
+  max-width: none;
   margin: 0 auto;
+}
+
+.natal-form,
+.natal-result {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .natal-form {
@@ -174,29 +182,6 @@
   font-weight: 900;
 }
 
-@media (max-width: 640px) {
-  .astro-chart-page {
-    padding-top: 36px;
-  }
-
-  .natal-form,
-  .natal-result {
-    padding: 20px;
-  }
-
-  .natal-angles {
-    grid-template-columns: 1fr;
-  }
-
-  .natal-planet-row {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .natal-planet-pos {
-    text-align: center;
-  }
-}
 .natal-planets-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -241,11 +226,6 @@
   opacity: 0.9;
 }
 
-@media (max-width: 640px) {
-  .natal-planets-grid {
-    grid-template-columns: 1fr;
-  }
-}
 .natal-download-btn {
   width: 100%;
   min-height: 54px;
@@ -322,6 +302,7 @@
   font-size: 24px;
   font-weight: 800;
 }
+
 .natal-wheel-wrap {
   color: rgba(255, 255, 255, 0.92);
 }
@@ -338,13 +319,6 @@
 
 .natal-wheel-caption strong {
   color: #f4c95d;
-}
-
-@media (max-width: 640px) {
-  .natal-wheel-caption {
-    font-size: 13px;
-    gap: 8px;
-  }
 }
 
 /* ========================= */
@@ -372,15 +346,31 @@
 }
 
 @media (max-width: 640px) {
-  .natal-premium-offer {
-    padding: 22px;
+  .astro-chart-page {
+    padding-top: 36px;
   }
 
-  .natal-premium-list {
+  .natal-form,
+  .natal-result {
+    padding: 20px;
+  }
+
+  .natal-angles,
+  .natal-planets-grid {
     grid-template-columns: 1fr;
   }
 
-  .natal-premium-price {
-    font-size: 36px;
+  .natal-planet-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .natal-planet-pos {
+    text-align: center;
+  }
+
+  .natal-wheel-caption {
+    font-size: 13px;
+    gap: 8px;
   }
 }
