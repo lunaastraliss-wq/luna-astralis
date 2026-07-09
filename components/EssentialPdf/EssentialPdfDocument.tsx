@@ -39,6 +39,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "#f4c95d",
     marginBottom: 18,
+    marginTop: 8,
+  },
+  smallTitle: {
+    fontSize: 17,
+    color: "#fff8e7",
+    marginBottom: 12,
+    marginTop: 18,
   },
   text: {
     fontSize: 12,
@@ -148,7 +155,9 @@ export default function EssentialPdfDocument({
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Bienvenue dans votre thème astral</Text>
+        <Text style={styles.sectionTitle}>
+          Bienvenue dans votre thème astral
+        </Text>
 
         <Text style={styles.text}>
           Chaque naissance marque un instant unique. Au moment exact où vous
@@ -171,16 +180,35 @@ export default function EssentialPdfDocument({
           <Text>Lune : {signFr(moon?.sign)}</Text>
           <Text>Ascendant : {signFr(ascSign)}</Text>
         </View>
-        <Text style={styles.sectionTitle}>Votre Soleil</Text>
 
-<Text style={styles.text}>
-  {SUN[sun?.sign] || "Votre Soleil révèle votre identité profonde, votre vitalité et votre manière naturelle de rayonner."}
-</Text>
+        <Text style={styles.sectionTitle}>
+          ☉ Votre Soleil est en {signFr(sun?.sign)}
+        </Text>
 
         <Text style={styles.text}>
-          Le Soleil représente votre identité profonde. La Lune révèle votre
-          monde émotionnel. L’Ascendant montre votre façon spontanée d’entrer en
-          relation avec la vie.
+          {SUN[sun?.sign] ||
+            "Votre Soleil révèle votre identité profonde, votre vitalité et votre manière naturelle de rayonner."}
+        </Text>
+
+        <Text style={styles.smallTitle}>
+          ☽ Votre Lune est en {signFr(moon?.sign)}
+        </Text>
+
+        <Text style={styles.text}>
+          La Lune révèle votre monde émotionnel, vos besoins affectifs et votre
+          façon instinctive de chercher la sécurité intérieure. Son
+          interprétation détaillée sera ajoutée dans la prochaine étape du
+          rapport.
+        </Text>
+
+        <Text style={styles.smallTitle}>
+          Ascendant en {signFr(ascSign)}
+        </Text>
+
+        <Text style={styles.text}>
+          L’Ascendant décrit votre manière d’entrer en relation avec la vie,
+          votre première réaction face au monde et l’image que les autres
+          perçoivent souvent en premier.
         </Text>
       </Page>
 
@@ -234,7 +262,8 @@ export default function EssentialPdfDocument({
         </Text>
 
         <Text style={styles.subtitle}>
-          Luna Astralis — Votre signe n’est pas une limite. C’est une force à découvrir.
+          Luna Astralis — Votre signe n’est pas une limite. C’est une force à
+          découvrir.
         </Text>
       </Page>
     </Document>
