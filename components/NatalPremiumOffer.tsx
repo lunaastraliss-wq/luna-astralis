@@ -2,16 +2,26 @@
 
 import "@/components/natal-report/natal-report.css";
 
+type PlanKey = "essential" | "premium" | "signature";
+
 type Props = {
   firstName?: string;
 };
 
-const offers = [
+const offers: {
+  key: PlanKey;
+  icon: string;
+  name: string;
+  price: string;
+  button: string;
+  featured?: boolean;
+  features: string[];
+}[] = [
   {
     key: "essential",
     icon: "🌙",
     name: "Essentielle",
-    price: "24,99 $",
+    price: "24,99 $ US",
     button: "Choisir Essentielle",
     features: [
       "Soleil, Lune et Ascendant",
@@ -24,7 +34,7 @@ const offers = [
     key: "premium",
     icon: "⭐",
     name: "Premium",
-    price: "49,99 $",
+    price: "49,99 $ US",
     button: "Choisir Premium",
     featured: true,
     features: [
@@ -39,7 +49,7 @@ const offers = [
     key: "signature",
     icon: "👑",
     name: "Signature",
-    price: "79,99 $",
+    price: "79,99 $ US",
     button: "Choisir Signature",
     features: [
       "Tout le rapport Premium",
@@ -55,6 +65,29 @@ export default function NatalPremiumOffer({ firstName }: Props) {
   const title = firstName
     ? `Choisissez le rapport astrologique de ${firstName}`
     : "Choisissez votre rapport astrologique";
+
+  async function handleCheckout(plan: PlanKey) {
+    try {
+      const res = await fetch("/api/natal-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data?.url) {
+        alert("Impossible de créer le paiement. Réessaie.");
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      alert("Erreur de connexion avec Stripe. Réessaie.");
+    }
+  }
 
   return (
     <section className="natal-premium-offer">
@@ -93,7 +126,11 @@ export default function NatalPremiumOffer({ firstName }: Props) {
 
             <div className="natal-premium-price">{offer.price}</div>
 
-            <button type="button" className="natal-premium-btn">
+            <button
+              type="button"
+              className="natal-premium-btn"
+              onClick={() => handleCheckout(offer.key)}
+            >
               {offer.button}
             </button>
           </div>
