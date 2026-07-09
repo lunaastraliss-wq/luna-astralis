@@ -10,6 +10,10 @@ import {
   URANUS,
   NEPTUNE,
   PLUTO,
+  SIGN_ELEMENT,
+  ELEMENT_TEXT,
+  SIGN_MODALITY,
+  MODALITY_TEXT,
 } from "@/lib/astrology";
 
 type Props = {
@@ -51,12 +55,6 @@ const styles = StyleSheet.create({
     color: "#f4c95d",
     marginBottom: 18,
     marginTop: 8,
-  },
-  smallTitle: {
-    fontSize: 17,
-    color: "#fff8e7",
-    marginBottom: 12,
-    marginTop: 18,
   },
   text: {
     fontSize: 12,
@@ -173,6 +171,31 @@ export default function EssentialPdfDocument({
     "Pluto",
   ];
 
+  const elementCounts: Record<string, number> = {};
+  const modalityCounts: Record<string, number> = {};
+
+  mainPlanets.forEach((planet) => {
+    const data = getPlanet(planets, planet);
+    const sign = data?.sign;
+
+    const element = SIGN_ELEMENT[sign];
+    const modality = SIGN_MODALITY[sign];
+
+    if (element) {
+      elementCounts[element] = (elementCounts[element] || 0) + 1;
+    }
+
+    if (modality) {
+      modalityCounts[modality] = (modalityCounts[modality] || 0) + 1;
+    }
+  });
+
+  const dominantElement =
+    Object.entries(elementCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+
+  const dominantModality =
+    Object.entries(modalityCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -245,21 +268,43 @@ export default function EssentialPdfDocument({
       })}
 
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Les éléments</Text>
+        <Text style={styles.sectionTitle}>Les éléments dominants</Text>
+
+        <View style={styles.box}>
+          <Text>Feu : {elementCounts.Feu || 0}</Text>
+          <Text>Terre : {elementCounts.Terre || 0}</Text>
+          <Text>Air : {elementCounts.Air || 0}</Text>
+          <Text>Eau : {elementCounts.Eau || 0}</Text>
+        </View>
 
         <Text style={styles.text}>
-          Les éléments décrivent la grande tonalité énergétique du thème. Le Feu
-          parle d’élan, la Terre de stabilité, l’Air d’idées et l’Eau de
-          sensibilité.
+          Élément dominant : {dominantElement || "—"}
+        </Text>
+
+        <Text style={styles.text}>
+          {dominantElement
+            ? ELEMENT_TEXT[dominantElement]
+            : "Les éléments décrivent la grande tonalité énergétique du thème."}
         </Text>
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Les modalités</Text>
+        <Text style={styles.sectionTitle}>Les modalités astrologiques</Text>
+
+        <View style={styles.box}>
+          <Text>Cardinal : {modalityCounts.Cardinal || 0}</Text>
+          <Text>Fixe : {modalityCounts.Fixe || 0}</Text>
+          <Text>Mutable : {modalityCounts.Mutable || 0}</Text>
+        </View>
 
         <Text style={styles.text}>
-          Les modalités indiquent votre façon naturelle d’agir : initier,
-          stabiliser ou vous adapter aux changements.
+          Modalité dominante : {dominantModality || "—"}
+        </Text>
+
+        <Text style={styles.text}>
+          {dominantModality
+            ? MODALITY_TEXT[dominantModality]
+            : "Les modalités indiquent votre façon naturelle d’agir."}
         </Text>
       </Page>
 
