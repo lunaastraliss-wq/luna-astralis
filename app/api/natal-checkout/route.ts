@@ -1,50 +1,56 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2025-06-30.basil",
-});
+export const runtime = "nodejs";
 
-const prices = {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+const PRICES = {
   essential: process.env.STRIPE_PRICE_ESSENTIAL!,
   premium: process.env.STRIPE_PRICE_PREMIUM!,
   signature: process.env.STRIPE_PRICE_SIGNATURE!,
-};
+} as const;
+
+type Plan = keyof typeof PRICES;
 
 export async function POST(req: Request) {
   try {
-    const { offer } = await req.json();
+    const body = await req.json();
+    const plan = body.plan as Plan;
 
-    const price = prices[offer as keyof typeof prices];
+    const price = PRICES[plan];
 
     if (!price) {
       return NextResponse.json(
-        { error: "Offre invalide." },
+        { error: "Plan invalide." },
         { status: 400 }
       );
     }
 
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL || "https://luna-astralis.app";
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
       line_items: [
         {
           price,
           quantity: 1,
         },
       ],
-      success_url:
-        `${process.env.NEXT_PUBLIC_SITE_URL}/merci?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:
-        `${process.env.NEXT_PUBLIC_SITE_URL}/carte-du-ciel`,
+      metadata: {
+        plan,
+      },
+      success_url: `${siteUrl}/natal-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${siteUrl}/carte-du-ciel`,
     });
 
     return NextResponse.json({ url: session.url });
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error("Natal checkout error:", error);
 
     return NextResponse.json(
-      { error: "Erreur Stripe." },
+      { error: "Erreur lors de la création du paiement." },
       { status: 500 }
     );
   }
