@@ -1,5 +1,7 @@
 "use client";
 
+import "@/components/natal-report/natal-report.css";
+
 type Props = {
   firstName?: string;
 };
