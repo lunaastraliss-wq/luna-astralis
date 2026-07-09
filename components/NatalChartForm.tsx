@@ -159,7 +159,7 @@ export default function NatalChartForm() {
 
       const { latitude, longitude } = geoData.result;
 
-      const [yearStr, monthStr, dayStr] = birthDate.split("-");
+      const [dayStr, monthStr, yearStr] = birthDate.split("/");
       const [hourStr, minuteStr] = (birthTime || "12:00").split(":");
 
       const chartRes = await fetch("/api/natal-chart", {
@@ -246,15 +246,27 @@ export default function NatalChartForm() {
           />
         </label>
 
-        <label>
-          Date de naissance
-          <input
-            type="date"
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            required
-          />
-        </label>
+       <label>
+  Date de naissance
+  <input
+    type="text"
+    value={birthDate}
+    onChange={(e) => {
+      let value = e.target.value.replace(/\D/g, "").slice(0, 8);
+
+      if (value.length > 4) {
+        value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+      } else if (value.length > 2) {
+        value = `${value.slice(0, 2)}/${value.slice(2)}`;
+      }
+
+      setBirthDate(value);
+    }}
+    placeholder="JJ/MM/AAAA"
+    maxLength={10}
+    required
+  />
+</label>
 
         <label>
           Heure de naissance (optionnelle, mais recommandée)
