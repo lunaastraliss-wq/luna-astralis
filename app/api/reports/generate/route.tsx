@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { pdf } from "@react-pdf/renderer";
 import { calculateChart } from "celestine";
 import tzlookup from "tz-lookup";
-import EssentialPdfDocument from "@/components/EssentialPdfDocument";
+import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
