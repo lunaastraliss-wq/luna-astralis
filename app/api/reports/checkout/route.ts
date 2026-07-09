@@ -78,7 +78,7 @@ export async function POST(req: Request) {
 
       customer_email: s(body.email) || undefined,
 
-      success_url: `${SITE_URL}/rapport/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/carte-du-ciel?canceled=1`,
 
       metadata: {
