@@ -1,5 +1,16 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { SUN } from "@/lib/astrology/sun";
+import {
+  SUN,
+  MOON,
+  MERCURY,
+  VENUS,
+  MARS,
+  JUPITER,
+  SATURN,
+  URANUS,
+  NEPTUNE,
+  PLUTO,
+} from "@/lib/astrology";
 
 type Props = {
   firstName?: string;
@@ -87,6 +98,32 @@ const PLANET_FR: Record<string, string> = {
   Pluto: "Pluton",
 };
 
+const PLANET_GLYPH: Record<string, string> = {
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
+};
+
+const PLANET_TEXTS: Record<string, Record<string, string>> = {
+  Sun: SUN,
+  Moon: MOON,
+  Mercury: MERCURY,
+  Venus: VENUS,
+  Mars: MARS,
+  Jupiter: JUPITER,
+  Saturn: SATURN,
+  Uranus: URANUS,
+  Neptune: NEPTUNE,
+  Pluto: PLUTO,
+};
+
 function signFr(sign?: string) {
   if (!sign) return "—";
   return SIGN_FR[sign] || sign;
@@ -96,10 +133,15 @@ function getPlanet(planets: any[], name: string) {
   return planets.find((p) => p.name === name);
 }
 
-function planetText(name: string) {
-  const fr = PLANET_FR[name] || name;
+function getPlanetInterpretation(planet: string, sign?: string) {
+  if (!sign) {
+    return "Cette position n’a pas pu être calculée avec les données disponibles.";
+  }
 
-  return `${fr} représente une dimension importante de votre personnalité. Sa position dans votre thème natal montre comment cette énergie s'exprime naturellement dans votre manière de vivre, de ressentir, d'aimer, de penser ou d'agir.`;
+  return (
+    PLANET_TEXTS[planet]?.[sign] ||
+    "Cette planète révèle une dimension importante de votre personnalité et de votre évolution intérieure."
+  );
 }
 
 export default function EssentialPdfDocument({
@@ -136,9 +178,7 @@ export default function EssentialPdfDocument({
       <Page size="A4" style={styles.page}>
         <Text style={styles.badge}>Luna Astralis</Text>
         <Text style={styles.title}>Carte du ciel Essentielle</Text>
-        <Text style={styles.subtitle}>
-          Rapport astrologique personnalisé
-        </Text>
+        <Text style={styles.subtitle}>Rapport astrologique personnalisé</Text>
 
         <View style={styles.box}>
           <Text>Préparé pour : {firstName || "Votre nom"}</Text>
@@ -155,9 +195,7 @@ export default function EssentialPdfDocument({
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>
-          Bienvenue dans votre thème astral
-        </Text>
+        <Text style={styles.sectionTitle}>Bienvenue dans votre thème astral</Text>
 
         <Text style={styles.text}>
           Chaque naissance marque un instant unique. Au moment exact où vous
@@ -181,53 +219,26 @@ export default function EssentialPdfDocument({
           <Text>Ascendant : {signFr(ascSign)}</Text>
         </View>
 
-        <Text style={styles.sectionTitle}>
-          ☉ Votre Soleil est en {signFr(sun?.sign)}
-        </Text>
-
         <Text style={styles.text}>
-          {SUN[sun?.sign] ||
-            "Votre Soleil révèle votre identité profonde, votre vitalité et votre manière naturelle de rayonner."}
-        </Text>
-
-        <Text style={styles.smallTitle}>
-          ☽ Votre Lune est en {signFr(moon?.sign)}
-        </Text>
-
-        <Text style={styles.text}>
-          La Lune révèle votre monde émotionnel, vos besoins affectifs et votre
-          façon instinctive de chercher la sécurité intérieure. Son
-          interprétation détaillée sera ajoutée dans la prochaine étape du
-          rapport.
-        </Text>
-
-        <Text style={styles.smallTitle}>
-          Ascendant en {signFr(ascSign)}
-        </Text>
-
-        <Text style={styles.text}>
-          L’Ascendant décrit votre manière d’entrer en relation avec la vie,
-          votre première réaction face au monde et l’image que les autres
-          perçoivent souvent en premier.
+          Le Soleil représente votre identité profonde. La Lune révèle votre
+          monde émotionnel. L’Ascendant décrit votre manière d’entrer en
+          relation avec la vie.
         </Text>
       </Page>
 
       {mainPlanets.map((planet) => {
         const data = getPlanet(planets, planet);
         const fr = PLANET_FR[planet] || planet;
+        const glyph = PLANET_GLYPH[planet] || "✦";
 
         return (
           <Page size="A4" style={styles.page} key={planet}>
             <Text style={styles.sectionTitle}>
-              {fr} en {signFr(data?.sign)}
+              {glyph} {fr} en {signFr(data?.sign)}
             </Text>
 
-            <Text style={styles.text}>{planetText(planet)}</Text>
-
             <Text style={styles.text}>
-              Placé en {signFr(data?.sign)}, {fr} prend une coloration
-              particulière. Cette position décrit une manière naturelle
-              d’exprimer cette énergie dans votre vie.
+              {getPlanetInterpretation(planet, data?.sign)}
             </Text>
           </Page>
         );
