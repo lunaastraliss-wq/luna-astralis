@@ -1,6 +1,7 @@
 "use client";
 
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
 import EssentialPdfDocument from "./EssentialPdfDocument";
 
 type Props = {
@@ -13,25 +14,41 @@ type Props = {
 };
 
 export default function EssentialPdfDownloadButton(props: Props) {
-  const safeName = props.firstName
-    ? props.firstName.toLowerCase().replace(/[^a-z0-9]/gi, "-")
-    : "luna-astralis";
+  const [loading, setLoading] = useState(false);
+
+  async function handleDownload() {
+    setLoading(true);
+
+    try {
+      const safeName = props.firstName
+        ? props.firstName.toLowerCase().replace(/[^a-z0-9]/gi, "-")
+        : "luna-astralis";
+
+      const blob = await pdf(<EssentialPdfDocument {...props} />).toBlob();
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = `carte-du-ciel-essentielle-${safeName}.pdf`;
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("Impossible de générer le PDF. Réessaie.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <PDFDownloadLink
-      document={<EssentialPdfDocument {...props} />}
-      fileName={`carte-du-ciel-essentielle-${safeName}.pdf`}
+    <button
+      type="button"
+      className="natal-download-btn"
+      onClick={handleDownload}
+      disabled={loading}
     >
-      {({ loading }) => (
-        <button
-          type="button"
-          className="natal-download-btn"
-        >
-          {loading
-            ? "Préparation du PDF..."
-            : "📖 Télécharger le rapport PDF"}
-        </button>
-      )}
-    </PDFDownloadLink>
+      {loading ? "Préparation du PDF..." : "📖 Télécharger le rapport PDF"}
+    </button>
   );
 }
