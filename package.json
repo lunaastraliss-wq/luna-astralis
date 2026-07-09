@@ -13,7 +13,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "celestine": "latest",
     "html2canvas": "^1.4.1",
-    "next": "14.1.0",
+    "next": "14.1.1",
     "openai": "^4.56.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
