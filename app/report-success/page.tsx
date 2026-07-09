@@ -1,22 +1,20 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function ReportSuccessPage() {
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState("");
+  const [errorDetail, setErrorDetail] = useState("");
 
   useEffect(() => {
     async function generateReport() {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get("session_id");
-
       if (!sessionId) {
         setLoading(false);
         return;
       }
-
       try {
         const res = await fetch("/api/reports/generate", {
           method: "POST",
@@ -27,19 +25,19 @@ export default function ReportSuccessPage() {
             session_id: sessionId,
           }),
         });
-
         const data = await res.json();
-
         if (data.pdf_url) {
           setPdfUrl(data.pdf_url);
+        } else {
+          setErrorDetail(JSON.stringify(data));
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("PDF generation error", error);
+        setErrorDetail(error?.message || "Erreur inconnue");
       } finally {
         setLoading(false);
       }
     }
-
     generateReport();
   }, []);
 
@@ -66,26 +64,16 @@ export default function ReportSuccessPage() {
           border: "1px solid rgba(244,201,93,.25)",
         }}
       >
-        <div style={{ fontSize: 64, marginBottom: 20 }}>
-          ✨
-        </div>
-
-        <h1 style={{ fontSize: 38, marginBottom: 16 }}>
-          Paiement confirmé
-        </h1>
-
-        <p style={{ fontSize: 18, opacity: 0.9 }}>
-          Merci pour votre confiance.
-        </p>
-
+        <div style={{ fontSize: 64, marginBottom: 20 }}>✨</div>
+        <h1 style={{ fontSize: 38, marginBottom: 16 }}>Paiement confirmé</h1>
+        <p style={{ fontSize: 18, opacity: 0.9 }}>Merci pour votre confiance.</p>
         {loading && (
           <p style={{ marginTop: 20, opacity: 0.75 }}>
             Votre rapport astrologique est en cours de génération...
           </p>
         )}
-
         {!loading && pdfUrl && (
-          <a
+          
             href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -103,13 +91,26 @@ export default function ReportSuccessPage() {
             📖 Télécharger mon rapport PDF
           </a>
         )}
-
         {!loading && !pdfUrl && (
-          <p style={{ marginTop: 20, opacity: 0.75 }}>
-            La génération du rapport a rencontré un problème.
-          </p>
+          <div style={{ marginTop: 20 }}>
+            <p style={{ opacity: 0.75 }}>
+              La génération du rapport a rencontré un problème.
+            </p>
+            {errorDetail && (
+              <p
+                style={{
+                  marginTop: 10,
+                  fontSize: 13,
+                  opacity: 0.6,
+                  wordBreak: "break-all",
+                  fontFamily: "monospace",
+                }}
+              >
+                {errorDetail}
+              </p>
+            )}
+          </div>
         )}
-
         <div>
           <Link
             href="/carte-du-ciel"
