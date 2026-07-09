@@ -13,8 +13,8 @@ declare global {
 
 function readConsent(): "all" | "necessary" | null {
   try {
-    const v = localStorage.getItem(CONSENT_KEY);
-    return v === "all" || v === "necessary" ? v : null;
+    const value = localStorage.getItem(CONSENT_KEY);
+    return value === "all" || value === "necessary" ? value : null;
   } catch {
     return null;
   }
@@ -34,31 +34,79 @@ function fireConversion(): boolean {
 
 export default function SuccessPage() {
   useEffect(() => {
-    // ✅ Ne track pas si l’utilisateur a refusé
     const consent = readConsent();
     if (consent !== "all") return;
 
-    // ✅ Essaie tout de suite
     if (fireConversion()) return;
 
-    // ✅ Sinon retry (gtag peut charger après)
     let tries = 0;
-    const t = window.setInterval(() => {
+
+    const timer = window.setInterval(() => {
       tries++;
-      if (fireConversion() || tries >= 10) window.clearInterval(t); // ~2s max
+
+      if (fireConversion() || tries >= 10) {
+        window.clearInterval(timer);
+      }
     }, 200);
 
-    return () => window.clearInterval(t);
+    return () => window.clearInterval(timer);
   }, []);
 
   return (
-    <div style={{ padding: 28 }}>
-      <h1>Paiement confirmé ✅</h1>
-      <p>Merci ! Ton accès est activé.</p>
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "40px 20px",
+        background: "#070b18",
+        color: "#fff",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 650,
+          width: "100%",
+          textAlign: "center",
+          padding: 40,
+          borderRadius: 24,
+          background: "rgba(255,255,255,0.05)",
+          border: "1px solid rgba(244,201,93,.25)",
+          boxShadow: "0 30px 80px rgba(0,0,0,.35)",
+        }}
+      >
+        <div style={{ fontSize: 64, marginBottom: 20 }}>🌙</div>
 
-      <div style={{ marginTop: 18 }}>
-        <Link href="/chat">Aller au chat</Link>
+        <h1 style={{ fontSize: 38, marginBottom: 16 }}>
+          Accès confirmé
+        </h1>
+
+        <p style={{ fontSize: 18, opacity: 0.9, lineHeight: 1.7 }}>
+          Merci pour votre confiance.
+        </p>
+
+        <p style={{ marginTop: 12, opacity: 0.75, lineHeight: 1.7 }}>
+          Votre accès à Luna est maintenant activé.
+          Vous pouvez commencer votre échange dès maintenant.
+        </p>
+
+        <Link
+          href="/chat"
+          style={{
+            display: "inline-block",
+            marginTop: 32,
+            padding: "14px 32px",
+            borderRadius: 999,
+            textDecoration: "none",
+            background: "#f4c95d",
+            color: "#111",
+            fontWeight: 700,
+          }}
+        >
+          Aller au chat
+        </Link>
       </div>
-    </div>
+    </main>
   );
 }
