@@ -107,6 +107,16 @@ function getSignName(signName?: string): string {
   return SIGN_FR[signName] || signName;
 }
 
+function formatDateFR(date: string): string {
+  if (!date) return "";
+
+  const [year, month, day] = date.split("-");
+
+  if (!year || !month || !day) return date;
+
+  return `${day}/${month}/${year}`;
+}
+
 export default function NatalChartForm() {
   const shareRef = useRef<HTMLDivElement | null>(null);
 
@@ -330,7 +340,7 @@ export default function NatalChartForm() {
             <div ref={shareRef}>
               <NatalShareCard
                 title={chartTitle}
-                birthDate={birthDate}
+                birthDate={formatDateFR(birthDate)}
                 birthTime={birthTime}
                 birthCity={birthCity}
                 planets={planets}
