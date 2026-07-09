@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -11,10 +12,13 @@ export default function ReportSuccessPage() {
     async function generateReport() {
       const params = new URLSearchParams(window.location.search);
       const sessionId = params.get("session_id");
+
       if (!sessionId) {
+        setErrorDetail("Le numéro de session Stripe est manquant.");
         setLoading(false);
         return;
       }
+
       try {
         const res = await fetch("/api/reports/generate", {
           method: "POST",
@@ -25,19 +29,47 @@ export default function ReportSuccessPage() {
             session_id: sessionId,
           }),
         });
-        const data = await res.json();
-        if (data.pdf_url) {
-          setPdfUrl(data.pdf_url);
-        } else {
-          setErrorDetail(JSON.stringify(data));
+
+        const contentType = res.headers.get("content-type");
+
+        if (!contentType?.includes("application/json")) {
+          const responseText = await res.text();
+
+          throw new Error(
+            `La route de génération n'a pas retourné du JSON. Statut : ${res.status}. Réponse : ${responseText}`
+          );
         }
-      } catch (error: any) {
-        console.error("PDF generation error", error);
-        setErrorDetail(error?.message || "Erreur inconnue");
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            data?.error ||
+              data?.message ||
+              `Erreur pendant la génération du rapport (${res.status}).`
+          );
+        }
+
+        if (!data?.pdf_url) {
+          throw new Error(
+            data?.error ||
+              data?.message ||
+              "Le rapport a été généré, mais aucune adresse PDF n'a été retournée."
+          );
+        }
+
+        setPdfUrl(data.pdf_url);
+      } catch (error: unknown) {
+        console.error("PDF generation error:", error);
+
+        setErrorDetail(
+          error instanceof Error ? error.message : "Erreur inconnue."
+        );
       } finally {
         setLoading(false);
       }
     }
+
     generateReport();
   }, []);
 
@@ -49,7 +81,8 @@ export default function ReportSuccessPage() {
         alignItems: "center",
         justifyContent: "center",
         padding: "40px 20px",
-        background: "#070b18",
+        background:
+          "radial-gradient(circle at top, #18203d 0%, #0b1022 45%, #070b18 100%)",
         color: "#fff",
       }}
     >
@@ -58,51 +91,157 @@ export default function ReportSuccessPage() {
           maxWidth: 650,
           width: "100%",
           textAlign: "center",
-          padding: 40,
-          borderRadius: 24,
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid rgba(244,201,93,.25)",
+          padding: "48px 32px",
+          borderRadius: 28,
+          background: "rgba(255, 255, 255, 0.055)",
+          border: "1px solid rgba(244, 201, 93, 0.28)",
+          boxShadow: "0 30px 80px rgba(0, 0, 0, 0.35)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
         }}
       >
-        <div style={{ fontSize: 64, marginBottom: 20 }}>✨</div>
-        <h1 style={{ fontSize: 38, marginBottom: 16 }}>Paiement confirmé</h1>
-        <p style={{ fontSize: 18, opacity: 0.9 }}>Merci pour votre confiance.</p>
+        <div
+          style={{
+            fontSize: 64,
+            marginBottom: 20,
+          }}
+        >
+          ✨
+        </div>
+
+        <p
+          style={{
+            margin: "0 0 12px",
+            color: "#f4c95d",
+            fontSize: 14,
+            fontWeight: 700,
+            letterSpacing: 2,
+            textTransform: "uppercase",
+          }}
+        >
+          Luna Astralis
+        </p>
+
+        <h1
+          style={{
+            margin: "0 0 16px",
+            fontSize: "clamp(32px, 6vw, 44px)",
+            lineHeight: 1.1,
+          }}
+        >
+          Paiement confirmé
+        </h1>
+
+        <p
+          style={{
+            margin: 0,
+            fontSize: 18,
+            lineHeight: 1.7,
+            opacity: 0.9,
+          }}
+        >
+          Merci pour votre confiance.
+        </p>
+
         {loading && (
-          <p style={{ marginTop: 20, opacity: 0.75 }}>
-            Votre rapport astrologique est en cours de génération...
-          </p>
-        )}
-        {!loading && pdfUrl && (
-          
-            href={pdfUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <div
             style={{
-              display: "inline-block",
               marginTop: 30,
-              padding: "14px 32px",
-              borderRadius: 999,
-              textDecoration: "none",
-              background: "#f4c95d",
-              color: "#111",
-              fontWeight: 700,
+              padding: 20,
+              borderRadius: 18,
+              background: "rgba(255, 255, 255, 0.04)",
             }}
           >
-            📖 Télécharger mon rapport PDF
-          </a>
+            <div
+              style={{
+                width: 36,
+                height: 36,
+                margin: "0 auto 16px",
+                borderRadius: "50%",
+                border: "3px solid rgba(244, 201, 93, 0.2)",
+                borderTopColor: "#f4c95d",
+                animation: "report-spin 0.8s linear infinite",
+              }}
+            />
+
+            <p
+              style={{
+                margin: 0,
+                opacity: 0.8,
+                lineHeight: 1.6,
+              }}
+            >
+              Votre rapport astrologique est en cours de génération...
+            </p>
+          </div>
         )}
+
+        {!loading && pdfUrl && (
+          <div style={{ marginTop: 30 }}>
+            <p
+              style={{
+                margin: "0 0 22px",
+                color: "#d7f5df",
+                lineHeight: 1.6,
+              }}
+            >
+              Votre rapport est prêt.
+            </p>
+
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "15px 32px",
+                borderRadius: 999,
+                textDecoration: "none",
+                background: "#f4c95d",
+                color: "#111",
+                fontSize: 16,
+                fontWeight: 800,
+                boxShadow: "0 12px 30px rgba(244, 201, 93, 0.2)",
+              }}
+            >
+              📖 Télécharger mon rapport PDF
+            </a>
+          </div>
+        )}
+
         {!loading && !pdfUrl && (
-          <div style={{ marginTop: 20 }}>
-            <p style={{ opacity: 0.75 }}>
+          <div
+            style={{
+              marginTop: 30,
+              padding: 20,
+              borderRadius: 18,
+              background: "rgba(255, 100, 100, 0.08)",
+              border: "1px solid rgba(255, 130, 130, 0.2)",
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                opacity: 0.9,
+                lineHeight: 1.6,
+              }}
+            >
               La génération du rapport a rencontré un problème.
             </p>
+
             {errorDetail && (
               <p
                 style={{
-                  marginTop: 10,
+                  margin: "14px 0 0",
+                  padding: 12,
+                  borderRadius: 10,
+                  background: "rgba(0, 0, 0, 0.2)",
                   fontSize: 13,
-                  opacity: 0.6,
-                  wordBreak: "break-all",
+                  lineHeight: 1.5,
+                  opacity: 0.75,
+                  wordBreak: "break-word",
                   fontFamily: "monospace",
                 }}
               >
@@ -111,13 +250,14 @@ export default function ReportSuccessPage() {
             )}
           </div>
         )}
-        <div>
+
+        <div style={{ marginTop: 32 }}>
           <Link
             href="/carte-du-ciel"
             style={{
-              display: "inline-block",
-              marginTop: 30,
               color: "#fff",
+              textDecoration: "underline",
+              textUnderlineOffset: 4,
               opacity: 0.8,
             }}
           >
@@ -125,6 +265,14 @@ export default function ReportSuccessPage() {
           </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes report-spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </main>
   );
 }
