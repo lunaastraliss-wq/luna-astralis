@@ -10,7 +10,7 @@ function s(v: unknown) {
 }
 
 const STRIPE_SECRET_KEY = s(process.env.STRIPE_SECRET_KEY);
-const STRIPE_WEBHOOK_SECRET = s(process.env.STRIPE_WEBHOOK_SECRET);
+const STRIPE_REPORTS_WEBHOOK_SECRET = s(process.env.STRIPE_REPORTS_WEBHOOK_SECRET);
 
 const SUPABASE_URL = s(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -45,9 +45,9 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!STRIPE_WEBHOOK_SECRET) {
+    if (!STRIPE_REPORTS_WEBHOOK_SECRET) {
       return NextResponse.json(
-        { error: "STRIPE_WEBHOOK_SECRET_MISSING" },
+        { error: "STRIPE_REPORTS_WEBHOOK_SECRET_MISSING" },
         { status: 500 }
       );
     }
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       event = stripe.webhooks.constructEvent(
         rawBody,
         sig,
-        STRIPE_WEBHOOK_SECRET
+        STRIPE_REPORTS_WEBHOOK_SECRET
       );
     } catch (err: any) {
       return NextResponse.json(
