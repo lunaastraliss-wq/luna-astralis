@@ -110,7 +110,7 @@ function getSignName(signName?: string): string {
 function formatDateFR(date: string): string {
   if (!date) return "";
 
-  const [year, month, day] = date.split("-");
+  const [day, month, year] = date.split("/");
 
   if (!year || !month || !day) return date;
 
@@ -140,6 +140,13 @@ export default function NatalChartForm() {
       return;
     }
 
+    const [dayStr, monthStr, yearStr] = birthDate.split("/");
+
+    if (!dayStr || !monthStr || !yearStr) {
+      setError("Entre la date au format JJ/MM/AAAA.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -158,8 +165,6 @@ export default function NatalChartForm() {
       }
 
       const { latitude, longitude } = geoData.result;
-
-      const [dayStr, monthStr, yearStr] = birthDate.split("/");
       const [hourStr, minuteStr] = (birthTime || "12:00").split(":");
 
       const chartRes = await fetch("/api/natal-chart", {
@@ -246,27 +251,30 @@ export default function NatalChartForm() {
           />
         </label>
 
-       <label>
-  Date de naissance
-  <input
-    type="text"
-    value={birthDate}
-    onChange={(e) => {
-      let value = e.target.value.replace(/\D/g, "").slice(0, 8);
+        <label>
+          Date de naissance
+          <input
+            type="text"
+            value={birthDate}
+            onChange={(e) => {
+              let value = e.target.value.replace(/\D/g, "").slice(0, 8);
 
-      if (value.length > 4) {
-        value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
-      } else if (value.length > 2) {
-        value = `${value.slice(0, 2)}/${value.slice(2)}`;
-      }
+              if (value.length > 4) {
+                value = `${value.slice(0, 2)}/${value.slice(
+                  2,
+                  4
+                )}/${value.slice(4)}`;
+              } else if (value.length > 2) {
+                value = `${value.slice(0, 2)}/${value.slice(2)}`;
+              }
 
-      setBirthDate(value);
-    }}
-    placeholder="JJ/MM/AAAA"
-    maxLength={10}
-    required
-  />
-</label>
+              setBirthDate(value);
+            }}
+            placeholder="JJ/MM/AAAA"
+            maxLength={10}
+            required
+          />
+        </label>
 
         <label>
           Heure de naissance (optionnelle, mais recommandée)
@@ -300,81 +308,87 @@ export default function NatalChartForm() {
       </form>
 
       {result && (
-        <div className="natal-result">
-          <h3>{chartTitle}</h3>
+        <>
+          <div className="natal-result">
+            <h3>{chartTitle}</h3>
 
-          <NatalChartWheel
-            planets={planets}
-            houses={result?.houses}
-            ascendantLongitude={angles?.ascendant?.longitude}
-            midheavenLongitude={angles?.midheaven?.longitude}
-            ascendantFormatted={translateFormatted(
-              angles?.ascendant?.formatted || ""
-            )}
-            midheavenFormatted={translateFormatted(
-              angles?.midheaven?.formatted || ""
-            )}
-            size={460}
-          />
+            <NatalChartWheel
+              planets={planets}
+              houses={result?.houses}
+              ascendantLongitude={angles?.ascendant?.longitude}
+              midheavenLongitude={angles?.midheaven?.longitude}
+              ascendantFormatted={translateFormatted(
+                angles?.ascendant?.formatted || ""
+              )}
+              midheavenFormatted={translateFormatted(
+                angles?.midheaven?.formatted || ""
+              )}
+              size={460}
+            />
 
-          <div className="natal-angles">
-            {angles?.ascendant && (
-              <div className="natal-angle-item">
-                <span className="natal-label">Ascendant</span>
-                <span className="natal-value">
-                  {translateFormatted(angles.ascendant.formatted)}
-                </span>
-              </div>
-            )}
+            <div className="natal-angles">
+              {angles?.ascendant && (
+                <div className="natal-angle-item">
+                  <span className="natal-label">Ascendant</span>
+                  <span className="natal-value">
+                    {translateFormatted(angles.ascendant.formatted)}
+                  </span>
+                </div>
+              )}
 
-            {angles?.midheaven && (
-              <div className="natal-angle-item">
-                <span className="natal-label">Milieu du ciel</span>
-                <span className="natal-value">
-                  {translateFormatted(angles.midheaven.formatted)}
-                </span>
-              </div>
-            )}
-          </div>
-
-          <button
-            type="button"
-            className="natal-download-btn"
-            onClick={handleDownload}
-            disabled={downloading}
-          >
-            {downloading
-              ? "Préparation de l'image..."
-              : "📷 Télécharger ma carte du ciel"}
-          </button>
-
-          <div className="natal-share-capture-zone">
-            <div ref={shareRef}>
-              <NatalShareCard
-                title={chartTitle}
-                birthDate={formatDateFR(birthDate)}
-                birthTime={birthTime}
-                birthCity={birthCity}
-                planets={planets}
-                houses={result?.houses}
-                angles={angles}
-              />
+              {angles?.midheaven && (
+                <div className="natal-angle-item">
+                  <span className="natal-label">Milieu du ciel</span>
+                  <span className="natal-value">
+                    {translateFormatted(angles.midheaven.formatted)}
+                  </span>
+                </div>
+              )}
             </div>
+
+            <button
+              type="button"
+              className="natal-download-btn"
+              onClick={handleDownload}
+              disabled={downloading}
+            >
+              {downloading
+                ? "Préparation de l'image..."
+                : "📷 Télécharger ma carte du ciel"}
+            </button>
+
+            <div className="natal-share-capture-zone">
+              <div ref={shareRef}>
+                <NatalShareCard
+                  title={chartTitle}
+                  birthDate={formatDateFR(birthDate)}
+                  birthTime={birthTime}
+                  birthCity={birthCity}
+                  planets={planets}
+                  houses={result?.houses}
+                  angles={angles}
+                />
+              </div>
+            </div>
+
+            <NatalFreeSummary planets={planets} angles={angles} />
           </div>
 
-          <NatalFreeSummary planets={planets} angles={angles} />
+          <div className="natal-premium-wide">
+            <NatalPremiumOffer firstName={firstName} />
+          </div>
 
-          <NatalPremiumOffer firstName={firstName} />
-
-          <NatalPlanetDetails
-            planets={planets}
-            translateFormatted={translateFormatted}
-            translatePlanetName={translatePlanetName}
-            getPlanetGlyph={getPlanetGlyph}
-            getSignGlyph={getSignGlyph}
-            getSignName={getSignName}
-          />
-        </div>
+          <div className="natal-result">
+            <NatalPlanetDetails
+              planets={planets}
+              translateFormatted={translateFormatted}
+              translatePlanetName={translatePlanetName}
+              getPlanetGlyph={getPlanetGlyph}
+              getSignGlyph={getSignGlyph}
+              getSignName={getSignName}
+            />
+          </div>
+        </>
       )}
     </div>
   );
