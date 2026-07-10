@@ -56,193 +56,24 @@ const styles = StyleSheet.create({
     backgroundColor: "#d4af4e",
   },
 
-  /*
-   * Carte céleste ancienne — coin supérieur gauche
-   */
-  celestialTopLeft: {
+  decorationTopLeft: {
     position: "absolute",
-    top: 34,
-    left: 30,
-    width: 128,
-    height: 128,
-    opacity: 0.42,
+    top: 26,
+    left: 26,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#0b1c31",
   },
 
-  celestialTopOuterRing: {
+  decorationBottomRight: {
     position: "absolute",
-    top: 4,
-    left: 4,
-    width: 118,
-    height: 118,
-    borderRadius: 59,
-    borderWidth: 0.55,
-    borderColor: "#a98742",
-  },
-
-  celestialTopMiddleRing: {
-    position: "absolute",
-    top: 18,
-    left: 18,
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderWidth: 0.35,
-    borderColor: "#7c683f",
-  },
-
-  celestialTopInnerRing: {
-    position: "absolute",
-    top: 35,
-    left: 35,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    borderWidth: 0.4,
-    borderColor: "#b28b41",
-  },
-
-  celestialTopHorizontal: {
-    position: "absolute",
-    top: 63,
-    left: 7,
-    width: 112,
-    height: 0.45,
-    backgroundColor: "#9f8143",
-  },
-
-  celestialTopVertical: {
-    position: "absolute",
-    top: 7,
-    left: 63,
-    width: 0.45,
-    height: 112,
-    backgroundColor: "#9f8143",
-  },
-
-  celestialTopDiagonalOne: {
-    position: "absolute",
-    top: 63,
-    left: 5,
-    width: 116,
-    height: 0.4,
-    backgroundColor: "#725f3d",
-    transform: "rotate(45deg)",
-  },
-
-  celestialTopDiagonalTwo: {
-    position: "absolute",
-    top: 63,
-    left: 5,
-    width: 116,
-    height: 0.4,
-    backgroundColor: "#725f3d",
-    transform: "rotate(-45deg)",
-  },
-
-  /*
-   * Carte céleste ancienne — coin inférieur droit
-   */
-  celestialBottomRight: {
-    position: "absolute",
-    right: 24,
-    bottom: 28,
-    width: 178,
-    height: 178,
-    opacity: 0.35,
-  },
-
-  celestialBottomOuterRing: {
-    position: "absolute",
-    top: 4,
-    left: 4,
-    width: 168,
-    height: 168,
-    borderRadius: 84,
-    borderWidth: 0.6,
-    borderColor: "#a98742",
-  },
-
-  celestialBottomMiddleRing: {
-    position: "absolute",
-    top: 21,
-    left: 21,
-    width: 134,
-    height: 134,
-    borderRadius: 67,
-    borderWidth: 0.4,
-    borderColor: "#75623d",
-  },
-
-  celestialBottomInnerRing: {
-    position: "absolute",
-    top: 46,
-    left: 46,
-    width: 84,
-    height: 84,
-    borderRadius: 42,
-    borderWidth: 0.45,
-    borderColor: "#b28b41",
-  },
-
-  celestialBottomHorizontal: {
-    position: "absolute",
-    top: 88,
-    left: 6,
-    width: 164,
-    height: 0.45,
-    backgroundColor: "#8f733f",
-  },
-
-  celestialBottomVertical: {
-    position: "absolute",
-    top: 6,
-    left: 88,
-    width: 0.45,
-    height: 164,
-    backgroundColor: "#8f733f",
-  },
-
-  celestialBottomDiagonalOne: {
-    position: "absolute",
-    top: 88,
-    left: 4,
-    width: 170,
-    height: 0.4,
-    backgroundColor: "#6e5c3d",
-    transform: "rotate(45deg)",
-  },
-
-  celestialBottomDiagonalTwo: {
-    position: "absolute",
-    top: 88,
-    left: 4,
-    width: 170,
-    height: 0.4,
-    backgroundColor: "#6e5c3d",
-    transform: "rotate(-45deg)",
-  },
-
-  /*
-   * Étoiles et constellations
-   */
-  star: {
-    position: "absolute",
-    color: "#d4af4e",
-    fontSize: 7,
-    lineHeight: 1,
-  },
-
-  smallStar: {
-    position: "absolute",
-    color: "#b99752",
-    fontSize: 4,
-    lineHeight: 1,
-  },
-
-  constellationLine: {
-    position: "absolute",
-    height: 0.45,
-    backgroundColor: "#8f733f",
+    right: 18,
+    bottom: 18,
+    width: 145,
+    height: 145,
+    borderRadius: 72,
+    backgroundColor: "#08182a",
   },
 
   content: {
@@ -449,150 +280,90 @@ const styles = StyleSheet.create({
   },
 
   introCard: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    position: "relative",
     backgroundColor: "#081426",
-    borderWidth: 0.7,
+    borderWidth: 0.8,
     borderColor: "#8f6e35",
-    paddingVertical: 8,
-    paddingHorizontal: 11,
+    paddingTop: 14,
+    paddingBottom: 14,
+    paddingHorizontal: 17,
   },
 
-  introLabel: {
-    width: 30,
-    fontSize: 6.8,
-    letterSpacing: 1.2,
+  introAccentTop: {
+    position: "absolute",
+    top: -1,
+    left: 0,
+    width: 78,
+    height: 2,
+    backgroundColor: "#f4c95d",
+  },
+
+  introHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 9,
+  },
+
+  introNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    borderWidth: 0.8,
+    borderColor: "#b98e3f",
+    backgroundColor: "#06101f",
     color: "#f4c95d",
-    paddingTop: 1,
+    fontSize: 7,
+    textAlign: "center",
+    paddingTop: 9,
+    marginRight: 10,
   },
 
-  introText: {
+  introHeaderText: {
     flexGrow: 1,
     flexBasis: 0,
-    fontSize: 7.9,
-    lineHeight: 1.42,
+  },
+
+  introKicker: {
+    fontSize: 6.2,
+    letterSpacing: 1.7,
+    color: "#cdbb92",
+    textTransform: "uppercase",
+    marginBottom: 2,
+  },
+
+  introTitle: {
+    fontSize: 14,
+    lineHeight: 1.2,
+    color: "#f4c95d",
+  },
+
+  introDivider: {
+    width: "100%",
+    height: 0.6,
+    backgroundColor: "#705a35",
+    marginBottom: 9,
+  },
+
+  introParagraph: {
+    fontSize: 8.2,
+    lineHeight: 1.48,
     color: "#eee8dc",
+    marginBottom: 7,
+    textAlign: "justify",
+  },
+
+  introConclusion: {
+    fontSize: 8.4,
+    lineHeight: 1.45,
+    color: "#f4c95d",
+    textAlign: "center",
+    marginTop: 2,
   },
 });
 
 function displayValue(value?: string): string {
   const cleanValue = value?.trim();
   return cleanValue || "Non précisé";
-}
-
-function CelestialTopLeft() {
-  return (
-    <View style={styles.celestialTopLeft} fixed>
-      <View style={styles.celestialTopOuterRing} />
-      <View style={styles.celestialTopMiddleRing} />
-      <View style={styles.celestialTopInnerRing} />
-      <View style={styles.celestialTopHorizontal} />
-      <View style={styles.celestialTopVertical} />
-      <View style={styles.celestialTopDiagonalOne} />
-      <View style={styles.celestialTopDiagonalTwo} />
-
-      <Text style={[styles.star, { top: 9, left: 60 }]}>✦</Text>
-      <Text style={[styles.smallStar, { top: 26, left: 91 }]}>•</Text>
-      <Text style={[styles.star, { top: 45, left: 104 }]}>✧</Text>
-      <Text style={[styles.smallStar, { top: 84, left: 99 }]}>•</Text>
-      <Text style={[styles.star, { top: 104, left: 62 }]}>✦</Text>
-      <Text style={[styles.smallStar, { top: 88, left: 27 }]}>•</Text>
-      <Text style={[styles.star, { top: 48, left: 13 }]}>✧</Text>
-      <Text style={[styles.smallStar, { top: 23, left: 34 }]}>•</Text>
-
-      <Text style={[styles.smallStar, { top: 43, left: 49 }]}>•</Text>
-      <Text style={[styles.smallStar, { top: 57, left: 73 }]}>•</Text>
-      <Text style={[styles.smallStar, { top: 78, left: 61 }]}>•</Text>
-
-      <View
-        style={[
-          styles.constellationLine,
-          {
-            top: 51,
-            left: 50,
-            width: 27,
-            transform: "rotate(29deg)",
-          },
-        ]}
-      />
-
-      <View
-        style={[
-          styles.constellationLine,
-          {
-            top: 69,
-            left: 60,
-            width: 22,
-            transform: "rotate(118deg)",
-          },
-        ]}
-      />
-    </View>
-  );
-}
-
-function CelestialBottomRight() {
-  return (
-    <View style={styles.celestialBottomRight} fixed>
-      <View style={styles.celestialBottomOuterRing} />
-      <View style={styles.celestialBottomMiddleRing} />
-      <View style={styles.celestialBottomInnerRing} />
-      <View style={styles.celestialBottomHorizontal} />
-      <View style={styles.celestialBottomVertical} />
-      <View style={styles.celestialBottomDiagonalOne} />
-      <View style={styles.celestialBottomDiagonalTwo} />
-
-      <Text style={[styles.star, { top: 12, left: 85 }]}>✦</Text>
-      <Text style={[styles.smallStar, { top: 31, left: 128 }]}>•</Text>
-      <Text style={[styles.star, { top: 62, left: 151 }]}>✧</Text>
-      <Text style={[styles.smallStar, { top: 122, left: 145 }]}>•</Text>
-      <Text style={[styles.star, { top: 148, left: 86 }]}>✦</Text>
-      <Text style={[styles.smallStar, { top: 131, left: 41 }]}>•</Text>
-      <Text style={[styles.star, { top: 75, left: 13 }]}>✧</Text>
-      <Text style={[styles.smallStar, { top: 32, left: 48 }]}>•</Text>
-
-      <Text style={[styles.smallStar, { top: 57, left: 68 }]}>•</Text>
-      <Text style={[styles.smallStar, { top: 76, left: 108 }]}>•</Text>
-      <Text style={[styles.smallStar, { top: 109, left: 93 }]}>•</Text>
-      <Text style={[styles.smallStar, { top: 123, left: 119 }]}>•</Text>
-
-      <View
-        style={[
-          styles.constellationLine,
-          {
-            top: 67,
-            left: 70,
-            width: 45,
-            transform: "rotate(25deg)",
-          },
-        ]}
-      />
-
-      <View
-        style={[
-          styles.constellationLine,
-          {
-            top: 96,
-            left: 88,
-            width: 37,
-            transform: "rotate(112deg)",
-          },
-        ]}
-      />
-
-      <View
-        style={[
-          styles.constellationLine,
-          {
-            top: 117,
-            left: 95,
-            width: 30,
-            transform: "rotate(28deg)",
-          },
-        ]}
-      />
-    </View>
-  );
 }
 
 export default function PdfCover({
@@ -606,9 +377,8 @@ export default function PdfCover({
       <View style={styles.topAccent} fixed />
       <View style={styles.outerBorder} fixed />
       <View style={styles.innerBorder} fixed />
-
-      <CelestialTopLeft />
-      <CelestialBottomRight />
+      <View style={styles.decorationTopLeft} fixed />
+      <View style={styles.decorationBottomRight} fixed />
 
       <View style={styles.content}>
         <View style={styles.header} wrap={false}>
@@ -748,14 +518,48 @@ export default function PdfCover({
         </View>
 
         <View style={styles.introCard} wrap={false}>
-          <Text style={styles.introLabel}>
-            01
+          <View style={styles.introAccentTop} />
+
+          <View style={styles.introHeader}>
+            <Text style={styles.introNumber}>
+              01
+            </Text>
+
+            <View style={styles.introHeaderText}>
+              <Text style={styles.introKicker}>
+                Votre voyage astrologique
+              </Text>
+
+              <Text style={styles.introTitle}>
+                Avant de commencer
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.introDivider} />
+
+          <Text style={styles.introParagraph}>
+            Chaque être humain naît sous un ciel unique. Les positions
+            des planètes au moment précis de votre naissance forment
+            une empreinte céleste qui vous est propre.
           </Text>
 
-          <Text style={styles.introText}>
-            Ce rapport Essentiel vous guide à travers vos trois grands
-            piliers astrologiques, vos planètes natales, vos éléments
-            dominants et votre rythme intérieur.
+          <Text style={styles.introParagraph}>
+            Ce rapport vous accompagne dans la découverte de vos
+            principales énergies, de vos forces naturelles et des
+            grands thèmes qui façonnent votre personnalité.
+          </Text>
+
+          <Text style={styles.introParagraph}>
+            L’astrologie ne présente pas un destin figé. Elle offre
+            plutôt un langage symbolique qui permet de mieux
+            comprendre votre potentiel, vos besoins et votre manière
+            d’évoluer.
+          </Text>
+
+          <Text style={styles.introConclusion}>
+            Prenez le temps de parcourir les pages suivantes avec
+            curiosité : votre voyage commence maintenant.
           </Text>
         </View>
       </View>
