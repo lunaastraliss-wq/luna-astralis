@@ -85,10 +85,7 @@ function translateFormatted(formatted: string): string {
   let translated = formatted;
 
   Object.entries(SIGN_FR).forEach(([english, french]) => {
-    translated = translated.replace(
-      new RegExp(`\\b${english}\\b`, "g"),
-      french
-    );
+    translated = translated.split(english).join(french);
   });
 
   return translated;
