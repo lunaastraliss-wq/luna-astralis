@@ -16,12 +16,16 @@ import {
 import type { EssentialPdfProps } from "./EssentialPdfTypes";
 import PdfPageFooter from "./PdfPageFooter";
 
+const A4_WIDTH = 595.28;
+const A4_HEIGHT = 841.89;
+
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingBottom: 44,
-    paddingHorizontal: 46,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
+    padding: 0,
+    margin: 0,
     backgroundColor: "#07101f",
     color: "#fff8e7",
     fontFamily: "Helvetica",
@@ -32,15 +36,20 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
+    objectFit: "fill",
   },
 
   content: {
-    position: "relative",
-    zIndex: 2,
-    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
+    paddingTop: 40,
+    paddingBottom: 44,
+    paddingHorizontal: 46,
   },
 
   header: {
@@ -102,7 +111,7 @@ const styles = StyleSheet.create({
     position: "relative",
     borderWidth: 1,
     borderColor: "#b7944c",
-    backgroundColor: "rgba(6, 16, 33, 0.88)",
+    backgroundColor: "#091426",
     paddingTop: 17,
     paddingBottom: 17,
     paddingHorizontal: 24,
@@ -215,7 +224,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: "#c89b42",
-    backgroundColor: "rgba(5, 15, 31, 0.88)",
+    backgroundColor: "#07101f",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 7,
@@ -244,7 +253,7 @@ const styles = StyleSheet.create({
   introCard: {
     flexDirection: "row",
     alignItems: "flex-start",
-    backgroundColor: "rgba(5, 15, 31, 0.86)",
+    backgroundColor: "#091426",
     borderWidth: 0.7,
     borderColor: "#8f6e35",
     paddingVertical: 11,
@@ -283,7 +292,6 @@ export default function PdfCover({
       <Image
         src={COVER_BACKGROUND}
         style={styles.background}
-        fixed
       />
 
       <View style={styles.content}>
