@@ -215,6 +215,160 @@ export const pdfStyles = StyleSheet.create({
     marginTop: 9,
   },
 
+  summaryGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 22,
+  },
+
+  summaryCard: {
+    width: "31.5%",
+    minHeight: 220,
+    padding: 16,
+    alignItems: "center",
+    backgroundColor: "#111a34",
+    borderWidth: 1,
+    borderColor: "#39415d",
+  },
+
+  summaryIconCircle: {
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#0d152d",
+    borderWidth: 1,
+    borderColor: "#8f793c",
+    marginBottom: 12,
+  },
+
+  summaryIcon: {
+    width: 28,
+    height: 28,
+    objectFit: "contain",
+  },
+
+  summaryLabel: {
+    color: "#9da4b7",
+    fontSize: 8.5,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 7,
+    textAlign: "center",
+  },
+
+  summaryValue: {
+    color: "#fff8e7",
+    fontSize: 18,
+    marginBottom: 10,
+    textAlign: "center",
+  },
+
+  summaryDivider: {
+    width: 38,
+    height: 1,
+    backgroundColor: "#8f793c",
+    marginBottom: 10,
+  },
+
+  summaryMeaning: {
+    color: "#f4c95d",
+    fontSize: 10.5,
+    lineHeight: 1.4,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+
+  summaryDescription: {
+    color: "#bfc5d5",
+    fontSize: 8.8,
+    lineHeight: 1.45,
+    textAlign: "center",
+  },
+
+  summarySynthesis: {
+    flexDirection: "row",
+    padding: 22,
+    marginBottom: 16,
+    backgroundColor: "#111a34",
+    borderWidth: 1,
+    borderColor: "#8f793c",
+  },
+
+  synthesisBadge: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#0d152d",
+    borderWidth: 1,
+    borderColor: "#8f793c",
+    marginRight: 16,
+  },
+
+  synthesisBadgeText: {
+    color: "#f4c95d",
+    fontSize: 18,
+  },
+
+  synthesisContent: {
+    flexGrow: 1,
+    flexBasis: 0,
+  },
+
+  synthesisKicker: {
+    color: "#f4c95d",
+    fontSize: 8.5,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+
+  synthesisTitle: {
+    color: "#fff8e7",
+    fontSize: 15,
+    lineHeight: 1.3,
+    marginBottom: 10,
+  },
+
+  synthesisText: {
+    color: "#d9d4c7",
+    fontSize: 9.5,
+    lineHeight: 1.55,
+    marginBottom: 8,
+  },
+
+  synthesisTextLast: {
+    color: "#d9d4c7",
+    fontSize: 9.5,
+    lineHeight: 1.55,
+  },
+
+  summaryNote: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 14,
+    backgroundColor: "#0d152d",
+    borderWidth: 1,
+    borderColor: "#39415d",
+  },
+
+  summaryNoteSymbol: {
+    color: "#f4c95d",
+    fontSize: 18,
+    marginRight: 12,
+  },
+
+  summaryNoteText: {
+    flexGrow: 1,
+    flexBasis: 0,
+    color: "#bfc5d5",
+    fontSize: 9,
+    lineHeight: 1.5,
+  },
+
   wheelContainer: {
     width: "100%",
     alignItems: "center",
