@@ -1,3 +1,4 @@
+```tsx
 "use client";
 
 import { useRef, useState } from "react";
@@ -217,16 +218,6 @@ export default function NatalChartForm() {
       return;
     }
 
-    /*
-      L'heure reste une heure locale.
-
-      Exemple :
-      21:36 est envoyé comme 21:36.
-      On ne transforme pas cette heure en UTC ici.
-
-      L'API /api/natal-chart détermine elle-même
-      le fuseau horaire à partir de la ville.
-    */
     const effectiveBirthTime = birthTime || "12:00";
     const [hourStr, minuteStr] = effectiveBirthTime.split(":");
 
@@ -234,7 +225,7 @@ export default function NatalChartForm() {
     const minute = Number.parseInt(minuteStr, 10);
 
     if (!isValidTime(hour, minute)) {
-      setError("L'heure de naissance est invalide.");
+      setError("L’heure de naissance est invalide.");
       return;
     }
 
@@ -324,22 +315,37 @@ export default function NatalChartForm() {
     ? `Le thème astral de ${firstName.trim()}`
     : "Ta carte du ciel";
 
-  const handleDownload = async () => {
+  const createWheelImage = async (): Promise<string> => {
     if (!shareRef.current) {
-      setError("La carte à télécharger est introuvable.");
-      return;
+      throw new Error(
+        "La carte astrologique à convertir en image est introuvable."
+      );
     }
 
+    const canvas = await html2canvas(shareRef.current, {
+      backgroundColor: null,
+      scale: 2,
+      useCORS: true,
+      logging: false,
+    });
+
+    const wheelImage = canvas.toDataURL("image/png");
+
+    if (!wheelImage || !wheelImage.startsWith("data:image/png;base64,")) {
+      throw new Error(
+        "L’image PNG de la carte astrologique n’a pas pu être créée."
+      );
+    }
+
+    return wheelImage;
+  };
+
+  const handleDownload = async () => {
     setError("");
     setDownloading(true);
 
     try {
-      const canvas = await html2canvas(shareRef.current, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
+      const wheelImage = await createWheelImage();
 
       const safeName = firstName.trim()
         ? firstName
@@ -354,8 +360,11 @@ export default function NatalChartForm() {
       const link = document.createElement("a");
 
       link.download = `carte-du-ciel-${safeName}.png`;
-      link.href = canvas.toDataURL("image/png");
+      link.href = wheelImage;
+
+      document.body.appendChild(link);
       link.click();
+      link.remove();
     } catch (downloadError) {
       console.error(
         "Erreur pendant le téléchargement de la carte :",
@@ -363,7 +372,9 @@ export default function NatalChartForm() {
       );
 
       setError(
-        "Impossible de télécharger l'image. Réessaie."
+        downloadError instanceof Error
+          ? downloadError.message
+          : "Impossible de télécharger l’image. Réessaie."
       );
     } finally {
       setDownloading(false);
@@ -526,7 +537,7 @@ export default function NatalChartForm() {
               disabled={downloading}
             >
               {downloading
-                ? "Préparation de l'image..."
+                ? "Préparation de l’image..."
                 : "📷 Télécharger ma carte du ciel"}
             </button>
 
@@ -535,7 +546,7 @@ export default function NatalChartForm() {
                 <NatalShareCard
                   title={chartTitle}
                   birthDate={formatDateFR(birthDate)}
-                  birthTime={birthTime}
+                  birthTime={birthTime || "12:00"}
                   birthCity={birthCity.trim()}
                   planets={planets}
                   houses={result?.houses}
@@ -554,10 +565,11 @@ export default function NatalChartForm() {
             <NatalPremiumOffer
               firstName={firstName.trim()}
               birthDate={birthDate}
-              birthTime={birthTime}
+              birthTime={birthTime || "12:00"}
               birthCity={birthCity.trim()}
               latitude={latitude}
               longitude={longitude}
+              getWheelImage={createWheelImage}
             />
           </div>
 
@@ -575,4 +587,5 @@ export default function NatalChartForm() {
       )}
     </div>
   );
-    }
+}
+```
