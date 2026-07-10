@@ -1,7 +1,5 @@
-import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -14,10 +12,7 @@ function s(value: unknown): string {
 
 function cleanUrl(url: string): string {
   const value = s(url);
-
-  return value.endsWith("/")
-    ? value.slice(0, -1)
-    : value;
+  return value.endsWith("/") ? value.slice(0, -1) : value;
 }
 
 function isReportType(value: unknown): value is ReportType {
@@ -28,18 +23,7 @@ function isReportType(value: unknown): value is ReportType {
   );
 }
 
-const STRIPE_SECRET_KEY = s(
-  process.env.STRIPE_SECRET_KEY
-);
-
-const SUPABASE_URL = s(
-  process.env.SUPABASE_URL ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL
-);
-
-const SUPABASE_SERVICE_ROLE_KEY = s(
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const STRIPE_SECRET_KEY = s(process.env.STRIPE_SECRET_KEY);
 
 const SITE_URL = cleanUrl(
   process.env.NEXT_PUBLIC_SITE_URL || ""
@@ -51,89 +35,18 @@ const stripe = STRIPE_SECRET_KEY
     })
   : null;
 
-const supabase =
-  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(
-        SUPABASE_URL,
-        SUPABASE_SERVICE_ROLE_KEY,
-        {
-          auth: {
-            persistSession: false,
-            autoRefreshToken: false,
-          },
-        }
-      )
-    : null;
-
 const REPORT_PRICE: Record<ReportType, string> = {
-  essential: s(
-    process.env.STRIPE_PRICE_ESSENTIAL
-  ),
-  premium: s(
-    process.env.STRIPE_PRICE_PREMIUM
-  ),
-  signature: s(
-    process.env.STRIPE_PRICE_SIGNATURE
-  ),
+  essential: s(process.env.STRIPE_PRICE_ESSENTIAL),
+  premium: s(process.env.STRIPE_PRICE_PREMIUM),
+  signature: s(process.env.STRIPE_PRICE_SIGNATURE),
 };
 
-function decodePngDataUrl(
-  dataUrl: string
-): Buffer | null {
-  const match = dataUrl.match(
-    /^data:image\/png;base64,([A-Za-z0-9+/=\r\n]+)$/
-  );
-
-  if (!match?.[1]) {
-    return null;
-  }
-
-  try {
-    return Buffer.from(
-      match[1].replace(/\s/g, ""),
-      "base64"
-    );
-  } catch {
-    return null;
-  }
-}
-
-async function removeUploadedWheel(
-  wheelPath: string
-) {
-  if (!supabase || !wheelPath) {
-    return;
-  }
-
-  const { error } = await supabase.storage
-    .from("rapport-images")
-    .remove([wheelPath]);
-
-  if (error) {
-    console.error(
-      "[reports checkout] roue non supprimée :",
-      error.message
-    );
-  }
-}
-
 export async function POST(req: Request) {
-  let uploadedWheelPath = "";
-
   try {
     if (!stripe) {
       return NextResponse.json(
         {
           error: "STRIPE_SECRET_KEY_MISSING",
-        },
-        { status: 500 }
-      );
-    }
-
-    if (!supabase) {
-      return NextResponse.json(
-        {
-          error: "SUPABASE_CONFIG_MISSING",
         },
         { status: 500 }
       );
@@ -148,9 +61,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const body = await req
-      .json()
-      .catch(() => null);
+    const body = await req.json().catch(() => null);
 
     if (!body) {
       return NextResponse.json(
@@ -161,9 +72,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const reportType = s(
-      body.reportType
-    );
+    const reportType = s(body.reportType);
 
     if (!isReportType(reportType)) {
       return NextResponse.json(
@@ -174,8 +83,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const priceId =
-      REPORT_PRICE[reportType];
+    const priceId = REPORT_PRICE[reportType];
 
     if (!priceId) {
       return NextResponse.json(
@@ -186,41 +94,16 @@ export async function POST(req: Request) {
       );
     }
 
-    const firstName = s(
-      body.firstName
-    );
+    const firstName = s(body.firstName);
+    const birthDate = s(body.birthDate);
+    const birthTime = s(body.birthTime) || "12:00";
+    const birthCity = s(body.birthCity);
+    const birthCountry = s(body.birthCountry);
+    const latitude = s(body.latitude);
+    const longitude = s(body.longitude);
+    const timezone = s(body.timezone);
+    const wheelImagePath = s(body.wheelImagePath);
 
-    const birthDate = s(
-      body.birthDate
-    );
-
-    const birthTime =
-      s(body.birthTime) || "12:00";
-
-    const birthCity = s(
-      body.birthCity
-    );
-
-    const birthCountry = s(
-      body.birthCountry
-    );
-
-    const latitude = s(
-      body.latitude
-    );
-
-    const longitude = s(
-      body.longitude
-    );
-
-    const timezone = s(
-      body.timezone
-    );
-
-    /*
-     * Le prénom est optionnel.
-     * La date, l’heure, la ville et les coordonnées sont requises.
-     */
     if (
       !birthDate ||
       !birthTime ||
@@ -238,89 +121,14 @@ export async function POST(req: Request) {
       );
     }
 
-    const wheelImage = s(
-      body.wheelImage
-    );
-
-    if (!wheelImage) {
+    if (!wheelImagePath) {
       return NextResponse.json(
         {
-          error: "MISSING_WHEEL_IMAGE",
+          error: "MISSING_WHEEL_IMAGE_PATH",
           detail:
-            "L’image PNG de la roue astrologique est absente.",
+            "Le chemin de l’image de la roue astrologique est absent.",
         },
         { status: 400 }
-      );
-    }
-
-    const wheelBuffer =
-      decodePngDataUrl(wheelImage);
-
-    if (
-      !wheelBuffer ||
-      wheelBuffer.length === 0
-    ) {
-      return NextResponse.json(
-        {
-          error: "INVALID_WHEEL_IMAGE",
-          detail:
-            "Le contenu reçu n’est pas une image PNG valide.",
-        },
-        { status: 400 }
-      );
-    }
-
-    const maximumImageSize =
-      12 * 1024 * 1024;
-
-    if (
-      wheelBuffer.length >
-      maximumImageSize
-    ) {
-      return NextResponse.json(
-        {
-          error: "WHEEL_IMAGE_TOO_LARGE",
-          detail:
-            "L’image de la roue dépasse 12 Mo.",
-        },
-        { status: 413 }
-      );
-    }
-
-    const requestId =
-      randomUUID();
-
-    uploadedWheelPath =
-      `pending/${requestId}/roue-astrologique.png`;
-
-    const {
-      error: wheelUploadError,
-    } = await supabase.storage
-      .from("rapport-images")
-      .upload(
-        uploadedWheelPath,
-        wheelBuffer,
-        {
-          contentType: "image/png",
-          upsert: false,
-          cacheControl: "3600",
-        }
-      );
-
-    if (wheelUploadError) {
-      console.error(
-        "[reports checkout] WHEEL_IMAGE_UPLOAD_FAILED",
-        wheelUploadError
-      );
-
-      return NextResponse.json(
-        {
-          error:
-            "WHEEL_IMAGE_UPLOAD_FAILED",
-          detail:
-            wheelUploadError.message,
-        },
-        { status: 500 }
       );
     }
 
@@ -333,30 +141,15 @@ export async function POST(req: Request) {
       latitude,
       longitude,
       timezone,
-      wheelImagePath:
-        uploadedWheelPath,
+      wheelImagePath,
     };
 
-    const serializedBirthData =
-      JSON.stringify(birthData);
+    const serializedBirthData = JSON.stringify(birthData);
 
-    /*
-     * Stripe limite chaque valeur metadata à 500 caractères.
-     */
-    if (
-      serializedBirthData.length >
-      500
-    ) {
-      await removeUploadedWheel(
-        uploadedWheelPath
-      );
-
-      uploadedWheelPath = "";
-
+    if (serializedBirthData.length > 500) {
       return NextResponse.json(
         {
-          error:
-            "BIRTH_DATA_TOO_LARGE",
+          error: "BIRTH_DATA_TOO_LARGE",
           detail:
             "Les données de naissance dépassent la taille permise par Stripe.",
         },
@@ -364,63 +157,45 @@ export async function POST(req: Request) {
       );
     }
 
-    const session =
-      await stripe.checkout.sessions.create(
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+
+      line_items: [
         {
-          mode: "payment",
+          price: priceId,
+          quantity: 1,
+        },
+      ],
 
-          line_items: [
-            {
-              price: priceId,
-              quantity: 1,
-            },
-          ],
+      // TEMPORAIRE POUR LES TESTS
+      discounts: [
+        {
+          coupon: "GIsj9JR0",
+        },
+      ],
 
-          /*
-           * Coupon temporaire de 100 % pour les tests.
-           * Retire ce bloc lorsque les tests seront terminés.
-           */
-          discounts: [
-            {
-              coupon: "GIsj9JR0",
-            },
-          ],
+      customer_email: s(body.email) || undefined,
 
-          customer_email:
-            s(body.email) ||
-            undefined,
+      success_url:
+        `${SITE_URL}/report-success` +
+        `?session_id={CHECKOUT_SESSION_ID}`,
 
-          success_url:
-            `${SITE_URL}/report-success` +
-            `?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:
+        `${SITE_URL}/carte-du-ciel` +
+        `?canceled=1`,
 
-          cancel_url:
-            `${SITE_URL}/carte-du-ciel` +
-            `?canceled=1`,
-
-          metadata: {
-            app: "luna-astralis",
-            product:
-              "astrology_report",
-            report_type:
-              reportType,
-            birth_data:
-              serializedBirthData,
-          },
-        }
-      );
+      metadata: {
+        app: "luna-astralis",
+        product: "astrology_report",
+        report_type: reportType,
+        birth_data: serializedBirthData,
+      },
+    });
 
     if (!session.url) {
-      await removeUploadedWheel(
-        uploadedWheelPath
-      );
-
-      uploadedWheelPath = "";
-
       return NextResponse.json(
         {
-          error:
-            "STRIPE_SESSION_URL_MISSING",
+          error: "STRIPE_SESSION_URL_MISSING",
         },
         { status: 500 }
       );
@@ -430,22 +205,10 @@ export async function POST(req: Request) {
       ok: true,
       url: session.url,
       session_id: session.id,
-      wheel_image_path:
-        uploadedWheelPath,
+      wheel_image_path: wheelImagePath,
     });
   } catch (error: any) {
-    console.error(
-      "[reports checkout]",
-      error
-    );
-
-    if (
-      uploadedWheelPath
-    ) {
-      await removeUploadedWheel(
-        uploadedWheelPath
-      );
-    }
+    console.error("[reports checkout]", error);
 
     return NextResponse.json(
       {
