@@ -163,6 +163,7 @@ function isValidTime(hour: number, minute: number): boolean {
 
 export default function NatalChartForm() {
   const shareRef = useRef<HTMLDivElement | null>(null);
+  const pdfWheelRef = useRef<HTMLDivElement | null>(null);
 
   const [firstName, setFirstName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -310,29 +311,50 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
     ? `Le thème astral de ${firstName.trim()}`
     : "Ta carte du ciel";
 
-  const createWheelImage = async (): Promise<string> => {
-    if (!shareRef.current) {
-      throw new Error(
-        "La carte astrologique à convertir en image est introuvable."
-      );
+  const captureElementAsPng = async (
+    element: HTMLDivElement | null,
+    errorMessage: string,
+    backgroundColor: string | null,
+    scale: number
+  ): Promise<string> => {
+    if (!element) {
+      throw new Error(errorMessage);
     }
 
-    const canvas = await html2canvas(shareRef.current, {
-      backgroundColor: null,
-      scale: 2,
+    const canvas = await html2canvas(element, {
+      backgroundColor,
+      scale,
       useCORS: true,
       logging: false,
     });
 
-    const wheelImage = canvas.toDataURL("image/png");
+    const image = canvas.toDataURL("image/png");
 
-    if (!wheelImage || !wheelImage.startsWith("data:image/png;base64,")) {
+    if (!image || !image.startsWith("data:image/png;base64,")) {
       throw new Error(
         "L’image PNG de la carte astrologique n’a pas pu être créée."
       );
     }
 
-    return wheelImage;
+    return image;
+  };
+
+  const createShareImage = async (): Promise<string> => {
+    return captureElementAsPng(
+      shareRef.current,
+      "La carte astrologique à télécharger est introuvable.",
+      null,
+      2
+    );
+  };
+
+  const createPdfWheelImage = async (): Promise<string> => {
+    return captureElementAsPng(
+      pdfWheelRef.current,
+      "La roue astrologique destinée au rapport est introuvable.",
+      "#0b1124",
+      3
+    );
   };
 
   const handleDownload = async () => {
@@ -340,7 +362,7 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
     setDownloading(true);
 
     try {
-      const wheelImage = await createWheelImage();
+      const wheelImage = await createShareImage();
 
       const safeName = firstName.trim()
         ? firstName
@@ -550,6 +572,44 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
               </div>
             </div>
 
+            <div
+              aria-hidden="true"
+              style={{
+                position: "fixed",
+                left: "-10000px",
+                top: 0,
+                width: 900,
+                height: 900,
+                pointerEvents: "none",
+                opacity: 1,
+              }}
+            >
+              <div
+                ref={pdfWheelRef}
+                style={{
+                  width: 900,
+                  height: 900,
+                  padding: 20,
+                  boxSizing: "border-box",
+                  background: "#0b1124",
+                  color: "#fff8e7",
+                }}
+              >
+                <NatalChartWheel
+                  planets={planets}
+                  houses={result?.houses}
+                  ascendantLongitude={
+                    angles?.ascendant?.longitude
+                  }
+                  midheavenLongitude={
+                    angles?.midheaven?.longitude
+                  }
+                  size={860}
+                  showLegend={false}
+                />
+              </div>
+            </div>
+
             <NatalFreeSummary
               planets={planets}
               angles={angles}
@@ -564,7 +624,7 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
               birthCity={birthCity.trim()}
               latitude={latitude}
               longitude={longitude}
-              getWheelImage={createWheelImage}
+              getWheelImage={createPdfWheelImage}
             />
           </div>
 
