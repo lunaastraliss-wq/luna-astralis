@@ -54,6 +54,7 @@ type Props = {
   ascendantFormatted?: string;
   midheavenFormatted?: string;
   size?: number;
+  showLegend?: boolean;
 };
 
 type AspectDefinition = {
@@ -279,6 +280,7 @@ export default function NatalChartWheel({
   ascendantFormatted,
   midheavenFormatted,
   size = 620,
+  showLegend = true,
 }: Props) {
   const uniqueId = useId().replace(
     /:/g,
@@ -1404,68 +1406,71 @@ export default function NatalChartWheel({
         </svg>
       </div>
 
-      <div
-        className="natal-aspect-legend"
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(5, minmax(0, 1fr))",
-          gap: 10,
-          padding: "14px 16px",
-          marginTop: 16,
-          border:
-            "1px solid rgba(244, 201, 93, 0.4)",
-          borderRadius: 18,
-          background:
-            "rgba(7, 13, 29, 0.62)",
-          backdropFilter: "blur(8px)",
-        }}
-      >
-        {ASPECTS.map((aspect) => (
-          <div
-            key={aspect.name}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent:
-                "center",
-              gap: 7,
-              minWidth: 0,
-              fontSize: 12,
-              lineHeight: 1.2,
-              textAlign: "center",
-            }}
-          >
-            <span
+      {showLegend && (
+        <div
+          className="natal-aspect-legend"
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(5, minmax(0, 1fr))",
+            gap: 10,
+            padding: "14px 16px",
+            marginTop: 16,
+            border:
+              "1px solid rgba(244, 201, 93, 0.4)",
+            borderRadius: 18,
+            background:
+              "rgba(7, 13, 29, 0.62)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          {ASPECTS.map((aspect) => (
+            <div
+              key={aspect.name}
               style={{
-                color: aspect.color,
-                fontSize: 18,
-                fontWeight: 800,
+                display: "flex",
+                alignItems: "center",
+                justifyContent:
+                  "center",
+                gap: 7,
+                minWidth: 0,
+                fontSize: 12,
+                lineHeight: 1.2,
+                textAlign: "center",
               }}
             >
-              {aspect.symbol}
-            </span>
-
-            <span>
-              <strong
-                style={{
-                  display: "block",
-                }}
-              >
-                {aspect.name}
-              </strong>
-
               <span
                 style={{
-                  opacity: 0.72,
+                  color: aspect.color,
+                  fontSize: 18,
+                  fontWeight: 800,
                 }}
               >
-                {aspect.angle}°
+                {aspect.symbol}
               </span>
-            </span>
-          </div>
-        ))}
-      </div>
+        
+              <span>
+                <strong
+                  style={{
+                    display: "block",
+                  }}
+                >
+                  {aspect.name}
+                </strong>
+        
+                <span
+                  style={{
+                    opacity: 0.72,
+                  }}
+                >
+                  {aspect.angle}°
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+        
+      )}
 
       {(ascendantFormatted ||
         midheavenFormatted) && (
