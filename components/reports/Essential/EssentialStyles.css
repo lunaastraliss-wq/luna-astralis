@@ -480,3 +480,173 @@
   font-size: 18px;
   line-height: 1.6;
 }
+/* ==========================================================
+   PAGE 2 — INTRODUCTION
+========================================================== */
+
+.essential-welcome-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.essential-welcome-header {
+  margin-bottom: 30px;
+  padding-bottom: 0;
+  border-bottom: none;
+  text-align: center;
+}
+
+.essential-eyebrow {
+  margin-bottom: 14px !important;
+  color: #f4c95d !important;
+  font-size: 13px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase;
+}
+
+.essential-welcome-header h2 {
+  max-width: 570px;
+  margin: 0 auto;
+  font-size: 42px;
+  line-height: 1.16;
+}
+
+.essential-title-divider {
+  position: relative;
+  width: 180px;
+  height: 30px;
+  margin: 20px auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.essential-title-divider::before,
+.essential-title-divider::after {
+  content: "";
+  width: 68px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(244, 201, 93, 0.72)
+  );
+}
+
+.essential-title-divider::after {
+  background: linear-gradient(
+    90deg,
+    rgba(244, 201, 93, 0.72),
+    transparent
+  );
+}
+
+.essential-title-divider span {
+  margin: 0 12px;
+  color: #f4c95d;
+  font-size: 18px;
+}
+
+.essential-intro-lead {
+  max-width: 590px;
+  margin: 0 auto !important;
+  color: rgba(255, 248, 231, 0.72) !important;
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.essential-welcome-card {
+  position: relative;
+  padding: 42px 42px 38px;
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.025)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.23);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.essential-welcome-symbol {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  color: rgba(244, 201, 93, 0.2);
+  font-size: 62px;
+  line-height: 1;
+}
+
+.essential-welcome-text {
+  gap: 20px;
+}
+
+.essential-welcome-text p {
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 248, 231, 0.84);
+  font-size: 17px;
+  line-height: 1.72;
+}
+
+.essential-welcome-text p:first-child::first-letter {
+  float: left;
+  margin: 3px 10px 0 0;
+  color: #f4c95d;
+  font-size: 48px;
+  line-height: 0.8;
+  font-weight: 500;
+}
+
+.essential-welcome-quote {
+  position: relative;
+  margin-top: 30px;
+  padding: 26px 34px 24px 72px;
+  border-left: none;
+  border-radius: 22px;
+  background: rgba(244, 201, 93, 0.075);
+  border: 1px solid rgba(244, 201, 93, 0.25);
+  font-style: normal;
+}
+
+.essential-quote-mark {
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  color: rgba(244, 201, 93, 0.55);
+  font-size: 58px;
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+.essential-welcome-quote p {
+  margin: 0;
+  color: #f4c95d;
+  font-size: 19px;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+.essential-quote-signature {
+  display: block;
+  margin-top: 12px;
+  color: rgba(255, 248, 231, 0.58);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.essential-page-footer-symbols {
+  margin-top: auto;
+  padding-top: 22px;
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  color: rgba(244, 201, 93, 0.42);
+  font-size: 20px;
+}
