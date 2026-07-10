@@ -1,28 +1,40 @@
+import React from "react";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { calculateChart } from "celestine";
 import tzlookup from "tz-lookup";
+
 import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function clean(value: unknown) {
+function clean(value: unknown): string {
   return value == null ? "" : String(value).trim();
 }
 
 const SUPABASE_URL = clean(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+  process.env.SUPABASE_URL ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
-const SUPABASE_SERVICE_ROLE_KEY = clean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+const SUPABASE_SERVICE_ROLE_KEY = clean(
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const supabase =
   SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { persistSession: false },
-      })
+    ? createClient(
+        SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY,
+        {
+          auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+          },
+        }
+      )
     : null;
 
 function getTimezoneOffsetHours(
@@ -32,8 +44,10 @@ function getTimezoneOffsetHours(
   day: number,
   hour: number,
   minute: number
-) {
-  const utcDate = new Date(Date.UTC(year, month - 1, day, hour, minute, 0));
+): number {
+  const utcDate = new Date(
+    Date.UTC(year, month - 1, day, hour, minute, 0)
+  );
 
   const formatter = new Intl.DateTimeFormat("en-US", {
     timeZone,
@@ -55,20 +69,35 @@ function getTimezoneOffsetHours(
     }
   }
 
+  let formattedHour = Number(values.hour);
+
+  /*
+   * Certains environnements Intl retournent 24 pour minuit.
+   * Date.UTC attend une heure entre 0 et 23.
+   */
+  if (formattedHour === 24) {
+    formattedHour = 0;
+  }
+
   const asUTC = Date.UTC(
     Number(values.year),
     Number(values.month) - 1,
     Number(values.day),
-    Number(values.hour),
+    formattedHour,
     Number(values.minute),
     Number(values.second)
   );
 
-  return (asUTC - utcDate.getTime()) / 60000 / 60;
+  return (asUTC - utcDate.getTime()) / 3_600_000;
 }
+
 function parseBirthDate(date: string) {
-  if (date.includes("/")) {
-    const [day, month, year] = date.split("/").map(Number);
+  const normalizedDate = clean(date);
+
+  if (normalizedDate.includes("/")) {
+    const [day, month, year] = normalizedDate
+      .split("/")
+      .map(Number);
 
     return {
       year,
@@ -77,7 +106,9 @@ function parseBirthDate(date: string) {
     };
   }
 
-  const [year, month, day] = date.split("-").map(Number);
+  const [year, month, day] = normalizedDate
+    .split("-")
+    .map(Number);
 
   return {
     year,
@@ -87,7 +118,9 @@ function parseBirthDate(date: string) {
 }
 
 function parseBirthTime(time: string) {
-  const [hour, minute] = time.split(":").map(Number);
+  const [hour, minute] = clean(time)
+    .split(":")
+    .map(Number);
 
   return {
     hour: Number.isFinite(hour) ? hour : 12,
@@ -95,11 +128,200 @@ function parseBirthTime(time: string) {
   };
 }
 
+function isValidDateParts(
+  year: number,
+  month: number,
+  day: number
+): boolean {
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(day)
+  ) {
+    return false;
+  }
+
+  if (year < 1800 || year > 2200) {
+    return false;
+  }
+
+  if (month < 1 || month > 12) {
+    return false;
+  }
+
+  if (day < 1 || day > 31) {
+    return false;
+  }
+
+  const testDate = new Date(
+    Date.UTC(year, month - 1, day)
+  );
+
+  return (
+    testDate.getUTCFullYear() === year &&
+    testDate.getUTCMonth() === month - 1 &&
+    testDate.getUTCDate() === day
+  );
+}
+
+function isImageDataUrl(value: string): boolean {
+  return /^data:image\/(png|jpeg|jpg|webp);base64,/i.test(
+    value
+  );
+}
+
+function getImageMimeType(
+  fileName: string,
+  fileType?: string
+): string {
+  const normalizedType = clean(fileType).toLowerCase();
+
+  if (normalizedType.startsWith("image/")) {
+    return normalizedType;
+  }
+
+  const normalizedName = fileName.toLowerCase();
+
+  if (
+    normalizedName.endsWith(".jpg") ||
+    normalizedName.endsWith(".jpeg")
+  ) {
+    return "image/jpeg";
+  }
+
+  if (normalizedName.endsWith(".webp")) {
+    return "image/webp";
+  }
+
+  return "image/png";
+}
+
+async function downloadWheelImageFromStorage(
+  wheelPath: string
+): Promise<string> {
+  if (!supabase || !wheelPath) {
+    return "";
+  }
+
+  /*
+   * On essaie d'abord le compartiment rapport-pdf.
+   * La roue peut y être enregistrée avec les fichiers du rapport.
+   */
+  const firstAttempt = await supabase.storage
+    .from("rapport-pdf")
+    .download(wheelPath);
+
+  if (!firstAttempt.error && firstAttempt.data) {
+    const arrayBuffer =
+      await firstAttempt.data.arrayBuffer();
+
+    const buffer = Buffer.from(arrayBuffer);
+
+    const mimeType = getImageMimeType(
+      wheelPath,
+      firstAttempt.data.type
+    );
+
+    return `data:${mimeType};base64,${buffer.toString(
+      "base64"
+    )}`;
+  }
+
+  /*
+   * Si tu utilises plutôt un compartiment séparé appelé
+   * rapport-images, la route essaie aussi celui-ci.
+   */
+  const secondAttempt = await supabase.storage
+    .from("rapport-images")
+    .download(wheelPath);
+
+  if (!secondAttempt.error && secondAttempt.data) {
+    const arrayBuffer =
+      await secondAttempt.data.arrayBuffer();
+
+    const buffer = Buffer.from(arrayBuffer);
+
+    const mimeType = getImageMimeType(
+      wheelPath,
+      secondAttempt.data.type
+    );
+
+    return `data:${mimeType};base64,${buffer.toString(
+      "base64"
+    )}`;
+  }
+
+  console.warn("WHEEL_IMAGE_DOWNLOAD_FAILED", {
+    wheelPath,
+    rapportPdfError:
+      firstAttempt.error?.message || null,
+    rapportImagesError:
+      secondAttempt.error?.message || null,
+  });
+
+  return "";
+}
+
+async function resolveWheelImage(
+  order: any,
+  birthData: any
+): Promise<string> {
+  /*
+   * Première possibilité :
+   * le PNG a été enregistré directement en base64
+   * dans birth_data.
+   */
+  const directWheelImage = clean(
+    birthData?.wheelImage ||
+      birthData?.wheel_image ||
+      order?.wheel_image
+  );
+
+  if (directWheelImage) {
+    if (isImageDataUrl(directWheelImage)) {
+      return directWheelImage;
+    }
+
+    /*
+     * Certains codes enregistrent seulement le contenu base64
+     * sans le préfixe data:image/png;base64.
+     */
+    if (
+      directWheelImage.length > 500 &&
+      !directWheelImage.startsWith("http")
+    ) {
+      return `data:image/png;base64,${directWheelImage}`;
+    }
+  }
+
+  /*
+   * Deuxième possibilité :
+   * seule l'adresse du PNG dans Supabase est enregistrée.
+   */
+  const wheelImagePath = clean(
+    order?.wheel_image_path ||
+      birthData?.wheelImagePath ||
+      birthData?.wheel_image_path
+  );
+
+  if (wheelImagePath) {
+    return downloadWheelImageFromStorage(
+      wheelImagePath
+    );
+  }
+
+  return "";
+}
+
 export async function POST(req: Request) {
   try {
     if (!supabase) {
       return NextResponse.json(
-        { error: "SUPABASE_CONFIG_MISSING" },
+        {
+          error: "SUPABASE_CONFIG_MISSING",
+          detail:
+            "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY est absent.",
+        },
         { status: 500 }
       );
     }
@@ -109,16 +331,19 @@ export async function POST(req: Request) {
 
     if (!sessionId) {
       return NextResponse.json(
-        { error: "MISSING_SESSION_ID" },
+        {
+          error: "MISSING_SESSION_ID",
+        },
         { status: 400 }
       );
     }
 
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .select("*")
-      .eq("stripe_session_id", sessionId)
-      .single();
+    const { data: order, error: orderError } =
+      await supabase
+        .from("orders")
+        .select("*")
+        .eq("stripe_session_id", sessionId)
+        .single();
 
     if (orderError || !order) {
       return NextResponse.json(
@@ -130,10 +355,28 @@ export async function POST(req: Request) {
       );
     }
 
+    /*
+     * Si le PDF existe déjà, on retourne simplement
+     * une nouvelle adresse temporaire.
+     */
     if (order.pdf_path) {
-      const { data: signed } = await supabase.storage
-        .from("rapport-pdf")
-        .createSignedUrl(order.pdf_path, 60 * 60);
+      const { data: signed, error: signedError } =
+        await supabase.storage
+          .from("rapport-pdf")
+          .createSignedUrl(
+            order.pdf_path,
+            60 * 60
+          );
+
+      if (signedError) {
+        return NextResponse.json(
+          {
+            error: "SIGNED_URL_FAILED",
+            detail: signedError.message,
+          },
+          { status: 500 }
+        );
+      }
 
       return NextResponse.json({
         ok: true,
@@ -143,15 +386,39 @@ export async function POST(req: Request) {
       });
     }
 
-    const birthData = order.birth_data || {};
+    const birthData =
+      order.birth_data &&
+      typeof order.birth_data === "object"
+        ? order.birth_data
+        : {};
 
-    const firstName = clean(birthData.firstName);
-    const birthDate = clean(birthData.birthDate);
-    const birthTime = clean(birthData.birthTime);
-    const birthCity = clean(birthData.birthCity);
+    const firstName = clean(
+      birthData.firstName ||
+        birthData.first_name
+    );
 
-    const latitude = Number(birthData.latitude);
-    const longitude = Number(birthData.longitude);
+    const birthDate = clean(
+      birthData.birthDate ||
+        birthData.birth_date
+    );
+
+    const birthTime = clean(
+      birthData.birthTime ||
+        birthData.birth_time
+    );
+
+    const birthCity = clean(
+      birthData.birthCity ||
+        birthData.birth_city
+    );
+
+    const latitude = Number(
+      birthData.latitude
+    );
+
+    const longitude = Number(
+      birthData.longitude
+    );
 
     if (
       !birthDate ||
@@ -168,30 +435,66 @@ export async function POST(req: Request) {
       );
     }
 
-    const { year, month, day } = parseBirthDate(birthDate);
-    const { hour, minute } = parseBirthTime(birthTime);
+    const { year, month, day } =
+      parseBirthDate(birthDate);
 
-    if (
-      !Number.isFinite(year) ||
-      !Number.isFinite(month) ||
-      !Number.isFinite(day)
-    ) {
+    const { hour, minute } =
+      parseBirthTime(birthTime);
+
+    if (!isValidDateParts(year, month, day)) {
       return NextResponse.json(
-        { error: "INVALID_BIRTH_DATE" },
+        {
+          error: "INVALID_BIRTH_DATE",
+          birthDate,
+        },
         { status: 400 }
       );
     }
 
-    const timeZone = tzlookup(latitude, longitude);
+    if (
+      !Number.isInteger(hour) ||
+      !Number.isInteger(minute) ||
+      hour < 0 ||
+      hour > 23 ||
+      minute < 0 ||
+      minute > 59
+    ) {
+      return NextResponse.json(
+        {
+          error: "INVALID_BIRTH_TIME",
+          birthTime,
+        },
+        { status: 400 }
+      );
+    }
 
-    const timezoneOffset = getTimezoneOffsetHours(
-      timeZone,
-      year,
-      month,
-      day,
-      hour,
-      minute
-    );
+    let timeZone = "";
+
+    try {
+      timeZone = tzlookup(
+        latitude,
+        longitude
+      );
+    } catch (timezoneError: any) {
+      return NextResponse.json(
+        {
+          error: "TIMEZONE_LOOKUP_FAILED",
+          detail:
+            timezoneError?.message || null,
+        },
+        { status: 400 }
+      );
+    }
+
+    const timezoneOffset =
+      getTimezoneOffsetHours(
+        timeZone,
+        year,
+        month,
+        day,
+        hour,
+        minute
+      );
 
     const chart = calculateChart({
       year,
@@ -205,30 +508,72 @@ export async function POST(req: Request) {
       longitude,
     });
 
-    console.log("CHART =", JSON.stringify(chart, null, 2));
-    
-    const planets = (chart as any).planets || [];
-    const angles = (chart as any).angles || {};
+    const planets =
+      (chart as any)?.planets || [];
 
-    const pdfBuffer = await renderToBuffer(
-  <EssentialPdfDocument
-    firstName={firstName}
-    birthDate={birthDate}
-    birthTime={birthTime}
-    birthCity={birthCity}
-    planets={planets}
-    angles={angles}
-  />
-);
+    const angles =
+      (chart as any)?.angles || {};
 
-    const filePath = `${sessionId}/rapport-${order.product_type || "essential"}.pdf`;
+    /*
+     * On récupère maintenant le PNG de la roue.
+     */
+    const wheelImage =
+      await resolveWheelImage(
+        order,
+        birthData
+      );
 
-    const { error: uploadError } = await supabase.storage
-      .from("rapport-pdf")
-      .upload(filePath, pdfBuffer, {
-        contentType: "application/pdf",
-        upsert: true,
-      });
+    console.log("REPORT_GENERATION", {
+      sessionId,
+      firstName,
+      birthDate,
+      birthTime,
+      birthCity,
+      timeZone,
+      timezoneOffset,
+      planetsCount: Array.isArray(planets)
+        ? planets.length
+        : 0,
+      hasAngles: Boolean(
+        angles &&
+          Object.keys(angles).length
+      ),
+      hasWheelImage: Boolean(wheelImage),
+    });
+
+    const pdfBuffer =
+      await renderToBuffer(
+        <EssentialPdfDocument
+          firstName={firstName}
+          birthDate={birthDate}
+          birthTime={birthTime}
+          birthCity={birthCity}
+          planets={planets}
+          angles={angles}
+          wheelImage={wheelImage}
+        />
+      );
+
+    const productType =
+      clean(order.product_type) ||
+      "essential";
+
+    const safeProductType =
+      productType.replace(
+        /[^a-zA-Z0-9-_]/g,
+        "-"
+      );
+
+    const filePath =
+      `${sessionId}/rapport-${safeProductType}.pdf`;
+
+    const { error: uploadError } =
+      await supabase.storage
+        .from("rapport-pdf")
+        .upload(filePath, pdfBuffer, {
+          contentType: "application/pdf",
+          upsert: true,
+        });
 
     if (uploadError) {
       return NextResponse.json(
@@ -240,14 +585,19 @@ export async function POST(req: Request) {
       );
     }
 
-    const { error: updateError } = await supabase
-      .from("orders")
-      .update({
-        status: "generated",
-        pdf_path: filePath,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("stripe_session_id", sessionId);
+    const { error: updateError } =
+      await supabase
+        .from("orders")
+        .update({
+          status: "generated",
+          pdf_path: filePath,
+          updated_at:
+            new Date().toISOString(),
+        })
+        .eq(
+          "stripe_session_id",
+          sessionId
+        );
 
     if (updateError) {
       return NextResponse.json(
@@ -259,20 +609,43 @@ export async function POST(req: Request) {
       );
     }
 
-    const { data: signed } = await supabase.storage
-      .from("rapport-pdf")
-      .createSignedUrl(filePath, 60 * 60);
+    const { data: signed, error: signedError } =
+      await supabase.storage
+        .from("rapport-pdf")
+        .createSignedUrl(
+          filePath,
+          60 * 60
+        );
+
+    if (signedError) {
+      return NextResponse.json(
+        {
+          error: "SIGNED_URL_FAILED",
+          detail: signedError.message,
+          pdf_path: filePath,
+        },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       ok: true,
       generated: true,
       pdf_path: filePath,
       pdf_url: signed?.signedUrl || null,
+      wheel_included: Boolean(wheelImage),
     });
   } catch (err: any) {
+    console.error(
+      "REPORT_GENERATE_ERROR",
+      err
+    );
+
     return NextResponse.json(
       {
-        error: err?.message || "REPORT_GENERATE_ERROR",
+        error:
+          err?.message ||
+          "REPORT_GENERATE_ERROR",
       },
       { status: 500 }
     );
