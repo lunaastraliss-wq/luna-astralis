@@ -1,135 +1,204 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
 export const pdfStyles = StyleSheet.create({
+  /*
+   * Structure générale
+   * La page n’a aucun padding afin que le PNG couvre tout le format A4.
+   */
   page: {
-    paddingTop: 40,
-    paddingBottom: 44,
-    paddingHorizontal: 46,
-    backgroundColor: "#0b1124",
+    position: "relative",
+    width: 595.28,
+    height: 841.89,
+    padding: 0,
+    margin: 0,
+    overflow: "hidden",
+    backgroundColor: "#06101f",
     color: "#fff8e7",
-    fontSize: 11,
-    lineHeight: 1.55,
+    fontFamily: "Helvetica",
+    fontSize: 10.5,
+    lineHeight: 1.5,
   },
 
+  /*
+   * Image de fond placée derrière le contenu.
+   */
+  background: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 595.28,
+    height: 841.89,
+    objectFit: "fill",
+  },
+
+  /*
+   * Contenu des pages intérieures.
+   * Les marges protègent le texte de la bordure du PNG.
+   */
+  content: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 595.28,
+    height: 841.89,
+    paddingTop: 42,
+    paddingBottom: 46,
+    paddingHorizontal: 48,
+  },
+
+  /*
+   * Variante légèrement plus large pour les pages très visuelles.
+   */
+  wideContent: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 595.28,
+    height: 841.89,
+    paddingTop: 38,
+    paddingBottom: 44,
+    paddingHorizontal: 34,
+  },
+
+  /*
+   * Logos
+   */
   coverLogo: {
-    width: 190,
-    height: 70,
+    width: 172,
+    height: 68,
     objectFit: "contain",
-    marginBottom: 20,
+    marginBottom: 16,
   },
 
   pageLogo: {
-    width: 112,
-    height: 34,
+    width: 104,
+    height: 32,
     objectFit: "contain",
   },
 
+  /*
+   * En-tête récurrent
+   */
   pageHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 16,
   },
 
   pageHeaderLine: {
     width: 250,
-    height: 1,
-    backgroundColor: "#39415d",
+    height: 0.8,
+    backgroundColor: "#a98742",
+    opacity: 0.72,
   },
 
+  /*
+   * Titres généraux
+   */
   title: {
     fontSize: 30,
+    lineHeight: 1.15,
     color: "#fff8e7",
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   subtitle: {
-    fontSize: 14,
-    color: "#f4c95d",
-    marginBottom: 24,
+    fontSize: 13.5,
+    lineHeight: 1.4,
+    color: "#e5b957",
+    marginBottom: 22,
   },
 
   sectionTitle: {
     fontSize: 22,
+    lineHeight: 1.25,
     color: "#f4c95d",
-    marginBottom: 15,
+    marginBottom: 14,
   },
 
   sectionIntro: {
-    fontSize: 11,
-    color: "#e9e4d8",
+    fontSize: 10.5,
     lineHeight: 1.55,
+    color: "#e5dfd2",
     marginBottom: 18,
   },
 
   text: {
-    fontSize: 11,
-    color: "#fff8e7",
-    marginBottom: 10,
+    fontSize: 10.5,
     lineHeight: 1.55,
+    color: "#f5efe3",
+    marginBottom: 10,
   },
 
   smallText: {
-    fontSize: 9.5,
-    color: "#d9d4c7",
+    fontSize: 8.8,
     lineHeight: 1.5,
+    color: "#d2ccbd",
   },
 
+  /*
+   * Encadrés généraux
+   */
   box: {
-    borderWidth: 1,
-    borderColor: "#f4c95d",
+    borderWidth: 0.8,
+    borderColor: "#c89c45",
     padding: 16,
     marginTop: 12,
     marginBottom: 18,
-    backgroundColor: "#0d152d",
+    backgroundColor: "rgba(5, 15, 31, 0.88)",
   },
 
   softBox: {
-    borderWidth: 1,
-    borderColor: "#39415d",
+    borderWidth: 0.7,
+    borderColor: "#6d6049",
     padding: 16,
     marginBottom: 16,
-    backgroundColor: "#111a34",
+    backgroundColor: "rgba(8, 20, 42, 0.86)",
   },
 
   informationLine: {
-    fontSize: 11,
+    fontSize: 10.5,
+    lineHeight: 1.45,
     color: "#fff8e7",
     marginBottom: 6,
   },
 
   quoteBox: {
-    borderLeftWidth: 3,
+    borderLeftWidth: 2,
     borderLeftColor: "#f4c95d",
-    backgroundColor: "#111a34",
-    padding: 18,
+    backgroundColor: "rgba(8, 20, 42, 0.88)",
+    padding: 17,
     marginTop: 16,
     marginBottom: 18,
   },
 
   quoteText: {
-    fontSize: 15,
-    color: "#fff8e7",
+    fontSize: 14,
     lineHeight: 1.5,
+    color: "#fff8e7",
   },
 
+  /*
+   * Titres centrés des pages importantes
+   */
   centeredHeader: {
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 22,
   },
 
   pageKicker: {
-    color: "#f4c95d",
-    fontSize: 9,
-    letterSpacing: 2,
+    color: "#e5b957",
+    fontSize: 8.5,
+    letterSpacing: 2.2,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   largePageTitle: {
     color: "#fff8e7",
     fontSize: 27,
-    lineHeight: 1.2,
+    lineHeight: 1.18,
     textAlign: "center",
   },
 
@@ -137,122 +206,136 @@ export const pdfStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 14,
+    marginTop: 13,
     marginBottom: 12,
   },
 
   dividerLine: {
-    width: 55,
-    height: 1,
-    backgroundColor: "#8f793c",
+    width: 58,
+    height: 0.8,
+    backgroundColor: "#b28b41",
   },
 
   dividerSymbol: {
     color: "#f4c95d",
-    fontSize: 13,
+    fontSize: 12,
     marginHorizontal: 10,
   },
 
   pageLead: {
     maxWidth: 420,
-    color: "#d9d4c7",
-    fontSize: 10.5,
+    color: "#dfd8ca",
+    fontSize: 10.2,
     lineHeight: 1.55,
     textAlign: "center",
   },
 
+  /*
+   * Cartes de contenu
+   */
   contentCard: {
-    padding: 24,
-    backgroundColor: "#111a34",
-    borderWidth: 1,
-    borderColor: "#39415d",
-    marginBottom: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 22,
+    backgroundColor: "rgba(7, 19, 41, 0.9)",
+    borderWidth: 0.8,
+    borderColor: "#756340",
+    marginBottom: 18,
   },
 
   paragraph: {
-    color: "#e9e4d8",
-    fontSize: 10.5,
-    lineHeight: 1.6,
-    marginBottom: 12,
+    color: "#eee8dc",
+    fontSize: 10.2,
+    lineHeight: 1.58,
+    marginBottom: 11,
   },
 
   paragraphLast: {
-    color: "#e9e4d8",
-    fontSize: 10.5,
-    lineHeight: 1.6,
+    color: "#eee8dc",
+    fontSize: 10.2,
+    lineHeight: 1.58,
   },
 
+  /*
+   * Citation mise en valeur
+   */
   highlightQuote: {
     flexDirection: "row",
-    padding: 18,
-    backgroundColor: "#141b32",
-    borderWidth: 1,
-    borderColor: "#8f793c",
+    padding: 17,
+    backgroundColor: "rgba(8, 20, 42, 0.9)",
+    borderWidth: 0.8,
+    borderColor: "#a9843e",
   },
 
   quoteMark: {
     color: "#f4c95d",
-    fontSize: 34,
+    fontSize: 30,
     lineHeight: 1,
-    marginRight: 12,
+    marginRight: 11,
   },
 
   quoteContent: {
     flexGrow: 1,
+    flexBasis: 0,
   },
 
   highlightQuoteText: {
     color: "#f4c95d",
-    fontSize: 12.5,
-    lineHeight: 1.5,
+    fontSize: 12,
+    lineHeight: 1.48,
   },
 
   quoteSignature: {
-    color: "#9da4b7",
-    fontSize: 8,
+    color: "#aaa28f",
+    fontSize: 7.5,
     letterSpacing: 1.5,
     textTransform: "uppercase",
-    marginTop: 9,
+    marginTop: 8,
   },
 
+  /*
+   * Résumé Soleil, Lune et Ascendant
+   */
   summaryGrid: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 20,
   },
 
   summaryCard: {
     width: "31.5%",
-    minHeight: 220,
-    padding: 16,
+    minHeight: 216,
+    paddingTop: 16,
+    paddingBottom: 15,
+    paddingHorizontal: 13,
     alignItems: "center",
-    backgroundColor: "#111a34",
-    borderWidth: 1,
-    borderColor: "#39415d",
+    backgroundColor: "rgba(7, 19, 41, 0.9)",
+    borderWidth: 0.8,
+    borderColor: "#756340",
   },
 
   summaryIconCircle: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0d152d",
-    borderWidth: 1,
-    borderColor: "#8f793c",
-    marginBottom: 12,
+    backgroundColor: "rgba(3, 12, 27, 0.94)",
+    borderWidth: 0.9,
+    borderColor: "#bd9342",
+    marginBottom: 11,
   },
 
   summaryIcon: {
-    width: 28,
-    height: 28,
+    width: 30,
+    height: 30,
     objectFit: "contain",
   },
 
   summaryLabel: {
-    color: "#9da4b7",
-    fontSize: 8.5,
-    letterSpacing: 1.2,
+    color: "#bcb3a0",
+    fontSize: 8,
+    letterSpacing: 1.3,
     textTransform: "uppercase",
     marginBottom: 7,
     textAlign: "center",
@@ -261,56 +344,57 @@ export const pdfStyles = StyleSheet.create({
   summaryValue: {
     color: "#fff8e7",
     fontSize: 18,
-    marginBottom: 10,
+    lineHeight: 1.25,
+    marginBottom: 9,
     textAlign: "center",
   },
 
   summaryDivider: {
     width: 38,
-    height: 1,
-    backgroundColor: "#8f793c",
-    marginBottom: 10,
+    height: 0.8,
+    backgroundColor: "#b28b41",
+    marginBottom: 9,
   },
 
   summaryMeaning: {
     color: "#f4c95d",
-    fontSize: 10.5,
+    fontSize: 10,
     lineHeight: 1.4,
-    marginBottom: 8,
+    marginBottom: 7,
     textAlign: "center",
   },
 
   summaryDescription: {
-    color: "#bfc5d5",
-    fontSize: 8.8,
-    lineHeight: 1.45,
+    color: "#d2ccbd",
+    fontSize: 8.4,
+    lineHeight: 1.42,
     textAlign: "center",
   },
 
   summarySynthesis: {
     flexDirection: "row",
-    padding: 22,
-    marginBottom: 16,
-    backgroundColor: "#111a34",
-    borderWidth: 1,
-    borderColor: "#8f793c",
+    padding: 20,
+    marginBottom: 15,
+    backgroundColor: "rgba(7, 19, 41, 0.9)",
+    borderWidth: 0.8,
+    borderColor: "#a9843e",
   },
 
   synthesisBadge: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#0d152d",
-    borderWidth: 1,
-    borderColor: "#8f793c",
-    marginRight: 16,
+    backgroundColor: "rgba(3, 12, 27, 0.94)",
+    borderWidth: 0.9,
+    borderColor: "#b98e3f",
+    marginRight: 15,
   },
 
   synthesisBadgeText: {
     color: "#f4c95d",
-    fontSize: 18,
+    fontSize: 17,
   },
 
   synthesisContent: {
@@ -320,8 +404,8 @@ export const pdfStyles = StyleSheet.create({
 
   synthesisKicker: {
     color: "#f4c95d",
-    fontSize: 8.5,
-    letterSpacing: 1.2,
+    fontSize: 8,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
     marginBottom: 6,
   },
@@ -330,88 +414,97 @@ export const pdfStyles = StyleSheet.create({
     color: "#fff8e7",
     fontSize: 15,
     lineHeight: 1.3,
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   synthesisText: {
-    color: "#d9d4c7",
-    fontSize: 9.5,
-    lineHeight: 1.55,
-    marginBottom: 8,
+    color: "#ded7ca",
+    fontSize: 9.2,
+    lineHeight: 1.5,
+    marginBottom: 7,
   },
 
   synthesisTextLast: {
-    color: "#d9d4c7",
-    fontSize: 9.5,
-    lineHeight: 1.55,
+    color: "#ded7ca",
+    fontSize: 9.2,
+    lineHeight: 1.5,
   },
 
   summaryNote: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 14,
-    backgroundColor: "#0d152d",
-    borderWidth: 1,
-    borderColor: "#39415d",
+    padding: 13,
+    backgroundColor: "rgba(5, 15, 31, 0.9)",
+    borderWidth: 0.7,
+    borderColor: "#665b47",
   },
 
   summaryNoteSymbol: {
     color: "#f4c95d",
-    fontSize: 18,
-    marginRight: 12,
+    fontSize: 17,
+    marginRight: 11,
   },
 
   summaryNoteText: {
     flexGrow: 1,
     flexBasis: 0,
-    color: "#bfc5d5",
-    fontSize: 9,
-    lineHeight: 1.5,
+    color: "#d0c9bb",
+    fontSize: 8.6,
+    lineHeight: 1.48,
   },
 
+  /*
+   * Roue astrologique
+   */
   wheelContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 4,
+    marginTop: 2,
     marginBottom: 8,
   },
 
   wheelImage: {
-    width: 455,
-    height: 455,
+    width: 470,
+    height: 470,
     objectFit: "contain",
   },
 
   wheelMissing: {
-    width: 510,
-    height: 510,
+    width: 470,
+    height: 470,
     alignItems: "center",
     justifyContent: "center",
     padding: 30,
+    backgroundColor: "rgba(5, 15, 31, 0.82)",
+    borderWidth: 0.8,
+    borderColor: "#8f713a",
   },
 
   wheelMissingTitle: {
     fontSize: 15,
     color: "#f4c95d",
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   wheelMissingText: {
-    fontSize: 10,
-    color: "#d9d4c7",
+    fontSize: 9.5,
+    color: "#d9d2c4",
     textAlign: "center",
     lineHeight: 1.5,
   },
 
+  /*
+   * Pied de page
+   */
   footer: {
     position: "absolute",
     bottom: 20,
-    left: 46,
-    right: 46,
+    left: 48,
+    right: 48,
     textAlign: "center",
-    fontSize: 8,
-    color: "#8f96aa",
+    fontSize: 7.5,
+    color: "#a39b8b",
   },
 });
