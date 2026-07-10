@@ -1,14 +1,16 @@
 import { StyleSheet } from "@react-pdf/renderer";
 
+const A4_WIDTH = 595.28;
+const A4_HEIGHT = 841.89;
+
 export const pdfStyles = StyleSheet.create({
   /*
    * Structure générale
-   * La page n’a aucun padding afin que le PNG couvre tout le format A4.
    */
   page: {
     position: "relative",
-    width: 595.28,
-    height: 841.89,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
     padding: 0,
     margin: 0,
     overflow: "hidden",
@@ -20,43 +22,42 @@ export const pdfStyles = StyleSheet.create({
   },
 
   /*
-   * Image de fond placée derrière le contenu.
+   * Image de fond pleine page
    */
   background: {
     position: "absolute",
     top: 0,
     left: 0,
-    width: 595.28,
-    height: 841.89,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
     objectFit: "fill",
   },
 
   /*
-   * Contenu des pages intérieures.
-   * Les marges protègent le texte de la bordure du PNG.
+   * Contenu des pages intérieures
    */
   content: {
     position: "absolute",
     top: 0,
     left: 0,
-    width: 595.28,
-    height: 841.89,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
     paddingTop: 42,
-    paddingBottom: 46,
+    paddingBottom: 60,
     paddingHorizontal: 48,
   },
 
   /*
-   * Variante légèrement plus large pour les pages très visuelles.
+   * Variante plus large pour les pages visuelles
    */
   wideContent: {
     position: "absolute",
     top: 0,
     left: 0,
-    width: 595.28,
-    height: 841.89,
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
     paddingTop: 38,
-    paddingBottom: 44,
+    paddingBottom: 58,
     paddingHorizontal: 34,
   },
 
@@ -180,7 +181,7 @@ export const pdfStyles = StyleSheet.create({
   },
 
   /*
-   * Titres centrés des pages importantes
+   * Titres centrés
    */
   centeredHeader: {
     alignItems: "center",
@@ -500,11 +501,13 @@ export const pdfStyles = StyleSheet.create({
    */
   footer: {
     position: "absolute",
-    bottom: 20,
+    bottom: 18,
     left: 48,
     right: 48,
     textAlign: "center",
     fontSize: 7.5,
+    lineHeight: 1,
+    letterSpacing: 0.4,
     color: "#a39b8b",
   },
 });
