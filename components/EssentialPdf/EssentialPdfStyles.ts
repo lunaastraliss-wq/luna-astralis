@@ -509,5 +509,21 @@ export const pdfStyles = StyleSheet.create({
     lineHeight: 1,
     letterSpacing: 0.4,
     color: "#a39b8b",
-  },
+
+    introConclusion: {
+  fontSize: 9,
+  lineHeight: 1.5,
+  color: "#f4c95d",
+  textAlign: "center",
+  marginTop: 3,
+},
+
+dividerMoon: {
+  width: 18,
+  height: 18,
+  objectFit: "contain",
+  marginHorizontal: 10,
+},
+
 });
+ 
