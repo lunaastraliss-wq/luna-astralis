@@ -12,9 +12,30 @@ export function assetUrl(path: string): string {
   }`;
 }
 
+/* ---------- Logo ---------- */
+
 export const LOGO_URL = assetUrl(
   "/logo-luna-astralis.png"
 );
+
+/* ---------- PDF Backgrounds ---------- */
+
+export const COVER_BACKGROUND =
+  assetUrl(
+    "/astrology/cover-background.png"
+  );
+
+export const PAGE_BACKGROUND =
+  assetUrl(
+    "/astrology/page-background.png"
+  );
+
+export const CONCLUSION_BACKGROUND =
+  assetUrl(
+    "/astrology/conclusion-background.png"
+  );
+
+/* ---------- Astrology Icons ---------- */
 
 export const PLANET_ICONS: Record<
   string,
@@ -28,7 +49,9 @@ export const PLANET_ICONS: Record<
   Venus: assetUrl(
     "/astrology/venus.png"
   ),
-  Mars: assetUrl("/astrology/mars.png"),
+  Mars: assetUrl(
+    "/astrology/mars.png"
+  ),
   Jupiter: assetUrl(
     "/astrology/jupiter.png"
   ),
@@ -46,6 +69,7 @@ export const PLANET_ICONS: Record<
   ),
 };
 
-export const ASCENDANT_ICON = assetUrl(
-  "/astrology/ascendant.png"
-);
+export const ASCENDANT_ICON =
+  assetUrl(
+    "/astrology/ascendant.png"
+  );
