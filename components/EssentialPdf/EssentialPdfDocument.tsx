@@ -34,9 +34,38 @@ type Props = {
   wheelImage?: string;
 };
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_APP_URL ||
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000")
+).replace(/\/$/, "");
+
+function assetUrl(path: string) {
+  return `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+const LOGO_URL = assetUrl("/logo-luna-astralis.png");
+
+const PLANET_ICONS: Record<string, string> = {
+  Sun: assetUrl("/astrology/sun.png"),
+  Moon: assetUrl("/astrology/moon.png"),
+  Mercury: assetUrl("/astrology/mercury.png"),
+  Venus: assetUrl("/astrology/venus.png"),
+  Mars: assetUrl("/astrology/mars.png"),
+  Jupiter: assetUrl("/astrology/jupiter.png"),
+  Saturn: assetUrl("/astrology/saturn.png"),
+  Uranus: assetUrl("/astrology/uranus.png"),
+  Neptune: assetUrl("/astrology/neptune.png"),
+  Pluto: assetUrl("/astrology/pluto.png"),
+};
+
+const ASCENDANT_ICON = assetUrl("/astrology/ascendant.png");
+
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 42,
+    paddingTop: 40,
     paddingBottom: 44,
     paddingHorizontal: 46,
     backgroundColor: "#0b1124",
@@ -45,12 +74,30 @@ const styles = StyleSheet.create({
     lineHeight: 1.55,
   },
 
-  badge: {
-    color: "#f4c95d",
-    fontSize: 10,
-    letterSpacing: 2.2,
+  coverLogo: {
+    width: 190,
+    height: 70,
+    objectFit: "contain",
     marginBottom: 20,
-    textTransform: "uppercase",
+  },
+
+  pageLogo: {
+    width: 112,
+    height: 34,
+    objectFit: "contain",
+  },
+
+  pageHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 14,
+  },
+
+  pageHeaderLine: {
+    width: 250,
+    height: 1,
+    backgroundColor: "#39415d",
   },
 
   title: {
@@ -118,17 +165,24 @@ const styles = StyleSheet.create({
 
   portraitCard: {
     width: "31.5%",
-    minHeight: 92,
+    minHeight: 110,
     border: "1px solid #39415d",
     backgroundColor: "#111a34",
     padding: 12,
+  },
+
+  portraitIcon: {
+    width: 28,
+    height: 28,
+    objectFit: "contain",
+    marginBottom: 8,
   },
 
   portraitLabel: {
     color: "#f4c95d",
     fontSize: 9,
     letterSpacing: 1,
-    marginBottom: 8,
+    marginBottom: 7,
     textTransform: "uppercase",
   },
 
@@ -204,18 +258,20 @@ const styles = StyleSheet.create({
   },
 
   planetMark: {
-    width: 36,
-    height: 36,
+    width: 50,
+    height: 50,
     border: "1px solid #f4c95d",
+    borderRadius: 25,
     backgroundColor: "#0b1124",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 12,
+    marginRight: 14,
   },
 
-  planetMarkText: {
-    color: "#f4c95d",
-    fontSize: 10,
+  planetIcon: {
+    width: 30,
+    height: 30,
+    objectFit: "contain",
   },
 
   planetHeaderText: {
@@ -382,19 +438,6 @@ const PLANET_FR: Record<string, string> = {
   Pluto: "Pluton",
 };
 
-const PLANET_MARKS: Record<string, string> = {
-  Sun: "SO",
-  Moon: "LU",
-  Mercury: "ME",
-  Venus: "VE",
-  Mars: "MA",
-  Jupiter: "JU",
-  Saturn: "SA",
-  Uranus: "UR",
-  Neptune: "NE",
-  Pluto: "PL",
-};
-
 const PLANET_MEANINGS: Record<string, string> = {
   Sun: "Identité et volonté",
   Moon: "Émotions et besoins",
@@ -459,21 +502,18 @@ const ELEMENT_PROFILES: Record<
     summary:
       "Votre dominante de Feu vous pousse à agir avec passion, spontanéité et confiance. Vous avancez grâce à votre enthousiasme et à votre désir de créer.",
   },
-
   Terre: {
     qualities: ["Stabilité", "Réalisme", "Persévérance"],
     challenges: ["Rigidité", "Besoin de contrôle"],
     summary:
       "Votre dominante de Terre vous donne un grand sens pratique, de la constance et le désir de construire quelque chose de durable.",
   },
-
   Air: {
     qualities: ["Curiosité", "Communication", "Ouverture"],
     challenges: ["Dispersion", "Détachement émotionnel"],
     summary:
       "Votre dominante d’Air favorise la réflexion, les échanges et l’ouverture aux idées nouvelles. Vous avez besoin de comprendre et de communiquer.",
   },
-
   Eau: {
     qualities: ["Intuition", "Empathie", "Profondeur"],
     challenges: ["Hypersensibilité", "Difficulté à lâcher prise"],
@@ -496,14 +536,12 @@ const MODALITY_PROFILES: Record<
     summary:
       "La modalité Cardinale vous pousse à entreprendre, à initier les changements et à ouvrir de nouvelles voies.",
   },
-
   Fixe: {
     quality: "Persévérance",
     challenge: "Accepter plus facilement le changement",
     summary:
       "La modalité Fixe vous apporte de la loyauté, de l’endurance et une remarquable capacité à maintenir vos efforts dans le temps.",
   },
-
   Mutable: {
     quality: "Adaptabilité",
     challenge: "Maintenir une direction stable",
@@ -601,9 +639,7 @@ function formatDegree(value: unknown): string {
 
   const normalized = ((degree % 30) + 30) % 30;
   const wholeDegrees = Math.floor(normalized);
-  const minutes = Math.round(
-    (normalized - wholeDegrees) * 60
-  );
+  const minutes = Math.round((normalized - wholeDegrees) * 60);
 
   if (minutes === 60) {
     return `${wholeDegrees + 1}°00'`;
@@ -630,9 +666,7 @@ function getPlanetDegree(planet: any): string {
   }
 
   if (typeof planet.formatted === "string") {
-    const match = planet.formatted.match(
-      /(\d{1,2})[°\s]+(\d{1,2})?/
-    );
+    const match = planet.formatted.match(/(\d{1,2})[°\s]+(\d{1,2})?/);
 
     if (match) {
       const degrees = match[1];
@@ -653,6 +687,15 @@ function splitIntoPairs(items: string[]) {
   }
 
   return pairs;
+}
+
+function BrandHeader() {
+  return (
+    <View style={styles.pageHeader} fixed>
+      <Image src={LOGO_URL} style={styles.pageLogo} />
+      <View style={styles.pageHeaderLine} />
+    </View>
+  );
 }
 
 function PageFooter() {
@@ -683,9 +726,10 @@ function PlanetCard({
     <View style={styles.planetBox} wrap={false}>
       <View style={styles.planetHeader}>
         <View style={styles.planetMark}>
-          <Text style={styles.planetMarkText}>
-            {PLANET_MARKS[planetName] || planetName.slice(0, 2)}
-          </Text>
+          <Image
+            src={PLANET_ICONS[planetName]}
+            style={styles.planetIcon}
+          />
         </View>
 
         <View style={styles.planetHeaderText}>
@@ -758,17 +802,11 @@ export default function EssentialPdfDocument({
     const element = SIGN_ELEMENT[signName];
     const modality = SIGN_MODALITY[signName];
 
-    if (
-      element &&
-      elementCounts[element] !== undefined
-    ) {
+    if (element && elementCounts[element] !== undefined) {
       elementCounts[element] += 1;
     }
 
-    if (
-      modality &&
-      modalityCounts[modality] !== undefined
-    ) {
+    if (modality && modalityCounts[modality] !== undefined) {
       modalityCounts[modality] += 1;
     }
   });
@@ -783,11 +821,8 @@ export default function EssentialPdfDocument({
       (a, b) => b[1] - a[1]
     )[0]?.[0] || "";
 
-  const elementProfile =
-    ELEMENT_PROFILES[dominantElement];
-
-  const modalityProfile =
-    MODALITY_PROFILES[dominantModality];
+  const elementProfile = ELEMENT_PROFILES[dominantElement];
+  const modalityProfile = MODALITY_PROFILES[dominantModality];
 
   const qualities = [
     ...(elementProfile?.qualities || []),
@@ -815,9 +850,7 @@ export default function EssentialPdfDocument({
     >
       {/* PAGE 1 — COUVERTURE */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.badge}>
-          Luna Astralis
-        </Text>
+        <Image src={LOGO_URL} style={styles.coverLogo} />
 
         <Text style={styles.title}>
           Carte du ciel essentielle
@@ -873,6 +906,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE 2 — ROUE ASTROLOGIQUE */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Votre roue astrologique
         </Text>
@@ -930,6 +965,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE 3 — PORTRAIT RAPIDE */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Votre portrait astrologique
         </Text>
@@ -943,6 +980,11 @@ export default function EssentialPdfDocument({
 
         <View style={styles.portraitGrid}>
           <View style={styles.portraitCard}>
+            <Image
+              src={PLANET_ICONS.Sun}
+              style={styles.portraitIcon}
+            />
+
             <Text style={styles.portraitLabel}>
               Soleil
             </Text>
@@ -958,6 +1000,11 @@ export default function EssentialPdfDocument({
           </View>
 
           <View style={styles.portraitCard}>
+            <Image
+              src={PLANET_ICONS.Moon}
+              style={styles.portraitIcon}
+            />
+
             <Text style={styles.portraitLabel}>
               Lune
             </Text>
@@ -973,6 +1020,11 @@ export default function EssentialPdfDocument({
           </View>
 
           <View style={styles.portraitCard}>
+            <Image
+              src={ASCENDANT_ICON}
+              style={styles.portraitIcon}
+            />
+
             <Text style={styles.portraitLabel}>
               Ascendant
             </Text>
@@ -1018,10 +1070,7 @@ export default function EssentialPdfDocument({
           <View style={styles.profileColumns}>
             <View style={styles.profileColumn}>
               {qualities.slice(0, 2).map((quality) => (
-                <Text
-                  style={styles.profileItem}
-                  key={quality}
-                >
+                <Text style={styles.profileItem} key={quality}>
                   • {quality}
                 </Text>
               ))}
@@ -1029,10 +1078,7 @@ export default function EssentialPdfDocument({
 
             <View style={styles.profileColumn}>
               {qualities.slice(2).map((quality) => (
-                <Text
-                  style={styles.profileItem}
-                  key={quality}
-                >
+                <Text style={styles.profileItem} key={quality}>
                   • {quality}
                 </Text>
               ))}
@@ -1046,10 +1092,7 @@ export default function EssentialPdfDocument({
           </Text>
 
           {challenges.map((challenge) => (
-            <Text
-              style={styles.profileItem}
-              key={challenge}
-            >
+            <Text style={styles.profileItem} key={challenge}>
               • {challenge}
             </Text>
           ))}
@@ -1060,6 +1103,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE 4 — SOLEIL */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Votre identité profonde
         </Text>
@@ -1080,6 +1125,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE 5 — LUNE ET ASCENDANT */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Votre monde intérieur
         </Text>
@@ -1092,15 +1139,15 @@ export default function EssentialPdfDocument({
         <View style={styles.planetBox} wrap={false}>
           <View style={styles.planetHeader}>
             <View style={styles.planetMark}>
-              <Text style={styles.planetMarkText}>
-                AS
-              </Text>
+              <Image
+                src={ASCENDANT_ICON}
+                style={styles.planetIcon}
+              />
             </View>
 
             <View style={styles.planetHeaderText}>
               <Text style={styles.planetName}>
-                Ascendant en{" "}
-                {translateSigns(ascendantSign)}
+                Ascendant en {translateSigns(ascendantSign)}
               </Text>
 
               <Text style={styles.planetSign}>
@@ -1134,6 +1181,8 @@ export default function EssentialPdfDocument({
           style={styles.page}
           key={`planet-page-${pageIndex}`}
         >
+          <BrandHeader />
+
           <Text style={styles.sectionTitle}>
             Vos positions planétaires
           </Text>
@@ -1159,6 +1208,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE DES ÉLÉMENTS */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Vos éléments dominants
         </Text>
@@ -1203,8 +1254,7 @@ export default function EssentialPdfDocument({
 
         <View style={styles.box}>
           <Text style={styles.profileTitle}>
-            Élément dominant :{" "}
-            {dominantElement || "—"}
+            Élément dominant : {dominantElement || "—"}
           </Text>
 
           <Text style={styles.text}>
@@ -1220,6 +1270,8 @@ export default function EssentialPdfDocument({
 
       {/* PAGE DES MODALITÉS */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Vos modalités astrologiques
         </Text>
@@ -1232,20 +1284,14 @@ export default function EssentialPdfDocument({
 
         <View style={styles.countRow}>
           <View style={styles.countItem}>
-            <Text style={styles.countLabel}>
-              Cardinal
-            </Text>
-
+            <Text style={styles.countLabel}>Cardinal</Text>
             <Text style={styles.countValue}>
               {modalityCounts.Cardinal}
             </Text>
           </View>
 
           <View style={styles.countItem}>
-            <Text style={styles.countLabel}>
-              Fixe
-            </Text>
-
+            <Text style={styles.countLabel}>Fixe</Text>
             <Text style={styles.countValue}>
               {modalityCounts.Fixe}
             </Text>
@@ -1254,10 +1300,7 @@ export default function EssentialPdfDocument({
 
         <View style={styles.countRow}>
           <View style={styles.countItem}>
-            <Text style={styles.countLabel}>
-              Mutable
-            </Text>
-
+            <Text style={styles.countLabel}>Mutable</Text>
             <Text style={styles.countValue}>
               {modalityCounts.Mutable}
             </Text>
@@ -1266,8 +1309,7 @@ export default function EssentialPdfDocument({
 
         <View style={styles.box}>
           <Text style={styles.profileTitle}>
-            Modalité dominante :{" "}
-            {dominantModality || "—"}
+            Modalité dominante : {dominantModality || "—"}
           </Text>
 
           <Text style={styles.text}>
@@ -1283,6 +1325,8 @@ export default function EssentialPdfDocument({
 
       {/* SYNTHÈSE PERSONNALISÉE */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Votre synthèse Luna Astralis
         </Text>
@@ -1313,8 +1357,7 @@ export default function EssentialPdfDocument({
           </Text>
 
           <Text style={styles.text}>
-            Votre Ascendant en{" "}
-            {translateSigns(ascendantSign)} influence
+            Votre Ascendant en {translateSigns(ascendantSign)} influence
             votre présence, vos réactions spontanées et
             l’image que vous projetez lorsque vous
             découvrez une nouvelle situation.
@@ -1351,6 +1394,8 @@ export default function EssentialPdfDocument({
 
       {/* CONCLUSION */}
       <Page size="A4" style={styles.page}>
+        <BrandHeader />
+
         <Text style={styles.sectionTitle}>
           Conclusion
         </Text>
