@@ -335,8 +335,8 @@ const styles = StyleSheet.create({
 
 
   wheelImage: {
-    width: 510,
-    height: 510,
+    width: 455,
+    height: 455,
     objectFit: "contain",
   },
 
