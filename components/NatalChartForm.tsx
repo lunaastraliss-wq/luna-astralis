@@ -2,42 +2,95 @@
 
 import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
+
 import NatalChartWheel from "./NatalChartWheel";
 import NatalShareCard from "./NatalShareCard";
 import NatalFreeSummary from "./NatalFreeSummary";
 import NatalPlanetDetails from "./NatalPlanetDetails";
 import NatalPremiumOffer from "./NatalPremiumOffer";
 
-const MAIN_PLANETS = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
 
 const PLANET_FR: Record<string, string> = {
-  Sun: "Soleil", Moon: "Lune", Mercury: "Mercure", Venus: "Vénus", Mars: "Mars",
-  Jupiter: "Jupiter", Saturn: "Saturne", Uranus: "Uranus", Neptune: "Neptune", Pluto: "Pluton",
+  Sun: "Soleil",
+  Moon: "Lune",
+  Mercury: "Mercure",
+  Venus: "Vénus",
+  Mars: "Mars",
+  Jupiter: "Jupiter",
+  Saturn: "Saturne",
+  Uranus: "Uranus",
+  Neptune: "Neptune",
+  Pluto: "Pluton",
 };
 
 const PLANET_GLYPH: Record<string, string> = {
-  Sun: "☉", Moon: "☽", Mercury: "☿", Venus: "♀", Mars: "♂",
-  Jupiter: "♃", Saturn: "♄", Uranus: "♅", Neptune: "♆", Pluto: "♇",
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
 };
 
 const SIGN_FR: Record<string, string> = {
-  Aries: "Bélier", Taurus: "Taureau", Gemini: "Gémeaux", Cancer: "Cancer",
-  Leo: "Lion", Virgo: "Vierge", Libra: "Balance", Scorpio: "Scorpion",
-  Sagittarius: "Sagittaire", Capricorn: "Capricorne", Aquarius: "Verseau", Pisces: "Poissons",
+  Aries: "Bélier",
+  Taurus: "Taureau",
+  Gemini: "Gémeaux",
+  Cancer: "Cancer",
+  Leo: "Lion",
+  Virgo: "Vierge",
+  Libra: "Balance",
+  Scorpio: "Scorpion",
+  Sagittarius: "Sagittaire",
+  Capricorn: "Capricorne",
+  Aquarius: "Verseau",
+  Pisces: "Poissons",
 };
 
 const SIGN_GLYPH: Record<string, string> = {
-  Aries: "♈", Taurus: "♉", Gemini: "♊", Cancer: "♋", Leo: "♌", Virgo: "♍",
-  Libra: "♎", Scorpio: "♏", Sagittarius: "♐", Capricorn: "♑", Aquarius: "♒", Pisces: "♓",
+  Aries: "♈",
+  Taurus: "♉",
+  Gemini: "♊",
+  Cancer: "♋",
+  Leo: "♌",
+  Virgo: "♍",
+  Libra: "♎",
+  Scorpio: "♏",
+  Sagittarius: "♐",
+  Capricorn: "♑",
+  Aquarius: "♒",
+  Pisces: "♓",
 };
 
 function translateFormatted(formatted: string): string {
-  if (!formatted) return formatted;
-  let out = formatted;
-  Object.keys(SIGN_FR).forEach((en) => {
-    out = out.replace(new RegExp(en, "g"), SIGN_FR[en]);
+  if (!formatted) return "";
+
+  let translated = formatted;
+
+  Object.entries(SIGN_FR).forEach(([english, french]) => {
+    translated = translated.replace(
+      new RegExp(`\\b${english}\\b`, "g"),
+      french
+    );
   });
-  return out;
+
+  return translated;
 }
 
 function translatePlanetName(name: string): string {
@@ -49,18 +102,66 @@ function getPlanetGlyph(name: string): string {
 }
 
 function getSignGlyph(signName?: string): string {
-  return signName ? SIGN_GLYPH[signName] || "" : "";
+  if (!signName) return "";
+  return SIGN_GLYPH[signName] || "";
 }
 
 function getSignName(signName?: string): string {
-  return signName ? SIGN_FR[signName] || signName : "";
+  if (!signName) return "";
+  return SIGN_FR[signName] || signName;
 }
 
 function formatDateFR(date: string): string {
   if (!date) return "";
+
   const [day, month, year] = date.split("/");
-  if (!year || !month || !day) return date;
+
+  if (!day || !month || !year) {
+    return date;
+  }
+
   return `${day}/${month}/${year}`;
+}
+
+function isValidDate(
+  day: number,
+  month: number,
+  year: number
+): boolean {
+  if (
+    !Number.isInteger(day) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(year)
+  ) {
+    return false;
+  }
+
+  if (year < 1800 || year > new Date().getFullYear()) {
+    return false;
+  }
+
+  if (month < 1 || month > 12) {
+    return false;
+  }
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+
+  return (
+    date.getUTCFullYear() === year &&
+    date.getUTCMonth() === month - 1 &&
+    date.getUTCDate() === day
+  );
+}
+
+function isValidTime(hour: number, minute: number): boolean {
+  return (
+    Number.isInteger(hour) &&
+    Number.isInteger(minute) &&
+    hour >= 0 &&
+    hour <= 23 &&
+    minute >= 0 &&
+    minute <= 59
+  );
 }
 
 export default function NatalChartForm() {
@@ -79,34 +180,82 @@ export default function NatalChartForm() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<any>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
 
     setError("");
     setResult(null);
     setLatitude(null);
     setLongitude(null);
 
-    if (!birthDate || !birthCity) {
-      setError("La date de naissance et la ville sont obligatoires.");
+    const cleanCity = birthCity.trim();
+
+    if (!birthDate || !cleanCity) {
+      setError(
+        "La date de naissance et la ville de naissance sont obligatoires."
+      );
       return;
     }
 
-    const [dayStr, monthStr, yearStr] = birthDate.split("/");
+    const dateParts = birthDate.split("/");
 
-    if (!dayStr || !monthStr || !yearStr) {
+    if (dateParts.length !== 3) {
       setError("Entre la date au format JJ/MM/AAAA.");
+      return;
+    }
+
+    const [dayStr, monthStr, yearStr] = dateParts;
+
+    const day = Number.parseInt(dayStr, 10);
+    const month = Number.parseInt(monthStr, 10);
+    const year = Number.parseInt(yearStr, 10);
+
+    if (!isValidDate(day, month, year)) {
+      setError("La date de naissance est invalide.");
+      return;
+    }
+
+    /*
+      L'heure reste une heure locale.
+
+      Exemple :
+      21:36 est envoyé comme 21:36.
+      On ne transforme pas cette heure en UTC ici.
+
+      L'API /api/natal-chart détermine elle-même
+      le fuseau horaire à partir de la ville.
+    */
+    const effectiveBirthTime = birthTime || "12:00";
+    const [hourStr, minuteStr] = effectiveBirthTime.split(":");
+
+    const hour = Number.parseInt(hourStr, 10);
+    const minute = Number.parseInt(minuteStr, 10);
+
+    if (!isValidTime(hour, minute)) {
+      setError("L'heure de naissance est invalide.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const geoRes = await fetch("/api/geocode?city=" + encodeURIComponent(birthCity));
-      const geoData = await geoRes.json();
+      const geoResponse = await fetch(
+        `/api/geocode?city=${encodeURIComponent(cleanCity)}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        }
+      );
 
-      if (!geoData?.ok || !geoData?.result) {
-        setError("Ville introuvable. Essaie avec le nom complet, par exemple : Montréal, Canada.");
+      const geoData = await geoResponse.json();
+
+      if (!geoResponse.ok || !geoData?.ok || !geoData?.result) {
+        setError(
+          geoData?.error ||
+            "Ville introuvable. Essaie avec le nom complet, par exemple : Québec, Québec, Canada."
+        );
         return;
       }
 
@@ -114,51 +263,72 @@ export default function NatalChartForm() {
       const lon = Number(geoData.result.longitude);
 
       if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-        setError("Coordonnées invalides pour cette ville. Réessaie avec une ville plus précise.");
+        setError(
+          "Les coordonnées reçues pour cette ville sont invalides."
+        );
         return;
       }
 
       setLatitude(lat);
       setLongitude(lon);
 
-      const [hourStr, minuteStr] = (birthTime || "12:00").split(":");
-
-      const chartRes = await fetch("/api/natal-chart", {
+      const chartResponse = await fetch("/api/natal-chart", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
         body: JSON.stringify({
-          year: parseInt(yearStr, 10),
-          month: parseInt(monthStr, 10),
-          day: parseInt(dayStr, 10),
-          hour: parseInt(hourStr, 10),
-          minute: parseInt(minuteStr, 10),
+          year,
+          month,
+          day,
+          hour,
+          minute,
           latitude: lat,
           longitude: lon,
-          timezoneOffset: 0,
         }),
       });
 
-      const chartData = await chartRes.json();
+      const chartData = await chartResponse.json();
 
-      if (!chartData?.ok) {
-        setError(chartData?.error || "Erreur lors du calcul du thème.");
+      if (!chartResponse.ok || !chartData?.ok || !chartData?.chart) {
+        setError(
+          chartData?.error ||
+            "Erreur lors du calcul de la carte du ciel."
+        );
         return;
       }
 
       setResult(chartData.chart);
-    } catch {
-      setError("Une erreur est survenue. Réessaie.");
+    } catch (submitError) {
+      console.error(
+        "Erreur pendant la création de la carte du ciel :",
+        submitError
+      );
+
+      setError(
+        "Une erreur est survenue pendant le calcul. Réessaie."
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const planets = (result?.planets || []).filter((p: any) => MAIN_PLANETS.includes(p.name));
+  const planets = (result?.planets || []).filter((planet: any) =>
+    MAIN_PLANETS.includes(planet?.name)
+  );
+
   const angles = result?.angles || {};
-  const chartTitle = firstName ? `Le thème astral de ${firstName}` : "Ta carte du ciel";
+
+  const chartTitle = firstName.trim()
+    ? `Le thème astral de ${firstName.trim()}`
+    : "Ta carte du ciel";
 
   const handleDownload = async () => {
-    if (!shareRef.current) return;
+    if (!shareRef.current) {
+      setError("La carte à télécharger est introuvable.");
+      return;
+    }
 
     setError("");
     setDownloading(true);
@@ -168,18 +338,33 @@ export default function NatalChartForm() {
         backgroundColor: null,
         scale: 2,
         useCORS: true,
+        logging: false,
       });
 
-      const safeName = firstName
-        ? firstName.toLowerCase().replace(/[^a-z0-9-]/gi, "-")
+      const safeName = firstName.trim()
+        ? firstName
+            .trim()
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "")
         : "luna-astralis";
 
       const link = document.createElement("a");
+
       link.download = `carte-du-ciel-${safeName}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
-    } catch {
-      setError("Impossible de télécharger l'image. Réessaie.");
+    } catch (downloadError) {
+      console.error(
+        "Erreur pendant le téléchargement de la carte :",
+        downloadError
+      );
+
+      setError(
+        "Impossible de télécharger l'image. Réessaie."
+      );
     } finally {
       setDownloading(false);
     }
@@ -187,55 +372,98 @@ export default function NatalChartForm() {
 
   return (
     <div className="natal-form-wrap">
-      <form onSubmit={handleSubmit} className="natal-form">
+      <form
+        onSubmit={handleSubmit}
+        className="natal-form"
+        noValidate
+      >
         <label>
           Prénom (optionnel)
+
           <input
             type="text"
             value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            onChange={(event) =>
+              setFirstName(event.target.value)
+            }
             placeholder="Ton prénom"
+            autoComplete="given-name"
           />
         </label>
 
         <label>
           Date de naissance
+
           <input
             type="text"
+            inputMode="numeric"
             value={birthDate}
-            onChange={(e) => {
-              let value = e.target.value.replace(/\D/g, "").slice(0, 8);
-              if (value.length > 4) value = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
-              else if (value.length > 2) value = `${value.slice(0, 2)}/${value.slice(2)}`;
+            onChange={(event) => {
+              let value = event.target.value
+                .replace(/\D/g, "")
+                .slice(0, 8);
+
+              if (value.length > 4) {
+                value = `${value.slice(0, 2)}/${value.slice(
+                  2,
+                  4
+                )}/${value.slice(4)}`;
+              } else if (value.length > 2) {
+                value = `${value.slice(0, 2)}/${value.slice(2)}`;
+              }
+
               setBirthDate(value);
             }}
             placeholder="JJ/MM/AAAA"
             maxLength={10}
+            autoComplete="bday"
             required
           />
         </label>
 
         <label>
           Heure de naissance (optionnelle, mais recommandée)
-          <input type="time" value={birthTime} onChange={(e) => setBirthTime(e.target.value)} />
+
+          <input
+            type="time"
+            value={birthTime}
+            onChange={(event) =>
+              setBirthTime(event.target.value)
+            }
+            autoComplete="off"
+          />
         </label>
 
         <label>
           Ville de naissance
+
           <input
             type="text"
             value={birthCity}
-            onChange={(e) => setBirthCity(e.target.value)}
-            placeholder="Ex. : Montréal, Canada"
+            onChange={(event) =>
+              setBirthCity(event.target.value)
+            }
+            placeholder="Ex. : Québec, Québec, Canada"
+            autoComplete="off"
             required
           />
         </label>
 
-        <button type="submit" className="btn btn-small btn-primary" disabled={loading}>
-          {loading ? "Calcul en cours..." : "Créer ma carte du ciel"}
+        <button
+          type="submit"
+          className="btn btn-small btn-primary"
+          disabled={loading}
+        >
+          {loading
+            ? "Calcul en cours..."
+            : "Créer ma carte du ciel"}
         </button>
 
-        {error && <p className="natal-error">{error}</p>}
+        {error && (
+          <p className="natal-error" role="alert">
+            {error}
+          </p>
+        )}
       </form>
 
       {result && (
@@ -246,31 +474,60 @@ export default function NatalChartForm() {
             <NatalChartWheel
               planets={planets}
               houses={result?.houses}
-              ascendantLongitude={angles?.ascendant?.longitude}
-              midheavenLongitude={angles?.midheaven?.longitude}
-              ascendantFormatted={translateFormatted(angles?.ascendant?.formatted || "")}
-              midheavenFormatted={translateFormatted(angles?.midheaven?.formatted || "")}
+              ascendantLongitude={
+                angles?.ascendant?.longitude
+              }
+              midheavenLongitude={
+                angles?.midheaven?.longitude
+              }
+              ascendantFormatted={translateFormatted(
+                angles?.ascendant?.formatted || ""
+              )}
+              midheavenFormatted={translateFormatted(
+                angles?.midheaven?.formatted || ""
+              )}
               size={460}
             />
 
             <div className="natal-angles">
               {angles?.ascendant && (
                 <div className="natal-angle-item">
-                  <span className="natal-label">Ascendant</span>
-                  <span className="natal-value">{translateFormatted(angles.ascendant.formatted)}</span>
+                  <span className="natal-label">
+                    Ascendant
+                  </span>
+
+                  <span className="natal-value">
+                    {translateFormatted(
+                      angles.ascendant.formatted || ""
+                    )}
+                  </span>
                 </div>
               )}
 
               {angles?.midheaven && (
                 <div className="natal-angle-item">
-                  <span className="natal-label">Milieu du ciel</span>
-                  <span className="natal-value">{translateFormatted(angles.midheaven.formatted)}</span>
+                  <span className="natal-label">
+                    Milieu du ciel
+                  </span>
+
+                  <span className="natal-value">
+                    {translateFormatted(
+                      angles.midheaven.formatted || ""
+                    )}
+                  </span>
                 </div>
               )}
             </div>
 
-            <button type="button" className="natal-download-btn" onClick={handleDownload} disabled={downloading}>
-              {downloading ? "Préparation de l'image..." : "📷 Télécharger ma carte du ciel"}
+            <button
+              type="button"
+              className="natal-download-btn"
+              onClick={handleDownload}
+              disabled={downloading}
+            >
+              {downloading
+                ? "Préparation de l'image..."
+                : "📷 Télécharger ma carte du ciel"}
             </button>
 
             <div className="natal-share-capture-zone">
@@ -279,7 +536,7 @@ export default function NatalChartForm() {
                   title={chartTitle}
                   birthDate={formatDateFR(birthDate)}
                   birthTime={birthTime}
-                  birthCity={birthCity}
+                  birthCity={birthCity.trim()}
                   planets={planets}
                   houses={result?.houses}
                   angles={angles}
@@ -287,15 +544,18 @@ export default function NatalChartForm() {
               </div>
             </div>
 
-            <NatalFreeSummary planets={planets} angles={angles} />
+            <NatalFreeSummary
+              planets={planets}
+              angles={angles}
+            />
           </div>
 
           <div className="natal-premium-wide">
             <NatalPremiumOffer
-              firstName={firstName}
+              firstName={firstName.trim()}
               birthDate={birthDate}
               birthTime={birthTime}
-              birthCity={birthCity}
+              birthCity={birthCity.trim()}
               latitude={latitude}
               longitude={longitude}
             />
@@ -315,4 +575,4 @@ export default function NatalChartForm() {
       )}
     </div>
   );
-}
+    }
