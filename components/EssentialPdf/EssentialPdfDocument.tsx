@@ -1,4 +1,11 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+} from "@react-pdf/renderer";
+
 import {
   SUN,
   MOON,
@@ -27,44 +34,110 @@ type Props = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 46,
+    paddingTop: 42,
+    paddingBottom: 42,
+    paddingHorizontal: 46,
     backgroundColor: "#0b1124",
     color: "#fff8e7",
-    fontSize: 12,
-    lineHeight: 1.6,
+    fontSize: 11,
+    lineHeight: 1.55,
   },
+
   badge: {
     color: "#f4c95d",
-    fontSize: 11,
+    fontSize: 10,
     letterSpacing: 2,
-    marginBottom: 24,
+    marginBottom: 20,
     textTransform: "uppercase",
   },
+
   title: {
-    fontSize: 32,
+    fontSize: 30,
     color: "#fff8e7",
-    marginBottom: 18,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#f4c95d",
-    marginBottom: 28,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    color: "#f4c95d",
-    marginBottom: 18,
-    marginTop: 8,
-  },
-  text: {
-    fontSize: 12,
     marginBottom: 12,
   },
+
+  subtitle: {
+    fontSize: 14,
+    color: "#f4c95d",
+    marginBottom: 24,
+  },
+
+  sectionTitle: {
+    fontSize: 22,
+    color: "#f4c95d",
+    marginBottom: 16,
+  },
+
+  planetTitle: {
+    fontSize: 17,
+    color: "#f4c95d",
+    marginBottom: 9,
+  },
+
+  text: {
+    fontSize: 11,
+    marginBottom: 10,
+    lineHeight: 1.55,
+  },
+
+  smallText: {
+    fontSize: 10,
+    color: "#d9d4c7",
+    lineHeight: 1.5,
+  },
+
   box: {
     border: "1px solid #f4c95d",
-    padding: 18,
-    marginTop: 20,
-    marginBottom: 20,
+    padding: 16,
+    marginTop: 12,
+    marginBottom: 18,
+  },
+
+  informationLine: {
+    fontSize: 11,
+    marginBottom: 6,
+  },
+
+  planetBox: {
+    border: "1px solid #39415d",
+    padding: 16,
+    marginBottom: 18,
+    backgroundColor: "#111a34",
+  },
+
+  countRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+
+  countItem: {
+    width: "48%",
+    border: "1px solid #39415d",
+    padding: 12,
+    backgroundColor: "#111a34",
+  },
+
+  countLabel: {
+    fontSize: 11,
+    color: "#f4c95d",
+    marginBottom: 4,
+  },
+
+  countValue: {
+    fontSize: 18,
+    color: "#fff8e7",
+  },
+
+  footer: {
+    position: "absolute",
+    bottom: 20,
+    left: 46,
+    right: 46,
+    textAlign: "center",
+    fontSize: 8,
+    color: "#8f96aa",
   },
 });
 
@@ -96,19 +169,6 @@ const PLANET_FR: Record<string, string> = {
   Pluto: "Pluton",
 };
 
-const PLANET_GLYPH: Record<string, string> = {
-  Sun: "☉",
-  Moon: "☽",
-  Mercury: "☿",
-  Venus: "♀",
-  Mars: "♂",
-  Jupiter: "♃",
-  Saturn: "♄",
-  Uranus: "♅",
-  Neptune: "♆",
-  Pluto: "♇",
-};
-
 const PLANET_TEXTS: Record<string, Record<string, string>> = {
   Sun: SUN,
   Moon: MOON,
@@ -122,23 +182,118 @@ const PLANET_TEXTS: Record<string, Record<string, string>> = {
   Pluto: PLUTO,
 };
 
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
+
 function signFr(sign?: string) {
   if (!sign) return "—";
   return SIGN_FR[sign] || sign;
 }
 
-function getPlanet(planets: any[], name: string) {
-  return planets.find((p) => p.name === name);
+function translateSigns(value?: string) {
+  if (!value) return "—";
+
+  let translated = value;
+
+  Object.keys(SIGN_FR).forEach((englishSign) => {
+    translated = translated.replace(
+      new RegExp(englishSign, "g"),
+      SIGN_FR[englishSign]
+    );
+  });
+
+  return translated;
 }
 
-function getPlanetInterpretation(planet: string, sign?: string) {
-  if (!sign) {
+function getPlanet(planets: any[], name: string) {
+  return planets.find((planet) => planet.name === name);
+}
+
+function getPlanetSignName(planet: any): string {
+  if (!planet) return "";
+
+  if (typeof planet.signName === "string") {
+    return planet.signName;
+  }
+
+  if (typeof planet.sign === "string") {
+    return planet.sign;
+  }
+
+  return "";
+}
+
+function getAscendantSign(angles: any): string {
+  const ascendant =
+    angles?.ascendant ||
+    angles?.Ascendant ||
+    angles?.ASC ||
+    null;
+
+  if (!ascendant) return "";
+
+  if (typeof ascendant.signName === "string") {
+    return ascendant.signName;
+  }
+
+  if (typeof ascendant.sign === "string") {
+    return ascendant.sign;
+  }
+
+  if (typeof ascendant.formatted === "string") {
+    const englishSign = Object.keys(SIGN_FR).find((sign) =>
+      ascendant.formatted.includes(sign)
+    );
+
+    return englishSign || ascendant.formatted;
+  }
+
+  return "";
+}
+
+function getPlanetInterpretation(
+  planetName: string,
+  signName?: string
+) {
+  if (!signName) {
     return "Cette position n’a pas pu être calculée avec les données disponibles.";
   }
 
   return (
-    PLANET_TEXTS[planet]?.[sign] ||
-    "Cette planète révèle une dimension importante de votre personnalité et de votre évolution intérieure."
+    PLANET_TEXTS[planetName]?.[signName] ||
+    "Cette planète révèle une dimension importante de votre personnalité, de vos besoins et de votre évolution intérieure."
+  );
+}
+
+function splitIntoPairs(items: string[]) {
+  const pairs: string[][] = [];
+
+  for (let index = 0; index < items.length; index += 2) {
+    pairs.push(items.slice(index, index + 2));
+  }
+
+  return pairs;
+}
+
+function PageFooter() {
+  return (
+    <Text
+      style={styles.footer}
+      fixed
+      render={({ pageNumber, totalPages }) =>
+        `Luna Astralis  •  ${pageNumber} / ${totalPages}`
+      }
+    />
   );
 }
 
@@ -150,177 +305,339 @@ export default function EssentialPdfDocument({
   planets,
   angles,
 }: Props) {
-  const sun = getPlanet(planets, "Sun");
-  const moon = getPlanet(planets, "Moon");
+  const safePlanets = Array.isArray(planets) ? planets : [];
 
-  const ascSign =
-    angles?.ascendant?.sign ||
-    angles?.Ascendant?.sign ||
-    angles?.ASC?.sign;
+  const sun = getPlanet(safePlanets, "Sun");
+  const moon = getPlanet(safePlanets, "Moon");
 
-  const mainPlanets = [
-    "Sun",
-    "Moon",
-    "Mercury",
-    "Venus",
-    "Mars",
-    "Jupiter",
-    "Saturn",
-    "Uranus",
-    "Neptune",
-    "Pluto",
-  ];
+  const sunSign = getPlanetSignName(sun);
+  const moonSign = getPlanetSignName(moon);
+  const ascendantSign = getAscendantSign(angles);
 
-  const elementCounts: Record<string, number> = {};
-  const modalityCounts: Record<string, number> = {};
+  const elementCounts: Record<string, number> = {
+    Feu: 0,
+    Terre: 0,
+    Air: 0,
+    Eau: 0,
+  };
 
-  mainPlanets.forEach((planet) => {
-    const data = getPlanet(planets, planet);
-    const sign = data?.sign;
+  const modalityCounts: Record<string, number> = {
+    Cardinal: 0,
+    Fixe: 0,
+    Mutable: 0,
+  };
 
-    const element = SIGN_ELEMENT[sign];
-    const modality = SIGN_MODALITY[sign];
+  MAIN_PLANETS.forEach((planetName) => {
+    const planet = getPlanet(safePlanets, planetName);
+    const signName = getPlanetSignName(planet);
+
+    if (!signName) return;
+
+    const element = SIGN_ELEMENT[signName];
+    const modality = SIGN_MODALITY[signName];
 
     if (element) {
-      elementCounts[element] = (elementCounts[element] || 0) + 1;
+      elementCounts[element] += 1;
     }
 
     if (modality) {
-      modalityCounts[modality] = (modalityCounts[modality] || 0) + 1;
+      modalityCounts[modality] += 1;
     }
   });
 
   const dominantElement =
-    Object.entries(elementCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+    Object.entries(elementCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+    "";
 
   const dominantModality =
-    Object.entries(modalityCounts).sort((a, b) => b[1] - a[1])[0]?.[0];
+    Object.entries(modalityCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
+    "";
+
+  const planetPairs = splitIntoPairs(MAIN_PLANETS);
 
   return (
-    <Document>
+    <Document
+      title={`Carte du ciel essentielle - ${firstName || "Luna Astralis"}`}
+      author="Luna Astralis"
+      subject="Rapport astrologique personnalisé"
+    >
       <Page size="A4" style={styles.page}>
         <Text style={styles.badge}>Luna Astralis</Text>
-        <Text style={styles.title}>Carte du ciel Essentielle</Text>
-        <Text style={styles.subtitle}>Rapport astrologique personnalisé</Text>
 
-        <View style={styles.box}>
-          <Text>Préparé pour : {firstName || "Votre nom"}</Text>
-          <Text>Date de naissance : {birthDate || "—"}</Text>
-          <Text>Heure de naissance : {birthTime || "—"}</Text>
-          <Text>Lieu de naissance : {birthCity || "—"}</Text>
-        </View>
-
-        <Text style={styles.text}>
-          Ce rapport vous offre une première lecture claire de votre thème
-          natal : Soleil, Lune, Ascendant, planètes principales, éléments et
-          modalités.
-        </Text>
-      </Page>
-
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Bienvenue dans votre thème astral</Text>
-
-        <Text style={styles.text}>
-          Chaque naissance marque un instant unique. Au moment exact où vous
-          êtes venu au monde, les planètes occupaient une position précise dans
-          le ciel. Cette configuration forme votre thème astral.
-        </Text>
-
-        <Text style={styles.text}>
-          L’astrologie ne fige pas votre destin. Elle agit plutôt comme un
-          miroir symbolique qui aide à mieux comprendre vos forces, vos
-          sensibilités et vos élans naturels.
-        </Text>
-      </Page>
-
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Vos trois grands piliers</Text>
-
-        <View style={styles.box}>
-          <Text>Soleil : {signFr(sun?.sign)}</Text>
-          <Text>Lune : {signFr(moon?.sign)}</Text>
-          <Text>Ascendant : {signFr(ascSign)}</Text>
-        </View>
-
-        <Text style={styles.text}>
-          Le Soleil représente votre identité profonde. La Lune révèle votre
-          monde émotionnel. L’Ascendant décrit votre manière d’entrer en
-          relation avec la vie.
-        </Text>
-      </Page>
-
-      {mainPlanets.map((planet) => {
-        const data = getPlanet(planets, planet);
-        const fr = PLANET_FR[planet] || planet;
-        const glyph = PLANET_GLYPH[planet] || "✦";
-
-        return (
-          <Page size="A4" style={styles.page} key={planet}>
-            <Text style={styles.sectionTitle}>
-              {glyph} {fr} en {signFr(data?.sign)}
-            </Text>
-
-            <Text style={styles.text}>
-              {getPlanetInterpretation(planet, data?.sign)}
-            </Text>
-          </Page>
-        );
-      })}
-
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Les éléments dominants</Text>
-
-        <View style={styles.box}>
-          <Text>Feu : {elementCounts.Feu || 0}</Text>
-          <Text>Terre : {elementCounts.Terre || 0}</Text>
-          <Text>Air : {elementCounts.Air || 0}</Text>
-          <Text>Eau : {elementCounts.Eau || 0}</Text>
-        </View>
-
-        <Text style={styles.text}>
-          Élément dominant : {dominantElement || "—"}
-        </Text>
-
-        <Text style={styles.text}>
-          {dominantElement
-            ? ELEMENT_TEXT[dominantElement]
-            : "Les éléments décrivent la grande tonalité énergétique du thème."}
-        </Text>
-      </Page>
-
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Les modalités astrologiques</Text>
-
-        <View style={styles.box}>
-          <Text>Cardinal : {modalityCounts.Cardinal || 0}</Text>
-          <Text>Fixe : {modalityCounts.Fixe || 0}</Text>
-          <Text>Mutable : {modalityCounts.Mutable || 0}</Text>
-        </View>
-
-        <Text style={styles.text}>
-          Modalité dominante : {dominantModality || "—"}
-        </Text>
-
-        <Text style={styles.text}>
-          {dominantModality
-            ? MODALITY_TEXT[dominantModality]
-            : "Les modalités indiquent votre façon naturelle d’agir."}
-        </Text>
-      </Page>
-
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionTitle}>Conclusion</Text>
-
-        <Text style={styles.text}>
-          Votre carte du ciel ne vous enferme pas. Elle révèle des tendances,
-          des forces et des pistes de compréhension pour avancer avec plus de
-          conscience.
+        <Text style={styles.title}>
+          Carte du ciel essentielle
         </Text>
 
         <Text style={styles.subtitle}>
-          Luna Astralis — Votre signe n’est pas une limite. C’est une force à
-          découvrir.
+          Rapport astrologique personnalisé
         </Text>
+
+        <View style={styles.box}>
+          <Text style={styles.informationLine}>
+            Préparé pour : {firstName || "Votre nom"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Date de naissance : {birthDate || "—"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Heure de naissance : {birthTime || "—"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Lieu de naissance : {birthCity || "—"}
+          </Text>
+        </View>
+
+        <Text style={styles.text}>
+          Ce rapport propose une lecture claire des principales énergies de
+          votre thème natal. Vous y découvrirez votre Soleil, votre Lune,
+          votre Ascendant, vos planètes personnelles ainsi que les éléments
+          et les modalités qui dominent votre carte du ciel.
+        </Text>
+
+        <Text style={styles.smallText}>
+          L’astrologie est un outil symbolique de connaissance de soi. Elle
+          met en lumière des tendances et des possibilités sans déterminer
+          votre avenir de manière absolue.
+        </Text>
+
+        <PageFooter />
+      </Page>
+
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.sectionTitle}>
+          Les fondations de votre thème astral
+        </Text>
+
+        <Text style={styles.text}>
+          Chaque naissance correspond à une configuration unique du ciel.
+          Les positions planétaires décrivent différentes dimensions de votre
+          personnalité, de votre sensibilité et de votre manière d’évoluer.
+        </Text>
+
+        <View style={styles.box}>
+          <Text style={styles.informationLine}>
+            Soleil : {signFr(sunSign)}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Lune : {signFr(moonSign)}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Ascendant : {translateSigns(ascendantSign)}
+          </Text>
+        </View>
+
+        <Text style={styles.planetTitle}>
+          Votre Soleil en {signFr(sunSign)}
+        </Text>
+
+        <Text style={styles.text}>
+          {getPlanetInterpretation("Sun", sunSign)}
+        </Text>
+
+        <Text style={styles.planetTitle}>
+          Votre Lune en {signFr(moonSign)}
+        </Text>
+
+        <Text style={styles.text}>
+          {getPlanetInterpretation("Moon", moonSign)}
+        </Text>
+
+        <Text style={styles.planetTitle}>
+          Votre Ascendant en {translateSigns(ascendantSign)}
+        </Text>
+
+        <Text style={styles.text}>
+          L’Ascendant décrit votre façon spontanée d’aborder la vie, la
+          première impression que vous laissez et la manière dont vous entrez
+          en relation avec votre environnement.
+        </Text>
+
+        <PageFooter />
+      </Page>
+
+      {planetPairs.map((pair, pageIndex) => (
+        <Page
+          size="A4"
+          style={styles.page}
+          key={`planet-page-${pageIndex}`}
+        >
+          <Text style={styles.sectionTitle}>
+            Vos positions planétaires
+          </Text>
+
+          {pair.map((planetName) => {
+            const planet = getPlanet(safePlanets, planetName);
+            const signName = getPlanetSignName(planet);
+            const planetLabel = PLANET_FR[planetName] || planetName;
+
+            return (
+              <View
+                style={styles.planetBox}
+                key={planetName}
+                wrap={false}
+              >
+                <Text style={styles.planetTitle}>
+                  {planetLabel} en {signFr(signName)}
+                </Text>
+
+                <Text style={styles.text}>
+                  {getPlanetInterpretation(planetName, signName)}
+                </Text>
+              </View>
+            );
+          })}
+
+          <PageFooter />
+        </Page>
+      ))}
+
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.sectionTitle}>
+          Vos éléments dominants
+        </Text>
+
+        <Text style={styles.text}>
+          Les éléments décrivent la tonalité générale de votre énergie et
+          votre manière naturelle d’interagir avec le monde.
+        </Text>
+
+        <View style={styles.countRow}>
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Feu</Text>
+            <Text style={styles.countValue}>
+              {elementCounts.Feu}
+            </Text>
+          </View>
+
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Terre</Text>
+            <Text style={styles.countValue}>
+              {elementCounts.Terre}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.countRow}>
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Air</Text>
+            <Text style={styles.countValue}>
+              {elementCounts.Air}
+            </Text>
+          </View>
+
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Eau</Text>
+            <Text style={styles.countValue}>
+              {elementCounts.Eau}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.box}>
+          <Text style={styles.planetTitle}>
+            Élément dominant : {dominantElement || "—"}
+          </Text>
+
+          <Text style={styles.text}>
+            {dominantElement && elementCounts[dominantElement] > 0
+              ? ELEMENT_TEXT[dominantElement]
+              : "Aucun élément dominant n’a pu être déterminé avec les données disponibles."}
+          </Text>
+        </View>
+
+        <PageFooter />
+      </Page>
+
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.sectionTitle}>
+          Vos modalités astrologiques
+        </Text>
+
+        <Text style={styles.text}>
+          Les modalités indiquent votre manière d’agir, de maintenir vos
+          décisions et de vous adapter aux changements.
+        </Text>
+
+        <View style={styles.countRow}>
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Cardinal</Text>
+            <Text style={styles.countValue}>
+              {modalityCounts.Cardinal}
+            </Text>
+          </View>
+
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Fixe</Text>
+            <Text style={styles.countValue}>
+              {modalityCounts.Fixe}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.countRow}>
+          <View style={styles.countItem}>
+            <Text style={styles.countLabel}>Mutable</Text>
+            <Text style={styles.countValue}>
+              {modalityCounts.Mutable}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.box}>
+          <Text style={styles.planetTitle}>
+            Modalité dominante : {dominantModality || "—"}
+          </Text>
+
+          <Text style={styles.text}>
+            {dominantModality &&
+            modalityCounts[dominantModality] > 0
+              ? MODALITY_TEXT[dominantModality]
+              : "Aucune modalité dominante n’a pu être déterminée avec les données disponibles."}
+          </Text>
+        </View>
+
+        <PageFooter />
+      </Page>
+
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.sectionTitle}>
+          Conclusion
+        </Text>
+
+        <Text style={styles.text}>
+          Votre carte du ciel ne vous enferme pas dans une définition fixe.
+          Elle met en lumière des forces, des besoins, des sensibilités et des
+          pistes d’évolution qui peuvent vous aider à mieux vous comprendre.
+        </Text>
+
+        <Text style={styles.text}>
+          Certaines énergies peuvent vous sembler immédiatement familières,
+          tandis que d’autres se manifestent davantage avec le temps et les
+          expériences. Votre thème astral est une invitation à observer ces
+          différentes dimensions avec curiosité et bienveillance.
+        </Text>
+
+        <View style={styles.box}>
+          <Text style={styles.subtitle}>
+            Votre signe n’est pas une limite.
+          </Text>
+
+          <Text style={styles.text}>
+            C’est une force à découvrir.
+          </Text>
+        </View>
+
+        <Text style={styles.smallText}>
+          Merci d’avoir choisi Luna Astralis pour explorer votre univers
+          intérieur.
+        </Text>
+
+        <PageFooter />
       </Page>
     </Document>
   );
