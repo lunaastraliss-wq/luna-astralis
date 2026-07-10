@@ -333,15 +333,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  wheelFrame: {
-    width: 500,
-    height: 500,
-    border: "1px solid #39415d",
-    backgroundColor: "#111a34",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 12,
-  },
+  wheelImage: {
+  width: 510,
+  height: 510,
+  objectFit: "contain",
+},
 
   wheelImage: {
     width: 484,
@@ -926,21 +922,27 @@ export default function EssentialPdfDocument({
                 style={styles.wheelImage}
               />
             ) : (
-              <View style={styles.wheelMissing}>
-                <Text style={styles.wheelMissingTitle}>
-                  Roue astrologique
-                </Text>
+            <View style={styles.wheelContainer}>
+  {safeWheelImage ? (
+    <Image
+      src={safeWheelImage}
+      style={styles.wheelImage}
+    />
+  ) : (
+    <View style={styles.wheelMissing}>
+      <Text style={styles.wheelMissingTitle}>
+        Roue astrologique
+      </Text>
 
-                <Text style={styles.wheelMissingText}>
-                  L’image de la roue n’a pas été transmise
-                  au document PDF. Les données
-                  astrologiques du rapport demeurent
-                  disponibles dans les pages suivantes.
-                </Text>
-              </View>
-            )}
-          </View>
-        </View>
+      <Text style={styles.wheelMissingText}>
+        L’image de la roue n’a pas été transmise
+        au document PDF. Les données
+        astrologiques du rapport demeurent
+        disponibles dans les pages suivantes.
+      </Text>
+    </View>
+  )}
+</View>
 
         <View style={styles.box}>
           <Text style={styles.informationLine}>
