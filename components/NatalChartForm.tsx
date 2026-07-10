@@ -584,32 +584,32 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
                 opacity: 1,
               }}
             >
-              <div
-                ref={pdfWheelRef}
-                style={{
-                  width: 900,
-                  height: 900,
-                  padding: 55,
-                  boxSizing: "border-box",
-                  background: "#0b1124",
-                  color: "#fff8e7",
-                }}
-              >
-                <NatalChartWheel
-                  planets={planets}
-                  houses={result?.houses}
-                  ascendantLongitude={
-                    angles?.ascendant?.longitude
-                  }
-                  midheavenLongitude={
-                    angles?.midheaven?.longitude
-                  }
-                  size={790}
-                  showLegend={false}
-                />
-              </div>
-            </div>
-
+             <div
+  ref={pdfWheelRef}
+  style={{
+    width: 820,
+    height: 820,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#0b1124",
+    color: "#fff8e7",
+  }}
+>
+  <NatalChartWheel
+    planets={planets}
+    houses={result?.houses}
+    ascendantLongitude={
+      angles?.ascendant?.longitude
+    }
+    midheavenLongitude={
+      angles?.midheaven?.longitude
+    }
+    size={760}
+    showLegend={false}
+  />
+</div>
+</div>              
             <NatalFreeSummary
               planets={planets}
               angles={angles}
