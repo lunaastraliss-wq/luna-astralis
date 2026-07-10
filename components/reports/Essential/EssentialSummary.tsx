@@ -24,10 +24,13 @@ function signFr(sign?: string) {
 }
 
 function getPlanet(planets: any[], name: string) {
-  return planets.find((p) => p.name === name);
+  return planets.find((planet) => planet.name === name);
 }
 
-export default function EssentialSummary({ planets, angles }: Props) {
+export default function EssentialSummary({
+  planets,
+  angles,
+}: Props) {
   const sun = getPlanet(planets, "Sun");
   const moon = getPlanet(planets, "Moon");
 
@@ -37,55 +40,110 @@ export default function EssentialSummary({ planets, angles }: Props) {
     angles?.ascendant?.sign;
 
   return (
-    <section className="essential-page essential-content-page">
-      <div className="essential-page-header">
+    <section className="essential-page essential-content-page essential-summary-page">
+      <div className="essential-page-header essential-summary-header">
         <p>Portrait astrologique</p>
         <h2>Vos trois grands piliers</h2>
+
+        <div className="essential-title-divider">
+          <span>✦</span>
+        </div>
+
+        <p className="essential-summary-introduction">
+          Trois énergies fondamentales qui, ensemble, dessinent les grandes
+          lignes de votre personnalité.
+        </p>
       </div>
 
       <div className="essential-summary-grid">
-        <div className="essential-summary-card">
-          <span>☉</span>
-          <p>Soleil</p>
+        <article className="essential-summary-card">
+          <div className="essential-summary-icon">☉</div>
+
+          <p className="essential-summary-label">Votre Soleil</p>
+
           <h3>{signFr(sun?.sign)}</h3>
+
+          <div className="essential-card-divider" />
+
           <small>Votre identité profonde</small>
-        </div>
 
-        <div className="essential-summary-card">
-          <span>☽</span>
-          <p>Lune</p>
+          <p className="essential-card-description">
+            Ce qui vous anime, vous guide et cherche naturellement à
+            s’accomplir en vous.
+          </p>
+        </article>
+
+        <article className="essential-summary-card">
+          <div className="essential-summary-icon">☽</div>
+
+          <p className="essential-summary-label">Votre Lune</p>
+
           <h3>{signFr(moon?.sign)}</h3>
-          <small>Votre monde émotionnel</small>
-        </div>
 
-        <div className="essential-summary-card">
-          <span>AC</span>
-          <p>Ascendant</p>
+          <div className="essential-card-divider" />
+
+          <small>Votre monde émotionnel</small>
+
+          <p className="essential-card-description">
+            Vos besoins affectifs, votre sensibilité et votre manière de
+            retrouver un sentiment de sécurité.
+          </p>
+        </article>
+
+        <article className="essential-summary-card">
+          <div className="essential-summary-icon essential-ascendant-icon">
+            AC
+          </div>
+
+          <p className="essential-summary-label">Votre Ascendant</p>
+
           <h3>{signFr(ascSign)}</h3>
-          <small>Votre manière d’entrer dans la vie</small>
+
+          <div className="essential-card-divider" />
+
+          <small>Votre présence spontanée</small>
+
+          <p className="essential-card-description">
+            Votre première impulsion face à la vie et l’énergie que les autres
+            perçoivent d’abord chez vous.
+          </p>
+        </article>
+      </div>
+
+      <div className="essential-summary-synthesis">
+        <div className="essential-synthesis-symbol">✦</div>
+
+        <div>
+          <p className="essential-synthesis-kicker">
+            La rencontre de vos trois énergies
+          </p>
+
+          <h3>Une personnalité riche de plusieurs dimensions</h3>
+
+          <p>
+            Le Soleil représente la personne que vous cherchez pleinement à
+            devenir. La Lune révèle ce dont vous avez besoin pour vous sentir
+            intérieurement en sécurité. L’Ascendant décrit votre façon
+            instinctive d’aborder le monde et de commencer chaque nouvelle
+            expérience.
+          </p>
+
+          <p>
+            Ces trois dimensions peuvent parfois sembler parfaitement
+            harmonieuses et, à d’autres moments, exprimer des besoins
+            différents. Cette diversité ne constitue pas une contradiction :
+            elle fait partie de la richesse et de la profondeur de votre thème
+            natal.
+          </p>
         </div>
       </div>
 
-      <div className="essential-text">
-        <p>
-          Le Soleil, la Lune et l’Ascendant forment les trois fondations de
-          votre thème natal. Ensemble, ils décrivent votre identité consciente,
-          votre sensibilité intérieure et la façon dont vous abordez le monde.
-        </p>
+      <div className="essential-summary-note">
+        <span>☾</span>
 
         <p>
-          Le Soleil révèle votre essence profonde, ce qui vous anime et ce que
-          vous cherchez naturellement à incarner. La Lune parle de vos besoins
-          affectifs, de votre mémoire émotionnelle et de votre manière de vous
-          sécuriser. L’Ascendant, lui, montre votre première impulsion face à la
-          vie, votre présence spontanée et l’image que les autres perçoivent
-          souvent en premier.
-        </p>
-
-        <p>
-          Cette première synthèse offre une porte d’entrée simple et puissante
-          vers votre carte du ciel. Les pages suivantes viendront préciser ces
-          grandes tendances à travers l’analyse de chacune de vos planètes.
+          Les prochaines pages approfondissent chacune de vos planètes afin de
+          révéler les nuances uniques de votre carte du ciel.
         </p>
       </div>
     </section>
