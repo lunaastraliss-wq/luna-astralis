@@ -26,28 +26,30 @@ const PAGE_HORIZONTAL = 48;
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-
-    paddingTop: PAGE_TOP,
-    paddingBottom: PAGE_BOTTOM,
-    paddingHorizontal: PAGE_HORIZONTAL,
-
+    width: A4_WIDTH,
+    height: A4_HEIGHT,
+    padding: 0,
+    margin: 0,
     backgroundColor: "#06101f",
     color: "#fff8e7",
     fontFamily: "Helvetica",
     overflow: "hidden",
   },
 
-  /*
-   * L’image part derrière le padding de la page.
-   * Elle couvre donc tout le format A4.
-   */
   background: {
     position: "absolute",
-    top: -PAGE_TOP,
-    left: -PAGE_HORIZONTAL,
+    top: 0,
+    left: 0,
     width: A4_WIDTH,
     height: A4_HEIGHT,
     objectFit: "fill",
+  },
+
+  content: {
+    position: "relative",
+    paddingTop: PAGE_TOP,
+    paddingBottom: PAGE_BOTTOM,
+    paddingHorizontal: PAGE_HORIZONTAL,
   },
 
   header: {
@@ -303,152 +305,154 @@ export default function PdfCover({
         style={styles.background}
       />
 
-      <View style={styles.header} wrap={false}>
-        <Image
-          src={LOGO_URL}
-          style={styles.logo}
-        />
+      <View style={styles.content}>
+        <View style={styles.header} wrap={false}>
+          <Image
+            src={LOGO_URL}
+            style={styles.logo}
+          />
 
-        <View style={styles.brandDivider} />
-      </View>
-
-      <View style={styles.titleSection} wrap={false}>
-        <Text style={styles.eyebrow}>
-          Rapport astrologique personnalisé
-        </Text>
-
-        <Text style={styles.title}>
-          Votre carte du ciel
-        </Text>
-
-        <Text style={styles.titleAccent}>
-          essentielle
-        </Text>
-
-        <Text style={styles.subtitle}>
-          Une première lecture claire et personnelle des grandes
-          forces qui composent votre thème natal.
-        </Text>
-      </View>
-
-      <View style={styles.identityCard} wrap={false}>
-        <View style={styles.identityAccentLeft} />
-        <View style={styles.identityAccentRight} />
-
-        <Text style={styles.preparedLabel}>
-          Préparé exclusivement pour
-        </Text>
-
-        <Text style={styles.name}>
-          {displayValue(firstName)}
-        </Text>
-
-        <View style={styles.infoRow}>
-          <View style={styles.infoColumn}>
-            <Text style={styles.infoLabel}>
-              Date de naissance
-            </Text>
-
-            <Text style={styles.infoValue}>
-              {displayValue(birthDate)}
-            </Text>
-          </View>
-
-          <View style={styles.infoColumn}>
-            <Text style={styles.infoLabel}>
-              Heure de naissance
-            </Text>
-
-            <Text style={styles.infoValue}>
-              {displayValue(birthTime)}
-            </Text>
-          </View>
-
-          <View style={styles.infoColumn}>
-            <Text style={styles.infoLabel}>
-              Lieu de naissance
-            </Text>
-
-            <Text style={styles.infoValue}>
-              {displayValue(birthCity)}
-            </Text>
-          </View>
+          <View style={styles.brandDivider} />
         </View>
-      </View>
 
-      <View style={styles.quoteSection} wrap={false}>
-        <Text style={styles.quote}>
-          Chaque naissance possède une signature céleste unique.
-        </Text>
-
-        <Text style={styles.signature}>
-          Luna Astralis
-        </Text>
-      </View>
-
-      <View style={styles.pillars} wrap={false}>
-        <View style={styles.pillar}>
-          <View style={styles.iconCircle}>
-            <Image
-              src={PLANET_ICONS.Sun}
-              style={styles.icon}
-            />
-          </View>
-
-          <Text style={styles.pillarTitle}>
-            Soleil
+        <View style={styles.titleSection} wrap={false}>
+          <Text style={styles.eyebrow}>
+            Rapport astrologique personnalisé
           </Text>
 
-          <Text style={styles.pillarDescription}>
-            Votre identité profonde
+          <Text style={styles.title}>
+            Votre carte du ciel
+          </Text>
+
+          <Text style={styles.titleAccent}>
+            essentielle
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Une première lecture claire et personnelle des grandes
+            forces qui composent votre thème natal.
           </Text>
         </View>
 
-        <View style={styles.pillar}>
-          <View style={styles.iconCircle}>
-            <Image
-              src={PLANET_ICONS.Moon}
-              style={styles.icon}
-            />
-          </View>
+        <View style={styles.identityCard} wrap={false}>
+          <View style={styles.identityAccentLeft} />
+          <View style={styles.identityAccentRight} />
 
-          <Text style={styles.pillarTitle}>
-            Lune
+          <Text style={styles.preparedLabel}>
+            Préparé exclusivement pour
           </Text>
 
-          <Text style={styles.pillarDescription}>
-            Votre monde émotionnel
+          <Text style={styles.name}>
+            {displayValue(firstName)}
+          </Text>
+
+          <View style={styles.infoRow}>
+            <View style={styles.infoColumn}>
+              <Text style={styles.infoLabel}>
+                Date de naissance
+              </Text>
+
+              <Text style={styles.infoValue}>
+                {displayValue(birthDate)}
+              </Text>
+            </View>
+
+            <View style={styles.infoColumn}>
+              <Text style={styles.infoLabel}>
+                Heure de naissance
+              </Text>
+
+              <Text style={styles.infoValue}>
+                {displayValue(birthTime)}
+              </Text>
+            </View>
+
+            <View style={styles.infoColumn}>
+              <Text style={styles.infoLabel}>
+                Lieu de naissance
+              </Text>
+
+              <Text style={styles.infoValue}>
+                {displayValue(birthCity)}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.quoteSection} wrap={false}>
+          <Text style={styles.quote}>
+            Chaque naissance possède une signature céleste unique.
+          </Text>
+
+          <Text style={styles.signature}>
+            Luna Astralis
           </Text>
         </View>
 
-        <View style={styles.pillar}>
-          <View style={styles.iconCircle}>
-            <Image
-              src={ASCENDANT_ICON}
-              style={styles.icon}
-            />
+        <View style={styles.pillars} wrap={false}>
+          <View style={styles.pillar}>
+            <View style={styles.iconCircle}>
+              <Image
+                src={PLANET_ICONS.Sun}
+                style={styles.icon}
+              />
+            </View>
+
+            <Text style={styles.pillarTitle}>
+              Soleil
+            </Text>
+
+            <Text style={styles.pillarDescription}>
+              Votre identité profonde
+            </Text>
           </View>
 
-          <Text style={styles.pillarTitle}>
-            Ascendant
+          <View style={styles.pillar}>
+            <View style={styles.iconCircle}>
+              <Image
+                src={PLANET_ICONS.Moon}
+                style={styles.icon}
+              />
+            </View>
+
+            <Text style={styles.pillarTitle}>
+              Lune
+            </Text>
+
+            <Text style={styles.pillarDescription}>
+              Votre monde émotionnel
+            </Text>
+          </View>
+
+          <View style={styles.pillar}>
+            <View style={styles.iconCircle}>
+              <Image
+                src={ASCENDANT_ICON}
+                style={styles.icon}
+              />
+            </View>
+
+            <Text style={styles.pillarTitle}>
+              Ascendant
+            </Text>
+
+            <Text style={styles.pillarDescription}>
+              Votre présence naturelle
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.introCard} wrap={false}>
+          <Text style={styles.introLabel}>
+            01
           </Text>
 
-          <Text style={styles.pillarDescription}>
-            Votre présence naturelle
+          <Text style={styles.introText}>
+            Ce rapport Essentiel vous guide à travers vos trois grands
+            piliers astrologiques, vos planètes natales, vos éléments
+            dominants et votre rythme intérieur.
           </Text>
         </View>
-      </View>
-
-      <View style={styles.introCard} wrap={false}>
-        <Text style={styles.introLabel}>
-          01
-        </Text>
-
-        <Text style={styles.introText}>
-          Ce rapport Essentiel vous guide à travers vos trois grands
-          piliers astrologiques, vos planètes natales, vos éléments
-          dominants et votre rythme intérieur.
-        </Text>
       </View>
 
       <PdfPageFooter />
