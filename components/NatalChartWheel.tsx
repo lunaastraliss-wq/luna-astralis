@@ -1,8 +1,20 @@
 "use client";
 
+import { useId } from "react";
+
 const SIGNS = [
-  "♈", "♉", "♊", "♋", "♌", "♍",
-  "♎", "♏", "♐", "♑", "♒", "♓",
+  "♈",
+  "♉",
+  "♊",
+  "♋",
+  "♌",
+  "♍",
+  "♎",
+  "♏",
+  "♐",
+  "♑",
+  "♒",
+  "♓",
 ];
 
 const PLANET_GLYPH: Record<string, string> = {
@@ -41,29 +53,152 @@ type Props = {
   size?: number;
 };
 
-function point(cx: number, cy: number, r: number, angle: number) {
-  const rad = (angle * Math.PI) / 180;
+type PlacedPlanet = WheelPlanet & {
+  angle: number;
+  radius: number;
+};
+
+function normalizeLongitude(value: number) {
+  return ((value % 360) + 360) % 360;
+}
+
+function point(
+  cx: number,
+  cy: number,
+  radius: number,
+  angle: number
+) {
+  const radians = (angle * Math.PI) / 180;
+
   return {
-    x: cx + r * Math.cos(rad),
-    y: cy - r * Math.sin(rad),
+    x: cx + radius * Math.cos(radians),
+    y: cy - radius * Math.sin(radians),
   };
 }
 
 function angleDiff(a: number, b: number) {
-  const diff = Math.abs(a - b) % 360;
-  return diff > 180 ? 360 - diff : diff;
+  const difference =
+    Math.abs(normalizeLongitude(a) - normalizeLongitude(b)) % 360;
+
+  return difference > 180 ? 360 - difference : difference;
 }
 
-function getAspect(diff: number) {
+function getAspect(difference: number) {
   const aspects = [
-    { angle: 0, orb: 8, color: "#f4c95d", opacity: 0.42 },
-    { angle: 60, orb: 5, color: "#4fa3ff", opacity: 0.42 },
-    { angle: 90, orb: 6, color: "#ff5c5c", opacity: 0.48 },
-    { angle: 120, orb: 6, color: "#4fa3ff", opacity: 0.48 },
-    { angle: 180, orb: 8, color: "#ff5c5c", opacity: 0.5 },
+    {
+      angle: 0,
+      orb: 8,
+      color: "#f4c95d",
+      opacity: 0.42,
+    },
+    {
+      angle: 60,
+      orb: 5,
+      color: "#4fa3ff",
+      opacity: 0.42,
+    },
+    {
+      angle: 90,
+      orb: 6,
+      color: "#ff5c5c",
+      opacity: 0.48,
+    },
+    {
+      angle: 120,
+      orb: 6,
+      color: "#4fa3ff",
+      opacity: 0.48,
+    },
+    {
+      angle: 180,
+      orb: 8,
+      color: "#ff5c5c",
+      opacity: 0.5,
+    },
   ];
 
-  return aspects.find((a) => Math.abs(diff - a.angle) <= a.orb);
+  return aspects.find(
+    (aspect) =>
+      Math.abs(difference - aspect.angle) <= aspect.orb
+  );
+}
+
+function getMiddleLongitude(
+  currentLongitude: number,
+  nextLongitude: number
+) {
+  const current = normalizeLongitude(currentLongitude);
+  let next = normalizeLongitude(nextLongitude);
+
+  if (next <= current) {
+    next += 360;
+  }
+
+  return normalizeLongitude((current + next) / 2);
+}
+
+function placePlanets(
+  planets: WheelPlanet[],
+  toAngle: (longitude: number) => number,
+  radii: number[]
+): PlacedPlanet[] {
+  const sortedPlanets = [...planets].sort(
+    (a, b) =>
+      normalizeLongitude(a.longitude) -
+      normalizeLongitude(b.longitude)
+  );
+
+  const groupThreshold = 13;
+  const groups: WheelPlanet[][] = [];
+
+  sortedPlanets.forEach((planet) => {
+    const currentGroup = groups[groups.length - 1];
+
+    if (!currentGroup) {
+      groups.push([planet]);
+      return;
+    }
+
+    const previousPlanet =
+      currentGroup[currentGroup.length - 1];
+
+    const difference = angleDiff(
+      previousPlanet.longitude,
+      planet.longitude
+    );
+
+    if (difference < groupThreshold) {
+      currentGroup.push(planet);
+    } else {
+      groups.push([planet]);
+    }
+  });
+
+  if (groups.length > 1) {
+    const firstGroup = groups[0];
+    const lastGroup = groups[groups.length - 1];
+
+    const firstPlanet = firstGroup[0];
+    const lastPlanet = lastGroup[lastGroup.length - 1];
+
+    if (
+      angleDiff(
+        firstPlanet.longitude,
+        lastPlanet.longitude
+      ) < groupThreshold
+    ) {
+      groups[0] = [...lastGroup, ...firstGroup];
+      groups.pop();
+    }
+  }
+
+  return groups.flatMap((group) =>
+    group.map((planet, index) => ({
+      ...planet,
+      angle: toAngle(planet.longitude),
+      radius: radii[index % radii.length],
+    }))
+  );
 }
 
 export default function NatalChartWheel({
@@ -75,53 +210,76 @@ export default function NatalChartWheel({
   midheavenFormatted,
   size = 520,
 }: Props) {
+  const svgId = useId().replace(/:/g, "");
+
+  const glowId = `wheel-glow-${svgId}`;
+  const goldStrokeId = `gold-stroke-${svgId}`;
+  const centerGlowId = `center-glow-${svgId}`;
+
   const cx = size / 2;
   const cy = size / 2;
 
-  const outer = size * 0.48;
-  const zodiacOuter = size * 0.455;
-  const zodiacInner = size * 0.385;
-  const houseRing = size * 0.32;
-  const planetRing = size * 0.245;
-  const planetRingAlt = size * 0.195;
-  const aspectRing = size * 0.205;
+  const outerRadius = size * 0.48;
+  const zodiacOuterRadius = size * 0.455;
+  const zodiacInnerRadius = size * 0.385;
+  const houseRingRadius = size * 0.32;
+
+  const planetRadii = [
+    size * 0.255,
+    size * 0.215,
+    size * 0.175,
+  ];
+
+  const aspectRingRadius = size * 0.145;
+  const centerRadius = size * 0.105;
+
+  const safeAscendant = Number.isFinite(
+    ascendantLongitude
+  )
+    ? normalizeLongitude(ascendantLongitude)
+    : 0;
 
   const toAngle = (longitude: number) => {
-    const relative = ((longitude - ascendantLongitude) % 360 + 360) % 360;
+    const relative = normalizeLongitude(
+      longitude - safeAscendant
+    );
+
     return 180 - relative;
   };
 
-  const validPlanets = planets
-    .filter((p) => Number.isFinite(p.longitude))
-    .sort((a, b) => a.longitude - b.longitude);
+  const validPlanets = planets.filter(
+    (planet) =>
+      planet &&
+      typeof planet.name === "string" &&
+      Number.isFinite(planet.longitude)
+  );
 
-  let lastAngle: number | null = null;
-  let alternate = false;
+  const placedPlanets = placePlanets(
+    validPlanets,
+    toAngle,
+    planetRadii
+  );
 
-  const placedPlanets = validPlanets.map((p) => {
-    const angle = toAngle(p.longitude);
-
-    if (lastAngle !== null) {
-      let diff = Math.abs(angle - lastAngle);
-      if (diff > 180) diff = 360 - diff;
-      alternate = diff < 12 ? !alternate : false;
-    }
-
-    lastAngle = angle;
-
-    return {
-      ...p,
-      angle,
-      radius: alternate ? planetRingAlt : planetRing,
-    };
-  });
-
-  const aspects = [];
+  const aspects: {
+    p1: WheelPlanet;
+    p2: WheelPlanet;
+    aspect: NonNullable<
+      ReturnType<typeof getAspect>
+    >;
+  }[] = [];
 
   for (let i = 0; i < validPlanets.length; i++) {
-    for (let j = i + 1; j < validPlanets.length; j++) {
-      const diff = angleDiff(validPlanets[i].longitude, validPlanets[j].longitude);
-      const aspect = getAspect(diff);
+    for (
+      let j = i + 1;
+      j < validPlanets.length;
+      j++
+    ) {
+      const difference = angleDiff(
+        validPlanets[i].longitude,
+        validPlanets[j].longitude
+      );
+
+      const aspect = getAspect(difference);
 
       if (aspect) {
         aspects.push({
@@ -133,7 +291,31 @@ export default function NatalChartWheel({
     }
   }
 
-  const cusps = houses?.cusps || [];
+  const cusps = [...(houses?.cusps ?? [])]
+    .filter(
+      (cusp) =>
+        Number.isFinite(cusp.longitude) &&
+        Number.isFinite(cusp.house)
+    )
+    .sort((a, b) => a.house - b.house);
+
+  const ascendantPoint = point(
+    cx,
+    cy,
+    outerRadius,
+    toAngle(safeAscendant)
+  );
+
+  const descendantPoint = point(
+    cx,
+    cy,
+    outerRadius,
+    toAngle(safeAscendant + 180)
+  );
+
+  const hasMidheaven =
+    typeof midheavenLongitude === "number" &&
+    Number.isFinite(midheavenLongitude);
 
   return (
     <div
@@ -142,215 +324,548 @@ export default function NatalChartWheel({
         width: "100%",
         maxWidth: size,
         margin: "0 auto",
-        aspectRatio: "1 / 1",
       }}
     >
-      <svg
-        viewBox={`0 0 ${size} ${size}`}
-        width="100%"
-        height="auto"
-        style={{ display: "block" }}
+      <div
+        style={{
+          width: "100%",
+          aspectRatio: "1 / 1",
+        }}
       >
-        <defs>
-          <radialGradient id="wheelGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#f4c95d" stopOpacity="0.11" />
-            <stop offset="55%" stopColor="#ffffff" stopOpacity="0.025" />
-            <stop offset="100%" stopColor="#000000" stopOpacity="0" />
-          </radialGradient>
+        <svg
+          viewBox={`0 0 ${size} ${size}`}
+          width="100%"
+          height="100%"
+          role="img"
+          aria-label="Roue astrologique de naissance"
+          style={{
+            display: "block",
+            overflow: "visible",
+          }}
+        >
+          <defs>
+            <radialGradient
+              id={glowId}
+              cx="50%"
+              cy="50%"
+              r="50%"
+            >
+              <stop
+                offset="0%"
+                stopColor="#f4c95d"
+                stopOpacity="0.12"
+              />
 
-          <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#fff0a8" />
-            <stop offset="50%" stopColor="#f4c95d" />
-            <stop offset="100%" stopColor="#b8892d" />
-          </linearGradient>
-        </defs>
+              <stop
+                offset="54%"
+                stopColor="#ffffff"
+                stopOpacity="0.025"
+              />
 
-        <circle cx={cx} cy={cy} r={outer} fill="url(#wheelGlow)" />
+              <stop
+                offset="100%"
+                stopColor="#000000"
+                stopOpacity="0"
+              />
+            </radialGradient>
 
-        <circle
-          cx={cx}
-          cy={cy}
-          r={outer}
-          fill="none"
-          stroke="url(#goldStroke)"
-          strokeWidth={2.2}
-        />
+            <radialGradient
+              id={centerGlowId}
+              cx="50%"
+              cy="50%"
+              r="50%"
+            >
+              <stop
+                offset="0%"
+                stopColor="#f4c95d"
+                stopOpacity="0.12"
+              />
 
-        <circle cx={cx} cy={cy} r={zodiacOuter} fill="none" stroke="currentColor" strokeOpacity={0.24} />
-        <circle cx={cx} cy={cy} r={zodiacInner} fill="none" stroke="currentColor" strokeOpacity={0.2} />
-        <circle cx={cx} cy={cy} r={houseRing} fill="none" stroke="currentColor" strokeOpacity={0.18} />
-        <circle cx={cx} cy={cy} r={size * 0.12} fill="none" stroke="currentColor" strokeOpacity={0.12} />
+              <stop
+                offset="100%"
+                stopColor="#f4c95d"
+                stopOpacity="0.015"
+              />
+            </radialGradient>
 
-        {SIGNS.map((glyph, i) => {
-          const startAngle = toAngle(i * 30);
-          const labelAngle = toAngle(i * 30 + 15);
+            <linearGradient
+              id={goldStrokeId}
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="100%"
+            >
+              <stop
+                offset="0%"
+                stopColor="#fff0a8"
+              />
 
-          const lineA = point(cx, cy, zodiacInner, startAngle);
-          const lineB = point(cx, cy, outer, startAngle);
-          const label = point(cx, cy, (zodiacOuter + zodiacInner) / 2, labelAngle);
+              <stop
+                offset="48%"
+                stopColor="#f4c95d"
+              />
 
-          return (
-            <g key={glyph}>
-              <line x1={lineA.x} y1={lineA.y} x2={lineB.x} y2={lineB.y} stroke="currentColor" strokeOpacity={0.26} />
+              <stop
+                offset="100%"
+                stopColor="#b8892d"
+              />
+            </linearGradient>
+          </defs>
 
-              <text
-                x={label.x}
-                y={label.y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize={size * 0.045}
-                fill="#f4c95d"
-                fontWeight={700}
-              >
-                {glyph}
-              </text>
-            </g>
-          );
-        })}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={outerRadius}
+            fill={`url(#${glowId})`}
+          />
 
-        {cusps.map((cusp) => {
-          const angle = toAngle(cusp.longitude);
-          const a = point(cx, cy, size * 0.12, angle);
-          const b = point(cx, cy, zodiacInner, angle);
-          const label = point(cx, cy, houseRing - size * 0.035, angle);
+          <circle
+            cx={cx}
+            cy={cy}
+            r={outerRadius}
+            fill="none"
+            stroke={`url(#${goldStrokeId})`}
+            strokeWidth={2.4}
+          />
 
-          return (
-            <g key={cusp.house}>
-              <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="currentColor" strokeOpacity={0.22} />
+          <circle
+            cx={cx}
+            cy={cy}
+            r={zodiacOuterRadius}
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity={0.26}
+            strokeWidth={1}
+          />
 
-              <text
-                x={label.x}
-                y={label.y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize={size * 0.026}
-                fill="currentColor"
-                opacity={0.75}
-                fontWeight={700}
-              >
-                {cusp.house}
-              </text>
-            </g>
-          );
-        })}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={zodiacInnerRadius}
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity={0.21}
+            strokeWidth={1}
+          />
 
-        {aspects.map((a, i) => {
-          const p1 = point(cx, cy, aspectRing, toAngle(a.p1.longitude));
-          const p2 = point(cx, cy, aspectRing, toAngle(a.p2.longitude));
+          <circle
+            cx={cx}
+            cy={cy}
+            r={houseRingRadius}
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity={0.18}
+            strokeWidth={1}
+          />
 
-          return (
-            <line
-              key={`aspect-${i}`}
-              x1={p1.x}
-              y1={p1.y}
-              x2={p2.x}
-              y2={p2.y}
-              stroke={a.aspect.color}
-              strokeWidth={1.15}
-              strokeOpacity={a.aspect.opacity}
-            />
-          );
-        })}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={centerRadius}
+            fill={`url(#${centerGlowId})`}
+            stroke="currentColor"
+            strokeOpacity={0.14}
+            strokeWidth={1}
+          />
 
-        {(() => {
-          const asc = point(cx, cy, outer, toAngle(ascendantLongitude));
-          const desc = point(cx, cy, outer, toAngle(ascendantLongitude + 180));
+          {SIGNS.map((glyph, index) => {
+            const signStartLongitude = index * 30;
+            const signMiddleLongitude =
+              signStartLongitude + 15;
 
-          return (
-            <g>
-              <line x1={asc.x} y1={asc.y} x2={desc.x} y2={desc.y} stroke="#f4c95d" strokeWidth={2.2} strokeOpacity={0.85} />
+            const boundaryAngle = toAngle(
+              signStartLongitude
+            );
 
-              <text x={asc.x} y={asc.y} dx={-10} textAnchor="end" dominantBaseline="middle" fontSize={size * 0.034} fill="#f4c95d" fontWeight={900}>
-                AC
-              </text>
+            const labelAngle = toAngle(
+              signMiddleLongitude
+            );
 
-              <text x={desc.x} y={desc.y} dx={10} textAnchor="start" dominantBaseline="middle" fontSize={size * 0.034} fill="#f4c95d" fontWeight={900}>
-                DC
-              </text>
-            </g>
-          );
-        })()}
+            const boundaryStart = point(
+              cx,
+              cy,
+              zodiacInnerRadius,
+              boundaryAngle
+            );
 
-        {typeof midheavenLongitude === "number" &&
-          (() => {
-            const mc = point(cx, cy, outer, toAngle(midheavenLongitude));
-            const fc = point(cx, cy, outer, toAngle(midheavenLongitude + 180));
+            const boundaryEnd = point(
+              cx,
+              cy,
+              outerRadius,
+              boundaryAngle
+            );
+
+            const labelPosition = point(
+              cx,
+              cy,
+              (zodiacOuterRadius +
+                zodiacInnerRadius) /
+                2,
+              labelAngle
+            );
 
             return (
-              <g>
-                <line x1={mc.x} y1={mc.y} x2={fc.x} y2={fc.y} stroke="#f4c95d" strokeWidth={1.8} strokeOpacity={0.72} strokeDasharray="6 5" />
+              <g key={`${glyph}-${index}`}>
+                <line
+                  x1={boundaryStart.x}
+                  y1={boundaryStart.y}
+                  x2={boundaryEnd.x}
+                  y2={boundaryEnd.y}
+                  stroke="currentColor"
+                  strokeOpacity={0.28}
+                  strokeWidth={1}
+                />
 
-                <text x={mc.x} y={mc.y} dy={-10} textAnchor="middle" fontSize={size * 0.032} fill="#f4c95d" fontWeight={900}>
-                  MC
-                </text>
-
-                <text x={fc.x} y={fc.y} dy={16} textAnchor="middle" fontSize={size * 0.032} fill="#f4c95d" fontWeight={900}>
-                  FC
+                <text
+                  x={labelPosition.x}
+                  y={labelPosition.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={size * 0.045}
+                  fill="#f4c95d"
+                  fontWeight={700}
+                >
+                  {glyph}
                 </text>
               </g>
             );
-          })()}
+          })}
 
-        {placedPlanets.map((p, i) => {
-          const pos = point(cx, cy, p.radius, p.angle);
-          const tickA = point(cx, cy, houseRing, p.angle);
-          const tickB = point(cx, cy, zodiacInner, p.angle);
+          {cusps.map((cusp, index) => {
+            const nextCusp =
+              cusps[(index + 1) % cusps.length];
 
-          return (
-            <g key={`${p.name}-${i}`}>
-              <line x1={tickA.x} y1={tickA.y} x2={tickB.x} y2={tickB.y} stroke="#f4c95d" strokeOpacity={0.4} />
+            const cuspAngle = toAngle(
+              cusp.longitude
+            );
 
-              <circle
-                cx={pos.x}
-                cy={pos.y}
-                r={size * 0.032}
-                fill="rgba(244, 201, 93, 0.12)"
-                stroke="rgba(244, 201, 93, 0.35)"
-              />
+            const labelLongitude = nextCusp
+              ? getMiddleLongitude(
+                  cusp.longitude,
+                  nextCusp.longitude
+                )
+              : normalizeLongitude(
+                  cusp.longitude + 15
+                );
 
-              <text
-                x={pos.x}
-                y={pos.y}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fontSize={size * 0.047}
-                fill="#f4c95d"
-                fontWeight={800}
-              >
-                {PLANET_GLYPH[p.name] || p.name.slice(0, 2)}
-              </text>
+            const labelAngle = toAngle(
+              labelLongitude
+            );
 
-              {p.isRetrograde && (
+            const lineStart = point(
+              cx,
+              cy,
+              centerRadius,
+              cuspAngle
+            );
+
+            const lineEnd = point(
+              cx,
+              cy,
+              zodiacInnerRadius,
+              cuspAngle
+            );
+
+            const labelPosition = point(
+              cx,
+              cy,
+              houseRingRadius -
+                size * 0.035,
+              labelAngle
+            );
+
+            return (
+              <g key={`house-${cusp.house}`}>
+                <line
+                  x1={lineStart.x}
+                  y1={lineStart.y}
+                  x2={lineEnd.x}
+                  y2={lineEnd.y}
+                  stroke="currentColor"
+                  strokeOpacity={0.24}
+                  strokeWidth={
+                    cusp.house === 1 ||
+                    cusp.house === 4 ||
+                    cusp.house === 7 ||
+                    cusp.house === 10
+                      ? 1.4
+                      : 1
+                  }
+                />
+
                 <text
-                  x={pos.x + size * 0.034}
-                  y={pos.y - size * 0.026}
-                  fontSize={size * 0.023}
-                  fill="#ffb4b4"
-                  fontWeight={900}
+                  x={labelPosition.x}
+                  y={labelPosition.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={size * 0.026}
+                  fill="currentColor"
+                  opacity={0.78}
+                  fontWeight={700}
                 >
-                  R
+                  {cusp.house}
                 </text>
-              )}
-            </g>
-          );
-        })}
-      </svg>
+              </g>
+            );
+          })}
 
-      {(ascendantFormatted || midheavenFormatted) && (
-        <div className="natal-wheel-caption">
+          {aspects.map(
+            ({ p1, p2, aspect }, index) => {
+              const firstPoint = point(
+                cx,
+                cy,
+                aspectRingRadius,
+                toAngle(p1.longitude)
+              );
+
+              const secondPoint = point(
+                cx,
+                cy,
+                aspectRingRadius,
+                toAngle(p2.longitude)
+              );
+
+              return (
+                <line
+                  key={`aspect-${p1.name}-${p2.name}-${index}`}
+                  x1={firstPoint.x}
+                  y1={firstPoint.y}
+                  x2={secondPoint.x}
+                  y2={secondPoint.y}
+                  stroke={aspect.color}
+                  strokeWidth={1.15}
+                  strokeOpacity={aspect.opacity}
+                  strokeLinecap="round"
+                />
+              );
+            }
+          )}
+
+          <g>
+            <line
+              x1={ascendantPoint.x}
+              y1={ascendantPoint.y}
+              x2={descendantPoint.x}
+              y2={descendantPoint.y}
+              stroke="#f4c95d"
+              strokeWidth={2.4}
+              strokeOpacity={0.88}
+            />
+
+            <text
+              x={ascendantPoint.x}
+              y={ascendantPoint.y}
+              dx={-10}
+              textAnchor="end"
+              dominantBaseline="middle"
+              fontSize={size * 0.034}
+              fill="#f4c95d"
+              fontWeight={900}
+            >
+              AC
+            </text>
+
+            <text
+              x={descendantPoint.x}
+              y={descendantPoint.y}
+              dx={10}
+              textAnchor="start"
+              dominantBaseline="middle"
+              fontSize={size * 0.034}
+              fill="#f4c95d"
+              fontWeight={900}
+            >
+              DC
+            </text>
+          </g>
+
+          {hasMidheaven &&
+            (() => {
+              const safeMidheaven =
+                normalizeLongitude(
+                  midheavenLongitude
+                );
+
+              const midheavenPoint = point(
+                cx,
+                cy,
+                outerRadius,
+                toAngle(safeMidheaven)
+              );
+
+              const imumCoeliPoint = point(
+                cx,
+                cy,
+                outerRadius,
+                toAngle(safeMidheaven + 180)
+              );
+
+              return (
+                <g>
+                  <line
+                    x1={midheavenPoint.x}
+                    y1={midheavenPoint.y}
+                    x2={imumCoeliPoint.x}
+                    y2={imumCoeliPoint.y}
+                    stroke="#f4c95d"
+                    strokeWidth={1.8}
+                    strokeOpacity={0.74}
+                    strokeDasharray="6 5"
+                  />
+
+                  <text
+                    x={midheavenPoint.x}
+                    y={midheavenPoint.y}
+                    dy={-10}
+                    textAnchor="middle"
+                    fontSize={size * 0.032}
+                    fill="#f4c95d"
+                    fontWeight={900}
+                  >
+                    MC
+                  </text>
+
+                  <text
+                    x={imumCoeliPoint.x}
+                    y={imumCoeliPoint.y}
+                    dy={16}
+                    textAnchor="middle"
+                    fontSize={size * 0.032}
+                    fill="#f4c95d"
+                    fontWeight={900}
+                  >
+                    FC
+                  </text>
+                </g>
+              );
+            })()}
+
+          {placedPlanets.map((planet, index) => {
+            const planetPosition = point(
+              cx,
+              cy,
+              planet.radius,
+              planet.angle
+            );
+
+            const tickStart = point(
+              cx,
+              cy,
+              houseRingRadius,
+              planet.angle
+            );
+
+            const tickEnd = point(
+              cx,
+              cy,
+              zodiacInnerRadius,
+              planet.angle
+            );
+
+            return (
+              <g
+                key={`${planet.name}-${planet.longitude}-${index}`}
+              >
+                <line
+                  x1={tickStart.x}
+                  y1={tickStart.y}
+                  x2={tickEnd.x}
+                  y2={tickEnd.y}
+                  stroke="#f4c95d"
+                  strokeOpacity={0.38}
+                  strokeWidth={0.9}
+                />
+
+                <circle
+                  cx={planetPosition.x}
+                  cy={planetPosition.y}
+                  r={size * 0.033}
+                  fill="rgba(11, 17, 36, 0.9)"
+                  stroke="rgba(244, 201, 93, 0.48)"
+                  strokeWidth={1}
+                />
+
+                <circle
+                  cx={planetPosition.x}
+                  cy={planetPosition.y}
+                  r={size * 0.028}
+                  fill="rgba(244, 201, 93, 0.08)"
+                />
+
+                <text
+                  x={planetPosition.x}
+                  y={planetPosition.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={size * 0.046}
+                  fill="#f4c95d"
+                  fontWeight={800}
+                >
+                  {PLANET_GLYPH[planet.name] ||
+                    planet.name.slice(0, 2)}
+                </text>
+
+                {planet.isRetrograde && (
+                  <text
+                    x={
+                      planetPosition.x +
+                      size * 0.034
+                    }
+                    y={
+                      planetPosition.y -
+                      size * 0.027
+                    }
+                    fontSize={size * 0.022}
+                    fill="#ffb4b4"
+                    fontWeight={900}
+                  >
+                    R
+                  </text>
+                )}
+              </g>
+            );
+          })}
+
+          <circle
+            cx={cx}
+            cy={cy}
+            r={size * 0.012}
+            fill="#f4c95d"
+            opacity={0.82}
+          />
+        </svg>
+      </div>
+
+      {(ascendantFormatted ||
+        midheavenFormatted) && (
+        <div
+          className="natal-wheel-caption"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: "10px 22px",
+            marginTop: 14,
+            textAlign: "center",
+            fontSize: 14,
+            lineHeight: 1.5,
+          }}
+        >
           {ascendantFormatted && (
             <span>
-              <strong>Ascendant :</strong> {ascendantFormatted}
+              <strong>Ascendant :</strong>{" "}
+              {ascendantFormatted}
             </span>
           )}
 
           {midheavenFormatted && (
             <span>
-              <strong>Milieu du ciel :</strong> {midheavenFormatted}
+              <strong>Milieu du ciel :</strong>{" "}
+              {midheavenFormatted}
             </span>
           )}
         </div>
       )}
     </div>
   );
-}
+          }
