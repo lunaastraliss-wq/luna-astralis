@@ -739,6 +739,7 @@ export default function PdfCover({
 
   <View style={styles.ornamentLine} />
 </View>
+            </View>
 
           <View style={styles.introDivider} />
 
