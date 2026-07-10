@@ -589,7 +589,7 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
                 style={{
                   width: 900,
                   height: 900,
-                  padding: 20,
+                  padding: 55,
                   boxSizing: "border-box",
                   background: "#0b1124",
                   color: "#fff8e7",
@@ -604,7 +604,7 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
                   midheavenLongitude={
                     angles?.midheaven?.longitude
                   }
-                  size={860}
+                  size={790}
                   showLegend={false}
                 />
               </div>
