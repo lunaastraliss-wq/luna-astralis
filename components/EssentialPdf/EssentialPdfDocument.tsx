@@ -329,13 +329,13 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 8,
-    marginBottom: 18,
+    marginTop: 4,
+    marginBottom: 8,
   },
 
   wheelFrame: {
-    width: 440,
-    height: 440,
+    width: 500,
+    height: 500,
     border: "1px solid #39415d",
     backgroundColor: "#111a34",
     alignItems: "center",
@@ -344,14 +344,14 @@ const styles = StyleSheet.create({
   },
 
   wheelImage: {
-    width: 414,
-    height: 414,
+    width: 484,
+    height: 484,
     objectFit: "contain",
   },
 
   wheelMissing: {
-    width: 414,
-    height: 414,
+    width: 485,
+    height: 485,
     alignItems: "center",
     justifyContent: "center",
     padding: 30,
