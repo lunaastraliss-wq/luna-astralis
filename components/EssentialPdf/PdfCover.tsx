@@ -730,15 +730,15 @@ export default function PdfCover({
             </Text>
 
             <View style={styles.introOrnament}>
-              <View style={styles.ornamentLine} />
+  <View style={styles.ornamentLine} />
 
-              <Text style={styles.ornamentSymbol}>
-                ✦
-              </Text>
+  <Image
+    src="/astrology/moon.png"
+    style={styles.dividerMoon}
+  />
 
-              <View style={styles.ornamentLine} />
-            </View>
-          </View>
+  <View style={styles.ornamentLine} />
+</View>
 
           <View style={styles.introDivider} />
 
