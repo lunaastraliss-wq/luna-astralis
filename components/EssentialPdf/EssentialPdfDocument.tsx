@@ -3,6 +3,7 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
 } from "@react-pdf/renderer";
 
@@ -30,6 +31,10 @@ type Props = {
   birthCity?: string;
   planets: any[];
   angles: any;
+
+  // Image PNG ou JPEG de la roue astrologique.
+  // Elle peut être une URL publique ou une image en base64.
+  wheelImage?: string;
 };
 
 const styles = StyleSheet.create({
@@ -130,6 +135,58 @@ const styles = StyleSheet.create({
     color: "#fff8e7",
   },
 
+  wheelIntro: {
+    fontSize: 11,
+    lineHeight: 1.55,
+    marginBottom: 10,
+  },
+
+  wheelContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    marginBottom: 18,
+  },
+
+  wheelFrame: {
+    width: 440,
+    height: 440,
+    border: "1px solid #39415d",
+    backgroundColor: "#111a34",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 12,
+  },
+
+  wheelImage: {
+    width: 414,
+    height: 414,
+    objectFit: "contain",
+  },
+
+  wheelMissing: {
+    width: 414,
+    height: 414,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 30,
+  },
+
+  wheelMissingTitle: {
+    fontSize: 15,
+    color: "#f4c95d",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
+  wheelMissingText: {
+    fontSize: 10,
+    color: "#d9d4c7",
+    textAlign: "center",
+    lineHeight: 1.5,
+  },
+
   footer: {
     position: "absolute",
     bottom: 20,
@@ -197,6 +254,7 @@ const MAIN_PLANETS = [
 
 function signFr(sign?: string) {
   if (!sign) return "—";
+
   return SIGN_FR[sign] || sign;
 }
 
@@ -304,8 +362,14 @@ export default function EssentialPdfDocument({
   birthCity,
   planets,
   angles,
+  wheelImage,
 }: Props) {
   const safePlanets = Array.isArray(planets) ? planets : [];
+
+  const safeWheelImage =
+    typeof wheelImage === "string" && wheelImage.trim().length > 0
+      ? wheelImage.trim()
+      : "";
 
   const sun = getPlanet(safePlanets, "Sun");
   const moon = getPlanet(safePlanets, "Moon");
@@ -336,31 +400,36 @@ export default function EssentialPdfDocument({
     const element = SIGN_ELEMENT[signName];
     const modality = SIGN_MODALITY[signName];
 
-    if (element) {
+    if (element && elementCounts[element] !== undefined) {
       elementCounts[element] += 1;
     }
 
-    if (modality) {
+    if (modality && modalityCounts[modality] !== undefined) {
       modalityCounts[modality] += 1;
     }
   });
 
   const dominantElement =
-    Object.entries(elementCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
-    "";
+    Object.entries(elementCounts).sort(
+      (a, b) => b[1] - a[1]
+    )[0]?.[0] || "";
 
   const dominantModality =
-    Object.entries(modalityCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ||
-    "";
+    Object.entries(modalityCounts).sort(
+      (a, b) => b[1] - a[1]
+    )[0]?.[0] || "";
 
   const planetPairs = splitIntoPairs(MAIN_PLANETS);
 
   return (
     <Document
-      title={`Carte du ciel essentielle - ${firstName || "Luna Astralis"}`}
+      title={`Carte du ciel essentielle - ${
+        firstName || "Luna Astralis"
+      }`}
       author="Luna Astralis"
       subject="Rapport astrologique personnalisé"
     >
+      {/* PAGE 1 — COUVERTURE */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.badge}>Luna Astralis</Text>
 
@@ -391,30 +460,89 @@ export default function EssentialPdfDocument({
         </View>
 
         <Text style={styles.text}>
-          Ce rapport propose une lecture claire des principales énergies de
-          votre thème natal. Vous y découvrirez votre Soleil, votre Lune,
-          votre Ascendant, vos planètes personnelles ainsi que les éléments
-          et les modalités qui dominent votre carte du ciel.
+          Ce rapport propose une lecture claire des principales
+          énergies de votre thème natal. Vous y découvrirez votre
+          Soleil, votre Lune, votre Ascendant, vos planètes
+          personnelles ainsi que les éléments et les modalités qui
+          dominent votre carte du ciel.
         </Text>
 
         <Text style={styles.smallText}>
-          L’astrologie est un outil symbolique de connaissance de soi. Elle
-          met en lumière des tendances et des possibilités sans déterminer
-          votre avenir de manière absolue.
+          L’astrologie est un outil symbolique de connaissance de soi.
+          Elle met en lumière des tendances et des possibilités sans
+          déterminer votre avenir de manière absolue.
         </Text>
 
         <PageFooter />
       </Page>
 
+      {/* PAGE 2 — ROUE ASTROLOGIQUE */}
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.sectionTitle}>
+          Votre roue astrologique
+        </Text>
+
+        <Text style={styles.wheelIntro}>
+          Cette roue représente la position des planètes, des signes
+          et des principaux angles au moment précis de votre
+          naissance.
+        </Text>
+
+        <View style={styles.wheelContainer}>
+          <View style={styles.wheelFrame}>
+            {safeWheelImage ? (
+              <Image
+                src={safeWheelImage}
+                style={styles.wheelImage}
+              />
+            ) : (
+              <View style={styles.wheelMissing}>
+                <Text style={styles.wheelMissingTitle}>
+                  Roue astrologique
+                </Text>
+
+                <Text style={styles.wheelMissingText}>
+                  L’image de la roue n’a pas été transmise au document
+                  PDF. Les données astrologiques du rapport demeurent
+                  disponibles dans les pages suivantes.
+                </Text>
+              </View>
+            )}
+          </View>
+        </View>
+
+        <View style={styles.box}>
+          <Text style={styles.informationLine}>
+            Préparé pour : {firstName || "Votre nom"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Date : {birthDate || "—"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Heure : {birthTime || "—"}
+          </Text>
+
+          <Text style={styles.informationLine}>
+            Lieu : {birthCity || "—"}
+          </Text>
+        </View>
+
+        <PageFooter />
+      </Page>
+
+      {/* PAGE 3 — SOLEIL, LUNE ET ASCENDANT */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>
           Les fondations de votre thème astral
         </Text>
 
         <Text style={styles.text}>
-          Chaque naissance correspond à une configuration unique du ciel.
-          Les positions planétaires décrivent différentes dimensions de votre
-          personnalité, de votre sensibilité et de votre manière d’évoluer.
+          Chaque naissance correspond à une configuration unique du
+          ciel. Les positions planétaires décrivent différentes
+          dimensions de votre personnalité, de votre sensibilité et
+          de votre manière d’évoluer.
         </Text>
 
         <View style={styles.box}>
@@ -452,14 +580,15 @@ export default function EssentialPdfDocument({
         </Text>
 
         <Text style={styles.text}>
-          L’Ascendant décrit votre façon spontanée d’aborder la vie, la
-          première impression que vous laissez et la manière dont vous entrez
-          en relation avec votre environnement.
+          L’Ascendant décrit votre façon spontanée d’aborder la vie,
+          la première impression que vous laissez et la manière dont
+          vous entrez en relation avec votre environnement.
         </Text>
 
         <PageFooter />
       </Page>
 
+      {/* PAGES DES PLANÈTES */}
       {planetPairs.map((pair, pageIndex) => (
         <Page
           size="A4"
@@ -473,7 +602,8 @@ export default function EssentialPdfDocument({
           {pair.map((planetName) => {
             const planet = getPlanet(safePlanets, planetName);
             const signName = getPlanetSignName(planet);
-            const planetLabel = PLANET_FR[planetName] || planetName;
+            const planetLabel =
+              PLANET_FR[planetName] || planetName;
 
             return (
               <View
@@ -486,7 +616,10 @@ export default function EssentialPdfDocument({
                 </Text>
 
                 <Text style={styles.text}>
-                  {getPlanetInterpretation(planetName, signName)}
+                  {getPlanetInterpretation(
+                    planetName,
+                    signName
+                  )}
                 </Text>
               </View>
             );
@@ -496,14 +629,15 @@ export default function EssentialPdfDocument({
         </Page>
       ))}
 
+      {/* PAGE DES ÉLÉMENTS */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>
           Vos éléments dominants
         </Text>
 
         <Text style={styles.text}>
-          Les éléments décrivent la tonalité générale de votre énergie et
-          votre manière naturelle d’interagir avec le monde.
+          Les éléments décrivent la tonalité générale de votre énergie
+          et votre manière naturelle d’interagir avec le monde.
         </Text>
 
         <View style={styles.countRow}>
@@ -544,7 +678,8 @@ export default function EssentialPdfDocument({
           </Text>
 
           <Text style={styles.text}>
-            {dominantElement && elementCounts[dominantElement] > 0
+            {dominantElement &&
+            elementCounts[dominantElement] > 0
               ? ELEMENT_TEXT[dominantElement]
               : "Aucun élément dominant n’a pu être déterminé avec les données disponibles."}
           </Text>
@@ -553,14 +688,15 @@ export default function EssentialPdfDocument({
         <PageFooter />
       </Page>
 
+      {/* PAGE DES MODALITÉS */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>
           Vos modalités astrologiques
         </Text>
 
         <Text style={styles.text}>
-          Les modalités indiquent votre manière d’agir, de maintenir vos
-          décisions et de vous adapter aux changements.
+          Les modalités indiquent votre manière d’agir, de maintenir
+          vos décisions et de vous adapter aux changements.
         </Text>
 
         <View style={styles.countRow}>
@@ -604,22 +740,25 @@ export default function EssentialPdfDocument({
         <PageFooter />
       </Page>
 
+      {/* DERNIÈRE PAGE — CONCLUSION */}
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>
           Conclusion
         </Text>
 
         <Text style={styles.text}>
-          Votre carte du ciel ne vous enferme pas dans une définition fixe.
-          Elle met en lumière des forces, des besoins, des sensibilités et des
-          pistes d’évolution qui peuvent vous aider à mieux vous comprendre.
+          Votre carte du ciel ne vous enferme pas dans une définition
+          fixe. Elle met en lumière des forces, des besoins, des
+          sensibilités et des pistes d’évolution qui peuvent vous
+          aider à mieux vous comprendre.
         </Text>
 
         <Text style={styles.text}>
-          Certaines énergies peuvent vous sembler immédiatement familières,
-          tandis que d’autres se manifestent davantage avec le temps et les
-          expériences. Votre thème astral est une invitation à observer ces
-          différentes dimensions avec curiosité et bienveillance.
+          Certaines énergies peuvent vous sembler immédiatement
+          familières, tandis que d’autres se manifestent davantage
+          avec le temps et les expériences. Votre thème astral est une
+          invitation à observer ces différentes dimensions avec
+          curiosité et bienveillance.
         </Text>
 
         <View style={styles.box}>
@@ -633,8 +772,8 @@ export default function EssentialPdfDocument({
         </View>
 
         <Text style={styles.smallText}>
-          Merci d’avoir choisi Luna Astralis pour explorer votre univers
-          intérieur.
+          Merci d’avoir choisi Luna Astralis pour explorer votre
+          univers intérieur.
         </Text>
 
         <PageFooter />
