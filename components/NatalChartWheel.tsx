@@ -393,19 +393,21 @@ export default function NatalChartWheel({
     }
   }
 
-  const ascendantPoint = point(
-    cx,
-    cy,
-    outerRadius,
-    toAngle(safeAscendant)
-  );
+ const axisRadius = outerRadius - size * 0.05;
 
-  const descendantPoint = point(
-    cx,
-    cy,
-    outerRadius,
-    toAngle(safeAscendant + 180)
-  );
+const ascendantPoint = point(
+  cx,
+  cy,
+  axisRadius,
+  toAngle(safeAscendant)
+);
+
+const descendantPoint = point(
+  cx,
+  cy,
+  axisRadius,
+  toAngle(safeAscendant + 180)
+);
 
   const ascendantDegree =
     formatDegree(
@@ -1118,7 +1120,7 @@ export default function NatalChartWheel({
                 point(
                   cx,
                   cy,
-                  outerRadius,
+                  axisRadius,
                   toAngle(
                     safeMidheaven
                   )
@@ -1128,7 +1130,7 @@ export default function NatalChartWheel({
                 point(
                   cx,
                   cy,
-                  outerRadius,
+                  axisRadius,
                   toAngle(
                     safeMidheaven +
                       180
