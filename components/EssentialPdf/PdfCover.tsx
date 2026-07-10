@@ -43,66 +43,63 @@ const styles = StyleSheet.create({
 
   content: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    width: A4_WIDTH,
-    height: A4_HEIGHT,
-    paddingTop: 38,
-    paddingBottom: 45,
-    paddingHorizontal: 48,
+    top: 36,
+    left: 48,
+    right: 48,
+    bottom: 58,
   },
 
   header: {
     alignItems: "center",
-    marginBottom: 21,
+    marginBottom: 18,
   },
 
   logo: {
-    width: 160,
-    height: 64,
+    width: 158,
+    height: 62,
     objectFit: "contain",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
   brandDivider: {
-    width: 112,
+    width: 110,
     height: 1,
     backgroundColor: "#d4af4e",
   },
 
   titleSection: {
     alignItems: "center",
-    marginBottom: 22,
+    marginBottom: 20,
   },
 
   eyebrow: {
-    fontSize: 8.2,
-    letterSpacing: 2.7,
+    fontSize: 8,
+    letterSpacing: 2.6,
     color: "#f4c95d",
     textTransform: "uppercase",
-    marginBottom: 12,
-  },
-
-  title: {
-    fontSize: 35,
-    lineHeight: 1.08,
-    color: "#fff8e7",
-    textAlign: "center",
-    marginBottom: 4,
-  },
-
-  titleAccent: {
-    fontSize: 38,
-    lineHeight: 1.04,
-    color: "#f4c95d",
-    textAlign: "center",
     marginBottom: 11,
   },
 
+  title: {
+    fontSize: 34,
+    lineHeight: 1.08,
+    color: "#fff8e7",
+    textAlign: "center",
+    marginBottom: 3,
+  },
+
+  titleAccent: {
+    fontSize: 37,
+    lineHeight: 1.04,
+    color: "#f4c95d",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
   subtitle: {
-    width: "76%",
-    fontSize: 10.3,
-    lineHeight: 1.45,
+    width: "78%",
+    fontSize: 10,
+    lineHeight: 1.42,
     color: "#e8e2d7",
     textAlign: "center",
   },
@@ -112,10 +109,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#b7944c",
     backgroundColor: "#081426",
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingHorizontal: 23,
-    marginBottom: 18,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingHorizontal: 22,
+    marginBottom: 16,
   },
 
   identityAccentLeft: {
@@ -137,8 +134,8 @@ const styles = StyleSheet.create({
   },
 
   preparedLabel: {
-    fontSize: 7.2,
-    letterSpacing: 2.1,
+    fontSize: 7,
+    letterSpacing: 2,
     color: "#d7ccb3",
     textTransform: "uppercase",
     textAlign: "center",
@@ -146,10 +143,10 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    fontSize: 27,
+    fontSize: 26,
     color: "#fff8e7",
     textAlign: "center",
-    marginBottom: 14,
+    marginBottom: 13,
   },
 
   infoRow: {
@@ -166,8 +163,8 @@ const styles = StyleSheet.create({
   },
 
   infoLabel: {
-    fontSize: 6.2,
-    letterSpacing: 1.15,
+    fontSize: 6.1,
+    letterSpacing: 1.1,
     color: "#c8b98f",
     textTransform: "uppercase",
     textAlign: "center",
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
   },
 
   infoValue: {
-    fontSize: 9.4,
+    fontSize: 9.2,
     lineHeight: 1.25,
     color: "#fff8e7",
     textAlign: "center",
@@ -184,20 +181,20 @@ const styles = StyleSheet.create({
   quoteSection: {
     alignItems: "center",
     paddingHorizontal: 26,
-    marginBottom: 16,
+    marginBottom: 14,
   },
 
   quote: {
-    fontSize: 11.7,
-    lineHeight: 1.42,
+    fontSize: 11.5,
+    lineHeight: 1.4,
     color: "#f4efe2",
     textAlign: "center",
     marginBottom: 5,
   },
 
   signature: {
-    fontSize: 6.8,
-    letterSpacing: 2.2,
+    fontSize: 6.7,
+    letterSpacing: 2.1,
     color: "#d1c2a2",
     textTransform: "uppercase",
   },
@@ -208,9 +205,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.7,
     borderBottomWidth: 0.7,
     borderColor: "#80683d",
-    paddingTop: 11,
-    paddingBottom: 11,
-    marginBottom: 16,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginBottom: 14,
   },
 
   pillar: {
@@ -219,9 +216,9 @@ const styles = StyleSheet.create({
   },
 
   iconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
     borderWidth: 1,
     borderColor: "#c89b42",
     backgroundColor: "#06101f",
@@ -231,21 +228,21 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 28,
-    height: 28,
+    width: 27,
+    height: 27,
     objectFit: "contain",
   },
 
   pillarTitle: {
-    fontSize: 8.8,
+    fontSize: 8.5,
     color: "#f4c95d",
     textTransform: "uppercase",
     marginBottom: 3,
   },
 
   pillarDescription: {
-    fontSize: 6.7,
-    lineHeight: 1.32,
+    fontSize: 6.5,
+    lineHeight: 1.3,
     color: "#eee8dc",
     textAlign: "center",
   },
@@ -256,14 +253,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#081426",
     borderWidth: 0.7,
     borderColor: "#8f6e35",
-    paddingVertical: 10,
-    paddingHorizontal: 13,
+    paddingVertical: 9,
+    paddingHorizontal: 12,
   },
 
   introLabel: {
-    width: 34,
+    width: 32,
     fontSize: 7,
-    letterSpacing: 1.4,
+    letterSpacing: 1.3,
     color: "#f4c95d",
     paddingTop: 1,
   },
@@ -271,8 +268,8 @@ const styles = StyleSheet.create({
   introText: {
     flexGrow: 1,
     flexBasis: 0,
-    fontSize: 8.3,
-    lineHeight: 1.46,
+    fontSize: 8.1,
+    lineHeight: 1.44,
     color: "#eee8dc",
   },
 });
@@ -289,7 +286,11 @@ export default function PdfCover({
   birthCity,
 }: EssentialPdfProps) {
   return (
-    <Page size="A4" style={styles.page}>
+    <Page
+      size="A4"
+      style={styles.page}
+      wrap={false}
+    >
       <Image
         src={COVER_BACKGROUND}
         style={styles.background}
@@ -443,9 +444,9 @@ export default function PdfCover({
             dominants et votre rythme intérieur.
           </Text>
         </View>
-
-        <PdfPageFooter />
       </View>
+
+      <PdfPageFooter />
     </Page>
   );
 }
