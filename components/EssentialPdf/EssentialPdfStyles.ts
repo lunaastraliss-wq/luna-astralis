@@ -113,6 +113,108 @@ export const pdfStyles = StyleSheet.create({
     lineHeight: 1.5,
   },
 
+  centeredHeader: {
+    alignItems: "center",
+    marginBottom: 24,
+  },
+
+  pageKicker: {
+    color: "#f4c95d",
+    fontSize: 9,
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    marginBottom: 10,
+  },
+
+  largePageTitle: {
+    color: "#fff8e7",
+    fontSize: 27,
+    lineHeight: 1.2,
+    textAlign: "center",
+  },
+
+  decorativeDivider: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 14,
+    marginBottom: 12,
+  },
+
+  dividerLine: {
+    width: 55,
+    height: 1,
+    backgroundColor: "#8f793c",
+  },
+
+  dividerSymbol: {
+    color: "#f4c95d",
+    fontSize: 13,
+    marginHorizontal: 10,
+  },
+
+  pageLead: {
+    maxWidth: 420,
+    color: "#d9d4c7",
+    fontSize: 10.5,
+    lineHeight: 1.55,
+    textAlign: "center",
+  },
+
+  contentCard: {
+    padding: 24,
+    backgroundColor: "#111a34",
+    borderWidth: 1,
+    borderColor: "#39415d",
+    marginBottom: 20,
+  },
+
+  paragraph: {
+    color: "#e9e4d8",
+    fontSize: 10.5,
+    lineHeight: 1.6,
+    marginBottom: 12,
+  },
+
+  paragraphLast: {
+    color: "#e9e4d8",
+    fontSize: 10.5,
+    lineHeight: 1.6,
+  },
+
+  highlightQuote: {
+    flexDirection: "row",
+    padding: 18,
+    backgroundColor: "#141b32",
+    borderWidth: 1,
+    borderColor: "#8f793c",
+  },
+
+  quoteMark: {
+    color: "#f4c95d",
+    fontSize: 34,
+    lineHeight: 1,
+    marginRight: 12,
+  },
+
+  quoteContent: {
+    flexGrow: 1,
+  },
+
+  highlightQuoteText: {
+    color: "#f4c95d",
+    fontSize: 12.5,
+    lineHeight: 1.5,
+  },
+
+  quoteSignature: {
+    color: "#9da4b7",
+    fontSize: 8,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    marginTop: 9,
+  },
+
   wheelContainer: {
     width: "100%",
     alignItems: "center",
