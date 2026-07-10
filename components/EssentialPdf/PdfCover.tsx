@@ -25,14 +25,15 @@ const PAGE_HORIZONTAL = 48;
 
 const styles = StyleSheet.create({
   page: {
-  position: "relative",
-  padding: 0,
-  margin: 0,
-  backgroundColor: "#06101f",
-  color: "#fff8e7",
-  fontFamily: "Helvetica",
-  overflow: "hidden",
-},
+    position: "relative",
+    padding: 0,
+    margin: 0,
+    backgroundColor: "#06101f",
+    color: "#fff8e7",
+    fontFamily: "Helvetica",
+    overflow: "hidden",
+  },
+
   background: {
     position: "absolute",
     top: 0,
