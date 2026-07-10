@@ -56,24 +56,193 @@ const styles = StyleSheet.create({
     backgroundColor: "#d4af4e",
   },
 
-  decorationTopLeft: {
+  /*
+   * Carte céleste ancienne — coin supérieur gauche
+   */
+  celestialTopLeft: {
     position: "absolute",
-    top: 26,
-    left: 26,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#0b1c31",
+    top: 34,
+    left: 30,
+    width: 128,
+    height: 128,
+    opacity: 0.42,
   },
 
-  decorationBottomRight: {
+  celestialTopOuterRing: {
     position: "absolute",
-    right: 18,
-    bottom: 18,
-    width: 145,
-    height: 145,
-    borderRadius: 72,
-    backgroundColor: "#08182a",
+    top: 4,
+    left: 4,
+    width: 118,
+    height: 118,
+    borderRadius: 59,
+    borderWidth: 0.55,
+    borderColor: "#a98742",
+  },
+
+  celestialTopMiddleRing: {
+    position: "absolute",
+    top: 18,
+    left: 18,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    borderWidth: 0.35,
+    borderColor: "#7c683f",
+  },
+
+  celestialTopInnerRing: {
+    position: "absolute",
+    top: 35,
+    left: 35,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 0.4,
+    borderColor: "#b28b41",
+  },
+
+  celestialTopHorizontal: {
+    position: "absolute",
+    top: 63,
+    left: 7,
+    width: 112,
+    height: 0.45,
+    backgroundColor: "#9f8143",
+  },
+
+  celestialTopVertical: {
+    position: "absolute",
+    top: 7,
+    left: 63,
+    width: 0.45,
+    height: 112,
+    backgroundColor: "#9f8143",
+  },
+
+  celestialTopDiagonalOne: {
+    position: "absolute",
+    top: 63,
+    left: 5,
+    width: 116,
+    height: 0.4,
+    backgroundColor: "#725f3d",
+    transform: "rotate(45deg)",
+  },
+
+  celestialTopDiagonalTwo: {
+    position: "absolute",
+    top: 63,
+    left: 5,
+    width: 116,
+    height: 0.4,
+    backgroundColor: "#725f3d",
+    transform: "rotate(-45deg)",
+  },
+
+  /*
+   * Carte céleste ancienne — coin inférieur droit
+   */
+  celestialBottomRight: {
+    position: "absolute",
+    right: 24,
+    bottom: 28,
+    width: 178,
+    height: 178,
+    opacity: 0.35,
+  },
+
+  celestialBottomOuterRing: {
+    position: "absolute",
+    top: 4,
+    left: 4,
+    width: 168,
+    height: 168,
+    borderRadius: 84,
+    borderWidth: 0.6,
+    borderColor: "#a98742",
+  },
+
+  celestialBottomMiddleRing: {
+    position: "absolute",
+    top: 21,
+    left: 21,
+    width: 134,
+    height: 134,
+    borderRadius: 67,
+    borderWidth: 0.4,
+    borderColor: "#75623d",
+  },
+
+  celestialBottomInnerRing: {
+    position: "absolute",
+    top: 46,
+    left: 46,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    borderWidth: 0.45,
+    borderColor: "#b28b41",
+  },
+
+  celestialBottomHorizontal: {
+    position: "absolute",
+    top: 88,
+    left: 6,
+    width: 164,
+    height: 0.45,
+    backgroundColor: "#8f733f",
+  },
+
+  celestialBottomVertical: {
+    position: "absolute",
+    top: 6,
+    left: 88,
+    width: 0.45,
+    height: 164,
+    backgroundColor: "#8f733f",
+  },
+
+  celestialBottomDiagonalOne: {
+    position: "absolute",
+    top: 88,
+    left: 4,
+    width: 170,
+    height: 0.4,
+    backgroundColor: "#6e5c3d",
+    transform: "rotate(45deg)",
+  },
+
+  celestialBottomDiagonalTwo: {
+    position: "absolute",
+    top: 88,
+    left: 4,
+    width: 170,
+    height: 0.4,
+    backgroundColor: "#6e5c3d",
+    transform: "rotate(-45deg)",
+  },
+
+  /*
+   * Étoiles et constellations
+   */
+  star: {
+    position: "absolute",
+    color: "#d4af4e",
+    fontSize: 7,
+    lineHeight: 1,
+  },
+
+  smallStar: {
+    position: "absolute",
+    color: "#b99752",
+    fontSize: 4,
+    lineHeight: 1,
+  },
+
+  constellationLine: {
+    position: "absolute",
+    height: 0.45,
+    backgroundColor: "#8f733f",
   },
 
   content: {
@@ -311,6 +480,121 @@ function displayValue(value?: string): string {
   return cleanValue || "Non précisé";
 }
 
+function CelestialTopLeft() {
+  return (
+    <View style={styles.celestialTopLeft} fixed>
+      <View style={styles.celestialTopOuterRing} />
+      <View style={styles.celestialTopMiddleRing} />
+      <View style={styles.celestialTopInnerRing} />
+      <View style={styles.celestialTopHorizontal} />
+      <View style={styles.celestialTopVertical} />
+      <View style={styles.celestialTopDiagonalOne} />
+      <View style={styles.celestialTopDiagonalTwo} />
+
+      <Text style={[styles.star, { top: 9, left: 60 }]}>✦</Text>
+      <Text style={[styles.smallStar, { top: 26, left: 91 }]}>•</Text>
+      <Text style={[styles.star, { top: 45, left: 104 }]}>✧</Text>
+      <Text style={[styles.smallStar, { top: 84, left: 99 }]}>•</Text>
+      <Text style={[styles.star, { top: 104, left: 62 }]}>✦</Text>
+      <Text style={[styles.smallStar, { top: 88, left: 27 }]}>•</Text>
+      <Text style={[styles.star, { top: 48, left: 13 }]}>✧</Text>
+      <Text style={[styles.smallStar, { top: 23, left: 34 }]}>•</Text>
+
+      <Text style={[styles.smallStar, { top: 43, left: 49 }]}>•</Text>
+      <Text style={[styles.smallStar, { top: 57, left: 73 }]}>•</Text>
+      <Text style={[styles.smallStar, { top: 78, left: 61 }]}>•</Text>
+
+      <View
+        style={[
+          styles.constellationLine,
+          {
+            top: 51,
+            left: 50,
+            width: 27,
+            transform: "rotate(29deg)",
+          },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.constellationLine,
+          {
+            top: 69,
+            left: 60,
+            width: 22,
+            transform: "rotate(118deg)",
+          },
+        ]}
+      />
+    </View>
+  );
+}
+
+function CelestialBottomRight() {
+  return (
+    <View style={styles.celestialBottomRight} fixed>
+      <View style={styles.celestialBottomOuterRing} />
+      <View style={styles.celestialBottomMiddleRing} />
+      <View style={styles.celestialBottomInnerRing} />
+      <View style={styles.celestialBottomHorizontal} />
+      <View style={styles.celestialBottomVertical} />
+      <View style={styles.celestialBottomDiagonalOne} />
+      <View style={styles.celestialBottomDiagonalTwo} />
+
+      <Text style={[styles.star, { top: 12, left: 85 }]}>✦</Text>
+      <Text style={[styles.smallStar, { top: 31, left: 128 }]}>•</Text>
+      <Text style={[styles.star, { top: 62, left: 151 }]}>✧</Text>
+      <Text style={[styles.smallStar, { top: 122, left: 145 }]}>•</Text>
+      <Text style={[styles.star, { top: 148, left: 86 }]}>✦</Text>
+      <Text style={[styles.smallStar, { top: 131, left: 41 }]}>•</Text>
+      <Text style={[styles.star, { top: 75, left: 13 }]}>✧</Text>
+      <Text style={[styles.smallStar, { top: 32, left: 48 }]}>•</Text>
+
+      <Text style={[styles.smallStar, { top: 57, left: 68 }]}>•</Text>
+      <Text style={[styles.smallStar, { top: 76, left: 108 }]}>•</Text>
+      <Text style={[styles.smallStar, { top: 109, left: 93 }]}>•</Text>
+      <Text style={[styles.smallStar, { top: 123, left: 119 }]}>•</Text>
+
+      <View
+        style={[
+          styles.constellationLine,
+          {
+            top: 67,
+            left: 70,
+            width: 45,
+            transform: "rotate(25deg)",
+          },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.constellationLine,
+          {
+            top: 96,
+            left: 88,
+            width: 37,
+            transform: "rotate(112deg)",
+          },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.constellationLine,
+          {
+            top: 117,
+            left: 95,
+            width: 30,
+            transform: "rotate(28deg)",
+          },
+        ]}
+      />
+    </View>
+  );
+}
+
 export default function PdfCover({
   firstName,
   birthDate,
@@ -322,8 +606,9 @@ export default function PdfCover({
       <View style={styles.topAccent} fixed />
       <View style={styles.outerBorder} fixed />
       <View style={styles.innerBorder} fixed />
-      <View style={styles.decorationTopLeft} fixed />
-      <View style={styles.decorationBottomRight} fixed />
+
+      <CelestialTopLeft />
+      <CelestialBottomRight />
 
       <View style={styles.content}>
         <View style={styles.header} wrap={false}>
