@@ -64,6 +64,7 @@ export const pdfStyles = StyleSheet.create({
 
   text: {
     fontSize: 11,
+    color: "#fff8e7",
     marginBottom: 10,
     lineHeight: 1.55,
   },
@@ -93,6 +94,7 @@ export const pdfStyles = StyleSheet.create({
 
   informationLine: {
     fontSize: 11,
+    color: "#fff8e7",
     marginBottom: 6,
   },
 
@@ -108,6 +110,42 @@ export const pdfStyles = StyleSheet.create({
   quoteText: {
     fontSize: 15,
     color: "#fff8e7",
+    lineHeight: 1.5,
+  },
+
+  wheelContainer: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 4,
+    marginBottom: 8,
+  },
+
+  wheelImage: {
+    width: 455,
+    height: 455,
+    objectFit: "contain",
+  },
+
+  wheelMissing: {
+    width: 510,
+    height: 510,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 30,
+  },
+
+  wheelMissingTitle: {
+    fontSize: 15,
+    color: "#f4c95d",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
+  wheelMissingText: {
+    fontSize: 10,
+    color: "#d9d4c7",
+    textAlign: "center",
     lineHeight: 1.5,
   },
 
