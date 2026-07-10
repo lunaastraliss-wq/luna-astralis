@@ -98,6 +98,25 @@ function decodePngDataUrl(
   }
 }
 
+async function removeUploadedWheel(
+  wheelPath: string
+) {
+  if (!supabase || !wheelPath) {
+    return;
+  }
+
+  const { error } = await supabase.storage
+    .from("rapport-images")
+    .remove([wheelPath]);
+
+  if (error) {
+    console.error(
+      "[reports checkout] roue non supprimée :",
+      error.message
+    );
+  }
+}
+
 export async function POST(req: Request) {
   let uploadedWheelPath = "";
 
@@ -198,15 +217,22 @@ export async function POST(req: Request) {
       body.timezone
     );
 
+    /*
+     * Le prénom est optionnel.
+     * La date, l’heure, la ville et les coordonnées sont requises.
+     */
     if (
-      !firstName ||
       !birthDate ||
       !birthTime ||
-      !birthCity
+      !birthCity ||
+      !latitude ||
+      !longitude
     ) {
       return NextResponse.json(
         {
           error: "MISSING_BIRTH_DATA",
+          detail:
+            "La date, l’heure, la ville et les coordonnées de naissance sont requises.",
         },
         { status: 400 }
       );
@@ -244,10 +270,6 @@ export async function POST(req: Request) {
       );
     }
 
-    /*
-     * Protection contre une image anormalement grosse.
-     * 12 Mo est largement suffisant pour la roue générée.
-     */
     const maximumImageSize =
       12 * 1024 * 1024;
 
@@ -259,7 +281,7 @@ export async function POST(req: Request) {
         {
           error: "WHEEL_IMAGE_TOO_LARGE",
           detail:
-            "L’image de la roue dépasse la taille autorisée.",
+            "L’image de la roue dépasse 12 Mo.",
         },
         { status: 413 }
       );
@@ -274,7 +296,7 @@ export async function POST(req: Request) {
     const {
       error: wheelUploadError,
     } = await supabase.storage
-      .from("rapport-pdf")
+      .from("rapport-images")
       .upload(
         uploadedWheelPath,
         wheelBuffer,
@@ -286,6 +308,11 @@ export async function POST(req: Request) {
       );
 
     if (wheelUploadError) {
+      console.error(
+        "[reports checkout] WHEEL_IMAGE_UPLOAD_FAILED",
+        wheelUploadError
+      );
+
       return NextResponse.json(
         {
           error:
@@ -297,10 +324,6 @@ export async function POST(req: Request) {
       );
     }
 
-    /*
-     * L’image elle-même n’est pas placée dans Stripe.
-     * On conserve seulement son chemin Supabase.
-     */
     const birthData = {
       firstName,
       birthDate,
@@ -318,23 +341,24 @@ export async function POST(req: Request) {
       JSON.stringify(birthData);
 
     /*
-     * Stripe limite fortement la taille d’une valeur metadata.
-     * Ce JSON demeure petit puisqu’il contient seulement le chemin.
+     * Stripe limite chaque valeur metadata à 500 caractères.
      */
     if (
       serializedBirthData.length >
       500
     ) {
-      await supabase.storage
-        .from("rapport-pdf")
-        .remove([
-          uploadedWheelPath,
-        ]);
+      await removeUploadedWheel(
+        uploadedWheelPath
+      );
+
+      uploadedWheelPath = "";
 
       return NextResponse.json(
         {
           error:
             "BIRTH_DATA_TOO_LARGE",
+          detail:
+            "Les données de naissance dépassent la taille permise par Stripe.",
         },
         { status: 400 }
       );
@@ -353,9 +377,8 @@ export async function POST(req: Request) {
           ],
 
           /*
-           * TEMPORAIRE POUR LES TESTS.
-           * Retire cette ligne lorsque les tests
-           * gratuits seront terminés.
+           * Coupon temporaire de 100 % pour les tests.
+           * Retire ce bloc lorsque les tests seront terminés.
            */
           discounts: [
             {
@@ -388,11 +411,11 @@ export async function POST(req: Request) {
       );
 
     if (!session.url) {
-      await supabase.storage
-        .from("rapport-pdf")
-        .remove([
-          uploadedWheelPath,
-        ]);
+      await removeUploadedWheel(
+        uploadedWheelPath
+      );
+
+      uploadedWheelPath = "";
 
       return NextResponse.json(
         {
@@ -416,20 +439,12 @@ export async function POST(req: Request) {
       error
     );
 
-    /*
-     * Si Stripe échoue après le téléversement,
-     * on supprime l’image temporaire.
-     */
     if (
-      supabase &&
       uploadedWheelPath
     ) {
-      await supabase.storage
-        .from("rapport-pdf")
-        .remove([
-          uploadedWheelPath,
-        ])
-        .catch(() => null);
+      await removeUploadedWheel(
+        uploadedWheelPath
+      );
     }
 
     return NextResponse.json(
