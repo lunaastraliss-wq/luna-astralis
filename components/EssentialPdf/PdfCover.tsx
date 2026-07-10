@@ -1,7 +1,10 @@
 import {
+  Circle,
   Image,
+  Line,
   Page,
   StyleSheet,
+  Svg,
   Text,
   View,
 } from "@react-pdf/renderer";
@@ -15,14 +18,21 @@ import {
 import type { EssentialPdfProps } from "./EssentialPdfTypes";
 import PdfPageFooter from "./PdfPageFooter";
 
+const GOLD = "#d4af4e";
+const SOFT_GOLD = "#8f6e35";
+const DARK_GOLD = "#4e412d";
+const PAGE_BACKGROUND = "#06101f";
+const CARD_BACKGROUND = "#081426";
+const CREAM = "#fff8e7";
+
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 36,
-    paddingBottom: 48,
+    paddingTop: 34,
+    paddingBottom: 46,
     paddingHorizontal: 48,
-    backgroundColor: "#06101f",
-    color: "#fff8e7",
+    backgroundColor: PAGE_BACKGROUND,
+    color: CREAM,
     fontFamily: "Helvetica",
     overflow: "hidden",
   },
@@ -34,7 +44,7 @@ const styles = StyleSheet.create({
     right: 18,
     bottom: 18,
     borderWidth: 0.8,
-    borderColor: "#8f6e35",
+    borderColor: SOFT_GOLD,
   },
 
   innerBorder: {
@@ -44,7 +54,7 @@ const styles = StyleSheet.create({
     right: 23,
     bottom: 23,
     borderWidth: 0.35,
-    borderColor: "#4e412d",
+    borderColor: DARK_GOLD,
   },
 
   topAccent: {
@@ -53,36 +63,40 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 5,
-    backgroundColor: "#d4af4e",
+    backgroundColor: GOLD,
   },
 
-  decorationTopLeft: {
+  /*
+   * Cartes célestes décoratives
+   */
+  celestialTopLeft: {
     position: "absolute",
-    top: 26,
-    left: 26,
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#0b1c31",
+    top: 28,
+    left: 27,
+    width: 120,
+    height: 120,
+    opacity: 0.35,
   },
 
-  decorationBottomRight: {
+  celestialBottomRight: {
     position: "absolute",
-    right: 18,
-    bottom: 18,
-    width: 145,
-    height: 145,
-    borderRadius: 72,
-    backgroundColor: "#08182a",
+    right: 21,
+    bottom: 20,
+    width: 150,
+    height: 150,
+    opacity: 0.28,
   },
 
   content: {
     position: "relative",
   },
 
+  /*
+   * Logo
+   */
   header: {
     alignItems: "center",
-    marginBottom: 17,
+    marginBottom: 14,
   },
 
   logo: {
@@ -95,12 +109,15 @@ const styles = StyleSheet.create({
   brandDivider: {
     width: 108,
     height: 1,
-    backgroundColor: "#d4af4e",
+    backgroundColor: GOLD,
   },
 
+  /*
+   * Titre
+   */
   titleSection: {
     alignItems: "center",
-    marginBottom: 18,
+    marginBottom: 16,
   },
 
   eyebrow: {
@@ -108,13 +125,13 @@ const styles = StyleSheet.create({
     letterSpacing: 2.5,
     color: "#f4c95d",
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   title: {
     fontSize: 33,
     lineHeight: 1.08,
-    color: "#fff8e7",
+    color: CREAM,
     textAlign: "center",
     marginBottom: 2,
   },
@@ -128,22 +145,25 @@ const styles = StyleSheet.create({
   },
 
   subtitle: {
-    width: "78%",
-    fontSize: 9.8,
+    width: "80%",
+    fontSize: 10,
     lineHeight: 1.42,
     color: "#e8e2d7",
     textAlign: "center",
   },
 
+  /*
+   * Informations personnelles
+   */
   identityCard: {
     position: "relative",
     borderWidth: 1,
     borderColor: "#b7944c",
-    backgroundColor: "#081426",
-    paddingTop: 14,
-    paddingBottom: 14,
+    backgroundColor: CARD_BACKGROUND,
+    paddingTop: 13,
+    paddingBottom: 13,
     paddingHorizontal: 21,
-    marginBottom: 14,
+    marginBottom: 12,
   },
 
   identityAccentLeft: {
@@ -176,9 +196,9 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 25,
     lineHeight: 1.15,
-    color: "#fff8e7",
+    color: CREAM,
     textAlign: "center",
-    marginBottom: 12,
+    marginBottom: 11,
   },
 
   infoRow: {
@@ -206,14 +226,17 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 9,
     lineHeight: 1.25,
-    color: "#fff8e7",
+    color: CREAM,
     textAlign: "center",
   },
 
+  /*
+   * Citation
+   */
   quoteSection: {
     alignItems: "center",
     paddingHorizontal: 26,
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   quote: {
@@ -231,6 +254,9 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  /*
+   * Soleil, Lune et Ascendant
+   */
   pillars: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -248,122 +274,290 @@ const styles = StyleSheet.create({
   },
 
   iconCircle: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
     borderWidth: 1,
     borderColor: "#c89b42",
-    backgroundColor: "#06101f",
+    backgroundColor: PAGE_BACKGROUND,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 5,
   },
 
   icon: {
-    width: 26,
-    height: 26,
+    width: 28,
+    height: 28,
     objectFit: "contain",
   },
 
   pillarTitle: {
-    fontSize: 8.2,
+    fontSize: 8.5,
     color: "#f4c95d",
     textTransform: "uppercase",
     marginBottom: 2,
   },
 
   pillarDescription: {
-    fontSize: 6.3,
-    lineHeight: 1.28,
+    fontSize: 6.5,
+    lineHeight: 1.3,
     color: "#eee8dc",
     textAlign: "center",
   },
 
+  /*
+   * Introduction
+   */
   introCard: {
     position: "relative",
-    backgroundColor: "#081426",
-    borderWidth: 0.8,
-    borderColor: "#8f6e35",
-    paddingTop: 14,
-    paddingBottom: 14,
-    paddingHorizontal: 17,
+    backgroundColor: CARD_BACKGROUND,
+    borderWidth: 0.9,
+    borderColor: SOFT_GOLD,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingHorizontal: 20,
   },
 
   introAccentTop: {
     position: "absolute",
     top: -1,
     left: 0,
-    width: 78,
+    width: 100,
     height: 2,
     backgroundColor: "#f4c95d",
   },
 
   introHeader: {
-    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
-  },
-
-  introNumber: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    borderWidth: 0.8,
-    borderColor: "#b98e3f",
-    backgroundColor: "#06101f",
-    color: "#f4c95d",
-    fontSize: 7,
-    textAlign: "center",
-    paddingTop: 9,
-    marginRight: 10,
-  },
-
-  introHeaderText: {
-    flexGrow: 1,
-    flexBasis: 0,
+    marginBottom: 10,
   },
 
   introKicker: {
-    fontSize: 6.2,
-    letterSpacing: 1.7,
+    fontSize: 6.8,
+    letterSpacing: 2.1,
     color: "#cdbb92",
     textTransform: "uppercase",
-    marginBottom: 2,
+    marginBottom: 5,
   },
 
   introTitle: {
-    fontSize: 14,
+    fontSize: 17,
     lineHeight: 1.2,
     color: "#f4c95d",
+    textAlign: "center",
+  },
+
+  introOrnament: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+  },
+
+  ornamentLine: {
+    width: 48,
+    height: 0.6,
+    backgroundColor: "#80683d",
+  },
+
+  ornamentSymbol: {
+    color: "#f4c95d",
+    fontSize: 10,
+    marginHorizontal: 9,
   },
 
   introDivider: {
     width: "100%",
     height: 0.6,
     backgroundColor: "#705a35",
-    marginBottom: 9,
+    marginTop: 10,
+    marginBottom: 11,
   },
 
   introParagraph: {
-    fontSize: 8.2,
-    lineHeight: 1.48,
+    fontSize: 8.7,
+    lineHeight: 1.52,
     color: "#eee8dc",
-    marginBottom: 7,
+    marginBottom: 8,
     textAlign: "justify",
   },
 
   introConclusion: {
-    fontSize: 8.4,
-    lineHeight: 1.45,
+    fontSize: 9,
+    lineHeight: 1.5,
     color: "#f4c95d",
     textAlign: "center",
-    marginTop: 2,
+    marginTop: 3,
   },
 });
 
 function displayValue(value?: string): string {
   const cleanValue = value?.trim();
   return cleanValue || "Non précisé";
+}
+
+function CelestialChart({
+  size,
+}: {
+  size: number;
+}) {
+  const center = size / 2;
+
+  return (
+    <Svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+    >
+      <Circle
+        cx={center}
+        cy={center}
+        r={size * 0.45}
+        stroke="#b88b3f"
+        strokeWidth={0.7}
+        fill="none"
+      />
+
+      <Circle
+        cx={center}
+        cy={center}
+        r={size * 0.35}
+        stroke="#80683d"
+        strokeWidth={0.5}
+        fill="none"
+      />
+
+      <Circle
+        cx={center}
+        cy={center}
+        r={size * 0.24}
+        stroke="#a9823c"
+        strokeWidth={0.5}
+        fill="none"
+      />
+
+      <Circle
+        cx={center}
+        cy={center}
+        r={size * 0.1}
+        stroke="#d4af4e"
+        strokeWidth={0.55}
+        fill="none"
+      />
+
+      <Line
+        x1={center}
+        y1={size * 0.05}
+        x2={center}
+        y2={size * 0.95}
+        stroke="#80683d"
+        strokeWidth={0.45}
+      />
+
+      <Line
+        x1={size * 0.05}
+        y1={center}
+        x2={size * 0.95}
+        y2={center}
+        stroke="#80683d"
+        strokeWidth={0.45}
+      />
+
+      <Line
+        x1={size * 0.18}
+        y1={size * 0.18}
+        x2={size * 0.82}
+        y2={size * 0.82}
+        stroke="#665331"
+        strokeWidth={0.4}
+      />
+
+      <Line
+        x1={size * 0.82}
+        y1={size * 0.18}
+        x2={size * 0.18}
+        y2={size * 0.82}
+        stroke="#665331"
+        strokeWidth={0.4}
+      />
+
+      <Line
+        x1={size * 0.31}
+        y1={size * 0.18}
+        x2={size * 0.73}
+        y2={size * 0.39}
+        stroke="#c49a48"
+        strokeWidth={0.65}
+      />
+
+      <Line
+        x1={size * 0.73}
+        y1={size * 0.39}
+        x2={size * 0.59}
+        y2={size * 0.72}
+        stroke="#c49a48"
+        strokeWidth={0.65}
+      />
+
+      <Line
+        x1={size * 0.59}
+        y1={size * 0.72}
+        x2={size * 0.36}
+        y2={size * 0.61}
+        stroke="#c49a48"
+        strokeWidth={0.65}
+      />
+
+      <Circle
+        cx={size * 0.31}
+        cy={size * 0.18}
+        r={1.8}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.73}
+        cy={size * 0.39}
+        r={1.5}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.59}
+        cy={size * 0.72}
+        r={1.7}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.36}
+        cy={size * 0.61}
+        r={1.3}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.23}
+        cy={size * 0.43}
+        r={1}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.79}
+        cy={size * 0.67}
+        r={1}
+        fill="#f4c95d"
+      />
+
+      <Circle
+        cx={size * 0.47}
+        cy={size * 0.28}
+        r={0.9}
+        fill="#f4c95d"
+      />
+    </Svg>
+  );
 }
 
 export default function PdfCover({
@@ -377,8 +571,14 @@ export default function PdfCover({
       <View style={styles.topAccent} fixed />
       <View style={styles.outerBorder} fixed />
       <View style={styles.innerBorder} fixed />
-      <View style={styles.decorationTopLeft} fixed />
-      <View style={styles.decorationBottomRight} fixed />
+
+      <View style={styles.celestialTopLeft} fixed>
+        <CelestialChart size={120} />
+      </View>
+
+      <View style={styles.celestialBottomRight} fixed>
+        <CelestialChart size={150} />
+      </View>
 
       <View style={styles.content}>
         <View style={styles.header} wrap={false}>
@@ -521,18 +721,22 @@ export default function PdfCover({
           <View style={styles.introAccentTop} />
 
           <View style={styles.introHeader}>
-            <Text style={styles.introNumber}>
-              01
+            <Text style={styles.introKicker}>
+              Votre voyage astrologique
             </Text>
 
-            <View style={styles.introHeaderText}>
-              <Text style={styles.introKicker}>
-                Votre voyage astrologique
+            <Text style={styles.introTitle}>
+              Avant de commencer
+            </Text>
+
+            <View style={styles.introOrnament}>
+              <View style={styles.ornamentLine} />
+
+              <Text style={styles.ornamentSymbol}>
+                ✦
               </Text>
 
-              <Text style={styles.introTitle}>
-                Avant de commencer
-              </Text>
+              <View style={styles.ornamentLine} />
             </View>
           </View>
 
@@ -567,4 +771,4 @@ export default function PdfCover({
       <PdfPageFooter />
     </Page>
   );
-}
+        }
