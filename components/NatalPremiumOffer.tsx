@@ -115,20 +115,34 @@ export default function NatalPremiumOffer(props: Props) {
         }),
       });
 
-      const data = await res.json().catch(() => null);
+     const responseText = await res.text();
 
-      if (!res.ok || !data?.url) {
-        console.error("Erreur checkout :", data);
+let data: any = null;
 
-        alert(
-          data?.detail ||
-            data?.error ||
-            "Impossible de créer le paiement. Réessaie."
-        );
+try {
+  data = responseText
+    ? JSON.parse(responseText)
+    : null;
+} catch {
+  data = null;
+}
 
-        return;
-      }
+if (!res.ok || !data?.url) {
+  console.error("Erreur checkout :", {
+    status: res.status,
+    responseText,
+    data,
+  });
 
+  alert(
+    data?.detail ||
+      data?.error ||
+      responseText ||
+      `Erreur de paiement (${res.status})`
+  );
+
+  return;
+}
       window.location.href = data.url;
     } catch (error) {
       console.error(
