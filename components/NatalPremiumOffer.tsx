@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 import "@/components/natal-report/natal-report.css";
 
 type PlanKey = "essential" | "premium" | "signature";
@@ -15,9 +16,37 @@ type Props = {
   longitude?: string | number | null;
   timezone?: string;
   email?: string;
-
   getWheelImage?: () => Promise<string>;
 };
+
+type SignedUploadResponse = {
+  ok?: boolean;
+  wheelImagePath?: string;
+  signedUrl?: string;
+  token?: string;
+  error?: string;
+  detail?: string;
+};
+
+const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+
+const SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+const supabase =
+  SUPABASE_URL && SUPABASE_ANON_KEY
+    ? createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+        {
+          auth: {
+            persistSession: false,
+            autoRefreshToken: false,
+          },
+        }
+      )
+    : null;
 
 const offers = [
   {
@@ -65,92 +94,220 @@ const offers = [
   },
 ];
 
-export default function NatalPremiumOffer(props: Props) {
-  const [selectedPlan, setSelectedPlan] = useState<PlanKey | null>(
-    null
+function dataUrlToBlob(dataUrl: string): Blob {
+  const parts = dataUrl.split(",");
+
+  if (parts.length !== 2) {
+    throw new Error(
+      "Le format de l’image astrologique est invalide."
+    );
+  }
+
+  const header = parts[0];
+  const base64Data = parts[1];
+
+  const mimeMatch = header.match(
+    /^data:(image\/[a-zA-Z0-9.+-]+);base64$/
   );
+
+  if (!mimeMatch) {
+    throw new Error(
+      "Le type de l’image astrologique est invalide."
+    );
+  }
+
+  const mimeType = mimeMatch[1];
+  const binaryString = atob(base64Data);
+  const bytes = new Uint8Array(binaryString.length);
+
+  for (
+    let index = 0;
+    index < binaryString.length;
+    index += 1
+  ) {
+    bytes[index] = binaryString.charCodeAt(index);
+  }
+
+  return new Blob([bytes], {
+    type: mimeType,
+  });
+}
+
+async function readJsonResponse(
+  response: Response
+): Promise<any> {
+  const responseText = await response.text();
+
+  if (!responseText) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(responseText);
+  } catch {
+    return {
+      error: responseText,
+    };
+  }
+}
+
+export default function NatalPremiumOffer(
+  props: Props
+) {
+  const [selectedPlan, setSelectedPlan] =
+    useState<PlanKey | null>(null);
 
   const title = props.firstName
     ? `Choisissez le rapport astrologique de ${props.firstName}`
     : "Choisissez votre rapport astrologique";
 
-  async function handleCheckout(reportType: PlanKey) {
+  async function uploadWheelImage(): Promise<string> {
+    if (!props.getWheelImage) {
+      throw new Error(
+        "La fonction de création de la roue est absente."
+      );
+    }
+
+    if (!supabase) {
+      throw new Error(
+        "La configuration publique de Supabase est absente."
+      );
+    }
+
+    const wheelImage =
+      await props.getWheelImage();
+
+    if (!wheelImage) {
+      throw new Error(
+        "La roue astrologique n’a pas pu être préparée."
+      );
+    }
+
+    const wheelBlob =
+      dataUrlToBlob(wheelImage);
+
+    const signedResponse = await fetch(
+      "/api/reports/wheel-upload",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const signedData =
+      (await readJsonResponse(
+        signedResponse
+      )) as SignedUploadResponse | null;
+
+    if (
+      !signedResponse.ok ||
+      !signedData?.wheelImagePath ||
+      !signedData?.token
+    ) {
+      throw new Error(
+        signedData?.detail ||
+          signedData?.error ||
+          "Impossible de préparer l’envoi de la roue."
+      );
+    }
+
+    const { error: uploadError } =
+      await supabase.storage
+        .from("rapport-images")
+        .uploadToSignedUrl(
+          signedData.wheelImagePath,
+          signedData.token,
+          wheelBlob,
+          {
+            contentType: "image/png",
+            upsert: false,
+          }
+        );
+
+    if (uploadError) {
+      throw new Error(
+        uploadError.message ||
+          "Impossible d’enregistrer la roue astrologique."
+      );
+    }
+
+    return signedData.wheelImagePath;
+  }
+
+  async function handleCheckout(
+    reportType: PlanKey
+  ) {
     if (selectedPlan) return;
 
     setSelectedPlan(reportType);
 
     try {
-      let wheelImage = "";
+      const wheelImagePath =
+        await uploadWheelImage();
 
-      if (props.getWheelImage) {
-        wheelImage = await props.getWheelImage();
-      }
+      const res = await fetch(
+        "/api/reports/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            reportType,
+            firstName: props.firstName,
+            birthDate: props.birthDate,
+            birthTime:
+              props.birthTime ||
+              "12:00",
+            birthCity: props.birthCity,
+            birthCountry:
+              props.birthCountry,
+            latitude: props.latitude,
+            longitude: props.longitude,
+            timezone: props.timezone,
+            email: props.email,
+            wheelImagePath,
+          }),
+        }
+      );
 
-      if (!wheelImage) {
-        alert(
-          "La roue astrologique n’a pas pu être préparée. Réessaie."
+      const data =
+        await readJsonResponse(res);
+
+      if (!res.ok || !data?.url) {
+        console.error(
+          "Erreur checkout :",
+          {
+            status: res.status,
+            data,
+          }
         );
+
+        alert(
+          data?.detail ||
+            data?.error ||
+            `Erreur de paiement (${res.status})`
+        );
+
         return;
       }
 
-      const res = await fetch("/api/reports/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          reportType,
-          firstName: props.firstName,
-          birthDate: props.birthDate,
-          birthTime: props.birthTime || "12:00",
-          birthCity: props.birthCity,
-          birthCountry: props.birthCountry,
-          latitude: props.latitude,
-          longitude: props.longitude,
-          timezone: props.timezone,
-          email: props.email,
-
-          // PNG de la roue envoyé à la création de la commande
-          wheelImage,
-        }),
-      });
-
-     const responseText = await res.text();
-
-let data: any = null;
-
-try {
-  data = responseText
-    ? JSON.parse(responseText)
-    : null;
-} catch {
-  data = null;
-}
-
-if (!res.ok || !data?.url) {
-  console.error("Erreur checkout :", {
-    status: res.status,
-    responseText,
-    data,
-  });
-
-  alert(
-    data?.detail ||
-      data?.error ||
-      responseText ||
-      `Erreur de paiement (${res.status})`
-  );
-
-  return;
-}
-      window.location.href = data.url;
+      window.location.href =
+        data.url;
     } catch (error) {
       console.error(
-        "Erreur de connexion avec Stripe :",
+        "Erreur pendant la préparation du paiement :",
         error
       );
 
-      alert("Erreur de connexion avec Stripe. Réessaie.");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Impossible de préparer le paiement. Réessaie."
+      );
     } finally {
       setSelectedPlan(null);
     }
@@ -171,8 +328,11 @@ if (!res.ok || !data?.url) {
 
       <div className="natal-offers">
         {offers.map((offer) => {
-          const isLoading = selectedPlan === offer.key;
-          const isDisabled = selectedPlan !== null;
+          const isLoading =
+            selectedPlan === offer.key;
+
+          const isDisabled =
+            selectedPlan !== null;
 
           return (
             <div
@@ -196,9 +356,13 @@ if (!res.ok || !data?.url) {
               <h4>{offer.name}</h4>
 
               <ul className="natal-offer-features">
-                {offer.features.map((feature) => (
-                  <li key={feature}>✓ {feature}</li>
-                ))}
+                {offer.features.map(
+                  (feature) => (
+                    <li key={feature}>
+                      ✓ {feature}
+                    </li>
+                  )
+                )}
               </ul>
 
               <div className="natal-premium-price">
@@ -208,7 +372,11 @@ if (!res.ok || !data?.url) {
               <button
                 type="button"
                 className="natal-premium-btn"
-                onClick={() => handleCheckout(offer.key)}
+                onClick={() =>
+                  handleCheckout(
+                    offer.key
+                  )
+                }
                 disabled={isDisabled}
               >
                 {isLoading
