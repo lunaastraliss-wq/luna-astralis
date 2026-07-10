@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     height: A4_HEIGHT,
     padding: 0,
     margin: 0,
-    backgroundColor: "#07101f",
+    backgroundColor: "#06101f",
     color: "#fff8e7",
     fontFamily: "Helvetica",
     overflow: "hidden",
@@ -47,32 +47,32 @@ const styles = StyleSheet.create({
     left: 0,
     width: A4_WIDTH,
     height: A4_HEIGHT,
-    paddingTop: 40,
-    paddingBottom: 44,
-    paddingHorizontal: 46,
+    paddingTop: 38,
+    paddingBottom: 45,
+    paddingHorizontal: 48,
   },
 
   header: {
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 21,
   },
 
   logo: {
-    width: 164,
-    height: 66,
+    width: 160,
+    height: 64,
     objectFit: "contain",
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   brandDivider: {
-    width: 118,
+    width: 112,
     height: 1,
     backgroundColor: "#d4af4e",
   },
 
   titleSection: {
     alignItems: "center",
-    marginBottom: 24,
+    marginBottom: 22,
   },
 
   eyebrow: {
@@ -80,49 +80,49 @@ const styles = StyleSheet.create({
     letterSpacing: 2.7,
     color: "#f4c95d",
     textTransform: "uppercase",
-    marginBottom: 13,
+    marginBottom: 12,
   },
 
   title: {
     fontSize: 35,
     lineHeight: 1.08,
-    textAlign: "center",
     color: "#fff8e7",
+    textAlign: "center",
     marginBottom: 4,
   },
 
   titleAccent: {
     fontSize: 38,
     lineHeight: 1.04,
-    textAlign: "center",
     color: "#f4c95d",
-    marginBottom: 12,
+    textAlign: "center",
+    marginBottom: 11,
   },
 
   subtitle: {
     width: "76%",
-    fontSize: 10.4,
+    fontSize: 10.3,
     lineHeight: 1.45,
+    color: "#e8e2d7",
     textAlign: "center",
-    color: "#e1ded6",
   },
 
   identityCard: {
     position: "relative",
     borderWidth: 1,
     borderColor: "#b7944c",
-    backgroundColor: "#091426",
-    paddingTop: 17,
-    paddingBottom: 17,
-    paddingHorizontal: 24,
-    marginBottom: 21,
+    backgroundColor: "#081426",
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingHorizontal: 23,
+    marginBottom: 18,
   },
 
   identityAccentLeft: {
     position: "absolute",
     top: -1,
     left: 0,
-    width: 96,
+    width: 94,
     height: 2,
     backgroundColor: "#f4c95d",
   },
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     bottom: -1,
     right: 0,
     width: 72,
-    height: 1.5,
+    height: 2,
     backgroundColor: "#f4c95d",
   },
 
@@ -142,14 +142,14 @@ const styles = StyleSheet.create({
     color: "#d7ccb3",
     textTransform: "uppercase",
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   name: {
     fontSize: 27,
     color: "#fff8e7",
     textAlign: "center",
-    marginBottom: 15,
+    marginBottom: 14,
   },
 
   infoRow: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     borderTopWidth: 0.6,
     borderTopColor: "#705a35",
-    paddingTop: 11,
+    paddingTop: 10,
   },
 
   infoColumn: {
@@ -166,8 +166,8 @@ const styles = StyleSheet.create({
   },
 
   infoLabel: {
-    fontSize: 6.3,
-    letterSpacing: 1.2,
+    fontSize: 6.2,
+    letterSpacing: 1.15,
     color: "#c8b98f",
     textTransform: "uppercase",
     textAlign: "center",
@@ -183,20 +183,20 @@ const styles = StyleSheet.create({
 
   quoteSection: {
     alignItems: "center",
-    marginBottom: 18,
-    paddingHorizontal: 28,
+    paddingHorizontal: 26,
+    marginBottom: 16,
   },
 
   quote: {
-    fontSize: 12,
+    fontSize: 11.7,
     lineHeight: 1.42,
     color: "#f4efe2",
     textAlign: "center",
-    marginBottom: 6,
+    marginBottom: 5,
   },
 
   signature: {
-    fontSize: 7,
+    fontSize: 6.8,
     letterSpacing: 2.2,
     color: "#d1c2a2",
     textTransform: "uppercase",
@@ -208,9 +208,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.7,
     borderBottomWidth: 0.7,
     borderColor: "#80683d",
-    paddingTop: 12,
-    paddingBottom: 12,
-    marginBottom: 17,
+    paddingTop: 11,
+    paddingBottom: 11,
+    marginBottom: 16,
   },
 
   pillar: {
@@ -224,15 +224,15 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     borderWidth: 1,
     borderColor: "#c89b42",
-    backgroundColor: "#07101f",
+    backgroundColor: "#06101f",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   icon: {
-    width: 27,
-    height: 27,
+    width: 28,
+    height: 28,
     objectFit: "contain",
   },
 
@@ -253,15 +253,15 @@ const styles = StyleSheet.create({
   introCard: {
     flexDirection: "row",
     alignItems: "flex-start",
-    backgroundColor: "#091426",
+    backgroundColor: "#081426",
     borderWidth: 0.7,
     borderColor: "#8f6e35",
-    paddingVertical: 11,
-    paddingHorizontal: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
   },
 
   introLabel: {
-    width: 36,
+    width: 34,
     fontSize: 7,
     letterSpacing: 1.4,
     color: "#f4c95d",
@@ -269,14 +269,15 @@ const styles = StyleSheet.create({
   },
 
   introText: {
-    flex: 1,
-    fontSize: 8.4,
-    lineHeight: 1.48,
+    flexGrow: 1,
+    flexBasis: 0,
+    fontSize: 8.3,
+    lineHeight: 1.46,
     color: "#eee8dc",
   },
 });
 
-function displayValue(value?: string) {
+function displayValue(value?: string): string {
   const cleanValue = value?.trim();
   return cleanValue || "Non précisé";
 }
