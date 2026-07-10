@@ -389,6 +389,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 3,
   },
+  dividerMoon: {
+  width: 18,
+  height: 18,
+  objectFit: "contain",
+  marginHorizontal: 10,
+},
 });
 
 function displayValue(value?: string): string {
