@@ -238,24 +238,23 @@ export default function NatalChartForm() {
 
       const geoData = await geoResponse.json();
 
-      if (!geoResponse.ok || !geoData?.ok || !geoData?.result) {
-        setError(
-          geoData?.error ||
-            "Ville introuvable. Essaie avec le nom complet, par exemple : Québec, Québec, Canada."
-        );
-        return;
-      }
+     if (!geoResponse.ok || !geoData?.ok || !geoData?.result) {
+  setError(
+    geoData?.error ||
+      "Ville introuvable. Entre seulement le nom de la ville."
+  );
+  return;
+}
 
-      const lat = Number(geoData.result.latitude);
-      const lon = Number(geoData.result.longitude);
+const lat = Number(geoData.result.latitude);
+const lon = Number(geoData.result.longitude);
 
-      if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-        setError(
-          "Les coordonnées reçues pour cette ville sont invalides."
-        );
-        return;
-      }
-
+if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
+  setError(
+    "Les coordonnées reçues pour cette ville sont invalides."
+  );
+  return;
+}
       setLatitude(lat);
       setLongitude(lon);
 
@@ -450,7 +449,7 @@ export default function NatalChartForm() {
             onChange={(event) =>
               setBirthCity(event.target.value)
             }
-            placeholder="Ex. : Québec, Québec, Canada"
+            placeholder="Ville de naissance"
             autoComplete="off"
             required
           />
