@@ -333,21 +333,16 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  wheelImage: {
-  width: 510,
-  height: 510,
-  objectFit: "contain",
-},
 
   wheelImage: {
-    width: 484,
-    height: 484,
+    width: 510,
+    height: 510,
     objectFit: "contain",
   },
 
   wheelMissing: {
-    width: 485,
-    height: 485,
+    width: 510,
+    height: 510,
     alignItems: "center",
     justifyContent: "center",
     padding: 30,
@@ -915,34 +910,26 @@ export default function EssentialPdfDocument({
         </Text>
 
         <View style={styles.wheelContainer}>
-          <View style={styles.wheelFrame}>
-            {safeWheelImage ? (
-              <Image
-                src={safeWheelImage}
-                style={styles.wheelImage}
-              />
-            ) : (
-            <View style={styles.wheelContainer}>
-  {safeWheelImage ? (
-    <Image
-      src={safeWheelImage}
-      style={styles.wheelImage}
-    />
-  ) : (
-    <View style={styles.wheelMissing}>
-      <Text style={styles.wheelMissingTitle}>
-        Roue astrologique
-      </Text>
+          {safeWheelImage ? (
+            <Image
+              src={safeWheelImage}
+              style={styles.wheelImage}
+            />
+          ) : (
+            <View style={styles.wheelMissing}>
+              <Text style={styles.wheelMissingTitle}>
+                Roue astrologique
+              </Text>
 
-      <Text style={styles.wheelMissingText}>
-        L’image de la roue n’a pas été transmise
-        au document PDF. Les données
-        astrologiques du rapport demeurent
-        disponibles dans les pages suivantes.
-      </Text>
-    </View>
-  )}
-</View>
+              <Text style={styles.wheelMissingText}>
+                L’image de la roue n’a pas été transmise
+                au document PDF. Les données
+                astrologiques du rapport demeurent
+                disponibles dans les pages suivantes.
+              </Text>
+            </View>
+          )}
+        </View>
 
         <View style={styles.box}>
           <Text style={styles.informationLine}>
