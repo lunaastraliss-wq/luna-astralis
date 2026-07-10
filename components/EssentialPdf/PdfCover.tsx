@@ -5,6 +5,8 @@ import {
   View,
 } from "@react-pdf/renderer";
 
+import type { EssentialPdfProps } from "./EssentialPdfTypes";
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "#ffffff",
@@ -33,7 +35,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PdfCover() {
+export default function PdfCover(
+  _props: EssentialPdfProps
+) {
   return (
     <Page size="A4" style={styles.page}>
       <View style={styles.testContainer}>
