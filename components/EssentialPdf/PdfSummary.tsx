@@ -153,8 +153,9 @@ export default function PdfSummary({
           </Text>
 
           <Text style={pdfStyles.synthesisTitle}>
-            Une personnalité riche de plusieurs dimensions
-          </Text>
+  Soleil en {signFr(sunSign)}, Lune en {signFr(moonSign)} et
+  Ascendant {translateSigns(ascendantSign)}
+</Text>
 
           <Text style={pdfStyles.synthesisText}>
             Le Soleil représente la personne que vous cherchez
@@ -164,12 +165,14 @@ export default function PdfSummary({
             le monde et de commencer chaque nouvelle expérience.
           </Text>
 
-          <Text style={pdfStyles.synthesisTextLast}>
-            Ces trois dimensions peuvent parfois sembler parfaitement
-            harmonieuses et, à d’autres moments, exprimer des besoins
-            différents. Cette diversité fait partie de la profondeur
-            de votre thème natal.
-          </Text>
+         <Text style={pdfStyles.synthesisTextLast}>
+  L’équilibre entre ces trois énergies constitue la signature
+  centrale de votre personnalité. Certaines se soutiennent
+  naturellement, tandis que d’autres peuvent exprimer des
+  besoins différents. Cette richesse intérieure ne représente
+  pas une contradiction : elle révèle les nombreuses dimensions
+  de votre thème natal.
+</Text>
         </View>
       </View>
 
