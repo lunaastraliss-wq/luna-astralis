@@ -250,10 +250,8 @@ export default function PdfModalities({
         </View>
 
         <Text style={pdfStyles.pageLead}>
-          Les modalités révèlent la manière
-          dont votre énergie se met en
-          mouvement et évolue au fil de vos
-          expériences.
+          Les modalités montrent comment vous commencez, stabilisez
+  ou adaptez votre énergie au fil de vos expériences.
         </Text>
       </View>
 
@@ -351,11 +349,9 @@ export default function PdfModalities({
         </Text>
 
         <Text style={styles.noteText}>
-          Aucune modalité n’est supérieure
-          aux autres. Leur répartition révèle
-          simplement votre manière
-          privilégiée d’initier, de maintenir
-          ou d’adapter votre énergie.
+          Aucune modalité n’est meilleure qu’une autre. Leur répartition
+  révèle simplement votre manière naturelle d’initier une action,
+  de maintenir vos efforts ou de vous adapter aux changements.
         </Text>
       </View>
 
