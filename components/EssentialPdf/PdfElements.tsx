@@ -25,10 +25,9 @@ const ELEMENTS = ["Feu", "Terre", "Air", "Eau"];
 const ELEMENT_SYMBOLS: Record<string, string> = {
   Feu: "△",
   Terre: "▽",
-  Air: "△",
-  Eau: "▽",
+  Air: "△̶",
+  Eau: "▽̶",
 };
-
 const ELEMENT_WORDS: Record<string, string> = {
   Feu: "Action • Courage • Inspiration",
   Terre: "Stabilité • Réalisme • Construction",
@@ -314,10 +313,10 @@ export default function PdfElements({
         </Text>
 
         <Text style={styles.noteText}>
-          Un élément très présent correspond à une énergie
-          naturelle. Un élément moins représenté indique souvent
-          une qualité que l’on développe progressivement avec
-          l’expérience.
+          Un élément très présent représente une énergie que vous exprimez
+  spontanément. Un élément moins représenté n’est pas une faiblesse :
+  il correspond souvent à une qualité que vous apprenez à développer
+  avec le temps et l’expérience.
         </Text>
       </View>
 
