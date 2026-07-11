@@ -454,6 +454,33 @@ export const pdfStyles = StyleSheet.create({
     lineHeight: 1.48,
   },
 
+    /*
+   * Encadré de transition
+   */
+  nextSectionCard: {
+    marginTop: 18,
+    paddingTop: 14,
+    paddingBottom: 14,
+    paddingHorizontal: 18,
+    backgroundColor: "rgba(7, 19, 41, 0.9)",
+    borderWidth: 0.8,
+    borderColor: "#8f713a",
+  },
+
+  nextSectionTitle: {
+    color: "#f4c95d",
+    fontSize: 11,
+    textAlign: "center",
+    marginBottom: 12,
+  },
+
+  nextSectionItem: {
+    color: "#eee8dc",
+    fontSize: 9.3,
+    lineHeight: 1.6,
+    marginBottom: 5,
+  },
+
   /*
    * Roue astrologique
    */
