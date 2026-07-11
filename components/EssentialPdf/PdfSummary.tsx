@@ -83,9 +83,9 @@ const styles = StyleSheet.create({
   card: {
     flexGrow: 1,
     flexBasis: 0,
-    minHeight: 185,
+    minHeight: 172,
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: 12,
     paddingHorizontal: 12,
     backgroundColor: "#111a34",
     borderWidth: 1,
@@ -156,9 +156,9 @@ const styles = StyleSheet.create({
   synthesis: {
     position: "relative",
     flexDirection: "row",
-    paddingVertical: 16,
+    paddingVertical: 13,
     paddingHorizontal: 17,
-    marginBottom: 12,
+    marginBottom: 9,
     overflow: "hidden",
     backgroundColor: "#111a34",
     borderWidth: 1,
@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
 
   insightRow: {
     flexDirection: "row",
-    marginBottom: 12,
+    marginBottom: 8,
   },
 
   insightBox: {
     flexGrow: 1,
     flexBasis: 0,
-    minHeight: 91,
-    paddingVertical: 12,
+    minHeight: 84,
+    paddingVertical: 9,
     paddingHorizontal: 13,
     backgroundColor: "#0d152d",
     borderWidth: 1,
@@ -277,8 +277,9 @@ const styles = StyleSheet.create({
   note: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 13,
+    marginBottom: 24,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -295,8 +296,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexBasis: 0,
     color: "#bfc5d5",
-    fontSize: 8.2,
-    lineHeight: 1.4,
+    fontSize: 7.9,
+    lineHeight: 1.32,
   },
 });
 
