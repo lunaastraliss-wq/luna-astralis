@@ -245,6 +245,34 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  explanationBox: {
+  marginTop: 12,
+
+  borderWidth: 0.6,
+  borderColor: "#6f5935",
+
+  backgroundColor: CARD_BACKGROUND,
+
+  paddingTop: 10,
+  paddingBottom: 10,
+  paddingHorizontal: 16,
+},
+
+explanationTitle: {
+  fontSize: 10,
+  color: BRIGHT_GOLD,
+  textAlign: "center",
+  marginBottom: 6,
+},
+
+explanationText: {
+  fontSize: 7.4,
+  lineHeight: 1.45,
+  color: MUTED,
+  textAlign: "center",
+  marginBottom: 5,
+},
+
   note: {
     fontSize: 6.8,
     lineHeight: 1.4,
@@ -377,9 +405,31 @@ export default function PdfWheel({
           </View>
         </View>
 
+         <View style={styles.explanationBox} wrap={false}>
+          <Text style={styles.explanationTitle}>
+            Comment interpréter votre roue astrologique
+          </Text>
+
+          <Text style={styles.explanationText}>
+            Cette roue est une représentation complète du ciel au moment
+            précis de votre naissance. L’anneau extérieur présente les
+            douze signes du zodiaque, tandis que les maisons divisent les
+            différents domaines de votre vie. Les symboles des planètes
+            indiquent leurs positions natales et les lignes au centre
+            révèlent les principaux aspects astrologiques, c’est-à-dire
+            les relations entre ces différentes énergies.
+          </Text>
+
+          <Text style={styles.explanationText}>
+            Les prochaines pages analyseront chacun de ces éléments afin
+            de vous offrir une compréhension claire, progressive et
+            personnalisée de votre thème natal.
+          </Text>
+        </View>
+
         <Text style={styles.note}>
-          Les symboles et les lignes présents dans la roue seront
-          expliqués progressivement dans les pages suivantes.
+          Votre roue astrologique constitue la base de toutes les
+          interprétations présentées dans ce rapport.
         </Text>
       </View>
 
