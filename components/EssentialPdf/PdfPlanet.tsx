@@ -442,10 +442,10 @@ export default function PdfPlanet({
         </Text>
 
         <Text style={styles.noteText}>
-          Une interprétation plus complète tient également compte
-          de la maison astrologique et des aspects formés avec les
-          autres planètes.
-        </Text>
+  Cette position révèle une énergie importante de votre thème.
+  Elle prend tout son sens lorsqu’elle est observée avec vos
+  autres planètes, votre Soleil, votre Lune et votre Ascendant.
+</Text>
       </View>
 
       <PdfPageFooter />
