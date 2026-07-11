@@ -256,15 +256,15 @@ const styles = StyleSheet.create({
 
   insightRow: {
     flexDirection: "row",
-    marginBottom: 12,
+    marginBottom: 8,
   },
 
   insightBox: {
     flexGrow: 1,
     flexBasis: 0,
-    minHeight: 104,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
+    minHeight: 96,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
     backgroundColor: "#0d152d",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -305,8 +305,9 @@ const styles = StyleSheet.create({
   note: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 13,
+    marginBottom: 24,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -323,8 +324,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexBasis: 0,
     color: "#bfc5d5",
-    fontSize: 8.2,
-    lineHeight: 1.4,
+    fontSize: 7.9,
+    lineHeight: 1.32,
   },
 });
 
