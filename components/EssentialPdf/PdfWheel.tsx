@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
 
   titleSection: {
     alignItems: "center",
-    marginTop: 4,
-    marginBottom: 12,
+    marginTop: 0,
+    marginBottom: 8,
   },
 
   eyebrow: {
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     position: "relative",
     alignSelf: "center",
 
-    width: 410,
-    height: 410,
+    width: 430,
+    height: 430,
 
     borderWidth: 0.9,
     borderColor: SOFT_GOLD,
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
 
-    padding: 14,
-    marginBottom: 14,
+    padding: 10,
+    marginBottom: 8,
   },
 
   wheelFrameInner: {
@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
   },
 
   wheelImage: {
-    width: 374,
-    height: 374,
+    width: 408,
+    height: 408,
     objectFit: "contain",
   },
 
@@ -167,8 +167,8 @@ const styles = StyleSheet.create({
 
     backgroundColor: CARD_BACKGROUND,
 
-    paddingTop: 11,
-    paddingBottom: 11,
+    paddingTop: 9,
+    paddingBottom: 9,
     paddingHorizontal: 18,
   },
 
@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
     color: "#bfb6a6",
     textAlign: "center",
-    marginTop: 9,
+    marginTop: 6,
     paddingHorizontal: 22,
   },
 });
