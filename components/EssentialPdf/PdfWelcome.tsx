@@ -101,6 +101,32 @@ export default function PdfWelcome() {
         </View>
       </View>
 
+      <View style={pdfStyles.nextSectionCard}>
+  <Text style={pdfStyles.nextSectionTitle}>
+    Ce que vous découvrirez dans ce rapport
+  </Text>
+
+  <Text style={pdfStyles.nextSectionItem}>
+    ✦ Vos trois grands piliers : le Soleil, la Lune et l’Ascendant.
+  </Text>
+
+  <Text style={pdfStyles.nextSectionItem}>
+    ✦ Le rôle des dix planètes et leur influence sur votre personnalité.
+  </Text>
+
+  <Text style={pdfStyles.nextSectionItem}>
+    ✦ La répartition de vos éléments : Feu, Terre, Air et Eau.
+  </Text>
+
+  <Text style={pdfStyles.nextSectionItem}>
+    ✦ Vos modalités dominantes et leur manière de façonner votre tempérament.
+  </Text>
+
+  <Text style={pdfStyles.nextSectionItem}>
+    ✦ Une synthèse de votre profil astrologique pour mieux comprendre vos forces naturelles.
+  </Text>
+</View>
+
       <PdfPageFooter />
     </Page>
   );
