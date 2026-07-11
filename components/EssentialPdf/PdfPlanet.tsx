@@ -9,6 +9,7 @@ import {
 import { PLANET_ICONS } from "./EssentialPdfAssets";
 import { pdfStyles } from "./EssentialPdfStyles";
 import type { PlanetPageProps } from "./EssentialPdfTypes";
+
 import {
   getPlanet,
   getPlanetDegree,
@@ -18,76 +19,118 @@ import {
   PLANET_MEANINGS,
   signFr,
 } from "./EssentialPdfUtils";
+
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
 
 const PLANET_QUESTIONS: Record<string, string> = {
   Sun: "Qu’est-ce qui vous permet de rayonner pleinement ?",
+
   Moon:
     "De quoi avez-vous besoin pour vous sentir intérieurement en sécurité ?",
+
   Mercury:
     "Comment votre esprit comprend-il et transmet-il les idées ?",
+
   Venus:
     "Qu’est-ce qui nourrit votre manière d’aimer et de créer du lien ?",
+
   Mars:
     "Comment votre énergie se mobilise-t-elle lorsque vous passez à l’action ?",
+
   Jupiter:
     "Où trouvez-vous confiance, croissance et ouverture ?",
+
   Saturn:
     "Quelles expériences vous invitent à développer votre maturité ?",
+
   Uranus:
     "Comment exprimez-vous votre liberté et votre originalité ?",
+
   Neptune:
     "Comment votre intuition et votre imaginaire influencent-ils votre vie ?",
+
   Pluto:
     "Quelles transformations révèlent votre puissance intérieure ?",
+};
+
+const PLANET_GUIDANCE: Record<string, string> = {
+  Sun:
+    "Votre Soleil représente le centre de votre identité. Plus vous assumez ses qualités, plus vous développez une présence cohérente et une direction personnelle claire.",
+
+  Moon:
+    "Votre Lune décrit votre univers émotionnel. Comprendre ses besoins vous aide à créer davantage de stabilité, de douceur et de sécurité intérieure.",
+
+  Mercury:
+    "Mercure décrit votre manière de réfléchir, d’apprendre et de communiquer. Cette énergie influence votre façon d’organiser vos idées et de vous faire comprendre.",
+
+  Venus:
+    "Vénus révèle votre sensibilité relationnelle, vos valeurs et ce qui vous attire. Elle montre aussi la manière dont vous donnez et recevez de l’affection.",
+
+  Mars:
+    "Mars représente votre force d’action, votre courage et votre manière de défendre vos désirs. Bien utilisée, cette énergie devient un moteur puissant.",
+
+  Jupiter:
+    "Jupiter montre les expériences qui favorisent votre confiance et votre développement. Il indique comment vous pouvez élargir votre vision de la vie.",
+
+  Saturn:
+    "Saturne révèle les domaines où la patience, la discipline et la persévérance sont nécessaires. Ses défis deviennent souvent de véritables forces avec le temps.",
+
+  Uranus:
+    "Uranus représente votre besoin de liberté, de renouvellement et d’authenticité. Il vous encourage à sortir des modèles qui ne vous correspondent plus.",
+
+  Neptune:
+    "Neptune révèle votre imagination, votre intuition et votre sensibilité à l’invisible. Cette énergie demande de concilier inspiration et discernement.",
+
+  Pluto:
+    "Pluton représente votre capacité de transformation profonde. Il montre où vous pouvez abandonner d’anciens mécanismes afin de retrouver votre pouvoir intérieur.",
 };
 
 const styles = StyleSheet.create({
   header: {
     alignItems: "center",
-    marginBottom: 22,
+    marginBottom: 15,
   },
 
   kicker: {
     color: "#f4c95d",
-    fontSize: 9,
+    fontSize: 8.5,
     letterSpacing: 2,
     textTransform: "uppercase",
-    marginBottom: 9,
+    marginBottom: 7,
   },
 
   title: {
     color: "#fff8e7",
-    fontSize: 27,
-    lineHeight: 1.2,
+    fontSize: 25,
+    lineHeight: 1.15,
     textAlign: "center",
   },
 
   divider: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 13,
-    marginBottom: 11,
+    marginTop: 9,
+    marginBottom: 8,
   },
 
   dividerLine: {
-    width: 54,
+    width: 48,
     height: 1,
     backgroundColor: "#8f793c",
   },
 
   dividerSymbol: {
     color: "#f4c95d",
-    fontSize: 13,
-    marginHorizontal: 10,
+    fontSize: 12,
+    marginHorizontal: 9,
   },
 
   subtitle: {
-    maxWidth: 420,
-    color: "#d9d4c7",
-    fontSize: 10.5,
-    lineHeight: 1.5,
+    maxWidth: 410,
+    color: "#c9c5bb",
+    fontSize: 9.2,
+    lineHeight: 1.4,
     textAlign: "center",
   },
 
@@ -95,9 +138,10 @@ const styles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 118,
-    padding: 20,
-    marginBottom: 18,
+    minHeight: 102,
+    paddingVertical: 15,
+    paddingHorizontal: 18,
+    marginBottom: 12,
     overflow: "hidden",
     backgroundColor: "#111a34",
     borderWidth: 1,
@@ -105,20 +149,20 @@ const styles = StyleSheet.create({
   },
 
   iconCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 18,
+    marginRight: 17,
     backgroundColor: "#0b1124",
     borderWidth: 1,
     borderColor: "#f4c95d",
   },
 
   icon: {
-    width: 43,
-    height: 43,
+    width: 37,
+    height: 37,
     objectFit: "contain",
   },
 
@@ -129,42 +173,43 @@ const styles = StyleSheet.create({
 
   heroKicker: {
     color: "#9da4b7",
-    fontSize: 8.5,
-    letterSpacing: 1.4,
+    fontSize: 8,
+    letterSpacing: 1.3,
     textTransform: "uppercase",
-    marginBottom: 5,
+    marginBottom: 4,
   },
 
   heroName: {
     color: "#fff8e7",
-    fontSize: 24,
-    marginBottom: 4,
+    fontSize: 21,
+    marginBottom: 3,
   },
 
   heroSign: {
     color: "#f4c95d",
-    fontSize: 15,
-    marginBottom: 5,
+    fontSize: 14,
+    marginBottom: 4,
   },
 
   heroDegree: {
     color: "#aeb5c7",
-    fontSize: 9,
+    fontSize: 8.5,
   },
 
   watermark: {
     position: "absolute",
-    top: 12,
-    right: 18,
-    width: 88,
-    height: 88,
+    top: 7,
+    right: 14,
+    width: 86,
+    height: 86,
     objectFit: "contain",
-    opacity: 0.04,
+    opacity: 0.035,
   },
 
   meaningCard: {
-    padding: 21,
-    marginBottom: 15,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    marginBottom: 11,
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -172,41 +217,84 @@ const styles = StyleSheet.create({
 
   cardKicker: {
     color: "#f4c95d",
-    fontSize: 8.5,
-    letterSpacing: 1.4,
+    fontSize: 8,
+    letterSpacing: 1.3,
     textTransform: "uppercase",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   question: {
     color: "#fff8e7",
-    fontSize: 16,
-    lineHeight: 1.35,
-    marginBottom: 13,
+    fontSize: 14.5,
+    lineHeight: 1.3,
+    marginBottom: 9,
   },
 
   interpretation: {
     color: "#e9e4d8",
-    fontSize: 10.5,
-    lineHeight: 1.6,
+    fontSize: 9.7,
+    lineHeight: 1.5,
+  },
+
+  guidanceCard: {
+    paddingVertical: 14,
+    paddingHorizontal: 17,
+    marginBottom: 11,
+    backgroundColor: "#0d152d",
+    borderLeftWidth: 2,
+    borderLeftColor: "#f4c95d",
+    borderTopWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#39415d",
+  },
+
+  guidanceTitle: {
+    color: "#f4c95d",
+    fontSize: 8,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+
+  guidanceText: {
+    color: "#c9cedb",
+    fontSize: 9,
+    lineHeight: 1.45,
+  },
+
+  keysRow: {
+    flexDirection: "row",
+    marginBottom: 11,
   },
 
   keyBox: {
-    flexDirection: "row",
-    padding: 17,
-    marginBottom: 14,
+    flexGrow: 1,
+    flexBasis: 0,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
     backgroundColor: "#0d152d",
     borderWidth: 1,
     borderColor: "#39415d",
   },
 
+  keyBoxLeft: {
+    marginRight: 8,
+  },
+
+  keyHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
   keyNumber: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 27,
+    height: 27,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
+    marginRight: 8,
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -214,31 +302,28 @@ const styles = StyleSheet.create({
 
   keyNumberText: {
     color: "#f4c95d",
-    fontSize: 10,
-    letterSpacing: 1,
-  },
-
-  keyContent: {
-    flexGrow: 1,
-    flexBasis: 0,
+    fontSize: 7.5,
   },
 
   keyTitle: {
+    flexGrow: 1,
+    flexBasis: 0,
     color: "#fff8e7",
-    fontSize: 13,
-    marginBottom: 6,
+    fontSize: 10.3,
+    lineHeight: 1.2,
   },
 
   keyText: {
     color: "#bfc5d5",
-    fontSize: 9.4,
-    lineHeight: 1.5,
+    fontSize: 8.4,
+    lineHeight: 1.4,
   },
 
   note: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 13,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -246,16 +331,16 @@ const styles = StyleSheet.create({
 
   noteSymbol: {
     color: "#f4c95d",
-    fontSize: 15,
-    marginRight: 11,
+    fontSize: 14,
+    marginRight: 10,
   },
 
   noteText: {
     flexGrow: 1,
     flexBasis: 0,
     color: "#bfc5d5",
-    fontSize: 8.8,
-    lineHeight: 1.45,
+    fontSize: 8.2,
+    lineHeight: 1.4,
   },
 });
 
@@ -263,7 +348,9 @@ export default function PdfPlanet({
   planets,
   planet,
 }: PlanetPageProps) {
-  const safePlanets = Array.isArray(planets) ? planets : [];
+  const safePlanets = Array.isArray(planets)
+    ? planets
+    : [];
 
   const planetData = getPlanet(
     safePlanets,
@@ -277,7 +364,7 @@ export default function PdfPlanet({
     getPlanetSignName(planetData);
 
   const translatedSign =
-    signFr(signName);
+    signFr(signName) || "Signe non précisé";
 
   const degree =
     getPlanetDegree(planetData);
@@ -290,11 +377,16 @@ export default function PdfPlanet({
     getPlanetInterpretation(
       planet,
       signName
-    );
+    ) ||
+    `${planetName} en ${translatedSign} représente une énergie importante de votre personnalité.`;
 
   const question =
     PLANET_QUESTIONS[planet] ||
     "Comment cette énergie s’exprime-t-elle dans votre vie ?";
+
+  const guidance =
+    PLANET_GUIDANCE[planet] ||
+    "Cette position révèle une énergie naturelle que vous pouvez apprendre à reconnaître, à comprendre et à exprimer avec davantage de conscience.";
 
   const icon =
     PLANET_ICONS[planet];
@@ -303,6 +395,7 @@ export default function PdfPlanet({
     <Page
       size="A4"
       style={pdfStyles.page}
+      wrap={false}
     >
       <PdfBrandHeader />
 
@@ -331,10 +424,7 @@ export default function PdfPlanet({
         </Text>
       </View>
 
-      <View
-        style={styles.hero}
-        wrap={false}
-      >
+      <View style={styles.hero}>
         {icon ? (
           <>
             <View style={styles.iconCircle}>
@@ -366,7 +456,7 @@ export default function PdfPlanet({
 
           {degree ? (
             <Text style={styles.heroDegree}>
-              Position : {degree}
+              Position astrologique : {degree}
             </Text>
           ) : null}
         </View>
@@ -386,20 +476,34 @@ export default function PdfPlanet({
         </Text>
       </View>
 
-      <View
-        style={styles.keyBox}
-        wrap={false}
-      >
-        <View style={styles.keyNumber}>
-          <Text style={styles.keyNumberText}>
-            01
-          </Text>
-        </View>
+      <View style={styles.guidanceCard}>
+        <Text style={styles.guidanceTitle}>
+          Ce que cette position vous enseigne
+        </Text>
 
-        <View style={styles.keyContent}>
-          <Text style={styles.keyTitle}>
-            L’influence du signe
-          </Text>
+        <Text style={styles.guidanceText}>
+          {guidance}
+        </Text>
+      </View>
+
+      <View style={styles.keysRow}>
+        <View
+          style={[
+            styles.keyBox,
+            styles.keyBoxLeft,
+          ]}
+        >
+          <View style={styles.keyHeader}>
+            <View style={styles.keyNumber}>
+              <Text style={styles.keyNumberText}>
+                01
+              </Text>
+            </View>
+
+            <Text style={styles.keyTitle}>
+              L’influence du signe
+            </Text>
+          </View>
 
           <Text style={styles.keyText}>
             Placé en {translatedSign}, {planetName} exprime
@@ -407,45 +511,38 @@ export default function PdfPlanet({
             et les réflexes propres à ce signe.
           </Text>
         </View>
-      </View>
 
-      <View
-        style={styles.keyBox}
-        wrap={false}
-      >
-        <View style={styles.keyNumber}>
-          <Text style={styles.keyNumberText}>
-            02
-          </Text>
-        </View>
+        <View style={styles.keyBox}>
+          <View style={styles.keyHeader}>
+            <View style={styles.keyNumber}>
+              <Text style={styles.keyNumberText}>
+                02
+              </Text>
+            </View>
 
-        <View style={styles.keyContent}>
-          <Text style={styles.keyTitle}>
-            Une énergie à développer
-          </Text>
+            <Text style={styles.keyTitle}>
+              Une énergie à développer
+            </Text>
+          </View>
 
           <Text style={styles.keyText}>
-            Cette position ne vous enferme pas dans une
-            définition rigide. Elle révèle une tendance naturelle
-            que vous pouvez apprendre à comprendre et à utiliser
-            avec davantage de conscience.
+            Cette position ne vous enferme pas. Elle révèle
+            une tendance naturelle que vous pouvez exprimer
+            avec plus de conscience et de maturité.
           </Text>
         </View>
       </View>
 
-      <View
-        style={styles.note}
-        wrap={false}
-      >
+      <View style={styles.note}>
         <Text style={styles.noteSymbol}>
           ✦
         </Text>
 
         <Text style={styles.noteText}>
-  Cette position révèle une énergie importante de votre thème.
-  Elle prend tout son sens lorsqu’elle est observée avec vos
-  autres planètes, votre Soleil, votre Lune et votre Ascendant.
-</Text>
+          Cette position prend tout son sens lorsqu’elle est
+          observée avec vos autres planètes, votre Soleil,
+          votre Lune et votre Ascendant.
+        </Text>
       </View>
 
       <PdfPageFooter />
