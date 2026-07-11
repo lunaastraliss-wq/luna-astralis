@@ -118,25 +118,25 @@ const styles = StyleSheet.create({
   cornerWheelLeft: {
     position: "absolute",
 
-    top: 29,
-    left: 29,
+    top: 25,
+    left: 25,
 
     width: 94,
     height: 94,
 
-    opacity: 0.13,
+    opacity: 0.10,
   },
 
   cornerWheelRight: {
     position: "absolute",
 
-    top: 29,
-    right: 29,
+    top: 25,
+    right: 25,
 
     width: 94,
     height: 94,
 
-    opacity: 0.13,
+    opacity: 0.10,
   },
 
   content: {
