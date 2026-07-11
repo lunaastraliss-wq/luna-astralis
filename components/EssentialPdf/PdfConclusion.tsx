@@ -125,13 +125,10 @@ export default function PdfConclusion() {
         </Text>
 
         <Text style={styles.paragraph}>
-          Ce rapport Essentiel vous a permis
-          de découvrir les premières clés de
-          votre thème natal : vos grands
-          piliers astrologiques, vos
-          principales planètes, l’équilibre
-          de vos éléments et votre manière
-          naturelle d’aborder la vie.
+          Ce rapport Essentiel vous a permis de découvrir les fondations
+  de votre thème natal : vos trois grands piliers astrologiques,
+  le rôle de vos principales planètes, l’équilibre de vos
+  éléments et la dynamique dominante de votre personnalité.
         </Text>
 
         <Text style={styles.paragraph}>
@@ -144,13 +141,8 @@ export default function PdfConclusion() {
         </Text>
 
         <Text style={styles.paragraphLast}>
-          Plus vous apprenez à comprendre
-          ces énergies, plus vous développez
-          une connaissance profonde de
-          vous-même. L’astrologie devient
-          alors un outil de réflexion, de
-          croissance et d’évolution
-          personnelle.
+          Merci d’avoir choisi Luna Astralis pour découvrir les
+  premières clés de votre univers intérieur.
         </Text>
       </View>
 
