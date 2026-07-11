@@ -88,23 +88,26 @@ const PLANET_GUIDANCE: Record<string, string> = {
 };
 
 const styles = StyleSheet.create({
+  /*
+   * En-tête de la planète
+   */
   header: {
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 12,
   },
 
   kicker: {
     color: "#f4c95d",
-    fontSize: 8.5,
+    fontSize: 8.3,
     letterSpacing: 2,
     textTransform: "uppercase",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   title: {
     color: "#fff8e7",
-    fontSize: 25,
-    lineHeight: 1.15,
+    fontSize: 24,
+    lineHeight: 1.12,
     textAlign: "center",
   },
 
@@ -112,8 +115,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 9,
-    marginBottom: 8,
+    marginTop: 8,
+    marginBottom: 7,
   },
 
   dividerLine: {
@@ -132,19 +135,22 @@ const styles = StyleSheet.create({
   subtitle: {
     maxWidth: 410,
     color: "#c9c5bb",
-    fontSize: 9.2,
-    lineHeight: 1.4,
+    fontSize: 9,
+    lineHeight: 1.35,
     textAlign: "center",
   },
 
+  /*
+   * Carte principale
+   */
   hero: {
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 102,
-    paddingVertical: 15,
+    minHeight: 94,
+    paddingVertical: 12,
     paddingHorizontal: 18,
-    marginBottom: 12,
+    marginBottom: 9,
     overflow: "hidden",
     backgroundColor: "#111a34",
     borderWidth: 1,
@@ -152,20 +158,20 @@ const styles = StyleSheet.create({
   },
 
   iconCircle: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
+    width: 62,
+    height: 62,
+    borderRadius: 31,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 17,
+    marginRight: 16,
     backgroundColor: "#0b1124",
     borderWidth: 1,
     borderColor: "#f4c95d",
   },
 
   icon: {
-    width: 37,
-    height: 37,
+    width: 35,
+    height: 35,
     objectFit: "contain",
   },
 
@@ -176,7 +182,7 @@ const styles = StyleSheet.create({
 
   heroKicker: {
     color: "#9da4b7",
-    fontSize: 8,
+    fontSize: 7.8,
     letterSpacing: 1.3,
     textTransform: "uppercase",
     marginBottom: 4,
@@ -184,35 +190,38 @@ const styles = StyleSheet.create({
 
   heroName: {
     color: "#fff8e7",
-    fontSize: 21,
+    fontSize: 20,
     marginBottom: 3,
   },
 
   heroSign: {
     color: "#f4c95d",
-    fontSize: 14,
+    fontSize: 13.5,
     marginBottom: 4,
   },
 
   heroDegree: {
     color: "#aeb5c7",
-    fontSize: 8.5,
+    fontSize: 8.3,
   },
 
   watermark: {
     position: "absolute",
-    top: 7,
+    top: 6,
     right: 14,
-    width: 86,
-    height: 86,
+    width: 82,
+    height: 82,
     objectFit: "contain",
     opacity: 0.035,
   },
 
+  /*
+   * Interprétation principale
+   */
   meaningCard: {
-    paddingVertical: 16,
+    paddingVertical: 13,
     paddingHorizontal: 18,
-    marginBottom: 11,
+    marginBottom: 8,
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -220,29 +229,32 @@ const styles = StyleSheet.create({
 
   cardKicker: {
     color: "#f4c95d",
-    fontSize: 8,
+    fontSize: 7.8,
     letterSpacing: 1.3,
     textTransform: "uppercase",
-    marginBottom: 6,
+    marginBottom: 5,
   },
 
   question: {
     color: "#fff8e7",
-    fontSize: 14.5,
-    lineHeight: 1.3,
-    marginBottom: 9,
+    fontSize: 14,
+    lineHeight: 1.25,
+    marginBottom: 7,
   },
 
   interpretation: {
     color: "#e9e4d8",
-    fontSize: 9.7,
-    lineHeight: 1.5,
+    fontSize: 9.45,
+    lineHeight: 1.45,
   },
 
+  /*
+   * Enseignement
+   */
   guidanceCard: {
-    paddingVertical: 14,
+    paddingVertical: 11,
     paddingHorizontal: 17,
-    marginBottom: 11,
+    marginBottom: 8,
     backgroundColor: "#0d152d",
     borderLeftWidth: 2,
     borderLeftColor: "#f4c95d",
@@ -254,28 +266,31 @@ const styles = StyleSheet.create({
 
   guidanceTitle: {
     color: "#f4c95d",
-    fontSize: 8,
+    fontSize: 7.8,
     letterSpacing: 1.3,
     textTransform: "uppercase",
-    marginBottom: 6,
+    marginBottom: 5,
   },
 
   guidanceText: {
     color: "#c9cedb",
-    fontSize: 9,
-    lineHeight: 1.45,
+    fontSize: 8.8,
+    lineHeight: 1.4,
   },
 
+  /*
+   * Deux clés d’interprétation
+   */
   keysRow: {
     flexDirection: "row",
-    marginBottom: 11,
+    marginBottom: 8,
   },
 
   keyBox: {
     flexGrow: 1,
     flexBasis: 0,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
     backgroundColor: "#0d152d",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -288,13 +303,13 @@ const styles = StyleSheet.create({
   keyHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   keyNumber: {
-    width: 27,
-    height: 27,
-    borderRadius: 14,
+    width: 25,
+    height: 25,
+    borderRadius: 13,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 8,
@@ -305,36 +320,40 @@ const styles = StyleSheet.create({
 
   keyNumberText: {
     color: "#f4c95d",
-    fontSize: 7.5,
+    fontSize: 7.2,
   },
 
   keyTitle: {
     flexGrow: 1,
     flexBasis: 0,
     color: "#fff8e7",
-    fontSize: 10.3,
-    lineHeight: 1.2,
+    fontSize: 9.8,
+    lineHeight: 1.18,
   },
 
   keyText: {
     color: "#bfc5d5",
-    fontSize: 8.4,
-    lineHeight: 1.4,
+    fontSize: 8.1,
+    lineHeight: 1.35,
   },
 
+  /*
+   * Note finale
+   */
   note: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
+    paddingVertical: 7,
     paddingHorizontal: 13,
+    marginBottom: 25,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
   },
 
   noteIcon: {
-    width: 17,
-    height: 17,
+    width: 16,
+    height: 16,
     objectFit: "contain",
     marginRight: 10,
   },
@@ -343,8 +362,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexBasis: 0,
     color: "#bfc5d5",
-    fontSize: 8.2,
-    lineHeight: 1.4,
+    fontSize: 8,
+    lineHeight: 1.32,
   },
 });
 
@@ -431,7 +450,10 @@ export default function PdfPlanet({
         </Text>
       </View>
 
-      <View style={styles.hero}>
+      <View
+        style={styles.hero}
+        wrap={false}
+      >
         {icon ? (
           <>
             <View style={styles.iconCircle}>
@@ -469,7 +491,10 @@ export default function PdfPlanet({
         </View>
       </View>
 
-      <View style={styles.meaningCard}>
+      <View
+        style={styles.meaningCard}
+        wrap={false}
+      >
         <Text style={styles.cardKicker}>
           {meaning}
         </Text>
@@ -483,7 +508,10 @@ export default function PdfPlanet({
         </Text>
       </View>
 
-      <View style={styles.guidanceCard}>
+      <View
+        style={styles.guidanceCard}
+        wrap={false}
+      >
         <Text style={styles.guidanceTitle}>
           Ce que cette position vous enseigne
         </Text>
@@ -493,7 +521,10 @@ export default function PdfPlanet({
         </Text>
       </View>
 
-      <View style={styles.keysRow}>
+      <View
+        style={styles.keysRow}
+        wrap={false}
+      >
         <View
           style={[
             styles.keyBox,
@@ -540,7 +571,10 @@ export default function PdfPlanet({
         </View>
       </View>
 
-      <View style={styles.note}>
+      <View
+        style={styles.note}
+        wrap={false}
+      >
         {icon ? (
           <Image
             src={icon}
@@ -558,4 +592,4 @@ export default function PdfPlanet({
       <PdfPageFooter />
     </Page>
   );
-      }
+}
