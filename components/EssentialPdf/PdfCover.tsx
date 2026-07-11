@@ -30,32 +30,6 @@ const PAGE_BACKGROUND = "#06101f";
 const CARD_BACKGROUND = "#081426";
 const CREAM = "#fff8e7";
 
-/*
- * Largeur A4 utilisée par React PDF
- */
-const A4_WIDTH = 595.28;
-
-/*
- * Abréviations des signes.
- *
- * Les lettres sont utilisées plutôt que les symboles astrologiques
- * afin d’éviter les problèmes de police dans React PDF.
- */
-const ZODIAC_LABELS = [
-  "BÉL",
-  "TAU",
-  "GÉM",
-  "CAN",
-  "LIO",
-  "VIE",
-  "BAL",
-  "SCO",
-  "SAG",
-  "CAP",
-  "VER",
-  "POI",
-];
-
 type Point = {
   x: number;
   y: number;
@@ -139,37 +113,30 @@ const styles = StyleSheet.create({
   },
 
   /*
-   * Grande roue décorative.
+   * Petites roues décoratives dans les coins.
    */
-  backgroundWheel: {
+  cornerWheelLeft: {
     position: "absolute",
 
-    width: 360,
-    height: 360,
+    top: 29,
+    left: 29,
 
-    left: (A4_WIDTH - 360) / 2,
-    top: 150,
+    width: 94,
+    height: 94,
 
-    opacity: 0.03,
+    opacity: 0.13,
   },
 
-  /*
-   * Léger halo pour améliorer la lisibilité du contenu.
-   */
-  wheelGlow: {
+  cornerWheelRight: {
     position: "absolute",
 
-    width: 350,
-    height: 350,
+    top: 29,
+    right: 29,
 
-    left: (A4_WIDTH - 350) / 2,
-    top: 190,
+    width: 94,
+    height: 94,
 
-    borderRadius: 175,
-
-    backgroundColor: "#07152a",
-
-    opacity: 0.5,
+    opacity: 0.13,
   },
 
   content: {
@@ -388,7 +355,7 @@ const styles = StyleSheet.create({
   },
 
   /*
-   * Soleil, Lune, Ascendant
+   * Soleil, Lune et Ascendant
    */
   pillars: {
     flexDirection: "row",
@@ -572,64 +539,71 @@ function displayValue(value?: string): string {
 }
 
 /*
- * Roue astrologique décorative de la couverture.
+ * Petite roue astrologique décorative.
  *
- * Elle ne représente pas les positions natales du client.
- * Elle sert seulement de filigrane visuel.
+ * Elle est volontairement simple :
+ * - aucun texte;
+ * - aucun numéro;
+ * - aucun aspect;
+ * - seulement les anneaux, les graduations et les 12 divisions.
  */
-function CoverAstrologicalWheel({
+function CornerAstrologicalWheel({
   size,
 }: {
   size: number;
 }) {
   const center = size / 2;
 
-  const outerRadius = size * 0.475;
-  const secondRadius = size * 0.455;
+  const outerRadius = size * 0.47;
+  const secondRadius = size * 0.435;
 
-  const zodiacOuterRadius = size * 0.425;
-  const zodiacInnerRadius = size * 0.345;
+  const zodiacOuterRadius = size * 0.385;
+  const zodiacInnerRadius = size * 0.285;
 
-  const degreeOuterRadius = size * 0.335;
-  const degreeInnerRadius = size * 0.305;
-
-  const houseRadius = size * 0.245;
-  const centralRadius = size * 0.09;
+  const centerRadius = size * 0.095;
 
   /*
-   * Graduations des 360 degrés.
+   * Graduations.
+   *
+   * On utilise 72 graduations, donc une tous les 5 degrés.
+   * C'est suffisamment détaillé pour une petite roue décorative.
    */
   const degreeTicks = Array.from(
     {
-      length: 360,
+      length: 72,
     },
-    (_, degree) => {
+    (_, index) => {
+      const angle = index * 5;
+
       const outerPoint = polarPoint(
         center,
-        degreeOuterRadius,
-        degree
+        zodiacOuterRadius,
+        angle
       );
 
-      let tickLength = size * 0.007;
-      let strokeWidth = 0.26;
+      const isMajor = index % 6 === 0;
+      const isMedium = index % 3 === 0;
 
-      if (degree % 10 === 0) {
-        tickLength = size * 0.021;
-        strokeWidth = 0.72;
-      } else if (degree % 5 === 0) {
-        tickLength = size * 0.014;
-        strokeWidth = 0.46;
+      let tickLength = size * 0.025;
+      let strokeWidth = 0.3;
+
+      if (isMajor) {
+        tickLength = size * 0.07;
+        strokeWidth = 0.75;
+      } else if (isMedium) {
+        tickLength = size * 0.045;
+        strokeWidth = 0.5;
       }
 
       const innerPoint = polarPoint(
         center,
-        degreeOuterRadius - tickLength,
-        degree
+        zodiacOuterRadius - tickLength,
+        angle
       );
 
       return (
         <Line
-          key={`degree-${degree}`}
+          key={`corner-degree-${index}`}
           x1={outerPoint.x}
           y1={outerPoint.y}
           x2={innerPoint.x}
@@ -642,7 +616,7 @@ function CoverAstrologicalWheel({
   );
 
   /*
-   * Séparations des signes.
+   * Divisions des 12 signes.
    */
   const zodiacDivisions = Array.from(
     {
@@ -665,200 +639,66 @@ function CoverAstrologicalWheel({
 
       return (
         <Line
-          key={`zodiac-division-${index}`}
+          key={`corner-zodiac-${index}`}
           x1={outerPoint.x}
           y1={outerPoint.y}
           x2={innerPoint.x}
           y2={innerPoint.y}
           stroke={BRIGHT_GOLD}
-          strokeWidth={0.9}
+          strokeWidth={0.7}
         />
       );
     }
   );
 
   /*
-   * Rayons des maisons décoratives.
+   * Petite étoile centrale.
    */
-  const houseDivisions = Array.from(
-    {
-      length: 12,
-    },
-    (_, index) => {
-      const angle = index * 30;
-
-      const outerPoint = polarPoint(
-        center,
-        degreeInnerRadius,
-        angle
-      );
-
-      const innerPoint = polarPoint(
-        center,
-        houseRadius,
-        angle
-      );
-
-      return (
-        <Line
-          key={`house-division-${index}`}
-          x1={outerPoint.x}
-          y1={outerPoint.y}
-          x2={innerPoint.x}
-          y2={innerPoint.y}
-          stroke={SOFT_GOLD}
-          strokeWidth={0.55}
-        />
-      );
-    }
-  );
-
-  /*
-   * Noms abrégés des signes.
-   *
-   * fontSize doit être placé dans style pour React PDF.
-   */
-  const zodiacNames = ZODIAC_LABELS.map(
-    (label, index) => {
-      const angle = index * 30 + 15;
-
-      const point = polarPoint(
-        center,
-        size * 0.388,
-        angle
-      );
-
-      return (
-        <Text
-          key={`zodiac-label-${label}`}
-          x={point.x}
-          y={point.y + 3}
-          fill={BRIGHT_GOLD}
-          textAnchor="middle"
-          style={{
-            fontSize: size * 0.018,
-          }}
-        >
-          {label}
-        </Text>
-      );
-    }
-  );
-
-  /*
-   * Numéros des maisons.
-   */
-  const houseNumbers = Array.from(
-    {
-      length: 12,
-    },
-    (_, index) => {
-      const angle = index * 30 + 15;
-
-      const point = polarPoint(
-        center,
-        size * 0.277,
-        angle
-      );
-
-      return (
-        <Text
-          key={`house-number-${index + 1}`}
-          x={point.x}
-          y={point.y + 3}
-          fill={GOLD}
-          textAnchor="middle"
-          style={{
-            fontSize: size * 0.016,
-          }}
-        >
-          {String(index + 1)}
-        </Text>
-      );
-    }
-  );
-
-  /*
-   * Points des aspects décoratifs.
-   */
-  const aspectPoint1 = polarPoint(
+  const topPoint = polarPoint(
     center,
-    size * 0.19,
-    18
-  );
-
-  const aspectPoint2 = polarPoint(
-    center,
-    size * 0.2,
-    94
-  );
-
-  const aspectPoint3 = polarPoint(
-    center,
-    size * 0.18,
-    166
-  );
-
-  const aspectPoint4 = polarPoint(
-    center,
-    size * 0.21,
-    236
-  );
-
-  const aspectPoint5 = polarPoint(
-    center,
-    size * 0.18,
-    302
-  );
-
-  /*
-   * Points de la rose centrale.
-   */
-  const starTop = polarPoint(
-    center,
-    size * 0.058,
+    size * 0.065,
     0
   );
 
-  const starRight = polarPoint(
+  const rightPoint = polarPoint(
     center,
-    size * 0.058,
+    size * 0.065,
     90
   );
 
-  const starBottom = polarPoint(
+  const bottomPoint = polarPoint(
     center,
-    size * 0.058,
+    size * 0.065,
     180
   );
 
-  const starLeft = polarPoint(
+  const leftPoint = polarPoint(
     center,
-    size * 0.058,
+    size * 0.065,
     270
   );
 
-  const starTopRight = polarPoint(
+  const topRightPoint = polarPoint(
     center,
-    size * 0.035,
+    size * 0.04,
     45
   );
 
-  const starBottomRight = polarPoint(
+  const bottomRightPoint = polarPoint(
     center,
-    size * 0.035,
+    size * 0.04,
     135
   );
 
-  const starBottomLeft = polarPoint(
+  const bottomLeftPoint = polarPoint(
     center,
-    size * 0.035,
+    size * 0.04,
     225
   );
 
-  const starTopLeft = polarPoint(
+  const topLeftPoint = polarPoint(
     center,
-    size * 0.035,
+    size * 0.04,
     315
   );
 
@@ -877,7 +717,7 @@ function CoverAstrologicalWheel({
         cy={center}
         r={outerRadius}
         stroke={BRIGHT_GOLD}
-        strokeWidth={1.1}
+        strokeWidth={0.9}
         fill="none"
       />
 
@@ -886,7 +726,7 @@ function CoverAstrologicalWheel({
         cy={center}
         r={secondRadius}
         stroke={SOFT_GOLD}
-        strokeWidth={0.55}
+        strokeWidth={0.45}
         fill="none"
       />
 
@@ -895,235 +735,24 @@ function CoverAstrologicalWheel({
         cy={center}
         r={zodiacOuterRadius}
         stroke={GOLD}
-        strokeWidth={0.72}
+        strokeWidth={0.55}
         fill="none"
       />
+
+      {/*
+       * Graduations et divisions
+       */}
+
+      {degreeTicks}
+      {zodiacDivisions}
 
       <Circle
         cx={center}
         cy={center}
         r={zodiacInnerRadius}
-        stroke={GOLD}
-        strokeWidth={0.72}
-        fill="none"
-      />
-
-      {/*
-       * Graduations
-       */}
-
-      {degreeTicks}
-
-      <Circle
-        cx={center}
-        cy={center}
-        r={degreeInnerRadius}
         stroke={SOFT_GOLD}
-        strokeWidth={0.52}
-        fill="none"
-      />
-
-      {/*
-       * Signes et secteurs
-       */}
-
-      {zodiacDivisions}
-      {zodiacNames}
-
-      {/*
-       * Maisons
-       */}
-
-      <Circle
-        cx={center}
-        cy={center}
-        r={houseRadius}
-        stroke={SOFT_GOLD}
-        strokeWidth={0.6}
-        fill="none"
-      />
-
-      {houseDivisions}
-      {houseNumbers}
-
-      {/*
-       * Axes principaux
-       */}
-
-      <Line
-        x1={center}
-        y1={center - degreeInnerRadius}
-        x2={center}
-        y2={center + degreeInnerRadius}
-        stroke={BRIGHT_GOLD}
-        strokeWidth={1}
-      />
-
-      <Line
-        x1={center - degreeInnerRadius}
-        y1={center}
-        x2={center + degreeInnerRadius}
-        y2={center}
-        stroke={BRIGHT_GOLD}
-        strokeWidth={1}
-      />
-
-      {/*
-       * Angles astrologiques
-       */}
-
-      <Text
-        x={center}
-        y={center - degreeInnerRadius - 10}
-        fill={BRIGHT_GOLD}
-        textAnchor="middle"
-        style={{
-          fontSize: size * 0.021,
-        }}
-      >
-        MC
-      </Text>
-
-      <Text
-        x={center}
-        y={center + degreeInnerRadius + 18}
-        fill={BRIGHT_GOLD}
-        textAnchor="middle"
-        style={{
-          fontSize: size * 0.021,
-        }}
-      >
-        IC
-      </Text>
-
-      <Text
-        x={center - degreeInnerRadius - 22}
-        y={center + 4}
-        fill={BRIGHT_GOLD}
-        textAnchor="middle"
-        style={{
-          fontSize: size * 0.021,
-        }}
-      >
-        ASC
-      </Text>
-
-      <Text
-        x={center + degreeInnerRadius + 22}
-        y={center + 4}
-        fill={BRIGHT_GOLD}
-        textAnchor="middle"
-        style={{
-          fontSize: size * 0.021,
-        }}
-      >
-        DSC
-      </Text>
-
-      {/*
-       * Aspects décoratifs
-       */}
-
-      <Line
-        x1={aspectPoint1.x}
-        y1={aspectPoint1.y}
-        x2={aspectPoint3.x}
-        y2={aspectPoint3.y}
-        stroke={GOLD}
-        strokeWidth={0.7}
-      />
-
-      <Line
-        x1={aspectPoint3.x}
-        y1={aspectPoint3.y}
-        x2={aspectPoint5.x}
-        y2={aspectPoint5.y}
-        stroke={GOLD}
-        strokeWidth={0.7}
-      />
-
-      <Line
-        x1={aspectPoint5.x}
-        y1={aspectPoint5.y}
-        x2={aspectPoint2.x}
-        y2={aspectPoint2.y}
-        stroke={GOLD}
-        strokeWidth={0.7}
-      />
-
-      <Line
-        x1={aspectPoint2.x}
-        y1={aspectPoint2.y}
-        x2={aspectPoint4.x}
-        y2={aspectPoint4.y}
-        stroke={SOFT_GOLD}
-        strokeWidth={0.62}
-      />
-
-      <Line
-        x1={aspectPoint4.x}
-        y1={aspectPoint4.y}
-        x2={aspectPoint1.x}
-        y2={aspectPoint1.y}
-        stroke={SOFT_GOLD}
-        strokeWidth={0.62}
-      />
-
-      <Line
-        x1={aspectPoint1.x}
-        y1={aspectPoint1.y}
-        x2={aspectPoint2.x}
-        y2={aspectPoint2.y}
-        stroke={DARK_GOLD}
         strokeWidth={0.5}
-      />
-
-      <Line
-        x1={aspectPoint3.x}
-        y1={aspectPoint3.y}
-        x2={aspectPoint4.x}
-        y2={aspectPoint4.y}
-        stroke={DARK_GOLD}
-        strokeWidth={0.5}
-      />
-
-      {/*
-       * Points des aspects
-       */}
-
-      <Circle
-        cx={aspectPoint1.x}
-        cy={aspectPoint1.y}
-        r={2}
-        fill={BRIGHT_GOLD}
-      />
-
-      <Circle
-        cx={aspectPoint2.x}
-        cy={aspectPoint2.y}
-        r={1.7}
-        fill={BRIGHT_GOLD}
-      />
-
-      <Circle
-        cx={aspectPoint3.x}
-        cy={aspectPoint3.y}
-        r={1.9}
-        fill={BRIGHT_GOLD}
-      />
-
-      <Circle
-        cx={aspectPoint4.x}
-        cy={aspectPoint4.y}
-        r={1.6}
-        fill={BRIGHT_GOLD}
-      />
-
-      <Circle
-        cx={aspectPoint5.x}
-        cy={aspectPoint5.y}
-        r={1.8}
-        fill={BRIGHT_GOLD}
+        fill="none"
       />
 
       {/*
@@ -1133,18 +762,9 @@ function CoverAstrologicalWheel({
       <Circle
         cx={center}
         cy={center}
-        r={centralRadius}
+        r={centerRadius}
         stroke={GOLD}
-        strokeWidth={0.65}
-        fill="none"
-      />
-
-      <Circle
-        cx={center}
-        cy={center}
-        r={size * 0.022}
-        stroke={BRIGHT_GOLD}
-        strokeWidth={0.7}
+        strokeWidth={0.55}
         fill="none"
       />
 
@@ -1153,45 +773,45 @@ function CoverAstrologicalWheel({
        */}
 
       <Line
-        x1={starTop.x}
-        y1={starTop.y}
-        x2={starBottom.x}
-        y2={starBottom.y}
+        x1={topPoint.x}
+        y1={topPoint.y}
+        x2={bottomPoint.x}
+        y2={bottomPoint.y}
         stroke={BRIGHT_GOLD}
-        strokeWidth={1}
-      />
-
-      <Line
-        x1={starLeft.x}
-        y1={starLeft.y}
-        x2={starRight.x}
-        y2={starRight.y}
-        stroke={BRIGHT_GOLD}
-        strokeWidth={1}
-      />
-
-      <Line
-        x1={starTopLeft.x}
-        y1={starTopLeft.y}
-        x2={starBottomRight.x}
-        y2={starBottomRight.y}
-        stroke={GOLD}
         strokeWidth={0.7}
       />
 
       <Line
-        x1={starTopRight.x}
-        y1={starTopRight.y}
-        x2={starBottomLeft.x}
-        y2={starBottomLeft.y}
-        stroke={GOLD}
+        x1={leftPoint.x}
+        y1={leftPoint.y}
+        x2={rightPoint.x}
+        y2={rightPoint.y}
+        stroke={BRIGHT_GOLD}
         strokeWidth={0.7}
+      />
+
+      <Line
+        x1={topLeftPoint.x}
+        y1={topLeftPoint.y}
+        x2={bottomRightPoint.x}
+        y2={bottomRightPoint.y}
+        stroke={GOLD}
+        strokeWidth={0.5}
+      />
+
+      <Line
+        x1={topRightPoint.x}
+        y1={topRightPoint.y}
+        x2={bottomLeftPoint.x}
+        y2={bottomLeftPoint.y}
+        stroke={GOLD}
+        strokeWidth={0.5}
       />
 
       <Circle
         cx={center}
         cy={center}
-        r={2.2}
+        r={1.2}
         fill={BRIGHT_GOLD}
       />
     </Svg>
@@ -1216,18 +836,37 @@ export default function PdfCover({
 
       <View style={styles.innerBorder} fixed />
 
-      <View style={styles.backgroundWheel} fixed>
-        <CoverAstrologicalWheel size={360} />
+      {/*
+       * Roue du coin supérieur gauche
+       */}
+
+      <View
+        style={styles.cornerWheelLeft}
+        fixed
+      >
+        <CornerAstrologicalWheel size={94} />
       </View>
 
-      <View style={styles.wheelGlow} fixed />
+      {/*
+       * Roue du coin supérieur droit
+       */}
+
+      <View
+        style={styles.cornerWheelRight}
+        fixed
+      >
+        <CornerAstrologicalWheel size={94} />
+      </View>
 
       {/*
        * Contenu
        */}
 
       <View style={styles.content}>
-        <View style={styles.header} wrap={false}>
+        <View
+          style={styles.header}
+          wrap={false}
+        >
           <Image
             src={LOGO_URL}
             style={styles.logo}
@@ -1438,4 +1077,4 @@ export default function PdfCover({
       <PdfPageFooter />
     </Page>
   );
-}
+    }
