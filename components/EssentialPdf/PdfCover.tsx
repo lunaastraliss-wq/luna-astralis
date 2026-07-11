@@ -19,7 +19,7 @@ import type { EssentialPdfProps } from "./EssentialPdfTypes";
 import PdfPageFooter from "./PdfPageFooter";
 
 /*
- * Couleurs principales
+ * Couleurs
  */
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -31,14 +31,15 @@ const CARD_BACKGROUND = "#081426";
 const CREAM = "#fff8e7";
 
 /*
- * Taille A4 utilisée par React PDF
+ * Largeur A4 utilisée par React PDF
  */
 const A4_WIDTH = 595.28;
 
 /*
- * Noms abrégés des signes.
- * Les lettres latines sont plus fiables dans React PDF
- * que certains symboles Unicode astrologiques.
+ * Abréviations des signes.
+ *
+ * Les lettres sont utilisées plutôt que les symboles astrologiques
+ * afin d’éviter les problèmes de police dans React PDF.
  */
 const ZODIAC_LABELS = [
   "BÉL",
@@ -55,16 +56,21 @@ const ZODIAC_LABELS = [
   "POI",
 ];
 
+type Point = {
+  x: number;
+  y: number;
+};
+
 /*
- * Conversion d’un angle en coordonnées circulaires.
+ * Convertit un angle en coordonnées circulaires.
  *
- * L’angle 0 commence en haut de la roue.
+ * 0 degré commence en haut de la roue.
  */
 function polarPoint(
   center: number,
   radius: number,
   angleDegrees: number
-) {
+): Point {
   const radians =
     ((angleDegrees - 90) * Math.PI) / 180;
 
@@ -84,26 +90,29 @@ const styles = StyleSheet.create({
 
     backgroundColor: PAGE_BACKGROUND,
     color: CREAM,
+
     fontFamily: "Helvetica",
 
     overflow: "hidden",
   },
 
   /*
-   * Filet doré supérieur
+   * Filet supérieur
    */
   topAccent: {
     position: "absolute",
+
     top: 0,
     left: 0,
     right: 0,
 
     height: 5,
+
     backgroundColor: GOLD,
   },
 
   /*
-   * Doubles bordures
+   * Bordures
    */
   outerBorder: {
     position: "absolute",
@@ -130,9 +139,7 @@ const styles = StyleSheet.create({
   },
 
   /*
-   * Grande roue astrologique en filigrane.
-   *
-   * La roue est volontairement plus large que la page.
+   * Grande roue décorative.
    */
   backgroundWheel: {
     position: "absolute",
@@ -143,30 +150,28 @@ const styles = StyleSheet.create({
     left: (A4_WIDTH - 690) / 2,
     top: 42,
 
-    opacity: 0.12,
+    opacity: 0.11,
   },
 
   /*
-   * Petit halo central placé derrière le titre.
+   * Léger halo pour améliorer la lisibilité du contenu.
    */
   wheelGlow: {
     position: "absolute",
 
-    width: 330,
-    height: 330,
+    width: 350,
+    height: 350,
 
-    left: (A4_WIDTH - 330) / 2,
-    top: 210,
+    left: (A4_WIDTH - 350) / 2,
+    top: 190,
 
-    borderRadius: 165,
-    backgroundColor: "#0a1c34",
+    borderRadius: 175,
 
-    opacity: 0.54,
+    backgroundColor: "#07152a",
+
+    opacity: 0.5,
   },
 
-  /*
-   * Le contenu reste au-dessus de la roue.
-   */
   content: {
     position: "relative",
   },
@@ -176,6 +181,7 @@ const styles = StyleSheet.create({
    */
   header: {
     alignItems: "center",
+
     marginBottom: 14,
   },
 
@@ -184,6 +190,7 @@ const styles = StyleSheet.create({
     height: 60,
 
     objectFit: "contain",
+
     marginBottom: 7,
   },
 
@@ -195,10 +202,11 @@ const styles = StyleSheet.create({
   },
 
   /*
-   * Titre principal
+   * Titre
    */
   titleSection: {
     alignItems: "center",
+
     marginBottom: 16,
   },
 
@@ -207,6 +215,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2.5,
 
     color: BRIGHT_GOLD,
+
     textTransform: "uppercase",
 
     marginBottom: 9,
@@ -217,6 +226,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.08,
 
     color: CREAM,
+
     textAlign: "center",
 
     marginBottom: 2,
@@ -227,6 +237,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.04,
 
     color: BRIGHT_GOLD,
+
     textAlign: "center",
 
     marginBottom: 9,
@@ -239,11 +250,12 @@ const styles = StyleSheet.create({
     lineHeight: 1.42,
 
     color: "#e8e2d7",
+
     textAlign: "center",
   },
 
   /*
-   * Carte d’identité
+   * Informations personnelles
    */
   identityCard: {
     position: "relative",
@@ -289,6 +301,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
 
     color: "#d7ccb3",
+
     textTransform: "uppercase",
     textAlign: "center",
 
@@ -300,6 +313,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.15,
 
     color: CREAM,
+
     textAlign: "center",
 
     marginBottom: 11,
@@ -317,6 +331,7 @@ const styles = StyleSheet.create({
 
   infoColumn: {
     width: "31.5%",
+
     alignItems: "center",
   },
 
@@ -325,6 +340,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.05,
 
     color: "#c8b98f",
+
     textTransform: "uppercase",
     textAlign: "center",
 
@@ -336,6 +352,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.25,
 
     color: CREAM,
+
     textAlign: "center",
   },
 
@@ -346,6 +363,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
 
     paddingHorizontal: 26,
+
     marginBottom: 10,
   },
 
@@ -354,6 +372,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.4,
 
     color: "#f4efe2",
+
     textAlign: "center",
 
     marginBottom: 4,
@@ -364,11 +383,12 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
 
     color: "#d1c2a2",
+
     textTransform: "uppercase",
   },
 
   /*
-   * Soleil, Lune et Ascendant
+   * Soleil, Lune, Ascendant
    */
   pillars: {
     flexDirection: "row",
@@ -386,6 +406,7 @@ const styles = StyleSheet.create({
 
   pillar: {
     width: "31%",
+
     alignItems: "center",
   },
 
@@ -394,6 +415,7 @@ const styles = StyleSheet.create({
     height: 46,
 
     borderRadius: 23,
+
     borderWidth: 1,
     borderColor: "#c89b42",
 
@@ -416,6 +438,7 @@ const styles = StyleSheet.create({
     fontSize: 8.5,
 
     color: BRIGHT_GOLD,
+
     textTransform: "uppercase",
 
     marginBottom: 2,
@@ -426,11 +449,12 @@ const styles = StyleSheet.create({
     lineHeight: 1.3,
 
     color: "#eee8dc",
+
     textAlign: "center",
   },
 
   /*
-   * Bloc d’introduction
+   * Introduction
    */
   introCard: {
     position: "relative",
@@ -459,6 +483,7 @@ const styles = StyleSheet.create({
 
   introHeader: {
     alignItems: "center",
+
     marginBottom: 10,
   },
 
@@ -467,6 +492,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2.1,
 
     color: "#cdbb92",
+
     textTransform: "uppercase",
 
     marginBottom: 5,
@@ -477,11 +503,13 @@ const styles = StyleSheet.create({
     lineHeight: 1.2,
 
     color: BRIGHT_GOLD,
+
     textAlign: "center",
   },
 
   introOrnament: {
     flexDirection: "row",
+
     alignItems: "center",
     justifyContent: "center",
 
@@ -500,6 +528,7 @@ const styles = StyleSheet.create({
     height: 18,
 
     objectFit: "contain",
+
     marginHorizontal: 10,
   },
 
@@ -518,6 +547,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.52,
 
     color: "#eee8dc",
+
     textAlign: "justify",
 
     marginBottom: 8,
@@ -528,6 +558,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
 
     color: BRIGHT_GOLD,
+
     textAlign: "center",
 
     marginTop: 3,
@@ -541,10 +572,10 @@ function displayValue(value?: string): string {
 }
 
 /*
- * Grande roue astrologique décorative.
+ * Roue astrologique décorative de la couverture.
  *
- * Cette roue ne représente pas les positions personnelles
- * du client. Elle sert uniquement de fond esthétique.
+ * Elle ne représente pas les positions natales du client.
+ * Elle sert seulement de filigrane visuel.
  */
 function CoverAstrologicalWheel({
   size,
@@ -566,17 +597,14 @@ function CoverAstrologicalWheel({
   const centralRadius = size * 0.09;
 
   /*
-   * 360 graduations.
-   *
-   * Une graduation plus longue est utilisée :
-   * - tous les 10 degrés ;
-   * - tous les 5 degrés ;
-   * - tous les degrés.
+   * Graduations des 360 degrés.
    */
   const degreeTicks = Array.from(
-    { length: 360 },
+    {
+      length: 360,
+    },
     (_, degree) => {
-      const outer = polarPoint(
+      const outerPoint = polarPoint(
         center,
         degreeOuterRadius,
         degree
@@ -593,7 +621,7 @@ function CoverAstrologicalWheel({
         strokeWidth = 0.46;
       }
 
-      const inner = polarPoint(
+      const innerPoint = polarPoint(
         center,
         degreeOuterRadius - tickLength,
         degree
@@ -602,10 +630,10 @@ function CoverAstrologicalWheel({
       return (
         <Line
           key={`degree-${degree}`}
-          x1={outer.x}
-          y1={outer.y}
-          x2={inner.x}
-          y2={inner.y}
+          x1={outerPoint.x}
+          y1={outerPoint.y}
+          x2={innerPoint.x}
+          y2={innerPoint.y}
           stroke={GOLD}
           strokeWidth={strokeWidth}
         />
@@ -614,20 +642,22 @@ function CoverAstrologicalWheel({
   );
 
   /*
-   * Les 12 séparations zodiacales.
+   * Séparations des signes.
    */
   const zodiacDivisions = Array.from(
-    { length: 12 },
+    {
+      length: 12,
+    },
     (_, index) => {
       const angle = index * 30;
 
-      const outer = polarPoint(
+      const outerPoint = polarPoint(
         center,
         zodiacOuterRadius,
         angle
       );
 
-      const inner = polarPoint(
+      const innerPoint = polarPoint(
         center,
         zodiacInnerRadius,
         angle
@@ -636,10 +666,10 @@ function CoverAstrologicalWheel({
       return (
         <Line
           key={`zodiac-division-${index}`}
-          x1={outer.x}
-          y1={outer.y}
-          x2={inner.x}
-          y2={inner.y}
+          x1={outerPoint.x}
+          y1={outerPoint.y}
+          x2={innerPoint.x}
+          y2={innerPoint.y}
           stroke={BRIGHT_GOLD}
           strokeWidth={0.9}
         />
@@ -648,20 +678,22 @@ function CoverAstrologicalWheel({
   );
 
   /*
-   * Les rayons des 12 maisons décoratives.
+   * Rayons des maisons décoratives.
    */
   const houseDivisions = Array.from(
-    { length: 12 },
+    {
+      length: 12,
+    },
     (_, index) => {
       const angle = index * 30;
 
-      const outer = polarPoint(
+      const outerPoint = polarPoint(
         center,
         degreeInnerRadius,
         angle
       );
 
-      const inner = polarPoint(
+      const innerPoint = polarPoint(
         center,
         houseRadius,
         angle
@@ -670,10 +702,10 @@ function CoverAstrologicalWheel({
       return (
         <Line
           key={`house-division-${index}`}
-          x1={outer.x}
-          y1={outer.y}
-          x2={inner.x}
-          y2={inner.y}
+          x1={outerPoint.x}
+          y1={outerPoint.y}
+          x2={innerPoint.x}
+          y2={innerPoint.y}
           stroke={SOFT_GOLD}
           strokeWidth={0.55}
         />
@@ -683,6 +715,8 @@ function CoverAstrologicalWheel({
 
   /*
    * Noms abrégés des signes.
+   *
+   * fontSize doit être placé dans style pour React PDF.
    */
   const zodiacNames = ZODIAC_LABELS.map(
     (label, index) => {
@@ -700,8 +734,10 @@ function CoverAstrologicalWheel({
           x={point.x}
           y={point.y + 3}
           fill={BRIGHT_GOLD}
-          fontSize={size * 0.018}
           textAnchor="middle"
+          style={{
+            fontSize: size * 0.018,
+          }}
         >
           {label}
         </Text>
@@ -713,7 +749,9 @@ function CoverAstrologicalWheel({
    * Numéros des maisons.
    */
   const houseNumbers = Array.from(
-    { length: 12 },
+    {
+      length: 12,
+    },
     (_, index) => {
       const angle = index * 30 + 15;
 
@@ -729,17 +767,19 @@ function CoverAstrologicalWheel({
           x={point.x}
           y={point.y + 3}
           fill={GOLD}
-          fontSize={size * 0.016}
           textAnchor="middle"
+          style={{
+            fontSize: size * 0.016,
+          }}
         >
-          {index + 1}
+          {String(index + 1)}
         </Text>
       );
     }
   );
 
   /*
-   * Points servant aux aspects décoratifs.
+   * Points des aspects décoratifs.
    */
   const aspectPoint1 = polarPoint(
     center,
@@ -828,7 +868,9 @@ function CoverAstrologicalWheel({
       height={size}
       viewBox={`0 0 ${size} ${size}`}
     >
-      {/* Anneaux extérieurs */}
+      {/*
+       * Anneaux extérieurs
+       */}
 
       <Circle
         cx={center}
@@ -866,7 +908,9 @@ function CoverAstrologicalWheel({
         fill="none"
       />
 
-      {/* Graduations */}
+      {/*
+       * Graduations
+       */}
 
       {degreeTicks}
 
@@ -879,12 +923,16 @@ function CoverAstrologicalWheel({
         fill="none"
       />
 
-      {/* Signes et secteurs zodiacaux */}
+      {/*
+       * Signes et secteurs
+       */}
 
       {zodiacDivisions}
       {zodiacNames}
 
-      {/* Maisons */}
+      {/*
+       * Maisons
+       */}
 
       <Circle
         cx={center}
@@ -898,7 +946,9 @@ function CoverAstrologicalWheel({
       {houseDivisions}
       {houseNumbers}
 
-      {/* Axes principaux */}
+      {/*
+       * Axes principaux
+       */}
 
       <Line
         x1={center}
@@ -918,14 +968,18 @@ function CoverAstrologicalWheel({
         strokeWidth={1}
       />
 
-      {/* Lettres des angles */}
+      {/*
+       * Angles astrologiques
+       */}
 
       <Text
         x={center}
         y={center - degreeInnerRadius - 10}
         fill={BRIGHT_GOLD}
-        fontSize={size * 0.021}
         textAnchor="middle"
+        style={{
+          fontSize: size * 0.021,
+        }}
       >
         MC
       </Text>
@@ -934,8 +988,10 @@ function CoverAstrologicalWheel({
         x={center}
         y={center + degreeInnerRadius + 18}
         fill={BRIGHT_GOLD}
-        fontSize={size * 0.021}
         textAnchor="middle"
+        style={{
+          fontSize: size * 0.021,
+        }}
       >
         IC
       </Text>
@@ -944,8 +1000,10 @@ function CoverAstrologicalWheel({
         x={center - degreeInnerRadius - 22}
         y={center + 4}
         fill={BRIGHT_GOLD}
-        fontSize={size * 0.021}
         textAnchor="middle"
+        style={{
+          fontSize: size * 0.021,
+        }}
       >
         ASC
       </Text>
@@ -954,13 +1012,17 @@ function CoverAstrologicalWheel({
         x={center + degreeInnerRadius + 22}
         y={center + 4}
         fill={BRIGHT_GOLD}
-        fontSize={size * 0.021}
         textAnchor="middle"
+        style={{
+          fontSize: size * 0.021,
+        }}
       >
         DSC
       </Text>
 
-      {/* Aspects décoratifs */}
+      {/*
+       * Aspects décoratifs
+       */}
 
       <Line
         x1={aspectPoint1.x}
@@ -1025,7 +1087,9 @@ function CoverAstrologicalWheel({
         strokeWidth={0.5}
       />
 
-      {/* Points des aspects */}
+      {/*
+       * Points des aspects
+       */}
 
       <Circle
         cx={aspectPoint1.x}
@@ -1062,7 +1126,9 @@ function CoverAstrologicalWheel({
         fill={BRIGHT_GOLD}
       />
 
-      {/* Cercle central */}
+      {/*
+       * Cercle central
+       */}
 
       <Circle
         cx={center}
@@ -1082,7 +1148,9 @@ function CoverAstrologicalWheel({
         fill="none"
       />
 
-      {/* Rose céleste centrale */}
+      {/*
+       * Rose céleste centrale
+       */}
 
       <Line
         x1={starTop.x}
@@ -1138,7 +1206,9 @@ export default function PdfCover({
 }: EssentialPdfProps) {
   return (
     <Page size="A4" style={styles.page}>
-      {/* Éléments fixes de fond */}
+      {/*
+       * Fond fixe
+       */}
 
       <View style={styles.topAccent} fixed />
 
@@ -1152,7 +1222,9 @@ export default function PdfCover({
 
       <View style={styles.wheelGlow} fixed />
 
-      {/* Contenu principal */}
+      {/*
+       * Contenu
+       */}
 
       <View style={styles.content}>
         <View style={styles.header} wrap={false}>
