@@ -24,7 +24,8 @@ import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
 
 const PLANET_QUESTIONS: Record<string, string> = {
-  Sun: "Qu’est-ce qui vous permet de rayonner pleinement ?",
+  Sun:
+    "Qu’est-ce qui vous permet de rayonner pleinement ?",
 
   Moon:
     "De quoi avez-vous besoin pour vous sentir intérieurement en sécurité ?",
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   divider: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     marginTop: 9,
     marginBottom: 8,
   },
@@ -120,10 +122,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#8f793c",
   },
 
-  dividerSymbol: {
-    color: "#f4c95d",
-    fontSize: 12,
-    marginHorizontal: 9,
+  dividerIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginHorizontal: 10,
   },
 
   subtitle: {
@@ -329,9 +332,10 @@ const styles = StyleSheet.create({
     borderColor: "#8f793c",
   },
 
-  noteSymbol: {
-    color: "#f4c95d",
-    fontSize: 14,
+  noteIcon: {
+    width: 17,
+    height: 17,
+    objectFit: "contain",
     marginRight: 10,
   },
 
@@ -411,9 +415,12 @@ export default function PdfPlanet({
         <View style={styles.divider}>
           <View style={styles.dividerLine} />
 
-          <Text style={styles.dividerSymbol}>
-            ✦
-          </Text>
+          {icon ? (
+            <Image
+              src={icon}
+              style={styles.dividerIcon}
+            />
+          ) : null}
 
           <View style={styles.dividerLine} />
         </View>
@@ -534,9 +541,12 @@ export default function PdfPlanet({
       </View>
 
       <View style={styles.note}>
-        <Text style={styles.noteSymbol}>
-          ✦
-        </Text>
+        {icon ? (
+          <Image
+            src={icon}
+            style={styles.noteIcon}
+          />
+        ) : null}
 
         <Text style={styles.noteText}>
           Cette position prend tout son sens lorsqu’elle est
@@ -548,4 +558,4 @@ export default function PdfPlanet({
       <PdfPageFooter />
     </Page>
   );
-}
+      }
