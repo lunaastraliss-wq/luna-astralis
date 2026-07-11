@@ -359,33 +359,34 @@ export async function POST(req: Request) {
      * Si le PDF existe déjà, on retourne simplement
      * une nouvelle adresse temporaire.
      */
-    if (order.pdf_path) {
-      const { data: signed, error: signedError } =
-        await supabase.storage
-          .from("rapport-pdf")
-          .createSignedUrl(
-            order.pdf_path,
-            60 * 60
-          );
+/*
+if (order.pdf_path) {
+  const { data: signed, error: signedError } =
+    await supabase.storage
+      .from("rapport-pdf")
+      .createSignedUrl(
+        order.pdf_path,
+        60 * 60
+      );
 
-      if (signedError) {
-        return NextResponse.json(
-          {
-            error: "SIGNED_URL_FAILED",
-            detail: signedError.message,
-          },
-          { status: 500 }
-        );
-      }
+  if (signedError) {
+    return NextResponse.json(
+      {
+        error: "SIGNED_URL_FAILED",
+        detail: signedError.message,
+      },
+      { status: 500 }
+    );
+  }
 
-      return NextResponse.json({
-        ok: true,
-        already_generated: true,
-        pdf_path: order.pdf_path,
-        pdf_url: signed?.signedUrl || null,
-      });
-    }
-
+  return NextResponse.json({
+    ok: true,
+    already_generated: true,
+    pdf_path: order.pdf_path,
+    pdf_url: signed?.signedUrl || null,
+  });
+}
+*/
     const birthData =
       order.birth_data &&
       typeof order.birth_data === "object"
