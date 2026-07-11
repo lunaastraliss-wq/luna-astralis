@@ -7,8 +7,8 @@ import {
 } from "@react-pdf/renderer";
 
 import {
-  SIGN_ELEMENT,
   ELEMENT_TEXT,
+  SIGN_ELEMENT,
 } from "@/lib/astrology";
 
 import {
@@ -249,4 +249,350 @@ const styles = StyleSheet.create({
   },
 
   dominantText: {
-    color: "#d9d4c7
+    color: "#d9d4c7",
+    fontSize: 9.2,
+    lineHeight: 1.48,
+  },
+
+  insightRow: {
+    flexDirection: "row",
+    marginBottom: 12,
+  },
+
+  insightBox: {
+    flexGrow: 1,
+    flexBasis: 0,
+    minHeight: 104,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    backgroundColor: "#0d152d",
+    borderWidth: 1,
+    borderColor: "#39415d",
+  },
+
+  insightBoxLeft: {
+    marginRight: 8,
+  },
+
+  insightHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
+  insightIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  insightTitle: {
+    flexGrow: 1,
+    flexBasis: 0,
+    color: "#f4c95d",
+    fontSize: 8.2,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+
+  insightText: {
+    color: "#bfc5d5",
+    fontSize: 8.3,
+    lineHeight: 1.43,
+  },
+
+  note: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 13,
+    backgroundColor: "#141b32",
+    borderWidth: 1,
+    borderColor: "#8f793c",
+  },
+
+  noteIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginRight: 10,
+  },
+
+  noteText: {
+    flexGrow: 1,
+    flexBasis: 0,
+    color: "#bfc5d5",
+    fontSize: 8.2,
+    lineHeight: 1.4,
+  },
+});
+
+function getElementIcon(element: string) {
+  switch (element) {
+    case "Feu":
+      return PLANET_ICONS.Sun;
+
+    case "Terre":
+      return PLANET_ICONS.Saturn;
+
+    case "Air":
+      return PLANET_ICONS.Mercury;
+
+    case "Eau":
+      return PLANET_ICONS.Moon;
+
+    default:
+      return ASCENDANT_ICON;
+  }
+}
+
+export default function PdfElements({
+  planets,
+}: PlanetsProps) {
+  const safePlanets = Array.isArray(planets)
+    ? planets
+    : [];
+
+  const counts: Record<string, number> = {
+    Feu: 0,
+    Terre: 0,
+    Air: 0,
+    Eau: 0,
+  };
+
+  MAIN_PLANETS.forEach((planetName) => {
+    const planet = getPlanet(
+      safePlanets,
+      planetName
+    );
+
+    const signName =
+      getPlanetSignName(planet);
+
+    if (!signName) {
+      return;
+    }
+
+    const element =
+      SIGN_ELEMENT[signName];
+
+    if (
+      element &&
+      counts[element] !== undefined
+    ) {
+      counts[element] += 1;
+    }
+  });
+
+  const dominantElement =
+    Object.entries(counts).sort(
+      (a, b) => b[1] - a[1]
+    )[0]?.[0] || "";
+
+  const hasDominantElement =
+    Boolean(
+      dominantElement &&
+        counts[dominantElement] > 0
+    );
+
+  const dominantText =
+    hasDominantElement
+      ? ELEMENT_TEXT[dominantElement]
+      : "Aucun élément dominant n’a pu être déterminé avec les données disponibles.";
+
+  const dominantIcon =
+    getElementIcon(dominantElement);
+
+  const insights =
+    ELEMENT_INSIGHTS[dominantElement] || {
+      strength:
+        "Votre thème réunit plusieurs formes d’énergie qui peuvent se compléter selon les situations.",
+      balance:
+        "Observez les qualités que vous utilisez spontanément et celles que vous développez avec davantage d’effort.",
+    };
+
+  return (
+    <Page
+      size="A4"
+      style={pdfStyles.page}
+      wrap={false}
+    >
+      <PdfBrandHeader />
+
+      <View style={styles.header}>
+        <Text style={styles.headerKicker}>
+          Équilibre du thème
+        </Text>
+
+        <Text style={styles.headerTitle}>
+          Les quatre éléments
+        </Text>
+
+        <View style={styles.divider}>
+          <View style={styles.dividerLine} />
+
+          <Image
+            src={PLANET_ICONS.Sun}
+            style={styles.dividerIcon}
+          />
+
+          <View style={styles.dividerLine} />
+        </View>
+
+        <Text style={styles.headerLead}>
+          Les éléments montrent comment votre énergie circule
+          naturellement et quelles qualités dominent votre
+          personnalité.
+        </Text>
+      </View>
+
+      <View style={styles.grid}>
+        {ELEMENTS.map((element, index) => {
+          const value = counts[element];
+
+          const elementIcon =
+            getElementIcon(element);
+
+          const cardStyle =
+            index < ELEMENTS.length - 1
+              ? [
+                  styles.card,
+                  styles.cardSpacing,
+                ]
+              : styles.card;
+
+          return (
+            <View
+              key={element}
+              wrap={false}
+              style={cardStyle}
+            >
+              <View style={styles.iconCircle}>
+                <Image
+                  src={elementIcon}
+                  style={styles.elementIcon}
+                />
+              </View>
+
+              <Text style={styles.name}>
+                {element}
+              </Text>
+
+              <Text style={styles.value}>
+                {value}
+              </Text>
+
+              <Text style={styles.count}>
+                {value === 1
+                  ? "1 planète"
+                  : `${value} planètes`}
+              </Text>
+
+              <Text style={styles.words}>
+                {ELEMENT_WORDS[element]}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+
+      <View
+        style={styles.dominantBox}
+        wrap={false}
+      >
+        <View style={styles.dominantBadge}>
+          <Image
+            src={dominantIcon}
+            style={styles.dominantIcon}
+          />
+        </View>
+
+        <Image
+          src={dominantIcon}
+          style={styles.dominantWatermark}
+        />
+
+        <View style={styles.dominantContent}>
+          <Text style={styles.kicker}>
+            Votre énergie dominante
+          </Text>
+
+          <Text style={styles.dominantTitle}>
+            {hasDominantElement
+              ? dominantElement
+              : "Non déterminée"}
+          </Text>
+
+          <Text style={styles.dominantText}>
+            {dominantText}
+          </Text>
+        </View>
+      </View>
+
+      <View style={styles.insightRow}>
+        <View
+          style={[
+            styles.insightBox,
+            styles.insightBoxLeft,
+          ]}
+          wrap={false}
+        >
+          <View style={styles.insightHeader}>
+            <Image
+              src={dominantIcon}
+              style={styles.insightIcon}
+            />
+
+            <Text style={styles.insightTitle}>
+              Votre force naturelle
+            </Text>
+          </View>
+
+          <Text style={styles.insightText}>
+            {insights.strength}
+          </Text>
+        </View>
+
+        <View
+          style={styles.insightBox}
+          wrap={false}
+        >
+          <View style={styles.insightHeader}>
+            <Image
+              src={ASCENDANT_ICON}
+              style={styles.insightIcon}
+            />
+
+            <Text style={styles.insightTitle}>
+              Votre équilibre à développer
+            </Text>
+          </View>
+
+          <Text style={styles.insightText}>
+            {insights.balance}
+          </Text>
+        </View>
+      </View>
+
+      <View
+        style={styles.note}
+        wrap={false}
+      >
+        <Image
+          src={PLANET_ICONS.Moon}
+          style={styles.noteIcon}
+        />
+
+        <Text style={styles.noteText}>
+          Un élément très présent représente une énergie que
+          vous exprimez spontanément. Un élément moins représenté
+          n’est pas une faiblesse : il correspond souvent à une
+          qualité que vous apprenez à développer avec le temps.
+        </Text>
+      </View>
+
+      <PdfPageFooter />
+    </Page>
+  );
+}
