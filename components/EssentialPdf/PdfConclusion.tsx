@@ -58,10 +58,9 @@ const styles = StyleSheet.create({
 
   signatureBox: {
     alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingTop: 22,
+    paddingBottom: 22,
     paddingHorizontal: 24,
-    marginBottom: 18,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -87,13 +86,23 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  /*
+   * Ce groupe est poussé vers le bas de la page.
+   */
+  bottomGroup: {
+    marginTop: "auto",
+    paddingTop: 22,
+    paddingBottom: 34,
+    alignItems: "center",
+  },
+
   closingText: {
     color: "#bfc5d5",
     fontSize: 9.3,
     lineHeight: 1.5,
     textAlign: "center",
     marginHorizontal: 35,
-    marginBottom: 15,
+    marginBottom: 18,
   },
 
   iconsRow: {
@@ -123,11 +132,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#8f793c",
     opacity: 0.7,
   },
+
+  dividerIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginHorizontal: 8,
+  },
 });
 
 export default function PdfConclusion() {
   return (
-    <Page size="A4" style={pdfStyles.page}>
+    <Page
+      size="A4"
+      style={pdfStyles.page}
+      wrap={false}
+    >
       <PdfBrandHeader />
 
       <View style={styles.content}>
@@ -145,12 +165,7 @@ export default function PdfConclusion() {
 
             <Image
               src={PLANET_ICONS.Sun}
-              style={{
-                width: 18,
-                height: 18,
-                objectFit: "contain",
-                marginHorizontal: 8,
-              }}
+              style={styles.dividerIcon}
             />
 
             <View style={pdfStyles.dividerLine} />
@@ -162,7 +177,10 @@ export default function PdfConclusion() {
           </Text>
         </View>
 
-        <View style={styles.conclusionCard} wrap={false}>
+        <View
+          style={styles.conclusionCard}
+          wrap={false}
+        >
           <Image
             src={PLANET_ICONS.Sun}
             style={styles.watermark}
@@ -191,7 +209,10 @@ export default function PdfConclusion() {
           </Text>
         </View>
 
-        <View style={styles.signatureBox} wrap={false}>
+        <View
+          style={styles.signatureBox}
+          wrap={false}
+        >
           <Image
             src={ASCENDANT_ICON}
             style={styles.signatureIcon}
@@ -208,35 +229,40 @@ export default function PdfConclusion() {
           </Text>
         </View>
 
-        <Text style={styles.closingText}>
-          Merci d’avoir choisi Luna Astralis pour découvrir
-          les premières clés de votre univers intérieur.
-        </Text>
+        <View
+          style={styles.bottomGroup}
+          wrap={false}
+        >
+          <Text style={styles.closingText}>
+            Merci d’avoir choisi Luna Astralis pour découvrir
+            les premières clés de votre univers intérieur.
+          </Text>
 
-        <View style={styles.iconsRow} wrap={false}>
-          <View style={styles.iconWrapper}>
-            <Image
-              src={PLANET_ICONS.Sun}
-              style={styles.bottomIcon}
-            />
-          </View>
+          <View style={styles.iconsRow}>
+            <View style={styles.iconWrapper}>
+              <Image
+                src={PLANET_ICONS.Sun}
+                style={styles.bottomIcon}
+              />
+            </View>
 
-          <View style={styles.smallDivider} />
+            <View style={styles.smallDivider} />
 
-          <View style={styles.iconWrapper}>
-            <Image
-              src={PLANET_ICONS.Moon}
-              style={styles.bottomIcon}
-            />
-          </View>
+            <View style={styles.iconWrapper}>
+              <Image
+                src={PLANET_ICONS.Moon}
+                style={styles.bottomIcon}
+              />
+            </View>
 
-          <View style={styles.smallDivider} />
+            <View style={styles.smallDivider} />
 
-          <View style={styles.iconWrapper}>
-            <Image
-              src={ASCENDANT_ICON}
-              style={styles.bottomIcon}
-            />
+            <View style={styles.iconWrapper}>
+              <Image
+                src={ASCENDANT_ICON}
+                style={styles.bottomIcon}
+              />
+            </View>
           </View>
         </View>
       </View>
