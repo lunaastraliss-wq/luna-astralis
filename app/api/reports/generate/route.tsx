@@ -518,11 +518,12 @@ if (order.pdf_path) {
     /*
      * On récupère maintenant le PNG de la roue.
      */
-    const wheelImage =
-      await resolveWheelImage(
-        order,
-        birthData
-      );
+   const wheelImage =
+  await resolveWheelImage(order, birthData);
+
+console.log("wheelImagePath:", order.wheel_image_path);
+console.log("birthData:", birthData);
+console.log("wheelImage length:", wheelImage.length);
 
     console.log("REPORT_GENERATION", {
       sessionId,
