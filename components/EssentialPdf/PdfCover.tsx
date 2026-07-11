@@ -22,7 +22,7 @@ import PdfPageFooter from "./PdfPageFooter";
  * Couleurs
  */
 const GOLD = "#d4af4e";
-const BRIGHT_GOLD = "#f4c95d";
+const BRIGHT_GOLD = "#8b6a2e";
 const SOFT_GOLD = "#8f6e35";
 const DARK_GOLD = "#4e412d";
 
@@ -144,13 +144,13 @@ const styles = StyleSheet.create({
   backgroundWheel: {
     position: "absolute",
 
-    width: 690,
-    height: 690,
+    width: 360,
+    height: 360,
 
-    left: (A4_WIDTH - 690) / 2,
-    top: 42,
+    left: (A4_WIDTH - 360) / 2,
+    top: 150,
 
-    opacity: 0.11,
+    opacity: 0.03,
   },
 
   /*
@@ -1217,7 +1217,7 @@ export default function PdfCover({
       <View style={styles.innerBorder} fixed />
 
       <View style={styles.backgroundWheel} fixed>
-        <CoverAstrologicalWheel size={690} />
+        <CoverAstrologicalWheel size={360} />
       </View>
 
       <View style={styles.wheelGlow} fixed />
