@@ -24,7 +24,11 @@ export default function PdfWelcome() {
 
         <View style={pdfStyles.decorativeDivider}>
           <View style={pdfStyles.dividerLine} />
-          <Text style={pdfStyles.dividerSymbol}>✦</Text>
+
+          <Text style={pdfStyles.dividerSymbol}>
+            ✦
+          </Text>
+
           <View style={pdfStyles.dividerLine} />
         </View>
 
@@ -37,19 +41,18 @@ export default function PdfWelcome() {
 
       <View style={pdfStyles.contentCard}>
         <Text style={pdfStyles.paragraph}>
-          Chaque naissance marque un instant unique. Au
-          moment exact où vous êtes venu au monde, les
-          planètes occupaient une position précise dans le
-          ciel. Cette configuration forme votre thème astral :
-          une carte symbolique de votre personnalité, de vos
-          élans naturels et de vos grandes tendances
-          intérieures.
+          Chaque naissance correspond à un instant unique. Au
+          moment exact de votre arrivée au monde, les planètes
+          occupaient une position précise dans le ciel. Cette
+          configuration forme votre thème astral : une carte
+          symbolique de votre personnalité, de vos élans
+          naturels et de vos grandes tendances intérieures.
         </Text>
 
         <Text style={pdfStyles.paragraph}>
-          Ce rapport Essentiel vous offre une première
-          lecture claire de votre carte du ciel. Il met en
-          lumière vos trois grands piliers astrologiques —
+          Ce rapport Essentiel vous offre une première lecture
+          claire et accessible de votre carte du ciel. Il met
+          en lumière vos trois grands piliers astrologiques —
           le Soleil, la Lune et l’Ascendant — ainsi que les
           principales planètes qui influencent votre manière
           de penser, d’aimer, d’agir et d’évoluer.
@@ -58,10 +61,10 @@ export default function PdfWelcome() {
         <Text style={pdfStyles.paragraph}>
           L’astrologie ne fige pas votre destin et ne remplace
           pas votre libre arbitre. Elle agit plutôt comme un
-          miroir : elle vous aide à mieux comprendre vos
-          forces, vos sensibilités, vos contradictions et les
-          chemins qui vous permettent de grandir avec plus de
-          conscience.
+          miroir symbolique : elle vous aide à mieux
+          comprendre vos forces, vos sensibilités, vos
+          contradictions et les chemins qui vous permettent
+          de grandir avec davantage de conscience.
         </Text>
 
         <Text style={pdfStyles.paragraph}>
@@ -81,7 +84,9 @@ export default function PdfWelcome() {
       </View>
 
       <View style={pdfStyles.highlightQuote}>
-        <Text style={pdfStyles.quoteMark}>“</Text>
+        <Text style={pdfStyles.quoteMark}>
+          “
+        </Text>
 
         <View style={pdfStyles.quoteContent}>
           <Text style={pdfStyles.highlightQuoteText}>
