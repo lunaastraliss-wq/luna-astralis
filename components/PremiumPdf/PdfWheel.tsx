@@ -26,261 +26,189 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  /*
-   * En-tête
-   */
   titleSection: {
     alignItems: "center",
-    marginBottom: 4,
+    marginBottom: 5,
   },
 
   premiumBadge: {
     alignSelf: "center",
-
     paddingTop: 2.5,
     paddingBottom: 2.5,
     paddingHorizontal: 12,
-
     marginBottom: 4,
-
     backgroundColor: CARD_BACKGROUND,
-
     borderWidth: 0.7,
     borderColor: GOLD,
   },
 
   premiumBadgeText: {
     color: BRIGHT_GOLD,
-
     fontSize: 6.2,
     letterSpacing: 1.7,
-
     textTransform: "uppercase",
     textAlign: "center",
   },
 
   eyebrow: {
     color: "#cdbb92",
-
     fontSize: 6.5,
     letterSpacing: 2,
-
     textTransform: "uppercase",
-
     marginBottom: 3,
   },
 
   title: {
     color: BRIGHT_GOLD,
-
     fontSize: 22,
     lineHeight: 1.1,
-
     textAlign: "center",
-
     marginBottom: 4,
   },
 
   titleLine: {
     width: 86,
     height: 0.8,
-
     backgroundColor: GOLD,
-
     marginBottom: 5,
   },
 
   intro: {
     width: "88%",
-
     color: MUTED,
-
     fontSize: 7.8,
     lineHeight: 1.3,
-
     textAlign: "center",
   },
 
-  /*
-   * Grande roue astrologique
-   */
   wheelFrame: {
     position: "relative",
     alignSelf: "center",
-
     width: 426,
     height: 426,
-
     alignItems: "center",
     justifyContent: "center",
-
     padding: 7,
-
-    marginBottom: 5,
-
+    marginBottom: 7,
     backgroundColor: PAGE_BACKGROUND,
-
     borderWidth: 0.9,
     borderColor: SOFT_GOLD,
   },
 
   wheelFrameInner: {
     position: "absolute",
-
     top: 5,
     left: 5,
     right: 5,
     bottom: 5,
-
     borderWidth: 0.35,
     borderColor: "#5d4b2e",
   },
 
   wheelAccentTop: {
     position: "absolute",
-
     top: -1,
     left: 0,
-
     width: 105,
     height: 2,
-
     backgroundColor: BRIGHT_GOLD,
   },
 
   wheelAccentBottom: {
     position: "absolute",
-
     bottom: -1,
     right: 0,
-
     width: 78,
     height: 2,
-
     backgroundColor: BRIGHT_GOLD,
   },
 
   wheelImage: {
     width: 410,
     height: 410,
-
     objectFit: "contain",
   },
 
-  /*
-   * Remplacement si la roue est absente
-   */
   wheelMissing: {
     width: 390,
     height: 390,
-
     alignItems: "center",
     justifyContent: "center",
-
     paddingHorizontal: 28,
-
     backgroundColor: CARD_BACKGROUND,
-
     borderWidth: 0.8,
     borderColor: "#735d36",
   },
 
   wheelMissingSymbol: {
     color: GOLD,
-
     fontSize: 29,
-
     marginBottom: 10,
   },
 
   wheelMissingTitle: {
     color: BRIGHT_GOLD,
-
     fontSize: 15,
-
     textAlign: "center",
-
     marginBottom: 7,
   },
 
   wheelMissingText: {
     color: MUTED,
-
     fontSize: 8.1,
     lineHeight: 1.4,
-
     textAlign: "center",
   },
 
-  /*
-   * Informations de naissance
-   */
   identityCard: {
     position: "relative",
-
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingHorizontal: 15,
-
+    paddingTop: 7,
+    paddingBottom: 7,
+    paddingHorizontal: 16,
     backgroundColor: CARD_BACKGROUND,
-
     borderWidth: 0.8,
     borderColor: SOFT_GOLD,
   },
 
   identityAccentLeft: {
     position: "absolute",
-
     top: -1,
     left: 0,
-
     width: 80,
     height: 2,
-
     backgroundColor: BRIGHT_GOLD,
   },
 
   identityAccentRight: {
     position: "absolute",
-
     bottom: -1,
     right: 0,
-
     width: 62,
     height: 2,
-
     backgroundColor: BRIGHT_GOLD,
   },
 
   preparedFor: {
     color: "#c8b98f",
-
     fontSize: 5.8,
     letterSpacing: 1.6,
-
     textTransform: "uppercase",
     textAlign: "center",
-
-    marginBottom: 2.5,
+    marginBottom: 3,
   },
 
   clientName: {
     color: CREAM,
-
-    fontSize: 15.5,
-
+    fontSize: 16,
     textAlign: "center",
-
-    marginBottom: 4,
+    marginBottom: 5,
   },
 
   infoDivider: {
     width: "100%",
     height: 0.5,
-
     backgroundColor: "#705a35",
-
-    marginBottom: 4,
+    marginBottom: 5,
   },
 
   infoRow: {
@@ -290,77 +218,22 @@ const styles = StyleSheet.create({
 
   infoColumn: {
     width: "31.5%",
-
     alignItems: "center",
   },
 
   infoLabel: {
     color: "#bfae87",
-
     fontSize: 5,
     letterSpacing: 0.8,
-
     textTransform: "uppercase",
     textAlign: "center",
-
     marginBottom: 1.5,
   },
 
   infoValue: {
     color: CREAM,
-
     fontSize: 7.7,
     lineHeight: 1.2,
-
-    textAlign: "center",
-  },
-
-  /*
-   * Explication raccourcie
-   */
-  explanationBox: {
-    position: "relative",
-
-    marginTop: 5,
-
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingHorizontal: 13,
-
-    backgroundColor: CARD_BACKGROUND,
-
-    borderWidth: 0.6,
-    borderColor: "#6f5935",
-  },
-
-  explanationAccent: {
-    position: "absolute",
-
-    top: -1,
-    left: 0,
-
-    width: 84,
-    height: 2,
-
-    backgroundColor: BRIGHT_GOLD,
-  },
-
-  explanationTitle: {
-    color: BRIGHT_GOLD,
-
-    fontSize: 8.6,
-
-    textAlign: "center",
-
-    marginBottom: 3,
-  },
-
-  explanationText: {
-    color: MUTED,
-
-    fontSize: 6.5,
-    lineHeight: 1.28,
-
     textAlign: "center",
   },
 });
@@ -424,9 +297,7 @@ export default function PdfWheel({
 
         <View style={styles.wheelFrame}>
           <View style={styles.wheelFrameInner} />
-
           <View style={styles.wheelAccentTop} />
-
           <View style={styles.wheelAccentBottom} />
 
           {safeWheelImage ? (
@@ -455,7 +326,6 @@ export default function PdfWheel({
 
         <View style={styles.identityCard}>
           <View style={styles.identityAccentLeft} />
-
           <View style={styles.identityAccentRight} />
 
           <Text style={styles.preparedFor}>
@@ -502,21 +372,6 @@ export default function PdfWheel({
               </Text>
             </View>
           </View>
-        </View>
-
-        <View style={styles.explanationBox}>
-          <View style={styles.explanationAccent} />
-
-          <Text style={styles.explanationTitle}>
-            Comment lire votre roue astrologique
-          </Text>
-
-          <Text style={styles.explanationText}>
-            Les signes forment l’anneau extérieur, les maisons représentent
-            les différents domaines de votre vie et les lignes centrales
-            montrent les relations entre les planètes. Cette roue sert de
-            référence à toutes les interprétations de votre rapport Premium.
-          </Text>
         </View>
       </View>
 
