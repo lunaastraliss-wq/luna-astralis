@@ -1,7 +1,11 @@
 import { Document } from "@react-pdf/renderer";
 
 import type { PremiumPdfProps } from "./PremiumPdfTypes";
-import { MAIN_PLANETS } from "./PremiumPdfUtils";
+
+import {
+  MAIN_PLANETS,
+  normalizePlanets,
+} from "./PremiumPdfUtils";
 
 import PdfCover from "./PdfCover";
 import PdfWheel from "./PdfWheel";
@@ -53,9 +57,16 @@ export default function PremiumPdfDocument({
       ? wheelImage.trim()
       : "";
 
-  const safePlanets = Array.isArray(planets)
-    ? planets
-    : [];
+  /*
+   * Important :
+   * les planètes générées après paiement peuvent contenir
+   * une longitude sans contenir directement le signe.
+   *
+   * normalizePlanets ajoute automatiquement le signe
+   * calculé depuis la longitude lorsqu'il est absent.
+   */
+  const safePlanets =
+    normalizePlanets(planets);
 
   const safeAngles =
     angles &&
@@ -127,7 +138,7 @@ export default function PremiumPdfDocument({
 
       <PdfHouses
         planets={safePlanets}
-        />
+      />
 
       <PdfAspects
         planets={safePlanets}
