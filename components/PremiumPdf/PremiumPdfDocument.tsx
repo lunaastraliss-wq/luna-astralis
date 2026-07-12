@@ -9,6 +9,7 @@ import {
 
 import PdfCover from "./PdfCover";
 import PdfWheel from "./PdfWheel";
+import PdfWheelGuide from "./PdfWheelGuide";
 import PdfWelcome from "./PdfWelcome";
 import PdfSummary from "./PdfSummary";
 import PdfPlanet from "./PdfPlanet";
@@ -112,6 +113,8 @@ export default function PremiumPdfDocument({
         angles={safeAngles}
         wheelImage={safeWheelImage}
       />
+
+      <PdfWheelGuide />
 
       <PdfWelcome />
 
