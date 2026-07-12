@@ -13,6 +13,7 @@ import {
 
 import {
   ASCENDANT_ICON,
+  MODALITY_ICONS,
   PLANET_ICONS,
 } from "./PremiumPdfAssets";
 
@@ -629,13 +630,13 @@ function getModalityIcon(
 ): string {
   switch (modality) {
     case "Cardinal":
-      return PLANET_ICONS.Mars;
+      return MODALITY_ICONS.Cardinal;
 
     case "Fixe":
-      return PLANET_ICONS.Saturn;
+      return MODALITY_ICONS.Fixe;
 
     case "Mutable":
-      return PLANET_ICONS.Mercury;
+      return MODALITY_ICONS.Mutable;
 
     default:
       return ASCENDANT_ICON;
