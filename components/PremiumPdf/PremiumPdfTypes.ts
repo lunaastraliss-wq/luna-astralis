@@ -7,6 +7,13 @@ export type PremiumPlanet = {
   retrograde?: boolean;
 };
 
+export type PremiumAspect = {
+  planet1?: string;
+  planet2?: string;
+  type?: string;
+  orb?: number;
+};
+
 export type PremiumAngles = {
   ascendant?: number;
   midheaven?: number;
@@ -22,6 +29,7 @@ export type PremiumPdfProps = {
   birthCity?: string;
 
   planets?: PremiumPlanet[];
+  aspects?: PremiumAspect[];
   angles?: PremiumAngles;
 
   wheelImage?: string;
@@ -29,6 +37,7 @@ export type PremiumPdfProps = {
 
 export type PremiumPdfPlanetProps = {
   planets: PremiumPlanet[];
+  aspects?: PremiumAspect[];
   planet: string;
 };
 
@@ -39,4 +48,5 @@ export type PremiumPdfSummaryProps = {
 
 export type PremiumPdfPlanetsProps = {
   planets: PremiumPlanet[];
+  aspects?: PremiumAspect[];
 };
