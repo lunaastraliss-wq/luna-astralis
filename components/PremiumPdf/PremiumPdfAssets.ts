@@ -84,6 +84,10 @@ export const ELEMENT_ICONS = {
   Eau: assetUrl(
     "/astrology/element-water.png"
   ),
+  export const FOUR_ELEMENTS_ICON =
+  assetUrl(
+    "/astrology/four-elements.png"
+  );
 };
 
 /* ---------- Modality Icons ---------- */
