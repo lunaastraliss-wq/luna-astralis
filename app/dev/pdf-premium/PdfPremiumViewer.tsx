@@ -78,16 +78,8 @@ const testPlanets = [
 ];
 
 const testAngles = {
-  ascendant: {
-    sign: "Leo",
-    degree: 11,
-    longitude: 131,
-  },
-  midheaven: {
-    sign: "Aries",
-    degree: 26,
-    longitude: 26,
-  },
+  ascendant: 131,
+  midheaven: 26,
 };
 
 export default function PdfPremiumViewer() {
