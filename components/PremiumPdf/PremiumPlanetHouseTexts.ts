@@ -1,44 +1,55 @@
 import type {
   PremiumPlanetHouseContent,
   PremiumPlanetHouseTexts,
-} from "./PremiumPlanetHouseTypes";
+} from "./PremiumPlanetHouses/PremiumPlanetHouseTypes";
 
 import {
   PREMIUM_PLANET_HOUSE_1_TEXTS,
-} from "./PremiumPlanetHouse1";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse1";
+
 import {
   PREMIUM_PLANET_HOUSE_2_TEXTS,
-} from "./PremiumPlanetHouse2";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse2";
+
 import {
   PREMIUM_PLANET_HOUSE_3_TEXTS,
-} from "./PremiumPlanetHouse3";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse3";
+
 import {
   PREMIUM_PLANET_HOUSE_4_TEXTS,
-} from "./PremiumPlanetHouse4";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse4";
+
 import {
   PREMIUM_PLANET_HOUSE_5_TEXTS,
-} from "./PremiumPlanetHouse5";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse5";
+
 import {
   PREMIUM_PLANET_HOUSE_6_TEXTS,
-} from "./PremiumPlanetHouse6";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse6";
+
 import {
   PREMIUM_PLANET_HOUSE_7_TEXTS,
-} from "./PremiumPlanetHouse7";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse7";
+
 import {
   PREMIUM_PLANET_HOUSE_8_TEXTS,
-} from "./PremiumPlanetHouse8";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse8";
+
 import {
   PREMIUM_PLANET_HOUSE_9_TEXTS,
-} from "./PremiumPlanetHouse9";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse9";
+
 import {
   PREMIUM_PLANET_HOUSE_10_TEXTS,
-} from "./PremiumPlanetHouse10";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse10";
+
 import {
   PREMIUM_PLANET_HOUSE_11_TEXTS,
-} from "./PremiumPlanetHouse11";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse11";
+
 import {
   PREMIUM_PLANET_HOUSE_12_TEXTS,
-} from "./PremiumPlanetHouse12";
+} from "./PremiumPlanetHouses/PremiumPlanetHouse12";
 
 export const PREMIUM_PLANET_HOUSE_TEXTS: PremiumPlanetHouseTexts = {
   1: PREMIUM_PLANET_HOUSE_1_TEXTS,
