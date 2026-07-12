@@ -134,6 +134,21 @@ const SIGN_NAMES_FR: Record<string, string> = {
   Poissons: "Poissons",
 };
 
+const SIGNS_FROM_LONGITUDE = [
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
+] as const;
+
 const SIGN_QUALITIES: Record<string, string> = {
   Bélier:
     "directe, courageuse, spontanée et tournée vers l’initiative",
@@ -634,15 +649,54 @@ function getPlanetData(
   planets: PremiumPlanet[],
   planetName: string
 ): PremiumPlanet | null {
+  const normalizedPlanetName =
+    planetName.trim().toLowerCase();
+
   return (
     planets.find((item) => {
+      if (typeof item?.name !== "string") {
+        return false;
+      }
+
       return (
-        typeof item?.name === "string" &&
-        item.name.toLowerCase() ===
-          planetName.toLowerCase()
+        item.name.trim().toLowerCase() ===
+        normalizedPlanetName
       );
     }) || null
   );
+}
+
+function getPlanetSign(
+  planetData: PremiumPlanet | null
+): string {
+  if (!planetData) {
+    return "";
+  }
+
+  if (
+    typeof planetData.sign === "string" &&
+    planetData.sign.trim().length > 0
+  ) {
+    return planetData.sign.trim();
+  }
+
+  if (
+    typeof planetData.longitude === "number" &&
+    Number.isFinite(planetData.longitude)
+  ) {
+    const normalizedLongitude =
+      ((planetData.longitude % 360) + 360) % 360;
+
+    const signIndex =
+      Math.floor(normalizedLongitude / 30);
+
+    return (
+      SIGNS_FROM_LONGITUDE[signIndex] ||
+      ""
+    );
+  }
+
+  return "";
 }
 
 function getPlanetDegree(
@@ -729,9 +783,14 @@ export default function PdfPlanet({
   const planetName =
     PLANET_FR[planet] || planet;
 
+  const signName =
+    getPlanetSign(
+      planetData
+    );
+
   const translatedSign =
     translateSign(
-      planetData?.sign
+      signName
     );
 
   const degree =
