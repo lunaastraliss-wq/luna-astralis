@@ -69,6 +69,39 @@ export const PLANET_ICONS: Record<
   ),
 };
 
+/* ---------- Element Icons ---------- */
+
+export const ELEMENT_ICONS = {
+  Feu: assetUrl(
+    "/astrology/element-fire.png"
+  ),
+  Terre: assetUrl(
+    "/astrology/element-earth.png"
+  ),
+  Air: assetUrl(
+    "/astrology/element-air.png"
+  ),
+  Eau: assetUrl(
+    "/astrology/element-water.png"
+  ),
+};
+
+/* ---------- Modality Icons ---------- */
+
+export const MODALITY_ICONS = {
+  Cardinal: assetUrl(
+    "/astrology/modality-cardinal.png"
+  ),
+  Fixe: assetUrl(
+    "/astrology/modality-fixed.png"
+  ),
+  Mutable: assetUrl(
+    "/astrology/modality-mutable.png"
+  ),
+};
+
+/* ---------- Misc ---------- */
+
 export const ASCENDANT_ICON =
   assetUrl(
     "/astrology/ascendant.png"
