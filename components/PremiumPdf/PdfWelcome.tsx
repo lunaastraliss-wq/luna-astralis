@@ -12,6 +12,12 @@ import PdfPageFooter from "./PdfPageFooter";
 const styles = StyleSheet.create({
   pageContent: {
     flexGrow: 1,
+
+    /*
+     * Réserve de sécurité pour empêcher
+     * le dernier bloc de toucher le pied de page.
+     */
+    paddingBottom: 32,
   },
 
   header: {
@@ -48,10 +54,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#8f793c",
   },
 
+  dividerSymbolCircle: {
+    width: 15,
+    height: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 9,
+    borderWidth: 0.7,
+    borderColor: "#f4c95d",
+  },
+
   dividerSymbol: {
     color: "#f4c95d",
-    fontSize: 11,
-    marginHorizontal: 9,
+    fontSize: 7,
+    lineHeight: 1,
   },
 
   lead: {
@@ -63,8 +80,8 @@ const styles = StyleSheet.create({
   },
 
   contentCard: {
-    paddingTop: 12,
-    paddingBottom: 11,
+    paddingTop: 11,
+    paddingBottom: 10,
     paddingHorizontal: 18,
     marginBottom: 8,
     backgroundColor: "#111a34",
@@ -74,22 +91,22 @@ const styles = StyleSheet.create({
 
   paragraph: {
     color: "#e9e4d8",
-    fontSize: 8.25,
-    lineHeight: 1.38,
-    marginBottom: 6,
+    fontSize: 8.15,
+    lineHeight: 1.36,
+    marginBottom: 5.5,
   },
 
   paragraphLast: {
     color: "#e9e4d8",
-    fontSize: 8.25,
-    lineHeight: 1.38,
+    fontSize: 8.15,
+    lineHeight: 1.36,
   },
 
   quoteCard: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 9,
-    paddingBottom: 9,
+    paddingTop: 8,
+    paddingBottom: 8,
     paddingHorizontal: 16,
     marginBottom: 8,
     backgroundColor: "#0d152d",
@@ -103,11 +120,21 @@ const styles = StyleSheet.create({
     borderBottomColor: "#39415d",
   },
 
+  quoteMarkBox: {
+    width: 25,
+    height: 25,
+    borderRadius: 13,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+    borderWidth: 0.7,
+    borderColor: "#8f793c",
+  },
+
   quoteMark: {
     color: "#f4c95d",
-    fontSize: 24,
-    marginRight: 12,
-    marginTop: -5,
+    fontSize: 15,
+    lineHeight: 1,
   },
 
   quoteContent: {
@@ -117,8 +144,8 @@ const styles = StyleSheet.create({
 
   quoteText: {
     color: "#fff8e7",
-    fontSize: 9.1,
-    lineHeight: 1.35,
+    fontSize: 8.9,
+    lineHeight: 1.34,
     marginBottom: 4,
   },
 
@@ -130,9 +157,15 @@ const styles = StyleSheet.create({
   },
 
   nextSectionCard: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingTop: 9,
+    paddingBottom: 9,
     paddingHorizontal: 16,
+
+    /*
+     * Marge supplémentaire avant le pied de page.
+     */
+    marginBottom: 10,
+
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -140,9 +173,9 @@ const styles = StyleSheet.create({
 
   nextSectionTitle: {
     color: "#f4c95d",
-    fontSize: 9.5,
+    fontSize: 9.3,
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   columns: {
@@ -155,22 +188,64 @@ const styles = StyleSheet.create({
   },
 
   leftColumn: {
-    marginRight: 10,
+    marginRight: 12,
   },
 
-  item: {
-    color: "#d8d4ca",
-    fontSize: 7.5,
-    lineHeight: 1.32,
-    marginBottom: 5,
+  listItem: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 4,
   },
 
-  itemLast: {
+  listItemLast: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+  },
+
+  bullet: {
+    width: 11,
+    color: "#f4c95d",
+    fontSize: 8,
+    lineHeight: 1.28,
+  },
+
+  itemText: {
+    flexGrow: 1,
+    flexBasis: 0,
     color: "#d8d4ca",
-    fontSize: 7.5,
-    lineHeight: 1.32,
+    fontSize: 7.35,
+    lineHeight: 1.3,
   },
 });
+
+type DiscoveryItemProps = {
+  children: string;
+  last?: boolean;
+};
+
+function DiscoveryItem({
+  children,
+  last = false,
+}: DiscoveryItemProps) {
+  return (
+    <View
+      style={
+        last
+          ? styles.listItemLast
+          : styles.listItem
+      }
+      wrap={false}
+    >
+      <Text style={styles.bullet}>
+        •
+      </Text>
+
+      <Text style={styles.itemText}>
+        {children}
+      </Text>
+    </View>
+  );
+}
 
 export default function PdfWelcome() {
   return (
@@ -194,81 +269,97 @@ export default function PdfWelcome() {
           <View style={styles.divider}>
             <View style={styles.dividerLine} />
 
-            <Text style={styles.dividerSymbol}>
-              ✦
-            </Text>
+            <View style={styles.dividerSymbolCircle}>
+              <Text style={styles.dividerSymbol}>
+                •
+              </Text>
+            </View>
 
             <View style={styles.dividerLine} />
           </View>
 
           <Text style={styles.lead}>
-            Une lecture approfondie de votre ciel de naissance,
-            conçue pour révéler les grandes dynamiques de votre
+            Une exploration approfondie de votre ciel de naissance,
+            conçue pour éclairer les grandes dynamiques de votre
             personnalité, de vos relations et de votre évolution.
           </Text>
         </View>
 
-        <View style={styles.contentCard}>
+        <View
+          style={styles.contentCard}
+          wrap={false}
+        >
           <Text style={styles.paragraph}>
-            Chaque naissance correspond à un instant unique. Au
-            moment précis de votre arrivée au monde, les planètes,
-            les angles et les maisons formaient une configuration
-            particulière. Cette empreinte constitue votre thème
-            natal : une représentation symbolique de vos besoins,
-            de vos forces, de vos réactions et de votre potentiel.
+            Votre naissance correspond à un instant qui ne se
+            reproduira jamais exactement de la même manière. À ce
+            moment précis, les planètes, les angles et les maisons
+            formaient une configuration unique : votre thème natal.
+            Cette empreinte symbolique révèle les forces, les besoins,
+            les réflexes et les possibilités qui composent votre
+            paysage intérieur.
           </Text>
 
           <Text style={styles.paragraph}>
-            Votre rapport Premium va plus loin qu’une simple lecture
-            des signes. Il met en relation votre Soleil, votre Lune,
+            Ce rapport Premium va au-delà d’une simple description de
+            vos signes. Il met en relation votre Soleil, votre Lune,
             votre Ascendant, les dix principales planètes, les
-            maisons astrologiques et les aspects qui relient toutes
-            ces énergies.
+            maisons astrologiques et les aspects qui font dialoguer
+            toutes ces énergies.
           </Text>
 
           <Text style={styles.paragraph}>
-            Chaque composante possède une fonction précise. Le signe
-            décrit la manière dont l’énergie s’exprime. La planète
-            représente la force qui agit. La maison indique le
-            domaine de vie concerné. Les aspects révèlent les
-            alliances, les tensions et les dialogues qui rendent
-            votre personnalité unique.
+            Chaque élément apporte une information différente. La
+            planète représente une fonction intérieure. Le signe
+            décrit la manière dont cette énergie cherche à
+            s’exprimer. La maison indique le domaine de vie dans
+            lequel elle agit. Les aspects montrent les accords, les
+            tensions et les interactions qui donnent à votre thème sa
+            profondeur particulière.
           </Text>
 
           <Text style={styles.paragraph}>
-            L’astrologie ne présente pas un destin immuable. Elle ne
-            décide pas de vos choix et ne remplace jamais votre libre
-            arbitre. Elle agit comme un langage symbolique qui aide à
-            reconnaître vos mécanismes naturels, vos contradictions,
-            vos besoins profonds et vos possibilités d’évolution.
+            Vous découvrirez ainsi non seulement certaines qualités
+            naturelles, mais également des contradictions, des
+            besoins parfois difficiles à concilier et des ressources
+            qui peuvent se développer avec le temps. Ces nuances ne
+            constituent pas des défauts : elles participent à la
+            richesse de votre personnalité.
           </Text>
 
           <Text style={styles.paragraph}>
-            Certaines interprétations vous sembleront immédiatement
-            familières. D’autres demanderont davantage de recul. Un
-            thème natal contient plusieurs couches, dont certaines se
-            révèlent progressivement avec l’expérience.
+            L’astrologie ne détermine pas vos décisions et ne décrit
+            pas un destin immuable. Elle propose un langage
+            symbolique qui peut vous aider à mieux reconnaître vos
+            réactions, vos motivations, vos zones de sensibilité et
+            les choix qui vous permettent d’avancer avec davantage de
+            conscience.
           </Text>
 
           <Text style={styles.paragraphLast}>
-            Prenez le temps d’avancer dans ce rapport sans chercher à
-            tout retenir en une seule lecture. Revenez aux pages qui
-            vous interpellent le plus. Votre thème natal n’est pas
-            une définition figée : il est une carte vivante de vos
-            possibilités.
+            Certaines pages vous sembleront immédiatement familières.
+            D’autres prendront leur sens progressivement. Avancez à
+            votre rythme et revenez aux passages qui vous
+            interpellent : votre thème natal n’est pas une définition
+            figée, mais une carte vivante de vos possibilités.
           </Text>
         </View>
 
-        <View style={styles.quoteCard}>
-          <Text style={styles.quoteMark}>
-            “
-          </Text>
+        <View
+          style={styles.quoteCard}
+          wrap={false}
+        >
+          <View style={styles.quoteMarkBox}>
+            <Text style={styles.quoteMark}>
+              “
+            </Text>
+          </View>
 
           <View style={styles.quoteContent}>
             <Text style={styles.quoteText}>
               Votre carte du ciel ne vous enferme pas dans une
-              identité. Elle vous aide à comprendre les forces avec
-              lesquelles vous pouvez construire votre propre chemin.
+              identité. Elle vous aide à reconnaître les forces avec
+              lesquelles vous pouvez construire un chemin qui vous
+              ressemble.
             </Text>
 
             <Text style={styles.quoteSignature}>
@@ -277,7 +368,10 @@ export default function PdfWelcome() {
           </View>
         </View>
 
-        <View style={styles.nextSectionCard}>
+        <View
+          style={styles.nextSectionCard}
+          wrap={false}
+        >
           <Text style={styles.nextSectionTitle}>
             Ce que vous découvrirez dans votre rapport Premium
           </Text>
@@ -289,38 +383,46 @@ export default function PdfWelcome() {
                 styles.leftColumn,
               ]}
             >
-              <Text style={styles.item}>
-                ✦ Vos trois grands piliers : le Soleil, la Lune et
+              <DiscoveryItem>
+                Vos trois grands piliers : le Soleil, la Lune et
                 l’Ascendant.
-              </Text>
+              </DiscoveryItem>
 
-              <Text style={styles.item}>
-                ✦ L’influence détaillée des dix principales planètes.
-              </Text>
+              <DiscoveryItem>
+                L’expression de vos dix principales planètes dans
+                leurs signes.
+              </DiscoveryItem>
 
-              <Text style={styles.item}>
-                ✦ La signification des douze maisons astrologiques.
-              </Text>
+              <DiscoveryItem>
+                Les domaines de vie activés par vos maisons
+                astrologiques.
+              </DiscoveryItem>
 
-              <Text style={styles.itemLast}>
-                ✦ Les aspects majeurs et les dynamiques de votre thème.
-              </Text>
+              <DiscoveryItem last>
+                Les aspects majeurs et les dialogues entre vos
+                différentes énergies.
+              </DiscoveryItem>
             </View>
 
             <View style={styles.column}>
-              <Text style={styles.item}>
-                ✦ La répartition de vos éléments : Feu, Terre, Air et
+              <DiscoveryItem>
+                La répartition de vos éléments : Feu, Terre, Air et
                 Eau.
-              </Text>
+              </DiscoveryItem>
 
-              <Text style={styles.item}>
-                ✦ Vos modalités dominantes et votre manière d’agir.
-              </Text>
+              <DiscoveryItem>
+                Vos modalités dominantes et votre manière naturelle
+                d’agir.
+              </DiscoveryItem>
 
-              <Text style={styles.itemLast}>
-                ✦ Vos forces, vos défis, vos relations, votre potentiel
-                professionnel et vos axes d’évolution.
-              </Text>
+              <DiscoveryItem>
+                Vos forces, vos défis et les ressources à développer.
+              </DiscoveryItem>
+
+              <DiscoveryItem last>
+                Vos dynamiques relationnelles, professionnelles et
+                vos principaux axes d’évolution.
+              </DiscoveryItem>
             </View>
           </View>
         </View>
