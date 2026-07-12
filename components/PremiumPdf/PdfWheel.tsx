@@ -91,14 +91,14 @@ const styles = StyleSheet.create({
     position: "relative",
     alignSelf: "center",
 
-    width: 395,
-    height: 395,
+    width: 378,
+    height: 378,
 
     alignItems: "center",
     justifyContent: "center",
 
     padding: 9,
-    marginBottom: 7,
+    marginBottom: 5,
 
     backgroundColor: PAGE_BACKGROUND,
 
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
   },
 
   wheelImage: {
-    width: 375,
-    height: 375,
+    width: 358,
+    height: 358,
     objectFit: "contain",
   },
 
@@ -281,10 +281,10 @@ const styles = StyleSheet.create({
   explanationBox: {
     position: "relative",
 
-    marginTop: 8,
+    marginTop: 6,
 
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingTop: 6,
+    paddingBottom: 6,
     paddingHorizontal: 14,
 
     backgroundColor: CARD_BACKGROUND,
