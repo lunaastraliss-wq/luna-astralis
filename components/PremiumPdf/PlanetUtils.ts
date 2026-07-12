@@ -19,18 +19,14 @@ export function getPlanetData(
   planetName: string
 ): PremiumPlanet | null {
   const normalizedName =
-    normalizePlanetName(
-      planetName
-    );
+    normalizePlanetName(planetName);
 
   return (
-    planets.find((item) => {
-      return (
-        normalizePlanetName(
-          item?.name
-        ) === normalizedName;
-      );
-    }) || null
+    planets.find(
+      (item) =>
+        normalizePlanetName(item?.name) ===
+        normalizedName
+    ) ?? null
   );
 }
 
@@ -50,23 +46,18 @@ export function getPlanetSign(
 
   if (
     typeof planetData.longitude !== "number" ||
-    !Number.isFinite(
-      planetData.longitude
-    )
+    !Number.isFinite(planetData.longitude)
   ) {
     return "";
   }
 
   const longitude =
-    ((planetData.longitude % 360) +
-      360) %
+    ((planetData.longitude % 360) + 360) %
     360;
 
   return (
     SIGNS_FROM_LONGITUDE[
-      Math.floor(
-        longitude / 30
-      )
+      Math.floor(longitude / 30)
     ] || ""
   );
 }
@@ -84,10 +75,7 @@ export function translateSign(
 export function getEnglishSignKey(
   sign: string
 ): string {
-  return (
-    SIGN_KEYS[sign] ||
-    sign
-  );
+  return SIGN_KEYS[sign] || sign;
 }
 
 export function getPlanetDegree(
@@ -99,32 +87,23 @@ export function getPlanetDegree(
 
   if (
     typeof planetData.degree === "number" &&
-    Number.isFinite(
-      planetData.degree
-    )
+    Number.isFinite(planetData.degree)
   ) {
-    return `${planetData.degree.toFixed(
-      1
-    )}°`;
+    return `${planetData.degree.toFixed(1)}°`;
   }
 
   if (
     typeof planetData.longitude !== "number" ||
-    !Number.isFinite(
-      planetData.longitude
-    )
+    !Number.isFinite(planetData.longitude)
   ) {
     return "";
   }
 
   const longitude =
-    ((planetData.longitude % 360) +
-      360) %
+    ((planetData.longitude % 360) + 360) %
     360;
 
-  return `${(
-    longitude % 30
-  ).toFixed(1)}°`;
+  return `${(longitude % 30).toFixed(1)}°`;
 }
 
 export function getPlanetHouse(
@@ -132,22 +111,16 @@ export function getPlanetHouse(
 ): number | null {
   if (
     typeof planetData?.house !== "number" ||
-    !Number.isFinite(
-      planetData.house
-    )
+    !Number.isFinite(planetData.house)
   ) {
     return null;
   }
 
-  const house =
-    Math.trunc(
-      planetData.house
-    );
+  const house = Math.trunc(
+    planetData.house
+  );
 
-  if (
-    house < 1 ||
-    house > 12
-  ) {
+  if (house < 1 || house > 12) {
     return null;
   }
 
@@ -167,14 +140,10 @@ export function getPositionLine(
   ].filter(Boolean);
 
   if (retrograde) {
-    values.push(
-      "Rétrograde"
-    );
+    values.push("Rétrograde");
   }
 
-  return values.join(
-    " • "
-  );
+  return values.join(" • ");
 }
 
 export function getSafeItems(
@@ -188,12 +157,9 @@ export function getSafeItems(
   return values
     .filter(
       (value) =>
-        typeof value ===
-          "string" &&
+        typeof value === "string" &&
         value.trim().length > 0
     )
-    .map((value) =>
-      value.trim()
-    )
+    .map((value) => value.trim())
     .slice(0, max);
 }
