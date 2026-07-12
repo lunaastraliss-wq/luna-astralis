@@ -133,9 +133,9 @@ const styles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 76,
-    paddingTop: 10,
-    paddingBottom: 10,
+    minHeight: 70,
+    paddingTop: 8,
+    paddingBottom: 8,
     paddingHorizontal: 16,
     marginBottom: 7,
     overflow: "hidden",
@@ -223,8 +223,8 @@ const styles = StyleSheet.create({
 
   sectionCard: {
     position: "relative",
-    paddingTop: 9,
-    paddingBottom: 9,
+    paddingTop: 7,
+    paddingBottom: 7,
     paddingHorizontal: 14,
     marginBottom: 7,
     backgroundColor: "#111a34",
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
 
   qualitiesRow: {
     flexDirection: "row",
-    marginBottom: 7,
+    marginBottom: 5,
   },
 
   qualitiesColumn: {
@@ -303,8 +303,8 @@ const styles = StyleSheet.create({
   },
 
   qualitiesCard: {
-    paddingTop: 9,
-    paddingBottom: 8,
+    paddingTop: 7,
+    paddingBottom: 6,
     paddingHorizontal: 11,
     backgroundColor: "#0d152d",
     borderWidth: 1,
@@ -322,9 +322,9 @@ const styles = StyleSheet.create({
   qualityItem: {
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 19,
-    paddingTop: 4,
-    paddingBottom: 4,
+    minHeight: 17,
+    paddingTop: 3,
+    paddingBottom: 3,
     paddingHorizontal: 7,
     marginBottom: 4,
     backgroundColor: "#111a34",
@@ -359,8 +359,8 @@ const styles = StyleSheet.create({
   },
 
   evolutionCard: {
-    paddingTop: 9,
-    paddingBottom: 9,
+    paddingTop: 7,
+    paddingBottom: 7,
     paddingHorizontal: 14,
     marginBottom: 7,
     backgroundColor: "#0d152d",
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     paddingBottom: 9,
     paddingHorizontal: 18,
-    marginBottom: 22,
+    marginBottom: 28,
     backgroundColor: "#141b32",
     borderWidth: 1,
     borderColor: "#8f793c",
