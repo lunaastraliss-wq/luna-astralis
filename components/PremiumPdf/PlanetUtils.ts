@@ -29,6 +29,7 @@ export function getPlanetData(
         normalizePlanetName(
           item?.name
         ) === normalizedName;
+      );
     }) || null
   );
 }
