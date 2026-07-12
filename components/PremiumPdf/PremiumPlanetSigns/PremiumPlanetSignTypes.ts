@@ -1,5 +1,13 @@
 export type PremiumPlanetSignContent = {
   energy: string;
+
+  strengths?: string[];
+
+  challenges?: string[];
+
+  evolution?: string;
+
+  quote?: string;
 };
 
 export type PremiumPlanetSignMap = Record<
