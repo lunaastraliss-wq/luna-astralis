@@ -31,73 +31,91 @@ const styles = StyleSheet.create({
    */
   titleSection: {
     alignItems: "center",
-    marginBottom: 6,
+    marginBottom: 4,
   },
 
   premiumBadge: {
     alignSelf: "center",
-    paddingTop: 3,
-    paddingBottom: 3,
-    paddingHorizontal: 13,
-    marginBottom: 5,
+
+    paddingTop: 2.5,
+    paddingBottom: 2.5,
+    paddingHorizontal: 12,
+
+    marginBottom: 4,
+
     backgroundColor: CARD_BACKGROUND,
+
     borderWidth: 0.7,
     borderColor: GOLD,
   },
 
   premiumBadgeText: {
     color: BRIGHT_GOLD,
-    fontSize: 6.4,
-    letterSpacing: 1.8,
+
+    fontSize: 6.2,
+    letterSpacing: 1.7,
+
     textTransform: "uppercase",
     textAlign: "center",
   },
 
   eyebrow: {
     color: "#cdbb92",
-    fontSize: 6.8,
-    letterSpacing: 2.2,
+
+    fontSize: 6.5,
+    letterSpacing: 2,
+
     textTransform: "uppercase",
-    marginBottom: 4,
+
+    marginBottom: 3,
   },
 
   title: {
     color: BRIGHT_GOLD,
-    fontSize: 23,
-    lineHeight: 1.12,
+
+    fontSize: 22,
+    lineHeight: 1.1,
+
     textAlign: "center",
-    marginBottom: 6,
+
+    marginBottom: 4,
   },
 
   titleLine: {
-    width: 92,
+    width: 86,
     height: 0.8,
+
     backgroundColor: GOLD,
-    marginBottom: 7,
+
+    marginBottom: 5,
   },
 
   intro: {
-    width: "84%",
+    width: "88%",
+
     color: MUTED,
-    fontSize: 8.7,
-    lineHeight: 1.38,
+
+    fontSize: 7.8,
+    lineHeight: 1.3,
+
     textAlign: "center",
   },
 
   /*
-   * Encadrement de la roue
+   * Grande roue astrologique
    */
   wheelFrame: {
     position: "relative",
     alignSelf: "center",
 
-    width: 378,
-    height: 378,
+    width: 426,
+    height: 426,
 
     alignItems: "center",
     justifyContent: "center",
 
-    padding: 9,
+    padding: 7,
+
     marginBottom: 5,
 
     backgroundColor: PAGE_BACKGROUND,
@@ -109,10 +127,10 @@ const styles = StyleSheet.create({
   wheelFrameInner: {
     position: "absolute",
 
-    top: 6,
-    left: 6,
-    right: 6,
-    bottom: 6,
+    top: 5,
+    left: 5,
+    right: 5,
+    bottom: 5,
 
     borderWidth: 0.35,
     borderColor: "#5d4b2e",
@@ -124,7 +142,7 @@ const styles = StyleSheet.create({
     top: -1,
     left: 0,
 
-    width: 100,
+    width: 105,
     height: 2,
 
     backgroundColor: BRIGHT_GOLD,
@@ -136,15 +154,16 @@ const styles = StyleSheet.create({
     bottom: -1,
     right: 0,
 
-    width: 74,
+    width: 78,
     height: 2,
 
     backgroundColor: BRIGHT_GOLD,
   },
 
   wheelImage: {
-    width: 358,
-    height: 358,
+    width: 410,
+    height: 410,
+
     objectFit: "contain",
   },
 
@@ -152,8 +171,8 @@ const styles = StyleSheet.create({
    * Remplacement si la roue est absente
    */
   wheelMissing: {
-    width: 325,
-    height: 325,
+    width: 390,
+    height: 390,
 
     alignItems: "center",
     justifyContent: "center",
@@ -168,21 +187,28 @@ const styles = StyleSheet.create({
 
   wheelMissingSymbol: {
     color: GOLD,
+
     fontSize: 29,
+
     marginBottom: 10,
   },
 
   wheelMissingTitle: {
     color: BRIGHT_GOLD,
+
     fontSize: 15,
+
     textAlign: "center",
+
     marginBottom: 7,
   },
 
   wheelMissingText: {
     color: MUTED,
+
     fontSize: 8.1,
     lineHeight: 1.4,
+
     textAlign: "center",
   },
 
@@ -192,9 +218,9 @@ const styles = StyleSheet.create({
   identityCard: {
     position: "relative",
 
-    paddingTop: 7,
-    paddingBottom: 7,
-    paddingHorizontal: 17,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingHorizontal: 15,
 
     backgroundColor: CARD_BACKGROUND,
 
@@ -228,25 +254,33 @@ const styles = StyleSheet.create({
 
   preparedFor: {
     color: "#c8b98f",
-    fontSize: 6.1,
-    letterSpacing: 1.7,
+
+    fontSize: 5.8,
+    letterSpacing: 1.6,
+
     textTransform: "uppercase",
     textAlign: "center",
-    marginBottom: 4,
+
+    marginBottom: 2.5,
   },
 
   clientName: {
     color: CREAM,
-    fontSize: 17,
+
+    fontSize: 15.5,
+
     textAlign: "center",
-    marginBottom: 7,
+
+    marginBottom: 4,
   },
 
   infoDivider: {
     width: "100%",
     height: 0.5,
+
     backgroundColor: "#705a35",
-    marginBottom: 7,
+
+    marginBottom: 4,
   },
 
   infoRow: {
@@ -256,36 +290,42 @@ const styles = StyleSheet.create({
 
   infoColumn: {
     width: "31.5%",
+
     alignItems: "center",
   },
 
   infoLabel: {
     color: "#bfae87",
-    fontSize: 5.4,
-    letterSpacing: 0.9,
+
+    fontSize: 5,
+    letterSpacing: 0.8,
+
     textTransform: "uppercase",
     textAlign: "center",
-    marginBottom: 2,
+
+    marginBottom: 1.5,
   },
 
   infoValue: {
     color: CREAM,
-    fontSize: 8.2,
-    lineHeight: 1.25,
+
+    fontSize: 7.7,
+    lineHeight: 1.2,
+
     textAlign: "center",
   },
 
   /*
-   * Explication
+   * Explication raccourcie
    */
   explanationBox: {
     position: "relative",
 
-    marginTop: 6,
+    marginTop: 5,
 
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingHorizontal: 14,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingHorizontal: 13,
 
     backgroundColor: CARD_BACKGROUND,
 
@@ -307,38 +347,21 @@ const styles = StyleSheet.create({
 
   explanationTitle: {
     color: BRIGHT_GOLD,
-    fontSize: 9.5,
+
+    fontSize: 8.6,
+
     textAlign: "center",
-    marginBottom: 5,
+
+    marginBottom: 3,
   },
 
   explanationText: {
     color: MUTED,
-    fontSize: 7,
-    lineHeight: 1.34,
+
+    fontSize: 6.5,
+    lineHeight: 1.28,
+
     textAlign: "center",
-    marginBottom: 4,
-  },
-
-  explanationTextLast: {
-    color: MUTED,
-    fontSize: 7,
-    lineHeight: 1.34,
-    textAlign: "center",
-  },
-
-  referenceNote: {
-    color: "#bfb6a6",
-    fontSize: 6.2,
-    lineHeight: 1.3,
-    textAlign: "center",
-
-    marginTop: 5,
-    paddingTop: 5,
-    paddingHorizontal: 12,
-
-    borderTopWidth: 0.4,
-    borderTopColor: "#705a35",
   },
 });
 
@@ -378,9 +401,7 @@ export default function PdfWheel({
       <View style={styles.pageContent}>
         <View style={styles.titleSection}>
           <View style={styles.premiumBadge}>
-            <Text
-              style={styles.premiumBadgeText}
-            >
+            <Text style={styles.premiumBadgeText}>
               Lecture Premium
             </Text>
           </View>
@@ -396,25 +417,17 @@ export default function PdfWheel({
           <View style={styles.titleLine} />
 
           <Text style={styles.intro}>
-            Cette roue représente la configuration complète du ciel au
-            moment précis de votre naissance. Elle rassemble les
-            planètes, les signes, les maisons, les angles et les
-            principales relations astrologiques de votre thème natal.
+            La configuration du ciel au moment précis de votre naissance :
+            planètes, signes, maisons, angles et principaux aspects.
           </Text>
         </View>
 
         <View style={styles.wheelFrame}>
-          <View
-            style={styles.wheelFrameInner}
-          />
+          <View style={styles.wheelFrameInner} />
 
-          <View
-            style={styles.wheelAccentTop}
-          />
+          <View style={styles.wheelAccentTop} />
 
-          <View
-            style={styles.wheelAccentBottom}
-          />
+          <View style={styles.wheelAccentBottom} />
 
           {safeWheelImage ? (
             <Image
@@ -423,38 +436,27 @@ export default function PdfWheel({
             />
           ) : (
             <View style={styles.wheelMissing}>
-              <Text
-                style={styles.wheelMissingSymbol}
-              >
+              <Text style={styles.wheelMissingSymbol}>
                 ✦
               </Text>
 
-              <Text
-                style={styles.wheelMissingTitle}
-              >
+              <Text style={styles.wheelMissingTitle}>
                 Roue astrologique indisponible
               </Text>
 
-              <Text
-                style={styles.wheelMissingText}
-              >
+              <Text style={styles.wheelMissingText}>
                 L’image de la roue n’a pas été transmise au document.
-                Les données astrologiques et les interprétations
-                Premium demeurent néanmoins disponibles dans les pages
-                suivantes.
+                Les interprétations Premium demeurent disponibles dans
+                les pages suivantes.
               </Text>
             </View>
           )}
         </View>
 
         <View style={styles.identityCard}>
-          <View
-            style={styles.identityAccentLeft}
-          />
+          <View style={styles.identityAccentLeft} />
 
-          <View
-            style={styles.identityAccentRight}
-          />
+          <View style={styles.identityAccentRight} />
 
           <Text style={styles.preparedFor}>
             Carte du ciel Premium préparée pour
@@ -503,45 +505,17 @@ export default function PdfWheel({
         </View>
 
         <View style={styles.explanationBox}>
-          <View
-            style={styles.explanationAccent}
-          />
+          <View style={styles.explanationAccent} />
 
-          <Text
-            style={styles.explanationTitle}
-          >
+          <Text style={styles.explanationTitle}>
             Comment lire votre roue astrologique
           </Text>
 
           <Text style={styles.explanationText}>
-            L’anneau extérieur présente les douze signes du zodiaque.
-            Les maisons divisent la roue en douze secteurs représentant
-            les principaux domaines de votre existence, comme
-            l’identité, les relations, la famille, le travail et les
-            aspirations personnelles.
-          </Text>
-
-          <Text style={styles.explanationText}>
-            Les symboles indiquent la position exacte des planètes dans
-            les signes et les maisons. Les lignes visibles au centre
-            représentent les aspects astrologiques, c’est-à-dire les
-            liens harmonieux, dynamiques ou plus exigeants entre les
-            différentes énergies de votre thème.
-          </Text>
-
-          <Text
-            style={styles.explanationTextLast}
-          >
-            Votre rapport Premium analysera progressivement ces
-            composantes afin de mettre en lumière votre personnalité,
-            vos réactions émotionnelles, vos forces naturelles, vos
-            défis, vos relations et votre potentiel d’évolution.
-          </Text>
-
-          <Text style={styles.referenceNote}>
-            Votre roue astrologique constitue la carte de référence de
-            toutes les interprétations présentées dans ce rapport
-            Premium.
+            Les signes forment l’anneau extérieur, les maisons représentent
+            les différents domaines de votre vie et les lignes centrales
+            montrent les relations entre les planètes. Cette roue sert de
+            référence à toutes les interprétations de votre rapport Premium.
           </Text>
         </View>
       </View>
