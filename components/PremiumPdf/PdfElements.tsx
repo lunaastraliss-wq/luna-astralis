@@ -14,6 +14,7 @@ import {
 import {
   ASCENDANT_ICON,
   ELEMENT_ICONS,
+  FOUR_ELEMENTS_ICON,
   PLANET_ICONS,
 } from "./PremiumPdfAssets";
 
@@ -886,10 +887,10 @@ export default function PdfElements({
             style={styles.dividerLine}
           />
 
-          <Image
-            src={PLANET_ICONS.Sun}
-            style={styles.dividerIcon}
-          />
+         <Image
+  src={FOUR_ELEMENTS_ICON}
+  style={styles.dividerIcon}
+/>
 
           <View
             style={styles.dividerLine}
