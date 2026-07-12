@@ -23,8 +23,7 @@ export default function PremiumPdfPage() {
         height="100%"
         style={{
           border: "none",
-          display: "block",
-        }}
+         }}
         showToolbar
       >
         <PremiumPdfDocument
