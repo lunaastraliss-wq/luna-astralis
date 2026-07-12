@@ -507,18 +507,30 @@ function getPlanetData(
 function normalizeHouse(
   value: unknown
 ): HouseNumber | null {
+  const numericValue =
+    typeof value === "number"
+      ? value
+      : typeof value === "string"
+        ? Number(value)
+        : NaN;
+
   if (
-    typeof value !== "number" ||
-    !Number.isInteger(value)
+    !Number.isFinite(numericValue)
   ) {
     return null;
   }
 
-  if (value < 1 || value > 12) {
+  const house =
+    Math.trunc(numericValue);
+
+  if (
+    house < 1 ||
+    house > 12
+  ) {
     return null;
   }
 
-  return value as HouseNumber;
+  return house as HouseNumber;
 }
 
 function getHouseIcon(
