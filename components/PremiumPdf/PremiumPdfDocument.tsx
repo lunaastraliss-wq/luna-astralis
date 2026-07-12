@@ -127,8 +127,7 @@ export default function PremiumPdfDocument({
 
       <PdfHouses
         planets={safePlanets}
-        angles={safeAngles}
-      />
+        />
 
       <PdfAspects
         planets={safePlanets}
