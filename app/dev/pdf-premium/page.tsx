@@ -1,4 +1,3 @@
-```tsx
 "use client";
 
 import {
@@ -41,4 +40,4 @@ export default function PremiumPdfPage() {
     </main>
   );
 }
-```
+
