@@ -622,6 +622,11 @@ export async function POST(
       (chart as any)
         ?.planets || [];
 
+    console.log(
+  "CELESTINE_PLANETS",
+  JSON.stringify(planets, null, 2)
+);
+
     const angles =
       (chart as any)
         ?.angles || {};
