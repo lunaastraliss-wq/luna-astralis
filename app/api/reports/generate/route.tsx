@@ -618,6 +618,24 @@ export async function POST(
         longitude,
       });
 
+    console.log(
+  "CELESTINE_HOUSES",
+  JSON.stringify(
+    (chart as any)?.houses,
+    null,
+    2
+  )
+);
+
+console.log(
+  "FIRST_PLANET",
+  JSON.stringify(
+    (chart as any)?.planets?.[0],
+    null,
+    2
+  )
+);
+
     const planets =
       (chart as any)
         ?.planets || [];
