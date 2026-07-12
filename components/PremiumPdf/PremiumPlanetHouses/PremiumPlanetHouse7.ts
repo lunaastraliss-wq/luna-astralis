@@ -1,0 +1,55 @@
+import type {
+  PremiumHousePlanetTexts,
+} from "./PremiumPlanetHouseTypes";
+
+export const PREMIUM_PLANET_HOUSE_7_TEXTS: PremiumHousePlanetTexts = {
+  Sun: {
+    influence:
+      "Votre Soleil en Maison VII se développe fortement à travers les relations, les associations et les engagements importants. Les autres agissent souvent comme des miroirs qui vous permettent de mieux comprendre votre identité, vos attentes et votre manière d’occuper une place dans le lien. Vous pouvez être attiré par des personnes affirmées, visibles ou porteuses de qualités que vous cherchez encore à reconnaître en vous-même. Le partenariat peut devenir une source majeure de croissance, à condition que vous ne laissiez pas entièrement l’autre définir votre direction. Votre évolution consiste à construire des relations où la coopération ne remplace pas l’individualité. Plus vous vous connaissez, plus vous pouvez rencontrer l’autre sans vous effacer.",
+  },
+
+  Moon: {
+    influence:
+      "Votre Lune en Maison VII relie profondément votre équilibre émotionnel à la qualité de vos relations. Vous avez besoin de sentir que l’autre est présent, réceptif et capable de créer avec vous un climat de confiance. Les partenariats influencent fortement votre humeur et peuvent devenir un miroir de vos besoins affectifs les plus profonds. Vous êtes souvent très sensible aux réactions de l’autre et pouvez chercher à maintenir l’harmonie afin d’éviter le rejet ou la solitude. Votre défi consiste à ne pas dépendre entièrement de la disponibilité émotionnelle de vos proches. Votre sécurité grandit lorsque vous savez reconnaître vos propres besoins avant de demander à la relation de les combler.",
+  },
+
+  Mercury: {
+    influence:
+      "Votre Mercure en Maison VII donne une place essentielle au dialogue, à l’échange d’idées et à la négociation dans vos relations. Vous avez besoin de pouvoir parler, comprendre et analyser la dynamique du lien pour vous sentir réellement engagé. Vous êtes souvent attiré par des partenaires intelligents, curieux ou capables de stimuler votre réflexion. Cette position favorise les contrats, les collaborations et les activités qui demandent de concilier différents points de vue. Votre défi consiste à ne pas intellectualiser tous les sentiments ou à changer d’avis selon la personne présente. Votre parole devient constructive lorsque vous l’utilisez pour clarifier, écouter et établir des accords réellement équilibrés.",
+  },
+
+  Venus: {
+    influence:
+      "Votre Vénus en Maison VII favorise fortement le désir d’harmonie, de réciprocité et d’engagement dans les relations. Vous accordez beaucoup d’importance au couple, aux associations et à la qualité du lien établi avec les autres. Votre charme, votre diplomatie et votre capacité à comprendre les besoins relationnels facilitent généralement les partenariats. Vous pouvez toutefois idéaliser l’union ou éviter les désaccords afin de préserver une apparence de paix. Votre défi consiste à ne pas sacrifier vos valeurs personnelles pour être aimé. Votre vie relationnelle devient plus épanouissante lorsque l’harmonie repose sur la sincérité, le respect mutuel et une véritable égalité.",
+  },
+
+  Mars: {
+    influence:
+      "Votre Mars en Maison VII apporte de l’intensité, de la passion et parfois de la confrontation dans les relations. Vous êtes attiré par des partenaires affirmés ou par des liens qui vous obligent à développer davantage votre propre force. Les associations peuvent devenir des espaces d’action, de compétition ou de transformation rapide. Vous défendez avec énergie ce que vous attendez d’un engagement, mais vous pouvez aussi réagir vivement lorsque vous vous sentez contrarié ou dominé. Votre défi consiste à ne pas transformer chaque désaccord en lutte de pouvoir. Votre énergie relationnelle devient constructive lorsque le conflit sert à clarifier les besoins plutôt qu’à imposer une victoire.",
+  },
+
+  Jupiter: {
+    influence:
+      "Votre Jupiter en Maison VII favorise la croissance, les occasions et l’ouverture à travers les partenariats. Vous pouvez attirer des personnes généreuses, cultivées ou capables d’élargir votre vision de la vie. Les relations importantes vous poussent souvent à découvrir de nouvelles perspectives, à voyager, à apprendre ou à développer davantage votre confiance. Cette position soutient les associations professionnelles et les engagements fondés sur des valeurs communes. Votre défi consiste à ne pas idéaliser excessivement l’autre ou à promettre plus que la relation ne peut réellement offrir. Votre expansion devient durable lorsque l’enthousiasme s’accompagne de discernement et d’engagement concret.",
+  },
+
+  Saturn: {
+    influence:
+      "Votre Saturne en Maison VII donne une grande importance aux engagements, aux responsabilités et à la solidité des relations. Vous pouvez aborder le couple ou les associations avec prudence, sérieux et un fort besoin de fiabilité. Les partenariats peuvent se construire lentement ou comporter des leçons exigeantes liées aux limites, à la confiance et à la réciprocité. Vous risquez parfois de craindre le rejet, de rester dans une relation par devoir ou de vous montrer trop rigide. Avec le temps, cette position favorise des liens durables et profondément structurants. Votre évolution consiste à choisir l’engagement par maturité plutôt que par peur de la solitude.",
+  },
+
+  Uranus: {
+    influence:
+      "Votre Uranus en Maison VII rend vos relations marquées par le besoin de liberté, d’originalité et de renouvellement. Vous êtes attiré par des partenaires indépendants, atypiques ou capables de respecter votre singularité. Les engagements trop rigides ou prévisibles peuvent rapidement vous donner le sentiment d’être enfermé. Votre vie relationnelle peut connaître des changements soudains, des rencontres inattendues ou des formes d’union non conventionnelles. Votre défi consiste à ne pas rompre dès que la relation demande des ajustements. Votre liberté devient plus stable lorsque vous construisez des liens souples, honnêtes et ouverts au changement sans renoncer à toute continuité.",
+  },
+
+  Neptune: {
+    influence:
+      "Votre Neptune en Maison VII donne une dimension très sensible, idéaliste et parfois insaisissable à vos relations. Vous recherchez une connexion profonde, inspirante ou presque fusionnelle avec l’autre. Vous pouvez percevoir le meilleur chez vos partenaires et ressentir fortement leurs émotions, leurs fragilités ou leurs aspirations. Cette réceptivité favorise la compassion, mais elle peut aussi conduire à l’idéalisation, au sacrifice ou à la confusion des limites. Votre défi consiste à voir la relation telle qu’elle est réellement, sans projeter ce que vous espérez y trouver. L’amour devient plus profond lorsque la sensibilité s’accompagne de clarté et de responsabilité.",
+  },
+
+  Pluto: {
+    influence:
+      "Votre Pluton en Maison VII rend les relations profondément transformatrices. Les partenariats importants peuvent réveiller des enjeux de pouvoir, de confiance, de dépendance ou de vulnérabilité que vous ne pouvez pas ignorer. Vous êtes attiré par des liens intenses qui vous obligent à remettre en question votre manière d’aimer, de négocier et de partager le contrôle. Cette position peut créer une grande loyauté, mais aussi des rapports de force difficiles si la peur de perdre domine. Votre évolution consiste à construire une intimité où chacun conserve sa puissance personnelle. La relation devient régénératrice lorsque la vérité remplace la manipulation et que la transformation est partagée.",
+  },
+};
