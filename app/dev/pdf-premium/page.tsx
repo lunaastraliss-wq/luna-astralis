@@ -1,5 +1,30 @@
-import PdfPremiumViewer from "./PdfPremiumViewer";
+"use client";
 
-export default function Page() {
+import dynamic from "next/dynamic";
+
+const PdfPremiumViewer = dynamic(
+  () => import("./PdfPremiumViewer"),
+  {
+    ssr: false,
+    loading: () => (
+      <main
+        style={{
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#081020",
+          color: "#fff8e7",
+          fontFamily: "Arial, sans-serif",
+        }}
+      >
+        Génération du rapport…
+      </main>
+    ),
+  }
+);
+
+export default function PdfPremiumDevPage() {
   return <PdfPremiumViewer />;
 }
