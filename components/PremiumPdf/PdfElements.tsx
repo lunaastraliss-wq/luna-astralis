@@ -13,6 +13,7 @@ import {
 
 import {
   ASCENDANT_ICON,
+  ELEMENT_ICONS,
   PLANET_ICONS,
 } from "./PremiumPdfAssets";
 
@@ -649,22 +650,21 @@ function getElementIcon(
 ): string {
   switch (element) {
     case "Feu":
-      return PLANET_ICONS.Sun;
+      return ELEMENT_ICONS.Feu;
 
     case "Terre":
-      return PLANET_ICONS.Saturn;
+      return ELEMENT_ICONS.Terre;
 
     case "Air":
-      return PLANET_ICONS.Mercury;
+      return ELEMENT_ICONS.Air;
 
     case "Eau":
-      return PLANET_ICONS.Moon;
+      return ELEMENT_ICONS.Eau;
 
     default:
       return ASCENDANT_ICON;
   }
 }
-
 function getPlanetData(
   planets: PremiumPlanet[],
   planetName: string
