@@ -602,6 +602,12 @@ function getPlanetsByHouse(
         return;
       }
 
+      console.log(
+  planet.name,
+  planet.house,
+  planet
+);
+
       const house =
         normalizeHouse(
           planet.house
