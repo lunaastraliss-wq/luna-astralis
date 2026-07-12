@@ -10,6 +10,13 @@ import PdfSummary from "./PdfSummary";
 import PdfPlanet from "./PdfPlanet";
 import PdfElements from "./PdfElements";
 import PdfModalities from "./PdfModalities";
+import PdfHouses from "./PdfHouses";
+import PdfAspects from "./PdfAspects";
+import PdfDominants from "./PdfDominants";
+import PdfStrengthsChallenges from "./PdfStrengthsChallenges";
+import PdfRelationships from "./PdfRelationships";
+import PdfCareer from "./PdfCareer";
+import PdfPremiumSynthesis from "./PdfPremiumSynthesis";
 import PdfConclusion from "./PdfConclusion";
 
 export default function PremiumPdfDocument({
@@ -110,9 +117,47 @@ export default function PremiumPdfDocument({
         />
       ))}
 
-      <PdfElements planets={safePlanets} />
+      <PdfElements
+        planets={safePlanets}
+      />
 
-      <PdfModalities planets={safePlanets} />
+      <PdfModalities
+        planets={safePlanets}
+      />
+
+      <PdfHouses
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      <PdfAspects
+        planets={safePlanets}
+      />
+
+      <PdfDominants
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      <PdfStrengthsChallenges
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      <PdfRelationships
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      <PdfCareer
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      <PdfPremiumSynthesis
+        planets={safePlanets}
+        angles={safeAngles}
+      />
 
       <PdfConclusion />
     </Document>
