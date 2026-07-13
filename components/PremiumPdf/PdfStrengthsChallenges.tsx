@@ -1133,7 +1133,12 @@ export default function PdfStrengthsChallenges({
 </View>
 
 <View
-  style={styles.card}
+  style={[
+    styles.card,
+    {
+      marginTop: 12,
+    },
+  ]}
   wrap={false}
 >
   <View style={styles.cardHeader}>
@@ -1145,8 +1150,8 @@ export default function PdfStrengthsChallenges({
       Clés pratiques
     </Text>
   </View>
-
   <Text style={styles.cardText}>
+    
     • Observez les situations qui déclenchent toujours
     les mêmes réactions. Elles indiquent souvent un
     besoin important qui demande à être reconnu plutôt
