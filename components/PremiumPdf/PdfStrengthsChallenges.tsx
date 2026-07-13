@@ -1077,25 +1077,58 @@ export default function PdfStrengthsChallenges({
             </View>
           </View>
 
-          <View
-            style={styles.synthesisCard}
-            wrap={false}
-          >
-            <Text
-              style={styles.synthesisTitle}
-            >
-              Votre potentiel d’évolution
-            </Text>
+         <View style={styles.synthesisCard}>
+  <Text style={styles.synthesisTitle}>
+    Votre potentiel d’évolution
+  </Text>
 
-            <Text
-              style={styles.synthesisText}
-            >
-              {createFinalSynthesis(
-                profile,
-                centralPlanet
-              )}
-            </Text>
-          </View>
+  <Text style={styles.synthesisText}>
+    {createFinalSynthesis(
+      profile,
+      centralPlanet
+    )}
+
+    {"\n\n"}
+
+    Votre carte du ciel montre que votre évolution ne
+    dépend pas d'une seule qualité ou d'un seul défi.
+    Elle repose sur votre capacité à harmoniser vos
+    différentes énergies afin qu'elles se complètent
+    plutôt qu'elles ne s'opposent. Chaque expérience,
+    qu'elle soit facile ou exigeante, devient une
+    occasion de mieux comprendre votre fonctionnement
+    et de renforcer votre confiance intérieure.
+
+    {"\n\n"}
+
+    Au fil du temps, certaines influences de votre
+    thème prendront naturellement davantage de place.
+    Les qualités qui semblent aujourd'hui discrètes
+    peuvent devenir de véritables ressources grâce à
+    l'expérience, tandis que vos forces naturelles
+    gagneront en maturité lorsqu'elles seront
+    accompagnées de patience, de recul et de
+    discernement.
+
+    {"\n\n"}
+
+    Les périodes de transition ne représentent pas un
+    éloignement de votre véritable nature, mais une
+    invitation à l'exprimer de façon plus consciente.
+    En accueillant les changements avec confiance,
+    vous développez progressivement une personnalité
+    plus équilibrée, plus libre et plus fidèle à vos
+    valeurs profondes.
+
+    {"\n\n"}
+
+    Votre thème natal n'impose jamais une destinée
+    figée. Il met en lumière les ressources dont vous
+    disposez, les apprentissages qui favorisent votre
+    croissance et les chemins qui peuvent vous conduire
+    vers une réalisation plus authentique de vous-même.
+  </Text>
+</View>
         </View>
 
         <PdfPageFooter />
