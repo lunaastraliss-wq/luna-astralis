@@ -13,10 +13,10 @@ import {
   ASCENDANT_ICON,
   LOGO_URL,
   PLANET_ICONS,
-} from "./PremiumPdfAssets";
+} from "./SignaturePdfAssets";
 
-import type { PremiumPdfProps } from "./PremiumPdfTypes";
-import PdfPageFooter from "./PdfPageFooter";
+import type { PremiumPdfProps } from "./SignaturePdfTypes";
+import PdfPageFooter from "./PdfSignaturePageFooter";
 
 /*
  * Couleurs principales du rapport Premium
@@ -846,12 +846,12 @@ function CornerAstrologicalWheel({
   );
 }
 
-export default function PdfCover({
+export default function PdfSignatureCover({
   firstName,
   birthDate,
   birthTime,
   birthCity,
-}: PremiumPdfProps) {
+}: SignaturePdfProps) {
   return (
     <Page
       size="A4"
@@ -1191,26 +1191,24 @@ export default function PdfCover({
             votre naissance forment une signature céleste qui vous
             appartient.
           </Text>
+<Text
+  style={styles.introParagraph}
+>
+  Ce rapport Signature vous propose la lecture la plus complète
+  de votre thème natal. Il explore les liens entre vos planètes,
+  vos maisons, vos aspects et les grandes dynamiques qui
+  accompagnent votre évolution.
+</Text>
 
-          <Text
-            style={styles.introParagraph}
-          >
-            Ce rapport Premium vous propose une lecture plus profonde
-            de votre personnalité, de votre vie émotionnelle, de vos
-            relations, de vos talents et des grandes dynamiques qui
-            accompagnent votre évolution.
-          </Text>
-
-          <Text
-            style={styles.introParagraph}
-          >
-            Vous découvrirez également comment les différentes
-            composantes de votre thème dialoguent entre elles. Les
-            planètes ne fonctionnent jamais seules : leurs signes,
-            leurs maisons et leurs aspects construisent ensemble une
-            histoire personnelle beaucoup plus nuancée.
-          </Text>
-
+<Text
+  style={styles.introParagraph}
+>
+  Vous découvrirez également comment les différentes
+  composantes de votre thème dialoguent entre elles. Les
+  planètes ne fonctionnent jamais seules : leurs signes,
+  leurs maisons et leurs aspects construisent ensemble une
+  histoire personnelle beaucoup plus nuancée.
+</Text>
           <Text
             style={styles.introConclusion}
           >
@@ -1221,7 +1219,7 @@ export default function PdfCover({
         </View>
       </View>
 
-      <PdfPageFooter />
+      <PdfSignaturePageFooter />
     </Page>
   );
 }
