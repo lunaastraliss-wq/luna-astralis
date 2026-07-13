@@ -15,8 +15,8 @@ import {
   PLANET_ICONS,
 } from "./SignaturePdfAssets";
 
-import type { PremiumPdfProps } from "./SignaturePdfTypes";
-import PdfPageFooter from "./PdfSignaturePageFooter";
+import type { SignaturePdfProps } from "./SignaturePdfTypes";
+import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 /*
  * Couleurs principales du rapport Premium
