@@ -996,7 +996,6 @@ export default function PdfPremiumSynthesis({
             </Text>
           </View>
 
-         <View
   <View
   style={styles.card}
   wrap={false}
