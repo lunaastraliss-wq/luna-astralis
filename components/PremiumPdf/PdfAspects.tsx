@@ -25,13 +25,17 @@ type AspectName =
   | "Trigone"
   | "Opposition";
 
+type AspectCategory =
+  | "harmonieux"
+  | "dynamique"
+  | "intense";
+
 type AspectDefinition = {
   name: AspectName;
   angle: number;
   orb: number;
-  symbol: string;
   nature: string;
-  category: "harmonieux" | "dynamique" | "intense";
+  category: AspectCategory;
 };
 
 type CalculatedAspect = {
@@ -53,7 +57,6 @@ const ASPECTS: AspectDefinition[] = [
     name: "Conjonction",
     angle: 0,
     orb: 8,
-    symbol: "☌",
     nature: "Fusion et intensification",
     category: "intense",
   },
@@ -61,7 +64,6 @@ const ASPECTS: AspectDefinition[] = [
     name: "Sextile",
     angle: 60,
     orb: 5,
-    symbol: "⚹",
     nature: "Possibilité et coopération",
     category: "harmonieux",
   },
@@ -69,7 +71,6 @@ const ASPECTS: AspectDefinition[] = [
     name: "Carré",
     angle: 90,
     orb: 7,
-    symbol: "□",
     nature: "Tension et évolution",
     category: "dynamique",
   },
@@ -77,7 +78,6 @@ const ASPECTS: AspectDefinition[] = [
     name: "Trigone",
     angle: 120,
     orb: 7,
-    symbol: "△",
     nature: "Fluidité et talent naturel",
     category: "harmonieux",
   },
@@ -85,30 +85,39 @@ const ASPECTS: AspectDefinition[] = [
     name: "Opposition",
     angle: 180,
     orb: 8,
-    symbol: "☍",
     nature: "Polarité et recherche d’équilibre",
     category: "dynamique",
   },
 ];
 
 const PLANET_ENERGIES: Record<string, string> = {
-  Sun: "votre identité, votre volonté et votre besoin de rayonner",
+  Sun:
+    "votre identité, votre volonté et votre besoin de rayonner",
+
   Moon:
     "vos émotions, vos besoins affectifs et votre sécurité intérieure",
+
   Mercury:
     "votre pensée, votre communication et votre manière de comprendre",
+
   Venus:
     "votre façon d’aimer, vos valeurs et votre sensibilité relationnelle",
+
   Mars:
     "votre énergie d’action, votre désir et votre capacité d’affirmation",
+
   Jupiter:
     "votre confiance, votre expansion et votre manière de saisir les possibilités",
+
   Saturn:
     "votre sens des responsabilités, vos limites et votre maturité",
+
   Uranus:
     "votre besoin de liberté, votre originalité et votre rapport au changement",
+
   Neptune:
     "votre imagination, votre intuition et votre réceptivité",
+
   Pluto:
     "votre pouvoir de transformation, votre intensité et votre capacité de régénération",
 };
@@ -116,22 +125,31 @@ const PLANET_ENERGIES: Record<string, string> = {
 const PLANET_MANIFESTATIONS: Record<string, string> = {
   Sun:
     "dans votre sentiment d’identité, vos choix personnels et votre manière d’occuper votre place",
+
   Moon:
     "dans vos réactions émotionnelles, votre intimité et votre manière de rechercher la sécurité",
+
   Mercury:
     "dans vos idées, vos échanges, vos apprentissages et vos prises de décision",
+
   Venus:
     "dans votre vie affective, vos attirances, votre estime personnelle et vos valeurs",
+
   Mars:
     "dans vos initiatives, vos conflits, vos désirs et votre manière de poursuivre un objectif",
+
   Jupiter:
     "dans votre confiance, vos ambitions, vos convictions et votre recherche d’évolution",
+
   Saturn:
     "dans vos responsabilités, votre discipline, vos peurs et vos constructions à long terme",
+
   Uranus:
     "dans votre besoin d’indépendance, vos changements et votre manière de sortir des cadres",
+
   Neptune:
     "dans votre intuition, vos idéaux, votre imagination et votre sensibilité aux ambiances",
+
   Pluto:
     "dans vos périodes de transformation, vos rapports de force et votre besoin de profondeur",
 };
@@ -195,10 +213,10 @@ const styles = StyleSheet.create({
 
   aspectCard: {
     position: "relative",
-    marginBottom: 12,
-    paddingTop: 13,
-    paddingBottom: 13,
-    paddingHorizontal: 15,
+    marginBottom: 14,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingHorizontal: 16,
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -216,44 +234,29 @@ const styles = StyleSheet.create({
   aspectHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
-  },
-
-  symbolBox: {
-    width: 36,
-    height: 36,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 11,
-    borderWidth: 1,
-    borderColor: "#b88b3f",
-    backgroundColor: "#0b1124",
-  },
-
-  symbol: {
-    color: "#f4c95d",
-    fontSize: 18,
+    marginBottom: 10,
+    paddingLeft: 2,
   },
 
   aspectHeading: {
     flexGrow: 1,
-    paddingRight: 8,
+    paddingRight: 10,
   },
 
   planetNames: {
     color: "#fff8e7",
-    fontSize: 12,
-    marginBottom: 3,
+    fontSize: 12.5,
+    marginBottom: 4,
   },
 
   aspectName: {
     color: "#f4c95d",
-    fontSize: 8.3,
-    lineHeight: 1.25,
+    fontSize: 8.4,
+    lineHeight: 1.3,
   },
 
   orbBox: {
-    minWidth: 60,
+    minWidth: 62,
     alignItems: "flex-end",
   },
 
@@ -267,7 +270,7 @@ const styles = StyleSheet.create({
 
   orbValue: {
     color: "#e9e4d8",
-    fontSize: 8.5,
+    fontSize: 8.8,
     marginBottom: 3,
   },
 
@@ -279,28 +282,28 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: "#39415d",
-    marginBottom: 8,
+    marginBottom: 9,
   },
 
   sectionLabel: {
     color: "#f4c95d",
-    fontSize: 7.2,
+    fontSize: 7.3,
     textTransform: "uppercase",
     letterSpacing: 0.8,
-    marginBottom: 3,
+    marginBottom: 4,
   },
 
   paragraph: {
     color: "#e9e4d8",
-    fontSize: 8.45,
-    lineHeight: 1.45,
-    marginBottom: 7,
+    fontSize: 8.7,
+    lineHeight: 1.5,
+    marginBottom: 8,
   },
 
   evolutionBox: {
-    paddingTop: 7,
-    paddingBottom: 7,
-    paddingHorizontal: 10,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingHorizontal: 11,
     backgroundColor: "#161f3d",
     borderLeftWidth: 2,
     borderLeftColor: "#f4c95d",
@@ -308,8 +311,8 @@ const styles = StyleSheet.create({
 
   evolutionText: {
     color: "#e9e4d8",
-    fontSize: 8.2,
-    lineHeight: 1.4,
+    fontSize: 8.4,
+    lineHeight: 1.45,
   },
 
   summaryCard: {
@@ -387,6 +390,29 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  finalCard: {
+    marginTop: 14,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    backgroundColor: "#111a34",
+    borderWidth: 1,
+    borderColor: "#39415d",
+  },
+
+  finalTitle: {
+    color: "#f4c95d",
+    fontSize: 11,
+    textAlign: "center",
+    marginBottom: 8,
+  },
+
+  finalText: {
+    color: "#e9e4d8",
+    fontSize: 9,
+    lineHeight: 1.55,
+    textAlign: "center",
+  },
+
   emptyCard: {
     marginTop: 30,
     paddingVertical: 24,
@@ -411,7 +437,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function normalizeLongitude(value: number): number {
+function normalizeLongitude(
+  value: number
+): number {
   return ((value % 360) + 360) % 360;
 }
 
@@ -437,11 +465,26 @@ function getValidPlanet(
   planets: PremiumPlanet[],
   name: string
 ): PremiumPlanet | null {
+  const normalizedName =
+    name.trim().toLowerCase();
+
   const planet = planets.find(
-    (currentPlanet) =>
-      currentPlanet?.name === name &&
-      typeof currentPlanet.longitude === "number" &&
-      Number.isFinite(currentPlanet.longitude)
+    (currentPlanet) => {
+      const currentName =
+        typeof currentPlanet?.name === "string"
+          ? currentPlanet.name
+              .trim()
+              .toLowerCase()
+          : "";
+
+      return (
+        currentName === normalizedName &&
+        typeof currentPlanet.longitude === "number" &&
+        Number.isFinite(
+          currentPlanet.longitude
+        )
+      );
+    }
   );
 
   return planet || null;
@@ -450,7 +493,8 @@ function getValidPlanet(
 function calculateAspects(
   planets: PremiumPlanet[]
 ): CalculatedAspect[] {
-  const calculatedAspects: CalculatedAspect[] = [];
+  const calculatedAspects:
+    CalculatedAspect[] = [];
 
   for (
     let firstIndex = 0;
@@ -460,10 +504,11 @@ function calculateAspects(
     const firstName =
       MAIN_PLANETS[firstIndex];
 
-    const firstPlanet = getValidPlanet(
-      planets,
-      firstName
-    );
+    const firstPlanet =
+      getValidPlanet(
+        planets,
+        firstName
+      );
 
     if (!firstPlanet) {
       continue;
@@ -477,42 +522,49 @@ function calculateAspects(
       const secondName =
         MAIN_PLANETS[secondIndex];
 
-      const secondPlanet = getValidPlanet(
-        planets,
-        secondName
-      );
+      const secondPlanet =
+        getValidPlanet(
+          planets,
+          secondName
+        );
 
       if (!secondPlanet) {
         continue;
       }
 
-      const difference = angularDifference(
-        firstPlanet.longitude as number,
-        secondPlanet.longitude as number
-      );
+      const difference =
+        angularDifference(
+          firstPlanet.longitude as number,
+          secondPlanet.longitude as number
+        );
 
       let closestAspect:
         | CalculatedAspect
         | null = null;
 
       for (const aspect of ASPECTS) {
-        const currentOrb = Math.abs(
-          difference - aspect.angle
-        );
+        const currentOrb =
+          Math.abs(
+            difference - aspect.angle
+          );
 
-        if (currentOrb > aspect.orb) {
+        if (
+          currentOrb > aspect.orb
+        ) {
           continue;
         }
 
         if (
           !closestAspect ||
-          currentOrb < closestAspect.orb
+          currentOrb <
+            closestAspect.orb
         ) {
           closestAspect = {
             planetA: firstName,
             planetB: secondName,
             aspect,
-            exactDifference: difference,
+            exactDifference:
+              difference,
             orb: currentOrb,
           };
         }
@@ -527,21 +579,31 @@ function calculateAspects(
   }
 
   return calculatedAspects
-    .sort((firstAspect, secondAspect) => {
-      const firstStrength =
-        firstAspect.orb /
-        firstAspect.aspect.orb;
+    .sort(
+      (
+        firstAspect,
+        secondAspect
+      ) => {
+        const firstStrength =
+          firstAspect.orb /
+          firstAspect.aspect.orb;
 
-      const secondStrength =
-        secondAspect.orb /
-        secondAspect.aspect.orb;
+        const secondStrength =
+          secondAspect.orb /
+          secondAspect.aspect.orb;
 
-      return firstStrength - secondStrength;
-    })
+        return (
+          firstStrength -
+          secondStrength
+        );
+      }
+    )
     .slice(0, 18);
 }
 
-function formatOrb(value: number): string {
+function formatOrb(
+  value: number
+): string {
   return `${value.toFixed(1)}°`;
 }
 
@@ -549,7 +611,8 @@ function getAspectStrength(
   aspect: CalculatedAspect
 ): string {
   const ratio =
-    aspect.orb / aspect.aspect.orb;
+    aspect.orb /
+    aspect.aspect.orb;
 
   if (ratio <= 0.25) {
     return "Très puissant";
@@ -570,11 +633,15 @@ function getAspectInterpretation(
   calculatedAspect: CalculatedAspect
 ): AspectInterpretation {
   const firstPlanet =
-    PLANET_NAMES[calculatedAspect.planetA] ||
+    PLANET_NAMES[
+      calculatedAspect.planetA
+    ] ||
     calculatedAspect.planetA;
 
   const secondPlanet =
-    PLANET_NAMES[calculatedAspect.planetB] ||
+    PLANET_NAMES[
+      calculatedAspect.planetB
+    ] ||
     calculatedAspect.planetB;
 
   const firstEnergy =
@@ -601,7 +668,9 @@ function getAspectInterpretation(
     ] ||
     "dans votre manière de vivre les situations importantes";
 
-  switch (calculatedAspect.aspect.name) {
+  switch (
+    calculatedAspect.aspect.name
+  ) {
     case "Conjonction":
       return {
         introduction:
@@ -689,10 +758,10 @@ function getAspectInterpretation(
           `${firstPlanet} et ${secondPlanet} forment une relation importante dans votre thème natal.`,
 
         manifestation:
-          `Cette interaction influence différentes dimensions de votre personnalité et mérite d’être observée dans votre expérience quotidienne.`,
+          "Cette interaction influence différentes dimensions de votre personnalité et mérite d’être observée dans votre expérience quotidienne.",
 
         evolution:
-          `Votre évolution consiste à reconnaître consciemment la manière dont ces deux énergies peuvent se soutenir mutuellement.`,
+          "Votre évolution consiste à reconnaître consciemment la manière dont ces deux énergies peuvent se soutenir mutuellement.",
       };
   }
 }
@@ -700,26 +769,33 @@ function getAspectInterpretation(
 function getGlobalSynthesis(
   aspects: CalculatedAspect[]
 ): string {
-  const harmoniousCount = aspects.filter(
-    ({ aspect }) =>
-      aspect.name === "Trigone" ||
-      aspect.name === "Sextile"
-  ).length;
+  const harmoniousCount =
+    aspects.filter(
+      ({ aspect }) =>
+        aspect.name === "Trigone" ||
+        aspect.name === "Sextile"
+    ).length;
 
-  const dynamicCount = aspects.filter(
-    ({ aspect }) =>
-      aspect.name === "Carré" ||
-      aspect.name === "Opposition"
-  ).length;
+  const dynamicCount =
+    aspects.filter(
+      ({ aspect }) =>
+        aspect.name === "Carré" ||
+        aspect.name ===
+          "Opposition"
+    ).length;
 
-  const conjunctionCount = aspects.filter(
-    ({ aspect }) =>
-      aspect.name === "Conjonction"
-  ).length;
+  const conjunctionCount =
+    aspects.filter(
+      ({ aspect }) =>
+        aspect.name ===
+        "Conjonction"
+    ).length;
 
   if (
-    dynamicCount > harmoniousCount &&
-    dynamicCount > conjunctionCount
+    dynamicCount >
+      harmoniousCount &&
+    dynamicCount >
+      conjunctionCount
   ) {
     return (
       "Votre thème présente une proportion importante d’aspects dynamiques. " +
@@ -729,8 +805,10 @@ function getGlobalSynthesis(
   }
 
   if (
-    harmoniousCount > dynamicCount &&
-    harmoniousCount >= conjunctionCount
+    harmoniousCount >
+      dynamicCount &&
+    harmoniousCount >=
+      conjunctionCount
   ) {
     return (
       "Votre thème présente plusieurs échanges harmonieux entre les planètes. " +
@@ -740,8 +818,10 @@ function getGlobalSynthesis(
   }
 
   if (
-    conjunctionCount > harmoniousCount &&
-    conjunctionCount > dynamicCount
+    conjunctionCount >
+      harmoniousCount &&
+    conjunctionCount >
+      dynamicCount
   ) {
     return (
       "Les conjonctions occupent une place importante dans votre thème. " +
@@ -773,18 +853,38 @@ function getGlobalGuidance(
   const firstPlanet =
     PLANET_NAMES[
       strongestAspect.planetA
-    ] || strongestAspect.planetA;
+    ] ||
+    strongestAspect.planetA;
 
   const secondPlanet =
     PLANET_NAMES[
       strongestAspect.planetB
-    ] || strongestAspect.planetB;
+    ] ||
+    strongestAspect.planetB;
 
   return (
     `L’aspect le plus précis de cette sélection relie ${firstPlanet} et ${secondPlanet}, ` +
     `avec un orbe de ${formatOrb(strongestAspect.orb)}. ` +
     `Cette interaction mérite une attention particulière, car elle peut se manifester de manière régulière dans vos réactions, vos choix et vos relations. ` +
     `La compréhension consciente de cet aspect peut devenir une clé importante de votre évolution personnelle.`
+  );
+}
+
+function getFinalAspectMessage(
+  aspects: CalculatedAspect[]
+): string {
+  if (aspects.length === 0) {
+    return (
+      "Votre thème natal forme un ensemble vivant dans lequel chaque planète participe à votre évolution."
+    );
+  }
+
+  return (
+    "Vos aspects planétaires montrent que votre personnalité ne fonctionne jamais de manière fragmentée. " +
+    "Vos talents, vos sensibilités, vos tensions et vos capacités d’adaptation se répondent constamment. " +
+    "Les aspects harmonieux révèlent les ressources sur lesquelles vous pouvez vous appuyer naturellement. " +
+    "Les aspects plus dynamiques indiquent les domaines dans lesquels votre progression peut devenir particulièrement profonde. " +
+    "En observant ces interactions avec conscience, vous développez une manière plus libre, plus cohérente et plus personnelle d’exprimer votre thème natal."
   );
 }
 
@@ -819,16 +919,25 @@ export default function PdfAspects({
       : [];
 
   const calculatedAspects =
-    calculateAspects(safePlanets);
+    calculateAspects(
+      safePlanets
+    );
 
-  if (calculatedAspects.length === 0) {
+  if (
+    calculatedAspects.length === 0
+  ) {
     return (
-      <Page size="A4" style={styles.page}>
+      <Page
+        size="A4"
+        style={styles.page}
+      >
         <PdfBrandHeader />
 
         <View style={styles.content}>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>
+            <Text
+              style={styles.badgeText}
+            >
               Analyse Premium
             </Text>
           </View>
@@ -838,22 +947,35 @@ export default function PdfAspects({
           </Text>
 
           <Text style={styles.intro}>
-            Les aspects représentent les relations
-            angulaires entre les planètes. Ils montrent
-            comment les différentes dimensions de votre
-            personnalité collaborent, se renforcent ou
-            se mettent mutuellement au défi.
+            Les aspects représentent
+            les relations angulaires
+            entre les planètes. Ils
+            montrent comment les
+            différentes dimensions de
+            votre personnalité
+            collaborent, se renforcent
+            ou se mettent mutuellement
+            au défi.
           </Text>
 
-          <View style={styles.emptyCard}>
-            <Text style={styles.emptyTitle}>
+          <View
+            style={styles.emptyCard}
+          >
+            <Text
+              style={styles.emptyTitle}
+            >
               Analyse indisponible
             </Text>
 
-            <Text style={styles.emptyText}>
-              Les longitudes planétaires nécessaires au
-              calcul des aspects ne sont pas disponibles
-              dans les données de ce thème natal.
+            <Text
+              style={styles.emptyText}
+            >
+              Les longitudes
+              planétaires nécessaires
+              au calcul des aspects ne
+              sont pas disponibles dans
+              les données de ce thème
+              natal.
             </Text>
           </View>
         </View>
@@ -863,10 +985,11 @@ export default function PdfAspects({
     );
   }
 
-  const aspectPages = splitIntoPages(
-    calculatedAspects,
-    3
-  );
+  const aspectPages =
+    splitIntoPages(
+      calculatedAspects,
+      2
+    );
 
   const harmoniousCount =
     calculatedAspects.filter(
@@ -879,19 +1002,24 @@ export default function PdfAspects({
     calculatedAspects.filter(
       ({ aspect }) =>
         aspect.name === "Carré" ||
-        aspect.name === "Opposition"
+        aspect.name ===
+          "Opposition"
     ).length;
 
   const conjunctionCount =
     calculatedAspects.filter(
       ({ aspect }) =>
-        aspect.name === "Conjonction"
+        aspect.name ===
+        "Conjonction"
     ).length;
 
   return (
     <>
       {aspectPages.map(
-        (pageAspects, pageIndex) => {
+        (
+          pageAspects,
+          pageIndex
+        ) => {
           return (
             <Page
               key={`aspects-page-${pageIndex}`}
@@ -900,48 +1028,74 @@ export default function PdfAspects({
             >
               <PdfBrandHeader />
 
-              <View style={styles.content}>
-                <View style={styles.badge}>
-                  <Text style={styles.badgeText}>
+              <View
+                style={styles.content}
+              >
+                <View
+                  style={styles.badge}
+                >
+                  <Text
+                    style={
+                      styles.badgeText
+                    }
+                  >
                     Analyse Premium
                   </Text>
                 </View>
 
-                <Text style={styles.title}>
+                <Text
+                  style={styles.title}
+                >
                   {pageIndex === 0
                     ? "Vos aspects planétaires"
                     : "Vos aspects planétaires — suite"}
                 </Text>
 
                 {pageIndex === 0 ? (
-                  <Text style={styles.intro}>
-                    Les aspects décrivent les échanges
-                    entre les planètes de votre thème.
-                    Ils révèlent vos talents naturels,
-                    vos tensions intérieures et les
-                    mécanismes qui participent à votre
+                  <Text
+                    style={styles.intro}
+                  >
+                    Les aspects décrivent
+                    les échanges entre les
+                    planètes de votre
+                    thème. Ils révèlent vos
+                    talents naturels, vos
+                    tensions intérieures
+                    et les mécanismes qui
+                    participent à votre
                     évolution personnelle.
                   </Text>
                 ) : (
-                  <Text style={styles.continuation}>
-                    Partie {pageIndex + 1} sur{" "}
+                  <Text
+                    style={
+                      styles.continuation
+                    }
+                  >
+                    Partie{" "}
+                    {pageIndex + 1} sur{" "}
                     {aspectPages.length}
                   </Text>
                 )}
 
                 {pageAspects.map(
-                  (calculatedAspect) => {
+                  (
+                    calculatedAspect
+                  ) => {
                     const firstPlanet =
                       PLANET_NAMES[
-                        calculatedAspect.planetA
+                        calculatedAspect
+                          .planetA
                       ] ||
-                      calculatedAspect.planetA;
+                      calculatedAspect
+                        .planetA;
 
                     const secondPlanet =
                       PLANET_NAMES[
-                        calculatedAspect.planetB
+                        calculatedAspect
+                          .planetB
                       ] ||
-                      calculatedAspect.planetB;
+                      calculatedAspect
+                        .planetB;
 
                     const interpretation =
                       getAspectInterpretation(
@@ -951,63 +1105,94 @@ export default function PdfAspects({
                     return (
                       <View
                         key={[
-                          calculatedAspect.planetA,
-                          calculatedAspect.aspect.name,
-                          calculatedAspect.planetB,
+                          calculatedAspect
+                            .planetA,
+                          calculatedAspect
+                            .aspect.name,
+                          calculatedAspect
+                            .planetB,
                         ].join("-")}
-                        style={styles.aspectCard}
+                        style={
+                          styles.aspectCard
+                        }
                         wrap={false}
                       >
                         <View
-                          style={styles.goldAccent}
+                          style={
+                            styles.goldAccent
+                          }
                         />
 
-                        <View style={styles.aspectHeader}>
-                          <View style={styles.symbolBox}>
-                            <Text style={styles.symbol}>
-                              {
-                                calculatedAspect.aspect
-                                  .symbol
+                        <View
+                          style={
+                            styles.aspectHeader
+                          }
+                        >
+                          <View
+                            style={
+                              styles.aspectHeading
+                            }
+                          >
+                            <Text
+                              style={
+                                styles.planetNames
                               }
-                            </Text>
-                          </View>
-
-                          <View style={styles.aspectHeading}>
-                            <Text style={styles.planetNames}>
+                            >
                               {firstPlanet}{" "}
                               {
-                                calculatedAspect.aspect
+                                calculatedAspect
+                                  .aspect
                                   .name
                               }{" "}
                               {secondPlanet}
                             </Text>
 
-                            <Text style={styles.aspectName}>
+                            <Text
+                              style={
+                                styles.aspectName
+                              }
+                            >
                               {
-                                calculatedAspect.aspect
+                                calculatedAspect
+                                  .aspect
                                   .nature
                               }{" "}
                               · Aspect{" "}
                               {
-                                calculatedAspect.aspect
+                                calculatedAspect
+                                  .aspect
                                   .category
                               }
                             </Text>
                           </View>
 
-                          <View style={styles.orbBox}>
-                            <Text style={styles.orbLabel}>
+                          <View
+                            style={
+                              styles.orbBox
+                            }
+                          >
+                            <Text
+                              style={
+                                styles.orbLabel
+                              }
+                            >
                               Orbe
                             </Text>
 
-                            <Text style={styles.orbValue}>
+                            <Text
+                              style={
+                                styles.orbValue
+                              }
+                            >
                               {formatOrb(
                                 calculatedAspect.orb
                               )}
                             </Text>
 
                             <Text
-                              style={styles.strengthValue}
+                              style={
+                                styles.strengthValue
+                              }
                             >
                               {getAspectStrength(
                                 calculatedAspect
@@ -1016,33 +1201,72 @@ export default function PdfAspects({
                           </View>
                         </View>
 
-                        <View style={styles.separator} />
+                        <View
+                          style={
+                            styles.separator
+                          }
+                        />
 
-                        <Text style={styles.sectionLabel}>
-                          Signification de l’aspect
+                        <Text
+                          style={
+                            styles.sectionLabel
+                          }
+                        >
+                          Signification de
+                          l’aspect
                         </Text>
 
-                        <Text style={styles.paragraph}>
-                          {interpretation.introduction}
+                        <Text
+                          style={
+                            styles.paragraph
+                          }
+                        >
+                          {
+                            interpretation.introduction
+                          }
                         </Text>
 
-                        <Text style={styles.sectionLabel}>
-                          Manifestation dans votre vie
+                        <Text
+                          style={
+                            styles.sectionLabel
+                          }
+                        >
+                          Manifestation dans
+                          votre vie
                         </Text>
 
-                        <Text style={styles.paragraph}>
-                          {interpretation.manifestation}
+                        <Text
+                          style={
+                            styles.paragraph
+                          }
+                        >
+                          {
+                            interpretation.manifestation
+                          }
                         </Text>
 
-                        <View style={styles.evolutionBox}>
-                          <Text style={styles.sectionLabel}>
-                            Votre clé d’évolution
+                        <View
+                          style={
+                            styles.evolutionBox
+                          }
+                        >
+                          <Text
+                            style={
+                              styles.sectionLabel
+                            }
+                          >
+                            Votre clé
+                            d’évolution
                           </Text>
 
                           <Text
-                            style={styles.evolutionText}
+                            style={
+                              styles.evolutionText
+                            }
                           >
-                            {interpretation.evolution}
+                            {
+                              interpretation.evolution
+                            }
                           </Text>
                         </View>
                       </View>
@@ -1057,12 +1281,17 @@ export default function PdfAspects({
         }
       )}
 
-      <Page size="A4" style={styles.page}>
+      <Page
+        size="A4"
+        style={styles.page}
+      >
         <PdfBrandHeader />
 
         <View style={styles.content}>
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>
+            <Text
+              style={styles.badgeText}
+            >
               Synthèse Premium
             </Text>
           </View>
@@ -1072,73 +1301,142 @@ export default function PdfAspects({
           </Text>
 
           <Text style={styles.intro}>
-            Cette synthèse présente l’équilibre général
-            entre vos facilités naturelles, vos tensions
-            créatrices et les concentrations d’énergie
-            les plus importantes de votre thème natal.
+            Cette synthèse présente
+            l’équilibre général entre vos
+            facilités naturelles, vos
+            tensions créatrices et les
+            concentrations d’énergie les
+            plus importantes de votre
+            thème natal.
           </Text>
 
           <View style={styles.statsRow}>
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>
-                {calculatedAspects.length}
+            <View
+              style={styles.statCard}
+            >
+              <Text
+                style={styles.statValue}
+              >
+                {
+                  calculatedAspects.length
+                }
               </Text>
 
-              <Text style={styles.statLabel}>
+              <Text
+                style={styles.statLabel}
+              >
                 Aspects analysés
               </Text>
             </View>
 
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>
+            <View
+              style={styles.statCard}
+            >
+              <Text
+                style={styles.statValue}
+              >
                 {harmoniousCount}
               </Text>
 
-              <Text style={styles.statLabel}>
+              <Text
+                style={styles.statLabel}
+              >
                 Aspects harmonieux
               </Text>
             </View>
 
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>
+            <View
+              style={styles.statCard}
+            >
+              <Text
+                style={styles.statValue}
+              >
                 {dynamicCount}
               </Text>
 
-              <Text style={styles.statLabel}>
+              <Text
+                style={styles.statLabel}
+              >
                 Aspects dynamiques
               </Text>
             </View>
 
-            <View style={styles.statCard}>
-              <Text style={styles.statValue}>
+            <View
+              style={styles.statCard}
+            >
+              <Text
+                style={styles.statValue}
+              >
                 {conjunctionCount}
               </Text>
 
-              <Text style={styles.statLabel}>
+              <Text
+                style={styles.statLabel}
+              >
                 Conjonctions
               </Text>
             </View>
           </View>
 
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryTitle}>
+          <View
+            style={styles.summaryCard}
+          >
+            <Text
+              style={
+                styles.summaryTitle
+              }
+            >
               Votre dynamique générale
             </Text>
 
-            <Text style={styles.summaryText}>
+            <Text
+              style={
+                styles.summaryText
+              }
+            >
               {getGlobalSynthesis(
                 calculatedAspects
               )}
             </Text>
           </View>
 
-          <View style={styles.guidanceCard}>
-            <Text style={styles.guidanceTitle}>
-              Votre point d’attention principal
+          <View
+            style={styles.guidanceCard}
+          >
+            <Text
+              style={
+                styles.guidanceTitle
+              }
+            >
+              Votre point d’attention
+              principal
             </Text>
 
-            <Text style={styles.guidanceText}>
+            <Text
+              style={
+                styles.guidanceText
+              }
+            >
               {getGlobalGuidance(
+                calculatedAspects
+              )}
+            </Text>
+          </View>
+
+          <View
+            style={styles.finalCard}
+          >
+            <Text
+              style={styles.finalTitle}
+            >
+              Ce que révèlent ensemble
+              vos aspects planétaires
+            </Text>
+
+            <Text
+              style={styles.finalText}
+            >
+              {getFinalAspectMessage(
                 calculatedAspects
               )}
             </Text>
@@ -1149,4 +1447,4 @@ export default function PdfAspects({
       </Page>
     </>
   );
-}
+    }
