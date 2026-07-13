@@ -443,7 +443,7 @@ function getEnergyText(
     typeof content?.energy === "string" &&
     content.energy.trim().length > 0
   ) {
-    return content.energy;
+    return content.energy.trim();
   }
 
   return (
@@ -466,7 +466,7 @@ function getHouseText(
     typeof content?.influence === "string" &&
     content.influence.trim().length > 0
   ) {
-    return content.influence;
+    return content.influence.trim();
   }
 
   if (house === null) {
@@ -480,6 +480,108 @@ function getHouseText(
   return (
     FALLBACK_HOUSE_TEXT[planet] ||
     "La maison astrologique indique le domaine de vie dans lequel cette énergie cherche à s’exprimer."
+  );
+}
+
+function getPlanetStrengthItems(
+  planet: string,
+  sign: string
+): string[] {
+  const signContent =
+    getPremiumPlanetSignContent(
+      planet,
+      sign
+    );
+
+  const signStrengths =
+    getSafeItems(
+      signContent?.strengths
+    );
+
+  if (signStrengths.length > 0) {
+    return signStrengths;
+  }
+
+  return getSafeItems(
+    getPremiumPlanetStrengths(
+      planet,
+      sign
+    )
+  );
+}
+
+function getPlanetChallengeItems(
+  planet: string,
+  sign: string
+): string[] {
+  const signContent =
+    getPremiumPlanetSignContent(
+      planet,
+      sign
+    );
+
+  const signChallenges =
+    getSafeItems(
+      signContent?.challenges
+    );
+
+  if (signChallenges.length > 0) {
+    return signChallenges;
+  }
+
+  return getSafeItems(
+    getPremiumPlanetChallenges(
+      planet,
+      sign
+    )
+  );
+}
+
+function getPlanetEvolutionText(
+  planet: string,
+  sign: string
+): string {
+  const signContent =
+    getPremiumPlanetSignContent(
+      planet,
+      sign
+    );
+
+  if (
+    typeof signContent?.evolution ===
+      "string" &&
+    signContent.evolution.trim().length >
+      0
+  ) {
+    return signContent.evolution.trim();
+  }
+
+  return getPremiumPlanetEvolution(
+    planet,
+    sign
+  );
+}
+
+function getPlanetQuoteText(
+  planet: string,
+  sign: string
+): string {
+  const signContent =
+    getPremiumPlanetSignContent(
+      planet,
+      sign
+    );
+
+  if (
+    typeof signContent?.quote ===
+      "string" &&
+    signContent.quote.trim().length > 0
+  ) {
+    return signContent.quote.trim();
+  }
+
+  return getPremiumPlanetQuote(
+    planet
   );
 }
 
@@ -556,30 +658,27 @@ export default function PdfPlanet({
     );
 
   const strengths =
-    getSafeItems(
-      getPremiumPlanetStrengths(
-        planet,
-        signKey
-      )
+    getPlanetStrengthItems(
+      planet,
+      signKey
     );
 
   const challenges =
-    getSafeItems(
-      getPremiumPlanetChallenges(
-        planet,
-        signKey
-      )
+    getPlanetChallengeItems(
+      planet,
+      signKey
     );
 
   const evolutionText =
-    getPremiumPlanetEvolution(
+    getPlanetEvolutionText(
       planet,
       signKey
     );
 
   const quote =
-    getPremiumPlanetQuote(
-      planet
+    getPlanetQuoteText(
+      planet,
+      signKey
     );
 
   const meaning =
