@@ -10,6 +10,7 @@ const testPlanets = [
     sign: "Scorpio",
     degree: 25,
     longitude: 235,
+    house: 4,
     retrograde: false,
   },
   {
@@ -17,6 +18,7 @@ const testPlanets = [
     sign: "Cancer",
     degree: 23,
     longitude: 113,
+    house: 12,
     retrograde: false,
   },
   {
@@ -24,6 +26,7 @@ const testPlanets = [
     sign: "Sagittarius",
     degree: 7,
     longitude: 247,
+    house: 5,
     retrograde: false,
   },
   {
@@ -31,6 +34,7 @@ const testPlanets = [
     sign: "Scorpio",
     degree: 13,
     longitude: 223,
+    house: 4,
     retrograde: false,
   },
   {
@@ -38,6 +42,7 @@ const testPlanets = [
     sign: "Libra",
     degree: 18,
     longitude: 198,
+    house: 3,
     retrograde: false,
   },
   {
@@ -45,6 +50,7 @@ const testPlanets = [
     sign: "Scorpio",
     degree: 18,
     longitude: 228,
+    house: 4,
     retrograde: false,
   },
   {
@@ -52,6 +58,7 @@ const testPlanets = [
     sign: "Taurus",
     degree: 18,
     longitude: 48,
+    house: 10,
     retrograde: true,
   },
   {
@@ -59,6 +66,7 @@ const testPlanets = [
     sign: "Libra",
     degree: 11,
     longitude: 191,
+    house: 3,
     retrograde: false,
   },
   {
@@ -66,6 +74,7 @@ const testPlanets = [
     sign: "Sagittarius",
     degree: 0,
     longitude: 240,
+    house: 5,
     retrograde: false,
   },
   {
@@ -73,6 +82,7 @@ const testPlanets = [
     sign: "Virgo",
     degree: 29,
     longitude: 179,
+    house: 2,
     retrograde: false,
   },
 ];
@@ -80,6 +90,8 @@ const testPlanets = [
 const testAngles = {
   ascendant: 131,
   midheaven: 26,
+  descendant: 311,
+  imumCoeli: 206,
 };
 
 export default function PdfPremiumViewer() {
