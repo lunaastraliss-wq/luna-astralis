@@ -1000,21 +1000,30 @@ export default function PdfPremiumSynthesis({
             style={styles.finalCard}
             wrap={false}
           >
-            <Text style={styles.finalTitle}>
-              Votre portrait Premium
-            </Text>
+           <Text style={styles.finalTitle}>
+  Votre portrait Premium
+</Text>
 
-            <Text style={styles.finalText}>
-              {createFinalSynthesis(
-                sun,
-                moon,
-                venus,
-                mars,
-                saturn,
-                dominantElement,
-                dominantModality
-              )}
-            </Text>
+<Text style={styles.intro}>
+  Après avoir exploré les différentes dimensions de votre thème natal,
+  cette synthèse rassemble les grandes lignes qui définissent votre
+  personnalité, vos ressources naturelles et vos principaux axes
+  d'évolution. Votre thème ne se résume jamais à une seule planète ou à
+  un seul signe : il prend tout son sens lorsque l'ensemble de ses
+  composantes est observé dans une vision globale et cohérente.
+</Text>
+
+<Text style={styles.finalText}>
+  {createFinalSynthesis(
+    sun,
+    moon,
+    venus,
+    mars,
+    saturn,
+    dominantElement,
+    dominantModality
+  )}
+</Text>
           </View>
 
           <Text style={styles.closingText}>
