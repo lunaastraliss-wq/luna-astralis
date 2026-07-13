@@ -9,7 +9,7 @@ import { PLANET_ICONS } from "./SignaturePdfAssets";
 import { pdfStyles } from "./SignaturePdfStyles";
 
 import type {
-  PremiumPdfPlanetProps,
+  SignaturePdfPlanetProps,
 } from "./SignaturePdfTypes";
 
 import {
