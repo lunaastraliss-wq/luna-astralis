@@ -208,112 +208,113 @@ const styles = StyleSheet.create({
     borderColor: "#39415d",
   },
 
-  cardHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 7,
-  },
+ cardHeader: {
+  marginBottom: 8,
+},
 
-  cardTitle: {
-    color: "#f4c95d",
-    fontSize: 11,
-  },
+cardTitle: {
+  color: "#f4c95d",
+  fontSize: 11,
+  lineHeight: 1.25,
+  marginBottom: 4,
+},
 
-  cardSubtitle: {
-    color: "#858ca0",
-    fontSize: 7.3,
-    textTransform: "uppercase",
-  },
+cardSubtitle: {
+  color: "#aeb4c4",
+  fontSize: 6.8,
+  lineHeight: 1.35,
+  textTransform: "uppercase",
+  letterSpacing: 0.35,
+},
 
-  cardText: {
-    color: "#e9e4d8",
-    fontSize: 8.9,
-    lineHeight: 1.52,
-  },
+cardText: {
+  color: "#e9e4d8",
+  fontSize: 8.9,
+  lineHeight: 1.52,
+},
 
-  emphasisCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    marginBottom: 13,
-    backgroundColor: "#161f3d",
-    borderWidth: 1,
-    borderColor: "#b88b3f",
-  },
+emphasisCard: {
+  paddingVertical: 16,
+  paddingHorizontal: 18,
+  marginBottom: 13,
+  backgroundColor: "#161f3d",
+  borderWidth: 1,
+  borderColor: "#b88b3f",
+},
 
-  emphasisTitle: {
-    color: "#f4c95d",
-    fontSize: 11.5,
-    textAlign: "center",
-    marginBottom: 8,
-  },
+emphasisTitle: {
+  color: "#f4c95d",
+  fontSize: 11.5,
+  textAlign: "center",
+  marginBottom: 8,
+},
 
-  emphasisText: {
-    color: "#e9e4d8",
-    fontSize: 9,
-    lineHeight: 1.56,
-    textAlign: "center",
-  },
+emphasisText: {
+  color: "#e9e4d8",
+  fontSize: 9,
+  lineHeight: 1.56,
+  textAlign: "center",
+},
 
-  twoColumns: {
-    flexDirection: "row",
-    marginBottom: 12,
-  },
+twoColumns: {
+  flexDirection: "row",
+  marginBottom: 12,
+},
 
-  leftColumn: {
-    width: "49%",
-    marginRight: "2%",
-  },
+leftColumn: {
+  width: "49%",
+  marginRight: "2%",
+},
 
-  rightColumn: {
-    width: "49%",
-  },
+rightColumn: {
+  width: "49%",
+},
 
-  smallCard: {
-    minHeight: 155,
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    backgroundColor: "#111a34",
-    borderWidth: 1,
-    borderColor: "#39415d",
-  },
+smallCard: {
+  minHeight: 155,
+  paddingVertical: 14,
+  paddingHorizontal: 14,
+  backgroundColor: "#111a34",
+  borderWidth: 1,
+  borderColor: "#39415d",
+},
 
-  smallTitle: {
-    color: "#f4c95d",
-    fontSize: 10.2,
-    textAlign: "center",
-    marginBottom: 8,
-  },
+smallTitle: {
+  color: "#f4c95d",
+  fontSize: 10.2,
+  textAlign: "center",
+  marginBottom: 8,
+},
 
-  smallText: {
-    color: "#e9e4d8",
-    fontSize: 8.6,
-    lineHeight: 1.5,
-    textAlign: "center",
-  },
+smallText: {
+  color: "#e9e4d8",
+  fontSize: 8.6,
+  lineHeight: 1.5,
+  textAlign: "center",
+},
 
-  synthesisCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
-    marginTop: 5,
-    backgroundColor: "#161f3d",
-    borderWidth: 1,
-    borderColor: "#b88b3f",
-  },
+synthesisCard: {
+  paddingVertical: 17,
+  paddingHorizontal: 19,
+  marginTop: 5,
+  backgroundColor: "#161f3d",
+  borderWidth: 1,
+  borderColor: "#b88b3f",
+},
 
-  synthesisTitle: {
-    color: "#f4c95d",
-    fontSize: 11.5,
-    textAlign: "center",
-    marginBottom: 8,
-  },
+synthesisTitle: {
+  color: "#f4c95d",
+  fontSize: 11.5,
+  textAlign: "center",
+  marginBottom: 8,
+},
 
-  synthesisText: {
-    color: "#e9e4d8",
-    fontSize: 9.1,
-    lineHeight: 1.58,
-    textAlign: "center",
-  },
+synthesisText: {
+  color: "#e9e4d8",
+  fontSize: 9.1,
+  lineHeight: 1.58,
+  textAlign: "center",
+},
 });
 
 function getPlanet(
@@ -618,32 +619,27 @@ export default function PdfRelationships({
             à travers les relations.
           </Text>
 
-          {insights.map(
-            (insight) => (
-              <View
-                key={insight.title}
-                style={styles.card}
-                wrap={false}
-              >
-                <View style={styles.cardHeader}>
-                  <Text style={styles.cardTitle}>
-                    {insight.title}
-                  </Text>
+          {insights.map((insight) => (
+  <View
+    key={insight.title}
+    style={styles.card}
+    wrap={false}
+  >
+    <View style={styles.cardHeader}>
+      <Text style={styles.cardTitle}>
+        {insight.title}
+      </Text>
 
-                  <Text
-                    style={styles.cardSubtitle}
-                  >
-                    {insight.subtitle}
-                  </Text>
-                </View>
+      <Text style={styles.cardSubtitle}>
+        {insight.subtitle}
+      </Text>
+    </View>
 
-                <Text style={styles.cardText}>
-                  {insight.text}
-                </Text>
-              </View>
-            )
-          )}
-
+    <Text style={styles.cardText}>
+      {insight.text}
+    </Text>
+  </View>
+))}
           <View
             style={styles.emphasisCard}
             wrap={false}
