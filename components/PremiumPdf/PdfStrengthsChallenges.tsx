@@ -1076,8 +1076,7 @@ export default function PdfStrengthsChallenges({
               </View>
             </View>
           </View>
-
-         <View
+<View
   style={styles.synthesisCard}
   wrap={false}
 >
@@ -1132,10 +1131,49 @@ export default function PdfStrengthsChallenges({
     vers une réalisation plus authentique de vous-même.
   </Text>
 </View>
-        </View>
 
-        <PdfPageFooter />
-      </Page>
-    </>
-  );
+<View
+  style={styles.card}
+  wrap={false}
+>
+  <View style={styles.cardHeader}>
+    <Text style={styles.cardTitle}>
+      Comment accompagner votre évolution
+    </Text>
+
+    <Text style={styles.cardTag}>
+      Clés pratiques
+    </Text>
+  </View>
+
+  <Text style={styles.cardText}>
+    • Observez les situations qui déclenchent toujours
+    les mêmes réactions. Elles indiquent souvent un
+    besoin important qui demande à être reconnu plutôt
+    que repoussé.
+
+    {"\n\n"}
+
+    • Appuyez-vous sur vos qualités dominantes pour
+    avancer, mais accordez aussi de l’attention aux
+    énergies moins spontanées de votre thème. Elles
+    peuvent devenir de nouvelles ressources avec le
+    temps et l’expérience.
+
+    {"\n\n"}
+
+    • Lorsque vous traversez une période de changement,
+    demandez-vous ce que cette étape vous invite à
+    comprendre, à transformer ou à exprimer plus
+    librement. Votre évolution devient plus consciente
+    lorsque vous donnez un sens personnel à vos choix.
+  </Text>
+</View>
+
+</View>
+
+<PdfPageFooter />
+</Page>
+</>
+);
 }
