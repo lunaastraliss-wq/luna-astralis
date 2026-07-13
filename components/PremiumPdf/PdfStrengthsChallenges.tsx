@@ -1077,7 +1077,10 @@ export default function PdfStrengthsChallenges({
             </View>
           </View>
 
-         <View style={styles.synthesisCard}>
+         <View
+  style={styles.synthesisCard}
+  wrap={false}
+>
   <Text style={styles.synthesisTitle}>
     Votre potentiel d’évolution
   </Text>
