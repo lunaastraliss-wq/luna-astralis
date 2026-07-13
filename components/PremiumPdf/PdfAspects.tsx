@@ -435,6 +435,28 @@ const styles = StyleSheet.create({
     lineHeight: 1.55,
     textAlign: "center",
   },
+  practiceCard: {
+  marginTop: 14,
+  paddingVertical: 16,
+  paddingHorizontal: 18,
+  backgroundColor: "#161f3d",
+  borderWidth: 1,
+  borderColor: "#b88b3f",
+},
+
+practiceTitle: {
+  color: "#f4c95d",
+  fontSize: 11,
+  textAlign: "center",
+  marginBottom: 8,
+},
+
+practiceText: {
+  color: "#e9e4d8",
+  fontSize: 9,
+  lineHeight: 1.55,
+  textAlign: "center",
+},
 });
 
 function normalizeLongitude(
@@ -1441,6 +1463,24 @@ export default function PdfAspects({
               )}
             </Text>
           </View>
+          <View
+  style={styles.practiceCard}
+  wrap={false}
+>
+  <Text style={styles.practiceTitle}>
+    Comment utiliser cette analyse
+  </Text>
+
+  <Text style={styles.practiceText}>
+    Les aspects planétaires décrivent des tendances qui évoluent avec
+    votre expérience de vie. Les aspects harmonieux représentent vos
+    ressources naturelles, tandis que les aspects dynamiques révèlent
+    les domaines où votre progression peut être la plus profonde.
+    En observant ces mécanismes avec recul, vous comprendrez mieux vos
+    réactions, vos choix et la manière dont vos différentes énergies
+    peuvent collaborer pour soutenir votre évolution.
+  </Text>
+</View>
         </View>
 
         <PdfPageFooter />
