@@ -34,32 +34,32 @@ import {
 } from "./PlanetUtils";
 
 import {
-  getPremiumPlanetSignContent,
-} from "./PremiumPlanetSignTexts";
+  getSignaturePlanetSignContent,
+} from "./SignaturePlanetSignTexts";
 
 import {
   getHouseDisplayName,
-  getPremiumPlanetHouseContent,
-} from "./PremiumPlanetHouseTexts";
+  getSignaturePlanetHouseContent,
+} from "./SignaturePlanetHouseTexts";
 
 import {
-  getPremiumPlanetStrengths,
-} from "./PremiumPlanetStrengths";
+  getSignaturePlanetStrengths,
+} from "./SignaturePlanetStrengths";
 
 import {
-  getPremiumPlanetChallenges,
-} from "./PremiumPlanetChallenges";
+  getSignaturePlanetChallenges,
+} from "./SignaturePlanetChallenges";
 
 import {
-  getPremiumPlanetEvolution,
-} from "./PremiumPlanetEvolution";
+  getSignaturePlanetEvolution,
+} from "./SignaturePlanetEvolution";
 
 import {
-  getPremiumPlanetQuote,
-} from "./PremiumPlanetQuotes";
+  getSignaturePlanetQuote,
+} from "./SignaturePlanetQuotes";
 
-import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
+import PdfBrandHeader from "./PdfSignatureBrandHeader";
+import PdfPageFooter from "./PdfSignaturePageFooter";
 
 const styles = StyleSheet.create({
   content: {
@@ -433,7 +433,7 @@ function getEnergyText(
   sign: string
 ): string {
   const content =
-    getPremiumPlanetSignContent(
+    getSignaturePlanetSignContent(
       planet,
       sign
     );
@@ -456,7 +456,7 @@ function getHouseText(
   house: number | null
 ): string {
   const content =
-    getPremiumPlanetHouseContent(
+    getSignaturePlanetHouseContent(
       planet,
       house
     );
@@ -487,7 +487,7 @@ function getPlanetStrengthItems(
   sign: string
 ): string[] {
   const signContent =
-    getPremiumPlanetSignContent(
+    getSignaturePlanetSignContent(
       planet,
       sign
     );
@@ -502,7 +502,7 @@ function getPlanetStrengthItems(
   }
 
   return getSafeItems(
-    getPremiumPlanetStrengths(
+    getSignaturePlanetStrengths(
       planet,
       sign
     )
@@ -514,7 +514,7 @@ function getPlanetChallengeItems(
   sign: string
 ): string[] {
   const signContent =
-    getPremiumPlanetSignContent(
+    getSignaturePlanetSignContent(
       planet,
       sign
     );
@@ -529,7 +529,7 @@ function getPlanetChallengeItems(
   }
 
   return getSafeItems(
-    getPremiumPlanetChallenges(
+    getSignaturePlanetChallenges(
       planet,
       sign
     )
@@ -541,7 +541,7 @@ function getPlanetEvolutionText(
   sign: string
 ): string {
   const signContent =
-    getPremiumPlanetSignContent(
+    getSignaturePlanetSignContent(
       planet,
       sign
     );
@@ -555,7 +555,7 @@ function getPlanetEvolutionText(
     return signContent.evolution.trim();
   }
 
-  return getPremiumPlanetEvolution(
+  return getSignaturePlanetEvolution(
     planet,
     sign
   );
@@ -566,7 +566,7 @@ function getPlanetQuoteText(
   sign: string
 ): string {
   const signContent =
-    getPremiumPlanetSignContent(
+    getSignaturePlanetSignContent(
       planet,
       sign
     );
@@ -579,7 +579,7 @@ function getPlanetQuoteText(
     return signContent.quote.trim();
   }
 
-  return getPremiumPlanetQuote(
+  return getSignaturePlanetQuote(
     planet
   );
 }
