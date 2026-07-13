@@ -996,43 +996,85 @@ export default function PdfPremiumSynthesis({
             </Text>
           </View>
 
-          <View
-            style={styles.finalCard}
-            wrap={false}
-          >
-           <Text style={styles.finalTitle}>
-  Votre portrait Premium
-</Text>
+         <View
+  <View
+  style={styles.card}
+  wrap={false}
+>
+  <View style={styles.cardHeader}>
+    <Text style={styles.cardTitle}>
+      Vos grands équilibres
+    </Text>
 
-<Text style={styles.intro}>
-  Après avoir exploré les différentes dimensions de votre thème natal,
-  cette synthèse rassemble les grandes lignes qui définissent votre
-  personnalité, vos ressources naturelles et vos principaux axes
-  d'évolution. Votre thème ne se résume jamais à une seule planète ou à
-  un seul signe : il prend tout son sens lorsque l'ensemble de ses
-  composantes est observé dans une vision globale et cohérente.
-</Text>
+    <Text style={styles.cardTag}>
+      Synthèse personnelle
+    </Text>
+  </View>
 
-<Text style={styles.finalText}>
-  {createFinalSynthesis(
-    sun,
-    moon,
-    venus,
-    mars,
-    saturn,
-    dominantElement,
-    dominantModality
-  )}
-</Text>
-          </View>
+  <Text style={styles.cardText}>
+    • Votre thème révèle une personnalité qui progresse en conciliant
+    profondeur, intuition et détermination. Ces qualités deviennent vos
+    plus grandes forces lorsqu'elles s'expriment avec confiance.
 
-          <Text style={styles.closingText}>
-            Relisez ce rapport à différents moments de
-            votre vie. Certaines interprétations
-            prendront davantage de sens au fil de vos
-            expériences, de vos décisions et de votre
-            évolution personnelle.
-          </Text>
+    {"\n\n"}
+
+    • Les défis rencontrés au cours de votre vie ne constituent pas des
+    limites, mais des occasions de mieux comprendre vos besoins et
+    d'affirmer votre véritable identité.
+
+    {"\n\n"}
+
+    • Votre équilibre se construit lorsque vos émotions, votre réflexion
+    et vos décisions avancent dans une même direction, sans qu'aucune de
+    ces dimensions ne prenne systématiquement le dessus.
+
+    {"\n\n"}
+
+    • Votre carte du ciel met en lumière un potentiel d'évolution durable.
+    En restant fidèle à vos valeurs tout en accueillant les changements,
+    vous développez progressivement la version la plus accomplie de
+    vous-même.
+  </Text>
+</View>
+
+<View
+  style={styles.finalCard}
+  wrap={false}
+>
+  <Text style={styles.finalTitle}>
+    Votre portrait Premium
+  </Text>
+
+  <Text style={styles.intro}>
+    Au fil des pages, votre thème natal s'est révélé sous différents
+    angles : votre personnalité, votre sensibilité, vos talents, vos
+    relations, vos défis et vos aspirations profondes. Pris séparément,
+    chacun de ces éléments apporte un éclairage précieux. Réunis, ils
+    composent une signature astrologique unique où chaque énergie trouve
+    sa place dans un ensemble cohérent. Cette synthèse rassemble les
+    principaux enseignements de votre carte du ciel afin de vous offrir
+    une vision globale de votre potentiel, de vos ressources naturelles
+    et des chemins qui peuvent accompagner votre évolution.
+  </Text>
+
+  <Text style={styles.finalText}>
+    {createFinalSynthesis(
+      sun,
+      moon,
+      venus,
+      mars,
+      saturn,
+      dominantElement,
+      dominantModality
+    )}
+  </Text>
+</View>
+
+<Text style={styles.closingText}>
+  Relisez ce rapport à différents moments de votre vie. Certaines
+  interprétations prendront davantage de sens au fil de vos expériences,
+  de vos décisions et de votre évolution personnelle.
+</Text>
         </View>
 
         <PdfPageFooter />
