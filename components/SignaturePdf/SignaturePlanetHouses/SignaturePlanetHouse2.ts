@@ -1,1 +1,55 @@
+import type {
+  SignatureHousePlanetTexts,
+} from "./SignaturePlanetHouseTypes";
 
+export const SIGNATURE_PLANET_HOUSE_2_TEXTS: SignatureHousePlanetTexts = {
+  Sun: {
+    influence:
+      "Votre Soleil en Maison II relie fortement votre identité à vos valeurs, à vos ressources et à votre besoin de construire une sécurité durable. Vous cherchez à développer des talents concrets et à créer une base matérielle ou intérieure qui vous permette de vous sentir stable. Votre confiance augmente lorsque vous reconnaissez ce que vous possédez déjà : vos capacités, votre endurance, votre savoir-faire et votre manière personnelle de produire de la valeur. Vous pouvez toutefois être tenté de mesurer votre importance à travers vos résultats, vos possessions ou la reconnaissance matérielle. Votre évolution consiste à bâtir une estime de vous-même suffisamment solide pour ne pas dépendre uniquement de ce que vous réussissez à accumuler.",
+  },
+
+  Moon: {
+    influence:
+      "Votre Lune en Maison II relie profondément votre sécurité émotionnelle à vos ressources, à vos valeurs et à votre stabilité. Vous ressentez le besoin de construire un environnement fiable qui vous permette d'exprimer vos émotions avec confiance. Les biens matériels peuvent représenter davantage qu'un simple confort : ils deviennent parfois un symbole de protection ou de continuité. Votre intuition peut également vous aider à reconnaître les occasions qui soutiennent votre équilibre. Votre évolution consiste à développer une sécurité intérieure qui ne dépend pas uniquement de ce que vous possédez, mais aussi de la confiance que vous accordez à vos propres qualités.",
+  },
+
+  Mercury: {
+    influence:
+      "Votre Mercure en Maison II met votre intelligence, votre sens pratique et vos connaissances au service de la création de valeur. Vous aimez comprendre le fonctionnement des choses afin de mieux utiliser vos compétences et vos ressources. Vous pouvez développer un talent particulier pour les finances, les négociations, le commerce ou la gestion des informations utiles. Votre réflexion influence directement vos décisions matérielles. Votre défi consiste à ne pas suranalyser chaque choix ou à accorder une valeur excessive aux aspects financiers. Votre potentiel grandit lorsque vous utilisez vos connaissances pour construire une stabilité durable.",
+  },
+
+  Venus: {
+    influence:
+      "Votre Vénus en Maison II favorise une relation harmonieuse avec les ressources, les plaisirs et les valeurs personnelles. Vous appréciez naturellement la qualité, le confort et tout ce qui nourrit votre sentiment de bien-être. Vous pouvez attirer plus facilement certaines opportunités matérielles grâce à votre sens des relations ou de l'esthétique. Cette position encourage également le développement de talents artistiques ou créatifs pouvant produire une valeur concrète. Votre défi consiste à éviter de rechercher uniquement la sécurité à travers les possessions. Votre véritable richesse grandit lorsque vos valeurs intérieures guident vos choix matériels.",
+  },
+
+  Mars: {
+    influence:
+      "Votre Mars en Maison II vous pousse à agir avec détermination pour construire votre sécurité matérielle et défendre ce qui compte pour vous. Vous êtes souvent prêt à fournir les efforts nécessaires afin d'obtenir une plus grande autonomie financière ou de développer vos compétences. Votre énergie augmente lorsque vous poursuivez un objectif concret. Cette position peut cependant provoquer des dépenses impulsives ou des conflits liés à l'argent et aux valeurs. Votre évolution consiste à utiliser votre volonté avec stratégie afin de bâtir une stabilité durable plutôt que de rechercher des résultats immédiats.",
+  },
+
+  Jupiter: {
+    influence:
+      "Votre Jupiter en Maison II favorise l'expansion de vos ressources, de vos talents et de votre confiance en vos capacités. Vous avez souvent le sentiment que la vie vous offre des occasions de progresser matériellement lorsque vous développez vos qualités avec générosité et ouverture. Vous pouvez posséder un réel potentiel pour créer de l'abondance, à condition de conserver un bon sens des proportions. Votre défi consiste à éviter les excès de confiance ou les dépenses irréfléchies. Votre prospérité devient plus solide lorsqu'elle repose sur une gestion équilibrée de vos ressources.",
+  },
+
+  Saturn: {
+    influence:
+      "Votre Saturne en Maison II vous invite à construire votre sécurité avec patience, discipline et persévérance. Les résultats matériels peuvent demander davantage de temps, mais ils reposent souvent sur des bases solides. Vous développez progressivement une grande capacité de gestion, de responsabilité et de maîtrise de vos ressources. Vous pouvez parfois craindre le manque ou vous montrer très prudent dans vos décisions financières. Votre évolution consiste à transformer cette prudence en confiance acquise par l'expérience. Votre stabilité grandit lorsque vous reconnaissez pleinement la valeur de vos compétences.",
+  },
+
+  Uranus: {
+    influence:
+      "Votre Uranus en Maison II apporte une approche originale des ressources, des revenus et des valeurs personnelles. Vous pouvez gagner votre vie d'une manière inhabituelle ou rechercher une plus grande liberté financière grâce à des activités innovantes. Vos priorités matérielles évoluent souvent au fil de votre développement personnel. Cette position favorise l'inventivité mais peut également entraîner des variations importantes dans les revenus ou les dépenses. Votre évolution consiste à concilier indépendance et stabilité afin de préserver votre liberté sans fragiliser votre sécurité.",
+  },
+
+  Neptune: {
+    influence:
+      "Votre Neptune en Maison II donne une dimension intuitive et idéaliste à votre rapport aux ressources. Vous accordez souvent davantage d'importance au sens profond de ce que vous possédez qu'à sa simple valeur matérielle. Vos talents créatifs, artistiques ou spirituels peuvent devenir une véritable richesse lorsqu'ils sont développés concrètement. Vous devez toutefois rester vigilant face aux illusions financières ou au manque de réalisme dans certaines décisions. Votre évolution consiste à unir inspiration et gestion responsable afin de donner une forme concrète à vos aspirations.",
+  },
+
+  Pluto: {
+    influence:
+      "Votre Pluton en Maison II transforme profondément votre relation aux ressources, à la sécurité et aux valeurs personnelles. Vous pouvez traverser des périodes de pertes, de reconstruction ou de grands changements qui modifient votre manière de percevoir l'abondance. Cette position développe une remarquable capacité de résilience ainsi qu'un puissant instinct pour reconnaître ce qui possède une véritable valeur. Votre défi consiste à ne pas chercher le contrôle absolu des ressources par peur du manque. Votre puissance grandit lorsque vous comprenez que votre véritable richesse réside autant dans votre force intérieure que dans ce que vous possédez.",
+  },
+};
