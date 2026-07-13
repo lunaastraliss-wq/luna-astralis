@@ -639,13 +639,16 @@ console.log(
     const planets =
       (chart as any)
         ?.planets || [];
-
     console.log(
-  "CELESTINE_PLANETS",
-  JSON.stringify(planets, null, 2)
+  "PLANETS",
+  JSON.stringify(
+    planets,
+    null,
+    2
+  )
 );
 
-    const angles =
+       const angles =
       (chart as any)
         ?.angles || {};
 
