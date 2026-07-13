@@ -5,7 +5,6 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-./Pr
 import { PLANET_ICONS } from "./SignaturePdfAssets";
 import { pdfStyles } from "./SignaturePdfStyles";
 
