@@ -7,7 +7,6 @@ import {
 
 import { pdfStyles } from "./PremiumPdfStyles";
 import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -471,7 +470,6 @@ export default function PdfWheelGuide() {
         </Text>
       </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
 }
