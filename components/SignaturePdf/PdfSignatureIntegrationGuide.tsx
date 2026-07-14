@@ -17,9 +17,9 @@ import {
 
 import {
   pdfStyles,
-} from "../PremiumPdf/PremiumPdfStyles";
+} from "./SignaturePdfStyles";
 
-import PdfBrandHeader from "../PremiumPdf/PdfBrandHeader";
+import PdfSignatureBrandHeader from "./PdfSignatureBrandHeader";
 import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 /*
@@ -496,6 +496,37 @@ const SATURN_GUIDANCE: Record<string, string> = {
 
   Pisces:
     "Votre maîtrise grandit lorsque votre sensibilité est soutenue par des limites simples et stables.",
+
+};
+
+const ELEMENT_BY_SIGN: Record<string, "Feu" | "Terre" | "Air" | "Eau"> = {
+  Aries: "Feu",
+  Leo: "Feu",
+  Sagittarius: "Feu",
+  Taurus: "Terre",
+  Virgo: "Terre",
+  Capricorn: "Terre",
+  Gemini: "Air",
+  Libra: "Air",
+  Aquarius: "Air",
+  Cancer: "Eau",
+  Scorpio: "Eau",
+  Pisces: "Eau",
+};
+
+const MODALITY_BY_SIGN: Record<string, "Cardinal" | "Fixe" | "Mutable"> = {
+  Aries: "Cardinal",
+  Cancer: "Cardinal",
+  Libra: "Cardinal",
+  Capricorn: "Cardinal",
+  Taurus: "Fixe",
+  Leo: "Fixe",
+  Scorpio: "Fixe",
+  Aquarius: "Fixe",
+  Gemini: "Mutable",
+  Virgo: "Mutable",
+  Sagittarius: "Mutable",
+  Pisces: "Mutable",
 };
 
 /*
@@ -606,6 +637,160 @@ function getDisplayName(
   return typeof firstName === "string"
     ? firstName.trim()
     : "";
+}
+
+
+function getElement(
+  sign: string | undefined
+): string {
+  return sign
+    ? ELEMENT_BY_SIGN[sign] ?? ""
+    : "";
+}
+
+function getModality(
+  sign: string | undefined
+): string {
+  return sign
+    ? MODALITY_BY_SIGN[sign] ?? ""
+    : "";
+}
+
+function buildCoreIntegration(
+  sun?: PlanetData,
+  moon?: PlanetData,
+  ascendantSign?: string
+): string {
+  const sunSign = sun?.sign ?? "";
+  const moonSign = moon?.sign ?? "";
+  const ascSign = ascendantSign ?? "";
+
+  const sunFr = getFrenchSign(sunSign) || "non précisé";
+  const moonFr = getFrenchSign(moonSign) || "non précisé";
+  const ascFr = getFrenchSign(ascSign) || "non précisé";
+
+  const sunElement = getElement(sunSign);
+  const moonElement = getElement(moonSign);
+  const ascElement = getElement(ascSign);
+
+  if (
+    sunElement &&
+    sunElement === moonElement &&
+    sunElement === ascElement
+  ) {
+    return (
+      `Votre Soleil en ${sunFr}, votre Lune en ${moonFr} et votre Ascendant ${ascFr} appartiennent tous à l’élément ${sunElement}. ` +
+      "Votre identité, vos besoins émotionnels et votre manière d’aborder le monde parlent donc un langage semblable. " +
+      "Cette cohérence renforce votre authenticité, mais peut aussi accentuer les réflexes propres à cet élément lorsque vous êtes sous pression."
+    );
+  }
+
+  if (sunElement && sunElement === moonElement) {
+    return (
+      `Votre Soleil en ${sunFr} et votre Lune en ${moonFr} partagent l’élément ${sunElement}. ` +
+      "Votre volonté consciente et votre monde émotionnel peuvent ainsi se soutenir naturellement. " +
+      `Votre Ascendant ${ascFr}, lié à l’élément ${ascElement || "différent"}, ajoute toutefois une manière distincte de vous présenter et d’entrer dans l’action.`
+    );
+  }
+
+  if (sunElement && sunElement === ascElement) {
+    return (
+      `Votre Soleil en ${sunFr} et votre Ascendant ${ascFr} partagent l’élément ${sunElement}. ` +
+      "Ce que vous cherchez à devenir et ce que vous montrez spontanément peuvent donc paraître assez cohérents. " +
+      `Votre Lune en ${moonFr}, liée à l’élément ${moonElement || "différent"}, révèle des besoins intérieurs plus nuancés qui demandent à être reconnus.`
+    );
+  }
+
+  if (moonElement && moonElement === ascElement) {
+    return (
+      `Votre Lune en ${moonFr} et votre Ascendant ${ascFr} partagent l’élément ${moonElement}. ` +
+      "Vos réactions émotionnelles peuvent être rapidement visibles dans votre manière d’aborder les situations. " +
+      `Votre Soleil en ${sunFr}, lié à l’élément ${sunElement || "différent"}, vous invite à construire une direction consciente qui ne dépend pas uniquement de votre premier réflexe.`
+    );
+  }
+
+  return (
+    `Votre Soleil en ${sunFr}, votre Lune en ${moonFr} et votre Ascendant ${ascFr} appartiennent à des registres différents. ` +
+    "Cette diversité donne de la richesse à votre personnalité, mais elle peut aussi créer des besoins qui ne progressent pas toujours au même rythme. " +
+    "Votre intégration consiste à laisser votre identité, votre sensibilité et votre manière d’agir participer ensemble à vos décisions."
+  );
+}
+
+function buildDecisionGuidance(
+  mercury?: PlanetData,
+  mars?: PlanetData,
+  saturn?: PlanetData
+): string {
+  const mercuryFr =
+    getFrenchSign(mercury?.sign) || "non précisé";
+  const marsFr =
+    getFrenchSign(mars?.sign) || "non précisé";
+  const saturnFr =
+    getFrenchSign(saturn?.sign) || "non précisé";
+
+  const mercuryModality = getModality(mercury?.sign);
+  const marsModality = getModality(mars?.sign);
+
+  const pace =
+    mercuryModality === "Cardinal" || marsModality === "Cardinal"
+      ? "Vous pouvez ressentir le besoin de décider ou d’agir rapidement."
+      : mercuryModality === "Fixe" || marsModality === "Fixe"
+        ? "Vous avez tendance à approfondir ou à maintenir une position avant de changer de direction."
+        : "Vous pouvez ajuster rapidement votre pensée et votre action selon les informations disponibles.";
+
+  return (
+    `Mercure en ${mercuryFr} décrit votre manière de réfléchir, Mars en ${marsFr} votre passage à l’action et Saturne en ${saturnFr} votre filtre de prudence. ` +
+    `${pace} Votre meilleure décision apparaît lorsque vous laissez Mercure clarifier les faits, Mars nommer ce que vous voulez réellement et Saturne vérifier ce qui peut être soutenu dans la durée.`
+  );
+}
+
+function buildRelationshipSynthesis(
+  moon?: PlanetData,
+  venus?: PlanetData,
+  mars?: PlanetData
+): string {
+  const moonFr =
+    getFrenchSign(moon?.sign) || "non précisé";
+  const venusFr =
+    getFrenchSign(venus?.sign) || "non précisé";
+  const marsFr =
+    getFrenchSign(mars?.sign) || "non précisé";
+
+  const moonElement = getElement(moon?.sign);
+  const venusElement = getElement(venus?.sign);
+
+  const harmony =
+    moonElement &&
+    venusElement &&
+    moonElement === venusElement
+      ? "Vos besoins émotionnels et votre manière d’aimer utilisent un langage assez proche."
+      : "Vos besoins émotionnels et votre manière d’aimer ne s’expriment pas nécessairement de la même façon.";
+
+  return (
+    `Votre Lune en ${moonFr} montre ce qui vous rassure, Vénus en ${venusFr} ce que vous valorisez dans une relation et Mars en ${marsFr} la manière dont vous exprimez le désir ou le désaccord. ` +
+    `${harmony} Dans vos liens, votre équilibre grandit lorsque vous exprimez clairement vos besoins avant que Mars ne transforme une frustration silencieuse en réaction.`
+  );
+}
+
+function buildProfessionalSynthesis(
+  sun?: PlanetData,
+  jupiter?: PlanetData,
+  saturn?: PlanetData,
+  midheavenSign?: string
+): string {
+  const sunFr =
+    getFrenchSign(sun?.sign) || "non précisé";
+  const jupiterFr =
+    getFrenchSign(jupiter?.sign) || "non précisé";
+  const saturnFr =
+    getFrenchSign(saturn?.sign) || "non précisé";
+  const mcFr =
+    getFrenchSign(midheavenSign) || "non précisé";
+
+  return (
+    `Votre Soleil en ${sunFr} indique la qualité que vous cherchez à incarner, Jupiter en ${jupiterFr} la manière dont vous élargissez vos possibilités, Saturne en ${saturnFr} ce que vous construisez avec patience et le Milieu du Ciel en ${mcFr} votre direction sociale. ` +
+    "Votre progression professionnelle devient plus solide lorsque l’ambition de Jupiter reste alignée sur votre identité solaire et peut être organisée par Saturne en étapes réalistes."
+  );
 }
 
 /*
@@ -881,6 +1066,21 @@ export default function PdfSignatureIntegrationGuide({
     "Moon"
   );
 
+  const mercury = getPlanet(
+    safePlanets,
+    "Mercury"
+  );
+
+  const venus = getPlanet(
+    safePlanets,
+    "Venus"
+  );
+
+  const mars = getPlanet(
+    safePlanets,
+    "Mars"
+  );
+
   const saturn = getPlanet(
     safePlanets,
     "Saturn"
@@ -894,6 +1094,11 @@ export default function PdfSignatureIntegrationGuide({
   const ascendantSign =
     longitudeToSign(
       safeAngles.ascendant
+    );
+
+  const midheavenSign =
+    longitudeToSign(
+      safeAngles.midheaven
     );
 
   const profileSign =
@@ -920,6 +1125,35 @@ export default function PdfSignatureIntegrationGuide({
   const displayName =
     getDisplayName(firstName);
 
+  const coreIntegration =
+    buildCoreIntegration(
+      sun,
+      moon,
+      ascendantSign
+    );
+
+  const decisionGuidance =
+    buildDecisionGuidance(
+      mercury,
+      mars,
+      saturn
+    );
+
+  const relationshipSynthesis =
+    buildRelationshipSynthesis(
+      moon,
+      venus,
+      mars
+    );
+
+  const professionalSynthesis =
+    buildProfessionalSynthesis(
+      sun,
+      jupiter,
+      saturn,
+      midheavenSign
+    );
+
   return (
     <>
       {/* Page 1 — Guide personnel */}
@@ -929,7 +1163,7 @@ export default function PdfSignatureIntegrationGuide({
         style={pdfStyles.page}
         wrap={false}
       >
-        <PdfBrandHeader />
+        <PdfSignatureBrandHeader />
 
         <View style={styles.content}>
           <View style={styles.hero}>
@@ -992,6 +1226,8 @@ export default function PdfSignatureIntegrationGuide({
                 ? `${displayName}, `
                 : ""}
               {profile.introduction}
+              {"\n\n"}
+              {coreIntegration}
             </Text>
           </View>
 
@@ -1108,7 +1344,7 @@ export default function PdfSignatureIntegrationGuide({
         style={pdfStyles.page}
         wrap={false}
       >
-        <PdfBrandHeader />
+        <PdfSignatureBrandHeader />
 
         <View style={styles.content}>
           <View
@@ -1155,6 +1391,8 @@ export default function PdfSignatureIntegrationGuide({
               style={styles.paragraph}
             >
               {profile.dailyAction}
+              {"\n\n"}
+              {decisionGuidance}
             </Text>
           </View>
 
@@ -1171,6 +1409,8 @@ export default function PdfSignatureIntegrationGuide({
               style={styles.paragraph}
             >
               {profile.relationshipAction}
+              {"\n\n"}
+              {relationshipSynthesis}
             </Text>
           </View>
 
@@ -1187,6 +1427,8 @@ export default function PdfSignatureIntegrationGuide({
               style={styles.paragraph}
             >
               {profile.professionalAction}
+              {"\n\n"}
+              {professionalSynthesis}
             </Text>
           </View>
 
@@ -1203,6 +1445,8 @@ export default function PdfSignatureIntegrationGuide({
               style={styles.paragraph}
             >
               {profile.innerAction}
+              {"\n\n"}
+              {moonGuidance}
             </Text>
           </View>
         </View>
@@ -1217,7 +1461,7 @@ export default function PdfSignatureIntegrationGuide({
         style={pdfStyles.page}
         wrap={false}
       >
-        <PdfBrandHeader />
+        <PdfSignatureBrandHeader />
 
         <View style={styles.content}>
           <View
@@ -1242,11 +1486,12 @@ export default function PdfSignatureIntegrationGuide({
             >
               Le Soleil donne la direction,
               la Lune protège votre équilibre
-              émotionnel, Jupiter ouvre les
-              possibilités et Saturne construit
-              la maîtrise. Votre évolution
-              devient plus stable lorsque ces
-              quatre dimensions collaborent.
+              émotionnel, l’Ascendant décrit
+              votre première réponse au monde,
+              Jupiter ouvre les possibilités et
+              Saturne construit la maîtrise.
+              {"\n\n"}
+              {coreIntegration}
             </Text>
           </View>
 
