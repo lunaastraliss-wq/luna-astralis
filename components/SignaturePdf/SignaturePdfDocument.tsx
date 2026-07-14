@@ -21,14 +21,12 @@ import PdfSignatureStrengths from "./PdfSignatureStrengths";
 import PdfSignatureChallenges from "./PdfSignatureChallenges";
 import PdfSignatureRelationships from "./PdfSignatureRelationships";
 import PdfSignatureCareer from "./PdfSignatureCareer";
-
 import PdfSignatureLifePurpose from "./PdfSignatureLifePurpose";
 import PdfSignatureSoulPath from "./PdfSignatureSoulPath";
 import PdfSignatureInnerWorld from "./PdfSignatureInnerWorld";
 import PdfSignatureLifeBlocks from "./PdfSignatureLifeBlocks";
 import PdfSignatureHiddenTalents from "./PdfSignatureHiddenTalents";
 import PdfSignatureIntegrationGuide from "./PdfSignatureIntegrationGuide";
-
 import PdfSignatureSynthesis from "./PdfSignatureSynthesis";
 import PdfSignatureConclusion from "./PdfSignatureConclusion";
 
@@ -209,7 +207,7 @@ export default function SignaturePdfDocument({
         "Luna Astralis",
       ].join(", ")}
     >
-      {/* 1. Couverture */}
+      {/* Couverture */}
       <PdfSignatureCover
         firstName={safeFirstName}
         birthDate={safeBirthDate}
@@ -220,7 +218,7 @@ export default function SignaturePdfDocument({
         wheelImage={safeWheelImage}
       />
 
-      {/* 2. Roue astrologique */}
+      {/* Roue astrologique */}
       <PdfSignatureWheel
         firstName={safeFirstName}
         birthDate={safeBirthDate}
@@ -231,21 +229,21 @@ export default function SignaturePdfDocument({
         wheelImage={safeWheelImage}
       />
 
-      {/* 3. Guide de lecture de la roue */}
+      {/* Guide de lecture de la roue */}
       <PdfSignatureWheelGuide />
 
-      {/* 4. Introduction */}
+      {/* Introduction */}
       <PdfSignatureWelcome
         firstName={safeFirstName}
       />
 
-      {/* 5. Soleil, Lune et Ascendant */}
+      {/* Soleil, Lune et Ascendant */}
       <PdfSignatureSummary
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 6 à 15. Analyse des dix planètes */}
+      {/* Analyse des dix planètes */}
       {SIGNATURE_PLANETS.map(
         (planetName) => (
           <PdfSignaturePlanet
@@ -256,107 +254,111 @@ export default function SignaturePdfDocument({
         )
       )}
 
-      {/* 16. Répartition des éléments */}
+      {/* Répartition des éléments */}
       <PdfSignatureElements
         planets={safePlanets}
       />
 
-      {/* 17. Répartition des modalités */}
+      {/* Répartition des modalités */}
       <PdfSignatureModalities
         planets={safePlanets}
       />
 
-      {/* 18. Analyse des maisons */}
+      {/* Analyse des maisons */}
       <PdfSignatureHouses
         planets={safePlanets}
       />
 
-      {/* 19. Aspects planétaires */}
+      {/* Aspects planétaires */}
       <PdfSignatureAspects
         planets={safePlanets}
       />
 
-      {/* 20. Dominantes du thème */}
+      {/* Dominantes du thème */}
       <PdfSignatureDominants
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 21 et 22. Forces naturelles */}
+      {/* Forces naturelles */}
       <PdfSignatureStrengths
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 23 et 24. Défis d’évolution */}
+      {/* Défis d’évolution */}
       <PdfSignatureChallenges
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 25. Vie relationnelle */}
+      {/* Vie relationnelle */}
       <PdfSignatureRelationships
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 26. Carrière et vocation */}
+      {/* Carrière et vocation */}
       <PdfSignatureCareer
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 27 à 29. Mission de vie */}
+      {/* Mission de vie */}
       <PdfSignatureLifePurpose
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 30 à 32. Chemin de l’âme */}
+      {/* Chemin de l’âme */}
       <PdfSignatureSoulPath
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 33 à 35. Monde intérieur */}
+      {/* Monde intérieur */}
       <PdfSignatureInnerWorld
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 36 à 38. Blocages inconscients */}
+      {/* Blocages inconscients */}
       <PdfSignatureLifeBlocks
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 39 à 41. Talents cachés */}
+      {/* Talents cachés */}
       <PdfSignatureHiddenTalents
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 42 à 44. Guide d’intégration */}
+      {/* Guide d’intégration */}
       <PdfSignatureIntegrationGuide
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 45. Synthèse Signature */}
+      {/* Synthèse Signature */}
       <PdfSignatureSynthesis
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 46. Conclusion */}
-      <PdfSignatureConclusion />
+      {/* Conclusion personnalisée */}
+      <PdfSignatureConclusion
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
     </Document>
   );
 }
