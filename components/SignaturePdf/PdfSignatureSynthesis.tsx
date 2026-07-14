@@ -11,8 +11,8 @@ import type {
 } from "./SignaturePdfTypes";
 
 import { pdfStyles } from "./SignaturePdfStyles";
-import PdfBrandHeader from "./PdfSignatureBrandHeader";
-PdfSignaturePageFooter from "./PdfSignaturePageFooter";
+import PdfSignatureBrandHeader from "./PdfSignatureBrandHeader";
+import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 type PdfSignatureSynthesisProps = {
   firstName: string;
@@ -1506,7 +1506,7 @@ export default function PdfSignatureSynthesis({
       style={pdfStyles.page}
       wrap={false}
     >
-      <PdfBrandHeader />
+      <PdfSignatureBrandHeader />
 
       <View style={styles.content}>
         <View style={styles.header}>
