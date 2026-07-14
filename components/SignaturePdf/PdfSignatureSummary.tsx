@@ -477,12 +477,14 @@ function getPlanetSign(
   planet: SignaturePlanet | null
 ): string {
   if (!planet) {
-    return "Non précisé";
+    return "";
   }
 
   return translateSign(
     planet.sign
-  );
+  ) === "Non précisé"
+    ? ""
+    : translateSign(planet.sign);
 }
 
 function asRecord(
