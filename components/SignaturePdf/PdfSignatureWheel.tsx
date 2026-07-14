@@ -376,7 +376,7 @@ export default function PdfSignatureWheel({
         </View>
       </View>
 
-      <PdfPageFooter />
+      <PdfSignaturePageFooter />
     </Page>
   );
 }
