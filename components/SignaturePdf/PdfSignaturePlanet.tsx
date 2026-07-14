@@ -31,7 +31,7 @@ import {
   getPositionLine,
   getSafeItems,
   translateSign,
-} from "./PlanetUtils";
+} from "./SignaturePdfUtils";
 
 import {
   getSignaturePlanetSignContent,
