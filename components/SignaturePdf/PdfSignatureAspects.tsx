@@ -952,9 +952,9 @@ const styles = StyleSheet.create({
   },
 
   finalCard: {
-    marginTop: 14,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    marginTop: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#39415d",
@@ -998,9 +998,9 @@ const styles = StyleSheet.create({
   },
 
   practiceCard: {
-    marginTop: 14,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    marginTop: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     backgroundColor: "#161f3d",
     borderWidth: 1,
     borderColor: "#b88b3f",
@@ -2417,8 +2417,7 @@ export default function PdfSignatureAspects({
             style={
               styles.practiceCard
             }
-            wrap={false}
-          >
+           >
             <Text
               style={
                 styles.practiceTitle
