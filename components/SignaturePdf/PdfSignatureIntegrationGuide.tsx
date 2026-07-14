@@ -505,43 +505,47 @@ const SATURN_GUIDANCE: Record<string, string> = {
 */
 
 function normalizeSign(
-  sign: string | undefined
+  sign: unknown
 ): string {
-  if (!sign) {
+  if (typeof sign !== "string") {
     return "";
   }
 
   const trimmedSign = sign.trim();
 
+  if (!trimmedSign) {
+    return "";
+  }
+
   const entry = Object.entries(
     SIGN_NAMES
   ).find(
     ([english, french]) =>
-      english.toLowerCase() ===
-        trimmedSign.toLowerCase() ||
-      french.toLowerCase() ===
-        trimmedSign.toLowerCase()
+      english.toLowerCase() === trimmedSign.toLowerCase() ||
+      french.toLowerCase() === trimmedSign.toLowerCase()
   );
 
   return entry?.[0] ?? trimmedSign;
 }
 
 function getFrenchSign(
-  sign: string | undefined
+  sign: unknown
 ): string {
   const normalized = normalizeSign(sign);
-
-  return SIGN_NAMES[normalized] ?? sign ?? "";
+  return normalized ? (SIGN_NAMES[normalized] ?? normalized) : "";
 }
 
 function getPlanet(
   planets: SignaturePlanet[],
   name: string
 ): PlanetData | undefined {
-  const planet = planets.find(
+  const safePlanets = Array.isArray(planets) ? planets : [];
+
+  const planet = safePlanets.find(
     (item) =>
-      item.name.toLowerCase() ===
-      name.toLowerCase()
+      item &&
+      typeof item.name === "string" &&
+      item.name.toLowerCase() === name.toLowerCase()
   );
 
   if (!planet) {
@@ -552,18 +556,20 @@ function getPlanet(
     name: planet.name,
     sign: normalizeSign(planet.sign),
     house:
-      typeof planet.house === "number"
+      typeof planet.house === "number" &&
+      Number.isFinite(planet.house)
         ? planet.house
         : undefined,
     degree:
-      typeof planet.degree === "number"
+      typeof planet.degree === "number" &&
+      Number.isFinite(planet.degree)
         ? planet.degree
         : undefined,
   };
 }
 
 function longitudeToSign(
-  longitude: number
+  longitude: unknown
 ): string {
   const signs = [
     "Aries",
@@ -580,8 +586,14 @@ function longitudeToSign(
     "Pisces",
   ];
 
+  const safeLongitude =
+    typeof longitude === "number" &&
+    Number.isFinite(longitude)
+      ? longitude
+      : 0;
+
   const normalized =
-    ((longitude % 360) + 360) % 360;
+    ((safeLongitude % 360) + 360) % 360;
 
   return signs[
     Math.floor(normalized / 30)
@@ -855,29 +867,33 @@ export default function PdfSignatureIntegrationGuide({
   planets,
   angles,
 }: PdfSignatureIntegrationGuideProps) {
+  const safePlanets = Array.isArray(planets) ? planets : [];
+
+  const safeAngles = angles ?? ({ ascendant:0, midheaven:0, descendant:180, imumCoeli:180 } as SignatureAngles);
+
   const sun = getPlanet(
-    planets,
+    safePlanets,
     "Sun"
   );
 
   const moon = getPlanet(
-    planets,
+    safePlanets,
     "Moon"
   );
 
   const saturn = getPlanet(
-    planets,
+    safePlanets,
     "Saturn"
   );
 
   const jupiter = getPlanet(
-    planets,
+    safePlanets,
     "Jupiter"
   );
 
   const ascendantSign =
     longitudeToSign(
-      angles.ascendant
+      safeAngles.ascendant
     );
 
   const profileSign =
