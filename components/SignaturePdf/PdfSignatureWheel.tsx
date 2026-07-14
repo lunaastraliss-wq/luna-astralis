@@ -10,7 +10,6 @@ import { pdfStyles } from "./SignaturePdfStyles";
 import type { SignaturePdfProps } from "./SignaturePdfTypes";
 
 import PdfSignatureBrandHeader from "./PdfSignatureBrandHeader";
-import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -377,7 +376,6 @@ export default function PdfSignatureWheel({
         </View>
       </View>
 
-      <PdfSignaturePageFooter />
-    </Page>
+          </Page>
   );
 }
