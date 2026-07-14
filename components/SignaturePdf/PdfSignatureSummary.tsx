@@ -19,8 +19,8 @@ import type {
   SignatureAngles,
 } from "./SignaturePdfTypes";
 
-import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
+import PdfBrandHeader from "./PdfSignatureBrandHeader";
+import PdfPageFooter from "./PdfSignaturePageFooter";
 
 const GOLD = "#f4c95d";
 const SOFT_GOLD = "#8f793c";
