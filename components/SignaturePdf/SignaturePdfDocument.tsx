@@ -6,6 +6,7 @@ import type {
 
 import PdfSignatureCover from "./PdfSignatureCover";
 import PdfSignatureWheel from "./PdfSignatureWheel";
+import PdfSignatureHouses from "./PdfSignatureHouses";
 
 export default function SignaturePdfDocument({
   firstName,
@@ -41,6 +42,11 @@ export default function SignaturePdfDocument({
       ? wheelImage.trim()
       : "";
 
+  const safePlanets =
+    Array.isArray(planets)
+      ? planets
+      : [];
+
   const documentName =
     safeFirstName || "Luna Astralis";
 
@@ -64,7 +70,7 @@ export default function SignaturePdfDocument({
         birthDate={safeBirthDate}
         birthTime={safeBirthTime}
         birthCity={safeBirthCity}
-        planets={planets}
+        planets={safePlanets}
         angles={angles}
         wheelImage={safeWheelImage}
       />
@@ -74,9 +80,13 @@ export default function SignaturePdfDocument({
         birthDate={safeBirthDate}
         birthTime={safeBirthTime}
         birthCity={safeBirthCity}
-        planets={planets}
+        planets={safePlanets}
         angles={angles}
         wheelImage={safeWheelImage}
+      />
+
+      <PdfSignatureHouses
+        planets={safePlanets}
       />
     </Document>
   );
