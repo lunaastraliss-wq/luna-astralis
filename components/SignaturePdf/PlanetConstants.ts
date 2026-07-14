@@ -69,7 +69,6 @@ export const SIGN_NAMES_FR: Record<
   Bélier: "Bélier",
   Taureau: "Taureau",
   Gémeaux: "Gémeaux",
-  Cancer: "Cancer",
   Lion: "Lion",
   Vierge: "Vierge",
   Balance: "Balance",
