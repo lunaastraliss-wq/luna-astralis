@@ -17,6 +17,8 @@ import PdfSignatureModalities from "./PdfSignatureModalities";
 import PdfSignatureHouses from "./PdfSignatureHouses";
 import PdfSignatureAspects from "./PdfSignatureAspects";
 import PdfSignatureDominants from "./PdfSignatureDominants";
+import PdfSignatureStrengths from "./PdfSignatureStrengths";
+import PdfSignatureChallenges from "./PdfSignatureChallenges";
 import PdfSignatureRelationships from "./PdfSignatureRelationships";
 import PdfSignatureCareer from "./PdfSignatureCareer";
 import PdfSignatureSynthesis from "./PdfSignatureSynthesis";
@@ -69,26 +71,38 @@ function normalizeText(
 }
 
 function normalizePlanets(
-  value: SignaturePlanet[] | null | undefined
+  value:
+    | SignaturePlanet[]
+    | null
+    | undefined
 ): SignaturePlanet[] {
-  return Array.isArray(value)
-    ? value.filter(
-        (
-          planet
-        ): planet is SignaturePlanet =>
-          Boolean(
-            planet &&
-              typeof planet === "object" &&
-              typeof planet.name === "string"
-          )
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(
+    (
+      planet
+    ): planet is SignaturePlanet =>
+      Boolean(
+        planet &&
+          typeof planet === "object" &&
+          typeof planet.name === "string"
       )
-    : [];
+  );
 }
 
 function normalizeAngles(
-  value: SignatureAngles | null | undefined
+  value:
+    | SignatureAngles
+    | null
+    | undefined
 ): SignatureAngles {
-  if (!value || typeof value !== "object") {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
     return EMPTY_ANGLES;
   }
 
@@ -166,7 +180,7 @@ export default function SignaturePdfDocument({
 
   /*
   |--------------------------------------------------------------------------
-  | Rendu PDF
+  | Rendu du document
   |--------------------------------------------------------------------------
   */
 
@@ -212,7 +226,7 @@ export default function SignaturePdfDocument({
       {/* 3. Guide de lecture de la roue */}
       <PdfSignatureWheelGuide />
 
-      {/* 4. Introduction au rapport */}
+      {/* 4. Introduction */}
       <PdfSignatureWelcome
         firstName={safeFirstName}
       />
@@ -260,26 +274,38 @@ export default function SignaturePdfDocument({
         angles={safeAngles}
       />
 
-      {/* 21. Vie relationnelle */}
+      {/* 21 et 22. Forces naturelles */}
+      <PdfSignatureStrengths
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 23 et 24. Défis d’évolution */}
+      <PdfSignatureChallenges
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 25. Vie relationnelle */}
       <PdfSignatureRelationships
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 22. Carrière et vocation */}
+      {/* 26. Carrière et vocation */}
       <PdfSignatureCareer
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 23. Synthèse Signature */}
+      {/* 27. Synthèse Signature */}
       <PdfSignatureSynthesis
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 24. Conclusion */}
+      {/* 28. Conclusion */}
       <PdfSignatureConclusion />
     </Document>
   );
