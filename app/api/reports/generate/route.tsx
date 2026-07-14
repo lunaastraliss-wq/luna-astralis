@@ -1148,21 +1148,20 @@ export async function POST(
           wheelImage
         ),
     });
-  } catch (err: any) {
-    console.error(
-      "REPORT_GENERATE_ERROR",
-      err
-    );
+ } catch (err: any) {
+  console.error("REPORT_GENERATE_ERROR");
+  console.error("Message:", err?.message);
+  console.error("Stack:", err?.stack);
+  console.error("Erreur complète:", err);
 
-    return NextResponse.json(
-      {
-        error:
-          err?.message ||
-          "REPORT_GENERATE_ERROR",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json(
+    {
+      error:
+        err?.message ||
+        "REPORT_GENERATE_ERROR",
+    },
+    {
+      status: 500,
+    }
+  );
 }
