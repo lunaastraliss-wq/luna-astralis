@@ -9,12 +9,33 @@ import { pdfStyles } from "./SignaturePdfStyles";
 import PdfBrandHeader from "./PdfSignatureBrandHeader";
 import PdfPageFooter from "./PdfSignaturePageFooter";
 
+/*
+|--------------------------------------------------------------------------
+| Props
+|--------------------------------------------------------------------------
+*/
+
+type PdfSignatureWelcomeProps = {
+  firstName: string;
+};
+
+type DiscoveryItemProps = {
+  children: string;
+  last?: boolean;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
+
 const styles = StyleSheet.create({
   pageContent: {
     flexGrow: 1,
 
     /*
-     * Réserve de sécurité pour empêcher
+     * Réserve de sécurité afin d’empêcher
      * le dernier bloc de toucher le pied de page.
      */
     paddingBottom: 32,
@@ -160,12 +181,7 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     paddingBottom: 9,
     paddingHorizontal: 16,
-
-    /*
-     * Marge supplémentaire avant le pied de page.
-     */
     marginBottom: 10,
-
     backgroundColor: "#111a34",
     borderWidth: 1,
     borderColor: "#8f793c",
@@ -218,10 +234,11 @@ const styles = StyleSheet.create({
   },
 });
 
-type DiscoveryItemProps = {
-  children: string;
-  last?: boolean;
-};
+/*
+|--------------------------------------------------------------------------
+| Élément de liste
+|--------------------------------------------------------------------------
+*/
 
 function DiscoveryItem({
   children,
@@ -247,7 +264,24 @@ function DiscoveryItem({
   );
 }
 
-export default function PdfWelcome() {
+/*
+|--------------------------------------------------------------------------
+| Page d’introduction Signature
+|--------------------------------------------------------------------------
+*/
+
+export default function PdfSignatureWelcome({
+  firstName,
+}: PdfSignatureWelcomeProps) {
+  const safeFirstName =
+    typeof firstName === "string"
+      ? firstName.trim()
+      : "";
+
+  const personalizedLead = safeFirstName
+    ? `${safeFirstName}, cette lecture complète de votre thème natal a été conçue pour révéler les liens profonds entre vos différentes énergies et mettre en lumière votre potentiel d’évolution.`
+    : "Une lecture complète de votre thème natal, conçue pour révéler les liens profonds entre vos différentes énergies et mettre en lumière votre potentiel d’évolution.";
+
   return (
     <Page
       size="A4"
@@ -279,9 +313,7 @@ export default function PdfWelcome() {
           </View>
 
           <Text style={styles.lead}>
-            Une lecture complète de votre thème natal, conçue pour
-révéler les liens profonds entre vos différentes énergies
-et mettre en lumière votre potentiel d'évolution.
+            {personalizedLead}
           </Text>
         </View>
 
@@ -300,12 +332,12 @@ et mettre en lumière votre potentiel d'évolution.
           </Text>
 
           <Text style={styles.paragraph}>
-            Ce rapport Signature représente le niveau d'analyse le
-plus complet proposé par Luna Astralis. Il ne se limite
-pas à interpréter chaque élément séparément : il révèle
-les interactions entre vos planètes, vos maisons, vos
-aspects et les grandes dynamiques qui structurent votre
-thème natal.
+            Ce rapport Signature représente le niveau d’analyse le
+            plus complet proposé par Luna Astralis. Il ne se limite
+            pas à interpréter chaque élément séparément : il révèle
+            les interactions entre vos planètes, vos maisons, vos
+            aspects et les grandes dynamiques qui structurent votre
+            thème natal.
           </Text>
 
           <Text style={styles.paragraph}>
@@ -358,8 +390,8 @@ thème natal.
           <View style={styles.quoteContent}>
             <Text style={styles.quoteText}>
               Votre thème natal est une œuvre vivante. Plus vous en
-comprenez les liens profonds, plus vous découvrez les
-ressources qui vous permettent d'évoluer pleinement.
+              comprenez les liens profonds, plus vous découvrez les
+              ressources qui vous permettent d’évoluer pleinement.
             </Text>
 
             <Text style={styles.quoteSignature}>
