@@ -16,7 +16,7 @@ import {
 } from "./PremiumPdfAssets";
 
 import type { PremiumPdfProps } from "./PremiumPdfTypes";
-import PdfPageFooter from "./PdfPageFooter";
+
 
 /*
  * Couleurs principales du rapport Premium
@@ -1221,7 +1221,6 @@ export default function PdfCover({
         </View>
       </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
 }
