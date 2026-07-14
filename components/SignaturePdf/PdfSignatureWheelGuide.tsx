@@ -283,7 +283,7 @@ function GuideCard({
   );
 }
 
-export default function PdfWheelGuide() {
+export default function PdfSignatureWheelGuide() {
   return (
     <Page
       size="A4"
@@ -310,14 +310,16 @@ export default function PdfWheelGuide() {
 
           <View style={styles.titleLine} />
 
-         <Text style={styles.intro}>
-  Votre roue astrologique constitue le point de départ de
-  votre analyse Signature. Les pages suivantes relieront les
-  planètes, les signes, les maisons, les angles et les
-  aspects afin de révéler les grandes dynamiques qui
-  façonnent votre personnalité, vos talents et votre
-  évolution.
-</Text>
+          <Text style={styles.intro}>
+            Votre roue astrologique constitue le point de départ de
+            votre analyse Signature. Les pages suivantes relieront les
+            planètes, les signes, les maisons, les angles et les
+            aspects afin de révéler les grandes dynamiques qui
+            façonnent votre personnalité, vos talents et votre
+            évolution.
+          </Text>
+        </View>
+
         <View style={styles.sectionGrid}>
           <GuideCard
             number="01"
@@ -466,11 +468,12 @@ export default function PdfWheelGuide() {
           </Text>
         </View>
 
-          <Text style={styles.note}>
-  Cette page constitue votre guide de référence pour
-  comprendre la logique d'interprétation de votre rapport
-  Signature.
-</Text>
+        <Text style={styles.note}>
+          Cette page constitue votre guide de référence pour
+          comprendre la logique d’interprétation de votre rapport
+          Signature.
+        </Text>
+      </View>
 
       <PdfPageFooter />
     </Page>
