@@ -7,7 +7,6 @@ import {
 
 import { pdfStyles } from "./SignaturePdfStyles";
 import PdfBrandHeader from "./PdfSignatureBrandHeader";
-import PdfPageFooter from "./PdfSignaturePageFooter";
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -475,7 +474,6 @@ export default function PdfSignatureWheelGuide() {
         </Text>
       </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
 }
