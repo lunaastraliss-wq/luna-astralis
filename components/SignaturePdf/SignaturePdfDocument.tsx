@@ -1,7 +1,9 @@
 import { Document } from "@react-pdf/renderer";
 
 import type {
+  SignatureAngles,
   SignaturePdfProps,
+  SignaturePlanet,
 } from "./SignaturePdfTypes";
 
 import PdfSignatureCover from "./PdfSignatureCover";
@@ -20,6 +22,12 @@ import PdfSignatureCareer from "./PdfSignatureCareer";
 import PdfSignatureSynthesis from "./PdfSignatureSynthesis";
 import PdfSignatureConclusion from "./PdfSignatureConclusion";
 
+/*
+|--------------------------------------------------------------------------
+| Planètes analysées
+|--------------------------------------------------------------------------
+*/
+
 const SIGNATURE_PLANETS = [
   "Sun",
   "Moon",
@@ -33,6 +41,90 @@ const SIGNATURE_PLANETS = [
   "Pluto",
 ] as const;
 
+/*
+|--------------------------------------------------------------------------
+| Valeurs de secours
+|--------------------------------------------------------------------------
+*/
+
+const EMPTY_ANGLES: SignatureAngles = {
+  ascendant: 0,
+  midheaven: 0,
+  descendant: 180,
+  imumCoeli: 180,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Utilitaires
+|--------------------------------------------------------------------------
+*/
+
+function normalizeText(
+  value: string | null | undefined
+): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function normalizePlanets(
+  value: SignaturePlanet[] | null | undefined
+): SignaturePlanet[] {
+  return Array.isArray(value)
+    ? value.filter(
+        (
+          planet
+        ): planet is SignaturePlanet =>
+          Boolean(
+            planet &&
+              typeof planet === "object" &&
+              typeof planet.name === "string"
+          )
+      )
+    : [];
+}
+
+function normalizeAngles(
+  value: SignatureAngles | null | undefined
+): SignatureAngles {
+  if (!value || typeof value !== "object") {
+    return EMPTY_ANGLES;
+  }
+
+  return {
+    ascendant:
+      typeof value.ascendant === "number" &&
+      Number.isFinite(value.ascendant)
+        ? value.ascendant
+        : EMPTY_ANGLES.ascendant,
+
+    midheaven:
+      typeof value.midheaven === "number" &&
+      Number.isFinite(value.midheaven)
+        ? value.midheaven
+        : EMPTY_ANGLES.midheaven,
+
+    descendant:
+      typeof value.descendant === "number" &&
+      Number.isFinite(value.descendant)
+        ? value.descendant
+        : EMPTY_ANGLES.descendant,
+
+    imumCoeli:
+      typeof value.imumCoeli === "number" &&
+      Number.isFinite(value.imumCoeli)
+        ? value.imumCoeli
+        : EMPTY_ANGLES.imumCoeli,
+  };
+}
+
+/*
+|--------------------------------------------------------------------------
+| Document Signature
+|--------------------------------------------------------------------------
+*/
+
 export default function SignaturePdfDocument({
   firstName,
   birthDate,
@@ -42,44 +134,41 @@ export default function SignaturePdfDocument({
   angles,
   wheelImage,
 }: SignaturePdfProps) {
+  /*
+  |--------------------------------------------------------------------------
+  | Données sécurisées
+  |--------------------------------------------------------------------------
+  */
+
   const safeFirstName =
-    typeof firstName === "string"
-      ? firstName.trim()
-      : "";
+    normalizeText(firstName);
 
   const safeBirthDate =
-    typeof birthDate === "string"
-      ? birthDate.trim()
-      : "";
+    normalizeText(birthDate);
 
   const safeBirthTime =
-    typeof birthTime === "string"
-      ? birthTime.trim()
-      : "";
+    normalizeText(birthTime);
 
   const safeBirthCity =
-    typeof birthCity === "string"
-      ? birthCity.trim()
-      : "";
+    normalizeText(birthCity);
 
   const safeWheelImage =
-    typeof wheelImage === "string"
-      ? wheelImage.trim()
-      : "";
+    normalizeText(wheelImage);
 
-  const safePlanets =
-    Array.isArray(planets)
-      ? planets
-      : [];
+  const safePlanets: SignaturePlanet[] =
+    normalizePlanets(planets);
 
-  const safeAngles =
-    angles &&
-    typeof angles === "object"
-      ? angles
-      : {};
+  const safeAngles: SignatureAngles =
+    normalizeAngles(angles);
 
   const documentName =
     safeFirstName || "Luna Astralis";
+
+  /*
+  |--------------------------------------------------------------------------
+  | Rendu PDF
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <Document
@@ -88,10 +177,12 @@ export default function SignaturePdfDocument({
       subject="Rapport astrologique Signature personnalisé"
       creator="Luna Astralis"
       producer="Luna Astralis"
+      language="fr-CA"
       keywords={[
         "astrologie",
         "carte du ciel",
         "thème natal",
+        "rapport astrologique",
         "rapport Signature",
         "Luna Astralis",
       ].join(", ")}
@@ -121,8 +212,10 @@ export default function SignaturePdfDocument({
       {/* 3. Guide de lecture de la roue */}
       <PdfSignatureWheelGuide />
 
-      {/* 4. Introduction */}
-      <PdfSignatureWelcome />
+      {/* 4. Introduction au rapport */}
+      <PdfSignatureWelcome
+        firstName={safeFirstName}
+      />
 
       {/* 5. Soleil, Lune et Ascendant */}
       <PdfSignatureSummary
@@ -135,58 +228,58 @@ export default function SignaturePdfDocument({
         (planetName) => (
           <PdfSignaturePlanet
             key={planetName}
-            planets={safePlanets}
             planet={planetName}
+            planets={safePlanets}
           />
         )
       )}
 
-      {/* Équilibre des éléments */}
+      {/* 16. Répartition des éléments */}
       <PdfSignatureElements
         planets={safePlanets}
       />
 
-      {/* Dynamique des modalités */}
+      {/* 17. Répartition des modalités */}
       <PdfSignatureModalities
         planets={safePlanets}
       />
 
-      {/* Douze maisons astrologiques */}
+      {/* 18. Analyse des maisons */}
       <PdfSignatureHouses
         planets={safePlanets}
       />
 
-      {/* Aspects planétaires */}
+      {/* 19. Aspects planétaires */}
       <PdfSignatureAspects
         planets={safePlanets}
       />
 
-      {/* Dominantes astrologiques */}
+      {/* 20. Dominantes du thème */}
       <PdfSignatureDominants
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* Vie relationnelle */}
+      {/* 21. Vie relationnelle */}
       <PdfSignatureRelationships
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* Carrière et vocation */}
+      {/* 22. Carrière et vocation */}
       <PdfSignatureCareer
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* Synthèse générale */}
+      {/* 23. Synthèse Signature */}
       <PdfSignatureSynthesis
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* Conclusion */}
+      {/* 24. Conclusion */}
       <PdfSignatureConclusion />
     </Document>
   );
