@@ -6,10 +6,11 @@ import {
   View,
 } from "@react-pdf/renderer";
 
-import { pdfStyles } from "../PremiumPdf/PremiumPdfStyles";
-import type { PremiumPdfProps } from "../PremiumPdf/PremiumPdfTypes";
-import PdfBrandHeader from "../PremiumPdf/PdfBrandHeader";
-import PdfPageFooter from "../PremiumPdf/PdfPageFooter";
+import { pdfStyles } from "./SignaturePdfStyles";
+import type { SignaturePdfProps } from "./SignaturePdfTypes";
+
+import PdfSignatureBrandHeader from "./PdfSignatureBrandHeader";
+import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -256,7 +257,7 @@ export default function PdfSignatureWheel({
   birthTime,
   birthCity,
   wheelImage,
-}: PremiumPdfProps) {
+}: SignaturePdfProps) {
   const safeWheelImage =
     typeof wheelImage === "string" &&
     wheelImage.trim().length > 0
@@ -269,7 +270,7 @@ export default function PdfSignatureWheel({
       style={pdfStyles.page}
       wrap={false}
     >
-      <PdfBrandHeader />
+      <PdfSignatureBrandHeader />
 
       <View style={styles.pageContent}>
         <View style={styles.titleSection}>
