@@ -1,47 +1,47 @@
 import {
   JUPITER_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignJupiter";
+} from "./SignaturePlanetSignJupiter";
 
 import {
   MARS_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignMars";
+} from "./SignaturePlanetSignMars";
 
 import {
   MERCURY_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignMercury";
+} from "./SignaturePlanetSignMercury";
 
 import {
   MOON_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignMoon";
+} from "./SignaturePlanetSignMoon";
 
 import {
   NEPTUNE_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignNeptune";
+} from "./SignaturePlanetSignNeptune";
 
 import {
   PLUTO_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignPluto";
+} from "./SignaturePlanetSignPluto";
 
 import {
   SATURN_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignSaturn";
+} from "./SignaturePlanetSignSaturn";
 
 import {
   SUN_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignSun";
+} from "./SignaturePlanetSignSun";
 
 import {
   URANUS_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignUranus";
+} from "./SignaturePlanetSignUranus";
 
 import {
   VENUS_SIGN_TEXTS,
-} from "./SignaturePlanetSigns/SignaturePlanetSignVenus";
+} from "./SignaturePlanetSignVenus";
 
 import type {
   SignaturePlanetSignContent,
   SignaturePlanetSignTexts,
-} from "./SignaturePlanetSigns/SignaturePlanetSignTypes";
+} from "./SignaturePlanetSignTypes";
 
 export type {
   SignaturePlanetSignContent,
@@ -72,5 +72,5 @@ export function getSignaturePlanetSignContent(
     return null;
   }
 
-  return planetContent[sign] || null;
+  return planetContent[sign] ?? null;
 }
