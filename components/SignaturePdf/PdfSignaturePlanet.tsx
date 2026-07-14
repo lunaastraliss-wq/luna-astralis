@@ -35,7 +35,7 @@ import {
 
 import {
   getSignaturePlanetSignContent,
-} from "./ignaturePlanetSigns/SignaturePlanetSignTexts";
+} from "./SignaturePlanetSigns/SignaturePlanetSignTexts";
 
 import {
   getHouseDisplayName,
