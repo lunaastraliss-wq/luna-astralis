@@ -461,7 +461,7 @@ function getSignFromLongitude(
 function getPlanet(
   planets: SignaturePlanet[],
   planetName: string
-): PremiumPlanet | null {
+): SignaturePlanet | null {
   return (
     planets.find((planet) => {
       return (
