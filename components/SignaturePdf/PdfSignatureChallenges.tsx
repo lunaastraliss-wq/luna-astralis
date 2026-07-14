@@ -85,7 +85,6 @@ const SIGN_NAMES: Record<string, string> = {
   Bélier: "Bélier",
   Taureau: "Taureau",
   Gémeaux: "Gémeaux",
-  Cancer: "Cancer",
   Lion: "Lion",
   Vierge: "Vierge",
   Balance: "Balance",
