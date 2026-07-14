@@ -1,30 +1,53 @@
 import React from "react";
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { renderToBuffer } from "@react-pdf/renderer";
-import { calculateChart } from "celestine";
+import {
+  createClient,
+} from "@supabase/supabase-js";
+import {
+  renderToBuffer,
+} from "@react-pdf/renderer";
+import {
+  calculateChart,
+} from "celestine";
 import tzlookup from "tz-lookup";
 
 import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument";
 import PremiumPdfDocument from "@/components/PremiumPdf/PremiumPdfDocument";
+import SignaturePdfDocument from "@/components/SignaturePdf/SignaturePdfDocument";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function clean(value: unknown): string {
+/*
+|--------------------------------------------------------------------------
+| Nettoyage des valeurs
+|--------------------------------------------------------------------------
+*/
+
+function clean(
+  value: unknown
+): string {
   return value == null
     ? ""
     : String(value).trim();
 }
+
+/*
+|--------------------------------------------------------------------------
+| Configuration Supabase
+|--------------------------------------------------------------------------
+*/
 
 const SUPABASE_URL = clean(
   process.env.SUPABASE_URL ||
     process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
-const SUPABASE_SERVICE_ROLE_KEY = clean(
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const SUPABASE_SERVICE_ROLE_KEY =
+  clean(
+    process.env
+      .SUPABASE_SERVICE_ROLE_KEY
+  );
 
 const supabase =
   SUPABASE_URL &&
@@ -40,6 +63,12 @@ const supabase =
         }
       )
     : null;
+
+/*
+|--------------------------------------------------------------------------
+| Fuseau horaire
+|--------------------------------------------------------------------------
+*/
 
 function getTimezoneOffsetHours(
   timeZone: string,
@@ -61,32 +90,41 @@ function getTimezoneOffsetHours(
   );
 
   const formatter =
-    new Intl.DateTimeFormat("en-US", {
-      timeZone,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    });
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }
+    );
 
   const parts =
-    formatter.formatToParts(utcDate);
+    formatter.formatToParts(
+      utcDate
+    );
 
-  const values: Record<string, string> =
-    {};
+  const values: Record<
+    string,
+    string
+  > = {};
 
   for (const part of parts) {
-    if (part.type !== "literal") {
-      values[part.type] = part.value;
+    if (
+      part.type !== "literal"
+    ) {
+      values[part.type] =
+        part.value;
     }
   }
 
-  let formattedHour = Number(
-    values.hour
-  );
+  let formattedHour =
+    Number(values.hour);
 
   if (formattedHour === 24) {
     formattedHour = 0;
@@ -102,19 +140,36 @@ function getTimezoneOffsetHours(
   );
 
   return (
-    (asUTC - utcDate.getTime()) /
+    (asUTC -
+      utcDate.getTime()) /
     3_600_000
   );
 }
 
-function parseBirthDate(date: string) {
-  const normalizedDate = clean(date);
+/*
+|--------------------------------------------------------------------------
+| Lecture de la date de naissance
+|--------------------------------------------------------------------------
+*/
 
-  if (normalizedDate.includes("/")) {
-    const [day, month, year] =
-      normalizedDate
-        .split("/")
-        .map(Number);
+function parseBirthDate(
+  date: string
+) {
+  const normalizedDate =
+    clean(date);
+
+  if (
+    normalizedDate.includes(
+      "/"
+    )
+  ) {
+    const [
+      day,
+      month,
+      year,
+    ] = normalizedDate
+      .split("/")
+      .map(Number);
 
     return {
       year,
@@ -123,10 +178,13 @@ function parseBirthDate(date: string) {
     };
   }
 
-  const [year, month, day] =
-    normalizedDate
-      .split("-")
-      .map(Number);
+  const [
+    year,
+    month,
+    day,
+  ] = normalizedDate
+    .split("-")
+    .map(Number);
 
   return {
     year,
@@ -135,21 +193,40 @@ function parseBirthDate(date: string) {
   };
 }
 
-function parseBirthTime(time: string) {
-  const [hour, minute] = clean(time)
+/*
+|--------------------------------------------------------------------------
+| Lecture de l’heure de naissance
+|--------------------------------------------------------------------------
+*/
+
+function parseBirthTime(
+  time: string
+) {
+  const [
+    hour,
+    minute,
+  ] = clean(time)
     .split(":")
     .map(Number);
 
   return {
-    hour: Number.isFinite(hour)
-      ? hour
-      : 12,
+    hour:
+      Number.isFinite(hour)
+        ? hour
+        : 12,
 
-    minute: Number.isFinite(minute)
-      ? minute
-      : 0,
+    minute:
+      Number.isFinite(minute)
+        ? minute
+        : 0,
   };
 }
+
+/*
+|--------------------------------------------------------------------------
+| Validation de la date
+|--------------------------------------------------------------------------
+*/
 
 function isValidDateParts(
   year: number,
@@ -164,34 +241,51 @@ function isValidDateParts(
     return false;
   }
 
-  if (year < 1800 || year > 2200) {
+  if (
+    year < 1800 ||
+    year > 2200
+  ) {
     return false;
   }
 
-  if (month < 1 || month > 12) {
+  if (
+    month < 1 ||
+    month > 12
+  ) {
     return false;
   }
 
-  if (day < 1 || day > 31) {
+  if (
+    day < 1 ||
+    day > 31
+  ) {
     return false;
   }
 
-  const testDate = new Date(
-    Date.UTC(
-      year,
-      month - 1,
-      day
-    )
-  );
+  const testDate =
+    new Date(
+      Date.UTC(
+        year,
+        month - 1,
+        day
+      )
+    );
 
   return (
     testDate.getUTCFullYear() ===
       year &&
     testDate.getUTCMonth() ===
       month - 1 &&
-    testDate.getUTCDate() === day
+    testDate.getUTCDate() ===
+      day
   );
 }
+
+/*
+|--------------------------------------------------------------------------
+| Validation de l’image de la roue
+|--------------------------------------------------------------------------
+*/
 
 function isImageDataUrl(
   value: string
@@ -205,9 +299,10 @@ function getImageMimeType(
   fileName: string,
   fileType?: string
 ): string {
-  const normalizedType = clean(
-    fileType
-  ).toLowerCase();
+  const normalizedType =
+    clean(
+      fileType
+    ).toLowerCase();
 
   if (
     normalizedType.startsWith(
@@ -242,10 +337,19 @@ function getImageMimeType(
   return "image/png";
 }
 
+/*
+|--------------------------------------------------------------------------
+| Téléchargement de la roue depuis Supabase
+|--------------------------------------------------------------------------
+*/
+
 async function downloadWheelImageFromStorage(
   wheelPath: string
 ): Promise<string> {
-  if (!supabase || !wheelPath) {
+  if (
+    !supabase ||
+    !wheelPath
+  ) {
     return "";
   }
 
@@ -259,11 +363,13 @@ async function downloadWheelImageFromStorage(
     firstAttempt.data
   ) {
     const arrayBuffer =
-      await firstAttempt.data.arrayBuffer();
+      await firstAttempt.data
+        .arrayBuffer();
 
-    const buffer = Buffer.from(
-      arrayBuffer
-    );
+    const buffer =
+      Buffer.from(
+        arrayBuffer
+      );
 
     const mimeType =
       getImageMimeType(
@@ -278,7 +384,9 @@ async function downloadWheelImageFromStorage(
 
   const secondAttempt =
     await supabase.storage
-      .from("rapport-images")
+      .from(
+        "rapport-images"
+      )
       .download(wheelPath);
 
   if (
@@ -286,11 +394,13 @@ async function downloadWheelImageFromStorage(
     secondAttempt.data
   ) {
     const arrayBuffer =
-      await secondAttempt.data.arrayBuffer();
+      await secondAttempt.data
+        .arrayBuffer();
 
-    const buffer = Buffer.from(
-      arrayBuffer
-    );
+    const buffer =
+      Buffer.from(
+        arrayBuffer
+      );
 
     const mimeType =
       getImageMimeType(
@@ -309,11 +419,13 @@ async function downloadWheelImageFromStorage(
       wheelPath,
 
       rapportPdfError:
-        firstAttempt.error?.message ||
+        firstAttempt.error
+          ?.message ||
         null,
 
       rapportImagesError:
-        secondAttempt.error?.message ||
+        secondAttempt.error
+          ?.message ||
         null,
     }
   );
@@ -321,15 +433,22 @@ async function downloadWheelImageFromStorage(
   return "";
 }
 
+/*
+|--------------------------------------------------------------------------
+| Résolution de l’image de la roue
+|--------------------------------------------------------------------------
+*/
+
 async function resolveWheelImage(
   order: any,
   birthData: any
 ): Promise<string> {
-  const directWheelImage = clean(
-    birthData?.wheelImage ||
-      birthData?.wheel_image ||
-      order?.wheel_image
-  );
+  const directWheelImage =
+    clean(
+      birthData?.wheelImage ||
+        birthData?.wheel_image ||
+        order?.wheel_image
+    );
 
   if (directWheelImage) {
     if (
@@ -351,11 +470,14 @@ async function resolveWheelImage(
     }
   }
 
-  const wheelImagePath = clean(
-    order?.wheel_image_path ||
-      birthData?.wheelImagePath ||
-      birthData?.wheel_image_path
-  );
+  const wheelImagePath =
+    clean(
+      order?.wheel_image_path ||
+        birthData
+          ?.wheelImagePath ||
+        birthData
+          ?.wheel_image_path
+    );
 
   if (wheelImagePath) {
     return downloadWheelImageFromStorage(
@@ -366,10 +488,22 @@ async function resolveWheelImage(
   return "";
 }
 
+/*
+|--------------------------------------------------------------------------
+| Génération du rapport
+|--------------------------------------------------------------------------
+*/
+
 export async function POST(
   req: Request
 ) {
   try {
+    /*
+    |--------------------------------------------------------------------------
+    | Vérification Supabase
+    |--------------------------------------------------------------------------
+    */
+
     if (!supabase) {
       return NextResponse.json(
         {
@@ -385,13 +519,21 @@ export async function POST(
       );
     }
 
-    const body = await req
-      .json()
-      .catch(() => null);
+    /*
+    |--------------------------------------------------------------------------
+    | Lecture de la requête
+    |--------------------------------------------------------------------------
+    */
 
-    const sessionId = clean(
-      body?.session_id
-    );
+    const body =
+      await req
+        .json()
+        .catch(() => null);
+
+    const sessionId =
+      clean(
+        body?.session_id
+      );
 
     if (!sessionId) {
       return NextResponse.json(
@@ -404,6 +546,12 @@ export async function POST(
         }
       );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lecture de la commande
+    |--------------------------------------------------------------------------
+    */
 
     const {
       data: order,
@@ -437,12 +585,16 @@ export async function POST(
     }
 
     /*
-     * L'ancien retour automatique du PDF
-     * existant demeure désactivé.
-     *
-     * Ainsi, chaque test régénère réellement
-     * le document avec le code actuel.
+     * Le retour automatique d’un ancien PDF
+     * reste désactivé afin que chaque test
+     * utilise le code actuel.
      */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Données de naissance
+    |--------------------------------------------------------------------------
+    */
 
     const birthData =
       order.birth_data &&
@@ -451,39 +603,45 @@ export async function POST(
         ? order.birth_data
         : {};
 
-    const firstName = clean(
-      birthData.firstName ||
-        birthData.first_name ||
-        order.first_name
-    );
+    const firstName =
+      clean(
+        birthData.firstName ||
+          birthData.first_name ||
+          order.first_name
+      );
 
-    const birthDate = clean(
-      birthData.birthDate ||
-        birthData.birth_date ||
-        order.birth_date
-    );
+    const birthDate =
+      clean(
+        birthData.birthDate ||
+          birthData.birth_date ||
+          order.birth_date
+      );
 
-    const birthTime = clean(
-      birthData.birthTime ||
-        birthData.birth_time ||
-        order.birth_time
-    );
+    const birthTime =
+      clean(
+        birthData.birthTime ||
+          birthData.birth_time ||
+          order.birth_time
+      );
 
-    const birthCity = clean(
-      birthData.birthCity ||
-        birthData.birth_city ||
-        order.birth_city
-    );
+    const birthCity =
+      clean(
+        birthData.birthCity ||
+          birthData.birth_city ||
+          order.birth_city
+      );
 
-    const latitude = Number(
-      birthData.latitude ??
-        order.latitude
-    );
+    const latitude =
+      Number(
+        birthData.latitude ??
+          order.latitude
+      );
 
-    const longitude = Number(
-      birthData.longitude ??
-        order.longitude
-    );
+    const longitude =
+      Number(
+        birthData.longitude ??
+          order.longitude
+      );
 
     if (
       !birthDate ||
@@ -508,6 +666,12 @@ export async function POST(
         }
       );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validation de la date et de l’heure
+    |--------------------------------------------------------------------------
+    */
 
     const {
       year,
@@ -569,13 +733,20 @@ export async function POST(
       );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Calcul du fuseau horaire
+    |--------------------------------------------------------------------------
+    */
+
     let timeZone = "";
 
     try {
-      timeZone = tzlookup(
-        latitude,
-        longitude
-      );
+      timeZone =
+        tzlookup(
+          latitude,
+          longitude
+        );
     } catch (
       timezoneError: any
     ) {
@@ -585,7 +756,8 @@ export async function POST(
             "TIMEZONE_LOOKUP_FAILED",
 
           detail:
-            timezoneError?.message ||
+            timezoneError
+              ?.message ||
             null,
         },
         {
@@ -604,6 +776,12 @@ export async function POST(
         minute
       );
 
+    /*
+    |--------------------------------------------------------------------------
+    | Calcul astrologique
+    |--------------------------------------------------------------------------
+    */
+
     const chart =
       calculateChart({
         year,
@@ -619,38 +797,47 @@ export async function POST(
       });
 
     console.log(
-  "CELESTINE_HOUSES",
-  JSON.stringify(
-    (chart as any)?.houses,
-    null,
-    2
-  )
-);
+      "CELESTINE_HOUSES",
+      JSON.stringify(
+        (chart as any)
+          ?.houses,
+        null,
+        2
+      )
+    );
 
-console.log(
-  "FIRST_PLANET",
-  JSON.stringify(
-    (chart as any)?.planets?.[0],
-    null,
-    2
-  )
-);
+    console.log(
+      "FIRST_PLANET",
+      JSON.stringify(
+        (chart as any)
+          ?.planets?.[0],
+        null,
+        2
+      )
+    );
 
     const planets =
       (chart as any)
         ?.planets || [];
-    console.log(
-  "PLANETS",
-  JSON.stringify(
-    planets,
-    null,
-    2
-  )
-);
 
-       const angles =
+    console.log(
+      "PLANETS",
+      JSON.stringify(
+        planets,
+        null,
+        2
+      )
+    );
+
+    const angles =
       (chart as any)
         ?.angles || {};
+
+    /*
+    |--------------------------------------------------------------------------
+    | Image de la roue
+    |--------------------------------------------------------------------------
+    */
 
     const wheelImage =
       await resolveWheelImage(
@@ -659,14 +846,17 @@ console.log(
       );
 
     /*
-     * On accepte les deux noms possibles
-     * de colonne : product_type ou report_type.
-     */
-    const productType = clean(
-      order.product_type ||
-        order.report_type ||
-        "essential"
-    ).toLowerCase();
+    |--------------------------------------------------------------------------
+    | Type de rapport acheté
+    |--------------------------------------------------------------------------
+    */
+
+    const productType =
+      clean(
+        order.product_type ||
+          order.report_type ||
+          "essential"
+      ).toLowerCase();
 
     console.log(
       "REPORT_GENERATION",
@@ -687,12 +877,13 @@ console.log(
             ? planets.length
             : 0,
 
-        hasAngles: Boolean(
-          angles &&
-            Object.keys(
-              angles
-            ).length
-        ),
+        hasAngles:
+          Boolean(
+            angles &&
+              Object.keys(
+                angles
+              ).length
+          ),
 
         hasWheelImage:
           Boolean(
@@ -702,11 +893,48 @@ console.log(
     );
 
     /*
-     * IMPORTANT :
-     * le document est choisi selon le produit acheté.
-     */
-    const pdfDocument =
-      productType === "premium" ? (
+    |--------------------------------------------------------------------------
+    | Choix du document PDF
+    |--------------------------------------------------------------------------
+    */
+
+    let pdfDocument:
+      React.ReactElement;
+
+    if (
+      productType ===
+      "signature"
+    ) {
+      pdfDocument = (
+        <SignaturePdfDocument
+          firstName={
+            firstName
+          }
+          birthDate={
+            birthDate
+          }
+          birthTime={
+            birthTime
+          }
+          birthCity={
+            birthCity
+          }
+          planets={
+            planets
+          }
+          angles={
+            angles
+          }
+          wheelImage={
+            wheelImage
+          }
+        />
+      );
+    } else if (
+      productType ===
+      "premium"
+    ) {
+      pdfDocument = (
         <PremiumPdfDocument
           firstName={
             firstName
@@ -730,7 +958,9 @@ console.log(
             wheelImage
           }
         />
-      ) : (
+      );
+    } else {
+      pdfDocument = (
         <EssentialPdfDocument
           firstName={
             firstName
@@ -755,11 +985,24 @@ console.log(
           }
         />
       );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Génération du fichier PDF
+    |--------------------------------------------------------------------------
+    */
 
     const pdfBuffer =
       await renderToBuffer(
         pdfDocument
       );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Chemin du fichier
+    |--------------------------------------------------------------------------
+    */
 
     const safeProductType =
       productType.replace(
@@ -769,6 +1012,12 @@ console.log(
 
     const filePath =
       `${sessionId}/rapport-${safeProductType}.pdf`;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Téléversement dans Supabase
+    |--------------------------------------------------------------------------
+    */
 
     const {
       error: uploadError,
@@ -800,16 +1049,25 @@ console.log(
       );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Mise à jour de la commande
+    |--------------------------------------------------------------------------
+    */
+
     const {
       error: updateError,
     } = await supabase
       .from("orders")
       .update({
         status: "generated",
+
         pdf_path:
           filePath,
+
         updated_at:
-          new Date().toISOString(),
+          new Date()
+            .toISOString(),
       })
       .eq(
         "stripe_session_id",
@@ -830,6 +1088,12 @@ console.log(
         }
       );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Création du lien signé
+    |--------------------------------------------------------------------------
+    */
 
     const {
       data: signed,
@@ -859,16 +1123,26 @@ console.log(
       );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Réponse
+    |--------------------------------------------------------------------------
+    */
+
     return NextResponse.json({
       ok: true,
       generated: true,
+
       product_type:
         productType,
+
       pdf_path:
         filePath,
+
       pdf_url:
         signed?.signedUrl ||
         null,
+
       wheel_included:
         Boolean(
           wheelImage
