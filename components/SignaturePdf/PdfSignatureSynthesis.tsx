@@ -12,7 +12,7 @@ import type {
 
 import { pdfStyles } from "./SignaturePdfStyles";
 import PdfBrandHeader from "./PdfSignatureBrandHeader";
-import PdfPageFooter from "./PdfSignaturePageFooter";
+PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 type PdfSignatureSynthesisProps = {
   firstName: string;
