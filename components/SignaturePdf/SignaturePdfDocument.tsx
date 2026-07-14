@@ -21,6 +21,14 @@ import PdfSignatureStrengths from "./PdfSignatureStrengths";
 import PdfSignatureChallenges from "./PdfSignatureChallenges";
 import PdfSignatureRelationships from "./PdfSignatureRelationships";
 import PdfSignatureCareer from "./PdfSignatureCareer";
+
+import PdfSignatureLifePurpose from "./PdfSignatureLifePurpose";
+import PdfSignatureSoulPath from "./PdfSignatureSoulPath";
+import PdfSignatureInnerWorld from "./PdfSignatureInnerWorld";
+import PdfSignatureLifeBlocks from "./PdfSignatureLifeBlocks";
+import PdfSignatureHiddenTalents from "./PdfSignatureHiddenTalents";
+import PdfSignatureIntegrationGuide from "./PdfSignatureIntegrationGuide";
+
 import PdfSignatureSynthesis from "./PdfSignatureSynthesis";
 import PdfSignatureConclusion from "./PdfSignatureConclusion";
 
@@ -298,14 +306,56 @@ export default function SignaturePdfDocument({
         angles={safeAngles}
       />
 
-      {/* 27. Synthèse Signature */}
+      {/* 27 à 29. Mission de vie */}
+      <PdfSignatureLifePurpose
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 30 à 32. Chemin de l’âme */}
+      <PdfSignatureSoulPath
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 33 à 35. Monde intérieur */}
+      <PdfSignatureInnerWorld
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 36 à 38. Blocages inconscients */}
+      <PdfSignatureLifeBlocks
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 39 à 41. Talents cachés */}
+      <PdfSignatureHiddenTalents
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 42 à 44. Guide d’intégration */}
+      <PdfSignatureIntegrationGuide
+        firstName={safeFirstName}
+        planets={safePlanets}
+        angles={safeAngles}
+      />
+
+      {/* 45. Synthèse Signature */}
       <PdfSignatureSynthesis
         firstName={safeFirstName}
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* 28. Conclusion */}
+      {/* 46. Conclusion */}
       <PdfSignatureConclusion />
     </Document>
   );
