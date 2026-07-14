@@ -5,9 +5,9 @@ import {
   View,
 } from "@react-pdf/renderer";
 
-import { pdfStyles } from "./PremiumPdfStyles";
-import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
+import { pdfStyles } from "./SignaturePdfStyles";
+import PdfBrandHeader from "./PdfSignatureBrandHeader";
+import PdfPageFooter from "./PdfSignaturePageFooter";
 
 const styles = StyleSheet.create({
   pageContent: {
