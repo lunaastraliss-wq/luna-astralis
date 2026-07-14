@@ -122,9 +122,7 @@ export default function SignaturePdfDocument({
       <PdfSignatureWheelGuide />
 
       {/* 4. Introduction */}
-      <PdfSignatureWelcome
-        firstName={safeFirstName}
-      />
+      <PdfSignatureWelcome />
 
       {/* 5. Soleil, Lune et Ascendant */}
       <PdfSignatureSummary
@@ -132,7 +130,7 @@ export default function SignaturePdfDocument({
         angles={safeAngles}
       />
 
-      {/* 6 à 15. Les dix planètes */}
+      {/* 6 à 15. Analyse des dix planètes */}
       {SIGNATURE_PLANETS.map(
         (planetName) => (
           <PdfSignaturePlanet
@@ -143,33 +141,33 @@ export default function SignaturePdfDocument({
         )
       )}
 
-      {/* Éléments */}
+      {/* Équilibre des éléments */}
       <PdfSignatureElements
         planets={safePlanets}
       />
 
-      {/* Modalités */}
+      {/* Dynamique des modalités */}
       <PdfSignatureModalities
         planets={safePlanets}
       />
 
-      {/* Maisons */}
+      {/* Douze maisons astrologiques */}
       <PdfSignatureHouses
         planets={safePlanets}
       />
 
-      {/* Aspects */}
+      {/* Aspects planétaires */}
       <PdfSignatureAspects
         planets={safePlanets}
       />
 
-      {/* Dominantes */}
+      {/* Dominantes astrologiques */}
       <PdfSignatureDominants
         planets={safePlanets}
         angles={safeAngles}
       />
 
-      {/* Relations */}
+      {/* Vie relationnelle */}
       <PdfSignatureRelationships
         planets={safePlanets}
         angles={safeAngles}
@@ -181,7 +179,7 @@ export default function SignaturePdfDocument({
         angles={safeAngles}
       />
 
-      {/* Synthèse Signature */}
+      {/* Synthèse générale */}
       <PdfSignatureSynthesis
         firstName={safeFirstName}
         planets={safePlanets}
