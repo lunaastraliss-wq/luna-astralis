@@ -1824,6 +1824,52 @@ function getFinalAspectMessage(
   );
 }
 
+function getAspectPriority(
+  aspects: CalculatedAspect[]
+): string {
+  const statistics =
+    getAspectStatistics(
+      aspects
+    );
+
+  const dominantAspect =
+    getDominantAspectName(
+      statistics
+    );
+
+  switch (dominantAspect) {
+    case "Conjonction":
+      return (
+        "Votre priorité consiste à mieux distinguer puis intégrer les énergies qui fonctionnent ensemble avec une forte intensité. En créant plus de recul entre ces fonctions, vous pouvez utiliser leur puissance sans agir uniquement par automatisme."
+      );
+
+    case "Trigone":
+      return (
+        "Votre priorité consiste à utiliser plus consciemment vos talents naturels afin qu’ils deviennent de véritables forces d’accomplissement. Une facilité non développée peut rester discrète, tandis qu’un talent cultivé devient une ressource durable."
+      );
+
+    case "Carré":
+      return (
+        "Votre priorité consiste à transformer les tensions répétitives en décisions plus conscientes et en progression concrète. Les défis de votre thème peuvent devenir de puissants moteurs lorsque vous cessez de les vivre comme des contradictions impossibles à résoudre."
+      );
+
+    case "Opposition":
+      return (
+        "Votre priorité consiste à sortir du tout ou rien et à créer un meilleur équilibre entre des besoins apparemment contraires. Les relations et les situations de polarité peuvent vous aider à reconnaître des qualités que vous projetez parfois à l’extérieur de vous."
+      );
+
+    case "Sextile":
+      return (
+        "Votre priorité consiste à saisir activement les possibilités de coopération présentes dans votre thème. Ces ressources demandent souvent une initiative personnelle avant de révéler tout leur potentiel."
+      );
+
+    default:
+      return (
+        "Votre priorité consiste à observer comment vos différentes énergies collaborent dans vos choix, vos relations et votre évolution. Cette attention vous aide à transformer vos réactions automatiques en réponses plus conscientes."
+      );
+  }
+}
+
 function splitIntoPages<T>(
   values: T[],
   pageSize: number
@@ -2413,36 +2459,109 @@ export default function PdfSignatureAspects({
             </Text>
           </View>
 
+        </View>
+
+        <PdfSignaturePageFooter />
+      </Page>
+
+      <Page
+        size="A4"
+        style={styles.page}
+        wrap={false}
+      >
+        <PdfSignatureBrandHeader />
+
+        <View style={styles.content}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>
+              Guide Signature
+            </Text>
+          </View>
+
+          <Text style={styles.title}>
+            Comment intégrer vos aspects
+          </Text>
+
+          <Text style={styles.intro}>
+            Cette page vous aide à transformer la lecture de vos
+            aspects planétaires en repères concrets pour votre
+            évolution personnelle.
+          </Text>
+
           <View
-            style={
-              styles.practiceCard
-            }
-           >
-            <Text
-              style={
-                styles.practiceTitle
-              }
-            >
-              Comment utiliser cette
-              analyse
+            style={styles.practiceCard}
+            wrap={false}
+          >
+            <Text style={styles.practiceTitle}>
+              Comment utiliser cette analyse
             </Text>
 
-            <Text
-              style={
-                styles.practiceText
-              }
-            >
-              Les aspects planétaires décrivent des tendances
-              qui évoluent avec votre expérience de vie. Les
-              aspects harmonieux représentent vos ressources
-              naturelles, tandis que les aspects dynamiques
-              révèlent les domaines où votre progression peut
-              être la plus profonde. Observez particulièrement
-              les situations qui activent votre aspect le plus
-              précis et votre planète la plus reliée. Elles
-              constituent souvent des points importants de
-              votre fonctionnement intérieur et de votre
-              évolution personnelle.
+            <Text style={styles.practiceText}>
+              Les aspects planétaires décrivent des tendances qui
+              évoluent avec votre expérience de vie. Les aspects
+              harmonieux représentent vos ressources naturelles,
+              tandis que les aspects dynamiques révèlent les domaines
+              où votre progression peut être la plus profonde.
+              Observez particulièrement les situations qui activent
+              votre aspect le plus précis et votre planète la plus
+              reliée. Elles constituent souvent des points importants
+              de votre fonctionnement intérieur et de votre évolution
+              personnelle.
+            </Text>
+          </View>
+
+          <View
+            style={styles.finalCard}
+            wrap={false}
+          >
+            <Text style={styles.finalTitle}>
+              Ce que vos aspects vous enseignent
+            </Text>
+
+            <Text style={styles.finalText}>
+              Les interactions de votre thème montrent que votre
+              évolution ne dépend pas seulement de vos qualités
+              naturelles. Elle repose aussi sur votre capacité à relier
+              des besoins parfois différents, à reconnaître vos
+              automatismes et à choisir une réponse plus consciente.
+              Avec le temps, certaines tensions deviennent des forces,
+              tandis que certaines facilités demandent à être
+              développées pour révéler tout leur potentiel.
+            </Text>
+          </View>
+
+          <View
+            style={styles.guidanceCard}
+            wrap={false}
+          >
+            <Text style={styles.guidanceTitle}>
+              Votre priorité actuelle
+            </Text>
+
+            <Text style={styles.guidanceText}>
+              {getAspectPriority(
+                allCalculatedAspects
+              )}
+            </Text>
+          </View>
+
+          <View
+            style={styles.finalCard}
+            wrap={false}
+          >
+            <Text style={styles.finalTitle}>
+              Trois repères à conserver
+            </Text>
+
+            <Text style={styles.finalText}>
+              ✦ Observez les situations qui activent vos aspects
+              les plus précis.
+              {"\n\n"}
+              ✦ Appuyez-vous sur vos aspects harmonieux lorsque
+              vous traversez une période plus exigeante.
+              {"\n\n"}
+              ✦ Revenez à cette analyse au fil du temps : certains
+              aspects prennent davantage de sens avec l’expérience.
             </Text>
           </View>
         </View>
