@@ -16,7 +16,6 @@ import {
 } from "./SignaturePdfAssets";
 
 import type { SignaturePdfProps } from "./SignaturePdfTypes";
-import PdfSignaturePageFooter from "./PdfSignaturePageFooter";
 
 /*
  * Couleurs principales du rapport Premium
@@ -1219,7 +1218,6 @@ export default function PdfSignatureCover({
         </View>
       </View>
 
-      <PdfSignaturePageFooter />
-    </Page>
+          </Page>
   );
 }
