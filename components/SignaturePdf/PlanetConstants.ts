@@ -1,7 +1,4 @@
-export const PLANET_FR: Record<
-  string,
-  string
-> = {
+export const PLANET_FR: Record<string, string> = {
   Sun: "Soleil",
   Moon: "Lune",
   Mercury: "Mercure",
@@ -14,45 +11,21 @@ export const PLANET_FR: Record<
   Pluto: "Pluton",
 };
 
-export const PLANET_MEANINGS: Record<
-  string,
-  string
-> = {
-  Sun:
-    "Identité, volonté et rayonnement",
-
-  Moon:
-    "Émotions, sécurité et besoins intérieurs",
-
-  Mercury:
-    "Pensée, apprentissage et communication",
-
-  Venus:
-    "Amour, valeurs et sensibilité relationnelle",
-
-  Mars:
-    "Action, désir et affirmation personnelle",
-
-  Jupiter:
-    "Expansion, confiance et développement",
-
-  Saturn:
-    "Structure, responsabilité et maturité",
-
-  Uranus:
-    "Liberté, changement et originalité",
-
-  Neptune:
-    "Intuition, imagination et inspiration",
-
-  Pluto:
-    "Transformation, profondeur et puissance intérieure",
+export const PLANET_MEANINGS: Record<string, string> = {
+  Sun: "Identité, volonté et rayonnement",
+  Moon: "Émotions, sécurité et besoins intérieurs",
+  Mercury: "Pensée, apprentissage et communication",
+  Venus: "Amour, valeurs et sensibilité relationnelle",
+  Mars: "Action, désir et affirmation personnelle",
+  Jupiter: "Expansion, confiance et développement",
+  Saturn: "Structure, responsabilité et maturité",
+  Uranus: "Liberté, changement et originalité",
+  Neptune: "Intuition, imagination et inspiration",
+  Pluto: "Transformation, profondeur et puissance intérieure",
 };
 
-export const SIGN_NAMES_FR: Record<
-  string,
-  string
-> = {
+export const SIGN_NAMES_FR: Record<string, string> = {
+  // Anglais -> Français
   Aries: "Bélier",
   Taurus: "Taureau",
   Gemini: "Gémeaux",
@@ -66,6 +39,7 @@ export const SIGN_NAMES_FR: Record<
   Aquarius: "Verseau",
   Pisces: "Poissons",
 
+  // Français -> Français
   Bélier: "Bélier",
   Taureau: "Taureau",
   Gémeaux: "Gémeaux",
@@ -79,10 +53,8 @@ export const SIGN_NAMES_FR: Record<
   Poissons: "Poissons",
 };
 
-export const SIGN_KEYS: Record<
-  string,
-  string
-> = {
+export const SIGN_KEYS: Record<string, string> = {
+  // Anglais -> clé anglaise
   Aries: "Aries",
   Taurus: "Taurus",
   Gemini: "Gemini",
@@ -96,10 +68,10 @@ export const SIGN_KEYS: Record<
   Aquarius: "Aquarius",
   Pisces: "Pisces",
 
+  // Français -> clé anglaise
   Bélier: "Aries",
   Taureau: "Taurus",
   Gémeaux: "Gemini",
-  Cancer: "Cancer",
   Lion: "Leo",
   Vierge: "Virgo",
   Balance: "Libra",
