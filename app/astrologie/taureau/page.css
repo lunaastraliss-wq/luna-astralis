@@ -1,0 +1,580 @@
+.taurus-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(74, 222, 128, 0.13),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #070b18 100%
+    );
+}
+
+.taurus-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.taurus-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(74, 222, 128, 0.16),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 39, 37, 0.97),
+      rgba(9, 18, 29, 0.93)
+    );
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.42),
+    0 0 60px rgba(74, 222, 128, 0.07);
+}
+
+.taurus-hero::before {
+  content: "♉";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(74, 222, 128, 0.065);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.taurus-badge,
+.taurus-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #86efac;
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.25);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.taurus-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.taurus-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.taurus-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d5efe1;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.taurus-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.taurus-primary-button,
+.taurus-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.taurus-primary-button {
+  color: #052e16;
+  background:
+    linear-gradient(
+      135deg,
+      #4ade80,
+      #86efac 48%,
+      #22c55e
+    );
+  box-shadow:
+    0 12px 32px rgba(74, 222, 128, 0.23);
+}
+
+.taurus-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.taurus-primary-button:hover,
+.taurus-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.taurus-primary-button:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(74, 222, 128, 0.3);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.taurus-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 29, 31, 0.9),
+      rgba(8, 15, 25, 0.8)
+    );
+  border: 1px solid rgba(74, 222, 128, 0.18);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34);
+}
+
+.taurus-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(74, 222, 128, 0.12);
+}
+
+.taurus-kicker {
+  margin-bottom: 15px;
+}
+
+.taurus-content h2 {
+  max-width: 900px;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.taurus-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.taurus-content p {
+  max-width: 940px;
+  margin: 0 0 17px;
+  color: #d6eadd;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+.taurus-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #86efac;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.taurus-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* CARTES GÉNÉRALES                         */
+/* ======================================== */
+
+.taurus-info-grid,
+.taurus-pillars {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.taurus-info-card,
+.taurus-pillar-card,
+.taurus-compatibility-card {
+  padding: 24px 22px;
+  border-radius: 23px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(22, 44, 43, 0.95),
+      rgba(11, 22, 30, 0.9)
+    );
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.taurus-card-icon,
+.taurus-pillar-symbol,
+.taurus-sign-symbol {
+  color: #86efac;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.taurus-info-card p,
+.taurus-pillar-card p,
+.taurus-compatibility-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.taurus-pillar-card {
+  text-align: center;
+}
+
+/* ======================================== */
+/* FORCES ET DÉFIS                          */
+/* ======================================== */
+
+.taurus-strengths-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.taurus-list-card {
+  padding: 26px 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(22, 44, 43, 0.95),
+      rgba(11, 22, 30, 0.9)
+    );
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.taurus-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.taurus-list-card li {
+  position: relative;
+  padding-left: 28px;
+  color: #d6eadd;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.taurus-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #86efac;
+  font-weight: 900;
+}
+
+/* ======================================== */
+/* COMPATIBILITÉS                           */
+/* ======================================== */
+
+.taurus-compatibility-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.taurus-compatibility-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.taurus-compatibility-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(74, 222, 128, 0.4);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(74, 222, 128, 0.06);
+}
+
+/* ======================================== */
+/* CTA                                      */
+/* ======================================== */
+
+.taurus-cta-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  margin-top: 28px;
+  padding: 30px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(74, 222, 128, 0.11),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.taurus-cta-card h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.taurus-cta-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.taurus-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.taurus-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    rgba(255, 255, 255, 0.045);
+  border:
+    1px solid rgba(74, 222, 128, 0.14);
+}
+
+.taurus-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.taurus-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.taurus-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #86efac;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.taurus-faq-item[open] summary::after {
+  content: "−";
+}
+
+.taurus-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.taurus-disclaimer {
+  margin: 44px auto 0 !important;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  background:
+    rgba(74, 222, 128, 0.05);
+  border:
+    1px solid rgba(74, 222, 128, 0.12);
+  color:
+    rgba(214, 234, 221, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .taurus-info-grid,
+  .taurus-pillars {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .taurus-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .taurus-cta-card .taurus-primary-button {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .taurus-page {
+    padding: 34px 12px 60px;
+  }
+
+  .taurus-hero {
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .taurus-hero::before {
+    top: -28px;
+    font-size: 175px;
+  }
+
+  .taurus-hero h1 {
+    font-size: 42px;
+  }
+
+  .taurus-hero-lead {
+    font-size: 16px;
+  }
+
+  .taurus-hero-actions {
+    flex-direction: column;
+  }
+
+  .taurus-primary-button,
+  .taurus-secondary-button {
+    width: 100%;
+  }
+
+  .taurus-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .taurus-content section + section {
+    margin-top: 42px;
+    padding-top: 38px;
+  }
+
+  .taurus-content h2 {
+    font-size: 29px;
+  }
+
+  .taurus-info-grid,
+  .taurus-pillars,
+  .taurus-strengths-grid,
+  .taurus-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .taurus-info-card,
+  .taurus-pillar-card,
+  .taurus-list-card,
+  .taurus-compatibility-card {
+    padding: 21px 18px;
+  }
+
+  .taurus-cta-card {
+    padding: 24px 18px;
+  }
+
+  .taurus-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .taurus-faq-item summary::after {
+    right: 18px;
+  }
+
+  .taurus-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================== */
+/* ACCESSIBILITÉ                            */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .taurus-primary-button,
+  .taurus-secondary-button,
+  .taurus-compatibility-card {
+    transition: none;
+  }
+}
