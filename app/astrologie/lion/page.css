@@ -1,0 +1,614 @@
+.lion-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(251, 191, 36, 0.15),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #08070f 0%,
+      #0b0914 100%
+    );
+}
+
+.lion-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.lion-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(251, 191, 36, 0.2),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(54, 34, 18, 0.97),
+      rgba(18, 13, 25, 0.95)
+    );
+  border: 1px solid rgba(251, 191, 36, 0.32);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.46),
+    0 0 65px rgba(251, 191, 36, 0.09);
+}
+
+.lion-hero::before {
+  content: "♌";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(251, 191, 36, 0.075);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.lion-badge,
+.lion-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #fcd56c;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.26);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lion-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.lion-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.lion-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #f7e8c8;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.lion-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.lion-primary-button,
+.lion-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.lion-primary-button {
+  color: #2b1800;
+  background:
+    linear-gradient(
+      135deg,
+      #f59e0b,
+      #fde68a 48%,
+      #d97706
+    );
+  box-shadow:
+    0 14px 34px rgba(245, 158, 11, 0.2);
+}
+
+.lion-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.22);
+}
+
+.lion-primary-button:hover,
+.lion-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.lion-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(245, 158, 11, 0.28);
+}
+
+.lion-secondary-button:hover {
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.lion-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(32, 22, 27, 0.92),
+      rgba(13, 10, 21, 0.86)
+    );
+  border: 1px solid rgba(251, 191, 36, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.lion-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(251, 191, 36, 0.13);
+}
+
+.lion-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.lion-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.lion-content p {
+  max-width: 940px;
+  color: #f0dfc4;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.lion-content p + p {
+  margin-top: 16px;
+}
+
+.lion-kicker {
+  margin-bottom: 18px;
+}
+
+.lion-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #fcd56c;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.lion-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES                                  */
+/* ======================================== */
+
+.lion-info-grid,
+.lion-pillars,
+.lion-strengths-grid,
+.lion-compatibility-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.lion-info-grid,
+.lion-pillars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lion-strengths-grid,
+.lion-compatibility-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lion-info-card,
+.lion-pillar-card,
+.lion-list-card,
+.lion-compatibility-card {
+  padding: 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(55, 36, 23, 0.95),
+      rgba(22, 15, 25, 0.92)
+    );
+  border: 1px solid rgba(251, 191, 36, 0.16);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+.lion-info-card,
+.lion-pillar-card,
+.lion-compatibility-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.lion-info-card:hover,
+.lion-pillar-card:hover,
+.lion-compatibility-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(251, 191, 36, 0.34);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.27);
+}
+
+.lion-card-icon,
+.lion-pillar-symbol,
+.lion-sign-symbol {
+  color: #fcd56c;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.lion-info-card p,
+.lion-pillar-card p,
+.lion-list-card p,
+.lion-compatibility-card p {
+  margin-bottom: 0;
+  color: #ead7b9;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.lion-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lion-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #f8ead1;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(251, 191, 36, 0.11);
+  font-weight: 700;
+}
+
+.lion-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* COMPATIBILITÉS                           */
+/* ======================================== */
+
+.lion-compatibility-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.lion-compatibility-card::after {
+  content: "";
+  position: absolute;
+  right: -45px;
+  bottom: -45px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(251, 191, 36, 0.05);
+  pointer-events: none;
+}
+
+.lion-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(251, 191, 36, 0.09);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.lion-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(251, 191, 36, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(67, 42, 20, 0.98),
+      rgba(22, 14, 27, 0.97)
+    );
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.28);
+}
+
+.lion-cta-card > div {
+  flex: 1;
+}
+
+.lion-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.lion-cta-card p {
+  margin-bottom: 0;
+}
+
+.lion-cta-card .lion-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.lion-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.lion-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(54, 35, 23, 0.92),
+      rgba(22, 15, 25, 0.9)
+    );
+  border: 1px solid rgba(251, 191, 36, 0.15);
+}
+
+.lion-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.lion-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.lion-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #fcd56c;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.lion-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.lion-faq-item[open] summary {
+  border-bottom: 1px solid rgba(251, 191, 36, 0.12);
+}
+
+.lion-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #ead7b9;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.lion-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #cdbd9f !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(251, 191, 36, 0.1);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .lion-page {
+    padding-top: 40px;
+  }
+
+  .lion-hero {
+    padding: 52px 28px;
+  }
+
+  .lion-content {
+    padding: 38px 28px;
+  }
+
+  .lion-info-grid,
+  .lion-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .lion-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .lion-page {
+    padding: 24px 12px 60px;
+  }
+
+  .lion-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .lion-hero::before {
+    top: -30px;
+    font-size: 210px;
+  }
+
+  .lion-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .lion-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .lion-hero-actions {
+    flex-direction: column;
+  }
+
+  .lion-primary-button,
+  .lion-secondary-button {
+    width: 100%;
+  }
+
+  .lion-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .lion-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .lion-content h2 {
+    font-size: 30px;
+  }
+
+  .lion-content p {
+    font-size: 15px;
+  }
+
+  .lion-strengths-grid,
+  .lion-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lion-info-card,
+  .lion-pillar-card,
+  .lion-list-card,
+  .lion-compatibility-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .lion-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .lion-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .lion-faq-item summary::after {
+    right: 18px;
+  }
+}
