@@ -9,7 +9,6 @@ import {
 import { pdfStyles } from "./EssentialPdfStyles";
 import type { EssentialPdfProps } from "./EssentialPdfTypes";
 import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -433,7 +432,6 @@ export default function PdfWheel({
         </Text>
       </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
 }
