@@ -1,0 +1,619 @@
+.capricorn-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(148, 163, 184, 0.15),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #06080b 0%,
+      #0a0d12 100%
+    );
+}
+
+.capricorn-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.capricorn-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(148, 163, 184, 0.19),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(37, 43, 52, 0.98),
+      rgba(14, 18, 24, 0.96)
+    );
+  border: 1px solid rgba(203, 213, 225, 0.27);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.48),
+    0 0 65px rgba(148, 163, 184, 0.09);
+}
+
+.capricorn-hero::before {
+  content: "♑";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(203, 213, 225, 0.065);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.capricorn-badge,
+.capricorn-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #d6c796;
+  background: rgba(214, 199, 150, 0.09);
+  border: 1px solid rgba(214, 199, 150, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.capricorn-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.capricorn-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.capricorn-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #dde2e8;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.capricorn-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.capricorn-primary-button,
+.capricorn-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.capricorn-primary-button {
+  color: #19170f;
+  background:
+    linear-gradient(
+      135deg,
+      #a99b6c,
+      #e1d6ad 48%,
+      #7d7048
+    );
+  box-shadow:
+    0 14px 34px rgba(214, 199, 150, 0.2);
+}
+
+.capricorn-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(203, 213, 225, 0.2);
+}
+
+.capricorn-primary-button:hover,
+.capricorn-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.capricorn-primary-button:hover {
+  box-shadow:
+    0 18px 42px rgba(214, 199, 150, 0.28);
+}
+
+.capricorn-secondary-button:hover {
+  border-color: rgba(203, 213, 225, 0.46);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.capricorn-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(28, 33, 40, 0.93),
+      rgba(13, 16, 21, 0.88)
+    );
+  border: 1px solid rgba(203, 213, 225, 0.17);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.31);
+}
+
+.capricorn-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(203, 213, 225, 0.11);
+}
+
+.capricorn-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.capricorn-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.capricorn-content p {
+  max-width: 940px;
+  color: #d9dee5;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.capricorn-content p + p {
+  margin-top: 16px;
+}
+
+.capricorn-kicker {
+  margin-bottom: 18px;
+}
+
+.capricorn-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #d6c796;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.capricorn-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES                                  */
+/* ======================================== */
+
+.capricorn-info-grid,
+.capricorn-pillars,
+.capricorn-strengths-grid,
+.capricorn-compatibility-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.capricorn-info-grid,
+.capricorn-pillars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.capricorn-strengths-grid,
+.capricorn-compatibility-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.capricorn-info-card,
+.capricorn-pillar-card,
+.capricorn-list-card,
+.capricorn-compatibility-card {
+  padding: 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(42, 48, 58, 0.96),
+      rgba(21, 25, 32, 0.92)
+    );
+  border: 1px solid rgba(203, 213, 225, 0.15);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.22);
+}
+
+.capricorn-info-card,
+.capricorn-pillar-card,
+.capricorn-compatibility-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.capricorn-info-card:hover,
+.capricorn-pillar-card:hover,
+.capricorn-compatibility-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(214, 199, 150, 0.32);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.29);
+}
+
+.capricorn-card-icon,
+.capricorn-pillar-symbol,
+.capricorn-sign-symbol {
+  color: #d6c796;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.capricorn-info-card p,
+.capricorn-pillar-card p,
+.capricorn-list-card p,
+.capricorn-compatibility-card p {
+  margin-bottom: 0;
+  color: #cfd5dc;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.capricorn-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.capricorn-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #eef1f4;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(203, 213, 225, 0.1);
+  font-weight: 700;
+}
+
+.capricorn-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #d6c796;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* COMPATIBILITÉS                           */
+/* ======================================== */
+
+.capricorn-compatibility-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.capricorn-compatibility-card::after {
+  content: "";
+  position: absolute;
+  right: -45px;
+  bottom: -45px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(214, 199, 150, 0.045);
+  pointer-events: none;
+}
+
+.capricorn-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(214, 199, 150, 0.08);
+  border: 1px solid rgba(214, 199, 150, 0.18);
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.capricorn-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(214, 199, 150, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(48, 53, 61, 0.98),
+      rgba(20, 23, 29, 0.97)
+    );
+  border: 1px solid rgba(214, 199, 150, 0.26);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.3);
+}
+
+.capricorn-cta-card > div {
+  flex: 1;
+}
+
+.capricorn-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.capricorn-cta-card p {
+  margin-bottom: 0;
+}
+
+.capricorn-cta-card
+  .capricorn-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.capricorn-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.capricorn-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(41, 47, 56, 0.93),
+      rgba(20, 24, 30, 0.91)
+    );
+  border: 1px solid rgba(203, 213, 225, 0.14);
+}
+
+.capricorn-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.capricorn-faq-item
+  summary::-webkit-details-marker {
+  display: none;
+}
+
+.capricorn-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #d6c796;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.capricorn-faq-item[open]
+  summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.capricorn-faq-item[open] summary {
+  border-bottom: 1px solid
+    rgba(203, 213, 225, 0.11);
+}
+
+.capricorn-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #cfd5dc;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.capricorn-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #aeb5bd !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid
+    rgba(203, 213, 225, 0.09);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .capricorn-page {
+    padding-top: 40px;
+  }
+
+  .capricorn-hero {
+    padding: 52px 28px;
+  }
+
+  .capricorn-content {
+    padding: 38px 28px;
+  }
+
+  .capricorn-info-grid,
+  .capricorn-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .capricorn-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .capricorn-page {
+    padding: 24px 12px 60px;
+  }
+
+  .capricorn-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .capricorn-hero::before {
+    top: -30px;
+    font-size: 210px;
+  }
+
+  .capricorn-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .capricorn-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .capricorn-hero-actions {
+    flex-direction: column;
+  }
+
+  .capricorn-primary-button,
+  .capricorn-secondary-button {
+    width: 100%;
+  }
+
+  .capricorn-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .capricorn-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .capricorn-content h2 {
+    font-size: 30px;
+  }
+
+  .capricorn-content p {
+    font-size: 15px;
+  }
+
+  .capricorn-strengths-grid,
+  .capricorn-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capricorn-info-card,
+  .capricorn-pillar-card,
+  .capricorn-list-card,
+  .capricorn-compatibility-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .capricorn-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .capricorn-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .capricorn-faq-item summary::after {
+    right: 18px;
+  }
+}
