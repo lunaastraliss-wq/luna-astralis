@@ -1,0 +1,580 @@
+.cancer-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(96, 165, 250, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #070b18 100%
+    );
+}
+
+.cancer-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.cancer-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(96, 165, 250, 0.17),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 30, 55, 0.97),
+      rgba(9, 15, 30, 0.93)
+    );
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.42),
+    0 0 60px rgba(96, 165, 250, 0.08);
+}
+
+.cancer-hero::before {
+  content: "♋";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(96, 165, 250, 0.07);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.cancer-badge,
+.cancer-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #93c5fd;
+  background: rgba(96, 165, 250, 0.1);
+  border: 1px solid rgba(96, 165, 250, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cancer-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.cancer-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.cancer-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d7e7fb;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.cancer-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.cancer-primary-button,
+.cancer-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.cancer-primary-button {
+  color: #082f49;
+  background:
+    linear-gradient(
+      135deg,
+      #60a5fa,
+      #93c5fd 48%,
+      #3b82f6
+    );
+  box-shadow:
+    0 12px 32px rgba(96, 165, 250, 0.24);
+}
+
+.cancer-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.cancer-primary-button:hover,
+.cancer-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.cancer-primary-button:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(96, 165, 250, 0.32);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.cancer-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(12, 23, 40, 0.9),
+      rgba(8, 13, 27, 0.82)
+    );
+  border: 1px solid rgba(96, 165, 250, 0.18);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34);
+}
+
+.cancer-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(96, 165, 250, 0.12);
+}
+
+.cancer-kicker {
+  margin-bottom: 15px;
+}
+
+.cancer-content h2 {
+  max-width: 900px;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.cancer-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.cancer-content p {
+  max-width: 940px;
+  margin: 0 0 17px;
+  color: #d7e7fb;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+.cancer-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #93c5fd;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.cancer-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* CARTES GÉNÉRALES                         */
+/* ======================================== */
+
+.cancer-info-grid,
+.cancer-pillars {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.cancer-info-card,
+.cancer-pillar-card,
+.cancer-compatibility-card {
+  padding: 24px 22px;
+  border-radius: 23px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 35, 56, 0.95),
+      rgba(10, 18, 34, 0.9)
+    );
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.cancer-card-icon,
+.cancer-pillar-symbol,
+.cancer-sign-symbol {
+  color: #93c5fd;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.cancer-info-card p,
+.cancer-pillar-card p,
+.cancer-compatibility-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.cancer-pillar-card {
+  text-align: center;
+}
+
+/* ======================================== */
+/* FORCES ET DÉFIS                          */
+/* ======================================== */
+
+.cancer-strengths-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.cancer-list-card {
+  padding: 26px 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 35, 56, 0.95),
+      rgba(10, 18, 34, 0.9)
+    );
+  border: 1px solid rgba(96, 165, 250, 0.15);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.cancer-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cancer-list-card li {
+  position: relative;
+  padding-left: 28px;
+  color: #d7e7fb;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.cancer-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #93c5fd;
+  font-weight: 900;
+}
+
+/* ======================================== */
+/* COMPATIBILITÉS                           */
+/* ======================================== */
+
+.cancer-compatibility-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.cancer-compatibility-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.cancer-compatibility-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(96, 165, 250, 0.4);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(96, 165, 250, 0.07);
+}
+
+/* ======================================== */
+/* CTA                                      */
+/* ======================================== */
+
+.cancer-cta-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  margin-top: 28px;
+  padding: 30px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(96, 165, 250, 0.12),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.cancer-cta-card h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.cancer-cta-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.cancer-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.cancer-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    rgba(255, 255, 255, 0.045);
+  border:
+    1px solid rgba(96, 165, 250, 0.14);
+}
+
+.cancer-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cancer-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.cancer-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #93c5fd;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.cancer-faq-item[open] summary::after {
+  content: "−";
+}
+
+.cancer-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.cancer-disclaimer {
+  margin: 44px auto 0 !important;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  background:
+    rgba(96, 165, 250, 0.055);
+  border:
+    1px solid rgba(96, 165, 250, 0.13);
+  color:
+    rgba(215, 231, 251, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .cancer-info-grid,
+  .cancer-pillars {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .cancer-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .cancer-cta-card .cancer-primary-button {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .cancer-page {
+    padding: 34px 12px 60px;
+  }
+
+  .cancer-hero {
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .cancer-hero::before {
+    top: -28px;
+    font-size: 175px;
+  }
+
+  .cancer-hero h1 {
+    font-size: 42px;
+  }
+
+  .cancer-hero-lead {
+    font-size: 16px;
+  }
+
+  .cancer-hero-actions {
+    flex-direction: column;
+  }
+
+  .cancer-primary-button,
+  .cancer-secondary-button {
+    width: 100%;
+  }
+
+  .cancer-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .cancer-content section + section {
+    margin-top: 42px;
+    padding-top: 38px;
+  }
+
+  .cancer-content h2 {
+    font-size: 29px;
+  }
+
+  .cancer-info-grid,
+  .cancer-pillars,
+  .cancer-strengths-grid,
+  .cancer-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cancer-info-card,
+  .cancer-pillar-card,
+  .cancer-list-card,
+  .cancer-compatibility-card {
+    padding: 21px 18px;
+  }
+
+  .cancer-cta-card {
+    padding: 24px 18px;
+  }
+
+  .cancer-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .cancer-faq-item summary::after {
+    right: 18px;
+  }
+
+  .cancer-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================== */
+/* ACCESSIBILITÉ                            */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .cancer-primary-button,
+  .cancer-secondary-button,
+  .cancer-compatibility-card {
+    transition: none;
+  }
+}
