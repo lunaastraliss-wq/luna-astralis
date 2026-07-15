@@ -6,7 +6,6 @@ import {
 
 import { pdfStyles } from "./EssentialPdfStyles";
 import PdfBrandHeader from "./PdfBrandHeader";
-import PdfPageFooter from "./PdfPageFooter";
 
 export default function PdfWelcome() {
   return (
@@ -127,7 +126,6 @@ export default function PdfWelcome() {
   </Text>
 </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
 }
