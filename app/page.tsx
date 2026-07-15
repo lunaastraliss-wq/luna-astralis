@@ -3,9 +3,9 @@
 import Link from "next/link";
 
 import AuthProvider from "@/components/AuthProvider";
+import SignGrid from "@/components/SignGrid";
 import SiteHeader from "@/components/SiteHeader";
 import WelcomeVideo from "@/components/WelcomeVideo";
-import SignGrid from "@/components/SignGrid";
 
 import "./home.css";
 
@@ -66,30 +66,30 @@ const PAID_REPORTS = [
     price: "49,99 $ US",
     badge: "Analyse approfondie",
     description:
-      "Une exploration plus complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
+      "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
     features: [
-      "Tout le contenu de l'analyse Essentielle",
+      "Tout le contenu de l’analyse Essentielle",
       "Vos douze maisons astrologiques",
       "Vos aspects planétaires",
       "Vos dominantes astrologiques",
       "Relations, carrière, forces et défis",
     ],
-    featured: false,
+    featured: true,
   },
   {
     name: "Signature",
     price: "79,99 $ US",
     badge: "Le plus complet",
     description:
-      "L'analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d'évolution.",
+      "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
     features: [
       "Tout le contenu du rapport Premium",
-      "Mission de vie et chemin de l'âme",
+      "Mission de vie et chemin de l’âme",
       "Monde intérieur et blocages inconscients",
-      "Talents cachés et guide d'intégration",
+      "Talents cachés et guide d’intégration",
       "Synthèse Signature personnalisée",
     ],
-    featured: true,
+    featured: false,
   },
 ];
 
@@ -111,8 +111,7 @@ const BOOKS = [
     amazon: "https://a.co/d/03osw44E",
   },
   {
-    image:
-      "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
+    image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
     title: "Développement personnel",
     amazon: "https://a.co/d/05mlDRXi",
   },
@@ -197,7 +196,8 @@ const BOOKS = [
 */
 
 export default function HomePage() {
-  const y = new Date().getFullYear();
+  const year =
+    new Date().getFullYear();
 
   return (
     <div className="page-astro">
@@ -239,9 +239,9 @@ export default function HomePage() {
                 </p>
 
                 <p className="lead">
-                  Créez votre thème astral, explorez votre carte
-                  du ciel et comparez deux signes astrologiques
-                  en quelques secondes.
+                  Créez votre thème astral, explorez votre
+                  carte du ciel et comparez deux signes
+                  astrologiques en quelques secondes.
                 </p>
               </div>
 
@@ -318,9 +318,10 @@ export default function HomePage() {
                 </article>
               </section>
 
-              {/* Rapports astrologiques payants */}
+              {/* Rapports astrologiques */}
 
               <section
+                id="rapports"
                 className="reports-preview"
                 aria-labelledby="reports-preview-title"
               >
@@ -336,7 +337,7 @@ export default function HomePage() {
                   <p>
                     Après avoir créé votre carte du ciel
                     gratuitement, choisissez le niveau
-                    d'analyse qui correspond à vos besoins.
+                    d’analyse qui correspond à vos besoins.
                     Chaque rapport est personnalisé selon
                     votre date, votre heure et votre lieu de
                     naissance.
@@ -454,8 +455,8 @@ export default function HomePage() {
               </div>
 
               <p className="hero-free-note">
-                Gratuit pour commencer · Résultat instantané ·
-                Mobile
+                Gratuit pour commencer · Résultat
+                instantané · Mobile
               </p>
 
               {/* Avis */}
@@ -464,33 +465,32 @@ export default function HomePage() {
                 className="mini-reviews"
                 aria-label="Avis 5 étoiles"
               >
-                {MINI_REVIEWS.map((review) => (
-                  <article
-                    key={
-                      review.name +
-                      review.sign
-                    }
-                    className="mini-review"
-                  >
-                    <div className="mini-review-top">
-                      <div className="mini-review-name">
-                        {review.name}
+                {MINI_REVIEWS.map(
+                  (review) => (
+                    <article
+                      key={`${review.name}-${review.sign}`}
+                      className="mini-review"
+                    >
+                      <div className="mini-review-top">
+                        <div className="mini-review-name">
+                          {review.name}
+                        </div>
+
+                        <div className="mini-review-stars">
+                          ★★★★★
+                        </div>
                       </div>
 
-                      <div className="mini-review-stars">
-                        ★★★★★
+                      <div className="mini-review-sign">
+                        {review.sign}
                       </div>
-                    </div>
 
-                    <div className="mini-review-sign">
-                      {review.sign}
-                    </div>
-
-                    <p className="mini-review-text">
-                      {review.text}
-                    </p>
-                  </article>
-                ))}
+                      <p className="mini-review-text">
+                        {review.text}
+                      </p>
+                    </article>
+                  )
+                )}
               </section>
 
               <p className="hero-tech">
@@ -508,8 +508,8 @@ export default function HomePage() {
 
           <section className="section-problem">
             <p className="problem-intro">
-              En quelques minutes, tu comprends enfin ce que tu
-              vis, sans te mentir.
+              En quelques minutes, tu comprends enfin ce que
+              tu vis, sans te mentir.
             </p>
 
             <ul className="problem-list">
@@ -553,7 +553,8 @@ export default function HomePage() {
               </div>
 
               <h3>
-                Une collection complète d&apos;astrologie
+                Une collection complète
+                d&apos;astrologie
               </h3>
 
               <p>
@@ -563,31 +564,33 @@ export default function HomePage() {
             </div>
 
             <div className="books-grid">
-              {BOOKS.map((book) => (
-                <article
-                  className="book-card"
-                  key={book.title}
-                >
-                  <img
-                    src={`/books/${book.image}`}
-                    alt={book.title}
-                    loading="lazy"
-                  />
-
-                  <h3>
-                    {book.title}
-                  </h3>
-
-                  <a
-                    href={book.amazon}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hero-free-btn"
+              {BOOKS.map(
+                (book) => (
+                  <article
+                    className="book-card"
+                    key={book.title}
                   >
-                    Voir sur Amazon
-                  </a>
-                </article>
-              ))}
+                    <img
+                      src={`/books/${book.image}`}
+                      alt={`Couverture du livre ${book.title}`}
+                      loading="lazy"
+                    />
+
+                    <h3>
+                      {book.title}
+                    </h3>
+
+                    <a
+                      href={book.amazon}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hero-free-btn"
+                    >
+                      Voir sur Amazon
+                    </a>
+                  </article>
+                )
+              )}
             </div>
 
             <div className="book-final-cta">
@@ -706,9 +709,9 @@ export default function HomePage() {
                 </h3>
 
                 <p>
-                  Choisis l&apos;analyse Essentielle, Premium
-                  ou Signature pour approfondir ton thème
-                  natal.
+                  Choisis l&apos;analyse Essentielle,
+                  Premium ou Signature pour approfondir ton
+                  thème natal.
                 </p>
               </div>
             </div>
@@ -731,11 +734,14 @@ export default function HomePage() {
                   </div>
 
                   <div className="footer-copy">
-                    © {y} · Tous droits réservés
+                    © {year} · Tous droits réservés
                   </div>
                 </div>
 
-                <nav className="footer-links">
+                <nav
+                  className="footer-links"
+                  aria-label="Liens légaux"
+                >
                   <Link href="/mentions-legales">
                     Mentions légales
                   </Link>
@@ -776,4 +782,4 @@ export default function HomePage() {
       </AuthProvider>
     </div>
   );
-                    }
+      }
