@@ -51,16 +51,24 @@ const SIGNATURE_PLANETS = [
 
 /*
 |--------------------------------------------------------------------------
-| Valeurs de secours
+| Signes par longitude
 |--------------------------------------------------------------------------
 */
 
-const EMPTY_ANGLES: SignatureAngles = {
-  ascendant: 0,
-  midheaven: 0,
-  descendant: 180,
-  imumCoeli: 180,
-};
+const SIGNS_BY_LONGITUDE = [
+  "Bélier",
+  "Taureau",
+  "Gémeaux",
+  "Cancer",
+  "Lion",
+  "Vierge",
+  "Balance",
+  "Scorpion",
+  "Sagittaire",
+  "Capricorne",
+  "Verseau",
+  "Poissons",
+] as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +84,59 @@ function normalizeText(
     : "";
 }
 
+function normalizeLongitude(
+  value: unknown
+): number | undefined {
+  if (
+    typeof value === "number" &&
+    Number.isFinite(value)
+  ) {
+    return (
+      ((value % 360) + 360) % 360
+    );
+  }
+
+  if (
+    typeof value === "string" &&
+    value.trim().length > 0
+  ) {
+    const numericValue =
+      Number(value.trim());
+
+    if (Number.isFinite(numericValue)) {
+      return (
+        ((numericValue % 360) + 360) %
+        360
+      );
+    }
+  }
+
+  return undefined;
+}
+
+function getSignFromLongitude(
+  longitude: unknown
+): string {
+  const normalizedLongitude =
+    normalizeLongitude(longitude);
+
+  if (
+    typeof normalizedLongitude !==
+    "number"
+  ) {
+    return "";
+  }
+
+  const signIndex = Math.floor(
+    normalizedLongitude / 30
+  );
+
+  return (
+    SIGNS_BY_LONGITUDE[signIndex] ||
+    ""
+  );
+}
+
 function normalizePlanets(
   value:
     | SignaturePlanet[]
@@ -86,16 +147,137 @@ function normalizePlanets(
     return [];
   }
 
-  return value.filter(
-    (
-      planet
-    ): planet is SignaturePlanet =>
-      Boolean(
-        planet &&
-          typeof planet === "object" &&
-          typeof planet.name === "string"
-      )
-  );
+  return value
+    .filter(
+      (
+        planet
+      ): planet is SignaturePlanet =>
+        Boolean(
+          planet &&
+            typeof planet ===
+              "object" &&
+            typeof planet.name ===
+              "string" &&
+            planet.name.trim().length >
+              0
+        )
+    )
+    .map((planet) => {
+      const normalizedName =
+        planet.name?.trim() || "";
+
+      const normalizedSign =
+        typeof planet.sign ===
+          "string"
+          ? planet.sign.trim()
+          : "";
+
+      const normalizedPlanetLongitude =
+        normalizeLongitude(
+          planet.longitude
+        );
+
+      const calculatedSign =
+        normalizedSign ||
+        getSignFromLongitude(
+          normalizedPlanetLongitude
+        );
+
+      const normalizedDegree =
+        typeof planet.degree ===
+          "number" &&
+        Number.isFinite(
+          planet.degree
+        )
+          ? planet.degree
+          : undefined;
+
+      const normalizedHouse =
+        typeof planet.house ===
+          "number" &&
+        Number.isFinite(
+          planet.house
+        )
+          ? planet.house
+          : undefined;
+
+      return {
+        ...planet,
+        name: normalizedName,
+        sign: calculatedSign,
+        longitude:
+          normalizedPlanetLongitude,
+        degree: normalizedDegree,
+        house: normalizedHouse,
+        retrograde:
+          planet.retrograde === true,
+      };
+    });
+}
+
+function asRecord(
+  value: unknown
+): Record<string, unknown> | null {
+  if (
+    !value ||
+    typeof value !== "object" ||
+    Array.isArray(value)
+  ) {
+    return null;
+  }
+
+  return value as Record<
+    string,
+    unknown
+  >;
+}
+
+function readAngle(
+  record: Record<string, unknown>,
+  keys: string[]
+): number | undefined {
+  for (const key of keys) {
+    const value = record[key];
+
+    const normalized =
+      normalizeLongitude(value);
+
+    if (
+      typeof normalized === "number"
+    ) {
+      return normalized;
+    }
+
+    const nestedRecord =
+      asRecord(value);
+
+    if (!nestedRecord) {
+      continue;
+    }
+
+    const nestedKeys = [
+      "longitude",
+      "degree",
+      "degrees",
+      "value",
+    ];
+
+    for (const nestedKey of nestedKeys) {
+      const nestedValue =
+        normalizeLongitude(
+          nestedRecord[nestedKey]
+        );
+
+      if (
+        typeof nestedValue ===
+        "number"
+      ) {
+        return nestedValue;
+      }
+    }
+  }
+
+  return undefined;
 }
 
 function normalizeAngles(
@@ -104,39 +286,89 @@ function normalizeAngles(
     | null
     | undefined
 ): SignatureAngles {
-  if (
-    !value ||
-    typeof value !== "object" ||
-    Array.isArray(value)
-  ) {
-    return EMPTY_ANGLES;
+  const record = asRecord(value);
+
+  if (!record) {
+    return {};
   }
 
-  return {
-    ascendant:
-      typeof value.ascendant === "number" &&
-      Number.isFinite(value.ascendant)
-        ? value.ascendant
-        : EMPTY_ANGLES.ascendant,
+  const ascendant = readAngle(
+    record,
+    [
+      "ascendant",
+      "Ascendant",
+      "ASC",
+      "asc",
+      "rising",
+    ]
+  );
 
-    midheaven:
-      typeof value.midheaven === "number" &&
-      Number.isFinite(value.midheaven)
-        ? value.midheaven
-        : EMPTY_ANGLES.midheaven,
+  const midheaven = readAngle(
+    record,
+    [
+      "midheaven",
+      "midHeaven",
+      "Midheaven",
+      "MC",
+      "mc",
+    ]
+  );
 
-    descendant:
-      typeof value.descendant === "number" &&
-      Number.isFinite(value.descendant)
-        ? value.descendant
-        : EMPTY_ANGLES.descendant,
+  const descendant =
+    readAngle(record, [
+      "descendant",
+      "Descendant",
+      "DSC",
+      "dsc",
+    ]) ??
+    (typeof ascendant === "number"
+      ? (ascendant + 180) % 360
+      : undefined);
 
-    imumCoeli:
-      typeof value.imumCoeli === "number" &&
-      Number.isFinite(value.imumCoeli)
-        ? value.imumCoeli
-        : EMPTY_ANGLES.imumCoeli,
-  };
+  const imumCoeli =
+    readAngle(record, [
+      "imumCoeli",
+      "imum_coeli",
+      "ImumCoeli",
+      "IC",
+      "ic",
+    ]) ??
+    (typeof midheaven === "number"
+      ? (midheaven + 180) % 360
+      : undefined);
+
+  const normalizedAngles:
+    SignatureAngles = {};
+
+  if (
+    typeof ascendant === "number"
+  ) {
+    normalizedAngles.ascendant =
+      ascendant;
+  }
+
+  if (
+    typeof midheaven === "number"
+  ) {
+    normalizedAngles.midheaven =
+      midheaven;
+  }
+
+  if (
+    typeof descendant === "number"
+  ) {
+    normalizedAngles.descendant =
+      descendant;
+  }
+
+  if (
+    typeof imumCoeli === "number"
+  ) {
+    normalizedAngles.imumCoeli =
+      imumCoeli;
+  }
+
+  return normalizedAngles;
 }
 
 /*
@@ -175,14 +407,17 @@ export default function SignaturePdfDocument({
   const safeWheelImage =
     normalizeText(wheelImage);
 
-  const safePlanets: SignaturePlanet[] =
+  const safePlanets:
+    SignaturePlanet[] =
     normalizePlanets(planets);
 
-  const safeAngles: SignatureAngles =
+  const safeAngles:
+    SignatureAngles =
     normalizeAngles(angles);
 
   const documentName =
-    safeFirstName || "Luna Astralis";
+    safeFirstName ||
+    "Luna Astralis";
 
   /*
   |--------------------------------------------------------------------------
@@ -229,7 +464,7 @@ export default function SignaturePdfDocument({
         wheelImage={safeWheelImage}
       />
 
-      {/* Guide de lecture de la roue */}
+      {/* Guide de lecture */}
       <PdfSignatureWheelGuide />
 
       {/* Introduction */}
@@ -361,4 +596,4 @@ export default function SignaturePdfDocument({
       />
     </Document>
   );
-}
+      }
