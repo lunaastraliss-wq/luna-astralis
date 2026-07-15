@@ -1,0 +1,614 @@
+.libra-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(251, 182, 206, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #090710 0%,
+      #0d0913 100%
+    );
+}
+
+.libra-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.libra-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(251, 182, 206, 0.18),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(52, 29, 43, 0.97),
+      rgba(20, 13, 27, 0.95)
+    );
+  border: 1px solid rgba(251, 182, 206, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.44),
+    0 0 60px rgba(251, 182, 206, 0.08);
+}
+
+.libra-hero::before {
+  content: "♎";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(251, 182, 206, 0.065);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.libra-badge,
+.libra-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #f9c6d8;
+  background: rgba(251, 182, 206, 0.1);
+  border: 1px solid rgba(251, 182, 206, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.libra-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.libra-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.libra-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #f5dce5;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.libra-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.libra-primary-button,
+.libra-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.libra-primary-button {
+  color: #35111f;
+  background:
+    linear-gradient(
+      135deg,
+      #f0a5bd,
+      #fbd2df 48%,
+      #c9899f
+    );
+  box-shadow:
+    0 14px 34px rgba(240, 165, 189, 0.2);
+}
+
+.libra-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(251, 182, 206, 0.2);
+}
+
+.libra-primary-button:hover,
+.libra-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.libra-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(240, 165, 189, 0.28);
+}
+
+.libra-secondary-button:hover {
+  border-color: rgba(251, 182, 206, 0.46);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.libra-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(35, 20, 30, 0.92),
+      rgba(16, 11, 21, 0.86)
+    );
+  border: 1px solid rgba(251, 182, 206, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.libra-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(251, 182, 206, 0.12);
+}
+
+.libra-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.libra-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.libra-content p {
+  max-width: 940px;
+  color: #f1dbe3;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.libra-content p + p {
+  margin-top: 16px;
+}
+
+.libra-kicker {
+  margin-bottom: 18px;
+}
+
+.libra-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #f9c6d8;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.libra-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES                                  */
+/* ======================================== */
+
+.libra-info-grid,
+.libra-pillars,
+.libra-strengths-grid,
+.libra-compatibility-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.libra-info-grid,
+.libra-pillars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.libra-strengths-grid,
+.libra-compatibility-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.libra-info-card,
+.libra-pillar-card,
+.libra-list-card,
+.libra-compatibility-card {
+  padding: 24px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(52, 29, 43, 0.95),
+      rgba(24, 15, 29, 0.91)
+    );
+  border: 1px solid rgba(251, 182, 206, 0.15);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+.libra-info-card,
+.libra-pillar-card,
+.libra-compatibility-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.libra-info-card:hover,
+.libra-pillar-card:hover,
+.libra-compatibility-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(251, 182, 206, 0.32);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.27);
+}
+
+.libra-card-icon,
+.libra-pillar-symbol,
+.libra-sign-symbol {
+  color: #f9c6d8;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.libra-info-card p,
+.libra-pillar-card p,
+.libra-list-card p,
+.libra-compatibility-card p {
+  margin-bottom: 0;
+  color: #e8cfd9;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.libra-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.libra-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #faedf2;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(251, 182, 206, 0.1);
+  font-weight: 700;
+}
+
+.libra-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #f0a5bd;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* COMPATIBILITÉS                           */
+/* ======================================== */
+
+.libra-compatibility-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.libra-compatibility-card::after {
+  content: "";
+  position: absolute;
+  right: -45px;
+  bottom: -45px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(251, 182, 206, 0.045);
+  pointer-events: none;
+}
+
+.libra-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: rgba(251, 182, 206, 0.08);
+  border: 1px solid rgba(251, 182, 206, 0.18);
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.libra-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(251, 182, 206, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(65, 35, 52, 0.98),
+      rgba(25, 15, 31, 0.97)
+    );
+  border: 1px solid rgba(251, 182, 206, 0.27);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.28);
+}
+
+.libra-cta-card > div {
+  flex: 1;
+}
+
+.libra-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.libra-cta-card p {
+  margin-bottom: 0;
+}
+
+.libra-cta-card .libra-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.libra-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.libra-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(51, 28, 42, 0.92),
+      rgba(23, 14, 28, 0.9)
+    );
+  border: 1px solid rgba(251, 182, 206, 0.14);
+}
+
+.libra-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.libra-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.libra-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #f9c6d8;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.libra-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.libra-faq-item[open] summary {
+  border-bottom: 1px solid rgba(251, 182, 206, 0.11);
+}
+
+.libra-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #e8cfd9;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.libra-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #c8b2bb !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(251, 182, 206, 0.09);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .libra-page {
+    padding-top: 40px;
+  }
+
+  .libra-hero {
+    padding: 52px 28px;
+  }
+
+  .libra-content {
+    padding: 38px 28px;
+  }
+
+  .libra-info-grid,
+  .libra-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .libra-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .libra-page {
+    padding: 24px 12px 60px;
+  }
+
+  .libra-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .libra-hero::before {
+    top: -30px;
+    font-size: 210px;
+  }
+
+  .libra-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .libra-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .libra-hero-actions {
+    flex-direction: column;
+  }
+
+  .libra-primary-button,
+  .libra-secondary-button {
+    width: 100%;
+  }
+
+  .libra-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .libra-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .libra-content h2 {
+    font-size: 30px;
+  }
+
+  .libra-content p {
+    font-size: 15px;
+  }
+
+  .libra-strengths-grid,
+  .libra-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .libra-info-card,
+  .libra-pillar-card,
+  .libra-list-card,
+  .libra-compatibility-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .libra-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .libra-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .libra-faq-item summary::after {
+    right: 18px;
+  }
+}
