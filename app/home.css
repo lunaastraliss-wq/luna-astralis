@@ -683,3 +683,258 @@
   background: rgba(244,201,93,.08);
   border: 1px solid rgba(244,201,93,.26);
 }
+/* ======================================== */
+/* RAPPORTS ASTROLOGIQUES                   */
+/* ======================================== */
+
+.reports-preview {
+  position: relative;
+  margin-top: 56px;
+  padding: 42px 28px;
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(244, 201, 93, 0.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13, 19, 38, 0.84) 0%,
+      rgba(8, 12, 26, 0.74) 100%
+    );
+  border: 1px solid rgba(244, 201, 93, 0.24);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.reports-preview::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 520px;
+  height: 260px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(244, 201, 93, 0.08);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.reports-preview-head {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.reports-preview-head .hero-badge {
+  margin-bottom: 16px;
+}
+
+.reports-preview-head h2 {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.08;
+  font-weight: 950;
+  letter-spacing: -0.035em;
+}
+
+.reports-preview-head p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #d5defc;
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: 0.92;
+}
+
+.reports-preview-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.report-preview-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 28px 24px;
+  border-radius: 26px;
+  text-align: left;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94) 0%,
+      rgba(11, 17, 36, 0.9) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.report-preview-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(244, 201, 93, 0.45);
+  box-shadow:
+    0 32px 76px rgba(0, 0, 0, 0.42),
+    0 0 42px rgba(244, 201, 93, 0.08);
+}
+
+.report-preview-card--featured {
+  border-color: rgba(244, 201, 93, 0.62);
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 201, 93, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(24, 31, 58, 0.98) 0%,
+      rgba(11, 17, 36, 0.94) 100%
+    );
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.4),
+    0 0 55px rgba(244, 201, 93, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.report-featured-label {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  color: #171717;
+  background:
+    linear-gradient(
+      135deg,
+      #facc15 0%,
+      #fde047 50%,
+      #fbbf24 100%
+    );
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 26px rgba(250, 204, 21, 0.24);
+}
+
+.report-preview-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.09);
+  border: 1px solid rgba(250, 204, 21, 0.22);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.report-preview-card h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.report-preview-price {
+  margin-bottom: 3px;
+  color: #f4c95d;
+  font-size: 1.9rem;
+  line-height: 1;
+  font-weight: 950;
+}
+
+.report-preview-payment {
+  margin-bottom: 18px;
+  color: rgba(218, 225, 250, 0.7);
+  font-size: 12px;
+}
+
+.report-preview-description {
+  margin: 0 0 20px;
+  color: #d5defc;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.report-preview-features {
+  display: grid;
+  gap: 11px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.report-preview-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #eef2ff;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.report-preview-features li span:first-child {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 19px;
+  height: 19px;
+  margin-top: 1px;
+  border-radius: 50%;
+  color: #171717;
+  background: #facc15;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.report-preview-card .hero-free-btn {
+  width: 100%;
+  margin-top: auto;
+}
+
+.reports-preview-note {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 30px auto 0;
+  padding: 22px;
+  border-radius: 22px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reports-preview-note p {
+  margin: 0 0 16px;
+  color: #d5defc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.reports-preview-note .hero-free-btn {
+  min-width: 280px;
+  }
