@@ -16,7 +16,6 @@ import {
 } from "./EssentialPdfAssets";
 
 import type { EssentialPdfProps } from "./EssentialPdfTypes";
-import PdfPageFooter from "./PdfPageFooter";
 
 /*
  * Couleurs
@@ -1074,7 +1073,6 @@ export default function PdfCover({
         </View>
       </View>
 
-      <PdfPageFooter />
-    </Page>
+          </Page>
   );
     }
