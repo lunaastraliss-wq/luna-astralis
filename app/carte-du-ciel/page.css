@@ -374,3 +374,237 @@
     gap: 8px;
   }
 }
+/* ======================================== */
+/* CONTENU SEO — CARTE DU CIEL              */
+/* ======================================== */
+
+.astro-seo-content {
+  max-width: 1120px;
+  margin: 72px auto 0;
+  padding: 42px 34px;
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(244, 201, 93, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13, 19, 38, 0.86) 0%,
+      rgba(8, 12, 26, 0.76) 100%
+    );
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.astro-seo-content section + section {
+  margin-top: 54px;
+  padding-top: 46px;
+  border-top: 1px solid rgba(244, 201, 93, 0.14);
+}
+
+.astro-content-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: rgba(244, 201, 93, 0.1);
+  border: 1px solid rgba(244, 201, 93, 0.24);
+  color: #f4c95d;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.astro-seo-content h2 {
+  max-width: 850px;
+  margin: 0 0 18px;
+  color: #ffffff;
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.astro-seo-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.astro-seo-content p {
+  max-width: 920px;
+  margin: 0 0 16px;
+  color: #d5defc;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+.astro-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.astro-info-card {
+  padding: 24px 22px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.92) 0%,
+      rgba(11, 17, 36, 0.88) 100%
+    );
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.astro-info-card p {
+  margin: 0;
+  color: rgba(229, 235, 255, 0.86);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.astro-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.astro-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 201, 93, 0.16);
+}
+
+.astro-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.astro-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.astro-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #f4c95d;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.astro-faq-item[open] summary::after {
+  content: "−";
+}
+
+.astro-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  color: #d5defc;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.astro-seo-disclaimer {
+  margin: 42px auto 0 !important;
+  padding: 20px 22px;
+  border-radius: 18px;
+  text-align: center;
+  background: rgba(244, 201, 93, 0.07);
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  color: rgba(224, 231, 255, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .astro-seo-content {
+    padding: 34px 24px;
+  }
+
+  .astro-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .astro-seo-content {
+    margin-top: 52px;
+    padding: 28px 18px;
+    border-radius: 24px;
+  }
+
+  .astro-seo-content section + section {
+    margin-top: 40px;
+    padding-top: 36px;
+  }
+
+  .astro-seo-content h2 {
+    font-size: 28px;
+  }
+
+  .astro-seo-content h3 {
+    font-size: 18px;
+  }
+
+  .astro-seo-content p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .astro-info-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .astro-info-card {
+    padding: 20px 18px;
+  }
+
+  .astro-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .astro-faq-item summary::after {
+    right: 18px;
+  }
+
+  .astro-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
