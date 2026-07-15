@@ -1,10 +1,15 @@
+```tsx
 "use client";
 
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+
 import "@/components/natal-report/natal-report.css";
 
-type PlanKey = "essential" | "premium" | "signature";
+type PlanKey =
+  | "essential"
+  | "premium"
+  | "signature";
 
 type Props = {
   firstName?: string;
@@ -12,8 +17,14 @@ type Props = {
   birthTime?: string;
   birthCity?: string;
   birthCountry?: string;
-  latitude?: string | number | null;
-  longitude?: string | number | null;
+  latitude?:
+    | string
+    | number
+    | null;
+  longitude?:
+    | string
+    | number
+    | null;
   timezone?: string;
   email?: string;
   getWheelImage?: () => Promise<string>;
@@ -28,14 +39,35 @@ type SignedUploadResponse = {
   detail?: string;
 };
 
+type CheckoutResponse = {
+  url?: string;
+  error?: string;
+  detail?: string;
+};
+
+type Offer = {
+  key: PlanKey;
+  name: string;
+  badge: string;
+  price: string;
+  description: string;
+  button: string;
+  features: string[];
+  featured?: boolean;
+};
+
 const SUPABASE_URL =
-  process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  process.env
+    .NEXT_PUBLIC_SUPABASE_URL || "";
 
 const SUPABASE_ANON_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  process.env
+    .NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  "";
 
 const supabase =
-  SUPABASE_URL && SUPABASE_ANON_KEY
+  SUPABASE_URL &&
+  SUPABASE_ANON_KEY
     ? createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY,
@@ -48,54 +80,81 @@ const supabase =
       )
     : null;
 
-const offers = [
+/*
+|--------------------------------------------------------------------------
+| Rapports astrologiques
+|--------------------------------------------------------------------------
+*/
+
+const OFFERS: Offer[] = [
   {
-    key: "essential" as PlanKey,
-    icon: "🌙",
+    key: "essential",
     name: "Essentielle",
+    badge: "Pour commencer",
     price: "24,99 $ US",
-    button: "Choisir Essentielle",
+    description:
+      "Une première lecture personnalisée de votre thème natal pour comprendre vos grandes énergies astrologiques.",
+    button:
+      "Choisir Essentielle",
     features: [
-      "Roue astrologique personnalisée",
-      "Soleil, Lune et Ascendant",
-      "Les 10 planètes",
-      "Résumé personnalisé",
-      "PDF téléchargeable",
+      "Votre roue astrologique personnalisée",
+      "Votre Soleil, votre Lune et votre Ascendant",
+      "Vos dix principales planètes",
+      "Vos éléments et vos modalités",
+      "Rapport PDF personnalisé et téléchargeable",
     ],
   },
+
   {
-    key: "premium" as PlanKey,
-    icon: "⭐",
+    key: "premium",
     name: "Premium",
+    badge:
+      "Analyse approfondie",
     price: "49,99 $ US",
-    button: "Choisir Premium",
+    description:
+      "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
+    button:
+      "Choisir Premium",
     featured: true,
     features: [
-      "Tout le rapport Essentielle",
-      "Les 12 maisons astrologiques",
-      "Amour, carrière et finances",
-      "Forces, défis et mission de vie",
-      "PDF détaillé",
+      "Tout le contenu du rapport Essentielle",
+      "Vos douze maisons astrologiques",
+      "Vos aspects et vos dominantes astrologiques",
+      "Relations, carrière, forces et défis",
+      "Rapport PDF détaillé et téléchargeable",
     ],
   },
+
   {
-    key: "signature" as PlanKey,
-    icon: "👑",
+    key: "signature",
     name: "Signature",
+    badge: "Le plus complet",
     price: "79,99 $ US",
-    button: "Choisir Signature",
+    description:
+      "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
+    button:
+      "Choisir Signature",
     features: [
-      "Tout le rapport Premium",
-      "Aspects astrologiques majeurs",
-      "Chiron et nœuds lunaires",
-      "Dominantes du thème",
-      "Analyse haut de gamme",
+      "Tout le contenu du rapport Premium",
+      "Mission de vie et chemin de l’âme",
+      "Chiron, nœuds lunaires et aspects majeurs",
+      "Talents cachés, blocages et guide d’intégration",
+      "Synthèse Signature personnalisée",
     ],
   },
 ];
 
-function dataUrlToBlob(dataUrl: string): Blob {
-  const parts = dataUrl.split(",");
+/*
+|--------------------------------------------------------------------------
+| Conversion de la roue en fichier
+|--------------------------------------------------------------------------
+*/
+
+function dataUrlToBlob(
+  dataUrl: string
+): Blob {
+  const parts =
+    dataUrl.split(",");
 
   if (parts.length !== 2) {
     throw new Error(
@@ -104,11 +163,13 @@ function dataUrlToBlob(dataUrl: string): Blob {
   }
 
   const header = parts[0];
-  const base64Data = parts[1];
+  const base64Data =
+    parts[1];
 
-  const mimeMatch = header.match(
-    /^data:(image\/[a-zA-Z0-9.+-]+);base64$/
-  );
+  const mimeMatch =
+    header.match(
+      /^data:(image\/[a-zA-Z0-9.+-]+);base64$/
+    );
 
   if (!mimeMatch) {
     throw new Error(
@@ -116,53 +177,98 @@ function dataUrlToBlob(dataUrl: string): Blob {
     );
   }
 
-  const mimeType = mimeMatch[1];
-  const binaryString = atob(base64Data);
-  const bytes = new Uint8Array(binaryString.length);
+  const mimeType =
+    mimeMatch[1];
+
+  const binaryString =
+    atob(base64Data);
+
+  const bytes =
+    new Uint8Array(
+      binaryString.length
+    );
 
   for (
     let index = 0;
-    index < binaryString.length;
+    index <
+    binaryString.length;
     index += 1
   ) {
-    bytes[index] = binaryString.charCodeAt(index);
+    bytes[index] =
+      binaryString.charCodeAt(
+        index
+      );
   }
 
-  return new Blob([bytes], {
-    type: mimeType,
-  });
+  return new Blob(
+    [bytes],
+    {
+      type: mimeType,
+    }
+  );
 }
 
-async function readJsonResponse(
+/*
+|--------------------------------------------------------------------------
+| Lecture sécurisée des réponses API
+|--------------------------------------------------------------------------
+*/
+
+async function readJsonResponse<
+  T
+>(
   response: Response
-): Promise<any> {
-  const responseText = await response.text();
+): Promise<T | null> {
+  const responseText =
+    await response.text();
 
   if (!responseText) {
     return null;
   }
 
   try {
-    return JSON.parse(responseText);
+    return JSON.parse(
+      responseText
+    ) as T;
   } catch {
     return {
       error: responseText,
-    };
+    } as T;
   }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
 
 export default function NatalPremiumOffer(
   props: Props
 ) {
-  const [selectedPlan, setSelectedPlan] =
-    useState<PlanKey | null>(null);
+  const [
+    selectedPlan,
+    setSelectedPlan,
+  ] =
+    useState<PlanKey | null>(
+      null
+    );
 
-  const title = props.firstName
-    ? `Choisissez le rapport astrologique de ${props.firstName}`
-    : "Choisissez votre rapport astrologique";
+  const title =
+    props.firstName
+      ? `Choisissez le rapport astrologique de ${props.firstName}`
+      : "Choisissez votre rapport astrologique";
+
+  /*
+  |--------------------------------------------------------------------------
+  | Envoi de la roue vers Supabase
+  |--------------------------------------------------------------------------
+  */
 
   async function uploadWheelImage(): Promise<string> {
-    if (!props.getWheelImage) {
+    if (
+      !props.getWheelImage
+    ) {
       throw new Error(
         "La fonction de création de la roue est absente."
       );
@@ -184,26 +290,31 @@ export default function NatalPremiumOffer(
     }
 
     const wheelBlob =
-      dataUrlToBlob(wheelImage);
+      dataUrlToBlob(
+        wheelImage
+      );
 
-    const signedResponse = await fetch(
-      "/api/reports/wheel-upload",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const signedResponse =
+      await fetch(
+        "/api/reports/wheel-upload",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+        }
+      );
 
     const signedData =
-      (await readJsonResponse(
+      await readJsonResponse<SignedUploadResponse>(
         signedResponse
-      )) as SignedUploadResponse | null;
+      );
 
     if (
       !signedResponse.ok ||
-      !signedData?.wheelImagePath ||
+      !signedData
+        ?.wheelImagePath ||
       !signedData?.token
     ) {
       throw new Error(
@@ -213,15 +324,21 @@ export default function NatalPremiumOffer(
       );
     }
 
-    const { error: uploadError } =
+    const {
+      error: uploadError,
+    } =
       await supabase.storage
-        .from("rapport-images")
+        .from(
+          "rapport-images"
+        )
         .uploadToSignedUrl(
-          signedData.wheelImagePath,
+          signedData
+            .wheelImagePath,
           signedData.token,
           wheelBlob,
           {
-            contentType: "image/png",
+            contentType:
+              "image/png",
             upsert: false,
           }
         );
@@ -233,55 +350,82 @@ export default function NatalPremiumOffer(
       );
     }
 
-    return signedData.wheelImagePath;
+    return signedData
+      .wheelImagePath;
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Redirection vers Stripe
+  |--------------------------------------------------------------------------
+  */
 
   async function handleCheckout(
     reportType: PlanKey
-  ) {
-    if (selectedPlan) return;
+  ): Promise<void> {
+    if (selectedPlan) {
+      return;
+    }
 
-    setSelectedPlan(reportType);
+    setSelectedPlan(
+      reportType
+    );
 
     try {
       const wheelImagePath =
         await uploadWheelImage();
 
-      const res = await fetch(
-        "/api/reports/checkout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({
-            reportType,
-            firstName: props.firstName,
-            birthDate: props.birthDate,
-            birthTime:
-              props.birthTime ||
-              "12:00",
-            birthCity: props.birthCity,
-            birthCountry:
-              props.birthCountry,
-            latitude: props.latitude,
-            longitude: props.longitude,
-            timezone: props.timezone,
-            email: props.email,
-            wheelImagePath,
-          }),
-        }
-      );
+      const response =
+        await fetch(
+          "/api/reports/checkout",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify(
+              {
+                reportType,
+                firstName:
+                  props.firstName,
+                birthDate:
+                  props.birthDate,
+                birthTime:
+                  props.birthTime ||
+                  "12:00",
+                birthCity:
+                  props.birthCity,
+                birthCountry:
+                  props.birthCountry,
+                latitude:
+                  props.latitude,
+                longitude:
+                  props.longitude,
+                timezone:
+                  props.timezone,
+                email:
+                  props.email,
+                wheelImagePath,
+              }
+            ),
+          }
+        );
 
       const data =
-        await readJsonResponse(res);
+        await readJsonResponse<CheckoutResponse>(
+          response
+        );
 
-      if (!res.ok || !data?.url) {
+      if (
+        !response.ok ||
+        !data?.url
+      ) {
         console.error(
           "Erreur checkout :",
           {
-            status: res.status,
+            status:
+              response.status,
             data,
           }
         );
@@ -289,7 +433,7 @@ export default function NatalPremiumOffer(
         alert(
           data?.detail ||
             data?.error ||
-            `Erreur de paiement (${res.status})`
+            `Erreur de paiement (${response.status})`
         );
 
         return;
@@ -309,88 +453,172 @@ export default function NatalPremiumOffer(
           : "Impossible de préparer le paiement. Réessaie."
       );
     } finally {
-      setSelectedPlan(null);
+      setSelectedPlan(
+        null
+      );
     }
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | Affichage
+  |--------------------------------------------------------------------------
+  */
+
   return (
     <section className="natal-premium-offer">
-      <div className="natal-premium-badge">
-        Rapports astrologiques
+      <div className="natal-reports-head">
+        <span className="natal-premium-badge">
+          Rapports astrologiques personnalisés
+        </span>
+
+        <h3>{title}</h3>
+
+        <p className="natal-premium-intro">
+          Après avoir découvert
+          gratuitement votre carte
+          du ciel, choisissez le
+          niveau d’analyse qui
+          correspond à vos besoins.
+          Chaque rapport est
+          personnalisé selon votre
+          date, votre heure et votre
+          lieu de naissance.
+        </p>
       </div>
-
-      <h3>{title}</h3>
-
-      <p className="natal-premium-intro">
-        Trois niveaux d’analyse personnalisée selon votre date,
-        votre heure et votre lieu de naissance.
-      </p>
 
       <div className="natal-offers">
-        {offers.map((offer) => {
-          const isLoading =
-            selectedPlan === offer.key;
+        {OFFERS.map(
+          (offer) => {
+            const isLoading =
+              selectedPlan ===
+              offer.key;
 
-          const isDisabled =
-            selectedPlan !== null;
+            const isDisabled =
+              selectedPlan !==
+              null;
 
-          return (
-            <div
-              key={offer.key}
-              className={
+            const cardClassName =
+              [
+                "natal-offer-card",
                 offer.featured
-                  ? "natal-offer-card featured"
-                  : "natal-offer-card"
-              }
-            >
-              {offer.featured && (
-                <div className="best-value">
-                  ⭐ Le plus populaire
-                </div>
-              )}
+                  ? "natal-offer-card--featured"
+                  : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
 
-              <div className="natal-offer-icon">
-                {offer.icon}
-              </div>
+            const buttonClassName =
+              [
+                "natal-premium-btn",
+                offer.featured
+                  ? "natal-premium-btn--featured"
+                  : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
 
-              <h4>{offer.name}</h4>
-
-              <ul className="natal-offer-features">
-                {offer.features.map(
-                  (feature) => (
-                    <li key={feature}>
-                      ✓ {feature}
-                    </li>
-                  )
-                )}
-              </ul>
-
-              <div className="natal-premium-price">
-                {offer.price}
-              </div>
-
-              <button
-                type="button"
-                className="natal-premium-btn"
-                onClick={() =>
-                  handleCheckout(
-                    offer.key
-                  )
+            return (
+              <article
+                key={
+                  offer.key
                 }
-                disabled={isDisabled}
+                className={
+                  cardClassName
+                }
               >
-                {isLoading
-                  ? "Préparation du rapport..."
-                  : offer.button}
-              </button>
-            </div>
-          );
-        })}
+                {offer.featured ? (
+                  <div className="natal-featured-label">
+                    Recommandé
+                  </div>
+                ) : null}
+
+                <div className="natal-offer-badge">
+                  {offer.badge}
+                </div>
+
+                <h4>
+                  Rapport{" "}
+                  {offer.name}
+                </h4>
+
+                <div className="natal-premium-price">
+                  {offer.price}
+                </div>
+
+                <div className="natal-offer-payment">
+                  Paiement unique
+                </div>
+
+                <p className="natal-offer-description">
+                  {
+                    offer.description
+                  }
+                </p>
+
+                <ul className="natal-offer-features">
+                  {offer.features.map(
+                    (
+                      feature
+                    ) => (
+                      <li
+                        key={
+                          feature
+                        }
+                      >
+                        <span
+                          className="natal-feature-check"
+                          aria-hidden="true"
+                        >
+                          ✓
+                        </span>
+
+                        <span>
+                          {
+                            feature
+                          }
+                        </span>
+                      </li>
+                    )
+                  )}
+                </ul>
+
+                <button
+                  type="button"
+                  className={
+                    buttonClassName
+                  }
+                  onClick={() =>
+                    handleCheckout(
+                      offer.key
+                    )
+                  }
+                  disabled={
+                    isDisabled
+                  }
+                  aria-busy={
+                    isLoading
+                  }
+                >
+                  {isLoading
+                    ? "Préparation du rapport..."
+                    : offer.button}
+                </button>
+              </article>
+            );
+          }
+        )}
       </div>
 
-      <p className="natal-premium-note">
-        Paiement unique • Aucun abonnement • PDF téléchargeable
-      </p>
+      <div className="natal-premium-note">
+        <p>
+          Paiement unique • Aucun
+          abonnement • Rapport PDF
+          personnalisé et
+          téléchargeable
+        </p>
+      </div>
     </section>
   );
 }
+```
