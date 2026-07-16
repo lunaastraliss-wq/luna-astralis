@@ -1,0 +1,919 @@
+.house-three-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(102, 178, 255, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #060b13 0%,
+      #08101c 100%
+    );
+}
+
+.house-three-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.house-three-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(102, 178, 255, 0.18),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(21, 46, 78, 0.97),
+      rgba(10, 24, 42, 0.96)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.44),
+    0 0 60px rgba(102, 178, 255, 0.08);
+}
+
+.house-three-hero::before {
+  content: "Ⅲ";
+  position: absolute;
+  top: -82px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(102, 178, 255, 0.06);
+  font-size: 300px;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.house-three-badge,
+.house-three-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #9fd0ff;
+  background: rgba(102, 178, 255, 0.1);
+  border: 1px solid rgba(102, 178, 255, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.house-three-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.house-three-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.house-three-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d9eafd;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.house-three-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.house-three-primary-button,
+.house-three-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.house-three-primary-button {
+  color: #071727;
+  background:
+    linear-gradient(
+      135deg,
+      #4f9fe8,
+      #a9d7ff 48%,
+      #3477b2
+    );
+  box-shadow:
+    0 14px 34px rgba(79, 159, 232, 0.22);
+}
+
+.house-three-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(102, 178, 255, 0.2);
+}
+
+.house-three-primary-button:hover,
+.house-three-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.house-three-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(79, 159, 232, 0.3);
+}
+
+.house-three-secondary-button:hover {
+  border-color: rgba(102, 178, 255, 0.46);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.house-three-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 37, 62, 0.94),
+      rgba(10, 21, 36, 0.88)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.house-three-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(102, 178, 255, 0.12);
+}
+
+.house-three-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.house-three-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.house-three-content p {
+  max-width: 940px;
+  color: #d7e5f4;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.house-three-content p + p {
+  margin-top: 16px;
+}
+
+.house-three-kicker {
+  margin-bottom: 18px;
+}
+
+.house-three-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #9fd0ff;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.house-three-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES PRINCIPALES                      */
+/* ======================================== */
+
+.house-three-info-grid,
+.house-three-strengths-grid,
+.house-three-planets-grid,
+.house-three-signs-grid,
+.house-three-rulers-grid,
+.house-three-comparison-grid,
+.house-three-navigation-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.house-three-info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.house-three-strengths-grid,
+.house-three-planets-grid,
+.house-three-signs-grid,
+.house-three-comparison-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.house-three-rulers-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.house-three-navigation-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ======================================== */
+/* CARTES                                   */
+/* ======================================== */
+
+.house-three-info-card,
+.house-three-list-card,
+.house-three-planet-card,
+.house-three-sign-card,
+.house-three-ruler-card,
+.house-three-comparison-card,
+.house-three-navigation-card {
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 50, 83, 0.95),
+      rgba(13, 29, 49, 0.92)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.15);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+.house-three-info-card,
+.house-three-list-card,
+.house-three-comparison-card {
+  padding: 24px;
+}
+
+.house-three-info-card,
+.house-three-planet-card,
+.house-three-sign-card,
+.house-three-ruler-card,
+.house-three-comparison-card,
+.house-three-navigation-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.house-three-info-card:hover,
+.house-three-planet-card:hover,
+.house-three-sign-card:hover,
+.house-three-ruler-card:hover,
+.house-three-comparison-card:hover,
+.house-three-navigation-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(102, 178, 255, 0.34);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.27);
+}
+
+.house-three-card-icon {
+  display: block;
+  margin-bottom: 14px;
+  color: #9fd0ff;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.house-three-info-card p,
+.house-three-list-card p,
+.house-three-planet-card p,
+.house-three-sign-card p,
+.house-three-comparison-card p,
+.house-three-navigation-card p {
+  margin-bottom: 0;
+  color: #c9dced;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* CARTE MISE EN VALEUR                     */
+/* ======================================== */
+
+.house-three-highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(102, 178, 255, 0.14),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(26, 58, 95, 0.98),
+      rgba(14, 31, 52, 0.97)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.26);
+}
+
+.house-three-highlight-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #9fd0ff;
+  background: rgba(102, 178, 255, 0.1);
+  border: 1px solid rgba(102, 178, 255, 0.2);
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.house-three-highlight-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.house-three-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-three-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #eff7ff;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(102, 178, 255, 0.1);
+  font-weight: 700;
+}
+
+.house-three-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #4f9fe8;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* PLANÈTES ET SIGNES                       */
+/* ======================================== */
+
+.house-three-planet-card,
+.house-three-sign-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 23px;
+}
+
+.house-three-planet-symbol,
+.house-three-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: #9fd0ff;
+  background: rgba(102, 178, 255, 0.08);
+  border: 1px solid rgba(102, 178, 255, 0.18);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.house-three-planet-card > div:last-child,
+.house-three-sign-card > div:last-child {
+  flex: 1;
+}
+
+.house-three-planet-card h3,
+.house-three-sign-card h3 {
+  margin-bottom: 8px;
+}
+
+.house-three-planet-card p,
+.house-three-sign-card p {
+  margin-top: 0;
+}
+
+/* ======================================== */
+/* PLANÈTES MAÎTRESSES                      */
+/* ======================================== */
+
+.house-three-ruler-card {
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.house-three-ruler-card span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  border-radius: 17px;
+  color: #9fd0ff;
+  background: rgba(102, 178, 255, 0.08);
+  border: 1px solid rgba(102, 178, 255, 0.17);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.house-three-ruler-card h3 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.house-three-ruler-card p {
+  margin: 0;
+  color: #bad4ea;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ======================================== */
+/* COMPARAISON                              */
+/* ======================================== */
+
+.house-three-comparison-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.house-three-comparison-card::after {
+  content: "";
+  position: absolute;
+  right: -46px;
+  bottom: -46px;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: rgba(102, 178, 255, 0.045);
+  pointer-events: none;
+}
+
+.house-three-comparison-card h3 {
+  margin-top: 4px;
+}
+
+/* ======================================== */
+/* ÉTAPES                                   */
+/* ======================================== */
+
+.house-three-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.house-three-step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 23px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 51, 84, 0.93),
+      rgba(13, 29, 49, 0.91)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.14);
+}
+
+.house-three-step-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: #071727;
+  background:
+    linear-gradient(
+      135deg,
+      #4f9fe8,
+      #a9d7ff
+    );
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.house-three-step-card p {
+  margin: 0;
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.house-three-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(102, 178, 255, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(29, 64, 103, 0.98),
+      rgba(14, 31, 52, 0.97)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.27);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.28);
+}
+
+.house-three-cta-card > div {
+  flex: 1;
+}
+
+.house-three-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.house-three-cta-card p {
+  margin-bottom: 0;
+}
+
+.house-three-cta-card .house-three-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* NAVIGATION                               */
+/* ======================================== */
+
+.house-three-navigation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 23px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.house-three-navigation-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  color: #9fd0ff;
+  background: rgba(102, 178, 255, 0.08);
+  border: 1px solid rgba(102, 178, 255, 0.17);
+  font-size: 26px;
+}
+
+.house-three-navigation-card h3 {
+  margin-bottom: 7px;
+}
+
+.house-three-navigation-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.house-three-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.house-three-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 51, 84, 0.92),
+      rgba(13, 29, 49, 0.9)
+    );
+  border: 1px solid rgba(102, 178, 255, 0.14);
+}
+
+.house-three-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.house-three-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.house-three-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #9fd0ff;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.house-three-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.house-three-faq-item[open] summary {
+  border-bottom: 1px solid rgba(102, 178, 255, 0.11);
+}
+
+.house-three-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #c9dced;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.house-three-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #aec1d3 !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(102, 178, 255, 0.09);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1000px) {
+  .house-three-rulers-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .house-three-page {
+    padding-top: 40px;
+  }
+
+  .house-three-hero {
+    padding: 52px 28px;
+  }
+
+  .house-three-content {
+    padding: 38px 28px;
+  }
+
+  .house-three-info-grid,
+  .house-three-planets-grid,
+  .house-three-signs-grid,
+  .house-three-navigation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-three-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .house-three-rulers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .house-three-page {
+    padding: 24px 12px 60px;
+  }
+
+  .house-three-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .house-three-hero::before {
+    top: -32px;
+    font-size: 215px;
+  }
+
+  .house-three-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .house-three-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .house-three-hero-actions {
+    flex-direction: column;
+  }
+
+  .house-three-primary-button,
+  .house-three-secondary-button {
+    width: 100%;
+  }
+
+  .house-three-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .house-three-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .house-three-content h2 {
+    font-size: 30px;
+  }
+
+  .house-three-content p {
+    font-size: 15px;
+  }
+
+  .house-three-strengths-grid,
+  .house-three-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-three-info-card,
+  .house-three-list-card,
+  .house-three-comparison-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-three-planet-card,
+  .house-three-sign-card {
+    flex-direction: column;
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-three-highlight-card {
+    flex-direction: column;
+    padding: 23px 20px;
+    border-radius: 22px;
+  }
+
+  .house-three-step-card {
+    gap: 15px;
+    padding: 20px 17px;
+  }
+
+  .house-three-step-card > span {
+    width: 42px;
+    height: 42px;
+  }
+
+  .house-three-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .house-three-navigation-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .house-three-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .house-three-faq-item summary::after {
+    right: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .house-three-rulers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-three-ruler-card {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    column-gap: 14px;
+    padding: 17px;
+    text-align: left;
+  }
+
+  .house-three-ruler-card span {
+    grid-row: 1 / 3;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+
+  .house-three-ruler-card h3 {
+    margin: 0;
+  }
+
+  .house-three-ruler-card p {
+    margin: 3px 0 0;
+    text-align: left;
+  }
+}
