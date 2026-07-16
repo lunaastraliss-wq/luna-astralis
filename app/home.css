@@ -938,3 +938,62 @@
 .reports-preview-note .hero-free-btn {
   min-width: 280px;
   }
+/* ======================================== */
+/* RAPPORTS - RESPONSIVE                    */
+/* ======================================== */
+
+@media (max-width: 900px) {
+
+  .reports-preview {
+    padding: 32px 18px;
+  }
+
+  .reports-preview-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .report-preview-card,
+  .report-preview-card--featured {
+    width: 100%;
+    transform: none !important;
+  }
+
+  .report-preview-card:hover,
+  .report-preview-card--featured:hover {
+    transform: translateY(-4px);
+  }
+
+  .report-featured-label {
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .report-preview-card h3 {
+    font-size: 2rem;
+  }
+
+  .report-preview-price {
+    font-size: 2.4rem;
+  }
+
+  .report-preview-description {
+    font-size: 16px;
+  }
+
+  .report-preview-features li {
+    font-size: 15px;
+  }
+
+  .report-preview-card .hero-free-btn {
+    width: 100%;
+  }
+
+  .reports-preview-note .hero-free-btn {
+    min-width: auto;
+    width: 100%;
+  }
+}
