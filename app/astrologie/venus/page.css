@@ -1,0 +1,777 @@
+.venus-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(244, 114, 182, 0.13),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #070b18 100%
+    );
+}
+
+.venus-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.venus-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 114, 182, 0.17),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(19, 26, 51, 0.96),
+      rgba(9, 14, 31, 0.92)
+    );
+  border: 1px solid rgba(244, 114, 182, 0.3);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.42),
+    0 0 60px rgba(244, 114, 182, 0.08);
+}
+
+.venus-hero::before {
+  content: "♀";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(244, 114, 182, 0.07);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.venus-badge,
+.venus-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #f9a8d4;
+  background: rgba(244, 114, 182, 0.1);
+  border: 1px solid rgba(244, 114, 182, 0.27);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.venus-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.venus-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.venus-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d5defc;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.venus-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.venus-primary-button,
+.venus-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.venus-primary-button {
+  color: #2b0a1f;
+  background:
+    linear-gradient(
+      135deg,
+      #ec4899,
+      #f9a8d4 48%,
+      #fbcfe8
+    );
+  box-shadow:
+    0 12px 32px rgba(236, 72, 153, 0.24);
+}
+
+.venus-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(244, 114, 182, 0.22);
+}
+
+.venus-primary-button:hover,
+.venus-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.venus-primary-button:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(236, 72, 153, 0.32);
+}
+
+.venus-secondary-button:hover {
+  border-color: rgba(244, 114, 182, 0.45);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.venus-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 19, 38, 0.88),
+      rgba(8, 12, 26, 0.78)
+    );
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34);
+}
+
+.venus-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(244, 114, 182, 0.13);
+}
+
+.venus-kicker {
+  margin-bottom: 15px;
+}
+
+.venus-content h2 {
+  max-width: 900px;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.venus-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.venus-content p {
+  max-width: 940px;
+  margin: 0 0 17px;
+  color: #d5defc;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+.venus-content ul {
+  margin: 18px 0 0;
+  padding-left: 20px;
+  color: #d5defc;
+}
+
+.venus-content li {
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+.venus-text-link {
+  display: inline-flex;
+  margin-top: 17px;
+  color: #f9a8d4;
+  font-size: 14px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.venus-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* CARTES GÉNÉRALES                         */
+/* ======================================== */
+
+.venus-info-grid,
+.venus-pillars {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.venus-info-card,
+.venus-pillar-card,
+.venus-sign-card,
+.venus-house-card,
+.venus-function-card,
+.venus-aspect-card,
+.venus-strength-card {
+  padding: 24px 22px;
+  border-radius: 23px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 114, 182, 0.17);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.venus-card-icon,
+.venus-pillar-symbol,
+.venus-sign-symbol {
+  color: #f9a8d4;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.venus-info-card p,
+.venus-pillar-card p,
+.venus-sign-card p,
+.venus-house-card p,
+.venus-function-card p,
+.venus-aspect-card p,
+.venus-strength-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+.venus-pillar-card {
+  text-align: center;
+}
+
+/* ======================================== */
+/* FONCTIONS DE VÉNUS                       */
+/* ======================================== */
+
+.venus-functions-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.venus-function-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.venus-function-card > span {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: rgba(249, 168, 212, 0.78);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.venus-function-card::after {
+  content: "♀";
+  position: absolute;
+  right: -15px;
+  bottom: -32px;
+  color: rgba(244, 114, 182, 0.04);
+  font-size: 120px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ======================================== */
+/* 12 SIGNES                                */
+/* ======================================== */
+
+.venus-sign-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.venus-sign-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.venus-sign-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(244, 114, 182, 0.42);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(244, 114, 182, 0.07);
+}
+
+/* ======================================== */
+/* 12 MAISONS                               */
+/* ======================================== */
+
+.venus-house-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.venus-house-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.venus-house-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(244, 114, 182, 0.42);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32);
+}
+
+.venus-house-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 17px;
+  border-radius: 14px;
+  color: #2b0a1f;
+  background:
+    linear-gradient(
+      135deg,
+      #ec4899,
+      #fbcfe8
+    );
+  font-size: 13px;
+  font-weight: 950;
+  box-shadow:
+    0 10px 24px rgba(236, 72, 153, 0.2);
+}
+
+/* ======================================== */
+/* VÉNUS RÉTROGRADE                         */
+/* ======================================== */
+
+.venus-retrograde-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(280px, 0.65fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+.venus-retrograde-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(244, 114, 182, 0.13),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.96),
+      rgba(11, 17, 36, 0.92)
+    );
+  border: 1px solid rgba(244, 114, 182, 0.24);
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.25);
+}
+
+.venus-retrograde-symbol {
+  display: block;
+  margin-bottom: 15px;
+  color: #f9a8d4;
+  font-size: 52px;
+  line-height: 1;
+}
+
+.venus-retrograde-card ul {
+  margin-bottom: 0;
+}
+
+.venus-retrograde-card li::marker {
+  color: #f9a8d4;
+}
+
+/* ======================================== */
+/* FORCES ET DÉFIS                          */
+/* ======================================== */
+
+.venus-strengths-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.venus-strength-card {
+  padding: 28px;
+}
+
+.venus-strength-card .venus-kicker {
+  margin-bottom: 17px;
+}
+
+.venus-strength-card li::marker {
+  color: #f9a8d4;
+}
+
+/* ======================================== */
+/* ASPECTS                                  */
+/* ======================================== */
+
+.venus-aspect-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.venus-aspect-card {
+  text-align: center;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.venus-aspect-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(244, 114, 182, 0.42);
+}
+
+.venus-aspect-card > span {
+  display: block;
+  margin-bottom: 16px;
+  color: #f9a8d4;
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* ======================================== */
+/* CTA                                      */
+/* ======================================== */
+
+.venus-cta-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  padding: 30px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(244, 114, 182, 0.12),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 114, 182, 0.22);
+}
+
+.venus-cta-card h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.venus-cta-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.venus-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.venus-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    rgba(255, 255, 255, 0.045);
+  border:
+    1px solid rgba(244, 114, 182, 0.15);
+}
+
+.venus-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.venus-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.venus-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #f9a8d4;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.venus-faq-item[open] summary::after {
+  content: "−";
+}
+
+.venus-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.venus-disclaimer {
+  margin: 44px auto 0 !important;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  background:
+    rgba(244, 114, 182, 0.06);
+  border:
+    1px solid rgba(244, 114, 182, 0.14);
+  color:
+    rgba(213, 222, 252, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1050px) {
+  .venus-functions-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .venus-aspect-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .venus-info-grid,
+  .venus-pillars,
+  .venus-sign-grid,
+  .venus-house-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .venus-retrograde-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .venus-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .venus-cta-card .venus-primary-button {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .venus-page {
+    padding: 34px 12px 60px;
+  }
+
+  .venus-hero {
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .venus-hero::before {
+    top: -25px;
+    font-size: 180px;
+  }
+
+  .venus-hero h1 {
+    font-size: 42px;
+  }
+
+  .venus-hero-lead {
+    font-size: 16px;
+  }
+
+  .venus-hero-actions {
+    flex-direction: column;
+  }
+
+  .venus-primary-button,
+  .venus-secondary-button {
+    width: 100%;
+  }
+
+  .venus-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .venus-content section + section {
+    margin-top: 42px;
+    padding-top: 38px;
+  }
+
+  .venus-content h2 {
+    font-size: 29px;
+  }
+
+  .venus-info-grid,
+  .venus-pillars,
+  .venus-sign-grid,
+  .venus-house-grid,
+  .venus-functions-grid,
+  .venus-strengths-grid,
+  .venus-aspect-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .venus-info-card,
+  .venus-pillar-card,
+  .venus-sign-card,
+  .venus-house-card,
+  .venus-function-card,
+  .venus-aspect-card,
+  .venus-strength-card {
+    padding: 21px 18px;
+  }
+
+  .venus-retrograde-card {
+    padding: 24px 20px;
+  }
+
+  .venus-cta-card {
+    padding: 24px 18px;
+  }
+
+  .venus-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .venus-faq-item summary::after {
+    right: 18px;
+  }
+
+  .venus-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================== */
+/* ACCESSIBILITÉ                            */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .venus-primary-button,
+  .venus-secondary-button,
+  .venus-sign-card,
+  .venus-house-card,
+  .venus-aspect-card {
+    transition: none;
+  }
+}
