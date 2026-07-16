@@ -1,0 +1,737 @@
+.houses-page {
+  min-height: 100vh;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(139, 92, 246, 0.16),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #080b18 100%
+    );
+}
+
+.houses-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 60px 18px 90px;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.houses-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 54px;
+  padding: 64px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(167, 139, 250, 0.19),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(43, 34, 85, 0.97),
+      rgba(20, 18, 48, 0.96)
+    );
+  border: 1px solid rgba(167, 139, 250, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.44),
+    0 0 60px rgba(139, 92, 246, 0.08);
+}
+
+.houses-hero::before {
+  content: "Ⅻ";
+  position: absolute;
+  top: -92px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(196, 181, 253, 0.055);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 320px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.houses-badge {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #d9ccff;
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.houses-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 76px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.houses-hero p {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #e4def4;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.houses-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.houses-primary-button,
+.houses-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.houses-primary-button {
+  color: #1a1230;
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #d8ccff 48%,
+      #6d45c4
+    );
+  box-shadow:
+    0 14px 34px rgba(139, 92, 246, 0.24);
+}
+
+.houses-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+}
+
+.houses-primary-button:hover,
+.houses-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.houses-primary-button:hover {
+  box-shadow:
+    0 18px 42px rgba(139, 92, 246, 0.34);
+}
+
+.houses-secondary-button:hover {
+  border-color: rgba(167, 139, 250, 0.48);
+}
+
+/* ======================================== */
+/* BIBLIOTHÈQUE                             */
+/* ======================================== */
+
+.houses-library {
+  padding: 48px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(31, 27, 62, 0.95),
+      rgba(16, 15, 38, 0.91)
+    );
+  border: 1px solid rgba(167, 139, 250, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.houses-heading {
+  max-width: 760px;
+  margin: 0 auto 34px;
+  text-align: center;
+}
+
+.houses-heading > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: #d9ccff;
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.23);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.houses-heading h2 {
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-size: clamp(32px, 5vw, 50px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.houses-heading p {
+  margin: 0 auto;
+  color: #d9d3e7;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+/* ======================================== */
+/* GRILLE DES MAISONS                       */
+/* ======================================== */
+
+.houses-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.house-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  padding: 25px;
+  border-radius: 26px;
+  color: #ffffff;
+  text-decoration: none;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(167, 139, 250, 0.12),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(49, 42, 92, 0.96),
+      rgba(25, 22, 55, 0.94)
+    );
+  border: 1px solid rgba(167, 139, 250, 0.16);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.house-card::after {
+  content: "";
+  position: absolute;
+  right: -55px;
+  bottom: -55px;
+  width: 145px;
+  height: 145px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.04);
+  pointer-events: none;
+}
+
+.house-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow:
+    0 26px 60px rgba(0, 0, 0, 0.31),
+    0 0 35px rgba(139, 92, 246, 0.08);
+}
+
+.house-card-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.house-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #d9ccff;
+  background: rgba(167, 139, 250, 0.1);
+  border: 1px solid rgba(167, 139, 250, 0.21);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 31px;
+  line-height: 1;
+}
+
+.house-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 180px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  color: #cec1f7;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(167, 139, 250, 0.13);
+  font-size: 11px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.house-card h2 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 13px;
+  color: #ffffff;
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.house-card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #d4cde2;
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.house-card-link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 24px;
+  color: #d9ccff;
+  font-size: 14px;
+  font-weight: 900;
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+.house-card:hover .house-card-link {
+  transform: translateX(4px);
+  color: #ffffff;
+}
+
+/* ======================================== */
+/* COULEURS INDIVIDUELLES                   */
+/* ======================================== */
+
+.house-card:nth-child(1) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(248, 113, 113, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(79, 34, 45, 0.96),
+      rgba(39, 19, 28, 0.94)
+    );
+}
+
+.house-card:nth-child(2) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(244, 201, 93, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(69, 54, 28, 0.96),
+      rgba(35, 28, 15, 0.94)
+    );
+}
+
+.house-card:nth-child(3) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(96, 165, 250, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(31, 57, 91, 0.96),
+      rgba(16, 30, 49, 0.94)
+    );
+}
+
+.house-card:nth-child(4) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(147, 197, 253, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(33, 55, 76, 0.96),
+      rgba(17, 29, 42, 0.94)
+    );
+}
+
+.house-card:nth-child(5) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(251, 146, 60, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(80, 46, 22, 0.96),
+      rgba(40, 24, 12, 0.94)
+    );
+}
+
+.house-card:nth-child(6) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(74, 222, 128, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(30, 65, 47, 0.96),
+      rgba(16, 34, 25, 0.94)
+    );
+}
+
+.house-card:nth-child(7) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(238, 153, 196, 0.13),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(68, 33, 54, 0.96),
+      rgba(34, 17, 28, 0.94)
+    );
+}
+
+.house-card:nth-child(8) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(180, 99, 211, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(55, 27, 67, 0.96),
+      rgba(28, 14, 36, 0.94)
+    );
+}
+
+.house-card:nth-child(9) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(92, 176, 255, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(25, 55, 87, 0.96),
+      rgba(13, 31, 52, 0.94)
+    );
+}
+
+.house-card:nth-child(10) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(218, 176, 86, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(63, 48, 21, 0.96),
+      rgba(32, 24, 11, 0.94)
+    );
+}
+
+.house-card:nth-child(11) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(64, 224, 208, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(24, 71, 73, 0.96),
+      rgba(12, 38, 40, 0.94)
+    );
+}
+
+.house-card:nth-child(12) {
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(117, 110, 255, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(41, 42, 86, 0.96),
+      rgba(21, 22, 48, 0.94)
+    );
+}
+
+/* ======================================== */
+/* APPEL À L’ACTION                         */
+/* ======================================== */
+
+.houses-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 34px;
+  margin-top: 48px;
+  padding: 38px;
+  border-radius: 30px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(167, 139, 250, 0.16),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(49, 42, 92, 0.98),
+      rgba(24, 21, 53, 0.97)
+    );
+  border: 1px solid rgba(167, 139, 250, 0.27);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.3);
+}
+
+.houses-callout > div {
+  flex: 1;
+}
+
+.houses-callout .houses-badge {
+  margin-bottom: 16px;
+}
+
+.houses-callout h2 {
+  max-width: 740px;
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.houses-callout p {
+  max-width: 780px;
+  margin: 0;
+  color: #d9d3e7;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.houses-callout .houses-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1000px) {
+  .houses-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .houses-wrap {
+    padding-top: 40px;
+  }
+
+  .houses-hero {
+    padding: 52px 28px;
+  }
+
+  .houses-library {
+    padding: 40px 28px;
+  }
+
+  .houses-callout {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .houses-wrap {
+    padding: 24px 12px 60px;
+  }
+
+  .houses-hero {
+    margin-bottom: 28px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .houses-hero::before {
+    top: -34px;
+    font-size: 220px;
+  }
+
+  .houses-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .houses-hero p {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .houses-hero-actions {
+    flex-direction: column;
+  }
+
+  .houses-primary-button,
+  .houses-secondary-button {
+    width: 100%;
+  }
+
+  .houses-library {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .houses-heading {
+    margin-bottom: 28px;
+  }
+
+  .houses-heading h2 {
+    font-size: 31px;
+  }
+
+  .houses-heading p {
+    font-size: 15px;
+  }
+
+  .houses-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .house-card {
+    min-height: 0;
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .house-card-top {
+    margin-bottom: 20px;
+  }
+
+  .house-symbol {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    font-size: 28px;
+  }
+
+  .house-theme {
+    max-width: 160px;
+    font-size: 10px;
+  }
+
+  .house-card h2 {
+    font-size: 25px;
+  }
+
+  .house-card p {
+    font-size: 14px;
+  }
+
+  .houses-callout {
+    margin-top: 28px;
+    padding: 28px 20px;
+    border-radius: 24px;
+  }
+
+  .houses-callout h2 {
+    font-size: 30px;
+  }
+
+  .houses-callout p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .house-card-top {
+    align-items: center;
+  }
+
+  .house-theme {
+    max-width: 145px;
+  }
+}
