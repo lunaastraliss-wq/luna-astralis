@@ -1,0 +1,920 @@
+.house-eleven-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(64, 224, 208, 0.15),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #041011 0%,
+      #07191b 100%
+    );
+}
+
+.house-eleven-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.house-eleven-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(64, 224, 208, 0.2),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 75, 77, 0.98),
+      rgba(9, 35, 38, 0.97)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.3);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.46),
+    0 0 65px rgba(64, 224, 208, 0.09);
+}
+
+.house-eleven-hero::before {
+  content: "Ⅺ";
+  position: absolute;
+  top: -82px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(102, 241, 226, 0.06);
+  font-size: 300px;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.house-eleven-badge,
+.house-eleven-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #8ce8de;
+  background: rgba(64, 224, 208, 0.1);
+  border: 1px solid rgba(64, 224, 208, 0.25);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.house-eleven-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.house-eleven-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.house-eleven-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d6f0ee;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.house-eleven-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.house-eleven-primary-button,
+.house-eleven-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.house-eleven-primary-button {
+  color: #05211f;
+  background:
+    linear-gradient(
+      135deg,
+      #35b8ab,
+      #a5f1e9 48%,
+      #247f77
+    );
+  box-shadow:
+    0 14px 34px rgba(53, 184, 171, 0.24);
+}
+
+.house-eleven-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(64, 224, 208, 0.21);
+}
+
+.house-eleven-primary-button:hover,
+.house-eleven-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.house-eleven-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(53, 184, 171, 0.33);
+}
+
+.house-eleven-secondary-button:hover {
+  border-color: rgba(64, 224, 208, 0.48);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.house-eleven-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(18, 57, 60, 0.95),
+      rgba(9, 29, 31, 0.9)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.house-eleven-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(64, 224, 208, 0.13);
+}
+
+.house-eleven-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.house-eleven-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.house-eleven-content p {
+  max-width: 940px;
+  color: #cfe4e2;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.house-eleven-content p + p {
+  margin-top: 16px;
+}
+
+.house-eleven-kicker {
+  margin-bottom: 18px;
+}
+
+.house-eleven-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #8ce8de;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.house-eleven-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES PRINCIPALES                      */
+/* ======================================== */
+
+.house-eleven-info-grid,
+.house-eleven-strengths-grid,
+.house-eleven-planets-grid,
+.house-eleven-signs-grid,
+.house-eleven-rulers-grid,
+.house-eleven-comparison-grid,
+.house-eleven-navigation-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.house-eleven-info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.house-eleven-strengths-grid,
+.house-eleven-planets-grid,
+.house-eleven-signs-grid,
+.house-eleven-comparison-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.house-eleven-rulers-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.house-eleven-navigation-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ======================================== */
+/* CARTES                                   */
+/* ======================================== */
+
+.house-eleven-info-card,
+.house-eleven-list-card,
+.house-eleven-planet-card,
+.house-eleven-sign-card,
+.house-eleven-ruler-card,
+.house-eleven-comparison-card,
+.house-eleven-navigation-card {
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 71, 73, 0.96),
+      rgba(12, 38, 40, 0.93)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.16);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.22);
+}
+
+.house-eleven-info-card,
+.house-eleven-list-card,
+.house-eleven-comparison-card {
+  padding: 24px;
+}
+
+.house-eleven-info-card,
+.house-eleven-planet-card,
+.house-eleven-sign-card,
+.house-eleven-ruler-card,
+.house-eleven-comparison-card,
+.house-eleven-navigation-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.house-eleven-info-card:hover,
+.house-eleven-planet-card:hover,
+.house-eleven-sign-card:hover,
+.house-eleven-ruler-card:hover,
+.house-eleven-comparison-card:hover,
+.house-eleven-navigation-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(64, 224, 208, 0.36);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.29);
+}
+
+.house-eleven-card-icon {
+  display: block;
+  margin-bottom: 14px;
+  color: #8ce8de;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.house-eleven-info-card p,
+.house-eleven-list-card p,
+.house-eleven-planet-card p,
+.house-eleven-sign-card p,
+.house-eleven-comparison-card p,
+.house-eleven-navigation-card p {
+  margin-bottom: 0;
+  color: #c6ddda;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* CARTE COLLECTIF                          */
+/* ======================================== */
+
+.house-eleven-highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(64, 224, 208, 0.15),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(29, 82, 84, 0.99),
+      rgba(14, 42, 45, 0.98)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.28);
+}
+
+.house-eleven-highlight-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #8ce8de;
+  background: rgba(64, 224, 208, 0.1);
+  border: 1px solid rgba(64, 224, 208, 0.21);
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+.house-eleven-highlight-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.house-eleven-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-eleven-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #eef9f8;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(64, 224, 208, 0.11);
+  font-weight: 700;
+}
+
+.house-eleven-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #35b8ab;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* PLANÈTES ET SIGNES                       */
+/* ======================================== */
+
+.house-eleven-planet-card,
+.house-eleven-sign-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 23px;
+}
+
+.house-eleven-planet-symbol,
+.house-eleven-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: #8ce8de;
+  background: rgba(64, 224, 208, 0.08);
+  border: 1px solid rgba(64, 224, 208, 0.19);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.house-eleven-planet-card > div:last-child,
+.house-eleven-sign-card > div:last-child {
+  flex: 1;
+}
+
+.house-eleven-planet-card h3,
+.house-eleven-sign-card h3 {
+  margin-bottom: 8px;
+}
+
+.house-eleven-planet-card p,
+.house-eleven-sign-card p {
+  margin-top: 0;
+}
+
+/* ======================================== */
+/* PLANÈTES MAÎTRESSES                      */
+/* ======================================== */
+
+.house-eleven-ruler-card {
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.house-eleven-ruler-card span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  border-radius: 17px;
+  color: #8ce8de;
+  background: rgba(64, 224, 208, 0.08);
+  border: 1px solid rgba(64, 224, 208, 0.18);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.house-eleven-ruler-card h3 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.house-eleven-ruler-card p {
+  margin: 0;
+  color: #afd0cc;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ======================================== */
+/* COMPARAISONS                             */
+/* ======================================== */
+
+.house-eleven-comparison-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.house-eleven-comparison-card::after {
+  content: "";
+  position: absolute;
+  right: -46px;
+  bottom: -46px;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: rgba(64, 224, 208, 0.05);
+  pointer-events: none;
+}
+
+.house-eleven-comparison-card h3 {
+  margin-top: 4px;
+}
+
+/* ======================================== */
+/* ÉTAPES                                   */
+/* ======================================== */
+
+.house-eleven-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.house-eleven-step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 23px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 71, 73, 0.94),
+      rgba(12, 38, 40, 0.92)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.15);
+}
+
+.house-eleven-step-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: #05211f;
+  background:
+    linear-gradient(
+      135deg,
+      #35b8ab,
+      #a5f1e9
+    );
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.house-eleven-step-card p {
+  margin: 0;
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.house-eleven-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(64, 224, 208, 0.15),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(32, 89, 91, 0.99),
+      rgba(16, 46, 49, 0.98)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.28);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.31);
+}
+
+.house-eleven-cta-card > div {
+  flex: 1;
+}
+
+.house-eleven-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.house-eleven-cta-card p {
+  margin-bottom: 0;
+}
+
+.house-eleven-cta-card .house-eleven-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* NAVIGATION                               */
+/* ======================================== */
+
+.house-eleven-navigation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 23px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.house-eleven-navigation-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  color: #8ce8de;
+  background: rgba(64, 224, 208, 0.08);
+  border: 1px solid rgba(64, 224, 208, 0.18);
+  font-size: 26px;
+}
+
+.house-eleven-navigation-card h3 {
+  margin-bottom: 7px;
+}
+
+.house-eleven-navigation-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.house-eleven-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.house-eleven-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(24, 71, 73, 0.93),
+      rgba(12, 38, 40, 0.91)
+    );
+  border: 1px solid rgba(64, 224, 208, 0.15);
+}
+
+.house-eleven-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.house-eleven-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.house-eleven-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #8ce8de;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.house-eleven-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.house-eleven-faq-item[open] summary {
+  border-bottom: 1px solid rgba(64, 224, 208, 0.12);
+}
+
+.house-eleven-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #c6ddda;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.house-eleven-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #a3bfbc !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(64, 224, 208, 0.1);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1000px) {
+  .house-eleven-rulers-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .house-eleven-page {
+    padding-top: 40px;
+  }
+
+  .house-eleven-hero {
+    padding: 52px 28px;
+  }
+
+  .house-eleven-content {
+    padding: 38px 28px;
+  }
+
+  .house-eleven-info-grid,
+  .house-eleven-planets-grid,
+  .house-eleven-signs-grid,
+  .house-eleven-navigation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eleven-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .house-eleven-rulers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .house-eleven-page {
+    padding: 24px 12px 60px;
+  }
+
+  .house-eleven-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .house-eleven-hero::before {
+    top: -32px;
+    font-size: 215px;
+  }
+
+  .house-eleven-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .house-eleven-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .house-eleven-hero-actions {
+    flex-direction: column;
+  }
+
+  .house-eleven-primary-button,
+  .house-eleven-secondary-button {
+    width: 100%;
+  }
+
+  .house-eleven-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .house-eleven-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .house-eleven-content h2 {
+    font-size: 30px;
+  }
+
+  .house-eleven-content p {
+    font-size: 15px;
+  }
+
+  .house-eleven-strengths-grid,
+  .house-eleven-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eleven-info-card,
+  .house-eleven-list-card,
+  .house-eleven-comparison-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-eleven-planet-card,
+  .house-eleven-sign-card {
+    flex-direction: column;
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-eleven-highlight-card {
+    flex-direction: column;
+    padding: 23px 20px;
+    border-radius: 22px;
+  }
+
+  .house-eleven-step-card {
+    gap: 15px;
+    padding: 20px 17px;
+  }
+
+  .house-eleven-step-card > span {
+    width: 42px;
+    height: 42px;
+  }
+
+  .house-eleven-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .house-eleven-navigation-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .house-eleven-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .house-eleven-faq-item summary::after {
+    right: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .house-eleven-rulers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eleven-ruler-card {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    column-gap: 14px;
+    padding: 17px;
+    text-align: left;
+  }
+
+  .house-eleven-ruler-card span {
+    grid-row: 1 / 3;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+
+  .house-eleven-ruler-card h3 {
+    margin: 0;
+  }
+
+  .house-eleven-ruler-card p {
+    margin: 3px 0 0;
+    text-align: left;
+  }
+}
