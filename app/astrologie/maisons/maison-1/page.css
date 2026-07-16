@@ -1,0 +1,888 @@
+.house-one-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(244, 201, 93, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #070912 0%,
+      #0b0c16 100%
+    );
+}
+
+.house-one-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.house-one-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 201, 93, 0.18),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(48, 39, 19, 0.97),
+      rgba(17, 17, 25, 0.96)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.44),
+    0 0 60px rgba(244, 201, 93, 0.08);
+}
+
+.house-one-hero::before {
+  content: "Ⅰ";
+  position: absolute;
+  top: -82px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(244, 201, 93, 0.06);
+  font-size: 300px;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.house-one-badge,
+.house-one-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.1);
+  border: 1px solid rgba(244, 201, 93, 0.24);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.house-one-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.house-one-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.house-one-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #eee4c9;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.house-one-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.house-one-primary-button,
+.house-one-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.house-one-primary-button {
+  color: #211805;
+  background:
+    linear-gradient(
+      135deg,
+      #d4af4e,
+      #f4d77c 48%,
+      #b48d30
+    );
+  box-shadow:
+    0 14px 34px rgba(212, 175, 78, 0.22);
+}
+
+.house-one-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(244, 201, 93, 0.2);
+}
+
+.house-one-primary-button:hover,
+.house-one-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.house-one-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(212, 175, 78, 0.3);
+}
+
+.house-one-secondary-button:hover {
+  border-color: rgba(244, 201, 93, 0.46);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.house-one-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(29, 27, 20, 0.94),
+      rgba(15, 15, 21, 0.88)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.28);
+}
+
+.house-one-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(244, 201, 93, 0.12);
+}
+
+.house-one-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.house-one-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.house-one-content p {
+  max-width: 940px;
+  color: #e8e0ca;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.house-one-content p + p {
+  margin-top: 16px;
+}
+
+.house-one-kicker {
+  margin-bottom: 18px;
+}
+
+.house-one-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #f4c95d;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.house-one-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES PRINCIPALES                      */
+/* ======================================== */
+
+.house-one-info-grid,
+.house-one-strengths-grid,
+.house-one-planets-grid,
+.house-one-signs-grid,
+.house-one-rulers-grid,
+.house-one-navigation-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.house-one-info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.house-one-strengths-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.house-one-planets-grid,
+.house-one-signs-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.house-one-rulers-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.house-one-navigation-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ======================================== */
+/* CARTES                                   */
+/* ======================================== */
+
+.house-one-info-card,
+.house-one-list-card,
+.house-one-planet-card,
+.house-one-sign-card,
+.house-one-ruler-card,
+.house-one-navigation-card {
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(48, 42, 25, 0.95),
+      rgba(22, 21, 25, 0.92)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.15);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.2);
+}
+
+.house-one-info-card,
+.house-one-list-card {
+  padding: 24px;
+}
+
+.house-one-info-card,
+.house-one-planet-card,
+.house-one-sign-card,
+.house-one-ruler-card,
+.house-one-navigation-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.house-one-info-card:hover,
+.house-one-planet-card:hover,
+.house-one-sign-card:hover,
+.house-one-ruler-card:hover,
+.house-one-navigation-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244, 201, 93, 0.34);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.27);
+}
+
+.house-one-card-icon {
+  display: block;
+  margin-bottom: 14px;
+  color: #f4c95d;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.house-one-info-card p,
+.house-one-list-card p,
+.house-one-planet-card p,
+.house-one-sign-card p,
+.house-one-navigation-card p {
+  margin-bottom: 0;
+  color: #ddd4bc;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* CARTE ASCENDANT                          */
+/* ======================================== */
+
+.house-one-highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(244, 201, 93, 0.14),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(54, 45, 23, 0.98),
+      rgba(23, 22, 28, 0.97)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.26);
+}
+
+.house-one-highlight-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.1);
+  border: 1px solid rgba(244, 201, 93, 0.2);
+  font-size: 36px;
+  font-weight: 900;
+}
+
+.house-one-highlight-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.house-one-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-one-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #f7f1df;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 201, 93, 0.1);
+  font-weight: 700;
+}
+
+.house-one-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #d4af4e;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* PLANÈTES ET SIGNES                       */
+/* ======================================== */
+
+.house-one-planet-card,
+.house-one-sign-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 23px;
+}
+
+.house-one-planet-symbol,
+.house-one-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.house-one-planet-card > div:last-child,
+.house-one-sign-card > div:last-child {
+  flex: 1;
+}
+
+.house-one-planet-card h3,
+.house-one-sign-card h3 {
+  margin-bottom: 8px;
+}
+
+.house-one-planet-card p,
+.house-one-sign-card p {
+  margin-top: 0;
+}
+
+/* ======================================== */
+/* PLANÈTES MAÎTRESSES                      */
+/* ======================================== */
+
+.house-one-ruler-card {
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.house-one-ruler-card span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  border-radius: 17px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.17);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.house-one-ruler-card h3 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.house-one-ruler-card p {
+  margin: 0;
+  color: #d7cba9;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ======================================== */
+/* ÉTAPES                                   */
+/* ======================================== */
+
+.house-one-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.house-one-step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 23px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(46, 40, 25, 0.93),
+      rgba(21, 20, 25, 0.91)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.14);
+}
+
+.house-one-step-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: #211805;
+  background:
+    linear-gradient(
+      135deg,
+      #d4af4e,
+      #f4d77c
+    );
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.house-one-step-card p {
+  margin: 0;
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.house-one-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(244, 201, 93, 0.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(58, 48, 24, 0.98),
+      rgba(24, 22, 29, 0.97)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.27);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.28);
+}
+
+.house-one-cta-card > div {
+  flex: 1;
+}
+
+.house-one-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.house-one-cta-card p {
+  margin-bottom: 0;
+}
+
+.house-one-cta-card .house-one-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* NAVIGATION                               */
+/* ======================================== */
+
+.house-one-navigation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 23px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.house-one-navigation-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.17);
+  font-size: 26px;
+}
+
+.house-one-navigation-card h3 {
+  margin-bottom: 7px;
+}
+
+.house-one-navigation-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.house-one-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.house-one-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(47, 41, 25, 0.92),
+      rgba(21, 20, 25, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.14);
+}
+
+.house-one-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.house-one-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.house-one-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #f4c95d;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.house-one-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.house-one-faq-item[open] summary {
+  border-bottom: 1px solid rgba(244, 201, 93, 0.11);
+}
+
+.house-one-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #ddd4bc;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.house-one-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #bdb49e !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(244, 201, 93, 0.09);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1000px) {
+  .house-one-rulers-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .house-one-page {
+    padding-top: 40px;
+  }
+
+  .house-one-hero {
+    padding: 52px 28px;
+  }
+
+  .house-one-content {
+    padding: 38px 28px;
+  }
+
+  .house-one-info-grid,
+  .house-one-planets-grid,
+  .house-one-signs-grid,
+  .house-one-navigation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-one-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .house-one-rulers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .house-one-page {
+    padding: 24px 12px 60px;
+  }
+
+  .house-one-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .house-one-hero::before {
+    top: -32px;
+    font-size: 215px;
+  }
+
+  .house-one-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .house-one-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .house-one-hero-actions {
+    flex-direction: column;
+  }
+
+  .house-one-primary-button,
+  .house-one-secondary-button {
+    width: 100%;
+  }
+
+  .house-one-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .house-one-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .house-one-content h2 {
+    font-size: 30px;
+  }
+
+  .house-one-content p {
+    font-size: 15px;
+  }
+
+  .house-one-strengths-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-one-info-card,
+  .house-one-list-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-one-planet-card,
+  .house-one-sign-card {
+    flex-direction: column;
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-one-highlight-card {
+    flex-direction: column;
+    padding: 23px 20px;
+    border-radius: 22px;
+  }
+
+  .house-one-step-card {
+    gap: 15px;
+    padding: 20px 17px;
+  }
+
+  .house-one-step-card > span {
+    width: 42px;
+    height: 42px;
+  }
+
+  .house-one-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .house-one-navigation-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .house-one-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .house-one-faq-item summary::after {
+    right: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .house-one-rulers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-one-ruler-card {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    column-gap: 14px;
+    padding: 17px;
+    text-align: left;
+  }
+
+  .house-one-ruler-card span {
+    grid-row: 1 / 3;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+
+  .house-one-ruler-card h3 {
+    margin: 0;
+  }
+
+  .house-one-ruler-card p {
+    margin: 3px 0 0;
+    text-align: left;
+  }
+}
