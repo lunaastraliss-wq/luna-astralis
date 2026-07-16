@@ -50,9 +50,7 @@ export default function SiteHeader() {
   );
 
   const onNavTo = useCallback(
-    (
-      id: string
-    ) =>
+    (id: string) =>
       (
         event: React.MouseEvent<HTMLAnchorElement>
       ) => {
@@ -166,6 +164,14 @@ export default function SiteHeader() {
         aria-label="Navigation principale"
       >
         <div className="nav-desktop">
+          <Link
+            className="btn btn-small btn-ghost"
+            href="/astrologie"
+            onClick={closeMenu}
+          >
+            Astrologie
+          </Link>
+
           <a
             href="/#comment"
             className="btn btn-small btn-ghost"
@@ -244,6 +250,14 @@ export default function SiteHeader() {
           }`}
           role="menu"
         >
+          <Link
+            href="/astrologie"
+            onClick={closeMenu}
+            role="menuitem"
+          >
+            Astrologie
+          </Link>
+
           <a
             href="/#comment"
             onClick={onNavTo("comment")}
