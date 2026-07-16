@@ -1,0 +1,920 @@
+.house-eight-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(166, 96, 196, 0.15),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #09050d 0%,
+      #120818 100%
+    );
+}
+
+.house-eight-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.house-eight-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(180, 99, 211, 0.2),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(54, 23, 69, 0.98),
+      rgba(25, 11, 34, 0.97)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.3);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.48),
+    0 0 65px rgba(166, 96, 196, 0.09);
+}
+
+.house-eight-hero::before {
+  content: "Ⅷ";
+  position: absolute;
+  top: -82px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(195, 126, 225, 0.06);
+  font-size: 300px;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.house-eight-badge,
+.house-eight-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #d9a7ec;
+  background: rgba(180, 99, 211, 0.1);
+  border: 1px solid rgba(180, 99, 211, 0.25);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.house-eight-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.house-eight-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.house-eight-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #eadcf0;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.house-eight-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.house-eight-primary-button,
+.house-eight-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.house-eight-primary-button {
+  color: #200b29;
+  background:
+    linear-gradient(
+      135deg,
+      #9d4bc0,
+      #dcb0ed 48%,
+      #71328f
+    );
+  box-shadow:
+    0 14px 34px rgba(157, 75, 192, 0.24);
+}
+
+.house-eight-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(180, 99, 211, 0.21);
+}
+
+.house-eight-primary-button:hover,
+.house-eight-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.house-eight-primary-button:hover {
+  box-shadow:
+    0 18px 40px rgba(157, 75, 192, 0.33);
+}
+
+.house-eight-secondary-button:hover {
+  border-color: rgba(180, 99, 211, 0.48);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.house-eight-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(40, 19, 49, 0.95),
+      rgba(20, 10, 27, 0.9)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.31);
+}
+
+.house-eight-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(180, 99, 211, 0.13);
+}
+
+.house-eight-content h2 {
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+.house-eight-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.house-eight-content p {
+  max-width: 940px;
+  color: #dfd0e4;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.house-eight-content p + p {
+  margin-top: 16px;
+}
+
+.house-eight-kicker {
+  margin-bottom: 18px;
+}
+
+.house-eight-text-link {
+  display: inline-flex;
+  margin-top: 14px;
+  color: #d9a7ec;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.house-eight-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* GRILLES PRINCIPALES                      */
+/* ======================================== */
+
+.house-eight-info-grid,
+.house-eight-strengths-grid,
+.house-eight-planets-grid,
+.house-eight-signs-grid,
+.house-eight-rulers-grid,
+.house-eight-comparison-grid,
+.house-eight-navigation-grid {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.house-eight-info-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.house-eight-strengths-grid,
+.house-eight-planets-grid,
+.house-eight-signs-grid,
+.house-eight-comparison-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.house-eight-rulers-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.house-eight-navigation-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* ======================================== */
+/* CARTES                                   */
+/* ======================================== */
+
+.house-eight-info-card,
+.house-eight-list-card,
+.house-eight-planet-card,
+.house-eight-sign-card,
+.house-eight-ruler-card,
+.house-eight-comparison-card,
+.house-eight-navigation-card {
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(55, 27, 67, 0.96),
+      rgba(28, 14, 36, 0.93)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.16);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.22);
+}
+
+.house-eight-info-card,
+.house-eight-list-card,
+.house-eight-comparison-card {
+  padding: 24px;
+}
+
+.house-eight-info-card,
+.house-eight-planet-card,
+.house-eight-sign-card,
+.house-eight-ruler-card,
+.house-eight-comparison-card,
+.house-eight-navigation-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.house-eight-info-card:hover,
+.house-eight-planet-card:hover,
+.house-eight-sign-card:hover,
+.house-eight-ruler-card:hover,
+.house-eight-comparison-card:hover,
+.house-eight-navigation-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(180, 99, 211, 0.36);
+  box-shadow:
+    0 24px 54px rgba(0, 0, 0, 0.29);
+}
+
+.house-eight-card-icon {
+  display: block;
+  margin-bottom: 14px;
+  color: #d9a7ec;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.house-eight-info-card p,
+.house-eight-list-card p,
+.house-eight-planet-card p,
+.house-eight-sign-card p,
+.house-eight-comparison-card p,
+.house-eight-navigation-card p {
+  margin-bottom: 0;
+  color: #d7c5dd;
+  line-height: 1.72;
+}
+
+/* ======================================== */
+/* CARTE TRANSFORMATION                     */
+/* ======================================== */
+
+.house-eight-highlight-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-top: 30px;
+  padding: 28px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(180, 99, 211, 0.15),
+      transparent 36%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(67, 32, 81, 0.99),
+      rgba(32, 16, 41, 0.98)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.28);
+}
+
+.house-eight-highlight-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  color: #d9a7ec;
+  background: rgba(180, 99, 211, 0.1);
+  border: 1px solid rgba(180, 99, 211, 0.21);
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+.house-eight-highlight-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* LISTES                                   */
+/* ======================================== */
+
+.house-eight-list-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-eight-list-card li {
+  position: relative;
+  padding: 13px 15px 13px 43px;
+  border-radius: 14px;
+  color: #f5edf8;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(180, 99, 211, 0.11);
+  font-weight: 700;
+}
+
+.house-eight-list-card li::before {
+  content: "✦";
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #a955ca;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* PLANÈTES ET SIGNES                       */
+/* ======================================== */
+
+.house-eight-planet-card,
+.house-eight-sign-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 23px;
+}
+
+.house-eight-planet-symbol,
+.house-eight-sign-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: #d9a7ec;
+  background: rgba(180, 99, 211, 0.08);
+  border: 1px solid rgba(180, 99, 211, 0.19);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.house-eight-planet-card > div:last-child,
+.house-eight-sign-card > div:last-child {
+  flex: 1;
+}
+
+.house-eight-planet-card h3,
+.house-eight-sign-card h3 {
+  margin-bottom: 8px;
+}
+
+.house-eight-planet-card p,
+.house-eight-sign-card p {
+  margin-top: 0;
+}
+
+/* ======================================== */
+/* PLANÈTES MAÎTRESSES                      */
+/* ======================================== */
+
+.house-eight-ruler-card {
+  padding: 22px 18px;
+  text-align: center;
+}
+
+.house-eight-ruler-card span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  border-radius: 17px;
+  color: #d9a7ec;
+  background: rgba(180, 99, 211, 0.08);
+  border: 1px solid rgba(180, 99, 211, 0.18);
+  font-size: 28px;
+  line-height: 1;
+}
+
+.house-eight-ruler-card h3 {
+  margin-bottom: 6px;
+  font-size: 18px;
+}
+
+.house-eight-ruler-card p {
+  margin: 0;
+  color: #c9b1d1;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ======================================== */
+/* COMPARAISONS                             */
+/* ======================================== */
+
+.house-eight-comparison-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.house-eight-comparison-card::after {
+  content: "";
+  position: absolute;
+  right: -46px;
+  bottom: -46px;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background: rgba(180, 99, 211, 0.05);
+  pointer-events: none;
+}
+
+.house-eight-comparison-card h3 {
+  margin-top: 4px;
+}
+
+/* ======================================== */
+/* ÉTAPES                                   */
+/* ======================================== */
+
+.house-eight-steps {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.house-eight-step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 23px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(54, 27, 66, 0.94),
+      rgba(27, 14, 35, 0.92)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.15);
+}
+
+.house-eight-step-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: #200b29;
+  background:
+    linear-gradient(
+      135deg,
+      #9d4bc0,
+      #dcb0ed
+    );
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.house-eight-step-card p {
+  margin: 0;
+}
+
+/* ======================================== */
+/* CARTE CTA                                */
+/* ======================================== */
+
+.house-eight-cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 30px;
+  padding: 34px;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(180, 99, 211, 0.15),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(72, 35, 87, 0.99),
+      rgba(34, 17, 44, 0.98)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.28);
+  box-shadow:
+    0 25px 65px rgba(0, 0, 0, 0.31);
+}
+
+.house-eight-cta-card > div {
+  flex: 1;
+}
+
+.house-eight-cta-card h2 {
+  max-width: 720px;
+  margin-bottom: 14px;
+}
+
+.house-eight-cta-card p {
+  margin-bottom: 0;
+}
+
+.house-eight-cta-card .house-eight-primary-button {
+  flex-shrink: 0;
+}
+
+/* ======================================== */
+/* NAVIGATION                               */
+/* ======================================== */
+
+.house-eight-navigation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 23px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.house-eight-navigation-card > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 17px;
+  color: #d9a7ec;
+  background: rgba(180, 99, 211, 0.08);
+  border: 1px solid rgba(180, 99, 211, 0.18);
+  font-size: 26px;
+}
+
+.house-eight-navigation-card h3 {
+  margin-bottom: 7px;
+}
+
+.house-eight-navigation-card p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.house-eight-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.house-eight-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(54, 27, 66, 0.93),
+      rgba(27, 14, 35, 0.91)
+    );
+  border: 1px solid rgba(180, 99, 211, 0.15);
+}
+
+.house-eight-faq-item summary {
+  position: relative;
+  padding: 21px 56px 21px 22px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.45;
+  cursor: pointer;
+  list-style: none;
+}
+
+.house-eight-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.house-eight-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #d9a7ec;
+  font-size: 27px;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.house-eight-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.house-eight-faq-item[open] summary {
+  border-bottom: 1px solid rgba(180, 99, 211, 0.12);
+}
+
+.house-eight-faq-item p {
+  margin: 0;
+  padding: 20px 22px 23px;
+  color: #d7c5dd;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.house-eight-disclaimer {
+  margin: 54px auto 0;
+  padding: 22px 24px;
+  border-radius: 18px;
+  color: #b9a5c0 !important;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(180, 99, 211, 0.1);
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  text-align: center;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1000px) {
+  .house-eight-rulers-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .house-eight-page {
+    padding-top: 40px;
+  }
+
+  .house-eight-hero {
+    padding: 52px 28px;
+  }
+
+  .house-eight-content {
+    padding: 38px 28px;
+  }
+
+  .house-eight-info-grid,
+  .house-eight-planets-grid,
+  .house-eight-signs-grid,
+  .house-eight-navigation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eight-cta-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 760px) {
+  .house-eight-rulers-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 680px) {
+  .house-eight-page {
+    padding: 24px 12px 60px;
+  }
+
+  .house-eight-hero {
+    margin-bottom: 24px;
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .house-eight-hero::before {
+    top: -32px;
+    font-size: 215px;
+  }
+
+  .house-eight-hero h1 {
+    font-size: clamp(39px, 14vw, 58px);
+    line-height: 1.04;
+  }
+
+  .house-eight-hero-lead {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .house-eight-hero-actions {
+    flex-direction: column;
+  }
+
+  .house-eight-primary-button,
+  .house-eight-secondary-button {
+    width: 100%;
+  }
+
+  .house-eight-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .house-eight-content section + section {
+    margin-top: 44px;
+    padding-top: 40px;
+  }
+
+  .house-eight-content h2 {
+    font-size: 30px;
+  }
+
+  .house-eight-content p {
+    font-size: 15px;
+  }
+
+  .house-eight-strengths-grid,
+  .house-eight-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eight-info-card,
+  .house-eight-list-card,
+  .house-eight-comparison-card {
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-eight-planet-card,
+  .house-eight-sign-card {
+    flex-direction: column;
+    padding: 21px;
+    border-radius: 20px;
+  }
+
+  .house-eight-highlight-card {
+    flex-direction: column;
+    padding: 23px 20px;
+    border-radius: 22px;
+  }
+
+  .house-eight-step-card {
+    gap: 15px;
+    padding: 20px 17px;
+  }
+
+  .house-eight-step-card > span {
+    width: 42px;
+    height: 42px;
+  }
+
+  .house-eight-cta-card {
+    padding: 26px 20px;
+    border-radius: 22px;
+  }
+
+  .house-eight-navigation-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .house-eight-faq-item summary {
+    padding: 19px 50px 19px 18px;
+  }
+
+  .house-eight-faq-item summary::after {
+    right: 18px;
+  }
+}
+
+@media (max-width: 450px) {
+  .house-eight-rulers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .house-eight-ruler-card {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    align-items: center;
+    column-gap: 14px;
+    padding: 17px;
+    text-align: left;
+  }
+
+  .house-eight-ruler-card span {
+    grid-row: 1 / 3;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+  }
+
+  .house-eight-ruler-card h3 {
+    margin: 0;
+  }
+
+  .house-eight-ruler-card p {
+    margin: 3px 0 0;
+    text-align: left;
+  }
+}
