@@ -1,0 +1,777 @@
+.jupiter-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(196, 181, 253, 0.14),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #070b18 100%
+    );
+}
+
+.jupiter-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.jupiter-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 980px;
+  margin: 0 auto 48px;
+  padding: 62px 38px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(196, 181, 253, 0.18),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(19, 26, 51, 0.96),
+      rgba(9, 14, 31, 0.92)
+    );
+  border: 1px solid rgba(196, 181, 253, 0.3);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.42),
+    0 0 60px rgba(196, 181, 253, 0.08);
+}
+
+.jupiter-hero::before {
+  content: "♃";
+  position: absolute;
+  top: -78px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(196, 181, 253, 0.07);
+  font-size: 290px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.jupiter-badge,
+.jupiter-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #ddd6fe;
+  background: rgba(196, 181, 253, 0.1);
+  border: 1px solid rgba(196, 181, 253, 0.27);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.jupiter-badge {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.jupiter-hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.jupiter-hero-lead {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  color: #d5defc;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.jupiter-hero-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.jupiter-primary-button,
+.jupiter-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.jupiter-primary-button {
+  color: #160b32;
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #c4b5fd 48%,
+      #ede9fe
+    );
+  box-shadow:
+    0 12px 32px rgba(139, 92, 246, 0.25);
+}
+
+.jupiter-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(196, 181, 253, 0.22);
+}
+
+.jupiter-primary-button:hover,
+.jupiter-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.jupiter-primary-button:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(139, 92, 246, 0.33);
+}
+
+.jupiter-secondary-button:hover {
+  border-color: rgba(196, 181, 253, 0.45);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.jupiter-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 19, 38, 0.88),
+      rgba(8, 12, 26, 0.78)
+    );
+  border: 1px solid rgba(196, 181, 253, 0.2);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34);
+}
+
+.jupiter-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(196, 181, 253, 0.13);
+}
+
+.jupiter-kicker {
+  margin-bottom: 15px;
+}
+
+.jupiter-content h2 {
+  max-width: 900px;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.jupiter-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.jupiter-content p {
+  max-width: 940px;
+  margin: 0 0 17px;
+  color: #d5defc;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+.jupiter-content ul {
+  margin: 18px 0 0;
+  padding-left: 20px;
+  color: #d5defc;
+}
+
+.jupiter-content li {
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+.jupiter-text-link {
+  display: inline-flex;
+  margin-top: 17px;
+  color: #ddd6fe;
+  font-size: 14px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.jupiter-text-link:hover {
+  text-decoration: underline;
+}
+
+/* ======================================== */
+/* CARTES GÉNÉRALES                         */
+/* ======================================== */
+
+.jupiter-info-grid,
+.jupiter-pillars {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.jupiter-info-card,
+.jupiter-pillar-card,
+.jupiter-sign-card,
+.jupiter-house-card,
+.jupiter-function-card,
+.jupiter-aspect-card,
+.jupiter-strength-card {
+  padding: 24px 22px;
+  border-radius: 23px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(196, 181, 253, 0.17);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.jupiter-card-icon,
+.jupiter-pillar-symbol,
+.jupiter-sign-symbol {
+  color: #ddd6fe;
+  font-size: 34px;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.jupiter-info-card p,
+.jupiter-pillar-card p,
+.jupiter-sign-card p,
+.jupiter-house-card p,
+.jupiter-function-card p,
+.jupiter-aspect-card p,
+.jupiter-strength-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+.jupiter-pillar-card {
+  text-align: center;
+}
+
+/* ======================================== */
+/* FONCTIONS DE JUPITER                     */
+/* ======================================== */
+
+.jupiter-functions-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.jupiter-function-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.jupiter-function-card > span {
+  display: inline-flex;
+  margin-bottom: 18px;
+  color: rgba(221, 214, 254, 0.78);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.jupiter-function-card::after {
+  content: "♃";
+  position: absolute;
+  right: -15px;
+  bottom: -32px;
+  color: rgba(196, 181, 253, 0.04);
+  font-size: 120px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* ======================================== */
+/* 12 SIGNES                                */
+/* ======================================== */
+
+.jupiter-sign-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.jupiter-sign-card {
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.jupiter-sign-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(196, 181, 253, 0.42);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(196, 181, 253, 0.07);
+}
+
+/* ======================================== */
+/* 12 MAISONS                               */
+/* ======================================== */
+
+.jupiter-house-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.jupiter-house-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.jupiter-house-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(196, 181, 253, 0.42);
+  box-shadow:
+    0 28px 62px rgba(0, 0, 0, 0.32);
+}
+
+.jupiter-house-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 17px;
+  border-radius: 14px;
+  color: #160b32;
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #ede9fe
+    );
+  font-size: 13px;
+  font-weight: 950;
+  box-shadow:
+    0 10px 24px rgba(139, 92, 246, 0.2);
+}
+
+/* ======================================== */
+/* JUPITER RÉTROGRADE                       */
+/* ======================================== */
+
+.jupiter-retrograde-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(280px, 0.65fr);
+  gap: 28px;
+  align-items: start;
+  margin-top: 28px;
+}
+
+.jupiter-retrograde-card {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(196, 181, 253, 0.13),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.96),
+      rgba(11, 17, 36, 0.92)
+    );
+  border: 1px solid rgba(196, 181, 253, 0.24);
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.25);
+}
+
+.jupiter-retrograde-symbol {
+  display: block;
+  margin-bottom: 15px;
+  color: #ddd6fe;
+  font-size: 52px;
+  line-height: 1;
+}
+
+.jupiter-retrograde-card ul {
+  margin-bottom: 0;
+}
+
+.jupiter-retrograde-card li::marker {
+  color: #ddd6fe;
+}
+
+/* ======================================== */
+/* FORCES ET DÉFIS                          */
+/* ======================================== */
+
+.jupiter-strengths-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.jupiter-strength-card {
+  padding: 28px;
+}
+
+.jupiter-strength-card .jupiter-kicker {
+  margin-bottom: 17px;
+}
+
+.jupiter-strength-card li::marker {
+  color: #ddd6fe;
+}
+
+/* ======================================== */
+/* ASPECTS                                  */
+/* ======================================== */
+
+.jupiter-aspect-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.jupiter-aspect-card {
+  text-align: center;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.jupiter-aspect-card:hover {
+  transform: translateY(-5px);
+  border-color:
+    rgba(196, 181, 253, 0.42);
+}
+
+.jupiter-aspect-card > span {
+  display: block;
+  margin-bottom: 16px;
+  color: #ddd6fe;
+  font-size: 34px;
+  line-height: 1;
+}
+
+/* ======================================== */
+/* CTA                                      */
+/* ======================================== */
+
+.jupiter-cta-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  padding: 30px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(196, 181, 253, 0.12),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(196, 181, 253, 0.22);
+}
+
+.jupiter-cta-card h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.jupiter-cta-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.jupiter-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.jupiter-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background:
+    rgba(255, 255, 255, 0.045);
+  border:
+    1px solid rgba(196, 181, 253, 0.15);
+}
+
+.jupiter-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.jupiter-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.jupiter-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #ddd6fe;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.jupiter-faq-item[open] summary::after {
+  content: "−";
+}
+
+.jupiter-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.jupiter-disclaimer {
+  margin: 44px auto 0 !important;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  background:
+    rgba(196, 181, 253, 0.06);
+  border:
+    1px solid rgba(196, 181, 253, 0.14);
+  color:
+    rgba(213, 222, 252, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 1050px) {
+  .jupiter-functions-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .jupiter-aspect-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .jupiter-info-grid,
+  .jupiter-pillars,
+  .jupiter-sign-grid,
+  .jupiter-house-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .jupiter-retrograde-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .jupiter-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .jupiter-cta-card .jupiter-primary-button {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .jupiter-page {
+    padding: 34px 12px 60px;
+  }
+
+  .jupiter-hero {
+    padding: 44px 20px;
+    border-radius: 26px;
+  }
+
+  .jupiter-hero::before {
+    top: -25px;
+    font-size: 180px;
+  }
+
+  .jupiter-hero h1 {
+    font-size: 42px;
+  }
+
+  .jupiter-hero-lead {
+    font-size: 16px;
+  }
+
+  .jupiter-hero-actions {
+    flex-direction: column;
+  }
+
+  .jupiter-primary-button,
+  .jupiter-secondary-button {
+    width: 100%;
+  }
+
+  .jupiter-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .jupiter-content section + section {
+    margin-top: 42px;
+    padding-top: 38px;
+  }
+
+  .jupiter-content h2 {
+    font-size: 29px;
+  }
+
+  .jupiter-info-grid,
+  .jupiter-pillars,
+  .jupiter-sign-grid,
+  .jupiter-house-grid,
+  .jupiter-functions-grid,
+  .jupiter-strengths-grid,
+  .jupiter-aspect-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jupiter-info-card,
+  .jupiter-pillar-card,
+  .jupiter-sign-card,
+  .jupiter-house-card,
+  .jupiter-function-card,
+  .jupiter-aspect-card,
+  .jupiter-strength-card {
+    padding: 21px 18px;
+  }
+
+  .jupiter-retrograde-card {
+    padding: 24px 20px;
+  }
+
+  .jupiter-cta-card {
+    padding: 24px 18px;
+  }
+
+  .jupiter-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .jupiter-faq-item summary::after {
+    right: 18px;
+  }
+
+  .jupiter-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ======================================== */
+/* ACCESSIBILITÉ                            */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .jupiter-primary-button,
+  .jupiter-secondary-button,
+  .jupiter-sign-card,
+  .jupiter-house-card,
+  .jupiter-aspect-card {
+    transition: none;
+  }
+}
