@@ -11,8 +11,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           "/api/",
           "/dev/",
-          "/report-success",
           "/checkout",
+          "/report-success",
+          "/_next/",
         ],
       },
     ],
