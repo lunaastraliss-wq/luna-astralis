@@ -6,12 +6,13 @@ import { gemeauxHoroscope } from "./gemeaux";
 import { cancerHoroscope } from "./cancer";
 import { lionHoroscope } from "./lion";
 import { viergeHoroscope } from "./vierge";
-import balanceHoroscope from "./balance";
-import scorpionHoroscope from "./scorpion";
-import sagittaireHoroscope from "./sagittaire";
-import { capricorneHoroscope } from "./capricorne";
-import { verseauHoroscope } from "./verseau";
-import { poissonsHoroscope } from "./poissons";
+
+import balance from "./balance";
+import scorpion from "./scorpion";
+import sagittaire from "./sagittaire";
+import capricorne from "./capricorne";
+import verseau from "./verseau";
+import poissons from "./poissons";
 
 export const HOROSCOPE_TEXTES: Record<string, HoroscopeTextes> = {
   belier: belierHoroscope,
@@ -20,10 +21,10 @@ export const HOROSCOPE_TEXTES: Record<string, HoroscopeTextes> = {
   cancer: cancerHoroscope,
   lion: lionHoroscope,
   vierge: viergeHoroscope,
-  balance: balanceHoroscope,
-  scorpion: scorpionHoroscope,
-  sagittaire: sagittaireHoroscope,
-  capricorne: capricorneHoroscope,
-  verseau: verseauHoroscope,
-  poissons: poissonsHoroscope,
+  balance,
+  scorpion,
+  sagittaire,
+  capricorne,
+  verseau,
+  poissons,
 };
