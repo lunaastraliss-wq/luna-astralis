@@ -4,6 +4,7 @@ import Link from "next/link";
 import AuthProvider from "@/components/AuthProvider";
 import SiteHeader from "@/components/SiteHeader";
 
+import "./page.css";
 import "./horoscope.css";
 
 export const metadata: Metadata = {
