@@ -1,0 +1,1385 @@
+.quincunx-page {
+  min-height: 100vh;
+  padding: 60px 18px 90px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(244, 201, 93, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 12% 34%,
+      rgba(168, 85, 247, 0.09),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 88% 68%,
+      rgba(251, 146, 60, 0.07),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #050814 0%,
+      #070b18 100%
+    );
+}
+
+.quincunx-wrap {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ======================================== */
+/* FIL D’ARIANE                             */
+/* ======================================== */
+
+.quincunx-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  max-width: 1020px;
+  margin: 0 auto 18px;
+  color: rgba(213, 222, 252, 0.66);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.quincunx-breadcrumb a {
+  color: #d5defc;
+  text-decoration: none;
+  transition:
+    color 0.22s ease;
+}
+
+.quincunx-breadcrumb a:hover {
+  color: #f4c95d;
+}
+
+.quincunx-breadcrumb span:last-child {
+  color: #f4c95d;
+}
+
+/* ======================================== */
+/* HERO                                     */
+/* ======================================== */
+
+.quincunx-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 1020px;
+  margin: 0 auto 48px;
+  padding: 66px 38px 58px;
+  border-radius: 34px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 201, 93, 0.15),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(168, 85, 247, 0.12),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(251, 146, 60, 0.08),
+      transparent 34%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(19, 26, 51, 0.97),
+      rgba(9, 14, 31, 0.93)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.42),
+    0 0 70px rgba(244, 201, 93, 0.07);
+}
+
+.quincunx-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.32;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.72) 1px,
+      transparent 1px
+    );
+  background-size: 42px 42px;
+  mask-image:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.8),
+      transparent 82%
+    );
+}
+
+.quincunx-hero::after {
+  content: "⚻";
+  position: absolute;
+  top: -175px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(244, 201, 93, 0.035);
+  font-size: 550px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.quincunx-badge,
+.quincunx-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 999px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.1);
+  border: 1px solid rgba(244, 201, 93, 0.27);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.quincunx-badge {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 22px;
+}
+
+.quincunx-main-symbol {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 24px;
+  border-radius: 34px;
+  color: #f8dc88;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(255, 255, 255, 0.17),
+      transparent 38%
+    ),
+    rgba(244, 201, 93, 0.09);
+  border: 1px solid rgba(244, 201, 93, 0.26);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.3),
+    0 0 38px rgba(244, 201, 93, 0.08);
+  font-size: 66px;
+  line-height: 1;
+}
+
+.quincunx-hero h1 {
+  position: relative;
+  z-index: 2;
+  max-width: 850px;
+  margin: 0 auto 20px;
+  color: #ffffff;
+  font-size: clamp(42px, 7vw, 74px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.quincunx-hero-lead {
+  position: relative;
+  z-index: 2;
+  max-width: 790px;
+  margin: 0 auto;
+  color: #d5defc;
+  font-size: 19px;
+  line-height: 1.72;
+}
+
+.quincunx-hero-data {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 760px;
+  margin: 30px auto 0;
+}
+
+.quincunx-hero-data > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 92px;
+  padding: 17px 14px;
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.065),
+      rgba(255, 255, 255, 0.025)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.quincunx-hero-data span {
+  margin-bottom: 7px;
+  color: #bfc9ed;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+
+.quincunx-hero-data strong {
+  color: #f4c95d;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.quincunx-hero-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
+}
+
+/* ======================================== */
+/* BOUTONS                                  */
+/* ======================================== */
+
+.quincunx-primary-button,
+.quincunx-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.quincunx-primary-button {
+  color: #171717;
+  background:
+    linear-gradient(
+      135deg,
+      #facc15,
+      #fde047 48%,
+      #fbbf24
+    );
+  box-shadow:
+    0 12px 32px rgba(250, 204, 21, 0.25);
+}
+
+.quincunx-secondary-button {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(244, 201, 93, 0.22);
+}
+
+.quincunx-primary-button:hover,
+.quincunx-secondary-button:hover {
+  transform: translateY(-3px);
+}
+
+.quincunx-primary-button:hover {
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(250, 204, 21, 0.33);
+}
+
+.quincunx-secondary-button:hover {
+  border-color: rgba(244, 201, 93, 0.45);
+}
+
+/* ======================================== */
+/* CONTENU                                  */
+/* ======================================== */
+
+.quincunx-content {
+  padding: 44px 38px;
+  border-radius: 34px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(13, 19, 38, 0.9),
+      rgba(8, 12, 26, 0.8)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34);
+}
+
+.quincunx-content section + section {
+  margin-top: 58px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(244, 201, 93, 0.12);
+}
+
+.quincunx-kicker {
+  margin-bottom: 15px;
+}
+
+.quincunx-content h2 {
+  max-width: 930px;
+  margin: 0 0 20px;
+  color: #ffffff;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.quincunx-content h3 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.quincunx-content p {
+  max-width: 950px;
+  margin: 0 0 17px;
+  color: #d5defc;
+  font-size: 16px;
+  line-height: 1.78;
+}
+
+/* ======================================== */
+/* FONCTIONNEMENT                           */
+/* ======================================== */
+
+.quincunx-reading-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.quincunx-reading-card {
+  position: relative;
+  overflow: hidden;
+  padding: 25px 22px;
+  border-radius: 23px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.quincunx-reading-card::after {
+  content: "⚻";
+  position: absolute;
+  right: -8px;
+  bottom: -30px;
+  color: rgba(244, 201, 93, 0.035);
+  font-size: 104px;
+  pointer-events: none;
+}
+
+.quincunx-reading-number {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  margin-bottom: 19px;
+  color: #f4c95d;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.quincunx-reading-card h3,
+.quincunx-reading-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-reading-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+/* ======================================== */
+/* DÉFIS ET POTENTIEL                       */
+/* ======================================== */
+
+.quincunx-polarity-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.quincunx-polarity-card {
+  position: relative;
+  overflow: hidden;
+  padding: 29px 25px;
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(251, 146, 60, 0.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.quincunx-polarity-card::after {
+  content: "⚻";
+  position: absolute;
+  right: -20px;
+  bottom: -54px;
+  color: rgba(244, 201, 93, 0.025);
+  font-size: 175px;
+  pointer-events: none;
+}
+
+.quincunx-polarity-icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 19px;
+  border-radius: 19px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.2);
+  font-size: 27px;
+}
+
+.quincunx-polarity-card h3,
+.quincunx-polarity-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-polarity-card p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.quincunx-polarity-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* MÉTHODE D’INTERPRÉTATION                 */
+/* ======================================== */
+
+.quincunx-method-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.quincunx-method-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: start;
+  padding: 24px;
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.92),
+      rgba(11, 17, 36, 0.88)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.15);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.quincunx-method-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(244, 201, 93, 0.32);
+}
+
+.quincunx-method-item > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  color: #171717;
+  background:
+    linear-gradient(
+      135deg,
+      #facc15,
+      #fde047
+    );
+  font-size: 17px;
+  font-weight: 950;
+  box-shadow:
+    0 10px 24px rgba(250, 204, 21, 0.18);
+}
+
+.quincunx-method-item p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* ORBE                                     */
+/* ======================================== */
+
+.quincunx-orb-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 19px;
+  margin: 28px 0;
+}
+
+.quincunx-orb-card {
+  position: relative;
+  overflow: hidden;
+  padding: 27px 23px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.22);
+}
+
+.quincunx-orb-card::after {
+  content: "⚻";
+  position: absolute;
+  top: -30px;
+  right: -20px;
+  color: rgba(244, 201, 93, 0.055);
+  font-size: 105px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.quincunx-orb-value {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 45px;
+  margin-bottom: 18px;
+  padding: 10px 15px;
+  border-radius: 14px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.quincunx-orb-card h3,
+.quincunx-orb-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-orb-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+/* ======================================== */
+/* EXEMPLES DE QUINCONCES                   */
+/* ======================================== */
+
+.quincunx-examples-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.quincunx-example-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 285px;
+  padding: 27px;
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(168, 85, 247, 0.08),
+      transparent 36%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.95),
+      rgba(11, 17, 36, 0.91)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.17);
+  box-shadow:
+    0 22px 52px rgba(0, 0, 0, 0.23);
+  transition:
+    transform 0.26s ease,
+    border-color 0.26s ease;
+}
+
+.quincunx-example-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(244, 201, 93, 0.38);
+}
+
+.quincunx-example-card::after {
+  content: "⚻";
+  position: absolute;
+  right: -13px;
+  bottom: -38px;
+  color: rgba(244, 201, 93, 0.035);
+  font-size: 116px;
+  pointer-events: none;
+}
+
+.quincunx-example-symbol {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-bottom: 18px;
+  padding: 10px 15px;
+  border-radius: 15px;
+  color: #f8dc88;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  font-size: 23px;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+
+.quincunx-example-card h3,
+.quincunx-example-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-example-card h3 {
+  font-size: 23px;
+}
+
+.quincunx-example-keywords {
+  margin-bottom: 14px !important;
+  color: #f4c95d !important;
+  font-size: 13px !important;
+  font-weight: 850;
+}
+
+.quincunx-example-card p:last-child {
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* SIGNES EN QUINCONCE                      */
+/* ======================================== */
+
+.quincunx-signs-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.quincunx-sign-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 21px;
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(168, 85, 247, 0.07),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.93),
+      rgba(11, 17, 36, 0.89)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.15);
+  transition:
+    transform 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.quincunx-sign-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244, 201, 93, 0.34);
+}
+
+.quincunx-sign-card > span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-bottom: 16px;
+  padding: 9px 13px;
+  border-radius: 14px;
+  color: #f8dc88;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  font-size: 21px;
+  letter-spacing: 0.08em;
+}
+
+.quincunx-sign-card h3,
+.quincunx-sign-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-sign-card h3 {
+  font-size: 20px;
+}
+
+.quincunx-sign-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+/* ======================================== */
+/* MAISONS                                  */
+/* ======================================== */
+
+.quincunx-houses-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.quincunx-house-card {
+  padding: 24px 22px;
+  border-radius: 22px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(244, 201, 93, 0.07),
+      transparent 38%
+    ),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(244, 201, 93, 0.15);
+}
+
+.quincunx-house-card strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #f4c95d;
+  font-size: 17px;
+}
+
+.quincunx-house-card p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.68;
+}
+
+/* ======================================== */
+/* COMPARAISON                              */
+/* ======================================== */
+
+.quincunx-comparison-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 28px;
+}
+
+.quincunx-comparison-card {
+  position: relative;
+  overflow: hidden;
+  padding: 29px 25px;
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(251, 146, 60, 0.07),
+      transparent 38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.94),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.16);
+}
+
+.quincunx-comparison-card::after {
+  content: "";
+  position: absolute;
+  right: -50px;
+  bottom: -70px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(244, 201, 93, 0.055),
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+.quincunx-comparison-symbol {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 19px;
+  border-radius: 20px;
+  color: #f8dc88;
+  background: rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.2);
+  font-size: 36px;
+}
+
+.quincunx-comparison-card h3,
+.quincunx-comparison-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.quincunx-comparison-card p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.quincunx-comparison-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* YOD                                      */
+/* ======================================== */
+
+.quincunx-yod-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 25px;
+  align-items: start;
+  margin-top: 28px;
+  padding: 30px;
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(244, 201, 93, 0.1),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(168, 85, 247, 0.09),
+      transparent 40%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(20, 28, 55, 0.95),
+      rgba(11, 17, 36, 0.9)
+    );
+  border: 1px solid rgba(244, 201, 93, 0.18);
+}
+
+.quincunx-yod-symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  color: #f8dc88;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(255, 255, 255, 0.14),
+      transparent 38%
+    ),
+    rgba(244, 201, 93, 0.08);
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.quincunx-yod-card p {
+  margin-bottom: 13px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.quincunx-yod-card p:last-child {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* CTA                                      */
+/* ======================================== */
+
+.quincunx-cta-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 28px;
+  margin-top: 30px;
+  padding: 32px;
+  border-radius: 27px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(244, 201, 93, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(168, 85, 247, 0.09),
+      transparent 42%
+    ),
+    rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 201, 93, 0.22);
+}
+
+.quincunx-cta-card h2 {
+  font-size: clamp(25px, 3vw, 36px);
+}
+
+.quincunx-cta-card p {
+  margin-bottom: 0;
+}
+
+/* ======================================== */
+/* FAQ                                      */
+/* ======================================== */
+
+.quincunx-faq-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.quincunx-faq-item {
+  overflow: hidden;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 201, 93, 0.14);
+}
+
+.quincunx-faq-item summary {
+  position: relative;
+  padding: 20px 52px 20px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  line-height: 1.4;
+  cursor: pointer;
+  list-style: none;
+}
+
+.quincunx-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.quincunx-faq-item summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #f4c95d;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.quincunx-faq-item[open] summary::after {
+  content: "−";
+}
+
+.quincunx-faq-item p {
+  margin: 0;
+  padding: 0 20px 20px;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+/* ======================================== */
+/* NAVIGATION ENTRE LES ASPECTS             */
+/* ======================================== */
+
+.quincunx-aspects-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 58px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(244, 201, 93, 0.12);
+}
+
+.quincunx-back-link,
+.quincunx-next-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  min-height: 52px;
+  padding: 13px 18px;
+  border-radius: 16px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  font-size: 14px;
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.24s ease,
+    background 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.quincunx-back-link span,
+.quincunx-next-link span {
+  color: #f4c95d;
+  font-size: 18px;
+}
+
+.quincunx-back-link:hover {
+  transform: translateX(-3px);
+  background: rgba(244, 201, 93, 0.08);
+  border-color: rgba(244, 201, 93, 0.34);
+}
+
+.quincunx-next-link:hover {
+  transform: translateX(3px);
+  background: rgba(244, 201, 93, 0.08);
+  border-color: rgba(244, 201, 93, 0.34);
+}
+
+/* ======================================== */
+/* AVERTISSEMENT                            */
+/* ======================================== */
+
+.quincunx-disclaimer {
+  margin: 44px auto 0 !important;
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  background: rgba(244, 201, 93, 0.055);
+  border: 1px solid rgba(244, 201, 93, 0.13);
+  color: rgba(213, 222, 252, 0.72) !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+}
+
+/* ======================================== */
+/* FOCUS ACCESSIBLE                         */
+/* ======================================== */
+
+.quincunx-breadcrumb a:focus-visible,
+.quincunx-primary-button:focus-visible,
+.quincunx-secondary-button:focus-visible,
+.quincunx-back-link:focus-visible,
+.quincunx-next-link:focus-visible,
+.quincunx-faq-item summary:focus-visible {
+  outline: 3px solid rgba(244, 201, 93, 0.72);
+  outline-offset: 4px;
+}
+
+/* ======================================== */
+/* TABLETTE LARGE                           */
+/* ======================================== */
+
+@media (max-width: 1050px) {
+  .quincunx-reading-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .quincunx-signs-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .quincunx-hero {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+
+/* ======================================== */
+/* TABLETTE                                 */
+/* ======================================== */
+
+@media (max-width: 900px) {
+  .quincunx-polarity-grid,
+  .quincunx-examples-grid,
+  .quincunx-houses-grid,
+  .quincunx-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quincunx-orb-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quincunx-cta-card {
+    grid-template-columns: 1fr;
+  }
+
+  .quincunx-cta-card .quincunx-primary-button {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* MOBILE                                   */
+/* ======================================== */
+
+@media (max-width: 640px) {
+  .quincunx-page {
+    padding: 34px 12px 60px;
+  }
+
+  .quincunx-breadcrumb {
+    margin-bottom: 14px;
+    padding: 0 4px;
+    font-size: 12px;
+  }
+
+  .quincunx-hero {
+    padding: 44px 20px 38px;
+    border-radius: 26px;
+  }
+
+  .quincunx-hero::after {
+    top: -105px;
+    font-size: 360px;
+  }
+
+  .quincunx-main-symbol {
+    width: 88px;
+    height: 88px;
+    border-radius: 28px;
+    font-size: 52px;
+  }
+
+  .quincunx-hero h1 {
+    font-size: 41px;
+  }
+
+  .quincunx-hero-lead {
+    font-size: 16px;
+  }
+
+  .quincunx-hero-data {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+
+  .quincunx-hero-data > div {
+    min-height: 76px;
+  }
+
+  .quincunx-hero-actions {
+    flex-direction: column;
+  }
+
+  .quincunx-primary-button,
+  .quincunx-secondary-button {
+    width: 100%;
+  }
+
+  .quincunx-content {
+    padding: 30px 18px;
+    border-radius: 26px;
+  }
+
+  .quincunx-content section + section {
+    margin-top: 42px;
+    padding-top: 38px;
+  }
+
+  .quincunx-content h2 {
+    font-size: 29px;
+  }
+
+  .quincunx-reading-grid,
+  .quincunx-signs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quincunx-reading-card,
+  .quincunx-polarity-card,
+  .quincunx-orb-card,
+  .quincunx-example-card,
+  .quincunx-sign-card,
+  .quincunx-house-card,
+  .quincunx-comparison-card {
+    padding: 22px 19px;
+  }
+
+  .quincunx-method-item {
+    grid-template-columns: 1fr;
+    padding: 21px 18px;
+  }
+
+  .quincunx-method-item > span {
+    width: 44px;
+    height: 44px;
+  }
+
+  .quincunx-yod-card {
+    grid-template-columns: 1fr;
+    padding: 23px 19px;
+  }
+
+  .quincunx-yod-symbol {
+    width: 70px;
+    height: 70px;
+    font-size: 36px;
+  }
+
+  .quincunx-cta-card {
+    padding: 25px 19px;
+  }
+
+  .quincunx-faq-item summary {
+    padding: 18px 46px 18px 18px;
+    font-size: 15px;
+  }
+
+  .quincunx-faq-item summary::after {
+    right: 18px;
+  }
+
+  .quincunx-faq-item p {
+    padding: 0 18px 18px;
+    font-size: 14px;
+  }
+
+  .quincunx-aspects-nav {
+    flex-direction: column;
+  }
+
+  .quincunx-back-link,
+  .quincunx-next-link {
+    width: 100%;
+  }
+}
+
+/* ======================================== */
+/* TRÈS PETITS ÉCRANS                       */
+/* ======================================== */
+
+@media (max-width: 420px) {
+  .quincunx-hero h1 {
+    font-size: 36px;
+  }
+
+  .quincunx-badge,
+  .quincunx-kicker {
+    font-size: 10px;
+  }
+
+  .quincunx-main-symbol {
+    width: 78px;
+    height: 78px;
+    font-size: 47px;
+  }
+
+  .quincunx-content {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .quincunx-example-symbol {
+    font-size: 20px;
+  }
+
+  .quincunx-sign-card > span {
+    font-size: 18px;
+  }
+
+  .quincunx-comparison-symbol {
+    width: 56px;
+    height: 56px;
+    font-size: 31px;
+  }
+}
+
+/* ======================================== */
+/* ACCESSIBILITÉ                            */
+/* ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .quincunx-breadcrumb a,
+  .quincunx-primary-button,
+  .quincunx-secondary-button,
+  .quincunx-method-item,
+  .quincunx-example-card,
+  .quincunx-sign-card,
+  .quincunx-back-link,
+  .quincunx-next-link {
+    transition: none;
+  }
+}
