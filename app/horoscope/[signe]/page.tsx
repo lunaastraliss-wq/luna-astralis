@@ -240,14 +240,19 @@ function getHoroscopeDuJour(
     0
   );
 
-  const choisir = (
-    banque: string[],
-    decalage: number
-  ) =>
-    banque[
-      (seed + decalage) %
-        banque.length
-    ];
+ const choisir = (
+  banque: string[],
+  decalage: number
+) => {
+  if (banque.length === 0) {
+    return "";
+  }
+
+  return banque[
+    (seed + decalage) %
+      banque.length
+  ];
+};
 
   return {
     energie: choisir(
