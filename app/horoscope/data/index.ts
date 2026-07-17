@@ -7,7 +7,7 @@ import { cancerHoroscope } from "./cancer";
 import { lionHoroscope } from "./lion";
 import { viergeHoroscope } from "./vierge";
 import balanceHoroscope from "./balance";
-import { scorpionHoroscope } from "./scorpion";
+import scorpionHoroscope from "./scorpion";
 import { sagittaireHoroscope } from "./sagittaire";
 import { capricorneHoroscope } from "./capricorne";
 import { verseauHoroscope } from "./verseau";
