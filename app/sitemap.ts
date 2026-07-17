@@ -28,6 +28,17 @@ const PLANETES = [
   "uranus",
   "neptune",
   "pluton",
+  "chiron",
+  "noeuds-lunaires",
+];
+
+const ASPECTS = [
+  "conjonction",
+  "opposition",
+  "carre",
+  "trigone",
+  "sextile",
+  "quinconce",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -60,6 +71,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${BASE_URL}/astrologie/planetes`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/astrologie/aspects`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
@@ -100,6 +117,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pagesPlanetes: MetadataRoute.Sitemap = PLANETES.map(
     (planete) => ({
       url: `${BASE_URL}/astrologie/${planete}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    })
+  );
+
+  const pagesAspects: MetadataRoute.Sitemap = ASPECTS.map(
+    (aspect) => ({
+      url: `${BASE_URL}/astrologie/aspects/${aspect}`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.85,
@@ -147,6 +173,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...pagesSignes,
     ...pagesMaisons,
     ...pagesPlanetes,
+    ...pagesAspects,
     ...pagesCompte,
     ...pagesLegales,
   ];
