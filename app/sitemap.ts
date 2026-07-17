@@ -95,14 +95,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const pagesSignes: MetadataRoute.Sitemap = SIGNES.map(
-    (signe) => ({
-      url: `${BASE_URL}/astrologie/${signe}`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.85,
-    })
-  );
+  const pagesSignes: MetadataRoute.Sitemap = SIGNES.map((signe) => ({
+    url: `${BASE_URL}/astrologie/${signe}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
 
   const pagesMaisons: MetadataRoute.Sitemap = Array.from(
     { length: 12 },
@@ -114,23 +112,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  const pagesPlanetes: MetadataRoute.Sitemap = PLANETES.map(
-    (planete) => ({
-      url: `${BASE_URL}/astrologie/${planete}`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.85,
-    })
-  );
+  const pagesPlanetes: MetadataRoute.Sitemap = PLANETES.map((planete) => ({
+    url: `${BASE_URL}/astrologie/${planete}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
 
-  const pagesAspects: MetadataRoute.Sitemap = ASPECTS.map(
-    (aspect) => ({
-      url: `${BASE_URL}/astrologie/aspects/${aspect}`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.85,
-    })
-  );
+  const pagesAspects: MetadataRoute.Sitemap = ASPECTS.map((aspect) => ({
+    url: `${BASE_URL}/astrologie/${aspect}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
 
   const pagesCompte: MetadataRoute.Sitemap = [
     {
