@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import AuthProvider from "@/components/AuthProvider";
 import SiteHeader from "@/components/SiteHeader";
 
+import "../page.css";
 import "../horoscope.css";
 
 type HoroscopeSign = {
