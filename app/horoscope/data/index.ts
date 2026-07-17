@@ -1,29 +1,29 @@
 import type { HoroscopeTextes } from "./types";
 
-import belier from "./belier";
-import taureau from "./taureau";
-import gemeaux from "./gemeaux";
-import cancer from "./cancer";
-import lion from "./lion";
-import vierge from "./vierge";
-import balance from "./balance";
-import scorpion from "./scorpion";
-import sagittaire from "./sagittaire";
-import capricorne from "./capricorne";
-import verseau from "./verseau";
-import poissons from "./poissons";
+import { belierHoroscope } from "./belier";
+import { taureauHoroscope } from "./taureau";
+import { gemeauxHoroscope } from "./gemeaux";
+import { cancerHoroscope } from "./cancer";
+import { lionHoroscope } from "./lion";
+import { viergeHoroscope } from "./vierge";
+import { balanceHoroscope } from "./balance";
+import { scorpionHoroscope } from "./scorpion";
+import { sagittaireHoroscope } from "./sagittaire";
+import { capricorneHoroscope } from "./capricorne";
+import { verseauHoroscope } from "./verseau";
+import { poissonsHoroscope } from "./poissons";
 
 export const HOROSCOPE_TEXTES: Record<string, HoroscopeTextes> = {
-  belier,
-  taureau,
-  gemeaux,
-  cancer,
-  lion,
-  vierge,
-  balance,
-  scorpion,
-  sagittaire,
-  capricorne,
-  verseau,
-  poissons,
+  belier: belierHoroscope,
+  taureau: taureauHoroscope,
+  gemeaux: gemeauxHoroscope,
+  cancer: cancerHoroscope,
+  lion: lionHoroscope,
+  vierge: viergeHoroscope,
+  balance: balanceHoroscope,
+  scorpion: scorpionHoroscope,
+  sagittaire: sagittaireHoroscope,
+  capricorne: capricorneHoroscope,
+  verseau: verseauHoroscope,
+  poissons: poissonsHoroscope,
 };
