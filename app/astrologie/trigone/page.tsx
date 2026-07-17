@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./page.css";
 
 const PAGE_URL =
-  "https://luna-astralis.app/astrologie/aspects/trigone";
+  "https://luna-astralis.app/astrologie/trigone";
 
 export const metadata: Metadata = {
   title:
@@ -1057,7 +1057,7 @@ export default function TrigoneAstrologiePage() {
             aria-label="Navigation entre les aspects astrologiques"
           >
             <Link
-              href="/astrologie/aspects/carre"
+              href="/astrologie/carre"
               className="trine-back-link"
             >
               <span aria-hidden="true">
@@ -1068,7 +1068,7 @@ export default function TrigoneAstrologiePage() {
             </Link>
 
             <Link
-              href="/astrologie/aspects/sextile"
+              href="/astrologie/sextile"
               className="trine-next-link"
             >
               Aspect suivant : sextile
