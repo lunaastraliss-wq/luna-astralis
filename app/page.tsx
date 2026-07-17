@@ -248,73 +248,123 @@ export default function HomePage() {
               {/* Outils gratuits */}
 
               <section
-                className="hero-showcase"
+                className="hero-tools-section"
                 aria-label="Outils astrologiques gratuits"
               >
-                <article className="hero-tool-card">
-                  <div className="hero-tool-icon">
-                    🌌
+                <div className="hero-showcase">
+                  {/* Horoscope du jour */}
+
+                  <article className="hero-tool-card hero-tool-card--horoscope">
+                    <div className="hero-tool-icon">
+                      🔮
+                    </div>
+
+                    <div className="hero-tool-label">
+                      Chaque jour
+                    </div>
+
+                    <h2>
+                      Horoscope du jour gratuit
+                    </h2>
+
+                    <p>
+                      Consultez les prévisions astrologiques
+                      de votre signe pour mieux comprendre
+                      l’énergie de votre journée.
+                    </p>
+
+                    <ul>
+                      <li>☀️ Tendance générale</li>
+                      <li>❤️ Amour et relations</li>
+                      <li>💼 Travail et projets</li>
+                      <li>🌿 Bien-être</li>
+                      <li>✨ Conseil du jour</li>
+                    </ul>
+
+                    <Link
+                      href="/horoscope-du-jour"
+                      className="hero-free-btn hero-free-btn--pulse"
+                    >
+                      Voir mon horoscope
+                    </Link>
+                  </article>
+
+                  {/* Vidéo de présentation */}
+
+                  <div className="hero-video-card">
+                    <WelcomeVideo />
                   </div>
 
-                  <h2>
-                    Carte du ciel gratuite
-                  </h2>
+                  {/* Carte du ciel */}
 
-                  <p>
-                    Générez votre thème astral avec votre
-                    Soleil, votre Lune, votre Ascendant et
-                    votre roue astrologique.
-                  </p>
+                  <article className="hero-tool-card">
+                    <div className="hero-tool-icon">
+                      🌌
+                    </div>
 
-                  <ul>
-                    <li>☀️ Soleil</li>
-                    <li>🌙 Lune</li>
-                    <li>⬆️ Ascendant</li>
-                    <li>🪐 Roue astrologique</li>
-                    <li>✨ Résumé gratuit</li>
-                  </ul>
+                    <h2>
+                      Carte du ciel gratuite
+                    </h2>
 
-                  <Link
-                    href="/carte-du-ciel"
-                    className="hero-free-btn hero-free-btn--pulse"
-                  >
-                    Créer ma carte
-                  </Link>
-                </article>
+                    <p>
+                      Générez votre thème astral avec votre
+                      Soleil, votre Lune, votre Ascendant et
+                      votre roue astrologique.
+                    </p>
 
-                <div className="hero-video-card">
-                  <WelcomeVideo />
+                    <ul>
+                      <li>☀️ Soleil</li>
+                      <li>🌙 Lune</li>
+                      <li>⬆️ Ascendant</li>
+                      <li>🪐 Roue astrologique</li>
+                      <li>✨ Résumé gratuit</li>
+                    </ul>
+
+                    <Link
+                      href="/carte-du-ciel"
+                      className="hero-free-btn"
+                    >
+                      Créer ma carte
+                    </Link>
+                  </article>
                 </div>
 
-                <article className="hero-tool-card">
+                {/* Compatibilité amoureuse sous la première ligne */}
+
+                <article className="hero-tool-card hero-tool-card--compatibility">
                   <div className="hero-tool-icon">
                     💕
                   </div>
 
-                  <h2>
-                    Compatibilité amoureuse
-                  </h2>
+                  <div className="hero-compatibility-content">
+                    <div>
+                      <h2>
+                        Compatibilité amoureuse
+                      </h2>
 
-                  <p>
-                    Comparez deux signes astrologiques et
-                    obtenez votre score de compatibilité
-                    instantanément.
-                  </p>
+                      <p>
+                        Comparez deux signes astrologiques et
+                        obtenez instantanément votre score, vos
+                        forces, vos défis et des conseils pour
+                        votre relation.
+                      </p>
+                    </div>
 
-                  <ul>
-                    <li>❤️ Score amoureux</li>
-                    <li>✨ Forces du couple</li>
-                    <li>⚠️ Défis possibles</li>
-                    <li>💡 Conseils relationnels</li>
-                    <li>📊 Analyse instantanée</li>
-                  </ul>
+                    <ul>
+                      <li>❤️ Score amoureux</li>
+                      <li>✨ Forces du couple</li>
+                      <li>⚠️ Défis possibles</li>
+                      <li>💡 Conseils relationnels</li>
+                      <li>📊 Analyse instantanée</li>
+                    </ul>
 
-                  <Link
-                    href="/compatibilite"
-                    className="hero-free-btn"
-                  >
-                    Comparer deux signes
-                  </Link>
+                    <Link
+                      href="/compatibilite"
+                      className="hero-free-btn"
+                    >
+                      Comparer deux signes
+                    </Link>
+                  </div>
                 </article>
               </section>
 
