@@ -260,7 +260,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="hero-tool-label">
-                      Chaque jour
+                      ✨ Mis à jour chaque jour
                     </div>
 
                     <h2>
@@ -282,7 +282,7 @@ export default function HomePage() {
                     </ul>
 
                     <Link
-                      href="/horoscope-du-jour"
+                      href="/horoscope"
                       className="hero-free-btn hero-free-btn--pulse"
                     >
                       Voir mon horoscope
