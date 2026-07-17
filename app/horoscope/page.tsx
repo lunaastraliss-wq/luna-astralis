@@ -1,3 +1,5 @@
+// app/horoscope/page.tsx
+
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -7,27 +9,52 @@ import SiteHeader from "@/components/SiteHeader";
 import "./page.css";
 import "./horoscope.css";
 
+/*
+|--------------------------------------------------------------------------
+| Métadonnées SEO
+|--------------------------------------------------------------------------
+*/
+
 export const metadata: Metadata = {
   title:
     "Horoscope du jour gratuit | Les 12 signes astrologiques | Luna Astralis",
+
   description:
     "Découvrez gratuitement votre horoscope du jour pour les 12 signes astrologiques : amour, travail, finances, bien-être et conseil astrologique.",
+
   alternates: {
-    canonical: "https://luna-astralis.app/horoscope",
+    canonical:
+      "https://luna-astralis.app/horoscope",
   },
+
   openGraph: {
     title:
       "Horoscope du jour gratuit | Luna Astralis",
+
     description:
-      "Consultez gratuitement l’horoscope quotidien de votre signe astrologique.",
-    url: "https://luna-astralis.app/horoscope",
-    siteName: "Luna Astralis",
-    type: "website",
-    locale: "fr_CA",
+      "Consultez gratuitement l’horoscope du jour de votre signe astrologique.",
+
+    url:
+      "https://luna-astralis.app/horoscope",
+
+    siteName:
+      "Luna Astralis",
+
+    type:
+      "website",
+
+    locale:
+      "fr_CA",
   },
 };
 
-const signes = [
+/*
+|--------------------------------------------------------------------------
+| Signes astrologiques
+|--------------------------------------------------------------------------
+*/
+
+const SIGNES = [
   {
     nom: "Bélier",
     slug: "belier",
@@ -114,32 +141,47 @@ const signes = [
   },
 ];
 
+/*
+|--------------------------------------------------------------------------
+| Page Horoscope
+|--------------------------------------------------------------------------
+*/
+
 export default function HoroscopePage() {
-  const dateDuJour = new Intl.DateTimeFormat(
-    "fr-CA",
-    {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      timeZone: "America/Toronto",
-    }
-  ).format(new Date());
+  const dateDuJour =
+    new Intl.DateTimeFormat(
+      "fr-CA",
+      {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "America/Toronto",
+      }
+    ).format(new Date());
 
   return (
     <AuthProvider>
       <SiteHeader />
 
       <main className="horoscope-page">
-        <section className="horoscope-hero">
-          <div className="horoscope-hero-glow" />
+        {/* Présentation */}
+
+        <section
+          className="horoscope-hero"
+          aria-labelledby="horoscope-main-title"
+        >
+          <div
+            className="horoscope-hero-glow"
+            aria-hidden="true"
+          />
 
           <div className="horoscope-hero-content">
             <span className="horoscope-eyebrow">
-              ✦ Guidance astrologique quotidienne
+              ✦ Mis à jour chaque jour
             </span>
 
-            <h1>
+            <h1 id="horoscope-main-title">
               Horoscope du jour gratuit
             </h1>
 
@@ -152,10 +194,13 @@ export default function HoroscopePage() {
               astrologiques de votre journée.
               Sélectionnez votre signe pour consulter
               votre horoscope en amour, au travail,
-              dans vos finances et votre bien-être.
+              dans vos finances et pour votre
+              bien-être.
             </p>
           </div>
         </section>
+
+        {/* Liste des signes */}
 
         <section
           className="horoscope-signs-section"
@@ -177,80 +222,97 @@ export default function HoroscopePage() {
           </div>
 
           <div className="horoscope-signs-grid">
-            {signes.map((signe) => (
-              <Link
-                key={signe.slug}
-                href={`/horoscope/${signe.slug}`}
-                className="horoscope-sign-card"
-                aria-label={`Consulter l’horoscope du jour du signe ${signe.nom}`}
-              >
-                <span
-                  className="horoscope-sign-symbol"
-                  aria-hidden="true"
+            {SIGNES.map(
+              (signe) => (
+                <Link
+                  key={signe.slug}
+                  href={`/horoscope/${signe.slug}`}
+                  className="horoscope-sign-card"
+                  aria-label={`Voir l’horoscope du jour du signe ${signe.nom}`}
                 >
-                  {signe.symbole}
-                </span>
-
-                <div className="horoscope-sign-content">
-                  <h3>{signe.nom}</h3>
-
-                  <p className="horoscope-sign-dates">
-                    {signe.dates}
-                  </p>
-
-                  <span className="horoscope-sign-element">
-                    Élément {signe.element}
+                  <span
+                    className="horoscope-sign-symbol"
+                    aria-hidden="true"
+                  >
+                    {signe.symbole}
                   </span>
-                </div>
 
-                <span
-                  className="horoscope-sign-arrow"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-              </Link>
-            ))}
+                  <div className="horoscope-sign-content">
+                    <h3>
+                      {signe.nom}
+                    </h3>
+
+                    <p className="horoscope-sign-dates">
+                      {signe.dates}
+                    </p>
+
+                    <span className="horoscope-sign-element">
+                      Élément {signe.element}
+                    </span>
+                  </div>
+
+                  <span
+                    className="horoscope-sign-arrow"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </Link>
+              )
+            )}
           </div>
         </section>
 
-        <section className="horoscope-info-section">
+        {/* Information */}
+
+        <section
+          className="horoscope-info-section"
+          aria-labelledby="horoscope-info-title"
+        >
           <div className="horoscope-info-card">
-            <span className="horoscope-info-icon">
+            <span
+              className="horoscope-info-icon"
+              aria-hidden="true"
+            >
               ☾
             </span>
 
             <div>
-              <h2>
-                Une lecture astrologique quotidienne
+              <h2 id="horoscope-info-title">
+                Une lecture astrologique chaque jour
               </h2>
 
               <p>
                 L’horoscope du jour présente une
                 interprétation générale des influences
                 astrologiques associées à chaque signe.
-                Pour une analyse plus personnelle, votre
-                date, votre heure et votre lieu de
+                Pour obtenir une analyse plus personnelle,
+                votre date, votre heure et votre lieu de
                 naissance sont nécessaires.
               </p>
             </div>
           </div>
         </section>
 
-        <section className="horoscope-cta-section">
+        {/* Carte du ciel et compatibilité */}
+
+        <section
+          className="horoscope-cta-section"
+          aria-labelledby="horoscope-cta-title"
+        >
           <div className="horoscope-cta">
             <span className="horoscope-cta-kicker">
               Allez plus loin
             </span>
 
-            <h2>
+            <h2 id="horoscope-cta-title">
               Votre signe solaire ne raconte qu’une
               partie de votre histoire
             </h2>
 
             <p>
               Découvrez votre Soleil, votre Lune, votre
-              ascendant, vos maisons astrologiques et
+              Ascendant, vos maisons astrologiques et
               les principales influences de votre carte
               du ciel.
             </p>
@@ -273,10 +335,16 @@ export default function HoroscopePage() {
           </div>
         </section>
 
+        {/* Navigation */}
+
         <nav
           className="horoscope-bottom-nav"
           aria-label="Navigation astrologique"
         >
+          <Link href="/">
+            Retour à l’accueil
+          </Link>
+
           <Link href="/astrologie">
             Découvrir l’astrologie
           </Link>
