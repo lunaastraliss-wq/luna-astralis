@@ -44,7 +44,11 @@ const ASPECTS = [
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  const pagesPrincipales: MetadataRoute.Sitemap = [
+  return [
+    // ==========================
+    // Pages principales
+    // ==========================
+
     {
       url: BASE_URL,
       lastModified,
@@ -58,19 +62,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.95,
     },
     {
-      url: `${BASE_URL}/carte-du-ciel`,
+      url: `${BASE_URL}/astrologie/signes`,
       lastModified,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/compatibilite`,
-      lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/astrologie/planetes`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/astrologie/maisons`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
@@ -85,7 +89,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/astrologie/ascendant`,
       lastModified,
       changeFrequency: "monthly",
-      priority: 0.85,
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/carte-du-ciel`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/compatibilite`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/pricing`,
@@ -93,40 +109,55 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-  ];
 
-  const pagesSignes: MetadataRoute.Sitemap = SIGNES.map((signe) => ({
-    url: `${BASE_URL}/astrologie/${signe}`,
-    lastModified,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
+    // ==========================
+    // Les 12 signes
+    // ==========================
 
-  const pagesMaisons: MetadataRoute.Sitemap = Array.from(
-    { length: 12 },
-    (_, index) => ({
+    ...SIGNES.map((signe) => ({
+      url: `${BASE_URL}/astrologie/${signe}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    })),
+
+    // ==========================
+    // Les 12 maisons
+    // ==========================
+
+    ...Array.from({ length: 12 }, (_, index) => ({
       url: `${BASE_URL}/astrologie/maison-${index + 1}`,
       lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    })
-  );
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    })),
 
-  const pagesPlanetes: MetadataRoute.Sitemap = PLANETES.map((planete) => ({
-    url: `${BASE_URL}/astrologie/${planete}`,
-    lastModified,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
+    // ==========================
+    // Les planètes
+    // ==========================
 
-  const pagesAspects: MetadataRoute.Sitemap = ASPECTS.map((aspect) => ({
-    url: `${BASE_URL}/astrologie/${aspect}`,
-    lastModified,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
+    ...PLANETES.map((planete) => ({
+      url: `${BASE_URL}/astrologie/${planete}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    })),
 
-  const pagesCompte: MetadataRoute.Sitemap = [
+    // ==========================
+    // Les aspects
+    // ==========================
+
+    ...ASPECTS.map((aspect) => ({
+      url: `${BASE_URL}/astrologie/${aspect}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.85,
+    })),
+
+    // ==========================
+    // Compte
+    // ==========================
+
     {
       url: `${BASE_URL}/login`,
       lastModified,
@@ -139,9 +170,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.4,
     },
-  ];
 
-  const pagesLegales: MetadataRoute.Sitemap = [
+    // ==========================
+    // Légal
+    // ==========================
+
     {
       url: `${BASE_URL}/conditions`,
       lastModified,
@@ -160,15 +193,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.2,
     },
-  ];
-
-  return [
-    ...pagesPrincipales,
-    ...pagesSignes,
-    ...pagesMaisons,
-    ...pagesPlanetes,
-    ...pagesAspects,
-    ...pagesCompte,
-    ...pagesLegales,
   ];
 }
