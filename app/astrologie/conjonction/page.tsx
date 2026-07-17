@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./page.css";
 
 const PAGE_URL =
-  "https://luna-astralis.app/astrologie/aspects/conjonction";
+  "https://luna-astralis.app/astrologie/conjonction";
 
 export const metadata: Metadata = {
   title:
@@ -1008,7 +1008,7 @@ export default function ConjonctionAstrologiePage() {
             </Link>
 
             <Link
-              href="/astrologie/aspects/opposition"
+              href="/astrologie/opposition"
               className="conjunction-next-link"
             >
               Aspect suivant : opposition
