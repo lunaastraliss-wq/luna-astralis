@@ -163,7 +163,7 @@ export default function HoroscopePage() {
         >
           <div className="horoscope-section-heading">
             <span className="horoscope-section-kicker">
-              Les douze signes du zodiaque
+              Les 12 signes du zodiaque
             </span>
 
             <h2 id="horoscope-signs-title">
