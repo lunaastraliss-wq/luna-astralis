@@ -1063,3 +1063,17 @@
   }
 
 }
+.hero-showcase + .hero-showcase .hero-tool-card {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+.hero-showcase + .hero-showcase .hero-tool-card > * {
+  max-width: 820px;
+}
+
+.hero-showcase + .hero-showcase .hero-tool-card p,
+.hero-showcase + .hero-showcase .hero-tool-card ul,
+.hero-showcase + .hero-showcase .hero-tool-card .hero-free-btn {
+  width: 100%;
+}
