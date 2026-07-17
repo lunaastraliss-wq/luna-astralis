@@ -62,6 +62,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.95,
     },
     {
+      url: `${BASE_URL}/carte-du-ciel`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/compatibilite`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+    // ==========================
+    // Horoscope
+    // ==========================
+
+    {
+      url: `${BASE_URL}/horoscope`,
+      lastModified,
+      changeFrequency: "daily",
+      priority: 0.95,
+    },
+    {
+      url: `${BASE_URL}/horoscope/premium`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+
+    // ==========================
+    // Pages astrologiques
+    // ==========================
+
+    {
       url: `${BASE_URL}/astrologie/signes`,
       lastModified,
       changeFrequency: "monthly",
@@ -90,24 +124,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/carte-du-ciel`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/compatibilite`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/pricing`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
     },
 
     // ==========================
@@ -155,24 +171,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
 
     // ==========================
-    // Compte
+    // Tarifs
     // ==========================
 
     {
-      url: `${BASE_URL}/login`,
+      url: `${BASE_URL}/pricing`,
       lastModified,
-      changeFrequency: "yearly",
-      priority: 0.4,
-    },
-    {
-      url: `${BASE_URL}/signup`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.4,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
 
     // ==========================
-    // Légal
+    // Pages légales
     // ==========================
 
     {
