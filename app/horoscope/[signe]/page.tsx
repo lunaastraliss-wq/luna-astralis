@@ -930,7 +930,7 @@ export default async function HoroscopeSignePage({
 
             <div className="horoscope-premium-actions">
               <Link
-                href="/horoscope-premium"
+                href="/horoscope/premium"
                 className="horoscope-premium-button"
               >
                 Découvrir
