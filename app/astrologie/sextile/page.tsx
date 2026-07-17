@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./page.css";
 
 const PAGE_URL =
-  "https://luna-astralis.app/astrologie/aspects/sextile";
+  "https://luna-astralis.app/astrologie/sextile";
 
 export const metadata: Metadata = {
   title:
@@ -1034,7 +1034,7 @@ export default function SextileAstrologiePage() {
             aria-label="Navigation entre les aspects astrologiques"
           >
             <Link
-              href="/astrologie/aspects/trigone"
+              href="/astrologie/trigone"
               className="sextile-back-link"
             >
               <span aria-hidden="true">
@@ -1045,7 +1045,7 @@ export default function SextileAstrologiePage() {
             </Link>
 
             <Link
-              href="/astrologie/aspects/quinconce"
+              href="/astrologie/quinconce"
               className="sextile-next-link"
             >
               Aspect suivant : quinconce
