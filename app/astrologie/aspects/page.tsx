@@ -47,7 +47,7 @@ const ASPECTS = [
     name: "Conjonction",
     symbol: "☌",
     degree: "0°",
-    href: "/astrologie/aspects/conjonction",
+    href: "/astrologie/conjonction",
     category: "Fusion",
     keywords:
       "Intensité • union • concentration",
@@ -58,7 +58,7 @@ const ASPECTS = [
     name: "Opposition",
     symbol: "☍",
     degree: "180°",
-    href: "/astrologie/aspects/opposition",
+    href: "/astrologie/opposition",
     category: "Polarité",
     keywords:
       "Équilibre • confrontation • projection",
@@ -69,7 +69,7 @@ const ASPECTS = [
     name: "Carré",
     symbol: "□",
     degree: "90°",
-    href: "/astrologie/aspects/carre",
+    href: "/astrologie/carre",
     category: "Tension",
     keywords:
       "Défi • action • évolution",
@@ -80,7 +80,7 @@ const ASPECTS = [
     name: "Trigone",
     symbol: "△",
     degree: "120°",
-    href: "/astrologie/aspects/trigone",
+    href: "/astrologie/trigone",
     category: "Harmonie",
     keywords:
       "Fluidité • talent • facilité",
@@ -91,7 +91,7 @@ const ASPECTS = [
     name: "Sextile",
     symbol: "⚹",
     degree: "60°",
-    href: "/astrologie/aspects/sextile",
+    href: "/astrologie/sextile",
     category: "Coopération",
     keywords:
       "Possibilité • échange • ouverture",
@@ -102,7 +102,7 @@ const ASPECTS = [
     name: "Quinconce",
     symbol: "⚻",
     degree: "150°",
-    href: "/astrologie/aspects/quinconce",
+    href: "/astrologie/quinconce",
     category: "Ajustement",
     keywords:
       "Adaptation • décalage • réorganisation",
