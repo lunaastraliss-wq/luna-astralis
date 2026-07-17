@@ -4,7 +4,7 @@ import Link from "next/link";
 import "./page.css";
 
 const PAGE_URL =
-  "https://luna-astralis.app/astrologie/aspects/opposition";
+  "https://luna-astralis.app/astrologie/opposition";
 
 export const metadata: Metadata = {
   title:
@@ -1053,7 +1053,7 @@ export default function OppositionAstrologiePage() {
             aria-label="Navigation entre les aspects astrologiques"
           >
             <Link
-              href="/astrologie/aspects/conjonction"
+              href="/astrologie/conjonction"
               className="opposition-back-link"
             >
               <span aria-hidden="true">
@@ -1064,7 +1064,7 @@ export default function OppositionAstrologiePage() {
             </Link>
 
             <Link
-              href="/astrologie/aspects/carre"
+              href="/astrologie/carre"
               className="opposition-next-link"
             >
               Aspect suivant : carré
