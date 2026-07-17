@@ -997,3 +997,69 @@
     width: 100%;
   }
 }
+/* ======================================== */
+/* HOROSCOPE + NOUVEAU HERO                 */
+/* ======================================== */
+
+.hero-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 28px;
+  align-items: stretch;
+}
+
+.hero-bottom-card {
+  grid-column: 1 / -1;
+  margin-top: 28px;
+}
+
+.hero-horoscope-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-horoscope-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(250, 204, 21, 0.12),
+      transparent 65%
+    );
+  pointer-events: none;
+}
+
+.hero-horoscope-card .hero-tool-icon {
+  background: rgba(250, 204, 21, 0.16);
+}
+
+.hero-horoscope-card h2 {
+  color: #fff;
+}
+
+.hero-horoscope-card p {
+  color: #dbe6ff;
+}
+
+.hero-horoscope-card ul li {
+  background: rgba(255,255,255,.05);
+}
+
+.hero-horoscope-card .hero-free-btn {
+  margin-top: auto;
+}
+
+@media (max-width: 1020px) {
+
+  .hero-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-bottom-card {
+    grid-column: auto;
+    margin-top: 0;
+  }
+
+}
