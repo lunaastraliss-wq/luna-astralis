@@ -628,42 +628,42 @@ const SCORE_ITEMS: ScoreItem[] = [
   {
     key: "emotional",
     title: "Lien émotionnel",
-    icon: PLANET_ICONS.Moon,
+    icon: PLANET_ICONS.moon,
     description:
       "La capacité à comprendre les besoins affectifs et à créer un sentiment de sécurité.",
   },
   {
     key: "communication",
     title: "Communication",
-    icon: PLANET_ICONS.Mercury,
+    icon: PLANET_ICONS.mercury,
     description:
       "La fluidité des échanges, la compréhension mutuelle et la gestion des désaccords.",
   },
   {
     key: "romantic",
     title: "Affinité amoureuse",
-    icon: PLANET_ICONS.Venus,
+    icon: PLANET_ICONS.venus,
     description:
       "L’expression de l’affection, de la tendresse, de l’harmonie et des valeurs partagées.",
   },
   {
     key: "attraction",
     title: "Attirance",
-    icon: PLANET_ICONS.Mars,
+    icon: PLANET_ICONS.mars,
     description:
       "L’intensité du désir, de l’élan mutuel et de la dynamique physique entre les deux personnes.",
   },
   {
     key: "stability",
     title: "Stabilité",
-    icon: PLANET_ICONS.Saturn,
+    icon: PLANET_ICONS.saturn,
     description:
       "Le potentiel de continuité, d’engagement, de structure et de construction dans le temps.",
   },
   {
     key: "growth",
     title: "Évolution",
-    icon: PLANET_ICONS.Jupiter,
+    icon: PLANET_ICONS.jupiter,
     description:
       "La capacité de la relation à favoriser l’apprentissage, la transformation et la croissance.",
   },
@@ -1099,7 +1099,7 @@ export default function CompatibilityScores({
             style={localStyles.noteSymbolFrame}
           >
             <Image
-              src={PLANET_ICONS.Moon}
+              src={PLANET_ICONS.moon}
               style={localStyles.noteIcon}
             />
           </View>
