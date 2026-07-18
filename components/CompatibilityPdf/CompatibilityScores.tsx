@@ -8,6 +8,7 @@ import {
 
 import {
   LOGO_URL,
+  PLANET_ICONS,
 } from "@/components/PremiumPdf/PremiumPdfAssets";
 
 import type {
@@ -234,11 +235,30 @@ const localStyles = StyleSheet.create({
   nameSeparator: {
     width: "12%",
 
-    fontSize: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    color: BRIGHT_GOLD,
+  nameSeparatorFrame: {
+    width: 27,
+    height: 27,
 
-    textAlign: "center",
+    borderRadius: 13.5,
+
+    borderWidth: 0.6,
+    borderColor: GOLD,
+
+    backgroundColor: NAVY_CARD_LIGHT,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  nameSeparatorIcon: {
+    width: 19,
+    height: 19,
+
+    objectFit: "contain",
   },
 
   overallSection: {
@@ -385,7 +405,7 @@ const localStyles = StyleSheet.create({
     flex: 1,
   },
 
-  scoreSymbolFrame: {
+  scoreIconFrame: {
     width: 27,
     height: 27,
 
@@ -400,12 +420,11 @@ const localStyles = StyleSheet.create({
     marginRight: 8,
   },
 
-  scoreSymbol: {
-    fontSize: 11,
+  scoreIcon: {
+    width: 17,
+    height: 17,
 
-    color: BRIGHT_GOLD,
-
-    textAlign: "center",
+    objectFit: "contain",
   },
 
   scoreTitle: {
@@ -485,10 +504,11 @@ const localStyles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  interpretationSymbolText: {
-    fontSize: 11,
+  interpretationIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   interpretationTitle: {
@@ -539,10 +559,11 @@ const localStyles = StyleSheet.create({
     marginRight: 11,
   },
 
-  noteSymbol: {
-    fontSize: 12,
+  noteIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   noteContent: {
@@ -599,7 +620,7 @@ export interface CompatibilityScoresProps {
 interface ScoreItem {
   key: keyof CompatibilityScoresData;
   title: string;
-  symbol: string;
+  icon: string;
   description: string;
 }
 
@@ -607,42 +628,42 @@ const SCORE_ITEMS: ScoreItem[] = [
   {
     key: "emotional",
     title: "Lien émotionnel",
-    symbol: "☾",
+    icon: PLANET_ICONS.Moon,
     description:
       "La capacité à comprendre les besoins affectifs et à créer un sentiment de sécurité.",
   },
   {
     key: "communication",
     title: "Communication",
-    symbol: "☿",
+    icon: PLANET_ICONS.Mercury,
     description:
       "La fluidité des échanges, la compréhension mutuelle et la gestion des désaccords.",
   },
   {
     key: "romantic",
     title: "Affinité amoureuse",
-    symbol: "♀",
+    icon: PLANET_ICONS.Venus,
     description:
       "L’expression de l’affection, de la tendresse, de l’harmonie et des valeurs partagées.",
   },
   {
     key: "attraction",
     title: "Attirance",
-    symbol: "♂",
+    icon: PLANET_ICONS.Mars,
     description:
       "L’intensité du désir, de l’élan mutuel et de la dynamique physique entre les deux personnes.",
   },
   {
     key: "stability",
     title: "Stabilité",
-    symbol: "♄",
+    icon: PLANET_ICONS.Saturn,
     description:
       "Le potentiel de continuité, d’engagement, de structure et de construction dans le temps.",
   },
   {
     key: "growth",
     title: "Évolution",
-    symbol: "✦",
+    icon: PLANET_ICONS.Jupiter,
     description:
       "La capacité de la relation à favoriser l’apprentissage, la transformation et la croissance.",
   },
@@ -806,15 +827,12 @@ function ScoreCard({
           style={localStyles.scoreIdentity}
         >
           <View
-            style={
-              localStyles.scoreSymbolFrame
-            }
+            style={localStyles.scoreIconFrame}
           >
-            <Text
-              style={localStyles.scoreSymbol}
-            >
-              {item.symbol}
-            </Text>
+            <Image
+              src={item.icon}
+              style={localStyles.scoreIcon}
+            />
           </View>
 
           <Text
@@ -834,9 +852,7 @@ function ScoreCard({
       <ScoreBar value={value} />
 
       <Text
-        style={
-          localStyles.scoreDescription
-        }
+        style={localStyles.scoreDescription}
       >
         {item.description}
       </Text>
@@ -890,16 +906,12 @@ export default function CompatibilityScores({
       />
 
       <View
-        style={
-          localStyles.decorativeCircleTop
-        }
+        style={localStyles.decorativeCircleTop}
         fixed
       />
 
       <View
-        style={
-          localStyles.decorativeCircleBottom
-        }
+        style={localStyles.decorativeCircleBottom}
         fixed
       />
 
@@ -946,9 +958,7 @@ export default function CompatibilityScores({
           />
 
           <View
-            style={
-              localStyles.namesAccentRight
-            }
+            style={localStyles.namesAccentRight}
           />
 
           <Text
@@ -957,13 +967,18 @@ export default function CompatibilityScores({
             {person1Name}
           </Text>
 
-          <Text
-            style={
-              localStyles.nameSeparator
-            }
+          <View
+            style={localStyles.nameSeparator}
           >
-            ✦
-          </Text>
+            <View
+              style={localStyles.nameSeparatorFrame}
+            >
+              <Image
+                src={LOGO_URL}
+                style={localStyles.nameSeparatorIcon}
+              />
+            </View>
+          </View>
 
           <Text
             style={localStyles.nameText}
@@ -977,9 +992,7 @@ export default function CompatibilityScores({
           wrap={false}
         >
           <View
-            style={
-              localStyles.overallAccentTop
-            }
+            style={localStyles.overallAccentTop}
           />
 
           <Text
@@ -989,9 +1002,7 @@ export default function CompatibilityScores({
           </Text>
 
           <View
-            style={
-              localStyles.overallScoreRow
-            }
+            style={localStyles.overallScoreRow}
           >
             <Text
               style={localStyles.overallScore}
@@ -1000,9 +1011,7 @@ export default function CompatibilityScores({
             </Text>
 
             <Text
-              style={
-                localStyles.overallPercent
-              }
+              style={localStyles.overallPercent}
             >
               %
             </Text>
@@ -1046,37 +1055,26 @@ export default function CompatibilityScores({
         </View>
 
         <View
-          style={
-            localStyles.interpretationSection
-          }
+          style={localStyles.interpretationSection}
           wrap={false}
         >
           <View
-            style={
-              localStyles.interpretationSymbol
-            }
+            style={localStyles.interpretationSymbol}
           >
-            <Text
-              style={
-                localStyles.interpretationSymbolText
-              }
-            >
-              ✦
-            </Text>
+            <Image
+              src={LOGO_URL}
+              style={localStyles.interpretationIcon}
+            />
           </View>
 
           <Text
-            style={
-              localStyles.interpretationTitle
-            }
+            style={localStyles.interpretationTitle}
           >
             Un score n’est jamais un verdict
           </Text>
 
           <Text
-            style={
-              localStyles.interpretationText
-            }
+            style={localStyles.interpretationText}
           >
             Ces indices offrent une vue
             d’ensemble des interactions
@@ -1098,15 +1096,12 @@ export default function CompatibilityScores({
           wrap={false}
         >
           <View
-            style={
-              localStyles.noteSymbolFrame
-            }
+            style={localStyles.noteSymbolFrame}
           >
-            <Text
-              style={localStyles.noteSymbol}
-            >
-              ☾
-            </Text>
+            <Image
+              src={PLANET_ICONS.Moon}
+              style={localStyles.noteIcon}
+            />
           </View>
 
           <View style={localStyles.noteContent}>
@@ -1148,4 +1143,4 @@ export default function CompatibilityScores({
       </View>
     </Page>
   );
-}
+    }
