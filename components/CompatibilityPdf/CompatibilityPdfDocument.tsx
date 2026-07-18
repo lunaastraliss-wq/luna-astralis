@@ -14,23 +14,23 @@ import CompatibilityCover from "./CompatibilityCover";
 import CompatibilityWheels from "./CompatibilityWheels";
 import CompatibilityWelcome from "./CompatibilityWelcome";
 import CompatibilityProfiles from "./CompatibilityProfiles";
-import CompatibilitySunMoonAscendant from "./CompatibilitySunMoonAscendant";
-import CompatibilityLove from "./CompatibilityLove";
+import CompatibilityScores from "./CompatibilityScores";
+import CompatibilityPillars from "./CompatibilityPillars";
+import CompatibilityEmotional from "./CompatibilityEmotional";
 import CompatibilityCommunication from "./CompatibilityCommunication";
-import CompatibilityEmotions from "./CompatibilityEmotions";
-import CompatibilityAttraction from "./CompatibilityAttraction";
+import CompatibilityLove from "./CompatibilityLove";
+import CompatibilityCouple from "./CompatibilityCouple";
+import CompatibilityPlanets from "./CompatibilityPlanets";
+import CompatibilityPlanetConnections from "./CompatibilityPlanetConnections";
 import CompatibilityAspects from "./CompatibilityAspects";
-import CompatibilityStrengthsChallenges from "./CompatibilityStrengthsChallenges";
-import CompatibilityLongTermPotential from "./CompatibilityLongTermPotential";
-import CompatibilitySynthesis from "./CompatibilitySynthesis";
-import CompatibilityConclusion from "./CompatibilityConclusion";
+import CompatibilityLife from "./CompatibilityLife";
+import CompatibilitySummary from "./CompatibilitySummary";
 
 /*
  * Vérifie et sécurise les aspects reçus depuis la route serveur.
  *
- * Si aucun aspect valide n’est fourni, le document
- * les calcule automatiquement à partir des longitudes
- * des deux thèmes astrologiques.
+ * Si aucun aspect valide n’est fourni, le document les calcule
+ * automatiquement à partir des longitudes planétaires des deux thèmes.
  */
 function normalizeProvidedAspects(
   aspects: CompatibilityPdfProps["aspects"],
@@ -39,25 +39,37 @@ function normalizeProvidedAspects(
     return [];
   }
 
-  return aspects.filter((aspect) => {
-    return (
-      aspect &&
-      typeof aspect === "object" &&
-      typeof aspect.person1Planet === "string" &&
-      typeof aspect.person2Planet === "string" &&
-      typeof aspect.type === "string" &&
-      typeof aspect.orb === "number" &&
-      Number.isFinite(aspect.orb) &&
-      typeof aspect.person1Longitude === "number" &&
-      Number.isFinite(
-        aspect.person1Longitude,
-      ) &&
-      typeof aspect.person2Longitude === "number" &&
-      Number.isFinite(
-        aspect.person2Longitude,
-      )
-    );
-  });
+  return aspects.filter(
+    (
+      aspect,
+    ): aspect is CompatibilityAspect => {
+      return (
+        aspect !== null &&
+        typeof aspect === "object" &&
+        typeof aspect.person1Planet ===
+          "string" &&
+        aspect.person1Planet.trim().length >
+          0 &&
+        typeof aspect.person2Planet ===
+          "string" &&
+        aspect.person2Planet.trim().length >
+          0 &&
+        typeof aspect.type === "string" &&
+        typeof aspect.orb === "number" &&
+        Number.isFinite(aspect.orb) &&
+        typeof aspect.person1Longitude ===
+          "number" &&
+        Number.isFinite(
+          aspect.person1Longitude,
+        ) &&
+        typeof aspect.person2Longitude ===
+          "number" &&
+        Number.isFinite(
+          aspect.person2Longitude,
+        )
+      );
+    },
+  );
 }
 
 export default function CompatibilityPdfDocument({
@@ -66,10 +78,8 @@ export default function CompatibilityPdfDocument({
   aspects,
 }: CompatibilityPdfProps) {
   /*
-   * Les deux personnes sont normalisées séparément.
-   *
-   * Les chaînes deviennent toujours des chaînes valides,
-   * les planètes sont normalisées et les angles sont sécurisés.
+   * Sécurisation complète des informations
+   * astrologiques des deux personnes.
    */
   const safePerson1 =
     normalizeCompatibilityPerson(person1);
@@ -78,127 +88,155 @@ export default function CompatibilityPdfDocument({
     normalizeCompatibilityPerson(person2);
 
   /*
-   * On utilise les aspects fournis lorsqu’ils sont valides.
+   * Les aspects transmis par la route serveur sont
+   * utilisés lorsqu’ils sont présents et valides.
    *
-   * Sinon, la synastrie est calculée automatiquement
-   * à partir des longitudes planétaires.
+   * Sinon, ils sont calculés automatiquement à partir
+   * des longitudes planétaires.
    */
   const providedAspects =
     normalizeProvidedAspects(aspects);
 
+  const calculatedAspects =
+    calculateCompatibilityAspects(
+      safePerson1.planets,
+      safePerson2.planets,
+    );
+
   const safeAspects =
     providedAspects.length > 0
       ? providedAspects
-      : calculateCompatibilityAspects(
-          safePerson1.planets,
-          safePerson2.planets,
-        );
+      : calculatedAspects;
 
   const person1Name =
-    safePerson1.firstName ||
+    safePerson1.firstName.trim() ||
     "Première personne";
 
   const person2Name =
-    safePerson2.firstName ||
+    safePerson2.firstName.trim() ||
     "Deuxième personne";
 
   const documentTitle =
-    `Compatibilité astrologique Premium - ` +
+    "Compatibilité astrologique Premium - " +
     `${person1Name} et ${person2Name}`;
 
   return (
     <Document
       title={documentTitle}
       author="Luna Astralis"
-      subject="Rapport de compatibilité astrologique Premium personnalisé"
+      subject="Rapport Premium personnalisé de compatibilité astrologique et de synastrie"
       creator="Luna Astralis"
       producer="Luna Astralis"
+      language="fr-CA"
       keywords={[
         "astrologie",
         "compatibilité astrologique",
         "synastrie",
         "compatibilité amoureuse",
+        "couple",
         "rapport Premium",
         "Luna Astralis",
       ].join(", ")}
     >
+      {/* Page 1 — Couverture */}
       <CompatibilityCover
         person1={safePerson1}
         person2={safePerson2}
       />
 
+      {/* Page 2 — Roues astrologiques */}
       <CompatibilityWheels
         person1={safePerson1}
         person2={safePerson2}
       />
 
+      {/* Page 3 — Bienvenue */}
       <CompatibilityWelcome
         person1={safePerson1}
         person2={safePerson2}
       />
 
+      {/* Page 4 — Profils astrologiques */}
       <CompatibilityProfiles
         person1={safePerson1}
         person2={safePerson2}
       />
 
-      <CompatibilitySunMoonAscendant
+      {/* Page 5 — Scores de compatibilité */}
+      <CompatibilityScores
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
-      <CompatibilityLove
+      {/* Page 6 — Piliers de la relation */}
+      <CompatibilityPillars
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
+      {/* Page 7 — Compatibilité émotionnelle */}
+      <CompatibilityEmotional
+        person1={safePerson1}
+        person2={safePerson2}
+        aspects={safeAspects}
+      />
+
+      {/* Page 8 — Communication */}
       <CompatibilityCommunication
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
-      <CompatibilityEmotions
+      {/* Pages 9 à 12 — Amour */}
+      <CompatibilityLove
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
-      <CompatibilityAttraction
+      {/* Pages 13 à 16 — Dynamique du couple */}
+      <CompatibilityCouple
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
+      {/* Pages 17 à 21 — Planètes */}
+      <CompatibilityPlanets
+        person1={safePerson1}
+        person2={safePerson2}
+        aspects={safeAspects}
+      />
+
+      {/* Pages 22 à 28 — Connexions planétaires */}
+      <CompatibilityPlanetConnections
+        person1={safePerson1}
+        person2={safePerson2}
+        aspects={safeAspects}
+      />
+
+      {/* Pages 29 à 36 — Aspects de synastrie */}
       <CompatibilityAspects
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
-      <CompatibilityStrengthsChallenges
+      {/* Pages 37 à 44 — Vie commune */}
+      <CompatibilityLife
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
       />
 
-      <CompatibilityLongTermPotential
+      {/* Pages 45 à 50 — Synthèse et conclusion */}
+      <CompatibilitySummary
         person1={safePerson1}
         person2={safePerson2}
         aspects={safeAspects}
-      />
-
-      <CompatibilitySynthesis
-        person1={safePerson1}
-        person2={safePerson2}
-        aspects={safeAspects}
-      />
-
-      <CompatibilityConclusion
-        person1={safePerson1}
-        person2={safePerson2}
       />
     </Document>
   );
