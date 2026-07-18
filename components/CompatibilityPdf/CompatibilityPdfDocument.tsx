@@ -172,15 +172,13 @@ export default function CompatibilityPdfDocument({
       <CompatibilityPillars
         person1={safePerson1}
         person2={safePerson2}
-        aspects={safeAspects}
-      />
+         />
 
       {/* Page 7 — Compatibilité émotionnelle */}
       <CompatibilityEmotional
         person1={safePerson1}
         person2={safePerson2}
-        aspects={safeAspects}
-      />
+        />
 
       {/* Page 8 — Communication */}
       <CompatibilityCommunication
