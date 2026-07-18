@@ -987,19 +987,19 @@ export default function CompatibilityProfiles({
             style={localStyles.keysRow}
           >
             <KeyItem
-              icon={PLANET_ICONS.Sun}
+              icon={PLANET_ICONS.sun}
               title="Se reconnaître"
               text="Les ressemblances créent un sentiment de familiarité."
             />
 
             <KeyItem
-              icon={PLANET_ICONS.Venus}
+              icon={PLANET_ICONS.venus}
               title="Se compléter"
               text="Les différences peuvent équilibrer les forces de chacun."
             />
 
             <KeyItem
-              icon={PLANET_ICONS.Jupiter}
+              icon={PLANET_ICONS.jupiter}
               title="Évoluer ensemble"
               text="Les défis révèlent les zones de croissance de la relation."
             />
