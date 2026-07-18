@@ -239,11 +239,28 @@ const localStyles = StyleSheet.create({
   nameSeparator: {
     width: "12%",
 
-    fontSize: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    color: BRIGHT_GOLD,
+  nameSeparatorFrame: {
+    width: 27,
+    height: 27,
 
-    textAlign: "center",
+    borderRadius: 13.5,
+
+    borderWidth: 0.65,
+    borderColor: GOLD,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  nameSeparatorIcon: {
+    width: 17,
+    height: 17,
+
+    objectFit: "contain",
   },
 
   moonComparison: {
@@ -405,9 +422,10 @@ const localStyles = StyleSheet.create({
   },
 
   placementCenterSymbol: {
-    fontSize: 11,
+    width: 17,
+    height: 17,
 
-    color: GOLD,
+    objectFit: "contain",
   },
 
   moonInterpretationTitle: {
@@ -486,9 +504,10 @@ const localStyles = StyleSheet.create({
   },
 
   needSymbol: {
-    fontSize: 11,
+    width: 17,
+    height: 17,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   needTitle: {
@@ -556,9 +575,10 @@ const localStyles = StyleSheet.create({
   },
 
   aspectSymbol: {
-    fontSize: 11,
+    width: 17,
+    height: 17,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   aspectContent: {
@@ -628,9 +648,10 @@ const localStyles = StyleSheet.create({
   },
 
   synthesisSymbolText: {
-    fontSize: 11,
+    width: 16,
+    height: 16,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   synthesisTitle: {
@@ -682,9 +703,10 @@ const localStyles = StyleSheet.create({
   },
 
   adviceSymbol: {
-    fontSize: 12,
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   adviceContent: {
@@ -808,9 +830,11 @@ function getElement(
     normalizeValue(sign);
 
   if (
-    ["belier", "lion", "sagittaire"].includes(
-      normalized,
-    )
+    [
+      "belier",
+      "lion",
+      "sagittaire",
+    ].includes(normalized)
   ) {
     return "Feu";
   }
@@ -857,26 +881,37 @@ function getEmotionalNeed(
   const needs: Record<string, string> = {
     belier:
       "A besoin de spontanéité, d’authenticité et de pouvoir exprimer rapidement ses émotions sans se sentir retenu.",
+
     taureau:
       "Recherche la stabilité, la fidélité, la douceur et des preuves concrètes de sécurité affective.",
+
     gemeaux:
       "A besoin d’échanges, de légèreté, de curiosité et de pouvoir mettre ses émotions en mots.",
+
     cancer:
       "Recherche une grande proximité, de la tendresse, de la protection et un climat profondément rassurant.",
+
     lion:
       "A besoin de chaleur, de reconnaissance, de loyauté et de se sentir aimé de manière visible.",
+
     vierge:
       "Recherche la fiabilité, les gestes utiles, l’attention aux détails et un quotidien affectif cohérent.",
+
     balance:
       "A besoin d’harmonie, de dialogue, de délicatesse et d’une relation où chacun se sent considéré.",
+
     scorpion:
       "Recherche l’intensité, la confiance absolue, l’authenticité et une véritable profondeur émotionnelle.",
+
     sagittaire:
       "A besoin de liberté, d’optimisme, d’honnêteté et d’un lien qui laisse de l’espace pour évoluer.",
+
     capricorne:
       "Recherche la constance, le respect, la maturité et une relation capable de se construire dans le temps.",
+
     verseau:
       "A besoin d’indépendance, de compréhension intellectuelle et d’une relation qui respecte sa singularité.",
+
     poissons:
       "Recherche la compassion, la douceur, l’intuition et un lien émotionnel où il peut se sentir pleinement compris.",
   };
@@ -1137,51 +1172,6 @@ function normalizeAspectName(
   return aspect || "Aspect";
 }
 
-function getAspectSymbol(
-  aspectName: string,
-): string {
-  const normalized =
-    normalizeValue(aspectName);
-
-  if (
-    normalized.includes("conjonction")
-  ) {
-    return "☌";
-  }
-
-  if (
-    normalized.includes("trigone")
-  ) {
-    return "△";
-  }
-
-  if (
-    normalized.includes("sextile")
-  ) {
-    return "✶";
-  }
-
-  if (
-    normalized.includes("opposition")
-  ) {
-    return "☍";
-  }
-
-  if (
-    normalized.includes("carre")
-  ) {
-    return "□";
-  }
-
-  if (
-    normalized.includes("quinconce")
-  ) {
-    return "⚻";
-  }
-
-  return "✦";
-}
-
 function getAspectNature(
   aspectName: string,
 ): string {
@@ -1355,14 +1345,18 @@ function getEmotionalAspects(
     .slice(0, 3)
     .map((aspect, index) => ({
       id: `emotional-${index}`,
+
       planet1:
         getAspectPlanet1(aspect),
+
       planet2:
         getAspectPlanet2(aspect),
+
       aspect:
         normalizeAspectName(
           getAspectName(aspect),
         ),
+
       orb:
         getAspectOrb(aspect),
     }));
@@ -1397,11 +1391,10 @@ function EmotionalNeedCard({
             localStyles.needSymbolFrame
           }
         >
-          <Text
+          <Image
+            src={PLANET_ICONS.Moon}
             style={localStyles.needSymbol}
-          >
-            ☾
-          </Text>
+          />
         </View>
 
         <Text
@@ -1445,13 +1438,10 @@ function AspectCard({
           localStyles.aspectSymbolFrame
         }
       >
-        <Text
+        <Image
+          src={LOGO_URL}
           style={localStyles.aspectSymbol}
-        >
-          {getAspectSymbol(
-            aspect.aspect,
-          )}
-        </Text>
+        />
       </View>
 
       <View
@@ -1607,13 +1597,22 @@ export default function CompatibilityEmotional({
             {person1Name}
           </Text>
 
-          <Text
-            style={
-              localStyles.nameSeparator
-            }
+          <View
+            style={localStyles.nameSeparator}
           >
-            ☾
-          </Text>
+            <View
+              style={
+                localStyles.nameSeparatorFrame
+              }
+            >
+              <Image
+                src={PLANET_ICONS.Moon}
+                style={
+                  localStyles.nameSeparatorIcon
+                }
+              />
+            </View>
+          </View>
 
           <Text style={localStyles.name}>
             {person2Name}
@@ -1702,13 +1701,12 @@ export default function CompatibilityEmotional({
                   localStyles.placementCenterCircle
                 }
               >
-                <Text
+                <Image
+                  src={PLANET_ICONS.Moon}
                   style={
                     localStyles.placementCenterSymbol
                   }
-                >
-                  ☾
-                </Text>
+                />
               </View>
             </View>
 
@@ -1809,13 +1807,12 @@ export default function CompatibilityEmotional({
               localStyles.synthesisSymbol
             }
           >
-            <Text
+            <Image
+              src={PLANET_ICONS.Moon}
               style={
                 localStyles.synthesisSymbolText
               }
-            >
-              ☾
-            </Text>
+            />
           </View>
 
           <Text
@@ -1848,11 +1845,10 @@ export default function CompatibilityEmotional({
               localStyles.adviceSymbolFrame
             }
           >
-            <Text
+            <Image
+              src={LOGO_URL}
               style={localStyles.adviceSymbol}
-            >
-              ✦
-            </Text>
+            />
           </View>
 
           <View
@@ -1898,4 +1894,4 @@ export default function CompatibilityEmotional({
       </View>
     </Page>
   );
-}
+    }
