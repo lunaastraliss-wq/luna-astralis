@@ -323,14 +323,6 @@ const localStyles = StyleSheet.create({
     objectFit: "contain",
   },
 
-  planetFallback: {
-    fontSize: 10,
-
-    color: BRIGHT_GOLD,
-
-    textAlign: "center",
-  },
-
   placementContent: {
     flex: 1,
   },
@@ -426,10 +418,11 @@ const localStyles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  interactionSymbolText: {
-    fontSize: 11,
+  interactionIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   interactionTitle: {
@@ -485,12 +478,26 @@ const localStyles = StyleSheet.create({
     alignItems: "center",
   },
 
-  keySymbol: {
-    fontSize: 11,
+  keyIconFrame: {
+    width: 26,
+    height: 26,
 
-    color: BRIGHT_GOLD,
+    borderRadius: 13,
 
-    marginBottom: 3,
+    borderWidth: 0.55,
+    borderColor: SOFT_GOLD,
+
+    alignItems: "center",
+    justifyContent: "center",
+
+    marginBottom: 5,
+  },
+
+  keyIcon: {
+    width: 16,
+    height: 16,
+
+    objectFit: "contain",
   },
 
   keyTitle: {
@@ -556,17 +563,6 @@ const PLANET_MEANINGS: Record<
   Mars: "Désir, action, énergie et affirmation.",
 };
 
-const PLANET_SYMBOLS: Record<
-  PlanetName,
-  string
-> = {
-  Sun: "☉",
-  Moon: "☾",
-  Mercury: "☿",
-  Venus: "♀",
-  Mars: "♂",
-};
-
 function getPersonName(
   person: SafeCompatibilityPerson,
   fallback: string,
@@ -599,15 +595,10 @@ function getPlanetSign(
 
 function getPlanetIcon(
   planetName: PlanetName,
-): string | undefined {
-  const icon =
-    PLANET_ICONS[
-      planetName as keyof typeof PLANET_ICONS
-    ];
-
-  return typeof icon === "string"
-    ? icon
-    : undefined;
+): string {
+  return PLANET_ICONS[
+    planetName as keyof typeof PLANET_ICONS
+  ];
 }
 
 function getProfileSummary(
@@ -675,20 +666,10 @@ function PlacementRow({
           localStyles.planetIconFrame
         }
       >
-        {icon ? (
-          <Image
-            src={icon}
-            style={localStyles.planetIcon}
-          />
-        ) : (
-          <Text
-            style={
-              localStyles.planetFallback
-            }
-          >
-            {PLANET_SYMBOLS[planetName]}
-          </Text>
-        )}
+        <Image
+          src={icon}
+          style={localStyles.planetIcon}
+        />
       </View>
 
       <View
@@ -832,6 +813,37 @@ function ProfileColumn({
   );
 }
 
+function KeyItem({
+  icon,
+  title,
+  text,
+}: {
+  icon: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <View style={localStyles.keyItem}>
+      <View
+        style={localStyles.keyIconFrame}
+      >
+        <Image
+          src={icon}
+          style={localStyles.keyIcon}
+        />
+      </View>
+
+      <Text style={localStyles.keyTitle}>
+        {title}
+      </Text>
+
+      <Text style={localStyles.keyText}>
+        {text}
+      </Text>
+    </View>
+  );
+}
+
 export default function CompatibilityProfiles({
   person1,
   person2,
@@ -931,13 +943,10 @@ export default function CompatibilityProfiles({
               localStyles.interactionSymbol
             }
           >
-            <Text
-              style={
-                localStyles.interactionSymbolText
-              }
-            >
-              ✦
-            </Text>
+            <Image
+              src={LOGO_URL}
+              style={localStyles.interactionIcon}
+            />
           </View>
 
           <Text
@@ -977,68 +986,23 @@ export default function CompatibilityProfiles({
           <View
             style={localStyles.keysRow}
           >
-            <View style={localStyles.keyItem}>
-              <Text
-                style={localStyles.keySymbol}
-              >
-                ☉
-              </Text>
+            <KeyItem
+              icon={PLANET_ICONS.Sun}
+              title="Se reconnaître"
+              text="Les ressemblances créent un sentiment de familiarité."
+            />
 
-              <Text
-                style={localStyles.keyTitle}
-              >
-                Se reconnaître
-              </Text>
+            <KeyItem
+              icon={PLANET_ICONS.Venus}
+              title="Se compléter"
+              text="Les différences peuvent équilibrer les forces de chacun."
+            />
 
-              <Text
-                style={localStyles.keyText}
-              >
-                Les ressemblances créent un
-                sentiment de familiarité.
-              </Text>
-            </View>
-
-            <View style={localStyles.keyItem}>
-              <Text
-                style={localStyles.keySymbol}
-              >
-                ☯
-              </Text>
-
-              <Text
-                style={localStyles.keyTitle}
-              >
-                Se compléter
-              </Text>
-
-              <Text
-                style={localStyles.keyText}
-              >
-                Les différences peuvent équilibrer
-                les forces de chacun.
-              </Text>
-            </View>
-
-            <View style={localStyles.keyItem}>
-              <Text
-                style={localStyles.keySymbol}
-              >
-                ✦
-              </Text>
-
-              <Text
-                style={localStyles.keyTitle}
-              >
-                Évoluer ensemble
-              </Text>
-
-              <Text
-                style={localStyles.keyText}
-              >
-                Les défis révèlent les zones de
-                croissance de la relation.
-              </Text>
-            </View>
+            <KeyItem
+              icon={PLANET_ICONS.Jupiter}
+              title="Évoluer ensemble"
+              text="Les défis révèlent les zones de croissance de la relation."
+            />
           </View>
         </View>
       </View>
@@ -1061,4 +1025,4 @@ export default function CompatibilityProfiles({
       </View>
     </Page>
   );
-}
+  }
