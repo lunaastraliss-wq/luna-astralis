@@ -166,6 +166,10 @@ export function normalizeCompatibilityPerson(
       person?.birthCity,
     ),
 
+     birthCountry: toSafeString(
+    person?.birthCountry,
+  ),
+    
     planets: normalizePlanets(
       person?.planets,
     ),
