@@ -166,8 +166,7 @@ export default function CompatibilityPdfDocument({
       <CompatibilityScores
         person1={safePerson1}
         person2={safePerson2}
-        aspects={safeAspects}
-      />
+        />
 
       {/* Page 6 — Piliers de la relation */}
       <CompatibilityPillars
