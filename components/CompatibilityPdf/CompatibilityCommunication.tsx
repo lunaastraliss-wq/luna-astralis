@@ -1251,7 +1251,7 @@ function CommunicationStyleCard({
           style={localStyles.styleIconFrame}
         >
           <Image
-            src={PLANET_ICONS.Mercury}
+            src={PLANET_ICONS.mercury}
             style={localStyles.styleIcon}
           />
         </View>
@@ -1466,7 +1466,7 @@ export default function CompatibilityCommunication({
               }
             >
               <Image
-                src={PLANET_ICONS.Mercury}
+                src={PLANET_ICONS.mercury}
                 style={
                   localStyles.nameSeparatorIcon
                 }
@@ -1498,7 +1498,7 @@ export default function CompatibilityCommunication({
               }
             >
               <Image
-                src={PLANET_ICONS.Mercury}
+                src={PLANET_ICONS.mercury}
                 style={localStyles.mercuryIcon}
               />
             </View>
@@ -1571,7 +1571,7 @@ export default function CompatibilityCommunication({
                 }
               >
                 <Image
-                  src={PLANET_ICONS.Mercury}
+                  src={PLANET_ICONS.mercury}
                   style={
                     localStyles.placementCenterIcon
                   }
