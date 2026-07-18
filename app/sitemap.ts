@@ -92,6 +92,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     // ==========================
+    // Horoscopes des 12 signes
+    // ==========================
+
+    ...SIGNES.map((signe) => ({
+      url: `${BASE_URL}/horoscope/${signe}`,
+      lastModified,
+      changeFrequency: "daily" as const,
+      priority: 0.9,
+    })),
+
+    // ==========================
     // Pages astrologiques
     // ==========================
 
@@ -127,7 +138,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     // ==========================
-    // Les 12 signes
+    // Les 12 signes astrologiques
     // ==========================
 
     ...SIGNES.map((signe) => ({
@@ -138,7 +149,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
 
     // ==========================
-    // Les 12 maisons
+    // Les 12 maisons astrologiques
     // ==========================
 
     ...Array.from({ length: 12 }, (_, index) => ({
@@ -149,7 +160,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
 
     // ==========================
-    // Les planètes
+    // Les planètes et points
     // ==========================
 
     ...PLANETES.map((planete) => ({
@@ -160,7 +171,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
 
     // ==========================
-    // Les aspects
+    // Les aspects astrologiques
     // ==========================
 
     ...ASPECTS.map((aspect) => ({
