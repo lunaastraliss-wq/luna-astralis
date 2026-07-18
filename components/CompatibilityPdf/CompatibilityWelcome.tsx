@@ -29,6 +29,9 @@ const CREAM = "#fff8e7";
 const MUTED_CREAM = "#ddd5c6";
 const SOFT_TEXT = "#b9ae98";
 
+const ASCENDANT_ICON_URL =
+  "https://luna-astralis.app/astrology/ascendant.png";
+
 const localStyles = StyleSheet.create({
   page: {
     position: "relative",
@@ -270,10 +273,11 @@ const localStyles = StyleSheet.create({
     marginBottom: 4,
   },
 
-  centralSymbol: {
-    fontSize: 14,
+  centralLogo: {
+    width: 25,
+    height: 25,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   centralText: {
@@ -389,12 +393,6 @@ const localStyles = StyleSheet.create({
     objectFit: "contain",
   },
 
-  pillarSymbol: {
-    fontSize: 14,
-
-    color: BRIGHT_GOLD,
-  },
-
   pillarTitle: {
     fontSize: 9,
 
@@ -476,10 +474,11 @@ const localStyles = StyleSheet.create({
     marginRight: 12,
   },
 
-  noteSymbol: {
-    fontSize: 13,
+  noteIconImage: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   noteContent: {
@@ -566,12 +565,10 @@ function PersonNameBlock({
 
 function PillarCard({
   icon,
-  symbol,
   title,
   text,
 }: {
-  icon?: string;
-  symbol?: string;
+  icon: string;
   title: string;
   text: string;
 }) {
@@ -583,18 +580,10 @@ function PillarCard({
       <View
         style={localStyles.pillarIconFrame}
       >
-        {icon ? (
-          <Image
-            src={icon}
-            style={localStyles.pillarIconImage}
-          />
-        ) : (
-          <Text
-            style={localStyles.pillarSymbol}
-          >
-            {symbol}
-          </Text>
-        )}
+        <Image
+          src={icon}
+          style={localStyles.pillarIconImage}
+        />
       </View>
 
       <Text style={localStyles.pillarTitle}>
@@ -708,13 +697,10 @@ export default function CompatibilityWelcome({
             <View
               style={localStyles.centralCircle}
             >
-              <Text
-                style={
-                  localStyles.centralSymbol
-                }
-              >
-                ✦
-              </Text>
+              <Image
+                src={LOGO_URL}
+                style={localStyles.centralLogo}
+              />
             </View>
 
             <Text
@@ -814,7 +800,7 @@ export default function CompatibilityWelcome({
             />
 
             <PillarCard
-              symbol="ASC"
+              icon={ASCENDANT_ICON_URL}
               title="La rencontre"
               text="L’Ascendant montre la manière de se présenter, de réagir et d’entrer naturellement en relation."
             />
@@ -859,11 +845,10 @@ export default function CompatibilityWelcome({
               localStyles.noteSymbolFrame
             }
           >
-            <Text
-              style={localStyles.noteSymbol}
-            >
-              ☾
-            </Text>
+            <Image
+              src={PLANET_ICONS.Moon}
+              style={localStyles.noteIconImage}
+            />
           </View>
 
           <View style={localStyles.noteContent}>
