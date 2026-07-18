@@ -242,11 +242,30 @@ const localStyles = StyleSheet.create({
   nameSeparator: {
     width: "12%",
 
-    fontSize: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    color: BRIGHT_GOLD,
+  nameSeparatorFrame: {
+    width: 27,
+    height: 27,
 
-    textAlign: "center",
+    borderRadius: 13.5,
+
+    borderWidth: 0.65,
+    borderColor: GOLD,
+
+    backgroundColor: NAVY_CARD_LIGHT,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  nameSeparatorIcon: {
+    width: 18,
+    height: 18,
+
+    objectFit: "contain",
   },
 
   mercuryComparison: {
@@ -408,10 +427,11 @@ const localStyles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  placementCenterSymbol: {
-    fontSize: 11,
+  placementCenterIcon: {
+    width: 17,
+    height: 17,
 
-    color: GOLD,
+    objectFit: "contain",
   },
 
   interpretationTitle: {
@@ -474,7 +494,7 @@ const localStyles = StyleSheet.create({
     marginBottom: 6,
   },
 
-  styleSymbolFrame: {
+  styleIconFrame: {
     width: 26,
     height: 26,
 
@@ -489,10 +509,11 @@ const localStyles = StyleSheet.create({
     marginRight: 8,
   },
 
-  styleSymbol: {
-    fontSize: 10.5,
+  styleIcon: {
+    width: 16,
+    height: 16,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   styleCardTitle: {
@@ -532,7 +553,7 @@ const localStyles = StyleSheet.create({
     borderColor: DARK_GOLD,
   },
 
-  aspectSymbolFrame: {
+  aspectIconFrame: {
     width: 28,
     height: 28,
 
@@ -547,10 +568,11 @@ const localStyles = StyleSheet.create({
     marginRight: 9,
   },
 
-  aspectSymbol: {
-    fontSize: 10.5,
+  aspectIcon: {
+    width: 17,
+    height: 17,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   aspectContent: {
@@ -637,7 +659,7 @@ const localStyles = StyleSheet.create({
     borderColor: SOFT_GOLD,
   },
 
-  adviceSymbolFrame: {
+  adviceIconFrame: {
     width: 30,
     height: 30,
 
@@ -652,10 +674,11 @@ const localStyles = StyleSheet.create({
     marginRight: 11,
   },
 
-  adviceSymbol: {
-    fontSize: 11.5,
+  adviceIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   adviceContent: {
@@ -759,35 +782,49 @@ function getCommunicationStyle(
 ): string {
   const normalized = normalizeValue(sign);
 
-  const styles: Record<string, string> = {
+  const communicationStyles: Record<
+    string,
+    string
+  > = {
     belier:
       "Communication directe, rapide et spontanée. Cette personne préfère aller droit au but et exprimer immédiatement ce qu’elle pense.",
+
     taureau:
       "Communication posée, concrète et réfléchie. Elle prend le temps d’assimiler les informations avant de formuler une opinion stable.",
+
     gemeaux:
       "Communication vive, curieuse et adaptable. Elle aime échanger, poser des questions et explorer plusieurs idées à la fois.",
+
     cancer:
       "Communication intuitive et sensible. Les mots sont fortement influencés par l’émotion, la mémoire et le climat relationnel.",
+
     lion:
       "Communication chaleureuse, expressive et assurée. Elle cherche à transmettre ses idées avec conviction et présence.",
+
     vierge:
       "Communication précise, méthodique et analytique. Elle remarque facilement les détails et cherche des solutions pratiques.",
+
     balance:
       "Communication diplomate, nuancée et attentive. Elle cherche l’équilibre, la coopération et évite généralement les confrontations inutiles.",
+
     scorpion:
       "Communication profonde, stratégique et perspicace. Elle observe beaucoup et préfère les échanges sincères aux conversations superficielles.",
+
     sagittaire:
       "Communication franche, enthousiaste et visionnaire. Elle aime partager ses convictions et parler de possibilités, de projets ou d’avenir.",
+
     capricorne:
       "Communication structurée, sérieuse et responsable. Elle privilégie les faits, la cohérence et les échanges ayant un objectif concret.",
+
     verseau:
       "Communication indépendante, originale et intellectuelle. Elle apprécie les idées nouvelles et peut aborder les situations avec détachement.",
+
     poissons:
       "Communication intuitive, imagée et empathique. Elle perçoit les nuances invisibles et s’exprime souvent à travers le ressenti.",
   };
 
   return (
-    styles[normalized] ||
+    communicationStyles[normalized] ||
     "Les données disponibles ne permettent pas encore de préciser entièrement son style de communication."
   );
 }
@@ -798,9 +835,11 @@ function getElement(
   const normalized = normalizeValue(sign);
 
   if (
-    ["belier", "lion", "sagittaire"].includes(
-      normalized,
-    )
+    [
+      "belier",
+      "lion",
+      "sagittaire",
+    ].includes(normalized)
   ) {
     return "Feu";
   }
@@ -852,11 +891,17 @@ function getMercuryCompatibilityText(
     );
   }
 
-  const normalized1 = normalizeValue(sign1);
-  const normalized2 = normalizeValue(sign2);
+  const normalized1 =
+    normalizeValue(sign1);
 
-  const element1 = getElement(sign1);
-  const element2 = getElement(sign2);
+  const normalized2 =
+    normalizeValue(sign2);
+
+  const element1 =
+    getElement(sign1);
+
+  const element2 =
+    getElement(sign2);
 
   if (normalized1 === normalized2) {
     return (
@@ -902,7 +947,8 @@ function getMercuryCompatibilityText(
 function isMercuryPlanet(
   planetName: string,
 ): boolean {
-  const normalized = normalizeValue(planetName);
+  const normalized =
+    normalizeValue(planetName);
 
   return (
     normalized === "mercury" ||
@@ -913,7 +959,8 @@ function isMercuryPlanet(
 function isCommunicationPlanet(
   planetName: string,
 ): boolean {
-  const normalized = normalizeValue(planetName);
+  const normalized =
+    normalizeValue(planetName);
 
   return [
     "sun",
@@ -965,29 +1012,16 @@ function getCommunicationAspects(
     .slice(0, 3)
     .map((aspect, index) => ({
       id: `communication-${index}`,
-      person1Planet: aspect.person1Planet,
-      person2Planet: aspect.person2Planet,
+      person1Planet:
+        aspect.person1Planet,
+
+      person2Planet:
+        aspect.person2Planet,
+
       type: aspect.type,
+
       orb: aspect.orb,
     }));
-}
-
-function getAspectSymbol(
-  type: CompatibilityAspect["type"],
-): string {
-  const symbols: Record<
-    CompatibilityAspect["type"],
-    string
-  > = {
-    conjunction: "☌",
-    opposition: "☍",
-    trine: "△",
-    square: "□",
-    sextile: "✶",
-    quincunx: "⚻",
-  };
-
-  return symbols[type];
 }
 
 function getAspectNature(
@@ -1137,8 +1171,11 @@ function getStrengthText(
   sign1: string,
   sign2: string,
 ): string {
-  const element1 = getElement(sign1);
-  const element2 = getElement(sign2);
+  const element1 =
+    getElement(sign1);
+
+  const element2 =
+    getElement(sign2);
 
   if (
     sign1 !== "Non précisé" &&
@@ -1162,8 +1199,11 @@ function getChallengeText(
   sign1: string,
   sign2: string,
 ): string {
-  const element1 = getElement(sign1);
-  const element2 = getElement(sign2);
+  const element1 =
+    getElement(sign1);
+
+  const element2 =
+    getElement(sign2);
 
   if (
     sign1 !== "Non précisé" &&
@@ -1208,13 +1248,12 @@ function CommunicationStyleCard({
         style={localStyles.styleCardHeader}
       >
         <View
-          style={localStyles.styleSymbolFrame}
+          style={localStyles.styleIconFrame}
         >
-          <Text
-            style={localStyles.styleSymbol}
-          >
-            ☿
-          </Text>
+          <Image
+            src={PLANET_ICONS.Mercury}
+            style={localStyles.styleIcon}
+          />
         </View>
 
         <Text
@@ -1228,7 +1267,9 @@ function CommunicationStyleCard({
         style={localStyles.styleCardText}
       >
         Mercure en {mercurySign}.{" "}
-        {getCommunicationStyle(mercurySign)}
+        {getCommunicationStyle(
+          mercurySign,
+        )}
       </Text>
     </View>
   );
@@ -1255,13 +1296,12 @@ function AspectCard({
       wrap={false}
     >
       <View
-        style={localStyles.aspectSymbolFrame}
+        style={localStyles.aspectIconFrame}
       >
-        <Text
-          style={localStyles.aspectSymbol}
-        >
-          {getAspectSymbol(aspect.type)}
-        </Text>
+        <Image
+          src={LOGO_URL}
+          style={localStyles.aspectIcon}
+        />
       </View>
 
       <View
@@ -1320,8 +1360,15 @@ export default function CompatibilityCommunication({
   const mercurySign2 =
     getMercurySign(person2);
 
+  const safeAspects =
+    Array.isArray(aspects)
+      ? aspects
+      : [];
+
   const communicationAspects =
-    getCommunicationAspects(aspects);
+    getCommunicationAspects(
+      safeAspects,
+    );
 
   return (
     <Page
@@ -1410,13 +1457,22 @@ export default function CompatibilityCommunication({
             {person1Name}
           </Text>
 
-          <Text
-            style={
-              localStyles.nameSeparator
-            }
+          <View
+            style={localStyles.nameSeparator}
           >
-            ☿
-          </Text>
+            <View
+              style={
+                localStyles.nameSeparatorFrame
+              }
+            >
+              <Image
+                src={PLANET_ICONS.Mercury}
+                style={
+                  localStyles.nameSeparatorIcon
+                }
+              />
+            </View>
+          </View>
 
           <Text style={localStyles.name}>
             {person2Name}
@@ -1487,33 +1543,39 @@ export default function CompatibilityCommunication({
               </Text>
 
               <Text
-                style={localStyles.placementValue}
+                style={
+                  localStyles.placementValue
+                }
               >
                 Mercure en {mercurySign1}
               </Text>
 
               <Text
-                style={localStyles.placementStyle}
+                style={
+                  localStyles.placementStyle
+                }
               >
-                Élément {getElement(mercurySign1)}
+                Élément{" "}
+                {getElement(mercurySign1)}
               </Text>
             </View>
 
             <View
-              style={localStyles.placementCenter}
+              style={
+                localStyles.placementCenter
+              }
             >
               <View
                 style={
                   localStyles.placementCenterCircle
                 }
               >
-                <Text
+                <Image
+                  src={PLANET_ICONS.Mercury}
                   style={
-                    localStyles.placementCenterSymbol
+                    localStyles.placementCenterIcon
                   }
-                >
-                  ☿
-                </Text>
+                />
               </View>
             </View>
 
@@ -1527,15 +1589,20 @@ export default function CompatibilityCommunication({
               </Text>
 
               <Text
-                style={localStyles.placementValue}
+                style={
+                  localStyles.placementValue
+                }
               >
                 Mercure en {mercurySign2}
               </Text>
 
               <Text
-                style={localStyles.placementStyle}
+                style={
+                  localStyles.placementStyle
+                }
               >
-                Élément {getElement(mercurySign2)}
+                Élément{" "}
+                {getElement(mercurySign2)}
               </Text>
             </View>
           </View>
@@ -1664,14 +1731,13 @@ export default function CompatibilityCommunication({
         >
           <View
             style={
-              localStyles.adviceSymbolFrame
+              localStyles.adviceIconFrame
             }
           >
-            <Text
-              style={localStyles.adviceSymbol}
-            >
-              ✦
-            </Text>
+            <Image
+              src={LOGO_URL}
+              style={localStyles.adviceIcon}
+            />
           </View>
 
           <View
@@ -1717,4 +1783,4 @@ export default function CompatibilityCommunication({
       </View>
     </Page>
   );
-}
+    }
