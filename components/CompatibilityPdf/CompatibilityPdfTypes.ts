@@ -20,6 +20,17 @@ export type CompatibilityPerson = {
 };
 
 /*
+ * Types d’aspects utilisés dans la synastrie.
+ */
+export type CompatibilityAspectType =
+  | "conjunction"
+  | "opposition"
+  | "trine"
+  | "square"
+  | "sextile"
+  | "quincunx";
+
+/*
  * Aspect astrologique calculé entre une planète
  * de la première personne et une planète
  * de la deuxième personne.
@@ -28,13 +39,7 @@ export type CompatibilityAspect = {
   person1Planet: string;
   person2Planet: string;
 
-  type:
-    | "conjunction"
-    | "opposition"
-    | "trine"
-    | "square"
-    | "sextile"
-    | "quincunx";
+  type: CompatibilityAspectType;
 
   orb: number;
 
@@ -43,7 +48,8 @@ export type CompatibilityAspect = {
 };
 
 /*
- * Propriétés principales reçues par le document PDF.
+ * Propriétés principales reçues
+ * par le document PDF de compatibilité.
  */
 export type CompatibilityPdfProps = {
   person1?: CompatibilityPerson;
@@ -51,15 +57,17 @@ export type CompatibilityPdfProps = {
 
   /*
    * Les aspects peuvent être fournis par la route serveur.
-   * S’ils ne sont pas fournis, nous pourrons les calculer
-   * directement à partir des longitudes planétaires.
+   * S’ils sont absents, ils seront calculés
+   * à partir des longitudes planétaires.
    */
   aspects?: CompatibilityAspect[];
 };
 
 /*
  * Version sécurisée d’une personne après normalisation.
- * Toutes les valeurs sont garanties et ne sont plus optionnelles.
+ *
+ * Toutes les valeurs sont garanties
+ * et ne sont plus optionnelles.
  */
 export type SafeCompatibilityPerson = {
   firstName: string;
@@ -74,8 +82,8 @@ export type SafeCompatibilityPerson = {
 };
 
 /*
- * Propriétés communes utilisées par la majorité
- * des sections du rapport de compatibilité.
+ * Propriétés communes utilisées par les sections
+ * qui analysent les deux personnes et leurs aspects.
  */
 export type CompatibilitySectionProps = {
   person1: SafeCompatibilityPerson;
@@ -84,8 +92,8 @@ export type CompatibilitySectionProps = {
 };
 
 /*
- * Propriétés pour les sections qui n’utilisent pas
- * nécessairement les aspects de synastrie.
+ * Propriétés utilisées par les sections
+ * qui présentent uniquement les deux profils.
  */
 export type CompatibilityProfilesProps = {
   person1: SafeCompatibilityPerson;
@@ -93,7 +101,7 @@ export type CompatibilityProfilesProps = {
 };
 
 /*
- * Propriétés pour la couverture.
+ * Propriétés de la couverture.
  */
 export type CompatibilityCoverProps = {
   person1: SafeCompatibilityPerson;
@@ -101,10 +109,26 @@ export type CompatibilityCoverProps = {
 };
 
 /*
- * Propriétés pour les pages présentant
- * les deux cartes du ciel.
+ * Propriétés de la page présentant
+ * les deux roues astrologiques.
  */
 export type CompatibilityWheelsProps = {
+  person1: SafeCompatibilityPerson;
+  person2: SafeCompatibilityPerson;
+};
+
+/*
+ * Propriétés de la page de bienvenue.
+ */
+export type CompatibilityWelcomeProps = {
+  person1: SafeCompatibilityPerson;
+  person2: SafeCompatibilityPerson;
+};
+
+/*
+ * Propriétés de la conclusion.
+ */
+export type CompatibilityConclusionProps = {
   person1: SafeCompatibilityPerson;
   person2: SafeCompatibilityPerson;
 };
@@ -137,7 +161,7 @@ export type CompatibilityPlanetComparisonProps = {
 
 /*
  * Catégories utilisées pour classer
- * les aspects dans le rapport.
+ * les différents aspects du rapport.
  */
 export type CompatibilityAspectCategory =
   | "identity"
@@ -150,22 +174,19 @@ export type CompatibilityAspectCategory =
   | "challenges";
 
 /*
- * Aspect enrichi avec les informations nécessaires
- * pour générer les textes du rapport.
+ * Aspect enrichi avec les informations
+ * nécessaires pour générer une interprétation.
  */
-export type CompatibilityAspectAnalysis = CompatibilityAspect & {
-  category: CompatibilityAspectCategory;
-  harmonious: boolean;
-  title: string;
-  description: string;
-};
+export type CompatibilityAspectAnalysis =
+  CompatibilityAspect & {
+    category: CompatibilityAspectCategory;
+    harmonious: boolean;
+    title: string;
+    description: string;
+  };
 
 /*
- * Résumé global de la compatibilité.
- *
- * Les scores ne seront pas inventés :
- * ils seront calculés plus tard à partir
- * des aspects réellement trouvés.
+ * Résumé chiffré de la compatibilité.
  */
 export type CompatibilityScores = {
   overall: number;
@@ -177,9 +198,13 @@ export type CompatibilityScores = {
 };
 
 /*
- * Propriétés de la future synthèse.
+ * Propriétés de la synthèse finale.
+ *
+ * Les scores sont optionnels pour le moment,
+ * car CompatibilityPdfDocument ne les calcule
+ * pas encore directement.
  */
 export type CompatibilitySynthesisProps =
   CompatibilitySectionProps & {
-    scores: CompatibilityScores;
+    scores?: CompatibilityScores;
   };
