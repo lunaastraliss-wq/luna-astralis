@@ -239,11 +239,30 @@ const localStyles = StyleSheet.create({
   nameSeparator: {
     width: "12%",
 
-    fontSize: 13,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-    color: BRIGHT_GOLD,
+  nameSeparatorFrame: {
+    width: 27,
+    height: 27,
 
-    textAlign: "center",
+    borderRadius: 13.5,
+
+    borderWidth: 0.6,
+    borderColor: GOLD,
+
+    backgroundColor: NAVY_CARD_LIGHT,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  nameSeparatorIcon: {
+    width: 19,
+    height: 19,
+
+    objectFit: "contain",
   },
 
   pillarCard: {
@@ -300,14 +319,6 @@ const localStyles = StyleSheet.create({
     height: 24,
 
     objectFit: "contain",
-  },
-
-  ascendantSymbol: {
-    fontSize: 10,
-
-    color: BRIGHT_GOLD,
-
-    textAlign: "center",
   },
 
   pillarHeading: {
@@ -386,10 +397,26 @@ const localStyles = StyleSheet.create({
     marginBottom: 4,
   },
 
-  comparisonSymbol: {
-    fontSize: 10,
+  comparisonIconFrame: {
+    width: 20,
+    height: 20,
 
-    color: GOLD,
+    borderRadius: 10,
+
+    borderWidth: 0.5,
+    borderColor: SOFT_GOLD,
+
+    backgroundColor: NAVY_CARD,
+
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  comparisonIcon: {
+    width: 13,
+    height: 13,
+
+    objectFit: "contain",
   },
 
   interpretationTitle: {
@@ -482,10 +509,11 @@ const localStyles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  synthesisSymbolText: {
-    fontSize: 11,
+  synthesisIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   synthesisTitle: {
@@ -536,10 +564,11 @@ const localStyles = StyleSheet.create({
     marginRight: 11,
   },
 
-  guideSymbol: {
-    fontSize: 12,
+  guideIcon: {
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
   },
 
   guideContent: {
@@ -601,8 +630,7 @@ interface PillarDefinition {
   key: PillarName;
   title: string;
   label: string;
-  icon?: string;
-  symbol?: string;
+  icon: string;
   personMeaning: string;
   relationshipMeaning: string;
 }
@@ -632,7 +660,7 @@ const PILLARS: PillarDefinition[] = [
     key: "Ascendant",
     title: "Ascendant et Ascendant",
     label: "Rencontre et quotidien",
-    symbol: "ASC",
+    icon: PLANET_ICONS.Ascendant,
     personMeaning:
       "L’Ascendant représente la manière spontanée d’entrer en relation, de réagir et de se présenter au monde.",
     relationshipMeaning:
@@ -899,24 +927,12 @@ function PillarCard({
         style={localStyles.pillarHeader}
       >
         <View
-          style={
-            localStyles.pillarIconFrame
-          }
+          style={localStyles.pillarIconFrame}
         >
-          {pillar.icon ? (
-            <Image
-              src={pillar.icon}
-              style={localStyles.pillarIcon}
-            />
-          ) : (
-            <Text
-              style={
-                localStyles.ascendantSymbol
-              }
-            >
-              {pillar.symbol}
-            </Text>
-          )}
+          <Image
+            src={pillar.icon}
+            style={localStyles.pillarIcon}
+          />
         </View>
 
         <View
@@ -940,9 +956,7 @@ function PillarCard({
         style={localStyles.comparisonRow}
       >
         <View
-          style={
-            localStyles.personPlacement
-          }
+          style={localStyles.personPlacement}
         >
           <Text
             style={localStyles.placementName}
@@ -951,9 +965,7 @@ function PillarCard({
           </Text>
 
           <Text
-            style={
-              localStyles.placementValue
-            }
+            style={localStyles.placementValue}
           >
             {getPlacementLabel(
               pillar.key,
@@ -963,29 +975,24 @@ function PillarCard({
         </View>
 
         <View
-          style={
-            localStyles.comparisonCenter
-          }
+          style={localStyles.comparisonCenter}
         >
           <View
-            style={
-              localStyles.comparisonLine
-            }
+            style={localStyles.comparisonLine}
           />
 
-          <Text
-            style={
-              localStyles.comparisonSymbol
-            }
+          <View
+            style={localStyles.comparisonIconFrame}
           >
-            ✦
-          </Text>
+            <Image
+              src={LOGO_URL}
+              style={localStyles.comparisonIcon}
+            />
+          </View>
         </View>
 
         <View
-          style={
-            localStyles.personPlacement
-          }
+          style={localStyles.personPlacement}
         >
           <Text
             style={localStyles.placementName}
@@ -994,9 +1001,7 @@ function PillarCard({
           </Text>
 
           <Text
-            style={
-              localStyles.placementValue
-            }
+            style={localStyles.placementValue}
           >
             {getPlacementLabel(
               pillar.key,
@@ -1007,17 +1012,13 @@ function PillarCard({
       </View>
 
       <Text
-        style={
-          localStyles.interpretationTitle
-        }
+        style={localStyles.interpretationTitle}
       >
         Votre dynamique
       </Text>
 
       <Text
-        style={
-          localStyles.interpretationText
-        }
+        style={localStyles.interpretationText}
       >
         {interpretation}
       </Text>
@@ -1029,9 +1030,7 @@ function PillarCard({
           style={localStyles.meaningItem}
         >
           <Text
-            style={
-              localStyles.meaningLabel
-            }
+            style={localStyles.meaningLabel}
           >
             Sur le plan personnel
           </Text>
@@ -1047,9 +1046,7 @@ function PillarCard({
           style={localStyles.meaningItem}
         >
           <Text
-            style={
-              localStyles.meaningLabel
-            }
+            style={localStyles.meaningLabel}
           >
             Dans la relation
           </Text>
@@ -1102,16 +1099,12 @@ export default function CompatibilityPillars({
       />
 
       <View
-        style={
-          localStyles.decorativeCircleTop
-        }
+        style={localStyles.decorativeCircleTop}
         fixed
       />
 
       <View
-        style={
-          localStyles.decorativeCircleBottom
-        }
+        style={localStyles.decorativeCircleBottom}
         fixed
       />
 
@@ -1158,22 +1151,25 @@ export default function CompatibilityPillars({
           />
 
           <View
-            style={
-              localStyles.namesAccentRight
-            }
+            style={localStyles.namesAccentRight}
           />
 
           <Text style={localStyles.name}>
             {person1Name}
           </Text>
 
-          <Text
-            style={
-              localStyles.nameSeparator
-            }
+          <View
+            style={localStyles.nameSeparator}
           >
-            ✦
-          </Text>
+            <View
+              style={localStyles.nameSeparatorFrame}
+            >
+              <Image
+                src={LOGO_URL}
+                style={localStyles.nameSeparatorIcon}
+              />
+            </View>
+          </View>
 
           <Text style={localStyles.name}>
             {person2Name}
@@ -1194,31 +1190,22 @@ export default function CompatibilityPillars({
           wrap={false}
         >
           <View
-            style={
-              localStyles.synthesisSymbol
-            }
+            style={localStyles.synthesisSymbol}
           >
-            <Text
-              style={
-                localStyles.synthesisSymbolText
-              }
-            >
-              ✦
-            </Text>
+            <Image
+              src={LOGO_URL}
+              style={localStyles.synthesisIcon}
+            />
           </View>
 
           <Text
-            style={
-              localStyles.synthesisTitle
-            }
+            style={localStyles.synthesisTitle}
           >
             Votre fondation relationnelle
           </Text>
 
           <Text
-            style={
-              localStyles.synthesisText
-            }
+            style={localStyles.synthesisText}
           >
             Ces trois comparaisons offrent une
             première lecture de votre relation,
@@ -1238,15 +1225,12 @@ export default function CompatibilityPillars({
           wrap={false}
         >
           <View
-            style={
-              localStyles.guideSymbolFrame
-            }
+            style={localStyles.guideSymbolFrame}
           >
-            <Text
-              style={localStyles.guideSymbol}
-            >
-              ☾
-            </Text>
+            <Image
+              src={PLANET_ICONS.Moon}
+              style={localStyles.guideIcon}
+            />
           </View>
 
           <View
@@ -1291,4 +1275,4 @@ export default function CompatibilityPillars({
       </View>
     </Page>
   );
-}
+    }
