@@ -1392,7 +1392,7 @@ function EmotionalNeedCard({
           }
         >
           <Image
-            src={PLANET_ICONS.Moon}
+            src={PLANET_ICONS.moon}
             style={localStyles.needSymbol}
           />
         </View>
@@ -1606,7 +1606,7 @@ export default function CompatibilityEmotional({
               }
             >
               <Image
-                src={PLANET_ICONS.Moon}
+                src={PLANET_ICONS.moon}
                 style={
                   localStyles.nameSeparatorIcon
                 }
@@ -1636,7 +1636,7 @@ export default function CompatibilityEmotional({
               }
             >
               <Image
-                src={PLANET_ICONS.Moon}
+                src={PLANET_ICONS.moon}
                 style={localStyles.moonIcon}
               />
             </View>
@@ -1702,7 +1702,7 @@ export default function CompatibilityEmotional({
                 }
               >
                 <Image
-                  src={PLANET_ICONS.Moon}
+                  src={PLANET_ICONS.moon}
                   style={
                     localStyles.placementCenterSymbol
                   }
@@ -1808,7 +1808,7 @@ export default function CompatibilityEmotional({
             }
           >
             <Image
-              src={PLANET_ICONS.Moon}
+              src={PLANET_ICONS.moon}
               style={
                 localStyles.synthesisSymbolText
               }
