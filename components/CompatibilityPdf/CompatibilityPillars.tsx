@@ -655,15 +655,6 @@ function getPersonName(
 function getAscendantSign(
   person: SafeCompatibilityPerson,
 ): string {
-  const directAscendant =
-    typeof person.ascendant === "string"
-      ? person.ascendant.trim()
-      : "";
-
-  if (directAscendant) {
-    return directAscendant;
-  }
-
   const ascendantPlanet =
     getCompatibilityPlanet(
       person.planets,
