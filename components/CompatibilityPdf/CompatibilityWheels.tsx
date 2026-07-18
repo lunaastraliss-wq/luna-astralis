@@ -587,7 +587,7 @@ function PersonWheel({
           style={localStyles.wheelPlaceholder}
         >
           <Image
-            src={PLANET_ICONS.Moon}
+            src={PLANET_ICONS.moon}
             style={
               localStyles.placeholderIcon
             }
@@ -854,7 +854,7 @@ export default function CompatibilityWheels({
               style={localStyles.legendItem}
             >
               <Image
-                src={PLANET_ICONS.Sun}
+                src={PLANET_ICONS.sun}
                 style={localStyles.legendSymbol}
               />
 
@@ -869,7 +869,7 @@ export default function CompatibilityWheels({
               style={localStyles.legendItem}
             >
               <Image
-                src={PLANET_ICONS.Moon}
+                src={PLANET_ICONS.moon}
                 style={localStyles.legendSymbol}
               />
 
@@ -884,7 +884,7 @@ export default function CompatibilityWheels({
               style={localStyles.legendItem}
             >
               <Image
-                src={PLANET_ICONS.Venus}
+                src={PLANET_ICONS.venus}
                 style={localStyles.legendSymbol}
               />
 
@@ -899,7 +899,7 @@ export default function CompatibilityWheels({
               style={localStyles.legendItem}
             >
               <Image
-                src={PLANET_ICONS.Mars}
+                src={PLANET_ICONS.mars}
                 style={localStyles.legendSymbol}
               />
 
