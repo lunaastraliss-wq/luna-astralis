@@ -174,9 +174,21 @@ const styles = StyleSheet.create({
   },
   nameSeparator: {
     width: "12%",
-    fontSize: 13,
-    color: BRIGHT_GOLD,
-    textAlign: "center",
+    height: 18,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  nameSeparatorIcon: {
+    width: 15,
+    height: 15,
+    objectFit: "contain",
+    marginHorizontal: 1,
+  },
+  nameSeparatorLogo: {
+    width: 22,
+    height: 16,
+    objectFit: "contain",
   },
   heroCard: {
     position: "relative",
@@ -286,8 +298,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   placementCenterSymbol: {
-    fontSize: 11,
-    color: GOLD,
+    width: 17,
+    height: 17,
+    objectFit: "contain",
   },
   interpretationTitle: {
     fontSize: 8.6,
@@ -341,8 +354,19 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   cardSymbol: {
-    fontSize: 10.5,
-    color: BRIGHT_GOLD,
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+  },
+  cardSymbolPair: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cardSymbolPairIcon: {
+    width: 11,
+    height: 11,
+    objectFit: "contain",
   },
   cardTitle: {
     flex: 1,
@@ -377,8 +401,9 @@ const styles = StyleSheet.create({
     marginRight: 9,
   },
   aspectSymbol: {
-    fontSize: 10.5,
-    color: BRIGHT_GOLD,
+    width: 18,
+    height: 18,
+    objectFit: "contain",
   },
   aspectContent: {
     flex: 1,
@@ -448,8 +473,9 @@ const styles = StyleSheet.create({
     marginRight: 11,
   },
   adviceSymbol: {
-    fontSize: 11.5,
-    color: BRIGHT_GOLD,
+    width: 19,
+    height: 19,
+    objectFit: "contain",
   },
   adviceContent: {
     flex: 1,
@@ -511,6 +537,19 @@ interface LoveAspect {
   type: CompatibilityAspect["type"];
   orb: number;
 }
+
+type NamesCardSymbol =
+  | {
+      type: "planet";
+      source: string;
+    }
+  | {
+      type: "planets";
+      sources: string[];
+    }
+  | {
+      type: "logo";
+    };
 
 function normalizeValue(value: unknown): string {
   if (typeof value !== "string") return "";
@@ -760,37 +799,76 @@ function getRelevantAspects(
       const second = aspect.person2Planet || "";
 
       if (mode === "venus") {
-        const hasVenus = isPlanet(first, "venus") || isPlanet(second, "venus");
-        const other = isPlanet(first, "venus") ? second : first;
+        const hasVenus =
+          isPlanet(first, "venus") ||
+          isPlanet(second, "venus");
+
+        const other = isPlanet(first, "venus")
+          ? second
+          : first;
+
         return (
           hasVenus &&
-          ["sun", "moon", "venus", "mars", "saturn", "neptune", "pluto"].some(
-            (planet) => isPlanet(other, planet),
-          )
+          [
+            "sun",
+            "moon",
+            "venus",
+            "mars",
+            "saturn",
+            "neptune",
+            "pluto",
+          ].some((planet) => isPlanet(other, planet))
         );
       }
 
       if (mode === "mars") {
-        const hasMars = isPlanet(first, "mars") || isPlanet(second, "mars");
-        const other = isPlanet(first, "mars") ? second : first;
+        const hasMars =
+          isPlanet(first, "mars") ||
+          isPlanet(second, "mars");
+
+        const other = isPlanet(first, "mars")
+          ? second
+          : first;
+
         return (
           hasMars &&
-          ["sun", "moon", "venus", "mars", "saturn", "pluto"].some(
-            (planet) => isPlanet(other, planet),
-          )
+          [
+            "sun",
+            "moon",
+            "venus",
+            "mars",
+            "saturn",
+            "pluto",
+          ].some((planet) => isPlanet(other, planet))
         );
       }
 
       if (mode === "venus-mars") {
         return (
-          (isPlanet(first, "venus") && isPlanet(second, "mars")) ||
-          (isPlanet(first, "mars") && isPlanet(second, "venus"))
+          (isPlanet(first, "venus") &&
+            isPlanet(second, "mars")) ||
+          (isPlanet(first, "mars") &&
+            isPlanet(second, "venus"))
         );
       }
 
-      const intimacyPlanets = ["moon", "venus", "mars", "saturn", "neptune", "pluto"];
-      return intimacyPlanets.some((planet) => isPlanet(first, planet)) &&
-        intimacyPlanets.some((planet) => isPlanet(second, planet));
+      const intimacyPlanets = [
+        "moon",
+        "venus",
+        "mars",
+        "saturn",
+        "neptune",
+        "pluto",
+      ];
+
+      return (
+        intimacyPlanets.some((planet) =>
+          isPlanet(first, planet),
+        ) &&
+        intimacyPlanets.some((planet) =>
+          isPlanet(second, planet),
+        )
+      );
     })
     .sort((a, b) => a.orb - b.orb)
     .slice(0, limit)
@@ -806,26 +884,33 @@ function getRelevantAspects(
 function getAspectSymbol(
   type: CompatibilityAspect["type"],
 ): string {
-  const symbols: Record<CompatibilityAspect["type"], string> = {
-    conjunction: "☌",
-    opposition: "☍",
-    trine: "△",
-    square: "□",
-    sextile: "✶",
-    quincunx: "⚻",
-  };
-
-  return symbols[type];
+  void type;
+  return LOGO_URL;
 }
 
 function getAspectNature(
   type: CompatibilityAspect["type"],
 ): string {
-  if (type === "trine" || type === "sextile") return "Énergie fluide";
-  if (type === "conjunction") return "Lien puissant";
-  if (type === "opposition") return "Polarité intense";
-  if (type === "square") return "Tension créatrice";
-  if (type === "quincunx") return "Ajustement subtil";
+  if (type === "trine" || type === "sextile") {
+    return "Énergie fluide";
+  }
+
+  if (type === "conjunction") {
+    return "Lien puissant";
+  }
+
+  if (type === "opposition") {
+    return "Polarité intense";
+  }
+
+  if (type === "square") {
+    return "Tension créatrice";
+  }
+
+  if (type === "quincunx") {
+    return "Ajustement subtil";
+  }
+
   return "Influence relationnelle";
 }
 
@@ -833,7 +918,10 @@ function getLoveAspectInterpretation(
   aspect: LoveAspect,
   mode: "venus" | "mars" | "venus-mars" | "intimacy",
 ): string {
-  const harmonious = aspect.type === "trine" || aspect.type === "sextile";
+  const harmonious =
+    aspect.type === "trine" ||
+    aspect.type === "sextile";
+
   const challenging =
     aspect.type === "square" ||
     aspect.type === "opposition" ||
@@ -843,9 +931,11 @@ function getLoveAspectInterpretation(
     if (harmonious) {
       return "L’affection et le désir se répondent naturellement. La séduction, la tendresse et l’attirance physique peuvent circuler avec beaucoup de fluidité.";
     }
+
     if (challenging) {
       return "L’attirance peut être très forte, mais les attentes affectives et le rythme du désir ne coïncident pas toujours. Cette tension nourrit la chimie autant qu’elle exige des ajustements.";
     }
+
     return "Cette connexion renforce fortement le magnétisme, la séduction et le sentiment d’être attirés l’un vers l’autre.";
   }
 
@@ -853,9 +943,11 @@ function getLoveAspectInterpretation(
     if (harmonious) {
       return "Cet aspect favorise la douceur, l’affection et la capacité de reconnaître les besoins amoureux de l’autre.";
     }
+
     if (challenging) {
       return "Les attentes affectives peuvent différer. L’un peut donner de l’amour d’une manière que l’autre ne reconnaît pas immédiatement.";
     }
+
     return "Cette interaction donne une grande importance aux sentiments, aux valeurs et à la manière de construire l’harmonie.";
   }
 
@@ -863,18 +955,22 @@ function getLoveAspectInterpretation(
     if (harmonious) {
       return "Les énergies s’accordent avec naturel, favorisant le désir, l’initiative et la capacité d’agir ensemble.";
     }
+
     if (challenging) {
       return "La passion peut s’accompagner de réactions vives, de compétition ou d’un décalage dans la manière de prendre l’initiative.";
     }
+
     return "Cette interaction intensifie l’action, la volonté, l’attirance et la manière dont vous réagissez sous pression.";
   }
 
   if (harmonious) {
     return "Cet aspect soutient la confiance, la tendresse et la capacité de créer un espace intime où chacun peut se montrer vulnérable.";
   }
+
   if (challenging) {
     return "Cette interaction peut révéler des peurs, des attentes implicites ou des réactions défensives qui demandent patience et honnêteté.";
   }
+
   return "Cette connexion joue un rôle important dans votre proximité émotionnelle, votre confiance et votre manière de vous abandonner au lien.";
 }
 
@@ -898,16 +994,21 @@ function PlanetStyleCard({
     <View style={styles.infoCard} wrap={false}>
       <View style={styles.cardHeader}>
         <View style={styles.cardSymbolFrame}>
-          <Text style={styles.cardSymbol}>{symbol}</Text>
+          <Image
+            src={symbol}
+            style={styles.cardSymbol}
+          />
         </View>
 
         <Text style={styles.cardTitle}>
-          {planet === "Venus" ? "L’amour" : "Le désir"} de {name}
+          {planet === "Venus" ? "L’amour" : "Le désir"} de{" "}
+          {name}
         </Text>
       </View>
 
       <Text style={styles.cardText}>
-        {planet === "Venus" ? "Vénus" : "Mars"} en {sign}. {styleText(sign)}
+        {planet === "Venus" ? "Vénus" : "Mars"} en {sign}.{" "}
+        {styleText(sign)}
       </Text>
     </View>
   );
@@ -923,14 +1024,21 @@ function AspectCard({
   return (
     <View style={styles.aspectCard} wrap={false}>
       <View style={styles.aspectSymbolFrame}>
-        <Text style={styles.aspectSymbol}>{getAspectSymbol(aspect.type)}</Text>
+        <Image
+          src={getAspectSymbol(aspect.type)}
+          style={styles.aspectSymbol}
+        />
       </View>
 
       <View style={styles.aspectContent}>
         <Text style={styles.aspectTitle}>
-          {translateCompatibilityPlanet(aspect.person1Planet)}{" "}
+          {translateCompatibilityPlanet(
+            aspect.person1Planet,
+          )}{" "}
           {translateCompatibilityAspect(aspect.type)}{" "}
-          {translateCompatibilityPlanet(aspect.person2Planet)}
+          {translateCompatibilityPlanet(
+            aspect.person2Planet,
+          )}
           {" • orbe "}
           {aspect.orb.toFixed(1)}°
         </Text>
@@ -940,7 +1048,9 @@ function AspectCard({
         </Text>
       </View>
 
-      <Text style={styles.aspectNature}>{getAspectNature(aspect.type)}</Text>
+      <Text style={styles.aspectNature}>
+        {getAspectNature(aspect.type)}
+      </Text>
     </View>
   );
 }
@@ -966,7 +1076,10 @@ function PageFrame({
         <Text style={styles.footerText}>
           Luna Astralis • Rapport de synastrie
         </Text>
-        <Text style={styles.footerPage}>{pageNumber}</Text>
+
+        <Text style={styles.footerPage}>
+          {pageNumber}
+        </Text>
       </View>
     </Page>
   );
@@ -983,10 +1096,23 @@ function Header({
 }) {
   return (
     <View style={styles.header} wrap={false}>
-      <Image src={LOGO_URL} style={styles.logo} />
-      <Text style={styles.sectionLabel}>{label}</Text>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle}</Text>
+      <Image
+        src={LOGO_URL}
+        style={styles.logo}
+      />
+
+      <Text style={styles.sectionLabel}>
+        {label}
+      </Text>
+
+      <Text style={styles.title}>
+        {title}
+      </Text>
+
+      <Text style={styles.subtitle}>
+        {subtitle}
+      </Text>
+
       <View style={styles.titleDivider} />
     </View>
   );
@@ -999,15 +1125,45 @@ function NamesCard({
 }: {
   person1Name: string;
   person2Name: string;
-  symbol: string;
+  symbol: NamesCardSymbol;
 }) {
   return (
     <View style={styles.namesCard} wrap={false}>
       <View style={styles.namesAccentLeft} />
       <View style={styles.namesAccentRight} />
-      <Text style={styles.name}>{person1Name}</Text>
-      <Text style={styles.nameSeparator}>{symbol}</Text>
-      <Text style={styles.name}>{person2Name}</Text>
+
+      <Text style={styles.name}>
+        {person1Name}
+      </Text>
+
+      <View style={styles.nameSeparator}>
+        {symbol.type === "planet" && (
+          <Image
+            src={symbol.source}
+            style={styles.nameSeparatorIcon}
+          />
+        )}
+
+        {symbol.type === "planets" &&
+          symbol.sources.map((source, index) => (
+            <Image
+              key={`${source}-${index}`}
+              src={source}
+              style={styles.nameSeparatorIcon}
+            />
+          ))}
+
+        {symbol.type === "logo" && (
+          <Image
+            src={LOGO_URL}
+            style={styles.nameSeparatorLogo}
+          />
+        )}
+      </View>
+
+      <Text style={styles.name}>
+        {person2Name}
+      </Text>
     </View>
   );
 }
@@ -1017,11 +1173,23 @@ function VenusPage({
   person2,
   aspects,
 }: CompatibilitySectionProps) {
-  const person1Name = getPersonName(person1, "Première personne");
-  const person2Name = getPersonName(person2, "Deuxième personne");
+  const person1Name = getPersonName(
+    person1,
+    "Première personne",
+  );
+
+  const person2Name = getPersonName(
+    person2,
+    "Deuxième personne",
+  );
+
   const sign1 = getPlanetSign(person1, "Venus");
   const sign2 = getPlanetSign(person2, "Venus");
-  const venusAspects = getRelevantAspects(aspects, "venus");
+
+  const venusAspects = getRelevantAspects(
+    aspects,
+    "venus",
+  );
 
   return (
     <PageFrame pageNumber={9}>
@@ -1034,63 +1202,108 @@ function VenusPage({
       <NamesCard
         person1Name={person1Name}
         person2Name={person2Name}
-        symbol="♀"
+        symbol={{
+          type: "planet",
+          source: PLANET_ICONS.Venus,
+        }}
       />
 
       <View style={styles.heroCard} wrap={false}>
         <View style={styles.heroAccent} />
+
         <View style={styles.heroHeader}>
           <View style={styles.iconFrame}>
-            <Image src={PLANET_ICONS.Venus} style={styles.planetIcon} />
+            <Image
+              src={PLANET_ICONS.Venus}
+              style={styles.planetIcon}
+            />
           </View>
+
           <View style={styles.heroHeading}>
-            <Text style={styles.heroLabel}>Sentiments, séduction et valeurs</Text>
-            <Text style={styles.heroTitle}>La rencontre de vos deux Vénus</Text>
+            <Text style={styles.heroLabel}>
+              Sentiments, séduction et valeurs
+            </Text>
+
+            <Text style={styles.heroTitle}>
+              La rencontre de vos deux Vénus
+            </Text>
+
             <Text style={styles.heroIntro}>
-              Cette comparaison montre comment vous donnez de l’amour, ce que vous attendez d’une relation et les gestes qui vous permettent de vous sentir choisis.
+              Cette comparaison montre comment vous donnez
+              de l’amour, ce que vous attendez d’une relation
+              et les gestes qui vous permettent de vous sentir
+              choisis.
             </Text>
           </View>
         </View>
 
         <View style={styles.placementRow}>
           <View style={styles.placementCard}>
-            <Text style={styles.placementName}>{person1Name}</Text>
-            <Text style={styles.placementValue}>Vénus en {sign1}</Text>
-            <Text style={styles.placementStyle}>Élément {getElement(sign1)}</Text>
+            <Text style={styles.placementName}>
+              {person1Name}
+            </Text>
+
+            <Text style={styles.placementValue}>
+              Vénus en {sign1}
+            </Text>
+
+            <Text style={styles.placementStyle}>
+              Élément {getElement(sign1)}
+            </Text>
           </View>
+
           <View style={styles.placementCenter}>
             <View style={styles.placementCenterCircle}>
-              <Text style={styles.placementCenterSymbol}>♀</Text>
+              <Image
+                src={PLANET_ICONS.Venus}
+                style={styles.placementCenterSymbol}
+              />
             </View>
           </View>
+
           <View style={styles.placementCard}>
-            <Text style={styles.placementName}>{person2Name}</Text>
-            <Text style={styles.placementValue}>Vénus en {sign2}</Text>
-            <Text style={styles.placementStyle}>Élément {getElement(sign2)}</Text>
+            <Text style={styles.placementName}>
+              {person2Name}
+            </Text>
+
+            <Text style={styles.placementValue}>
+              Vénus en {sign2}
+            </Text>
+
+            <Text style={styles.placementStyle}>
+              Élément {getElement(sign2)}
+            </Text>
           </View>
         </View>
 
-        <Text style={styles.interpretationTitle}>Votre langage amoureux</Text>
+        <Text style={styles.interpretationTitle}>
+          Votre langage amoureux
+        </Text>
+
         <Text style={styles.interpretationText}>
           {getVenusCompatibilityText(sign1, sign2)}
         </Text>
       </View>
 
       <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Votre manière personnelle d’aimer</Text>
+        <Text style={styles.sectionTitle}>
+          Votre manière personnelle d’aimer
+        </Text>
+
         <View style={styles.twoColumnRow}>
           <PlanetStyleCard
             person={person1}
             fallbackName="la première personne"
             planet="Venus"
-            symbol="♀"
+            symbol={PLANET_ICONS.Venus}
             styleText={getVenusStyle}
           />
+
           <PlanetStyleCard
             person={person2}
             fallbackName="la deuxième personne"
             planet="Venus"
-            symbol="♀"
+            symbol={PLANET_ICONS.Venus}
             styleText={getVenusStyle}
           />
         </View>
@@ -1098,21 +1311,39 @@ function VenusPage({
 
       {venusAspects.length > 0 && (
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Vos principales interactions amoureuses</Text>
+          <Text style={styles.sectionTitle}>
+            Vos principales interactions amoureuses
+          </Text>
+
           {venusAspects.map((aspect) => (
-            <AspectCard key={aspect.id} aspect={aspect} mode="venus" />
+            <AspectCard
+              key={aspect.id}
+              aspect={aspect}
+              mode="venus"
+            />
           ))}
         </View>
       )}
 
       <View style={styles.adviceCard} wrap={false}>
         <View style={styles.adviceSymbolFrame}>
-          <Text style={styles.adviceSymbol}>✦</Text>
+          <Image
+            src={LOGO_URL}
+            style={styles.adviceSymbol}
+          />
         </View>
+
         <View style={styles.adviceContent}>
-          <Text style={styles.adviceTitle}>Votre clé amoureuse</Text>
+          <Text style={styles.adviceTitle}>
+            Votre clé amoureuse
+          </Text>
+
           <Text style={styles.adviceText}>
-            Ne mesurez pas uniquement l’amour à partir de votre propre langage affectif. Demandez clairement à l’autre ce qui lui permet de se sentir aimé, puis transformez cette réponse en gestes concrets et réguliers.
+            Ne mesurez pas uniquement l’amour à partir de
+            votre propre langage affectif. Demandez clairement
+            à l’autre ce qui lui permet de se sentir aimé, puis
+            transformez cette réponse en gestes concrets et
+            réguliers.
           </Text>
         </View>
       </View>
@@ -1125,11 +1356,23 @@ function MarsPage({
   person2,
   aspects,
 }: CompatibilitySectionProps) {
-  const person1Name = getPersonName(person1, "Première personne");
-  const person2Name = getPersonName(person2, "Deuxième personne");
+  const person1Name = getPersonName(
+    person1,
+    "Première personne",
+  );
+
+  const person2Name = getPersonName(
+    person2,
+    "Deuxième personne",
+  );
+
   const sign1 = getPlanetSign(person1, "Mars");
   const sign2 = getPlanetSign(person2, "Mars");
-  const marsAspects = getRelevantAspects(aspects, "mars");
+
+  const marsAspects = getRelevantAspects(
+    aspects,
+    "mars",
+  );
 
   return (
     <PageFrame pageNumber={10}>
@@ -1142,63 +1385,108 @@ function MarsPage({
       <NamesCard
         person1Name={person1Name}
         person2Name={person2Name}
-        symbol="♂"
+        symbol={{
+          type: "planet",
+          source: PLANET_ICONS.Mars,
+        }}
       />
 
       <View style={styles.heroCard} wrap={false}>
         <View style={styles.heroAccent} />
+
         <View style={styles.heroHeader}>
           <View style={styles.iconFrame}>
-            <Image src={PLANET_ICONS.Mars} style={styles.planetIcon} />
+            <Image
+              src={PLANET_ICONS.Mars}
+              style={styles.planetIcon}
+            />
           </View>
+
           <View style={styles.heroHeading}>
-            <Text style={styles.heroLabel}>Énergie, initiative et instinct</Text>
-            <Text style={styles.heroTitle}>La rencontre de vos deux Mars</Text>
+            <Text style={styles.heroLabel}>
+              Énergie, initiative et instinct
+            </Text>
+
+            <Text style={styles.heroTitle}>
+              La rencontre de vos deux Mars
+            </Text>
+
             <Text style={styles.heroIntro}>
-              Cette comparaison révèle votre rythme d’action, votre intensité, votre façon d’exprimer le désir et votre manière de réagir dans les moments de confrontation.
+              Cette comparaison révèle votre rythme d’action,
+              votre intensité, votre façon d’exprimer le désir
+              et votre manière de réagir dans les moments de
+              confrontation.
             </Text>
           </View>
         </View>
 
         <View style={styles.placementRow}>
           <View style={styles.placementCard}>
-            <Text style={styles.placementName}>{person1Name}</Text>
-            <Text style={styles.placementValue}>Mars en {sign1}</Text>
-            <Text style={styles.placementStyle}>Élément {getElement(sign1)}</Text>
+            <Text style={styles.placementName}>
+              {person1Name}
+            </Text>
+
+            <Text style={styles.placementValue}>
+              Mars en {sign1}
+            </Text>
+
+            <Text style={styles.placementStyle}>
+              Élément {getElement(sign1)}
+            </Text>
           </View>
+
           <View style={styles.placementCenter}>
             <View style={styles.placementCenterCircle}>
-              <Text style={styles.placementCenterSymbol}>♂</Text>
+              <Image
+                src={PLANET_ICONS.Mars}
+                style={styles.placementCenterSymbol}
+              />
             </View>
           </View>
+
           <View style={styles.placementCard}>
-            <Text style={styles.placementName}>{person2Name}</Text>
-            <Text style={styles.placementValue}>Mars en {sign2}</Text>
-            <Text style={styles.placementStyle}>Élément {getElement(sign2)}</Text>
+            <Text style={styles.placementName}>
+              {person2Name}
+            </Text>
+
+            <Text style={styles.placementValue}>
+              Mars en {sign2}
+            </Text>
+
+            <Text style={styles.placementStyle}>
+              Élément {getElement(sign2)}
+            </Text>
           </View>
         </View>
 
-        <Text style={styles.interpretationTitle}>Votre dynamique de passion</Text>
+        <Text style={styles.interpretationTitle}>
+          Votre dynamique de passion
+        </Text>
+
         <Text style={styles.interpretationText}>
           {getMarsCompatibilityText(sign1, sign2)}
         </Text>
       </View>
 
       <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Votre expression personnelle du désir</Text>
+        <Text style={styles.sectionTitle}>
+          Votre expression personnelle du désir
+        </Text>
+
         <View style={styles.twoColumnRow}>
           <PlanetStyleCard
             person={person1}
             fallbackName="la première personne"
             planet="Mars"
-            symbol="♂"
+            symbol={PLANET_ICONS.Mars}
             styleText={getMarsStyle}
           />
+
           <PlanetStyleCard
             person={person2}
             fallbackName="la deuxième personne"
             planet="Mars"
-            symbol="♂"
+            symbol={PLANET_ICONS.Mars}
             styleText={getMarsStyle}
           />
         </View>
@@ -1206,36 +1494,66 @@ function MarsPage({
 
       {marsAspects.length > 0 && (
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Vos principales interactions de désir</Text>
+          <Text style={styles.sectionTitle}>
+            Vos principales interactions de désir
+          </Text>
+
           {marsAspects.map((aspect) => (
-            <AspectCard key={aspect.id} aspect={aspect} mode="mars" />
+            <AspectCard
+              key={aspect.id}
+              aspect={aspect}
+              mode="mars"
+            />
           ))}
         </View>
       )}
 
       <View style={styles.synthesisRow} wrap={false}>
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Votre force</Text>
+          <Text style={styles.synthesisTitle}>
+            Votre force
+          </Text>
+
           <Text style={styles.synthesisText}>
-            Votre attirance peut devenir une énergie de création, de motivation et de dépassement lorsque vous choisissez un objectif commun plutôt que la compétition.
+            Votre attirance peut devenir une énergie de
+            création, de motivation et de dépassement lorsque
+            vous choisissez un objectif commun plutôt que la
+            compétition.
           </Text>
         </View>
+
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Votre point de vigilance</Text>
+          <Text style={styles.synthesisTitle}>
+            Votre point de vigilance
+          </Text>
+
           <Text style={styles.synthesisText}>
-            Les réactions rapides, la frustration ou les différences de rythme peuvent amplifier les conflits. Une pause consciente évite que la passion ne se transforme en opposition.
+            Les réactions rapides, la frustration ou les
+            différences de rythme peuvent amplifier les
+            conflits. Une pause consciente évite que la passion
+            ne se transforme en opposition.
           </Text>
         </View>
       </View>
 
       <View style={styles.adviceCard} wrap={false}>
         <View style={styles.adviceSymbolFrame}>
-          <Text style={styles.adviceSymbol}>✦</Text>
+          <Image
+            src={LOGO_URL}
+            style={styles.adviceSymbol}
+          />
         </View>
+
         <View style={styles.adviceContent}>
-          <Text style={styles.adviceTitle}>Votre clé de passion</Text>
+          <Text style={styles.adviceTitle}>
+            Votre clé de passion
+          </Text>
+
           <Text style={styles.adviceText}>
-            Exprimez clairement vos envies et vos limites sans transformer le désir en épreuve de force. L’intensité devient constructive lorsqu’elle repose sur le consentement, l’écoute et la confiance.
+            Exprimez clairement vos envies et vos limites sans
+            transformer le désir en épreuve de force.
+            L’intensité devient constructive lorsqu’elle repose
+            sur le consentement, l’écoute et la confiance.
           </Text>
         </View>
       </View>
@@ -1248,13 +1566,26 @@ function VenusMarsPage({
   person2,
   aspects,
 }: CompatibilitySectionProps) {
-  const person1Name = getPersonName(person1, "Première personne");
-  const person2Name = getPersonName(person2, "Deuxième personne");
+  const person1Name = getPersonName(
+    person1,
+    "Première personne",
+  );
+
+  const person2Name = getPersonName(
+    person2,
+    "Deuxième personne",
+  );
+
   const venus1 = getPlanetSign(person1, "Venus");
   const mars1 = getPlanetSign(person1, "Mars");
   const venus2 = getPlanetSign(person2, "Venus");
   const mars2 = getPlanetSign(person2, "Mars");
-  const venusMarsAspects = getRelevantAspects(aspects, "venus-mars", 4);
+
+  const venusMarsAspects = getRelevantAspects(
+    aspects,
+    "venus-mars",
+    4,
+  );
 
   return (
     <PageFrame pageNumber={11}>
@@ -1267,40 +1598,92 @@ function VenusMarsPage({
       <NamesCard
         person1Name={person1Name}
         person2Name={person2Name}
-        symbol="♀♂"
+        symbol={{
+          type: "planets",
+          sources: [
+            PLANET_ICONS.Venus,
+            PLANET_ICONS.Mars,
+          ],
+        }}
       />
 
       <View style={styles.fullCard} wrap={false}>
-        <Text style={styles.fullCardTitle}>La rencontre entre l’amour et le désir</Text>
+        <Text style={styles.fullCardTitle}>
+          La rencontre entre l’amour et le désir
+        </Text>
+
         <Text style={styles.fullCardText}>
-          Vénus représente ce qui attire, apaise et donne envie de se rapprocher. Mars représente l’élan, l’initiative et l’intensité physique. Lorsque ces deux fonctions se répondent, elles créent la chimie du couple : la manière dont l’un séduit, dont l’autre réagit et dont la passion trouve sa place dans la tendresse.
+          Vénus représente ce qui attire, apaise et donne envie
+          de se rapprocher. Mars représente l’élan,
+          l’initiative et l’intensité physique. Lorsque ces deux
+          fonctions se répondent, elles créent la chimie du
+          couple : la manière dont l’un séduit, dont l’autre
+          réagit et dont la passion trouve sa place dans la
+          tendresse.
         </Text>
       </View>
 
       <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Vos deux circuits d’attraction</Text>
+        <Text style={styles.sectionTitle}>
+          Vos deux circuits d’attraction
+        </Text>
+
         <View style={styles.twoColumnRow}>
           <View style={styles.infoCard}>
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
-                <Text style={styles.cardSymbol}>♀♂</Text>
+                <View style={styles.cardSymbolPair}>
+                  <Image
+                    src={PLANET_ICONS.Venus}
+                    style={styles.cardSymbolPairIcon}
+                  />
+
+                  <Image
+                    src={PLANET_ICONS.Mars}
+                    style={styles.cardSymbolPairIcon}
+                  />
+                </View>
               </View>
-              <Text style={styles.cardTitle}>{person1Name}</Text>
+
+              <Text style={styles.cardTitle}>
+                {person1Name}
+              </Text>
             </View>
+
             <Text style={styles.cardText}>
-              Vénus en {venus1} recherche {getVenusStyle(venus1).toLowerCase()} Mars en {mars1} exprime {getMarsStyle(mars1).toLowerCase()}
+              Vénus en {venus1} recherche{" "}
+              {getVenusStyle(venus1).toLowerCase()} Mars en{" "}
+              {mars1} exprime{" "}
+              {getMarsStyle(mars1).toLowerCase()}
             </Text>
           </View>
 
           <View style={styles.infoCard}>
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
-                <Text style={styles.cardSymbol}>♀♂</Text>
+                <View style={styles.cardSymbolPair}>
+                  <Image
+                    src={PLANET_ICONS.Venus}
+                    style={styles.cardSymbolPairIcon}
+                  />
+
+                  <Image
+                    src={PLANET_ICONS.Mars}
+                    style={styles.cardSymbolPairIcon}
+                  />
+                </View>
               </View>
-              <Text style={styles.cardTitle}>{person2Name}</Text>
+
+              <Text style={styles.cardTitle}>
+                {person2Name}
+              </Text>
             </View>
+
             <Text style={styles.cardText}>
-              Vénus en {venus2} recherche {getVenusStyle(venus2).toLowerCase()} Mars en {mars2} exprime {getMarsStyle(mars2).toLowerCase()}
+              Vénus en {venus2} recherche{" "}
+              {getVenusStyle(venus2).toLowerCase()} Mars en{" "}
+              {mars2} exprime{" "}
+              {getMarsStyle(mars2).toLowerCase()}
             </Text>
           </View>
         </View>
@@ -1308,7 +1691,10 @@ function VenusMarsPage({
 
       {venusMarsAspects.length > 0 ? (
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Vos aspects Vénus–Mars les plus importants</Text>
+          <Text style={styles.sectionTitle}>
+            Vos aspects Vénus–Mars les plus importants
+          </Text>
+
           {venusMarsAspects.map((aspect) => (
             <AspectCard
               key={aspect.id}
@@ -1319,36 +1705,65 @@ function VenusMarsPage({
         </View>
       ) : (
         <View style={styles.fullCard} wrap={false}>
-          <Text style={styles.fullCardTitle}>Une chimie qui se construit autrement</Text>
+          <Text style={styles.fullCardTitle}>
+            Une chimie qui se construit autrement
+          </Text>
+
           <Text style={styles.fullCardText}>
-            Aucun aspect majeur Vénus–Mars ne ressort avec les orbes retenus. Cela ne signifie pas une absence d’attirance. La chimie peut plutôt se construire grâce aux signes, aux maisons, aux angles et à d’autres interactions entre la Lune, le Soleil, Pluton ou Neptune.
+            Aucun aspect majeur Vénus–Mars ne ressort avec les
+            orbes retenus. Cela ne signifie pas une absence
+            d’attirance. La chimie peut plutôt se construire
+            grâce aux signes, aux maisons, aux angles et à
+            d’autres interactions entre la Lune, le Soleil,
+            Pluton ou Neptune.
           </Text>
         </View>
       )}
 
       <View style={styles.synthesisRow} wrap={false}>
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Passion</Text>
+          <Text style={styles.synthesisTitle}>
+            Passion
+          </Text>
+
           <Text style={styles.synthesisText}>
-            L’attirance grandit lorsque chacun se sent libre d’exprimer son désir sans devoir jouer un rôle ou deviner les attentes de l’autre.
+            L’attirance grandit lorsque chacun se sent libre
+            d’exprimer son désir sans devoir jouer un rôle ou
+            deviner les attentes de l’autre.
           </Text>
         </View>
+
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Tendresse</Text>
+          <Text style={styles.synthesisTitle}>
+            Tendresse
+          </Text>
+
           <Text style={styles.synthesisText}>
-            La passion reste durable lorsque les gestes affectifs, la sécurité et le respect continuent d’exister en dehors des moments intenses.
+            La passion reste durable lorsque les gestes
+            affectifs, la sécurité et le respect continuent
+            d’exister en dehors des moments intenses.
           </Text>
         </View>
       </View>
 
       <View style={styles.adviceCard} wrap={false}>
         <View style={styles.adviceSymbolFrame}>
-          <Text style={styles.adviceSymbol}>✦</Text>
+          <Image
+            src={LOGO_URL}
+            style={styles.adviceSymbol}
+          />
         </View>
+
         <View style={styles.adviceContent}>
-          <Text style={styles.adviceTitle}>Votre clé d’alchimie</Text>
+          <Text style={styles.adviceTitle}>
+            Votre clé d’alchimie
+          </Text>
+
           <Text style={styles.adviceText}>
-            Entretenez à la fois le jeu de la séduction et la sécurité émotionnelle. La chimie se renouvelle lorsque le couple continue de créer de la nouveauté sans perdre la douceur ni la confiance.
+            Entretenez à la fois le jeu de la séduction et la
+            sécurité émotionnelle. La chimie se renouvelle
+            lorsque le couple continue de créer de la nouveauté
+            sans perdre la douceur ni la confiance.
           </Text>
         </View>
       </View>
@@ -1361,15 +1776,28 @@ function IntimacyPage({
   person2,
   aspects,
 }: CompatibilitySectionProps) {
-  const person1Name = getPersonName(person1, "Première personne");
-  const person2Name = getPersonName(person2, "Deuxième personne");
+  const person1Name = getPersonName(
+    person1,
+    "Première personne",
+  );
+
+  const person2Name = getPersonName(
+    person2,
+    "Deuxième personne",
+  );
+
   const moon1 = getPlanetSign(person1, "Moon");
   const moon2 = getPlanetSign(person2, "Moon");
   const venus1 = getPlanetSign(person1, "Venus");
   const venus2 = getPlanetSign(person2, "Venus");
   const mars1 = getPlanetSign(person1, "Mars");
   const mars2 = getPlanetSign(person2, "Mars");
-  const intimacyAspects = getRelevantAspects(aspects, "intimacy", 3);
+
+  const intimacyAspects = getRelevantAspects(
+    aspects,
+    "intimacy",
+    3,
+  );
 
   return (
     <PageFrame pageNumber={12}>
@@ -1382,40 +1810,77 @@ function IntimacyPage({
       <NamesCard
         person1Name={person1Name}
         person2Name={person2Name}
-        symbol="☾"
+        symbol={{
+          type: "planet",
+          source: PLANET_ICONS.Moon,
+        }}
       />
 
       <View style={styles.fullCard} wrap={false}>
-        <Text style={styles.fullCardTitle}>Votre espace intime</Text>
+        <Text style={styles.fullCardTitle}>
+          Votre espace intime
+        </Text>
+
         <Text style={styles.fullCardText}>
-          La Lune montre ce qui rassure émotionnellement. Vénus révèle la manière de donner et de recevoir l’affection. Mars décrit le désir, l’initiative et la réaction instinctive. Ensemble, ces trois fonctions indiquent comment vous construisez la confiance, la proximité et la sécurité nécessaires à une intimité épanouie.
+          La Lune montre ce qui rassure émotionnellement. Vénus
+          révèle la manière de donner et de recevoir
+          l’affection. Mars décrit le désir, l’initiative et la
+          réaction instinctive. Ensemble, ces trois fonctions
+          indiquent comment vous construisez la confiance, la
+          proximité et la sécurité nécessaires à une intimité
+          épanouie.
         </Text>
       </View>
 
       <View style={styles.section} wrap={false}>
-        <Text style={styles.sectionTitle}>Vos besoins affectifs essentiels</Text>
+        <Text style={styles.sectionTitle}>
+          Vos besoins affectifs essentiels
+        </Text>
+
         <View style={styles.twoColumnRow}>
           <View style={styles.infoCard}>
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
-                <Text style={styles.cardSymbol}>☾</Text>
+                <Image
+                  src={PLANET_ICONS.Moon}
+                  style={styles.cardSymbol}
+                />
               </View>
-              <Text style={styles.cardTitle}>{person1Name}</Text>
+
+              <Text style={styles.cardTitle}>
+                {person1Name}
+              </Text>
             </View>
+
             <Text style={styles.cardText}>
-              Lune en {moon1}, Vénus en {venus1} et Mars en {mars1}. Cette combinaison montre que la sécurité émotionnelle, les preuves d’affection et le rythme du désir doivent être reconnus ensemble pour permettre un véritable abandon.
+              Lune en {moon1}, Vénus en {venus1} et Mars en{" "}
+              {mars1}. Cette combinaison montre que la sécurité
+              émotionnelle, les preuves d’affection et le
+              rythme du désir doivent être reconnus ensemble
+              pour permettre un véritable abandon.
             </Text>
           </View>
 
           <View style={styles.infoCard}>
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
-                <Text style={styles.cardSymbol}>☾</Text>
+                <Image
+                  src={PLANET_ICONS.Moon}
+                  style={styles.cardSymbol}
+                />
               </View>
-              <Text style={styles.cardTitle}>{person2Name}</Text>
+
+              <Text style={styles.cardTitle}>
+                {person2Name}
+              </Text>
             </View>
+
             <Text style={styles.cardText}>
-              Lune en {moon2}, Vénus en {venus2} et Mars en {mars2}. Cette combinaison montre que la confiance se développe lorsque les émotions, la tendresse et le désir peuvent être exprimés sans jugement ni pression.
+              Lune en {moon2}, Vénus en {venus2} et Mars en{" "}
+              {mars2}. Cette combinaison montre que la
+              confiance se développe lorsque les émotions, la
+              tendresse et le désir peuvent être exprimés sans
+              jugement ni pression.
             </Text>
           </View>
         </View>
@@ -1423,43 +1888,79 @@ function IntimacyPage({
 
       {intimacyAspects.length > 0 && (
         <View style={styles.section} wrap={false}>
-          <Text style={styles.sectionTitle}>Vos principales interactions intimes</Text>
+          <Text style={styles.sectionTitle}>
+            Vos principales interactions intimes
+          </Text>
+
           {intimacyAspects.map((aspect) => (
-            <AspectCard key={aspect.id} aspect={aspect} mode="intimacy" />
+            <AspectCard
+              key={aspect.id}
+              aspect={aspect}
+              mode="intimacy"
+            />
           ))}
         </View>
       )}
 
       <View style={styles.synthesisRow} wrap={false}>
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Ce qui vous rapproche</Text>
+          <Text style={styles.synthesisTitle}>
+            Ce qui vous rapproche
+          </Text>
+
           <Text style={styles.synthesisText}>
-            La proximité augmente lorsque chacun peut parler de ses besoins, de ses peurs et de ses limites sans se sentir faible, jugé ou rejeté.
+            La proximité augmente lorsque chacun peut parler
+            de ses besoins, de ses peurs et de ses limites sans
+            se sentir faible, jugé ou rejeté.
           </Text>
         </View>
+
         <View style={styles.synthesisCard}>
-          <Text style={styles.synthesisTitle}>Ce qui demande du soin</Text>
+          <Text style={styles.synthesisTitle}>
+            Ce qui demande du soin
+          </Text>
+
           <Text style={styles.synthesisText}>
-            Les attentes silencieuses, les blessures anciennes ou un décalage entre tendresse et désir peuvent créer de la distance lorsqu’ils ne sont pas nommés.
+            Les attentes silencieuses, les blessures anciennes
+            ou un décalage entre tendresse et désir peuvent
+            créer de la distance lorsqu’ils ne sont pas nommés.
           </Text>
         </View>
       </View>
 
       <View style={styles.fullCard} wrap={false}>
-        <Text style={styles.fullCardTitle}>Votre langage intime commun</Text>
+        <Text style={styles.fullCardTitle}>
+          Votre langage intime commun
+        </Text>
+
         <Text style={styles.fullCardText}>
-          Votre intimité devient plus profonde lorsque vous alternez les moments de dialogue, les gestes d’affection et les expériences partagées. La sécurité ne s’oppose pas à la passion : elle permet au désir de se renouveler sans peur et donne à chacun la liberté d’être pleinement présent.
+          Votre intimité devient plus profonde lorsque vous
+          alternez les moments de dialogue, les gestes
+          d’affection et les expériences partagées. La sécurité
+          ne s’oppose pas à la passion : elle permet au désir
+          de se renouveler sans peur et donne à chacun la
+          liberté d’être pleinement présent.
         </Text>
       </View>
 
       <View style={styles.adviceCard} wrap={false}>
         <View style={styles.adviceSymbolFrame}>
-          <Text style={styles.adviceSymbol}>✦</Text>
+          <Image
+            src={LOGO_URL}
+            style={styles.adviceSymbol}
+          />
         </View>
+
         <View style={styles.adviceContent}>
-          <Text style={styles.adviceTitle}>Votre clé d’intimité</Text>
+          <Text style={styles.adviceTitle}>
+            Votre clé d’intimité
+          </Text>
+
           <Text style={styles.adviceText}>
-            Créez régulièrement un moment sans écrans, sans obligation et sans attente précise. Utilisez cet espace pour vous retrouver, vous écouter et dire ce qui vous rapproche réellement en ce moment.
+            Créez régulièrement un moment sans écrans, sans
+            obligation et sans attente précise. Utilisez cet
+            espace pour vous retrouver, vous écouter et dire ce
+            qui vous rapproche réellement en ce moment.
           </Text>
         </View>
       </View>
@@ -1478,4 +1979,4 @@ export default function CompatibilityLove(
       <IntimacyPage {...props} />
     </>
   );
-}
+    }
