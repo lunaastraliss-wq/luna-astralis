@@ -12,6 +12,7 @@ export type CompatibilityPerson = {
   birthDate?: string;
   birthTime?: string;
   birthCity?: string;
+  birthCountry?: string;
 
   planets?: PremiumPlanet[];
   angles?: PremiumAngles;
@@ -20,7 +21,29 @@ export type CompatibilityPerson = {
 };
 
 /*
+ * Version sécurisée d’une personne après normalisation.
+ *
+ * Toutes les valeurs nécessaires au PDF
+ * sont garanties et ne sont plus optionnelles.
+ */
+export type SafeCompatibilityPerson = {
+  firstName: string;
+  birthDate: string;
+  birthTime: string;
+  birthCity: string;
+  birthCountry: string;
+
+  planets: PremiumPlanet[];
+  angles: PremiumAngles;
+
+  wheelImage: string;
+};
+
+/*
  * Types d’aspects utilisés dans la synastrie.
+ *
+ * Les valeurs demeurent en anglais dans les données,
+ * puis elles seront traduites dans le PDF.
  */
 export type CompatibilityAspectType =
   | "conjunction"
@@ -29,6 +52,15 @@ export type CompatibilityAspectType =
   | "square"
   | "sextile"
   | "quincunx";
+
+/*
+ * Nature générale d’un aspect.
+ */
+export type CompatibilityAspectNature =
+  | "harmonious"
+  | "challenging"
+  | "intense"
+  | "adjustment";
 
 /*
  * Aspect astrologique calculé entre une planète
@@ -45,6 +77,10 @@ export type CompatibilityAspect = {
 
   person1Longitude: number;
   person2Longitude: number;
+
+  exactAngle?: number;
+  distance?: number;
+  nature?: CompatibilityAspectNature;
 };
 
 /*
@@ -61,24 +97,12 @@ export type CompatibilityPdfProps = {
    * à partir des longitudes planétaires.
    */
   aspects?: CompatibilityAspect[];
-};
 
-/*
- * Version sécurisée d’une personne après normalisation.
- *
- * Toutes les valeurs sont garanties
- * et ne sont plus optionnelles.
- */
-export type SafeCompatibilityPerson = {
-  firstName: string;
-  birthDate: string;
-  birthTime: string;
-  birthCity: string;
-
-  planets: PremiumPlanet[];
-  angles: PremiumAngles;
-
-  wheelImage: string;
+  /*
+   * Les scores peuvent être fournis directement.
+   * Sinon, ils pourront être calculés à partir des aspects.
+   */
+  scores?: CompatibilityScores;
 };
 
 /*
@@ -123,6 +147,35 @@ export type CompatibilityWheelsProps = {
 export type CompatibilityWelcomeProps = {
   person1: SafeCompatibilityPerson;
   person2: SafeCompatibilityPerson;
+};
+
+/*
+ * Propriétés de la page des trois piliers.
+ */
+export type CompatibilityPillarsProps = {
+  person1: SafeCompatibilityPerson;
+  person2: SafeCompatibilityPerson;
+};
+
+/*
+ * Propriétés de la page émotionnelle.
+ *
+ * Les aspects demeurent optionnels afin que
+ * la page puisse fonctionner avant le branchement final.
+ */
+export type CompatibilityEmotionalProps = {
+  person1: SafeCompatibilityPerson;
+  person2: SafeCompatibilityPerson;
+  aspects?: CompatibilityAspect[];
+};
+
+/*
+ * Propriétés de la page des scores.
+ */
+export type CompatibilityScoresProps = {
+  person1: SafeCompatibilityPerson;
+  person2: SafeCompatibilityPerson;
+  scores?: CompatibilityScores;
 };
 
 /*
@@ -187,22 +240,25 @@ export type CompatibilityAspectAnalysis =
 
 /*
  * Résumé chiffré de la compatibilité.
+ *
+ * Ces propriétés correspondent exactement
+ * à la page CompatibilityScores.
  */
 export type CompatibilityScores = {
   overall: number;
   emotional: number;
-  love: number;
   communication: number;
+  romantic: number;
   attraction: number;
   stability: number;
+  growth: number;
 };
 
 /*
  * Propriétés de la synthèse finale.
  *
- * Les scores sont optionnels pour le moment,
- * car CompatibilityPdfDocument ne les calcule
- * pas encore directement.
+ * Les scores demeurent optionnels jusqu’au
+ * branchement du calcul automatique.
  */
 export type CompatibilitySynthesisProps =
   CompatibilitySectionProps & {
