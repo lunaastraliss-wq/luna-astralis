@@ -759,7 +759,7 @@ const PLANET_CONFIGS: PlanetConfig[] = [
   {
     planet: "Jupiter",
     frenchName: "Jupiter",
-    icon: PLANET_ICONS.Jupiter,
+    icon: PLANET_ICONS.jupiter,
     pageNumber: 17,
     label: "Expansion, confiance et croissance",
     title: "Jupiter dans votre relation",
@@ -785,7 +785,7 @@ const PLANET_CONFIGS: PlanetConfig[] = [
   {
     planet: "Saturn",
     frenchName: "Saturne",
-    icon: PLANET_ICONS.Saturn,
+    icon: PLANET_ICONS.saturn,
     pageNumber: 18,
     label: "Temps, responsabilité et construction",
     title: "Saturne dans votre relation",
@@ -811,7 +811,7 @@ const PLANET_CONFIGS: PlanetConfig[] = [
   {
     planet: "Uranus",
     frenchName: "Uranus",
-    icon: PLANET_ICONS.Uranus,
+    icon: PLANET_ICONS.uranus,
     pageNumber: 19,
     label: "Liberté, changement et renouveau",
     title: "Uranus dans votre relation",
@@ -837,7 +837,7 @@ const PLANET_CONFIGS: PlanetConfig[] = [
   {
     planet: "Neptune",
     frenchName: "Neptune",
-    icon: PLANET_ICONS.Neptune,
+    icon: PLANET_ICONS.neptune,
     pageNumber: 20,
     label: "Rêves, intuition et idéal amoureux",
     title: "Neptune dans votre relation",
@@ -863,7 +863,7 @@ const PLANET_CONFIGS: PlanetConfig[] = [
   {
     planet: "Pluto",
     frenchName: "Pluton",
-    icon: PLANET_ICONS.Pluto,
+    icon: PLANET_ICONS.pluto,
     pageNumber: 21,
     label: "Intensité, pouvoir et transformation",
     title: "Pluton dans votre relation",
