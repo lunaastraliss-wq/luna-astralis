@@ -788,13 +788,13 @@ export default function CompatibilityWelcome({
             style={localStyles.pillarsGrid}
           >
             <PillarCard
-              icon={PLANET_ICONS.Sun}
+              icon={PLANET_ICONS.sun}
               title="L’identité"
               text="Le Soleil révèle la personnalité, la vitalité et la manière dont chacun affirme son individualité."
             />
 
             <PillarCard
-              icon={PLANET_ICONS.Moon}
+              icon={PLANET_ICONS.moon}
               title="Les émotions"
               text="La Lune décrit les besoins affectifs, les réactions instinctives et la sécurité émotionnelle."
             />
@@ -846,7 +846,7 @@ export default function CompatibilityWelcome({
             }
           >
             <Image
-              src={PLANET_ICONS.Moon}
+              src={PLANET_ICONS.moon}
               style={localStyles.noteIconImage}
             />
           </View>
