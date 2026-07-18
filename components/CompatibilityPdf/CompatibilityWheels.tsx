@@ -409,11 +409,10 @@ const localStyles = StyleSheet.create({
   },
 
   connectionSymbolText: {
-    fontSize: 11,
+    width: 16,
+    height: 16,
 
-    color: BRIGHT_GOLD,
-
-    textAlign: "center",
+    objectFit: "contain",
   },
 
   connectionTitle: {
@@ -470,9 +469,10 @@ const localStyles = StyleSheet.create({
   },
 
   legendSymbol: {
-    fontSize: 10,
+    width: 18,
+    height: 18,
 
-    color: BRIGHT_GOLD,
+    objectFit: "contain",
 
     marginBottom: 3,
   },
@@ -803,13 +803,12 @@ export default function CompatibilityWheels({
               localStyles.connectionSymbol
             }
           >
-            <Text
+            <Image
+              src={LOGO_URL}
               style={
                 localStyles.connectionSymbolText
               }
-            >
-              ✦
-            </Text>
+            />
           </View>
 
           <Text
@@ -854,13 +853,10 @@ export default function CompatibilityWheels({
             <View
               style={localStyles.legendItem}
             >
-              <Text
-                style={
-                  localStyles.legendSymbol
-                }
-              >
-                ☉
-              </Text>
+              <Image
+                src={PLANET_ICONS.Sun}
+                style={localStyles.legendSymbol}
+              />
 
               <Text
                 style={localStyles.legendText}
@@ -872,13 +868,10 @@ export default function CompatibilityWheels({
             <View
               style={localStyles.legendItem}
             >
-              <Text
-                style={
-                  localStyles.legendSymbol
-                }
-              >
-                ☾
-              </Text>
+              <Image
+                src={PLANET_ICONS.Moon}
+                style={localStyles.legendSymbol}
+              />
 
               <Text
                 style={localStyles.legendText}
@@ -890,13 +883,10 @@ export default function CompatibilityWheels({
             <View
               style={localStyles.legendItem}
             >
-              <Text
-                style={
-                  localStyles.legendSymbol
-                }
-              >
-                ♀
-              </Text>
+              <Image
+                src={PLANET_ICONS.Venus}
+                style={localStyles.legendSymbol}
+              />
 
               <Text
                 style={localStyles.legendText}
@@ -908,13 +898,10 @@ export default function CompatibilityWheels({
             <View
               style={localStyles.legendItem}
             >
-              <Text
-                style={
-                  localStyles.legendSymbol
-                }
-              >
-                ♂
-              </Text>
+              <Image
+                src={PLANET_ICONS.Mars}
+                style={localStyles.legendSymbol}
+              />
 
               <Text
                 style={localStyles.legendText}
@@ -944,4 +931,4 @@ export default function CompatibilityWheels({
       </View>
     </Page>
   );
-}
+  }
