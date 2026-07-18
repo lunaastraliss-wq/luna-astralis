@@ -678,7 +678,7 @@ function PersonWheel({
           style={styles.wheelPlaceholder}
         >
           <Image
-            src={PLANET_ICONS.Moon}
+            src={PLANET_ICONS.moon}
             style={
               styles.wheelPlaceholderMoon
             }
