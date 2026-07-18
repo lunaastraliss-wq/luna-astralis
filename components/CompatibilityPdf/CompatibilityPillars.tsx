@@ -640,7 +640,7 @@ const PILLARS: PillarDefinition[] = [
     key: "Sun",
     title: "Soleil et Soleil",
     label: "Identité et expression",
-    icon: PLANET_ICONS.Sun,
+    icon: PLANET_ICONS.sun,
     personMeaning:
       "Le Soleil représente la personnalité consciente, la vitalité, les ambitions et la manière de rayonner.",
     relationshipMeaning:
@@ -650,7 +650,7 @@ const PILLARS: PillarDefinition[] = [
     key: "Moon",
     title: "Lune et Lune",
     label: "Émotions et intimité",
-    icon: PLANET_ICONS.Moon,
+    icon: PLANET_ICONS.moon,
     personMeaning:
       "La Lune décrit les besoins affectifs, les habitudes émotionnelles et la manière de rechercher la sécurité.",
     relationshipMeaning:
@@ -660,7 +660,7 @@ const PILLARS: PillarDefinition[] = [
     key: "Ascendant",
     title: "Ascendant et Ascendant",
     label: "Rencontre et quotidien",
-    icon: PLANET_ICONS.Ascendant,
+    icon: PLANET_ICONS.ascendant,
     personMeaning:
       "L’Ascendant représente la manière spontanée d’entrer en relation, de réagir et de se présenter au monde.",
     relationshipMeaning:
@@ -1228,7 +1228,7 @@ export default function CompatibilityPillars({
             style={localStyles.guideSymbolFrame}
           >
             <Image
-              src={PLANET_ICONS.Moon}
+              src={PLANET_ICONS.moon}
               style={localStyles.guideIcon}
             />
           </View>
