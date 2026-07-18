@@ -1414,7 +1414,7 @@ function SaturnPage({
         <View style={styles.heroHeader}>
           <View style={styles.iconFrame}>
             <Image
-              src={PLANET_ICONS.Saturn}
+              src={PLANET_ICONS.saturn}
               style={styles.planetIcon}
             />
           </View>
@@ -1468,7 +1468,7 @@ function SaturnPage({
               }
             >
               <Image
-                src={PLANET_ICONS.Saturn}
+                src={PLANET_ICONS.saturn}
                 style={
                   styles.placementCenterSymbol
                 }
@@ -1524,7 +1524,7 @@ function SaturnPage({
               style={styles.cardSymbolFrame}
             >
               <Image
-                src={PLANET_ICONS.Saturn}
+                src={PLANET_ICONS.saturn}
                 style={styles.cardSymbol}
               />
             </View>
@@ -1546,7 +1546,7 @@ function SaturnPage({
               style={styles.cardSymbolFrame}
             >
               <Image
-                src={PLANET_ICONS.Saturn}
+                src={PLANET_ICONS.saturn}
                 style={styles.cardSymbol}
               />
             </View>
