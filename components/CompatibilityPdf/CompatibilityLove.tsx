@@ -1204,7 +1204,7 @@ function VenusPage({
         person2Name={person2Name}
         symbol={{
           type: "planet",
-          source: PLANET_ICONS.Venus,
+          source: PLANET_ICONS.venus,
         }}
       />
 
@@ -1214,7 +1214,7 @@ function VenusPage({
         <View style={styles.heroHeader}>
           <View style={styles.iconFrame}>
             <Image
-              src={PLANET_ICONS.Venus}
+              src={PLANET_ICONS.venus}
               style={styles.planetIcon}
             />
           </View>
@@ -1255,7 +1255,7 @@ function VenusPage({
           <View style={styles.placementCenter}>
             <View style={styles.placementCenterCircle}>
               <Image
-                src={PLANET_ICONS.Venus}
+                src={PLANET_ICONS.venus}
                 style={styles.placementCenterSymbol}
               />
             </View>
@@ -1295,7 +1295,7 @@ function VenusPage({
             person={person1}
             fallbackName="la première personne"
             planet="Venus"
-            symbol={PLANET_ICONS.Venus}
+            symbol={PLANET_ICONS.venus}
             styleText={getVenusStyle}
           />
 
@@ -1303,7 +1303,7 @@ function VenusPage({
             person={person2}
             fallbackName="la deuxième personne"
             planet="Venus"
-            symbol={PLANET_ICONS.Venus}
+            symbol={PLANET_ICONS.venus}
             styleText={getVenusStyle}
           />
         </View>
@@ -1387,7 +1387,7 @@ function MarsPage({
         person2Name={person2Name}
         symbol={{
           type: "planet",
-          source: PLANET_ICONS.Mars,
+          source: PLANET_ICONS.mars,
         }}
       />
 
@@ -1397,7 +1397,7 @@ function MarsPage({
         <View style={styles.heroHeader}>
           <View style={styles.iconFrame}>
             <Image
-              src={PLANET_ICONS.Mars}
+              src={PLANET_ICONS.mars}
               style={styles.planetIcon}
             />
           </View>
@@ -1438,7 +1438,7 @@ function MarsPage({
           <View style={styles.placementCenter}>
             <View style={styles.placementCenterCircle}>
               <Image
-                src={PLANET_ICONS.Mars}
+                src={PLANET_ICONS.mars}
                 style={styles.placementCenterSymbol}
               />
             </View>
@@ -1478,7 +1478,7 @@ function MarsPage({
             person={person1}
             fallbackName="la première personne"
             planet="Mars"
-            symbol={PLANET_ICONS.Mars}
+            symbol={PLANET_ICONS.mars}
             styleText={getMarsStyle}
           />
 
@@ -1486,7 +1486,7 @@ function MarsPage({
             person={person2}
             fallbackName="la deuxième personne"
             planet="Mars"
-            symbol={PLANET_ICONS.Mars}
+            symbol={PLANET_ICONS.mars}
             styleText={getMarsStyle}
           />
         </View>
@@ -1601,8 +1601,8 @@ function VenusMarsPage({
         symbol={{
           type: "planets",
           sources: [
-            PLANET_ICONS.Venus,
-            PLANET_ICONS.Mars,
+            PLANET_ICONS.venus,
+            PLANET_ICONS.mars,
           ],
         }}
       />
@@ -1634,12 +1634,12 @@ function VenusMarsPage({
               <View style={styles.cardSymbolFrame}>
                 <View style={styles.cardSymbolPair}>
                   <Image
-                    src={PLANET_ICONS.Venus}
+                    src={PLANET_ICONS.venus}
                     style={styles.cardSymbolPairIcon}
                   />
 
                   <Image
-                    src={PLANET_ICONS.Mars}
+                    src={PLANET_ICONS.mars}
                     style={styles.cardSymbolPairIcon}
                   />
                 </View>
@@ -1663,12 +1663,12 @@ function VenusMarsPage({
               <View style={styles.cardSymbolFrame}>
                 <View style={styles.cardSymbolPair}>
                   <Image
-                    src={PLANET_ICONS.Venus}
+                    src={PLANET_ICONS.venus}
                     style={styles.cardSymbolPairIcon}
                   />
 
                   <Image
-                    src={PLANET_ICONS.Mars}
+                    src={PLANET_ICONS.mars}
                     style={styles.cardSymbolPairIcon}
                   />
                 </View>
@@ -1812,7 +1812,7 @@ function IntimacyPage({
         person2Name={person2Name}
         symbol={{
           type: "planet",
-          source: PLANET_ICONS.Moon,
+          source: PLANET_ICONS.moon,
         }}
       />
 
@@ -1842,7 +1842,7 @@ function IntimacyPage({
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
                 <Image
-                  src={PLANET_ICONS.Moon}
+                  src={PLANET_ICONS.moon}
                   style={styles.cardSymbol}
                 />
               </View>
@@ -1865,7 +1865,7 @@ function IntimacyPage({
             <View style={styles.cardHeader}>
               <View style={styles.cardSymbolFrame}>
                 <Image
-                  src={PLANET_ICONS.Moon}
+                  src={PLANET_ICONS.moon}
                   style={styles.cardSymbol}
                 />
               </View>
