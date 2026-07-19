@@ -410,6 +410,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  centralHeart: {
+  width: 30,
+  height: 30,
+  objectFit: "contain",
+},
 
   namesRow: {
     position: "absolute",
@@ -985,13 +990,10 @@ export default function CompatibilityCover({
                   styles.centralSymbolInner
                 }
               >
-                <Text
-                  style={
-                    styles.centralSymbolText
-                  }
-                >
-                  ♥
-                </Text>
+                <Image
+  src={PLANET_ICONS.heart}
+  style={styles.centralHeart}
+/>
               </View>
             </View>
           </View>
