@@ -23,19 +23,52 @@ const MINI_REVIEWS = [
     sign: "♈ Bélier",
     name: "Marie L.",
     text:
-      "Je ne comprenais plus si ce qu'il ressentait était vrai ou juste un silence. Là, j'ai enfin mis des mots sur ce que je vivais.",
+      "Je ne comprenais plus si ce qu’il ressentait était vrai ou juste un silence. Là, j’ai enfin mis des mots sur ce que je vivais.",
   },
   {
     sign: "♊ Gémeaux",
     name: "Julie R.",
     text:
-      "J'attendais un message chaque jour. En quelques minutes, j'ai su si ça venait de lui ou de mes pensées.",
+      "J’attendais un message chaque jour. En quelques minutes, j’ai su si ça venait de lui ou de mes pensées.",
   },
   {
     sign: "♋ Cancer",
     name: "Camille D.",
     text:
-      "Il était distant et je tournais en rond. Ça m'a aidée à comprendre mes besoins et mes doutes.",
+      "Il était distant et je tournais en rond. Ça m’a aidée à comprendre mes besoins et mes doutes.",
+  },
+];
+
+/*
+|--------------------------------------------------------------------------
+| Avantages
+|--------------------------------------------------------------------------
+*/
+
+const TRUST_FEATURES = [
+  {
+    icon: "🔮",
+    title: "Calculs astrologiques personnalisés",
+    text:
+      "Vos résultats sont établis à partir de vos informations de naissance et adaptés à votre profil astrologique.",
+  },
+  {
+    icon: "⚡",
+    title: "Résultats instantanés",
+    text:
+      "Découvrez rapidement votre horoscope, votre carte du ciel ou votre compatibilité amoureuse.",
+  },
+  {
+    icon: "📄",
+    title: "Rapports PDF détaillés",
+    text:
+      "Approfondissez votre thème natal grâce à des analyses personnalisées accessibles en format PDF.",
+  },
+  {
+    icon: "🇫🇷",
+    title: "Une expérience entièrement en français",
+    text:
+      "Explorez l’astrologie avec des explications claires, accessibles et pensées pour un public francophone.",
   },
 ];
 
@@ -122,8 +155,7 @@ const BOOKS = [
     amazon: "https://a.co/d/08qzDp1D",
   },
   {
-    image:
-      "guide-de-compatibilite-astrologique.jpg",
+    image: "guide-de-compatibilite-astrologique.jpg",
     title: "Guide de compatibilité astrologique",
     amazon: "https://a.co/d/00V8gKyx",
   },
@@ -196,23 +228,19 @@ const BOOKS = [
 */
 
 export default function HomePage() {
-  const year =
-    new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
     <div className="page-astro">
       <AuthProvider>
         <SiteHeader />
 
-        <main
-          className="wrap"
-          role="main"
-        >
+        <main className="wrap" role="main">
           {/* Présentation principale */}
 
           <section
             className="hero-astro"
-            aria-label="Présentation"
+            aria-label="Présentation de Luna Astralis"
           >
             <div className="hero-inner">
               <div className="hero-top">
@@ -222,8 +250,7 @@ export default function HomePage() {
                   </span>
 
                   <span className="hero-badge">
-                    Carte du ciel · Compatibilité · IA
-                    astrologique
+                    Carte du ciel · Horoscope · Compatibilité
                   </span>
                 </div>
 
@@ -239,8 +266,8 @@ export default function HomePage() {
                 </p>
 
                 <p className="lead">
-                  Créez votre thème astral, explorez votre
-                  carte du ciel et comparez deux signes
+                  Créez votre thème astral, consultez votre
+                  horoscope quotidien et comparez deux signes
                   astrologiques en quelques secondes.
                 </p>
               </div>
@@ -252,10 +279,13 @@ export default function HomePage() {
                 aria-label="Outils astrologiques gratuits"
               >
                 <div className="hero-showcase">
-                  {/* Horoscope du jour */}
+                  {/* Horoscope */}
 
                   <article className="hero-tool-card hero-tool-card--horoscope">
-                    <div className="hero-tool-icon">
+                    <div
+                      className="hero-tool-icon"
+                      aria-hidden="true"
+                    >
                       🔮
                     </div>
 
@@ -263,20 +293,19 @@ export default function HomePage() {
                       ✨ Mis à jour chaque jour
                     </div>
 
-                    <h2>
-                      Horoscope du jour gratuit
-                    </h2>
+                    <h2>Horoscope du jour gratuit</h2>
 
                     <p>
-                      Consultez les prévisions astrologiques
-                      de votre signe pour mieux comprendre
-                      l’énergie de votre journée.
+                      Consultez les prévisions astrologiques de
+                      votre signe pour mieux comprendre l’énergie
+                      de votre journée.
                     </p>
 
                     <ul>
-                      <li>☀️ Tendance générale</li>
+                      <li>☀️ Énergie générale</li>
                       <li>❤️ Amour et relations</li>
                       <li>💼 Travail et projets</li>
+                      <li>💰 Finances</li>
                       <li>🌿 Bien-être</li>
                       <li>✨ Conseil du jour</li>
                     </ul>
@@ -289,7 +318,7 @@ export default function HomePage() {
                     </Link>
                   </article>
 
-                  {/* Vidéo de présentation */}
+                  {/* Vidéo */}
 
                   <div className="hero-video-card">
                     <WelcomeVideo />
@@ -298,13 +327,14 @@ export default function HomePage() {
                   {/* Carte du ciel */}
 
                   <article className="hero-tool-card">
-                    <div className="hero-tool-icon">
+                    <div
+                      className="hero-tool-icon"
+                      aria-hidden="true"
+                    >
                       🌌
                     </div>
 
-                    <h2>
-                      Carte du ciel gratuite
-                    </h2>
+                    <h2>Carte du ciel gratuite</h2>
 
                     <p>
                       Générez votre thème astral avec votre
@@ -317,7 +347,7 @@ export default function HomePage() {
                       <li>🌙 Lune</li>
                       <li>⬆️ Ascendant</li>
                       <li>🪐 Roue astrologique</li>
-                      <li>✨ Résumé gratuit</li>
+                      <li>✨ Résumé personnalisé</li>
                     </ul>
 
                     <Link
@@ -329,18 +359,19 @@ export default function HomePage() {
                   </article>
                 </div>
 
-                {/* Compatibilité amoureuse sous la première ligne */}
+                {/* Compatibilité */}
 
                 <article className="hero-tool-card hero-tool-card--compatibility">
-                  <div className="hero-tool-icon">
+                  <div
+                    className="hero-tool-icon"
+                    aria-hidden="true"
+                  >
                     💕
                   </div>
 
                   <div className="hero-compatibility-content">
                     <div>
-                      <h2>
-                        Compatibilité amoureuse
-                      </h2>
+                      <h2>Compatibilité amoureuse</h2>
 
                       <p>
                         Comparez deux signes astrologiques et
@@ -368,6 +399,49 @@ export default function HomePage() {
                 </article>
               </section>
 
+              {/* Pourquoi choisir Luna Astralis */}
+
+              <section
+                className="trust-section"
+                aria-labelledby="trust-section-title"
+              >
+                <div className="section-head">
+                  <span className="hero-badge">
+                    Une astrologie accessible
+                  </span>
+
+                  <h2 id="trust-section-title">
+                    Pourquoi choisir Luna Astralis ?
+                  </h2>
+
+                  <p className="section-sub">
+                    Des outils simples, personnalisés et conçus
+                    pour vous aider à mieux comprendre votre
+                    personnalité, vos relations et votre chemin.
+                  </p>
+                </div>
+
+                <div className="trust-grid">
+                  {TRUST_FEATURES.map((feature) => (
+                    <article
+                      className="trust-card"
+                      key={feature.title}
+                    >
+                      <div
+                        className="trust-card-icon"
+                        aria-hidden="true"
+                      >
+                        {feature.icon}
+                      </div>
+
+                      <h3>{feature.title}</h3>
+
+                      <p>{feature.text}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
               {/* Rapports astrologiques */}
 
               <section
@@ -386,95 +460,81 @@ export default function HomePage() {
 
                   <p>
                     Après avoir créé votre carte du ciel
-                    gratuitement, choisissez le niveau
-                    d’analyse qui correspond à vos besoins.
-                    Chaque rapport est personnalisé selon
-                    votre date, votre heure et votre lieu de
-                    naissance.
+                    gratuitement, choisissez le niveau d’analyse
+                    qui correspond à vos besoins. Chaque rapport
+                    est personnalisé selon votre date, votre
+                    heure et votre lieu de naissance.
                   </p>
                 </div>
 
                 <div className="reports-preview-grid">
-                  {PAID_REPORTS.map(
-                    (report) => (
-                      <article
-                        key={report.name}
+                  {PAID_REPORTS.map((report) => (
+                    <article
+                      key={report.name}
+                      className={[
+                        "report-preview-card",
+                        report.featured
+                          ? "report-preview-card--featured"
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                    >
+                      {report.featured && (
+                        <div className="report-featured-label">
+                          Recommandé
+                        </div>
+                      )}
+
+                      <div className="report-preview-badge">
+                        {report.badge}
+                      </div>
+
+                      <h3>Rapport {report.name}</h3>
+
+                      <div className="report-preview-price">
+                        {report.price}
+                      </div>
+
+                      <div className="report-preview-payment">
+                        Paiement unique
+                      </div>
+
+                      <p className="report-preview-description">
+                        {report.description}
+                      </p>
+
+                      <ul className="report-preview-features">
+                        {report.features.map((feature) => (
+                          <li key={feature}>
+                            <span aria-hidden="true">✓</span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <Link
+                        href="/carte-du-ciel"
                         className={[
-                          "report-preview-card",
+                          "hero-free-btn",
                           report.featured
-                            ? "report-preview-card--featured"
+                            ? "hero-free-btn--pulse"
                             : "",
                         ]
                           .filter(Boolean)
                           .join(" ")}
                       >
-                        {report.featured ? (
-                          <div className="report-featured-label">
-                            Recommandé
-                          </div>
-                        ) : null}
-
-                        <div className="report-preview-badge">
-                          {report.badge}
-                        </div>
-
-                        <h3>
-                          Rapport {report.name}
-                        </h3>
-
-                        <div className="report-preview-price">
-                          {report.price}
-                        </div>
-
-                        <div className="report-preview-payment">
-                          Paiement unique
-                        </div>
-
-                        <p className="report-preview-description">
-                          {report.description}
-                        </p>
-
-                        <ul className="report-preview-features">
-                          {report.features.map(
-                            (feature) => (
-                              <li key={feature}>
-                                <span
-                                  aria-hidden="true"
-                                >
-                                  ✓
-                                </span>
-
-                                <span>
-                                  {feature}
-                                </span>
-                              </li>
-                            )
-                          )}
-                        </ul>
-
-                        <Link
-                          href="/carte-du-ciel"
-                          className={[
-                            "hero-free-btn",
-                            report.featured
-                              ? "hero-free-btn--pulse"
-                              : "",
-                          ]
-                            .filter(Boolean)
-                            .join(" ")}
-                        >
-                          Créer ma carte gratuite
-                        </Link>
-                      </article>
-                    )
-                  )}
+                        Créer ma carte gratuite
+                      </Link>
+                    </article>
+                  ))}
                 </div>
 
                 <div className="reports-preview-note">
                   <p>
                     Commencez gratuitement. Vos offres
-                    personnalisées apparaîtront après la
-                    création de votre carte du ciel.
+                    personnalisées apparaîtront après la création
+                    de votre carte du ciel.
                   </p>
 
                   <Link
@@ -505,47 +565,49 @@ export default function HomePage() {
               </div>
 
               <p className="hero-free-note">
-                Gratuit pour commencer · Résultat
-                instantané · Mobile
+                Gratuit pour commencer · Résultat instantané ·
+                Compatible avec mobile
               </p>
 
               {/* Avis */}
 
               <section
                 className="mini-reviews"
-                aria-label="Avis 5 étoiles"
+                aria-label="Avis des utilisateurs"
               >
-                {MINI_REVIEWS.map(
-                  (review) => (
-                    <article
-                      key={`${review.name}-${review.sign}`}
-                      className="mini-review"
-                    >
-                      <div className="mini-review-top">
-                        <div className="mini-review-name">
-                          {review.name}
-                        </div>
-
-                        <div className="mini-review-stars">
-                          ★★★★★
-                        </div>
+                {MINI_REVIEWS.map((review) => (
+                  <article
+                    key={`${review.name}-${review.sign}`}
+                    className="mini-review"
+                  >
+                    <div className="mini-review-top">
+                      <div className="mini-review-name">
+                        {review.name}
                       </div>
 
-                      <div className="mini-review-sign">
-                        {review.sign}
+                      <div
+                        className="mini-review-stars"
+                        aria-label="Cinq étoiles sur cinq"
+                      >
+                        ★★★★★
                       </div>
+                    </div>
 
-                      <p className="mini-review-text">
-                        {review.text}
-                      </p>
-                    </article>
-                  )
-                )}
+                    <div className="mini-review-sign">
+                      {review.sign}
+                    </div>
+
+                    <p className="mini-review-text">
+                      {review.text}
+                    </p>
+                  </article>
+                ))}
               </section>
 
               <p className="hero-tech">
                 Fonctionne instantanément sur mobile · Aucun
-                téléchargement
+                téléchargement nécessaire pour les outils
+                gratuits
               </p>
 
               <p className="hero-disclaimer">
@@ -558,22 +620,22 @@ export default function HomePage() {
 
           <section className="section-problem">
             <p className="problem-intro">
-              En quelques minutes, tu comprends enfin ce que
-              tu vis, sans te mentir.
+              En quelques minutes, vous comprenez mieux ce que
+              vous vivez et les dynamiques qui vous entourent.
             </p>
 
             <ul className="problem-list">
               <li>
-                Il ou elle est distant(e), et tu ne comprends
+                Il ou elle est distant(e), et vous ne comprenez
                 pas pourquoi ?
               </li>
 
               <li>
-                Tu attends un message, mais rien ne vient ?
+                Vous attendez un message, mais rien ne vient ?
               </li>
 
               <li>
-                Tu sens que quelque chose cloche, sans savoir
+                Vous sentez que quelque chose cloche sans savoir
                 quoi ?
               </li>
             </ul>
@@ -586,9 +648,7 @@ export default function HomePage() {
             className="section books-section"
           >
             <div className="section-head">
-              <h2>
-                La bibliothèque Luna Astralis
-              </h2>
+              <h2>La bibliothèque Luna Astralis</h2>
 
               <p className="section-sub">
                 Découvrez des guides astrologiques conçus pour
@@ -602,10 +662,7 @@ export default function HomePage() {
                 Disponible sur Amazon
               </div>
 
-              <h3>
-                Une collection complète
-                d&apos;astrologie
-              </h3>
+              <h3>Une collection complète d’astrologie</h3>
 
               <p>
                 Signes du zodiaque, développement personnel,
@@ -614,33 +671,29 @@ export default function HomePage() {
             </div>
 
             <div className="books-grid">
-              {BOOKS.map(
-                (book) => (
-                  <article
-                    className="book-card"
-                    key={book.title}
+              {BOOKS.map((book) => (
+                <article
+                  className="book-card"
+                  key={book.title}
+                >
+                  <img
+                    src={`/books/${book.image}`}
+                    alt={`Couverture du livre ${book.title}`}
+                    loading="lazy"
+                  />
+
+                  <h3>{book.title}</h3>
+
+                  <a
+                    href={book.amazon}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hero-free-btn"
                   >
-                    <img
-                      src={`/books/${book.image}`}
-                      alt={`Couverture du livre ${book.title}`}
-                      loading="lazy"
-                    />
-
-                    <h3>
-                      {book.title}
-                    </h3>
-
-                    <a
-                      href={book.amazon}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hero-free-btn"
-                    >
-                      Voir sur Amazon
-                    </a>
-                  </article>
-                )
-              )}
+                    Voir sur Amazon
+                  </a>
+                </article>
+              ))}
             </div>
 
             <div className="book-final-cta">
@@ -666,104 +719,70 @@ export default function HomePage() {
 
           {/* Fonctionnement */}
 
-          <section
-            id="comment"
-            className="section"
-          >
+          <section id="comment" className="section">
             <div className="section-head">
-              <h2>
-                Comment ça fonctionne
-              </h2>
+              <h2>Comment ça fonctionne</h2>
 
               <p className="section-sub">
-                4 étapes simples.
+                Quatre étapes simples pour commencer.
               </p>
             </div>
 
             <div className="grid4">
-              <div className="box step">
+              <article className="box step">
                 <div className="step-top">
-                  <span className="step-n">
-                    01
-                  </span>
-
-                  <span className="step-ico">
-                    ♈
-                  </span>
+                  <span className="step-n">01</span>
+                  <span className="step-ico">♈</span>
                 </div>
 
-                <h3>
-                  Choisis ton outil
-                </h3>
+                <h3>Choisissez votre outil</h3>
 
                 <p>
-                  Carte du ciel, compatibilité ou discussion
-                  avec Luna.
+                  Horoscope, carte du ciel, compatibilité ou
+                  discussion avec Luna.
                 </p>
-              </div>
+              </article>
 
-              <div className="box step">
+              <article className="box step">
                 <div className="step-top">
-                  <span className="step-n">
-                    02
-                  </span>
-
-                  <span className="step-ico">
-                    🌙
-                  </span>
+                  <span className="step-n">02</span>
+                  <span className="step-ico">🌙</span>
                 </div>
 
-                <h3>
-                  Obtiens ton résultat
-                </h3>
+                <h3>Obtenez votre résultat</h3>
 
                 <p>
-                  Ton analyse apparaît en quelques secondes.
+                  Votre analyse apparaît en quelques secondes.
                 </p>
-              </div>
+              </article>
 
-              <div className="box step">
+              <article className="box step">
                 <div className="step-top">
-                  <span className="step-n">
-                    03
-                  </span>
-
-                  <span className="step-ico">
-                    ✧
-                  </span>
+                  <span className="step-n">03</span>
+                  <span className="step-ico">✧</span>
                 </div>
 
-                <h3>
-                  Gagne en clarté
-                </h3>
+                <h3>Gagnez en clarté</h3>
 
                 <p>
-                  Forces, besoins, défis et dynamiques
-                  relationnelles.
+                  Découvrez vos forces, vos besoins, vos défis et
+                  vos dynamiques relationnelles.
                 </p>
-              </div>
+              </article>
 
-              <div className="box step">
+              <article className="box step">
                 <div className="step-top">
-                  <span className="step-n">
-                    04
-                  </span>
-
-                  <span className="step-ico">
-                    🔐
-                  </span>
+                  <span className="step-n">04</span>
+                  <span className="step-ico">🔐</span>
                 </div>
 
-                <h3>
-                  Va plus loin
-                </h3>
+                <h3>Allez plus loin</h3>
 
                 <p>
-                  Choisis l&apos;analyse Essentielle,
-                  Premium ou Signature pour approfondir ton
-                  thème natal.
+                  Choisissez l’analyse Essentielle, Premium ou
+                  Signature pour approfondir votre thème natal.
                 </p>
-              </div>
+              </article>
             </div>
           </section>
 
@@ -796,35 +815,27 @@ export default function HomePage() {
                     Mentions légales
                   </Link>
 
-                  <span className="sep">
-                    •
-                  </span>
+                  <span className="sep">•</span>
 
                   <Link href="/confidentialite">
                     Confidentialité
                   </Link>
 
-                  <span className="sep">
-                    •
-                  </span>
+                  <span className="sep">•</span>
 
                   <Link href="/conditions">
                     Conditions
                   </Link>
 
-                  <span className="sep">
-                    •
-                  </span>
+                  <span className="sep">•</span>
 
-                  <Link href="/age-18">
-                    18+
-                  </Link>
+                  <Link href="/age-18">18+</Link>
                 </nav>
               </div>
 
               <div className="footer-note">
                 Exploration personnelle — non thérapeutique.
-                Réservé aux 18 ans et plus.
+                Réservé aux personnes âgées de 18 ans et plus.
               </div>
             </div>
           </footer>
@@ -832,4 +843,4 @@ export default function HomePage() {
       </AuthProvider>
     </div>
   );
-      }
+}
