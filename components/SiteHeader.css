@@ -825,7 +825,6 @@
 
 .premium-mobile-arrow {
   color: #bdad93;
-
   transition: transform 0.2s ease;
 }
 
@@ -835,19 +834,20 @@
 
 .premium-mobile-submenu {
   display: grid;
-
   grid-template-rows: 0fr;
 
   margin-left: 16px;
 
-  border-left: 1px solid rgba(212, 175, 78, 0.18);
+  border-left: 1px solid transparent;
 
   transition:
-    grid-template-rows 0.24s ease;
+    grid-template-rows 0.24s ease,
+    border-color 0.24s ease;
 }
 
 .premium-mobile-submenu--open {
   grid-template-rows: 1fr;
+  border-left-color: rgba(212, 175, 78, 0.18);
 }
 
 .premium-mobile-submenu > a {
@@ -876,7 +876,6 @@
 
 .premium-mobile-submenu > a:hover {
   color: #f1d384;
-
   background: rgba(212, 175, 78, 0.035);
 }
 
@@ -884,7 +883,6 @@
   outline: 2px solid rgba(244, 201, 93, 0.75);
   outline-offset: -2px;
 }
-
 /* =========================================================
    COMPTE MOBILE
 ========================================================= */
