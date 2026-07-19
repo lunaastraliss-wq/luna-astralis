@@ -180,18 +180,10 @@ const person1 = {
   planets: person1Planets,
 
   angles: {
-    ascendant: {
-      longitude: 131,
-    },
-    midheaven: {
-      longitude: 26,
-    },
-    descendant: {
-      longitude: 311,
-    },
-    imumCoeli: {
-      longitude: 206,
-    },
+    ascendant: 131,
+    midheaven: 26,
+    descendant: 311,
+    imumCoeli: 206,
   },
 
   wheelImage: "",
@@ -207,18 +199,10 @@ const person2 = {
   planets: person2Planets,
 
   angles: {
-    ascendant: {
-      longitude: 188,
-    },
-    midheaven: {
-      longitude: 102,
-    },
-    descendant: {
-      longitude: 8,
-    },
-    imumCoeli: {
-      longitude: 282,
-    },
+    ascendant: 188,
+    midheaven: 102,
+    descendant: 8,
+    imumCoeli: 282,
   },
 
   wheelImage: "",
