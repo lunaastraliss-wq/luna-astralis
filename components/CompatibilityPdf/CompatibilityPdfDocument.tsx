@@ -10,6 +10,10 @@ import {
   normalizeCompatibilityPerson,
 } from "./CompatibilityPdfUtils";
 
+import {
+  calculateCompatibilityScores,
+} from "./CompatibilityScoresUtils";
+
 import CompatibilityCover from "./CompatibilityCover";
 import CompatibilityWheels from "./CompatibilityWheels";
 import CompatibilityWelcome from "./CompatibilityWelcome";
@@ -76,6 +80,7 @@ export default function CompatibilityPdfDocument({
   person1,
   person2,
   aspects,
+  scores,
 }: CompatibilityPdfProps) {
   /*
    * Sécurisation complète des informations
@@ -107,6 +112,19 @@ export default function CompatibilityPdfDocument({
     providedAspects.length > 0
       ? providedAspects
       : calculatedAspects;
+
+  /*
+   * Les scores transmis par la route serveur sont utilisés
+   * lorsqu’ils sont disponibles.
+   *
+   * Sinon, ils sont calculés automatiquement à partir
+   * des aspects de synastrie.
+   */
+  const safeScores =
+    scores ??
+    calculateCompatibilityScores(
+      safeAspects,
+    );
 
   const person1Name =
     safePerson1.firstName.trim() ||
@@ -166,19 +184,21 @@ export default function CompatibilityPdfDocument({
       <CompatibilityScores
         person1={safePerson1}
         person2={safePerson2}
-        />
+        scores={safeScores}
+      />
 
       {/* Page 6 — Piliers de la relation */}
       <CompatibilityPillars
         person1={safePerson1}
         person2={safePerson2}
-         />
+      />
 
       {/* Page 7 — Compatibilité émotionnelle */}
       <CompatibilityEmotional
         person1={safePerson1}
         person2={safePerson2}
-        />
+        aspects={safeAspects}
+      />
 
       {/* Page 8 — Communication */}
       <CompatibilityCommunication
