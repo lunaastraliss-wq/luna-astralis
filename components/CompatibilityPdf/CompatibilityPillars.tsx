@@ -6,6 +6,7 @@ import {
 } from "@/components/PremiumPdf/PremiumPdfAssets";
 
 import type { SafeCompatibilityPerson } from "./CompatibilityPdfTypes";
+import { getCompatibilityPlanetText } from "./texts/CompatibilityPlanetTextSelector";
 
 import {
   getCompatibilityPlanet,
