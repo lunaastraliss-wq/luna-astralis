@@ -273,9 +273,6 @@ const styles = StyleSheet.create({
   objectFit: "contain",
 },
 
-    objectFit: "contain",
-  },
-
   heroCard: {
     position: "relative",
 
