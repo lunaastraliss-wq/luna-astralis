@@ -680,6 +680,44 @@ function getPersonName(
   return safeName || fallback;
 }
 
+function translateSign(
+  sign: string,
+): string {
+  const safeSign = sign.trim();
+
+  if (!safeSign) {
+    return "";
+  }
+
+  const normalized =
+    safeSign
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+  const translations: Record<string, string> = {
+    aries: "Bélier",
+    taurus: "Taureau",
+    gemini: "Gémeaux",
+    leo: "Lion",
+    virgo: "Vierge",
+    libra: "Balance",
+    scorpio: "Scorpion",
+    sagittarius: "Sagittaire",
+    capricorn: "Capricorne",
+    aquarius: "Verseau",
+    pisces: "Poissons",
+  };
+
+  /*
+   * Cancer n’est volontairement pas ajouté au tableau :
+   * son nom est identique en français et en anglais.
+   *
+   * Les signes déjà en français restent également inchangés.
+   */
+  return translations[normalized] ?? safeSign;
+}
+
 function getAscendantSign(
   person: SafeCompatibilityPerson,
 ): string {
@@ -694,7 +732,11 @@ function getAscendantSign(
       ? ascendantPlanet.sign.trim()
       : "";
 
-  return sign || "Non précisé";
+  if (!sign) {
+    return "Non précisé";
+  }
+
+  return translateSign(sign);
 }
 
 function getPlacementSign(
@@ -716,7 +758,11 @@ function getPlacementSign(
       ? planet.sign.trim()
       : "";
 
-  return sign || "Non précisé";
+  if (!sign) {
+    return "Non précisé";
+  }
+
+  return translateSign(sign);
 }
 
 function getElement(
