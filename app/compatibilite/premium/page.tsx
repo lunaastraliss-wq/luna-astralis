@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import CompatibilityPremiumForm from "@/components/CompatibilityPremiumForm";
+
 import "./page.css";
 
 const PAGE_URL =
@@ -706,65 +708,47 @@ export default function CompatibilityPremiumPage() {
         </section>
 
         <section
-          id="commande"
-          className="compat-premium-order"
-        >
-          <div className="compat-premium-order-glow" />
+  id="commande"
+  className="compat-premium-form-section"
+>
+  <div className="compat-premium-section-heading">
+    <span className="compat-premium-section-label">
+      Commencer votre analyse
+    </span>
 
-          <div className="compat-premium-order-content">
-            <span className="compat-premium-section-label">
-              Votre analyse personnalisée
-            </span>
+    <h2>
+      Deux personnes, deux thèmes astraux, une relation
+      unique
+    </h2>
 
-            <h2>
-              Découvrez l’histoire astrologique de votre
-              relation
-            </h2>
+    <p>
+      Remplissez les informations de naissance des deux
+      personnes afin de préparer votre rapport de
+      compatibilité Premium.
+    </p>
+  </div>
 
-            <p>
-              Comparez vos deux thèmes natals et recevez
-              un rapport complet conçu spécialement à
-              partir de vos informations de naissance.
-            </p>
+  <CompatibilityPremiumForm />
 
-            <ul>
-              <li>Deux thèmes astraux complets</li>
-              <li>Rapport PDF d’environ 50 pages</li>
-              <li>Scores et analyses personnalisés</li>
-              <li>Forces, défis et conseils relationnels</li>
-              <li>Téléchargement après le paiement</li>
-            </ul>
-          </div>
+  <div className="compatibility-premium-price-summary">
+    <div className="compatibility-premium-price-main">
+      <span>Compatibilité Premium</span>
 
-          <div className="compat-premium-price-card">
-            <span className="compat-premium-price-label">
-              Compatibilité Premium
-            </span>
+      <strong>{REPORT_PRICE}</strong>
 
-            <div className="compat-premium-price">
-              {REPORT_PRICE}
-            </div>
+      <small>Paiement unique</small>
+    </div>
 
-            <p>Paiement unique</p>
-
-            {/*
-              Le formulaire et la connexion Stripe seront
-              ajoutés à cette section à la prochaine étape.
-            */}
-
-            <button
-              className="compat-premium-order-button"
-              type="button"
-              disabled
-            >
-              Commander bientôt
-            </button>
-
-            <span className="compat-premium-price-note">
-              Paiement sécurisé • Rapport personnalisé
-            </span>
-          </div>
-        </section>
+    <ul>
+      <li>Rapport PDF personnalisé</li>
+      <li>Deux thèmes astraux complets</li>
+      <li>Environ 50 pages</li>
+      <li>Scores relationnels détaillés</li>
+      <li>Aspects de synastrie</li>
+      <li>Téléchargement après le paiement</li>
+    </ul>
+  </div>
+</section>
 
         <section className="compat-premium-faq">
           <div className="compat-premium-section-heading">
