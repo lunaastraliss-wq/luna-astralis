@@ -548,8 +548,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.65,
     borderColor: DARK_GOLD,
 
-    paddingTop: 11,
-    paddingBottom: 11,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingHorizontal: 10,
 
     marginBottom: 12,
@@ -566,12 +566,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  themeSymbol: {
-    fontSize: 15,
+  themeIconFrame: {
+    width: 30,
+    height: 30,
 
-    color: BRIGHT_GOLD,
+    borderRadius: 15,
 
-    marginBottom: 4,
+    borderWidth: 0.65,
+    borderColor: SOFT_GOLD,
+
+    backgroundColor: PAGE_BACKGROUND,
+
+    alignItems: "center",
+    justifyContent: "center",
+
+    marginBottom: 6,
+  },
+
+  themeIcon: {
+    width: 19,
+    height: 19,
+
+    objectFit: "contain",
   },
 
   themeTitle: {
@@ -584,13 +600,72 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  introductionCard: {
+    position: "relative",
+
+    backgroundColor: CARD_BACKGROUND,
+
+    borderWidth: 0.65,
+    borderColor: DARK_GOLD,
+
+    paddingTop: 14,
+    paddingBottom: 14,
+    paddingHorizontal: 20,
+
+    marginBottom: 13,
+  },
+
+  introductionAccent: {
+    position: "absolute",
+
+    top: -1,
+    left: "34%",
+
+    width: "32%",
+    height: 2,
+
+    backgroundColor: BRIGHT_GOLD,
+  },
+
+  introductionLabel: {
+    fontSize: 6,
+    letterSpacing: 1.8,
+
+    color: "#cdbb92",
+
+    textAlign: "center",
+    textTransform: "uppercase",
+
+    marginBottom: 6,
+  },
+
+  introductionTitle: {
+    fontSize: 12,
+    lineHeight: 1.25,
+
+    color: CREAM,
+
+    textAlign: "center",
+
+    marginBottom: 7,
+  },
+
+  introductionText: {
+    fontSize: 7.2,
+    lineHeight: 1.48,
+
+    color: MUTED_CREAM,
+
+    textAlign: "center",
+  },
+
   quoteSection: {
     alignItems: "center",
 
-    paddingTop: 13,
+    paddingTop: 12,
     paddingHorizontal: 30,
 
-    marginTop: "auto",
+    marginTop: 0,
     marginBottom: 6,
 
     borderTopWidth: 0.45,
@@ -971,11 +1046,14 @@ export default function CompatibilityCover({
             <View
               style={styles.themeItem}
             >
-              <Text
-                style={styles.themeSymbol}
+              <View
+                style={styles.themeIconFrame}
               >
-                ♥
-              </Text>
+                <Image
+                  src={PLANET_ICONS.moon}
+                  style={styles.themeIcon}
+                />
+              </View>
 
               <Text
                 style={styles.themeTitle}
@@ -987,11 +1065,14 @@ export default function CompatibilityCover({
             <View
               style={styles.themeItem}
             >
-              <Text
-                style={styles.themeSymbol}
+              <View
+                style={styles.themeIconFrame}
               >
-                ✦
-              </Text>
+                <Image
+                  src={PLANET_ICONS.mercury}
+                  style={styles.themeIcon}
+                />
+              </View>
 
               <Text
                 style={styles.themeTitle}
@@ -1003,11 +1084,14 @@ export default function CompatibilityCover({
             <View
               style={styles.themeItem}
             >
-              <Text
-                style={styles.themeSymbol}
+              <View
+                style={styles.themeIconFrame}
               >
-                ☉
-              </Text>
+                <Image
+                  src={PLANET_ICONS.mars}
+                  style={styles.themeIcon}
+                />
+              </View>
 
               <Text
                 style={styles.themeTitle}
@@ -1019,11 +1103,14 @@ export default function CompatibilityCover({
             <View
               style={styles.themeItem}
             >
-              <Text
-                style={styles.themeSymbol}
+              <View
+                style={styles.themeIconFrame}
               >
-                ♄
-              </Text>
+                <Image
+                  src={PLANET_ICONS.saturn}
+                  style={styles.themeIcon}
+                />
+              </View>
 
               <Text
                 style={styles.themeTitle}
@@ -1032,6 +1119,39 @@ export default function CompatibilityCover({
               </Text>
             </View>
           </View>
+        </View>
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <View
+            style={styles.introductionAccent}
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Votre voyage astrologique
+          </Text>
+
+          <Text
+            style={styles.introductionTitle}
+          >
+            Une relation ne se résume jamais à un seul signe
+          </Text>
+
+          <Text
+            style={styles.introductionText}
+          >
+            Ce rapport explore les interactions entre vos planètes,
+            vos émotions, votre manière de communiquer, vos forces
+            naturelles et les défis qui peuvent transformer votre
+            relation. Chaque section vous aidera à comprendre pourquoi
+            certaines énergies s’harmonisent spontanément, tandis que
+            d’autres invitent à la conscience, à l’adaptation et à
+            l’évolution commune.
+          </Text>
         </View>
 
         <View
