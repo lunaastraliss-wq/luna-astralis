@@ -587,13 +587,60 @@ export function translateCompatibilityPlanet(
     uranus: "Uranus",
     neptune: "Neptune",
     pluto: "Pluton",
+    ascendant: "Ascendant",
   };
 
   const normalized =
     planetName.trim().toLowerCase();
 
   return (
-    translations[normalized] ||
+    translations[normalized] ??
     planetName
+  );
+}
+
+/*
+ * Traduit les signes astrologiques anglais en français.
+ *
+ * Les signes déjà en français restent inchangés.
+ * Cancer est identique en anglais et en français.
+ */
+export function translateCompatibilitySign(
+  sign: string,
+): string {
+  const safeSign =
+    typeof sign === "string"
+      ? sign.trim()
+      : "";
+
+  if (!safeSign) {
+    return "Non précisé";
+  }
+
+  const normalized = safeSign
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
+  const translations: Record<
+    string,
+    string
+  > = {
+    aries: "Bélier",
+    taurus: "Taureau",
+    gemini: "Gémeaux",
+    leo: "Lion",
+    virgo: "Vierge",
+    libra: "Balance",
+    scorpio: "Scorpion",
+    sagittarius: "Sagittaire",
+    capricorn: "Capricorne",
+    aquarius: "Verseau",
+    pisces: "Poissons",
+  };
+
+  return (
+    translations[normalized] ??
+    safeSign
   );
 }
