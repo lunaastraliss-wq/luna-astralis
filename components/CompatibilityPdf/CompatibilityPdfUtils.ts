@@ -644,3 +644,40 @@ export function translateCompatibilitySign(
     safeSign
   );
 }
+/*
+ * Détermine le signe astrologique correspondant
+ * à une longitude zodiacale.
+ */
+export function getCompatibilitySignFromLongitude(
+  longitude: number,
+): string {
+  if (
+    typeof longitude !== "number" ||
+    !Number.isFinite(longitude)
+  ) {
+    return "Non précisé";
+  }
+
+  const signs = [
+    "Bélier",
+    "Taureau",
+    "Gémeaux",
+    "Cancer",
+    "Lion",
+    "Vierge",
+    "Balance",
+    "Scorpion",
+    "Sagittaire",
+    "Capricorne",
+    "Verseau",
+    "Poissons",
+  ];
+
+  const normalized =
+    normalizeLongitude(longitude);
+
+  return (
+    signs[Math.floor(normalized / 30)] ??
+    "Non précisé"
+  );
+}
