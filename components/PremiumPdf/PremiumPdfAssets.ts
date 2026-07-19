@@ -15,7 +15,7 @@ export function assetUrl(path: string): string {
 /* ---------- Logo ---------- */
 
 export const LOGO_URL = assetUrl(
-  "/logo-luna-astralis.png"
+  "/logo-luna-astralis-transparent.png"
 );
 
 /* ---------- PDF Backgrounds ---------- */
