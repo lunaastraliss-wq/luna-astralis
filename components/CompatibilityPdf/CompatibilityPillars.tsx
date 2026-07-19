@@ -17,7 +17,9 @@ import type {
 
 import {
   getCompatibilityPlanet,
+  getCompatibilitySignFromLongitude,
   translateCompatibilityPlanet,
+  translateCompatibilitySign,
 } from "./CompatibilityPdfUtils";
 
 const NAVY = "#06101f";
@@ -721,22 +723,66 @@ function translateSign(
 function getAscendantSign(
   person: SafeCompatibilityPerson,
 ): string {
-  const ascendantPlanet =
-    getCompatibilityPlanet(
-      person.planets,
-      "Ascendant",
-    );
+  const angles =
+    person.angles as Record<
+      string,
+      unknown
+    >;
 
-  const sign =
-    typeof ascendantPlanet?.sign === "string"
-      ? ascendantPlanet.sign.trim()
-      : "";
+  const ascendant =
+    angles?.ascendant;
 
-  if (!sign) {
+  if (
+    !ascendant ||
+    typeof ascendant !== "object" ||
+    Array.isArray(ascendant)
+  ) {
     return "Non précisé";
   }
 
-  return translateSign(sign);
+  const ascendantRecord =
+    ascendant as Record<
+      string,
+      unknown
+    >;
+
+  const signName =
+    typeof ascendantRecord.signName === "string"
+      ? ascendantRecord.signName.trim()
+      : "";
+
+  if (signName) {
+    return translateCompatibilitySign(
+      signName,
+    );
+  }
+
+  const sign =
+    typeof ascendantRecord.sign === "string"
+      ? ascendantRecord.sign.trim()
+      : "";
+
+  if (sign) {
+    return translateCompatibilitySign(
+      sign,
+    );
+  }
+
+  const longitude =
+    typeof ascendantRecord.longitude === "number" &&
+    Number.isFinite(
+      ascendantRecord.longitude,
+    )
+      ? ascendantRecord.longitude
+      : null;
+
+  if (longitude !== null) {
+    return getCompatibilitySignFromLongitude(
+      longitude,
+    );
+  }
+
+  return "Non précisé";
 }
 
 function getPlacementSign(
@@ -762,10 +808,12 @@ function getPlacementSign(
     return "Non précisé";
   }
 
-  return translateSign(sign);
+  return translateCompatibilitySign(
+    sign,
+  );
 }
 
-function getElement(
+ function getElement(
   sign: string,
 ): string {
   const normalized =
