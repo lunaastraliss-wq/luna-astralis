@@ -170,9 +170,15 @@ export function normalizeCompatibilityPerson(
     person?.birthCountry,
   ),
     
-    planets: normalizePlanets(
-      person?.planets,
-    ),
+   planets: normalizePlanets(
+  person?.planets,
+).map((planet) => ({
+  ...planet,
+
+  sign: translateCompatibilitySign(
+    toSafeString(planet.sign),
+  ),
+})),
 
     angles: normalizeCompatibilityAngles(
       person?.angles,
