@@ -5,179 +5,370 @@ import { createClient } from "@supabase/supabase-js";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-function clean(value: unknown) {
-  return value == null ? "" : String(value).trim();
+function clean(value: unknown): string {
+  return value == null
+    ? ""
+    : String(value).trim();
 }
 
-const STRIPE_SECRET_KEY = clean(process.env.STRIPE_SECRET_KEY);
-const STRIPE_REPORTS_WEBHOOK_SECRET = clean(
-  process.env.STRIPE_REPORTS_WEBHOOK_SECRET
+const STRIPE_SECRET_KEY = clean(
+  process.env.STRIPE_SECRET_KEY
 );
+
+const STRIPE_REPORTS_WEBHOOK_SECRET =
+  clean(
+    process.env
+      .STRIPE_REPORTS_WEBHOOK_SECRET
+  );
 
 const SUPABASE_URL = clean(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
+  process.env.SUPABASE_URL ||
+    process.env
+      .NEXT_PUBLIC_SUPABASE_URL
 );
 
-const SUPABASE_SERVICE_ROLE_KEY = clean(
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const SUPABASE_SERVICE_ROLE_KEY =
+  clean(
+    process.env
+      .SUPABASE_SERVICE_ROLE_KEY
+  );
 
 const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, {
-      apiVersion: "2023-10-16",
-    })
+  ? new Stripe(
+      STRIPE_SECRET_KEY,
+      {
+        apiVersion: "2023-10-16",
+      }
+    )
   : null;
 
 const supabase =
-  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-        auth: { persistSession: false },
-      })
+  SUPABASE_URL &&
+  SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(
+        SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY,
+        {
+          auth: {
+            persistSession: false,
+          },
+        }
+      )
     : null;
+
+function parseJsonMetadata(
+  value: string | undefined
+): Record<string, any> {
+  if (!value) {
+    return {};
+  }
+
+  try {
+    const parsed =
+      JSON.parse(value);
+
+    return parsed &&
+      typeof parsed === "object" &&
+      !Array.isArray(parsed)
+      ? parsed
+      : {};
+  } catch {
+    return {};
+  }
+}
 
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    message: "Reports webhook is active. Stripe must call this route with POST.",
+    message:
+      "Reports webhook is active. Stripe must call this route with POST.",
   });
 }
 
-export async function POST(req: Request) {
+export async function POST(
+  req: Request
+) {
   try {
     if (!stripe) {
       return NextResponse.json(
-        { error: "STRIPE_SECRET_KEY_MISSING" },
-        { status: 500 }
+        {
+          error:
+            "STRIPE_SECRET_KEY_MISSING",
+        },
+        {
+          status: 500,
+        }
       );
     }
 
-    if (!STRIPE_REPORTS_WEBHOOK_SECRET) {
+    if (
+      !STRIPE_REPORTS_WEBHOOK_SECRET
+    ) {
       return NextResponse.json(
-        { error: "STRIPE_REPORTS_WEBHOOK_SECRET_MISSING" },
-        { status: 500 }
+        {
+          error:
+            "STRIPE_REPORTS_WEBHOOK_SECRET_MISSING",
+        },
+        {
+          status: 500,
+        }
       );
     }
 
     if (!supabase) {
       return NextResponse.json(
-        { error: "SUPABASE_CONFIG_MISSING" },
-        { status: 500 }
+        {
+          error:
+            "SUPABASE_CONFIG_MISSING",
+        },
+        {
+          status: 500,
+        }
       );
     }
 
-    const signature = req.headers.get("stripe-signature");
+    const signature =
+      req.headers.get(
+        "stripe-signature"
+      );
 
     if (!signature) {
       return NextResponse.json(
-        { error: "MISSING_STRIPE_SIGNATURE" },
-        { status: 400 }
+        {
+          error:
+            "MISSING_STRIPE_SIGNATURE",
+        },
+        {
+          status: 400,
+        }
       );
     }
 
-    const rawBody = await req.text();
+    const rawBody =
+      await req.text();
 
     let event: Stripe.Event;
 
     try {
-      event = stripe.webhooks.constructEvent(
-        rawBody,
-        signature,
-        STRIPE_REPORTS_WEBHOOK_SECRET
-      );
-    } catch (err: any) {
+      event =
+        stripe.webhooks
+          .constructEvent(
+            rawBody,
+            signature,
+            STRIPE_REPORTS_WEBHOOK_SECRET
+          );
+    } catch (error: any) {
       return NextResponse.json(
         {
-          error: "INVALID_STRIPE_SIGNATURE",
-          detail: err?.message || String(err),
+          error:
+            "INVALID_STRIPE_SIGNATURE",
+
+          detail:
+            error?.message ||
+            String(error),
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
-    if (event.type !== "checkout.session.completed") {
+    if (
+      event.type !==
+      "checkout.session.completed"
+    ) {
       return NextResponse.json({
         received: true,
         ignored: event.type,
       });
     }
 
-    const session = event.data.object as Stripe.Checkout.Session;
+    const session =
+      event.data.object as
+        Stripe.Checkout.Session;
 
-    if (session.payment_status !== "paid") {
+    if (
+      session.payment_status !==
+      "paid"
+    ) {
       return NextResponse.json({
         received: true,
-        ignored: "PAYMENT_NOT_PAID",
-        payment_status: session.payment_status,
+        ignored:
+          "PAYMENT_NOT_PAID",
+
+        payment_status:
+          session.payment_status,
       });
     }
 
-    const metadata = session.metadata || {};
+    const metadata =
+      session.metadata || {};
 
-    if (metadata.product !== "astrology_report") {
+    const product =
+      clean(
+        metadata.product
+      ).toLowerCase();
+
+    const isNatalReport =
+      product ===
+      "astrology_report";
+
+    const isCompatibilityReport =
+      product ===
+      "compatibility_report";
+
+    if (
+      !isNatalReport &&
+      !isCompatibilityReport
+    ) {
       return NextResponse.json({
         received: true,
-        ignored: "NOT_ASTROLOGY_REPORT",
+        ignored:
+          "NOT_SUPPORTED_REPORT",
+        product,
       });
     }
 
-    const reportType = clean(metadata.report_type);
+    const reportType =
+      clean(
+        metadata.report_type
+      ).toLowerCase();
 
     if (!reportType) {
       return NextResponse.json({
         received: true,
-        warning: "MISSING_REPORT_TYPE",
+        warning:
+          "MISSING_REPORT_TYPE",
       });
     }
 
-    let birthData: Record<string, any> = {};
+    let birthData:
+      Record<string, any> = {};
 
-    try {
-      birthData = JSON.parse(metadata.birth_data || "{}");
-    } catch {
-      birthData = {};
+    if (
+      isCompatibilityReport
+    ) {
+      const person1 =
+        parseJsonMetadata(
+          metadata.person_1_data
+        );
+
+      const person2 =
+        parseJsonMetadata(
+          metadata.person_2_data
+        );
+
+      if (
+        Object.keys(person1)
+          .length === 0 ||
+        Object.keys(person2)
+          .length === 0
+      ) {
+        return NextResponse.json({
+          received: true,
+          warning:
+            "MISSING_COMPATIBILITY_DATA",
+        });
+      }
+
+      birthData = {
+        person1,
+        person2,
+      };
+    } else {
+      birthData =
+        parseJsonMetadata(
+          metadata.birth_data
+        );
+
+      if (
+        Object.keys(birthData)
+          .length === 0
+      ) {
+        return NextResponse.json({
+          received: true,
+          warning:
+            "MISSING_BIRTH_DATA",
+        });
+      }
     }
 
     const customerEmail =
-      session.customer_details?.email || session.customer_email || null;
+      session.customer_details
+        ?.email ||
+      session.customer_email ||
+      null;
 
-    const { error } = await supabase.from("orders").upsert(
-      {
-        stripe_session_id: session.id,
-        customer_email: customerEmail,
-        product_type: reportType,
-        status: "paid",
-        birth_data: birthData,
-        pdf_path: null,
-        updated_at: new Date().toISOString(),
-      },
-      {
-        onConflict: "stripe_session_id",
-      }
-    );
+    const {
+      error,
+    } = await supabase
+      .from("orders")
+      .upsert(
+        {
+          stripe_session_id:
+            session.id,
+
+          customer_email:
+            customerEmail,
+
+          product_type:
+            reportType,
+
+          status: "paid",
+
+          birth_data:
+            birthData,
+
+          pdf_path: null,
+
+          updated_at:
+            new Date()
+              .toISOString(),
+        },
+        {
+          onConflict:
+            "stripe_session_id",
+        }
+      );
 
     if (error) {
       return NextResponse.json(
         {
           received: true,
-          warning: "ORDER_SAVE_FAILED",
-          detail: error.message,
+          warning:
+            "ORDER_SAVE_FAILED",
+
+          detail:
+            error.message,
         },
-        { status: 200 }
+        {
+          status: 200,
+        }
       );
     }
 
     return NextResponse.json({
       received: true,
       saved: true,
-      session_id: session.id,
-      report_type: reportType,
+
+      session_id:
+        session.id,
+
+      report_type:
+        reportType,
+
+      product,
     });
-  } catch (err: any) {
+  } catch (error: any) {
     return NextResponse.json(
       {
-        error: err?.message || "REPORTS_WEBHOOK_ERROR",
+        error:
+          error?.message ||
+          "REPORTS_WEBHOOK_ERROR",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }
