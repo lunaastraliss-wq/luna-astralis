@@ -7,10 +7,10 @@ export const dynamic = "force-dynamic";
 type ReportType =
   | "essential"
   | "premium"
-  | "signature";
+  | "signature"
+  | "compatibility";
 
-type CheckoutRequestBody = {
-  reportType?: unknown;
+type BirthPersonRequestBody = {
   firstName?: unknown;
   birthDate?: unknown;
   birthTime?: unknown;
@@ -19,8 +19,45 @@ type CheckoutRequestBody = {
   latitude?: unknown;
   longitude?: unknown;
   timezone?: unknown;
-  email?: unknown;
   wheelImagePath?: unknown;
+};
+
+type CheckoutRequestBody = {
+  reportType?: unknown;
+
+  /*
+   * Données utilisées par les rapports de carte du ciel :
+   * essential, premium et signature.
+   */
+  firstName?: unknown;
+  birthDate?: unknown;
+  birthTime?: unknown;
+  birthCity?: unknown;
+  birthCountry?: unknown;
+  latitude?: unknown;
+  longitude?: unknown;
+  timezone?: unknown;
+  wheelImagePath?: unknown;
+
+  /*
+   * Données utilisées par le rapport de compatibilité.
+   */
+  person1?: BirthPersonRequestBody;
+  person2?: BirthPersonRequestBody;
+
+  email?: unknown;
+};
+
+type NormalizedBirthPerson = {
+  firstName: string;
+  birthDate: string;
+  birthTime: string;
+  birthCity: string;
+  birthCountry: string;
+  latitude: string;
+  longitude: string;
+  timezone: string;
+  wheelImagePath: string;
 };
 
 function s(value: unknown): string {
@@ -43,8 +80,56 @@ function isReportType(
   return (
     value === "essential" ||
     value === "premium" ||
-    value === "signature"
+    value === "signature" ||
+    value === "compatibility"
   );
+}
+
+function normalizeBirthPerson(
+  person?: BirthPersonRequestBody | null
+): NormalizedBirthPerson {
+  return {
+    firstName: s(person?.firstName),
+    birthDate: s(person?.birthDate),
+    birthTime:
+      s(person?.birthTime) ||
+      "12:00",
+    birthCity: s(person?.birthCity),
+    birthCountry: s(person?.birthCountry),
+    latitude: s(person?.latitude),
+    longitude: s(person?.longitude),
+    timezone: s(person?.timezone),
+    wheelImagePath: s(person?.wheelImagePath),
+  };
+}
+
+function hasRequiredBirthData(
+  person: NormalizedBirthPerson
+): boolean {
+  return Boolean(
+    person.birthDate &&
+      person.birthTime &&
+      person.birthCity &&
+      person.latitude &&
+      person.longitude
+  );
+}
+
+function serializeMetadataValue(
+  value: unknown,
+  errorName: string
+): string {
+  const serialized = JSON.stringify(value);
+
+  /*
+   * Stripe autorise un maximum de 500 caractères
+   * par valeur de metadata.
+   */
+  if (serialized.length > 500) {
+    throw new Error(errorName);
+  }
+
+  return serialized;
 }
 
 const STRIPE_SECRET_KEY = s(
@@ -68,11 +153,17 @@ const REPORT_PRICE: Record<
   essential: s(
     process.env.STRIPE_PRICE_ESSENTIAL
   ),
+
   premium: s(
     process.env.STRIPE_PRICE_PREMIUM
   ),
+
   signature: s(
     process.env.STRIPE_PRICE_SIGNATURE
+  ),
+
+  compatibility: s(
+    process.env.STRIPE_COMPATIBILITY_PRICE_ID
   ),
 };
 
@@ -152,6 +243,7 @@ export async function POST(
         {
           error:
             "REPORT_PRICE_MISSING",
+
           detail:
             `Le prix Stripe du rapport ${reportType} est absent.`,
         },
@@ -161,57 +253,215 @@ export async function POST(
       );
     }
 
-    const firstName = s(
-      body.firstName
-    );
-
-    const birthDate = s(
-      body.birthDate
-    );
-
-    const birthTime =
-      s(body.birthTime) ||
-      "12:00";
-
-    const birthCity = s(
-      body.birthCity
-    );
-
-    const birthCountry = s(
-      body.birthCountry
-    );
-
-    const latitude = s(
-      body.latitude
-    );
-
-    const longitude = s(
-      body.longitude
-    );
-
-    const timezone = s(
-      body.timezone
-    );
-
     const email = s(
       body.email
     );
 
-    const wheelImagePath = s(
-      body.wheelImagePath
-    );
+    /*
+     * Rapport de compatibilité :
+     * deux personnes et deux roues astrologiques.
+     */
+    if (
+      reportType ===
+      "compatibility"
+    ) {
+      const person1 =
+        normalizeBirthPerson(
+          body.person1
+        );
+
+      const person2 =
+        normalizeBirthPerson(
+          body.person2
+        );
+
+      if (
+        !hasRequiredBirthData(
+          person1
+        ) ||
+        !hasRequiredBirthData(
+          person2
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_COMPATIBILITY_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour les deux personnes.",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+
+      if (
+        !person1.wheelImagePath ||
+        !person2.wheelImagePath
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_COMPATIBILITY_WHEEL_IMAGE_PATH",
+
+            detail:
+              "Les images des deux roues astrologiques sont requises.",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+
+      /*
+       * On sépare les deux personnes dans deux metadata
+       * différentes pour respecter la limite Stripe de
+       * 500 caractères par valeur.
+       */
+      const serializedPerson1 =
+        serializeMetadataValue(
+          person1,
+          "PERSON_1_DATA_TOO_LARGE"
+        );
+
+      const serializedPerson2 =
+        serializeMetadataValue(
+          person2,
+          "PERSON_2_DATA_TOO_LARGE"
+        );
+
+      const session =
+        await stripe.checkout.sessions.create(
+          {
+            mode: "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity: 1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Permet d’inscrire ton coupon à 100 %
+             * directement dans Stripe Checkout.
+             */
+            allow_promotion_codes:
+              true,
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/compatibilite/premium` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "compatibility_report",
+
+              report_type:
+                "compatibility",
+
+              person_1_data:
+                serializedPerson1,
+
+              person_2_data:
+                serializedPerson2,
+            },
+          }
+        );
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok: true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "compatibility",
+
+          person_1_wheel_image_path:
+            person1.wheelImagePath,
+
+          person_2_wheel_image_path:
+            person2.wheelImagePath,
+        }
+      );
+    }
+
+    /*
+     * Rapports existants :
+     * essential, premium et signature.
+     */
+    const birthPerson =
+      normalizeBirthPerson({
+        firstName:
+          body.firstName,
+
+        birthDate:
+          body.birthDate,
+
+        birthTime:
+          body.birthTime,
+
+        birthCity:
+          body.birthCity,
+
+        birthCountry:
+          body.birthCountry,
+
+        latitude:
+          body.latitude,
+
+        longitude:
+          body.longitude,
+
+        timezone:
+          body.timezone,
+
+        wheelImagePath:
+          body.wheelImagePath,
+      });
 
     if (
-      !birthDate ||
-      !birthTime ||
-      !birthCity ||
-      !latitude ||
-      !longitude
+      !hasRequiredBirthData(
+        birthPerson
+      )
     ) {
       return NextResponse.json(
         {
           error:
             "MISSING_BIRTH_DATA",
+
           detail:
             "La date, l’heure, la ville et les coordonnées de naissance sont requises.",
         },
@@ -222,12 +472,13 @@ export async function POST(
     }
 
     if (
-      !wheelImagePath
+      !birthPerson.wheelImagePath
     ) {
       return NextResponse.json(
         {
           error:
             "MISSING_WHEEL_IMAGE_PATH",
+
           detail:
             "Le chemin de l’image de la roue astrologique est absent.",
         },
@@ -237,39 +488,11 @@ export async function POST(
       );
     }
 
-    const birthData = {
-      firstName,
-      birthDate,
-      birthTime,
-      birthCity,
-      birthCountry,
-      latitude,
-      longitude,
-      timezone,
-      wheelImagePath,
-    };
-
     const serializedBirthData =
-      JSON.stringify(
-        birthData
+      serializeMetadataValue(
+        birthPerson,
+        "BIRTH_DATA_TOO_LARGE"
       );
-
-    if (
-      serializedBirthData.length >
-      500
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "BIRTH_DATA_TOO_LARGE",
-          detail:
-            "Les données de naissance dépassent la taille permise par Stripe.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
 
     const session =
       await stripe.checkout.sessions.create(
@@ -280,6 +503,7 @@ export async function POST(
             {
               price:
                 priceId,
+
               quantity: 1,
             },
           ],
@@ -287,6 +511,13 @@ export async function POST(
           customer_email:
             email ||
             undefined,
+
+          /*
+           * On conserve aussi les coupons pour les
+           * trois rapports déjà existants.
+           */
+          allow_promotion_codes:
+            true,
 
           success_url:
             `${SITE_URL}/report-success` +
@@ -299,10 +530,13 @@ export async function POST(
           metadata: {
             app:
               "luna-astralis",
+
             product:
               "astrology_report",
+
             report_type:
               reportType,
+
             birth_data:
               serializedBirthData,
           },
@@ -324,12 +558,15 @@ export async function POST(
     return NextResponse.json(
       {
         ok: true,
+
         url:
           session.url,
+
         session_id:
           session.id,
+
         wheel_image_path:
-          wheelImagePath,
+          birthPerson.wheelImagePath,
       }
     );
   } catch (error: unknown) {
@@ -345,7 +582,8 @@ export async function POST(
 
     return NextResponse.json(
       {
-        error: message,
+        error:
+          message,
       },
       {
         status: 500,
