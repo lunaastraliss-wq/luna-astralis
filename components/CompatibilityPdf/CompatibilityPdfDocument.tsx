@@ -12,7 +12,7 @@ import {
 
 import {
   calculateCompatibilityScores,
-} from "./CompatibilityScoresUtils";
+} from "./CompatibilityScoreCalculator";
 
 import CompatibilityCover from "./CompatibilityCover";
 import CompatibilityWheels from "./CompatibilityWheels";
