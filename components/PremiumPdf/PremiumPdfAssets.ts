@@ -99,6 +99,9 @@ export const PLANET_ICONS: Record<
   ascendant: assetUrl(
     "/astrology/ascendant.png"
   ),
+  heart: assetUrl(
+    "/astrology/heart.png"
+  ),
 };
 
 /* ---------- Element Icons ---------- */
