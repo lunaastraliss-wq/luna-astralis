@@ -39,6 +39,12 @@ export const SUN_SAME_SIGN_TEXTS: CompatibilitySunTextTemplate[] = [
 
   ({ sign1 }) =>
     `Le même signe solaire vous permet de comprendre instinctivement plusieurs réactions de l’autre. Avec vos Soleils en ${sign1}, la relation peut sembler naturelle, familière et profondément révélatrice.`,
+
+  ({ sign1 }) =>
+    `Lorsque vos deux Soleils occupent le signe du ${sign1}, vous reconnaissez naturellement chez l’autre une manière familière d’affirmer ses choix et de poursuivre ses ambitions. Cette ressemblance peut renforcer la confiance et le sentiment de former une véritable équipe. Elle demande néanmoins de laisser à chacun suffisamment d’espace pour développer son identité personnelle.`,
+
+  ({ sign1 }) =>
+    `Le partage d’un Soleil en ${sign1} crée une base commune importante dans votre relation. Vous comprenez instinctivement ce qui donne à l’autre confiance, motivation et envie d’avancer. Vos ressemblances deviennent une force lorsque vous les utilisez pour vous soutenir, mais elles peuvent provoquer des tensions si chacun cherche à occuper exactement la même place.`,
 ];
 
 /*
@@ -71,6 +77,12 @@ export const SUN_SAME_ELEMENT_TEXTS: CompatibilitySunTextTemplate[] = [
 
   ({ sign1, sign2, element1 }) =>
     `La compatibilité entre vos Soleils repose sur leur élément commun, le ${element1}. Vous pouvez avancer avec des valeurs similaires, tout en apportant chacun une nuance différente à la relation.`,
+
+  ({ sign1, sign2, element1 }) =>
+    `Les Soleils en ${sign1} et en ${sign2} partagent la même énergie élémentaire, celle du ${element1}. Cette affinité facilite la reconnaissance de vos valeurs et de vos motivations profondes. Même si vos personnalités ne s’expriment pas exactement de la même manière, vous possédez une base commune qui peut soutenir la confiance et la coopération.`,
+
+  ({ sign1, sign2, element1 }) =>
+    `Grâce à leur appartenance commune à l’élément ${element1}, le ${sign1} et le ${sign2} peuvent se comprendre avec une certaine spontanéité. Chacun reconnaît chez l’autre une manière familière de réagir et de construire son avenir. Cette proximité favorise l’harmonie, à condition de respecter les nuances propres à chacun des deux signes.`,
 ];
 
 /*
@@ -104,6 +116,12 @@ export const SUN_COMPLEMENTARY_ELEMENT_TEXTS: CompatibilitySunTextTemplate[] =
 
     ({ sign1, sign2, element1, element2 }) =>
       `La complémentarité entre ${sign1} et ${sign2} repose sur l’alliance du ${element1} et du ${element2}. Vos différences peuvent devenir une force lorsque chacun reconnaît la contribution particulière de l’autre.`,
+
+    ({ sign1, sign2, element1, element2 }) =>
+      `Le Soleil en ${sign1} et celui en ${sign2} réunissent les éléments ${element1} et ${element2}, dont les qualités peuvent se renforcer mutuellement. L’un peut apporter l’impulsion ou la stabilité dont l’autre a besoin pour mieux exprimer son potentiel. Cette complémentarité favorise une relation évolutive lorsque chacun valorise les différences.`,
+
+    ({ sign1, sign2, element1, element2 }) =>
+      `L’association du ${element1} et du ${element2} donne à vos Soleils une dynamique naturellement constructive. Le ${sign1} et le ${sign2} n’avancent pas toujours de la même façon, mais leurs énergies peuvent collaborer efficacement. Ensemble, vous pouvez trouver un équilibre capable de soutenir vos ambitions communes.`,
   ];
 
 /*
@@ -137,4 +155,10 @@ export const SUN_DIFFERENT_ELEMENT_TEXTS: CompatibilitySunTextTemplate[] = [
 
   ({ sign1, sign2, element1, element2 }) =>
     `Les éléments ${element1} et ${element2} donnent à vos Soleils des façons distinctes de rayonner. Votre défi consiste à respecter ces différences sans chercher à transformer l’autre selon vos propres attentes.`,
+
+  ({ sign1, sign2, element1, element2 }) =>
+    `Le Soleil en ${sign1} et le Soleil en ${sign2} expriment les éléments ${element1} et ${element2}, qui ne recherchent pas toujours les mêmes choses au même moment. Cette différence peut créer des décalages dans vos décisions ou vos priorités. Elle devient toutefois enrichissante lorsque chacun fait l’effort de comprendre la logique intérieure de l’autre.`,
+
+  ({ sign1, sign2, element1, element2 }) =>
+    `Vos Soleils possèdent des rythmes et des motivations distincts en raison de l’association du ${element1} et du ${element2}. Le ${sign1} peut privilégier une approche que le ${sign2} ne comprend pas immédiatement. Votre force réside dans votre capacité à transformer cette diversité en complémentarité, sans demander à l’autre de fonctionner exactement comme vous.`,
 ];
