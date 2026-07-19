@@ -1642,7 +1642,12 @@
   .compat-premium-order {
     padding: 32px 18px;
   }
-    }
+
+   .compat-premium-price-card {
+    padding: 29px 20px;
+  }
+}
+
 /* =========================================================
    FORMULAIRE COMPATIBILITÉ PREMIUM
    ========================================================= */
