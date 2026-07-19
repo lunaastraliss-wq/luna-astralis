@@ -264,6 +264,14 @@ const styles = StyleSheet.create({
   nameSeparatorIcon: {
     width: 16,
     height: 16,
+     objectFit: "contain",
+},
+
+    nameSeparatorLogo: {
+  width: 22,
+  height: 16,
+  objectFit: "contain",
+},
 
     objectFit: "contain",
   },
@@ -1293,7 +1301,7 @@ function NamesCard({
         >
           <Image
             src={LOGO_URL}
-            style={styles.nameSeparatorIcon}
+            style={styles.nameSeparatorLogo}
           />
         </View>
       </View>
