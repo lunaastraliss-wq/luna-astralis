@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import { useAuth } from "./AuthProvider";
+import "./SiteHeader.css";
 
 export default function SiteHeader() {
   const { isAuth } = useAuth();
