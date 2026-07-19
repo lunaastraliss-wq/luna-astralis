@@ -18,9 +18,16 @@ type PersonForm = {
   timezone: string;
 };
 
+type HouseCusp = {
+  house: number;
+  longitude: number;
+};
+
 type NatalChart = {
   planets?: any[];
-  houses?: any[];
+  houses?: {
+    cusps?: HouseCusp[];
+  };
   angles?: {
     ascendant?: {
       longitude?: number;
