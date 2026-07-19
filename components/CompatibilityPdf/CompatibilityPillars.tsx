@@ -6,7 +6,6 @@ import {
 } from "@/components/PremiumPdf/PremiumPdfAssets";
 
 import type { SafeCompatibilityPerson } from "./CompatibilityPdfTypes";
-import { getCompatibilityPlanetText } from "./texts/CompatibilityPlanetTextSelector";
 
 import {
   getCompatibilityPlanet,
@@ -18,7 +17,7 @@ import {
 import {
   getCompatibilityPlanetText,
   type CompatibilityTextBody,
-} from "./CompatibilityPlanetTextSelector";
+} from "./texts/CompatibilityPlanetTextSelector";
 
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
