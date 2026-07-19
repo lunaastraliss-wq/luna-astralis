@@ -41,6 +41,7 @@ export const PLANET_ICONS: Record<
   string,
   string
 > = {
+  // Anciennes clés (Premium)
   Sun: assetUrl("/astrology/sun.png"),
   Moon: assetUrl("/astrology/moon.png"),
   Mercury: assetUrl(
@@ -66,6 +67,37 @@ export const PLANET_ICONS: Record<
   ),
   Pluto: assetUrl(
     "/astrology/pluto.png"
+  ),
+
+  // Nouvelles clés (Compatibilité)
+  sun: assetUrl("/astrology/sun.png"),
+  moon: assetUrl("/astrology/moon.png"),
+  mercury: assetUrl(
+    "/astrology/mercury.png"
+  ),
+  venus: assetUrl(
+    "/astrology/venus.png"
+  ),
+  mars: assetUrl(
+    "/astrology/mars.png"
+  ),
+  jupiter: assetUrl(
+    "/astrology/jupiter.png"
+  ),
+  saturn: assetUrl(
+    "/astrology/saturn.png"
+  ),
+  uranus: assetUrl(
+    "/astrology/uranus.png"
+  ),
+  neptune: assetUrl(
+    "/astrology/neptune.png"
+  ),
+  pluto: assetUrl(
+    "/astrology/pluto.png"
+  ),
+  ascendant: assetUrl(
+    "/astrology/ascendant.png"
   ),
 };
 
