@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
@@ -15,65 +16,33 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] =
     useState(false);
 
+  const [
+    astrologyOpen,
+    setAstrologyOpen,
+  ] = useState(false);
+
+  const [
+    mobileAstrologyOpen,
+    setMobileAstrologyOpen,
+  ] = useState(false);
+
+  const astrologyRef =
+    useRef<HTMLDivElement | null>(null);
+
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
+    setAstrologyOpen(false);
+    setMobileAstrologyOpen(false);
   }, []);
-
-  const navigateToSection = useCallback(
-    (id: string) => {
-      if (typeof window === "undefined") {
-        return;
-      }
-
-      const isHomePage =
-        window.location.pathname === "/";
-
-      if (!isHomePage) {
-        window.location.href = `/#${id}`;
-        return;
-      }
-
-      const element =
-        document.getElementById(id);
-
-      if (!element) {
-        window.location.hash = `#${id}`;
-        return;
-      }
-
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    },
-    []
-  );
-
-  const onNavTo = useCallback(
-    (id: string) =>
-      (
-        event: React.MouseEvent<HTMLAnchorElement>
-      ) => {
-        event.preventDefault();
-        closeMenu();
-        navigateToSection(id);
-      },
-    [
-      closeMenu,
-      navigateToSection,
-    ]
-  );
 
   useEffect(() => {
     setMenuOpen(false);
+    setAstrologyOpen(false);
+    setMobileAstrologyOpen(false);
   }, [isAuth]);
 
   useEffect(() => {
-    if (!menuOpen) {
-      return;
-    }
-
-    const onKey = (
+    const onKeyDown = (
       event: KeyboardEvent
     ) => {
       if (event.key === "Escape") {
@@ -81,7 +50,7 @@ export default function SiteHeader() {
       }
     };
 
-    const onClick = (
+    const onPointerDown = (
       event: MouseEvent
     ) => {
       const target =
@@ -92,129 +61,320 @@ export default function SiteHeader() {
       }
 
       if (
-        target.closest(".nav-mobile") ||
-        target.closest(".nav-burger")
+        astrologyRef.current?.contains(
+          target
+        )
       ) {
         return;
       }
 
-      closeMenu();
+      if (
+        target.closest(".premium-mobile-menu") ||
+        target.closest(".premium-menu-toggle")
+      ) {
+        return;
+      }
+
+      setAstrologyOpen(false);
+
+      if (menuOpen) {
+        setMenuOpen(false);
+        setMobileAstrologyOpen(false);
+      }
     };
 
     window.addEventListener(
       "keydown",
-      onKey
+      onKeyDown
     );
 
     window.addEventListener(
-      "click",
-      onClick
+      "mousedown",
+      onPointerDown
     );
 
     return () => {
       window.removeEventListener(
         "keydown",
-        onKey
+        onKeyDown
       );
 
       window.removeEventListener(
-        "click",
-        onClick
+        "mousedown",
+        onPointerDown
       );
     };
-  }, [
-    menuOpen,
-    closeMenu,
-  ]);
+  }, [closeMenu, menuOpen]);
 
   return (
     <header
-      className="top"
+      className="premium-site-header"
       role="banner"
     >
+      <div className="premium-header-glow" />
+
       <Link
-        className="brand"
+        className="premium-brand"
         href="/"
         aria-label="Accueil Luna Astralis"
         onClick={closeMenu}
       >
-        <div
-          className="logo"
-          aria-hidden="true"
-        >
+        <div className="premium-logo">
           <img
             src="/logo-luna-astralis-transparent.png"
-            alt=""
+            alt="Luna Astralis"
           />
         </div>
 
-        <div className="brand-text">
-          <div className="brand-name">
+        <div className="premium-brand-text">
+          <div className="premium-brand-name">
             LUNA ASTRALIS
           </div>
 
-          <div className="brand-sub">
-            Astro & psycho
+          <div className="premium-brand-subtitle">
+            Astrologie & découverte de soi
           </div>
         </div>
       </Link>
 
       <nav
-        className="nav"
+        className="premium-navigation"
         aria-label="Navigation principale"
       >
-        <div className="nav-desktop">
+        {/* Menu ordinateur */}
+
+        <div className="premium-desktop-menu">
           <Link
-            className="btn btn-small btn-ghost"
-            href="/astrologie"
+            href="/"
+            className="premium-nav-link"
             onClick={closeMenu}
           >
-            Astrologie
+            Accueil
           </Link>
 
-          <a
-            href="/#comment"
-            className="btn btn-small btn-ghost"
-            onClick={onNavTo("comment")}
+          <Link
+            href="/horoscope"
+            className="premium-nav-link"
+            onClick={closeMenu}
           >
-            Comment ça fonctionne
-          </a>
+            Horoscope
+          </Link>
+
+          <Link
+            href="/carte-du-ciel"
+            className="premium-nav-link"
+            onClick={closeMenu}
+          >
+            Carte du ciel
+          </Link>
+
+          <Link
+            href="/compatibilite"
+            className="premium-nav-link premium-nav-link--highlight"
+            onClick={closeMenu}
+          >
+            Compatibilité
+          </Link>
+
+          {/* Sous-menu Astrologie */}
+
+          <div
+            className="premium-dropdown"
+            ref={astrologyRef}
+          >
+            <button
+              type="button"
+              className={`premium-nav-link premium-dropdown-button ${
+                astrologyOpen
+                  ? "premium-dropdown-button--open"
+                  : ""
+              }`}
+              aria-expanded={astrologyOpen}
+              aria-haspopup="true"
+              onClick={() => {
+                setAstrologyOpen(
+                  (currentValue) =>
+                    !currentValue
+                );
+              }}
+            >
+              <span>Astrologie</span>
+
+              <span
+                className="premium-dropdown-arrow"
+                aria-hidden="true"
+              >
+                ▾
+              </span>
+            </button>
+
+            <div
+              className={`premium-dropdown-menu ${
+                astrologyOpen
+                  ? "premium-dropdown-menu--open"
+                  : ""
+              }`}
+            >
+              <div className="premium-dropdown-intro">
+                <span className="premium-dropdown-icon">
+                  ✦
+                </span>
+
+                <div>
+                  <strong>
+                    Explorer l’astrologie
+                  </strong>
+
+                  <span>
+                    Signes, planètes, maisons et
+                    aspects
+                  </span>
+                </div>
+              </div>
+
+              <div className="premium-dropdown-grid">
+                <Link
+                  href="/astrologie"
+                  onClick={closeMenu}
+                >
+                  <span>✦</span>
+                  <div>
+                    <strong>
+                      Découvrir l’astrologie
+                    </strong>
+                    <small>
+                      La page principale
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/signes"
+                  onClick={closeMenu}
+                >
+                  <span>♈</span>
+                  <div>
+                    <strong>
+                      Les signes
+                    </strong>
+                    <small>
+                      Les 12 signes du zodiaque
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/planetes"
+                  onClick={closeMenu}
+                >
+                  <span>☉</span>
+                  <div>
+                    <strong>
+                      Les planètes
+                    </strong>
+                    <small>
+                      Leurs influences
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/maisons"
+                  onClick={closeMenu}
+                >
+                  <span>⌂</span>
+                  <div>
+                    <strong>
+                      Les maisons
+                    </strong>
+                    <small>
+                      Les domaines de vie
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/aspects"
+                  onClick={closeMenu}
+                >
+                  <span>△</span>
+                  <div>
+                    <strong>
+                      Les aspects
+                    </strong>
+                    <small>
+                      Les liens planétaires
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/soleil"
+                  onClick={closeMenu}
+                >
+                  <span>☀</span>
+                  <div>
+                    <strong>
+                      Le Soleil
+                    </strong>
+                    <small>
+                      Identité et vitalité
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/lune"
+                  onClick={closeMenu}
+                >
+                  <span>☾</span>
+                  <div>
+                    <strong>
+                      La Lune
+                    </strong>
+                    <small>
+                      Émotions et intuition
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/astrologie/ascendant"
+                  onClick={closeMenu}
+                >
+                  <span>↑</span>
+                  <div>
+                    <strong>
+                      L’Ascendant
+                    </strong>
+                    <small>
+                      Image et personnalité
+                    </small>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
 
           <a
             href="/#livres"
-            className="btn btn-small btn-ghost"
-            onClick={onNavTo("livres")}
+            className="premium-nav-link"
+            onClick={closeMenu}
           >
-            Mes livres
-          </a>
-
-          <a
-            href="/#signes"
-            className="btn btn-small btn-ghost"
-            onClick={onNavTo("signes")}
-          >
-            Choisir un signe
-          </a>
-
-          <a
-            href="/#rapports"
-            className="btn btn-small btn-ghost"
-            onClick={onNavTo("rapports")}
-          >
-            Rapports
+            Livres
           </a>
 
           <Link
-            className="btn btn-small btn-ghost"
             href="/pricing"
+            className="premium-nav-link"
             onClick={closeMenu}
           >
             Luna IA
           </Link>
 
           <Link
-            className="btn btn-small"
             href="/login"
+            className="premium-account-button"
             onClick={closeMenu}
           >
             {isAuth
@@ -223,16 +383,18 @@ export default function SiteHeader() {
           </Link>
         </div>
 
+        {/* Bouton mobile */}
+
         <button
           type="button"
-          className="nav-burger"
+          className="premium-menu-toggle"
           aria-label={
             menuOpen
               ? "Fermer le menu"
               : "Ouvrir le menu"
           }
           aria-expanded={menuOpen}
-          aria-controls="navigation-mobile"
+          aria-controls="premium-mobile-navigation"
           onClick={() => {
             setMenuOpen(
               (currentValue) =>
@@ -240,69 +402,178 @@ export default function SiteHeader() {
             );
           }}
         >
-          ☰
+          <span
+            className={
+              menuOpen
+                ? "premium-burger premium-burger--open"
+                : "premium-burger"
+            }
+          >
+            <span />
+            <span />
+            <span />
+          </span>
         </button>
 
+        {/* Menu mobile */}
+
         <div
-          id="navigation-mobile"
-          className={`nav-mobile ${
-            menuOpen ? "open" : ""
+          id="premium-mobile-navigation"
+          className={`premium-mobile-menu ${
+            menuOpen
+              ? "premium-mobile-menu--open"
+              : ""
           }`}
-          role="menu"
         >
           <Link
-            href="/astrologie"
+            href="/"
             onClick={closeMenu}
-            role="menuitem"
           >
-            Astrologie
+            <span>⌂</span>
+            Accueil
           </Link>
 
-          <a
-            href="/#comment"
-            onClick={onNavTo("comment")}
-            role="menuitem"
+          <Link
+            href="/horoscope"
+            onClick={closeMenu}
           >
-            Comment ça fonctionne
-          </a>
+            <span>🔮</span>
+            Horoscope
+          </Link>
+
+          <Link
+            href="/carte-du-ciel"
+            onClick={closeMenu}
+          >
+            <span>🌌</span>
+            Carte du ciel
+          </Link>
+
+          <Link
+            href="/compatibilite"
+            className="premium-mobile-highlight"
+            onClick={closeMenu}
+          >
+            <span>💕</span>
+            Compatibilité
+          </Link>
+
+          <button
+            type="button"
+            className="premium-mobile-dropdown-button"
+            aria-expanded={
+              mobileAstrologyOpen
+            }
+            onClick={() => {
+              setMobileAstrologyOpen(
+                (currentValue) =>
+                  !currentValue
+              );
+            }}
+          >
+            <span className="premium-mobile-link-left">
+              <span>✦</span>
+              Astrologie
+            </span>
+
+            <span
+              className={`premium-mobile-arrow ${
+                mobileAstrologyOpen
+                  ? "premium-mobile-arrow--open"
+                  : ""
+              }`}
+            >
+              ▾
+            </span>
+          </button>
+
+          <div
+            className={`premium-mobile-submenu ${
+              mobileAstrologyOpen
+                ? "premium-mobile-submenu--open"
+                : ""
+            }`}
+          >
+            <Link
+              href="/astrologie"
+              onClick={closeMenu}
+            >
+              Découvrir l’astrologie
+            </Link>
+
+            <Link
+              href="/astrologie/signes"
+              onClick={closeMenu}
+            >
+              Les signes
+            </Link>
+
+            <Link
+              href="/astrologie/planetes"
+              onClick={closeMenu}
+            >
+              Les planètes
+            </Link>
+
+            <Link
+              href="/astrologie/maisons"
+              onClick={closeMenu}
+            >
+              Les maisons
+            </Link>
+
+            <Link
+              href="/astrologie/aspects"
+              onClick={closeMenu}
+            >
+              Les aspects
+            </Link>
+
+            <Link
+              href="/astrologie/soleil"
+              onClick={closeMenu}
+            >
+              Le Soleil
+            </Link>
+
+            <Link
+              href="/astrologie/lune"
+              onClick={closeMenu}
+            >
+              La Lune
+            </Link>
+
+            <Link
+              href="/astrologie/ascendant"
+              onClick={closeMenu}
+            >
+              L’Ascendant
+            </Link>
+          </div>
 
           <a
             href="/#livres"
-            onClick={onNavTo("livres")}
-            role="menuitem"
+            onClick={closeMenu}
           >
-            Mes livres
-          </a>
-
-          <a
-            href="/#signes"
-            onClick={onNavTo("signes")}
-            role="menuitem"
-          >
-            Choisir un signe
-          </a>
-
-          <a
-            href="/#rapports"
-            onClick={onNavTo("rapports")}
-            role="menuitem"
-          >
-            Rapports
+            <span>📚</span>
+            Livres
           </a>
 
           <Link
             href="/pricing"
             onClick={closeMenu}
-            role="menuitem"
           >
+            <span>✧</span>
             Luna IA
           </Link>
 
           <Link
             href="/login"
+            className="premium-mobile-account"
             onClick={closeMenu}
-            role="menuitem"
           >
+            <span>♙</span>
+
             {isAuth
               ? "Mon compte"
               : "Se connecter"}
