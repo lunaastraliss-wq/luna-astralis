@@ -1,74 +1,41 @@
 import React from "react";
 import { NextResponse } from "next/server";
-import {
-  createClient,
-} from "@supabase/supabase-js";
-import {
-  renderToBuffer,
-} from "@react-pdf/renderer";
-import {
-  calculateChart,
-} from "celestine";
+import { createClient } from "@supabase/supabase-js";
+import { renderToBuffer } from "@react-pdf/renderer";
+import { calculateChart } from "celestine";
 import tzlookup from "tz-lookup";
 
 import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument";
 import PremiumPdfDocument from "@/components/PremiumPdf/PremiumPdfDocument";
 import SignaturePdfDocument from "@/components/SignaturePdf/SignaturePdfDocument";
+import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
+
+import type { CompatibilityPerson } from "@/components/CompatibilityPdf/CompatibilityPdfTypes";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-/*
-|--------------------------------------------------------------------------
-| Nettoyage des valeurs
-|--------------------------------------------------------------------------
-*/
-
-function clean(
-  value: unknown
-): string {
-  return value == null
-    ? ""
-    : String(value).trim();
+function clean(value: unknown): string {
+  return value == null ? "" : String(value).trim();
 }
 
-/*
-|--------------------------------------------------------------------------
-| Configuration Supabase
-|--------------------------------------------------------------------------
-*/
-
 const SUPABASE_URL = clean(
-  process.env.SUPABASE_URL ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL
 );
 
-const SUPABASE_SERVICE_ROLE_KEY =
-  clean(
-    process.env
-      .SUPABASE_SERVICE_ROLE_KEY
-  );
+const SUPABASE_SERVICE_ROLE_KEY = clean(
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const supabase =
-  SUPABASE_URL &&
-  SUPABASE_SERVICE_ROLE_KEY
-    ? createClient(
-        SUPABASE_URL,
-        SUPABASE_SERVICE_ROLE_KEY,
-        {
-          auth: {
-            persistSession: false,
-            autoRefreshToken: false,
-          },
-        }
-      )
+  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      })
     : null;
-
-/*
-|--------------------------------------------------------------------------
-| Fuseau horaire
-|--------------------------------------------------------------------------
-*/
 
 function getTimezoneOffsetHours(
   timeZone: string,
@@ -79,52 +46,29 @@ function getTimezoneOffsetHours(
   minute: number
 ): number {
   const utcDate = new Date(
-    Date.UTC(
-      year,
-      month - 1,
-      day,
-      hour,
-      minute,
-      0
-    )
+    Date.UTC(year, month - 1, day, hour, minute, 0)
   );
 
-  const formatter =
-    new Intl.DateTimeFormat(
-      "en-US",
-      {
-        timeZone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      }
-    );
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
 
-  const parts =
-    formatter.formatToParts(
-      utcDate
-    );
+  const values: Record<string, string> = {};
 
-  const values: Record<
-    string,
-    string
-  > = {};
-
-  for (const part of parts) {
-    if (
-      part.type !== "literal"
-    ) {
-      values[part.type] =
-        part.value;
+  for (const part of formatter.formatToParts(utcDate)) {
+    if (part.type !== "literal") {
+      values[part.type] = part.value;
     }
   }
 
-  let formattedHour =
-    Number(values.hour);
+  let formattedHour = Number(values.hour);
 
   if (formattedHour === 24) {
     formattedHour = 0;
@@ -139,94 +83,29 @@ function getTimezoneOffsetHours(
     Number(values.second)
   );
 
-  return (
-    (asUTC -
-      utcDate.getTime()) /
-    3_600_000
-  );
+  return (asUTC - utcDate.getTime()) / 3_600_000;
 }
 
-/*
-|--------------------------------------------------------------------------
-| Lecture de la date de naissance
-|--------------------------------------------------------------------------
-*/
+function parseBirthDate(date: string) {
+  const normalizedDate = clean(date);
 
-function parseBirthDate(
-  date: string
-) {
-  const normalizedDate =
-    clean(date);
-
-  if (
-    normalizedDate.includes(
-      "/"
-    )
-  ) {
-    const [
-      day,
-      month,
-      year,
-    ] = normalizedDate
-      .split("/")
-      .map(Number);
-
-    return {
-      year,
-      month,
-      day,
-    };
+  if (normalizedDate.includes("/")) {
+    const [day, month, year] = normalizedDate.split("/").map(Number);
+    return { year, month, day };
   }
 
-  const [
-    year,
-    month,
-    day,
-  ] = normalizedDate
-    .split("-")
-    .map(Number);
-
-  return {
-    year,
-    month,
-    day,
-  };
+  const [year, month, day] = normalizedDate.split("-").map(Number);
+  return { year, month, day };
 }
 
-/*
-|--------------------------------------------------------------------------
-| Lecture de l’heure de naissance
-|--------------------------------------------------------------------------
-*/
-
-function parseBirthTime(
-  time: string
-) {
-  const [
-    hour,
-    minute,
-  ] = clean(time)
-    .split(":")
-    .map(Number);
+function parseBirthTime(time: string) {
+  const [hour, minute] = clean(time).split(":").map(Number);
 
   return {
-    hour:
-      Number.isFinite(hour)
-        ? hour
-        : 12,
-
-    minute:
-      Number.isFinite(minute)
-        ? minute
-        : 0,
+    hour: Number.isFinite(hour) ? hour : 12,
+    minute: Number.isFinite(minute) ? minute : 0,
   };
 }
-
-/*
-|--------------------------------------------------------------------------
-| Validation de la date
-|--------------------------------------------------------------------------
-*/
 
 function isValidDateParts(
   year: number,
@@ -241,928 +120,529 @@ function isValidDateParts(
     return false;
   }
 
-  if (
-    year < 1800 ||
-    year > 2200
-  ) {
+  if (year < 1800 || year > 2200) {
     return false;
   }
 
-  if (
-    month < 1 ||
-    month > 12
-  ) {
+  if (month < 1 || month > 12 || day < 1 || day > 31) {
     return false;
   }
 
-  if (
-    day < 1 ||
-    day > 31
-  ) {
-    return false;
-  }
-
-  const testDate =
-    new Date(
-      Date.UTC(
-        year,
-        month - 1,
-        day
-      )
-    );
+  const testDate = new Date(Date.UTC(year, month - 1, day));
 
   return (
-    testDate.getUTCFullYear() ===
-      year &&
-    testDate.getUTCMonth() ===
-      month - 1 &&
-    testDate.getUTCDate() ===
-      day
+    testDate.getUTCFullYear() === year &&
+    testDate.getUTCMonth() === month - 1 &&
+    testDate.getUTCDate() === day
   );
 }
 
-/*
-|--------------------------------------------------------------------------
-| Validation de l’image de la roue
-|--------------------------------------------------------------------------
-*/
-
-function isImageDataUrl(
-  value: string
-): boolean {
-  return /^data:image\/(png|jpeg|jpg|webp);base64,/i.test(
-    value
+function isValidTimeParts(hour: number, minute: number): boolean {
+  return (
+    Number.isInteger(hour) &&
+    Number.isInteger(minute) &&
+    hour >= 0 &&
+    hour <= 23 &&
+    minute >= 0 &&
+    minute <= 59
   );
 }
 
-function getImageMimeType(
-  fileName: string,
-  fileType?: string
-): string {
-  const normalizedType =
-    clean(
-      fileType
-    ).toLowerCase();
+function isImageDataUrl(value: string): boolean {
+  return /^data:image\/(png|jpeg|jpg|webp);base64,/i.test(value);
+}
 
-  if (
-    normalizedType.startsWith(
-      "image/"
-    )
-  ) {
+function getImageMimeType(fileName: string, fileType?: string): string {
+  const normalizedType = clean(fileType).toLowerCase();
+
+  if (normalizedType.startsWith("image/")) {
     return normalizedType;
   }
 
-  const normalizedName =
-    fileName.toLowerCase();
+  const normalizedName = fileName.toLowerCase();
 
   if (
-    normalizedName.endsWith(
-      ".jpg"
-    ) ||
-    normalizedName.endsWith(
-      ".jpeg"
-    )
+    normalizedName.endsWith(".jpg") ||
+    normalizedName.endsWith(".jpeg")
   ) {
     return "image/jpeg";
   }
 
-  if (
-    normalizedName.endsWith(
-      ".webp"
-    )
-  ) {
+  if (normalizedName.endsWith(".webp")) {
     return "image/webp";
   }
 
   return "image/png";
 }
 
-/*
-|--------------------------------------------------------------------------
-| Téléchargement de la roue depuis Supabase
-|--------------------------------------------------------------------------
-*/
-
 async function downloadWheelImageFromStorage(
   wheelPath: string
 ): Promise<string> {
-  if (
-    !supabase ||
-    !wheelPath
-  ) {
+  if (!supabase || !wheelPath) {
     return "";
   }
 
-  const firstAttempt =
-    await supabase.storage
-      .from("rapport-pdf")
-      .download(wheelPath);
+  const buckets = ["rapport-images", "rapport-pdf"] as const;
 
-  if (
-    !firstAttempt.error &&
-    firstAttempt.data
-  ) {
-    const arrayBuffer =
-      await firstAttempt.data
-        .arrayBuffer();
+  for (const bucket of buckets) {
+    const result = await supabase.storage.from(bucket).download(wheelPath);
 
-    const buffer =
-      Buffer.from(
-        arrayBuffer
-      );
-
-    const mimeType =
-      getImageMimeType(
+    if (!result.error && result.data) {
+      const arrayBuffer = await result.data.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const mimeType = getImageMimeType(
         wheelPath,
-        firstAttempt.data.type
+        result.data.type
       );
 
-    return `data:${mimeType};base64,${buffer.toString(
-      "base64"
-    )}`;
-  }
-
-  const secondAttempt =
-    await supabase.storage
-      .from(
-        "rapport-images"
-      )
-      .download(wheelPath);
-
-  if (
-    !secondAttempt.error &&
-    secondAttempt.data
-  ) {
-    const arrayBuffer =
-      await secondAttempt.data
-        .arrayBuffer();
-
-    const buffer =
-      Buffer.from(
-        arrayBuffer
-      );
-
-    const mimeType =
-      getImageMimeType(
-        wheelPath,
-        secondAttempt.data.type
-      );
-
-    return `data:${mimeType};base64,${buffer.toString(
-      "base64"
-    )}`;
-  }
-
-  console.warn(
-    "WHEEL_IMAGE_DOWNLOAD_FAILED",
-    {
-      wheelPath,
-
-      rapportPdfError:
-        firstAttempt.error
-          ?.message ||
-        null,
-
-      rapportImagesError:
-        secondAttempt.error
-          ?.message ||
-        null,
+      return `data:${mimeType};base64,${buffer.toString("base64")}`;
     }
-  );
+  }
 
+  console.warn("WHEEL_IMAGE_DOWNLOAD_FAILED", { wheelPath });
   return "";
 }
-
-/*
-|--------------------------------------------------------------------------
-| Résolution de l’image de la roue
-|--------------------------------------------------------------------------
-*/
 
 async function resolveWheelImage(
   order: any,
   birthData: any
 ): Promise<string> {
-  const directWheelImage =
-    clean(
-      birthData?.wheelImage ||
-        birthData?.wheel_image ||
-        order?.wheel_image
-    );
+  const directWheelImage = clean(
+    birthData?.wheelImage ||
+      birthData?.wheel_image ||
+      order?.wheel_image
+  );
 
   if (directWheelImage) {
-    if (
-      isImageDataUrl(
-        directWheelImage
-      )
-    ) {
+    if (isImageDataUrl(directWheelImage)) {
       return directWheelImage;
     }
 
     if (
-      directWheelImage.length >
-        500 &&
-      !directWheelImage.startsWith(
-        "http"
-      )
+      directWheelImage.length > 500 &&
+      !directWheelImage.startsWith("http")
     ) {
       return `data:image/png;base64,${directWheelImage}`;
     }
   }
 
-  const wheelImagePath =
-    clean(
-      order?.wheel_image_path ||
-        birthData
-          ?.wheelImagePath ||
-        birthData
-          ?.wheel_image_path
-    );
+  const wheelImagePath = clean(
+    order?.wheel_image_path ||
+      birthData?.wheelImagePath ||
+      birthData?.wheel_image_path
+  );
 
-  if (wheelImagePath) {
-    return downloadWheelImageFromStorage(
-      wheelImagePath
-    );
-  }
-
-  return "";
+  return wheelImagePath
+    ? downloadWheelImageFromStorage(wheelImagePath)
+    : "";
 }
 
-/*
-|--------------------------------------------------------------------------
-| Génération du rapport
-|--------------------------------------------------------------------------
-*/
+type BuiltChart = {
+  firstName: string;
+  birthDate: string;
+  birthTime: string;
+  birthCity: string;
+  birthCountry: string;
+  latitude: number;
+  longitude: number;
+  timeZone: string;
+  timezoneOffset: number;
+  planets: any[];
+  angles: any;
+  wheelImage: string;
+};
 
-export async function POST(
-  req: Request
+async function buildChartData(
+  personData: any,
+  orderFallback: any = {}
+): Promise<BuiltChart> {
+  const firstName = clean(
+    personData?.firstName ||
+      personData?.first_name ||
+      orderFallback?.first_name
+  );
+
+  const birthDate = clean(
+    personData?.birthDate ||
+      personData?.birth_date ||
+      orderFallback?.birth_date
+  );
+
+  const birthTime = clean(
+    personData?.birthTime ||
+      personData?.birth_time ||
+      orderFallback?.birth_time
+  );
+
+  const birthCity = clean(
+    personData?.birthCity ||
+      personData?.birth_city ||
+      orderFallback?.birth_city
+  );
+
+  const birthCountry = clean(
+    personData?.birthCountry ||
+      personData?.birth_country ||
+      orderFallback?.birth_country
+  );
+
+  const latitude = Number(
+    personData?.latitude ?? orderFallback?.latitude
+  );
+
+  const longitude = Number(
+    personData?.longitude ?? orderFallback?.longitude
+  );
+
+  if (
+    !birthDate ||
+    !birthTime ||
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    throw new Error("INVALID_BIRTH_DATA");
+  }
+
+  const { year, month, day } = parseBirthDate(birthDate);
+  const { hour, minute } = parseBirthTime(birthTime);
+
+  if (!isValidDateParts(year, month, day)) {
+    throw new Error("INVALID_BIRTH_DATE");
+  }
+
+  if (!isValidTimeParts(hour, minute)) {
+    throw new Error("INVALID_BIRTH_TIME");
+  }
+
+  let timeZone = clean(
+    personData?.timezone ||
+      personData?.timeZone ||
+      orderFallback?.timezone
+  );
+
+  if (!timeZone) {
+    try {
+      timeZone = tzlookup(latitude, longitude);
+    } catch (error: any) {
+      throw new Error(
+        error?.message || "TIMEZONE_LOOKUP_FAILED"
+      );
+    }
+  }
+
+  const timezoneOffset = getTimezoneOffsetHours(
+    timeZone,
+    year,
+    month,
+    day,
+    hour,
+    minute
+  );
+
+  const chart = calculateChart({
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second: 0,
+    timezone: timezoneOffset,
+    latitude,
+    longitude,
+  });
+
+  const planets = (chart as any)?.planets || [];
+  const angles = (chart as any)?.angles || {};
+  const wheelImage = await resolveWheelImage(
+    orderFallback,
+    personData
+  );
+
+  return {
+    firstName,
+    birthDate,
+    birthTime,
+    birthCity,
+    birthCountry,
+    latitude,
+    longitude,
+    timeZone,
+    timezoneOffset,
+    planets,
+    angles,
+    wheelImage,
+  };
+}
+
+async function saveGeneratedPdf(
+  sessionId: string,
+  productType: string,
+  pdfDocument: React.ReactElement
 ) {
-  try {
-    /*
-    |--------------------------------------------------------------------------
-    | Vérification Supabase
-    |--------------------------------------------------------------------------
-    */
+  if (!supabase) {
+    throw new Error("SUPABASE_CONFIG_MISSING");
+  }
 
+  const pdfBuffer = await renderToBuffer(pdfDocument);
+
+  const safeProductType = productType.replace(
+    /[^a-zA-Z0-9-_]/g,
+    "-"
+  );
+
+  const filePath =
+    `${sessionId}/rapport-${safeProductType}.pdf`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("rapport-pdf")
+    .upload(filePath, pdfBuffer, {
+      contentType: "application/pdf",
+      upsert: true,
+    });
+
+  if (uploadError) {
+    throw new Error(`PDF_UPLOAD_FAILED: ${uploadError.message}`);
+  }
+
+  const { error: updateError } = await supabase
+    .from("orders")
+    .update({
+      status: "generated",
+      pdf_path: filePath,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("stripe_session_id", sessionId);
+
+  if (updateError) {
+    throw new Error(`ORDER_UPDATE_FAILED: ${updateError.message}`);
+  }
+
+  const { data: signed, error: signedError } =
+    await supabase.storage
+      .from("rapport-pdf")
+      .createSignedUrl(filePath, 60 * 60);
+
+  if (signedError) {
+    throw new Error(`SIGNED_URL_FAILED: ${signedError.message}`);
+  }
+
+  return {
+    filePath,
+    signedUrl: signed?.signedUrl || null,
+  };
+}
+
+export async function POST(req: Request) {
+  try {
     if (!supabase) {
       return NextResponse.json(
         {
-          error:
-            "SUPABASE_CONFIG_MISSING",
-
+          error: "SUPABASE_CONFIG_MISSING",
           detail:
             "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY est absent.",
         },
-        {
-          status: 500,
-        }
+        { status: 500 }
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Lecture de la requête
-    |--------------------------------------------------------------------------
-    */
-
-    const body =
-      await req
-        .json()
-        .catch(() => null);
-
-    const sessionId =
-      clean(
-        body?.session_id
-      );
+    const body = await req.json().catch(() => null);
+    const sessionId = clean(body?.session_id);
 
     if (!sessionId) {
       return NextResponse.json(
-        {
-          error:
-            "MISSING_SESSION_ID",
-        },
-        {
-          status: 400,
-        }
+        { error: "MISSING_SESSION_ID" },
+        { status: 400 }
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Lecture de la commande
-    |--------------------------------------------------------------------------
-    */
-
-    const {
-      data: order,
-      error: orderError,
-    } = await supabase
+    const { data: order, error: orderError } = await supabase
       .from("orders")
       .select("*")
-      .eq(
-        "stripe_session_id",
-        sessionId
-      )
+      .eq("stripe_session_id", sessionId)
       .single();
 
-    if (
-      orderError ||
-      !order
-    ) {
+    if (orderError || !order) {
       return NextResponse.json(
         {
-          error:
-            "ORDER_NOT_FOUND",
-
-          detail:
-            orderError?.message ||
-            null,
+          error: "ORDER_NOT_FOUND",
+          detail: orderError?.message || null,
         },
-        {
-          status: 404,
-        }
+        { status: 404 }
       );
     }
 
-    /*
-     * Le retour automatique d’un ancien PDF
-     * reste désactivé afin que chaque test
-     * utilise le code actuel.
-     */
-
-    /*
-    |--------------------------------------------------------------------------
-    | Données de naissance
-    |--------------------------------------------------------------------------
-    */
-
     const birthData =
-      order.birth_data &&
-      typeof order.birth_data ===
-        "object"
+      order.birth_data && typeof order.birth_data === "object"
         ? order.birth_data
         : {};
 
-    const firstName =
-      clean(
-        birthData.firstName ||
-          birthData.first_name ||
-          order.first_name
-      );
+    const productType = clean(
+      order.product_type ||
+        order.report_type ||
+        "essential"
+    ).toLowerCase();
 
-    const birthDate =
-      clean(
-        birthData.birthDate ||
-          birthData.birth_date ||
-          order.birth_date
-      );
+    let pdfDocument: React.ReactElement;
+    let wheelIncluded = false;
+    let wheelsIncluded:
+      | { person1: boolean; person2: boolean }
+      | undefined;
 
-    const birthTime =
-      clean(
-        birthData.birthTime ||
-          birthData.birth_time ||
-          order.birth_time
-      );
+    if (productType === "compatibility") {
+      const person1Data =
+        birthData.person1 && typeof birthData.person1 === "object"
+          ? birthData.person1
+          : {};
 
-    const birthCity =
-      clean(
-        birthData.birthCity ||
-          birthData.birth_city ||
-          order.birth_city
-      );
+      const person2Data =
+        birthData.person2 && typeof birthData.person2 === "object"
+          ? birthData.person2
+          : {};
 
-    const latitude =
-      Number(
-        birthData.latitude ??
-          order.latitude
-      );
-
-    const longitude =
-      Number(
-        birthData.longitude ??
-          order.longitude
-      );
-
-    if (
-      !birthDate ||
-      !birthTime ||
-      !Number.isFinite(
-        latitude
-      ) ||
-      !Number.isFinite(
-        longitude
-      )
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "INVALID_BIRTH_DATA",
-
-          birth_data:
-            birthData,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation de la date et de l’heure
-    |--------------------------------------------------------------------------
-    */
-
-    const {
-      year,
-      month,
-      day,
-    } = parseBirthDate(
-      birthDate
-    );
-
-    const {
-      hour,
-      minute,
-    } = parseBirthTime(
-      birthTime
-    );
-
-    if (
-      !isValidDateParts(
-        year,
-        month,
-        day
-      )
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "INVALID_BIRTH_DATE",
-
-          birthDate,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    if (
-      !Number.isInteger(
-        hour
-      ) ||
-      !Number.isInteger(
-        minute
-      ) ||
-      hour < 0 ||
-      hour > 23 ||
-      minute < 0 ||
-      minute > 59
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "INVALID_BIRTH_TIME",
-
-          birthTime,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Calcul du fuseau horaire
-    |--------------------------------------------------------------------------
-    */
-
-    let timeZone = "";
-
-    try {
-      timeZone =
-        tzlookup(
-          latitude,
-          longitude
+      if (
+        Object.keys(person1Data).length === 0 ||
+        Object.keys(person2Data).length === 0
+      ) {
+        return NextResponse.json(
+          {
+            error: "INVALID_COMPATIBILITY_DATA",
+            detail: "Les données des deux personnes sont absentes.",
+            birth_data: birthData,
+          },
+          { status: 400 }
         );
-    } catch (
-      timezoneError: any
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "TIMEZONE_LOOKUP_FAILED",
+      }
 
-          detail:
-            timezoneError
-              ?.message ||
-            null,
-        },
-        {
-          status: 400,
-        }
-      );
-    }
+      const [chart1, chart2] = await Promise.all([
+        buildChartData(person1Data),
+        buildChartData(person2Data),
+      ]);
 
-    const timezoneOffset =
-      getTimezoneOffsetHours(
-        timeZone,
-        year,
-        month,
-        day,
-        hour,
-        minute
-      );
+      const person1: CompatibilityPerson = {
+        firstName: chart1.firstName,
+        birthDate: chart1.birthDate,
+        birthTime: chart1.birthTime,
+        birthCity: chart1.birthCity,
+        birthCountry: chart1.birthCountry,
+        planets: chart1.planets,
+        angles: chart1.angles,
+        wheelImage: chart1.wheelImage,
+      };
 
-    /*
-    |--------------------------------------------------------------------------
-    | Calcul astrologique
-    |--------------------------------------------------------------------------
-    */
+      const person2: CompatibilityPerson = {
+        firstName: chart2.firstName,
+        birthDate: chart2.birthDate,
+        birthTime: chart2.birthTime,
+        birthCity: chart2.birthCity,
+        birthCountry: chart2.birthCountry,
+        planets: chart2.planets,
+        angles: chart2.angles,
+        wheelImage: chart2.wheelImage,
+      };
 
-    const chart =
-      calculateChart({
-        year,
-        month,
-        day,
-        hour,
-        minute,
-        second: 0,
-        timezone:
-          timezoneOffset,
-        latitude,
-        longitude,
-      });
+      wheelsIncluded = {
+        person1: Boolean(chart1.wheelImage),
+        person2: Boolean(chart2.wheelImage),
+      };
 
-    console.log(
-      "CELESTINE_HOUSES",
-      JSON.stringify(
-        (chart as any)
-          ?.houses,
-        null,
-        2
-      )
-    );
+      wheelIncluded =
+        wheelsIncluded.person1 && wheelsIncluded.person2;
 
-    console.log(
-      "FIRST_PLANET",
-      JSON.stringify(
-        (chart as any)
-          ?.planets?.[0],
-        null,
-        2
-      )
-    );
-
-    const planets =
-      (chart as any)
-        ?.planets || [];
-
-    console.log(
-      "PLANETS",
-      JSON.stringify(
-        planets,
-        null,
-        2
-      )
-    );
-
-    const angles =
-      (chart as any)
-        ?.angles || {};
-
-    /*
-    |--------------------------------------------------------------------------
-    | Image de la roue
-    |--------------------------------------------------------------------------
-    */
-
-    const wheelImage =
-      await resolveWheelImage(
-        order,
-        birthData
-      );
-
-    /*
-    |--------------------------------------------------------------------------
-    | Type de rapport acheté
-    |--------------------------------------------------------------------------
-    */
-
-    const productType =
-      clean(
-        order.product_type ||
-          order.report_type ||
-          "essential"
-      ).toLowerCase();
-
-    console.log(
-      "REPORT_GENERATION",
-      {
+      console.log("COMPATIBILITY_REPORT_GENERATION", {
         sessionId,
         productType,
-        firstName,
-        birthDate,
-        birthTime,
-        birthCity,
-        timeZone,
-        timezoneOffset,
+        person1: chart1.firstName,
+        person2: chart2.firstName,
+        person1PlanetsCount: chart1.planets.length,
+        person2PlanetsCount: chart2.planets.length,
+        wheelsIncluded,
+      });
 
-        planetsCount:
-          Array.isArray(
-            planets
-          )
-            ? planets.length
-            : 0,
-
-        hasAngles:
-          Boolean(
-            angles &&
-              Object.keys(
-                angles
-              ).length
-          ),
-
-        hasWheelImage:
-          Boolean(
-            wheelImage
-          ),
-      }
-    );
-
-    /*
-    |--------------------------------------------------------------------------
-    | Choix du document PDF
-    |--------------------------------------------------------------------------
-    */
-
-    let pdfDocument:
-      React.ReactElement;
-
-    if (
-      productType ===
-      "signature"
-    ) {
-      pdfDocument = (
-        <SignaturePdfDocument
-          firstName={
-            firstName
-          }
-          birthDate={
-            birthDate
-          }
-          birthTime={
-            birthTime
-          }
-          birthCity={
-            birthCity
-          }
-          planets={
-            planets
-          }
-          angles={
-            angles
-          }
-          wheelImage={
-            wheelImage
-          }
-        />
-      );
-    } else if (
-      productType ===
-      "premium"
-    ) {
-      pdfDocument = (
-        <PremiumPdfDocument
-          firstName={
-            firstName
-          }
-          birthDate={
-            birthDate
-          }
-          birthTime={
-            birthTime
-          }
-          birthCity={
-            birthCity
-          }
-          planets={
-            planets
-          }
-          angles={
-            angles
-          }
-          wheelImage={
-            wheelImage
-          }
-        />
+      pdfDocument = React.createElement(
+        CompatibilityPdfDocument,
+        { person1, person2 }
       );
     } else {
-      pdfDocument = (
-        <EssentialPdfDocument
-          firstName={
-            firstName
-          }
-          birthDate={
-            birthDate
-          }
-          birthTime={
-            birthTime
-          }
-          birthCity={
-            birthCity
-          }
-          planets={
-            planets
-          }
-          angles={
-            angles
-          }
-          wheelImage={
-            wheelImage
-          }
-        />
-      );
+      const chart = await buildChartData(birthData, order);
+
+      wheelIncluded = Boolean(chart.wheelImage);
+
+      const commonProps = {
+        firstName: chart.firstName,
+        birthDate: chart.birthDate,
+        birthTime: chart.birthTime,
+        birthCity: chart.birthCity,
+        planets: chart.planets,
+        angles: chart.angles,
+        wheelImage: chart.wheelImage,
+      };
+
+      console.log("REPORT_GENERATION", {
+        sessionId,
+        productType,
+        firstName: chart.firstName,
+        birthDate: chart.birthDate,
+        birthTime: chart.birthTime,
+        birthCity: chart.birthCity,
+        timeZone: chart.timeZone,
+        timezoneOffset: chart.timezoneOffset,
+        planetsCount: chart.planets.length,
+        hasAngles: Boolean(
+          chart.angles && Object.keys(chart.angles).length
+        ),
+        hasWheelImage: wheelIncluded,
+      });
+
+      if (productType === "signature") {
+        pdfDocument = React.createElement(
+          SignaturePdfDocument,
+          commonProps
+        );
+      } else if (productType === "premium") {
+        pdfDocument = React.createElement(
+          PremiumPdfDocument,
+          commonProps
+        );
+      } else {
+        pdfDocument = React.createElement(
+          EssentialPdfDocument,
+          commonProps
+        );
+      }
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Génération du fichier PDF
-    |--------------------------------------------------------------------------
-    */
-
-    const pdfBuffer =
-      await renderToBuffer(
-        pdfDocument
-      );
-
-    /*
-    |--------------------------------------------------------------------------
-    | Chemin du fichier
-    |--------------------------------------------------------------------------
-    */
-
-    const safeProductType =
-      productType.replace(
-        /[^a-zA-Z0-9-_]/g,
-        "-"
-      );
-
-    const filePath =
-      `${sessionId}/rapport-${safeProductType}.pdf`;
-
-    /*
-    |--------------------------------------------------------------------------
-    | Téléversement dans Supabase
-    |--------------------------------------------------------------------------
-    */
-
-    const {
-      error: uploadError,
-    } = await supabase.storage
-      .from("rapport-pdf")
-      .upload(
-        filePath,
-        pdfBuffer,
-        {
-          contentType:
-            "application/pdf",
-
-          upsert: true,
-        }
-      );
-
-    if (uploadError) {
-      return NextResponse.json(
-        {
-          error:
-            "PDF_UPLOAD_FAILED",
-
-          detail:
-            uploadError.message,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Mise à jour de la commande
-    |--------------------------------------------------------------------------
-    */
-
-    const {
-      error: updateError,
-    } = await supabase
-      .from("orders")
-      .update({
-        status: "generated",
-
-        pdf_path:
-          filePath,
-
-        updated_at:
-          new Date()
-            .toISOString(),
-      })
-      .eq(
-        "stripe_session_id",
-        sessionId
-      );
-
-    if (updateError) {
-      return NextResponse.json(
-        {
-          error:
-            "ORDER_UPDATE_FAILED",
-
-          detail:
-            updateError.message,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Création du lien signé
-    |--------------------------------------------------------------------------
-    */
-
-    const {
-      data: signed,
-      error: signedError,
-    } = await supabase.storage
-      .from("rapport-pdf")
-      .createSignedUrl(
-        filePath,
-        60 * 60
-      );
-
-    if (signedError) {
-      return NextResponse.json(
-        {
-          error:
-            "SIGNED_URL_FAILED",
-
-          detail:
-            signedError.message,
-
-          pdf_path:
-            filePath,
-        },
-        {
-          status: 500,
-        }
-      );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Réponse
-    |--------------------------------------------------------------------------
-    */
+    const { filePath, signedUrl } = await saveGeneratedPdf(
+      sessionId,
+      productType,
+      pdfDocument
+    );
 
     return NextResponse.json({
       ok: true,
       generated: true,
-
-      product_type:
-        productType,
-
-      pdf_path:
-        filePath,
-
-      pdf_url:
-        signed?.signedUrl ||
-        null,
-
-      wheel_included:
-        Boolean(
-          wheelImage
-        ),
+      product_type: productType,
+      pdf_path: filePath,
+      pdf_url: signedUrl,
+      wheel_included: wheelIncluded,
+      ...(wheelsIncluded
+        ? { wheels_included: wheelsIncluded }
+        : {}),
     });
- } catch (err: any) {
-  console.error("REPORT_GENERATE_ERROR");
-  console.error("Message:", err?.message);
-  console.error("Stack:", err?.stack);
-  console.error("Erreur complète:", err);
+  } catch (err: any) {
+    console.error("REPORT_GENERATE_ERROR");
+    console.error("Message:", err?.message);
+    console.error("Stack:", err?.stack);
+    console.error("Erreur complète:", err);
 
-  return NextResponse.json(
-    {
-      error:
-        err?.message ||
-        "REPORT_GENERATE_ERROR",
-    },
-    {
-      status: 500,
-    }
-  );
-}
+    const message = err?.message || "REPORT_GENERATE_ERROR";
+
+    const isClientError =
+      message.startsWith("INVALID_") ||
+      message.startsWith("TIMEZONE_");
+
+    return NextResponse.json(
+      { error: message },
+      { status: isClientError ? 400 : 500 }
+    );
+  }
 }
