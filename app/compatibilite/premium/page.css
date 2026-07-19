@@ -1,0 +1,1649 @@
+/* =========================================================
+   COMPATIBILITÉ PREMIUM — LUNA ASTRALIS
+   ========================================================= */
+
+.compat-premium-page {
+  min-height: 100vh;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(244, 201, 93, 0.17),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 8%,
+      rgba(124, 92, 255, 0.2),
+      transparent 33%
+    ),
+    linear-gradient(
+      180deg,
+      #11162d 0%,
+      #080b18 42%,
+      #050711 100%
+    );
+}
+
+.compat-premium-main {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 80px 18px 100px;
+}
+
+/* =========================================================
+   ÉLÉMENTS COMMUNS
+   ========================================================= */
+
+.compat-premium-section-heading {
+  max-width: 780px;
+  margin: 0 auto 46px;
+  text-align: center;
+}
+
+.compat-premium-section-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 9px 17px;
+  border: 1px solid rgba(244, 201, 93, 0.34);
+  border-radius: 999px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.1);
+  font-size: 13px;
+  font-weight: 850;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.compat-premium-section-heading h2 {
+  margin: 0 0 18px;
+  font-size: clamp(35px, 5vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.compat-premium-section-heading p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.compat-premium-hero {
+  min-height: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 82px 40px 60px;
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  border-radius: 44px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(124, 92, 255, 0.22),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(244, 201, 93, 0.11),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(13, 20, 42, 0.97),
+      rgba(5, 8, 21, 0.99)
+    );
+  box-shadow:
+    0 38px 110px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.compat-premium-hero::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  z-index: -1;
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  border-radius: 34px;
+  pointer-events: none;
+}
+
+.compat-premium-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  opacity: 0.14;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.5) 1px,
+    transparent 1px
+  );
+  background-size: 82px 82px;
+  pointer-events: none;
+}
+
+.compat-premium-hero-glow {
+  width: 460px;
+  height: 460px;
+  position: absolute;
+  top: -260px;
+  left: 50%;
+  z-index: -2;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(244, 201, 93, 0.16);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.compat-premium-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 10px 18px;
+  border: 1px solid rgba(244, 201, 93, 0.4);
+  border-radius: 999px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.11);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.compat-premium-eyebrow {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.compat-premium-hero h1 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(50px, 8vw, 86px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.compat-premium-hero h1 span {
+  display: block;
+  color: #f4c95d;
+  text-shadow: 0 0 42px rgba(244, 201, 93, 0.18);
+}
+
+.compat-premium-hero-text {
+  max-width: 720px;
+  margin: 28px auto 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 19px;
+  line-height: 1.75;
+}
+
+.compat-premium-hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+}
+
+.compat-premium-button {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 25px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 950;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.compat-premium-button:hover {
+  transform: translateY(-2px);
+}
+
+.compat-premium-button-primary {
+  color: #111827;
+  background: linear-gradient(
+    135deg,
+    #f4c95d,
+    #fff1a8
+  );
+  box-shadow: 0 18px 40px rgba(244, 201, 93, 0.25);
+}
+
+.compat-premium-button-primary:hover {
+  box-shadow: 0 22px 48px rgba(244, 201, 93, 0.34);
+}
+
+.compat-premium-button-secondary {
+  border-color: rgba(244, 201, 93, 0.34);
+  color: #f9dc82;
+  background: rgba(244, 201, 93, 0.07);
+}
+
+.compat-premium-button-secondary:hover {
+  color: #111827;
+  background: linear-gradient(
+    135deg,
+    #f4c95d,
+    #fff1a8
+  );
+}
+
+.compat-premium-button:focus-visible {
+  outline: 3px solid rgba(244, 201, 93, 0.55);
+  outline-offset: 4px;
+}
+
+.compat-premium-hero-trust {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.compat-premium-orbits {
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 42px;
+}
+
+.compat-premium-orbit {
+  width: 215px;
+  height: 215px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  border: 1px solid rgba(244, 201, 93, 0.48);
+  border-radius: 50%;
+  background: rgba(8, 14, 29, 0.68);
+  box-shadow:
+    0 0 0 12px rgba(244, 201, 93, 0.025),
+    0 0 0 23px rgba(244, 201, 93, 0.018),
+    inset 0 0 55px rgba(124, 92, 255, 0.12);
+}
+
+.compat-premium-orbit::before,
+.compat-premium-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(244, 201, 93, 0.17);
+  border-radius: 50%;
+}
+
+.compat-premium-orbit::before {
+  inset: 13px;
+}
+
+.compat-premium-orbit::after {
+  inset: 28px;
+}
+
+.compat-premium-orbit span {
+  color: #f4c95d;
+  font-size: 70px;
+  line-height: 1;
+}
+
+.compat-premium-orbit-left {
+  margin-right: -24px;
+}
+
+.compat-premium-orbit-right {
+  margin-left: -24px;
+}
+
+.compat-premium-orbit-center {
+  width: 92px;
+  height: 92px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  border: 1px solid rgba(244, 201, 93, 0.6);
+  border-radius: 50%;
+  color: #f4c95d;
+  background: #0b1021;
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.48);
+  font-size: 32px;
+}
+
+/* =========================================================
+   INTRO / COMPARAISON
+   ========================================================= */
+
+.compat-premium-intro {
+  margin-top: 100px;
+}
+
+.compat-premium-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.compat-premium-comparison-card {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 34px 32px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(124, 92, 255, 0.13),
+      transparent 36%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.035)
+    );
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.compat-premium-comparison-featured {
+  border-color: rgba(244, 201, 93, 0.48);
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 201, 93, 0.17),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(124, 92, 255, 0.15),
+      transparent 42%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.095),
+      rgba(255, 255, 255, 0.04)
+    );
+}
+
+.compat-premium-comparison-label {
+  align-self: flex-start;
+  margin: -10px 0 22px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  color: #16131c;
+  background: linear-gradient(
+    135deg,
+    #f4c95d,
+    #fff1a8
+  );
+  font-size: 11px;
+  font-weight: 950;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.compat-premium-comparison-icon {
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  border-radius: 21px;
+  background: rgba(244, 201, 93, 0.09);
+  font-size: 31px;
+}
+
+.compat-premium-comparison-kicker {
+  margin-bottom: 10px;
+  color: #f4c95d;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.compat-premium-comparison-card h3 {
+  margin: 0 0 16px;
+  font-size: 29px;
+  line-height: 1.15;
+}
+
+.compat-premium-comparison-card > p {
+  margin: 0 0 24px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.compat-premium-comparison-card ul {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.compat-premium-comparison-card li {
+  position: relative;
+  padding-left: 28px;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.compat-premium-comparison-card li::before {
+  content: "✓";
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 1px;
+  left: 0;
+  border: 1px solid rgba(244, 201, 93, 0.32);
+  border-radius: 50%;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.08);
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.compat-premium-text-link {
+  align-self: flex-start;
+  margin-top: auto;
+  color: #f4c95d;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.compat-premium-text-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   APERÇU DU RAPPORT
+   ========================================================= */
+
+.compat-premium-report {
+  margin-top: 105px;
+}
+
+.compat-premium-report-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 46px;
+  align-items: center;
+}
+
+.compat-premium-report-preview {
+  min-height: 670px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(244, 201, 93, 0.46);
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(124, 92, 255, 0.16),
+      transparent 35%
+    ),
+    #071021;
+  box-shadow:
+    0 35px 90px rgba(0, 0, 0, 0.48),
+    0 0 45px rgba(244, 201, 93, 0.06);
+}
+
+.compat-premium-report-preview::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(244, 201, 93, 0.26);
+  border-radius: 19px;
+  pointer-events: none;
+}
+
+.compat-premium-preview-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 28px 34px;
+  border-bottom: 1px solid rgba(244, 201, 93, 0.2);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.compat-premium-preview-content {
+  min-height: 610px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 70px 42px 36px;
+  text-align: center;
+}
+
+.compat-premium-preview-kicker {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 19px;
+}
+
+.compat-premium-preview-content h3 {
+  margin: 0;
+  color: #f4c95d;
+  font-size: 62px;
+  line-height: 1;
+}
+
+.compat-premium-preview-content > p:not(.compat-premium-preview-kicker) {
+  max-width: 360px;
+  margin: 18px auto 0;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+}
+
+.compat-premium-preview-orbits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 58px;
+}
+
+.compat-premium-preview-orbits div {
+  width: 150px;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(244, 201, 93, 0.42);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.015);
+  box-shadow:
+    0 0 0 10px rgba(244, 201, 93, 0.025),
+    inset 0 0 35px rgba(124, 92, 255, 0.08);
+}
+
+.compat-premium-preview-orbits div:first-child {
+  margin-right: -17px;
+}
+
+.compat-premium-preview-orbits div:last-child {
+  margin-left: -17px;
+}
+
+.compat-premium-preview-orbits span {
+  color: #f4c95d;
+  font-size: 54px;
+}
+
+.compat-premium-preview-orbits strong {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  border: 1px solid rgba(244, 201, 93, 0.5);
+  border-radius: 50%;
+  color: #f4c95d;
+  background: #091224;
+  font-size: 20px;
+}
+
+.compat-premium-preview-names {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 42px;
+}
+
+.compat-premium-preview-names span {
+  padding: 18px 15px;
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  color: rgba(255, 255, 255, 0.77);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compat-premium-preview-footer {
+  margin-top: auto;
+  color: rgba(244, 201, 93, 0.75);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.compat-premium-report-copy h3 {
+  margin: 20px 0 18px;
+  font-size: clamp(34px, 4vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.compat-premium-report-copy > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.compat-premium-report-badge {
+  display: inline-flex;
+  padding: 8px 15px;
+  border: 1px solid rgba(244, 201, 93, 0.35);
+  border-radius: 999px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.09);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.compat-premium-report-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 30px 0;
+}
+
+.compat-premium-report-highlights div {
+  padding: 22px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.compat-premium-report-highlights strong {
+  display: block;
+  color: #f4c95d;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.compat-premium-report-highlights span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.61);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.compat-premium-check-list {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compat-premium-check-list li {
+  position: relative;
+  padding-left: 30px;
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.55;
+}
+
+.compat-premium-check-list li::before {
+  content: "✓";
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  border-radius: 50%;
+  color: #111827;
+  background: #f4c95d;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+/* =========================================================
+   SCORES
+   ========================================================= */
+
+.compat-premium-scores {
+  margin-top: 110px;
+}
+
+.compat-premium-score-panel {
+  padding: 34px;
+  border: 1px solid rgba(244, 201, 93, 0.27);
+  border-radius: 34px;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(124, 92, 255, 0.14),
+      transparent 42%
+    ),
+    rgba(255, 255, 255, 0.045);
+  box-shadow:
+    0 30px 85px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.compat-premium-score-main {
+  padding: 40px 32px;
+  border: 1px solid rgba(244, 201, 93, 0.34);
+  border-radius: 26px;
+  text-align: center;
+  background: rgba(6, 13, 28, 0.72);
+}
+
+.compat-premium-score-main > span {
+  display: block;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.compat-premium-score-main strong {
+  display: block;
+  color: #f4c95d;
+  font-size: clamp(48px, 8vw, 78px);
+  line-height: 1;
+}
+
+.compat-premium-score-main p {
+  max-width: 630px;
+  margin: 18px auto 0;
+  color: rgba(255, 255, 255, 0.67);
+  line-height: 1.6;
+}
+
+.compat-premium-score-line {
+  max-width: 620px;
+  height: 10px;
+  margin: 26px auto 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.compat-premium-score-line span {
+  width: 68%;
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    #b98b2e,
+    #f4c95d
+  );
+}
+
+.compat-premium-score-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.compat-premium-score-card {
+  display: flex;
+  gap: 17px;
+  align-items: flex-start;
+  padding: 23px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.compat-premium-score-icon {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  border-radius: 50%;
+  color: #f4c95d;
+  font-size: 25px;
+}
+
+.compat-premium-score-card h3 {
+  margin: 2px 0 7px;
+  font-size: 19px;
+}
+
+.compat-premium-score-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.61);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   CONTENU DU RAPPORT
+   ========================================================= */
+
+.compat-premium-contents {
+  margin-top: 110px;
+}
+
+.compat-premium-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.compat-premium-feature-card {
+  min-height: 100%;
+  padding: 28px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(124, 92, 255, 0.11),
+      transparent 40%
+    ),
+    rgba(255, 255, 255, 0.04);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.compat-premium-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(244, 201, 93, 0.34);
+}
+
+.compat-premium-feature-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  border-radius: 18px;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.07);
+  font-size: 28px;
+}
+
+.compat-premium-feature-card h3 {
+  margin: 0 0 12px;
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.compat-premium-feature-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   PLANÈTES
+   ========================================================= */
+
+.compat-premium-planets {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 50px;
+  align-items: center;
+  margin-top: 110px;
+  padding: 52px;
+  overflow: hidden;
+  border: 1px solid rgba(244, 201, 93, 0.24);
+  border-radius: 36px;
+  background:
+    radial-gradient(
+      circle at right,
+      rgba(124, 92, 255, 0.2),
+      transparent 42%
+    ),
+    rgba(255, 255, 255, 0.04);
+}
+
+.compat-premium-planets-content h2 {
+  margin: 0 0 18px;
+  font-size: clamp(34px, 4.5vw, 51px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.compat-premium-planets-content > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.compat-premium-planet-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 30px;
+}
+
+.compat-premium-planet-list div {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.compat-premium-planet-list span {
+  display: inline-block;
+  margin-right: 8px;
+  color: #f4c95d;
+  font-size: 22px;
+}
+
+.compat-premium-planet-list strong {
+  font-size: 15px;
+}
+
+.compat-premium-planet-list p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.compat-premium-planets-visual {
+  min-height: 390px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.compat-premium-planet-orbit {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  border: 1px solid rgba(244, 201, 93, 0.36);
+  border-radius: 50%;
+}
+
+.compat-premium-planet-orbit span {
+  color: #f4c95d;
+}
+
+.compat-premium-planet-orbit-one {
+  width: 300px;
+  height: 300px;
+}
+
+.compat-premium-planet-orbit-one span {
+  position: absolute;
+  top: 34px;
+  right: 48px;
+  font-size: 38px;
+}
+
+.compat-premium-planet-orbit-two {
+  width: 195px;
+  height: 195px;
+  border-color: rgba(124, 92, 255, 0.44);
+}
+
+.compat-premium-planet-orbit-two span {
+  position: absolute;
+  bottom: 18px;
+  left: 30px;
+  font-size: 34px;
+}
+
+.compat-premium-planet-center {
+  width: 94px;
+  height: 94px;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  border: 1px solid rgba(244, 201, 93, 0.55);
+  border-radius: 50%;
+  color: #f4c95d;
+  background: #0a1021;
+  box-shadow:
+    0 0 40px rgba(244, 201, 93, 0.12),
+    inset 0 0 26px rgba(124, 92, 255, 0.12);
+  font-size: 34px;
+}
+
+/* =========================================================
+   ÉTAPES
+   ========================================================= */
+
+.compat-premium-process {
+  margin-top: 110px;
+}
+
+.compat-premium-process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.compat-premium-process-card {
+  min-height: 250px;
+  padding: 30px 27px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(244, 201, 93, 0.09),
+      transparent 36%
+    ),
+    rgba(255, 255, 255, 0.04);
+}
+
+.compat-premium-process-number {
+  display: block;
+  margin-bottom: 34px;
+  color: rgba(244, 201, 93, 0.45);
+  font-size: 52px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.compat-premium-process-card h3 {
+  margin: 0 0 14px;
+  font-size: 23px;
+}
+
+.compat-premium-process-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   COMMANDE / PRIX
+   ========================================================= */
+
+.compat-premium-order {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: 45px;
+  align-items: center;
+  margin-top: 110px;
+  padding: 56px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(244, 201, 93, 0.42);
+  border-radius: 38px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(244, 201, 93, 0.13),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(124, 92, 255, 0.18),
+      transparent 44%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 47, 0.96),
+      rgba(5, 9, 22, 0.98)
+    );
+  box-shadow:
+    0 38px 100px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.compat-premium-order::before {
+  content: "";
+  position: absolute;
+  inset: 19px;
+  z-index: -1;
+  border: 1px solid rgba(244, 201, 93, 0.16);
+  border-radius: 29px;
+}
+
+.compat-premium-order-glow {
+  width: 360px;
+  height: 360px;
+  position: absolute;
+  top: -190px;
+  left: -130px;
+  z-index: -2;
+  border-radius: 50%;
+  background: rgba(244, 201, 93, 0.13);
+  filter: blur(70px);
+}
+
+.compat-premium-order-content h2 {
+  margin: 0 0 18px;
+  font-size: clamp(36px, 4.5vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.compat-premium-order-content > p {
+  max-width: 680px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.compat-premium-order-content ul {
+  display: grid;
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compat-premium-order-content li {
+  position: relative;
+  padding-left: 29px;
+  color: rgba(255, 255, 255, 0.84);
+  line-height: 1.5;
+}
+
+.compat-premium-order-content li::before {
+  content: "✓";
+  width: 19px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  border-radius: 50%;
+  color: #111827;
+  background: #f4c95d;
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.compat-premium-price-card {
+  padding: 34px 29px;
+  border: 1px solid rgba(244, 201, 93, 0.42);
+  border-radius: 29px;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(244, 201, 93, 0.13),
+      transparent 42%
+    ),
+    rgba(255, 255, 255, 0.055);
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.compat-premium-price-label {
+  display: block;
+  color: #f4c95d;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.compat-premium-price {
+  margin: 20px 0 8px;
+  color: #ffffff;
+  font-size: 45px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.compat-premium-price-card > p {
+  margin: 0 0 26px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 14px;
+}
+
+.compat-premium-order-button {
+  width: 100%;
+  min-height: 54px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 999px;
+  color: #111827;
+  background: linear-gradient(
+    135deg,
+    #f4c95d,
+    #fff1a8
+  );
+  box-shadow: 0 18px 38px rgba(244, 201, 93, 0.2);
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.compat-premium-order-button:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.compat-premium-price-note {
+  display: block;
+  margin-top: 16px;
+  color: rgba(255, 255, 255, 0.49);
+  font-size: 12px;
+}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.compat-premium-faq {
+  margin-top: 110px;
+}
+
+.compat-premium-faq-list {
+  max-width: 900px;
+  display: grid;
+  gap: 14px;
+  margin: 0 auto;
+}
+
+.compat-premium-faq-item {
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.compat-premium-faq-item[open] {
+  border-color: rgba(244, 201, 93, 0.32);
+}
+
+.compat-premium-faq-item summary {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 18px 55px 18px 23px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 850;
+  cursor: pointer;
+  list-style: none;
+}
+
+.compat-premium-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.compat-premium-faq-item summary::after {
+  content: "+";
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  border-radius: 50%;
+  color: #f4c95d;
+  background: rgba(244, 201, 93, 0.07);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.compat-premium-faq-item[open] summary::after {
+  content: "−";
+}
+
+.compat-premium-faq-item p {
+  margin: 0;
+  padding: 0 23px 24px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.compat-premium-disclaimer {
+  max-width: 780px;
+  margin: 58px auto 0;
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 12px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .compat-premium-main {
+    width: min(100%, 860px);
+  }
+
+  .compat-premium-report-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-report-preview {
+    width: min(100%, 600px);
+    margin: 0 auto;
+  }
+
+  .compat-premium-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compat-premium-planets {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-planets-visual {
+    min-height: 330px;
+  }
+
+  .compat-premium-order {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-price-card {
+    width: min(100%, 440px);
+    margin: 0 auto;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 720px) {
+  .compat-premium-main {
+    padding: 56px 15px 76px;
+  }
+
+  .compat-premium-hero {
+    min-height: auto;
+    padding: 64px 22px 46px;
+    border-radius: 30px;
+  }
+
+  .compat-premium-hero::before {
+    inset: 13px;
+    border-radius: 23px;
+  }
+
+  .compat-premium-hero h1 {
+    font-size: 48px;
+  }
+
+  .compat-premium-hero-text {
+    font-size: 16px;
+  }
+
+  .compat-premium-hero-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .compat-premium-button {
+    width: 100%;
+  }
+
+  .compat-premium-hero-trust {
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .compat-premium-orbits {
+    height: 170px;
+    margin-top: 34px;
+  }
+
+  .compat-premium-orbit {
+    width: 145px;
+    height: 145px;
+  }
+
+  .compat-premium-orbit span {
+    font-size: 49px;
+  }
+
+  .compat-premium-orbit-center {
+    width: 66px;
+    height: 66px;
+    font-size: 24px;
+  }
+
+  .compat-premium-section-heading {
+    margin-bottom: 32px;
+  }
+
+  .compat-premium-section-heading h2 {
+    font-size: 37px;
+  }
+
+  .compat-premium-section-heading p {
+    font-size: 16px;
+  }
+
+  .compat-premium-intro,
+  .compat-premium-report,
+  .compat-premium-scores,
+  .compat-premium-contents,
+  .compat-premium-planets,
+  .compat-premium-process,
+  .compat-premium-order,
+  .compat-premium-faq {
+    margin-top: 75px;
+  }
+
+  .compat-premium-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-comparison-card {
+    padding: 29px 23px 26px;
+    border-radius: 26px;
+  }
+
+  .compat-premium-report-preview {
+    min-height: 580px;
+  }
+
+  .compat-premium-preview-content {
+    min-height: 520px;
+    padding: 55px 22px 30px;
+  }
+
+  .compat-premium-preview-content h3 {
+    font-size: 50px;
+  }
+
+  .compat-premium-preview-orbits div {
+    width: 112px;
+    height: 112px;
+  }
+
+  .compat-premium-preview-orbits span {
+    font-size: 42px;
+  }
+
+  .compat-premium-preview-names {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .compat-premium-report-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-score-panel {
+    padding: 19px;
+    border-radius: 27px;
+  }
+
+  .compat-premium-score-main {
+    padding: 34px 18px;
+    border-radius: 21px;
+  }
+
+  .compat-premium-score-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-planets {
+    padding: 34px 22px;
+    border-radius: 29px;
+  }
+
+  .compat-premium-planet-list {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-process-card {
+    min-height: auto;
+  }
+
+  .compat-premium-order {
+    padding: 38px 22px;
+    border-radius: 30px;
+  }
+
+  .compat-premium-price {
+    font-size: 39px;
+  }
+}
+
+/* =========================================================
+   TRÈS PETITS ÉCRANS
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .compat-premium-main {
+    padding-inline: 11px;
+  }
+
+  .compat-premium-hero {
+    padding-inline: 18px;
+  }
+
+  .compat-premium-hero h1 {
+    font-size: 41px;
+  }
+
+  .compat-premium-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.13em;
+  }
+
+  .compat-premium-orbit {
+    width: 124px;
+    height: 124px;
+  }
+
+  .compat-premium-orbit span {
+    font-size: 42px;
+  }
+
+  .compat-premium-section-heading h2 {
+    font-size: 33px;
+  }
+
+  .compat-premium-report-preview {
+    min-height: 535px;
+  }
+
+  .compat-premium-preview-top {
+    padding-inline: 23px;
+    font-size: 9px;
+  }
+
+  .compat-premium-preview-content h3 {
+    font-size: 44px;
+  }
+
+  .compat-premium-preview-orbits div {
+    width: 95px;
+    height: 95px;
+  }
+
+  .compat-premium-preview-orbits strong {
+    width: 45px;
+    height: 45px;
+  }
+
+  .compat-premium-score-card {
+    padding: 19px;
+  }
+
+  .compat-premium-feature-card {
+    padding: 25px 21px;
+  }
+
+  .compat-premium-planets-visual {
+    min-height: 280px;
+  }
+
+  .compat-premium-planet-orbit-one {
+    width: 245px;
+    height: 245px;
+  }
+
+  .compat-premium-planet-orbit-two {
+    width: 160px;
+    height: 160px;
+  }
+
+  .compat-premium-order {
+    padding: 32px 18px;
+  }
+
+  .compat-premium-price-card {
+    padding: 29px 20px;
+  }
+}
