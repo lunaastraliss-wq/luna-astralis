@@ -153,11 +153,30 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   nameSeparator: {
-    width: "12%",
-    fontSize: 13,
-    color: BRIGHT_GOLD,
-    textAlign: "center",
-  },
+  width: "12%",
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+nameSeparatorFrame: {
+  width: 38,
+  height: 28,
+
+  borderRadius: 14,
+
+  borderWidth: 0.6,
+  borderColor: GOLD,
+
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+nameSeparatorLogo: {
+  width: 32,
+  height: 20,
+  objectFit: "contain",
+},
+  
   scoreHero: {
     alignItems: "center",
     paddingVertical: 13,
@@ -848,9 +867,14 @@ function NamesCard({
         {person1Name}
       </Text>
 
-      <Text style={styles.nameSeparator}>
-        {symbol}
-      </Text>
+     <View style={styles.nameSeparator}>
+  <View style={styles.nameSeparatorFrame}>
+    <Image
+      src={LOGO_URL}
+      style={styles.nameSeparatorLogo}
+    />
+  </View>
+</View>
 
       <Text style={styles.name}>
         {person2Name}
