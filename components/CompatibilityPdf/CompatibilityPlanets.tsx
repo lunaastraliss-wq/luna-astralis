@@ -25,6 +25,11 @@ import {
   translateCompatibilityPlanet,
 } from "./CompatibilityPdfUtils";
 
+import {
+  getCompatibilityPlanetText,
+  type CompatibilityTextBody,
+} from "./CompatibilityPlanetTextSelector";
+
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
 const NAVY_CARD_LIGHT = "#0d1b30";
@@ -729,6 +734,23 @@ type PlanetName =
   | "Neptune"
   | "Pluto";
 
+function getPlanetTextBody(
+  planet: PlanetName,
+): CompatibilityTextBody {
+  const bodies: Record<
+    PlanetName,
+    CompatibilityTextBody
+  > = {
+    Jupiter: "jupiter",
+    Saturn: "saturn",
+    Uranus: "uranus",
+    Neptune: "neptune",
+    Pluto: "pluto",
+  };
+
+  return bodies[planet];
+}
+
 type PlanetConfig = {
   planet: PlanetName;
   frenchName: string;
@@ -1123,98 +1145,6 @@ function getPlanetStyle(
   return (
     stylesByPlanet[planet][normalized] ||
     "Les données disponibles ne permettent pas encore de préciser entièrement cette expression planétaire."
-  );
-}
-
-function getCompatibilityText(
-  planet: PlanetName,
-  sign1: string,
-  sign2: string,
-): string {
-  if (
-    sign1 === "Non précisé" ||
-    sign2 === "Non précisé"
-  ) {
-    return (
-      "Les deux positions planétaires ne sont pas entièrement disponibles. " +
-      "Cette dynamique pourra être approfondie lorsque les thèmes complets seront fournis."
-    );
-  }
-
-  const normalized1 =
-    normalizeValue(sign1);
-
-  const normalized2 =
-    normalizeValue(sign2);
-
-  const element1 =
-    getElement(sign1);
-
-  const element2 =
-    getElement(sign2);
-
-  const frenchPlanet =
-    planet === "Saturn"
-      ? "Saturne"
-      : planet === "Pluto"
-        ? "Pluton"
-        : planet;
-
-  const themes: Record<
-    PlanetName,
-    string
-  > = {
-    Jupiter:
-      "vos espoirs, votre croissance et votre vision de l’avenir",
-    Saturn:
-      "vos responsabilités, vos limites et votre manière de construire",
-    Uranus:
-      "vos besoins de liberté, de changement et de renouvellement",
-    Neptune:
-      "vos rêves, votre intuition et votre idéal relationnel",
-    Pluto:
-      "votre intensité, votre pouvoir de transformation et votre vulnérabilité",
-  };
-
-  if (normalized1 === normalized2) {
-    return (
-      `Vos deux ${frenchPlanet} en ${sign1} indiquent une manière très semblable de vivre ${themes[planet]}. ` +
-      "Cette proximité facilite la reconnaissance mutuelle et crée une base commune forte. " +
-      "Elle peut toutefois amplifier les mêmes excès ou les mêmes angles morts si aucun des deux ne prend du recul."
-    );
-  }
-
-  if (element1 === element2) {
-    return (
-      `Vos ${frenchPlanet} en ${sign1} et en ${sign2} appartiennent tous deux à l’élément ${element1}. ` +
-      `Vos façons de vivre ${themes[planet]} reposent donc sur une sensibilité comparable. ` +
-      "Les expressions diffèrent, mais le rythme intérieur reste suffisamment proche pour favoriser la coopération."
-    );
-  }
-
-  const complementary =
-    (element1 === "Feu" &&
-      element2 === "Air") ||
-    (element1 === "Air" &&
-      element2 === "Feu") ||
-    (element1 === "Terre" &&
-      element2 === "Eau") ||
-    (element1 === "Eau" &&
-      element2 === "Terre");
-
-  if (complementary) {
-    return (
-      `Vos ${frenchPlanet} en ${sign1} et en ${sign2} fonctionnent différemment, ` +
-      `mais les éléments ${element1} et ${element2} peuvent se compléter. ` +
-      "L’un stimule le mouvement, la vision ou l’expression, tandis que l’autre apporte profondeur, réalisme ou continuité. " +
-      "Cette complémentarité devient une richesse lorsque chacun respecte le rythme de l’autre."
-    );
-  }
-
-  return (
-    `Vos ${frenchPlanet} en ${sign1} et en ${sign2} abordent ${themes[planet]} selon des logiques différentes. ` +
-    "L’un peut rechercher davantage d’action, de raison ou de liberté, tandis que l’autre privilégie la sécurité, l’émotion ou l’adaptation. " +
-    "Votre équilibre repose sur des attentes clairement nommées plutôt que supposées."
   );
 }
 
@@ -1895,11 +1825,16 @@ function PlanetPage({
         <Text
           style={styles.interpretationText}
         >
-          {getCompatibilityText(
-            config.planet,
+          {getCompatibilityPlanetText({
+            body: getPlanetTextBody(
+              config.planet,
+            ),
             sign1,
             sign2,
-          )}
+            element1: getElement(sign1),
+            element2: getElement(sign2),
+            seed: `${person1Name}-${person2Name}`,
+          })}
         </Text>
       </View>
 
@@ -2047,4 +1982,4 @@ export default function CompatibilityPlanets(
       )}
     </>
   );
-      }
+}
