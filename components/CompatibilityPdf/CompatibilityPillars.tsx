@@ -1,19 +1,11 @@
-import {
-  Image,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
 import {
   LOGO_URL,
   PLANET_ICONS,
 } from "@/components/PremiumPdf/PremiumPdfAssets";
 
-import type {
-  SafeCompatibilityPerson,
-} from "./CompatibilityPdfTypes";
+import type { SafeCompatibilityPerson } from "./CompatibilityPdfTypes";
 
 import {
   getCompatibilityPlanet,
@@ -21,6 +13,11 @@ import {
   translateCompatibilityPlanet,
   translateCompatibilitySign,
 } from "./CompatibilityPdfUtils";
+
+import {
+  getCompatibilityPlanetText,
+  type CompatibilityTextBody,
+} from "./CompatibilityPlanetTextSelector";
 
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
@@ -623,10 +620,7 @@ export interface CompatibilityPillarsProps {
   person2: SafeCompatibilityPerson;
 }
 
-type PillarName =
-  | "Sun"
-  | "Moon"
-  | "Ascendant";
+type PillarName = "Sun" | "Moon" | "Ascendant";
 
 interface PillarDefinition {
   key: PillarName;
@@ -675,76 +669,21 @@ function getPersonName(
   fallback: string,
 ): string {
   const safeName =
-    typeof person.firstName === "string"
-      ? person.firstName.trim()
-      : "";
+    typeof person.firstName === "string" ? person.firstName.trim() : "";
 
   return safeName || fallback;
 }
 
-function translateSign(
-  sign: string,
-): string {
-  const safeSign = sign.trim();
+function getAscendantSign(person: SafeCompatibilityPerson): string {
+  const angles = person.angles as Record<string, unknown>;
 
-  if (!safeSign) {
-    return "";
-  }
+  const ascendant = angles?.ascendant;
 
-  const normalized =
-    safeSign
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-
-  const translations: Record<string, string> = {
-    aries: "Bélier",
-    taurus: "Taureau",
-    gemini: "Gémeaux",
-    leo: "Lion",
-    virgo: "Vierge",
-    libra: "Balance",
-    scorpio: "Scorpion",
-    sagittarius: "Sagittaire",
-    capricorn: "Capricorne",
-    aquarius: "Verseau",
-    pisces: "Poissons",
-  };
-
-  /*
-   * Cancer n’est volontairement pas ajouté au tableau :
-   * son nom est identique en français et en anglais.
-   *
-   * Les signes déjà en français restent également inchangés.
-   */
-  return translations[normalized] ?? safeSign;
-}
-
-function getAscendantSign(
-  person: SafeCompatibilityPerson,
-): string {
-  const angles =
-    person.angles as Record<
-      string,
-      unknown
-    >;
-
-  const ascendant =
-    angles?.ascendant;
-
-  if (
-    !ascendant ||
-    typeof ascendant !== "object" ||
-    Array.isArray(ascendant)
-  ) {
+  if (!ascendant || typeof ascendant !== "object" || Array.isArray(ascendant)) {
     return "Non précisé";
   }
 
-  const ascendantRecord =
-    ascendant as Record<
-      string,
-      unknown
-    >;
+  const ascendantRecord = ascendant as Record<string, unknown>;
 
   const signName =
     typeof ascendantRecord.signName === "string"
@@ -752,34 +691,24 @@ function getAscendantSign(
       : "";
 
   if (signName) {
-    return translateCompatibilitySign(
-      signName,
-    );
+    return translateCompatibilitySign(signName);
   }
 
   const sign =
-    typeof ascendantRecord.sign === "string"
-      ? ascendantRecord.sign.trim()
-      : "";
+    typeof ascendantRecord.sign === "string" ? ascendantRecord.sign.trim() : "";
 
   if (sign) {
-    return translateCompatibilitySign(
-      sign,
-    );
+    return translateCompatibilitySign(sign);
   }
 
   const longitude =
     typeof ascendantRecord.longitude === "number" &&
-    Number.isFinite(
-      ascendantRecord.longitude,
-    )
+    Number.isFinite(ascendantRecord.longitude)
       ? ascendantRecord.longitude
       : null;
 
   if (longitude !== null) {
-    return getCompatibilitySignFromLongitude(
-      longitude,
-    );
+    return getCompatibilitySignFromLongitude(longitude);
   }
 
   return "Non précisé";
@@ -793,58 +722,30 @@ function getPlacementSign(
     return getAscendantSign(person);
   }
 
-  const planet =
-    getCompatibilityPlanet(
-      person.planets,
-      pillar,
-    );
+  const planet = getCompatibilityPlanet(person.planets, pillar);
 
-  const sign =
-    typeof planet?.sign === "string"
-      ? planet.sign.trim()
-      : "";
+  const sign = typeof planet?.sign === "string" ? planet.sign.trim() : "";
 
   if (!sign) {
     return "Non précisé";
   }
 
-  return translateCompatibilitySign(
-    sign,
-  );
+  return translateCompatibilitySign(sign);
 }
 
- function getElement(
-  sign: string,
-): string {
-  const normalized =
-    sign
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+function getElement(sign: string): string {
+  const normalized = sign
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
 
-  const fireSigns = [
-    "belier",
-    "lion",
-    "sagittaire",
-  ];
+  const fireSigns = ["belier", "lion", "sagittaire"];
 
-  const earthSigns = [
-    "taureau",
-    "vierge",
-    "capricorne",
-  ];
+  const earthSigns = ["taureau", "vierge", "capricorne"];
 
-  const airSigns = [
-    "gemeaux",
-    "balance",
-    "verseau",
-  ];
+  const airSigns = ["gemeaux", "balance", "verseau"];
 
-  const waterSigns = [
-    "cancer",
-    "scorpion",
-    "poissons",
-  ];
+  const waterSigns = ["cancer", "scorpion", "poissons"];
 
   if (fireSigns.includes(normalized)) {
     return "Feu";
@@ -865,107 +766,24 @@ function getPlacementSign(
   return "";
 }
 
-function getPillarInterpretation(
-  pillar: PillarName,
-  sign1: string,
-  sign2: string,
-): string {
-  const element1 =
-    getElement(sign1);
-
-  const element2 =
-    getElement(sign2);
-
-  if (
-    sign1 === "Non précisé" ||
-    sign2 === "Non précisé"
-  ) {
-    return (
-      "Les données disponibles ne permettent pas encore de produire " +
-      "une comparaison entièrement personnalisée pour ce pilier."
-    );
+function getPillarTextBody(pillar: PillarName): CompatibilityTextBody {
+  if (pillar === "Sun") {
+    return "sun";
   }
 
-  if (
-    sign1.toLowerCase() ===
-    sign2.toLowerCase()
-  ) {
-    if (pillar === "Sun") {
-      return (
-        `Vos deux Soleils en ${sign1} créent une forte impression de reconnaissance. ` +
-        "Vous partagez plusieurs réflexes, ambitions et manières de vous affirmer. " +
-        "Cette proximité facilite la compréhension, mais demande aussi de respecter " +
-        "le besoin de chacun d’exister pleinement."
-      );
-    }
-
-    if (pillar === "Moon") {
-      return (
-        `Vos deux Lunes en ${sign1} indiquent des besoins émotionnels semblables. ` +
-        "Vous pouvez instinctivement comprendre les réactions de l’autre et créer " +
-        "un climat affectif familier. Il faudra toutefois éviter de renforcer ensemble " +
-        "les mêmes inquiétudes ou mécanismes de protection."
-      );
-    }
-
-    return (
-      `Vos deux Ascendants en ${sign1} donnent des rythmes et des attitudes naturelles proches. ` +
-      "Vous abordez souvent le quotidien de façon comparable, ce qui peut faciliter " +
-      "l’organisation, la spontanéité et la manière de vous présenter ensemble."
-    );
+  if (pillar === "Moon") {
+    return "moon";
   }
 
-  if (
-    element1 &&
-    element2 &&
-    element1 === element2
-  ) {
-    return (
-      `Les signes ${sign1} et ${sign2} appartiennent tous les deux à l’élément ${element1}. ` +
-      "Cette proximité élémentaire favorise une compréhension naturelle, même si chacun " +
-      "exprime cette énergie à sa manière. Vous pouvez généralement reconnaître les motivations " +
-      "et les besoins fondamentaux de l’autre."
-    );
-  }
-
-  const complementary =
-    (element1 === "Feu" &&
-      element2 === "Air") ||
-    (element1 === "Air" &&
-      element2 === "Feu") ||
-    (element1 === "Terre" &&
-      element2 === "Eau") ||
-    (element1 === "Eau" &&
-      element2 === "Terre");
-
-  if (complementary) {
-    return (
-      `Les énergies ${element1} et ${element2} peuvent naturellement se compléter. ` +
-      `${sign1} apporte une manière particulière d’avancer, tandis que ${sign2} offre ` +
-      "une perspective différente mais compatible. Cette combinaison peut soutenir " +
-      "l’équilibre, la motivation et la croissance mutuelle."
-    );
-  }
-
-  return (
-    `${sign1} et ${sign2} fonctionnent selon des logiques différentes. ` +
-    "Cette diversité peut provoquer des incompréhensions ponctuelles, mais elle peut " +
-    "également enrichir la relation en obligeant chacun à découvrir une autre façon " +
-    "de ressentir, d’agir ou de communiquer."
-  );
+  return "ascendant";
 }
 
-function getPlacementLabel(
-  pillar: PillarName,
-  sign: string,
-): string {
+function getPlacementLabel(pillar: PillarName, sign: string): string {
   if (pillar === "Ascendant") {
     return `Ascendant ${sign}`;
   }
 
-  return `${translateCompatibilityPlanet(
-    pillar,
-  )} en ${sign}`;
+  return `${translateCompatibilityPlanet(pillar)} en ${sign}`;
 }
 
 function PillarCard({
@@ -977,177 +795,86 @@ function PillarCard({
   person1: SafeCompatibilityPerson;
   person2: SafeCompatibilityPerson;
 }) {
-  const person1Name =
-    getPersonName(
-      person1,
-      "Première personne",
-    );
+  const person1Name = getPersonName(person1, "Première personne");
 
-  const person2Name =
-    getPersonName(
-      person2,
-      "Deuxième personne",
-    );
+  const person2Name = getPersonName(person2, "Deuxième personne");
 
-  const sign1 =
-    getPlacementSign(
-      person1,
-      pillar.key,
-    );
+  const sign1 = getPlacementSign(person1, pillar.key);
 
-  const sign2 =
-    getPlacementSign(
-      person2,
-      pillar.key,
-    );
+  const sign2 = getPlacementSign(person2, pillar.key);
+
+  const element1 = getElement(sign1);
+  const element2 = getElement(sign2);
 
   const interpretation =
-    getPillarInterpretation(
-      pillar.key,
-      sign1,
-      sign2,
-    );
+    sign1 === "Non précisé" || sign2 === "Non précisé" || !element1 || !element2
+      ? "Les données disponibles ne permettent pas encore de produire une comparaison entièrement personnalisée pour ce pilier."
+      : getCompatibilityPlanetText({
+          body: getPillarTextBody(pillar.key),
+          sign1,
+          sign2,
+          element1,
+          element2,
+          seed: `${person1Name}-${person2Name}`,
+        });
 
   return (
-    <View
-      style={localStyles.pillarCard}
-      wrap={false}
-    >
-      <View
-        style={localStyles.pillarAccent}
-      />
+    <View style={localStyles.pillarCard} wrap={false}>
+      <View style={localStyles.pillarAccent} />
 
-      <View
-        style={localStyles.pillarHeader}
-      >
-        <View
-          style={localStyles.pillarIconFrame}
-        >
-          <Image
-            src={pillar.icon}
-            style={localStyles.pillarIcon}
-          />
+      <View style={localStyles.pillarHeader}>
+        <View style={localStyles.pillarIconFrame}>
+          <Image src={pillar.icon} style={localStyles.pillarIcon} />
         </View>
 
-        <View
-          style={localStyles.pillarHeading}
-        >
-          <Text
-            style={localStyles.pillarLabel}
-          >
-            {pillar.label}
-          </Text>
+        <View style={localStyles.pillarHeading}>
+          <Text style={localStyles.pillarLabel}>{pillar.label}</Text>
 
-          <Text
-            style={localStyles.pillarTitle}
-          >
-            {pillar.title}
-          </Text>
+          <Text style={localStyles.pillarTitle}>{pillar.title}</Text>
         </View>
       </View>
 
-      <View
-        style={localStyles.comparisonRow}
-      >
-        <View
-          style={localStyles.personPlacement}
-        >
-          <Text
-            style={localStyles.placementName}
-          >
-            {person1Name}
-          </Text>
+      <View style={localStyles.comparisonRow}>
+        <View style={localStyles.personPlacement}>
+          <Text style={localStyles.placementName}>{person1Name}</Text>
 
-          <Text
-            style={localStyles.placementValue}
-          >
-            {getPlacementLabel(
-              pillar.key,
-              sign1,
-            )}
+          <Text style={localStyles.placementValue}>
+            {getPlacementLabel(pillar.key, sign1)}
           </Text>
         </View>
 
-        <View
-          style={localStyles.comparisonCenter}
-        >
-          <View
-            style={localStyles.comparisonLine}
-          />
+        <View style={localStyles.comparisonCenter}>
+          <View style={localStyles.comparisonLine} />
 
-          <View
-            style={localStyles.comparisonIconFrame}
-          >
-            <Image
-              src={LOGO_URL}
-              style={localStyles.comparisonIcon}
-            />
+          <View style={localStyles.comparisonIconFrame}>
+            <Image src={LOGO_URL} style={localStyles.comparisonIcon} />
           </View>
         </View>
 
-        <View
-          style={localStyles.personPlacement}
-        >
-          <Text
-            style={localStyles.placementName}
-          >
-            {person2Name}
-          </Text>
+        <View style={localStyles.personPlacement}>
+          <Text style={localStyles.placementName}>{person2Name}</Text>
 
-          <Text
-            style={localStyles.placementValue}
-          >
-            {getPlacementLabel(
-              pillar.key,
-              sign2,
-            )}
+          <Text style={localStyles.placementValue}>
+            {getPlacementLabel(pillar.key, sign2)}
           </Text>
         </View>
       </View>
 
-      <Text
-        style={localStyles.interpretationTitle}
-      >
-        Votre dynamique
-      </Text>
+      <Text style={localStyles.interpretationTitle}>Votre dynamique</Text>
 
-      <Text
-        style={localStyles.interpretationText}
-      >
-        {interpretation}
-      </Text>
+      <Text style={localStyles.interpretationText}>{interpretation}</Text>
 
-      <View
-        style={localStyles.meaningRow}
-      >
-        <View
-          style={localStyles.meaningItem}
-        >
-          <Text
-            style={localStyles.meaningLabel}
-          >
-            Sur le plan personnel
-          </Text>
+      <View style={localStyles.meaningRow}>
+        <View style={localStyles.meaningItem}>
+          <Text style={localStyles.meaningLabel}>Sur le plan personnel</Text>
 
-          <Text
-            style={localStyles.meaningText}
-          >
-            {pillar.personMeaning}
-          </Text>
+          <Text style={localStyles.meaningText}>{pillar.personMeaning}</Text>
         </View>
 
-        <View
-          style={localStyles.meaningItem}
-        >
-          <Text
-            style={localStyles.meaningLabel}
-          >
-            Dans la relation
-          </Text>
+        <View style={localStyles.meaningItem}>
+          <Text style={localStyles.meaningLabel}>Dans la relation</Text>
 
-          <Text
-            style={localStyles.meaningText}
-          >
+          <Text style={localStyles.meaningText}>
             {pillar.relationshipMeaning}
           </Text>
         </View>
@@ -1160,114 +887,54 @@ export default function CompatibilityPillars({
   person1,
   person2,
 }: CompatibilityPillarsProps) {
-  const person1Name =
-    getPersonName(
-      person1,
-      "Première personne",
-    );
+  const person1Name = getPersonName(person1, "Première personne");
 
-  const person2Name =
-    getPersonName(
-      person2,
-      "Deuxième personne",
-    );
+  const person2Name = getPersonName(person2, "Deuxième personne");
 
   return (
-    <Page
-      size="A4"
-      style={localStyles.page}
-    >
-      <View
-        style={localStyles.topAccent}
-        fixed
-      />
+    <Page size="A4" style={localStyles.page}>
+      <View style={localStyles.topAccent} fixed />
 
-      <View
-        style={localStyles.outerBorder}
-        fixed
-      />
+      <View style={localStyles.outerBorder} fixed />
 
-      <View
-        style={localStyles.innerBorder}
-        fixed
-      />
+      <View style={localStyles.innerBorder} fixed />
 
-      <View
-        style={localStyles.decorativeCircleTop}
-        fixed
-      />
+      <View style={localStyles.decorativeCircleTop} fixed />
 
-      <View
-        style={localStyles.decorativeCircleBottom}
-        fixed
-      />
+      <View style={localStyles.decorativeCircleBottom} fixed />
 
       <View style={localStyles.content}>
-        <View
-          style={localStyles.header}
-          wrap={false}
-        >
-          <Image
-            src={LOGO_URL}
-            style={localStyles.logo}
-          />
+        <View style={localStyles.header} wrap={false}>
+          <Image src={LOGO_URL} style={localStyles.logo} />
 
-          <Text
-            style={localStyles.sectionLabel}
-          >
+          <Text style={localStyles.sectionLabel}>
             Fondations relationnelles
           </Text>
 
-          <Text style={localStyles.title}>
-            Les trois piliers de votre lien
+          <Text style={localStyles.title}>Les trois piliers de votre lien</Text>
+
+          <Text style={localStyles.subtitle}>
+            Le Soleil, la Lune et l’Ascendant révèlent vos identités, vos
+            besoins émotionnels et votre manière naturelle d’entrer en relation.
           </Text>
 
-          <Text
-            style={localStyles.subtitle}
-          >
-            Le Soleil, la Lune et l’Ascendant
-            révèlent vos identités, vos besoins
-            émotionnels et votre manière
-            naturelle d’entrer en relation.
-          </Text>
-
-          <View
-            style={localStyles.titleDivider}
-          />
+          <View style={localStyles.titleDivider} />
         </View>
 
-        <View
-          style={localStyles.namesCard}
-          wrap={false}
-        >
-          <View
-            style={localStyles.namesAccentLeft}
-          />
+        <View style={localStyles.namesCard} wrap={false}>
+          <View style={localStyles.namesAccentLeft} />
 
-          <View
-            style={localStyles.namesAccentRight}
-          />
+          <View style={localStyles.namesAccentRight} />
 
-          <Text style={localStyles.name}>
-            {person1Name}
-          </Text>
+          <Text style={localStyles.name}>{person1Name}</Text>
 
-          <View
-            style={localStyles.nameSeparator}
-          >
-            <View
-              style={localStyles.nameSeparatorFrame}
-            >
-              <Image
-                src={LOGO_URL}
-                style={localStyles.nameSeparatorIcon}
-              />
+          <View style={localStyles.nameSeparator}>
+            <View style={localStyles.nameSeparatorFrame}>
+              <Image src={LOGO_URL} style={localStyles.nameSeparatorIcon} />
             </View>
           </View>
 
-          <Text style={localStyles.name}>
-            {person2Name}
-          </Text>
+          <Text style={localStyles.name}>{person2Name}</Text>
         </View>
 
         {PILLARS.map((pillar) => (
@@ -1279,94 +946,49 @@ export default function CompatibilityPillars({
           />
         ))}
 
-        <View
-          style={localStyles.synthesisCard}
-          wrap={false}
-        >
-          <View
-            style={localStyles.synthesisSymbol}
-          >
-            <Image
-              src={LOGO_URL}
-              style={localStyles.synthesisIcon}
-            />
+        <View style={localStyles.synthesisCard} wrap={false}>
+          <View style={localStyles.synthesisSymbol}>
+            <Image src={LOGO_URL} style={localStyles.synthesisIcon} />
           </View>
 
-          <Text
-            style={localStyles.synthesisTitle}
-          >
+          <Text style={localStyles.synthesisTitle}>
             Votre fondation relationnelle
           </Text>
 
-          <Text
-            style={localStyles.synthesisText}
-          >
-            Ces trois comparaisons offrent une
-            première lecture de votre relation,
-            mais elles ne suffisent pas à elles
-            seules pour déterminer toute la
-            compatibilité. Les interactions
-            entre Mercure, Vénus, Mars, Saturne
-            et les autres planètes préciseront
-            ensuite la communication,
-            l’attirance, la stabilité et les
-            principaux défis de votre lien.
+          <Text style={localStyles.synthesisText}>
+            Ces trois comparaisons offrent une première lecture de votre
+            relation, mais elles ne suffisent pas à elles seules pour déterminer
+            toute la compatibilité. Les interactions entre Mercure, Vénus, Mars,
+            Saturne et les autres planètes préciseront ensuite la communication,
+            l’attirance, la stabilité et les principaux défis de votre lien.
           </Text>
         </View>
 
-        <View
-          style={localStyles.guideCard}
-          wrap={false}
-        >
-          <View
-            style={localStyles.guideSymbolFrame}
-          >
-            <Image
-              src={PLANET_ICONS.moon}
-              style={localStyles.guideIcon}
-            />
+        <View style={localStyles.guideCard} wrap={false}>
+          <View style={localStyles.guideSymbolFrame}>
+            <Image src={PLANET_ICONS.moon} style={localStyles.guideIcon} />
           </View>
 
-          <View
-            style={localStyles.guideContent}
-          >
-            <Text
-              style={localStyles.guideTitle}
-            >
-              À retenir
-            </Text>
+          <View style={localStyles.guideContent}>
+            <Text style={localStyles.guideTitle}>À retenir</Text>
 
-            <Text
-              style={localStyles.guideText}
-            >
-              Une différence entre deux signes
-              n’est pas nécessairement un
-              obstacle. Elle peut devenir une
-              véritable complémentarité lorsque
-              chacun comprend et respecte la
-              manière naturelle de fonctionner
-              de l’autre.
+            <Text style={localStyles.guideText}>
+              Une différence entre deux signes n’est pas nécessairement un
+              obstacle. Elle peut devenir une véritable complémentarité lorsque
+              chacun comprend et respecte la manière naturelle de fonctionner de
+              l’autre.
             </Text>
           </View>
         </View>
       </View>
 
-      <View
-        style={localStyles.footer}
-        fixed
-      >
-        <Text
-          style={localStyles.footerText}
-        >
+      <View style={localStyles.footer} fixed>
+        <Text style={localStyles.footerText}>
           Luna Astralis • Rapport de synastrie
         </Text>
 
-        <Text
-          style={localStyles.footerPage}
-        >
-          6
-        </Text>
+        <Text style={localStyles.footerPage}>6</Text>
       </View>
     </Page>
   );
-    }
+}
