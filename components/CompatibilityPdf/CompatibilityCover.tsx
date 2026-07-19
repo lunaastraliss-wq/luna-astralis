@@ -411,8 +411,8 @@ const styles = StyleSheet.create({
   },
 
   centralHeart: {
-  width: 30,
-  height: 30,
+  width: 36,
+  height: 36,
   objectFit: "contain",
 },
 
