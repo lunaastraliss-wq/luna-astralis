@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
+import html2canvas from "html2canvas";
+import { createClient } from "@supabase/supabase-js";
+
+import NatalChartWheel from "./NatalChartWheel";
 
 type PersonForm = {
   firstName: string;
@@ -10,11 +15,36 @@ type PersonForm = {
   birthCountry: string;
   latitude: number | null;
   longitude: number | null;
+  timezone: string;
 };
 
-type CompatibilityPayload = {
-  person1: PersonForm;
-  person2: PersonForm;
+type NatalChart = {
+  planets?: any[];
+  houses?: any[];
+  angles?: {
+    ascendant?: {
+      longitude?: number;
+      formatted?: string;
+    };
+    midheaven?: {
+      longitude?: number;
+      formatted?: string;
+    };
+  };
+};
+
+type SignedUploadResponse = {
+  ok?: boolean;
+  wheelImagePath?: string;
+  token?: string;
+  error?: string;
+  detail?: string;
+};
+
+type CheckoutResponse = {
+  url?: string;
+  error?: string;
+  detail?: string;
 };
 
 const EMPTY_PERSON: PersonForm = {
@@ -25,7 +55,37 @@ const EMPTY_PERSON: PersonForm = {
   birthCountry: "",
   latitude: null,
   longitude: null,
+  timezone: "",
 };
+
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
+
+const SUPABASE_URL =
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+
+const SUPABASE_ANON_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+
+const supabase =
+  SUPABASE_URL && SUPABASE_ANON_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+        },
+      })
+    : null;
 
 function formatBirthDate(value: string): string {
   const numbers = value.replace(/\D/g, "").slice(0, 8);
@@ -137,6 +197,40 @@ function validatePerson(
   return null;
 }
 
+function getBirthParts(person: PersonForm) {
+  const [dayString, monthString, yearString] =
+    person.birthDate.split("/");
+
+  const [hourString, minuteString] =
+    person.birthTime.split(":");
+
+  return {
+    day: Number.parseInt(dayString, 10),
+    month: Number.parseInt(monthString, 10),
+    year: Number.parseInt(yearString, 10),
+    hour: Number.parseInt(hourString, 10),
+    minute: Number.parseInt(minuteString, 10),
+  };
+}
+
+async function readJsonResponse<T>(
+  response: Response
+): Promise<T | null> {
+  const responseText = await response.text();
+
+  if (!responseText) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(responseText) as T;
+  } catch {
+    return {
+      error: responseText,
+    } as T;
+  }
+}
+
 async function geocodePerson(
   person: PersonForm
 ): Promise<PersonForm> {
@@ -183,7 +277,182 @@ async function geocodePerson(
     birthCountry: person.birthCountry.trim(),
     latitude,
     longitude,
+    timezone:
+      typeof data.result.timezone === "string"
+        ? data.result.timezone.trim()
+        : "",
   };
+}
+
+async function calculateNatalChart(
+  person: PersonForm
+): Promise<NatalChart> {
+  if (
+    person.latitude === null ||
+    person.longitude === null
+  ) {
+    throw new Error(
+      `Les coordonnées de naissance de ${person.firstName} sont absentes.`
+    );
+  }
+
+  const { day, month, year, hour, minute } =
+    getBirthParts(person);
+
+  const response = await fetch("/api/natal-chart", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify({
+      year,
+      month,
+      day,
+      hour,
+      minute,
+      latitude: person.latitude,
+      longitude: person.longitude,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok || !data?.ok || !data?.chart) {
+    throw new Error(
+      data?.error ||
+        `Impossible de calculer le thème astral de ${person.firstName}.`
+    );
+  }
+
+  return data.chart as NatalChart;
+}
+
+function dataUrlToBlob(dataUrl: string): Blob {
+  const parts = dataUrl.split(",");
+
+  if (parts.length !== 2) {
+    throw new Error(
+      "Le format de l’image astrologique est invalide."
+    );
+  }
+
+  const header = parts[0];
+  const base64Data = parts[1];
+
+  const mimeMatch = header.match(
+    /^data:(image\/[a-zA-Z0-9.+-]+);base64$/
+  );
+
+  if (!mimeMatch) {
+    throw new Error(
+      "Le type de l’image astrologique est invalide."
+    );
+  }
+
+  const binaryString = atob(base64Data);
+  const bytes = new Uint8Array(binaryString.length);
+
+  for (
+    let index = 0;
+    index < binaryString.length;
+    index += 1
+  ) {
+    bytes[index] = binaryString.charCodeAt(index);
+  }
+
+  return new Blob([bytes], {
+    type: mimeMatch[1],
+  });
+}
+
+async function captureWheel(
+  element: HTMLDivElement | null,
+  personName: string
+): Promise<string> {
+  if (!element) {
+    throw new Error(
+      `La roue astrologique de ${personName} est introuvable.`
+    );
+  }
+
+  const canvas = await html2canvas(element, {
+    backgroundColor: "#0b1124",
+    scale: 3,
+    useCORS: true,
+    logging: false,
+  });
+
+  const image = canvas.toDataURL("image/png");
+
+  if (!image.startsWith("data:image/png;base64,")) {
+    throw new Error(
+      `La roue astrologique de ${personName} n’a pas pu être créée.`
+    );
+  }
+
+  return image;
+}
+
+async function uploadWheelImage(
+  wheelImage: string
+): Promise<string> {
+  if (!supabase) {
+    throw new Error(
+      "La configuration publique de Supabase est absente."
+    );
+  }
+
+  const wheelBlob = dataUrlToBlob(wheelImage);
+
+  const signedResponse = await fetch(
+    "/api/reports/wheel-upload",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  const signedData =
+    await readJsonResponse<SignedUploadResponse>(
+      signedResponse
+    );
+
+  if (
+    !signedResponse.ok ||
+    !signedData?.wheelImagePath ||
+    !signedData?.token
+  ) {
+    throw new Error(
+      signedData?.detail ||
+        signedData?.error ||
+        "Impossible de préparer l’envoi de la roue."
+    );
+  }
+
+  const { error: uploadError } =
+    await supabase.storage
+      .from("rapport-images")
+      .uploadToSignedUrl(
+        signedData.wheelImagePath,
+        signedData.token,
+        wheelBlob,
+        {
+          contentType: "image/png",
+          upsert: false,
+        }
+      );
+
+  if (uploadError) {
+    throw new Error(
+      uploadError.message ||
+        "Impossible d’enregistrer la roue astrologique."
+    );
+  }
+
+  return signedData.wheelImagePath;
 }
 
 type PersonFieldsProps = {
@@ -264,9 +533,7 @@ function PersonFields({
             }
             placeholder="JJ/MM/AAAA"
             maxLength={10}
-            autoComplete={
-              number === 1 ? "bday" : "off"
-            }
+            autoComplete={number === 1 ? "bday" : "off"}
             required
           />
         </label>
@@ -339,27 +606,39 @@ function PersonFields({
 }
 
 export default function CompatibilityPremiumForm() {
+  const person1WheelRef =
+    useRef<HTMLDivElement | null>(null);
+
+  const person2WheelRef =
+    useRef<HTMLDivElement | null>(null);
+
   const [person1, setPerson1] =
     useState<PersonForm>(EMPTY_PERSON);
 
   const [person2, setPerson2] =
     useState<PersonForm>(EMPTY_PERSON);
 
+  const [person1Chart, setPerson1Chart] =
+    useState<NatalChart | null>(null);
+
+  const [person2Chart, setPerson2Chart] =
+    useState<NatalChart | null>(null);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [validated, setValidated] = useState(false);
 
   const updatePerson1 = (
     field: keyof PersonForm,
     value: string
   ) => {
-    setValidated(false);
+    setPerson1Chart(null);
 
     setPerson1((current) => ({
       ...current,
       [field]: value,
       latitude: null,
       longitude: null,
+      timezone: "",
     }));
   };
 
@@ -367,13 +646,14 @@ export default function CompatibilityPremiumForm() {
     field: keyof PersonForm,
     value: string
   ) => {
-    setValidated(false);
+    setPerson2Chart(null);
 
     setPerson2((current) => ({
       ...current,
       [field]: value,
       latitude: null,
       longitude: null,
+      timezone: "",
     }));
   };
 
@@ -382,8 +662,11 @@ export default function CompatibilityPremiumForm() {
   ) => {
     event.preventDefault();
 
+    if (loading) {
+      return;
+    }
+
     setError("");
-    setValidated(false);
 
     const person1Error = validatePerson(
       person1,
@@ -414,23 +697,94 @@ export default function CompatibilityPremiumForm() {
           geocodePerson(person2),
         ]);
 
-      setPerson1(geocodedPerson1);
-      setPerson2(geocodedPerson2);
+      const [chart1, chart2] = await Promise.all([
+        calculateNatalChart(geocodedPerson1),
+        calculateNatalChart(geocodedPerson2),
+      ]);
 
-      const compatibilityData: CompatibilityPayload = {
-        person1: geocodedPerson1,
-        person2: geocodedPerson2,
-      };
+      flushSync(() => {
+        setPerson1(geocodedPerson1);
+        setPerson2(geocodedPerson2);
+        setPerson1Chart(chart1);
+        setPerson2Chart(chart2);
+      });
+
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      });
+
+      const [wheelImage1, wheelImage2] =
+        await Promise.all([
+          captureWheel(
+            person1WheelRef.current,
+            geocodedPerson1.firstName
+          ),
+          captureWheel(
+            person2WheelRef.current,
+            geocodedPerson2.firstName
+          ),
+        ]);
+
+      const [wheelImagePath1, wheelImagePath2] =
+        await Promise.all([
+          uploadWheelImage(wheelImage1),
+          uploadWheelImage(wheelImage2),
+        ]);
+
+      const checkoutResponse = await fetch(
+        "/api/reports/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            reportType: "compatibility",
+            person1: {
+              ...geocodedPerson1,
+              wheelImagePath: wheelImagePath1,
+            },
+            person2: {
+              ...geocodedPerson2,
+              wheelImagePath: wheelImagePath2,
+            },
+          }),
+        }
+      );
+
+      const checkoutData =
+        await readJsonResponse<CheckoutResponse>(
+          checkoutResponse
+        );
+
+      if (!checkoutResponse.ok || !checkoutData?.url) {
+        throw new Error(
+          checkoutData?.detail ||
+            checkoutData?.error ||
+            `Erreur de paiement (${checkoutResponse.status}).`
+        );
+      }
 
       sessionStorage.setItem(
         "luna-astralis-compatibility-premium",
-        JSON.stringify(compatibilityData)
+        JSON.stringify({
+          person1: {
+            ...geocodedPerson1,
+            wheelImagePath: wheelImagePath1,
+          },
+          person2: {
+            ...geocodedPerson2,
+            wheelImagePath: wheelImagePath2,
+          },
+        })
       );
 
-      setValidated(true);
+      window.location.href = checkoutData.url;
     } catch (submitError) {
       console.error(
-        "Erreur pendant la validation de la compatibilité :",
+        "Erreur pendant la préparation du rapport de compatibilité :",
         submitError
       );
 
@@ -439,10 +793,22 @@ export default function CompatibilityPremiumForm() {
           ? submitError.message
           : "Une erreur est survenue. Vérifie les informations et réessaie."
       );
-    } finally {
+
       setLoading(false);
     }
   };
+
+  const person1Planets = (
+    person1Chart?.planets || []
+  ).filter((planet: any) =>
+    MAIN_PLANETS.includes(planet?.name)
+  );
+
+  const person2Planets = (
+    person2Chart?.planets || []
+  ).filter((planet: any) =>
+    MAIN_PLANETS.includes(planet?.name)
+  );
 
   return (
     <div className="compatibility-premium-form-wrap">
@@ -499,42 +865,95 @@ export default function CompatibilityPremiumForm() {
           </p>
         )}
 
-        {validated && (
-          <div
-            className="compatibility-form-message compatibility-form-success"
-            role="status"
-          >
-            <strong>
-              ✓ Les deux lieux de naissance ont été
-              trouvés.
-            </strong>
-
-            <span>
-              Vos informations sont prêtes pour le
-              paiement sécurisé.
-            </span>
-          </div>
-        )}
-
         <div className="compatibility-form-submit-area">
           <button
             className="compatibility-form-submit"
             type="submit"
             disabled={loading}
+            aria-busy={loading}
           >
             {loading
-              ? "Vérification des informations..."
-              : validated
-                ? "Informations vérifiées"
-                : "Vérifier mes informations"}
+              ? "Préparation du paiement..."
+              : "Obtenir mon rapport de compatibilité"}
           </button>
 
           <p>
-            🔒 Vos informations servent uniquement à
-            créer votre rapport astrologique.
+            🔒 Paiement unique et sécurisé. Vos
+            informations servent uniquement à créer votre
+            rapport astrologique.
           </p>
         </div>
       </form>
+
+      <div
+        aria-hidden="true"
+        style={{
+          position: "fixed",
+          left: "-20000px",
+          top: 0,
+          width: 900,
+          height: 1800,
+          pointerEvents: "none",
+          opacity: 1,
+        }}
+      >
+        {person1Chart && (
+          <div
+            ref={person1WheelRef}
+            style={{
+              width: 820,
+              height: 820,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#0b1124",
+              color: "#fff8e7",
+            }}
+          >
+            <NatalChartWheel
+              planets={person1Planets}
+              houses={person1Chart.houses}
+              ascendantLongitude={
+                person1Chart.angles?.ascendant?.longitude
+              }
+              midheavenLongitude={
+                person1Chart.angles?.midheaven?.longitude
+              }
+              size={760}
+              showLegend={false}
+            />
+          </div>
+        )}
+
+        {person2Chart && (
+          <div
+            ref={person2WheelRef}
+            style={{
+              width: 820,
+              height: 820,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#0b1124",
+              color: "#fff8e7",
+              marginTop: 40,
+            }}
+          >
+            <NatalChartWheel
+              planets={person2Planets}
+              houses={person2Chart.houses}
+              ascendantLongitude={
+                person2Chart.angles?.ascendant?.longitude
+              }
+              midheavenLongitude={
+                person2Chart.angles?.midheaven?.longitude
+              }
+              size={760}
+              showLegend={false}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
