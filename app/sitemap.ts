@@ -15,7 +15,7 @@ const SIGNES = [
   "capricorne",
   "verseau",
   "poissons",
-];
+] as const;
 
 const PLANETES = [
   "soleil",
@@ -30,7 +30,7 @@ const PLANETES = [
   "pluton",
   "chiron",
   "noeuds-lunaires",
-];
+] as const;
 
 const ASPECTS = [
   "conjonction",
@@ -39,11 +39,9 @@ const ASPECTS = [
   "trigone",
   "sextile",
   "quinconce",
-];
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   return [
     // ==========================
     // Pages principales
@@ -51,25 +49,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: BASE_URL,
-      lastModified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${BASE_URL}/astrologie`,
-      lastModified,
       changeFrequency: "weekly",
       priority: 0.95,
     },
     {
       url: `${BASE_URL}/carte-du-ciel`,
-      lastModified,
       changeFrequency: "weekly",
       priority: 0.95,
     },
     {
       url: `${BASE_URL}/compatibilite`,
-      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+
+    // Ajoute cette route seulement lorsqu’elle existe réellement.
+    {
+      url: `${BASE_URL}/compatibilite/premium`,
       changeFrequency: "weekly",
       priority: 0.9,
     },
@@ -80,103 +81,87 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${BASE_URL}/horoscope`,
-      lastModified,
       changeFrequency: "daily",
       priority: 0.95,
     },
     {
       url: `${BASE_URL}/horoscope/premium`,
-      lastModified,
       changeFrequency: "weekly",
-      priority: 0.85,
+      priority: 0.9,
     },
-
-    // ==========================
-    // Horoscopes des 12 signes
-    // ==========================
 
     ...SIGNES.map((signe) => ({
       url: `${BASE_URL}/horoscope/${signe}`,
-      lastModified,
       changeFrequency: "daily" as const,
       priority: 0.9,
     })),
 
     // ==========================
-    // Pages astrologiques
+    // Index astrologiques
     // ==========================
 
     {
       url: `${BASE_URL}/astrologie/signes`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/astrologie/planetes`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/astrologie/maisons`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/astrologie/aspects`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${BASE_URL}/astrologie/ascendant`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.9,
     },
 
     // ==========================
-    // Les 12 signes astrologiques
+    // Les 12 signes
     // ==========================
 
     ...SIGNES.map((signe) => ({
       url: `${BASE_URL}/astrologie/${signe}`,
-      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
     })),
 
     // ==========================
-    // Les 12 maisons astrologiques
+    // Les 12 maisons
     // ==========================
 
     ...Array.from({ length: 12 }, (_, index) => ({
       url: `${BASE_URL}/astrologie/maison-${index + 1}`,
-      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
     })),
 
     // ==========================
-    // Les planètes et points
+    // Planètes et points
     // ==========================
 
     ...PLANETES.map((planete) => ({
       url: `${BASE_URL}/astrologie/${planete}`,
-      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
     })),
 
     // ==========================
-    // Les aspects astrologiques
+    // Aspects
     // ==========================
 
     ...ASPECTS.map((aspect) => ({
       url: `${BASE_URL}/astrologie/${aspect}`,
-      lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.85,
     })),
@@ -187,7 +172,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${BASE_URL}/pricing`,
-      lastModified,
       changeFrequency: "monthly",
       priority: 0.8,
     },
@@ -198,19 +182,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${BASE_URL}/conditions`,
-      lastModified,
       changeFrequency: "yearly",
       priority: 0.2,
     },
     {
       url: `${BASE_URL}/confidentialite`,
-      lastModified,
       changeFrequency: "yearly",
       priority: 0.2,
     },
     {
       url: `${BASE_URL}/mentions-legales`,
-      lastModified,
       changeFrequency: "yearly",
       priority: 0.2,
     },
