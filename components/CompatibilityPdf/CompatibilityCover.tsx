@@ -150,6 +150,8 @@ const styles = StyleSheet.create({
     position: "relative",
 
     height: "100%",
+
+    flexDirection: "column",
   },
 
   header: {
@@ -252,31 +254,31 @@ const styles = StyleSheet.create({
   synastryArea: {
     position: "relative",
 
-    height: 175,
+    height: 205,
 
     alignItems: "center",
     justifyContent: "center",
 
-    marginBottom: 7,
+    marginBottom: 12,
   },
 
   wheelRow: {
     position: "relative",
 
-    width: 325,
-    height: 137,
+    width: 365,
+    height: 157,
   },
 
   wheelContainerLeft: {
     position: "absolute",
 
     top: 0,
-    left: 30,
+    left: 24,
 
-    width: 137,
-    height: 137,
+    width: 157,
+    height: 157,
 
-    borderRadius: 68.5,
+    borderRadius: 78.5,
 
     borderWidth: 1,
     borderColor: BRIGHT_GOLD,
@@ -293,12 +295,12 @@ const styles = StyleSheet.create({
     position: "absolute",
 
     top: 0,
-    right: 30,
+    right: 24,
 
-    width: 137,
-    height: 137,
+    width: 157,
+    height: 157,
 
-    borderRadius: 68.5,
+    borderRadius: 78.5,
 
     borderWidth: 1,
     borderColor: BRIGHT_GOLD,
@@ -314,29 +316,29 @@ const styles = StyleSheet.create({
   wheelInnerBorder: {
     position: "absolute",
 
-    top: 5,
-    left: 5,
-    right: 5,
-    bottom: 5,
+    top: 6,
+    left: 6,
+    right: 6,
+    bottom: 6,
 
-    borderRadius: 63,
+    borderRadius: 72,
 
     borderWidth: 0.45,
     borderColor: SOFT_GOLD,
   },
 
   wheelImage: {
-    width: 119,
-    height: 119,
+    width: 137,
+    height: 137,
 
     objectFit: "contain",
   },
 
   wheelPlaceholder: {
-    width: 119,
-    height: 119,
+    width: 137,
+    height: 137,
 
-    borderRadius: 59.5,
+    borderRadius: 68.5,
 
     borderWidth: 0.55,
     borderColor: SOFT_GOLD,
@@ -370,13 +372,13 @@ const styles = StyleSheet.create({
   centralSymbol: {
     position: "absolute",
 
-    top: 43,
-    left: 133,
+    top: 49,
+    left: 150,
 
-    width: 59,
-    height: 59,
+    width: 65,
+    height: 65,
 
-    borderRadius: 29.5,
+    borderRadius: 32.5,
 
     borderWidth: 1,
     borderColor: GOLD,
@@ -408,36 +410,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  connectingLineLeft: {
-    position: "absolute",
-
-    top: 68,
-    left: 103,
-
-    width: 35,
-    height: 0.6,
-
-    backgroundColor: GOLD,
-  },
-
-  connectingLineRight: {
-    position: "absolute",
-
-    top: 68,
-    right: 103,
-
-    width: 35,
-    height: 0.6,
-
-    backgroundColor: GOLD,
-  },
 
   namesRow: {
     position: "absolute",
 
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: -3,
 
     flexDirection: "row",
     alignItems: "center",
@@ -447,7 +426,7 @@ const styles = StyleSheet.create({
   personName: {
     width: "40%",
 
-    fontSize: 16,
+    fontSize: 17,
     lineHeight: 1.15,
 
     color: CREAM,
@@ -476,15 +455,16 @@ const styles = StyleSheet.create({
     position: "relative",
 
     width: "48.4%",
+    minHeight: 104,
 
     backgroundColor: CARD_BACKGROUND,
 
     borderWidth: 0.8,
     borderColor: SOFT_GOLD,
 
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingHorizontal: 13,
   },
 
   identityAccentTop: {
@@ -563,14 +543,16 @@ const styles = StyleSheet.create({
   },
 
   themesCard: {
-    borderTopWidth: 0.6,
-    borderBottomWidth: 0.6,
-    borderColor: "#80683d",
+    backgroundColor: CARD_BACKGROUND,
 
-    paddingTop: 7,
-    paddingBottom: 7,
+    borderWidth: 0.65,
+    borderColor: DARK_GOLD,
 
-    marginBottom: 8,
+    paddingTop: 11,
+    paddingBottom: 11,
+    paddingHorizontal: 10,
+
+    marginBottom: 12,
   },
 
   themesRow: {
@@ -585,16 +567,16 @@ const styles = StyleSheet.create({
   },
 
   themeSymbol: {
-    fontSize: 11,
+    fontSize: 15,
 
     color: BRIGHT_GOLD,
 
-    marginBottom: 2,
+    marginBottom: 4,
   },
 
   themeTitle: {
-    fontSize: 6.4,
-    lineHeight: 1.25,
+    fontSize: 6.7,
+    lineHeight: 1.3,
 
     color: CREAM,
 
@@ -605,20 +587,25 @@ const styles = StyleSheet.create({
   quoteSection: {
     alignItems: "center",
 
-    paddingHorizontal: 22,
+    paddingTop: 13,
+    paddingHorizontal: 30,
 
-    marginTop: 2,
+    marginTop: "auto",
+    marginBottom: 6,
+
+    borderTopWidth: 0.45,
+    borderTopColor: DARK_GOLD,
   },
 
   quote: {
-    fontSize: 8.6,
-    lineHeight: 1.45,
+    fontSize: 9.2,
+    lineHeight: 1.5,
 
     color: "#f4efe2",
 
     textAlign: "center",
 
-    marginBottom: 4,
+    marginBottom: 6,
   },
 
   signature: {
@@ -895,18 +882,6 @@ export default function CompatibilityCover({
           wrap={false}
         >
           <View style={styles.wheelRow}>
-            <View
-              style={
-                styles.connectingLineLeft
-              }
-            />
-
-            <View
-              style={
-                styles.connectingLineRight
-              }
-            />
-
             <View
               style={
                 styles.wheelContainerLeft
