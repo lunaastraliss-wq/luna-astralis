@@ -37,9 +37,9 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 30,
+    paddingHorizontal: 40,
+    paddingBottom: 48,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 16,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 104,
+    height: 36,
     objectFit: "contain",
   },
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 21,
+    marginBottom: 10,
   },
 
   eyebrow: {
@@ -95,20 +95,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 5,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 9,
   },
 
   titleDecoration: {
@@ -137,20 +137,20 @@ const styles = StyleSheet.create({
   },
 
   energyCard: {
-    paddingVertical: 21,
-    paddingHorizontal: 21,
+    paddingVertical: 10,
+    paddingHorizontal: 17,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    marginBottom: 5,
   },
 
   energyHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   energyHeading: {
@@ -186,9 +186,9 @@ const styles = StyleSheet.create({
   },
 
   scoreOuterCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -196,9 +196,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 18,
   },
 
   scoreMaximum: {
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   energyDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 13,
+    marginBottom: 9,
   },
 
   energyDividerLine: {
@@ -238,26 +238,26 @@ const styles = StyleSheet.create({
 
   introduction: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
-    marginBottom: 12,
+    fontSize: 9,
+    lineHeight: 1.45,
+    marginBottom: 8,
   },
 
   mainText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.75,
+    fontSize: 9.8,
+    lineHeight: 1.55,
     textAlign: "justify",
   },
 
   progressCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 19,
+    marginBottom: 5,
   },
 
   progressHeader: {
@@ -291,22 +291,22 @@ const styles = StyleSheet.create({
 
   progressTrack: {
     width: "100%",
-    height: 9,
-    borderRadius: 4.5,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 9,
-    borderRadius: 4.5,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: GOLD,
   },
 
   highlightHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 8,
   },
 
   highlightHeaderLine: {
@@ -334,15 +334,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 5,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 78,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
-    marginBottom: 11,
+    minHeight: 54,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    marginBottom: 5,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -352,13 +352,13 @@ const styles = StyleSheet.create({
   highlightTopRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 5,
   },
 
   highlightNumberCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -380,13 +380,13 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.5,
+    fontSize: 8.2,
+    lineHeight: 1.35,
   },
 
   adviceCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
@@ -398,13 +398,13 @@ const styles = StyleSheet.create({
   adviceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   adviceIconBox: {
-    width: 27,
-    height: 27,
-    borderRadius: 13.5,
+    width: 23,
+    height: 23,
+    borderRadius: 11.5,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
@@ -414,8 +414,8 @@ const styles = StyleSheet.create({
   },
 
   adviceIcon: {
-    width: 16,
-    height: 16,
+    width: 14,
+    height: 14,
     objectFit: "contain",
   },
 
@@ -428,8 +428,8 @@ const styles = StyleSheet.create({
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 9,
+    lineHeight: 1.45,
   },
 });
 
@@ -454,7 +454,7 @@ export default function HoroscopeEnergy({
 
   return (
     <Page size="A4" style={styles.page}>
-      <View style={styles.content}>
+      <View style={styles.content} wrap={false}>
         <View style={styles.header}>
           <Image
             src={HOROSCOPE_LOGO_URL}
