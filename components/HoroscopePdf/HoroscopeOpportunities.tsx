@@ -10,8 +10,6 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
-import HoroscopePageFooter from "./HoroscopePageFooter";
-
 import type {
   HoroscopeSectionProps,
 } from "./HoroscopePdfTypes";
@@ -37,11 +35,75 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 34,
+    paddingHorizontal: 42,
+    paddingBottom: 42,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+  },
+
+  outerBorder: {
+    position: "absolute",
+    top: 18,
+    right: 18,
+    bottom: 18,
+    left: 18,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+  },
+
+  innerBorder: {
+    position: "absolute",
+    top: 23,
+    right: 23,
+    bottom: 23,
+    left: 23,
+    borderWidth: 0.25,
+    borderColor: DARK_GOLD,
+  },
+
+  cornerTopLeft: {
+    position: "absolute",
+    top: 18,
+    left: 18,
+    width: 34,
+    height: 34,
+    borderTopWidth: 1.6,
+    borderLeftWidth: 1.6,
+    borderColor: GOLD,
+  },
+
+  cornerTopRight: {
+    position: "absolute",
+    top: 18,
+    right: 18,
+    width: 34,
+    height: 34,
+    borderTopWidth: 1.6,
+    borderRightWidth: 1.6,
+    borderColor: GOLD,
+  },
+
+  cornerBottomLeft: {
+    position: "absolute",
+    bottom: 18,
+    left: 18,
+    width: 34,
+    height: 34,
+    borderBottomWidth: 1.6,
+    borderLeftWidth: 1.6,
+    borderColor: GOLD,
+  },
+
+  cornerBottomRight: {
+    position: "absolute",
+    right: 18,
+    bottom: 18,
+    width: 34,
+    height: 34,
+    borderRightWidth: 1.6,
+    borderBottomWidth: 1.6,
+    borderColor: GOLD,
   },
 
   content: {
@@ -52,20 +114,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 24,
+    marginBottom: 16,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 104,
+    height: 37,
     objectFit: "contain",
   },
 
   signBadge: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 7,
-    paddingHorizontal: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 11,
     borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -73,8 +135,8 @@ const styles = StyleSheet.create({
   },
 
   signIcon: {
-    width: 22,
-    height: 22,
+    width: 20,
+    height: 20,
     objectFit: "contain",
     marginRight: 7,
   },
@@ -87,28 +149,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
 
   eyebrow: {
     color: GOLD,
-    fontSize: 9,
-    letterSpacing: 2.4,
+    fontSize: 8.5,
+    letterSpacing: 2.2,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
-    lineHeight: 1.2,
-    marginBottom: 8,
+    fontSize: 24,
+    lineHeight: 1.15,
+    marginBottom: 6,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 13,
+    fontSize: 9.5,
+    marginBottom: 10,
   },
 
   titleDecoration: {
@@ -117,63 +179,65 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 62,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
   },
 
-  titleIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-    marginRight: 8,
+  titleDiamond: {
+    width: 7,
+    height: 7,
+    marginHorizontal: 8,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    transform: "rotate(45deg)",
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 24,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    paddingVertical: 21,
-    paddingHorizontal: 21,
-    borderRadius: 14,
-    borderWidth: 0.8,
+  overviewCardOuter: {
+    borderWidth: 0.5,
     borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    padding: 4,
+    marginBottom: 13,
   },
 
-  mainHeader: {
+  overviewCard: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 14,
+    paddingVertical: 15,
+    paddingHorizontal: 17,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
   },
 
-  mainHeading: {
+  overviewTextColumn: {
     flex: 1,
-    paddingRight: 16,
+    paddingRight: 15,
   },
 
-  mainMiniLabel: {
+  miniLabel: {
     color: SOFT_TEXT,
     fontSize: 7,
-    letterSpacing: 1.2,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
-    marginBottom: 6,
+    marginBottom: 5,
   },
 
   sectionTitleRow: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 8,
   },
 
-  sectionTitleIcon: {
-    width: 17,
-    height: 17,
+  sectionIcon: {
+    width: 18,
+    height: 18,
     objectFit: "contain",
     marginRight: 8,
   },
@@ -181,14 +245,28 @@ const styles = StyleSheet.create({
   sectionTitle: {
     flex: 1,
     color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
+    fontSize: 12.5,
+    lineHeight: 1.3,
   },
 
-  scoreOuterCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+  introduction: {
+    color: MUTED_CREAM,
+    fontSize: 8.7,
+    lineHeight: 1.5,
+    marginBottom: 7,
+  },
+
+  mainText: {
+    color: CREAM,
+    fontSize: 9.3,
+    lineHeight: 1.55,
+    textAlign: "justify",
+  },
+
+  scoreOuter: {
+    width: 78,
+    height: 78,
+    borderRadius: 39,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -196,10 +274,10 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    borderWidth: 1.1,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    borderWidth: 1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -217,123 +295,77 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
 
-  mainDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 13,
-  },
-
-  mainDividerLine: {
-    width: 31,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  mainDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
-  },
-
-  introduction: {
-    color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
-    marginBottom: 12,
-  },
-
-  mainText: {
-    color: CREAM,
-    fontSize: 10.3,
-    lineHeight: 1.7,
-    textAlign: "justify",
-  },
-
   progressCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-    borderRadius: 12,
+    paddingVertical: 11,
+    paddingHorizontal: 15,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 18,
+    marginBottom: 13,
   },
 
   progressHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 9,
-  },
-
-  progressLabelRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  progressIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-    marginRight: 7,
+    marginBottom: 7,
   },
 
   progressLabel: {
     color: CREAM,
-    fontSize: 9,
+    fontSize: 8.5,
   },
 
   progressValue: {
     color: GOLD,
-    fontSize: 9,
+    fontSize: 8.5,
   },
 
   progressTrack: {
     width: "100%",
-    height: 9,
-    borderRadius: 4.5,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 9,
-    borderRadius: 4.5,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: GOLD,
   },
 
   progressDescription: {
     color: SOFT_TEXT,
-    fontSize: 7.5,
-    lineHeight: 1.45,
-    marginTop: 9,
+    fontSize: 7.2,
+    lineHeight: 1.4,
+    marginTop: 7,
   },
 
-  highlightsHeader: {
+  sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 9,
   },
 
-  highlightsHeaderLine: {
-    width: 24,
+  sectionHeaderLine: {
+    width: 25,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 8,
   },
 
-  highlightsHeaderIcon: {
+  sectionHeaderIcon: {
     width: 13,
     height: 13,
     objectFit: "contain",
     marginRight: 8,
   },
 
-  highlightsTitle: {
+  sectionHeaderTitle: {
     color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
+    fontSize: 9.2,
+    letterSpacing: 1.35,
     textTransform: "uppercase",
   },
 
@@ -341,193 +373,93 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 5,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 84,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
-    marginBottom: 11,
-    borderRadius: 11,
-    borderWidth: 0.6,
+    minHeight: 56,
+    paddingVertical: 9,
+    paddingHorizontal: 11,
+    marginBottom: 8,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  highlightTopRow: {
+  highlightHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 5,
   },
 
   highlightNumberCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 8,
+    marginRight: 7,
   },
 
   highlightNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 7,
   },
 
   highlightIcon: {
-    width: 13,
-    height: 13,
+    width: 12,
+    height: 12,
     objectFit: "contain",
   },
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.5,
+    fontSize: 7.8,
+    lineHeight: 1.4,
   },
 
-  pageOneClosing: {
+  guidanceAndActions: {
     flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 11,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-  },
-
-  pageOneClosingIconBox: {
-    width: 39,
-    height: 39,
-    borderRadius: 19.5,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 13,
-  },
-
-  pageOneClosingIcon: {
-    width: 24,
-    height: 24,
-    objectFit: "contain",
-  },
-
-  pageOneClosingText: {
-    flex: 1,
-    color: MUTED_CREAM,
-    fontSize: 8.4,
-    lineHeight: 1.55,
-  },
-
-  heroSection: {
-    alignItems: "center",
-    marginBottom: 21,
-  },
-
-  heroOuterCircle: {
-    width: 108,
-    height: 108,
-    borderRadius: 54,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 13,
-  },
-
-  heroMiddleCircle: {
-    width: 94,
-    height: 94,
-    borderRadius: 47,
-    borderWidth: 0.9,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  heroInnerCircle: {
-    width: 78,
-    height: 78,
-    borderRadius: 39,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  heroIcon: {
-    width: 52,
-    height: 52,
-    objectFit: "contain",
-  },
-
-  heroLabel: {
-    color: GOLD,
-    fontSize: 8,
-    letterSpacing: 1.4,
-    textTransform: "uppercase",
-    marginBottom: 7,
-  },
-
-  heroText: {
-    maxWidth: 390,
-    color: MUTED_CREAM,
-    fontSize: 9,
-    lineHeight: 1.55,
-    textAlign: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
   },
 
   guidanceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 18,
-    borderRadius: 12,
+    width: "39%",
+    paddingVertical: 12,
+    paddingHorizontal: 13,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 17,
   },
 
-  guidanceHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  guidanceIconBox: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+  guidanceIconFrame: {
+    width: 33,
+    height: 33,
+    borderRadius: 16.5,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
+    marginBottom: 8,
   },
 
   guidanceIcon: {
-    width: 21,
-    height: 21,
+    width: 20,
+    height: 20,
     objectFit: "contain",
   },
 
-  guidanceHeading: {
-    flex: 1,
-  },
-
-  guidanceMiniLabel: {
+  guidanceLabel: {
     color: SOFT_TEXT,
-    fontSize: 7,
+    fontSize: 6.8,
     letterSpacing: 1.1,
     textTransform: "uppercase",
     marginBottom: 4,
@@ -535,178 +467,110 @@ const styles = StyleSheet.create({
 
   guidanceTitle: {
     color: GOLD,
-    fontSize: 11,
+    fontSize: 9.5,
+    lineHeight: 1.35,
+    marginBottom: 6,
   },
 
   guidanceText: {
-    color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.6,
+    color: MUTED_CREAM,
+    fontSize: 7.5,
+    lineHeight: 1.43,
   },
 
-  actionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-
-  actionHeaderLine: {
-    width: 24,
-    height: 1,
-    backgroundColor: GOLD,
-    marginRight: 8,
-  },
-
-  actionHeaderIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  actionHeaderTitle: {
-    color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-
-  actionsGrid: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 17,
+  actionsColumn: {
+    width: "58.5%",
   },
 
   actionCard: {
-    width: "31.5%",
-    minHeight: 137,
-    paddingVertical: 14,
-    paddingHorizontal: 12,
-    borderRadius: 11,
-    borderWidth: 0.6,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    marginBottom: 6,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
   actionNumberCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 22,
+    height: 22,
+    borderRadius: 11,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    marginRight: 8,
   },
 
   actionNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 7,
   },
 
-  actionIcon: {
-    width: 18,
-    height: 18,
-    objectFit: "contain",
-    marginBottom: 9,
+  actionContent: {
+    flex: 1,
   },
 
   actionTitle: {
     color: GOLD,
-    fontSize: 9,
-    lineHeight: 1.35,
-    marginBottom: 7,
+    fontSize: 8.2,
+    marginBottom: 3,
   },
 
   actionText: {
     color: MUTED_CREAM,
-    fontSize: 7.7,
-    lineHeight: 1.48,
+    fontSize: 7.1,
+    lineHeight: 1.38,
   },
 
   adviceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 18,
-    borderRadius: 12,
-    borderWidth: 0.5,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderWidth: 0.6,
     borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
+    borderTopWidth: 1.2,
+    borderTopColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 17,
   },
 
   adviceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
+    marginBottom: 6,
   },
 
-  adviceIconBox: {
-    width: 29,
-    height: 29,
-    borderRadius: 14.5,
+  adviceIconFrame: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 9,
+    marginRight: 8,
   },
 
   adviceIcon: {
-    width: 17,
-    height: 17,
+    width: 15,
+    height: 15,
     objectFit: "contain",
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 8,
-    letterSpacing: 1.4,
+    fontSize: 7.5,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.4,
-    lineHeight: 1.6,
-  },
-
-  reminderCard: {
-    paddingVertical: 14,
-    paddingHorizontal: 17,
-    borderRadius: 11,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  reminderHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-
-  reminderIcon: {
-    width: 15,
-    height: 15,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  reminderLabel: {
-    color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-  },
-
-  reminderText: {
-    color: MUTED_CREAM,
-    fontSize: 8.3,
-    lineHeight: 1.55,
+    fontSize: 8.4,
+    lineHeight: 1.48,
   },
 });
 
@@ -715,7 +579,7 @@ function getFinancialGuidance(score: number) {
     return {
       title: "Une période favorable à consolider",
       text:
-        "Votre climat financier paraît relativement porteur. Cette énergie peut soutenir une décision réfléchie, une négociation ou la consolidation d’un projet. L’objectif n’est toutefois pas de dépenser davantage, mais d’utiliser cette stabilité pour renforcer ce qui fonctionne déjà et préparer la suite avec méthode.",
+        "Votre climat financier paraît porteur. Utilisez cette stabilité pour renforcer ce qui fonctionne déjà, négocier avec méthode et préparer la suite sans céder aux dépenses impulsives.",
     };
   }
 
@@ -723,14 +587,14 @@ function getFinancialGuidance(score: number) {
     return {
       title: "Un équilibre à préserver",
       text:
-        "Votre période financière présente un potentiel intéressant, mais elle demande de la vigilance. Certaines occasions peuvent être utiles si elles restent compatibles avec vos priorités réelles. Prenez le temps de comparer, de vérifier les détails et de protéger votre marge de sécurité avant de vous engager.",
+        "Le potentiel est intéressant, mais il demande de la vigilance. Comparez les options, vérifiez les détails et protégez votre marge de sécurité avant de vous engager.",
     };
   }
 
   return {
     title: "Une période qui demande de la prudence",
     text:
-      "Votre climat financier invite à ralentir et à revenir à l’essentiel. Évitez les décisions prises sous pression et concentrez-vous sur les dépenses prioritaires. Une organisation simple, des limites claires et une meilleure visibilité sur vos ressources peuvent vous aider à retrouver progressivement un sentiment de contrôle.",
+      "Ralentissez et revenez à l’essentiel. Priorisez les dépenses importantes, évitez les décisions sous pression et cherchez une meilleure visibilité sur vos ressources.",
   };
 }
 
@@ -759,49 +623,261 @@ export default function HoroscopeMoney({
     {
       title: "Observer",
       text:
-        "Repérez les dépenses, les engagements ou les choix financiers qui reviennent souvent. Cette observation vous aide à distinguer les habitudes utiles de celles qui fragilisent votre équilibre.",
+        "Repérez les dépenses et engagements qui reviennent souvent afin de distinguer les habitudes utiles de celles qui fragilisent votre équilibre.",
     },
     {
       title: "Prioriser",
       text:
-        "Classez vos besoins selon leur importance réelle. Donnez la priorité à la sécurité, aux obligations essentielles et aux projets capables de soutenir votre stabilité à plus long terme.",
+        "Classez vos besoins selon leur importance réelle et protégez d’abord votre sécurité, vos obligations et vos projets essentiels.",
     },
     {
       title: "Décider",
       text:
-        "Avant une décision importante, accordez-vous un délai de réflexion. Vérifiez les chiffres, les conditions et les conséquences possibles afin d’agir avec davantage de clarté.",
+        "Avant un choix important, vérifiez les chiffres, les conditions et les conséquences possibles afin d’agir avec plus de clarté.",
     },
   ];
 
+  const sectionTitle =
+    content.money.title || "Votre climat financier";
+
+  const introduction =
+    content.money.introduction ||
+    "Cette période met en lumière votre rapport à la sécurité, aux ressources et aux décisions matérielles.";
+
+  const mainText =
+    content.money.text ||
+    "Votre situation financière gagne à être abordée avec méthode. Les meilleures décisions seront celles qui respectent vos priorités réelles, votre rythme et votre besoin de stabilité.";
+
+  const advice =
+    content.money.advice ||
+    "Choisissez une action financière simple et concrète à accomplir pendant cette période.";
+
   return (
-    <>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.content}>
-          <View style={styles.header}>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.outerBorder} fixed />
+      <View style={styles.innerBorder} fixed />
+      <View style={styles.cornerTopLeft} fixed />
+      <View style={styles.cornerTopRight} fixed />
+      <View style={styles.cornerBottomLeft} fixed />
+      <View style={styles.cornerBottomRight} fixed />
+
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
+
+          <View style={styles.signBadge} wrap={false}>
             <Image
-              src={HOROSCOPE_LOGO_URL}
-              style={styles.logo}
+              src={zodiacIconUrl}
+              style={styles.signIcon}
             />
 
-            <View style={styles.signBadge}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.signIcon}
-              />
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
 
-              <Text style={styles.signName}>
-                {identity.zodiacSignLabel}
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Finances et sécurité
+          </Text>
+
+          <Text style={styles.title}>
+            Votre climat financier
+          </Text>
+
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+            <View style={styles.titleDiamond} />
+            <View style={styles.titleLineSmall} />
+          </View>
+        </View>
+
+        <View style={styles.overviewCardOuter}>
+          <View style={styles.overviewCard}>
+            <View style={styles.overviewTextColumn}>
+              <Text style={styles.miniLabel}>
+                Lecture personnalisée
+              </Text>
+
+              <View style={styles.sectionTitleRow}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.sectionIcon}
+                />
+
+                <Text style={styles.sectionTitle}>
+                  {sectionTitle}
+                </Text>
+              </View>
+
+              <Text style={styles.introduction}>
+                {introduction}
+              </Text>
+
+              <Text style={styles.mainText}>
+                {mainText}
               </Text>
             </View>
+
+            <View style={styles.scoreOuter} wrap={false}>
+              <View style={styles.scoreCircle}>
+                <Text style={styles.scoreValue}>
+                  {moneyScore}
+                </Text>
+
+                <Text style={styles.scoreMaximum}>
+                  / 100
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View style={styles.progressCard} wrap={false}>
+          <View style={styles.progressHeader}>
+            <Text style={styles.progressLabel}>
+              Potentiel financier de la période
+            </Text>
+
+            <Text style={styles.progressValue}>
+              {moneyScore} %
+            </Text>
           </View>
 
-          <View style={styles.titleBlock}>
-            <Text style={styles.eyebrow}>
-              Finances et sécurité
+          <View style={styles.progressTrack}>
+            <View
+              style={[
+                styles.progressFill,
+                { width: `${moneyScore}%` },
+              ]}
+            />
+          </View>
+
+          <Text style={styles.progressDescription}>
+            Cet indicateur synthétise le climat général de la période.
+          </Text>
+        </View>
+
+        {highlights.length > 0 ? (
+          <>
+            <View style={styles.sectionHeader}>
+              <View style={styles.sectionHeaderLine} />
+
+              <Image
+                src={zodiacIconUrl}
+                style={styles.sectionHeaderIcon}
+              />
+
+              <Text style={styles.sectionHeaderTitle}>
+                Points à surveiller
+              </Text>
+            </View>
+
+            <View style={styles.highlightsGrid}>
+              {highlights.map((highlight, index) => (
+                <View
+                  key={`${highlight}-${index}`}
+                  style={styles.highlightCard}
+                  wrap={false}
+                >
+                  <View style={styles.highlightHeader}>
+                    <View style={styles.highlightNumberCircle}>
+                      <Text style={styles.highlightNumber}>
+                        {String(index + 1).padStart(2, "0")}
+                      </Text>
+                    </View>
+
+                    <Image
+                      src={zodiacIconUrl}
+                      style={styles.highlightIcon}
+                    />
+                  </View>
+
+                  <Text style={styles.highlightText}>
+                    {highlight}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </>
+        ) : null}
+
+        <View style={styles.guidanceAndActions}>
+          <View style={styles.guidanceCard} wrap={false}>
+            <View style={styles.guidanceIconFrame}>
+              <Image
+                src={zodiacIconUrl}
+                style={styles.guidanceIcon}
+              />
+            </View>
+
+            <Text style={styles.guidanceLabel}>
+              Tendance générale
             </Text>
 
-            <Text style={styles.title}>
-              Votre climat financier
+            <Text style={styles.guidanceTitle}>
+              {guidance.title}
             </Text>
 
-            <Text style={styles.period}>
+            <Text style={styles.guidanceText}>
+              {guidance.text}
+            </Text>
+          </View>
+
+          <View style={styles.actionsColumn}>
+            {actionCards.map((action, index) => (
+              <View
+                key={action.title}
+                style={styles.actionCard}
+                wrap={false}
+              >
+                <View style={styles.actionNumberCircle}>
+                  <Text style={styles.actionNumber}>
+                    {String(index + 1).padStart(2, "0")}
+                  </Text>
+                </View>
+
+                <View style={styles.actionContent}>
+                  <Text style={styles.actionTitle}>
+                    {action.title}
+                  </Text>
+
+                  <Text style={styles.actionText}>
+                    {action.text}
+                  </Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.adviceCard} wrap={false}>
+          <View style={styles.adviceHeader}>
+            <View style={styles.adviceIconFrame}>
+              <Image
+                src={zodiacIconUrl}
+                style={styles.adviceIcon}
+              />
+            </View>
+
+            <Text style={styles.adviceLabel}>
+              Conseil de la période
+            </Text>
+          </View>
+
+          <Text style={styles.adviceText}>
+            {advice}
+          </Text>
+        </View>
+      </View>
+    </Page>
+  );
+}
