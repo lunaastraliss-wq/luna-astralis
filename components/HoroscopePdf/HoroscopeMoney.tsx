@@ -10,6 +10,9 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
+import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
+
 import type {
   HoroscopeSectionProps,
 } from "./HoroscopePdfTypes";
@@ -31,18 +34,32 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const MONEY_ICONS = {
+  money: `${ASTROLOGY_PATH}/money.png?v=2`,
+  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 50,
+    paddingTop: 33,
+    paddingHorizontal: 42,
+    paddingBottom: 53,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -50,12 +67,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 23,
+    marginBottom: 13,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -85,28 +102,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 19,
+    marginBottom: 11,
   },
 
   eyebrow: {
     color: GOLD,
     fontSize: 9,
-    letterSpacing: 2.4,
+    letterSpacing: 2.35,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 13,
+    fontSize: 9.6,
+    marginBottom: 8,
   },
 
   titleDecoration: {
@@ -115,154 +132,196 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 60,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 14,
-    height: 14,
+    width: 17,
+    height: 17,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    paddingVertical: 19,
-    paddingHorizontal: 20,
+  heroCard: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 145,
+    paddingVertical: 16,
+    paddingHorizontal: 17,
+    marginBottom: 11,
     borderRadius: 14,
-    borderWidth: 0.8,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 15,
+    overflow: "hidden",
   },
 
-  mainHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 12,
+  heroOrbitOne: {
+    position: "absolute",
+    top: -60,
+    left: -56,
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  mainHeading: {
-    flex: 1,
-    paddingRight: 16,
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -25,
+    left: -23,
+    width: 108,
+    height: 108,
+    borderRadius: 54,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
   },
 
-  mainMiniLabel: {
-    color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    marginBottom: 6,
+  heroGlow: {
+    position: "absolute",
+    right: -34,
+    top: -32,
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  sectionTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  sectionTitleIcon: {
-    width: 17,
-    height: 17,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  sectionTitle: {
-    flex: 1,
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
-  },
-
-  scoreOuterCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+  heroIconOuter: {
+    width: 78,
+    height: 78,
+    borderRadius: 39,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 15,
   },
 
-  scoreCircle: {
+  heroIconInner: {
     width: 64,
     height: 64,
     borderRadius: 32,
-    borderWidth: 1.1,
+    borderWidth: 1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
   },
 
+  heroIcon: {
+    width: 47,
+    height: 47,
+    objectFit: "contain",
+  },
+
+  heroBody: {
+    flex: 1,
+    paddingRight: 12,
+  },
+
+  heroMiniLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.9,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    marginBottom: 5,
+  },
+
+  heroTitle: {
+    color: GOLD,
+    fontSize: 13,
+    lineHeight: 1.35,
+    marginBottom: 7,
+  },
+
+  heroIntroduction: {
+    color: MUTED_CREAM,
+    fontSize: 8.1,
+    lineHeight: 1.45,
+    marginBottom: 6,
+  },
+
+  heroText: {
+    color: CREAM,
+    fontSize: 8.6,
+    lineHeight: 1.48,
+    textAlign: "justify",
+  },
+
+  scoreBox: {
+    width: 58,
+    alignItems: "center",
+  },
+
+  scoreCircleOuter: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 5,
+  },
+
+  scoreCircleInner: {
+    width: 47,
+    height: 47,
+    borderRadius: 23.5,
+    borderWidth: 1,
+    borderColor: GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 17,
   },
 
   scoreMaximum: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    marginTop: 1,
+    fontSize: 6,
   },
 
-  mainDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 11,
-  },
-
-  mainDividerLine: {
-    width: 31,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  mainDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
-  },
-
-  introduction: {
+  scoreLabel: {
     color: MUTED_CREAM,
-    fontSize: 9.2,
-    lineHeight: 1.55,
-    marginBottom: 9,
-  },
-
-  mainText: {
-    color: CREAM,
-    fontSize: 9.8,
-    lineHeight: 1.62,
-    textAlign: "justify",
+    fontSize: 6.2,
+    textAlign: "center",
+    lineHeight: 1.25,
   },
 
   progressCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 17,
-    borderRadius: 12,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    marginBottom: 11,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 15,
   },
 
   progressHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   progressLabelRow: {
@@ -271,187 +330,106 @@ const styles = StyleSheet.create({
   },
 
   progressIcon: {
-    width: 13,
-    height: 13,
+    width: 14,
+    height: 14,
     objectFit: "contain",
     marginRight: 7,
   },
 
   progressLabel: {
     color: CREAM,
-    fontSize: 8.8,
+    fontSize: 8.1,
   },
 
   progressValue: {
     color: GOLD,
-    fontSize: 8.8,
+    fontSize: 8.6,
   },
 
   progressTrack: {
     width: "100%",
-    height: 8,
-    borderRadius: 4,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 8,
-    borderRadius: 4,
+    height: 7,
+    borderRadius: 3.5,
     backgroundColor: GOLD,
   },
 
-  highlightsHeader: {
+  sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
-  highlightsHeaderLine: {
+  sectionLine: {
     width: 24,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 8,
   },
 
-  highlightsHeaderIcon: {
-    width: 13,
-    height: 13,
+  sectionIcon: {
+    width: 14,
+    height: 14,
     objectFit: "contain",
     marginRight: 8,
   },
 
-  highlightsTitle: {
+  sectionTitle: {
     color: GOLD,
-    fontSize: 9.8,
-    letterSpacing: 1.5,
+    fontSize: 9.2,
+    letterSpacing: 1.45,
     textTransform: "uppercase",
   },
 
-  highlightsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 12,
+  timeline: {
+    position: "relative",
+    marginBottom: 10,
+    paddingLeft: 4,
   },
 
-  highlightCard: {
-    width: "48.5%",
-    minHeight: 63,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginBottom: 9,
-    borderRadius: 10,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
+  timelineLine: {
+    position: "absolute",
+    top: 10,
+    bottom: 10,
+    left: 16,
+    width: 1,
+    backgroundColor: DEEP_GOLD,
   },
 
-  highlightTopRow: {
+  timelineItem: {
+    position: "relative",
     flexDirection: "row",
-    alignItems: "center",
+    minHeight: 42,
     marginBottom: 6,
   },
 
-  highlightNumberCircle: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+  timelineMarker: {
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 7,
+    marginRight: 10,
+    zIndex: 2,
   },
 
-  highlightNumber: {
+  timelineNumber: {
     color: GOLD,
-    fontSize: 7,
+    fontSize: 6.6,
   },
 
-  highlightIcon: {
-    width: 12,
-    height: 12,
-    objectFit: "contain",
-  },
-
-  highlightText: {
-    color: CREAM,
-    fontSize: 7.9,
-    lineHeight: 1.42,
-  },
-
-  guidanceCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 15,
-    borderRadius: 12,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 10,
-  },
-
-  guidanceHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
-
-  guidanceIconBox: {
-    width: 29,
-    height: 29,
-    borderRadius: 14.5,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_SOFT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 9,
-  },
-
-  guidanceIcon: {
-    width: 17,
-    height: 17,
-    objectFit: "contain",
-  },
-
-  guidanceHeading: {
+  timelineContent: {
     flex: 1,
-  },
-
-  guidanceLabel: {
-    color: SOFT_TEXT,
-    fontSize: 6.8,
-    letterSpacing: 1.1,
-    textTransform: "uppercase",
-    marginBottom: 3,
-  },
-
-  guidanceTitle: {
-    color: GOLD,
-    fontSize: 10,
-    lineHeight: 1.3,
-  },
-
-  guidanceText: {
-    color: MUTED_CREAM,
-    fontSize: 8,
-    lineHeight: 1.45,
-  },
-
-  actionsRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-
-  actionCard: {
-    width: "32%",
-    minHeight: 68,
-    paddingVertical: 9,
+    paddingVertical: 7,
     paddingHorizontal: 10,
     borderRadius: 9,
     borderWidth: 0.55,
@@ -459,81 +437,207 @@ const styles = StyleSheet.create({
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  actionNumberCircle: {
-    width: 21,
-    height: 21,
-    borderRadius: 10.5,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 6,
+  timelineText: {
+    color: CREAM,
+    fontSize: 7.5,
+    lineHeight: 1.4,
   },
 
-  actionNumber: {
-    color: GOLD,
-    fontSize: 7,
-  },
-
-  actionTitle: {
-    color: GOLD,
-    fontSize: 8,
-    marginBottom: 3,
-  },
-
-  actionText: {
-    color: MUTED_CREAM,
-    fontSize: 6.7,
-    lineHeight: 1.35,
-  },
-
-  adviceCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 15,
-    borderRadius: 12,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    borderTopWidth: 1.4,
-    borderTopColor: GOLD,
-    backgroundColor: NAVY_CARD,
-  },
-
-  adviceHeader: {
+  guidanceCard: {
+    position: "relative",
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginBottom: 10,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
   },
 
-  adviceIconBox: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+  guidanceWatermark: {
+    position: "absolute",
+    right: -6,
+    bottom: -14,
+    width: 72,
+    height: 72,
+    objectFit: "contain",
+    opacity: 0.06,
+  },
+
+  guidanceIconCircle: {
+    width: 37,
+    height: 37,
+    borderRadius: 18.5,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 9,
+    marginRight: 11,
+  },
+
+  guidanceIcon: {
+    width: 25,
+    height: 25,
+    objectFit: "contain",
+  },
+
+  guidanceBody: {
+    flex: 1,
+  },
+
+  guidanceLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.6,
+    letterSpacing: 1.15,
+    textTransform: "uppercase",
+    marginBottom: 3,
+  },
+
+  guidanceTitle: {
+    color: GOLD,
+    fontSize: 9.6,
+    lineHeight: 1.3,
+    marginBottom: 4,
+  },
+
+  guidanceText: {
+    color: MUTED_CREAM,
+    fontSize: 7.5,
+    lineHeight: 1.42,
+    paddingRight: 18,
+  },
+
+  strategyRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+
+  strategyCard: {
+    position: "relative",
+    width: "48.7%",
+    minHeight: 76,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 10,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  strategyWatermark: {
+    position: "absolute",
+    right: -8,
+    bottom: -11,
+    width: 55,
+    height: 55,
+    objectFit: "contain",
+    opacity: 0.055,
+  },
+
+  strategyHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  strategyIconBox: {
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+
+  strategyIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+  },
+
+  strategyTitle: {
+    color: GOLD,
+    fontSize: 8.2,
+  },
+
+  strategyText: {
+    color: MUTED_CREAM,
+    fontSize: 6.8,
+    lineHeight: 1.38,
+    paddingRight: 7,
+  },
+
+  adviceCard: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 65,
+    paddingVertical: 11,
+    paddingHorizontal: 13,
+    borderRadius: 11,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    borderTopWidth: 1.3,
+    borderTopColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  adviceWatermark: {
+    position: "absolute",
+    right: -8,
+    bottom: -14,
+    width: 78,
+    height: 78,
+    objectFit: "contain",
+    opacity: 0.055,
+  },
+
+  adviceIconCircle: {
+    width: 35,
+    height: 35,
+    borderRadius: 17.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
   },
 
   adviceIcon: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
     objectFit: "contain",
+  },
+
+  adviceContent: {
+    flex: 1,
+    paddingRight: 25,
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 7.6,
-    letterSpacing: 1.3,
+    fontSize: 7,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
+    marginBottom: 4,
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 8.6,
-    lineHeight: 1.5,
+    fontSize: 7.8,
+    lineHeight: 1.45,
   },
 });
 
@@ -582,24 +686,6 @@ export default function HoroscopeMoney({
 
   const guidance = getFinancialGuidance(moneyScore);
 
-  const actionCards = [
-    {
-      title: "Observer",
-      text:
-        "Repérez les dépenses et engagements récurrents afin de distinguer ce qui soutient réellement votre équilibre.",
-    },
-    {
-      title: "Prioriser",
-      text:
-        "Protégez d’abord vos obligations, votre sécurité et les projets qui comptent vraiment.",
-    },
-    {
-      title: "Décider",
-      text:
-        "Vérifiez les chiffres, les conditions et les conséquences avant tout choix important.",
-    },
-  ];
-
   const sectionTitle =
     content.money.title || "Votre climat financier";
 
@@ -615,8 +701,25 @@ export default function HoroscopeMoney({
     content.money.advice ||
     "Choisissez une action financière simple et concrète à accomplir pendant cette période.";
 
+  const strategies = [
+    {
+      title: "Développer",
+      text:
+        "Repérez les possibilités capables de soutenir vos ressources, vos projets ou votre autonomie à plus long terme.",
+      icon: MONEY_ICONS.jupiter,
+    },
+    {
+      title: "Sécuriser",
+      text:
+        "Protégez votre marge de manœuvre en vérifiant les chiffres, les conditions et les engagements récurrents.",
+      icon: MONEY_ICONS.integrationGuide,
+    },
+  ];
+
   return (
     <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -653,7 +756,7 @@ export default function HoroscopeMoney({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={MONEY_ICONS.money}
               style={styles.titleIcon}
             />
 
@@ -661,61 +764,62 @@ export default function HoroscopeMoney({
           </View>
         </View>
 
-        <View style={styles.mainCard} wrap={false}>
-          <View style={styles.mainHeader}>
-            <View style={styles.mainHeading}>
-              <Text style={styles.mainMiniLabel}>
-                Lecture personnalisée
-              </Text>
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
+          <View style={styles.heroGlow} />
 
-              <View style={styles.sectionTitleRow}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.sectionTitleIcon}
-                />
-
-                <Text style={styles.sectionTitle}>
-                  {sectionTitle}
-                </Text>
-              </View>
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
+              <Image
+                src={MONEY_ICONS.money}
+                style={styles.heroIcon}
+              />
             </View>
+          </View>
 
-            <View style={styles.scoreOuterCircle}>
-              <View style={styles.scoreCircle}>
+          <View style={styles.heroBody}>
+            <Text style={styles.heroMiniLabel}>
+              Lecture personnalisée
+            </Text>
+
+            <Text style={styles.heroTitle}>
+              {sectionTitle}
+            </Text>
+
+            <Text style={styles.heroIntroduction}>
+              {introduction}
+            </Text>
+
+            <Text style={styles.heroText}>
+              {mainText}
+            </Text>
+          </View>
+
+          <View style={styles.scoreBox}>
+            <View style={styles.scoreCircleOuter}>
+              <View style={styles.scoreCircleInner}>
                 <Text style={styles.scoreValue}>
                   {moneyScore}
                 </Text>
 
                 <Text style={styles.scoreMaximum}>
-                  sur 100
+                  / 100
                 </Text>
               </View>
             </View>
+
+            <Text style={styles.scoreLabel}>
+              potentiel financier
+            </Text>
           </View>
-
-          <View style={styles.mainDivider}>
-            <View style={styles.mainDividerLine} />
-
-            <Image
-              src={zodiacIconUrl}
-              style={styles.mainDividerIcon}
-            />
-          </View>
-
-          <Text style={styles.introduction}>
-            {introduction}
-          </Text>
-
-          <Text style={styles.mainText}>
-            {mainText}
-          </Text>
         </View>
 
         <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
             <View style={styles.progressLabelRow}>
               <Image
-                src={zodiacIconUrl}
+                src={MONEY_ICONS.money}
                 style={styles.progressIcon}
               />
 
@@ -743,42 +847,39 @@ export default function HoroscopeMoney({
 
         {highlights.length > 0 ? (
           <>
-            <View style={styles.highlightsHeader}>
-              <View style={styles.highlightsHeaderLine} />
+            <View style={styles.sectionHeader}>
+              <View style={styles.sectionLine} />
 
               <Image
-                src={zodiacIconUrl}
-                style={styles.highlightsHeaderIcon}
+                src={MONEY_ICONS.money}
+                style={styles.sectionIcon}
               />
 
-              <Text style={styles.highlightsTitle}>
+              <Text style={styles.sectionTitle}>
                 Points financiers importants
               </Text>
             </View>
 
-            <View style={styles.highlightsGrid}>
+            <View style={styles.timeline}>
+              <View style={styles.timelineLine} />
+
               {highlights.map((highlight, index) => (
                 <View
                   key={`${highlight}-${index}`}
-                  style={styles.highlightCard}
+                  style={styles.timelineItem}
                   wrap={false}
                 >
-                  <View style={styles.highlightTopRow}>
-                    <View style={styles.highlightNumberCircle}>
-                      <Text style={styles.highlightNumber}>
-                        {String(index + 1).padStart(2, "0")}
-                      </Text>
-                    </View>
-
-                    <Image
-                      src={zodiacIconUrl}
-                      style={styles.highlightIcon}
-                    />
+                  <View style={styles.timelineMarker}>
+                    <Text style={styles.timelineNumber}>
+                      {String(index + 1).padStart(2, "0")}
+                    </Text>
                   </View>
 
-                  <Text style={styles.highlightText}>
-                    {highlight}
-                  </Text>
+                  <View style={styles.timelineContent}>
+                    <Text style={styles.timelineText}>
+                      {highlight}
+                    </Text>
+                  </View>
                 </View>
               ))}
             </View>
@@ -786,73 +887,91 @@ export default function HoroscopeMoney({
         ) : null}
 
         <View style={styles.guidanceCard} wrap={false}>
-          <View style={styles.guidanceHeader}>
-            <View style={styles.guidanceIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.guidanceIcon}
-              />
-            </View>
+          <Image
+            src={MONEY_ICONS.money}
+            style={styles.guidanceWatermark}
+          />
 
-            <View style={styles.guidanceHeading}>
-              <Text style={styles.guidanceLabel}>
-                Tendance financière
-              </Text>
-
-              <Text style={styles.guidanceTitle}>
-                {guidance.title}
-              </Text>
-            </View>
+          <View style={styles.guidanceIconCircle}>
+            <Image
+              src={MONEY_ICONS.money}
+              style={styles.guidanceIcon}
+            />
           </View>
 
-          <Text style={styles.guidanceText}>
-            {guidance.text}
-          </Text>
+          <View style={styles.guidanceBody}>
+            <Text style={styles.guidanceLabel}>
+              Tendance financière
+            </Text>
+
+            <Text style={styles.guidanceTitle}>
+              {guidance.title}
+            </Text>
+
+            <Text style={styles.guidanceText}>
+              {guidance.text}
+            </Text>
+          </View>
         </View>
 
-        <View style={styles.actionsRow}>
-          {actionCards.map((action, index) => (
+        <View style={styles.strategyRow}>
+          {strategies.map((strategy) => (
             <View
-              key={action.title}
-              style={styles.actionCard}
+              key={strategy.title}
+              style={styles.strategyCard}
               wrap={false}
             >
-              <View style={styles.actionNumberCircle}>
-                <Text style={styles.actionNumber}>
-                  {String(index + 1).padStart(2, "0")}
+              <Image
+                src={strategy.icon}
+                style={styles.strategyWatermark}
+              />
+
+              <View style={styles.strategyHeader}>
+                <View style={styles.strategyIconBox}>
+                  <Image
+                    src={strategy.icon}
+                    style={styles.strategyIcon}
+                  />
+                </View>
+
+                <Text style={styles.strategyTitle}>
+                  {strategy.title}
                 </Text>
               </View>
 
-              <Text style={styles.actionTitle}>
-                {action.title}
-              </Text>
-
-              <Text style={styles.actionText}>
-                {action.text}
+              <Text style={styles.strategyText}>
+                {strategy.text}
               </Text>
             </View>
           ))}
         </View>
 
         <View style={styles.adviceCard} wrap={false}>
-          <View style={styles.adviceHeader}>
-            <View style={styles.adviceIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.adviceIcon}
-              />
-            </View>
+          <Image
+            src={MONEY_ICONS.money}
+            style={styles.adviceWatermark}
+          />
 
+          <View style={styles.adviceIconCircle}>
+            <Image
+              src={MONEY_ICONS.money}
+              style={styles.adviceIcon}
+            />
+          </View>
+
+          <View style={styles.adviceContent}>
             <Text style={styles.adviceLabel}>
               Conseil de la période
             </Text>
-          </View>
 
-          <Text style={styles.adviceText}>
-            {advice}
-          </Text>
+            <Text style={styles.adviceText}>
+              {advice}
+            </Text>
+          </View>
         </View>
       </View>
+
+      <HoroscopePageFooter />
     </Page>
   );
 }
