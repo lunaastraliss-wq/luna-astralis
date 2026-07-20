@@ -1,3 +1,4 @@
+```ts
 export type HoroscopePeriod = "day" | "month" | "year";
 
 export type HoroscopeZodiacSign =
@@ -20,9 +21,20 @@ export type HoroscopeScore = {
 };
 
 export type HoroscopeLuckyData = {
-  number: number;
-  color: string;
-  hour: string;
+  introduction?: string;
+
+  /**
+   * Jusqu’à six nombres favorables.
+   */
+  numbers: number[];
+
+  color?: string;
+  day?: string;
+  stone?: string;
+  element?: string;
+  planet?: string;
+  time?: string;
+  quote?: string;
   keyword?: string;
 };
 
@@ -53,14 +65,16 @@ export type HoroscopeSectionContent = {
 
 export type HoroscopeChallenge = {
   title: string;
+  theme?: string;
   description: string;
-  advice: string;
+  advice?: string;
 };
 
 export type HoroscopeOpportunity = {
   title: string;
+  theme?: string;
   description: string;
-  action: string;
+  action?: string;
 };
 
 export type HoroscopeIdentity = {
@@ -98,6 +112,7 @@ export type HoroscopePeriodData = {
 export type HoroscopePdfContent = {
   reportTitle: string;
   reportSubtitle?: string;
+
   welcomeText: string;
   openingQuote?: string;
 
@@ -113,7 +128,10 @@ export type HoroscopePdfContent = {
   health: HoroscopeSectionContent;
   social: HoroscopeSectionContent;
 
+  challengesIntroduction?: string;
   challenges: HoroscopeChallenge[];
+
+  opportunitiesIntroduction?: string;
   opportunities: HoroscopeOpportunity[];
 
   timeline?: HoroscopeTimelineItem[];
@@ -130,8 +148,8 @@ export type HoroscopePdfContent = {
   };
 
   conclusionTitle?: string;
-  conclusionText: string;
-  finalAdvice?: string;
+  conclusion?: string;
+  finalMessage?: string;
 };
 
 export type HoroscopePdfProps = {
@@ -145,7 +163,7 @@ export type HoroscopePdfProps = {
   logoUrl?: string;
 
   /**
-   * URL ou chemin public vers l’image de couverture.
+   * URL ou chemin public vers une éventuelle image de couverture.
    */
   coverImageUrl?: string;
 
@@ -155,7 +173,7 @@ export type HoroscopePdfProps = {
   zodiacIconUrl?: string;
 
   /**
-   * Permet de masquer le numéro sur certaines pages.
+   * Numéros de pages sur lesquelles le pied de page doit être masqué.
    */
   hiddenPageNumbers?: number[];
 };
@@ -169,8 +187,7 @@ export type HoroscopeSectionProps = {
 export type HoroscopeCoverProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
-  reportTitle: string;
-  reportSubtitle?: string;
+  content: HoroscopePdfContent;
   logoUrl?: string;
   coverImageUrl?: string;
   zodiacIconUrl?: string;
@@ -189,13 +206,12 @@ export type HoroscopeScoreCardProps = {
 };
 
 export type SafeHoroscopePdfProps = HoroscopePdfProps & {
-  identity: Required<
-    Pick<
-      HoroscopeIdentity,
-      "zodiacSign" | "zodiacSignLabel"
-    >
-  > &
-    HoroscopeIdentity;
+  identity: HoroscopeIdentity & {
+    zodiacSign: HoroscopeZodiacSign;
+    zodiacSignLabel: string;
+  };
 
+  period: HoroscopePeriodData;
   content: HoroscopePdfContent;
 };
+```
