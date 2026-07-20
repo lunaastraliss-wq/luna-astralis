@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -36,14 +37,16 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
+    paddingTop: 34,
     paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingBottom: 52,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 17,
   },
 
   logo: {
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 22,
+    marginBottom: 13,
   },
 
   eyebrow: {
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
     marginBottom: 8,
   },
@@ -138,20 +141,20 @@ const styles = StyleSheet.create({
   },
 
   mainCard: {
-    paddingVertical: 23,
-    paddingHorizontal: 23,
+    paddingVertical: 11,
+    paddingHorizontal: 15,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 22,
+    marginBottom: 13,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 10,
   },
 
   sectionHeading: {
@@ -173,9 +176,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircleOuter: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -183,9 +186,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+    width: 51,
+    height: 51,
+    borderRadius: 25.5,
     borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 19,
+    fontSize: 17,
   },
 
   scoreMaximum: {
@@ -213,17 +216,17 @@ const styles = StyleSheet.create({
 
   mainText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.75,
+    fontSize: 9.4,
+    lineHeight: 1.5,
     textAlign: "justify",
   },
 
   progressCard: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
     borderRadius: 11,
     backgroundColor: NAVY_SOFT,
-    marginBottom: 22,
+    marginBottom: 13,
   },
 
   progressHeader: {
@@ -244,15 +247,15 @@ const styles = StyleSheet.create({
 
   progressTrack: {
     width: "100%",
-    height: 8,
-    borderRadius: 4,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: "#202C3E",
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 8,
-    borderRadius: 4,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: GOLD,
   },
 
@@ -280,15 +283,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 10,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 78,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
-    marginBottom: 11,
+    minHeight: 58,
+    paddingVertical: 9,
+    paddingHorizontal: 11,
+    marginBottom: 8,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -315,13 +318,13 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.5,
+    fontSize: 8.1,
     lineHeight: 1.5,
   },
 
   adviceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
+    paddingVertical: 11,
+    paddingHorizontal: 15,
     borderRadius: 11,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
@@ -377,6 +380,8 @@ export default function HoroscopeCareer({
 
   return (
     <Page size="A4" style={styles.page}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
