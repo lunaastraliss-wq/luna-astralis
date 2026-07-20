@@ -1,4 +1,3 @@
-```ts
 export type HoroscopePeriod = "day" | "month" | "year";
 
 export type HoroscopeZodiacSign =
@@ -214,4 +213,3 @@ export type SafeHoroscopePdfProps = HoroscopePdfProps & {
   period: HoroscopePeriodData;
   content: HoroscopePdfContent;
 };
-```
