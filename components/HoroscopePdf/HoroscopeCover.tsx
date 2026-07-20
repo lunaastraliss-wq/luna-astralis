@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
 
   logoSection: {
     alignItems: "center",
-    marginTop: 5,
-    marginBottom: 20,
+    marginTop: 3,
+    marginBottom: 14,
   },
 
   logo: {
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   titleSection: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 18,
+    marginBottom: 12,
   },
 
   smallLabelContainer: {
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   heroSection: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: 10,
   },
 
   zodiacHaloOuter: {
@@ -570,7 +570,7 @@ export default function HoroscopeCover({
       : null;
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <View style={styles.backgroundTopGlow} />
       <View style={styles.backgroundTopGlowInner} />
       <View style={styles.backgroundBottomGlow} />
