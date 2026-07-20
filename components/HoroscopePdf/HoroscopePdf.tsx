@@ -49,10 +49,13 @@ export default function HoroscopePdf({
       language="fr-FR"
     >
       <HoroscopeCover
-        identity={identity}
-        period={period}
-        content={content}
-      />
+  identity={identity}
+  period={period}
+  reportTitle={content.reportTitle}
+  reportSubtitle={content.reportSubtitle}
+  logoUrl={logoUrl}
+  zodiacIconUrl={zodiacIconUrl}
+/>
 
       <HoroscopeWelcome {...sharedProps} />
 
