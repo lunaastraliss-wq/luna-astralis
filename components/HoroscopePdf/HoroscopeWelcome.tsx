@@ -463,7 +463,7 @@ export default function HoroscopeWelcome({
     content.reportTitle || "Horoscope personnalisé";
 
   return (
-    <Page size="A4" style={styles.page} wrap={false}>
+    <Page size="A4" style={styles.page}>
       <HoroscopeStarBackground />
 
       <View style={styles.content}>
