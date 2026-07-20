@@ -35,11 +35,12 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
+    paddingTop: 34,
     paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingBottom: 52,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
@@ -50,12 +51,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 24,
+    marginBottom: 14,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 20,
+    marginBottom: 13,
   },
 
   eyebrow: {
@@ -93,20 +94,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 25,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 9,
   },
 
   titleDecoration: {
@@ -135,27 +136,27 @@ const styles = StyleSheet.create({
   },
 
   introductionCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    paddingVertical: 13,
+    paddingHorizontal: 17,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 19,
+    marginBottom: 13,
   },
 
   introductionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
+    marginBottom: 7,
   },
 
   introductionIconBox: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -165,28 +166,28 @@ const styles = StyleSheet.create({
   },
 
   introductionIcon: {
-    width: 17,
-    height: 17,
+    width: 16,
+    height: 16,
     objectFit: "contain",
   },
 
   introductionLabel: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 7.8,
     letterSpacing: 1.3,
     textTransform: "uppercase",
   },
 
   introductionText: {
     color: MUTED_CREAM,
-    fontSize: 9,
-    lineHeight: 1.6,
+    fontSize: 8.7,
+    lineHeight: 1.52,
   },
 
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 9,
   },
 
   sectionLine: {
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
 
   sectionLabel: {
     color: GOLD,
-    fontSize: 9.5,
+    fontSize: 9.3,
     letterSpacing: 1.4,
     textTransform: "uppercase",
   },
@@ -214,15 +215,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 9,
   },
 
   luckyCard: {
     width: "48.5%",
-    minHeight: 104,
-    paddingVertical: 13,
+    minHeight: 102,
+    paddingVertical: 12,
     paddingHorizontal: 14,
-    marginBottom: 11,
+    marginBottom: 10,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -232,13 +232,13 @@ const styles = StyleSheet.create({
   cardTopRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   cardNumberCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
 
   cardNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 7.8,
   },
 
   cardIcon: {
@@ -260,128 +260,100 @@ const styles = StyleSheet.create({
 
   cardLabel: {
     color: SOFT_TEXT,
-    fontSize: 6.8,
-    letterSpacing: 1.1,
+    fontSize: 6.7,
+    letterSpacing: 1.05,
     textTransform: "uppercase",
-    marginBottom: 6,
+    marginBottom: 5,
   },
 
   cardValue: {
     color: GOLD,
-    fontSize: 11.5,
-    lineHeight: 1.3,
-    marginBottom: 5,
+    fontSize: 11.3,
+    lineHeight: 1.25,
+    marginBottom: 4,
   },
 
   cardDescription: {
     color: MUTED_CREAM,
-    fontSize: 7.5,
-    lineHeight: 1.45,
+    fontSize: 7.35,
+    lineHeight: 1.4,
   },
 
-  pageOneClosing: {
+  guideLeadCard: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 14,
+    paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 11,
+    borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+    marginBottom: 12,
   },
 
-  pageOneClosingIconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 0.7,
+  guideLeadIconOuter: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 14,
+  },
+
+  guideLeadIconInner: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 13,
   },
 
-  pageOneClosingIcon: {
-    width: 25,
-    height: 25,
+  guideLeadIcon: {
+    width: 31,
+    height: 31,
     objectFit: "contain",
   },
 
-  pageOneClosingText: {
+  guideLeadTextWrap: {
     flex: 1,
+  },
+
+  guideLeadLabel: {
+    color: GOLD,
+    fontSize: 7.4,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 5,
+  },
+
+  guideLeadText: {
     color: MUTED_CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.55,
-  },
-
-  heroSection: {
-    alignItems: "center",
-    marginBottom: 22,
-  },
-
-  heroOuterCircle: {
-    width: 108,
-    height: 108,
-    borderRadius: 54,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 13,
-  },
-
-  heroMiddleCircle: {
-    width: 94,
-    height: 94,
-    borderRadius: 47,
-    borderWidth: 0.9,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  heroInnerCircle: {
-    width: 78,
-    height: 78,
-    borderRadius: 39,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  heroIcon: {
-    width: 52,
-    height: 52,
-    objectFit: "contain",
-  },
-
-  heroText: {
-    maxWidth: 390,
-    color: MUTED_CREAM,
-    fontSize: 9,
-    lineHeight: 1.55,
-    textAlign: "center",
+    fontSize: 8.3,
+    lineHeight: 1.48,
   },
 
   numbersCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 18,
+    paddingVertical: 13,
+    paddingHorizontal: 17,
     borderRadius: 12,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    marginBottom: 11,
   },
 
   numbersHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   numbersTitleRow: {
@@ -390,53 +362,51 @@ const styles = StyleSheet.create({
   },
 
   numbersIcon: {
-    width: 17,
-    height: 17,
+    width: 16,
+    height: 16,
     objectFit: "contain",
     marginRight: 8,
   },
 
   numbersTitle: {
     color: CREAM,
-    fontSize: 11,
+    fontSize: 10.5,
   },
 
   numbersCount: {
     color: SOFT_TEXT,
-    fontSize: 7,
+    fontSize: 6.8,
     letterSpacing: 0.9,
     textTransform: "uppercase",
   },
 
   numbersIntroduction: {
     color: MUTED_CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.5,
-    marginBottom: 14,
+    fontSize: 8,
+    lineHeight: 1.42,
+    marginBottom: 9,
   },
 
   numbersRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "center",
   },
 
   numberOuterCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 43,
+    height: 43,
+    borderRadius: 21.5,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 5,
-    marginBottom: 7,
+    marginHorizontal: 4,
   },
 
   numberCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -446,88 +416,92 @@ const styles = StyleSheet.create({
 
   numberText: {
     color: GOLD,
-    fontSize: 11,
+    fontSize: 10.5,
   },
 
   quoteCard: {
-    paddingVertical: 18,
-    paddingHorizontal: 23,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    marginBottom: 11,
     alignItems: "center",
   },
 
+  quoteHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
   quoteIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 9,
+    marginRight: 9,
   },
 
   quoteIcon: {
-    width: 24,
-    height: 24,
+    width: 17,
+    height: 17,
     objectFit: "contain",
   },
 
   quoteLabel: {
     color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 1.3,
+    fontSize: 7.3,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
-    marginBottom: 9,
-    textAlign: "center",
   },
 
   quoteText: {
     color: CREAM,
-    fontSize: 11,
-    lineHeight: 1.6,
+    fontSize: 10.3,
+    lineHeight: 1.48,
     fontStyle: "italic",
     textAlign: "center",
   },
 
   ritualCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 18,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 17,
+    marginBottom: 10,
   },
 
   ritualHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 11,
+    marginBottom: 7,
   },
 
   ritualIconBox: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
+    marginRight: 10,
   },
 
   ritualIcon: {
-    width: 21,
-    height: 21,
+    width: 18,
+    height: 18,
     objectFit: "contain",
   },
 
@@ -537,26 +511,26 @@ const styles = StyleSheet.create({
 
   ritualMiniLabel: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.1,
+    fontSize: 6.7,
+    letterSpacing: 1.05,
     textTransform: "uppercase",
-    marginBottom: 4,
+    marginBottom: 3,
   },
 
   ritualTitle: {
     color: GOLD,
-    fontSize: 11,
+    fontSize: 10.2,
   },
 
   ritualText: {
     color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.6,
+    fontSize: 8.2,
+    lineHeight: 1.46,
   },
 
   reminderCard: {
-    paddingVertical: 14,
-    paddingHorizontal: 17,
+    paddingVertical: 11,
+    paddingHorizontal: 16,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -566,31 +540,31 @@ const styles = StyleSheet.create({
   reminderHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
   reminderIcon: {
-    width: 15,
-    height: 15,
+    width: 14,
+    height: 14,
     objectFit: "contain",
     marginRight: 8,
   },
 
   reminderLabel: {
     color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 1.2,
+    fontSize: 7.3,
+    letterSpacing: 1.15,
     textTransform: "uppercase",
   },
 
   reminderText: {
     color: MUTED_CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.55,
+    fontSize: 7.9,
+    lineHeight: 1.44,
   },
 });
 
-export default function HoroscopeLucky({
+export default function HoroscopeLucky_v2({
   identity,
   period,
   content,
@@ -600,7 +574,6 @@ export default function HoroscopeLucky({
   );
 
   const periodLabel = formatHoroscopePeriodLabel(period);
-
   const lucky = content.lucky;
 
   const luckyNumbers = Array.isArray(lucky.numbers)
@@ -652,7 +625,7 @@ export default function HoroscopeLucky({
 
   return (
     <>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap={false}>
         <View style={styles.content}>
           <View style={styles.header}>
             <Image
@@ -768,31 +741,12 @@ export default function HoroscopeLucky({
               </View>
             ))}
           </View>
-
-          <View
-            style={styles.pageOneClosing}
-            wrap={false}
-          >
-            <View style={styles.pageOneClosingIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.pageOneClosingIcon}
-              />
-            </View>
-
-            <Text style={styles.pageOneClosingText}>
-              Observez ces symboles au fil de la période. Ils peuvent
-              devenir des points de repère pour reconnaître les
-              moments où votre intuition, votre confiance et votre
-              capacité d’action sont plus naturellement accessibles.
-            </Text>
-          </View>
         </View>
 
         <HoroscopePageFooter />
       </Page>
 
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap={false}>
         <View style={styles.content}>
           <View style={styles.header}>
             <Image
@@ -837,23 +791,30 @@ export default function HoroscopeLucky({
             </View>
           </View>
 
-          <View style={styles.heroSection} wrap={false}>
-            <View style={styles.heroOuterCircle}>
-              <View style={styles.heroMiddleCircle}>
-                <View style={styles.heroInnerCircle}>
-                  <Image
-                    src={zodiacIconUrl}
-                    style={styles.heroIcon}
-                  />
-                </View>
+          <View style={styles.guideLeadCard} wrap={false}>
+            <View style={styles.guideLeadIconOuter}>
+              <View style={styles.guideLeadIconInner}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.guideLeadIcon}
+                />
               </View>
             </View>
 
-            <Text style={styles.heroText}>
-              Utilisez ces repères comme une invitation à ralentir,
-              observer et écouter ce qui résonne réellement avec vous
-              durant cette période.
-            </Text>
+            <View style={styles.guideLeadTextWrap}>
+              <Text style={styles.guideLeadLabel}>
+                Votre boussole symbolique
+              </Text>
+
+              <Text style={styles.guideLeadText}>
+                Observez ces symboles au fil de la période. Ils peuvent
+                devenir des points de repère pour reconnaître les moments
+                où votre intuition, votre confiance et votre capacité
+                d’action sont plus naturellement accessibles. Utilisez-les
+                comme une invitation à ralentir et à écouter ce qui résonne
+                réellement avec vous.
+              </Text>
+            </View>
           </View>
 
           {luckyNumbers.length > 0 ? (
@@ -876,9 +837,9 @@ export default function HoroscopeLucky({
               </View>
 
               <Text style={styles.numbersIntroduction}>
-                Ces nombres peuvent être utilisés comme symboles dans
-                vos choix personnels, vos intentions, vos dates
-                importantes ou vos petits rituels de la période.
+                Ces nombres peuvent accompagner vos choix personnels,
+                vos intentions, vos dates importantes ou vos petits
+                rituels de la période.
               </Text>
 
               <View style={styles.numbersRow}>
@@ -900,16 +861,18 @@ export default function HoroscopeLucky({
 
           {lucky.quote ? (
             <View style={styles.quoteCard} wrap={false}>
-              <View style={styles.quoteIconBox}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.quoteIcon}
-                />
-              </View>
+              <View style={styles.quoteHeader}>
+                <View style={styles.quoteIconBox}>
+                  <Image
+                    src={zodiacIconUrl}
+                    style={styles.quoteIcon}
+                  />
+                </View>
 
-              <Text style={styles.quoteLabel}>
-                Votre phrase d’inspiration
-              </Text>
+                <Text style={styles.quoteLabel}>
+                  Votre phrase d’inspiration
+                </Text>
+              </View>
 
               <Text style={styles.quoteText}>
                 « {lucky.quote} »
@@ -939,11 +902,11 @@ export default function HoroscopeLucky({
 
             <Text style={styles.ritualText}>
               Choisissez un moment calme de la journée. Entourez-vous
-              de votre couleur favorable, gardez votre pierre
-              symbolique près de vous et notez une intention claire
-              liée à cette période. Respirez lentement, relisez votre
-              phrase d’inspiration et laissez votre intuition vous
-              indiquer la prochaine action juste.
+              de votre couleur favorable, gardez votre pierre symbolique
+              près de vous et notez une intention claire liée à cette
+              période. Respirez lentement, relisez votre phrase
+              d’inspiration et laissez votre intuition vous indiquer la
+              prochaine action juste.
             </Text>
           </View>
 
@@ -962,10 +925,9 @@ export default function HoroscopeLucky({
             <Text style={styles.reminderText}>
               Ces éléments sont des repères symboliques destinés à
               accompagner votre intuition. Ils ne garantissent pas un
-              résultat précis, mais peuvent vous aider à créer un
-              rituel personnel, à rester attentive aux occasions
-              favorables et à renforcer votre confiance dans vos
-              propres ressentis.
+              résultat précis, mais peuvent vous aider à rester attentive
+              aux occasions favorables et à renforcer votre confiance dans
+              vos propres ressentis.
             </Text>
           </View>
         </View>
