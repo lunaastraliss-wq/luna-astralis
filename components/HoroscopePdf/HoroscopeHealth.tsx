@@ -11,7 +11,6 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
-import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -23,8 +22,11 @@ import {
   normalizeHoroscopeScore,
 } from "./HoroscopePdfUtils";
 
+const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
 const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
+const TRACK = "#202C3E";
 
 const GOLD = "#F4C95D";
 const CREAM = "#FFF8E7";
@@ -38,13 +40,11 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 44,
     paddingBottom: 58,
-    backgroundColor: "#06101F",
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
-    position: "relative",
-    zIndex: 2,
     flex: 1,
   },
 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 27,
+    marginBottom: 25,
   },
 
   logo: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 7,
-    paddingHorizontal: 11,
+    paddingHorizontal: 12,
     borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -86,6 +86,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  titleBlock: {
+    marginBottom: 21,
+  },
+
   eyebrow: {
     color: GOLD,
     fontSize: 9,
@@ -104,37 +108,98 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 22,
+    marginBottom: 13,
+  },
+
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  titleLine: {
+    width: 64,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  titleIcon: {
+    width: 14,
+    height: 14,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  titleLineSmall: {
+    width: 20,
+    height: 1,
+    backgroundColor: DARK_GOLD,
   },
 
   mainCard: {
-    paddingVertical: 23,
-    paddingHorizontal: 23,
-    borderRadius: 10,
+    paddingVertical: 21,
+    paddingHorizontal: 21,
+    borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 22,
+    marginBottom: 18,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 14,
+  },
+
+  mainHeading: {
+    flex: 1,
+    paddingRight: 16,
+  },
+
+  mainMiniLabel: {
+    color: SOFT_TEXT,
+    fontSize: 7,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+
+  sectionTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  sectionTitleIcon: {
+    width: 17,
+    height: 17,
+    objectFit: "contain",
+    marginRight: 8,
   },
 
   sectionTitle: {
+    flex: 1,
     color: GOLD,
     fontSize: 13,
-    maxWidth: "74%",
+    lineHeight: 1.35,
+  },
+
+  scoreOuterCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   scoreCircle: {
     width: 62,
     height: 62,
     borderRadius: 31,
-    borderWidth: 1.2,
+    borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -152,6 +217,25 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
 
+  mainDivider: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 13,
+  },
+
+  mainDividerLine: {
+    width: 31,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+    marginRight: 7,
+  },
+
+  mainDividerIcon: {
+    width: 11,
+    height: 11,
+    objectFit: "contain",
+  },
+
   introduction: {
     color: MUTED_CREAM,
     fontSize: 9.5,
@@ -166,14 +250,33 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
 
-  progressSection: {
-    marginBottom: 22,
+  progressCard: {
+    paddingVertical: 15,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    marginBottom: 19,
   },
 
   progressHeader: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: 9,
+  },
+
+  progressLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  progressIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 7,
   },
 
   progressLabel: {
@@ -188,16 +291,36 @@ const styles = StyleSheet.create({
 
   progressTrack: {
     width: "100%",
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#202C3E",
+    height: 9,
+    borderRadius: 4.5,
+    backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 8,
-    borderRadius: 4,
+    height: 9,
+    borderRadius: 4.5,
     backgroundColor: GOLD,
+  },
+
+  highlightsHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  highlightsHeaderLine: {
+    width: 24,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  highlightsHeaderIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 8,
   },
 
   highlightsTitle: {
@@ -205,7 +328,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     letterSpacing: 1.5,
     textTransform: "uppercase",
-    marginBottom: 12,
   },
 
   highlightsGrid: {
@@ -221,16 +343,39 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 14,
     marginBottom: 11,
-    borderRadius: 8,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
+  highlightTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
+  highlightNumberCircle: {
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+
   highlightNumber: {
     color: GOLD,
     fontSize: 8,
-    marginBottom: 6,
+  },
+
+  highlightIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
   },
 
   highlightText: {
@@ -240,11 +385,38 @@ const styles = StyleSheet.create({
   },
 
   adviceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+  },
+
+  adviceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  adviceIconBox: {
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 9,
+  },
+
+  adviceIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
   },
 
   adviceLabel: {
@@ -252,7 +424,6 @@ const styles = StyleSheet.create({
     fontSize: 8,
     letterSpacing: 1.4,
     textTransform: "uppercase",
-    marginBottom: 8,
   },
 
   adviceText: {
@@ -261,8 +432,28 @@ const styles = StyleSheet.create({
     lineHeight: 1.6,
   },
 
+  disclaimerCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 14,
+    paddingVertical: 9,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    borderWidth: 0.4,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  disclaimerIcon: {
+    width: 11,
+    height: 11,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
   disclaimer: {
-    marginTop: 16,
+    flex: 1,
     color: SOFT_TEXT,
     fontSize: 7,
     lineHeight: 1.4,
@@ -291,8 +482,6 @@ export default function HoroscopeHealth({
 
   return (
     <Page size="A4" style={styles.page}>
-      <HoroscopeStarBackground />
-
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -312,33 +501,70 @@ export default function HoroscopeHealth({
           </View>
         </View>
 
-        <Text style={styles.eyebrow}>
-          Bien-être et équilibre
-        </Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Bien-être et équilibre
+          </Text>
 
-        <Text style={styles.title}>
-          Votre vitalité intérieure
-        </Text>
+          <Text style={styles.title}>
+            Votre vitalité intérieure
+          </Text>
 
-        <Text style={styles.period}>
-          {periodLabel}
-        </Text>
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.titleIcon}
+            />
+
+            <View style={styles.titleLineSmall} />
+          </View>
+        </View>
 
         <View style={styles.mainCard} wrap={false}>
           <View style={styles.mainHeader}>
-            <Text style={styles.sectionTitle}>
-              {content.health.title}
-            </Text>
-
-            <View style={styles.scoreCircle}>
-              <Text style={styles.scoreValue}>
-                {healthScore}
+            <View style={styles.mainHeading}>
+              <Text style={styles.mainMiniLabel}>
+                Équilibre de la période
               </Text>
 
-              <Text style={styles.scoreMaximum}>
-                sur 100
-              </Text>
+              <View style={styles.sectionTitleRow}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.sectionTitleIcon}
+                />
+
+                <Text style={styles.sectionTitle}>
+                  {content.health.title}
+                </Text>
+              </View>
             </View>
+
+            <View style={styles.scoreOuterCircle}>
+              <View style={styles.scoreCircle}>
+                <Text style={styles.scoreValue}>
+                  {healthScore}
+                </Text>
+
+                <Text style={styles.scoreMaximum}>
+                  sur 100
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.mainDivider}>
+            <View style={styles.mainDividerLine} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.mainDividerIcon}
+            />
           </View>
 
           {content.health.introduction ? (
@@ -352,11 +578,18 @@ export default function HoroscopeHealth({
           </Text>
         </View>
 
-        <View style={styles.progressSection} wrap={false}>
+        <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
-            <Text style={styles.progressLabel}>
-              Niveau de bien-être
-            </Text>
+            <View style={styles.progressLabelRow}>
+              <Image
+                src={zodiacIconUrl}
+                style={styles.progressIcon}
+              />
+
+              <Text style={styles.progressLabel}>
+                Niveau de bien-être
+              </Text>
+            </View>
 
             <Text style={styles.progressValue}>
               {healthScore} %
@@ -377,9 +610,18 @@ export default function HoroscopeHealth({
 
         {highlights.length > 0 ? (
           <>
-            <Text style={styles.highlightsTitle}>
-              Points d’équilibre
-            </Text>
+            <View style={styles.highlightsHeader}>
+              <View style={styles.highlightsHeaderLine} />
+
+              <Image
+                src={zodiacIconUrl}
+                style={styles.highlightsHeaderIcon}
+              />
+
+              <Text style={styles.highlightsTitle}>
+                Points d’équilibre
+              </Text>
+            </View>
 
             <View style={styles.highlightsGrid}>
               {highlights.map((highlight, index) => (
@@ -388,9 +630,18 @@ export default function HoroscopeHealth({
                   style={styles.highlightCard}
                   wrap={false}
                 >
-                  <Text style={styles.highlightNumber}>
-                    0{index + 1}
-                  </Text>
+                  <View style={styles.highlightTopRow}>
+                    <View style={styles.highlightNumberCircle}>
+                      <Text style={styles.highlightNumber}>
+                        0{index + 1}
+                      </Text>
+                    </View>
+
+                    <Image
+                      src={zodiacIconUrl}
+                      style={styles.highlightIcon}
+                    />
+                  </View>
 
                   <Text style={styles.highlightText}>
                     {highlight}
@@ -403,9 +654,18 @@ export default function HoroscopeHealth({
 
         {content.health.advice ? (
           <View style={styles.adviceCard} wrap={false}>
-            <Text style={styles.adviceLabel}>
-              Conseil bien-être
-            </Text>
+            <View style={styles.adviceHeader}>
+              <View style={styles.adviceIconBox}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.adviceIcon}
+                />
+              </View>
+
+              <Text style={styles.adviceLabel}>
+                Conseil bien-être
+              </Text>
+            </View>
 
             <Text style={styles.adviceText}>
               {content.health.advice}
@@ -413,10 +673,17 @@ export default function HoroscopeHealth({
           </View>
         ) : null}
 
-        <Text style={styles.disclaimer}>
-          Cette section présente une lecture astrologique du
-          bien-être et ne remplace pas un avis médical.
-        </Text>
+        <View style={styles.disclaimerCard} wrap={false}>
+          <Image
+            src={zodiacIconUrl}
+            style={styles.disclaimerIcon}
+          />
+
+          <Text style={styles.disclaimer}>
+            Cette section présente une lecture astrologique du
+            bien-être et ne remplace pas un avis médical.
+          </Text>
+        </View>
       </View>
 
       <HoroscopePageFooter />
