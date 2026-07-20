@@ -611,14 +611,14 @@ export default function HoroscopeOpportunities({
 
   const periodLabel = formatHoroscopePeriodLabel(period);
 
- const opportunityScore = normalizeHoroscopeScore(
-  content.scores.career,
-);
+  const opportunityScore = normalizeHoroscopeScore(
+    content.scores.career,
+  );
 
-const opportunities = Array.isArray(content.opportunities)
-  ? content.opportunities.slice(0, 4)
-  : [];
-  
+  const opportunities = Array.isArray(content.opportunities)
+    ? content.opportunities.slice(0, 4)
+    : [];
+
   const guidance = getOpportunityGuidance(opportunityScore);
 
   const actionCards = [
@@ -639,16 +639,22 @@ const opportunities = Array.isArray(content.opportunities)
     },
   ];
 
-    const sectionTitle = "Vos ouvertures du moment";
-  
-  const introduction =
-  "Cette période met en lumière les occasions, les rencontres et les mouvements capables de faire évoluer votre situation.";
+  const firstOpportunity = opportunities[0];
 
- const mainText =
-  "Les opportunités les plus utiles ne sont pas toujours les plus spectaculaires. Elles peuvent apparaître sous la forme d’une conversation, d’une proposition ou d’une idée nouvelle.";
+  const sectionTitle =
+    firstOpportunity?.title || "Vos ouvertures du moment";
+
+  const introduction =
+    content.opportunitiesIntroduction ||
+    "Cette période met en lumière les occasions, les rencontres et les mouvements capables de faire évoluer votre situation.";
+
+  const mainText =
+    firstOpportunity?.description ||
+    "Les opportunités les plus utiles ne sont pas toujours les plus spectaculaires. Elles peuvent apparaître sous la forme d’une conversation, d’une proposition ou d’une idée nouvelle.";
 
   const advice =
-  "Restez disponible aux nouvelles possibilités tout en prenant le temps de vérifier qu’elles correspondent réellement à votre chemin.";
+    opportunities.find((opportunity) => opportunity.action)?.action ||
+    "Restez disponible aux nouvelles possibilités tout en prenant le temps de vérifier qu’elles correspondent réellement à votre chemin.";
 
   return (
     <Page size="A4" style={styles.page}>
@@ -799,9 +805,25 @@ const opportunities = Array.isArray(content.opportunities)
                     />
                   </View>
 
-                  <Text style={styles.highlightText}>
-                    {opportunity.text}
+                  <Text style={styles.actionTitle}>
+                    {opportunity.title}
                   </Text>
+
+                  {opportunity.theme ? (
+                    <Text style={styles.guidanceLabel}>
+                      {opportunity.theme}
+                    </Text>
+                  ) : null}
+
+                  <Text style={styles.highlightText}>
+                    {opportunity.description}
+                  </Text>
+
+                  {opportunity.action ? (
+                    <Text style={styles.actionText}>
+                      {opportunity.action}
+                    </Text>
+                  ) : null}
                 </View>
               ))}
             </View>
