@@ -33,15 +33,28 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const CHALLENGE_ICONS = {
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 30,
-    paddingHorizontal: 44,
-    paddingBottom: 48,
+    paddingTop: 34,
+    paddingHorizontal: 42,
+    paddingBottom: 54,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
@@ -54,12 +67,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 12,
+    marginBottom: 15,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -68,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 7,
     paddingHorizontal: 12,
-    borderRadius: 16,
+    borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
@@ -89,7 +102,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 10,
+    marginBottom: 12,
   },
 
   eyebrow: {
@@ -102,15 +115,15 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 23,
+    fontSize: 24,
     lineHeight: 1.2,
     marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    marginBottom: 6,
+    fontSize: 9.7,
+    marginBottom: 9,
   },
 
   titleDecoration: {
@@ -119,85 +132,134 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 62,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 13,
-    height: 13,
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 7,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 18,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  introductionCard: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 11,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 7,
-  },
-
-  introductionHeader: {
+  heroCard: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    minHeight: 118,
+    paddingVertical: 15,
+    paddingHorizontal: 17,
+    marginBottom: 11,
+    borderRadius: 13,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
   },
 
-  introductionIcon: {
-    width: 13,
-    height: 13,
+  heroOrbitOne: {
+    position: "absolute",
+    top: -58,
+    left: -60,
+    width: 165,
+    height: 165,
+    borderRadius: 83,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -30,
+    left: -32,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+  },
+
+  heroIconOuter: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 15,
+  },
+
+  heroIconInner: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    borderWidth: 0.9,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  heroIcon: {
+    width: 39,
+    height: 39,
     objectFit: "contain",
-    marginRight: 7,
   },
 
-  introductionLabel: {
+  heroContent: {
+    flex: 1,
+  },
+
+  heroLabel: {
     color: GOLD,
-    fontSize: 7.5,
+    fontSize: 7.3,
     letterSpacing: 1.3,
     textTransform: "uppercase",
+    marginBottom: 5,
   },
 
-  introductionText: {
+  heroText: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.45,
+    fontSize: 8.5,
+    lineHeight: 1.5,
   },
 
   sectionHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 9,
   },
 
   sectionHeaderLine: {
-    width: 22,
+    width: 28,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   sectionHeaderIcon: {
-    width: 12,
-    height: 12,
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   sectionLabel: {
     color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
+    fontSize: 9.3,
+    letterSpacing: 1.45,
     textTransform: "uppercase",
   },
 
@@ -206,50 +268,69 @@ const styles = StyleSheet.create({
   },
 
   challengeCard: {
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    marginBottom: 7,
+    position: "relative",
+    paddingVertical: 13,
+    paddingHorizontal: 15,
+    marginBottom: 10,
     borderRadius: 13,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  challengeAccent: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 2,
+    backgroundColor: GOLD,
   },
 
   challengeHeader: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
+    marginBottom: 9,
   },
 
-  challengeNumberOuter: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    borderWidth: 0.5,
+  challengeIconOuter: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
+    marginRight: 12,
   },
 
-  challengeNumber: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    borderWidth: 0.9,
+  challengeIconInner: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
   },
 
-  challengeNumberText: {
-    color: GOLD,
-    fontSize: 9.5,
+  challengeIcon: {
+    width: 27,
+    height: 27,
+    objectFit: "contain",
   },
 
   challengeHeading: {
     flex: 1,
-    paddingTop: 3,
+  },
+
+  challengeTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 4,
   },
 
   challengeMiniLabel: {
@@ -257,182 +338,199 @@ const styles = StyleSheet.create({
     fontSize: 6.5,
     letterSpacing: 1.1,
     textTransform: "uppercase",
-    marginBottom: 5,
+  },
+
+  challengeNumber: {
+    color: GOLD,
+    fontSize: 7.2,
+    letterSpacing: 1,
   },
 
   challengeTitle: {
     color: CREAM,
     fontSize: 11.2,
-    lineHeight: 1.35,
+    lineHeight: 1.3,
     marginBottom: 5,
   },
 
   challengeTheme: {
     color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 0.8,
+    fontSize: 7.3,
+    letterSpacing: 0.9,
     textTransform: "uppercase",
-  },
-
-  challengeDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
-    marginBottom: 7,
-  },
-
-  challengeDividerLine: {
-    width: 28,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  challengeDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
   },
 
   challengeDescription: {
     color: MUTED_CREAM,
-    fontSize: 9,
-    lineHeight: 1.5,
+    fontSize: 8.6,
+    lineHeight: 1.48,
     textAlign: "justify",
-    marginBottom: 7,
+    marginBottom: 9,
   },
 
   adviceBox: {
-    minHeight: 48,
-    paddingTop: 9,
-    paddingHorizontal: 13,
-    paddingBottom: 10,
-    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    paddingVertical: 9,
+    paddingHorizontal: 11,
+    borderRadius: 9,
     borderTopWidth: 0.5,
     borderTopColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
   },
 
-  adviceHeader: {
-    flexDirection: "row",
+  adviceIconCircle: {
+    width: 31,
+    height: 31,
+    borderRadius: 16,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
-    marginBottom: 5,
+    justifyContent: "center",
+    marginRight: 10,
   },
 
   adviceIcon: {
-    width: 11,
-    height: 11,
+    width: 20,
+    height: 20,
     objectFit: "contain",
-    marginRight: 6,
+  },
+
+  adviceContent: {
+    flex: 1,
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 7,
+    fontSize: 6.9,
     letterSpacing: 1.1,
     textTransform: "uppercase",
+    marginBottom: 4,
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.45,
+    fontSize: 8.2,
+    lineHeight: 1.42,
   },
 
   emptyCard: {
-    paddingVertical: 30,
+    paddingVertical: 28,
     paddingHorizontal: 24,
     borderRadius: 14,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
+    marginBottom: 11,
   },
 
   emptyIcon: {
-    width: 34,
-    height: 34,
+    width: 42,
+    height: 42,
     objectFit: "contain",
-    marginBottom: 7,
+    marginBottom: 9,
   },
 
   emptyTitle: {
     color: GOLD,
     fontSize: 12,
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
   emptyText: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
+    fontSize: 9,
     lineHeight: 1.45,
     textAlign: "center",
   },
 
   closingCard: {
-    marginTop: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
+    position: "relative",
+    paddingVertical: 12,
+    paddingHorizontal: 17,
     borderRadius: 12,
-    borderWidth: 0.5,
+    borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  closingWatermark: {
+    position: "absolute",
+    right: 15,
+    top: 4,
+    width: 56,
+    height: 56,
+    objectFit: "contain",
+    opacity: 0.07,
   },
 
   closingHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
     marginBottom: 7,
   },
 
-  closingLine: {
-    width: 22,
-    height: 1,
-    backgroundColor: DARK_GOLD,
+  closingIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginRight: 9,
   },
 
-  closingIcon: {
-    width: 15,
-    height: 15,
-    objectFit: "contain",
-    marginHorizontal: 8,
+  closingLabel: {
+    color: GOLD,
+    fontSize: 7.2,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
   },
 
   closingText: {
     color: CREAM,
-    fontSize: 9.3,
-    lineHeight: 1.55,
-    textAlign: "center",
+    fontSize: 8.6,
+    lineHeight: 1.5,
   },
 });
+
+type ChallengeCardProps = {
+  challenge: HoroscopeChallenge;
+  index: number;
+  icon: string;
+};
 
 function ChallengeCard({
   challenge,
   index,
-  zodiacIconUrl,
-}: {
-  challenge: HoroscopeChallenge;
-  index: number;
-  zodiacIconUrl: string;
-}) {
+  icon,
+}: ChallengeCardProps) {
   return (
     <View style={styles.challengeCard} wrap={false}>
+      <View style={styles.challengeAccent} />
+
       <View style={styles.challengeHeader}>
-        <View style={styles.challengeNumberOuter}>
-          <View style={styles.challengeNumber}>
-            <Text style={styles.challengeNumberText}>
-              0{index + 1}
-            </Text>
+        <View style={styles.challengeIconOuter}>
+          <View style={styles.challengeIconInner}>
+            <Image
+              src={icon}
+              style={styles.challengeIcon}
+            />
           </View>
         </View>
 
         <View style={styles.challengeHeading}>
-          <Text style={styles.challengeMiniLabel}>
-            Défi astrologique
-          </Text>
+          <View style={styles.challengeTopRow}>
+            <Text style={styles.challengeMiniLabel}>
+              Défi astrologique
+            </Text>
+
+            <Text style={styles.challengeNumber}>
+              {String(index + 1).padStart(2, "0")}
+            </Text>
+          </View>
 
           <Text style={styles.challengeTitle}>
             {challenge.title}
@@ -446,35 +544,28 @@ function ChallengeCard({
         </View>
       </View>
 
-      <View style={styles.challengeDivider}>
-        <View style={styles.challengeDividerLine} />
-
-        <Image
-          src={zodiacIconUrl}
-          style={styles.challengeDividerIcon}
-        />
-      </View>
-
       <Text style={styles.challengeDescription}>
         {challenge.description}
       </Text>
 
       {challenge.advice ? (
         <View style={styles.adviceBox}>
-          <View style={styles.adviceHeader}>
+          <View style={styles.adviceIconCircle}>
             <Image
-              src={zodiacIconUrl}
+              src={CHALLENGE_ICONS.integrationGuide}
               style={styles.adviceIcon}
             />
+          </View>
 
+          <View style={styles.adviceContent}>
             <Text style={styles.adviceLabel}>
               Comment avancer
             </Text>
-          </View>
 
-          <Text style={styles.adviceText}>
-            {challenge.advice}
-          </Text>
+            <Text style={styles.adviceText}>
+              {challenge.advice}
+            </Text>
+          </View>
         </View>
       ) : null}
     </View>
@@ -496,8 +587,15 @@ export default function HoroscopeChallenges({
     ? content.challenges.slice(0, 4)
     : [];
 
+  const challengeIcons = [
+    CHALLENGE_ICONS.hiddenTalents,
+    CHALLENGE_ICONS.innerWorld,
+    CHALLENGE_ICONS.soulPath,
+    CHALLENGE_ICONS.lifePurpose,
+  ];
+
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <HoroscopeStarBackground />
 
       <View style={styles.content}>
@@ -536,7 +634,7 @@ export default function HoroscopeChallenges({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={CHALLENGE_ICONS.innerWorld}
               style={styles.titleIcon}
             />
 
@@ -544,30 +642,36 @@ export default function HoroscopeChallenges({
           </View>
         </View>
 
-        {content.challengesIntroduction ? (
-          <View style={styles.introductionCard} wrap={false}>
-            <View style={styles.introductionHeader}>
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
+
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
               <Image
-                src={zodiacIconUrl}
-                style={styles.introductionIcon}
+                src={CHALLENGE_ICONS.hiddenTalents}
+                style={styles.heroIcon}
               />
-
-              <Text style={styles.introductionLabel}>
-                Regard sur la période
-              </Text>
             </View>
+          </View>
 
-            <Text style={styles.introductionText}>
-              {content.challengesIntroduction}
+          <View style={styles.heroContent}>
+            <Text style={styles.heroLabel}>
+              Regard sur la période
+            </Text>
+
+            <Text style={styles.heroText}>
+              {content.challengesIntroduction ||
+                "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer."}
             </Text>
           </View>
-        ) : null}
+        </View>
 
         <View style={styles.sectionHeaderRow}>
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={zodiacIconUrl}
+            src={CHALLENGE_ICONS.soulPath}
             style={styles.sectionHeaderIcon}
           />
 
@@ -583,14 +687,14 @@ export default function HoroscopeChallenges({
                 key={`${challenge.title}-${index}`}
                 challenge={challenge}
                 index={index}
-                zodiacIconUrl={zodiacIconUrl}
+                icon={challengeIcons[index] || CHALLENGE_ICONS.hiddenTalents}
               />
             ))}
           </View>
         ) : (
           <View style={styles.emptyCard} wrap={false}>
             <Image
-              src={zodiacIconUrl}
+              src={CHALLENGE_ICONS.lifePurpose}
               style={styles.emptyIcon}
             />
 
@@ -607,15 +711,20 @@ export default function HoroscopeChallenges({
         )}
 
         <View style={styles.closingCard} wrap={false}>
-          <View style={styles.closingHeader}>
-            <View style={styles.closingLine} />
+          <Image
+            src={CHALLENGE_ICONS.heart}
+            style={styles.closingWatermark}
+          />
 
+          <View style={styles.closingHeader}>
             <Image
-              src={zodiacIconUrl}
+              src={CHALLENGE_ICONS.integrationGuide}
               style={styles.closingIcon}
             />
 
-            <View style={styles.closingLine} />
+            <Text style={styles.closingLabel}>
+              Transformer le défi
+            </Text>
           </View>
 
           <Text style={styles.closingText}>
