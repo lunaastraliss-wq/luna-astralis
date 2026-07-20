@@ -1,0 +1,252 @@
+import type {
+  HoroscopePeriod,
+  HoroscopePeriodData,
+  HoroscopeZodiacSign,
+} from "./HoroscopePdfTypes";
+
+const ZODIAC_LABELS: Record<HoroscopeZodiacSign, string> = {
+  belier: "Bélier",
+  taureau: "Taureau",
+  gemeaux: "Gémeaux",
+  cancer: "Cancer",
+  lion: "Lion",
+  vierge: "Vierge",
+  balance: "Balance",
+  scorpion: "Scorpion",
+  sagittaire: "Sagittaire",
+  capricorne: "Capricorne",
+  verseau: "Verseau",
+  poissons: "Poissons",
+};
+
+const PERIOD_LABELS: Record<HoroscopePeriod, string> = {
+  day: "Horoscope du jour",
+  month: "Horoscope du mois",
+  year: "Horoscope de l’année",
+};
+
+const MONTHS_FR = [
+  "janvier",
+  "février",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juillet",
+  "août",
+  "septembre",
+  "octobre",
+  "novembre",
+  "décembre",
+];
+
+/*
+ * Retourne le nom français du signe.
+ *
+ * Exemple :
+ * belier -> Bélier
+ */
+export function getHoroscopeZodiacLabel(
+  sign: HoroscopeZodiacSign,
+): string {
+  return ZODIAC_LABELS[sign];
+}
+
+/*
+ * Retourne le chemin public du PNG du signe.
+ *
+ * Les fichiers doivent être placés directement dans :
+ * public/astrology/
+ *
+ * Exemples :
+ * public/astrology/belier.png
+ * public/astrology/scorpion.png
+ */
+export function getHoroscopeZodiacIconPath(
+  sign: HoroscopeZodiacSign,
+): string {
+  return `/astrology/${sign}.png`;
+}
+
+/*
+ * Retourne l’URL complète du PNG du signe.
+ *
+ * React PDF fonctionne généralement mieux avec une URL absolue
+ * lors de la génération côté serveur.
+ */
+export function getHoroscopeZodiacIconUrl(
+  sign: HoroscopeZodiacSign,
+): string {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+    "https://luna-astralis.app";
+
+  return `${baseUrl}${getHoroscopeZodiacIconPath(sign)}`;
+}
+
+/*
+ * Retourne le titre selon le type de rapport.
+ */
+export function getHoroscopePeriodTitle(
+  period: HoroscopePeriod,
+): string {
+  return PERIOD_LABELS[period];
+}
+
+/*
+ * Vérifie qu’une valeur correspond à un signe connu.
+ */
+export function isHoroscopeZodiacSign(
+  value: unknown,
+): value is HoroscopeZodiacSign {
+  return (
+    typeof value === "string" &&
+    Object.prototype.hasOwnProperty.call(ZODIAC_LABELS, value)
+  );
+}
+
+/*
+ * Normalise un signe reçu depuis un formulaire ou une route serveur.
+ *
+ * Exemples :
+ * "Bélier" -> "belier"
+ * "GÉMEAUX" -> "gemeaux"
+ * "  Scorpion  " -> "scorpion"
+ */
+export function normalizeHoroscopeZodiacSign(
+  value?: string | null,
+): HoroscopeZodiacSign | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const normalized = value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  return isHoroscopeZodiacSign(normalized)
+    ? normalized
+    : null;
+}
+
+/*
+ * Formate une date ISO en français.
+ *
+ * Exemple :
+ * 2026-07-20 -> 20 juillet 2026
+ */
+export function formatHoroscopeDate(
+  dateValue?: string | null,
+): string {
+  if (typeof dateValue !== "string" || !dateValue.trim()) {
+    return "";
+  }
+
+  const match = dateValue.match(
+    /^(\d{4})-(\d{2})-(\d{2})$/,
+  );
+
+  if (!match) {
+    return dateValue;
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+
+  if (
+    !Number.isInteger(year) ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+  ) {
+    return dateValue;
+  }
+
+  return `${day} ${MONTHS_FR[month - 1]} ${year}`;
+}
+
+/*
+ * Formate une période selon le type de rapport.
+ */
+export function formatHoroscopePeriodLabel(
+  period: HoroscopePeriodData,
+): string {
+  if (period.label?.trim()) {
+    return period.label.trim();
+  }
+
+  if (period.type === "day") {
+    return formatHoroscopeDate(period.startDate);
+  }
+
+  const match = period.startDate.match(
+    /^(\d{4})-(\d{2})-(\d{2})$/,
+  );
+
+  if (!match) {
+    return period.startDate;
+  }
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+
+  if (period.type === "month") {
+    return `${MONTHS_FR[month - 1]} ${year}`;
+  }
+
+  return String(year);
+}
+
+/*
+ * Génère le titre principal complet du rapport.
+ *
+ * Exemple :
+ * Horoscope du jour — Scorpion
+ */
+export function buildHoroscopeReportTitle(
+  period: HoroscopePeriod,
+  sign: HoroscopeZodiacSign,
+): string {
+  return `${getHoroscopePeriodTitle(period)} — ${getHoroscopeZodiacLabel(sign)}`;
+}
+
+/*
+ * Sécurise un score pour qu’il reste entre 0 et 100.
+ */
+export function normalizeHoroscopeScore(
+  value?: number | null,
+): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return 0;
+  }
+
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+/*
+ * Retourne un texte propre sans espaces inutiles.
+ */
+export function cleanHoroscopeText(
+  value?: string | null,
+): string {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value.replace(/\s+/g, " ").trim();
+}
+
+/*
+ * Retourne le prénom ou un texte générique.
+ */
+export function getHoroscopeFirstName(
+  firstName?: string | null,
+): string {
+  const cleaned = cleanHoroscopeText(firstName);
+
+  return cleaned || "Vous";
+}
