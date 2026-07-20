@@ -33,15 +33,29 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const CAREER_ICONS = {
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
     paddingTop: 34,
-    paddingHorizontal: 44,
-    paddingBottom: 52,
+    paddingHorizontal: 42,
+    paddingBottom: 54,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
@@ -54,12 +68,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 17,
+    marginBottom: 15,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -89,7 +103,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 13,
+    marginBottom: 12,
   },
 
   eyebrow: {
@@ -97,20 +111,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
     fontSize: 24,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 13,
+    fontSize: 9.7,
+    marginBottom: 9,
   },
 
   titleDecoration: {
@@ -119,77 +133,127 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 62,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  titleDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: GOLD,
-    marginRight: 5,
+  titleIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 9,
   },
 
-  titleDotSmall: {
-    width: 2,
-    height: 2,
-    borderRadius: 1,
+  titleLineSmall: {
+    width: 22,
+    height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    borderWidth: 0.8,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 16,
-  },
-
-  mainHeader: {
+  heroCard: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 14,
-  },
-
-  sectionHeading: {
-    maxWidth: "72%",
-  },
-
-  sectionMiniLabel: {
-    color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.3,
-    textTransform: "uppercase",
-    marginBottom: 6,
-  },
-
-  sectionTitle: {
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.4,
-  },
-
-  scoreCircleOuter: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    borderWidth: 0.5,
+    minHeight: 144,
+    paddingVertical: 16,
+    paddingHorizontal: 17,
+    marginBottom: 12,
+    borderRadius: 14,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  heroOrbitOne: {
+    position: "absolute",
+    top: -62,
+    left: -58,
+    width: 172,
+    height: 172,
+    borderRadius: 86,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -28,
+    left: -27,
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+  },
+
+  heroIconOuter: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 15,
+  },
+
+  heroIconInner: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 0.9,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
   },
 
-  scoreCircle: {
-    width: 51,
-    height: 51,
-    borderRadius: 25.5,
-    borderWidth: 1.1,
+  heroIcon: {
+    width: 42,
+    height: 42,
+    objectFit: "contain",
+  },
+
+  heroContent: {
+    flex: 1,
+  },
+
+  heroTopRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+
+  heroHeading: {
+    flex: 1,
+    paddingRight: 10,
+  },
+
+  heroLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  heroTitle: {
+    color: GOLD,
+    fontSize: 12.4,
+    lineHeight: 1.35,
+  },
+
+  scoreBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -198,49 +262,63 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 17,
+    fontSize: 15,
+    lineHeight: 1,
   },
 
   scoreMaximum: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    marginTop: 1,
+    fontSize: 6.2,
+    marginTop: 2,
   },
 
-  introduction: {
+  heroIntroduction: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
-    marginBottom: 12,
+    fontSize: 8.2,
+    lineHeight: 1.45,
+    marginBottom: 6,
   },
 
-  mainText: {
+  heroText: {
     color: CREAM,
-    fontSize: 9.4,
-    lineHeight: 1.5,
+    fontSize: 8.5,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
 
-  progressCard: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 11,
+  potentialCard: {
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    marginBottom: 12,
+    borderRadius: 10,
     backgroundColor: NAVY_SOFT,
-    marginBottom: 17,
   },
 
-  progressHeader: {
+  potentialHeader: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
-  progressLabel: {
+  potentialLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  potentialIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
+  potentialLabel: {
     color: CREAM,
-    fontSize: 9,
+    fontSize: 8.6,
   },
 
-  progressValue: {
+  potentialValue: {
     color: GOLD,
     fontSize: 9,
   },
@@ -262,103 +340,215 @@ const styles = StyleSheet.create({
   sectionHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 9,
   },
 
   sectionHeaderLine: {
-    width: 22,
+    width: 28,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  highlightsTitle: {
+  sectionHeaderIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 9,
+  },
+
+  sectionLabel: {
     color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
+    fontSize: 9.3,
+    letterSpacing: 1.45,
     textTransform: "uppercase",
   },
 
-  highlightsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 14,
+  milestones: {
+    flexDirection: "column",
+    marginBottom: 11,
   },
 
-  highlightCard: {
-    width: "48.5%",
-    minHeight: 88,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    marginBottom: 12,
+  milestone: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    marginBottom: 8,
+  },
+
+  milestoneRail: {
+    width: 46,
+    alignItems: "center",
+  },
+
+  milestoneCircle: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  milestoneIcon: {
+    width: 21,
+    height: 21,
+    objectFit: "contain",
+  },
+
+  milestoneLine: {
+    flex: 1,
+    width: 1,
+    backgroundColor: DARK_GOLD,
+    marginTop: 4,
+  },
+
+  milestoneCard: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 13,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  highlightTopRow: {
+  milestoneTop: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    justifyContent: "space-between",
+    marginBottom: 5,
   },
 
-  highlightNumber: {
+  milestoneLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.4,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+
+  milestoneNumber: {
     color: GOLD,
-    fontSize: 9,
-    marginRight: 7,
+    fontSize: 7.2,
+    letterSpacing: 0.8,
   },
 
-  highlightAccent: {
-    width: 18,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-  },
-
-  highlightText: {
+  milestoneText: {
     color: CREAM,
-    fontSize: 9.2,
+    fontSize: 8.8,
     lineHeight: 1.45,
   },
 
   adviceCard: {
-    minHeight: 86,
-    paddingVertical: 18,
-    paddingHorizontal: 20,
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    minHeight: 82,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
     borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+    overflow: "hidden",
   },
 
-  adviceHeader: {
-    flexDirection: "row",
+  adviceWatermark: {
+    position: "absolute",
+    right: 15,
+    top: 7,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.06,
+  },
+
+  adviceIconCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
-    marginBottom: 12,
+    justifyContent: "center",
+    marginRight: 11,
   },
 
-  adviceDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: GOLD,
-    marginRight: 7,
+  adviceIcon: {
+    width: 24,
+    height: 24,
+    objectFit: "contain",
+  },
+
+  adviceContent: {
+    flex: 1,
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 9,
-    letterSpacing: 1.4,
+    fontSize: 7,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
+    marginBottom: 5,
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.55,
+    fontSize: 8.7,
+    lineHeight: 1.5,
   },
 });
+
+type CareerMilestoneProps = {
+  text: string;
+  index: number;
+  icon: string;
+  isLast: boolean;
+};
+
+function CareerMilestone({
+  text,
+  index,
+  icon,
+  isLast,
+}: CareerMilestoneProps) {
+  return (
+    <View style={styles.milestone} wrap={false}>
+      <View style={styles.milestoneRail}>
+        <View style={styles.milestoneCircle}>
+          <Image
+            src={icon}
+            style={styles.milestoneIcon}
+          />
+        </View>
+
+        {!isLast ? (
+          <View style={styles.milestoneLine} />
+        ) : null}
+      </View>
+
+      <View style={styles.milestoneCard}>
+        <View style={styles.milestoneTop}>
+          <Text style={styles.milestoneLabel}>
+            Point de progression
+          </Text>
+
+          <Text style={styles.milestoneNumber}>
+            {String(index + 1).padStart(2, "0")}
+          </Text>
+        </View>
+
+        <Text style={styles.milestoneText}>
+          {text}
+        </Text>
+      </View>
+    </View>
+  );
+}
 
 export default function HoroscopeCareer({
   identity,
@@ -379,8 +569,15 @@ export default function HoroscopeCareer({
     ? content.career.highlights.slice(0, 4)
     : [];
 
+  const milestoneIcons = [
+    CAREER_ICONS.hiddenTalents,
+    CAREER_ICONS.soulPath,
+    CAREER_ICONS.jupiter,
+    CAREER_ICONS.sun,
+  ];
+
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <HoroscopeStarBackground />
 
       <View style={styles.content}>
@@ -417,25 +614,42 @@ export default function HoroscopeCareer({
 
           <View style={styles.titleDecoration}>
             <View style={styles.titleLine} />
-            <View style={styles.titleDot} />
-            <View style={styles.titleDotSmall} />
+
+            <Image
+              src={CAREER_ICONS.lifePurpose}
+              style={styles.titleIcon}
+            />
+
+            <View style={styles.titleLineSmall} />
           </View>
         </View>
 
-        <View style={styles.mainCard} wrap={false}>
-          <View style={styles.mainHeader}>
-            <View style={styles.sectionHeading}>
-              <Text style={styles.sectionMiniLabel}>
-                Lecture professionnelle
-              </Text>
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
 
-              <Text style={styles.sectionTitle}>
-                {content.career.title}
-              </Text>
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
+              <Image
+                src={CAREER_ICONS.lifePurpose}
+                style={styles.heroIcon}
+              />
             </View>
+          </View>
 
-            <View style={styles.scoreCircleOuter}>
-              <View style={styles.scoreCircle}>
+          <View style={styles.heroContent}>
+            <View style={styles.heroTopRow}>
+              <View style={styles.heroHeading}>
+                <Text style={styles.heroLabel}>
+                  Lecture professionnelle
+                </Text>
+
+                <Text style={styles.heroTitle}>
+                  {content.career.title}
+                </Text>
+              </View>
+
+              <View style={styles.scoreBadge}>
                 <Text style={styles.scoreValue}>
                   {careerScore}
                 </Text>
@@ -445,26 +659,33 @@ export default function HoroscopeCareer({
                 </Text>
               </View>
             </View>
-          </View>
 
-          {content.career.introduction ? (
-            <Text style={styles.introduction}>
-              {content.career.introduction}
+            {content.career.introduction ? (
+              <Text style={styles.heroIntroduction}>
+                {content.career.introduction}
+              </Text>
+            ) : null}
+
+            <Text style={styles.heroText}>
+              {content.career.text}
             </Text>
-          ) : null}
-
-          <Text style={styles.mainText}>
-            {content.career.text}
-          </Text>
+          </View>
         </View>
 
-        <View style={styles.progressCard} wrap={false}>
-          <View style={styles.progressHeader}>
-            <Text style={styles.progressLabel}>
-              Potentiel professionnel
-            </Text>
+        <View style={styles.potentialCard} wrap={false}>
+          <View style={styles.potentialHeader}>
+            <View style={styles.potentialLeft}>
+              <Image
+                src={CAREER_ICONS.hiddenTalents}
+                style={styles.potentialIcon}
+              />
 
-            <Text style={styles.progressValue}>
+              <Text style={styles.potentialLabel}>
+                Potentiel professionnel
+              </Text>
+            </View>
+
+            <Text style={styles.potentialValue}>
               {careerScore} %
             </Text>
           </View>
@@ -486,30 +707,25 @@ export default function HoroscopeCareer({
             <View style={styles.sectionHeaderRow}>
               <View style={styles.sectionHeaderLine} />
 
-              <Text style={styles.highlightsTitle}>
-                Points à surveiller
+              <Image
+                src={CAREER_ICONS.soulPath}
+                style={styles.sectionHeaderIcon}
+              />
+
+              <Text style={styles.sectionLabel}>
+                Vos axes de progression
               </Text>
             </View>
 
-            <View style={styles.highlightsGrid}>
+            <View style={styles.milestones}>
               {highlights.map((highlight, index) => (
-                <View
+                <CareerMilestone
                   key={`${highlight}-${index}`}
-                  style={styles.highlightCard}
-                  wrap={false}
-                >
-                  <View style={styles.highlightTopRow}>
-                    <Text style={styles.highlightNumber}>
-                      0{index + 1}
-                    </Text>
-
-                    <View style={styles.highlightAccent} />
-                  </View>
-
-                  <Text style={styles.highlightText}>
-                    {highlight}
-                  </Text>
-                </View>
+                  text={highlight}
+                  index={index}
+                  icon={milestoneIcons[index] || CAREER_ICONS.hiddenTalents}
+                  isLast={index === highlights.length - 1}
+                />
               ))}
             </View>
           </>
@@ -517,17 +733,27 @@ export default function HoroscopeCareer({
 
         {content.career.advice ? (
           <View style={styles.adviceCard} wrap={false}>
-            <View style={styles.adviceHeader}>
-              <View style={styles.adviceDot} />
+            <Image
+              src={CAREER_ICONS.integrationGuide}
+              style={styles.adviceWatermark}
+            />
 
+            <View style={styles.adviceIconCircle}>
+              <Image
+                src={CAREER_ICONS.integrationGuide}
+                style={styles.adviceIcon}
+              />
+            </View>
+
+            <View style={styles.adviceContent}>
               <Text style={styles.adviceLabel}>
                 Conseil professionnel
               </Text>
-            </View>
 
-            <Text style={styles.adviceText}>
-              {content.career.advice}
-            </Text>
+              <Text style={styles.adviceText}>
+                {content.career.advice}
+              </Text>
+            </View>
           </View>
         ) : null}
       </View>
