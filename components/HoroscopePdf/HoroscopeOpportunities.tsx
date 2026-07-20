@@ -611,14 +611,14 @@ export default function HoroscopeOpportunities({
 
   const periodLabel = formatHoroscopePeriodLabel(period);
 
-  const opportunityScore = normalizeHoroscopeScore(
-    content.opportunities.score ?? content.scores.opportunities,
-  );
+ const opportunityScore = normalizeHoroscopeScore(
+  content.scores.opportunities,
+);
 
-  const highlights = Array.isArray(content.opportunities.highlights)
-    ? content.opportunities.highlights.slice(0, 4)
-    : [];
-
+const opportunities = Array.isArray(content.opportunities)
+  ? content.opportunities.slice(0, 4)
+  : [];
+  
   const guidance = getOpportunityGuidance(opportunityScore);
 
   const actionCards = [
@@ -639,20 +639,16 @@ export default function HoroscopeOpportunities({
     },
   ];
 
-  const sectionTitle =
-    content.opportunities.title || "Vos ouvertures du moment";
-
+    const sectionTitle = "Vos ouvertures du moment";
+  
   const introduction =
-    content.opportunities.introduction ||
-    "Cette période met en lumière les occasions, les rencontres et les mouvements capables de faire évoluer votre situation.";
+  "Cette période met en lumière les occasions, les rencontres et les mouvements capables de faire évoluer votre situation.";
 
-  const mainText =
-    content.opportunities.text ||
-    "Les opportunités les plus utiles ne sont pas toujours les plus spectaculaires. Elles peuvent apparaître sous la forme d’une conversation, d’une proposition, d’une idée nouvelle ou d’un changement de perspective.";
+ const mainText =
+  "Les opportunités les plus utiles ne sont pas toujours les plus spectaculaires. Elles peuvent apparaître sous la forme d’une conversation, d’une proposition ou d’une idée nouvelle.";
 
   const advice =
-    content.opportunities.advice ||
-    "Restez disponible aux nouvelles possibilités, tout en prenant le temps de vérifier qu’elles correspondent vraiment à votre chemin.";
+  "Restez disponible aux nouvelles possibilités tout en prenant le temps de vérifier qu’elles correspondent réellement à votre chemin.";
 
   return (
     <Page size="A4" style={styles.page}>
@@ -768,7 +764,7 @@ export default function HoroscopeOpportunities({
           </Text>
         </View>
 
-        {highlights.length > 0 ? (
+        {opportunities.length > 0 ? (
           <>
             <View style={styles.sectionHeader}>
               <View style={styles.sectionHeaderLine} />
@@ -784,9 +780,9 @@ export default function HoroscopeOpportunities({
             </View>
 
             <View style={styles.highlightsGrid}>
-              {highlights.map((highlight, index) => (
+              {opportunities.map((opportunity, index) => (
                 <View
-                  key={`${highlight}-${index}`}
+                  key={`opportunity-${index}`}
                   style={styles.highlightCard}
                   wrap={false}
                 >
@@ -804,7 +800,7 @@ export default function HoroscopeOpportunities({
                   </View>
 
                   <Text style={styles.highlightText}>
-                    {highlight}
+                    {opportunity.text}
                   </Text>
                 </View>
               ))}
