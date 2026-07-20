@@ -35,11 +35,22 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 
+const SUMMARY_ICONS = {
+  summary: "/astrology/integration-guide.png?v=2",
+  energy: "/astrology/sun.png?v=2",
+  love: "/astrology/heart.png?v=2",
+  career: "/astrology/life-purpose.png?v=2",
+  money: "/astrology/money.png?v=2",
+  health: "/astrology/inner-world.png?v=2",
+  social: "/astrology/soul-path.png?v=2",
+  guidance: "/astrology/hidden-talents.png?v=2",
+};
+
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
+    paddingTop: 38,
+    paddingHorizontal: 42,
     paddingBottom: 58,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
@@ -47,15 +58,72 @@ const styles = StyleSheet.create({
 
   content: {
     position: "relative",
-    zIndex: 2,
+    zIndex: 3,
     flex: 1,
+  },
+
+  orbitLarge: {
+    position: "absolute",
+    top: 118,
+    right: -96,
+    width: 250,
+    height: 250,
+    borderRadius: 125,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    opacity: 0.32,
+  },
+
+  orbitMedium: {
+    position: "absolute",
+    top: 151,
+    right: -62,
+    width: 182,
+    height: 182,
+    borderRadius: 91,
+    borderWidth: 0.45,
+    borderColor: GOLD,
+    opacity: 0.2,
+  },
+
+  orbitSmall: {
+    position: "absolute",
+    bottom: 94,
+    left: -62,
+    width: 142,
+    height: 142,
+    borderRadius: 71,
+    borderWidth: 0.45,
+    borderColor: DARK_GOLD,
+    opacity: 0.25,
+  },
+
+  orbitDot: {
+    position: "absolute",
+    top: 208,
+    right: 55,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: GOLD,
+    opacity: 0.7,
+  },
+
+  watermark: {
+    position: "absolute",
+    right: -9,
+    bottom: 18,
+    width: 112,
+    height: 112,
+    objectFit: "contain",
+    opacity: 0.045,
   },
 
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 18,
   },
 
   logo: {
@@ -90,28 +158,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 18,
+    marginBottom: 15,
   },
 
   eyebrow: {
     color: GOLD,
-    fontSize: 9,
-    letterSpacing: 2.4,
+    fontSize: 8.8,
+    letterSpacing: 2.3,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
-    lineHeight: 1.2,
-    marginBottom: 8,
+    fontSize: 25,
+    lineHeight: 1.18,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 13,
+    fontSize: 9.6,
+    marginBottom: 11,
   },
 
   titleDecoration: {
@@ -139,95 +207,202 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GOLD,
   },
 
-  summaryCard: {
-    paddingVertical: 19,
-    paddingHorizontal: 20,
-    borderRadius: 14,
+  heroCard: {
+    position: "relative",
+    overflow: "hidden",
+    paddingVertical: 17,
+    paddingHorizontal: 18,
+    borderRadius: 15,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 15,
+    marginBottom: 13,
   },
 
-  summaryHeader: {
+  heroGlow: {
+    position: "absolute",
+    top: -42,
+    right: -25,
+    width: 132,
+    height: 132,
+    borderRadius: 66,
+    borderWidth: 0.65,
+    borderColor: GOLD,
+    opacity: 0.17,
+  },
+
+  heroRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 11,
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
 
-  summaryIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    borderWidth: 0.7,
+  heroIdentity: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    paddingRight: 14,
+  },
+
+  heroIconBox: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
+    marginRight: 12,
   },
 
-  summaryIcon: {
-    width: 22,
-    height: 22,
+  heroIcon: {
+    width: 31,
+    height: 31,
     objectFit: "contain",
   },
 
-  summaryHeading: {
+  heroHeading: {
     flex: 1,
   },
 
-  summaryMiniLabel: {
+  heroLabel: {
     color: SOFT_TEXT,
     fontSize: 6.8,
-    letterSpacing: 1.1,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
     marginBottom: 4,
   },
 
-  summaryTitle: {
+  heroTitle: {
     color: GOLD,
-    fontSize: 12.5,
-    lineHeight: 1.35,
+    fontSize: 13.2,
+    lineHeight: 1.3,
   },
 
-  summaryDivider: {
+  scoreBadgeOuter: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  scoreBadge: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  scoreNumber: {
+    color: GOLD,
+    fontSize: 18,
+  },
+
+  scoreOutOf: {
+    color: SOFT_TEXT,
+    fontSize: 6.3,
+    marginTop: 1,
+  },
+
+  heroDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 11,
+    marginBottom: 9,
   },
 
-  summaryDividerLine: {
+  heroDividerLine: {
     width: 32,
     height: 1,
     backgroundColor: DARK_GOLD,
     marginRight: 7,
   },
 
-  summaryDividerIcon: {
+  heroDividerIcon: {
     width: 11,
     height: 11,
     objectFit: "contain",
   },
 
-  summaryIntroduction: {
+  introduction: {
     color: MUTED_CREAM,
-    fontSize: 9.1,
-    lineHeight: 1.55,
-    marginBottom: 9,
+    fontSize: 8.7,
+    lineHeight: 1.48,
+    marginBottom: 7,
   },
 
   summaryText: {
     color: CREAM,
-    fontSize: 9.7,
-    lineHeight: 1.62,
+    fontSize: 9.2,
+    lineHeight: 1.55,
     textAlign: "justify",
+  },
+
+  overallCard: {
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    marginBottom: 12,
+  },
+
+  overallHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 7,
+  },
+
+  overallLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  overallIcon: {
+    width: 14,
+    height: 14,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
+  overallLabel: {
+    color: CREAM,
+    fontSize: 8.5,
+  },
+
+  overallValue: {
+    color: GOLD,
+    fontSize: 8.8,
+  },
+
+  overallTrack: {
+    width: "100%",
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: TRACK,
+    overflow: "hidden",
+  },
+
+  overallFill: {
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: GOLD,
   },
 
   indicatorsHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 9,
   },
 
   indicatorsLine: {
@@ -246,8 +421,8 @@ const styles = StyleSheet.create({
 
   indicatorsTitle: {
     color: GOLD,
-    fontSize: 9.8,
-    letterSpacing: 1.5,
+    fontSize: 9.5,
+    letterSpacing: 1.4,
     textTransform: "uppercase",
   },
 
@@ -255,17 +430,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 3,
   },
 
   scoreCard: {
-    width: "31.5%",
-    minHeight: 111,
-    paddingVertical: 11,
-    paddingHorizontal: 11,
-    marginBottom: 10,
+    width: "31.6%",
+    minHeight: 92,
+    paddingVertical: 9,
+    paddingHorizontal: 10,
+    marginBottom: 8,
     borderRadius: 10,
-    borderWidth: 0.6,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
@@ -274,20 +449,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 9,
+    marginBottom: 7,
   },
 
   scoreIdentity: {
     flexDirection: "row",
     alignItems: "center",
-    maxWidth: "72%",
+    flex: 1,
+    paddingRight: 4,
   },
 
   scoreIconBox: {
-    width: 23,
-    height: 23,
-    borderRadius: 11.5,
-    borderWidth: 0.6,
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
@@ -296,122 +472,70 @@ const styles = StyleSheet.create({
   },
 
   scoreIcon: {
-    width: 12,
-    height: 12,
+    width: 14,
+    height: 14,
     objectFit: "contain",
   },
 
   scoreLabel: {
     color: CREAM,
-    fontSize: 8.3,
-  },
-
-  scoreValueCircle: {
-    width: 31,
-    height: 31,
-    borderRadius: 15.5,
-    borderWidth: 0.8,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
+    fontSize: 7.7,
   },
 
   scoreValue: {
     color: GOLD,
-    fontSize: 11,
+    fontSize: 10.5,
   },
 
-  progressTrack: {
+  scoreTrack: {
     width: "100%",
-    height: 6,
-    borderRadius: 3,
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: TRACK,
     overflow: "hidden",
-    marginBottom: 8,
+    marginBottom: 6,
   },
 
-  progressFill: {
-    height: 6,
-    borderRadius: 3,
+  scoreFill: {
+    height: 5,
+    borderRadius: 2.5,
     backgroundColor: GOLD,
   },
 
   scoreMessage: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    lineHeight: 1.38,
-  },
-
-  overallCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    borderRadius: 11,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 10,
-  },
-
-  overallHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-
-  overallLabelRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  overallIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-    marginRight: 7,
-  },
-
-  overallLabel: {
-    color: CREAM,
-    fontSize: 8.7,
-  },
-
-  overallValue: {
-    color: GOLD,
-    fontSize: 9,
-  },
-
-  overallTrack: {
-    width: "100%",
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: TRACK,
-    overflow: "hidden",
-  },
-
-  overallFill: {
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: GOLD,
+    fontSize: 6.35,
+    lineHeight: 1.32,
   },
 
   guidanceCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+    position: "relative",
+    overflow: "hidden",
+    paddingVertical: 11,
+    paddingHorizontal: 13,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 10,
+    marginBottom: 9,
+  },
+
+  guidanceWatermark: {
+    position: "absolute",
+    right: 5,
+    bottom: -19,
+    width: 68,
+    height: 68,
+    objectFit: "contain",
+    opacity: 0.055,
   },
 
   guidanceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   guidanceIconBox: {
@@ -438,27 +562,30 @@ const styles = StyleSheet.create({
 
   guidanceLabel: {
     color: SOFT_TEXT,
-    fontSize: 6.7,
-    letterSpacing: 1.1,
+    fontSize: 6.5,
+    letterSpacing: 1.05,
     textTransform: "uppercase",
     marginBottom: 3,
   },
 
   guidanceTitle: {
     color: GOLD,
-    fontSize: 9.8,
-    lineHeight: 1.3,
+    fontSize: 9.7,
+    lineHeight: 1.28,
   },
 
   guidanceText: {
     color: MUTED_CREAM,
-    fontSize: 7.9,
-    lineHeight: 1.42,
+    fontSize: 7.65,
+    lineHeight: 1.4,
+    paddingRight: 38,
   },
 
   adviceCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+    position: "relative",
+    overflow: "hidden",
+    paddingVertical: 11,
+    paddingHorizontal: 13,
     borderRadius: 11,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
@@ -470,7 +597,7 @@ const styles = StyleSheet.create({
   adviceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 6,
   },
 
   adviceIconBox: {
@@ -493,21 +620,23 @@ const styles = StyleSheet.create({
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 7.6,
-    letterSpacing: 1.3,
+    fontSize: 7.4,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.48,
+    fontSize: 8.2,
+    lineHeight: 1.45,
+    paddingRight: 28,
   },
 });
 
 type ScoreItem = {
   label: string;
   value: number;
+  iconUrl: string;
 };
 
 function getScoreMessage(value: number): string {
@@ -558,9 +687,7 @@ function ScoreCard({
   label,
   value,
   iconUrl,
-}: ScoreItem & {
-  iconUrl: string;
-}) {
+}: ScoreItem) {
   const safeValue = normalizeHoroscopeScore(value);
 
   return (
@@ -568,28 +695,19 @@ function ScoreCard({
       <View style={styles.scoreTopRow}>
         <View style={styles.scoreIdentity}>
           <View style={styles.scoreIconBox}>
-            <Image
-              src={iconUrl}
-              style={styles.scoreIcon}
-            />
+            <Image src={iconUrl} style={styles.scoreIcon} />
           </View>
 
-          <Text style={styles.scoreLabel}>
-            {label}
-          </Text>
+          <Text style={styles.scoreLabel}>{label}</Text>
         </View>
 
-        <View style={styles.scoreValueCircle}>
-          <Text style={styles.scoreValue}>
-            {safeValue}
-          </Text>
-        </View>
+        <Text style={styles.scoreValue}>{safeValue}</Text>
       </View>
 
-      <View style={styles.progressTrack}>
+      <View style={styles.scoreTrack}>
         <View
           style={[
-            styles.progressFill,
+            styles.scoreFill,
             {
               width: `${safeValue}%`,
             },
@@ -619,22 +737,27 @@ export default function HoroscopeSummary({
     {
       label: "Énergie",
       value: content.scores.energy,
+      iconUrl: SUMMARY_ICONS.energy,
     },
     {
       label: "Amour",
       value: content.scores.love,
+      iconUrl: SUMMARY_ICONS.love,
     },
     {
       label: "Travail",
       value: content.scores.career,
+      iconUrl: SUMMARY_ICONS.career,
     },
     {
       label: "Finances",
       value: content.scores.money,
+      iconUrl: SUMMARY_ICONS.money,
     },
     {
       label: "Bien-être",
       value: content.scores.health,
+      iconUrl: SUMMARY_ICONS.health,
     },
     {
       label: "Vie sociale",
@@ -642,6 +765,7 @@ export default function HoroscopeSummary({
         typeof content.scores.social === "number"
           ? content.scores.social
           : 50,
+      iconUrl: SUMMARY_ICONS.social,
     },
   ];
 
@@ -676,6 +800,16 @@ export default function HoroscopeSummary({
   return (
     <Page size="A4" style={styles.page} wrap={false}>
       <HoroscopeStarBackground />
+
+      <View style={styles.orbitLarge} />
+      <View style={styles.orbitMedium} />
+      <View style={styles.orbitSmall} />
+      <View style={styles.orbitDot} />
+
+      <Image
+        src={SUMMARY_ICONS.summary}
+        style={styles.watermark}
+      />
 
       <View style={styles.content}>
         <View style={styles.header}>
@@ -713,7 +847,7 @@ export default function HoroscopeSummary({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={SUMMARY_ICONS.summary}
               style={styles.titleIcon}
             />
 
@@ -721,36 +855,52 @@ export default function HoroscopeSummary({
           </View>
         </View>
 
-        <View style={styles.summaryCard} wrap={false}>
-          <View style={styles.summaryHeader}>
-            <View style={styles.summaryIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.summaryIcon}
-              />
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroGlow} />
+
+          <View style={styles.heroRow}>
+            <View style={styles.heroIdentity}>
+              <View style={styles.heroIconBox}>
+                <Image
+                  src={SUMMARY_ICONS.summary}
+                  style={styles.heroIcon}
+                />
+              </View>
+
+              <View style={styles.heroHeading}>
+                <Text style={styles.heroLabel}>
+                  Synthèse personnalisée
+                </Text>
+
+                <Text style={styles.heroTitle}>
+                  {summaryTitle}
+                </Text>
+              </View>
             </View>
 
-            <View style={styles.summaryHeading}>
-              <Text style={styles.summaryMiniLabel}>
-                Synthèse personnalisée
-              </Text>
+            <View style={styles.scoreBadgeOuter}>
+              <View style={styles.scoreBadge}>
+                <Text style={styles.scoreNumber}>
+                  {overallScore}
+                </Text>
 
-              <Text style={styles.summaryTitle}>
-                {summaryTitle}
-              </Text>
+                <Text style={styles.scoreOutOf}>
+                  sur 100
+                </Text>
+              </View>
             </View>
           </View>
 
-          <View style={styles.summaryDivider}>
-            <View style={styles.summaryDividerLine} />
+          <View style={styles.heroDivider}>
+            <View style={styles.heroDividerLine} />
 
             <Image
-              src={zodiacIconUrl}
-              style={styles.summaryDividerIcon}
+              src={SUMMARY_ICONS.summary}
+              style={styles.heroDividerIcon}
             />
           </View>
 
-          <Text style={styles.summaryIntroduction}>
+          <Text style={styles.introduction}>
             {summaryIntroduction}
           </Text>
 
@@ -759,35 +909,11 @@ export default function HoroscopeSummary({
           </Text>
         </View>
 
-        <View style={styles.indicatorsHeader}>
-          <View style={styles.indicatorsLine} />
-
-          <Image
-            src={zodiacIconUrl}
-            style={styles.indicatorsIcon}
-          />
-
-          <Text style={styles.indicatorsTitle}>
-            Vos indicateurs
-          </Text>
-        </View>
-
-        <View style={styles.scoresGrid}>
-          {scores.map((score) => (
-            <ScoreCard
-              key={score.label}
-              label={score.label}
-              value={score.value}
-              iconUrl={zodiacIconUrl}
-            />
-          ))}
-        </View>
-
         <View style={styles.overallCard} wrap={false}>
           <View style={styles.overallHeader}>
             <View style={styles.overallLabelRow}>
               <Image
-                src={zodiacIconUrl}
+                src={SUMMARY_ICONS.summary}
                 style={styles.overallIcon}
               />
 
@@ -813,11 +939,40 @@ export default function HoroscopeSummary({
           </View>
         </View>
 
+        <View style={styles.indicatorsHeader}>
+          <View style={styles.indicatorsLine} />
+
+          <Image
+            src={SUMMARY_ICONS.summary}
+            style={styles.indicatorsIcon}
+          />
+
+          <Text style={styles.indicatorsTitle}>
+            Vos indicateurs
+          </Text>
+        </View>
+
+        <View style={styles.scoresGrid}>
+          {scores.map((score) => (
+            <ScoreCard
+              key={score.label}
+              label={score.label}
+              value={score.value}
+              iconUrl={score.iconUrl}
+            />
+          ))}
+        </View>
+
         <View style={styles.guidanceCard} wrap={false}>
+          <Image
+            src={SUMMARY_ICONS.summary}
+            style={styles.guidanceWatermark}
+          />
+
           <View style={styles.guidanceHeader}>
             <View style={styles.guidanceIconBox}>
               <Image
-                src={zodiacIconUrl}
+                src={SUMMARY_ICONS.guidance}
                 style={styles.guidanceIcon}
               />
             </View>
@@ -842,7 +997,7 @@ export default function HoroscopeSummary({
           <View style={styles.adviceHeader}>
             <View style={styles.adviceIconBox}>
               <Image
-                src={zodiacIconUrl}
+                src={SUMMARY_ICONS.summary}
                 style={styles.adviceIcon}
               />
             </View>
