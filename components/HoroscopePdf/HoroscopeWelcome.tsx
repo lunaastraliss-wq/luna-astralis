@@ -1,21 +1,11 @@
-import {
-  Image,
-  Page,
-  StyleSheet,
-  Text,
-  View,
-} from "@react-pdf/renderer";
+import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-import {
-  HOROSCOPE_LOGO_URL,
-} from "./HoroscopePdfAssets";
+import { HOROSCOPE_LOGO_URL } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
 import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
-import type {
-  HoroscopeSectionProps,
-} from "./HoroscopePdfTypes";
+import type { HoroscopeSectionProps } from "./HoroscopePdfTypes";
 
 import {
   formatHoroscopePeriodLabel,
@@ -33,15 +23,29 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const WELCOME_ICONS = {
+  guidance: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  energy: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  love: `${ASTROLOGY_PATH}/heart.png?v=2`,
+  money: `${ASTROLOGY_PATH}/money.png?v=2`,
+  career: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  wellbeing: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  quote: `${ASTROLOGY_PATH}/moon.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 33,
+    paddingHorizontal: 42,
+    paddingBottom: 53,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
@@ -50,16 +54,40 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  backgroundOrbitOne: {
+    position: "absolute",
+    right: -118,
+    top: 122,
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    borderWidth: 0.45,
+    borderColor: DEEP_GOLD,
+    zIndex: 0,
+  },
+
+  backgroundOrbitTwo: {
+    position: "absolute",
+    left: -92,
+    bottom: 55,
+    width: 205,
+    height: 205,
+    borderRadius: 102.5,
+    borderWidth: 0.4,
+    borderColor: DEEP_GOLD,
+    zIndex: 0,
+  },
+
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 13,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -89,31 +117,30 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 18,
+    marginBottom: 11,
   },
 
   eyebrow: {
     color: GOLD,
     fontSize: 9,
-    letterSpacing: 2.4,
+    letterSpacing: 2.35,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 25,
-    lineHeight: 1.16,
-    marginBottom: 11,
-    maxWidth: 430,
+    fontSize: 24,
+    lineHeight: 1.18,
+    marginBottom: 7,
   },
 
   intro: {
     color: MUTED_CREAM,
-    fontSize: 10.2,
-    lineHeight: 1.58,
-    marginBottom: 13,
-    maxWidth: 470,
+    fontSize: 9.5,
+    lineHeight: 1.5,
+    marginBottom: 8,
+    maxWidth: 465,
   },
 
   titleDecoration: {
@@ -122,316 +149,337 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 60,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 14,
-    height: 14,
+    width: 17,
+    height: 17,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    paddingVertical: 19,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    borderWidth: 0.8,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 14,
-  },
-
-  mainHeader: {
-    flexDirection: "row",
-    alignItems: "center",
+  heroCard: {
+    position: "relative",
+    minHeight: 150,
+    paddingVertical: 17,
+    paddingHorizontal: 18,
     marginBottom: 11,
-  },
-
-  mainIconBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    borderRadius: 14,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  heroOrbitOne: {
+    position: "absolute",
+    top: -58,
+    right: -48,
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -25,
+    right: -16,
+    width: 105,
+    height: 105,
+    borderRadius: 52.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+  },
+
+  heroWatermark: {
+    position: "absolute",
+    right: 18,
+    bottom: 5,
+    width: 86,
+    height: 86,
+    objectFit: "contain",
+    opacity: 0.1,
+  },
+
+  heroHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  heroIconOuter: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 13,
+  },
+
+  heroIconInner: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 11,
   },
 
-  mainIcon: {
-    width: 23,
-    height: 23,
+  heroIcon: {
+    width: 31,
+    height: 31,
     objectFit: "contain",
   },
 
-  mainHeading: {
+  heroHeading: {
     flex: 1,
+    paddingRight: 55,
   },
 
-  cardLabel: {
+  heroLabel: {
     color: SOFT_TEXT,
     fontSize: 6.8,
-    letterSpacing: 1.2,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
     marginBottom: 4,
   },
 
-  cardTitle: {
+  heroTitle: {
     color: GOLD,
-    fontSize: 12.5,
+    fontSize: 13.2,
     lineHeight: 1.3,
   },
 
-  mainDivider: {
+  heroDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 11,
+    marginBottom: 9,
   },
 
-  dividerLine: {
-    width: 32,
+  heroDividerLine: {
+    width: 36,
     height: 1,
     backgroundColor: DARK_GOLD,
-    marginRight: 7,
+    marginRight: 8,
   },
 
-  dividerIcon: {
-    width: 11,
-    height: 11,
+  heroDividerIcon: {
+    width: 12,
+    height: 12,
     objectFit: "contain",
   },
 
-  welcomeText: {
+  heroText: {
     color: CREAM,
-    fontSize: 9.7,
-    lineHeight: 1.64,
+    fontSize: 9.3,
+    lineHeight: 1.58,
     textAlign: "justify",
+    paddingRight: 8,
   },
 
   quoteCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 0.6,
+    position: "relative",
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    marginBottom: 11,
+    borderRadius: 11,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 14,
-  },
-
-  quoteHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-
-  quoteLine: {
-    width: 24,
-    height: 1,
-    backgroundColor: DARK_GOLD,
+    overflow: "hidden",
   },
 
   quoteIcon: {
-    width: 15,
-    height: 15,
+    position: "absolute",
+    left: 14,
+    top: 11,
+    width: 24,
+    height: 24,
     objectFit: "contain",
-    marginHorizontal: 8,
+    opacity: 0.7,
   },
 
-  quote: {
+  quoteText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.5,
+    fontSize: 9.6,
+    lineHeight: 1.45,
     fontStyle: "italic",
     textAlign: "center",
+    paddingHorizontal: 28,
   },
 
-  detailsHeader: {
+  sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
-  detailsHeaderLine: {
+  sectionHeaderLine: {
     width: 24,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 8,
   },
 
-  detailsHeaderIcon: {
-    width: 13,
-    height: 13,
+  sectionHeaderIcon: {
+    width: 14,
+    height: 14,
     objectFit: "contain",
     marginRight: 8,
   },
 
-  detailsHeaderTitle: {
+  sectionHeaderTitle: {
     color: GOLD,
-    fontSize: 9.6,
+    fontSize: 9.5,
     letterSpacing: 1.4,
     textTransform: "uppercase",
   },
 
-  detailsRow: {
+  discoveryGrid: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 13,
+    marginBottom: 10,
   },
 
-  detailCard: {
-    width: "31.5%",
-    minHeight: 85,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderRadius: 10,
-    borderWidth: 0.6,
+  discoveryCard: {
+    width: "48.6%",
+    minHeight: 62,
+    paddingVertical: 9,
+    paddingHorizontal: 10,
+    marginBottom: 8,
+    borderRadius: 9,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  detailIconBox: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    borderWidth: 0.6,
+  discoveryTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+  },
+
+  discoveryIconBox: {
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 8,
+    marginRight: 8,
   },
 
-  detailIcon: {
-    width: 14,
-    height: 14,
+  discoveryIcon: {
+    width: 16,
+    height: 16,
     objectFit: "contain",
   },
 
-  detailLabel: {
-    color: SOFT_TEXT,
-    fontSize: 6.7,
-    letterSpacing: 1,
-    textTransform: "uppercase",
-    marginBottom: 5,
+  discoveryTitle: {
+    color: GOLD,
+    fontSize: 8.2,
   },
 
-  detailValue: {
-    color: CREAM,
-    fontSize: 8.8,
+  discoveryText: {
+    color: MUTED_CREAM,
+    fontSize: 6.9,
     lineHeight: 1.35,
   },
 
-  guidanceCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 15,
-    borderRadius: 12,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 10,
+  finalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
-  guidanceHeader: {
+  infoCard: {
+    width: "48.7%",
+    minHeight: 94,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  infoHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 7,
   },
 
-  guidanceIconBox: {
-    width: 29,
-    height: 29,
-    borderRadius: 14.5,
+  infoIconBox: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 9,
+    marginRight: 8,
   },
 
-  guidanceIcon: {
-    width: 17,
-    height: 17,
+  infoIcon: {
+    width: 18,
+    height: 18,
     objectFit: "contain",
   },
 
-  guidanceHeading: {
+  infoHeading: {
     flex: 1,
   },
 
-  guidanceLabel: {
+  infoLabel: {
     color: SOFT_TEXT,
-    fontSize: 6.7,
-    letterSpacing: 1.1,
+    fontSize: 6.3,
+    letterSpacing: 1,
     textTransform: "uppercase",
     marginBottom: 3,
   },
 
-  guidanceTitle: {
+  infoTitle: {
     color: GOLD,
-    fontSize: 9.8,
-    lineHeight: 1.3,
+    fontSize: 8.8,
+    lineHeight: 1.25,
   },
 
-  guidanceText: {
+  infoText: {
     color: MUTED_CREAM,
-    fontSize: 8,
-    lineHeight: 1.45,
+    fontSize: 7.1,
+    lineHeight: 1.4,
   },
 
-  bottomCard: {
-    paddingVertical: 11,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    borderTopWidth: 1.4,
-    borderTopColor: GOLD,
-    backgroundColor: NAVY_CARD,
+  identityLine: {
+    color: CREAM,
+    fontSize: 7.5,
+    lineHeight: 1.4,
+    marginBottom: 3,
   },
 
-  bottomRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  bottomIconBox: {
-    width: 27,
-    height: 27,
-    borderRadius: 13.5,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_SOFT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 9,
-  },
-
-  bottomIcon: {
-    width: 15,
-    height: 15,
-    objectFit: "contain",
-  },
-
-  bottomText: {
-    flex: 1,
-    color: MUTED_CREAM,
-    fontSize: 7.9,
-    lineHeight: 1.45,
+  identityStrong: {
+    color: GOLD,
   },
 });
 
@@ -442,14 +490,11 @@ export default function HoroscopeWelcome({
 }: HoroscopeSectionProps) {
   const firstName = getHoroscopeFirstName(identity.firstName);
   const periodLabel = formatHoroscopePeriodLabel(period);
-  const zodiacIconUrl = getHoroscopeZodiacIconUrl(
-    identity.zodiacSign,
-  );
+  const zodiacIconUrl = getHoroscopeZodiacIconUrl(identity.zodiacSign);
 
-  const welcomeIntroduction =
-    identity.firstName
-      ? `${firstName}, ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.`
-      : "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.";
+  const welcomeIntroduction = identity.firstName
+    ? `${firstName}, ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.`
+    : "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.";
 
   const welcomeText =
     content.welcomeText ||
@@ -459,214 +504,184 @@ export default function HoroscopeWelcome({
     content.openingQuote ||
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.";
 
-  const reportTitle =
-    content.reportTitle || "Horoscope personnalisé";
+  const reportTitle = content.reportTitle || "Horoscope personnalisé";
+
+  const discoveryItems = [
+    {
+      title: "Énergie",
+      text: "Comprendre votre rythme, votre vitalité et les moments les plus porteurs.",
+      icon: WELCOME_ICONS.energy,
+    },
+    {
+      title: "Amour",
+      text: "Décoder les émotions, les échanges et les mouvements de votre vie affective.",
+      icon: WELCOME_ICONS.love,
+    },
+    {
+      title: "Finances",
+      text: "Identifier les décisions, les occasions et les points de vigilance matériels.",
+      icon: WELCOME_ICONS.money,
+    },
+    {
+      title: "Carrière",
+      text: "Éclairer vos ambitions, vos choix professionnels et votre progression.",
+      icon: WELCOME_ICONS.career,
+    },
+  ];
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <HoroscopeStarBackground />
+      <View style={styles.backgroundOrbitOne} />
+      <View style={styles.backgroundOrbitTwo} />
 
       <View style={styles.content}>
         <View style={styles.header}>
-          <Image
-            src={HOROSCOPE_LOGO_URL}
-            style={styles.logo}
-          />
+          <Image src={HOROSCOPE_LOGO_URL} style={styles.logo} />
 
           <View style={styles.signBadge}>
-            <Image
-              src={zodiacIconUrl}
-              style={styles.signIcon}
-            />
+            <Image src={zodiacIconUrl} style={styles.signIcon} />
 
-            <Text style={styles.signName}>
-              {identity.zodiacSignLabel}
-            </Text>
+            <Text style={styles.signName}>{identity.zodiacSignLabel}</Text>
           </View>
         </View>
 
         <View style={styles.titleBlock}>
-          <Text style={styles.eyebrow}>
-            Votre horoscope personnalisé
-          </Text>
+          <Text style={styles.eyebrow}>Votre horoscope personnalisé</Text>
 
           <Text style={styles.title}>
-            Bienvenue dans votre{"\n"}guidance astrologique
+            Bienvenue dans votre guidance astrologique
           </Text>
 
-          <Text style={styles.intro}>
-            {welcomeIntroduction}
-          </Text>
+          <Text style={styles.intro}>{welcomeIntroduction}</Text>
 
           <View style={styles.titleDecoration}>
             <View style={styles.titleLine} />
 
-            <Image
-              src={zodiacIconUrl}
-              style={styles.titleIcon}
-            />
+            <Image src={WELCOME_ICONS.guidance} style={styles.titleIcon} />
 
             <View style={styles.titleLineSmall} />
           </View>
         </View>
 
-        <View style={styles.mainCard} wrap={false}>
-          <View style={styles.mainHeader}>
-            <View style={styles.mainIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.mainIcon}
-              />
+        <View style={styles.heroCard}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
+
+          <Image src={WELCOME_ICONS.guidance} style={styles.heroWatermark} />
+
+          <View style={styles.heroHeader}>
+            <View style={styles.heroIconOuter}>
+              <View style={styles.heroIconInner}>
+                <Image src={WELCOME_ICONS.guidance} style={styles.heroIcon} />
+              </View>
             </View>
 
-            <View style={styles.mainHeading}>
-              <Text style={styles.cardLabel}>
-                Votre message d’introduction
-              </Text>
+            <View style={styles.heroHeading}>
+              <Text style={styles.heroLabel}>Votre point de départ</Text>
 
-              <Text style={styles.cardTitle}>
-                Une guidance pensée pour votre période
+              <Text style={styles.heroTitle}>
+                Une lecture conçue pour vous orienter avec clarté
               </Text>
             </View>
           </View>
 
-          <View style={styles.mainDivider}>
-            <View style={styles.dividerLine} />
+          <View style={styles.heroDivider}>
+            <View style={styles.heroDividerLine} />
 
             <Image
-              src={zodiacIconUrl}
-              style={styles.dividerIcon}
+              src={WELCOME_ICONS.guidance}
+              style={styles.heroDividerIcon}
             />
           </View>
 
-          <Text style={styles.welcomeText}>
-            {welcomeText}
-          </Text>
+          <Text style={styles.heroText}>{welcomeText}</Text>
         </View>
 
-        <View style={styles.quoteCard} wrap={false}>
-          <View style={styles.quoteHeader}>
-            <View style={styles.quoteLine} />
+        <View style={styles.quoteCard}>
+          <Image src={WELCOME_ICONS.quote} style={styles.quoteIcon} />
 
-            <Image
-              src={zodiacIconUrl}
-              style={styles.quoteIcon}
-            />
-
-            <View style={styles.quoteLine} />
-          </View>
-
-          <Text style={styles.quote}>
-            « {openingQuote} »
-          </Text>
+          <Text style={styles.quoteText}>« {openingQuote} »</Text>
         </View>
 
-        <View style={styles.detailsHeader}>
-          <View style={styles.detailsHeaderLine} />
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={zodiacIconUrl}
-            style={styles.detailsHeaderIcon}
+            src={WELCOME_ICONS.guidance}
+            style={styles.sectionHeaderIcon}
           />
 
-          <Text style={styles.detailsHeaderTitle}>
-            Votre rapport
+          <Text style={styles.sectionHeaderTitle}>
+            Ce que vous allez découvrir
           </Text>
         </View>
 
-        <View style={styles.detailsRow} wrap={false}>
-          <View style={styles.detailCard}>
-            <View style={styles.detailIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.detailIcon}
-              />
+        <View style={styles.discoveryGrid}>
+          {discoveryItems.map((item) => (
+            <View key={item.title} style={styles.discoveryCard}>
+              <View style={styles.discoveryTopRow}>
+                <View style={styles.discoveryIconBox}>
+                  <Image src={item.icon} style={styles.discoveryIcon} />
+                </View>
+
+                <Text style={styles.discoveryTitle}>{item.title}</Text>
+              </View>
+
+              <Text style={styles.discoveryText}>{item.text}</Text>
             </View>
-
-            <Text style={styles.detailLabel}>
-              Signe astrologique
-            </Text>
-
-            <Text style={styles.detailValue}>
-              {identity.zodiacSignLabel}
-            </Text>
-          </View>
-
-          <View style={styles.detailCard}>
-            <View style={styles.detailIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.detailIcon}
-              />
-            </View>
-
-            <Text style={styles.detailLabel}>
-              Période analysée
-            </Text>
-
-            <Text style={styles.detailValue}>
-              {periodLabel}
-            </Text>
-          </View>
-
-          <View style={styles.detailCard}>
-            <View style={styles.detailIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.detailIcon}
-              />
-            </View>
-
-            <Text style={styles.detailLabel}>
-              Rapport
-            </Text>
-
-            <Text style={styles.detailValue}>
-              {reportTitle}
-            </Text>
-          </View>
+          ))}
         </View>
 
-        <View style={styles.guidanceCard} wrap={false}>
-          <View style={styles.guidanceHeader}>
-            <View style={styles.guidanceIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.guidanceIcon}
-              />
+        <View style={styles.finalRow}>
+          <View style={styles.infoCard}>
+            <View style={styles.infoHeader}>
+              <View style={styles.infoIconBox}>
+                <Image src={WELCOME_ICONS.guidance} style={styles.infoIcon} />
+              </View>
+
+              <View style={styles.infoHeading}>
+                <Text style={styles.infoLabel}>Comment le lire</Text>
+
+                <Text style={styles.infoTitle}>
+                  Une boussole, jamais une obligation
+                </Text>
+              </View>
             </View>
 
-            <View style={styles.guidanceHeading}>
-              <Text style={styles.guidanceLabel}>
-                Comment lire votre horoscope
-              </Text>
-
-              <Text style={styles.guidanceTitle}>
-                Une boussole, jamais une obligation
-              </Text>
-            </View>
+            <Text style={styles.infoText}>
+              Les tendances décrites vous invitent à observer, réfléchir et
+              choisir. Elles ne remplacent jamais votre intuition, votre
+              jugement ni votre libre arbitre.
+            </Text>
           </View>
 
-          <Text style={styles.guidanceText}>
-            Les tendances décrites dans ce rapport vous invitent
-            à observer, réfléchir et choisir. Elles ne remplacent
-            jamais votre intuition, votre jugement ni votre libre arbitre.
-          </Text>
-        </View>
+          <View style={styles.infoCard}>
+            <View style={styles.infoHeader}>
+              <View style={styles.infoIconBox}>
+                <Image src={WELCOME_ICONS.wellbeing} style={styles.infoIcon} />
+              </View>
 
-        <View style={styles.bottomCard} wrap={false}>
-          <View style={styles.bottomRow}>
-            <View style={styles.bottomIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.bottomIcon}
-              />
+              <View style={styles.infoHeading}>
+                <Text style={styles.infoLabel}>Votre rapport</Text>
+
+                <Text style={styles.infoTitle}>Une lecture personnalisée</Text>
+              </View>
             </View>
 
-            <Text style={styles.bottomText}>
-              Prenez le temps de lire chaque section avec attention.
-              Votre horoscope met en lumière des tendances et des
-              possibilités, tout en vous laissant libre de vos décisions.
+            <Text style={styles.identityLine}>
+              Signe :{" "}
+              <Text style={styles.identityStrong}>
+                {identity.zodiacSignLabel}
+              </Text>
+            </Text>
+
+            <Text style={styles.identityLine}>
+              Période : <Text style={styles.identityStrong}>{periodLabel}</Text>
+            </Text>
+
+            <Text style={styles.identityLine}>
+              Rapport : <Text style={styles.identityStrong}>{reportTitle}</Text>
             </Text>
           </View>
         </View>
