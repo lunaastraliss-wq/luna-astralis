@@ -37,9 +37,9 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 36,
+    paddingHorizontal: 42,
+    paddingBottom: 54,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 20,
   },
 
   logo: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 21,
+    marginBottom: 10,
   },
 
   eyebrow: {
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 10,
   },
 
   titleDecoration: {
@@ -137,20 +137,21 @@ const styles = StyleSheet.create({
   },
 
   mainCard: {
-    paddingVertical: 21,
-    paddingHorizontal: 21,
+    minHeight: 196,
+    paddingVertical: 23,
+    paddingHorizontal: 22,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    marginBottom: 10,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   mainHeading: {
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   mainDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 13,
+    marginBottom: 10,
   },
 
   mainDividerLine: {
@@ -238,26 +239,27 @@ const styles = StyleSheet.create({
 
   introduction: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
-    marginBottom: 12,
+    fontSize: 9.7,
+    lineHeight: 1.62,
+    marginBottom: 10,
   },
 
   mainText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.75,
+    fontSize: 10.2,
+    lineHeight: 1.68,
     textAlign: "justify",
   },
 
   progressCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
+    minHeight: 55,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 19,
+    marginBottom: 16,
   },
 
   progressHeader: {
@@ -306,7 +308,7 @@ const styles = StyleSheet.create({
   highlightsHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   highlightsHeaderLine: {
@@ -334,15 +336,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 10,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 78,
-    paddingVertical: 13,
-    paddingHorizontal: 14,
-    marginBottom: 11,
+    minHeight: 92,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    marginBottom: 10,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -380,13 +382,14 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.5,
+    fontSize: 9,
+    lineHeight: 1.55,
   },
 
   adviceCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    minHeight: 86,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
@@ -428,12 +431,12 @@ const styles = StyleSheet.create({
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 9.7,
+    lineHeight: 1.62,
   },
 });
 
-export default function HoroscopeLove({
+export default function HoroscopeLove_v1({
   identity,
   period,
   content,
@@ -453,7 +456,7 @@ export default function HoroscopeLove({
     : [];
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
