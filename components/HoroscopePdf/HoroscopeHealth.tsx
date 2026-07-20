@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -33,18 +34,35 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const HEALTH_ICONS = {
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
+  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 34,
+    paddingTop: 33,
     paddingHorizontal: 42,
-    paddingBottom: 50,
+    paddingBottom: 53,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -52,11 +70,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 13,
   },
 
   logo: {
-    width: 106,
+    width: 108,
     height: 38,
     objectFit: "contain",
   },
@@ -87,28 +105,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 16,
+    marginBottom: 11,
   },
 
   eyebrow: {
     color: GOLD,
     fontSize: 9,
-    letterSpacing: 2.4,
+    letterSpacing: 2.35,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
     fontSize: 24,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 10,
+    fontSize: 9.6,
+    marginBottom: 8,
   },
 
   titleDecoration: {
@@ -117,76 +135,76 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 60,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 14,
-    height: 14,
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+  heroCard: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 145,
+    paddingVertical: 16,
+    paddingHorizontal: 17,
+    marginBottom: 11,
     borderRadius: 14,
-    borderWidth: 0.8,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    minHeight: 184,
-    marginBottom: 14,
+    overflow: "hidden",
   },
 
-  mainHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
+  heroOrbitOne: {
+    position: "absolute",
+    top: -60,
+    left: -56,
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  mainHeading: {
-    flex: 1,
-    paddingRight: 16,
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -25,
+    left: -23,
+    width: 108,
+    height: 108,
+    borderRadius: 54,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
   },
 
-  mainMiniLabel: {
-    color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    marginBottom: 6,
+  heroGlow: {
+    position: "absolute",
+    right: -34,
+    top: -32,
+    width: 112,
+    height: 112,
+    borderRadius: 56,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  sectionTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  sectionTitleIcon: {
-    width: 17,
-    height: 17,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  sectionTitle: {
-    flex: 1,
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
-  },
-
-  scoreOuterCircle: {
+  heroIconOuter: {
     width: 76,
     height: 76,
     borderRadius: 38,
@@ -194,13 +212,61 @@ const styles = StyleSheet.create({
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 15,
   },
 
-  scoreCircle: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
-    borderWidth: 1.1,
+  heroIconInner: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 0.9,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  heroIcon: {
+    width: 42,
+    height: 42,
+    objectFit: "contain",
+  },
+
+  heroContent: {
+    flex: 1,
+  },
+
+  heroTopRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+
+  heroHeading: {
+    flex: 1,
+    paddingRight: 10,
+  },
+
+  heroLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  heroTitle: {
+    color: GOLD,
+    fontSize: 12.4,
+    lineHeight: 1.35,
+  },
+
+  scoreBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -209,247 +275,345 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 21,
+    fontSize: 15,
+    lineHeight: 1,
   },
 
   scoreMaximum: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    marginTop: 1,
+    fontSize: 6.2,
+    marginTop: 2,
   },
 
-  mainDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  mainDividerLine: {
-    width: 31,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  mainDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
-  },
-
-  introduction: {
+  heroIntroduction: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
-    marginBottom: 10,
+    fontSize: 8.2,
+    lineHeight: 1.45,
+    marginBottom: 6,
   },
 
-  mainText: {
+  heroText: {
     color: CREAM,
-    fontSize: 10.5,
-    lineHeight: 1.75,
+    fontSize: 8.5,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
 
-  progressCard: {
-    paddingVertical: 14,
-    paddingHorizontal: 19,
-    borderRadius: 12,
-    borderWidth: 0.6,
+  wellnessCard: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 14,
+    backgroundColor: NAVY_SOFT,
   },
 
-  progressHeader: {
+  wellnessHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
-  progressLabelRow: {
+  wellnessLeft: {
     flexDirection: "row",
     alignItems: "center",
   },
 
-  progressIcon: {
-    width: 13,
-    height: 13,
+  wellnessIcon: {
+    width: 16,
+    height: 16,
     objectFit: "contain",
     marginRight: 7,
   },
 
-  progressLabel: {
+  wellnessLabel: {
     color: CREAM,
-    fontSize: 9,
+    fontSize: 8.6,
   },
 
-  progressValue: {
+  wellnessValue: {
     color: GOLD,
     fontSize: 9,
   },
 
   progressTrack: {
     width: "100%",
-    height: 9,
-    borderRadius: 4.5,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 9,
-    borderRadius: 4.5,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: GOLD,
   },
 
-  highlightsHeader: {
+  balanceRow: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  highlightsHeaderLine: {
-    width: 24,
-    height: 1,
-    backgroundColor: GOLD,
-    marginRight: 8,
-  },
-
-  highlightsHeaderIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  highlightsTitle: {
-    color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
-    textTransform: "uppercase",
-  },
-
-  highlightsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "space-between",
     marginBottom: 10,
   },
 
-  highlightCard: {
+  balanceCard: {
     width: "48.5%",
-    minHeight: 88,
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    marginBottom: 10,
+    minHeight: 76,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  balanceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  balanceIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
+  balanceTitle: {
+    color: GOLD,
+    fontSize: 8.4,
+  },
+
+  balanceText: {
+    color: MUTED_CREAM,
+    fontSize: 7.2,
+    lineHeight: 1.4,
+  },
+
+  sectionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  sectionHeaderLine: {
+    width: 28,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 9,
+  },
+
+  sectionHeaderIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 9,
+  },
+
+  sectionLabel: {
+    color: GOLD,
+    fontSize: 9.2,
+    letterSpacing: 1.4,
+    textTransform: "uppercase",
+  },
+
+  healthPath: {
+    marginBottom: 9,
+  },
+
+  healthRow: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    marginBottom: 7,
+  },
+
+  healthRail: {
+    width: 48,
+    alignItems: "center",
+  },
+
+  healthCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  healthPointIcon: {
+    width: 22,
+    height: 22,
+    objectFit: "contain",
+  },
+
+  healthLine: {
+    flex: 1,
+    width: 1,
+    backgroundColor: DARK_GOLD,
+    marginTop: 4,
+  },
+
+  healthPointCard: {
+    flex: 1,
+    paddingVertical: 9,
+    paddingHorizontal: 12,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  highlightTopRow: {
+  healthPointTop: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    justifyContent: "space-between",
+    marginBottom: 5,
   },
 
-  highlightNumberCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
+  healthPointLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.2,
+    letterSpacing: 1,
+    textTransform: "uppercase",
+  },
+
+  healthPointNumber: {
+    color: GOLD,
+    fontSize: 7,
+    letterSpacing: 0.8,
+  },
+
+  healthPointText: {
+    color: CREAM,
+    fontSize: 8.1,
+    lineHeight: 1.42,
+  },
+
+  routineRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 9,
+  },
+
+  routineCard: {
+    width: "31.5%",
+    minHeight: 67,
+    paddingVertical: 9,
+    paddingHorizontal: 9,
+    borderRadius: 9,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  routineHeader: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8,
+    marginBottom: 5,
   },
 
-  highlightNumber: {
+  routineIcon: {
+    width: 15,
+    height: 15,
+    objectFit: "contain",
+    marginRight: 6,
+  },
+
+  routineTitle: {
     color: GOLD,
     fontSize: 8,
   },
 
-  highlightIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-  },
-
-  highlightText: {
-    color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.55,
+  routineText: {
+    color: MUTED_CREAM,
+    fontSize: 6.8,
+    lineHeight: 1.34,
   },
 
   adviceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
-    borderRadius: 12,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    minHeight: 72,
-  },
-
-  adviceHeader: {
+    position: "relative",
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    minHeight: 80,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderTopWidth: 1.4,
+    borderTopColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
     marginBottom: 8,
   },
 
-  adviceIconBox: {
-    width: 27,
-    height: 27,
-    borderRadius: 13.5,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_SOFT,
+  adviceWatermark: {
+    position: "absolute",
+    right: 14,
+    top: 7,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.06,
+  },
+
+  adviceIconCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 9,
+    marginRight: 11,
   },
 
   adviceIcon: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
     objectFit: "contain",
+  },
+
+  adviceContent: {
+    flex: 1,
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 8,
-    letterSpacing: 1.4,
+    fontSize: 7,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
+    marginBottom: 5,
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 8.7,
+    lineHeight: 1.5,
   },
 
   disclaimerCard: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 10,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 9,
     borderWidth: 0.4,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
   disclaimerIcon: {
-    width: 11,
-    height: 11,
+    width: 12,
+    height: 12,
     objectFit: "contain",
     marginRight: 7,
   },
@@ -457,11 +621,58 @@ const styles = StyleSheet.create({
   disclaimer: {
     flex: 1,
     color: SOFT_TEXT,
-    fontSize: 7,
-    lineHeight: 1.4,
+    fontSize: 6.8,
+    lineHeight: 1.35,
     textAlign: "center",
   },
 });
+
+type HealthPointProps = {
+  text: string;
+  icon: string;
+  index: number;
+  isLast: boolean;
+};
+
+function HealthPoint({
+  text,
+  icon,
+  index,
+  isLast,
+}: HealthPointProps) {
+  return (
+    <View style={styles.healthRow} wrap={false}>
+      <View style={styles.healthRail}>
+        <View style={styles.healthCircle}>
+          <Image
+            src={icon}
+            style={styles.healthPointIcon}
+          />
+        </View>
+
+        {!isLast ? (
+          <View style={styles.healthLine} />
+        ) : null}
+      </View>
+
+      <View style={styles.healthPointCard}>
+        <View style={styles.healthPointTop}>
+          <Text style={styles.healthPointLabel}>
+            Point d’équilibre
+          </Text>
+
+          <Text style={styles.healthPointNumber}>
+            {String(index + 1).padStart(2, "0")}
+          </Text>
+        </View>
+
+        <Text style={styles.healthPointText}>
+          {text}
+        </Text>
+      </View>
+    </View>
+  );
+}
 
 export default function HoroscopeHealth({
   identity,
@@ -482,8 +693,38 @@ export default function HoroscopeHealth({
     ? content.health.highlights.slice(0, 4)
     : [];
 
+  const healthIcons = [
+    HEALTH_ICONS.innerWorld,
+    HEALTH_ICONS.sun,
+    HEALTH_ICONS.moon,
+    HEALTH_ICONS.fourElements,
+  ];
+
+  const routineCards = [
+    {
+      title: "Respirer",
+      text:
+        "Ralentissez quelques instants afin de diminuer la tension et de retrouver un rythme plus naturel.",
+      icon: HEALTH_ICONS.innerWorld,
+    },
+    {
+      title: "Bouger",
+      text:
+        "Un mouvement doux et régulier aide à relancer l’énergie sans vous demander un effort excessif.",
+      icon: HEALTH_ICONS.sun,
+    },
+    {
+      title: "Récupérer",
+      text:
+        "Accordez une vraie place au repos afin que le corps et l’esprit puissent se rééquilibrer.",
+      icon: HEALTH_ICONS.moon,
+    },
+  ];
+
   return (
     <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -520,7 +761,7 @@ export default function HoroscopeHealth({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={HEALTH_ICONS.innerWorld}
               style={styles.titleIcon}
             />
 
@@ -528,27 +769,33 @@ export default function HoroscopeHealth({
           </View>
         </View>
 
-        <View style={styles.mainCard} wrap={false}>
-          <View style={styles.mainHeader}>
-            <View style={styles.mainHeading}>
-              <Text style={styles.mainMiniLabel}>
-                Équilibre de la période
-              </Text>
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
+          <View style={styles.heroGlow} />
 
-              <View style={styles.sectionTitleRow}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.sectionTitleIcon}
-                />
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
+              <Image
+                src={HEALTH_ICONS.innerWorld}
+                style={styles.heroIcon}
+              />
+            </View>
+          </View>
 
-                <Text style={styles.sectionTitle}>
+          <View style={styles.heroContent}>
+            <View style={styles.heroTopRow}>
+              <View style={styles.heroHeading}>
+                <Text style={styles.heroLabel}>
+                  Équilibre de la période
+                </Text>
+
+                <Text style={styles.heroTitle}>
                   {content.health.title}
                 </Text>
               </View>
-            </View>
 
-            <View style={styles.scoreOuterCircle}>
-              <View style={styles.scoreCircle}>
+              <View style={styles.scoreBadge}>
                 <Text style={styles.scoreValue}>
                   {healthScore}
                 </Text>
@@ -558,42 +805,33 @@ export default function HoroscopeHealth({
                 </Text>
               </View>
             </View>
-          </View>
 
-          <View style={styles.mainDivider}>
-            <View style={styles.mainDividerLine} />
+            {content.health.introduction ? (
+              <Text style={styles.heroIntroduction}>
+                {content.health.introduction}
+              </Text>
+            ) : null}
 
-            <Image
-              src={zodiacIconUrl}
-              style={styles.mainDividerIcon}
-            />
-          </View>
-
-          {content.health.introduction ? (
-            <Text style={styles.introduction}>
-              {content.health.introduction}
+            <Text style={styles.heroText}>
+              {content.health.text}
             </Text>
-          ) : null}
-
-          <Text style={styles.mainText}>
-            {content.health.text}
-          </Text>
+          </View>
         </View>
 
-        <View style={styles.progressCard} wrap={false}>
-          <View style={styles.progressHeader}>
-            <View style={styles.progressLabelRow}>
+        <View style={styles.wellnessCard} wrap={false}>
+          <View style={styles.wellnessHeader}>
+            <View style={styles.wellnessLeft}>
               <Image
-                src={zodiacIconUrl}
-                style={styles.progressIcon}
+                src={HEALTH_ICONS.fourElements}
+                style={styles.wellnessIcon}
               />
 
-              <Text style={styles.progressLabel}>
+              <Text style={styles.wellnessLabel}>
                 Niveau de bien-être
               </Text>
             </View>
 
-            <Text style={styles.progressValue}>
+            <Text style={styles.wellnessValue}>
               {healthScore} %
             </Text>
           </View>
@@ -610,80 +848,133 @@ export default function HoroscopeHealth({
           </View>
         </View>
 
-        {highlights.length > 0 ? (
-          <>
-            <View style={styles.highlightsHeader}>
-              <View style={styles.highlightsHeaderLine} />
-
+        <View style={styles.balanceRow}>
+          <View style={styles.balanceCard} wrap={false}>
+            <View style={styles.balanceHeader}>
               <Image
-                src={zodiacIconUrl}
-                style={styles.highlightsHeaderIcon}
+                src={HEALTH_ICONS.sun}
+                style={styles.balanceIcon}
               />
 
-              <Text style={styles.highlightsTitle}>
-                Points d’équilibre
+              <Text style={styles.balanceTitle}>
+                Énergie physique
               </Text>
             </View>
 
-            <View style={styles.highlightsGrid}>
+            <Text style={styles.balanceText}>
+              Respectez votre rythme corporel et privilégiez une progression régulière plutôt qu’un effort trop intense ou irrégulier.
+            </Text>
+          </View>
+
+          <View style={styles.balanceCard} wrap={false}>
+            <View style={styles.balanceHeader}>
+              <Image
+                src={HEALTH_ICONS.moon}
+                style={styles.balanceIcon}
+              />
+
+              <Text style={styles.balanceTitle}>
+                Équilibre émotionnel
+              </Text>
+            </View>
+
+            <Text style={styles.balanceText}>
+              Protégez votre espace intérieur et accordez-vous des moments de calme lorsque les émotions deviennent plus lourdes.
+            </Text>
+          </View>
+        </View>
+
+        {highlights.length > 0 ? (
+          <>
+            <View style={styles.sectionHeaderRow}>
+              <View style={styles.sectionHeaderLine} />
+
+              <Image
+                src={HEALTH_ICONS.fourElements}
+                style={styles.sectionHeaderIcon}
+              />
+
+              <Text style={styles.sectionLabel}>
+                Les points d’équilibre
+              </Text>
+            </View>
+
+            <View style={styles.healthPath}>
               {highlights.map((highlight, index) => (
-                <View
+                <HealthPoint
                   key={`${highlight}-${index}`}
-                  style={styles.highlightCard}
-                  wrap={false}
-                >
-                  <View style={styles.highlightTopRow}>
-                    <View style={styles.highlightNumberCircle}>
-                      <Text style={styles.highlightNumber}>
-                        0{index + 1}
-                      </Text>
-                    </View>
-
-                    <Image
-                      src={zodiacIconUrl}
-                      style={styles.highlightIcon}
-                    />
-                  </View>
-
-                  <Text style={styles.highlightText}>
-                    {highlight}
-                  </Text>
-                </View>
+                  text={highlight}
+                  icon={
+                    healthIcons[index] ||
+                    HEALTH_ICONS.innerWorld
+                  }
+                  index={index}
+                  isLast={index === highlights.length - 1}
+                />
               ))}
             </View>
           </>
         ) : null}
 
-        {content.health.advice ? (
-          <View style={styles.adviceCard} wrap={false}>
-            <View style={styles.adviceHeader}>
-              <View style={styles.adviceIconBox}>
+        <View style={styles.routineRow}>
+          {routineCards.map((item) => (
+            <View
+              key={item.title}
+              style={styles.routineCard}
+              wrap={false}
+            >
+              <View style={styles.routineHeader}>
                 <Image
-                  src={zodiacIconUrl}
-                  style={styles.adviceIcon}
+                  src={item.icon}
+                  style={styles.routineIcon}
                 />
+
+                <Text style={styles.routineTitle}>
+                  {item.title}
+                </Text>
               </View>
 
+              <Text style={styles.routineText}>
+                {item.text}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        {content.health.advice ? (
+          <View style={styles.adviceCard} wrap={false}>
+            <Image
+              src={HEALTH_ICONS.integrationGuide}
+              style={styles.adviceWatermark}
+            />
+
+            <View style={styles.adviceIconCircle}>
+              <Image
+                src={HEALTH_ICONS.integrationGuide}
+                style={styles.adviceIcon}
+              />
+            </View>
+
+            <View style={styles.adviceContent}>
               <Text style={styles.adviceLabel}>
                 Conseil bien-être
               </Text>
-            </View>
 
-            <Text style={styles.adviceText}>
-              {content.health.advice}
-            </Text>
+              <Text style={styles.adviceText}>
+                {content.health.advice}
+              </Text>
+            </View>
           </View>
         ) : null}
 
         <View style={styles.disclaimerCard} wrap={false}>
           <Image
-            src={zodiacIconUrl}
+            src={HEALTH_ICONS.integrationGuide}
             style={styles.disclaimerIcon}
           />
 
           <Text style={styles.disclaimer}>
-            Cette section présente une lecture astrologique du
-            bien-être et ne remplace pas un avis médical.
+            Cette section présente une lecture astrologique du bien-être et ne remplace pas un avis médical.
           </Text>
         </View>
       </View>
