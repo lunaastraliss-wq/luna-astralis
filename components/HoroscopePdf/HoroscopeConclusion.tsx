@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -43,6 +44,8 @@ const styles = StyleSheet.create({
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 22,
   },
 
   logo: {
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 22,
+    marginBottom: 18,
   },
 
   eyebrow: {
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
   title: {
     color: CREAM,
     fontSize: 26,
-    lineHeight: 1.2,
+    lineHeight: 1.18,
     marginBottom: 8,
   },
 
@@ -134,188 +137,214 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GOLD,
   },
 
-  conclusionCard: {
-    paddingVertical: 23,
-    paddingHorizontal: 23,
+  heroCard: {
+    position: "relative",
+    paddingVertical: 21,
+    paddingHorizontal: 21,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    marginBottom: 14,
+    overflow: "hidden",
   },
 
-  conclusionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 13,
+  heroAccent: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 4,
+    height: "100%",
+    backgroundColor: GOLD,
   },
 
-  conclusionHeaderIconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 0.7,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
-  },
-
-  conclusionHeaderIcon: {
-    width: 22,
-    height: 22,
-    objectFit: "contain",
-  },
-
-  conclusionHeading: {
-    flex: 1,
-  },
-
-  conclusionMiniLabel: {
-    color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    marginBottom: 5,
-  },
-
-  conclusionTitle: {
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
-  },
-
-  conclusionDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 13,
-  },
-
-  conclusionDividerLine: {
-    width: 30,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  conclusionDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
-  },
-
-  conclusionText: {
-    color: CREAM,
-    fontSize: 10,
-    lineHeight: 1.75,
-    textAlign: "justify",
-  },
-
-  messageCard: {
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 18,
-  },
-
-  messageHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 9,
-  },
-
-  messageIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  messageLabel: {
-    color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 1.4,
-    textTransform: "uppercase",
-  },
-
-  messageText: {
-    color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.65,
-  },
-
-  freeWillCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
-    borderRadius: 12,
-    borderWidth: 0.7,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 18,
-  },
-
-  freeWillHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-
-  freeWillIconBox: {
-    width: 27,
-    height: 27,
-    borderRadius: 13.5,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_SOFT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 9,
-  },
-
-  freeWillIcon: {
-    width: 16,
-    height: 16,
-    objectFit: "contain",
-  },
-
-  freeWillTitle: {
-    color: GOLD,
-    fontSize: 10,
-  },
-
-  freeWillText: {
-    color: MUTED_CREAM,
-    fontSize: 8.7,
-    lineHeight: 1.6,
-  },
-
-  thanksSection: {
-    alignItems: "center",
-    paddingTop: 15,
-  },
-
-  thanksDecoration: {
+  heroHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
   },
 
-  thanksLine: {
+  heroIconOuter: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+  },
+
+  heroIconInner: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  heroIcon: {
+    width: 24,
+    height: 24,
+    objectFit: "contain",
+  },
+
+  heroHeading: {
+    flex: 1,
+  },
+
+  heroLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  heroTitle: {
+    color: GOLD,
+    fontSize: 13,
+    lineHeight: 1.35,
+  },
+
+  heroDivider: {
     width: 42,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+    marginBottom: 11,
+  },
+
+  heroText: {
+    color: CREAM,
+    fontSize: 9.7,
+    lineHeight: 1.62,
+    textAlign: "justify",
+  },
+
+  twoColumnRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 14,
+  },
+
+  insightCard: {
+    width: "48.5%",
+    minHeight: 122,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  insightHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 9,
+  },
+
+  insightIconBox: {
+    width: 29,
+    height: 29,
+    borderRadius: 14.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+
+  insightIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+  },
+
+  insightTitle: {
+    flex: 1,
+    color: GOLD,
+    fontSize: 9.5,
+    lineHeight: 1.3,
+  },
+
+  insightText: {
+    color: MUTED_CREAM,
+    fontSize: 7.9,
+    lineHeight: 1.48,
+  },
+
+  finalMessageCard: {
+    paddingVertical: 15,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderTopWidth: 1.4,
+    borderTopColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    marginBottom: 14,
+  },
+
+  finalMessageHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  finalMessageIcon: {
+    width: 15,
+    height: 15,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  finalMessageLabel: {
+    color: GOLD,
+    fontSize: 7.5,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+  },
+
+  finalMessageText: {
+    color: CREAM,
+    fontSize: 9,
+    lineHeight: 1.55,
+  },
+
+  thanksCard: {
+    flex: 1,
+    minHeight: 230,
+    paddingVertical: 20,
+    paddingHorizontal: 24,
+    borderRadius: 14,
+    borderWidth: 0.8,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  thanksDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 14,
+  },
+
+  thanksLine: {
+    width: 48,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
   zodiacIconOuter: {
-    width: 78,
-    height: 78,
-    borderRadius: 39,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -324,47 +353,57 @@ const styles = StyleSheet.create({
   },
 
   zodiacIconInner: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     borderWidth: 0.9,
     borderColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
+    backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
   },
 
   zodiacIcon: {
-    width: 48,
-    height: 48,
+    width: 44,
+    height: 44,
     objectFit: "contain",
   },
 
   thankYouTitle: {
     color: GOLD,
-    fontSize: 16,
-    marginBottom: 9,
+    fontSize: 17,
+    marginBottom: 8,
     textAlign: "center",
   },
 
-  thankYouText: {
+  thankYouSubtitle: {
     color: CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 10,
+    lineHeight: 1.5,
     textAlign: "center",
     maxWidth: 390,
-    marginBottom: 17,
+    marginBottom: 13,
+  },
+
+  thankYouText: {
+    color: MUTED_CREAM,
+    fontSize: 8.2,
+    lineHeight: 1.48,
+    textAlign: "center",
+    maxWidth: 410,
+    marginBottom: 16,
   },
 
   websiteCard: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 11,
-    paddingHorizontal: 22,
+    paddingVertical: 10,
+    paddingHorizontal: 21,
     borderRadius: 20,
     borderWidth: 0.8,
     borderColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
+    backgroundColor: NAVY_CARD,
+    marginBottom: 10,
   },
 
   websiteIcon: {
@@ -382,8 +421,7 @@ const styles = StyleSheet.create({
 
   signature: {
     color: SOFT_TEXT,
-    fontSize: 8,
-    marginTop: 13,
+    fontSize: 7.8,
     textAlign: "center",
   },
 });
@@ -418,7 +456,9 @@ export default function HoroscopeConclusion({
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.";
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -463,82 +503,99 @@ export default function HoroscopeConclusion({
           </View>
         </View>
 
-        <View style={styles.conclusionCard} wrap={false}>
-          <View style={styles.conclusionHeader}>
-            <View style={styles.conclusionHeaderIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.conclusionHeaderIcon}
-              />
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroAccent} />
+
+          <View style={styles.heroHeader}>
+            <View style={styles.heroIconOuter}>
+              <View style={styles.heroIconInner}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.heroIcon}
+                />
+              </View>
             </View>
 
-            <View style={styles.conclusionHeading}>
-              <Text style={styles.conclusionMiniLabel}>
+            <View style={styles.heroHeading}>
+              <Text style={styles.heroLabel}>
                 Synthèse astrologique
               </Text>
 
-              <Text style={styles.conclusionTitle}>
+              <Text style={styles.heroTitle}>
                 {conclusionTitle}
               </Text>
             </View>
           </View>
 
-          <View style={styles.conclusionDivider}>
-            <View style={styles.conclusionDividerLine} />
+          <View style={styles.heroDivider} />
 
-            <Image
-              src={zodiacIconUrl}
-              style={styles.conclusionDividerIcon}
-            />
-          </View>
-
-          <Text style={styles.conclusionText}>
+          <Text style={styles.heroText}>
             {conclusionText}
           </Text>
         </View>
 
-        <View style={styles.messageCard} wrap={false}>
-          <View style={styles.messageHeader}>
+        <View style={styles.twoColumnRow}>
+          <View style={styles.insightCard} wrap={false}>
+            <View style={styles.insightHeader}>
+              <View style={styles.insightIconBox}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.insightIcon}
+                />
+              </View>
+
+              <Text style={styles.insightTitle}>
+                Ce que les astres révèlent
+              </Text>
+            </View>
+
+            <Text style={styles.insightText}>
+              Cette lecture met en lumière les tendances,
+              les forces et les ajustements possibles de votre période.
+              Elle vous aide à mieux comprendre ce qui se joue autour de vous.
+            </Text>
+          </View>
+
+          <View style={styles.insightCard} wrap={false}>
+            <View style={styles.insightHeader}>
+              <View style={styles.insightIconBox}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.insightIcon}
+                />
+              </View>
+
+              <Text style={styles.insightTitle}>
+                Ce qui vous appartient
+              </Text>
+            </View>
+
+            <Text style={styles.insightText}>
+              Vos décisions, votre intuition et votre expérience
+              restent au centre de votre parcours. Vous demeurez libre
+              de choisir la direction qui vous ressemble.
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.finalMessageCard} wrap={false}>
+          <View style={styles.finalMessageHeader}>
             <Image
               src={zodiacIconUrl}
-              style={styles.messageIcon}
+              style={styles.finalMessageIcon}
             />
 
-            <Text style={styles.messageLabel}>
+            <Text style={styles.finalMessageLabel}>
               Votre message de clôture
             </Text>
           </View>
 
-          <Text style={styles.messageText}>
+          <Text style={styles.finalMessageText}>
             {finalMessage}
           </Text>
         </View>
 
-        <View style={styles.freeWillCard} wrap={false}>
-          <View style={styles.freeWillHeader}>
-            <View style={styles.freeWillIconBox}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.freeWillIcon}
-              />
-            </View>
-
-            <Text style={styles.freeWillTitle}>
-              Votre libre arbitre reste essentiel
-            </Text>
-          </View>
-
-          <Text style={styles.freeWillText}>
-            Cet horoscope présente des tendances astrologiques et des
-            pistes de réflexion. Il ne constitue pas une prédiction
-            certaine et ne remplace pas votre jugement personnel,
-            professionnel, médical ou financier. Vous restez libre de
-            vos décisions et de la manière dont vous choisissez de
-            vivre cette période.
-          </Text>
-        </View>
-
-        <View style={styles.thanksSection} wrap={false}>
+        <View style={styles.thanksCard} wrap={false}>
           <View style={styles.thanksDecoration}>
             <View style={styles.thanksLine} />
 
@@ -560,10 +617,15 @@ export default function HoroscopeConclusion({
               : "Merci pour votre confiance"}
           </Text>
 
+          <Text style={styles.thankYouSubtitle}>
+            Que cette lecture vous apporte plus de clarté,
+            de confiance et d’inspiration.
+          </Text>
+
           <Text style={styles.thankYouText}>
             Merci d’avoir choisi Luna Astralis pour vous accompagner
-            dans cette lecture astrologique. Que cette période vous
-            apporte plus de clarté, de confiance et d’inspiration.
+            dans cette lecture astrologique. Gardez ce rapport près de vous
+            et revenez-y lorsque vous aurez besoin de retrouver votre direction.
           </Text>
 
           <View style={styles.websiteCard}>
