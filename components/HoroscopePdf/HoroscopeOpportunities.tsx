@@ -612,7 +612,7 @@ export default function HoroscopeOpportunities({
   const periodLabel = formatHoroscopePeriodLabel(period);
 
  const opportunityScore = normalizeHoroscopeScore(
-  content.scores.opportunities,
+  content.scores.career,
 );
 
 const opportunities = Array.isArray(content.opportunities)
