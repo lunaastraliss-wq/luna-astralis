@@ -11,7 +11,6 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
-import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -23,8 +22,10 @@ import {
   normalizeHoroscopeScore,
 } from "./HoroscopePdfUtils";
 
+const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
 const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
 
 const GOLD = "#F4C95D";
 const CREAM = "#FFF8E7";
@@ -38,13 +39,11 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 44,
     paddingBottom: 58,
-    backgroundColor: "#06101F",
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
-    position: "relative",
-    zIndex: 2,
     flex: 1,
   },
 
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 27,
+    marginBottom: 25,
   },
 
   logo: {
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 7,
-    paddingHorizontal: 11,
+    paddingHorizontal: 12,
     borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -86,6 +85,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  titleBlock: {
+    marginBottom: 22,
+  },
+
   eyebrow: {
     color: GOLD,
     fontSize: 9,
@@ -104,13 +107,40 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 22,
+    marginBottom: 13,
+  },
+
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  titleLine: {
+    width: 64,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  titleDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: GOLD,
+    marginRight: 5,
+  },
+
+  titleDotSmall: {
+    width: 2,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: DARK_GOLD,
   },
 
   mainCard: {
     paddingVertical: 23,
     paddingHorizontal: 23,
-    borderRadius: 10,
+    borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
@@ -124,17 +154,39 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
 
+  sectionHeading: {
+    maxWidth: "72%",
+  },
+
+  sectionMiniLabel: {
+    color: SOFT_TEXT,
+    fontSize: 7,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+
   sectionTitle: {
     color: GOLD,
     fontSize: 13,
-    maxWidth: "74%",
+    lineHeight: 1.4,
+  },
+
+  scoreCircleOuter: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    borderWidth: 0.5,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   scoreCircle: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
-    borderWidth: 1.2,
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -143,7 +195,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 19,
   },
 
   scoreMaximum: {
@@ -166,14 +218,18 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
 
-  progressSection: {
+  progressCard: {
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 11,
+    backgroundColor: NAVY_SOFT,
     marginBottom: 22,
   },
 
   progressHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: 9,
   },
 
   progressLabel: {
@@ -200,12 +256,24 @@ const styles = StyleSheet.create({
     backgroundColor: GOLD,
   },
 
+  sectionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  sectionHeaderLine: {
+    width: 22,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
   highlightsTitle: {
     color: GOLD,
     fontSize: 10,
     letterSpacing: 1.5,
     textTransform: "uppercase",
-    marginBottom: 12,
   },
 
   highlightsGrid: {
@@ -221,16 +289,28 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 14,
     marginBottom: 11,
-    borderRadius: 8,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
+  highlightTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
   highlightNumber: {
     color: GOLD,
     fontSize: 8,
-    marginBottom: 6,
+    marginRight: 7,
+  },
+
+  highlightAccent: {
+    width: 18,
+    height: 1,
+    backgroundColor: DARK_GOLD,
   },
 
   highlightText: {
@@ -242,9 +322,24 @@ const styles = StyleSheet.create({
   adviceCard: {
     paddingVertical: 17,
     paddingHorizontal: 19,
+    borderRadius: 11,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+  },
+
+  adviceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  adviceDot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: GOLD,
+    marginRight: 7,
   },
 
   adviceLabel: {
@@ -252,7 +347,6 @@ const styles = StyleSheet.create({
     fontSize: 8,
     letterSpacing: 1.4,
     textTransform: "uppercase",
-    marginBottom: 8,
   },
 
   adviceText: {
@@ -283,8 +377,6 @@ export default function HoroscopeCareer({
 
   return (
     <Page size="A4" style={styles.page}>
-      <HoroscopeStarBackground />
-
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -304,32 +396,48 @@ export default function HoroscopeCareer({
           </View>
         </View>
 
-        <Text style={styles.eyebrow}>
-          Travail et ambitions
-        </Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Travail et ambitions
+          </Text>
 
-        <Text style={styles.title}>
-          Votre évolution professionnelle
-        </Text>
+          <Text style={styles.title}>
+            Votre évolution professionnelle
+          </Text>
 
-        <Text style={styles.period}>
-          {periodLabel}
-        </Text>
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+            <View style={styles.titleDot} />
+            <View style={styles.titleDotSmall} />
+          </View>
+        </View>
 
         <View style={styles.mainCard} wrap={false}>
           <View style={styles.mainHeader}>
-            <Text style={styles.sectionTitle}>
-              {content.career.title}
-            </Text>
-
-            <View style={styles.scoreCircle}>
-              <Text style={styles.scoreValue}>
-                {careerScore}
+            <View style={styles.sectionHeading}>
+              <Text style={styles.sectionMiniLabel}>
+                Lecture professionnelle
               </Text>
 
-              <Text style={styles.scoreMaximum}>
-                sur 100
+              <Text style={styles.sectionTitle}>
+                {content.career.title}
               </Text>
+            </View>
+
+            <View style={styles.scoreCircleOuter}>
+              <View style={styles.scoreCircle}>
+                <Text style={styles.scoreValue}>
+                  {careerScore}
+                </Text>
+
+                <Text style={styles.scoreMaximum}>
+                  sur 100
+                </Text>
+              </View>
             </View>
           </View>
 
@@ -344,7 +452,7 @@ export default function HoroscopeCareer({
           </Text>
         </View>
 
-        <View style={styles.progressSection} wrap={false}>
+        <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
             <Text style={styles.progressLabel}>
               Potentiel professionnel
@@ -369,9 +477,13 @@ export default function HoroscopeCareer({
 
         {highlights.length > 0 ? (
           <>
-            <Text style={styles.highlightsTitle}>
-              Points à surveiller
-            </Text>
+            <View style={styles.sectionHeaderRow}>
+              <View style={styles.sectionHeaderLine} />
+
+              <Text style={styles.highlightsTitle}>
+                Points à surveiller
+              </Text>
+            </View>
 
             <View style={styles.highlightsGrid}>
               {highlights.map((highlight, index) => (
@@ -380,9 +492,13 @@ export default function HoroscopeCareer({
                   style={styles.highlightCard}
                   wrap={false}
                 >
-                  <Text style={styles.highlightNumber}>
-                    0{index + 1}
-                  </Text>
+                  <View style={styles.highlightTopRow}>
+                    <Text style={styles.highlightNumber}>
+                      0{index + 1}
+                    </Text>
+
+                    <View style={styles.highlightAccent} />
+                  </View>
 
                   <Text style={styles.highlightText}>
                     {highlight}
@@ -395,9 +511,13 @@ export default function HoroscopeCareer({
 
         {content.career.advice ? (
           <View style={styles.adviceCard} wrap={false}>
-            <Text style={styles.adviceLabel}>
-              Conseil professionnel
-            </Text>
+            <View style={styles.adviceHeader}>
+              <View style={styles.adviceDot} />
+
+              <Text style={styles.adviceLabel}>
+                Conseil professionnel
+              </Text>
+            </View>
 
             <Text style={styles.adviceText}>
               {content.career.advice}
