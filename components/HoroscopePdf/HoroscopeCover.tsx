@@ -10,7 +10,6 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
-import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeCoverProps,
@@ -171,7 +170,7 @@ export default function HoroscopeCover({
 
   return (
     <Page size="A4" style={styles.page}>
-      <HoroscopeStarBackground />
+      
 
       <View style={styles.content}>
         <Image
