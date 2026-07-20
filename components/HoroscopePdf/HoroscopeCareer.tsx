@@ -141,20 +141,20 @@ const styles = StyleSheet.create({
   },
 
   mainCard: {
-    paddingVertical: 11,
-    paddingHorizontal: 15,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 13,
+    marginBottom: 16,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 14,
   },
 
   sectionHeading: {
@@ -222,11 +222,11 @@ const styles = StyleSheet.create({
   },
 
   progressCard: {
-    paddingVertical: 10,
-    paddingHorizontal: 11,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderRadius: 11,
     backgroundColor: NAVY_SOFT,
-    marginBottom: 13,
+    marginBottom: 17,
   },
 
   progressHeader: {
@@ -283,15 +283,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 14,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 58,
-    paddingVertical: 9,
-    paddingHorizontal: 11,
-    marginBottom: 8,
+    minHeight: 88,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    marginBottom: 12,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -301,12 +301,12 @@ const styles = StyleSheet.create({
   highlightTopRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 12,
   },
 
   highlightNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 9,
     marginRight: 7,
   },
 
@@ -318,13 +318,14 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.1,
-    lineHeight: 1.5,
+    fontSize: 9.2,
+    lineHeight: 1.45,
   },
 
   adviceCard: {
-    paddingVertical: 11,
-    paddingHorizontal: 15,
+    minHeight: 86,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     borderRadius: 11,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
   adviceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 12,
   },
 
   adviceDot: {
@@ -347,15 +348,15 @@ const styles = StyleSheet.create({
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 9,
     letterSpacing: 1.4,
     textTransform: "uppercase",
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 10.5,
+    lineHeight: 1.55,
   },
 });
 
