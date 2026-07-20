@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -33,18 +34,35 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const LOVE_ICONS = {
+  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
+  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 36,
+    paddingTop: 33,
     paddingHorizontal: 42,
-    paddingBottom: 54,
+    paddingBottom: 53,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -52,12 +70,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 13,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -87,28 +105,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 10,
+    marginBottom: 11,
   },
 
   eyebrow: {
     color: GOLD,
     fontSize: 9,
-    letterSpacing: 2.4,
+    letterSpacing: 2.35,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 10,
+    fontSize: 9.6,
+    marginBottom: 8,
   },
 
   titleDecoration: {
@@ -117,90 +135,127 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 60,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 14,
-    height: 14,
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCard: {
-    minHeight: 196,
-    paddingVertical: 23,
-    paddingHorizontal: 22,
+  heroCard: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 145,
+    paddingVertical: 16,
+    paddingHorizontal: 17,
+    marginBottom: 11,
     borderRadius: 14,
-    borderWidth: 0.8,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 10,
+    overflow: "hidden",
   },
 
-  mainHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
+  heroOrbitOne: {
+    position: "absolute",
+    top: -60,
+    left: -56,
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  mainHeading: {
-    flex: 1,
-    paddingRight: 16,
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -25,
+    left: -23,
+    width: 108,
+    height: 108,
+    borderRadius: 54,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
   },
 
-  mainMiniLabel: {
-    color: SOFT_TEXT,
-    fontSize: 7,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    marginBottom: 6,
-  },
-
-  sectionTitleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  sectionTitleIcon: {
-    width: 17,
-    height: 17,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  sectionTitle: {
-    flex: 1,
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
-  },
-
-  scoreOuterCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+  heroIconOuter: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
+    marginRight: 15,
   },
 
-  scoreCircle: {
+  heroIconInner: {
     width: 62,
     height: 62,
     borderRadius: 31,
-    borderWidth: 1.1,
+    borderWidth: 0.9,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  heroIcon: {
+    width: 42,
+    height: 42,
+    objectFit: "contain",
+  },
+
+  heroContent: {
+    flex: 1,
+  },
+
+  heroTopRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+
+  heroHeading: {
+    flex: 1,
+    paddingRight: 10,
+  },
+
+  heroLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  heroTitle: {
+    color: GOLD,
+    fontSize: 12.4,
+    lineHeight: 1.35,
+  },
+
+  scoreBadge: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -209,234 +264,337 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 15,
+    lineHeight: 1,
   },
 
   scoreMaximum: {
     color: SOFT_TEXT,
-    fontSize: 7,
-    marginTop: 1,
+    fontSize: 6.2,
+    marginTop: 2,
   },
 
-  mainDivider: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  mainDividerLine: {
-    width: 31,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginRight: 7,
-  },
-
-  mainDividerIcon: {
-    width: 11,
-    height: 11,
-    objectFit: "contain",
-  },
-
-  introduction: {
+  heroIntroduction: {
     color: MUTED_CREAM,
-    fontSize: 9.7,
-    lineHeight: 1.62,
-    marginBottom: 10,
+    fontSize: 8.2,
+    lineHeight: 1.45,
+    marginBottom: 6,
   },
 
-  mainText: {
+  heroText: {
     color: CREAM,
-    fontSize: 10.2,
-    lineHeight: 1.68,
+    fontSize: 8.5,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
 
-  progressCard: {
-    minHeight: 55,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 0.6,
+  potentialCard: {
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    marginBottom: 10,
+    borderRadius: 10,
+    borderWidth: 0.55,
     borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 16,
+    backgroundColor: NAVY_SOFT,
   },
 
-  progressHeader: {
+  potentialHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
-  progressLabelRow: {
+  potentialLeft: {
     flexDirection: "row",
     alignItems: "center",
   },
 
-  progressIcon: {
-    width: 13,
-    height: 13,
+  potentialIcon: {
+    width: 16,
+    height: 16,
     objectFit: "contain",
     marginRight: 7,
   },
 
-  progressLabel: {
+  potentialLabel: {
     color: CREAM,
-    fontSize: 9,
+    fontSize: 8.6,
   },
 
-  progressValue: {
+  potentialValue: {
     color: GOLD,
     fontSize: 9,
   },
 
   progressTrack: {
     width: "100%",
-    height: 9,
-    borderRadius: 4.5,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 9,
-    borderRadius: 4.5,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: GOLD,
   },
 
-  highlightsHeader: {
+  sectionHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
-  highlightsHeaderLine: {
-    width: 24,
+  sectionHeaderLine: {
+    width: 28,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  highlightsHeaderIcon: {
-    width: 13,
-    height: 13,
+  sectionHeaderIcon: {
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  highlightsTitle: {
+  sectionLabel: {
     color: GOLD,
-    fontSize: 10,
-    letterSpacing: 1.5,
+    fontSize: 9.2,
+    letterSpacing: 1.4,
     textTransform: "uppercase",
   },
 
-  highlightsGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  relationshipPath: {
     marginBottom: 10,
   },
 
-  highlightCard: {
-    width: "48.5%",
-    minHeight: 92,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    marginBottom: 10,
+  relationshipRow: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    marginBottom: 7,
+  },
+
+  relationshipRail: {
+    width: 48,
+    alignItems: "center",
+  },
+
+  relationshipCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  relationshipIcon: {
+    width: 22,
+    height: 22,
+    objectFit: "contain",
+  },
+
+  relationshipLine: {
+    flex: 1,
+    width: 1,
+    backgroundColor: DARK_GOLD,
+    marginTop: 4,
+  },
+
+  relationshipCard: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  highlightTopRow: {
+  relationshipTop: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    justifyContent: "space-between",
+    marginBottom: 5,
   },
 
-  highlightNumberCircle: {
-    width: 25,
-    height: 25,
-    borderRadius: 12.5,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8,
+  relationshipLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.2,
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
 
-  highlightNumber: {
+  relationshipNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 7,
+    letterSpacing: 0.8,
   },
 
-  highlightIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-  },
-
-  highlightText: {
+  relationshipText: {
     color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.55,
+    fontSize: 8.2,
+    lineHeight: 1.42,
+  },
+
+  balanceRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 9,
+  },
+
+  balanceCard: {
+    width: "48.5%",
+    minHeight: 73,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  balanceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  balanceIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
+  balanceTitle: {
+    color: GOLD,
+    fontSize: 8.4,
+  },
+
+  balanceText: {
+    color: MUTED_CREAM,
+    fontSize: 7.2,
+    lineHeight: 1.4,
   },
 
   adviceCard: {
-    minHeight: 86,
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-  },
-
-  adviceHeader: {
+    position: "relative",
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-
-  adviceIconBox: {
-    width: 27,
-    height: 27,
-    borderRadius: 13.5,
+    alignItems: "flex-start",
+    minHeight: 80,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
-    backgroundColor: NAVY_SOFT,
+    borderTopWidth: 1.4,
+    borderTopColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  adviceWatermark: {
+    position: "absolute",
+    right: 14,
+    top: 7,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.06,
+  },
+
+  adviceIconCircle: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 9,
+    marginRight: 11,
   },
 
   adviceIcon: {
-    width: 16,
-    height: 16,
+    width: 24,
+    height: 24,
     objectFit: "contain",
+  },
+
+  adviceContent: {
+    flex: 1,
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 8,
-    letterSpacing: 1.4,
+    fontSize: 7,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
+    marginBottom: 5,
   },
 
   adviceText: {
     color: CREAM,
-    fontSize: 9.7,
-    lineHeight: 1.62,
+    fontSize: 8.7,
+    lineHeight: 1.5,
   },
 });
 
-export default function HoroscopeLove_v1({
+type RelationshipPointProps = {
+  text: string;
+  icon: string;
+  index: number;
+  isLast: boolean;
+};
+
+function RelationshipPoint({
+  text,
+  icon,
+  index,
+  isLast,
+}: RelationshipPointProps) {
+  return (
+    <View style={styles.relationshipRow} wrap={false}>
+      <View style={styles.relationshipRail}>
+        <View style={styles.relationshipCircle}>
+          <Image
+            src={icon}
+            style={styles.relationshipIcon}
+          />
+        </View>
+
+        {!isLast ? (
+          <View style={styles.relationshipLine} />
+        ) : null}
+      </View>
+
+      <View style={styles.relationshipCard}>
+        <View style={styles.relationshipTop}>
+          <Text style={styles.relationshipLabel}>
+            Point affectif
+          </Text>
+
+          <Text style={styles.relationshipNumber}>
+            {String(index + 1).padStart(2, "0")}
+          </Text>
+        </View>
+
+        <Text style={styles.relationshipText}>
+          {text}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+export default function HoroscopeLove({
   identity,
   period,
   content,
@@ -455,8 +613,17 @@ export default function HoroscopeLove_v1({
     ? content.love.highlights.slice(0, 4)
     : [];
 
+  const relationshipIcons = [
+    LOVE_ICONS.heart,
+    LOVE_ICONS.moon,
+    LOVE_ICONS.sun,
+    LOVE_ICONS.soulPath,
+  ];
+
   return (
     <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -493,7 +660,7 @@ export default function HoroscopeLove_v1({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={LOVE_ICONS.heart}
               style={styles.titleIcon}
             />
 
@@ -501,27 +668,32 @@ export default function HoroscopeLove_v1({
           </View>
         </View>
 
-        <View style={styles.mainCard} wrap={false}>
-          <View style={styles.mainHeader}>
-            <View style={styles.mainHeading}>
-              <Text style={styles.mainMiniLabel}>
-                Tendance sentimentale
-              </Text>
+        <View style={styles.heroCard} wrap={false}>
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
 
-              <View style={styles.sectionTitleRow}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.sectionTitleIcon}
-                />
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
+              <Image
+                src={LOVE_ICONS.heart}
+                style={styles.heroIcon}
+              />
+            </View>
+          </View>
 
-                <Text style={styles.sectionTitle}>
+          <View style={styles.heroContent}>
+            <View style={styles.heroTopRow}>
+              <View style={styles.heroHeading}>
+                <Text style={styles.heroLabel}>
+                  Tendance sentimentale
+                </Text>
+
+                <Text style={styles.heroTitle}>
                   {content.love.title}
                 </Text>
               </View>
-            </View>
 
-            <View style={styles.scoreOuterCircle}>
-              <View style={styles.scoreCircle}>
+              <View style={styles.scoreBadge}>
                 <Text style={styles.scoreValue}>
                   {loveScore}
                 </Text>
@@ -531,42 +703,33 @@ export default function HoroscopeLove_v1({
                 </Text>
               </View>
             </View>
-          </View>
 
-          <View style={styles.mainDivider}>
-            <View style={styles.mainDividerLine} />
+            {content.love.introduction ? (
+              <Text style={styles.heroIntroduction}>
+                {content.love.introduction}
+              </Text>
+            ) : null}
 
-            <Image
-              src={zodiacIconUrl}
-              style={styles.mainDividerIcon}
-            />
-          </View>
-
-          {content.love.introduction ? (
-            <Text style={styles.introduction}>
-              {content.love.introduction}
+            <Text style={styles.heroText}>
+              {content.love.text}
             </Text>
-          ) : null}
-
-          <Text style={styles.mainText}>
-            {content.love.text}
-          </Text>
+          </View>
         </View>
 
-        <View style={styles.progressCard} wrap={false}>
-          <View style={styles.progressHeader}>
-            <View style={styles.progressLabelRow}>
+        <View style={styles.potentialCard} wrap={false}>
+          <View style={styles.potentialHeader}>
+            <View style={styles.potentialLeft}>
               <Image
-                src={zodiacIconUrl}
-                style={styles.progressIcon}
+                src={LOVE_ICONS.moon}
+                style={styles.potentialIcon}
               />
 
-              <Text style={styles.progressLabel}>
+              <Text style={styles.potentialLabel}>
                 Potentiel affectif
               </Text>
             </View>
 
-            <Text style={styles.progressValue}>
+            <Text style={styles.potentialValue}>
               {loveScore} %
             </Text>
           </View>
@@ -585,66 +748,95 @@ export default function HoroscopeLove_v1({
 
         {highlights.length > 0 ? (
           <>
-            <View style={styles.highlightsHeader}>
-              <View style={styles.highlightsHeaderLine} />
+            <View style={styles.sectionHeaderRow}>
+              <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={zodiacIconUrl}
-                style={styles.highlightsHeaderIcon}
+                src={LOVE_ICONS.heart}
+                style={styles.sectionHeaderIcon}
               />
 
-              <Text style={styles.highlightsTitle}>
-                Points importants
+              <Text style={styles.sectionLabel}>
+                Les mouvements du cœur
               </Text>
             </View>
 
-            <View style={styles.highlightsGrid}>
+            <View style={styles.relationshipPath}>
               {highlights.map((highlight, index) => (
-                <View
+                <RelationshipPoint
                   key={`${highlight}-${index}`}
-                  style={styles.highlightCard}
-                  wrap={false}
-                >
-                  <View style={styles.highlightTopRow}>
-                    <View style={styles.highlightNumberCircle}>
-                      <Text style={styles.highlightNumber}>
-                        0{index + 1}
-                      </Text>
-                    </View>
-
-                    <Image
-                      src={zodiacIconUrl}
-                      style={styles.highlightIcon}
-                    />
-                  </View>
-
-                  <Text style={styles.highlightText}>
-                    {highlight}
-                  </Text>
-                </View>
+                  text={highlight}
+                  icon={
+                    relationshipIcons[index] ||
+                    LOVE_ICONS.heart
+                  }
+                  index={index}
+                  isLast={index === highlights.length - 1}
+                />
               ))}
             </View>
           </>
         ) : null}
 
-        {content.love.advice ? (
-          <View style={styles.adviceCard} wrap={false}>
-            <View style={styles.adviceHeader}>
-              <View style={styles.adviceIconBox}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.adviceIcon}
-                />
-              </View>
+        <View style={styles.balanceRow}>
+          <View style={styles.balanceCard} wrap={false}>
+            <View style={styles.balanceHeader}>
+              <Image
+                src={LOVE_ICONS.moon}
+                style={styles.balanceIcon}
+              />
 
-              <Text style={styles.adviceLabel}>
-                Conseil du cœur
+              <Text style={styles.balanceTitle}>
+                Écouter vos émotions
               </Text>
             </View>
 
-            <Text style={styles.adviceText}>
-              {content.love.advice}
+            <Text style={styles.balanceText}>
+              Prenez le temps de reconnaître ce que vous ressentez avant de réagir ou de prendre une décision importante.
             </Text>
+          </View>
+
+          <View style={styles.balanceCard} wrap={false}>
+            <View style={styles.balanceHeader}>
+              <Image
+                src={LOVE_ICONS.sun}
+                style={styles.balanceIcon}
+              />
+
+              <Text style={styles.balanceTitle}>
+                Faire vivre le lien
+              </Text>
+            </View>
+
+            <Text style={styles.balanceText}>
+              Une parole claire, une attention sincère ou un geste simple peut réchauffer une relation et rétablir la confiance.
+            </Text>
+          </View>
+        </View>
+
+        {content.love.advice ? (
+          <View style={styles.adviceCard} wrap={false}>
+            <Image
+              src={LOVE_ICONS.integrationGuide}
+              style={styles.adviceWatermark}
+            />
+
+            <View style={styles.adviceIconCircle}>
+              <Image
+                src={LOVE_ICONS.integrationGuide}
+                style={styles.adviceIcon}
+              />
+            </View>
+
+            <View style={styles.adviceContent}>
+              <Text style={styles.adviceLabel}>
+                Conseil du cœur
+              </Text>
+
+              <Text style={styles.adviceText}>
+                {content.love.advice}
+              </Text>
+            </View>
           </View>
         ) : null}
       </View>
