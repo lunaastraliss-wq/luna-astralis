@@ -37,9 +37,9 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 34,
+    paddingTop: 30,
     paddingHorizontal: 44,
-    paddingBottom: 52,
+    paddingBottom: 48,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 17,
+    marginBottom: 12,
   },
 
   logo: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   eyebrow: {
@@ -97,20 +97,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 24,
+    fontSize: 23,
     lineHeight: 1.2,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 8,
+    fontSize: 9.5,
+    marginBottom: 6,
   },
 
   titleDecoration: {
@@ -139,19 +139,19 @@ const styles = StyleSheet.create({
   },
 
   introductionCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 17,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
     borderRadius: 11,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   introductionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   introductionIcon: {
@@ -171,13 +171,13 @@ const styles = StyleSheet.create({
   introductionText: {
     color: MUTED_CREAM,
     fontSize: 9.5,
-    lineHeight: 1.5,
+    lineHeight: 1.45,
   },
 
   sectionHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
+    marginBottom: 7,
   },
 
   sectionHeaderLine: {
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
   },
 
   challengeCard: {
-    paddingVertical: 13,
+    paddingVertical: 10,
     paddingHorizontal: 16,
-    marginBottom: 8,
+    marginBottom: 7,
     borderRadius: 13,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -221,9 +221,9 @@ const styles = StyleSheet.create({
   },
 
   challengeNumberOuter: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -232,9 +232,9 @@ const styles = StyleSheet.create({
   },
 
   challengeNumber: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
     borderWidth: 0.9,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
 
   challengeTitle: {
     color: CREAM,
-    fontSize: 11,
+    fontSize: 11.2,
     lineHeight: 1.35,
     marginBottom: 5,
   },
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   challengeDividerLine: {
@@ -297,15 +297,16 @@ const styles = StyleSheet.create({
   challengeDescription: {
     color: MUTED_CREAM,
     fontSize: 9,
-    lineHeight: 1.45,
+    lineHeight: 1.5,
     textAlign: "justify",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   adviceBox: {
-    paddingTop: 8,
-    paddingHorizontal: 12,
-    paddingBottom: 9,
+    minHeight: 48,
+    paddingTop: 9,
+    paddingHorizontal: 13,
+    paddingBottom: 10,
     borderRadius: 8,
     borderTopWidth: 0.5,
     borderTopColor: DARK_GOLD,
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
   adviceText: {
     color: CREAM,
     fontSize: 8.5,
-    lineHeight: 1.5,
+    lineHeight: 1.45,
   },
 
   emptyCard: {
@@ -352,7 +353,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     objectFit: "contain",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   emptyTitle: {
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
 
   closingCard: {
     marginTop: 5,
-    paddingVertical: 13,
+    paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,
@@ -384,7 +385,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   closingLine: {
@@ -402,8 +403,8 @@ const styles = StyleSheet.create({
 
   closingText: {
     color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.45,
+    fontSize: 9.3,
+    lineHeight: 1.55,
     textAlign: "center",
   },
 });
