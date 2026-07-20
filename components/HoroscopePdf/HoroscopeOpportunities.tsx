@@ -37,75 +37,11 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 34,
-    paddingHorizontal: 42,
-    paddingBottom: 50,
+    paddingTop: 40,
+    paddingHorizontal: 44,
+    paddingBottom: 58,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
-  },
-
-  outerBorder: {
-    position: "absolute",
-    top: 18,
-    right: 18,
-    bottom: 18,
-    left: 18,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-  },
-
-  innerBorder: {
-    position: "absolute",
-    top: 23,
-    right: 23,
-    bottom: 23,
-    left: 23,
-    borderWidth: 0.25,
-    borderColor: DARK_GOLD,
-  },
-
-  cornerTopLeft: {
-    position: "absolute",
-    top: 18,
-    left: 18,
-    width: 34,
-    height: 34,
-    borderTopWidth: 1.6,
-    borderLeftWidth: 1.6,
-    borderColor: GOLD,
-  },
-
-  cornerTopRight: {
-    position: "absolute",
-    top: 18,
-    right: 18,
-    width: 34,
-    height: 34,
-    borderTopWidth: 1.6,
-    borderRightWidth: 1.6,
-    borderColor: GOLD,
-  },
-
-  cornerBottomLeft: {
-    position: "absolute",
-    bottom: 18,
-    left: 18,
-    width: 34,
-    height: 34,
-    borderBottomWidth: 1.6,
-    borderLeftWidth: 1.6,
-    borderColor: GOLD,
-  },
-
-  cornerBottomRight: {
-    position: "absolute",
-    right: 18,
-    bottom: 18,
-    width: 34,
-    height: 34,
-    borderRightWidth: 1.6,
-    borderBottomWidth: 1.6,
-    borderColor: GOLD,
   },
 
   content: {
@@ -116,20 +52,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 16,
+    marginBottom: 22,
   },
 
   logo: {
-    width: 104,
-    height: 37,
+    width: 110,
+    height: 40,
     objectFit: "contain",
   },
 
   signBadge: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 6,
-    paddingHorizontal: 11,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
     borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -137,8 +73,8 @@ const styles = StyleSheet.create({
   },
 
   signIcon: {
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     objectFit: "contain",
     marginRight: 7,
   },
@@ -151,28 +87,28 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 15,
+    marginBottom: 18,
   },
 
   eyebrow: {
     color: GOLD,
-    fontSize: 8.5,
-    letterSpacing: 2.2,
+    fontSize: 9,
+    letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 7,
+    marginBottom: 10,
   },
 
   title: {
     color: CREAM,
-    fontSize: 24,
-    lineHeight: 1.15,
-    marginBottom: 6,
+    fontSize: 25,
+    lineHeight: 1.2,
+    marginBottom: 8,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    marginBottom: 10,
+    fontSize: 10,
+    marginBottom: 13,
   },
 
   titleDecoration: {
@@ -181,65 +117,63 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 62,
+    width: 64,
     height: 1,
     backgroundColor: GOLD,
+    marginRight: 8,
   },
 
-  titleDiamond: {
-    width: 7,
-    height: 7,
-    marginHorizontal: 8,
-    borderWidth: 0.8,
-    borderColor: GOLD,
-    transform: "rotate(45deg)",
+  titleIcon: {
+    width: 14,
+    height: 14,
+    objectFit: "contain",
+    marginRight: 8,
   },
 
   titleLineSmall: {
-    width: 24,
+    width: 20,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
-  mainCardOuter: {
-    padding: 4,
-    borderWidth: 0.5,
-    borderColor: DARK_GOLD,
-    marginBottom: 13,
-  },
-
   mainCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 15,
-    paddingHorizontal: 17,
-    borderWidth: 0.7,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
+    borderRadius: 14,
+    borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
+    marginBottom: 14,
   },
 
-  mainTextColumn: {
+  mainHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 11,
+  },
+
+  mainHeading: {
     flex: 1,
-    paddingRight: 15,
+    paddingRight: 16,
   },
 
-  miniLabel: {
+  mainMiniLabel: {
     color: SOFT_TEXT,
     fontSize: 7,
-    letterSpacing: 1.25,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
-    marginBottom: 5,
+    marginBottom: 6,
   },
 
   sectionTitleRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
   },
 
-  sectionIcon: {
-    width: 18,
-    height: 18,
+  sectionTitleIcon: {
+    width: 17,
+    height: 17,
     objectFit: "contain",
     marginRight: 8,
   },
@@ -247,28 +181,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     flex: 1,
     color: GOLD,
-    fontSize: 12.5,
-    lineHeight: 1.3,
+    fontSize: 12.8,
+    lineHeight: 1.35,
   },
 
-  introduction: {
-    color: MUTED_CREAM,
-    fontSize: 8.7,
-    lineHeight: 1.5,
-    marginBottom: 7,
-  },
-
-  mainText: {
-    color: CREAM,
-    fontSize: 9.3,
-    lineHeight: 1.55,
-    textAlign: "justify",
-  },
-
-  scoreOuter: {
-    width: 78,
-    height: 78,
-    borderRadius: 39,
+  scoreOuterCircle: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -276,10 +196,10 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
-    borderWidth: 1,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -297,205 +217,145 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
 
+  mainDivider: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+
+  mainDividerLine: {
+    width: 31,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+    marginRight: 7,
+  },
+
+  mainDividerIcon: {
+    width: 11,
+    height: 11,
+    objectFit: "contain",
+  },
+
+  introduction: {
+    color: MUTED_CREAM,
+    fontSize: 8.9,
+    lineHeight: 1.5,
+    marginBottom: 8,
+  },
+
+  mainText: {
+    color: CREAM,
+    fontSize: 9.4,
+    lineHeight: 1.55,
+    textAlign: "justify",
+  },
+
   progressCard: {
-    paddingVertical: 11,
-    paddingHorizontal: 15,
+    paddingVertical: 12,
+    paddingHorizontal: 17,
+    borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 13,
+    marginBottom: 14,
   },
 
   progressHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 7,
+    marginBottom: 8,
+  },
+
+  progressLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  progressIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 7,
   },
 
   progressLabel: {
     color: CREAM,
-    fontSize: 8.5,
+    fontSize: 8.7,
   },
 
   progressValue: {
     color: GOLD,
-    fontSize: 8.5,
+    fontSize: 8.7,
   },
 
   progressTrack: {
     width: "100%",
-    height: 7,
-    borderRadius: 3.5,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 7,
-    borderRadius: 3.5,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: GOLD,
   },
 
-  progressDescription: {
-    color: SOFT_TEXT,
-    fontSize: 7.2,
-    lineHeight: 1.4,
-    marginTop: 7,
-  },
-
-  sectionHeader: {
+  highlightsHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 9,
   },
 
-  sectionHeaderLine: {
-    width: 25,
+  highlightsHeaderLine: {
+    width: 24,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 8,
   },
 
-  sectionHeaderIcon: {
+  highlightsHeaderIcon: {
     width: 13,
     height: 13,
     objectFit: "contain",
     marginRight: 8,
   },
 
-  sectionHeaderTitle: {
+  highlightsTitle: {
     color: GOLD,
-    fontSize: 9.2,
-    letterSpacing: 1.35,
+    fontSize: 9.6,
+    letterSpacing: 1.45,
     textTransform: "uppercase",
   },
 
-  highlightsGrid: {
+  opportunitiesGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 5,
+    marginBottom: 10,
   },
 
-  highlightCard: {
+  opportunityCard: {
     width: "48.5%",
-    minHeight: 56,
-    paddingVertical: 9,
+    minHeight: 90,
+    paddingVertical: 10,
     paddingHorizontal: 11,
-    marginBottom: 8,
-    borderWidth: 0.55,
+    marginBottom: 9,
+    borderRadius: 10,
+    borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  highlightHeader: {
+  opportunityTopRow: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 5,
   },
 
-  highlightNumberCircle: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 7,
-  },
-
-  highlightNumber: {
-    color: GOLD,
-    fontSize: 7,
-  },
-
-  highlightIcon: {
-    width: 12,
-    height: 12,
-    objectFit: "contain",
-  },
-
-  highlightText: {
-    color: CREAM,
-    fontSize: 7.8,
-    lineHeight: 1.4,
-  },
-
-  guidanceAndActions: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 12,
-  },
-
-  guidanceCard: {
-    width: "39%",
-    paddingVertical: 12,
-    paddingHorizontal: 13,
-    borderWidth: 0.7,
-    borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
-    borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-  },
-
-  guidanceIconFrame: {
-    width: 33,
-    height: 33,
-    borderRadius: 16.5,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 8,
-  },
-
-  guidanceIcon: {
-    width: 20,
-    height: 20,
-    objectFit: "contain",
-  },
-
-  guidanceLabel: {
-    color: SOFT_TEXT,
-    fontSize: 6.8,
-    letterSpacing: 1.1,
-    textTransform: "uppercase",
-    marginBottom: 4,
-  },
-
-  guidanceTitle: {
-    color: GOLD,
-    fontSize: 9.5,
-    lineHeight: 1.35,
-    marginBottom: 6,
-  },
-
-  guidanceText: {
-    color: MUTED_CREAM,
-    fontSize: 7.5,
-    lineHeight: 1.43,
-  },
-
-  actionsColumn: {
-    width: "58.5%",
-  },
-
-  actionCard: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    marginBottom: 6,
-    borderWidth: 0.55,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  actionNumberCircle: {
+  opportunityNumberCircle: {
     width: 22,
     height: 22,
     borderRadius: 11,
@@ -504,7 +364,136 @@ const styles = StyleSheet.create({
     backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 8,
+    marginRight: 7,
+  },
+
+  opportunityNumber: {
+    color: GOLD,
+    fontSize: 7,
+  },
+
+  opportunityIcon: {
+    width: 12,
+    height: 12,
+    objectFit: "contain",
+  },
+
+  opportunityTitle: {
+    color: GOLD,
+    fontSize: 8.2,
+    lineHeight: 1.3,
+    marginBottom: 3,
+  },
+
+  opportunityTheme: {
+    color: SOFT_TEXT,
+    fontSize: 6.3,
+    letterSpacing: 0.9,
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  opportunityText: {
+    color: CREAM,
+    fontSize: 7.2,
+    lineHeight: 1.35,
+    marginBottom: 4,
+  },
+
+  opportunityAction: {
+    color: MUTED_CREAM,
+    fontSize: 6.7,
+    lineHeight: 1.32,
+    fontStyle: "italic",
+  },
+
+  guidanceCard: {
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    marginBottom: 9,
+  },
+
+  guidanceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
+  guidanceIconBox: {
+    width: 29,
+    height: 29,
+    borderRadius: 14.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 9,
+  },
+
+  guidanceIcon: {
+    width: 17,
+    height: 17,
+    objectFit: "contain",
+  },
+
+  guidanceHeading: {
+    flex: 1,
+  },
+
+  guidanceLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.1,
+    textTransform: "uppercase",
+    marginBottom: 3,
+  },
+
+  guidanceTitle: {
+    color: GOLD,
+    fontSize: 10,
+    lineHeight: 1.3,
+  },
+
+  guidanceText: {
+    color: MUTED_CREAM,
+    fontSize: 7.8,
+    lineHeight: 1.42,
+  },
+
+  actionsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 9,
+  },
+
+  actionCard: {
+    width: "32%",
+    minHeight: 62,
+    paddingVertical: 8,
+    paddingHorizontal: 9,
+    borderRadius: 9,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  actionNumberCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 5,
   },
 
   actionNumber: {
@@ -512,28 +501,25 @@ const styles = StyleSheet.create({
     fontSize: 7,
   },
 
-  actionContent: {
-    flex: 1,
-  },
-
   actionTitle: {
     color: GOLD,
-    fontSize: 8.2,
+    fontSize: 7.9,
     marginBottom: 3,
   },
 
   actionText: {
     color: MUTED_CREAM,
-    fontSize: 7.1,
-    lineHeight: 1.38,
+    fontSize: 6.5,
+    lineHeight: 1.32,
   },
 
   adviceCard: {
-    paddingVertical: 11,
-    paddingHorizontal: 14,
-    borderWidth: 0.6,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+    borderWidth: 0.5,
     borderColor: DARK_GOLD,
-    borderTopWidth: 1.2,
+    borderTopWidth: 1.4,
     borderTopColor: GOLD,
     backgroundColor: NAVY_CARD,
   },
@@ -541,38 +527,38 @@ const styles = StyleSheet.create({
   adviceHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 6,
+    marginBottom: 7,
   },
 
-  adviceIconFrame: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+  adviceIconBox: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   adviceIcon: {
-    width: 15,
-    height: 15,
+    width: 16,
+    height: 16,
     objectFit: "contain",
   },
 
   adviceLabel: {
     color: GOLD,
-    fontSize: 7.5,
-    letterSpacing: 1.25,
+    fontSize: 7.6,
+    letterSpacing: 1.3,
     textTransform: "uppercase",
   },
 
   adviceText: {
     color: CREAM,
     fontSize: 8.4,
-    lineHeight: 1.48,
+    lineHeight: 1.45,
   },
 });
 
@@ -625,17 +611,17 @@ export default function HoroscopeOpportunities({
     {
       title: "Repérer",
       text:
-        "Observez les nouvelles propositions, les rencontres et les idées qui reviennent avec insistance pendant la période.",
+        "Observez les propositions, les rencontres et les idées qui reviennent avec insistance.",
     },
     {
       title: "Évaluer",
       text:
-        "Vérifiez si l’occasion respecte vos priorités, votre énergie disponible et la direction que vous souhaitez réellement prendre.",
+        "Vérifiez si l’occasion respecte vos priorités, votre énergie et votre véritable direction.",
     },
     {
       title: "Avancer",
       text:
-        "Choisissez une action simple et concrète afin de transformer une possibilité intéressante en mouvement réel.",
+        "Choisissez une action simple afin de transformer une possibilité en mouvement réel.",
     },
   ];
 
@@ -657,14 +643,7 @@ export default function HoroscopeOpportunities({
     "Restez disponible aux nouvelles possibilités tout en prenant le temps de vérifier qu’elles correspondent réellement à votre chemin.";
 
   return (
-    <Page size="A4" style={styles.page}>
-      <View style={styles.outerBorder} fixed />
-      <View style={styles.innerBorder} fixed />
-      <View style={styles.cornerTopLeft} fixed />
-      <View style={styles.cornerTopRight} fixed />
-      <View style={styles.cornerBottomLeft} fixed />
-      <View style={styles.cornerBottomRight} fixed />
-
+    <Page size="A4" style={styles.page} wrap={false}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -672,7 +651,7 @@ export default function HoroscopeOpportunities({
             style={styles.logo}
           />
 
-          <View style={styles.signBadge} wrap={false}>
+          <View style={styles.signBadge}>
             <Image
               src={zodiacIconUrl}
               style={styles.signIcon}
@@ -699,57 +678,78 @@ export default function HoroscopeOpportunities({
 
           <View style={styles.titleDecoration}>
             <View style={styles.titleLine} />
-            <View style={styles.titleDiamond} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.titleIcon}
+            />
+
             <View style={styles.titleLineSmall} />
           </View>
         </View>
 
-        <View style={styles.mainCardOuter}>
-          <View style={styles.mainCard}>
-            <View style={styles.mainTextColumn}>
-              <Text style={styles.miniLabel}>
+        <View style={styles.mainCard} wrap={false}>
+          <View style={styles.mainHeader}>
+            <View style={styles.mainHeading}>
+              <Text style={styles.mainMiniLabel}>
                 Potentiel de la période
               </Text>
 
               <View style={styles.sectionTitleRow}>
                 <Image
                   src={zodiacIconUrl}
-                  style={styles.sectionIcon}
+                  style={styles.sectionTitleIcon}
                 />
 
                 <Text style={styles.sectionTitle}>
                   {sectionTitle}
                 </Text>
               </View>
-
-              <Text style={styles.introduction}>
-                {introduction}
-              </Text>
-
-              <Text style={styles.mainText}>
-                {mainText}
-              </Text>
             </View>
 
-            <View style={styles.scoreOuter} wrap={false}>
+            <View style={styles.scoreOuterCircle}>
               <View style={styles.scoreCircle}>
                 <Text style={styles.scoreValue}>
                   {opportunityScore}
                 </Text>
 
                 <Text style={styles.scoreMaximum}>
-                  / 100
+                  sur 100
                 </Text>
               </View>
             </View>
           </View>
+
+          <View style={styles.mainDivider}>
+            <View style={styles.mainDividerLine} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.mainDividerIcon}
+            />
+          </View>
+
+          <Text style={styles.introduction}>
+            {introduction}
+          </Text>
+
+          <Text style={styles.mainText}>
+            {mainText}
+          </Text>
         </View>
 
         <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
-            <Text style={styles.progressLabel}>
-              Niveau d’ouverture de la période
-            </Text>
+            <View style={styles.progressLabelRow}>
+              <Image
+                src={zodiacIconUrl}
+                style={styles.progressIcon}
+              />
+
+              <Text style={styles.progressLabel}>
+                Niveau d’ouverture de la période
+              </Text>
+            </View>
 
             <Text style={styles.progressValue}>
               {opportunityScore} %
@@ -760,67 +760,65 @@ export default function HoroscopeOpportunities({
             <View
               style={[
                 styles.progressFill,
-                { width: `${opportunityScore}%` },
+                {
+                  width: `${opportunityScore}%`,
+                },
               ]}
             />
           </View>
-
-          <Text style={styles.progressDescription}>
-            Cet indicateur représente le potentiel général d’évolution et de nouvelles possibilités.
-          </Text>
         </View>
 
         {opportunities.length > 0 ? (
           <>
-            <View style={styles.sectionHeader}>
-              <View style={styles.sectionHeaderLine} />
+            <View style={styles.highlightsHeader}>
+              <View style={styles.highlightsHeaderLine} />
 
               <Image
                 src={zodiacIconUrl}
-                style={styles.sectionHeaderIcon}
+                style={styles.highlightsHeaderIcon}
               />
 
-              <Text style={styles.sectionHeaderTitle}>
+              <Text style={styles.highlightsTitle}>
                 Opportunités à reconnaître
               </Text>
             </View>
 
-            <View style={styles.highlightsGrid}>
+            <View style={styles.opportunitiesGrid}>
               {opportunities.map((opportunity, index) => (
                 <View
                   key={`opportunity-${index}`}
-                  style={styles.highlightCard}
+                  style={styles.opportunityCard}
                   wrap={false}
                 >
-                  <View style={styles.highlightHeader}>
-                    <View style={styles.highlightNumberCircle}>
-                      <Text style={styles.highlightNumber}>
+                  <View style={styles.opportunityTopRow}>
+                    <View style={styles.opportunityNumberCircle}>
+                      <Text style={styles.opportunityNumber}>
                         {String(index + 1).padStart(2, "0")}
                       </Text>
                     </View>
 
                     <Image
                       src={zodiacIconUrl}
-                      style={styles.highlightIcon}
+                      style={styles.opportunityIcon}
                     />
                   </View>
 
-                  <Text style={styles.actionTitle}>
+                  <Text style={styles.opportunityTitle}>
                     {opportunity.title}
                   </Text>
 
                   {opportunity.theme ? (
-                    <Text style={styles.guidanceLabel}>
+                    <Text style={styles.opportunityTheme}>
                       {opportunity.theme}
                     </Text>
                   ) : null}
 
-                  <Text style={styles.highlightText}>
+                  <Text style={styles.opportunityText}>
                     {opportunity.description}
                   </Text>
 
                   {opportunity.action ? (
-                    <Text style={styles.actionText}>
+                    <Text style={styles.opportunityAction}>
                       {opportunity.action}
                     </Text>
                   ) : null}
@@ -830,58 +828,58 @@ export default function HoroscopeOpportunities({
           </>
         ) : null}
 
-        <View style={styles.guidanceAndActions}>
-          <View style={styles.guidanceCard} wrap={false}>
-            <View style={styles.guidanceIconFrame}>
+        <View style={styles.guidanceCard} wrap={false}>
+          <View style={styles.guidanceHeader}>
+            <View style={styles.guidanceIconBox}>
               <Image
                 src={zodiacIconUrl}
                 style={styles.guidanceIcon}
               />
             </View>
 
-            <Text style={styles.guidanceLabel}>
-              Tendance générale
-            </Text>
+            <View style={styles.guidanceHeading}>
+              <Text style={styles.guidanceLabel}>
+                Tendance générale
+              </Text>
 
-            <Text style={styles.guidanceTitle}>
-              {guidance.title}
-            </Text>
-
-            <Text style={styles.guidanceText}>
-              {guidance.text}
-            </Text>
+              <Text style={styles.guidanceTitle}>
+                {guidance.title}
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.actionsColumn}>
-            {actionCards.map((action, index) => (
-              <View
-                key={action.title}
-                style={styles.actionCard}
-                wrap={false}
-              >
-                <View style={styles.actionNumberCircle}>
-                  <Text style={styles.actionNumber}>
-                    {String(index + 1).padStart(2, "0")}
-                  </Text>
-                </View>
+          <Text style={styles.guidanceText}>
+            {guidance.text}
+          </Text>
+        </View>
 
-                <View style={styles.actionContent}>
-                  <Text style={styles.actionTitle}>
-                    {action.title}
-                  </Text>
-
-                  <Text style={styles.actionText}>
-                    {action.text}
-                  </Text>
-                </View>
+        <View style={styles.actionsRow}>
+          {actionCards.map((action, index) => (
+            <View
+              key={action.title}
+              style={styles.actionCard}
+              wrap={false}
+            >
+              <View style={styles.actionNumberCircle}>
+                <Text style={styles.actionNumber}>
+                  {String(index + 1).padStart(2, "0")}
+                </Text>
               </View>
-            ))}
-          </View>
+
+              <Text style={styles.actionTitle}>
+                {action.title}
+              </Text>
+
+              <Text style={styles.actionText}>
+                {action.text}
+              </Text>
+            </View>
+          ))}
         </View>
 
         <View style={styles.adviceCard} wrap={false}>
           <View style={styles.adviceHeader}>
-            <View style={styles.adviceIconFrame}>
+            <View style={styles.adviceIconBox}>
               <Image
                 src={zodiacIconUrl}
                 style={styles.adviceIcon}
