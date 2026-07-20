@@ -18,6 +18,7 @@ import HoroscopeChallenges from "./HoroscopeChallenges";
 import HoroscopeOpportunities from "./HoroscopeOpportunities";
 import HoroscopeLucky from "./HoroscopeLucky";
 import HoroscopeConclusion from "./HoroscopeConclusion";
+import HoroscopeExplore from "./HoroscopeExplore";
 
 export default function HoroscopePdf({
   identity,
@@ -84,6 +85,8 @@ export default function HoroscopePdf({
       <HoroscopeLucky {...sharedProps} />
 
       <HoroscopeConclusion {...sharedProps} />
+
+      <HoroscopeExplore {...sharedProps} />
     </Document>
   );
 }
