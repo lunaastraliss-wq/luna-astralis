@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -33,6 +34,18 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const ENERGY_ICONS = {
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
+  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+};
+
 
 const styles = StyleSheet.create({
   page: {
@@ -142,6 +155,8 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
     marginBottom: 12,
   },
@@ -199,7 +214,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    borderWidth: 1.1,
+    borderWidth: 1.2,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -390,8 +405,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
-    borderLeftWidth: 2,
+    borderLeftWidth: 2.2,
     borderLeftColor: GOLD,
+    borderTopWidth: 0.8,
+    borderTopColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
   },
 
@@ -453,7 +470,8 @@ export default function HoroscopeEnergy({
     : [];
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
       <View style={styles.content} wrap={false}>
         <View style={styles.header}>
           <Image
@@ -490,7 +508,7 @@ export default function HoroscopeEnergy({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={ENERGY_ICONS.sun}
               style={styles.titleIcon}
             />
 
@@ -507,7 +525,7 @@ export default function HoroscopeEnergy({
 
               <View style={styles.energyTitleRow}>
                 <Image
-                  src={zodiacIconUrl}
+                  src={ENERGY_ICONS.sun}
                   style={styles.energyTitleIcon}
                 />
 
@@ -534,7 +552,7 @@ export default function HoroscopeEnergy({
             <View style={styles.energyDividerLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={ENERGY_ICONS.moon}
               style={styles.energyDividerIcon}
             />
           </View>
@@ -554,7 +572,7 @@ export default function HoroscopeEnergy({
           <View style={styles.progressHeader}>
             <View style={styles.progressLabelRow}>
               <Image
-                src={zodiacIconUrl}
+                src={ENERGY_ICONS.lifePurpose}
                 style={styles.progressIcon}
               />
 
@@ -586,7 +604,7 @@ export default function HoroscopeEnergy({
               <View style={styles.highlightHeaderLine} />
 
               <Image
-                src={zodiacIconUrl}
+                src={ENERGY_ICONS.fourElements}
                 style={styles.highlightHeaderIcon}
               />
 
@@ -610,7 +628,14 @@ export default function HoroscopeEnergy({
                     </View>
 
                     <Image
-                      src={zodiacIconUrl}
+                      src={
+                        [
+                          ENERGY_ICONS.sun,
+                          ENERGY_ICONS.moon,
+                          ENERGY_ICONS.fourElements,
+                          ENERGY_ICONS.soulPath,
+                        ][index] ?? ENERGY_ICONS.sun
+                      }
                       style={styles.highlightIcon}
                     />
                   </View>
@@ -629,7 +654,7 @@ export default function HoroscopeEnergy({
             <View style={styles.adviceHeader}>
               <View style={styles.adviceIconBox}>
                 <Image
-                  src={zodiacIconUrl}
+                  src={ENERGY_ICONS.integrationGuide}
                   style={styles.adviceIcon}
                 />
               </View>
