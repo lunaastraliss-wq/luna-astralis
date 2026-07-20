@@ -23,6 +23,8 @@ export default function HoroscopePdf({
   identity,
   period,
   content,
+  logoUrl,
+  zodiacIconUrl,
 }: HoroscopePdfProps) {
   const sharedProps = {
     identity,
@@ -49,13 +51,13 @@ export default function HoroscopePdf({
       language="fr-FR"
     >
       <HoroscopeCover
-  identity={identity}
-  period={period}
-  reportTitle={content.reportTitle}
-  reportSubtitle={content.reportSubtitle}
-  logoUrl={logoUrl}
-  zodiacIconUrl={zodiacIconUrl}
-/>
+        identity={identity}
+        period={period}
+        reportTitle={content.reportTitle}
+        reportSubtitle={content.reportSubtitle}
+        logoUrl={logoUrl}
+        zodiacIconUrl={zodiacIconUrl}
+      />
 
       <HoroscopeWelcome {...sharedProps} />
 
