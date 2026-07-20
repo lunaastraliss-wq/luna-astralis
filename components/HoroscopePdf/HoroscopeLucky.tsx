@@ -37,52 +37,55 @@ const DEEP_GOLD = "#4E412D";
 const ASTROLOGY_PATH = "/astrology";
 
 const SYMBOL_ICONS = {
-  heart: `${ASTROLOGY_PATH}/heart.png`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png`,
-  fourElements: `${ASTROLOGY_PATH}/four-elements.png`,
-  sun: `${ASTROLOGY_PATH}/sun.png`,
-  moon: `${ASTROLOGY_PATH}/moon.png`,
+  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
 };
 
 const ELEMENT_ICONS: Record<string, string> = {
-  air: `${ASTROLOGY_PATH}/element-air.png`,
+  air: `${ASTROLOGY_PATH}/element-air.png?v=2`,
 
-  terre: `${ASTROLOGY_PATH}/element-earth.png`,
-  earth: `${ASTROLOGY_PATH}/element-earth.png`,
+  terre: `${ASTROLOGY_PATH}/element-earth.png?v=2`,
+  earth: `${ASTROLOGY_PATH}/element-earth.png?v=2`,
 
-  feu: `${ASTROLOGY_PATH}/element-fire.png`,
-  fire: `${ASTROLOGY_PATH}/element-fire.png`,
+  feu: `${ASTROLOGY_PATH}/element-fire.png?v=2`,
+  fire: `${ASTROLOGY_PATH}/element-fire.png?v=2`,
 
-  eau: `${ASTROLOGY_PATH}/element-water.png`,
-  water: `${ASTROLOGY_PATH}/element-water.png`,
+  eau: `${ASTROLOGY_PATH}/element-water.png?v=2`,
+  water: `${ASTROLOGY_PATH}/element-water.png?v=2`,
 };
 
 const PLANET_ICONS: Record<string, string> = {
-  soleil: `${ASTROLOGY_PATH}/sun.png`,
-  sun: `${ASTROLOGY_PATH}/sun.png`,
+  soleil: `${ASTROLOGY_PATH}/sun.png?v=2`,
+  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
 
-  lune: `${ASTROLOGY_PATH}/moon.png`,
-  moon: `${ASTROLOGY_PATH}/moon.png`,
+  lune: `${ASTROLOGY_PATH}/moon.png?v=2`,
+  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
 
-  mercure: `${ASTROLOGY_PATH}/mercury.png`,
-  mercury: `${ASTROLOGY_PATH}/mercury.png`,
+  mercure: `${ASTROLOGY_PATH}/mercury.png?v=2`,
+  mercury: `${ASTROLOGY_PATH}/mercury.png?v=2`,
 
-  venus: `${ASTROLOGY_PATH}/venus.png`,
+  venus: `${ASTROLOGY_PATH}/venus.png?v=2`,
 
-  mars: `${ASTROLOGY_PATH}/mars.png`,
+  mars: `${ASTROLOGY_PATH}/mars.png?v=2`,
 
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png`,
+  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
 
-  saturne: `${ASTROLOGY_PATH}/saturn.png`,
-  saturn: `${ASTROLOGY_PATH}/saturn.png`,
+  saturne: `${ASTROLOGY_PATH}/saturn.png?v=2`,
+  saturn: `${ASTROLOGY_PATH}/saturn.png?v=2`,
 
-  uranus: `${ASTROLOGY_PATH}/uranus.png`,
+  uranus: `${ASTROLOGY_PATH}/uranus.png?v=2`,
 
-  neptune: `${ASTROLOGY_PATH}/neptune.png`,
+  neptune: `${ASTROLOGY_PATH}/neptune.png?v=2`,
 
-  pluton: `${ASTROLOGY_PATH}/pluto.png`,
-  pluto: `${ASTROLOGY_PATH}/pluto.png`,
+  pluton: `${ASTROLOGY_PATH}/pluto.png?v=2`,
+  pluto: `${ASTROLOGY_PATH}/pluto.png?v=2`,
 };
 
 const styles = StyleSheet.create({
@@ -921,7 +924,7 @@ export default function HoroscopeLucky({
     {
       label: "Pierre symbolique",
       value: lucky.stone,
-      icon: SYMBOL_ICONS.innerWorld,
+      icon: SYMBOL_ICONS.hiddenTalents,
       description:
         "Une pierre associée aux énergies astrologiques de votre période.",
     },
@@ -1117,7 +1120,7 @@ export default function HoroscopeLucky({
               <View style={styles.titleLine} />
 
               <Image
-                src={SYMBOL_ICONS.soulPath}
+                src={SYMBOL_ICONS.integrationGuide}
                 style={styles.titleDecorationIcon}
               />
 
@@ -1132,7 +1135,7 @@ export default function HoroscopeLucky({
             <View style={styles.guideIconOuter}>
               <View style={styles.guideIconInner}>
                 <Image
-                  src={SYMBOL_ICONS.soulPath}
+                  src={SYMBOL_ICONS.lifePurpose}
                   style={styles.guideIcon}
                 />
               </View>
@@ -1226,7 +1229,7 @@ export default function HoroscopeLucky({
           <View style={styles.ritualCard} wrap={false}>
             <View style={styles.ritualIconCircle}>
               <Image
-                src={SYMBOL_ICONS.innerWorld}
+                src={SYMBOL_ICONS.integrationGuide}
                 style={styles.ritualIcon}
               />
             </View>
@@ -1254,7 +1257,7 @@ export default function HoroscopeLucky({
 
           <View style={styles.reminderCard} wrap={false}>
             <Image
-              src={SYMBOL_ICONS.soulPath}
+              src={SYMBOL_ICONS.lifePurpose}
               style={styles.reminderIcon}
             />
 
