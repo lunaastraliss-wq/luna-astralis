@@ -37,9 +37,9 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 34,
+    paddingHorizontal: 42,
+    paddingBottom: 50,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -52,12 +52,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 18,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 106,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 21,
+    marginBottom: 16,
   },
 
   eyebrow: {
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
     marginBottom: 8,
   },
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 10,
   },
 
   titleDecoration: {
@@ -137,20 +137,21 @@ const styles = StyleSheet.create({
   },
 
   mainCard: {
-    paddingVertical: 21,
-    paddingHorizontal: 21,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 18,
+    minHeight: 184,
+    marginBottom: 14,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   mainHeading: {
@@ -186,9 +187,9 @@ const styles = StyleSheet.create({
   },
 
   scoreOuterCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -196,9 +197,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 21,
   },
 
   scoreMaximum: {
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   mainDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 13,
+    marginBottom: 10,
   },
 
   mainDividerLine: {
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     color: MUTED_CREAM,
     fontSize: 9.5,
     lineHeight: 1.6,
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   mainText: {
@@ -251,13 +252,13 @@ const styles = StyleSheet.create({
   },
 
   progressCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 19,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 19,
+    marginBottom: 14,
   },
 
   progressHeader: {
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
   highlightsHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 10,
   },
 
   highlightsHeaderLine: {
@@ -334,15 +335,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 18,
+    marginBottom: 10,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 78,
-    paddingVertical: 13,
+    minHeight: 88,
+    paddingVertical: 14,
     paddingHorizontal: 14,
-    marginBottom: 11,
+    marginBottom: 10,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -380,19 +381,20 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.5,
+    fontSize: 9,
+    lineHeight: 1.55,
   },
 
   adviceCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    paddingVertical: 17,
+    paddingHorizontal: 19,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+    minHeight: 72,
   },
 
   adviceHeader: {
@@ -436,8 +438,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 14,
-    paddingVertical: 9,
+    marginTop: 10,
+    paddingVertical: 8,
     paddingHorizontal: 14,
     borderRadius: 10,
     borderWidth: 0.4,
@@ -481,7 +483,7 @@ export default function HoroscopeHealth({
     : [];
 
   return (
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} wrap={false}>
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
