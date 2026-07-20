@@ -11,7 +11,6 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
-import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -23,8 +22,11 @@ import {
   normalizeHoroscopeScore,
 } from "./HoroscopePdfUtils";
 
+const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
 const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
+const TRACK = "#202C3E";
 
 const GOLD = "#F4C95D";
 const CREAM = "#FFF8E7";
@@ -38,13 +40,11 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 44,
     paddingBottom: 58,
-    backgroundColor: "#06101F",
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
-    position: "relative",
-    zIndex: 2,
     flex: 1,
   },
 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 28,
+    marginBottom: 25,
   },
 
   logo: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 7,
-    paddingHorizontal: 11,
+    paddingHorizontal: 12,
     borderRadius: 18,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -86,6 +86,10 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
 
+  titleBlock: {
+    marginBottom: 21,
+  },
+
   eyebrow: {
     color: GOLD,
     fontSize: 9,
@@ -104,36 +108,98 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 24,
+    marginBottom: 13,
+  },
+
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  titleLine: {
+    width: 64,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  titleIcon: {
+    width: 14,
+    height: 14,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  titleLineSmall: {
+    width: 20,
+    height: 1,
+    backgroundColor: DARK_GOLD,
   },
 
   energyCard: {
-    paddingVertical: 23,
-    paddingHorizontal: 23,
-    borderRadius: 10,
+    paddingVertical: 21,
+    paddingHorizontal: 21,
+    borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 22,
+    marginBottom: 18,
   },
 
   energyHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 14,
+  },
+
+  energyHeading: {
+    flex: 1,
+    paddingRight: 16,
+  },
+
+  energyMiniLabel: {
+    color: SOFT_TEXT,
+    fontSize: 7,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    marginBottom: 6,
+  },
+
+  energyTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  energyTitleIcon: {
+    width: 17,
+    height: 17,
+    objectFit: "contain",
+    marginRight: 8,
   },
 
   energyTitle: {
+    flex: 1,
     color: GOLD,
     fontSize: 13,
+    lineHeight: 1.35,
+  },
+
+  scoreOuterCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   scoreCircle: {
     width: 62,
     height: 62,
     borderRadius: 31,
-    borderWidth: 1.2,
+    borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -151,6 +217,25 @@ const styles = StyleSheet.create({
     marginTop: 1,
   },
 
+  energyDivider: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 13,
+  },
+
+  energyDividerLine: {
+    width: 31,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+    marginRight: 7,
+  },
+
+  energyDividerIcon: {
+    width: 11,
+    height: 11,
+    objectFit: "contain",
+  },
+
   introduction: {
     color: MUTED_CREAM,
     fontSize: 9.5,
@@ -165,14 +250,33 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
 
-  progressSection: {
-    marginBottom: 23,
+  progressCard: {
+    paddingVertical: 15,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    marginBottom: 19,
   },
 
   progressHeader: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: 9,
+  },
+
+  progressLabelRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  progressIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 7,
   },
 
   progressLabel: {
@@ -187,16 +291,36 @@ const styles = StyleSheet.create({
 
   progressTrack: {
     width: "100%",
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#202C3E",
+    height: 9,
+    borderRadius: 4.5,
+    backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 8,
-    borderRadius: 4,
+    height: 9,
+    borderRadius: 4.5,
     backgroundColor: GOLD,
+  },
+
+  highlightHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  highlightHeaderLine: {
+    width: 24,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  highlightHeaderIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 8,
   },
 
   highlightTitle: {
@@ -204,32 +328,54 @@ const styles = StyleSheet.create({
     fontSize: 10,
     letterSpacing: 1.5,
     textTransform: "uppercase",
-    marginBottom: 12,
   },
 
   highlightsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 18,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 74,
+    minHeight: 78,
     paddingVertical: 13,
     paddingHorizontal: 14,
     marginBottom: 11,
-    borderRadius: 8,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
+  highlightTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
+  highlightNumberCircle: {
+    width: 25,
+    height: 25,
+    borderRadius: 12.5,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+
   highlightNumber: {
     color: GOLD,
-    fontSize: 9,
-    marginBottom: 6,
+    fontSize: 8,
+  },
+
+  highlightIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
   },
 
   highlightText: {
@@ -239,11 +385,38 @@ const styles = StyleSheet.create({
   },
 
   adviceCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
+  },
+
+  adviceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  adviceIconBox: {
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 9,
+  },
+
+  adviceIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
   },
 
   adviceLabel: {
@@ -251,7 +424,6 @@ const styles = StyleSheet.create({
     fontSize: 8,
     letterSpacing: 1.4,
     textTransform: "uppercase",
-    marginBottom: 8,
   },
 
   adviceText: {
@@ -282,8 +454,6 @@ export default function HoroscopeEnergy({
 
   return (
     <Page size="A4" style={styles.page}>
-      <HoroscopeStarBackground />
-
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
@@ -303,33 +473,70 @@ export default function HoroscopeEnergy({
           </View>
         </View>
 
-        <Text style={styles.eyebrow}>
-          Énergie générale
-        </Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Énergie générale
+          </Text>
 
-        <Text style={styles.title}>
-          Votre climat énergétique
-        </Text>
+          <Text style={styles.title}>
+            Votre climat énergétique
+          </Text>
 
-        <Text style={styles.period}>
-          {periodLabel}
-        </Text>
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.titleIcon}
+            />
+
+            <View style={styles.titleLineSmall} />
+          </View>
+        </View>
 
         <View style={styles.energyCard} wrap={false}>
           <View style={styles.energyHeader}>
-            <Text style={styles.energyTitle}>
-              {content.energy.title}
-            </Text>
-
-            <View style={styles.scoreCircle}>
-              <Text style={styles.scoreValue}>
-                {energyScore}
+            <View style={styles.energyHeading}>
+              <Text style={styles.energyMiniLabel}>
+                Tendance dominante
               </Text>
 
-              <Text style={styles.scoreMaximum}>
-                sur 100
-              </Text>
+              <View style={styles.energyTitleRow}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.energyTitleIcon}
+                />
+
+                <Text style={styles.energyTitle}>
+                  {content.energy.title}
+                </Text>
+              </View>
             </View>
+
+            <View style={styles.scoreOuterCircle}>
+              <View style={styles.scoreCircle}>
+                <Text style={styles.scoreValue}>
+                  {energyScore}
+                </Text>
+
+                <Text style={styles.scoreMaximum}>
+                  sur 100
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.energyDivider}>
+            <View style={styles.energyDividerLine} />
+
+            <Image
+              src={zodiacIconUrl}
+              style={styles.energyDividerIcon}
+            />
           </View>
 
           {content.energy.introduction ? (
@@ -343,11 +550,18 @@ export default function HoroscopeEnergy({
           </Text>
         </View>
 
-        <View style={styles.progressSection} wrap={false}>
+        <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
-            <Text style={styles.progressLabel}>
-              Niveau d’énergie
-            </Text>
+            <View style={styles.progressLabelRow}>
+              <Image
+                src={zodiacIconUrl}
+                style={styles.progressIcon}
+              />
+
+              <Text style={styles.progressLabel}>
+                Niveau d’énergie
+              </Text>
+            </View>
 
             <Text style={styles.progressValue}>
               {energyScore} %
@@ -368,9 +582,18 @@ export default function HoroscopeEnergy({
 
         {highlights.length > 0 ? (
           <>
-            <Text style={styles.highlightTitle}>
-              Points à retenir
-            </Text>
+            <View style={styles.highlightHeader}>
+              <View style={styles.highlightHeaderLine} />
+
+              <Image
+                src={zodiacIconUrl}
+                style={styles.highlightHeaderIcon}
+              />
+
+              <Text style={styles.highlightTitle}>
+                Points à retenir
+              </Text>
+            </View>
 
             <View style={styles.highlightsGrid}>
               {highlights.map((highlight, index) => (
@@ -379,9 +602,18 @@ export default function HoroscopeEnergy({
                   style={styles.highlightCard}
                   wrap={false}
                 >
-                  <Text style={styles.highlightNumber}>
-                    0{index + 1}
-                  </Text>
+                  <View style={styles.highlightTopRow}>
+                    <View style={styles.highlightNumberCircle}>
+                      <Text style={styles.highlightNumber}>
+                        0{index + 1}
+                      </Text>
+                    </View>
+
+                    <Image
+                      src={zodiacIconUrl}
+                      style={styles.highlightIcon}
+                    />
+                  </View>
 
                   <Text style={styles.highlightText}>
                     {highlight}
@@ -394,9 +626,18 @@ export default function HoroscopeEnergy({
 
         {content.energy.advice ? (
           <View style={styles.adviceCard} wrap={false}>
-            <Text style={styles.adviceLabel}>
-              Conseil énergétique
-            </Text>
+            <View style={styles.adviceHeader}>
+              <View style={styles.adviceIconBox}>
+                <Image
+                  src={zodiacIconUrl}
+                  style={styles.adviceIcon}
+                />
+              </View>
+
+              <Text style={styles.adviceLabel}>
+                Conseil énergétique
+              </Text>
+            </View>
 
             <Text style={styles.adviceText}>
               {content.energy.advice}
