@@ -37,9 +37,9 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 30,
-    paddingHorizontal: 40,
-    paddingBottom: 48,
+    paddingTop: 34,
+    paddingHorizontal: 42,
+    paddingBottom: 52,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 16,
+    marginBottom: 18,
   },
 
   logo: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 10,
+    marginBottom: 14,
   },
 
   eyebrow: {
@@ -137,20 +137,20 @@ const styles = StyleSheet.create({
   },
 
   energyCard: {
-    paddingVertical: 10,
-    paddingHorizontal: 17,
+    paddingVertical: 16,
+    paddingHorizontal: 19,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 5,
+    marginBottom: 12,
   },
 
   energyHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 13,
   },
 
   energyHeading: {
@@ -186,9 +186,9 @@ const styles = StyleSheet.create({
   },
 
   scoreOuterCircle: {
-    width: 66,
-    height: 66,
-    borderRadius: 33,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -196,9 +196,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 64,
+    height: 64,
+    borderRadius: 32,
     borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 18,
+    fontSize: 21,
   },
 
   scoreMaximum: {
@@ -238,26 +238,26 @@ const styles = StyleSheet.create({
 
   introduction: {
     color: MUTED_CREAM,
-    fontSize: 9,
-    lineHeight: 1.45,
+    fontSize: 9.5,
+    lineHeight: 1.55,
     marginBottom: 8,
   },
 
   mainText: {
     color: CREAM,
-    fontSize: 9.8,
-    lineHeight: 1.55,
+    fontSize: 10.2,
+    lineHeight: 1.6,
     textAlign: "justify",
   },
 
   progressCard: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 17,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 5,
+    marginBottom: 12,
   },
 
   progressHeader: {
@@ -273,8 +273,8 @@ const styles = StyleSheet.create({
   },
 
   progressIcon: {
-    width: 13,
-    height: 13,
+    width: 15,
+    height: 15,
     objectFit: "contain",
     marginRight: 7,
   },
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
   highlightHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 12,
   },
 
   highlightHeaderLine: {
@@ -334,15 +334,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 5,
+    marginBottom: 9,
   },
 
   highlightCard: {
     width: "48.5%",
-    minHeight: 54,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    marginBottom: 5,
+    minHeight: 78,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    marginBottom: 10,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -352,13 +352,13 @@ const styles = StyleSheet.create({
   highlightTopRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 9,
   },
 
   highlightNumberCircle: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
     borderWidth: 0.7,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
 
   highlightNumber: {
     color: GOLD,
-    fontSize: 8,
+    fontSize: 8.5,
   },
 
   highlightIcon: {
@@ -380,8 +380,8 @@ const styles = StyleSheet.create({
 
   highlightText: {
     color: CREAM,
-    fontSize: 8.2,
-    lineHeight: 1.35,
+    fontSize: 9.2,
+    lineHeight: 1.5,
   },
 
   adviceCard: {
@@ -428,8 +428,8 @@ const styles = StyleSheet.create({
 
   adviceText: {
     color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.45,
+    fontSize: 9.5,
+    lineHeight: 1.55,
   },
 });
 
