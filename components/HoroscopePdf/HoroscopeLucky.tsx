@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -31,19 +32,73 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const SYMBOL_ICONS = {
+  heart: `${ASTROLOGY_PATH}/heart.png`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png`,
+  fourElements: `${ASTROLOGY_PATH}/four-elements.png`,
+  sun: `${ASTROLOGY_PATH}/sun.png`,
+  moon: `${ASTROLOGY_PATH}/moon.png`,
+};
+
+const ELEMENT_ICONS: Record<string, string> = {
+  air: `${ASTROLOGY_PATH}/element-air.png`,
+
+  terre: `${ASTROLOGY_PATH}/element-earth.png`,
+  earth: `${ASTROLOGY_PATH}/element-earth.png`,
+
+  feu: `${ASTROLOGY_PATH}/element-fire.png`,
+  fire: `${ASTROLOGY_PATH}/element-fire.png`,
+
+  eau: `${ASTROLOGY_PATH}/element-water.png`,
+  water: `${ASTROLOGY_PATH}/element-water.png`,
+};
+
+const PLANET_ICONS: Record<string, string> = {
+  soleil: `${ASTROLOGY_PATH}/sun.png`,
+  sun: `${ASTROLOGY_PATH}/sun.png`,
+
+  lune: `${ASTROLOGY_PATH}/moon.png`,
+  moon: `${ASTROLOGY_PATH}/moon.png`,
+
+  mercure: `${ASTROLOGY_PATH}/mercury.png`,
+  mercury: `${ASTROLOGY_PATH}/mercury.png`,
+
+  venus: `${ASTROLOGY_PATH}/venus.png`,
+
+  mars: `${ASTROLOGY_PATH}/mars.png`,
+
+  jupiter: `${ASTROLOGY_PATH}/jupiter.png`,
+
+  saturne: `${ASTROLOGY_PATH}/saturn.png`,
+  saturn: `${ASTROLOGY_PATH}/saturn.png`,
+
+  uranus: `${ASTROLOGY_PATH}/uranus.png`,
+
+  neptune: `${ASTROLOGY_PATH}/neptune.png`,
+
+  pluton: `${ASTROLOGY_PATH}/pluto.png`,
+  pluto: `${ASTROLOGY_PATH}/pluto.png`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 34,
+    paddingTop: 36,
     paddingHorizontal: 44,
-    paddingBottom: 52,
+    paddingBottom: 56,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
     overflow: "hidden",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -51,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 17,
   },
 
   logo: {
@@ -86,7 +141,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 13,
+    marginBottom: 14,
   },
 
   eyebrow: {
@@ -94,20 +149,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 7,
+    marginBottom: 8,
   },
 
   title: {
     color: CREAM,
     fontSize: 25,
     lineHeight: 1.2,
-    marginBottom: 6,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 9,
+    marginBottom: 10,
   },
 
   titleDecoration: {
@@ -116,244 +171,391 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 63,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  titleIcon: {
-    width: 14,
-    height: 14,
+  titleDecorationIcon: {
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 22,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
   introductionCard: {
-    paddingVertical: 13,
-    paddingHorizontal: 17,
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginBottom: 15,
     borderRadius: 12,
-    borderWidth: 0.6,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 13,
+    overflow: "hidden",
   },
 
-  introductionHeader: {
+  introductionOrbitOne: {
+    position: "absolute",
+    top: -40,
+    left: -43,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  introductionOrbitTwo: {
+    position: "absolute",
+    top: -20,
+    left: -23,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+  },
+
+  introductionIconCircle: {
+    width: 55,
+    height: 55,
+    borderRadius: 28,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 14,
+  },
+
+  introductionIcon: {
+    width: 35,
+    height: 35,
+    objectFit: "contain",
+  },
+
+  introductionContent: {
+    flex: 1,
+  },
+
+  introductionLabel: {
+    color: GOLD,
+    fontSize: 7.4,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+    marginBottom: 5,
+  },
+
+  introductionText: {
+    color: MUTED_CREAM,
+    fontSize: 8.6,
+    lineHeight: 1.5,
+  },
+
+  sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 11,
+  },
+
+  sectionLine: {
+    width: 28,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 9,
+  },
+
+  sectionIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 9,
+  },
+
+  sectionLabel: {
+    color: GOLD,
+    fontSize: 9.2,
+    letterSpacing: 1.4,
+    textTransform: "uppercase",
+  },
+
+  featuredRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+
+  featuredCard: {
+    position: "relative",
+    width: "48.5%",
+    minHeight: 162,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 12,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  featuredCardGlow: {
+    position: "absolute",
+    top: -38,
+    right: -35,
+    width: 105,
+    height: 105,
+    borderRadius: 53,
+    borderWidth: 0.6,
+    borderColor: DEEP_GOLD,
+  },
+
+  featuredIconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 11,
+  },
+
+  featuredIcon: {
+    width: 31,
+    height: 31,
+    objectFit: "contain",
+  },
+
+  featuredLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.6,
+    letterSpacing: 1.1,
+    textTransform: "uppercase",
+    marginBottom: 5,
+  },
+
+  featuredValue: {
+    color: GOLD,
+    fontSize: 15,
+    lineHeight: 1.2,
     marginBottom: 7,
   },
 
-  introductionIconBox: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
+  featuredDescription: {
+    color: MUTED_CREAM,
+    fontSize: 7.5,
+    lineHeight: 1.43,
+  },
+
+  smallGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+
+  smallCard: {
+    width: "48.5%",
+    minHeight: 115,
+    paddingVertical: 12,
+    paddingHorizontal: 13,
+    marginBottom: 10,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  smallCardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  smallIconCircle: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    borderWidth: 0.7,
+    borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 9,
   },
 
-  introductionIcon: {
-    width: 16,
-    height: 16,
+  smallIcon: {
+    width: 22,
+    height: 22,
     objectFit: "contain",
   },
 
-  introductionLabel: {
-    color: GOLD,
-    fontSize: 7.8,
-    letterSpacing: 1.3,
-    textTransform: "uppercase",
-  },
-
-  introductionText: {
-    color: MUTED_CREAM,
-    fontSize: 8.7,
-    lineHeight: 1.52,
-  },
-
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 9,
-  },
-
-  sectionLine: {
-    width: 25,
-    height: 1,
-    backgroundColor: GOLD,
-    marginRight: 8,
-  },
-
-  sectionIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  sectionLabel: {
-    color: GOLD,
-    fontSize: 9.3,
-    letterSpacing: 1.4,
-    textTransform: "uppercase",
-  },
-
-  luckyGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-
-  luckyCard: {
-    width: "48.5%",
-    minHeight: 102,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    marginBottom: 10,
-    borderRadius: 11,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  cardTopRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
-
-  cardNumberCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 0.7,
-    borderColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8,
-  },
-
-  cardNumber: {
-    color: GOLD,
-    fontSize: 7.8,
-  },
-
-  cardIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-  },
-
-  cardLabel: {
+  smallNumber: {
     color: SOFT_TEXT,
-    fontSize: 6.7,
-    letterSpacing: 1.05,
-    textTransform: "uppercase",
-    marginBottom: 5,
+    fontSize: 6.5,
+    letterSpacing: 1,
   },
 
-  cardValue: {
-    color: GOLD,
-    fontSize: 11.3,
-    lineHeight: 1.25,
+  smallLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.5,
+    letterSpacing: 1,
+    textTransform: "uppercase",
     marginBottom: 4,
   },
 
-  cardDescription: {
+  smallValue: {
+    color: GOLD,
+    fontSize: 11,
+    lineHeight: 1.25,
+    marginBottom: 5,
+  },
+
+  smallDescription: {
     color: MUTED_CREAM,
-    fontSize: 7.35,
+    fontSize: 7.1,
     lineHeight: 1.4,
   },
 
-  guideLeadCard: {
+  symbolicBanner: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 12,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 12,
+    backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  guideLeadIconOuter: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
+  symbolicBannerIcon: {
+    width: 26,
+    height: 26,
+    objectFit: "contain",
+    marginRight: 11,
+  },
+
+  symbolicBannerText: {
+    flex: 1,
+    color: MUTED_CREAM,
+    fontSize: 7.7,
+    lineHeight: 1.45,
+  },
+
+  guideHero: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 115,
+    paddingVertical: 15,
+    paddingHorizontal: 17,
+    marginBottom: 13,
+    borderRadius: 13,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  guideOrbitOne: {
+    position: "absolute",
+    top: -55,
+    left: -58,
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  guideOrbitTwo: {
+    position: "absolute",
+    top: -27,
+    left: -30,
+    width: 105,
+    height: 105,
+    borderRadius: 53,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+  },
+
+  guideIconOuter: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 14,
+    marginRight: 15,
   },
 
-  guideLeadIconInner: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    borderWidth: 0.8,
+  guideIconInner: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    borderWidth: 0.9,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
   },
 
-  guideLeadIcon: {
-    width: 31,
-    height: 31,
+  guideIcon: {
+    width: 39,
+    height: 39,
     objectFit: "contain",
   },
 
-  guideLeadTextWrap: {
+  guideTextWrap: {
     flex: 1,
   },
 
-  guideLeadLabel: {
+  guideLabel: {
     color: GOLD,
-    fontSize: 7.4,
-    letterSpacing: 1.2,
+    fontSize: 7.3,
+    letterSpacing: 1.25,
     textTransform: "uppercase",
-    marginBottom: 5,
+    marginBottom: 6,
   },
 
-  guideLeadText: {
+  guideText: {
     color: MUTED_CREAM,
-    fontSize: 8.3,
+    fontSize: 8.2,
     lineHeight: 1.48,
   },
 
   numbersCard: {
-    paddingVertical: 13,
+    paddingVertical: 14,
     paddingHorizontal: 17,
+    marginBottom: 12,
     borderRadius: 12,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 11,
   },
 
   numbersHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 7,
+    marginBottom: 8,
   },
 
   numbersTitleRow: {
@@ -362,29 +564,29 @@ const styles = StyleSheet.create({
   },
 
   numbersIcon: {
-    width: 16,
-    height: 16,
+    width: 19,
+    height: 19,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   numbersTitle: {
     color: CREAM,
-    fontSize: 10.5,
+    fontSize: 10.3,
   },
 
   numbersCount: {
     color: SOFT_TEXT,
-    fontSize: 6.8,
-    letterSpacing: 0.9,
+    fontSize: 6.7,
+    letterSpacing: 1,
     textTransform: "uppercase",
   },
 
   numbersIntroduction: {
     color: MUTED_CREAM,
-    fontSize: 8,
+    fontSize: 7.8,
     lineHeight: 1.42,
-    marginBottom: 9,
+    marginBottom: 10,
   },
 
   numbersRow: {
@@ -393,9 +595,9 @@ const styles = StyleSheet.create({
   },
 
   numberOuterCircle: {
-    width: 43,
-    height: 43,
-    borderRadius: 21.5,
+    width: 45,
+    height: 45,
+    borderRadius: 23,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -404,9 +606,9 @@ const styles = StyleSheet.create({
   },
 
   numberCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -420,151 +622,265 @@ const styles = StyleSheet.create({
   },
 
   quoteCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    position: "relative",
+    paddingVertical: 15,
+    paddingHorizontal: 22,
+    marginBottom: 12,
     borderRadius: 12,
-    borderWidth: 0.6,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
-    backgroundColor: NAVY_CARD,
-    marginBottom: 11,
+    backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
+    overflow: "hidden",
+  },
+
+  quoteHeartBackground: {
+    position: "absolute",
+    right: 17,
+    top: 10,
+    width: 50,
+    height: 50,
+    objectFit: "contain",
+    opacity: 0.08,
   },
 
   quoteHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 7,
+    marginBottom: 8,
   },
 
-  quoteIconBox: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+  quoteIconCircle: {
+    width: 31,
+    height: 31,
+    borderRadius: 16,
     borderWidth: 0.7,
     borderColor: GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
+    backgroundColor: NAVY_CARD,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 9,
   },
 
   quoteIcon: {
-    width: 17,
-    height: 17,
+    width: 20,
+    height: 20,
     objectFit: "contain",
   },
 
   quoteLabel: {
     color: GOLD,
-    fontSize: 7.3,
-    letterSpacing: 1.25,
+    fontSize: 7.2,
+    letterSpacing: 1.2,
     textTransform: "uppercase",
   },
 
   quoteText: {
     color: CREAM,
-    fontSize: 10.3,
-    lineHeight: 1.48,
+    fontSize: 11,
+    lineHeight: 1.5,
     fontStyle: "italic",
     textAlign: "center",
   },
 
   ritualCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    flexDirection: "row",
+    paddingVertical: 13,
+    paddingHorizontal: 15,
+    marginBottom: 11,
     borderRadius: 12,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 10,
   },
 
-  ritualHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
-
-  ritualIconBox: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    borderWidth: 0.7,
+  ritualIconCircle: {
+    width: 49,
+    height: 49,
+    borderRadius: 25,
+    borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    marginRight: 13,
   },
 
   ritualIcon: {
-    width: 18,
-    height: 18,
+    width: 31,
+    height: 31,
     objectFit: "contain",
   },
 
-  ritualHeading: {
+  ritualContent: {
     flex: 1,
   },
 
-  ritualMiniLabel: {
+  ritualLabel: {
     color: SOFT_TEXT,
-    fontSize: 6.7,
+    fontSize: 6.6,
     letterSpacing: 1.05,
     textTransform: "uppercase",
-    marginBottom: 3,
+    marginBottom: 4,
   },
 
   ritualTitle: {
     color: GOLD,
     fontSize: 10.2,
+    marginBottom: 6,
   },
 
   ritualText: {
     color: CREAM,
-    fontSize: 8.2,
-    lineHeight: 1.46,
+    fontSize: 7.9,
+    lineHeight: 1.45,
   },
 
   reminderCard: {
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 11,
-    paddingHorizontal: 16,
+    paddingHorizontal: 15,
     borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
-  reminderHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 6,
+  reminderIcon: {
+    width: 25,
+    height: 25,
+    objectFit: "contain",
+    marginRight: 11,
   },
 
-  reminderIcon: {
-    width: 14,
-    height: 14,
-    objectFit: "contain",
-    marginRight: 8,
+  reminderContent: {
+    flex: 1,
   },
 
   reminderLabel: {
     color: GOLD,
-    fontSize: 7.3,
+    fontSize: 7.2,
     letterSpacing: 1.15,
     textTransform: "uppercase",
+    marginBottom: 4,
   },
 
   reminderText: {
     color: MUTED_CREAM,
-    fontSize: 7.9,
-    lineHeight: 1.44,
+    fontSize: 7.7,
+    lineHeight: 1.43,
   },
 });
 
-export default function HoroscopeLucky_v2({
+function normalizeValue(value?: string) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getElementIcon(element?: string) {
+  const normalized = normalizeValue(element);
+
+  return (
+    ELEMENT_ICONS[normalized] ??
+    SYMBOL_ICONS.fourElements
+  );
+}
+
+function getPlanetIcon(planet?: string) {
+  const normalized = normalizeValue(planet);
+
+  return (
+    PLANET_ICONS[normalized] ??
+    SYMBOL_ICONS.sun
+  );
+}
+
+type LuckyCardData = {
+  label: string;
+  value: string;
+  description: string;
+  icon: string;
+};
+
+function FeaturedLuckyCard({
+  card,
+}: {
+  card: LuckyCardData;
+}) {
+  return (
+    <View style={styles.featuredCard} wrap={false}>
+      <View style={styles.featuredCardGlow} />
+
+      <View style={styles.featuredIconCircle}>
+        <Image
+          src={card.icon}
+          style={styles.featuredIcon}
+        />
+      </View>
+
+      <Text style={styles.featuredLabel}>
+        {card.label}
+      </Text>
+
+      <Text style={styles.featuredValue}>
+        {card.value}
+      </Text>
+
+      <Text style={styles.featuredDescription}>
+        {card.description}
+      </Text>
+    </View>
+  );
+}
+
+function SmallLuckyCard({
+  card,
+  index,
+}: {
+  card: LuckyCardData;
+  index: number;
+}) {
+  return (
+    <View style={styles.smallCard} wrap={false}>
+      <View style={styles.smallCardHeader}>
+        <View style={styles.smallIconCircle}>
+          <Image
+            src={card.icon}
+            style={styles.smallIcon}
+          />
+        </View>
+
+        <Text style={styles.smallNumber}>
+          {String(index + 1).padStart(2, "0")}
+        </Text>
+      </View>
+
+      <Text style={styles.smallLabel}>
+        {card.label}
+      </Text>
+
+      <Text style={styles.smallValue}>
+        {card.value}
+      </Text>
+
+      <Text style={styles.smallDescription}>
+        {card.description}
+      </Text>
+    </View>
+  );
+}
+
+export default function HoroscopeLucky({
   identity,
   period,
   content,
@@ -580,40 +896,46 @@ export default function HoroscopeLucky_v2({
     ? lucky.numbers.slice(0, 6)
     : [];
 
-  const cards = [
+  const cards: LuckyCardData[] = [
     {
       label: "Couleur favorable",
       value: lucky.color,
+      icon: SYMBOL_ICONS.heart,
       description:
         "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.",
     },
     {
+      label: "Planète favorable",
+      value: lucky.planet,
+      icon: getPlanetIcon(lucky.planet),
+      description:
+        "L’influence céleste à observer plus particulièrement durant cette période.",
+    },
+    {
       label: "Jour favorable",
       value: lucky.day,
+      icon: SYMBOL_ICONS.sun,
       description:
         "Une journée propice pour agir, communiquer ou prendre une initiative.",
     },
     {
       label: "Pierre symbolique",
       value: lucky.stone,
+      icon: SYMBOL_ICONS.innerWorld,
       description:
         "Une pierre associée aux énergies astrologiques de votre période.",
     },
     {
       label: "Élément dominant",
       value: lucky.element,
+      icon: getElementIcon(lucky.element),
       description:
         "L’énergie élémentaire qui peut soutenir votre équilibre et votre intuition.",
     },
     {
-      label: "Planète favorable",
-      value: lucky.planet,
-      description:
-        "L’influence céleste à observer plus particulièrement durant cette période.",
-    },
-    {
       label: "Moment favorable",
       value: lucky.time,
+      icon: SYMBOL_ICONS.moon,
       description:
         "Un moment de la journée où votre énergie pourrait être plus fluide.",
     },
@@ -623,9 +945,14 @@ export default function HoroscopeLucky_v2({
       item.value.trim().length > 0,
   );
 
+  const featuredCards = cards.slice(0, 2);
+  const secondaryCards = cards.slice(2);
+
   return (
     <>
       <Page size="A4" style={styles.page} wrap={false}>
+        <HoroscopeStarBackground />
+
         <View style={styles.content}>
           <View style={styles.header}>
             <Image
@@ -662,8 +989,8 @@ export default function HoroscopeLucky_v2({
               <View style={styles.titleLine} />
 
               <Image
-                src={zodiacIconUrl}
-                style={styles.titleIcon}
+                src={SYMBOL_ICONS.fourElements}
+                style={styles.titleDecorationIcon}
               />
 
               <View style={styles.titleLineSmall} />
@@ -675,22 +1002,25 @@ export default function HoroscopeLucky_v2({
               style={styles.introductionCard}
               wrap={false}
             >
-              <View style={styles.introductionHeader}>
-                <View style={styles.introductionIconBox}>
-                  <Image
-                    src={zodiacIconUrl}
-                    style={styles.introductionIcon}
-                  />
-                </View>
+              <View style={styles.introductionOrbitOne} />
+              <View style={styles.introductionOrbitTwo} />
 
+              <View style={styles.introductionIconCircle}>
+                <Image
+                  src={SYMBOL_ICONS.fourElements}
+                  style={styles.introductionIcon}
+                />
+              </View>
+
+              <View style={styles.introductionContent}>
                 <Text style={styles.introductionLabel}>
                   Votre énergie favorable
                 </Text>
-              </View>
 
-              <Text style={styles.introductionText}>
-                {lucky.introduction}
-              </Text>
+                <Text style={styles.introductionText}>
+                  {lucky.introduction}
+                </Text>
+              </View>
             </View>
           ) : null}
 
@@ -698,7 +1028,7 @@ export default function HoroscopeLucky_v2({
             <View style={styles.sectionLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={SYMBOL_ICONS.heart}
               style={styles.sectionIcon}
             />
 
@@ -707,39 +1037,41 @@ export default function HoroscopeLucky_v2({
             </Text>
           </View>
 
-          <View style={styles.luckyGrid}>
-            {cards.map((card, index) => (
-              <View
-                key={card.label}
-                style={styles.luckyCard}
-                wrap={false}
-              >
-                <View style={styles.cardTopRow}>
-                  <View style={styles.cardNumberCircle}>
-                    <Text style={styles.cardNumber}>
-                      {String(index + 1).padStart(2, "0")}
-                    </Text>
-                  </View>
+          {featuredCards.length > 0 ? (
+            <View style={styles.featuredRow}>
+              {featuredCards.map((card) => (
+                <FeaturedLuckyCard
+                  key={card.label}
+                  card={card}
+                />
+              ))}
+            </View>
+          ) : null}
 
-                  <Image
-                    src={zodiacIconUrl}
-                    style={styles.cardIcon}
-                  />
-                </View>
+          {secondaryCards.length > 0 ? (
+            <View style={styles.smallGrid}>
+              {secondaryCards.map((card, index) => (
+                <SmallLuckyCard
+                  key={card.label}
+                  card={card}
+                  index={index + 2}
+                />
+              ))}
+            </View>
+          ) : null}
 
-                <Text style={styles.cardLabel}>
-                  {card.label}
-                </Text>
+          <View style={styles.symbolicBanner} wrap={false}>
+            <Image
+              src={SYMBOL_ICONS.soulPath}
+              style={styles.symbolicBannerIcon}
+            />
 
-                <Text style={styles.cardValue}>
-                  {card.value}
-                </Text>
-
-                <Text style={styles.cardDescription}>
-                  {card.description}
-                </Text>
-              </View>
-            ))}
+            <Text style={styles.symbolicBannerText}>
+              Ces repères ne prédisent pas un résultat précis.
+              Ils vous invitent à remarquer les moments où votre
+              intuition et votre énergie semblent plus naturellement
+              disponibles.
+            </Text>
           </View>
         </View>
 
@@ -747,6 +1079,8 @@ export default function HoroscopeLucky_v2({
       </Page>
 
       <Page size="A4" style={styles.page} wrap={false}>
+        <HoroscopeStarBackground />
+
         <View style={styles.content}>
           <View style={styles.header}>
             <Image
@@ -783,36 +1117,40 @@ export default function HoroscopeLucky_v2({
               <View style={styles.titleLine} />
 
               <Image
-                src={zodiacIconUrl}
-                style={styles.titleIcon}
+                src={SYMBOL_ICONS.soulPath}
+                style={styles.titleDecorationIcon}
               />
 
               <View style={styles.titleLineSmall} />
             </View>
           </View>
 
-          <View style={styles.guideLeadCard} wrap={false}>
-            <View style={styles.guideLeadIconOuter}>
-              <View style={styles.guideLeadIconInner}>
+          <View style={styles.guideHero} wrap={false}>
+            <View style={styles.guideOrbitOne} />
+            <View style={styles.guideOrbitTwo} />
+
+            <View style={styles.guideIconOuter}>
+              <View style={styles.guideIconInner}>
                 <Image
-                  src={zodiacIconUrl}
-                  style={styles.guideLeadIcon}
+                  src={SYMBOL_ICONS.soulPath}
+                  style={styles.guideIcon}
                 />
               </View>
             </View>
 
-            <View style={styles.guideLeadTextWrap}>
-              <Text style={styles.guideLeadLabel}>
+            <View style={styles.guideTextWrap}>
+              <Text style={styles.guideLabel}>
                 Votre boussole symbolique
               </Text>
 
-              <Text style={styles.guideLeadText}>
-                Observez ces symboles au fil de la période. Ils peuvent
-                devenir des points de repère pour reconnaître les moments
-                où votre intuition, votre confiance et votre capacité
-                d’action sont plus naturellement accessibles. Utilisez-les
-                comme une invitation à ralentir et à écouter ce qui résonne
-                réellement avec vous.
+              <Text style={styles.guideText}>
+                Observez ces symboles au fil de la période.
+                Ils peuvent devenir des points de repère pour
+                reconnaître les moments où votre intuition,
+                votre confiance et votre capacité d’action sont
+                plus naturellement accessibles. Utilisez-les
+                comme une invitation à ralentir et à écouter ce
+                qui résonne réellement avec vous.
               </Text>
             </View>
           </View>
@@ -822,7 +1160,7 @@ export default function HoroscopeLucky_v2({
               <View style={styles.numbersHeader}>
                 <View style={styles.numbersTitleRow}>
                   <Image
-                    src={zodiacIconUrl}
+                    src={SYMBOL_ICONS.sun}
                     style={styles.numbersIcon}
                   />
 
@@ -837,9 +1175,9 @@ export default function HoroscopeLucky_v2({
               </View>
 
               <Text style={styles.numbersIntroduction}>
-                Ces nombres peuvent accompagner vos choix personnels,
-                vos intentions, vos dates importantes ou vos petits
-                rituels de la période.
+                Ces nombres peuvent accompagner vos choix
+                personnels, vos intentions, vos dates importantes
+                ou vos petits rituels de la période.
               </Text>
 
               <View style={styles.numbersRow}>
@@ -861,10 +1199,15 @@ export default function HoroscopeLucky_v2({
 
           {lucky.quote ? (
             <View style={styles.quoteCard} wrap={false}>
+              <Image
+                src={SYMBOL_ICONS.heart}
+                style={styles.quoteHeartBackground}
+              />
+
               <View style={styles.quoteHeader}>
-                <View style={styles.quoteIconBox}>
+                <View style={styles.quoteIconCircle}>
                   <Image
-                    src={zodiacIconUrl}
+                    src={SYMBOL_ICONS.heart}
                     style={styles.quoteIcon}
                   />
                 </View>
@@ -881,54 +1224,54 @@ export default function HoroscopeLucky_v2({
           ) : null}
 
           <View style={styles.ritualCard} wrap={false}>
-            <View style={styles.ritualHeader}>
-              <View style={styles.ritualIconBox}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.ritualIcon}
-                />
-              </View>
-
-              <View style={styles.ritualHeading}>
-                <Text style={styles.ritualMiniLabel}>
-                  Rituel personnel
-                </Text>
-
-                <Text style={styles.ritualTitle}>
-                  Créez votre moment favorable
-                </Text>
-              </View>
+            <View style={styles.ritualIconCircle}>
+              <Image
+                src={SYMBOL_ICONS.innerWorld}
+                style={styles.ritualIcon}
+              />
             </View>
 
-            <Text style={styles.ritualText}>
-              Choisissez un moment calme de la journée. Entourez-vous
-              de votre couleur favorable, gardez votre pierre symbolique
-              près de vous et notez une intention claire liée à cette
-              période. Respirez lentement, relisez votre phrase
-              d’inspiration et laissez votre intuition vous indiquer la
-              prochaine action juste.
-            </Text>
+            <View style={styles.ritualContent}>
+              <Text style={styles.ritualLabel}>
+                Rituel personnel
+              </Text>
+
+              <Text style={styles.ritualTitle}>
+                Créez votre moment favorable
+              </Text>
+
+              <Text style={styles.ritualText}>
+                Choisissez un moment calme de la journée.
+                Entourez-vous de votre couleur favorable,
+                gardez votre pierre symbolique près de vous
+                et notez une intention claire liée à cette
+                période. Respirez lentement, relisez votre
+                phrase d’inspiration et laissez votre intuition
+                vous indiquer la prochaine action juste.
+              </Text>
+            </View>
           </View>
 
           <View style={styles.reminderCard} wrap={false}>
-            <View style={styles.reminderHeader}>
-              <Image
-                src={zodiacIconUrl}
-                style={styles.reminderIcon}
-              />
+            <Image
+              src={SYMBOL_ICONS.soulPath}
+              style={styles.reminderIcon}
+            />
 
+            <View style={styles.reminderContent}>
               <Text style={styles.reminderLabel}>
                 À retenir
               </Text>
-            </View>
 
-            <Text style={styles.reminderText}>
-              Ces éléments sont des repères symboliques destinés à
-              accompagner votre intuition. Ils ne garantissent pas un
-              résultat précis, mais peuvent vous aider à rester attentive
-              aux occasions favorables et à renforcer votre confiance dans
-              vos propres ressentis.
-            </Text>
+              <Text style={styles.reminderText}>
+                Ces éléments sont des repères symboliques
+                destinés à accompagner votre intuition. Ils ne
+                garantissent pas un résultat précis, mais peuvent
+                vous aider à rester attentive aux occasions
+                favorables et à renforcer votre confiance dans
+                vos propres ressentis.
+              </Text>
+            </View>
           </View>
         </View>
 
