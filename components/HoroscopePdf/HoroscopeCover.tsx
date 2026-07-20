@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
 
   logoSection: {
     alignItems: "center",
-    marginTop: -8,
-    marginBottom: 8,
+    marginTop: -22,
+    marginBottom: 2,
   },
 
   logo: {
@@ -307,10 +307,10 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 30,
+    fontSize: 33,
     lineHeight: 1.14,
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 6,
     maxWidth: 445,
   },
 
@@ -329,9 +329,9 @@ const styles = StyleSheet.create({
   },
 
   zodiacHaloOuter: {
-    width: 230,
-    height: 230,
-    borderRadius: 115,
+    width: 205,
+    height: 205,
+    borderRadius: 102.5,
     borderWidth: 0.5,
     borderColor: VERY_DARK_GOLD,
     alignItems: "center",
@@ -339,9 +339,9 @@ const styles = StyleSheet.create({
   },
 
   zodiacHaloMiddle: {
-    width: 214,
-    height: 214,
-    borderRadius: 107,
+    width: 190,
+    height: 190,
+    borderRadius: 95,
     borderWidth: 1,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -349,9 +349,9 @@ const styles = StyleSheet.create({
   },
 
   zodiacHaloAccent: {
-    width: 198,
-    height: 198,
-    borderRadius: 99,
+    width: 176,
+    height: 176,
+    borderRadius: 88,
     borderWidth: 1.4,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -360,9 +360,9 @@ const styles = StyleSheet.create({
   },
 
   zodiacInnerFrame: {
-    width: 170,
-    height: 170,
-    borderRadius: 85,
+    width: 152,
+    height: 152,
+    borderRadius: 76,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -371,8 +371,8 @@ const styles = StyleSheet.create({
   },
 
   zodiacIcon: {
-    width: 116,
-    height: 116,
+    width: 102,
+    height: 102,
     objectFit: "contain",
   },
 
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
   detailsSection: {
     width: "82%",
     alignItems: "center",
-    marginTop: -10,
+    marginTop: -24,
   },
 
   periodCardOuter: {
@@ -535,7 +535,7 @@ const styles = StyleSheet.create({
 
   footerText: {
     position: "absolute",
-    bottom: 12,
+    bottom: 6,
     left: 0,
     right: 0,
     color: GOLD,
