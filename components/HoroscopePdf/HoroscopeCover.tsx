@@ -448,7 +448,8 @@ const styles = StyleSheet.create({
 
   period: {
     color: CREAM,
-    fontSize: 12.5,
+    fontSize: 16,
+    fontWeight: 600,
     textAlign: "center",
   },
 
@@ -484,9 +485,12 @@ const styles = StyleSheet.create({
   },
 
   personName: {
-    color: GOLD_LIGHT,
-    fontSize: 14,
-  },
+    color: "#FFF4C9",
+    fontSize: 19,
+    fontWeight: 600,
+     letterSpacing: 0.3,
+  marginTop: 3,
+},
 
   footerDecoration: {
     position: "absolute",
