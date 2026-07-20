@@ -23,14 +23,17 @@ import {
   getHoroscopeZodiacIconUrl,
 } from "./HoroscopePdfUtils";
 
+const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
 const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_HIGHLIGHT = "#10213A";
 
 const GOLD = "#F4C95D";
 const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const VERY_DARK_GOLD = "#4E412D";
 
 const styles = StyleSheet.create({
   page: {
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingHorizontal: 44,
     paddingBottom: 58,
-    backgroundColor: "#06101F",
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 26,
+    marginBottom: 24,
   },
 
   logo: {
@@ -96,117 +99,348 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 26,
-    lineHeight: 1.2,
-    marginBottom: 8,
+    fontSize: 25,
+    lineHeight: 1.18,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 19,
+    marginBottom: 15,
+  },
+
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 17,
+  },
+
+  decorationLineLong: {
+    width: 66,
+    height: 1,
+    backgroundColor: GOLD,
+  },
+
+  decorationLineShort: {
+    width: 22,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+  },
+
+  decorationPlanet: {
+    color: GOLD,
+    fontSize: 12,
+    marginHorizontal: 9,
   },
 
   introductionCard: {
-    paddingVertical: 16,
-    paddingHorizontal: 18,
+    paddingVertical: 13,
+    paddingHorizontal: 17,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 20,
+    marginBottom: 16,
   },
 
   introductionText: {
     color: MUTED_CREAM,
-    fontSize: 9.5,
-    lineHeight: 1.6,
+    fontSize: 9.2,
+    lineHeight: 1.55,
   },
 
-  cardsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-
-  planetCard: {
-    width: "48.5%",
-    minHeight: 194,
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    marginBottom: 13,
-    borderRadius: 9,
-    borderWidth: 0.7,
+  dominantCard: {
+    position: "relative",
+    minHeight: 170,
+    paddingVertical: 18,
+    paddingLeft: 105,
+    paddingRight: 18,
+    marginBottom: 18,
+    borderRadius: 12,
+    borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
   },
 
-  planetHeader: {
-    flexDirection: "row",
+  dominantGlowOne: {
+    position: "absolute",
+    top: -43,
+    left: -45,
+    width: 170,
+    height: 170,
+    borderRadius: 85,
+    borderWidth: 0.7,
+    borderColor: VERY_DARK_GOLD,
+  },
+
+  dominantGlowTwo: {
+    position: "absolute",
+    top: -19,
+    left: -21,
+    width: 122,
+    height: 122,
+    borderRadius: 61,
+    borderWidth: 0.8,
+    borderColor: DARK_GOLD,
+  },
+
+  dominantPlanetCircle: {
+    position: "absolute",
+    top: 33,
+    left: 25,
+    width: 67,
+    height: 67,
+    borderRadius: 34,
+    borderWidth: 1.1,
+    borderColor: GOLD,
+    backgroundColor: NAVY_HIGHLIGHT,
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 11,
+    justifyContent: "center",
   },
 
-  planetName: {
+  dominantPlanetSymbol: {
     color: GOLD,
-    fontSize: 11,
+    fontSize: 20,
   },
 
-  aspectBadge: {
-    maxWidth: 100,
+  dominantLabel: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+    marginBottom: 5,
+  },
+
+  dominantHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 5,
+  },
+
+  dominantPlanetName: {
+    color: GOLD,
+    fontSize: 15,
+  },
+
+  dominantAspectBadge: {
+    maxWidth: 105,
     paddingVertical: 4,
-    paddingHorizontal: 7,
-    borderRadius: 10,
+    paddingHorizontal: 8,
+    borderRadius: 11,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
   },
 
-  aspectText: {
+  dominantAspectText: {
     color: SOFT_TEXT,
     fontSize: 6.5,
     textAlign: "center",
   },
 
-  signText: {
+  dominantSign: {
     color: MUTED_CREAM,
     fontSize: 8,
-    marginBottom: 9,
-  },
-
-  cardTitle: {
-    color: CREAM,
-    fontSize: 10,
-    lineHeight: 1.35,
     marginBottom: 8,
   },
 
-  description: {
-    color: MUTED_CREAM,
-    fontSize: 8.2,
-    lineHeight: 1.55,
-    textAlign: "justify",
-    marginBottom: 10,
+  dominantTitle: {
+    color: CREAM,
+    fontSize: 11.5,
+    lineHeight: 1.35,
+    marginBottom: 7,
   },
 
-  adviceBox: {
-    paddingTop: 9,
+  dominantDescription: {
+    color: MUTED_CREAM,
+    fontSize: 8.3,
+    lineHeight: 1.5,
+    marginBottom: 9,
+  },
+
+  dominantAdvice: {
+    paddingTop: 8,
     borderTopWidth: 0.5,
     borderTopColor: DARK_GOLD,
   },
 
-  adviceLabel: {
+  dominantAdviceLabel: {
     color: GOLD,
-    fontSize: 6.8,
-    letterSpacing: 1,
+    fontSize: 6.5,
+    letterSpacing: 1.1,
     textTransform: "uppercase",
+    marginBottom: 4,
+  },
+
+  dominantAdviceText: {
+    color: CREAM,
+    fontSize: 7.7,
+    lineHeight: 1.4,
+  },
+
+  sectionHeading: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+
+  sectionHeadingLine: {
+    width: 27,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 9,
+  },
+
+  sectionHeadingSymbol: {
+    color: GOLD,
+    fontSize: 10,
+    marginRight: 8,
+  },
+
+  sectionHeadingText: {
+    color: GOLD,
+    fontSize: 8.5,
+    letterSpacing: 1.7,
+    textTransform: "uppercase",
+  },
+
+  orbitList: {
+    position: "relative",
+    paddingLeft: 25,
+  },
+
+  orbitLine: {
+    position: "absolute",
+    top: 7,
+    bottom: 7,
+    left: 11,
+    width: 0.7,
+    backgroundColor: DARK_GOLD,
+  },
+
+  influenceRow: {
+    position: "relative",
+    flexDirection: "row",
+    marginBottom: 11,
+  },
+
+  orbitPoint: {
+    position: "absolute",
+    top: 18,
+    left: -20,
+    width: 13,
+    height: 13,
+    borderRadius: 7,
+    borderWidth: 0.8,
+    borderColor: GOLD,
+    backgroundColor: NAVY,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  orbitPointInner: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: GOLD,
+  },
+
+  smallPlanetCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 0.8,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_HIGHLIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+    marginTop: 4,
+  },
+
+  smallPlanetSymbol: {
+    color: GOLD,
+    fontSize: 13,
+  },
+
+  influenceCard: {
+    flex: 1,
+    minHeight: 91,
+    paddingVertical: 11,
+    paddingHorizontal: 13,
+    borderRadius: 9,
+    borderWidth: 0.6,
+    borderColor: VERY_DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  influenceHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+
+  influencePlanetName: {
+    color: GOLD,
+    fontSize: 9.5,
+  },
+
+  influenceAspectBadge: {
+    maxWidth: 90,
+    paddingVertical: 3,
+    paddingHorizontal: 6,
+    borderRadius: 9,
+    borderWidth: 0.4,
+    borderColor: DARK_GOLD,
+  },
+
+  influenceAspectText: {
+    color: SOFT_TEXT,
+    fontSize: 5.8,
+    textAlign: "center",
+  },
+
+  influenceSign: {
+    color: SOFT_TEXT,
+    fontSize: 6.8,
     marginBottom: 5,
   },
 
-  adviceText: {
+  influenceTitle: {
     color: CREAM,
-    fontSize: 7.8,
-    lineHeight: 1.45,
+    fontSize: 8.5,
+    lineHeight: 1.3,
+    marginBottom: 4,
+  },
+
+  influenceDescription: {
+    color: MUTED_CREAM,
+    fontSize: 7,
+    lineHeight: 1.42,
+    marginBottom: 5,
+  },
+
+  influenceAdvice: {
+    paddingTop: 5,
+    borderTopWidth: 0.4,
+    borderTopColor: VERY_DARK_GOLD,
+  },
+
+  influenceAdviceLabel: {
+    color: GOLD,
+    fontSize: 5.7,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+    marginBottom: 3,
+  },
+
+  influenceAdviceText: {
+    color: CREAM,
+    fontSize: 6.6,
+    lineHeight: 1.35,
   },
 
   emptyCard: {
@@ -217,6 +451,22 @@ const styles = StyleSheet.create({
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
     alignItems: "center",
+  },
+
+  emptyCircle: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    borderWidth: 1,
+    borderColor: GOLD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 13,
+  },
+
+  emptySymbol: {
+    color: GOLD,
+    fontSize: 19,
   },
 
   emptyTitle: {
@@ -233,27 +483,97 @@ const styles = StyleSheet.create({
   },
 });
 
-function PlanetCard({
+function normalizePlanetName(
+  influence: HoroscopePlanetaryInfluence,
+) {
+  if (
+    typeof influence.planet === "string" &&
+    influence.planet.trim()
+  ) {
+    return influence.planet.trim();
+  }
+
+  return "Influence planétaire";
+}
+
+function getPlanetSymbol(planet?: string) {
+  const normalized =
+    typeof planet === "string"
+      ? planet.trim().toLowerCase()
+      : "";
+
+  const symbols: Record<string, string> = {
+    soleil: "SO",
+    sun: "SO",
+
+    lune: "LU",
+    moon: "LU",
+
+    mercure: "ME",
+    mercury: "ME",
+
+    vénus: "VE",
+    venus: "VE",
+
+    mars: "MA",
+
+    jupiter: "JU",
+
+    saturne: "SA",
+    saturn: "SA",
+
+    uranus: "UR",
+
+    neptune: "NE",
+
+    pluton: "PL",
+    pluto: "PL",
+
+    chiron: "CH",
+
+    "nœud nord": "NN",
+    "noeud nord": "NN",
+    "north node": "NN",
+
+    "nœud sud": "NS",
+    "noeud sud": "NS",
+    "south node": "NS",
+  };
+
+  return symbols[normalized] ?? "AS";
+}
+
+function DominantInfluence({
   influence,
 }: {
   influence: HoroscopePlanetaryInfluence;
 }) {
-  const planetName =
-    typeof influence.planet === "string" &&
-    influence.planet.trim()
-      ? influence.planet.trim()
-      : "Influence planétaire";
+  const planetName = normalizePlanetName(influence);
+  const planetSymbol = getPlanetSymbol(planetName);
 
   return (
-    <View style={styles.planetCard} wrap={false}>
-      <View style={styles.planetHeader}>
-        <Text style={styles.planetName}>
+    <View style={styles.dominantCard} wrap={false}>
+      <View style={styles.dominantGlowOne} />
+      <View style={styles.dominantGlowTwo} />
+
+      <View style={styles.dominantPlanetCircle}>
+        <Text style={styles.dominantPlanetSymbol}>
+          {planetSymbol}
+        </Text>
+      </View>
+
+      <Text style={styles.dominantLabel}>
+        Influence dominante
+      </Text>
+
+      <View style={styles.dominantHeader}>
+        <Text style={styles.dominantPlanetName}>
           {planetName}
         </Text>
 
         {influence.aspect ? (
-          <View style={styles.aspectBadge}>
-            <Text style={styles.aspectText}>
+          <View style={styles.dominantAspectBadge}>
+            <Text style={styles.dominantAspectText}>
               {influence.aspect}
             </Text>
           </View>
@@ -261,30 +581,95 @@ function PlanetCard({
       </View>
 
       {influence.sign ? (
-        <Text style={styles.signText}>
+        <Text style={styles.dominantSign}>
           En {influence.sign}
         </Text>
       ) : null}
 
-      <Text style={styles.cardTitle}>
+      <Text style={styles.dominantTitle}>
         {influence.title}
       </Text>
 
-      <Text style={styles.description}>
+      <Text style={styles.dominantDescription}>
         {influence.description}
       </Text>
 
       {influence.advice ? (
-        <View style={styles.adviceBox}>
-          <Text style={styles.adviceLabel}>
-            Conseil
+        <View style={styles.dominantAdvice}>
+          <Text style={styles.dominantAdviceLabel}>
+            Votre clé astrologique
           </Text>
 
-          <Text style={styles.adviceText}>
+          <Text style={styles.dominantAdviceText}>
             {influence.advice}
           </Text>
         </View>
       ) : null}
+    </View>
+  );
+}
+
+function SecondaryInfluence({
+  influence,
+}: {
+  influence: HoroscopePlanetaryInfluence;
+}) {
+  const planetName = normalizePlanetName(influence);
+  const planetSymbol = getPlanetSymbol(planetName);
+
+  return (
+    <View style={styles.influenceRow} wrap={false}>
+      <View style={styles.orbitPoint}>
+        <View style={styles.orbitPointInner} />
+      </View>
+
+      <View style={styles.smallPlanetCircle}>
+        <Text style={styles.smallPlanetSymbol}>
+          {planetSymbol}
+        </Text>
+      </View>
+
+      <View style={styles.influenceCard}>
+        <View style={styles.influenceHeader}>
+          <Text style={styles.influencePlanetName}>
+            {planetName}
+          </Text>
+
+          {influence.aspect ? (
+            <View style={styles.influenceAspectBadge}>
+              <Text style={styles.influenceAspectText}>
+                {influence.aspect}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+
+        {influence.sign ? (
+          <Text style={styles.influenceSign}>
+            En {influence.sign}
+          </Text>
+        ) : null}
+
+        <Text style={styles.influenceTitle}>
+          {influence.title}
+        </Text>
+
+        <Text style={styles.influenceDescription}>
+          {influence.description}
+        </Text>
+
+        {influence.advice ? (
+          <View style={styles.influenceAdvice}>
+            <Text style={styles.influenceAdviceLabel}>
+              Conseil
+            </Text>
+
+            <Text style={styles.influenceAdviceText}>
+              {influence.advice}
+            </Text>
+          </View>
+        ) : null}
+      </View>
     </View>
   );
 }
@@ -303,8 +688,18 @@ export default function HoroscopePlanets({
   const influences = Array.isArray(
     content.planetaryInfluences,
   )
-    ? content.planetaryInfluences.slice(0, 6)
+    ? content.planetaryInfluences
+        .filter(
+          (
+            influence,
+          ): influence is HoroscopePlanetaryInfluence =>
+            Boolean(influence),
+        )
+        .slice(0, 6)
     : [];
+
+  const dominantInfluence = influences[0];
+  const secondaryInfluences = influences.slice(1);
 
   return (
     <Page size="A4" style={styles.page}>
@@ -341,33 +736,79 @@ export default function HoroscopePlanets({
           {periodLabel}
         </Text>
 
+        <View style={styles.titleDecoration}>
+          <View style={styles.decorationLineLong} />
+
+          <Text style={styles.decorationPlanet}>
+            ✦
+          </Text>
+
+          <View style={styles.decorationLineShort} />
+        </View>
+
         {content.planetaryIntroduction ? (
-          <View style={styles.introductionCard} wrap={false}>
+          <View
+            style={styles.introductionCard}
+            wrap={false}
+          >
             <Text style={styles.introductionText}>
               {content.planetaryIntroduction}
             </Text>
           </View>
         ) : null}
 
-        {influences.length > 0 ? (
-          <View style={styles.cardsContainer}>
-            {influences.map((influence, index) => (
-              <PlanetCard
-                key={`${influence.planet}-${influence.title}-${index}`}
-                influence={influence}
-              />
-            ))}
-          </View>
+        {dominantInfluence ? (
+          <>
+            <DominantInfluence
+              influence={dominantInfluence}
+            />
+
+            {secondaryInfluences.length > 0 ? (
+              <>
+                <View style={styles.sectionHeading}>
+                  <View style={styles.sectionHeadingLine} />
+
+                  <Text style={styles.sectionHeadingSymbol}>
+                    ✦
+                  </Text>
+
+                  <Text style={styles.sectionHeadingText}>
+                    Les autres mouvements célestes
+                  </Text>
+                </View>
+
+                <View style={styles.orbitList}>
+                  <View style={styles.orbitLine} />
+
+                  {secondaryInfluences.map(
+                    (influence, index) => (
+                      <SecondaryInfluence
+                        key={`${influence.planet}-${influence.title}-${index}`}
+                        influence={influence}
+                      />
+                    ),
+                  )}
+                </View>
+              </>
+            ) : null}
+          </>
         ) : (
           <View style={styles.emptyCard}>
+            <View style={styles.emptyCircle}>
+              <Text style={styles.emptySymbol}>
+                ✦
+              </Text>
+            </View>
+
             <Text style={styles.emptyTitle}>
               Une énergie céleste subtile
             </Text>
 
             <Text style={styles.emptyText}>
-              Les influences planétaires de cette période
-              seront ajoutées ici lors de la génération de
-              votre horoscope personnalisé.
+              Les influences planétaires de cette
+              période seront ajoutées ici lors de la
+              génération de votre horoscope
+              personnalisé.
             </Text>
           </View>
         )}
