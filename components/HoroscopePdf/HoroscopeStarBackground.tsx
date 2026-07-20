@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+    zIndex: 0,
     backgroundColor: "#06101F",
   },
 
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
 
 export default function HoroscopeStarBackground() {
   return (
-    <View style={styles.background} fixed>
+    <View style={styles.background}>
       <View style={styles.haloTop} />
       <View style={styles.haloMiddle} />
       <View style={styles.haloBottom} />
