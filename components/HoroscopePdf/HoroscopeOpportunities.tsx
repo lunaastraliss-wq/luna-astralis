@@ -10,6 +10,8 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
+import HoroscopePageFooter from "./HoroscopePageFooter";
+
 import type {
   HoroscopeSectionProps,
 } from "./HoroscopePdfTypes";
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     position: "relative",
     paddingTop: 34,
     paddingHorizontal: 42,
-    paddingBottom: 42,
+    paddingBottom: 50,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
@@ -199,14 +201,14 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GOLD,
   },
 
-  overviewCardOuter: {
+  mainCardOuter: {
+    padding: 4,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
-    padding: 4,
     marginBottom: 13,
   },
 
-  overviewCard: {
+  mainCard: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 15,
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     backgroundColor: NAVY_CARD,
   },
 
-  overviewTextColumn: {
+  mainTextColumn: {
     flex: 1,
     paddingRight: 15,
   },
@@ -574,31 +576,31 @@ const styles = StyleSheet.create({
   },
 });
 
-function getFinancialGuidance(score: number) {
+function getOpportunityGuidance(score: number) {
   if (score >= 75) {
     return {
-      title: "Une période favorable à consolider",
+      title: "Une ouverture à saisir",
       text:
-        "Votre climat financier paraît porteur. Utilisez cette stabilité pour renforcer ce qui fonctionne déjà, négocier avec méthode et préparer la suite sans céder aux dépenses impulsives.",
+        "La période favorise les initiatives, les rencontres utiles et les occasions capables de faire évoluer un projet. Restez attentif aux signes concrets et avancez avec discernement.",
     };
   }
 
   if (score >= 50) {
     return {
-      title: "Un équilibre à préserver",
+      title: "Un potentiel à observer",
       text:
-        "Le potentiel est intéressant, mais il demande de la vigilance. Comparez les options, vérifiez les détails et protégez votre marge de sécurité avant de vous engager.",
+        "Des possibilités existent, mais elles demandent du tri et de la patience. Toutes les ouvertures ne méritent pas la même énergie : choisissez celles qui correspondent vraiment à vos priorités.",
     };
   }
 
   return {
-    title: "Une période qui demande de la prudence",
+    title: "Une période de préparation",
     text:
-      "Ralentissez et revenez à l’essentiel. Priorisez les dépenses importantes, évitez les décisions sous pression et cherchez une meilleure visibilité sur vos ressources.",
+      "Les opportunités peuvent être plus discrètes. Utilisez ce temps pour clarifier vos objectifs, consolider vos bases et préparer le terrain avant de vous engager davantage.",
   };
 }
 
-export default function HoroscopeMoney({
+export default function HoroscopeOpportunities({
   identity,
   period,
   content,
@@ -609,48 +611,48 @@ export default function HoroscopeMoney({
 
   const periodLabel = formatHoroscopePeriodLabel(period);
 
-  const moneyScore = normalizeHoroscopeScore(
-    content.money.score ?? content.scores.money,
+  const opportunityScore = normalizeHoroscopeScore(
+    content.opportunities.score ?? content.scores.opportunities,
   );
 
-  const highlights = Array.isArray(content.money.highlights)
-    ? content.money.highlights.slice(0, 4)
+  const highlights = Array.isArray(content.opportunities.highlights)
+    ? content.opportunities.highlights.slice(0, 4)
     : [];
 
-  const guidance = getFinancialGuidance(moneyScore);
+  const guidance = getOpportunityGuidance(opportunityScore);
 
   const actionCards = [
     {
-      title: "Observer",
+      title: "Repérer",
       text:
-        "Repérez les dépenses et engagements qui reviennent souvent afin de distinguer les habitudes utiles de celles qui fragilisent votre équilibre.",
+        "Observez les nouvelles propositions, les rencontres et les idées qui reviennent avec insistance pendant la période.",
     },
     {
-      title: "Prioriser",
+      title: "Évaluer",
       text:
-        "Classez vos besoins selon leur importance réelle et protégez d’abord votre sécurité, vos obligations et vos projets essentiels.",
+        "Vérifiez si l’occasion respecte vos priorités, votre énergie disponible et la direction que vous souhaitez réellement prendre.",
     },
     {
-      title: "Décider",
+      title: "Avancer",
       text:
-        "Avant un choix important, vérifiez les chiffres, les conditions et les conséquences possibles afin d’agir avec plus de clarté.",
+        "Choisissez une action simple et concrète afin de transformer une possibilité intéressante en mouvement réel.",
     },
   ];
 
   const sectionTitle =
-    content.money.title || "Votre climat financier";
+    content.opportunities.title || "Vos ouvertures du moment";
 
   const introduction =
-    content.money.introduction ||
-    "Cette période met en lumière votre rapport à la sécurité, aux ressources et aux décisions matérielles.";
+    content.opportunities.introduction ||
+    "Cette période met en lumière les occasions, les rencontres et les mouvements capables de faire évoluer votre situation.";
 
   const mainText =
-    content.money.text ||
-    "Votre situation financière gagne à être abordée avec méthode. Les meilleures décisions seront celles qui respectent vos priorités réelles, votre rythme et votre besoin de stabilité.";
+    content.opportunities.text ||
+    "Les opportunités les plus utiles ne sont pas toujours les plus spectaculaires. Elles peuvent apparaître sous la forme d’une conversation, d’une proposition, d’une idée nouvelle ou d’un changement de perspective.";
 
   const advice =
-    content.money.advice ||
-    "Choisissez une action financière simple et concrète à accomplir pendant cette période.";
+    content.opportunities.advice ||
+    "Restez disponible aux nouvelles possibilités, tout en prenant le temps de vérifier qu’elles correspondent vraiment à votre chemin.";
 
   return (
     <Page size="A4" style={styles.page}>
@@ -682,11 +684,11 @@ export default function HoroscopeMoney({
 
         <View style={styles.titleBlock}>
           <Text style={styles.eyebrow}>
-            Finances et sécurité
+            Opportunités et ouvertures
           </Text>
 
           <Text style={styles.title}>
-            Votre climat financier
+            Les portes qui peuvent s’ouvrir
           </Text>
 
           <Text style={styles.period}>
@@ -700,11 +702,11 @@ export default function HoroscopeMoney({
           </View>
         </View>
 
-        <View style={styles.overviewCardOuter}>
-          <View style={styles.overviewCard}>
-            <View style={styles.overviewTextColumn}>
+        <View style={styles.mainCardOuter}>
+          <View style={styles.mainCard}>
+            <View style={styles.mainTextColumn}>
               <Text style={styles.miniLabel}>
-                Lecture personnalisée
+                Potentiel de la période
               </Text>
 
               <View style={styles.sectionTitleRow}>
@@ -730,7 +732,7 @@ export default function HoroscopeMoney({
             <View style={styles.scoreOuter} wrap={false}>
               <View style={styles.scoreCircle}>
                 <Text style={styles.scoreValue}>
-                  {moneyScore}
+                  {opportunityScore}
                 </Text>
 
                 <Text style={styles.scoreMaximum}>
@@ -744,11 +746,11 @@ export default function HoroscopeMoney({
         <View style={styles.progressCard} wrap={false}>
           <View style={styles.progressHeader}>
             <Text style={styles.progressLabel}>
-              Potentiel financier de la période
+              Niveau d’ouverture de la période
             </Text>
 
             <Text style={styles.progressValue}>
-              {moneyScore} %
+              {opportunityScore} %
             </Text>
           </View>
 
@@ -756,13 +758,13 @@ export default function HoroscopeMoney({
             <View
               style={[
                 styles.progressFill,
-                { width: `${moneyScore}%` },
+                { width: `${opportunityScore}%` },
               ]}
             />
           </View>
 
           <Text style={styles.progressDescription}>
-            Cet indicateur synthétise le climat général de la période.
+            Cet indicateur représente le potentiel général d’évolution et de nouvelles possibilités.
           </Text>
         </View>
 
@@ -777,7 +779,7 @@ export default function HoroscopeMoney({
               />
 
               <Text style={styles.sectionHeaderTitle}>
-                Points à surveiller
+                Opportunités à reconnaître
               </Text>
             </View>
 
@@ -869,7 +871,7 @@ export default function HoroscopeMoney({
             </View>
 
             <Text style={styles.adviceLabel}>
-              Conseil de la période
+              Conseil pour saisir l’occasion
             </Text>
           </View>
 
@@ -878,6 +880,8 @@ export default function HoroscopeMoney({
           </Text>
         </View>
       </View>
+
+      <HoroscopePageFooter />
     </Page>
   );
 }
