@@ -35,6 +35,16 @@ const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const VERY_DARK_GOLD = "#4E412D";
 
+const PLANET_ICONS: Record<string, string> = {
+  soleil: "/astrology/sun.png",
+  sun: "/astrology/sun.png",
+
+  lune: "/astrology/moon.png",
+  moon: "/astrology/moon.png",
+
+  mars: "/astrology/mars.png",
+};
+
 const styles = StyleSheet.create({
   page: {
     position: "relative",
@@ -128,9 +138,9 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GOLD,
   },
 
-  decorationPlanet: {
+  decorationSymbol: {
     color: GOLD,
-    fontSize: 12,
+    fontSize: 11,
     marginHorizontal: 9,
   },
 
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
     position: "relative",
     minHeight: 170,
     paddingVertical: 18,
-    paddingLeft: 105,
+    paddingLeft: 108,
     paddingRight: 18,
     marginBottom: 18,
     borderRadius: 12,
@@ -163,31 +173,42 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  dominantGlowOne: {
+  dominantOrbitOne: {
     position: "absolute",
-    top: -43,
-    left: -45,
-    width: 170,
-    height: 170,
-    borderRadius: 85,
-    borderWidth: 0.7,
+    top: -48,
+    left: -50,
+    width: 178,
+    height: 178,
+    borderRadius: 89,
+    borderWidth: 0.6,
     borderColor: VERY_DARK_GOLD,
   },
 
-  dominantGlowTwo: {
+  dominantOrbitTwo: {
     position: "absolute",
-    top: -19,
-    left: -21,
-    width: 122,
-    height: 122,
-    borderRadius: 61,
-    borderWidth: 0.8,
+    top: -20,
+    left: -22,
+    width: 126,
+    height: 126,
+    borderRadius: 63,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
+  },
+
+  dominantOrbitThree: {
+    position: "absolute",
+    top: 8,
+    left: 6,
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 0.5,
+    borderColor: VERY_DARK_GOLD,
   },
 
   dominantPlanetCircle: {
     position: "absolute",
-    top: 33,
+    top: 34,
     left: 25,
     width: 67,
     height: 67,
@@ -199,9 +220,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  dominantPlanetSymbol: {
+  dominantPlanetImage: {
+    width: 43,
+    height: 43,
+    objectFit: "contain",
+  },
+
+  dominantFallback: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 18,
   },
 
   dominantLabel: {
@@ -287,7 +314,7 @@ const styles = StyleSheet.create({
   },
 
   sectionHeadingLine: {
-    width: 27,
+    width: 28,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 9,
@@ -295,7 +322,7 @@ const styles = StyleSheet.create({
 
   sectionHeadingSymbol: {
     color: GOLD,
-    fontSize: 10,
+    fontSize: 9,
     marginRight: 8,
   },
 
@@ -328,7 +355,7 @@ const styles = StyleSheet.create({
 
   orbitPoint: {
     position: "absolute",
-    top: 18,
+    top: 19,
     left: -20,
     width: 13,
     height: 13,
@@ -348,9 +375,9 @@ const styles = StyleSheet.create({
   },
 
   smallPlanetCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 49,
+    height: 49,
+    borderRadius: 25,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_HIGHLIGHT,
@@ -360,9 +387,15 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
 
-  smallPlanetSymbol: {
+  smallPlanetImage: {
+    width: 31,
+    height: 31,
+    objectFit: "contain",
+  },
+
+  smallPlanetFallback: {
     color: GOLD,
-    fontSize: 13,
+    fontSize: 12,
   },
 
   influenceCard: {
@@ -496,13 +529,28 @@ function normalizePlanetName(
   return "Influence planétaire";
 }
 
-function getPlanetSymbol(planet?: string) {
-  const normalized =
-    typeof planet === "string"
-      ? planet.trim().toLowerCase()
-      : "";
+function normalizePlanetKey(planet?: string) {
+  if (typeof planet !== "string") {
+    return "";
+  }
 
-  const symbols: Record<string, string> = {
+  return planet
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getPlanetIconUrl(planet?: string) {
+  const normalized = normalizePlanetKey(planet);
+
+  return PLANET_ICONS[normalized] ?? null;
+}
+
+function getPlanetFallback(planet?: string) {
+  const normalized = normalizePlanetKey(planet);
+
+  const fallbacks: Record<string, string> = {
     soleil: "SO",
     sun: "SO",
 
@@ -512,7 +560,6 @@ function getPlanetSymbol(planet?: string) {
     mercure: "ME",
     mercury: "ME",
 
-    vénus: "VE",
     venus: "VE",
 
     mars: "MA",
@@ -531,16 +578,14 @@ function getPlanetSymbol(planet?: string) {
 
     chiron: "CH",
 
-    "nœud nord": "NN",
     "noeud nord": "NN",
     "north node": "NN",
 
-    "nœud sud": "NS",
     "noeud sud": "NS",
     "south node": "NS",
   };
 
-  return symbols[normalized] ?? "AS";
+  return fallbacks[normalized] ?? "AS";
 }
 
 function DominantInfluence({
@@ -549,17 +594,26 @@ function DominantInfluence({
   influence: HoroscopePlanetaryInfluence;
 }) {
   const planetName = normalizePlanetName(influence);
-  const planetSymbol = getPlanetSymbol(planetName);
+  const planetIconUrl = getPlanetIconUrl(planetName);
+  const fallback = getPlanetFallback(planetName);
 
   return (
     <View style={styles.dominantCard} wrap={false}>
-      <View style={styles.dominantGlowOne} />
-      <View style={styles.dominantGlowTwo} />
+      <View style={styles.dominantOrbitOne} />
+      <View style={styles.dominantOrbitTwo} />
+      <View style={styles.dominantOrbitThree} />
 
       <View style={styles.dominantPlanetCircle}>
-        <Text style={styles.dominantPlanetSymbol}>
-          {planetSymbol}
-        </Text>
+        {planetIconUrl ? (
+          <Image
+            src={planetIconUrl}
+            style={styles.dominantPlanetImage}
+          />
+        ) : (
+          <Text style={styles.dominantFallback}>
+            {fallback}
+          </Text>
+        )}
       </View>
 
       <Text style={styles.dominantLabel}>
@@ -615,7 +669,8 @@ function SecondaryInfluence({
   influence: HoroscopePlanetaryInfluence;
 }) {
   const planetName = normalizePlanetName(influence);
-  const planetSymbol = getPlanetSymbol(planetName);
+  const planetIconUrl = getPlanetIconUrl(planetName);
+  const fallback = getPlanetFallback(planetName);
 
   return (
     <View style={styles.influenceRow} wrap={false}>
@@ -624,9 +679,16 @@ function SecondaryInfluence({
       </View>
 
       <View style={styles.smallPlanetCircle}>
-        <Text style={styles.smallPlanetSymbol}>
-          {planetSymbol}
-        </Text>
+        {planetIconUrl ? (
+          <Image
+            src={planetIconUrl}
+            style={styles.smallPlanetImage}
+          />
+        ) : (
+          <Text style={styles.smallPlanetFallback}>
+            {fallback}
+          </Text>
+        )}
       </View>
 
       <View style={styles.influenceCard}>
@@ -739,7 +801,7 @@ export default function HoroscopePlanets({
         <View style={styles.titleDecoration}>
           <View style={styles.decorationLineLong} />
 
-          <Text style={styles.decorationPlanet}>
+          <Text style={styles.decorationSymbol}>
             ✦
           </Text>
 
@@ -805,10 +867,9 @@ export default function HoroscopePlanets({
             </Text>
 
             <Text style={styles.emptyText}>
-              Les influences planétaires de cette
-              période seront ajoutées ici lors de la
-              génération de votre horoscope
-              personnalisé.
+              Les influences planétaires de cette période
+              seront ajoutées ici lors de la génération de
+              votre horoscope personnalisé.
             </Text>
           </View>
         )}
