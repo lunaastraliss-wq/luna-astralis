@@ -236,15 +236,15 @@ const styles = StyleSheet.create({
 
   logoSection: {
     alignItems: "center",
-    marginTop: 3,
-    marginBottom: 14,
+    marginTop: -8,
+    marginBottom: 8,
   },
 
   logo: {
     width: 158,
     height: 56,
     objectFit: "contain",
-    marginBottom: 10,
+    marginBottom: 4,
   },
 
   logoDecoration: {
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   titleSection: {
     width: "100%",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 6,
   },
 
   smallLabelContainer: {
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
 
   zodiacNameBand: {
     minWidth: 230,
-    marginTop: -15,
+    marginTop: -28,
     paddingVertical: 10,
     paddingHorizontal: 24,
     borderTopWidth: 1,
@@ -418,6 +418,7 @@ const styles = StyleSheet.create({
   detailsSection: {
     width: "82%",
     alignItems: "center",
+    marginTop: -10,
   },
 
   periodCardOuter: {
@@ -494,7 +495,7 @@ const styles = StyleSheet.create({
 
   footerDecoration: {
     position: "absolute",
-    bottom: 48,
+    bottom: 22,
     left: 75,
     right: 75,
     flexDirection: "row",
@@ -534,7 +535,7 @@ const styles = StyleSheet.create({
 
   footerText: {
     position: "absolute",
-    bottom: 30,
+    bottom: 12,
     left: 0,
     right: 0,
     color: GOLD,
@@ -705,12 +706,7 @@ export default function HoroscopeCover({
         <View style={styles.footerLineLong} />
         <View style={styles.footerLineShort} />
 
-        <View style={styles.footerIconFrame}>
-          <Image
-            src={finalZodiacIconUrl}
-            style={styles.footerIcon}
-          />
-        </View>
+        <View style={styles.footerIconFrame} />
 
         <View style={styles.footerLineShort} />
         <View style={styles.footerLineLong} />
