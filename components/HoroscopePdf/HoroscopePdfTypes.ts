@@ -172,7 +172,7 @@ export type HoroscopePdfProps = {
   zodiacIconUrl?: string;
 
   /**
-   * Numéros de pages sur lesquelles le pied de page doit être masqué.
+   * Numéros des pages sur lesquelles le pied de page doit être masqué.
    */
   hiddenPageNumbers?: number[];
 };
@@ -186,9 +186,25 @@ export type HoroscopeSectionProps = {
 export type HoroscopeCoverProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
-  content: HoroscopePdfContent;
+
+  /**
+   * Titre affiché directement sur la couverture.
+   */
+  reportTitle: string;
+
+  /**
+   * Sous-titre facultatif affiché sous le titre.
+   */
+  reportSubtitle?: string;
+
+  /**
+   * URL ou chemin public vers le logo.
+   */
   logoUrl?: string;
-  coverImageUrl?: string;
+
+  /**
+   * URL ou chemin public vers l’icône du signe.
+   */
   zodiacIconUrl?: string;
 };
 
