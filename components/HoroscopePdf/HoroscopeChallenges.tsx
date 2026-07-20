@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeChallenge,
@@ -36,14 +37,16 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
+    paddingTop: 34,
     paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingBottom: 52,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 25,
+    marginBottom: 17,
   },
 
   logo: {
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 7,
     paddingHorizontal: 12,
-    borderRadius: 18,
+    borderRadius: 16,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 21,
+    marginBottom: 14,
   },
 
   eyebrow: {
@@ -94,12 +97,12 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 24,
     lineHeight: 1.2,
     marginBottom: 8,
   },
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 8,
   },
 
   titleDecoration: {
@@ -136,13 +139,13 @@ const styles = StyleSheet.create({
   },
 
   introductionCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 19,
+    paddingVertical: 13,
+    paddingHorizontal: 17,
     borderRadius: 11,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 20,
+    marginBottom: 8,
   },
 
   introductionHeader: {
@@ -168,13 +171,13 @@ const styles = StyleSheet.create({
   introductionText: {
     color: MUTED_CREAM,
     fontSize: 9.5,
-    lineHeight: 1.65,
+    lineHeight: 1.5,
   },
 
   sectionHeaderRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 9,
   },
 
   sectionHeaderLine: {
@@ -203,9 +206,9 @@ const styles = StyleSheet.create({
   },
 
   challengeCard: {
-    paddingVertical: 17,
-    paddingHorizontal: 18,
-    marginBottom: 13,
+    paddingVertical: 13,
+    paddingHorizontal: 16,
+    marginBottom: 8,
     borderRadius: 13,
     borderWidth: 0.7,
     borderColor: DARK_GOLD,
@@ -218,20 +221,20 @@ const styles = StyleSheet.create({
   },
 
   challengeNumberOuter: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 13,
+    marginRight: 11,
   },
 
   challengeNumber: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     borderWidth: 0.9,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -274,8 +277,8 @@ const styles = StyleSheet.create({
   challengeDivider: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 11,
-    marginBottom: 10,
+    marginTop: 8,
+    marginBottom: 8,
   },
 
   challengeDividerLine: {
@@ -294,15 +297,15 @@ const styles = StyleSheet.create({
   challengeDescription: {
     color: MUTED_CREAM,
     fontSize: 9,
-    lineHeight: 1.6,
+    lineHeight: 1.45,
     textAlign: "justify",
-    marginBottom: 11,
+    marginBottom: 8,
   },
 
   adviceBox: {
-    paddingTop: 10,
+    paddingTop: 8,
     paddingHorizontal: 12,
-    paddingBottom: 11,
+    paddingBottom: 9,
     borderRadius: 8,
     borderTopWidth: 0.5,
     borderTopColor: DARK_GOLD,
@@ -349,7 +352,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     objectFit: "contain",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
   emptyTitle: {
@@ -361,14 +364,14 @@ const styles = StyleSheet.create({
   emptyText: {
     color: MUTED_CREAM,
     fontSize: 9.5,
-    lineHeight: 1.6,
+    lineHeight: 1.45,
     textAlign: "center",
   },
 
   closingCard: {
-    marginTop: 7,
-    paddingVertical: 15,
-    paddingHorizontal: 18,
+    marginTop: 5,
+    paddingVertical: 13,
+    paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
@@ -400,7 +403,7 @@ const styles = StyleSheet.create({
   closingText: {
     color: CREAM,
     fontSize: 9,
-    lineHeight: 1.55,
+    lineHeight: 1.45,
     textAlign: "center",
   },
 });
@@ -494,6 +497,8 @@ export default function HoroscopeChallenges({
 
   return (
     <Page size="A4" style={styles.page}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
