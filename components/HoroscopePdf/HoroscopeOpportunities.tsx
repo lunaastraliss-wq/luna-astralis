@@ -11,6 +11,7 @@ import {
 } from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
+import HoroscopeStarBackground from "./HoroscopeStarBackground";
 
 import type {
   HoroscopeSectionProps,
@@ -37,14 +38,16 @@ const DARK_GOLD = "#8F6E35";
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
+    paddingTop: 32,
     paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingBottom: 50,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
   },
 
   content: {
+    position: "relative",
+    zIndex: 2,
     flex: 1,
   },
 
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 10,
   },
 
   logo: {
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 18,
+    marginBottom: 8,
   },
 
   eyebrow: {
@@ -100,15 +103,15 @@ const styles = StyleSheet.create({
 
   title: {
     color: CREAM,
-    fontSize: 25,
+    fontSize: 23,
     lineHeight: 1.2,
     marginBottom: 8,
   },
 
   period: {
     color: MUTED_CREAM,
-    fontSize: 10,
-    marginBottom: 13,
+    fontSize: 9.5,
+    marginBottom: 8,
   },
 
   titleDecoration: {
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 56,
     height: 1,
     backgroundColor: GOLD,
     marginRight: 8,
@@ -137,20 +140,20 @@ const styles = StyleSheet.create({
   },
 
   mainCard: {
-    paddingVertical: 18,
-    paddingHorizontal: 20,
+    paddingVertical: 13,
+    paddingHorizontal: 17,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   mainHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 11,
+    marginBottom: 8,
   },
 
   mainHeading: {
@@ -186,9 +189,9 @@ const styles = StyleSheet.create({
   },
 
   scoreOuterCircle: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 66,
+    height: 66,
+    borderRadius: 33,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
@@ -196,9 +199,9 @@ const styles = StyleSheet.create({
   },
 
   scoreCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     borderWidth: 1.1,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
@@ -208,7 +211,7 @@ const styles = StyleSheet.create({
 
   scoreValue: {
     color: GOLD,
-    fontSize: 20,
+    fontSize: 18,
   },
 
   scoreMaximum: {
@@ -238,26 +241,26 @@ const styles = StyleSheet.create({
 
   introduction: {
     color: MUTED_CREAM,
-    fontSize: 8.9,
-    lineHeight: 1.5,
+    fontSize: 8.6,
+    lineHeight: 1.55,
     marginBottom: 8,
   },
 
   mainText: {
     color: CREAM,
-    fontSize: 9.4,
-    lineHeight: 1.55,
+    fontSize: 9.1,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
 
   progressCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 17,
+    paddingVertical: 9,
+    paddingHorizontal: 14,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   progressHeader: {
@@ -291,22 +294,22 @@ const styles = StyleSheet.create({
 
   progressTrack: {
     width: "100%",
-    height: 8,
-    borderRadius: 4,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: TRACK,
     overflow: "hidden",
   },
 
   progressFill: {
-    height: 8,
-    borderRadius: 4,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: GOLD,
   },
 
   highlightsHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
+    marginBottom: 7,
   },
 
   highlightsHeaderLine: {
@@ -334,15 +337,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
   opportunityCard: {
     width: "48.5%",
-    minHeight: 90,
-    paddingVertical: 10,
-    paddingHorizontal: 11,
-    marginBottom: 9,
+    minHeight: 102,
+    paddingVertical: 12,
+    paddingHorizontal: 13,
+    marginBottom: 8,
     borderRadius: 10,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -380,7 +383,7 @@ const styles = StyleSheet.create({
 
   opportunityTitle: {
     color: GOLD,
-    fontSize: 8.2,
+    fontSize: 8.5,
     lineHeight: 1.3,
     marginBottom: 3,
   },
@@ -395,28 +398,29 @@ const styles = StyleSheet.create({
 
   opportunityText: {
     color: CREAM,
-    fontSize: 7.2,
+    fontSize: 7.5,
     lineHeight: 1.35,
     marginBottom: 4,
   },
 
   opportunityAction: {
     color: MUTED_CREAM,
-    fontSize: 6.7,
+    fontSize: 7,
     lineHeight: 1.32,
     fontStyle: "italic",
   },
 
   guidanceCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    minHeight: 74,
+    paddingVertical: 13,
+    paddingHorizontal: 16,
     borderRadius: 12,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     borderLeftWidth: 2,
     borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
   guidanceHeader: {
@@ -463,21 +467,21 @@ const styles = StyleSheet.create({
 
   guidanceText: {
     color: MUTED_CREAM,
-    fontSize: 7.8,
+    fontSize: 8.1,
     lineHeight: 1.42,
   },
 
   actionsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
   actionCard: {
     width: "32%",
-    minHeight: 62,
-    paddingVertical: 8,
-    paddingHorizontal: 9,
+    minHeight: 76,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     borderRadius: 9,
     borderWidth: 0.55,
     borderColor: DARK_GOLD,
@@ -503,19 +507,20 @@ const styles = StyleSheet.create({
 
   actionTitle: {
     color: GOLD,
-    fontSize: 7.9,
+    fontSize: 8.2,
     marginBottom: 3,
   },
 
   actionText: {
     color: MUTED_CREAM,
-    fontSize: 6.5,
+    fontSize: 6.9,
     lineHeight: 1.32,
   },
 
   adviceCard: {
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    minHeight: 78,
+    paddingVertical: 15,
+    paddingHorizontal: 18,
     borderRadius: 12,
     borderWidth: 0.5,
     borderColor: DARK_GOLD,
@@ -557,8 +562,8 @@ const styles = StyleSheet.create({
 
   adviceText: {
     color: CREAM,
-    fontSize: 8.4,
-    lineHeight: 1.45,
+    fontSize: 9,
+    lineHeight: 1.55,
   },
 });
 
@@ -644,6 +649,8 @@ export default function HoroscopeOpportunities({
 
   return (
     <Page size="A4" style={styles.page} wrap={false}>
+      <HoroscopeStarBackground />
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Image
