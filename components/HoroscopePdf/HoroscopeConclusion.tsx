@@ -32,15 +32,28 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+const ASTROLOGY_PATH = "/astrology";
+
+const CONCLUSION_ICONS = {
+  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
+  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
+  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
+  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
+  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
+  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
+};
 
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 40,
-    paddingHorizontal: 44,
-    paddingBottom: 58,
+    paddingTop: 36,
+    paddingHorizontal: 42,
+    paddingBottom: 56,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
   content: {
@@ -53,12 +66,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 22,
+    marginBottom: 16,
   },
 
   logo: {
-    width: 110,
-    height: 40,
+    width: 108,
+    height: 38,
     objectFit: "contain",
   },
 
@@ -88,7 +101,7 @@ const styles = StyleSheet.create({
   },
 
   titleBlock: {
-    marginBottom: 18,
+    marginBottom: 13,
   },
 
   eyebrow: {
@@ -96,20 +109,20 @@ const styles = StyleSheet.create({
     fontSize: 9,
     letterSpacing: 2.4,
     textTransform: "uppercase",
-    marginBottom: 10,
+    marginBottom: 7,
   },
 
   title: {
     color: CREAM,
-    fontSize: 26,
+    fontSize: 25,
     lineHeight: 1.18,
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   period: {
     color: MUTED_CREAM,
     fontSize: 10,
-    marginBottom: 13,
+    marginBottom: 9,
   },
 
   titleDecoration: {
@@ -118,68 +131,80 @@ const styles = StyleSheet.create({
   },
 
   titleLine: {
-    width: 64,
+    width: 62,
     height: 1,
     backgroundColor: GOLD,
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleIcon: {
-    width: 14,
-    height: 14,
+    width: 16,
+    height: 16,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   titleLineSmall: {
-    width: 20,
+    width: 23,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
   heroCard: {
     position: "relative",
-    paddingVertical: 21,
-    paddingHorizontal: 21,
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 148,
+    paddingVertical: 17,
+    paddingHorizontal: 18,
+    marginBottom: 12,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 14,
     overflow: "hidden",
   },
 
-  heroAccent: {
+  heroOrbitOne: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    width: 4,
-    height: "100%",
-    backgroundColor: GOLD,
+    top: -72,
+    left: -74,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
   },
 
-  heroHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
+  heroOrbitTwo: {
+    position: "absolute",
+    top: -43,
+    left: -45,
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
   },
 
   heroIconOuter: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 12,
+    marginRight: 17,
   },
 
   heroIconInner: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    borderWidth: 0.8,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    borderWidth: 0.9,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
@@ -187,175 +212,237 @@ const styles = StyleSheet.create({
   },
 
   heroIcon: {
-    width: 24,
-    height: 24,
+    width: 47,
+    height: 47,
     objectFit: "contain",
   },
 
-  heroHeading: {
+  heroContent: {
     flex: 1,
   },
 
   heroLabel: {
-    color: SOFT_TEXT,
-    fontSize: 6.8,
-    letterSpacing: 1.2,
+    color: GOLD,
+    fontSize: 7.4,
+    letterSpacing: 1.35,
     textTransform: "uppercase",
-    marginBottom: 4,
+    marginBottom: 5,
   },
 
   heroTitle: {
-    color: GOLD,
-    fontSize: 13,
-    lineHeight: 1.35,
-  },
-
-  heroDivider: {
-    width: 42,
-    height: 1,
-    backgroundColor: DARK_GOLD,
-    marginBottom: 11,
+    color: CREAM,
+    fontSize: 13.2,
+    lineHeight: 1.3,
+    marginBottom: 7,
   },
 
   heroText: {
-    color: CREAM,
-    fontSize: 9.7,
-    lineHeight: 1.62,
+    color: MUTED_CREAM,
+    fontSize: 8.25,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
 
-  twoColumnRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 14,
-  },
-
-  insightCard: {
-    width: "48.5%",
-    minHeight: 122,
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 12,
-    borderWidth: 0.6,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  insightHeader: {
+  sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 9,
   },
 
-  insightIconBox: {
-    width: 29,
-    height: 29,
-    borderRadius: 14.5,
+  sectionLine: {
+    width: 28,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 9,
+  },
+
+  sectionIcon: {
+    width: 16,
+    height: 16,
+    objectFit: "contain",
+    marginRight: 9,
+  },
+
+  sectionLabel: {
+    color: GOLD,
+    fontSize: 9,
+    letterSpacing: 1.35,
+    textTransform: "uppercase",
+  },
+
+  insightGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 11,
+  },
+
+  insightCard: {
+    position: "relative",
+    width: "23.5%",
+    minHeight: 128,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 11,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  insightNumber: {
+    position: "absolute",
+    right: 9,
+    top: 8,
+    color: DEEP_GOLD,
+    fontSize: 7,
+    letterSpacing: 1,
+  },
+
+  insightIconCircle: {
+    width: 35,
+    height: 35,
+    borderRadius: 18,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_SOFT,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 8,
+    marginBottom: 9,
   },
 
   insightIcon: {
-    width: 16,
-    height: 16,
+    width: 23,
+    height: 23,
     objectFit: "contain",
   },
 
   insightTitle: {
-    flex: 1,
     color: GOLD,
-    fontSize: 9.5,
-    lineHeight: 1.3,
+    fontSize: 8.4,
+    lineHeight: 1.25,
+    marginBottom: 6,
   },
 
   insightText: {
     color: MUTED_CREAM,
-    fontSize: 7.9,
-    lineHeight: 1.48,
+    fontSize: 6.75,
+    lineHeight: 1.42,
   },
 
   finalMessageCard: {
-    paddingVertical: 15,
-    paddingHorizontal: 18,
+    position: "relative",
+    paddingVertical: 13,
+    paddingHorizontal: 17,
+    marginBottom: 11,
     borderRadius: 12,
-    borderWidth: 0.6,
+    borderWidth: 0.7,
     borderColor: DARK_GOLD,
-    borderTopWidth: 1.4,
+    borderTopWidth: 1.5,
     borderTopColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 14,
+    overflow: "hidden",
+  },
+
+  finalMessageWatermark: {
+    position: "absolute",
+    right: 15,
+    top: 5,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.07,
   },
 
   finalMessageHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 7,
   },
 
   finalMessageIcon: {
-    width: 15,
-    height: 15,
+    width: 18,
+    height: 18,
     objectFit: "contain",
-    marginRight: 8,
+    marginRight: 9,
   },
 
   finalMessageLabel: {
     color: GOLD,
-    fontSize: 7.5,
+    fontSize: 7.4,
     letterSpacing: 1.3,
     textTransform: "uppercase",
   },
 
   finalMessageText: {
     color: CREAM,
-    fontSize: 9,
-    lineHeight: 1.55,
+    fontSize: 8.8,
+    lineHeight: 1.52,
   },
 
   thanksCard: {
+    position: "relative",
     flex: 1,
-    minHeight: 230,
-    paddingVertical: 20,
-    paddingHorizontal: 24,
+    minHeight: 172,
+    paddingVertical: 17,
+    paddingHorizontal: 22,
     borderRadius: 14,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
     backgroundColor: NAVY_CARD_LIGHT,
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
+  },
+
+  thanksOrbitOne: {
+    position: "absolute",
+    right: -62,
+    bottom: -62,
+    width: 165,
+    height: 165,
+    borderRadius: 83,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  thanksOrbitTwo: {
+    position: "absolute",
+    right: -33,
+    bottom: -33,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
   },
 
   thanksDecoration: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 14,
+    marginBottom: 10,
   },
 
   thanksLine: {
-    width: 48,
+    width: 44,
     height: 1,
     backgroundColor: DARK_GOLD,
   },
 
   zodiacIconOuter: {
-    width: 76,
-    height: 76,
-    borderRadius: 38,
+    width: 62,
+    height: 62,
+    borderRadius: 31,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 14,
+    marginHorizontal: 13,
   },
 
   zodiacIconInner: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     borderWidth: 0.9,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
@@ -364,67 +451,104 @@ const styles = StyleSheet.create({
   },
 
   zodiacIcon: {
-    width: 44,
-    height: 44,
+    width: 35,
+    height: 35,
     objectFit: "contain",
   },
 
   thankYouTitle: {
     color: GOLD,
-    fontSize: 17,
-    marginBottom: 8,
+    fontSize: 16,
+    marginBottom: 6,
     textAlign: "center",
   },
 
   thankYouSubtitle: {
     color: CREAM,
-    fontSize: 10,
-    lineHeight: 1.5,
+    fontSize: 9.3,
+    lineHeight: 1.45,
     textAlign: "center",
     maxWidth: 390,
-    marginBottom: 13,
+    marginBottom: 9,
   },
 
   thankYouText: {
     color: MUTED_CREAM,
-    fontSize: 8.2,
-    lineHeight: 1.48,
+    fontSize: 7.7,
+    lineHeight: 1.45,
     textAlign: "center",
     maxWidth: 410,
-    marginBottom: 16,
+    marginBottom: 11,
   },
 
   websiteCard: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 21,
-    borderRadius: 20,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 18,
     borderWidth: 0.8,
     borderColor: GOLD,
     backgroundColor: NAVY_CARD,
-    marginBottom: 10,
+    marginBottom: 8,
   },
 
   websiteIcon: {
-    width: 13,
-    height: 13,
+    width: 14,
+    height: 14,
     objectFit: "contain",
     marginRight: 8,
   },
 
   websiteText: {
     color: GOLD,
-    fontSize: 9,
+    fontSize: 8.7,
     letterSpacing: 0.8,
   },
 
   signature: {
     color: SOFT_TEXT,
-    fontSize: 7.8,
+    fontSize: 7.4,
     textAlign: "center",
   },
 });
+
+type InsightCardProps = {
+  number: string;
+  icon: string;
+  title: string;
+  text: string;
+};
+
+function InsightCard({
+  number,
+  icon,
+  title,
+  text,
+}: InsightCardProps) {
+  return (
+    <View style={styles.insightCard} wrap={false}>
+      <Text style={styles.insightNumber}>
+        {number}
+      </Text>
+
+      <View style={styles.insightIconCircle}>
+        <Image
+          src={icon}
+          style={styles.insightIcon}
+        />
+      </View>
+
+      <Text style={styles.insightTitle}>
+        {title}
+      </Text>
+
+      <Text style={styles.insightText}>
+        {text}
+      </Text>
+    </View>
+  );
+}
 
 export default function HoroscopeConclusion({
   identity,
@@ -455,6 +579,37 @@ export default function HoroscopeConclusion({
     content.finalMessage?.trim() ||
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.";
 
+  const insightCards: InsightCardProps[] = [
+    {
+      number: "01",
+      icon: CONCLUSION_ICONS.soulPath,
+      title: "Votre évolution",
+      text:
+        "Cette période vous invite à reconnaître ce qui demande à grandir, à changer ou à être dépassé.",
+    },
+    {
+      number: "02",
+      icon: CONCLUSION_ICONS.innerWorld,
+      title: "Votre intuition",
+      text:
+        "Vos ressentis peuvent devenir un guide précieux lorsque vous leur accordez du calme et de l’espace.",
+    },
+    {
+      number: "03",
+      icon: CONCLUSION_ICONS.hiddenTalents,
+      title: "Vos ressources",
+      text:
+        "Vos qualités naturelles, parfois discrètes, peuvent vous aider à traverser les défis avec confiance.",
+    },
+    {
+      number: "04",
+      icon: CONCLUSION_ICONS.integrationGuide,
+      title: "Votre direction",
+      text:
+        "Avancez par étapes, observez les signes utiles et choisissez ce qui reste profondément juste pour vous.",
+    },
+  ];
+
   return (
     <Page size="A4" style={styles.page} wrap={false}>
       <HoroscopeStarBackground />
@@ -484,7 +639,7 @@ export default function HoroscopeConclusion({
           </Text>
 
           <Text style={styles.title}>
-            Un dernier regard sur votre période
+            Votre lumière pour la suite
           </Text>
 
           <Text style={styles.period}>
@@ -495,7 +650,7 @@ export default function HoroscopeConclusion({
             <View style={styles.titleLine} />
 
             <Image
-              src={zodiacIconUrl}
+              src={CONCLUSION_ICONS.lifePurpose}
               style={styles.titleIcon}
             />
 
@@ -504,84 +659,67 @@ export default function HoroscopeConclusion({
         </View>
 
         <View style={styles.heroCard} wrap={false}>
-          <View style={styles.heroAccent} />
+          <View style={styles.heroOrbitOne} />
+          <View style={styles.heroOrbitTwo} />
 
-          <View style={styles.heroHeader}>
-            <View style={styles.heroIconOuter}>
-              <View style={styles.heroIconInner}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.heroIcon}
-                />
-              </View>
-            </View>
-
-            <View style={styles.heroHeading}>
-              <Text style={styles.heroLabel}>
-                Synthèse astrologique
-              </Text>
-
-              <Text style={styles.heroTitle}>
-                {conclusionTitle}
-              </Text>
+          <View style={styles.heroIconOuter}>
+            <View style={styles.heroIconInner}>
+              <Image
+                src={CONCLUSION_ICONS.lifePurpose}
+                style={styles.heroIcon}
+              />
             </View>
           </View>
 
-          <View style={styles.heroDivider} />
+          <View style={styles.heroContent}>
+            <Text style={styles.heroLabel}>
+              Synthèse essentielle
+            </Text>
 
-          <Text style={styles.heroText}>
-            {conclusionText}
+            <Text style={styles.heroTitle}>
+              {conclusionTitle}
+            </Text>
+
+            <Text style={styles.heroText}>
+              {conclusionText}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={CONCLUSION_ICONS.integrationGuide}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionLabel}>
+            Ce que vous devez retenir
           </Text>
         </View>
 
-        <View style={styles.twoColumnRow}>
-          <View style={styles.insightCard} wrap={false}>
-            <View style={styles.insightHeader}>
-              <View style={styles.insightIconBox}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.insightIcon}
-                />
-              </View>
-
-              <Text style={styles.insightTitle}>
-                Ce que les astres révèlent
-              </Text>
-            </View>
-
-            <Text style={styles.insightText}>
-              Cette lecture met en lumière les tendances,
-              les forces et les ajustements possibles de votre période.
-              Elle vous aide à mieux comprendre ce qui se joue autour de vous.
-            </Text>
-          </View>
-
-          <View style={styles.insightCard} wrap={false}>
-            <View style={styles.insightHeader}>
-              <View style={styles.insightIconBox}>
-                <Image
-                  src={zodiacIconUrl}
-                  style={styles.insightIcon}
-                />
-              </View>
-
-              <Text style={styles.insightTitle}>
-                Ce qui vous appartient
-              </Text>
-            </View>
-
-            <Text style={styles.insightText}>
-              Vos décisions, votre intuition et votre expérience
-              restent au centre de votre parcours. Vous demeurez libre
-              de choisir la direction qui vous ressemble.
-            </Text>
-          </View>
+        <View style={styles.insightGrid}>
+          {insightCards.map((card) => (
+            <InsightCard
+              key={card.number}
+              number={card.number}
+              icon={card.icon}
+              title={card.title}
+              text={card.text}
+            />
+          ))}
         </View>
 
         <View style={styles.finalMessageCard} wrap={false}>
+          <Image
+            src={CONCLUSION_ICONS.heart}
+            style={styles.finalMessageWatermark}
+          />
+
           <View style={styles.finalMessageHeader}>
             <Image
-              src={zodiacIconUrl}
+              src={CONCLUSION_ICONS.heart}
               style={styles.finalMessageIcon}
             />
 
@@ -596,6 +734,9 @@ export default function HoroscopeConclusion({
         </View>
 
         <View style={styles.thanksCard} wrap={false}>
+          <View style={styles.thanksOrbitOne} />
+          <View style={styles.thanksOrbitTwo} />
+
           <View style={styles.thanksDecoration}>
             <View style={styles.thanksLine} />
 
@@ -618,19 +759,19 @@ export default function HoroscopeConclusion({
           </Text>
 
           <Text style={styles.thankYouSubtitle}>
-            Que cette lecture vous apporte plus de clarté,
-            de confiance et d’inspiration.
+            Que cette lecture vous accompagne avec clarté,
+            confiance et inspiration.
           </Text>
 
           <Text style={styles.thankYouText}>
-            Merci d’avoir choisi Luna Astralis pour vous accompagner
-            dans cette lecture astrologique. Gardez ce rapport près de vous
-            et revenez-y lorsque vous aurez besoin de retrouver votre direction.
+            Gardez ce rapport près de vous et revenez-y lorsque vous
+            aurez besoin de prendre du recul, de retrouver votre direction
+            ou de renouer avec ce qui compte vraiment pour vous.
           </Text>
 
           <View style={styles.websiteCard}>
             <Image
-              src={zodiacIconUrl}
+              src={CONCLUSION_ICONS.integrationGuide}
               style={styles.websiteIcon}
             />
 
