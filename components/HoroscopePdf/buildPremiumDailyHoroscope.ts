@@ -1,9 +1,15 @@
+import type { PremiumPlanet } from "@/components/PremiumPdf/PremiumPdfTypes";
+
+import { calculateTransitChart } from "@/lib/astrology/calculateTransitChart";
+
 import type {
   HoroscopeIdentity,
   HoroscopePdfContent,
   HoroscopePeriodData,
   HoroscopeZodiacSign,
 } from "./HoroscopePdfTypes";
+
+import { createDailyPlanetaryInfluences } from "./HoroscopeTransitCalculator";
 
 type BuildPremiumDailyHoroscopeOptions = {
   firstName?: string;
@@ -16,6 +22,11 @@ type BuildPremiumDailyHoroscopeOptions = {
   birthTime?: string;
   birthCity?: string;
   birthCountry?: string;
+
+  latitude?: number;
+  longitude?: number;
+  timeZone?: string;
+  natalPlanets?: PremiumPlanet[];
 };
 
 export type PremiumDailyHoroscopeResult = {
@@ -148,51 +159,34 @@ const SUMMARY_TEXTS = [
     introduction:
       "Cette journée vous invite à observer attentivement ce qui se déroule autour de vous.",
 
-    text:
-      "Certaines réponses ne viendront pas immédiatement, mais votre intuition vous permettra de reconnaître les situations qui méritent votre attention. Une décision prise avec calme pourrait modifier positivement la suite de votre journée.",
+    text: "Certaines réponses ne viendront pas immédiatement, mais votre intuition vous permettra de reconnaître les situations qui méritent votre attention. Une décision prise avec calme pourrait modifier positivement la suite de votre journée.",
 
     advice:
       "Prenez le temps de distinguer une véritable intuition d’une réaction provoquée par la fatigue ou l’impatience.",
 
-    highlights: [
-      "Clarté intérieure",
-      "Décision réfléchie",
-      "Intuition",
-    ],
+    highlights: ["Clarté intérieure", "Décision réfléchie", "Intuition"],
   },
 
   {
-    introduction:
-      "Une énergie de renouvellement accompagne votre journée.",
+    introduction: "Une énergie de renouvellement accompagne votre journée.",
 
-    text:
-      "Vous pourriez ressentir le besoin de modifier une habitude, de reprendre un projet ou de clarifier une situation demeurée en suspens. Une petite action concrète pourrait provoquer un changement plus important que prévu.",
+    text: "Vous pourriez ressentir le besoin de modifier une habitude, de reprendre un projet ou de clarifier une situation demeurée en suspens. Une petite action concrète pourrait provoquer un changement plus important que prévu.",
 
-    advice:
-      "Commencez par ce qui dépend directement de vous.",
+    advice: "Commencez par ce qui dépend directement de vous.",
 
-    highlights: [
-      "Renouveau",
-      "Progression",
-      "Initiative",
-    ],
+    highlights: ["Renouveau", "Progression", "Initiative"],
   },
 
   {
     introduction:
       "Les relations et les échanges occupent une place importante aujourd’hui.",
 
-    text:
-      "Une conversation pourrait vous aider à comprendre un détail qui vous échappait. Les mots auront leur importance, mais les silences et les attitudes pourraient également vous transmettre une information utile.",
+    text: "Une conversation pourrait vous aider à comprendre un détail qui vous échappait. Les mots auront leur importance, mais les silences et les attitudes pourraient également vous transmettre une information utile.",
 
     advice:
       "Posez une question claire plutôt que de laisser une incertitude s’installer.",
 
-    highlights: [
-      "Communication",
-      "Compréhension",
-      "Authenticité",
-    ],
+    highlights: ["Communication", "Compréhension", "Authenticité"],
   },
 ];
 
@@ -201,34 +195,21 @@ const ENERGY_TEXTS = [
     introduction:
       "Votre énergie s’installe progressivement au fil de la journée.",
 
-    text:
-      "Le début de journée pourrait demander davantage d’efforts, mais votre concentration gagnera en stabilité. Évitez de disperser votre attention entre plusieurs priorités.",
+    text: "Le début de journée pourrait demander davantage d’efforts, mais votre concentration gagnera en stabilité. Évitez de disperser votre attention entre plusieurs priorités.",
 
-    advice:
-      "Terminez une tâche importante avant d’en commencer une autre.",
+    advice: "Terminez une tâche importante avant d’en commencer une autre.",
 
-    highlights: [
-      "Concentration",
-      "Stabilité",
-      "Progression",
-    ],
+    highlights: ["Concentration", "Stabilité", "Progression"],
   },
 
   {
-    introduction:
-      "Vous disposez d’un bon élan pour faire avancer vos projets.",
+    introduction: "Vous disposez d’un bon élan pour faire avancer vos projets.",
 
-    text:
-      "Votre motivation sera présente, mais une tendance à vouloir tout accomplir rapidement pourrait vous fatiguer. Votre efficacité dépendra davantage de votre organisation que de votre vitesse.",
+    text: "Votre motivation sera présente, mais une tendance à vouloir tout accomplir rapidement pourrait vous fatiguer. Votre efficacité dépendra davantage de votre organisation que de votre vitesse.",
 
-    advice:
-      "Alternez les périodes d’action et les courtes pauses.",
+    advice: "Alternez les périodes d’action et les courtes pauses.",
 
-    highlights: [
-      "Motivation",
-      "Dynamisme",
-      "Organisation",
-    ],
+    highlights: ["Motivation", "Dynamisme", "Organisation"],
   },
 ];
 
@@ -237,142 +218,92 @@ const LOVE_TEXTS = [
     introduction:
       "Les sentiments demandent aujourd’hui davantage de franchise.",
 
-    text:
-      "En couple, une discussion sincère pourrait permettre de dissiper une incompréhension. Célibataire, une personne intrigante pourrait attirer votre attention, mais ses intentions ne seront peut-être pas immédiatement évidentes.",
+    text: "En couple, une discussion sincère pourrait permettre de dissiper une incompréhension. Célibataire, une personne intrigante pourrait attirer votre attention, mais ses intentions ne seront peut-être pas immédiatement évidentes.",
 
     advice:
       "Exprimez ce que vous ressentez sans chercher à provoquer une réaction particulière.",
 
-    highlights: [
-      "Sincérité",
-      "Rapprochement",
-      "Émotions",
-    ],
+    highlights: ["Sincérité", "Rapprochement", "Émotions"],
   },
 
   {
-    introduction:
-      "Une énergie plus douce favorise les rapprochements.",
+    introduction: "Une énergie plus douce favorise les rapprochements.",
 
-    text:
-      "Les petites attentions auront davantage d’impact que les grandes déclarations. Une présence calme et authentique pourrait renforcer un lien qui compte pour vous.",
+    text: "Les petites attentions auront davantage d’impact que les grandes déclarations. Une présence calme et authentique pourrait renforcer un lien qui compte pour vous.",
 
-    advice:
-      "Montrez votre affection d’une manière simple et naturelle.",
+    advice: "Montrez votre affection d’une manière simple et naturelle.",
 
-    highlights: [
-      "Douceur",
-      "Complicité",
-      "Présence",
-    ],
+    highlights: ["Douceur", "Complicité", "Présence"],
   },
 ];
 
 const CAREER_TEXTS = [
   {
-    introduction:
-      "Votre capacité d’analyse constitue votre meilleur avantage.",
+    introduction: "Votre capacité d’analyse constitue votre meilleur avantage.",
 
-    text:
-      "Une situation professionnelle mérite d’être examinée avant toute intervention. Vous pourriez remarquer un détail important que les autres n’ont pas encore considéré.",
+    text: "Une situation professionnelle mérite d’être examinée avant toute intervention. Vous pourriez remarquer un détail important que les autres n’ont pas encore considéré.",
 
-    advice:
-      "Préparez vos arguments et appuyez-vous sur des faits précis.",
+    advice: "Préparez vos arguments et appuyez-vous sur des faits précis.",
 
-    highlights: [
-      "Analyse",
-      "Stratégie",
-      "Préparation",
-    ],
+    highlights: ["Analyse", "Stratégie", "Préparation"],
   },
 
   {
     introduction:
       "Une occasion de démontrer votre efficacité peut se présenter.",
 
-    text:
-      "Votre sens de l’organisation vous aidera à régler un problème ou à faire progresser un projet. Une méthode simple et structurée pourrait produire un excellent résultat.",
+    text: "Votre sens de l’organisation vous aidera à régler un problème ou à faire progresser un projet. Une méthode simple et structurée pourrait produire un excellent résultat.",
 
-    advice:
-      "Commencez par la tâche qui aura le plus grand effet concret.",
+    advice: "Commencez par la tâche qui aura le plus grand effet concret.",
 
-    highlights: [
-      "Organisation",
-      "Efficacité",
-      "Résultats",
-    ],
+    highlights: ["Organisation", "Efficacité", "Résultats"],
   },
 ];
 
 const MONEY_TEXTS = [
   {
-    introduction:
-      "La prudence financière reste votre meilleure alliée.",
+    introduction: "La prudence financière reste votre meilleure alliée.",
 
-    text:
-      "Une dépense pourrait sembler urgente sans l’être réellement. Prenez le temps de vérifier les détails et de comparer les possibilités avant de prendre une décision.",
+    text: "Une dépense pourrait sembler urgente sans l’être réellement. Prenez le temps de vérifier les détails et de comparer les possibilités avant de prendre une décision.",
 
     advice:
       "Évitez les décisions impulsives et conservez une marge de sécurité.",
 
-    highlights: [
-      "Prudence",
-      "Vérification",
-      "Sécurité",
-    ],
+    highlights: ["Prudence", "Vérification", "Sécurité"],
   },
 
   {
     introduction:
       "Une meilleure organisation pourrait diminuer une préoccupation financière.",
 
-    text:
-      "Le fait de revoir une échéance, une dépense ou une priorité pourrait vous redonner une impression de contrôle. Une correction simple aujourd’hui peut prévenir une difficulté future.",
+    text: "Le fait de revoir une échéance, une dépense ou une priorité pourrait vous redonner une impression de contrôle. Une correction simple aujourd’hui peut prévenir une difficulté future.",
 
-    advice:
-      "Examinez un poste de dépense que vous pouvez ajuster facilement.",
+    advice: "Examinez un poste de dépense que vous pouvez ajuster facilement.",
 
-    highlights: [
-      "Organisation",
-      "Prévision",
-      "Contrôle",
-    ],
+    highlights: ["Organisation", "Prévision", "Contrôle"],
   },
 ];
 
 const HEALTH_TEXTS = [
   {
-    introduction:
-      "Votre corps pourrait réclamer davantage de récupération.",
+    introduction: "Votre corps pourrait réclamer davantage de récupération.",
 
-    text:
-      "Une fatigue accumulée pourrait réduire votre concentration ou votre patience. Le mouvement demeure bénéfique, mais votre rythme doit respecter votre énergie réelle.",
+    text: "Une fatigue accumulée pourrait réduire votre concentration ou votre patience. Le mouvement demeure bénéfique, mais votre rythme doit respecter votre énergie réelle.",
 
-    advice:
-      "Alternez activité douce, hydratation et repos.",
+    advice: "Alternez activité douce, hydratation et repos.",
 
-    highlights: [
-      "Récupération",
-      "Hydratation",
-      "Équilibre",
-    ],
+    highlights: ["Récupération", "Hydratation", "Équilibre"],
   },
 
   {
-    introduction:
-      "Votre bien-être dépend aujourd’hui de la régularité.",
+    introduction: "Votre bien-être dépend aujourd’hui de la régularité.",
 
-    text:
-      "Des habitudes simples auront davantage d’effet qu’un effort intense difficile à maintenir. Votre corps appréciera un rythme stable et réaliste.",
+    text: "Des habitudes simples auront davantage d’effet qu’un effort intense difficile à maintenir. Votre corps appréciera un rythme stable et réaliste.",
 
     advice:
       "Choisissez une routine que vous pourrez répéter sans vous épuiser.",
 
-    highlights: [
-      "Régularité",
-      "Routine",
-      "Stabilité",
-    ],
+    highlights: ["Régularité", "Routine", "Stabilité"],
   },
 ];
 
@@ -381,34 +312,22 @@ const SOCIAL_TEXTS = [
     introduction:
       "Vous recherchez des échanges authentiques plutôt que nombreux.",
 
-    text:
-      "Une conversation profonde vous apportera davantage qu’une succession d’interactions superficielles. Vous pourriez être plus sélective dans votre entourage.",
+    text: "Une conversation profonde vous apportera davantage qu’une succession d’interactions superficielles. Vous pourriez être plus sélective dans votre entourage.",
 
     advice:
       "Accordez votre temps aux personnes avec lesquelles vous pouvez rester vous-même.",
 
-    highlights: [
-      "Authenticité",
-      "Profondeur",
-      "Sélection",
-    ],
+    highlights: ["Authenticité", "Profondeur", "Sélection"],
   },
 
   {
-    introduction:
-      "Votre présence pourrait attirer davantage l’attention.",
+    introduction: "Votre présence pourrait attirer davantage l’attention.",
 
-    text:
-      "Vous pourriez être sollicitée ou invitée à prendre davantage de place dans un groupe. Votre manière naturelle de vous exprimer laissera une impression positive.",
+    text: "Vous pourriez être sollicitée ou invitée à prendre davantage de place dans un groupe. Votre manière naturelle de vous exprimer laissera une impression positive.",
 
-    advice:
-      "Partagez vos idées sans chercher à convaincre tout le monde.",
+    advice: "Partagez vos idées sans chercher à convaincre tout le monde.",
 
-    highlights: [
-      "Présence",
-      "Expression",
-      "Confiance",
-    ],
+    highlights: ["Présence", "Expression", "Confiance"],
   },
 ];
 
@@ -427,55 +346,40 @@ function getTorontoDate(): string {
   }).format(new Date());
 }
 
+function createTransitDate(date: string): Date {
+  const parsedDate = new Date(`${date}T12:00:00.000Z`);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    throw new Error("INVALID_HOROSCOPE_DATE");
+  }
+
+  return parsedDate;
+}
+
 function formatDate(date: string): string {
-  const [year, month, day] = date
-    .split("-")
-    .map(Number);
+  const [year, month, day] = date.split("-").map(Number);
 
   return new Intl.DateTimeFormat("fr-CA", {
     day: "numeric",
     month: "long",
     year: "numeric",
     timeZone: "America/Toronto",
-  }).format(
-    new Date(
-      Date.UTC(
-        year,
-        month - 1,
-        day,
-        12,
-      ),
-    ),
-  );
+  }).format(new Date(Date.UTC(year, month - 1, day, 12)));
 }
 
 function createSeed(value: string): number {
   return Array.from(value).reduce(
-    (total, character) =>
-      total + character.charCodeAt(0),
+    (total, character) => total + character.charCodeAt(0),
     0,
   );
 }
 
-function pick<T>(
-  values: readonly T[],
-  seed: number,
-  offset: number,
-): T {
-  return values[
-    (seed + offset) %
-      values.length
-  ];
+function pick<T>(values: readonly T[], seed: number, offset: number): T {
+  return values[(seed + offset) % values.length];
 }
 
-function createScore(
-  seed: number,
-  offset: number,
-): number {
-  return (
-    70 +
-    ((seed + offset * 17) % 23)
-  );
+function createScore(seed: number, offset: number): number {
+  return 70 + ((seed + offset * 17) % 23);
 }
 
 /*
@@ -493,69 +397,57 @@ export function buildPremiumDailyHoroscope({
   birthTime,
   birthCity,
   birthCountry,
+  latitude,
+  longitude,
+  timeZone,
+  natalPlanets,
 }: BuildPremiumDailyHoroscopeOptions): PremiumDailyHoroscopeResult {
-  const selectedDate =
-    date ?? getTorontoDate();
+  const selectedDate = date ?? getTorontoDate();
 
-  const formattedDate =
-    formatDate(selectedDate);
+  const formattedDate = formatDate(selectedDate);
 
-  const seed =
-    createSeed(
-      `${selectedDate}-${zodiacSign}`,
+  const seed = createSeed(`${selectedDate}-${zodiacSign}`);
+
+  const signData = SIGN_DATA[zodiacSign];
+
+  const planetaryInfluences: HoroscopePdfContent["planetaryInfluences"] = [];
+
+  const hasTransitData =
+    Array.isArray(natalPlanets) &&
+    natalPlanets.length > 0 &&
+    typeof latitude === "number" &&
+    Number.isFinite(latitude) &&
+    typeof longitude === "number" &&
+    Number.isFinite(longitude) &&
+    typeof timeZone === "string" &&
+    timeZone.trim().length > 0;
+
+  if (hasTransitData) {
+    const transitChart = calculateTransitChart({
+      latitude,
+      longitude,
+      timeZone: timeZone.trim(),
+      date: createTransitDate(selectedDate),
+    });
+
+    planetaryInfluences.push(
+      ...createDailyPlanetaryInfluences(transitChart.planets, natalPlanets, 8),
     );
+  }
 
-  const signData =
-    SIGN_DATA[zodiacSign];
+  const summary = pick(SUMMARY_TEXTS, seed, 1);
 
-  const summary =
-    pick(
-      SUMMARY_TEXTS,
-      seed,
-      1,
-    );
+  const energy = pick(ENERGY_TEXTS, seed, 2);
 
-  const energy =
-    pick(
-      ENERGY_TEXTS,
-      seed,
-      2,
-    );
+  const love = pick(LOVE_TEXTS, seed, 3);
 
-  const love =
-    pick(
-      LOVE_TEXTS,
-      seed,
-      3,
-    );
+  const career = pick(CAREER_TEXTS, seed, 4);
 
-  const career =
-    pick(
-      CAREER_TEXTS,
-      seed,
-      4,
-    );
+  const money = pick(MONEY_TEXTS, seed, 5);
 
-  const money =
-    pick(
-      MONEY_TEXTS,
-      seed,
-      5,
-    );
+  const health = pick(HEALTH_TEXTS, seed, 6);
 
-  const health =
-    pick(
-      HEALTH_TEXTS,
-      seed,
-      6,
-    );
-
-  const social =
-    pick(
-      SOCIAL_TEXTS,
-      seed,
-      7,
-    );
+  const social = pick(SOCIAL_TEXTS, seed, 7);
 
   const scores = {
     energy: createScore(seed, 1),
@@ -584,11 +476,9 @@ export function buildPremiumDailyHoroscope({
   };
 
   const content: HoroscopePdfContent = {
-    reportTitle:
-      "Votre horoscope Premium du jour",
+    reportTitle: "Votre horoscope Premium du jour",
 
-    reportSubtitle:
-      `${zodiacSignLabel} — ${formattedDate}`,
+    reportSubtitle: `${zodiacSignLabel} — ${formattedDate}`,
 
     welcomeText: firstName
       ? `${firstName}, cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.`
@@ -610,9 +500,11 @@ export function buildPremiumDailyHoroscope({
     },
 
     planetaryIntroduction:
-      "Les influences planétaires personnalisées seront calculées selon la date, l’heure et le lieu de naissance.",
+      planetaryInfluences.length > 0
+        ? "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui."
+        : "Les influences planétaires personnalisées nécessitent la date, l’heure et le lieu de naissance complets.",
 
-    planetaryInfluences: [],
+    planetaryInfluences,
 
     love: {
       title: "Amour et relations",
@@ -649,31 +541,25 @@ export function buildPremiumDailyHoroscope({
 
     challenges: [
       {
-        title:
-          "Éviter les conclusions rapides",
+        title: "Éviter les conclusions rapides",
 
-        theme:
-          "Discernement",
+        theme: "Discernement",
 
         description:
           "Une situation pourrait sembler plus claire qu’elle ne l’est réellement.",
 
-        advice:
-          "Vérifiez les faits avant de prendre une décision définitive.",
+        advice: "Vérifiez les faits avant de prendre une décision définitive.",
       },
 
       {
-        title:
-          "Respecter votre rythme",
+        title: "Respecter votre rythme",
 
-        theme:
-          "Équilibre",
+        theme: "Équilibre",
 
         description:
           "Vouloir tout accomplir immédiatement pourrait réduire votre efficacité.",
 
-        advice:
-          "Concentrez-vous sur ce qui est réellement prioritaire.",
+        advice: "Concentrez-vous sur ce qui est réellement prioritaire.",
       },
     ],
 
@@ -682,11 +568,9 @@ export function buildPremiumDailyHoroscope({
 
     opportunities: [
       {
-        title:
-          "Clarifier une situation",
+        title: "Clarifier une situation",
 
-        theme:
-          "Décision",
+        theme: "Décision",
 
         description:
           "Une information ou une conversation pourrait modifier votre compréhension d’un problème.",
@@ -696,17 +580,14 @@ export function buildPremiumDailyHoroscope({
       },
 
       {
-        title:
-          "Faire progresser un projet",
+        title: "Faire progresser un projet",
 
-        theme:
-          "Initiative",
+        theme: "Initiative",
 
         description:
           "Une petite étape concrète pourrait relancer une idée laissée en attente.",
 
-        action:
-          "Consacrez un moment précis à la prochaine étape réalisable.",
+        action: "Consacrez un moment précis à la prochaine étape réalisable.",
       },
     ],
 
@@ -715,33 +596,27 @@ export function buildPremiumDailyHoroscope({
         period: "morning",
         title: "Matin",
 
-        text:
-          "Commencez par organiser vos priorités sans céder immédiatement aux urgences extérieures.",
+        text: "Commencez par organiser vos priorités sans céder immédiatement aux urgences extérieures.",
 
-        score:
-          createScore(seed, 8),
+        score: createScore(seed, 8),
       },
 
       {
         period: "afternoon",
         title: "Après-midi",
 
-        text:
-          "Votre concentration devient plus stable et favorise les décisions concrètes.",
+        text: "Votre concentration devient plus stable et favorise les décisions concrètes.",
 
-        score:
-          createScore(seed, 9),
+        score: createScore(seed, 9),
       },
 
       {
         period: "evening",
         title: "Soirée",
 
-        text:
-          "Un rythme plus calme favorise les échanges sincères, la réflexion et la récupération.",
+        text: "Un rythme plus calme favorise les échanges sincères, la réflexion et la récupération.",
 
-        score:
-          createScore(seed, 10),
+        score: createScore(seed, 10),
       },
     ],
 
@@ -753,41 +628,28 @@ export function buildPremiumDailyHoroscope({
         {
           length: 6,
         },
-        (_, index) =>
-          1 +
-          ((seed +
-            index * 13) %
-            49),
+        (_, index) => 1 + ((seed + index * 13) % 49),
       ),
 
-      color:
-        signData.color,
+      color: signData.color,
 
-      stone:
-        signData.stone,
+      stone: signData.stone,
 
-      element:
-        signData.element,
+      element: signData.element,
 
-      planet:
-        signData.planet,
+      planet: signData.planet,
 
-      time:
-        `${8 + (seed % 13)} h ${String(
-          (seed * 7) % 60,
-        ).padStart(2, "0")}`,
+      time: `${8 + (seed % 13)} h ${String((seed * 7) % 60).padStart(2, "0")}`,
 
       quote:
         "Ce que vous comprenez aujourd’hui peut transformer votre manière d’avancer demain.",
 
-      keyword:
-        signData.keyword,
+      keyword: signData.keyword,
     },
 
     scores,
 
-    conclusionTitle:
-      "Votre message du jour",
+    conclusionTitle: "Votre message du jour",
 
     conclusion:
       "Cette journée vous invite à avancer avec calme, discernement et constance. Vous n’avez pas besoin de tout résoudre immédiatement. Une action juste et bien choisie peut suffire à créer un mouvement positif.",
