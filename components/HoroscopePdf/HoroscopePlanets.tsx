@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,33 +35,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const VERY_DARK_GOLD = "#4E412D";
-
-const PLANET_ICONS: Record<string, string> = {
-  soleil: "/astrology/sun.png",
-  sun: "/astrology/sun.png",
-
-  lune: "/astrology/moon.png",
-  moon: "/astrology/moon.png",
-
-  mercure: "/astrology/mercury.png",
-  mercury: "/astrology/mercury.png",
-
-  venus: "/astrology/venus.png",
-
-  mars: "/astrology/mars.png",
-
-  jupiter: "/astrology/jupiter.png",
-
-  saturne: "/astrology/saturn.png",
-  saturn: "/astrology/saturn.png",
-
-  uranus: "/astrology/uranus.png",
-
-  neptune: "/astrology/neptune.png",
-
-  pluton: "/astrology/pluto.png",
-  pluto: "/astrology/pluto.png",
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -561,7 +535,7 @@ function normalizePlanetKey(planet?: string) {
 function getPlanetIconUrl(planet?: string) {
   const normalized = normalizePlanetKey(planet);
 
-  return PLANET_ICONS[normalized] ?? null;
+  return HOROSCOPE_ICONS[normalized as keyof typeof HOROSCOPE_ICONS] ?? null;
 }
 
 function getPlanetFallback(planet?: string) {
