@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -35,19 +36,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const LOVE_ICONS = {
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -614,10 +602,10 @@ export default function HoroscopeLove({
     : [];
 
   const relationshipIcons = [
-    LOVE_ICONS.heart,
-    LOVE_ICONS.moon,
-    LOVE_ICONS.sun,
-    LOVE_ICONS.soulPath,
+    HOROSCOPE_ICONS.love,
+    HOROSCOPE_ICONS.moon,
+    HOROSCOPE_ICONS.sun,
+    HOROSCOPE_ICONS.soulPath,
   ];
 
   return (
@@ -660,7 +648,7 @@ export default function HoroscopeLove({
             <View style={styles.titleLine} />
 
             <Image
-              src={LOVE_ICONS.heart}
+              src={HOROSCOPE_ICONS.love}
               style={styles.titleIcon}
             />
 
@@ -675,7 +663,7 @@ export default function HoroscopeLove({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={LOVE_ICONS.heart}
+                src={HOROSCOPE_ICONS.love}
                 style={styles.heroIcon}
               />
             </View>
@@ -720,7 +708,7 @@ export default function HoroscopeLove({
           <View style={styles.potentialHeader}>
             <View style={styles.potentialLeft}>
               <Image
-                src={LOVE_ICONS.moon}
+                src={HOROSCOPE_ICONS.moon}
                 style={styles.potentialIcon}
               />
 
@@ -752,7 +740,7 @@ export default function HoroscopeLove({
               <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={LOVE_ICONS.heart}
+                src={HOROSCOPE_ICONS.love}
                 style={styles.sectionHeaderIcon}
               />
 
@@ -768,7 +756,7 @@ export default function HoroscopeLove({
                   text={highlight}
                   icon={
                     relationshipIcons[index] ||
-                    LOVE_ICONS.heart
+                    HOROSCOPE_ICONS.love
                   }
                   index={index}
                   isLast={index === highlights.length - 1}
@@ -782,7 +770,7 @@ export default function HoroscopeLove({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={LOVE_ICONS.moon}
+                src={HOROSCOPE_ICONS.moon}
                 style={styles.balanceIcon}
               />
 
@@ -799,7 +787,7 @@ export default function HoroscopeLove({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={LOVE_ICONS.sun}
+                src={HOROSCOPE_ICONS.sun}
                 style={styles.balanceIcon}
               />
 
@@ -817,13 +805,13 @@ export default function HoroscopeLove({
         {content.love.advice ? (
           <View style={styles.adviceCard} wrap={false}>
             <Image
-              src={LOVE_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceWatermark}
             />
 
             <View style={styles.adviceIconCircle}>
               <Image
-                src={LOVE_ICONS.integrationGuide}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.adviceIcon}
               />
             </View>
