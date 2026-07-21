@@ -42,7 +42,24 @@ const PLANET_ICONS: Record<string, string> = {
   lune: "/astrology/moon.png",
   moon: "/astrology/moon.png",
 
+  mercure: "/astrology/mercury.png",
+  mercury: "/astrology/mercury.png",
+
+  venus: "/astrology/venus.png",
+
   mars: "/astrology/mars.png",
+
+  jupiter: "/astrology/jupiter.png",
+
+  saturne: "/astrology/saturn.png",
+  saturn: "/astrology/saturn.png",
+
+  uranus: "/astrology/uranus.png",
+
+  neptune: "/astrology/neptune.png",
+
+  pluton: "/astrology/pluto.png",
+  pluto: "/astrology/pluto.png",
 };
 
 const styles = StyleSheet.create({
