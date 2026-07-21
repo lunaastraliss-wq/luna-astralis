@@ -1,8 +1,3 @@
-import type {
-  PremiumAngles,
-  PremiumPlanet,
-} from "@/components/PremiumPdf/PremiumPdfTypes";
-
 export type HoroscopePeriod =
   | "day"
   | "month"
@@ -30,6 +25,7 @@ export type HoroscopeScore = {
 export type HoroscopeLuckyData = {
   introduction?: string;
   numbers: number[];
+
   color?: string;
   day?: string;
   stone?: string;
@@ -55,6 +51,7 @@ export type HoroscopePlanetaryInfluence = {
   planet: string;
   sign?: string;
   aspect?: string;
+
   title: string;
   description: string;
   advice?: string;
@@ -85,8 +82,10 @@ export type HoroscopeOpportunity = {
 
 export type HoroscopeIdentity = {
   firstName?: string;
+
   zodiacSign: HoroscopeZodiacSign;
   zodiacSignLabel: string;
+
   birthDate?: string;
   birthTime?: string;
   birthCity?: string;
@@ -95,6 +94,7 @@ export type HoroscopeIdentity = {
 
 export type HoroscopePeriodData = {
   type: HoroscopePeriod;
+
   label: string;
   startDate: string;
   endDate: string;
@@ -111,8 +111,7 @@ export type HoroscopePdfContent = {
   energy: HoroscopeSectionContent;
 
   planetaryIntroduction?: string;
-  planetaryInfluences:
-    HoroscopePlanetaryInfluence[];
+  planetaryInfluences: HoroscopePlanetaryInfluence[];
 
   love: HoroscopeSectionContent;
   career: HoroscopeSectionContent;
@@ -144,27 +143,16 @@ export type HoroscopePdfContent = {
   finalMessage?: string;
 };
 
-/*
- * Même structure générale que PremiumPdfProps.
- */
 export type HoroscopePdfProps = {
-  firstName?: string;
-  birthDate?: string;
-  birthTime?: string;
-  birthCity?: string;
-  birthCountry?: string;
-
-  planets?: PremiumPlanet[];
-  angles?: PremiumAngles;
-
-  latitude?: number;
-  longitude?: number;
-  timezone?: string;
-
-  wheelImage?: string;
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  content: HoroscopePdfContent;
 
   logoUrl?: string;
+  coverImageUrl?: string;
   zodiacIconUrl?: string;
+
+  hiddenPageNumbers?: number[];
 };
 
 export type HoroscopeSectionProps = {
@@ -176,9 +164,12 @@ export type HoroscopeSectionProps = {
 export type HoroscopeCoverProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
+
   reportTitle: string;
   reportSubtitle?: string;
+
   logoUrl?: string;
+  coverImageUrl?: string;
   zodiacIconUrl?: string;
 };
 
@@ -192,4 +183,14 @@ export type HoroscopeScoreCardProps = {
   label: string;
   value: number;
   description?: string;
+};
+
+export type SafeHoroscopePdfProps = HoroscopePdfProps & {
+  identity: HoroscopeIdentity & {
+    zodiacSign: HoroscopeZodiacSign;
+    zodiacSignLabel: string;
+  };
+
+  period: HoroscopePeriodData;
+  content: HoroscopePdfContent;
 };
