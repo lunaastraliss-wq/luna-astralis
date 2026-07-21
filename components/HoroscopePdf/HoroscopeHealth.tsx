@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -35,19 +36,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const HEALTH_ICONS = {
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -694,10 +682,10 @@ export default function HoroscopeHealth({
     : [];
 
   const healthIcons = [
-    HEALTH_ICONS.innerWorld,
-    HEALTH_ICONS.sun,
-    HEALTH_ICONS.moon,
-    HEALTH_ICONS.fourElements,
+    HOROSCOPE_ICONS.innerWorld,
+    HOROSCOPE_ICONS.sun,
+    HOROSCOPE_ICONS.moon,
+    HOROSCOPE_ICONS.fourElements,
   ];
 
   const routineCards = [
@@ -705,19 +693,19 @@ export default function HoroscopeHealth({
       title: "Respirer",
       text:
         "Ralentissez quelques instants afin de diminuer la tension et de retrouver un rythme plus naturel.",
-      icon: HEALTH_ICONS.innerWorld,
+      icon: HOROSCOPE_ICONS.innerWorld,
     },
     {
       title: "Bouger",
       text:
         "Un mouvement doux et régulier aide à relancer l’énergie sans vous demander un effort excessif.",
-      icon: HEALTH_ICONS.sun,
+      icon: HOROSCOPE_ICONS.sun,
     },
     {
       title: "Récupérer",
       text:
         "Accordez une vraie place au repos afin que le corps et l’esprit puissent se rééquilibrer.",
-      icon: HEALTH_ICONS.moon,
+      icon: HOROSCOPE_ICONS.moon,
     },
   ];
 
@@ -761,7 +749,7 @@ export default function HoroscopeHealth({
             <View style={styles.titleLine} />
 
             <Image
-              src={HEALTH_ICONS.innerWorld}
+              src={HOROSCOPE_ICONS.innerWorld}
               style={styles.titleIcon}
             />
 
@@ -777,7 +765,7 @@ export default function HoroscopeHealth({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={HEALTH_ICONS.innerWorld}
+                src={HOROSCOPE_ICONS.innerWorld}
                 style={styles.heroIcon}
               />
             </View>
@@ -822,7 +810,7 @@ export default function HoroscopeHealth({
           <View style={styles.wellnessHeader}>
             <View style={styles.wellnessLeft}>
               <Image
-                src={HEALTH_ICONS.fourElements}
+                src={HOROSCOPE_ICONS.fourElements}
                 style={styles.wellnessIcon}
               />
 
@@ -852,7 +840,7 @@ export default function HoroscopeHealth({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={HEALTH_ICONS.sun}
+                src={HOROSCOPE_ICONS.sun}
                 style={styles.balanceIcon}
               />
 
@@ -869,7 +857,7 @@ export default function HoroscopeHealth({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={HEALTH_ICONS.moon}
+                src={HOROSCOPE_ICONS.moon}
                 style={styles.balanceIcon}
               />
 
@@ -890,7 +878,7 @@ export default function HoroscopeHealth({
               <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={HEALTH_ICONS.fourElements}
+                src={HOROSCOPE_ICONS.fourElements}
                 style={styles.sectionHeaderIcon}
               />
 
@@ -906,7 +894,7 @@ export default function HoroscopeHealth({
                   text={highlight}
                   icon={
                     healthIcons[index] ||
-                    HEALTH_ICONS.innerWorld
+                    HOROSCOPE_ICONS.innerWorld
                   }
                   index={index}
                   isLast={index === highlights.length - 1}
@@ -944,13 +932,13 @@ export default function HoroscopeHealth({
         {content.health.advice ? (
           <View style={styles.adviceCard} wrap={false}>
             <Image
-              src={HEALTH_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceWatermark}
             />
 
             <View style={styles.adviceIconCircle}>
               <Image
-                src={HEALTH_ICONS.integrationGuide}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.adviceIcon}
               />
             </View>
@@ -969,7 +957,7 @@ export default function HoroscopeHealth({
 
         <View style={styles.disclaimerCard} wrap={false}>
           <Image
-            src={HEALTH_ICONS.integrationGuide}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.disclaimerIcon}
           />
 
