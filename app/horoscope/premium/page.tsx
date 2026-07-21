@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Horoscope Premium personnalisé | Luna Astralis",
 
   description:
-    "Découvrez bientôt votre horoscope Premium personnalisé selon votre date, votre heure et votre lieu de naissance : prévisions du jour, du mois et de l’année.",
+    "Découvrez votre horoscope Premium personnalisé selon votre date, votre heure et votre lieu de naissance : prévisions du jour, du mois et de l’année.",
 
   alternates: {
     canonical:
@@ -43,6 +43,9 @@ const FORMULES = [
   {
     icon: "✨",
     title: "Horoscope Premium du jour",
+    href: "/horoscope/premium/jour",
+    price: "9,99 $ US",
+    buttonLabel: "Créer mon horoscope du jour",
     description:
       "Une lecture personnalisée des énergies, des opportunités et des défis qui influencent votre journée.",
     items: [
@@ -57,6 +60,9 @@ const FORMULES = [
   {
     icon: "📅",
     title: "Horoscope Premium du mois",
+    href: "/horoscope/premium/mois",
+    price: "19,99 $ US",
+    buttonLabel: "Découvrir l’horoscope du mois",
     description:
       "Une vision plus large des périodes importantes, des changements et des possibilités du mois.",
     items: [
@@ -71,6 +77,9 @@ const FORMULES = [
   {
     icon: "🌟",
     title: "Horoscope Premium de l’année",
+    href: "/horoscope/premium/annee",
+    price: "39,99 $ US",
+    buttonLabel: "Découvrir l’horoscope de l’année",
     description:
       "Une analyse complète des grandes étapes de votre année astrologique et des domaines les plus influencés.",
     items: [
@@ -137,7 +146,7 @@ export default function HoroscopePremiumPage() {
 
             <p className="premium-hero-text">
               Votre signe solaire ne raconte qu’une partie
-              de votre histoire. L’Horoscope Premium tiendra
+              de votre histoire. L’Horoscope Premium tient
               compte de votre date, de votre heure et de votre
               lieu de naissance afin d’analyser votre carte
               du ciel et les transits astrologiques qui vous
@@ -191,9 +200,9 @@ export default function HoroscopePremiumPage() {
             </p>
 
             <p>
-              L’Horoscope Premium de Luna Astralis sera basé
+              L’Horoscope Premium de Luna Astralis est basé
               sur votre propre carte du ciel. Les transits
-              actuels seront comparés à vos positions de
+              actuels sont comparés à vos positions de
               naissance afin de produire une lecture plus
               précise et plus personnelle.
             </p>
@@ -216,7 +225,7 @@ export default function HoroscopePremiumPage() {
             </h2>
 
             <p>
-              Chaque formule sera construite à partir de votre
+              Chaque formule est construite à partir de votre
               carte du ciel et des mouvements planétaires de
               la période analysée.
             </p>
@@ -250,8 +259,17 @@ export default function HoroscopePremiumPage() {
                   ))}
                 </ul>
 
-                <div className="premium-coming-soon">
-                  Bientôt disponible
+                <div className="premium-formula-action">
+                  <div className="premium-formula-price">
+                    {formule.price}
+                  </div>
+
+                  <Link
+                    href={formule.href}
+                    className="premium-primary-button"
+                  >
+                    {formule.buttonLabel}
+                  </Link>
                 </div>
               </article>
             ))}
@@ -267,11 +285,11 @@ export default function HoroscopePremiumPage() {
             </span>
 
             <h2>
-              Comment votre horoscope sera-t-il calculé?
+              Comment votre horoscope est-il calculé?
             </h2>
 
             <p>
-              Luna Astralis utilisera les mêmes informations
+              Luna Astralis utilise les mêmes informations
               fondamentales que pour une véritable analyse de
               carte du ciel.
             </p>
@@ -309,9 +327,9 @@ export default function HoroscopePremiumPage() {
               </h2>
 
               <p>
-                Votre horoscope ne reposera pas uniquement sur
+                Votre horoscope ne repose pas uniquement sur
                 votre signe du zodiaque. Plusieurs données
-                astrologiques seront combinées afin de créer
+                astrologiques sont combinées afin de créer
                 une lecture cohérente.
               </p>
             </div>
@@ -383,34 +401,32 @@ export default function HoroscopePremiumPage() {
             </span>
 
             <span className="premium-section-kicker">
-              En préparation
+              Horoscope personnalisé
             </span>
 
             <h2>
-              L’Horoscope Premium arrive bientôt
+              Commencez avec l’Horoscope Premium du jour
             </h2>
 
             <p>
-              Le système de calcul personnalisé est
-              actuellement en développement. En attendant,
-              vous pouvez découvrir gratuitement votre carte
-              du ciel ou consulter l’horoscope général de
-              votre signe.
+              Entrez vos informations de naissance pour créer
+              une lecture personnalisée fondée sur votre carte
+              du ciel et les transits astrologiques du jour.
             </p>
 
             <div className="premium-waiting-actions">
               <Link
-                href="/carte-du-ciel"
+                href="/horoscope/premium/jour"
                 className="premium-primary-button"
               >
-                Créer ma carte du ciel
+                Créer mon horoscope du jour
               </Link>
 
               <Link
                 href="/horoscope"
                 className="premium-secondary-button"
               >
-                Voir les horoscopes du jour
+                Voir les horoscopes gratuits
               </Link>
             </div>
           </div>
