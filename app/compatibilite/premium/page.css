@@ -2104,4 +2104,42 @@
     font-size: 34px;
   }
 }
-  
+/* =========================================================
+   BOUTON APERÇU PDF
+   ========================================================= */
+
+.compat-premium-preview-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.compat-premium-preview-action .compat-premium-button {
+  width: fit-content;
+  min-width: 280px;
+}
+
+.compat-premium-preview-text {
+  max-width: 520px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 720px) {
+  .compat-premium-preview-action {
+    align-items: stretch;
+  }
+
+  .compat-premium-preview-action .compat-premium-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .compat-premium-preview-text {
+    text-align: center;
+  }
+}  
