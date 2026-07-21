@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -33,17 +34,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const CONCLUSION_ICONS = {
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -582,28 +572,28 @@ export default function HoroscopeConclusion({
   const insightCards: InsightCardProps[] = [
     {
       number: "01",
-      icon: CONCLUSION_ICONS.soulPath,
+      icon: HOROSCOPE_ICONS.soulPath,
       title: "Votre évolution",
       text:
         "Cette période vous invite à reconnaître ce qui demande à grandir, à changer ou à être dépassé.",
     },
     {
       number: "02",
-      icon: CONCLUSION_ICONS.innerWorld,
+      icon: HOROSCOPE_ICONS.innerWorld,
       title: "Votre intuition",
       text:
         "Vos ressentis peuvent devenir un guide précieux lorsque vous leur accordez du calme et de l’espace.",
     },
     {
       number: "03",
-      icon: CONCLUSION_ICONS.hiddenTalents,
+      icon: HOROSCOPE_ICONS.hiddenTalents,
       title: "Vos ressources",
       text:
         "Vos qualités naturelles, parfois discrètes, peuvent vous aider à traverser les défis avec confiance.",
     },
     {
       number: "04",
-      icon: CONCLUSION_ICONS.integrationGuide,
+      icon: HOROSCOPE_ICONS.integrationGuide,
       title: "Votre direction",
       text:
         "Avancez par étapes, observez les signes utiles et choisissez ce qui reste profondément juste pour vous.",
@@ -650,7 +640,7 @@ export default function HoroscopeConclusion({
             <View style={styles.titleLine} />
 
             <Image
-              src={CONCLUSION_ICONS.lifePurpose}
+              src={HOROSCOPE_ICONS.lifePurpose}
               style={styles.titleIcon}
             />
 
@@ -665,7 +655,7 @@ export default function HoroscopeConclusion({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={CONCLUSION_ICONS.lifePurpose}
+                src={HOROSCOPE_ICONS.lifePurpose}
                 style={styles.heroIcon}
               />
             </View>
@@ -690,7 +680,7 @@ export default function HoroscopeConclusion({
           <View style={styles.sectionLine} />
 
           <Image
-            src={CONCLUSION_ICONS.integrationGuide}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.sectionIcon}
           />
 
@@ -713,13 +703,13 @@ export default function HoroscopeConclusion({
 
         <View style={styles.finalMessageCard} wrap={false}>
           <Image
-            src={CONCLUSION_ICONS.heart}
+            src={HOROSCOPE_ICONS.love}
             style={styles.finalMessageWatermark}
           />
 
           <View style={styles.finalMessageHeader}>
             <Image
-              src={CONCLUSION_ICONS.heart}
+              src={HOROSCOPE_ICONS.love}
               style={styles.finalMessageIcon}
             />
 
@@ -771,7 +761,7 @@ export default function HoroscopeConclusion({
 
           <View style={styles.websiteCard}>
             <Image
-              src={CONCLUSION_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.websiteIcon}
             />
 
