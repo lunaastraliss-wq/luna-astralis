@@ -563,14 +563,6 @@ function getPlanetIconUrl(planet?: string) {
 
     pluton: "pluto",
     pluto: "pluto",
-
-    chiron: "chiron",
-
-    "noeud nord": "northNode",
-    "north node": "northNode",
-
-    "noeud sud": "southNode",
-    "south node": "southNode",
   };
 
   const iconKey = aliases[normalized];
