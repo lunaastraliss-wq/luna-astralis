@@ -268,20 +268,29 @@ export default function CompatibilityPremiumPage() {
           </p>
 
           <div className="compat-premium-hero-actions">
-            <Link
-              href="#apercu"
-              className="compat-premium-button compat-premium-button-primary"
-            >
-              Voir le contenu du rapport
-            </Link>
+  <Link
+    href="#apercu"
+    className="compat-premium-button compat-premium-button-primary"
+  >
+    Voir le contenu du rapport
+  </Link>
 
-            <Link
-              href="#commande"
-              className="compat-premium-button compat-premium-button-secondary"
-            >
-              Commencer mon analyse
-            </Link>
-          </div>
+  <Link
+    href="#commande"
+    className="compat-premium-button compat-premium-button-secondary"
+  >
+    Commencer mon analyse
+  </Link>
+</div>
+
+<a
+  href="/reports/apercu-rapport-compatibilite-premium.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="compat-premium-hero-preview-link"
+>
+  📖 Voir un aperçu réel du rapport PDF
+</a>
 
           <div className="compat-premium-hero-trust">
             <span>✓ Deux thèmes astraux</span>
