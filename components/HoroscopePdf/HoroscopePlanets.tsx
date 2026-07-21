@@ -535,7 +535,49 @@ function normalizePlanetKey(planet?: string) {
 function getPlanetIconUrl(planet?: string) {
   const normalized = normalizePlanetKey(planet);
 
-  return HOROSCOPE_ICONS[normalized as keyof typeof HOROSCOPE_ICONS] ?? null;
+  const aliases: Record<
+    string,
+    keyof typeof HOROSCOPE_ICONS
+  > = {
+    soleil: "sun",
+    sun: "sun",
+
+    lune: "moon",
+    moon: "moon",
+
+    mercure: "mercury",
+    mercury: "mercury",
+
+    venus: "venus",
+
+    mars: "mars",
+
+    jupiter: "jupiter",
+
+    saturne: "saturn",
+    saturn: "saturn",
+
+    uranus: "uranus",
+
+    neptune: "neptune",
+
+    pluton: "pluto",
+    pluto: "pluto",
+
+    chiron: "chiron",
+
+    "noeud nord": "northNode",
+    "north node": "northNode",
+
+    "noeud sud": "southNode",
+    "south node": "southNode",
+  };
+
+  const iconKey = aliases[normalized];
+
+  return iconKey
+    ? HOROSCOPE_ICONS[iconKey]
+    : null;
 }
 
 function getPlanetFallback(planet?: string) {
