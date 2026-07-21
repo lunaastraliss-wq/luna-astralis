@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,17 +35,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const CHALLENGE_ICONS = {
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -552,7 +542,7 @@ function ChallengeCard({
         <View style={styles.adviceBox}>
           <View style={styles.adviceIconCircle}>
             <Image
-              src={CHALLENGE_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceIcon}
             />
           </View>
@@ -588,10 +578,10 @@ export default function HoroscopeChallenges({
     : [];
 
   const challengeIcons = [
-    CHALLENGE_ICONS.hiddenTalents,
-    CHALLENGE_ICONS.innerWorld,
-    CHALLENGE_ICONS.soulPath,
-    CHALLENGE_ICONS.lifePurpose,
+    HOROSCOPE_ICONS.hiddenTalents,
+    HOROSCOPE_ICONS.innerWorld,
+    HOROSCOPE_ICONS.soulPath,
+    HOROSCOPE_ICONS.lifePurpose,
   ];
 
   return (
@@ -634,7 +624,7 @@ export default function HoroscopeChallenges({
             <View style={styles.titleLine} />
 
             <Image
-              src={CHALLENGE_ICONS.innerWorld}
+              src={HOROSCOPE_ICONS.innerWorld}
               style={styles.titleIcon}
             />
 
@@ -649,7 +639,7 @@ export default function HoroscopeChallenges({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={CHALLENGE_ICONS.hiddenTalents}
+                src={HOROSCOPE_ICONS.hiddenTalents}
                 style={styles.heroIcon}
               />
             </View>
@@ -671,7 +661,7 @@ export default function HoroscopeChallenges({
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={CHALLENGE_ICONS.soulPath}
+            src={HOROSCOPE_ICONS.soulPath}
             style={styles.sectionHeaderIcon}
           />
 
@@ -687,14 +677,14 @@ export default function HoroscopeChallenges({
                 key={`${challenge.title}-${index}`}
                 challenge={challenge}
                 index={index}
-                icon={challengeIcons[index] || CHALLENGE_ICONS.hiddenTalents}
+                icon={challengeIcons[index] || HOROSCOPE_ICONS.hiddenTalents}
               />
             ))}
           </View>
         ) : (
           <View style={styles.emptyCard} wrap={false}>
             <Image
-              src={CHALLENGE_ICONS.lifePurpose}
+              src={HOROSCOPE_ICONS.lifePurpose}
               style={styles.emptyIcon}
             />
 
@@ -712,13 +702,13 @@ export default function HoroscopeChallenges({
 
         <View style={styles.closingCard} wrap={false}>
           <Image
-            src={CHALLENGE_ICONS.heart}
+            src={HOROSCOPE_ICONS.love}
             style={styles.closingWatermark}
           />
 
           <View style={styles.closingHeader}>
             <Image
-              src={CHALLENGE_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.closingIcon}
             />
 
