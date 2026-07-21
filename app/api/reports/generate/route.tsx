@@ -10,6 +10,9 @@ import PremiumPdfDocument from "@/components/PremiumPdf/PremiumPdfDocument";
 import SignaturePdfDocument from "@/components/SignaturePdf/SignaturePdfDocument";
 import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
 import HoroscopePdfDocument from "@/components/HoroscopePdf/HoroscopePdf";
+import { buildPremiumDailyHoroscope } from "@/components/HoroscopePdf/buildPremiumDailyHoroscope";
+import { HOROSCOPE_LOGO_URL } from "@/components/HoroscopePdf/HoroscopePdfAssets";
+import type { HoroscopeZodiacSign } from "@/components/HoroscopePdf/HoroscopePdfTypes";
 
 import type { CompatibilityPerson } from "@/components/CompatibilityPdf/CompatibilityPdfTypes";
 
@@ -18,6 +21,97 @@ export const dynamic = "force-dynamic";
 
 function clean(value: unknown): string {
   return value == null ? "" : String(value).trim();
+}
+
+type NormalizedZodiac = {
+  key: HoroscopeZodiacSign;
+  label: string;
+};
+
+const ZODIAC_SIGNS: Record<string, NormalizedZodiac> = {
+  aries: { key: "belier", label: "Bélier" },
+  belier: { key: "belier", label: "Bélier" },
+
+  taurus: { key: "taureau", label: "Taureau" },
+  taureau: { key: "taureau", label: "Taureau" },
+
+  gemini: { key: "gemeaux", label: "Gémeaux" },
+  gemeaux: { key: "gemeaux", label: "Gémeaux" },
+
+  cancer: { key: "cancer", label: "Cancer" },
+
+  leo: { key: "lion", label: "Lion" },
+  lion: { key: "lion", label: "Lion" },
+
+  virgo: { key: "vierge", label: "Vierge" },
+  vierge: { key: "vierge", label: "Vierge" },
+
+  libra: { key: "balance", label: "Balance" },
+  balance: { key: "balance", label: "Balance" },
+
+  scorpio: { key: "scorpion", label: "Scorpion" },
+  scorpion: { key: "scorpion", label: "Scorpion" },
+
+  sagittarius: { key: "sagittaire", label: "Sagittaire" },
+  sagittaire: { key: "sagittaire", label: "Sagittaire" },
+
+  capricorn: { key: "capricorne", label: "Capricorne" },
+  capricorne: { key: "capricorne", label: "Capricorne" },
+
+  aquarius: { key: "verseau", label: "Verseau" },
+  verseau: { key: "verseau", label: "Verseau" },
+
+  pisces: { key: "poissons", label: "Poissons" },
+  poissons: { key: "poissons", label: "Poissons" },
+};
+
+function normalizeLookupKey(value: unknown): string {
+  return clean(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z]/g, "");
+}
+
+function resolveZodiacSign(
+  planets: any[],
+  birthData: any,
+  order: any
+): NormalizedZodiac {
+  const sunPlanet = Array.isArray(planets)
+    ? planets.find((planet: any) => {
+        const planetName = normalizeLookupKey(
+          planet?.name ||
+            planet?.planet ||
+            planet?.key ||
+            planet?.id
+        );
+
+        return planetName === "sun" || planetName === "soleil";
+      })
+    : undefined;
+
+  const candidates = [
+    sunPlanet?.sign,
+    sunPlanet?.zodiacSign,
+    sunPlanet?.zodiac_sign,
+    birthData?.zodiacSign,
+    birthData?.zodiac_sign,
+    birthData?.sunSign,
+    birthData?.sun_sign,
+    order?.zodiac_sign,
+    order?.sun_sign,
+  ];
+
+  for (const candidate of candidates) {
+    const zodiac = ZODIAC_SIGNS[normalizeLookupKey(candidate)];
+
+    if (zodiac) {
+      return zodiac;
+    }
+  }
+
+  throw new Error("INVALID_ZODIAC_SIGN");
 }
 
 const SUPABASE_URL = clean(
@@ -595,16 +689,45 @@ export async function POST(req: Request) {
       });
 
       if (productType === "horoscope-daily") {
-        pdfDocument = React.createElement(
-          HoroscopePdfDocument as React.ComponentType<any>,
-          {
-            ...commonProps,
+        const zodiac = resolveZodiacSign(
+          chart.planets,
+          birthData,
+          order
+        );
+
+        const horoscopeData =
+          buildPremiumDailyHoroscope({
+            firstName: chart.firstName,
+            zodiacSign: zodiac.key,
+            zodiacSignLabel: zodiac.label,
+
+            birthDate: chart.birthDate,
+            birthTime: chart.birthTime,
+            birthCity: chart.birthCity,
             birthCountry: chart.birthCountry,
+
             latitude: chart.latitude,
             longitude: chart.longitude,
-            timezone: chart.timeZone,
-            timezoneOffset: chart.timezoneOffset,
-            period: "day",
+            timeZone: chart.timeZone,
+            natalPlanets: chart.planets,
+          });
+
+        console.log("HOROSCOPE_DAILY_GENERATION", {
+          sessionId,
+          productType,
+          firstName: chart.firstName,
+          zodiacSign: zodiac.key,
+          zodiacSignLabel: zodiac.label,
+          date: horoscopeData.period.startDate,
+          planetaryInfluences:
+            horoscopeData.content.planetaryInfluences.length,
+        });
+
+        pdfDocument = React.createElement(
+          HoroscopePdfDocument,
+          {
+            ...horoscopeData,
+            logoUrl: HOROSCOPE_LOGO_URL,
           }
         );
       } else if (productType === "signature") {
