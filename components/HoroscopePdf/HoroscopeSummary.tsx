@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,17 +35,6 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
-
-const SUMMARY_ICONS = {
-  summary: "/astrology/integration-guide.png?v=2",
-  energy: "/astrology/sun.png?v=2",
-  love: "/astrology/heart.png?v=2",
-  career: "/astrology/life-purpose.png?v=2",
-  money: "/astrology/money.png?v=2",
-  health: "/astrology/inner-world.png?v=2",
-  social: "/astrology/soul-path.png?v=2",
-  guidance: "/astrology/hidden-talents.png?v=2",
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -737,27 +727,27 @@ export default function HoroscopeSummary({
     {
       label: "Énergie",
       value: content.scores.energy,
-      iconUrl: SUMMARY_ICONS.energy,
+      iconUrl: HOROSCOPE_ICONS.sun,
     },
     {
       label: "Amour",
       value: content.scores.love,
-      iconUrl: SUMMARY_ICONS.love,
+      iconUrl: HOROSCOPE_ICONS.love,
     },
     {
       label: "Travail",
       value: content.scores.career,
-      iconUrl: SUMMARY_ICONS.career,
+      iconUrl: HOROSCOPE_ICONS.lifePurpose,
     },
     {
       label: "Finances",
       value: content.scores.money,
-      iconUrl: SUMMARY_ICONS.money,
+      iconUrl: HOROSCOPE_ICONS.money,
     },
     {
       label: "Bien-être",
       value: content.scores.health,
-      iconUrl: SUMMARY_ICONS.health,
+      iconUrl: HOROSCOPE_ICONS.innerWorld,
     },
     {
       label: "Vie sociale",
@@ -765,7 +755,7 @@ export default function HoroscopeSummary({
         typeof content.scores.social === "number"
           ? content.scores.social
           : 50,
-      iconUrl: SUMMARY_ICONS.social,
+      iconUrl: HOROSCOPE_ICONS.soulPath,
     },
   ];
 
@@ -807,7 +797,7 @@ export default function HoroscopeSummary({
       <View style={styles.orbitDot} />
 
       <Image
-        src={SUMMARY_ICONS.summary}
+        src={HOROSCOPE_ICONS.integrationGuide}
         style={styles.watermark}
       />
 
@@ -847,7 +837,7 @@ export default function HoroscopeSummary({
             <View style={styles.titleLine} />
 
             <Image
-              src={SUMMARY_ICONS.summary}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.titleIcon}
             />
 
@@ -862,7 +852,7 @@ export default function HoroscopeSummary({
             <View style={styles.heroIdentity}>
               <View style={styles.heroIconBox}>
                 <Image
-                  src={SUMMARY_ICONS.summary}
+                  src={HOROSCOPE_ICONS.integrationGuide}
                   style={styles.heroIcon}
                 />
               </View>
@@ -895,7 +885,7 @@ export default function HoroscopeSummary({
             <View style={styles.heroDividerLine} />
 
             <Image
-              src={SUMMARY_ICONS.summary}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.heroDividerIcon}
             />
           </View>
@@ -913,7 +903,7 @@ export default function HoroscopeSummary({
           <View style={styles.overallHeader}>
             <View style={styles.overallLabelRow}>
               <Image
-                src={SUMMARY_ICONS.summary}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.overallIcon}
               />
 
@@ -943,7 +933,7 @@ export default function HoroscopeSummary({
           <View style={styles.indicatorsLine} />
 
           <Image
-            src={SUMMARY_ICONS.summary}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.indicatorsIcon}
           />
 
@@ -965,14 +955,14 @@ export default function HoroscopeSummary({
 
         <View style={styles.guidanceCard} wrap={false}>
           <Image
-            src={SUMMARY_ICONS.summary}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.guidanceWatermark}
           />
 
           <View style={styles.guidanceHeader}>
             <View style={styles.guidanceIconBox}>
               <Image
-                src={SUMMARY_ICONS.guidance}
+                src={HOROSCOPE_ICONS.hiddenTalents}
                 style={styles.guidanceIcon}
               />
             </View>
@@ -997,7 +987,7 @@ export default function HoroscopeSummary({
           <View style={styles.adviceHeader}>
             <View style={styles.adviceIconBox}>
               <Image
-                src={SUMMARY_ICONS.summary}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.adviceIcon}
               />
             </View>
