@@ -1,6 +1,9 @@
 import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-import { HOROSCOPE_LOGO_URL } from "./HoroscopePdfAssets";
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "./HoroscopePdfAssets";
 
 import HoroscopePageFooter from "./HoroscopePageFooter";
 import HoroscopeStarBackground from "./HoroscopeStarBackground";
@@ -24,18 +27,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const WELCOME_ICONS = {
-  guidance: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  energy: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  love: `${ASTROLOGY_PATH}/heart.png?v=2`,
-  money: `${ASTROLOGY_PATH}/money.png?v=2`,
-  career: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  wellbeing: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  quote: `${ASTROLOGY_PATH}/moon.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -510,22 +501,22 @@ export default function HoroscopeWelcome({
     {
       title: "Énergie",
       text: "Comprendre votre rythme, votre vitalité et les moments les plus porteurs.",
-      icon: WELCOME_ICONS.energy,
+      icon: HOROSCOPE_ICONS.sun,
     },
     {
       title: "Amour",
       text: "Décoder les émotions, les échanges et les mouvements de votre vie affective.",
-      icon: WELCOME_ICONS.love,
+      icon: HOROSCOPE_ICONS.love,
     },
     {
       title: "Finances",
       text: "Identifier les décisions, les occasions et les points de vigilance matériels.",
-      icon: WELCOME_ICONS.money,
+      icon: HOROSCOPE_ICONS.money,
     },
     {
       title: "Carrière",
       text: "Éclairer vos ambitions, vos choix professionnels et votre progression.",
-      icon: WELCOME_ICONS.career,
+      icon: HOROSCOPE_ICONS.lifePurpose,
     },
   ];
 
@@ -558,7 +549,7 @@ export default function HoroscopeWelcome({
           <View style={styles.titleDecoration}>
             <View style={styles.titleLine} />
 
-            <Image src={WELCOME_ICONS.guidance} style={styles.titleIcon} />
+            <Image src={HOROSCOPE_ICONS.integrationGuide} style={styles.titleIcon} />
 
             <View style={styles.titleLineSmall} />
           </View>
@@ -568,12 +559,12 @@ export default function HoroscopeWelcome({
           <View style={styles.heroOrbitOne} />
           <View style={styles.heroOrbitTwo} />
 
-          <Image src={WELCOME_ICONS.guidance} style={styles.heroWatermark} />
+          <Image src={HOROSCOPE_ICONS.integrationGuide} style={styles.heroWatermark} />
 
           <View style={styles.heroHeader}>
             <View style={styles.heroIconOuter}>
               <View style={styles.heroIconInner}>
-                <Image src={WELCOME_ICONS.guidance} style={styles.heroIcon} />
+                <Image src={HOROSCOPE_ICONS.integrationGuide} style={styles.heroIcon} />
               </View>
             </View>
 
@@ -590,7 +581,7 @@ export default function HoroscopeWelcome({
             <View style={styles.heroDividerLine} />
 
             <Image
-              src={WELCOME_ICONS.guidance}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.heroDividerIcon}
             />
           </View>
@@ -599,7 +590,7 @@ export default function HoroscopeWelcome({
         </View>
 
         <View style={styles.quoteCard}>
-          <Image src={WELCOME_ICONS.quote} style={styles.quoteIcon} />
+          <Image src={HOROSCOPE_ICONS.moon} style={styles.quoteIcon} />
 
           <Text style={styles.quoteText}>« {openingQuote} »</Text>
         </View>
@@ -608,7 +599,7 @@ export default function HoroscopeWelcome({
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={WELCOME_ICONS.guidance}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.sectionHeaderIcon}
           />
 
@@ -637,7 +628,7 @@ export default function HoroscopeWelcome({
           <View style={styles.infoCard}>
             <View style={styles.infoHeader}>
               <View style={styles.infoIconBox}>
-                <Image src={WELCOME_ICONS.guidance} style={styles.infoIcon} />
+                <Image src={HOROSCOPE_ICONS.integrationGuide} style={styles.infoIcon} />
               </View>
 
               <View style={styles.infoHeading}>
@@ -659,7 +650,7 @@ export default function HoroscopeWelcome({
           <View style={styles.infoCard}>
             <View style={styles.infoHeader}>
               <View style={styles.infoIconBox}>
-                <Image src={WELCOME_ICONS.wellbeing} style={styles.infoIcon} />
+                <Image src={HOROSCOPE_ICONS.innerWorld} style={styles.infoIcon} />
               </View>
 
               <View style={styles.infoHeading}>
