@@ -2143,3 +2143,40 @@
     text-align: center;
   }
 }  
+.compat-premium-hero-preview-link {
+  display: block;
+  width: fit-content;
+
+  margin: 18px auto 0;
+
+  color: #d4af4e;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.compat-premium-hero-preview-link:hover {
+  color: #f4d87a;
+  transform: translateY(-2px);
+}
+
+.compat-premium-hero-preview-link:focus-visible {
+  outline: 2px solid #d4af4e;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .compat-premium-hero-preview-link {
+    margin-top: 16px;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+}
