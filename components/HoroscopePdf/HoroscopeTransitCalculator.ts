@@ -294,6 +294,19 @@ function getStrengthLabel(
   return "Subtile";
 }
 
+function getTransitPlanetWithSign(
+  transit: HoroscopeTransitAspect,
+): string {
+  const sign =
+    typeof transit.transitSign === "string"
+      ? transit.transitSign.trim()
+      : "";
+
+  return sign
+    ? `${transit.transitPlanetLabel} en ${sign}`
+    : transit.transitPlanetLabel;
+}
+
 function calculateStrength(
   orb: number,
   maximumOrb: number,
@@ -516,33 +529,33 @@ function buildTransitDescription(
   switch (transit.aspect) {
     case "Conjonction":
       return (
-        `${transit.transitPlanetLabel} en ${transit.transitSign} ${transitMeaning}. ` +
+        `${getTransitPlanetWithSign(transit)} ${transitMeaning}. ` +
         `Sa conjonction avec votre ${transit.natalPlanetLabel} natal concentre cette influence sur ${natalArea}. ` +
         `Cette énergie peut être particulièrement visible aujourd’hui et mérite d’être utilisée consciemment.`
       );
 
     case "Sextile":
       return (
-        `${transit.transitPlanetLabel} en ${transit.transitSign} crée une ouverture favorable avec votre ${transit.natalPlanetLabel} natal. ` +
+        `${getTransitPlanetWithSign(transit)} crée une ouverture favorable avec votre ${transit.natalPlanetLabel} natal. ` +
         `Cette influence soutient ${natalArea}, mais elle demande généralement une initiative de votre part pour produire un résultat concret.`
       );
 
     case "Carré":
       return (
-        `${transit.transitPlanetLabel} en ${transit.transitSign} forme un carré avec votre ${transit.natalPlanetLabel} natal. ` +
+        `${getTransitPlanetWithSign(transit)} forme un carré avec votre ${transit.natalPlanetLabel} natal. ` +
         `Une tension peut apparaître autour de ${natalArea}. ` +
         `Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.`
       );
 
     case "Trigone":
       return (
-        `${transit.transitPlanetLabel} en ${transit.transitSign} forme un trigone harmonieux avec votre ${transit.natalPlanetLabel} natal. ` +
+        `${getTransitPlanetWithSign(transit)} forme un trigone harmonieux avec votre ${transit.natalPlanetLabel} natal. ` +
         `Cette influence facilite ${natalArea} et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.`
       );
 
     case "Opposition":
       return (
-        `${transit.transitPlanetLabel} en ${transit.transitSign} s’oppose à votre ${transit.natalPlanetLabel} natal. ` +
+        `${getTransitPlanetWithSign(transit)} s’oppose à votre ${transit.natalPlanetLabel} natal. ` +
         `Deux besoins peuvent sembler difficiles à concilier autour de ${natalArea}. ` +
         `La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.`
       );
@@ -605,15 +618,56 @@ export function buildPlanetaryInfluencesFromTransits(
       ? transits
       : [];
 
-  return safeTransits
-    .slice(
-      0,
-      Math.max(
-        1,
-        maximumInfluences,
-      ),
-    )
-    .map((transit) => ({
+  const safeMaximum =
+    Number.isFinite(maximumInfluences)
+      ? Math.max(
+          0,
+          Math.floor(maximumInfluences),
+        )
+      : 0;
+
+  if (
+    safeMaximum === 0 ||
+    safeTransits.length === 0
+  ) {
+    return [];
+  }
+
+  const selectedTransits:
+    HoroscopeTransitAspect[] = [];
+
+  const transitPlanetCounts =
+    new Map<string, number>();
+
+  for (const transit of safeTransits) {
+    const currentCount =
+      transitPlanetCounts.get(
+        transit.transitPlanet,
+      ) ?? 0;
+
+    if (currentCount >= 2) {
+      continue;
+    }
+
+    selectedTransits.push(
+      transit,
+    );
+
+    transitPlanetCounts.set(
+      transit.transitPlanet,
+      currentCount + 1,
+    );
+
+    if (
+      selectedTransits.length >=
+      safeMaximum
+    ) {
+      break;
+    }
+  }
+
+  return selectedTransits.map(
+    (transit) => ({
       planet:
         transit.transitPlanetLabel,
 
@@ -636,12 +690,11 @@ export function buildPlanetaryInfluencesFromTransits(
       advice:
         `${buildTransitAdvice(
           transit,
-        )} Influence ${getStrengthLabel(
+        )} Cette influence est ${getStrengthLabel(
           transit.strength,
-        ).toLowerCase()} — orbe de ${transit.orb.toFixed(
-          1,
-        )}°.`,
-    }));
+        ).toLowerCase()}.`,
+    }),
+  );
 }
 
 /*
