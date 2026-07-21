@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -35,16 +36,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const MONEY_ICONS = {
-  money: `${ASTROLOGY_PATH}/money.png?v=2`,
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -706,13 +697,13 @@ export default function HoroscopeMoney({
       title: "Développer",
       text:
         "Repérez les possibilités capables de soutenir vos ressources, vos projets ou votre autonomie à plus long terme.",
-      icon: MONEY_ICONS.jupiter,
+      icon: HOROSCOPE_ICONS.jupiter,
     },
     {
       title: "Sécuriser",
       text:
         "Protégez votre marge de manœuvre en vérifiant les chiffres, les conditions et les engagements récurrents.",
-      icon: MONEY_ICONS.integrationGuide,
+      icon: HOROSCOPE_ICONS.integrationGuide,
     },
   ];
 
@@ -756,7 +747,7 @@ export default function HoroscopeMoney({
             <View style={styles.titleLine} />
 
             <Image
-              src={MONEY_ICONS.money}
+              src={HOROSCOPE_ICONS.money}
               style={styles.titleIcon}
             />
 
@@ -772,7 +763,7 @@ export default function HoroscopeMoney({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={MONEY_ICONS.money}
+                src={HOROSCOPE_ICONS.money}
                 style={styles.heroIcon}
               />
             </View>
@@ -819,7 +810,7 @@ export default function HoroscopeMoney({
           <View style={styles.progressHeader}>
             <View style={styles.progressLabelRow}>
               <Image
-                src={MONEY_ICONS.money}
+                src={HOROSCOPE_ICONS.money}
                 style={styles.progressIcon}
               />
 
@@ -851,7 +842,7 @@ export default function HoroscopeMoney({
               <View style={styles.sectionLine} />
 
               <Image
-                src={MONEY_ICONS.money}
+                src={HOROSCOPE_ICONS.money}
                 style={styles.sectionIcon}
               />
 
@@ -888,13 +879,13 @@ export default function HoroscopeMoney({
 
         <View style={styles.guidanceCard} wrap={false}>
           <Image
-            src={MONEY_ICONS.money}
+            src={HOROSCOPE_ICONS.money}
             style={styles.guidanceWatermark}
           />
 
           <View style={styles.guidanceIconCircle}>
             <Image
-              src={MONEY_ICONS.money}
+              src={HOROSCOPE_ICONS.money}
               style={styles.guidanceIcon}
             />
           </View>
@@ -948,13 +939,13 @@ export default function HoroscopeMoney({
 
         <View style={styles.adviceCard} wrap={false}>
           <Image
-            src={MONEY_ICONS.money}
+            src={HOROSCOPE_ICONS.money}
             style={styles.adviceWatermark}
           />
 
           <View style={styles.adviceIconCircle}>
             <Image
-              src={MONEY_ICONS.money}
+              src={HOROSCOPE_ICONS.money}
               style={styles.adviceIcon}
             />
           </View>
