@@ -209,25 +209,30 @@ export async function POST(
         metadata.product
       ).toLowerCase();
 
-    const isNatalReport =
-      product ===
-      "astrology_report";
+   const isNatalReport =
+  product ===
+  "astrology_report";
 
-    const isCompatibilityReport =
-      product ===
-      "compatibility_report";
+const isCompatibilityReport =
+  product ===
+  "compatibility_report";
 
-    if (
-      !isNatalReport &&
-      !isCompatibilityReport
-    ) {
-      return NextResponse.json({
-        received: true,
-        ignored:
-          "NOT_SUPPORTED_REPORT",
-        product,
-      });
-    }
+const isHoroscopeDailyReport =
+  product ===
+  "horoscope_daily_report";
+
+if (
+  !isNatalReport &&
+  !isCompatibilityReport &&
+  !isHoroscopeDailyReport
+) {
+  return NextResponse.json({
+    received: true,
+    ignored:
+      "NOT_SUPPORTED_REPORT",
+    product,
+  });
+}
 
     const reportType =
       clean(
