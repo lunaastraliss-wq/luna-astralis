@@ -10,6 +10,8 @@ import "../horoscope.css";
 
 import { HOROSCOPE_TEXTES } from "../data";
 
+export const revalidate = 3600;
+
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -23,8 +25,8 @@ type HoroscopeSign = {
   dates: string;
   element: string;
   qualite: string;
-  couleur: string;
-  nombre: number;
+  couleurs: string[];
+  nombres: number[];
 };
 
 type PageProps = {
@@ -47,8 +49,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "21 mars au 19 avril",
     element: "Feu",
     qualite: "initiative",
-    couleur: "Rouge",
-    nombre: 1,
+    couleurs: [
+      "Rouge",
+      "Orange",
+      "Or",
+      "Corail",
+      "Bordeaux",
+      "Blanc",
+      "Jaune",
+      "Cuivre",
+      "Grenat",
+      "Écarlate",
+    ],
+    nombres: [1, 9, 18, 27, 36, 5, 14, 23, 32, 41],
   },
   {
     nom: "Taureau",
@@ -57,8 +70,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "20 avril au 20 mai",
     element: "Terre",
     qualite: "stabilité",
-    couleur: "Vert",
-    nombre: 6,
+    couleurs: [
+      "Vert",
+      "Rose poudré",
+      "Beige",
+      "Crème",
+      "Brun",
+      "Vert olive",
+      "Blanc",
+      "Cuivre",
+      "Terracotta",
+      "Sauge",
+    ],
+    nombres: [6, 15, 24, 33, 42, 2, 11, 20, 29, 38],
   },
   {
     nom: "Gémeaux",
@@ -67,8 +91,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "21 mai au 20 juin",
     element: "Air",
     qualite: "communication",
-    couleur: "Jaune",
-    nombre: 5,
+    couleurs: [
+      "Jaune",
+      "Bleu ciel",
+      "Argent",
+      "Blanc",
+      "Vert menthe",
+      "Orange",
+      "Lavande",
+      "Turquoise",
+      "Or",
+      "Citron",
+    ],
+    nombres: [5, 14, 23, 32, 41, 3, 12, 21, 30, 39],
   },
   {
     nom: "Cancer",
@@ -77,8 +112,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "21 juin au 22 juillet",
     element: "Eau",
     qualite: "sensibilité",
-    couleur: "Blanc",
-    nombre: 2,
+    couleurs: [
+      "Blanc",
+      "Argent",
+      "Bleu pâle",
+      "Perle",
+      "Crème",
+      "Turquoise",
+      "Rose tendre",
+      "Lavande",
+      "Bleu nuit",
+      "Vert d’eau",
+    ],
+    nombres: [2, 11, 20, 29, 38, 4, 13, 22, 31, 40],
   },
   {
     nom: "Lion",
@@ -87,8 +133,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "23 juillet au 22 août",
     element: "Feu",
     qualite: "confiance",
-    couleur: "Or",
-    nombre: 9,
+    couleurs: [
+      "Or",
+      "Orange",
+      "Rouge",
+      "Jaune soleil",
+      "Cuivre",
+      "Pourpre",
+      "Blanc",
+      "Corail",
+      "Ambre",
+      "Bordeaux",
+    ],
+    nombres: [9, 18, 27, 36, 45, 1, 10, 19, 28, 37],
   },
   {
     nom: "Vierge",
@@ -97,8 +154,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "23 août au 22 septembre",
     element: "Terre",
     qualite: "organisation",
-    couleur: "Beige",
-    nombre: 4,
+    couleurs: [
+      "Beige",
+      "Vert sauge",
+      "Blanc",
+      "Brun clair",
+      "Bleu gris",
+      "Crème",
+      "Olive",
+      "Terracotta",
+      "Lavande",
+      "Taupe",
+    ],
+    nombres: [4, 13, 22, 31, 40, 6, 15, 24, 33, 42],
   },
   {
     nom: "Balance",
@@ -107,8 +175,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "23 septembre au 22 octobre",
     element: "Air",
     qualite: "harmonie",
-    couleur: "Rose",
-    nombre: 7,
+    couleurs: [
+      "Rose",
+      "Bleu ciel",
+      "Lavande",
+      "Blanc",
+      "Vert tendre",
+      "Or rose",
+      "Turquoise",
+      "Corail",
+      "Argent",
+      "Violet clair",
+    ],
+    nombres: [7, 16, 25, 34, 43, 5, 14, 23, 32, 41],
   },
   {
     nom: "Scorpion",
@@ -117,8 +196,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "23 octobre au 21 novembre",
     element: "Eau",
     qualite: "transformation",
-    couleur: "Bordeaux",
-    nombre: 8,
+    couleurs: [
+      "Bordeaux",
+      "Noir",
+      "Rouge profond",
+      "Prune",
+      "Grenat",
+      "Violet",
+      "Bleu nuit",
+      "Or",
+      "Argent",
+      "Émeraude",
+    ],
+    nombres: [8, 17, 26, 35, 44, 4, 13, 22, 31, 40],
   },
   {
     nom: "Sagittaire",
@@ -127,8 +217,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "22 novembre au 21 décembre",
     element: "Feu",
     qualite: "expansion",
-    couleur: "Violet",
-    nombre: 3,
+    couleurs: [
+      "Violet",
+      "Bleu royal",
+      "Turquoise",
+      "Pourpre",
+      "Orange",
+      "Or",
+      "Indigo",
+      "Rouge",
+      "Blanc",
+      "Magenta",
+    ],
+    nombres: [3, 12, 21, 30, 39, 6, 15, 24, 33, 42],
   },
   {
     nom: "Capricorne",
@@ -137,8 +238,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "22 décembre au 19 janvier",
     element: "Terre",
     qualite: "discipline",
-    couleur: "Brun",
-    nombre: 10,
+    couleurs: [
+      "Brun",
+      "Noir",
+      "Vert forêt",
+      "Gris",
+      "Bordeaux",
+      "Bleu marine",
+      "Beige",
+      "Or",
+      "Taupe",
+      "Anthracite",
+    ],
+    nombres: [10, 19, 28, 37, 46, 8, 17, 26, 35, 44],
   },
   {
     nom: "Verseau",
@@ -147,8 +259,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "20 janvier au 18 février",
     element: "Air",
     qualite: "innovation",
-    couleur: "Bleu électrique",
-    nombre: 11,
+    couleurs: [
+      "Bleu électrique",
+      "Turquoise",
+      "Argent",
+      "Violet",
+      "Blanc",
+      "Indigo",
+      "Vert menthe",
+      "Bleu ciel",
+      "Or",
+      "Magenta",
+    ],
+    nombres: [11, 20, 29, 38, 47, 7, 16, 25, 34, 43],
   },
   {
     nom: "Poissons",
@@ -157,8 +280,19 @@ const SIGNES: HoroscopeSign[] = [
     dates: "19 février au 20 mars",
     element: "Eau",
     qualite: "intuition",
-    couleur: "Turquoise",
-    nombre: 12,
+    couleurs: [
+      "Turquoise",
+      "Bleu océan",
+      "Lavande",
+      "Blanc",
+      "Vert d’eau",
+      "Rose pâle",
+      "Argent",
+      "Violet",
+      "Bleu nuit",
+      "Nacré",
+    ],
+    nombres: [12, 21, 30, 39, 48, 3, 14, 25, 36, 47],
   },
 ];
 
@@ -235,8 +369,7 @@ function getHoroscopeDuJour(
     `${dateKey}-${signe.slug}`
   ).reduce(
     (total, caractere) =>
-      total +
-      caractere.charCodeAt(0),
+      (total * 31 + caractere.charCodeAt(0)) >>> 0,
     0
   );
 
@@ -284,6 +417,17 @@ function getHoroscopeDuJour(
       textes.conseil,
       6
     ),
+
+    couleur: choisir(
+      signe.couleurs,
+      7
+    ),
+
+    nombre:
+      signe.nombres[
+        (seed + 8) %
+          signe.nombres.length
+      ],
   };
 }
 
@@ -596,7 +740,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <strong>
-                  {signe.nombre}
+                  {horoscope.nombre}
                 </strong>
               </div>
 
@@ -606,7 +750,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <strong>
-                  {signe.couleur}
+                  {horoscope.couleur}
                 </strong>
               </div>
 
