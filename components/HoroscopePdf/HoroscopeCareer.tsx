@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,18 +35,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const CAREER_ICONS = {
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -570,10 +559,10 @@ export default function HoroscopeCareer({
     : [];
 
   const milestoneIcons = [
-    CAREER_ICONS.hiddenTalents,
-    CAREER_ICONS.soulPath,
-    CAREER_ICONS.jupiter,
-    CAREER_ICONS.sun,
+    HOROSCOPE_ICONS.hiddenTalents,
+    HOROSCOPE_ICONS.soulPath,
+    HOROSCOPE_ICONS.jupiter,
+    HOROSCOPE_ICONS.sun,
   ];
 
   return (
@@ -616,7 +605,7 @@ export default function HoroscopeCareer({
             <View style={styles.titleLine} />
 
             <Image
-              src={CAREER_ICONS.lifePurpose}
+              src={HOROSCOPE_ICONS.lifePurpose}
               style={styles.titleIcon}
             />
 
@@ -631,7 +620,7 @@ export default function HoroscopeCareer({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={CAREER_ICONS.lifePurpose}
+                src={HOROSCOPE_ICONS.lifePurpose}
                 style={styles.heroIcon}
               />
             </View>
@@ -676,7 +665,7 @@ export default function HoroscopeCareer({
           <View style={styles.potentialHeader}>
             <View style={styles.potentialLeft}>
               <Image
-                src={CAREER_ICONS.hiddenTalents}
+                src={HOROSCOPE_ICONS.hiddenTalents}
                 style={styles.potentialIcon}
               />
 
@@ -708,7 +697,7 @@ export default function HoroscopeCareer({
               <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={CAREER_ICONS.soulPath}
+                src={HOROSCOPE_ICONS.soulPath}
                 style={styles.sectionHeaderIcon}
               />
 
@@ -723,7 +712,7 @@ export default function HoroscopeCareer({
                   key={`${highlight}-${index}`}
                   text={highlight}
                   index={index}
-                  icon={milestoneIcons[index] || CAREER_ICONS.hiddenTalents}
+                  icon={milestoneIcons[index] || HOROSCOPE_ICONS.hiddenTalents}
                   isLast={index === highlights.length - 1}
                 />
               ))}
@@ -734,13 +723,13 @@ export default function HoroscopeCareer({
         {content.career.advice ? (
           <View style={styles.adviceCard} wrap={false}>
             <Image
-              src={CAREER_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceWatermark}
             />
 
             <View style={styles.adviceIconCircle}>
               <Image
-                src={CAREER_ICONS.integrationGuide}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.adviceIcon}
               />
             </View>
