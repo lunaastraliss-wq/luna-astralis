@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,18 +35,6 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const ENERGY_ICONS = {
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-};
-
 
 const styles = StyleSheet.create({
   page: {
@@ -508,7 +497,7 @@ export default function HoroscopeEnergy({
             <View style={styles.titleLine} />
 
             <Image
-              src={ENERGY_ICONS.sun}
+              src={HOROSCOPE_ICONS.sun}
               style={styles.titleIcon}
             />
 
@@ -525,7 +514,7 @@ export default function HoroscopeEnergy({
 
               <View style={styles.energyTitleRow}>
                 <Image
-                  src={ENERGY_ICONS.sun}
+                  src={HOROSCOPE_ICONS.sun}
                   style={styles.energyTitleIcon}
                 />
 
@@ -552,7 +541,7 @@ export default function HoroscopeEnergy({
             <View style={styles.energyDividerLine} />
 
             <Image
-              src={ENERGY_ICONS.moon}
+              src={HOROSCOPE_ICONS.moon}
               style={styles.energyDividerIcon}
             />
           </View>
@@ -572,7 +561,7 @@ export default function HoroscopeEnergy({
           <View style={styles.progressHeader}>
             <View style={styles.progressLabelRow}>
               <Image
-                src={ENERGY_ICONS.lifePurpose}
+                src={HOROSCOPE_ICONS.lifePurpose}
                 style={styles.progressIcon}
               />
 
@@ -604,7 +593,7 @@ export default function HoroscopeEnergy({
               <View style={styles.highlightHeaderLine} />
 
               <Image
-                src={ENERGY_ICONS.fourElements}
+                src={HOROSCOPE_ICONS.fourElements}
                 style={styles.highlightHeaderIcon}
               />
 
@@ -630,11 +619,11 @@ export default function HoroscopeEnergy({
                     <Image
                       src={
                         [
-                          ENERGY_ICONS.sun,
-                          ENERGY_ICONS.moon,
-                          ENERGY_ICONS.fourElements,
-                          ENERGY_ICONS.soulPath,
-                        ][index] ?? ENERGY_ICONS.sun
+                          HOROSCOPE_ICONS.sun,
+                          HOROSCOPE_ICONS.moon,
+                          HOROSCOPE_ICONS.fourElements,
+                          HOROSCOPE_ICONS.soulPath,
+                        ][index] ?? HOROSCOPE_ICONS.sun
                       }
                       style={styles.highlightIcon}
                     />
@@ -654,7 +643,7 @@ export default function HoroscopeEnergy({
             <View style={styles.adviceHeader}>
               <View style={styles.adviceIconBox}>
                 <Image
-                  src={ENERGY_ICONS.integrationGuide}
+                  src={HOROSCOPE_ICONS.integrationGuide}
                   style={styles.adviceIcon}
                 />
               </View>
