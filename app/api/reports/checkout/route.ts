@@ -360,11 +360,7 @@ export async function POST(
              * Permet d’inscrire ton coupon à 100 %
              * directement dans Stripe Checkout.
              */
-            discounts: [
-  {
-    promotion_code: "promo_1Tv14nQctELy6iN1AGOhkx6G",
-  },
-],
+            allow_promotion_codes: true,
 
             success_url:
               `${SITE_URL}/report-success` +
@@ -508,8 +504,11 @@ export async function POST(
               email ||
               undefined,
 
-            allow_promotion_codes:
-              true,
+            discounts: [
+  {
+    promotion_code: "promo_1Tv14nQctELy6iN1AGOhkx6G",
+  },
+],
 
             success_url:
               `${SITE_URL}/report-success` +
