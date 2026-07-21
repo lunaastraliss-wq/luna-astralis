@@ -360,11 +360,10 @@ export async function POST(
              * Permet d’inscrire ton coupon à 100 %
              * directement dans Stripe Checkout.
              */
-            discounts: [
-  {
-    promotion_code: "promo_1Tv14nQctELy6iN1AGOhkx6G",
-  },
-],
+           /*
+ * Coupon désactivé.
+ * Réactiver le bloc discounts au besoin.
+ */
             success_url:
               `${SITE_URL}/report-success` +
               `?session_id={CHECKOUT_SESSION_ID}`,
@@ -663,11 +662,10 @@ export async function POST(
            * On conserve aussi les coupons pour les
            * trois rapports déjà existants.
            */
-          discounts: [
-  {
-    promotion_code: "promo_1Tv14nQctELy6iN1AGOhkx6G",
-  },
-],
+         /*
+ * Coupon désactivé.
+ * Réactiver le bloc discounts au besoin.
+ */
           success_url:
             `${SITE_URL}/report-success` +
             `?session_id={CHECKOUT_SESSION_ID}`,
