@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -35,19 +36,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const OPPORTUNITY_ICONS = {
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -755,19 +743,19 @@ export default function HoroscopeOpportunities({
       title: "Repérer",
       text:
         "Observez les propositions, les rencontres et les idées qui reviennent avec insistance.",
-      icon: OPPORTUNITY_ICONS.moon,
+      icon: HOROSCOPE_ICONS.moon,
     },
     {
       title: "Évaluer",
       text:
         "Vérifiez si l’occasion respecte vos priorités, votre énergie et votre véritable direction.",
-      icon: OPPORTUNITY_ICONS.innerWorld,
+      icon: HOROSCOPE_ICONS.innerWorld,
     },
     {
       title: "Avancer",
       text:
         "Choisissez une action simple afin de transformer une possibilité en mouvement réel.",
-      icon: OPPORTUNITY_ICONS.sun,
+      icon: HOROSCOPE_ICONS.sun,
     },
   ];
 
@@ -789,10 +777,10 @@ export default function HoroscopeOpportunities({
     "Restez disponible aux nouvelles possibilités tout en prenant le temps de vérifier qu’elles correspondent réellement à votre chemin.";
 
   const opportunityIcons = [
-    OPPORTUNITY_ICONS.lifePurpose,
-    OPPORTUNITY_ICONS.hiddenTalents,
-    OPPORTUNITY_ICONS.jupiter,
-    OPPORTUNITY_ICONS.soulPath,
+    HOROSCOPE_ICONS.lifePurpose,
+    HOROSCOPE_ICONS.hiddenTalents,
+    HOROSCOPE_ICONS.jupiter,
+    HOROSCOPE_ICONS.soulPath,
   ];
 
   return (
@@ -835,7 +823,7 @@ export default function HoroscopeOpportunities({
             <View style={styles.titleLine} />
 
             <Image
-              src={OPPORTUNITY_ICONS.lifePurpose}
+              src={HOROSCOPE_ICONS.lifePurpose}
               style={styles.titleIcon}
             />
 
@@ -850,7 +838,7 @@ export default function HoroscopeOpportunities({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={OPPORTUNITY_ICONS.lifePurpose}
+                src={HOROSCOPE_ICONS.lifePurpose}
                 style={styles.heroIcon}
               />
             </View>
@@ -893,7 +881,7 @@ export default function HoroscopeOpportunities({
           <View style={styles.potentialHeader}>
             <View style={styles.potentialLeft}>
               <Image
-                src={OPPORTUNITY_ICONS.jupiter}
+                src={HOROSCOPE_ICONS.jupiter}
                 style={styles.potentialIcon}
               />
 
@@ -925,7 +913,7 @@ export default function HoroscopeOpportunities({
               <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={OPPORTUNITY_ICONS.soulPath}
+                src={HOROSCOPE_ICONS.soulPath}
                 style={styles.sectionHeaderIcon}
               />
 
@@ -944,7 +932,7 @@ export default function HoroscopeOpportunities({
                   action={opportunity.action}
                   icon={
                     opportunityIcons[index] ||
-                    OPPORTUNITY_ICONS.lifePurpose
+                    HOROSCOPE_ICONS.lifePurpose
                   }
                   index={index}
                   isLast={index === opportunities.length - 1}
@@ -956,13 +944,13 @@ export default function HoroscopeOpportunities({
 
         <View style={styles.guidanceCard} wrap={false}>
           <Image
-            src={OPPORTUNITY_ICONS.hiddenTalents}
+            src={HOROSCOPE_ICONS.hiddenTalents}
             style={styles.guidanceWatermark}
           />
 
           <View style={styles.guidanceIconCircle}>
             <Image
-              src={OPPORTUNITY_ICONS.hiddenTalents}
+              src={HOROSCOPE_ICONS.hiddenTalents}
               style={styles.guidanceIcon}
             />
           </View>
@@ -1009,13 +997,13 @@ export default function HoroscopeOpportunities({
 
         <View style={styles.adviceCard} wrap={false}>
           <Image
-            src={OPPORTUNITY_ICONS.integrationGuide}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.adviceWatermark}
           />
 
           <View style={styles.adviceIconCircle}>
             <Image
-              src={OPPORTUNITY_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceIcon}
             />
           </View>
