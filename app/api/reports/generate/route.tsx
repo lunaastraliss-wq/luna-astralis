@@ -13,6 +13,9 @@ import HoroscopePdfDocument from "@/components/HoroscopePdf/HoroscopePdf";
 import { buildPremiumDailyHoroscope } from "@/components/HoroscopePdf/buildPremiumDailyHoroscope";
 import { HOROSCOPE_LOGO_URL } from "@/components/HoroscopePdf/HoroscopePdfAssets";
 import type { HoroscopeZodiacSign } from "@/components/HoroscopePdf/HoroscopePdfTypes";
+import {
+  getHoroscopeZodiacFromLongitude,
+} from "@/components/HoroscopePdf/HoroscopePdfUtils";
 
 import type { CompatibilityPerson } from "@/components/CompatibilityPdf/CompatibilityPdfTypes";
 
@@ -135,6 +138,17 @@ function resolveZodiacSign(
     if (zodiac) {
       return zodiac;
     }
+  }
+
+  const zodiacFromLongitude = getHoroscopeZodiacFromLongitude(
+    sunPlanet?.longitude
+  );
+
+  if (zodiacFromLongitude) {
+    return {
+      key: zodiacFromLongitude,
+      label: ZODIAC_SIGNS[zodiacFromLongitude].label,
+    };
   }
 
   throw new Error("INVALID_ZODIAC_SIGN");
