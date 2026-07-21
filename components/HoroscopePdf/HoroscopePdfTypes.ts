@@ -1,4 +1,12 @@
-export type HoroscopePeriod = "day" | "month" | "year";
+import type {
+  PremiumAngles,
+  PremiumPlanet,
+} from "@/components/PremiumPdf/PremiumPdfTypes";
+
+export type HoroscopePeriod =
+  | "day"
+  | "month"
+  | "year";
 
 export type HoroscopeZodiacSign =
   | "belier"
@@ -21,12 +29,7 @@ export type HoroscopeScore = {
 
 export type HoroscopeLuckyData = {
   introduction?: string;
-
-  /**
-   * Jusqu’à six nombres favorables.
-   */
   numbers: number[];
-
   color?: string;
   day?: string;
   stone?: string;
@@ -38,7 +41,11 @@ export type HoroscopeLuckyData = {
 };
 
 export type HoroscopeTimelineItem = {
-  period: "morning" | "afternoon" | "evening";
+  period:
+    | "morning"
+    | "afternoon"
+    | "evening";
+
   title: string;
   text: string;
   score?: number;
@@ -88,23 +95,8 @@ export type HoroscopeIdentity = {
 
 export type HoroscopePeriodData = {
   type: HoroscopePeriod;
-
-  /**
-   * Exemples :
-   * - Jour : "20 juillet 2026"
-   * - Mois : "Juillet 2026"
-   * - Année : "2026"
-   */
   label: string;
-
-  /**
-   * Format recommandé : YYYY-MM-DD
-   */
   startDate: string;
-
-  /**
-   * Format recommandé : YYYY-MM-DD
-   */
   endDate: string;
 };
 
@@ -119,7 +111,8 @@ export type HoroscopePdfContent = {
   energy: HoroscopeSectionContent;
 
   planetaryIntroduction?: string;
-  planetaryInfluences: HoroscopePlanetaryInfluence[];
+  planetaryInfluences:
+    HoroscopePlanetaryInfluence[];
 
   love: HoroscopeSectionContent;
   career: HoroscopeSectionContent;
@@ -151,30 +144,27 @@ export type HoroscopePdfContent = {
   finalMessage?: string;
 };
 
+/*
+ * Même structure générale que PremiumPdfProps.
+ */
 export type HoroscopePdfProps = {
-  identity: HoroscopeIdentity;
-  period: HoroscopePeriodData;
-  content: HoroscopePdfContent;
+  firstName?: string;
+  birthDate?: string;
+  birthTime?: string;
+  birthCity?: string;
+  birthCountry?: string;
 
-  /**
-   * URL ou chemin public vers le logo Luna Astralis.
-   */
+  planets?: PremiumPlanet[];
+  angles?: PremiumAngles;
+
+  latitude?: number;
+  longitude?: number;
+  timezone?: string;
+
+  wheelImage?: string;
+
   logoUrl?: string;
-
-  /**
-   * URL ou chemin public vers une éventuelle image de couverture.
-   */
-  coverImageUrl?: string;
-
-  /**
-   * URL ou chemin public vers l’icône du signe.
-   */
   zodiacIconUrl?: string;
-
-  /**
-   * Numéros des pages sur lesquelles le pied de page doit être masqué.
-   */
-  hiddenPageNumbers?: number[];
 };
 
 export type HoroscopeSectionProps = {
@@ -186,25 +176,9 @@ export type HoroscopeSectionProps = {
 export type HoroscopeCoverProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
-
-  /**
-   * Titre affiché directement sur la couverture.
-   */
   reportTitle: string;
-
-  /**
-   * Sous-titre facultatif affiché sous le titre.
-   */
   reportSubtitle?: string;
-
-  /**
-   * URL ou chemin public vers le logo.
-   */
   logoUrl?: string;
-
-  /**
-   * URL ou chemin public vers l’icône du signe.
-   */
   zodiacIconUrl?: string;
 };
 
@@ -218,14 +192,4 @@ export type HoroscopeScoreCardProps = {
   label: string;
   value: number;
   description?: string;
-};
-
-export type SafeHoroscopePdfProps = HoroscopePdfProps & {
-  identity: HoroscopeIdentity & {
-    zodiacSign: HoroscopeZodiacSign;
-    zodiacSignLabel: string;
-  };
-
-  period: HoroscopePeriodData;
-  content: HoroscopePdfContent;
 };
