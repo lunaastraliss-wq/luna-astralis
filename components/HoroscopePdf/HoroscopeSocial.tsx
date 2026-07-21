@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -35,18 +36,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const SOCIAL_ICONS = {
-  social: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-  guidance: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -693,10 +682,10 @@ export default function HoroscopeSocial({
     : [];
 
   const socialIcons = [
-    SOCIAL_ICONS.social,
-    SOCIAL_ICONS.heart,
-    SOCIAL_ICONS.guidance,
-    SOCIAL_ICONS.hiddenTalents,
+    HOROSCOPE_ICONS.soulPath,
+    HOROSCOPE_ICONS.love,
+    HOROSCOPE_ICONS.integrationGuide,
+    HOROSCOPE_ICONS.hiddenTalents,
   ];
 
   const routineCards = [
@@ -704,19 +693,19 @@ export default function HoroscopeSocial({
       title: "Écouter",
       text:
         "Accueillez les paroles importantes avec attention avant de chercher à répondre ou à expliquer.",
-      icon: SOCIAL_ICONS.heart,
+      icon: HOROSCOPE_ICONS.love,
     },
     {
       title: "Clarifier",
       text:
         "Exprimez vos attentes simplement afin de limiter les malentendus et les interprétations inutiles.",
-      icon: SOCIAL_ICONS.guidance,
+      icon: HOROSCOPE_ICONS.integrationGuide,
     },
     {
       title: "Préserver",
       text:
         "Gardez de l’espace pour vous lorsque les échanges deviennent trop exigeants ou dispersants.",
-      icon: SOCIAL_ICONS.innerWorld,
+      icon: HOROSCOPE_ICONS.innerWorld,
     },
   ];
 
@@ -775,7 +764,7 @@ export default function HoroscopeSocial({
             <View style={styles.titleLine} />
 
             <Image
-              src={SOCIAL_ICONS.social}
+              src={HOROSCOPE_ICONS.soulPath}
               style={styles.titleIcon}
             />
 
@@ -791,7 +780,7 @@ export default function HoroscopeSocial({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={SOCIAL_ICONS.social}
+                src={HOROSCOPE_ICONS.soulPath}
                 style={styles.heroIcon}
               />
             </View>
@@ -836,7 +825,7 @@ export default function HoroscopeSocial({
           <View style={styles.wellnessHeader}>
             <View style={styles.wellnessLeft}>
               <Image
-                src={SOCIAL_ICONS.hiddenTalents}
+                src={HOROSCOPE_ICONS.hiddenTalents}
                 style={styles.wellnessIcon}
               />
 
@@ -866,7 +855,7 @@ export default function HoroscopeSocial({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={SOCIAL_ICONS.heart}
+                src={HOROSCOPE_ICONS.love}
                 style={styles.balanceIcon}
               />
 
@@ -883,7 +872,7 @@ export default function HoroscopeSocial({
           <View style={styles.balanceCard} wrap={false}>
             <View style={styles.balanceHeader}>
               <Image
-                src={SOCIAL_ICONS.guidance}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.balanceIcon}
               />
 
@@ -904,7 +893,7 @@ export default function HoroscopeSocial({
               <View style={styles.sectionHeaderLine} />
 
               <Image
-                src={SOCIAL_ICONS.hiddenTalents}
+                src={HOROSCOPE_ICONS.hiddenTalents}
                 style={styles.sectionHeaderIcon}
               />
 
@@ -920,7 +909,7 @@ export default function HoroscopeSocial({
                   text={highlight}
                   icon={
                     socialIcons[index] ||
-                    SOCIAL_ICONS.social
+                    HOROSCOPE_ICONS.soulPath
                   }
                   index={index}
                   isLast={index === highlights.length - 1}
@@ -958,13 +947,13 @@ export default function HoroscopeSocial({
         {advice ? (
           <View style={styles.adviceCard} wrap={false}>
             <Image
-              src={SOCIAL_ICONS.guidance}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.adviceWatermark}
             />
 
             <View style={styles.adviceIconCircle}>
               <Image
-                src={SOCIAL_ICONS.guidance}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.adviceIcon}
               />
             </View>
@@ -983,7 +972,7 @@ export default function HoroscopeSocial({
 
         <View style={styles.disclaimerCard} wrap={false}>
           <Image
-            src={SOCIAL_ICONS.guidance}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.disclaimerIcon}
           />
 
