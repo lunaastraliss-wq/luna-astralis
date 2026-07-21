@@ -8,7 +8,8 @@ type ReportType =
   | "essential"
   | "premium"
   | "signature"
-  | "compatibility";
+  | "compatibility"
+  | "horoscope-daily";
 
 type BirthPersonRequestBody = {
   firstName?: unknown;
@@ -81,7 +82,8 @@ function isReportType(
     value === "essential" ||
     value === "premium" ||
     value === "signature" ||
-    value === "compatibility"
+    value === "compatibility" ||
+    value === "horoscope-daily"
   );
 }
 
@@ -164,6 +166,10 @@ const REPORT_PRICE: Record<
 
   compatibility: s(
     process.env.STRIPE_COMPATIBILITY_PRICE_ID
+  ),
+
+  "horoscope-daily": s(
+    process.env.STRIPE_PRICE_ID_HOROSCOPE_DAILY_PREMIUM
   ),
 };
 
@@ -417,6 +423,142 @@ export async function POST(
 
           person_2_wheel_image_path:
             person2.wheelImagePath,
+        }
+      );
+    }
+
+    /*
+     * Horoscope Premium du jour :
+     * une personne, sans image de roue obligatoire.
+     */
+    if (
+      reportType ===
+      "horoscope-daily"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope personnalisé.",
+          },
+          {
+            status: 400,
+          }
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_BIRTH_DATA_TOO_LARGE"
+        );
+
+      const session =
+        await stripe.checkout.sessions.create(
+          {
+            mode: "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity: 1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            allow_promotion_codes:
+              true,
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_daily_report",
+
+              report_type:
+                "horoscope-daily",
+
+              birth_data:
+                serializedBirthData,
+            },
+          }
+        );
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok: true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-daily",
         }
       );
     }
