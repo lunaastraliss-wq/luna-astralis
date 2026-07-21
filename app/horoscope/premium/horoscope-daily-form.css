@@ -1,0 +1,138 @@
+.horoscope-daily-page {
+  min-height: 100vh;
+}
+
+.horoscope-daily-hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 92px 24px 44px;
+  text-align: center;
+}
+
+.horoscope-daily-hero h1 {
+  max-width: 780px;
+  margin: 18px auto 16px;
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  line-height: 1.05;
+}
+
+.horoscope-daily-hero p {
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+.horoscope-daily-price {
+  width: fit-content;
+  margin: 26px auto 0;
+  padding: 10px 20px;
+  border: 1px solid rgba(212, 175, 78, 0.55);
+  border-radius: 999px;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.horoscope-daily-content {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto 70px;
+}
+
+.horoscope-daily-form-card {
+  padding: clamp(24px, 5vw, 52px);
+  border: 1px solid rgba(212, 175, 78, 0.3);
+  border-radius: 28px;
+  background: rgba(8, 18, 34, 0.9);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+}
+
+.horoscope-daily-form-heading {
+  margin-bottom: 34px;
+  text-align: center;
+}
+
+.horoscope-daily-form-heading h2 {
+  margin: 12px 0;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+}
+
+.horoscope-daily-form-heading p {
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.horoscope-daily-form {
+  display: grid;
+  gap: 22px;
+}
+
+.horoscope-daily-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.horoscope-daily-field {
+  display: grid;
+  gap: 9px;
+}
+
+.horoscope-daily-field label {
+  font-weight: 700;
+}
+
+.horoscope-daily-field input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(212, 175, 78, 0.32);
+  border-radius: 14px;
+  background: rgba(3, 12, 25, 0.82);
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.horoscope-daily-field input:focus {
+  border-color: rgba(212, 175, 78, 0.85);
+  box-shadow: 0 0 0 3px rgba(212, 175, 78, 0.12);
+}
+
+.horoscope-daily-error {
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 120, 120, 0.48);
+  border-radius: 12px;
+  background: rgba(135, 25, 25, 0.2);
+  line-height: 1.5;
+}
+
+.horoscope-daily-submit {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.horoscope-daily-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.horoscope-daily-secure-note {
+  margin: -4px 0 0;
+  text-align: center;
+  font-size: 0.92rem;
+  opacity: 0.78;
+}
+
+@media (max-width: 680px) {
+  .horoscope-daily-hero {
+    padding-top: 66px;
+  }
+
+  .horoscope-daily-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
