@@ -505,6 +505,17 @@ export default function CompatibilityPremiumPage() {
                 <li>Vos forces naturelles et vos défis</li>
                 <li>Des conseils personnalisés pour votre relation</li>
               </ul>
+
+              <div className="compat-premium-hero-actions">
+                <a
+                  href="/reports/apercu-rapport-compatibilite-premium.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="compat-premium-button compat-premium-button-primary"
+                >
+                  📖 Voir un aperçu du rapport
+                </a>
+              </div>
             </div>
           </div>
         </section>
