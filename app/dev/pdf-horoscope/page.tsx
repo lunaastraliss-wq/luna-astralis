@@ -1,33 +1,48 @@
-"use client";
+import PdfHoroscopeViewer from "./PdfHoroscopeViewer";
 
-import dynamic from "next/dynamic";
+import {
+  buildPremiumDailyHoroscope,
+} from "@/components/HoroscopePdf/buildPremiumDailyHoroscope";
 
-const PdfHoroscopeViewer = dynamic(
-  () => import("./PdfHoroscopeViewer"),
-  {
-    ssr: false,
+import {
+  calculateNatalChart,
+} from "@/lib/astrology/calculateNatalChart";
 
-    loading: () => (
-      <main
-        style={{
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: 0,
-          padding: 0,
-          backgroundColor: "#081020",
-          color: "#fff8e7",
-          fontFamily: "Arial, sans-serif",
-        }}
-      >
-        Génération de l’horoscope personnalisé…
-      </main>
-    ),
-  },
-);
+const LATITUDE = 46.8139;
+const LONGITUDE = -71.208;
+const TIME_ZONE = "America/Toronto";
 
 export default function PdfHoroscopeDevPage() {
-  return <PdfHoroscopeViewer />;
+  const natalChart = calculateNatalChart({
+    birthDate: "17/11/1970",
+    birthTime: "21:36",
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+    timeZone: TIME_ZONE,
+  });
+
+  const horoscope = buildPremiumDailyHoroscope({
+    firstName: "Martine",
+
+    zodiacSign: "scorpion",
+    zodiacSignLabel: "Scorpion",
+
+    date: "2026-07-21",
+
+    birthDate: "17/11/1970",
+    birthTime: "21:36",
+    birthCity: "Québec",
+    birthCountry: "Canada",
+
+    latitude: natalChart.latitude,
+    longitude: natalChart.longitude,
+    timeZone: natalChart.timeZone,
+    natalPlanets: natalChart.planets,
+  });
+
+  return (
+    <PdfHoroscopeViewer
+      horoscope={horoscope}
+    />
+  );
 }
