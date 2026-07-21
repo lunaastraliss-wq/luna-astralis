@@ -8,6 +8,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -34,20 +35,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const EXPLORE_ICONS = {
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-};
 
 const WEBSITE_URL = "https://luna-astralis.app";
 
@@ -628,7 +615,7 @@ export default function HoroscopeExplore({
             <View style={styles.titleLine} />
 
             <Image
-              src={EXPLORE_ICONS.jupiter}
+              src={HOROSCOPE_ICONS.jupiter}
               style={styles.titleIcon}
             />
 
@@ -643,7 +630,7 @@ export default function HoroscopeExplore({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={EXPLORE_ICONS.jupiter}
+                src={HOROSCOPE_ICONS.jupiter}
                 style={styles.heroIcon}
               />
             </View>
@@ -671,7 +658,7 @@ export default function HoroscopeExplore({
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={EXPLORE_ICONS.sun}
+            src={HOROSCOPE_ICONS.sun}
             style={styles.sectionHeaderIcon}
           />
 
@@ -684,19 +671,19 @@ export default function HoroscopeExplore({
           <FreeCard
             title="Horoscope quotidien"
             text="Découvrez chaque jour les tendances de votre signe dans les domaines essentiels de votre vie."
-            icon={EXPLORE_ICONS.sun}
+            icon={HOROSCOPE_ICONS.sun}
           />
 
           <FreeCard
             title="Carte du ciel"
             text="Obtenez votre roue astrologique et découvrez votre Soleil, votre Lune et votre Ascendant."
-            icon={EXPLORE_ICONS.innerWorld}
+            icon={HOROSCOPE_ICONS.innerWorld}
           />
 
           <FreeCard
             title="Compatibilité amoureuse"
             text="Comparez deux signes et obtenez un premier aperçu de leur potentiel amoureux."
-            icon={EXPLORE_ICONS.heart}
+            icon={HOROSCOPE_ICONS.love}
           />
         </View>
 
@@ -704,7 +691,7 @@ export default function HoroscopeExplore({
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={EXPLORE_ICONS.lifePurpose}
+            src={HOROSCOPE_ICONS.lifePurpose}
             style={styles.sectionHeaderIcon}
           />
 
@@ -717,42 +704,42 @@ export default function HoroscopeExplore({
           <OfferCard
             title="Horoscope du jour"
             text="Une lecture détaillée de vos énergies, de vos relations, de votre carrière et de vos opportunités."
-            icon={EXPLORE_ICONS.sun}
+            icon={HOROSCOPE_ICONS.sun}
             badge="Premium"
           />
 
           <OfferCard
             title="Horoscope du mois"
             text="Une vision complète des tendances, des périodes favorables et des défis des prochaines semaines."
-            icon={EXPLORE_ICONS.moon}
+            icon={HOROSCOPE_ICONS.moon}
             badge="Premium"
           />
 
           <OfferCard
             title="Horoscope de l’année"
             text="Votre feuille de route astrologique pour comprendre les grands cycles et les moments importants de votre année."
-            icon={EXPLORE_ICONS.jupiter}
+            icon={HOROSCOPE_ICONS.jupiter}
             badge="Premium"
           />
 
           <OfferCard
             title="Compatibilité Premium"
             text="Une analyse approfondie du lien amoureux, des émotions, de la communication et du potentiel du couple."
-            icon={EXPLORE_ICONS.heart}
+            icon={HOROSCOPE_ICONS.love}
             badge="Premium"
           />
 
           <OfferCard
             title="Carte du ciel Essentielle"
             text="Les fondements de votre thème astral, vos planètes principales, vos éléments et vos grandes tendances."
-            icon={EXPLORE_ICONS.innerWorld}
+            icon={HOROSCOPE_ICONS.innerWorld}
             badge="Essentielle"
           />
 
           <OfferCard
             title="Carte du ciel Premium"
             text="Une exploration approfondie de vos planètes, maisons, aspects, forces, défis, relations et carrière."
-            icon={EXPLORE_ICONS.hiddenTalents}
+            icon={HOROSCOPE_ICONS.hiddenTalents}
             badge="Premium"
             featured
           />
@@ -760,7 +747,7 @@ export default function HoroscopeExplore({
           <OfferCard
             title="Carte du ciel Signature"
             text="L’expérience Luna Astralis la plus complète pour explorer votre personnalité, votre chemin de vie et votre potentiel."
-            icon={EXPLORE_ICONS.soulPath}
+            icon={HOROSCOPE_ICONS.soulPath}
             badge="Signature"
             featured
             signature
@@ -769,20 +756,20 @@ export default function HoroscopeExplore({
           <OfferCard
             title="Votre univers astrologique"
             text="Retrouvez l’ensemble de vos outils gratuits et de vos rapports personnalisés sur Luna Astralis."
-            icon={EXPLORE_ICONS.integrationGuide}
+            icon={HOROSCOPE_ICONS.integrationGuide}
             badge="En ligne"
           />
         </View>
 
         <View style={styles.websiteCard} wrap={false}>
           <Image
-            src={EXPLORE_ICONS.integrationGuide}
+            src={HOROSCOPE_ICONS.integrationGuide}
             style={styles.websiteWatermark}
           />
 
           <View style={styles.websiteIconCircle}>
             <Image
-              src={EXPLORE_ICONS.integrationGuide}
+              src={HOROSCOPE_ICONS.integrationGuide}
               style={styles.websiteIcon}
             />
           </View>
