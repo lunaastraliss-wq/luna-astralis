@@ -17,9 +17,25 @@ export default function SiteHeader() {
   const [menuOpen, setMenuOpen] =
     useState(false);
 
+  const [horoscopeOpen, setHoroscopeOpen] =
+    useState(false);
+
   const [
-    astrologyOpen,
-    setAstrologyOpen,
+    compatibilityOpen,
+    setCompatibilityOpen,
+  ] = useState(false);
+
+  const [astrologyOpen, setAstrologyOpen] =
+    useState(false);
+
+  const [
+    mobileHoroscopeOpen,
+    setMobileHoroscopeOpen,
+  ] = useState(false);
+
+  const [
+    mobileCompatibilityOpen,
+    setMobileCompatibilityOpen,
   ] = useState(false);
 
   const [
@@ -27,20 +43,35 @@ export default function SiteHeader() {
     setMobileAstrologyOpen,
   ] = useState(false);
 
+  const horoscopeRef =
+    useRef<HTMLDivElement | null>(null);
+
+  const compatibilityRef =
+    useRef<HTMLDivElement | null>(null);
+
   const astrologyRef =
     useRef<HTMLDivElement | null>(null);
 
+  const closeDesktopDropdowns =
+    useCallback(() => {
+      setHoroscopeOpen(false);
+      setCompatibilityOpen(false);
+      setAstrologyOpen(false);
+    }, []);
+
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
-    setAstrologyOpen(false);
+
+    closeDesktopDropdowns();
+
+    setMobileHoroscopeOpen(false);
+    setMobileCompatibilityOpen(false);
     setMobileAstrologyOpen(false);
-  }, []);
+  }, [closeDesktopDropdowns]);
 
   useEffect(() => {
-    setMenuOpen(false);
-    setAstrologyOpen(false);
-    setMobileAstrologyOpen(false);
-  }, [isAuth]);
+    closeMenu();
+  }, [isAuth, closeMenu]);
 
   useEffect(() => {
     const onKeyDown = (
@@ -61,25 +92,33 @@ export default function SiteHeader() {
         return;
       }
 
-      if (
-        astrologyRef.current?.contains(
+      const insideDesktopDropdown =
+        horoscopeRef.current?.contains(target) ||
+        compatibilityRef.current?.contains(
           target
-        )
-      ) {
+        ) ||
+        astrologyRef.current?.contains(target);
+
+      if (insideDesktopDropdown) {
         return;
       }
 
-      if (
+      const insideMobileMenu =
         target.closest(".premium-mobile-menu") ||
-        target.closest(".premium-menu-toggle")
-      ) {
+        target.closest(
+          ".premium-menu-toggle"
+        );
+
+      if (insideMobileMenu) {
         return;
       }
 
-      setAstrologyOpen(false);
+      closeDesktopDropdowns();
 
       if (menuOpen) {
         setMenuOpen(false);
+        setMobileHoroscopeOpen(false);
+        setMobileCompatibilityOpen(false);
         setMobileAstrologyOpen(false);
       }
     };
@@ -105,7 +144,38 @@ export default function SiteHeader() {
         onPointerDown
       );
     };
-  }, [closeMenu, menuOpen]);
+  }, [
+    closeDesktopDropdowns,
+    closeMenu,
+    menuOpen,
+  ]);
+
+  const toggleHoroscope = () => {
+    setHoroscopeOpen(
+      (currentValue) => !currentValue
+    );
+
+    setCompatibilityOpen(false);
+    setAstrologyOpen(false);
+  };
+
+  const toggleCompatibility = () => {
+    setCompatibilityOpen(
+      (currentValue) => !currentValue
+    );
+
+    setHoroscopeOpen(false);
+    setAstrologyOpen(false);
+  };
+
+  const toggleAstrology = () => {
+    setAstrologyOpen(
+      (currentValue) => !currentValue
+    );
+
+    setHoroscopeOpen(false);
+    setCompatibilityOpen(false);
+  };
 
   return (
     <header
@@ -153,13 +223,144 @@ export default function SiteHeader() {
             Accueil
           </Link>
 
-          <Link
-            href="/horoscope"
-            className="premium-nav-link"
-            onClick={closeMenu}
+          {/* Horoscope */}
+
+          <div
+            className="premium-dropdown"
+            ref={horoscopeRef}
           >
-            Horoscope
-          </Link>
+            <button
+              type="button"
+              className={`premium-nav-link premium-dropdown-button ${
+                horoscopeOpen
+                  ? "premium-dropdown-button--open"
+                  : ""
+              }`}
+              aria-expanded={horoscopeOpen}
+              aria-haspopup="true"
+              onClick={toggleHoroscope}
+            >
+              <span>Horoscope</span>
+
+              <span
+                className="premium-dropdown-arrow"
+                aria-hidden="true"
+              >
+                ▾
+              </span>
+            </button>
+
+            <div
+              className={`premium-dropdown-menu premium-dropdown-menu--compact ${
+                horoscopeOpen
+                  ? "premium-dropdown-menu--open"
+                  : ""
+              }`}
+            >
+              <div className="premium-dropdown-intro">
+                <span className="premium-dropdown-icon">
+                  🔮
+                </span>
+
+                <div>
+                  <strong>
+                    Votre horoscope
+                  </strong>
+
+                  <span>
+                    Gratuit ou personnalisé
+                  </span>
+                </div>
+              </div>
+
+              <div className="premium-dropdown-grid">
+                <Link
+                  href="/horoscope"
+                  onClick={closeMenu}
+                >
+                  <span>☀</span>
+
+                  <div>
+                    <strong>
+                      Horoscope gratuit
+                    </strong>
+
+                    <small>
+                      Les 12 signes du jour
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/horoscope/premium/jour"
+                  onClick={closeMenu}
+                >
+                  <span>✦</span>
+
+                  <div>
+                    <strong>
+                      Premium du jour
+                    </strong>
+
+                    <small>
+                      Votre journée personnalisée
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/horoscope/premium/mois"
+                  onClick={closeMenu}
+                >
+                  <span>☾</span>
+
+                  <div>
+                    <strong>
+                      Premium du mois
+                    </strong>
+
+                    <small>
+                      Vos tendances du mois
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/horoscope/premium/annee"
+                  onClick={closeMenu}
+                >
+                  <span>★</span>
+
+                  <div>
+                    <strong>
+                      Premium de l’année
+                    </strong>
+
+                    <small>
+                      Votre année complète
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/horoscope/premium"
+                  onClick={closeMenu}
+                >
+                  <span>☰</span>
+
+                  <div>
+                    <strong>
+                      Comparer les offres
+                    </strong>
+
+                    <small>
+                      Jour, mois ou année
+                    </small>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
 
           <Link
             href="/carte-du-ciel"
@@ -169,15 +370,97 @@ export default function SiteHeader() {
             Carte du ciel
           </Link>
 
-          <Link
-            href="/compatibilite"
-            className="premium-nav-link premium-nav-link--highlight"
-            onClick={closeMenu}
-          >
-            Compatibilité
-          </Link>
+          {/* Compatibilité */}
 
-          {/* Sous-menu Astrologie */}
+          <div
+            className="premium-dropdown"
+            ref={compatibilityRef}
+          >
+            <button
+              type="button"
+              className={`premium-nav-link premium-nav-link--highlight premium-dropdown-button ${
+                compatibilityOpen
+                  ? "premium-dropdown-button--open"
+                  : ""
+              }`}
+              aria-expanded={
+                compatibilityOpen
+              }
+              aria-haspopup="true"
+              onClick={toggleCompatibility}
+            >
+              <span>Compatibilité</span>
+
+              <span
+                className="premium-dropdown-arrow"
+                aria-hidden="true"
+              >
+                ▾
+              </span>
+            </button>
+
+            <div
+              className={`premium-dropdown-menu premium-dropdown-menu--compact ${
+                compatibilityOpen
+                  ? "premium-dropdown-menu--open"
+                  : ""
+              }`}
+            >
+              <div className="premium-dropdown-intro">
+                <span className="premium-dropdown-icon">
+                  💕
+                </span>
+
+                <div>
+                  <strong>
+                    Compatibilité amoureuse
+                  </strong>
+
+                  <span>
+                    Gratuite ou personnalisée
+                  </span>
+                </div>
+              </div>
+
+              <div className="premium-dropdown-grid">
+                <Link
+                  href="/compatibilite"
+                  onClick={closeMenu}
+                >
+                  <span>♡</span>
+
+                  <div>
+                    <strong>
+                      Compatibilité gratuite
+                    </strong>
+
+                    <small>
+                      Comparez deux signes
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/compatibilite/premium"
+                  onClick={closeMenu}
+                >
+                  <span>✦</span>
+
+                  <div>
+                    <strong>
+                      Compatibilité Premium
+                    </strong>
+
+                    <small>
+                      Analyse complète du couple
+                    </small>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Astrologie */}
 
           <div
             className="premium-dropdown"
@@ -192,12 +475,7 @@ export default function SiteHeader() {
               }`}
               aria-expanded={astrologyOpen}
               aria-haspopup="true"
-              onClick={() => {
-                setAstrologyOpen(
-                  (currentValue) =>
-                    !currentValue
-                );
-              }}
+              onClick={toggleAstrology}
             >
               <span>Astrologie</span>
 
@@ -239,10 +517,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>✦</span>
+
                   <div>
                     <strong>
                       Découvrir l’astrologie
                     </strong>
+
                     <small>
                       La page principale
                     </small>
@@ -254,10 +534,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>♈</span>
+
                   <div>
                     <strong>
                       Les signes
                     </strong>
+
                     <small>
                       Les 12 signes du zodiaque
                     </small>
@@ -269,10 +551,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>☉</span>
+
                   <div>
                     <strong>
                       Les planètes
                     </strong>
+
                     <small>
                       Leurs influences
                     </small>
@@ -284,10 +568,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>⌂</span>
+
                   <div>
                     <strong>
                       Les maisons
                     </strong>
+
                     <small>
                       Les domaines de vie
                     </small>
@@ -299,10 +585,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>△</span>
+
                   <div>
                     <strong>
                       Les aspects
                     </strong>
+
                     <small>
                       Les liens planétaires
                     </small>
@@ -314,10 +602,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>☀</span>
+
                   <div>
                     <strong>
                       Le Soleil
                     </strong>
+
                     <small>
                       Identité et vitalité
                     </small>
@@ -329,10 +619,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>☾</span>
+
                   <div>
                     <strong>
                       La Lune
                     </strong>
+
                     <small>
                       Émotions et intuition
                     </small>
@@ -344,10 +636,12 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 >
                   <span>↑</span>
+
                   <div>
                     <strong>
                       L’Ascendant
                     </strong>
+
                     <small>
                       Image et personnalité
                     </small>
@@ -434,13 +728,85 @@ export default function SiteHeader() {
             Accueil
           </Link>
 
-          <Link
-            href="/horoscope"
-            onClick={closeMenu}
+          {/* Horoscope mobile */}
+
+          <button
+            type="button"
+            className="premium-mobile-dropdown-button"
+            aria-expanded={
+              mobileHoroscopeOpen
+            }
+            onClick={() => {
+              setMobileHoroscopeOpen(
+                (currentValue) =>
+                  !currentValue
+              );
+
+              setMobileCompatibilityOpen(
+                false
+              );
+
+              setMobileAstrologyOpen(false);
+            }}
           >
-            <span>🔮</span>
-            Horoscope
-          </Link>
+            <span className="premium-mobile-link-left">
+              <span>🔮</span>
+              Horoscope
+            </span>
+
+            <span
+              className={`premium-mobile-arrow ${
+                mobileHoroscopeOpen
+                  ? "premium-mobile-arrow--open"
+                  : ""
+              }`}
+            >
+              ▾
+            </span>
+          </button>
+
+          <div
+            className={`premium-mobile-submenu ${
+              mobileHoroscopeOpen
+                ? "premium-mobile-submenu--open"
+                : ""
+            }`}
+          >
+            <Link
+              href="/horoscope"
+              onClick={closeMenu}
+            >
+              Horoscope du jour gratuit
+            </Link>
+
+            <Link
+              href="/horoscope/premium/jour"
+              onClick={closeMenu}
+            >
+              ✦ Premium du jour
+            </Link>
+
+            <Link
+              href="/horoscope/premium/mois"
+              onClick={closeMenu}
+            >
+              ☾ Premium du mois
+            </Link>
+
+            <Link
+              href="/horoscope/premium/annee"
+              onClick={closeMenu}
+            >
+              ★ Premium de l’année
+            </Link>
+
+            <Link
+              href="/horoscope/premium"
+              onClick={closeMenu}
+            >
+              Comparer les offres
+            </Link>
+          </div>
 
           <Link
             href="/carte-du-ciel"
@@ -450,14 +816,63 @@ export default function SiteHeader() {
             Carte du ciel
           </Link>
 
-          <Link
-            href="/compatibilite"
-            className="premium-mobile-highlight"
-            onClick={closeMenu}
+          {/* Compatibilité mobile */}
+
+          <button
+            type="button"
+            className="premium-mobile-dropdown-button premium-mobile-highlight"
+            aria-expanded={
+              mobileCompatibilityOpen
+            }
+            onClick={() => {
+              setMobileCompatibilityOpen(
+                (currentValue) =>
+                  !currentValue
+              );
+
+              setMobileHoroscopeOpen(false);
+              setMobileAstrologyOpen(false);
+            }}
           >
-            <span>💕</span>
-            Compatibilité
-          </Link>
+            <span className="premium-mobile-link-left">
+              <span>💕</span>
+              Compatibilité
+            </span>
+
+            <span
+              className={`premium-mobile-arrow ${
+                mobileCompatibilityOpen
+                  ? "premium-mobile-arrow--open"
+                  : ""
+              }`}
+            >
+              ▾
+            </span>
+          </button>
+
+          <div
+            className={`premium-mobile-submenu ${
+              mobileCompatibilityOpen
+                ? "premium-mobile-submenu--open"
+                : ""
+            }`}
+          >
+            <Link
+              href="/compatibilite"
+              onClick={closeMenu}
+            >
+              Compatibilité gratuite
+            </Link>
+
+            <Link
+              href="/compatibilite/premium"
+              onClick={closeMenu}
+            >
+              ✦ Compatibilité Premium
+            </Link>
+          </div>
+
+          {/* Astrologie mobile */}
 
           <button
             type="button"
@@ -469,6 +884,11 @@ export default function SiteHeader() {
               setMobileAstrologyOpen(
                 (currentValue) =>
                   !currentValue
+              );
+
+              setMobileHoroscopeOpen(false);
+              setMobileCompatibilityOpen(
+                false
               );
             }}
           >
