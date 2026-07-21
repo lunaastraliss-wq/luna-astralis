@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "./HoroscopePdfAssets";
 
@@ -33,60 +34,6 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
-
-const ASTROLOGY_PATH = "/astrology";
-
-const SYMBOL_ICONS = {
-  heart: `${ASTROLOGY_PATH}/heart.png?v=2`,
-  innerWorld: `${ASTROLOGY_PATH}/inner-world.png?v=2`,
-  soulPath: `${ASTROLOGY_PATH}/soul-path.png?v=2`,
-  fourElements: `${ASTROLOGY_PATH}/four-elements.png?v=2`,
-  hiddenTalents: `${ASTROLOGY_PATH}/hidden-talents.png?v=2`,
-  lifePurpose: `${ASTROLOGY_PATH}/life-purpose.png?v=2`,
-  integrationGuide: `${ASTROLOGY_PATH}/integration-guide.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-};
-
-const ELEMENT_ICONS: Record<string, string> = {
-  air: `${ASTROLOGY_PATH}/element-air.png?v=2`,
-
-  terre: `${ASTROLOGY_PATH}/element-earth.png?v=2`,
-  earth: `${ASTROLOGY_PATH}/element-earth.png?v=2`,
-
-  feu: `${ASTROLOGY_PATH}/element-fire.png?v=2`,
-  fire: `${ASTROLOGY_PATH}/element-fire.png?v=2`,
-
-  eau: `${ASTROLOGY_PATH}/element-water.png?v=2`,
-  water: `${ASTROLOGY_PATH}/element-water.png?v=2`,
-};
-
-const PLANET_ICONS: Record<string, string> = {
-  soleil: `${ASTROLOGY_PATH}/sun.png?v=2`,
-  sun: `${ASTROLOGY_PATH}/sun.png?v=2`,
-
-  lune: `${ASTROLOGY_PATH}/moon.png?v=2`,
-  moon: `${ASTROLOGY_PATH}/moon.png?v=2`,
-
-  mercure: `${ASTROLOGY_PATH}/mercury.png?v=2`,
-  mercury: `${ASTROLOGY_PATH}/mercury.png?v=2`,
-
-  venus: `${ASTROLOGY_PATH}/venus.png?v=2`,
-
-  mars: `${ASTROLOGY_PATH}/mars.png?v=2`,
-
-  jupiter: `${ASTROLOGY_PATH}/jupiter.png?v=2`,
-
-  saturne: `${ASTROLOGY_PATH}/saturn.png?v=2`,
-  saturn: `${ASTROLOGY_PATH}/saturn.png?v=2`,
-
-  uranus: `${ASTROLOGY_PATH}/uranus.png?v=2`,
-
-  neptune: `${ASTROLOGY_PATH}/neptune.png?v=2`,
-
-  pluton: `${ASTROLOGY_PATH}/pluto.png?v=2`,
-  pluto: `${ASTROLOGY_PATH}/pluto.png?v=2`,
-};
 
 const styles = StyleSheet.create({
   page: {
@@ -794,8 +741,8 @@ function getElementIcon(element?: string) {
   const normalized = normalizeValue(element);
 
   return (
-    ELEMENT_ICONS[normalized] ??
-    SYMBOL_ICONS.fourElements
+    HOROSCOPE_ICONS[normalized as keyof typeof HOROSCOPE_ICONS] ??
+    HOROSCOPE_ICONS.fourElements
   );
 }
 
@@ -803,8 +750,8 @@ function getPlanetIcon(planet?: string) {
   const normalized = normalizeValue(planet);
 
   return (
-    PLANET_ICONS[normalized] ??
-    SYMBOL_ICONS.sun
+    HOROSCOPE_ICONS[normalized as keyof typeof HOROSCOPE_ICONS] ??
+    HOROSCOPE_ICONS.sun
   );
 }
 
@@ -903,7 +850,7 @@ export default function HoroscopeLucky({
     {
       label: "Couleur favorable",
       value: lucky.color,
-      icon: SYMBOL_ICONS.heart,
+      icon: HOROSCOPE_ICONS.love,
       description:
         "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.",
     },
@@ -917,14 +864,14 @@ export default function HoroscopeLucky({
     {
       label: "Jour favorable",
       value: lucky.day,
-      icon: SYMBOL_ICONS.sun,
+      icon: HOROSCOPE_ICONS.sun,
       description:
         "Une journée propice pour agir, communiquer ou prendre une initiative.",
     },
     {
       label: "Pierre symbolique",
       value: lucky.stone,
-      icon: SYMBOL_ICONS.hiddenTalents,
+      icon: HOROSCOPE_ICONS.hiddenTalents,
       description:
         "Une pierre associée aux énergies astrologiques de votre période.",
     },
@@ -938,7 +885,7 @@ export default function HoroscopeLucky({
     {
       label: "Moment favorable",
       value: lucky.time,
-      icon: SYMBOL_ICONS.moon,
+      icon: HOROSCOPE_ICONS.moon,
       description:
         "Un moment de la journée où votre énergie pourrait être plus fluide.",
     },
@@ -992,7 +939,7 @@ export default function HoroscopeLucky({
               <View style={styles.titleLine} />
 
               <Image
-                src={SYMBOL_ICONS.fourElements}
+                src={HOROSCOPE_ICONS.fourElements}
                 style={styles.titleDecorationIcon}
               />
 
@@ -1010,7 +957,7 @@ export default function HoroscopeLucky({
 
               <View style={styles.introductionIconCircle}>
                 <Image
-                  src={SYMBOL_ICONS.fourElements}
+                  src={HOROSCOPE_ICONS.fourElements}
                   style={styles.introductionIcon}
                 />
               </View>
@@ -1031,7 +978,7 @@ export default function HoroscopeLucky({
             <View style={styles.sectionLine} />
 
             <Image
-              src={SYMBOL_ICONS.heart}
+              src={HOROSCOPE_ICONS.love}
               style={styles.sectionIcon}
             />
 
@@ -1065,7 +1012,7 @@ export default function HoroscopeLucky({
 
           <View style={styles.symbolicBanner} wrap={false}>
             <Image
-              src={SYMBOL_ICONS.soulPath}
+              src={HOROSCOPE_ICONS.soulPath}
               style={styles.symbolicBannerIcon}
             />
 
@@ -1120,7 +1067,7 @@ export default function HoroscopeLucky({
               <View style={styles.titleLine} />
 
               <Image
-                src={SYMBOL_ICONS.integrationGuide}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.titleDecorationIcon}
               />
 
@@ -1135,7 +1082,7 @@ export default function HoroscopeLucky({
             <View style={styles.guideIconOuter}>
               <View style={styles.guideIconInner}>
                 <Image
-                  src={SYMBOL_ICONS.lifePurpose}
+                  src={HOROSCOPE_ICONS.lifePurpose}
                   style={styles.guideIcon}
                 />
               </View>
@@ -1163,7 +1110,7 @@ export default function HoroscopeLucky({
               <View style={styles.numbersHeader}>
                 <View style={styles.numbersTitleRow}>
                   <Image
-                    src={SYMBOL_ICONS.sun}
+                    src={HOROSCOPE_ICONS.sun}
                     style={styles.numbersIcon}
                   />
 
@@ -1203,14 +1150,14 @@ export default function HoroscopeLucky({
           {lucky.quote ? (
             <View style={styles.quoteCard} wrap={false}>
               <Image
-                src={SYMBOL_ICONS.heart}
+                src={HOROSCOPE_ICONS.love}
                 style={styles.quoteHeartBackground}
               />
 
               <View style={styles.quoteHeader}>
                 <View style={styles.quoteIconCircle}>
                   <Image
-                    src={SYMBOL_ICONS.heart}
+                    src={HOROSCOPE_ICONS.love}
                     style={styles.quoteIcon}
                   />
                 </View>
@@ -1229,7 +1176,7 @@ export default function HoroscopeLucky({
           <View style={styles.ritualCard} wrap={false}>
             <View style={styles.ritualIconCircle}>
               <Image
-                src={SYMBOL_ICONS.integrationGuide}
+                src={HOROSCOPE_ICONS.integrationGuide}
                 style={styles.ritualIcon}
               />
             </View>
@@ -1257,7 +1204,7 @@ export default function HoroscopeLucky({
 
           <View style={styles.reminderCard} wrap={false}>
             <Image
-              src={SYMBOL_ICONS.lifePurpose}
+              src={HOROSCOPE_ICONS.lifePurpose}
               style={styles.reminderIcon}
             />
 
