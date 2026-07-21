@@ -92,14 +92,40 @@ function resolveZodiacSign(
     : undefined;
 
   const candidates = [
+    sunPlanet?.sign?.name,
+    sunPlanet?.sign?.label,
     sunPlanet?.sign,
+
+    sunPlanet?.zodiacSign?.name,
+    sunPlanet?.zodiacSign?.label,
     sunPlanet?.zodiacSign,
+
+    sunPlanet?.zodiac_sign?.name,
+    sunPlanet?.zodiac_sign?.label,
     sunPlanet?.zodiac_sign,
+
+    birthData?.zodiacSign?.name,
+    birthData?.zodiacSign?.label,
     birthData?.zodiacSign,
+
+    birthData?.zodiac_sign?.name,
+    birthData?.zodiac_sign?.label,
     birthData?.zodiac_sign,
+
+    birthData?.sunSign?.name,
+    birthData?.sunSign?.label,
     birthData?.sunSign,
+
+    birthData?.sun_sign?.name,
+    birthData?.sun_sign?.label,
     birthData?.sun_sign,
+
+    order?.zodiac_sign?.name,
+    order?.zodiac_sign?.label,
     order?.zodiac_sign,
+
+    order?.sun_sign?.name,
+    order?.sun_sign?.label,
     order?.sun_sign,
   ];
 
