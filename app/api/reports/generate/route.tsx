@@ -9,6 +9,7 @@ import EssentialPdfDocument from "@/components/EssentialPdf/EssentialPdfDocument
 import PremiumPdfDocument from "@/components/PremiumPdf/PremiumPdfDocument";
 import SignaturePdfDocument from "@/components/SignaturePdf/SignaturePdfDocument";
 import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
+import HoroscopePdfDocument from "@/components/HoroscopePdf/HoroscopePdf";
 
 import type { CompatibilityPerson } from "@/components/CompatibilityPdf/CompatibilityPdfTypes";
 
@@ -593,7 +594,20 @@ export async function POST(req: Request) {
         hasWheelImage: wheelIncluded,
       });
 
-      if (productType === "signature") {
+      if (productType === "horoscope-daily") {
+        pdfDocument = React.createElement(
+          HoroscopePdfDocument as React.ComponentType<any>,
+          {
+            ...commonProps,
+            birthCountry: chart.birthCountry,
+            latitude: chart.latitude,
+            longitude: chart.longitude,
+            timezone: chart.timeZone,
+            timezoneOffset: chart.timezoneOffset,
+            period: "day",
+          }
+        );
+      } else if (productType === "signature") {
         pdfDocument = React.createElement(
           SignaturePdfDocument,
           commonProps
