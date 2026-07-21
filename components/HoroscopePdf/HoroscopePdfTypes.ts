@@ -59,7 +59,7 @@ export type HoroscopeSectionContent = {
   text: string;
   advice?: string;
   score?: number;
-  highlights?: string[];
+  highlights?: readonly string[];
 };
 
 export type HoroscopeChallenge = {
