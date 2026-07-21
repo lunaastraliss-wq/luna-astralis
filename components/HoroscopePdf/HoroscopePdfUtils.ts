@@ -4,7 +4,16 @@ import type {
   HoroscopeZodiacSign,
 } from "./HoroscopePdfTypes";
 
-const ZODIAC_LABELS: Record<HoroscopeZodiacSign, string> = {
+/*
+|--------------------------------------------------------------------------
+| Signes astrologiques
+|--------------------------------------------------------------------------
+*/
+
+const ZODIAC_LABELS: Record<
+  HoroscopeZodiacSign,
+  string
+> = {
   belier: "Bélier",
   taureau: "Taureau",
   gemeaux: "Gémeaux",
@@ -19,11 +28,45 @@ const ZODIAC_LABELS: Record<HoroscopeZodiacSign, string> = {
   poissons: "Poissons",
 };
 
-const PERIOD_LABELS: Record<HoroscopePeriod, string> = {
+/*
+ * Ordre zodiacal utilisé pour calculer un signe
+ * à partir d’une longitude comprise entre 0° et 360°.
+ */
+const ZODIAC_SIGNS_FROM_LONGITUDE: HoroscopeZodiacSign[] = [
+  "belier",
+  "taureau",
+  "gemeaux",
+  "cancer",
+  "lion",
+  "vierge",
+  "balance",
+  "scorpion",
+  "sagittaire",
+  "capricorne",
+  "verseau",
+  "poissons",
+];
+
+/*
+|--------------------------------------------------------------------------
+| Périodes
+|--------------------------------------------------------------------------
+*/
+
+const PERIOD_LABELS: Record<
+  HoroscopePeriod,
+  string
+> = {
   day: "Horoscope du jour",
   month: "Horoscope du mois",
   year: "Horoscope de l’année",
 };
+
+/*
+|--------------------------------------------------------------------------
+| Mois français
+|--------------------------------------------------------------------------
+*/
 
 const MONTHS_FR = [
   "janvier",
@@ -41,6 +84,12 @@ const MONTHS_FR = [
 ];
 
 /*
+|--------------------------------------------------------------------------
+| Nom français du signe
+|--------------------------------------------------------------------------
+*/
+
+/*
  * Retourne le nom français du signe.
  *
  * Exemple :
@@ -51,6 +100,12 @@ export function getHoroscopeZodiacLabel(
 ): string {
   return ZODIAC_LABELS[sign];
 }
+
+/*
+|--------------------------------------------------------------------------
+| Icône du signe
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Retourne le chemin public du PNG du signe.
@@ -78,11 +133,21 @@ export function getHoroscopeZodiacIconUrl(
   sign: HoroscopeZodiacSign,
 ): string {
   const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://luna-astralis.app";
+    process.env.NEXT_PUBLIC_SITE_URL?.replace(
+      /\/$/,
+      "",
+    ) || "https://luna-astralis.app";
 
-  return `${baseUrl}${getHoroscopeZodiacIconPath(sign)}`;
+  return `${baseUrl}${getHoroscopeZodiacIconPath(
+    sign,
+  )}`;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Titres des périodes
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Retourne le titre selon le type de rapport.
@@ -94,6 +159,12 @@ export function getHoroscopePeriodTitle(
 }
 
 /*
+|--------------------------------------------------------------------------
+| Validation du signe
+|--------------------------------------------------------------------------
+*/
+
+/*
  * Vérifie qu’une valeur correspond à un signe connu.
  */
 export function isHoroscopeZodiacSign(
@@ -101,12 +172,22 @@ export function isHoroscopeZodiacSign(
 ): value is HoroscopeZodiacSign {
   return (
     typeof value === "string" &&
-    Object.prototype.hasOwnProperty.call(ZODIAC_LABELS, value)
+    Object.prototype.hasOwnProperty.call(
+      ZODIAC_LABELS,
+      value,
+    )
   );
 }
 
 /*
- * Normalise un signe reçu depuis un formulaire ou une route serveur.
+|--------------------------------------------------------------------------
+| Normalisation du signe
+|--------------------------------------------------------------------------
+*/
+
+/*
+ * Normalise un signe reçu depuis un formulaire
+ * ou une route serveur.
  *
  * Exemples :
  * "Bélier" -> "belier"
@@ -132,6 +213,54 @@ export function normalizeHoroscopeZodiacSign(
 }
 
 /*
+|--------------------------------------------------------------------------
+| Signe depuis la longitude
+|--------------------------------------------------------------------------
+*/
+
+/*
+ * Calcule le signe astrologique à partir
+ * d’une longitude zodiacale.
+ *
+ * Exemples :
+ * 0° à 29,999° -> Bélier
+ * 30° à 59,999° -> Taureau
+ * 210° à 239,999° -> Scorpion
+ */
+export function getHoroscopeZodiacFromLongitude(
+  longitude?: number | null,
+): HoroscopeZodiacSign | null {
+  if (
+    typeof longitude !== "number" ||
+    !Number.isFinite(longitude)
+  ) {
+    return null;
+  }
+
+  /*
+   * Sécurise les valeurs négatives
+   * ou supérieures à 360°.
+   */
+  const normalizedLongitude =
+    ((longitude % 360) + 360) % 360;
+
+  const signIndex = Math.floor(
+    normalizedLongitude / 30,
+  );
+
+  return (
+    ZODIAC_SIGNS_FROM_LONGITUDE[signIndex] ??
+    null
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Formatage des dates
+|--------------------------------------------------------------------------
+*/
+
+/*
  * Formate une date ISO en français.
  *
  * Exemple :
@@ -140,7 +269,10 @@ export function normalizeHoroscopeZodiacSign(
 export function formatHoroscopeDate(
   dateValue?: string | null,
 ): string {
-  if (typeof dateValue !== "string" || !dateValue.trim()) {
+  if (
+    typeof dateValue !== "string" ||
+    !dateValue.trim()
+  ) {
     return "";
   }
 
@@ -166,8 +298,16 @@ export function formatHoroscopeDate(
     return dateValue;
   }
 
-  return `${day} ${MONTHS_FR[month - 1]} ${year}`;
+  return `${day} ${
+    MONTHS_FR[month - 1]
+  } ${year}`;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Formatage de la période
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Formate une période selon le type de rapport.
@@ -180,7 +320,9 @@ export function formatHoroscopePeriodLabel(
   }
 
   if (period.type === "day") {
-    return formatHoroscopeDate(period.startDate);
+    return formatHoroscopeDate(
+      period.startDate,
+    );
   }
 
   const match = period.startDate.match(
@@ -195,11 +337,19 @@ export function formatHoroscopePeriodLabel(
   const month = Number(match[2]);
 
   if (period.type === "month") {
-    return `${MONTHS_FR[month - 1]} ${year}`;
+    return `${
+      MONTHS_FR[month - 1]
+    } ${year}`;
   }
 
   return String(year);
 }
+
+/*
+|--------------------------------------------------------------------------
+| Titre complet du rapport
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Génère le titre principal complet du rapport.
@@ -211,8 +361,16 @@ export function buildHoroscopeReportTitle(
   period: HoroscopePeriod,
   sign: HoroscopeZodiacSign,
 ): string {
-  return `${getHoroscopePeriodTitle(period)} — ${getHoroscopeZodiacLabel(sign)}`;
+  return `${getHoroscopePeriodTitle(
+    period,
+  )} — ${getHoroscopeZodiacLabel(sign)}`;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Scores
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Sécurise un score pour qu’il reste entre 0 et 100.
@@ -220,12 +378,27 @@ export function buildHoroscopeReportTitle(
 export function normalizeHoroscopeScore(
   value?: number | null,
 ): number {
-  if (typeof value !== "number" || !Number.isFinite(value)) {
+  if (
+    typeof value !== "number" ||
+    !Number.isFinite(value)
+  ) {
     return 0;
   }
 
-  return Math.max(0, Math.min(100, Math.round(value)));
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(value),
+    ),
+  );
 }
+
+/*
+|--------------------------------------------------------------------------
+| Nettoyage des textes
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Retourne un texte propre sans espaces inutiles.
@@ -237,8 +410,16 @@ export function cleanHoroscopeText(
     return "";
   }
 
-  return value.replace(/\s+/g, " ").trim();
+  return value
+    .replace(/\s+/g, " ")
+    .trim();
 }
+
+/*
+|--------------------------------------------------------------------------
+| Prénom
+|--------------------------------------------------------------------------
+*/
 
 /*
  * Retourne le prénom ou un texte générique.
@@ -246,7 +427,8 @@ export function cleanHoroscopeText(
 export function getHoroscopeFirstName(
   firstName?: string | null,
 ): string {
-  const cleaned = cleanHoroscopeText(firstName);
+  const cleaned =
+    cleanHoroscopeText(firstName);
 
   return cleaned || "Vous";
 }
