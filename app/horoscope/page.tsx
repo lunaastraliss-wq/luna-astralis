@@ -11,6 +11,14 @@ import "./horoscope.css";
 
 /*
 |--------------------------------------------------------------------------
+| Forcer la mise à jour de la page
+|--------------------------------------------------------------------------
+*/
+
+export const dynamic = "force-dynamic";
+
+/*
+|--------------------------------------------------------------------------
 | Métadonnées SEO
 |--------------------------------------------------------------------------
 */
@@ -23,28 +31,22 @@ export const metadata: Metadata = {
     "Découvrez gratuitement votre horoscope du jour pour les 12 signes astrologiques : amour, travail, finances, bien-être et conseil astrologique.",
 
   alternates: {
-    canonical:
-      "https://luna-astralis.app/horoscope",
+    canonical: "https://luna-astralis.app/horoscope",
   },
 
   openGraph: {
-    title:
-      "Horoscope du jour gratuit | Luna Astralis",
+    title: "Horoscope du jour gratuit | Luna Astralis",
 
     description:
       "Consultez gratuitement l’horoscope du jour de votre signe astrologique.",
 
-    url:
-      "https://luna-astralis.app/horoscope",
+    url: "https://luna-astralis.app/horoscope",
 
-    siteName:
-      "Luna Astralis",
+    siteName: "Luna Astralis",
 
-    type:
-      "website",
+    type: "website",
 
-    locale:
-      "fr_CA",
+    locale: "fr_CA",
   },
 };
 
@@ -148,17 +150,15 @@ const SIGNES = [
 */
 
 export default function HoroscopePage() {
-  const dateDuJour =
-    new Intl.DateTimeFormat(
-      "fr-CA",
-      {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        timeZone: "America/Toronto",
-      }
-    ).format(new Date());
+  const maintenant = new Date();
+
+  const dateDuJour = new Intl.DateTimeFormat("fr-CA", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "America/Toronto",
+  }).format(maintenant);
 
   return (
     <AuthProvider>
@@ -222,44 +222,42 @@ export default function HoroscopePage() {
           </div>
 
           <div className="horoscope-signs-grid">
-            {SIGNES.map(
-              (signe) => (
-                <Link
-                  key={signe.slug}
-                  href={`/horoscope/${signe.slug}`}
-                  className="horoscope-sign-card"
-                  aria-label={`Voir l’horoscope du jour du signe ${signe.nom}`}
+            {SIGNES.map((signe) => (
+              <Link
+                key={signe.slug}
+                href={`/horoscope/${signe.slug}`}
+                className="horoscope-sign-card"
+                aria-label={`Voir l’horoscope du jour du signe ${signe.nom}`}
+              >
+                <span
+                  className="horoscope-sign-symbol"
+                  aria-hidden="true"
                 >
-                  <span
-                    className="horoscope-sign-symbol"
-                    aria-hidden="true"
-                  >
-                    {signe.symbole}
+                  {signe.symbole}
+                </span>
+
+                <div className="horoscope-sign-content">
+                  <h3>
+                    {signe.nom}
+                  </h3>
+
+                  <p className="horoscope-sign-dates">
+                    {signe.dates}
+                  </p>
+
+                  <span className="horoscope-sign-element">
+                    Élément {signe.element}
                   </span>
+                </div>
 
-                  <div className="horoscope-sign-content">
-                    <h3>
-                      {signe.nom}
-                    </h3>
-
-                    <p className="horoscope-sign-dates">
-                      {signe.dates}
-                    </p>
-
-                    <span className="horoscope-sign-element">
-                      Élément {signe.element}
-                    </span>
-                  </div>
-
-                  <span
-                    className="horoscope-sign-arrow"
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-                </Link>
-              )
-            )}
+                <span
+                  className="horoscope-sign-arrow"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+              </Link>
+            ))}
           </div>
         </section>
 
