@@ -10,7 +10,7 @@ import "../horoscope.css";
 
 import { HOROSCOPE_TEXTES } from "../data";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
 
 /*
 |--------------------------------------------------------------------------
