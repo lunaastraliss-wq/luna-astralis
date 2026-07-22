@@ -833,28 +833,34 @@
 }
 
 .premium-mobile-submenu {
-  display: grid;
-  grid-template-rows: 0fr;
-
+  max-height: 0;
   margin-left: 16px;
+
+  overflow: hidden;
 
   border-left: 1px solid transparent;
 
+  opacity: 0;
+
   transition:
-    grid-template-rows 0.24s ease,
+    max-height 0.28s ease,
+    opacity 0.2s ease,
     border-color 0.24s ease;
 }
 
 .premium-mobile-submenu--open {
-  grid-template-rows: 1fr;
+  max-height: 500px;
+
   border-left-color: rgba(212, 175, 78, 0.18);
+
+  opacity: 1;
 }
 
 .premium-mobile-submenu > a {
+  display: block;
+
   min-height: 0;
   padding: 0 16px;
-
-  overflow: hidden;
 
   color: #afa18d;
 
@@ -862,16 +868,9 @@
   line-height: 42px;
   text-decoration: none;
 
-  opacity: 0;
-
   transition:
     color 0.2s ease,
-    opacity 0.2s ease,
     background 0.2s ease;
-}
-
-.premium-mobile-submenu--open > a {
-  opacity: 1;
 }
 
 .premium-mobile-submenu > a:hover {
