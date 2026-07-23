@@ -301,7 +301,7 @@ export default function PremiumPage() {
 
             <div className="premium-report-hero-actions">
               <Link
-                href="/carte-du-ciel#rapports-astrologiques"
+                href="#commander-premium"
                 className="premium-report-primary-button"
               >
                 Commander le rapport Premium
@@ -599,7 +599,7 @@ export default function PremiumPage() {
             </div>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+             href="#commander-premium"
               className="premium-report-primary-button"
             >
               Commander maintenant
@@ -894,27 +894,33 @@ export default function PremiumPage() {
             </strong>
           </div>
 
-          <Link
-            href="/carte-du-ciel#rapports-astrologiques"
-            className="premium-report-primary-button premium-report-primary-button--large"
-          >
-            Commander mon rapport Premium
+         <div
+  id="commander-premium"
+  className="premium-report-checkout-area"
+>
+  <h3>
+    Créez votre rapport Premium
+  </h3>
 
-            <span aria-hidden="true">
-              ✦
-            </span>
-          </Link>
+  <p>
+    Entrez vos informations de naissance pour
+    générer votre rapport astrologique personnalisé.
+  </p>
 
-          <div className="premium-report-security">
-            <span aria-hidden="true">
-              🔒
-            </span>
+  <ReportCheckoutForm
+    reportType="premium"
+  />
+</div>
 
-            Paiement sécurisé · Aucun abonnement ·
-            Rapport personnalisé
-          </div>
-          <ReportCheckoutForm reportType="premium" />
-        </section>
+<div className="premium-report-security">
+  <span aria-hidden="true">
+    🔒
+  </span>
+
+  Paiement sécurisé · Aucun abonnement ·
+  Rapport personnalisé
+</div>
+           </section>
 
         {/* ===================================== */}
         {/* Autres rapports                      */}
