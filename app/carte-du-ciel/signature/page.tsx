@@ -184,7 +184,7 @@ const faqItems = [
       "Combien de pages contient le rapport Signature ?",
 
     answer:
-      "Le rapport Carte du ciel Signature contient exactement 58 pages d’analyse astrologique personnalisée.",
+      "Le rapport Carte du ciel Signature contient 58 pages d’analyse astrologique personnalisée.",
   },
 
   {
@@ -242,6 +242,10 @@ export default function SignaturePage() {
       <SiteHeader />
 
       <main className="signature-report-page">
+        {/* ===================================== */}
+        {/* Bannière principale                  */}
+        {/* ===================================== */}
+
         <section className="signature-report-hero">
           <div
             className="signature-report-stars"
@@ -285,7 +289,9 @@ export default function SignaturePage() {
 
             <h1>
               Rapport Carte du ciel
-              <span>Signature</span>
+              <span>
+                Signature
+              </span>
             </h1>
 
             <p className="signature-report-lead">
@@ -330,7 +336,7 @@ export default function SignaturePage() {
 
             <div className="signature-report-hero-actions">
               <Link
-                href="/carte-du-ciel#rapports-astrologiques"
+                href="#commander-signature"
                 className="signature-report-primary-button"
               >
                 Commander le rapport Signature
@@ -369,6 +375,10 @@ export default function SignaturePage() {
             </div>
           </div>
         </section>
+
+        {/* ===================================== */}
+        {/* Éléments de confiance                */}
+        {/* ===================================== */}
 
         <section className="signature-report-trust">
           <div>
@@ -427,6 +437,10 @@ export default function SignaturePage() {
             </small>
           </div>
         </section>
+
+        {/* ===================================== */}
+        {/* Introduction                         */}
+        {/* ===================================== */}
 
         <section className="signature-report-intro">
           <div className="signature-report-heading">
@@ -517,6 +531,10 @@ export default function SignaturePage() {
           </div>
         </section>
 
+        {/* ===================================== */}
+        {/* Contenu du rapport                   */}
+        {/* ===================================== */}
+
         <section className="signature-report-content-section">
           <div className="signature-report-heading signature-report-heading--center">
             <span className="signature-report-kicker">
@@ -566,6 +584,10 @@ export default function SignaturePage() {
           </div>
         </section>
 
+        {/* ===================================== */}
+        {/* Avantages                            */}
+        {/* ===================================== */}
+
         <section className="signature-report-benefits">
           <div className="signature-report-benefits-copy">
             <span className="signature-report-kicker">
@@ -594,7 +616,7 @@ export default function SignaturePage() {
             </div>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+              href="#commander-signature"
               className="signature-report-primary-button"
             >
               Commander maintenant
@@ -624,6 +646,10 @@ export default function SignaturePage() {
             )}
           </div>
         </section>
+
+        {/* ===================================== */}
+        {/* Aperçu PDF                           */}
+        {/* ===================================== */}
 
         <section className="signature-report-preview">
           <div className="signature-report-preview-copy">
@@ -697,6 +723,10 @@ export default function SignaturePage() {
           </div>
         </section>
 
+        {/* ===================================== */}
+        {/* Fonctionnement                       */}
+        {/* ===================================== */}
+
         <section className="signature-report-process">
           <div className="signature-report-heading signature-report-heading--center">
             <span className="signature-report-kicker">
@@ -757,6 +787,10 @@ export default function SignaturePage() {
           </div>
         </section>
 
+        {/* ===================================== */}
+        {/* Témoignages                          */}
+        {/* ===================================== */}
+
         <section className="signature-report-testimonials">
           <div className="signature-report-heading signature-report-heading--center">
             <span className="signature-report-kicker">
@@ -793,6 +827,10 @@ export default function SignaturePage() {
             )}
           </div>
         </section>
+
+        {/* ===================================== */}
+        {/* FAQ                                  */}
+        {/* ===================================== */}
 
         <section className="signature-report-faq">
           <div className="signature-report-faq-heading">
@@ -831,6 +869,10 @@ export default function SignaturePage() {
           </div>
         </section>
 
+        {/* ===================================== */}
+        {/* Commande Signature                   */}
+        {/* ===================================== */}
+
         <section className="signature-report-final">
           <div
             className="signature-report-final-glow"
@@ -867,16 +909,24 @@ export default function SignaturePage() {
             </strong>
           </div>
 
-          <Link
-            href="/carte-du-ciel#rapports-astrologiques"
-            className="signature-report-primary-button signature-report-primary-button--large"
+          <div
+            id="commander-signature"
+            className="signature-report-checkout-area"
           >
-            Commander mon rapport Signature
+            <h3>
+              Créez votre rapport Signature
+            </h3>
 
-            <span aria-hidden="true">
-              ✦
-            </span>
-          </Link>
+            <p>
+              Entrez vos informations de naissance
+              pour générer votre rapport
+              astrologique personnalisé.
+            </p>
+
+            <ReportCheckoutForm
+              reportType="signature"
+            />
+          </div>
 
           <div className="signature-report-security">
             <span aria-hidden="true">
@@ -886,8 +936,11 @@ export default function SignaturePage() {
             Paiement sécurisé · Aucun abonnement ·
             Rapport personnalisé
           </div>
-          <ReportCheckoutForm reportType="signature" />
         </section>
+
+        {/* ===================================== */}
+        {/* Autres rapports                      */}
+        {/* ===================================== */}
 
         <section className="signature-report-others">
           <h2>
