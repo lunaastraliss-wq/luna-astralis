@@ -246,7 +246,7 @@ export default function EssentiellePage() {
 
             <div className="essential-hero-actions">
               <Link
-                href="/carte-du-ciel#rapports-astrologiques"
+                href="#commander-essentielle"
                 className="essential-primary-button"
               >
                 Commander maintenant
@@ -473,7 +473,7 @@ export default function EssentiellePage() {
             </p>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+              href="#commander-essentielle"
               className="essential-inline-order"
             >
               Commander mon rapport
@@ -766,27 +766,32 @@ export default function EssentiellePage() {
             </strong>
           </div>
 
-          <Link
-            href="/carte-du-ciel#rapports-astrologiques"
-            className="essential-primary-button essential-primary-button--large"
-          >
-            Commander maintenant
-            <span aria-hidden="true">
-              ✦
-            </span>
-          </Link>
+          <div
+  id="commander-essentielle"
+  className="essential-checkout-area"
+>
+  <h3>
+    Créez votre rapport Essentielle
+  </h3>
 
-          <div className="essential-security-note">
-            <span aria-hidden="true">
-              🔒
-            </span>
+  <p>
+    Entrez vos informations de naissance pour
+    générer votre rapport astrologique personnalisé.
+  </p>
 
-            Paiement sécurisé · Paiement unique ·
-            Aucun abonnement
-          </div>
-          <ReportCheckoutForm
-  reportType="essential"
-/>
+  <ReportCheckoutForm
+    reportType="essential"
+  />
+</div>
+
+<div className="essential-security-note">
+  <span aria-hidden="true">
+    🔒
+  </span>
+
+  Paiement sécurisé · Paiement unique ·
+  Aucun abonnement
+</div>
   </section>
 
         {/* ===================================== */}
