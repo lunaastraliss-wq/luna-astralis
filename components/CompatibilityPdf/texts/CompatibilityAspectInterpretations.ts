@@ -8,7 +8,8 @@ import type {
 |--------------------------------------------------------------------------
 */
 
-type AspectType = CompatibilityAspect["type"];
+type AspectType =
+  CompatibilityAspect["type"];
 
 type AspectInterpretationMap = Record<
   string,
@@ -91,7 +92,10 @@ function normalizePlanet(
     pluton: "pluto",
   };
 
-  return aliases[normalized] || normalized;
+  return (
+    aliases[normalized] ??
+    normalized
+  );
 }
 
 /*
@@ -135,7 +139,7 @@ function createAspectKey(
 | planète 1 + type d’aspect + planète 2
 |
 | Les planètes sont placées automatiquement
-| dans un ordre constant.
+| dans un ordre alphabétique constant.
 |
 */
 
@@ -200,9 +204,6 @@ const ASPECT_INTERPRETATIONS:
 
   "pluto-opposition-venus":
     "L’attirance peut être profonde, magnétique et difficile à ignorer. Cette opposition peut cependant réveiller la jalousie, la peur de perdre ou le besoin de contrôler lorsque la sécurité affective devient fragile.",
-
-  "sun-opposition-venus":
-    "L’amour s’exprime différemment chez chacun. En apprenant à reconnaître les besoins affectifs de l’autre, cette relation peut gagner en équilibre et en compréhension.",
 
   "mars-square-venus":
     "L’attirance peut être forte, mais les rythmes du désir et les attentes affectives ne s’accordent pas toujours spontanément. Cette tension devient stimulante lorsque chacun respecte les limites et les besoins de l’autre.",
@@ -360,8 +361,8 @@ export function getCompatibilityAspectInterpretation(
     );
 
   return (
-    ASPECT_INTERPRETATIONS[key] ||
-    FALLBACK_INTERPRETATIONS[aspect] ||
+    ASPECT_INTERPRETATIONS[key] ??
+    FALLBACK_INTERPRETATIONS[aspect] ??
     "Cette interaction planétaire influence la dynamique relationnelle et demande une attention consciente de la part des deux partenaires."
   );
 }
