@@ -386,12 +386,6 @@ export default function ReportCheckoutForm({
     useState("");
 
   const [
-    email,
-    setEmail,
-  ] =
-    useState("");
-
-  const [
     birthDate,
     setBirthDate,
   ] =
@@ -619,9 +613,6 @@ export default function ReportCheckoutForm({
 
     const cleanFirstName =
       firstName.trim();
-
-    const cleanEmail =
-      email.trim();
 
     const cleanCity =
       birthCity.trim();
@@ -925,9 +916,6 @@ export default function ReportCheckoutForm({
                 firstName:
                   cleanFirstName,
 
-                email:
-                  cleanEmail,
-
                 birthDate,
 
                 birthTime:
@@ -1079,26 +1067,6 @@ export default function ReportCheckoutForm({
           </label>
 
           <label>
-            Courriel
-
-            <input
-              type="email"
-              value={
-                email
-              }
-              onChange={(
-                event
-              ) =>
-                setEmail(
-                  event.target.value
-                )
-              }
-              placeholder="vous@exemple.com"
-              autoComplete="email"
-            />
-          </label>
-
-          <label>
             Date de naissance
 
             <input
@@ -1214,6 +1182,19 @@ export default function ReportCheckoutForm({
             {error}
           </p>
         ) : null}
+
+        <div className="report-checkout__download-note">
+          <span aria-hidden="true">
+            📥
+          </span>
+
+          <p>
+            <strong>Important :</strong> téléchargez votre rapport
+            dès qu’il est généré et conservez-le dans un endroit
+            sécuritaire. Luna Astralis ne conserve aucune copie
+            de votre PDF.
+          </p>
+        </div>
 
         <button
           type="submit"
