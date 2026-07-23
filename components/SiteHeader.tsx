@@ -629,7 +629,7 @@ export default function SiteHeader() {
                 </Link>
 
                 <Link
-                  href="/carte-du-ciel#rapports-astrologiques"
+                  href="/carte-du-ciel/essentielle"
                   onClick={
                     closeMenu
                   }
@@ -650,7 +650,7 @@ export default function SiteHeader() {
                 </Link>
 
                 <Link
-                  href="/carte-du-ciel#rapports-astrologiques"
+                  href="/carte-du-ciel/premium"
                   onClick={
                     closeMenu
                   }
@@ -671,7 +671,7 @@ export default function SiteHeader() {
                 </Link>
 
                 <Link
-                  href="/carte-du-ciel#rapports-astrologiques"
+                  href="/carte-du-ciel/signature"
                   onClick={
                     closeMenu
                   }
@@ -1274,7 +1274,7 @@ export default function SiteHeader() {
             </Link>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+              href="/carte-du-ciel/essentielle"
               onClick={
                 closeMenu
               }
@@ -1283,7 +1283,7 @@ export default function SiteHeader() {
             </Link>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+              href="/carte-du-ciel/premium"
               onClick={
                 closeMenu
               }
@@ -1292,7 +1292,7 @@ export default function SiteHeader() {
             </Link>
 
             <Link
-              href="/carte-du-ciel#rapports-astrologiques"
+              href="/carte-du-ciel/signature"
               onClick={
                 closeMenu
               }
