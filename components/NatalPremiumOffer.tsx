@@ -16,14 +16,17 @@ type Props = {
   birthTime?: string;
   birthCity?: string;
   birthCountry?: string;
+
   latitude?:
     | string
     | number
     | null;
+
   longitude?:
     | string
     | number
     | null;
+
   timezone?: string;
   email?: string;
   getWheelImage?: () => Promise<string>;
@@ -51,22 +54,19 @@ type Offer = {
   price: string;
   description: string;
   button: string;
+  previewHref: string;
   features: string[];
   featured?: boolean;
 };
 
 const SUPABASE_URL =
-  process.env
-    .NEXT_PUBLIC_SUPABASE_URL || "";
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 
 const SUPABASE_ANON_KEY =
-  process.env
-    .NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "";
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 const supabase =
-  SUPABASE_URL &&
-  SUPABASE_ANON_KEY
+  SUPABASE_URL && SUPABASE_ANON_KEY
     ? createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY,
@@ -88,13 +88,22 @@ const supabase =
 const OFFERS: Offer[] = [
   {
     key: "essential",
+
     name: "Essentielle",
+
     badge: "Pour commencer",
+
     price: "24,99 $ US",
+
     description:
       "Une première lecture personnalisée de votre thème natal pour comprendre vos grandes énergies astrologiques.",
+
     button:
       "Choisir Essentielle",
+
+    previewHref:
+      "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf",
+
     features: [
       "Votre roue astrologique personnalisée",
       "Votre Soleil, votre Lune et votre Ascendant",
@@ -106,15 +115,25 @@ const OFFERS: Offer[] = [
 
   {
     key: "premium",
+
     name: "Premium",
+
     badge:
       "Analyse approfondie",
+
     price: "49,99 $ US",
+
     description:
       "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
+
     button:
       "Choisir Premium",
+
+    previewHref:
+      "/reports/apercu-rapport-carte-du-ciel-premium.pdf",
+
     featured: true,
+
     features: [
       "Tout le contenu du rapport Essentielle",
       "Vos douze maisons astrologiques",
@@ -126,13 +145,23 @@ const OFFERS: Offer[] = [
 
   {
     key: "signature",
+
     name: "Signature",
-    badge: "Le plus complet",
+
+    badge:
+      "Le plus complet",
+
     price: "79,99 $ US",
+
     description:
       "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
+
     button:
       "Choisir Signature",
+
+    previewHref:
+      "/reports/apercu-rapport-carte-du-ciel-signature.pdf",
+
     features: [
       "Tout le contenu du rapport Premium",
       "Mission de vie et chemin de l’âme",
@@ -161,7 +190,9 @@ function dataUrlToBlob(
     );
   }
 
-  const header = parts[0];
+  const header =
+    parts[0];
+
   const base64Data =
     parts[1];
 
@@ -189,14 +220,11 @@ function dataUrlToBlob(
 
   for (
     let index = 0;
-    index <
-    binaryString.length;
+    index < binaryString.length;
     index += 1
   ) {
     bytes[index] =
-      binaryString.charCodeAt(
-        index
-      );
+      binaryString.charCodeAt(index);
   }
 
   return new Blob(
@@ -213,9 +241,7 @@ function dataUrlToBlob(
 |--------------------------------------------------------------------------
 */
 
-async function readJsonResponse<
-  T
->(
+async function readJsonResponse<T>(
   response: Response
 ): Promise<T | null> {
   const responseText =
@@ -265,9 +291,7 @@ export default function NatalPremiumOffer(
   */
 
   async function uploadWheelImage(): Promise<string> {
-    if (
-      !props.getWheelImage
-    ) {
+    if (!props.getWheelImage) {
       throw new Error(
         "La fonction de création de la roue est absente."
       );
@@ -298,6 +322,7 @@ export default function NatalPremiumOffer(
         "/api/reports/wheel-upload",
         {
           method: "POST",
+
           headers: {
             "Content-Type":
               "application/json",
@@ -312,8 +337,7 @@ export default function NatalPremiumOffer(
 
     if (
       !signedResponse.ok ||
-      !signedData
-        ?.wheelImagePath ||
+      !signedData?.wheelImagePath ||
       !signedData?.token
     ) {
       throw new Error(
@@ -331,13 +355,13 @@ export default function NatalPremiumOffer(
           "rapport-images"
         )
         .uploadToSignedUrl(
-          signedData
-            .wheelImagePath,
+          signedData.wheelImagePath,
           signedData.token,
           wheelBlob,
           {
             contentType:
               "image/png",
+
             upsert: false,
           }
         );
@@ -349,8 +373,7 @@ export default function NatalPremiumOffer(
       );
     }
 
-    return signedData
-      .wheelImagePath;
+    return signedData.wheelImagePath;
   }
 
   /*
@@ -379,35 +402,45 @@ export default function NatalPremiumOffer(
           "/api/reports/checkout",
           {
             method: "POST",
+
             headers: {
               "Content-Type":
                 "application/json",
             },
-            body: JSON.stringify(
-              {
-                reportType,
-                firstName:
-                  props.firstName,
-                birthDate:
-                  props.birthDate,
-                birthTime:
-                  props.birthTime ||
-                  "12:00",
-                birthCity:
-                  props.birthCity,
-                birthCountry:
-                  props.birthCountry,
-                latitude:
-                  props.latitude,
-                longitude:
-                  props.longitude,
-                timezone:
-                  props.timezone,
-                email:
-                  props.email,
-                wheelImagePath,
-              }
-            ),
+
+            body: JSON.stringify({
+              reportType,
+
+              firstName:
+                props.firstName,
+
+              birthDate:
+                props.birthDate,
+
+              birthTime:
+                props.birthTime ||
+                "12:00",
+
+              birthCity:
+                props.birthCity,
+
+              birthCountry:
+                props.birthCountry,
+
+              latitude:
+                props.latitude,
+
+              longitude:
+                props.longitude,
+
+              timezone:
+                props.timezone,
+
+              email:
+                props.email,
+
+              wheelImagePath,
+            }),
           }
         );
 
@@ -425,6 +458,7 @@ export default function NatalPremiumOffer(
           {
             status:
               response.status,
+
             data,
           }
         );
@@ -474,15 +508,11 @@ export default function NatalPremiumOffer(
         <h3>{title}</h3>
 
         <p className="natal-premium-intro">
-          Après avoir découvert
-          gratuitement votre carte
-          du ciel, choisissez le
-          niveau d’analyse qui
-          correspond à vos besoins.
-          Chaque rapport est
-          personnalisé selon votre
-          date, votre heure et votre
-          lieu de naissance.
+          Votre carte du ciel est maintenant prête.
+          Choisissez le niveau d’analyse qui correspond
+          à vos besoins. Chaque rapport est personnalisé
+          selon votre date, votre heure et votre lieu de
+          naissance.
         </p>
       </div>
 
@@ -500,6 +530,7 @@ export default function NatalPremiumOffer(
             const cardClassName =
               [
                 "natal-offer-card",
+
                 offer.featured
                   ? "natal-offer-card--featured"
                   : "",
@@ -510,6 +541,7 @@ export default function NatalPremiumOffer(
             const buttonClassName =
               [
                 "natal-premium-btn",
+
                 offer.featured
                   ? "natal-premium-btn--featured"
                   : "",
@@ -519,12 +551,8 @@ export default function NatalPremiumOffer(
 
             return (
               <article
-                key={
-                  offer.key
-                }
-                className={
-                  cardClassName
-                }
+                key={offer.key}
+                className={cardClassName}
               >
                 {offer.featured ? (
                   <div className="natal-featured-label">
@@ -550,21 +578,13 @@ export default function NatalPremiumOffer(
                 </div>
 
                 <p className="natal-offer-description">
-                  {
-                    offer.description
-                  }
+                  {offer.description}
                 </p>
 
                 <ul className="natal-offer-features">
                   {offer.features.map(
-                    (
-                      feature
-                    ) => (
-                      <li
-                        key={
-                          feature
-                        }
-                      >
+                    (feature) => (
+                      <li key={feature}>
                         <span
                           className="natal-feature-check"
                           aria-hidden="true"
@@ -573,9 +593,7 @@ export default function NatalPremiumOffer(
                         </span>
 
                         <span>
-                          {
-                            feature
-                          }
+                          {feature}
                         </span>
                       </li>
                     )
@@ -584,25 +602,28 @@ export default function NatalPremiumOffer(
 
                 <button
                   type="button"
-                  className={
-                    buttonClassName
-                  }
+                  className={buttonClassName}
                   onClick={() =>
                     handleCheckout(
                       offer.key
                     )
                   }
-                  disabled={
-                    isDisabled
-                  }
-                  aria-busy={
-                    isLoading
-                  }
+                  disabled={isDisabled}
+                  aria-busy={isLoading}
                 >
                   {isLoading
                     ? "Préparation du rapport..."
                     : offer.button}
                 </button>
+
+                <a
+                  href={offer.previewHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="natal-report-preview-link"
+                >
+                  📖 Voir un aperçu réel du rapport PDF
+                </a>
               </article>
             );
           }
@@ -611,10 +632,8 @@ export default function NatalPremiumOffer(
 
       <div className="natal-premium-note">
         <p>
-          Paiement unique • Aucun
-          abonnement • Rapport PDF
-          personnalisé et
-          téléchargeable
+          Paiement unique • Aucun abonnement • Rapport PDF
+          personnalisé et téléchargeable
         </p>
       </div>
     </section>
