@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import AuthProvider from "@/components/AuthProvider";
+import ReportCheckoutForm from "@/components/ReportCheckoutForm";
 import SiteHeader from "@/components/SiteHeader";
 
 import "./page.css";
@@ -885,6 +886,7 @@ export default function SignaturePage() {
             Paiement sécurisé · Aucun abonnement ·
             Rapport personnalisé
           </div>
+          <ReportCheckoutForm reportType="signature" />
         </section>
 
         <section className="signature-report-others">
