@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import AuthProvider from "@/components/AuthProvider";
+import ReportCheckoutForm from "@/components/ReportCheckoutForm";
 import SiteHeader from "@/components/SiteHeader";
 
 import "./page.css";
@@ -912,6 +913,7 @@ export default function PremiumPage() {
             Paiement sécurisé · Aucun abonnement ·
             Rapport personnalisé
           </div>
+          <ReportCheckoutForm reportType="premium" />
         </section>
 
         {/* ===================================== */}
