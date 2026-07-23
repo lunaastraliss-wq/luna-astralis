@@ -161,7 +161,7 @@ const faqItems = [
       "Combien de pages contient le rapport Essentielle ?",
 
     answer:
-      "Le rapport Essentielle contient environ 27 pages. Le nombre exact peut légèrement varier selon les informations astrologiques calculées.",
+      "Le rapport Essentielle contient 17 pages.",
   },
 
   {
@@ -229,7 +229,7 @@ export default function EssentiellePage() {
 
             <div className="essential-hero-details">
               <span>
-                <strong>≈ 27 pages</strong>
+                <strong> 17 pages</strong>
                 d’analyse
               </span>
 
