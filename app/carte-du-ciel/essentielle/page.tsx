@@ -779,6 +779,19 @@ export default function EssentiellePage() {
     générer votre rapport astrologique personnalisé.
   </p>
 
+  <div className="essential-download-warning">
+    <span aria-hidden="true">
+      📥
+    </span>
+
+    <p>
+      <strong>Important :</strong> téléchargez votre rapport
+      dès qu’il est généré et conservez-le dans un endroit
+      sécuritaire. Pour des raisons de confidentialité,
+      Luna Astralis ne conserve aucune copie de votre PDF.
+    </p>
+  </div>
+
   <ReportCheckoutForm
     reportType="essential"
   />
