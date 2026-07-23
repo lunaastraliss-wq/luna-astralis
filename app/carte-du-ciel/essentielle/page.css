@@ -2018,3 +2018,14 @@
     transform: none;
   }
 }
+.essential-report-actions .essential-button-primary {
+  color: #ffffff !important;
+}
+
+.essential-report-actions .essential-button-primary:hover {
+  color: #ffffff !important;
+}
+
+.essential-report-actions .essential-button-primary span {
+  color: #ffffff !important;
+}
