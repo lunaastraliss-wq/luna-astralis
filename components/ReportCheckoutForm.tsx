@@ -1196,21 +1196,18 @@ export default function ReportCheckoutForm({
           </p>
         </div>
 
-        <button
-          type="submit"
-          className="report-checkout__button"
-          disabled={
-            loading
-          }
-          aria-busy={
-            loading
-          }
-        >
-          {loading
-            ? "Préparation de votre thème astral..."
-            : report.button}
-        </button>
-
+       <button
+  type="submit"
+  className="report-checkout__button"
+  disabled={loading}
+  aria-busy={loading}
+>
+  <span className="report-checkout__button-text">
+    {loading
+      ? "Préparation de votre thème astral..."
+      : report.button}
+  </span>
+</button>
         <p className="report-checkout__secure">
           Paiement unique • Aucun abonnement • Paiement sécurisé par Stripe
         </p>
