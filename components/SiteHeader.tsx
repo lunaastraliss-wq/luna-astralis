@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import {
   useCallback,
   useEffect,
@@ -9,75 +10,171 @@ import {
 } from "react";
 
 import { useAuth } from "./AuthProvider";
+
 import "./SiteHeader.css";
 
 export default function SiteHeader() {
-  const { isAuth } = useAuth();
+  const { isAuth } =
+    useAuth();
 
-  const [menuOpen, setMenuOpen] =
+  /*
+  |--------------------------------------------------------------------------
+  | États du menu principal
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    menuOpen,
+    setMenuOpen,
+  ] =
     useState(false);
 
-  const [horoscopeOpen, setHoroscopeOpen] =
+  /*
+  |--------------------------------------------------------------------------
+  | Menus déroulants — ordinateur
+  |--------------------------------------------------------------------------
+  */
+
+  const [
+    horoscopeOpen,
+    setHoroscopeOpen,
+  ] =
+    useState(false);
+
+  const [
+    chartOpen,
+    setChartOpen,
+  ] =
     useState(false);
 
   const [
     compatibilityOpen,
     setCompatibilityOpen,
-  ] = useState(false);
-
-  const [astrologyOpen, setAstrologyOpen] =
+  ] =
     useState(false);
+
+  const [
+    astrologyOpen,
+    setAstrologyOpen,
+  ] =
+    useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Menus déroulants — mobile
+  |--------------------------------------------------------------------------
+  */
 
   const [
     mobileHoroscopeOpen,
     setMobileHoroscopeOpen,
-  ] = useState(false);
+  ] =
+    useState(false);
+
+  const [
+    mobileChartOpen,
+    setMobileChartOpen,
+  ] =
+    useState(false);
 
   const [
     mobileCompatibilityOpen,
     setMobileCompatibilityOpen,
-  ] = useState(false);
+  ] =
+    useState(false);
 
   const [
     mobileAstrologyOpen,
     setMobileAstrologyOpen,
-  ] = useState(false);
+  ] =
+    useState(false);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Références des menus ordinateur
+  |--------------------------------------------------------------------------
+  */
 
   const horoscopeRef =
-    useRef<HTMLDivElement | null>(null);
+    useRef<HTMLDivElement | null>(
+      null
+    );
+
+  const chartRef =
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
   const compatibilityRef =
-    useRef<HTMLDivElement | null>(null);
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
   const astrologyRef =
-    useRef<HTMLDivElement | null>(null);
+    useRef<HTMLDivElement | null>(
+      null
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fermeture des menus
+  |--------------------------------------------------------------------------
+  */
 
   const closeDesktopDropdowns =
     useCallback(() => {
       setHoroscopeOpen(false);
+      setChartOpen(false);
       setCompatibilityOpen(false);
       setAstrologyOpen(false);
     }, []);
 
-  const closeMenu = useCallback(() => {
-    setMenuOpen(false);
+  const closeMobileDropdowns =
+    useCallback(() => {
+      setMobileHoroscopeOpen(false);
+      setMobileChartOpen(false);
+      setMobileCompatibilityOpen(false);
+      setMobileAstrologyOpen(false);
+    }, []);
 
-    closeDesktopDropdowns();
+  const closeMenu =
+    useCallback(() => {
+      setMenuOpen(false);
 
-    setMobileHoroscopeOpen(false);
-    setMobileCompatibilityOpen(false);
-    setMobileAstrologyOpen(false);
-  }, [closeDesktopDropdowns]);
+      closeDesktopDropdowns();
+      closeMobileDropdowns();
+    }, [
+      closeDesktopDropdowns,
+      closeMobileDropdowns,
+    ]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fermeture lors d’un changement d’authentification
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     closeMenu();
-  }, [isAuth, closeMenu]);
+  }, [
+    isAuth,
+    closeMenu,
+  ]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fermeture avec Échap ou clic à l’extérieur
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
     const onKeyDown = (
       event: KeyboardEvent
     ) => {
-      if (event.key === "Escape") {
+      if (
+        event.key ===
+        "Escape"
+      ) {
         closeMenu();
       }
     };
@@ -93,23 +190,36 @@ export default function SiteHeader() {
       }
 
       const insideDesktopDropdown =
-        horoscopeRef.current?.contains(target) ||
+        horoscopeRef.current?.contains(
+          target
+        ) ||
+        chartRef.current?.contains(
+          target
+        ) ||
         compatibilityRef.current?.contains(
           target
         ) ||
-        astrologyRef.current?.contains(target);
+        astrologyRef.current?.contains(
+          target
+        );
 
-      if (insideDesktopDropdown) {
+      if (
+        insideDesktopDropdown
+      ) {
         return;
       }
 
       const insideMobileMenu =
-        target.closest(".premium-mobile-menu") ||
+        target.closest(
+          ".premium-mobile-menu"
+        ) ||
         target.closest(
           ".premium-menu-toggle"
         );
 
-      if (insideMobileMenu) {
+      if (
+        insideMobileMenu
+      ) {
         return;
       }
 
@@ -117,9 +227,7 @@ export default function SiteHeader() {
 
       if (menuOpen) {
         setMenuOpen(false);
-        setMobileHoroscopeOpen(false);
-        setMobileCompatibilityOpen(false);
-        setMobileAstrologyOpen(false);
+        closeMobileDropdowns();
       }
     };
 
@@ -146,36 +254,78 @@ export default function SiteHeader() {
     };
   }, [
     closeDesktopDropdowns,
+    closeMobileDropdowns,
     closeMenu,
     menuOpen,
   ]);
 
-  const toggleHoroscope = () => {
-    setHoroscopeOpen(
-      (currentValue) => !currentValue
-    );
+  /*
+  |--------------------------------------------------------------------------
+  | Ouverture des menus ordinateur
+  |--------------------------------------------------------------------------
+  */
 
-    setCompatibilityOpen(false);
-    setAstrologyOpen(false);
-  };
+  const toggleHoroscope =
+    () => {
+      setHoroscopeOpen(
+        (
+          currentValue
+        ) =>
+          !currentValue
+      );
 
-  const toggleCompatibility = () => {
-    setCompatibilityOpen(
-      (currentValue) => !currentValue
-    );
+      setChartOpen(false);
+      setCompatibilityOpen(false);
+      setAstrologyOpen(false);
+    };
 
-    setHoroscopeOpen(false);
-    setAstrologyOpen(false);
-  };
+  const toggleChart =
+    () => {
+      setChartOpen(
+        (
+          currentValue
+        ) =>
+          !currentValue
+      );
 
-  const toggleAstrology = () => {
-    setAstrologyOpen(
-      (currentValue) => !currentValue
-    );
+      setHoroscopeOpen(false);
+      setCompatibilityOpen(false);
+      setAstrologyOpen(false);
+    };
 
-    setHoroscopeOpen(false);
-    setCompatibilityOpen(false);
-  };
+  const toggleCompatibility =
+    () => {
+      setCompatibilityOpen(
+        (
+          currentValue
+        ) =>
+          !currentValue
+      );
+
+      setHoroscopeOpen(false);
+      setChartOpen(false);
+      setAstrologyOpen(false);
+    };
+
+  const toggleAstrology =
+    () => {
+      setAstrologyOpen(
+        (
+          currentValue
+        ) =>
+          !currentValue
+      );
+
+      setHoroscopeOpen(false);
+      setChartOpen(false);
+      setCompatibilityOpen(false);
+    };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Affichage
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <header
@@ -184,11 +334,15 @@ export default function SiteHeader() {
     >
       <div className="premium-header-glow" />
 
+      {/* Logo */}
+
       <Link
         className="premium-brand"
         href="/"
         aria-label="Accueil Luna Astralis"
-        onClick={closeMenu}
+        onClick={
+          closeMenu
+        }
       >
         <div className="premium-logo">
           <img
@@ -212,13 +366,17 @@ export default function SiteHeader() {
         className="premium-navigation"
         aria-label="Navigation principale"
       >
-        {/* Menu ordinateur */}
+        {/* ================================= */}
+        {/* MENU ORDINATEUR                  */}
+        {/* ================================= */}
 
         <div className="premium-desktop-menu">
           <Link
             href="/"
             className="premium-nav-link"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
             Accueil
           </Link>
@@ -227,7 +385,9 @@ export default function SiteHeader() {
 
           <div
             className="premium-dropdown"
-            ref={horoscopeRef}
+            ref={
+              horoscopeRef
+            }
           >
             <button
               type="button"
@@ -236,11 +396,17 @@ export default function SiteHeader() {
                   ? "premium-dropdown-button--open"
                   : ""
               }`}
-              aria-expanded={horoscopeOpen}
+              aria-expanded={
+                horoscopeOpen
+              }
               aria-haspopup="true"
-              onClick={toggleHoroscope}
+              onClick={
+                toggleHoroscope
+              }
             >
-              <span>Horoscope</span>
+              <span>
+                Horoscope
+              </span>
 
               <span
                 className="premium-dropdown-arrow"
@@ -276,9 +442,13 @@ export default function SiteHeader() {
               <div className="premium-dropdown-grid">
                 <Link
                   href="/horoscope"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☀</span>
+                  <span>
+                    ☀
+                  </span>
 
                   <div>
                     <strong>
@@ -293,9 +463,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/horoscope/premium/jour"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>✦</span>
+                  <span>
+                    ✦
+                  </span>
 
                   <div>
                     <strong>
@@ -310,9 +484,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/horoscope/premium/mois"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☾</span>
+                  <span>
+                    ☾
+                  </span>
 
                   <div>
                     <strong>
@@ -327,9 +505,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/horoscope/premium/annee"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>★</span>
+                  <span>
+                    ★
+                  </span>
 
                   <div>
                     <strong>
@@ -344,9 +526,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/horoscope/premium"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☰</span>
+                  <span>
+                    ☰
+                  </span>
 
                   <div>
                     <strong>
@@ -362,23 +548,163 @@ export default function SiteHeader() {
             </div>
           </div>
 
-          <Link
-            href="/carte-du-ciel"
-            className="premium-nav-link"
-            onClick={closeMenu}
+          {/* Carte du ciel */}
+
+          <div
+            className="premium-dropdown"
+            ref={
+              chartRef
+            }
           >
-            Carte du ciel
-          </Link>
+            <button
+              type="button"
+              className={`premium-nav-link premium-nav-link--highlight premium-dropdown-button ${
+                chartOpen
+                  ? "premium-dropdown-button--open"
+                  : ""
+              }`}
+              aria-expanded={
+                chartOpen
+              }
+              aria-haspopup="true"
+              onClick={
+                toggleChart
+              }
+            >
+              <span>
+                Carte du ciel
+              </span>
+
+              <span
+                className="premium-dropdown-arrow"
+                aria-hidden="true"
+              >
+                ▾
+              </span>
+            </button>
+
+            <div
+              className={`premium-dropdown-menu premium-dropdown-menu--compact ${
+                chartOpen
+                  ? "premium-dropdown-menu--open"
+                  : ""
+              }`}
+            >
+              <div className="premium-dropdown-intro">
+                <span className="premium-dropdown-icon">
+                  🌌
+                </span>
+
+                <div>
+                  <strong>
+                    Votre carte du ciel
+                  </strong>
+
+                  <span>
+                    Gratuite ou détaillée
+                  </span>
+                </div>
+              </div>
+
+              <div className="premium-dropdown-grid">
+                <Link
+                  href="/carte-du-ciel"
+                  onClick={
+                    closeMenu
+                  }
+                >
+                  <span>
+                    🆓
+                  </span>
+
+                  <div>
+                    <strong>
+                      Carte du ciel gratuite
+                    </strong>
+
+                    <small>
+                      Créez votre thème astral
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/carte-du-ciel#rapports-astrologiques"
+                  onClick={
+                    closeMenu
+                  }
+                >
+                  <span>
+                    ✦
+                  </span>
+
+                  <div>
+                    <strong>
+                      Rapport Essentielle
+                    </strong>
+
+                    <small>
+                      Première analyse — 24,99 $ US
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/carte-du-ciel#rapports-astrologiques"
+                  onClick={
+                    closeMenu
+                  }
+                >
+                  <span>
+                    ★
+                  </span>
+
+                  <div>
+                    <strong>
+                      Rapport Premium
+                    </strong>
+
+                    <small>
+                      Analyse approfondie — 49,99 $ US
+                    </small>
+                  </div>
+                </Link>
+
+                <Link
+                  href="/carte-du-ciel#rapports-astrologiques"
+                  onClick={
+                    closeMenu
+                  }
+                >
+                  <span>
+                    👑
+                  </span>
+
+                  <div>
+                    <strong>
+                      Rapport Signature
+                    </strong>
+
+                    <small>
+                      Le plus complet — 79,99 $ US
+                    </small>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
 
           {/* Compatibilité */}
 
           <div
             className="premium-dropdown"
-            ref={compatibilityRef}
+            ref={
+              compatibilityRef
+            }
           >
             <button
               type="button"
-              className={`premium-nav-link premium-nav-link--highlight premium-dropdown-button ${
+              className={`premium-nav-link premium-dropdown-button ${
                 compatibilityOpen
                   ? "premium-dropdown-button--open"
                   : ""
@@ -387,9 +713,13 @@ export default function SiteHeader() {
                 compatibilityOpen
               }
               aria-haspopup="true"
-              onClick={toggleCompatibility}
+              onClick={
+                toggleCompatibility
+              }
             >
-              <span>Compatibilité</span>
+              <span>
+                Compatibilité
+              </span>
 
               <span
                 className="premium-dropdown-arrow"
@@ -425,9 +755,13 @@ export default function SiteHeader() {
               <div className="premium-dropdown-grid">
                 <Link
                   href="/compatibilite"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>♡</span>
+                  <span>
+                    ♡
+                  </span>
 
                   <div>
                     <strong>
@@ -442,9 +776,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/compatibilite/premium"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>✦</span>
+                  <span>
+                    ✦
+                  </span>
 
                   <div>
                     <strong>
@@ -464,7 +802,9 @@ export default function SiteHeader() {
 
           <div
             className="premium-dropdown"
-            ref={astrologyRef}
+            ref={
+              astrologyRef
+            }
           >
             <button
               type="button"
@@ -473,11 +813,17 @@ export default function SiteHeader() {
                   ? "premium-dropdown-button--open"
                   : ""
               }`}
-              aria-expanded={astrologyOpen}
+              aria-expanded={
+                astrologyOpen
+              }
               aria-haspopup="true"
-              onClick={toggleAstrology}
+              onClick={
+                toggleAstrology
+              }
             >
-              <span>Astrologie</span>
+              <span>
+                Astrologie
+              </span>
 
               <span
                 className="premium-dropdown-arrow"
@@ -505,8 +851,7 @@ export default function SiteHeader() {
                   </strong>
 
                   <span>
-                    Signes, planètes, maisons et
-                    aspects
+                    Signes, planètes, maisons et aspects
                   </span>
                 </div>
               </div>
@@ -514,9 +859,13 @@ export default function SiteHeader() {
               <div className="premium-dropdown-grid">
                 <Link
                   href="/astrologie"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>✦</span>
+                  <span>
+                    ✦
+                  </span>
 
                   <div>
                     <strong>
@@ -531,9 +880,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/signes"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>♈</span>
+                  <span>
+                    ♈
+                  </span>
 
                   <div>
                     <strong>
@@ -548,9 +901,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/planetes"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☉</span>
+                  <span>
+                    ☉
+                  </span>
 
                   <div>
                     <strong>
@@ -565,9 +922,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/maisons"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>⌂</span>
+                  <span>
+                    ⌂
+                  </span>
 
                   <div>
                     <strong>
@@ -582,9 +943,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/aspects"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>△</span>
+                  <span>
+                    △
+                  </span>
 
                   <div>
                     <strong>
@@ -599,9 +964,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/soleil"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☀</span>
+                  <span>
+                    ☀
+                  </span>
 
                   <div>
                     <strong>
@@ -616,9 +985,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/lune"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>☾</span>
+                  <span>
+                    ☾
+                  </span>
 
                   <div>
                     <strong>
@@ -633,9 +1006,13 @@ export default function SiteHeader() {
 
                 <Link
                   href="/astrologie/ascendant"
-                  onClick={closeMenu}
+                  onClick={
+                    closeMenu
+                  }
                 >
-                  <span>↑</span>
+                  <span>
+                    ↑
+                  </span>
 
                   <div>
                     <strong>
@@ -654,7 +1031,9 @@ export default function SiteHeader() {
           <a
             href="/#livres"
             className="premium-nav-link"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
             Livres
           </a>
@@ -662,7 +1041,9 @@ export default function SiteHeader() {
           <Link
             href="/pricing"
             className="premium-nav-link"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
             Luna IA
           </Link>
@@ -670,7 +1051,9 @@ export default function SiteHeader() {
           <Link
             href="/login"
             className="premium-account-button"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
             {isAuth
               ? "Mon compte"
@@ -678,7 +1061,9 @@ export default function SiteHeader() {
           </Link>
         </div>
 
-        {/* Bouton mobile */}
+        {/* ================================= */}
+        {/* BOUTON MOBILE                    */}
+        {/* ================================= */}
 
         <button
           type="button"
@@ -688,11 +1073,15 @@ export default function SiteHeader() {
               ? "Fermer le menu"
               : "Ouvrir le menu"
           }
-          aria-expanded={menuOpen}
+          aria-expanded={
+            menuOpen
+          }
           aria-controls="premium-mobile-navigation"
           onClick={() => {
             setMenuOpen(
-              (currentValue) =>
+              (
+                currentValue
+              ) =>
                 !currentValue
             );
           }}
@@ -710,7 +1099,9 @@ export default function SiteHeader() {
           </span>
         </button>
 
-        {/* Menu mobile */}
+        {/* ================================= */}
+        {/* MENU MOBILE                      */}
+        {/* ================================= */}
 
         <div
           id="premium-mobile-navigation"
@@ -722,9 +1113,14 @@ export default function SiteHeader() {
         >
           <Link
             href="/"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span>⌂</span>
+            <span>
+              ⌂
+            </span>
+
             Accueil
           </Link>
 
@@ -738,19 +1134,22 @@ export default function SiteHeader() {
             }
             onClick={() => {
               setMobileHoroscopeOpen(
-                (currentValue) =>
+                (
+                  currentValue
+                ) =>
                   !currentValue
               );
 
-              setMobileCompatibilityOpen(
-                false
-              );
-
+              setMobileChartOpen(false);
+              setMobileCompatibilityOpen(false);
               setMobileAstrologyOpen(false);
             }}
           >
             <span className="premium-mobile-link-left">
-              <span>🔮</span>
+              <span>
+                🔮
+              </span>
+
               Horoscope
             </span>
 
@@ -774,68 +1173,160 @@ export default function SiteHeader() {
           >
             <Link
               href="/horoscope"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Horoscope du jour gratuit
             </Link>
 
             <Link
               href="/horoscope/premium/jour"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               ✦ Premium du jour
             </Link>
 
             <Link
               href="/horoscope/premium/mois"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               ☾ Premium du mois
             </Link>
 
             <Link
               href="/horoscope/premium/annee"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               ★ Premium de l’année
             </Link>
 
             <Link
               href="/horoscope/premium"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Comparer les offres
             </Link>
           </div>
 
-          <Link
-            href="/carte-du-ciel"
-            onClick={closeMenu}
-          >
-            <span>🌌</span>
-            Carte du ciel
-          </Link>
-
-          {/* Compatibilité mobile */}
+          {/* Carte du ciel mobile */}
 
           <button
             type="button"
             className="premium-mobile-dropdown-button premium-mobile-highlight"
             aria-expanded={
-              mobileCompatibilityOpen
+              mobileChartOpen
             }
             onClick={() => {
-              setMobileCompatibilityOpen(
-                (currentValue) =>
+              setMobileChartOpen(
+                (
+                  currentValue
+                ) =>
                   !currentValue
               );
 
               setMobileHoroscopeOpen(false);
+              setMobileCompatibilityOpen(false);
               setMobileAstrologyOpen(false);
             }}
           >
             <span className="premium-mobile-link-left">
-              <span>💕</span>
+              <span>
+                🌌
+              </span>
+
+              Carte du ciel
+            </span>
+
+            <span
+              className={`premium-mobile-arrow ${
+                mobileChartOpen
+                  ? "premium-mobile-arrow--open"
+                  : ""
+              }`}
+            >
+              ▾
+            </span>
+          </button>
+
+          <div
+            className={`premium-mobile-submenu ${
+              mobileChartOpen
+                ? "premium-mobile-submenu--open"
+                : ""
+            }`}
+          >
+            <Link
+              href="/carte-du-ciel"
+              onClick={
+                closeMenu
+              }
+            >
+              🆓 Carte du ciel gratuite
+            </Link>
+
+            <Link
+              href="/carte-du-ciel#rapports-astrologiques"
+              onClick={
+                closeMenu
+              }
+            >
+              ✦ Essentielle — 24,99 $ US
+            </Link>
+
+            <Link
+              href="/carte-du-ciel#rapports-astrologiques"
+              onClick={
+                closeMenu
+              }
+            >
+              ★ Premium — 49,99 $ US
+            </Link>
+
+            <Link
+              href="/carte-du-ciel#rapports-astrologiques"
+              onClick={
+                closeMenu
+              }
+            >
+              👑 Signature — 79,99 $ US
+            </Link>
+          </div>
+
+          {/* Compatibilité mobile */}
+
+          <button
+            type="button"
+            className="premium-mobile-dropdown-button"
+            aria-expanded={
+              mobileCompatibilityOpen
+            }
+            onClick={() => {
+              setMobileCompatibilityOpen(
+                (
+                  currentValue
+                ) =>
+                  !currentValue
+              );
+
+              setMobileHoroscopeOpen(false);
+              setMobileChartOpen(false);
+              setMobileAstrologyOpen(false);
+            }}
+          >
+            <span className="premium-mobile-link-left">
+              <span>
+                💕
+              </span>
+
               Compatibilité
             </span>
 
@@ -859,14 +1350,18 @@ export default function SiteHeader() {
           >
             <Link
               href="/compatibilite"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Compatibilité gratuite
             </Link>
 
             <Link
               href="/compatibilite/premium"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               ✦ Compatibilité Premium
             </Link>
@@ -882,18 +1377,22 @@ export default function SiteHeader() {
             }
             onClick={() => {
               setMobileAstrologyOpen(
-                (currentValue) =>
+                (
+                  currentValue
+                ) =>
                   !currentValue
               );
 
               setMobileHoroscopeOpen(false);
-              setMobileCompatibilityOpen(
-                false
-              );
+              setMobileChartOpen(false);
+              setMobileCompatibilityOpen(false);
             }}
           >
             <span className="premium-mobile-link-left">
-              <span>✦</span>
+              <span>
+                ✦
+              </span>
+
               Astrologie
             </span>
 
@@ -917,56 +1416,72 @@ export default function SiteHeader() {
           >
             <Link
               href="/astrologie"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Découvrir l’astrologie
             </Link>
 
             <Link
               href="/astrologie/signes"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Les signes
             </Link>
 
             <Link
               href="/astrologie/planetes"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Les planètes
             </Link>
 
             <Link
               href="/astrologie/maisons"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Les maisons
             </Link>
 
             <Link
               href="/astrologie/aspects"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Les aspects
             </Link>
 
             <Link
               href="/astrologie/soleil"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               Le Soleil
             </Link>
 
             <Link
               href="/astrologie/lune"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               La Lune
             </Link>
 
             <Link
               href="/astrologie/ascendant"
-              onClick={closeMenu}
+              onClick={
+                closeMenu
+              }
             >
               L’Ascendant
             </Link>
@@ -974,26 +1489,40 @@ export default function SiteHeader() {
 
           <a
             href="/#livres"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span>📚</span>
+            <span>
+              📚
+            </span>
+
             Livres
           </a>
 
           <Link
             href="/pricing"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span>✧</span>
+            <span>
+              ✧
+            </span>
+
             Luna IA
           </Link>
 
           <Link
             href="/login"
             className="premium-mobile-account"
-            onClick={closeMenu}
+            onClick={
+              closeMenu
+            }
           >
-            <span>♙</span>
+            <span>
+              ♙
+            </span>
 
             {isAuth
               ? "Mon compte"
