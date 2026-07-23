@@ -1231,3 +1231,234 @@
     padding: 25px 21px;
   }
 }
+/*
+|--------------------------------------------------------------------------
+| Formulaire de compatibilité premium
+| (à coller dans page.css, ou dans un fichier séparé importé par le
+| composant CompatibilityPremiumForm)
+|--------------------------------------------------------------------------
+*/
+
+.compat-premium-form {
+  display: grid;
+  gap: 34px;
+}
+
+.compat-premium-form-intro {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.compat-premium-form-intro h3 {
+  color: var(--compat-dark);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.compat-premium-form-intro p {
+  margin: 0;
+  color: var(--compat-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Bloc "Personne 1" / "Personne 2" */
+
+.compat-premium-form-person {
+  position: relative;
+  padding: 26px 22px 22px;
+  border: 1px solid var(--compat-border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.compat-premium-form-person-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: var(--compat-purple-dark);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.compat-premium-form-person-label span {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, var(--compat-purple), var(--compat-purple-dark));
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+/* Grille de champs */
+
+.compat-premium-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.compat-premium-form-field {
+  display: grid;
+  gap: 7px;
+}
+
+.compat-premium-form-field-full {
+  grid-column: 1 / -1;
+}
+
+.compat-premium-form-field label {
+  color: var(--compat-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.compat-premium-form-field-hint {
+  color: var(--compat-muted);
+  font-size: 0.74rem;
+  font-weight: 500;
+}
+
+.compat-premium-form-field input,
+.compat-premium-form-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--compat-border);
+  border-radius: 13px;
+  color: var(--compat-dark);
+  background: #ffffff;
+  font-size: 0.94rem;
+  font-family: inherit;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.compat-premium-form-field input::placeholder {
+  color: rgba(90, 63, 96, 0.35);
+}
+
+.compat-premium-form-field input:focus,
+.compat-premium-form-field select:focus {
+  outline: none;
+  border-color: var(--compat-purple);
+  box-shadow: 0 0 0 3px rgba(90, 54, 95, 0.13);
+}
+
+.compat-premium-form-field input:disabled,
+.compat-premium-form-field select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Champ invalide */
+
+.compat-premium-form-field-error input,
+.compat-premium-form-field-error select {
+  border-color: #c0546a;
+}
+
+.compat-premium-form-field-error-message {
+  color: #c0546a;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+/* Case à cocher "heure de naissance inconnue" */
+
+.compat-premium-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--compat-muted);
+  font-size: 0.83rem;
+}
+
+.compat-premium-form-checkbox input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--compat-purple);
+}
+
+/* Bouton de soumission */
+
+.compat-premium-form-submit {
+  display: inline-flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--compat-purple), var(--compat-purple-dark));
+  box-shadow: 0 16px 34px rgba(81, 47, 91, 0.25);
+  font-size: 0.98rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.compat-premium-form-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px rgba(81, 47, 91, 0.32);
+}
+
+.compat-premium-form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.compat-premium-form-submit-spinner {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: compat-premium-spin 0.7s linear infinite;
+}
+
+@keyframes compat-premium-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Message d'erreur global du formulaire */
+
+.compat-premium-form-error {
+  padding: 14px 16px;
+  border: 1px solid rgba(192, 84, 106, 0.3);
+  border-radius: 14px;
+  color: #9c3f52;
+  background: rgba(192, 84, 106, 0.08);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+/* Responsive */
+
+@media (max-width: 560px) {
+  .compat-premium-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .compat-premium-form-person {
+    padding: 22px 16px 18px;
+  }
+}
