@@ -1623,4 +1623,4 @@ export default function CompatibilityPlanetConnections({
       />
     </>
   );
-    }
+}
