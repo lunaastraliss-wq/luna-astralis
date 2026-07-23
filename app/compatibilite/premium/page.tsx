@@ -1,14 +1,39 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
+import AuthProvider from "@/components/AuthProvider";
 import CompatibilityPremiumForm from "@/components/CompatibilityPremiumForm";
+import SiteHeader from "@/components/SiteHeader";
 
 import "./page.css";
+
+/*
+|--------------------------------------------------------------------------
+| Informations du rapport
+|--------------------------------------------------------------------------
+*/
 
 const PAGE_URL =
   "https://luna-astralis.app/compatibilite/premium";
 
-const REPORT_PRICE = "49,99 $ US";
+const REPORT_PRICE =
+  "49,99 $ US";
+
+const REPORT_PAGES =
+  "Environ 50 pages";
+
+const REPORT_PREVIEW_URL =
+  "/reports/apercu-rapport-compatibilite-premium.pdf";
+
+const REPORT_COVER_URL =
+  "/reports/couverture-compatibilite-premium.png";
+
+/*
+|--------------------------------------------------------------------------
+| Métadonnées SEO
+|--------------------------------------------------------------------------
+*/
 
 export const metadata: Metadata = {
   title:
@@ -32,6 +57,15 @@ export const metadata: Metadata = {
     siteName: "Luna Astralis",
     type: "website",
     locale: "fr_CA",
+
+    images: [
+      {
+        url: REPORT_COVER_URL,
+        width: 1414,
+        height: 2000,
+        alt: "Couverture du rapport Compatibilité Premium",
+      },
+    ],
   },
 
   twitter: {
@@ -42,6 +76,8 @@ export const metadata: Metadata = {
 
     description:
       "Une analyse approfondie de la rencontre entre deux thèmes astraux.",
+
+    images: [REPORT_COVER_URL],
   },
 
   robots: {
@@ -50,28 +86,34 @@ export const metadata: Metadata = {
   },
 };
 
+/*
+|--------------------------------------------------------------------------
+| Contenu du rapport
+|--------------------------------------------------------------------------
+*/
+
 const REPORT_FEATURES = [
   {
     icon: "✦",
     title: "Compatibilité globale",
     description:
-      "Découvrez votre indice général ainsi que vos scores émotionnels, amoureux, mentaux et relationnels.",
+      "Découvrez votre indice général ainsi que les grandes tendances qui structurent votre relation.",
   },
   {
     icon: "☾",
     title: "Lien émotionnel",
     description:
-      "Comprenez vos besoins affectifs, vos sensibilités et la manière dont vous créez un climat de sécurité.",
+      "Comprenez vos besoins affectifs, vos sensibilités et votre façon de créer un climat de sécurité.",
   },
   {
     icon: "☿",
     title: "Communication",
     description:
-      "Analysez votre façon de penser, d’échanger, de gérer les désaccords et de vous comprendre.",
+      "Analysez votre manière d’échanger, de vous comprendre et de traverser les désaccords.",
   },
   {
     icon: "♀",
-    title: "Compatibilité amoureuse",
+    title: "Affinité amoureuse",
     description:
       "Explorez vos langages amoureux, vos valeurs, vos attentes et votre manière de donner de l’affection.",
   },
@@ -79,13 +121,19 @@ const REPORT_FEATURES = [
     icon: "♂",
     title: "Attirance et passion",
     description:
-      "Découvrez votre alchimie, votre rythme de désir et les dynamiques qui nourrissent votre attirance.",
+      "Découvrez votre alchimie, votre rythme de désir et les dynamiques qui nourrissent l’attirance.",
   },
   {
     icon: "♄",
     title: "Stabilité et durée",
     description:
-      "Identifiez les forces qui soutiennent la relation et les défis pouvant influencer son évolution.",
+      "Identifiez les forces qui soutiennent le lien et les défis pouvant influencer son évolution.",
+  },
+  {
+    icon: "△",
+    title: "Aspects de synastrie",
+    description:
+      "Comprenez les harmonies, les tensions et les complémentarités entre les planètes de vos deux thèmes.",
   },
   {
     icon: "☉",
@@ -94,43 +142,61 @@ const REPORT_FEATURES = [
       "Découvrez les principales énergies relationnelles que chaque personne apporte naturellement au lien.",
   },
   {
-    icon: "△",
-    title: "Aspects de synastrie",
+    icon: "⚖",
+    title: "Forces et défis",
     description:
-      "Comprenez les interactions entre vos planètes, leurs harmonies, leurs tensions et leurs complémentarités.",
-  },
-];
-
-const SCORE_ITEMS = [
-  {
-    icon: "☾",
-    title: "Lien émotionnel",
-    text: "Besoins affectifs, compréhension et sécurité.",
-  },
-  {
-    icon: "☿",
-    title: "Communication",
-    text: "Dialogue, écoute et gestion des différences.",
-  },
-  {
-    icon: "♀",
-    title: "Affinité amoureuse",
-    text: "Tendresse, valeurs et langages affectifs.",
-  },
-  {
-    icon: "♂",
-    title: "Attirance",
-    text: "Désir, passion et dynamique physique.",
-  },
-  {
-    icon: "♄",
-    title: "Stabilité",
-    text: "Engagement, continuité et construction.",
+      "Repérez ce qui vous rapproche, ce qui demande davantage d’ajustement et les points de vigilance.",
   },
   {
     icon: "♃",
-    title: "Évolution",
-    text: "Apprentissage et croissance commune.",
+    title: "Potentiel d’évolution",
+    description:
+      "Explorez les apprentissages, les possibilités de croissance et les mouvements de transformation du couple.",
+  },
+  {
+    icon: "♡",
+    title: "Conseils relationnels",
+    description:
+      "Recevez des pistes concrètes pour mieux accueillir vos différences et soutenir vos forces communes.",
+  },
+];
+
+const BENEFIT_ITEMS = [
+  {
+    icon: "☾",
+    title: "Comprendre vos besoins affectifs",
+    text:
+      "Observez comment chacun recherche la sécurité, l’écoute et la proximité émotionnelle.",
+  },
+  {
+    icon: "☿",
+    title: "Améliorer votre communication",
+    text:
+      "Identifiez vos façons naturelles d’échanger ainsi que les malentendus qui peuvent se répéter.",
+  },
+  {
+    icon: "♀",
+    title: "Décoder votre façon d’aimer",
+    text:
+      "Comprenez vos attentes, vos gestes d’affection et ce qui vous fait réellement sentir aimé.",
+  },
+  {
+    icon: "♂",
+    title: "Explorer votre attraction",
+    text:
+      "Mettez en lumière les dynamiques de désir, d’action, de passion et de rapprochement.",
+  },
+  {
+    icon: "♄",
+    title: "Évaluer votre solidité",
+    text:
+      "Repérez les facteurs d’engagement, de continuité et les défis qui demandent de la maturité.",
+  },
+  {
+    icon: "✧",
+    title: "Relier toutes les dimensions",
+    text:
+      "Recevez une synthèse claire qui rassemble les principales forces et tensions de votre relation.",
   },
 ];
 
@@ -139,19 +205,19 @@ const PROCESS_STEPS = [
     number: "01",
     title: "Indiquez vos naissances",
     description:
-      "Entrez le prénom, la date, l’heure et le lieu de naissance des deux personnes.",
+      "Entrez le prénom, la date, l’heure, la ville et le pays de naissance des deux personnes.",
   },
   {
     number: "02",
-    title: "Nous calculons vos thèmes",
+    title: "Vos deux thèmes sont comparés",
     description:
-      "Les positions planétaires, les maisons et les aspects des deux thèmes sont calculés.",
+      "Les positions planétaires, les maisons et les aspects de synastrie sont calculés et analysés.",
   },
   {
     number: "03",
-    title: "Recevez votre rapport",
+    title: "Téléchargez votre rapport",
     description:
-      "Votre rapport PDF personnalisé est généré et offert en téléchargement après le paiement.",
+      "Après le paiement, votre rapport personnalisé est généré et offert en téléchargement.",
   },
 ];
 
@@ -159,46 +225,52 @@ const FAQ_ITEMS = [
   {
     question:
       "Quelle est la différence avec la compatibilité gratuite ?",
-
     answer:
-      "La compatibilité gratuite compare deux signes astrologiques. La compatibilité Premium utilise la date, l’heure et le lieu de naissance des deux personnes afin de comparer leurs thèmes astraux complets.",
+      "La compatibilité gratuite compare deux signes astrologiques. Le rapport Premium utilise la date, l’heure et le lieu de naissance des deux personnes afin de comparer leurs thèmes astraux complets.",
   },
   {
     question:
       "Quelles informations dois-je fournir ?",
-
     answer:
       "Vous devez fournir le prénom, la date de naissance, l’heure de naissance, la ville et le pays de naissance des deux personnes.",
   },
   {
     question:
       "Que contient le rapport ?",
-
     answer:
       "Le rapport présente les deux profils astrologiques, la compatibilité globale, le lien émotionnel, la communication, l’amour, l’attirance, la stabilité, les aspects de synastrie, les forces, les défis et une synthèse personnalisée.",
   },
   {
     question:
       "Que faire si je ne connais pas une heure de naissance ?",
-
     answer:
-      "Certaines positions planétaires peuvent être calculées sans heure précise, mais l’Ascendant et les maisons astrologiques risquent d’être inexacts ou indisponibles.",
+      "Certaines positions peuvent être calculées sans heure précise, mais l’Ascendant et les maisons astrologiques risquent d’être inexacts ou indisponibles.",
   },
   {
     question:
       "Le score détermine-t-il si une relation va fonctionner ?",
-
     answer:
-      "Non. Les scores servent à présenter les grandes tendances astrologiques. Ils ne constituent pas un verdict et ne remplacent pas l’expérience, les choix et le libre arbitre des deux personnes.",
+      "Non. Les scores présentent de grandes tendances astrologiques. Ils ne constituent pas un verdict et ne remplacent pas les choix, l’expérience et le libre arbitre des deux personnes.",
   },
   {
     question:
       "Comment vais-je recevoir mon rapport ?",
-
     answer:
-      "Le rapport personnalisé sera généré au format PDF après le paiement et pourra être téléchargé directement.",
+      "Votre rapport est généré au format PDF après le paiement. Vous devez le télécharger et le conserver immédiatement, puisqu’aucun compte client n’est créé et qu’aucune copie récupérable n’est conservée.",
+  },
+  {
+    question:
+      "Mes informations sont-elles conservées ?",
+    answer:
+      "Non. Vos informations de naissance servent uniquement à calculer et générer votre rapport personnalisé. Elles ne sont pas conservées après la génération du PDF.",
   },
 ];
+
+/*
+|--------------------------------------------------------------------------
+| Données structurées
+|--------------------------------------------------------------------------
+*/
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -209,6 +281,9 @@ const jsonLd = {
 
   description:
     "Rapport PDF personnalisé comparant deux thèmes astraux complets et leurs principales dynamiques relationnelles.",
+
+  image:
+    `https://luna-astralis.app${REPORT_COVER_URL}`,
 
   brand: {
     "@type": "Brand",
@@ -227,270 +302,274 @@ const jsonLd = {
   },
 };
 
+/*
+|--------------------------------------------------------------------------
+| Page
+|--------------------------------------------------------------------------
+*/
+
 export default function CompatibilityPremiumPage() {
   return (
-    <div className="compat-premium-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(
-            /</g,
-            "\\u003c"
-          ),
-        }}
-      />
+    <AuthProvider>
+      <SiteHeader />
 
-      <main className="compat-premium-main">
-        <section
-          className="compat-premium-hero"
-          aria-labelledby="compat-premium-title"
-        >
-          <div className="compat-premium-hero-glow" />
+      <div className="compat-premium-page">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html:
+              JSON.stringify(jsonLd).replace(
+                /</g,
+                "\\u003c",
+              ),
+          }}
+        />
 
-          <div className="compat-premium-badge">
-            ✨ Rapport astrologique personnalisé
-          </div>
-
-          <p className="compat-premium-eyebrow">
-            Deux thèmes natals • Une rencontre unique
-          </p>
-
-          <h1 id="compat-premium-title">
-            Découvrez votre
-            <span> compatibilité Premium</span>
-          </h1>
-
-          <p className="compat-premium-hero-text">
-            Explorez en profondeur la rencontre entre
-            vos deux thèmes astraux, vos affinités
-            naturelles, vos défis et votre potentiel
-            d’évolution.
-          </p>
-
-          <div className="compat-premium-hero-actions">
-  <Link
-    href="#apercu"
-    className="compat-premium-button compat-premium-button-primary"
-  >
-    Voir le contenu du rapport
-  </Link>
-
-  <Link
-    href="#commande"
-    className="compat-premium-button compat-premium-button-secondary"
-  >
-    Commencer mon analyse
-  </Link>
-</div>
-
-<a
-  href="/reports/apercu-rapport-compatibilite-premium.pdf"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="compat-premium-hero-preview-link"
->
-  📖 Voir un aperçu réel du rapport PDF
-</a>
-
-          <div className="compat-premium-hero-trust">
-            <span>✓ Deux thèmes astraux</span>
-            <span>✓ Rapport PDF personnalisé</span>
-            <span>✓ Téléchargement immédiat</span>
-          </div>
-
-          <div
-            className="compat-premium-orbits"
-            aria-hidden="true"
+        <main className="compat-premium-main">
+          <section
+            className="compat-premium-hero"
+            aria-labelledby="compat-premium-title"
           >
-            <div className="compat-premium-orbit compat-premium-orbit-left">
-              <span>☾</span>
-            </div>
+            <div
+              className="compat-premium-hero-glow"
+              aria-hidden="true"
+            />
 
-            <div className="compat-premium-orbit-center">
-              <span>♥</span>
-            </div>
+            <div
+              className="compat-premium-hero-stars"
+              aria-hidden="true"
+            />
 
-            <div className="compat-premium-orbit compat-premium-orbit-right">
-              <span>☾</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="compat-premium-intro">
-          <div className="compat-premium-section-heading">
-            <span className="compat-premium-section-label">
-              Au-delà des signes
-            </span>
-
-            <h2>
-              Une relation ne se résume jamais à deux
-              signes astrologiques
-            </h2>
-
-            <p>
-              Deux personnes partageant les mêmes signes
-              peuvent vivre une dynamique complètement
-              différente. La synastrie compare les
-              planètes, les émotions, les besoins
-              relationnels et les interactions présentes
-              entre deux thèmes natals.
-            </p>
-          </div>
-
-          <div className="compat-premium-comparison">
-            <article className="compat-premium-comparison-card">
-              <div className="compat-premium-comparison-icon">
-                ❤️
+            <div className="compat-premium-hero-copy">
+              <div className="compat-premium-hero-badge">
+                ✨ Rapport astrologique personnalisé
               </div>
 
-              <span className="compat-premium-comparison-kicker">
-                Test gratuit
-              </span>
-
-              <h3>Compatibilité par signes</h3>
-
-              <p>
-                Une première lecture simple et rapide
-                basée sur les deux signes solaires.
+              <p className="compat-premium-hero-eyebrow">
+                Deux thèmes natals • Une rencontre unique
               </p>
 
-              <ul>
-                <li>Deux signes astrologiques</li>
-                <li>Un score général</li>
-                <li>Une interprétation courte</li>
-                <li>Résultat gratuit et partageable</li>
-              </ul>
+              <h1 id="compat-premium-title">
+                Découvrez en profondeur votre
+                <span>
+                  {" "}
+                  compatibilité amoureuse
+                </span>
+              </h1>
 
-              <Link
-                href="/compatibilite"
-                className="compat-premium-text-link"
-              >
-                Faire le test gratuit
-                <span aria-hidden="true"> →</span>
-              </Link>
-            </article>
-
-            <article className="compat-premium-comparison-card compat-premium-comparison-featured">
-              <div className="compat-premium-comparison-label">
-                Analyse approfondie
-              </div>
-
-              <div className="compat-premium-comparison-icon">
-                🌙
-              </div>
-
-              <span className="compat-premium-comparison-kicker">
-                Rapport Premium
-              </span>
-
-              <h3>Synastrie personnalisée</h3>
-
-              <p>
-                Une comparaison complète calculée à partir
-                des informations de naissance des deux
-                personnes.
+              <p className="compat-premium-hero-description">
+                Explorez vos affinités naturelles, votre
+                communication, votre lien émotionnel, votre
+                attirance, vos défis et le potentiel d’évolution
+                de votre relation.
               </p>
 
-              <ul>
-                <li>Deux thèmes astraux complets</li>
-                <li>Planètes et aspects de synastrie</li>
-                <li>Scores relationnels détaillés</li>
-                <li>Rapport PDF d’environ 50 pages</li>
-              </ul>
+              <div className="compat-premium-hero-actions">
+                <Link
+                  href="#commande"
+                  className="compat-premium-button compat-premium-button-primary"
+                >
+                  Créer notre rapport
+                  <span aria-hidden="true">
+                    ♡
+                  </span>
+                </Link>
 
-              <Link
-                href="#commande"
-                className="compat-premium-text-link"
-              >
-                Découvrir votre relation
-                <span aria-hidden="true"> →</span>
-              </Link>
-            </article>
-          </div>
-        </section>
-
-        <section
-          id="apercu"
-          className="compat-premium-report"
-        >
-          <div className="compat-premium-section-heading">
-            <span className="compat-premium-section-label">
-              Votre rapport personnalisé
-            </span>
-
-            <h2>
-              Une exploration complète de votre relation
-            </h2>
-
-            <p>
-              Chaque section vous aide à comprendre
-              pourquoi certaines énergies s’harmonisent
-              spontanément, tandis que d’autres demandent
-              davantage d’écoute, d’adaptation et de
-              conscience.
-            </p>
-          </div>
-
-          <div className="compat-premium-report-showcase">
-            <div className="compat-premium-report-preview">
-              <div className="compat-premium-preview-top">
-                <span>Compatibilité Premium</span>
-                <span>Rapport personnalisé</span>
+                <a
+                  href={REPORT_PREVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="compat-premium-button compat-premium-button-secondary"
+                >
+                  Voir l’aperçu PDF
+                </a>
               </div>
 
-              <div className="compat-premium-preview-content">
-                <p className="compat-premium-preview-kicker">
-                  Votre rapport de
-                </p>
+              <a
+                href={REPORT_PREVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="compat-premium-hero-preview-link"
+              >
+                📖 Consulter un véritable aperçu du rapport
+              </a>
 
-                <h3>Synastrie</h3>
+              <div className="compat-premium-hero-trust">
+                <span>✓ Deux thèmes astraux</span>
+                <span>✓ {REPORT_PAGES}</span>
+                <span>✓ Téléchargement après paiement</span>
+              </div>
+
+              <div className="compat-premium-hero-price">
+                <div>
+                  <span>Compatibilité Premium</span>
+                  <small>Paiement unique</small>
+                </div>
+
+                <strong>{REPORT_PRICE}</strong>
+              </div>
+            </div>
+
+            <div className="compat-premium-hero-visual">
+              <div
+                className="compat-premium-cover-glow"
+                aria-hidden="true"
+              />
+
+              <div className="compat-premium-cover-frame">
+                <Image
+                  src={REPORT_COVER_URL}
+                  alt="Couverture du rapport Compatibilité Premium"
+                  width={707}
+                  height={1000}
+                  priority
+                  className="compat-premium-cover-image"
+                />
+              </div>
+
+              <div className="compat-premium-cover-badge">
+                <span aria-hidden="true">♡</span>
+                Créé pour votre relation
+              </div>
+
+              <div
+                className="compat-premium-hero-orbit compat-premium-hero-orbit-one"
+                aria-hidden="true"
+              >
+                <span>☾</span>
+              </div>
+
+              <div
+                className="compat-premium-hero-orbit compat-premium-hero-orbit-two"
+                aria-hidden="true"
+              >
+                <span>♀</span>
+              </div>
+            </div>
+          </section>
+
+          <section className="compat-premium-introduction">
+            <div className="compat-premium-section-heading">
+              <span className="compat-premium-section-label">
+                Au-delà des signes
+              </span>
+
+              <h2>
+                Une relation est bien plus que deux signes
+                astrologiques
+              </h2>
+
+              <p>
+                La synastrie compare deux thèmes natals complets.
+                Elle révèle la manière dont vos émotions, vos
+                pensées, vos désirs et vos besoins relationnels
+                se rencontrent.
+              </p>
+            </div>
+
+            <div className="compat-premium-introduction-grid">
+              <article className="compat-premium-introduction-card">
+                <div className="compat-premium-introduction-icon">
+                  ♡
+                </div>
+
+                <span>Compatibilité gratuite</span>
+
+                <h3>Une première impression</h3>
 
                 <p>
-                  Deux cartes du ciel, une rencontre
-                  unique.
+                  Une lecture simple fondée sur vos deux signes
+                  solaires, avec un score général et une courte
+                  interprétation.
                 </p>
 
-                <div className="compat-premium-preview-orbits">
-                  <div>
-                    <span>☾</span>
-                  </div>
+                <Link
+                  href="/compatibilite"
+                  className="compat-premium-text-link"
+                >
+                  Faire le test gratuit
+                  <span aria-hidden="true"> →</span>
+                </Link>
+              </article>
 
-                  <strong>&amp;</strong>
-
-                  <div>
-                    <span>☾</span>
-                  </div>
+              <article className="compat-premium-introduction-card compat-premium-introduction-card-featured">
+                <div className="compat-premium-introduction-card-label">
+                  Analyse approfondie
                 </div>
 
-                <div className="compat-premium-preview-names">
-                  <span>Première personne</span>
-                  <span>Deuxième personne</span>
+                <div className="compat-premium-introduction-icon">
+                  ✦
                 </div>
 
-                <div className="compat-premium-preview-footer">
-                  Luna Astralis
-                </div>
+                <span>Synastrie Premium</span>
+
+                <h3>Une relation complète</h3>
+
+                <p>
+                  Le rapport Premium compare vos deux thèmes,
+                  vos planètes, vos maisons et vos aspects pour
+                  offrir une lecture riche, nuancée et réellement
+                  personnalisée.
+                </p>
+
+                <Link
+                  href="#commande"
+                  className="compat-premium-text-link"
+                >
+                  Commencer notre analyse
+                  <span aria-hidden="true"> →</span>
+                </Link>
+              </article>
+            </div>
+          </section>
+
+          <section
+            id="apercu"
+            className="compat-premium-report-showcase"
+          >
+            <div className="compat-premium-report-visual">
+              <div className="compat-premium-report-cover-wrapper">
+                <Image
+                  src={REPORT_COVER_URL}
+                  alt="Aperçu de la couverture du rapport Compatibilité Premium"
+                  width={566}
+                  height={800}
+                  className="compat-premium-report-cover"
+                />
+              </div>
+
+              <div
+                className="compat-premium-report-page compat-premium-report-page-back"
+                aria-hidden="true"
+              >
+                <span>Luna Astralis</span>
+              </div>
+
+              <div
+                className="compat-premium-report-page compat-premium-report-page-middle"
+                aria-hidden="true"
+              >
+                <span>Votre synastrie personnalisée</span>
               </div>
             </div>
 
             <div className="compat-premium-report-copy">
-              <span className="compat-premium-report-badge">
-                Environ 50 pages
+              <span className="compat-premium-section-label">
+                Votre rapport personnalisé
               </span>
 
-              <h3>
+              <h2>
                 Bien plus qu’un simple pourcentage
-              </h3>
+              </h2>
 
               <p>
-                Votre rapport ne se limite pas à annoncer
-                un résultat. Il explique le fonctionnement
-                profond de votre relation et présente des
-                clés concrètes pour mieux comprendre vos
-                différences.
+                Votre rapport explique le fonctionnement profond
+                de votre relation. Il relie les deux profils,
+                les scores et les interactions planétaires afin
+                de présenter une vision complète de votre lien.
               </p>
 
-              <div className="compat-premium-report-highlights">
+              <div className="compat-premium-report-statistics">
                 <div>
                   <strong>2</strong>
                   <span>thèmes astraux</span>
@@ -498,7 +577,7 @@ export default function CompatibilityPremiumPage() {
 
                 <div>
                   <strong>6</strong>
-                  <span>scores principaux</span>
+                  <span>dimensions principales</span>
                 </div>
 
                 <div>
@@ -510,67 +589,111 @@ export default function CompatibilityPremiumPage() {
               <ul className="compat-premium-check-list">
                 <li>Vos deux profils relationnels</li>
                 <li>Votre indice général de compatibilité</li>
-                <li>Vos principales interactions planétaires</li>
+                <li>Vos interactions planétaires principales</li>
                 <li>Vos forces naturelles et vos défis</li>
-                <li>Des conseils personnalisés pour votre relation</li>
+                <li>Une synthèse et des conseils personnalisés</li>
               </ul>
 
-              <div className="compat-premium-hero-actions">
+              <div className="compat-premium-report-actions">
                 <a
-                  href="/reports/apercu-rapport-compatibilite-premium.pdf"
+                  href={REPORT_PREVIEW_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="compat-premium-button compat-premium-button-primary"
                 >
-                  📖 Voir un aperçu du rapport
+                  📖 Voir l’aperçu du rapport
                 </a>
+
+                <Link
+                  href="#commande"
+                  className="compat-premium-button compat-premium-button-secondary"
+                >
+                  Créer notre rapport
+                </Link>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="compat-premium-scores">
-          <div className="compat-premium-section-heading">
-            <span className="compat-premium-section-label">
-              Vue d’ensemble
-            </span>
-
-            <h2>
-              Six dimensions essentielles de votre lien
-            </h2>
-
-            <p>
-              Votre indice général est accompagné de
-              plusieurs scores permettant de distinguer
-              les différentes facettes de votre relation.
-            </p>
-          </div>
-
-          <div className="compat-premium-score-panel">
-            <div className="compat-premium-score-main">
-              <span>
-                Indice général de compatibilité
+          <section className="compat-premium-contents">
+            <div className="compat-premium-section-heading">
+              <span className="compat-premium-section-label">
+                Dans votre rapport
               </span>
 
-              <strong>Votre score</strong>
+              <h2>
+                Tout ce que votre synastrie vous révèle
+              </h2>
 
               <p>
-                Une lecture synthétique avant d’explorer
-                chaque connexion en profondeur.
+                Chaque section éclaire une dimension précise de
+                votre relation et aide à comprendre ce qui vous
+                rapproche ou demande davantage d’ajustement.
               </p>
-
-              <div className="compat-premium-score-line">
-                <span />
-              </div>
             </div>
 
-            <div className="compat-premium-score-grid">
-              {SCORE_ITEMS.map((item) => (
+            <div className="compat-premium-feature-grid">
+              {REPORT_FEATURES.map((feature) => (
                 <article
-                  className="compat-premium-score-card"
+                  className="compat-premium-feature-card"
+                  key={feature.title}
+                >
+                  <div className="compat-premium-feature-icon">
+                    {feature.icon}
+                  </div>
+
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="compat-premium-section-action">
+              <Link
+                href="#commande"
+                className="compat-premium-button compat-premium-button-primary"
+              >
+                Obtenir notre rapport Premium
+                <span aria-hidden="true">♡</span>
+              </Link>
+            </div>
+          </section>
+
+          <section className="compat-premium-benefits">
+            <div className="compat-premium-benefits-copy">
+              <span className="compat-premium-section-label">
+                Une lecture profonde du lien
+              </span>
+
+              <h2>
+                Comprenez ce qui vous rapproche, vous stimule
+                ou vous déstabilise
+              </h2>
+
+              <p>
+                La synastrie ne décide pas de l’avenir d’une
+                relation. Elle offre un langage symbolique pour
+                mieux comprendre vos besoins, vos réactions et
+                vos différences.
+              </p>
+
+              <a
+                href={REPORT_PREVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="compat-premium-text-link"
+              >
+                Consulter l’aperçu réel
+                <span aria-hidden="true"> →</span>
+              </a>
+            </div>
+
+            <div className="compat-premium-benefit-grid">
+              {BENEFIT_ITEMS.map((item) => (
+                <article
+                  className="compat-premium-benefit-card"
                   key={item.title}
                 >
-                  <div className="compat-premium-score-icon">
+                  <div className="compat-premium-benefit-icon">
                     {item.icon}
                   </div>
 
@@ -581,227 +704,207 @@ export default function CompatibilityPremiumPage() {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="compat-premium-contents">
-          <div className="compat-premium-section-heading">
-            <span className="compat-premium-section-label">
-              Analyse détaillée
-            </span>
+          <section className="compat-premium-process">
+            <div className="compat-premium-section-heading">
+              <span className="compat-premium-section-label">
+                Simple et immédiat
+              </span>
 
-            <h2>
-              Tout ce que votre synastrie vous révèle
-            </h2>
+              <h2>Comment obtenir votre rapport ?</h2>
 
-            <p>
-              Le rapport relie vos placements personnels
-              aux interactions astrologiques qui
-              influencent concrètement votre relation.
-            </p>
-          </div>
-
-          <div className="compat-premium-feature-grid">
-            {REPORT_FEATURES.map((feature) => (
-              <article
-                className="compat-premium-feature-card"
-                key={feature.title}
-              >
-                <div className="compat-premium-feature-icon">
-                  {feature.icon}
-                </div>
-
-                <h3>{feature.title}</h3>
-
-                <p>{feature.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="compat-premium-planets">
-          <div className="compat-premium-planets-content">
-            <span className="compat-premium-section-label">
-              Vos planètes en relation
-            </span>
-
-            <h2>
-              Comprenez ce qui vous rapproche, vous
-              stimule ou vous déstabilise
-            </h2>
-
-            <p>
-              Chaque planète révèle une dimension
-              particulière de votre dynamique. Leur
-              rencontre montre comment vos personnalités,
-              vos émotions et vos besoins se répondent.
-            </p>
-
-            <div className="compat-premium-planet-list">
-              <div>
-                <span>☉</span>
-                <strong>Soleil</strong>
-                <p>Identité et expression personnelle</p>
-              </div>
-
-              <div>
-                <span>☾</span>
-                <strong>Lune</strong>
-                <p>Émotions et sécurité affective</p>
-              </div>
-
-              <div>
-                <span>☿</span>
-                <strong>Mercure</strong>
-                <p>Communication et compréhension</p>
-              </div>
-
-              <div>
-                <span>♀</span>
-                <strong>Vénus</strong>
-                <p>Amour, harmonie et séduction</p>
-              </div>
-
-              <div>
-                <span>♂</span>
-                <strong>Mars</strong>
-                <p>Désir, action et attraction</p>
-              </div>
-
-              <div>
-                <span>♄</span>
-                <strong>Saturne</strong>
-                <p>Stabilité, limites et engagement</p>
-              </div>
+              <p>
+                Quelques minutes suffisent pour transmettre vos
+                informations et lancer la création de votre
+                analyse personnalisée.
+              </p>
             </div>
-          </div>
 
-          <div
-            className="compat-premium-planets-visual"
-            aria-hidden="true"
+            <div className="compat-premium-process-grid">
+              {PROCESS_STEPS.map((step) => (
+                <article
+                  className="compat-premium-process-card"
+                  key={step.number}
+                >
+                  <span className="compat-premium-process-number">
+                    {step.number}
+                  </span>
+
+                  <h3>{step.title}</h3>
+                  <p>{step.description}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section
+            id="commande"
+            className="compat-premium-order"
           >
-            <div className="compat-premium-planet-orbit compat-premium-planet-orbit-one">
-              <span>☾</span>
+            <div
+              className="compat-premium-order-glow"
+              aria-hidden="true"
+            />
+
+            <div className="compat-premium-section-heading">
+              <span className="compat-premium-section-label">
+                Votre rapport personnalisé
+              </span>
+
+              <h2>
+                Créez votre rapport Compatibilité Premium
+              </h2>
+
+              <p>
+                Entrez les informations de naissance des deux
+                personnes afin de calculer vos thèmes et de
+                préparer votre analyse relationnelle.
+              </p>
             </div>
 
-            <div className="compat-premium-planet-orbit compat-premium-planet-orbit-two">
-              <span>♀</span>
-            </div>
+            <div className="compat-premium-order-layout">
+              <div className="compat-premium-order-form">
+                <CompatibilityPremiumForm />
+              </div>
 
-            <div className="compat-premium-planet-center">
-              <span>✦</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="compat-premium-process">
-          <div className="compat-premium-section-heading">
-            <span className="compat-premium-section-label">
-              Simple et immédiat
-            </span>
-
-            <h2>Comment obtenir votre rapport ?</h2>
-
-            <p>
-              Quelques minutes suffisent pour transmettre
-              vos informations et lancer la création de
-              votre analyse personnalisée.
-            </p>
-          </div>
-
-          <div className="compat-premium-process-grid">
-            {PROCESS_STEPS.map((step) => (
-              <article
-                className="compat-premium-process-card"
-                key={step.number}
-              >
-                <span className="compat-premium-process-number">
-                  {step.number}
+              <aside className="compat-premium-order-summary">
+                <span className="compat-premium-order-summary-label">
+                  Votre commande
                 </span>
 
-                <h3>{step.title}</h3>
+                <h3>Compatibilité Premium</h3>
 
-                <p>{step.description}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+                <div className="compat-premium-order-price">
+                  <strong>{REPORT_PRICE}</strong>
+                  <span>Paiement unique</span>
+                </div>
 
-        <section
-  id="commande"
-  className="compat-premium-form-section"
->
-  <div className="compat-premium-section-heading">
-    <span className="compat-premium-section-label">
-      Commencer votre analyse
-    </span>
+                <ul>
+                  <li>Rapport PDF personnalisé</li>
+                  <li>Deux thèmes astraux complets</li>
+                  <li>Environ 50 pages</li>
+                  <li>Scores relationnels détaillés</li>
+                  <li>Aspects de synastrie</li>
+                  <li>Forces, défis et conseils</li>
+                  <li>Téléchargement après le paiement</li>
+                </ul>
 
-    <h2>
-      Deux personnes, deux thèmes astraux, une relation
-      unique
-    </h2>
+                <div className="compat-premium-order-security">
+                  <span aria-hidden="true">🔒</span>
 
-    <p>
-      Remplissez les informations de naissance des deux
-      personnes afin de préparer votre rapport de
-      compatibilité Premium.
-    </p>
-  </div>
+                  <p>
+                    Paiement sécurisé
+                    <small>Aucun abonnement</small>
+                  </p>
+                </div>
 
-  <CompatibilityPremiumForm />
+                <div className="compat-premium-order-download">
+                  <span aria-hidden="true">⬇</span>
 
-  <div className="compatibility-premium-price-summary">
-    <div className="compatibility-premium-price-main">
-      <span>Compatibilité Premium</span>
+                  <p>
+                    Téléchargez et conservez votre PDF
+                    <small>
+                      Aucun compte client n’est créé et le
+                      rapport ne pourra pas être récupéré plus
+                      tard.
+                    </small>
+                  </p>
+                </div>
 
-      <strong>{REPORT_PRICE}</strong>
+                <div className="compat-premium-order-privacy">
+                  <span aria-hidden="true">✓</span>
 
-      <small>Paiement unique</small>
-    </div>
+                  <p>
+                    Vos données ne sont pas conservées
+                    <small>
+                      Elles servent uniquement à générer votre
+                      rapport personnalisé.
+                    </small>
+                  </p>
+                </div>
 
-    <ul>
-      <li>Rapport PDF personnalisé</li>
-      <li>Deux thèmes astraux complets</li>
-      <li>Environ 50 pages</li>
-      <li>Scores relationnels détaillés</li>
-      <li>Aspects de synastrie</li>
-      <li>Téléchargement après le paiement</li>
-    </ul>
-  </div>
-</section>
+                <a
+                  href={REPORT_PREVIEW_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="compat-premium-order-preview-link"
+                >
+                  Voir l’aperçu avant de commander
+                  <span aria-hidden="true"> →</span>
+                </a>
+              </aside>
+            </div>
+          </section>
 
-        <section className="compat-premium-faq">
-          <div className="compat-premium-section-heading">
+          <section className="compat-premium-faq">
+            <div className="compat-premium-section-heading">
+              <span className="compat-premium-section-label">
+                Questions fréquentes
+              </span>
+
+              <h2>Tout savoir avant de commencer</h2>
+            </div>
+
+            <div className="compat-premium-faq-list">
+              {FAQ_ITEMS.map((item) => (
+                <details
+                  className="compat-premium-faq-item"
+                  key={item.question}
+                >
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          <section className="compat-premium-final">
+            <div
+              className="compat-premium-final-glow"
+              aria-hidden="true"
+            />
+
             <span className="compat-premium-section-label">
-              Questions fréquentes
+              Une première découverte gratuite
             </span>
 
             <h2>
-              Tout savoir avant de commencer
+              Commencez par comparer vos deux signes
             </h2>
-          </div>
 
-          <div className="compat-premium-faq-list">
-            {FAQ_ITEMS.map((item) => (
-              <details
-                className="compat-premium-faq-item"
-                key={item.question}
+            <p>
+              Essayez gratuitement la compatibilité par signes,
+              puis passez à la synastrie Premium pour explorer
+              vos deux thèmes astraux complets.
+            </p>
+
+            <div className="compat-premium-final-actions">
+              <Link
+                href="/compatibilite"
+                className="compat-premium-button compat-premium-button-primary"
               >
-                <summary>{item.question}</summary>
+                Faire le test gratuit
+                <span aria-hidden="true">→</span>
+              </Link>
 
-                <p>{item.answer}</p>
-              </details>
-            ))}
-          </div>
-        </section>
+              <Link
+                href="#commande"
+                className="compat-premium-button compat-premium-button-secondary"
+              >
+                Choisir Premium
+              </Link>
+            </div>
+          </section>
 
-        <p className="compat-premium-disclaimer">
-          L’astrologie est proposée comme un outil
-          symbolique d’exploration personnelle et
-          relationnelle. Elle ne remplace pas un avis
-          médical, psychologique, juridique ou financier.
-        </p>
-      </main>
-    </div>
+          <p className="compat-premium-disclaimer">
+            L’astrologie est proposée comme un outil symbolique
+            d’exploration personnelle et relationnelle. Elle ne
+            remplace pas un avis médical, psychologique,
+            juridique ou financier.
+          </p>
+        </main>
+      </div>
+    </AuthProvider>
   );
 }
