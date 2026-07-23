@@ -204,7 +204,7 @@ const faqItems = [
       "Puis-je consulter un aperçu avant de commander ?",
 
     answer:
-      "Oui. Vous pouvez ouvrir un véritable aperçu PDF afin de découvrir la présentation, le style des pages et le niveau de détail du rapport.",
+      "Oui. Vous pouvez consulter un véritable aperçu du rapport afin d’en découvrir la présentation, la mise en page et le niveau de détail avant votre achat.",
   },
 
   {
@@ -697,7 +697,7 @@ export default function PremiumPage() {
                 📖
               </span>
 
-              Ouvrir l’aperçu Premium
+              Voir l’aperçu du rapport
             </a>
 
             <small>
@@ -919,6 +919,20 @@ export default function PremiumPage() {
 
   Paiement sécurisé · Aucun abonnement ·
   Rapport personnalisé
+</div>
+
+<div className="report-checkout__download-note">
+  <span aria-hidden="true">
+    📥
+  </span>
+
+  <p>
+    <strong>Important :</strong> Votre rapport est généré
+    immédiatement après votre achat. Veuillez le télécharger
+    et le conserver dans un endroit sécuritaire, car
+    <strong> Luna Astralis ne conserve aucune copie de votre rapport.</strong>
+    Si vous le perdez, il ne pourra pas être téléchargé de nouveau.
+  </p>
 </div>
            </section>
 
