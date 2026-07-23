@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import AuthProvider from "@/components/AuthProvider";
+import ReportCheckoutForm from "@/components/ReportCheckoutForm";
 import SiteHeader from "@/components/SiteHeader";
 
 import "./page.css";
@@ -783,7 +784,10 @@ export default function EssentiellePage() {
             Paiement sécurisé · Paiement unique ·
             Aucun abonnement
           </div>
-        </section>
+          <ReportCheckoutForm
+  reportType="essential"
+/>
+  </section>
 
         {/* ===================================== */}
         {/* Navigation vers les autres offres    */}
