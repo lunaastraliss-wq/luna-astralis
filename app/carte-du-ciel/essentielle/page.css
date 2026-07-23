@@ -1579,3 +1579,24 @@ html {
     line-height: 1.5;
   }
 }
+html {
+  scroll-behavior: smooth;
+}
+
+.essential-checkout-area {
+  width: 100%;
+  max-width: 760px;
+  margin: 40px auto 0;
+  scroll-margin-top: 130px;
+}
+
+.essential-checkout-area h3 {
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.essential-checkout-area > p {
+  margin: 0 auto 24px;
+  max-width: 620px;
+  text-align: center;
+}
