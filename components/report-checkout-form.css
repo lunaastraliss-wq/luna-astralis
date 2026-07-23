@@ -240,3 +240,30 @@
   }
 
 }
+.report-checkout__download-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 14px;
+  background: rgba(212, 175, 55, 0.08);
+  text-align: left;
+}
+
+.report-checkout__download-note span {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.report-checkout__download-note p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.report-checkout__download-note strong {
+  font-weight: 700;
+}
