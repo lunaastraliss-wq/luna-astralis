@@ -1,995 +1,2031 @@
-html {
-  scroll-behavior: smooth;
-}
-
-/* ======================================== */
-/* PAGE CARTE DU CIEL                       */
-/* ======================================== */
-
-.astro-chart-page {
-  padding: 56px 16px 80px;
-}
-
-.astro-hero {
-  max-width: 760px;
-  margin: 0 auto 32px;
-  text-align: center;
-}
-
-.astro-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 14px;
-  padding: 7px 14px;
-
-  border: 1px solid rgba(244, 201, 93, 0.35);
-  border-radius: 999px;
-
-  background: rgba(244, 201, 93, 0.14);
-  color: #f4c95d;
-
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.astro-hero h1 {
-  margin: 0 0 14px;
-
-  font-size: clamp(36px, 6vw, 64px);
-  line-height: 1.05;
-}
-
-.astro-hero .section-sub {
-  max-width: 620px;
-  margin: 0 auto;
-
-  font-size: 18px;
-  line-height: 1.65;
-
-  opacity: 0.88;
-}
-
-/* ======================================== */
-/* CONTENEUR DU FORMULAIRE                  */
-/* ======================================== */
-
-.natal-form-wrap {
-  width: 100%;
-  max-width: none;
-  margin: 0 auto;
-}
-
-.natal-form,
-.natal-result {
-  width: 100%;
-  max-width: 760px;
-
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ======================================== */
-/* FORMULAIRE                               */
-/* ======================================== */
-
-.natal-form {
-  display: grid;
-  gap: 18px;
-
-  padding: 26px;
-
-  border: 1px solid rgba(244, 201, 93, 0.22);
-  border-radius: 24px;
-
-  background: rgba(255, 255, 255, 0.055);
-
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.26);
-}
-
-.natal-form label {
-  display: grid;
-  gap: 8px;
-
-  color: rgba(255, 255, 255, 0.9);
-
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.natal-form input {
-  width: 100%;
-  min-height: 52px;
-
-  padding: 0 16px;
-
-  border: 1px solid rgba(244, 201, 93, 0.22);
-  border-radius: 14px;
-
-  background: rgba(6, 8, 20, 0.78);
-  color: #ffffff;
-
-  font-size: 16px;
-
-  outline: none;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-}
-
-.natal-form input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.natal-form input:focus {
-  border-color: rgba(244, 201, 93, 0.7);
-
-  background: rgba(6, 8, 20, 0.94);
-
-  box-shadow: 0 0 0 4px rgba(244, 201, 93, 0.12);
-}
-
-.natal-form button {
-  width: 100%;
-  min-height: 54px;
-
-  margin-top: 6px;
-
-  border-radius: 999px;
-
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.natal-form button:disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-
-/* ======================================== */
-/* ERREUR                                   */
-/* ======================================== */
-
-.natal-error {
-  margin: 0;
-  padding: 12px 14px;
-
-  border: 1px solid rgba(255, 80, 80, 0.35);
-  border-radius: 14px;
-
-  background: rgba(255, 80, 80, 0.12);
-  color: #ffb4b4;
-
-  text-align: center;
-}
-
-/* ======================================== */
-/* RÉSULTAT DE LA CARTE                     */
-/* ======================================== */
-
-.natal-result {
-  margin-top: 34px;
-  padding: 28px;
-
-  border: 1px solid rgba(244, 201, 93, 0.2);
-  border-radius: 28px;
-
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.natal-result h3 {
-  margin: 0 0 22px;
-
-  font-size: clamp(26px, 4vw, 40px);
-  line-height: 1.15;
-  text-align: center;
-}
-
-/* ======================================== */
-/* ASCENDANT ET MILIEU DU CIEL              */
-/* ======================================== */
-
-.natal-angles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-
-  margin: 24px 0;
-}
-
-.natal-angle-item {
-  padding: 16px;
-
-  border: 1px solid rgba(244, 201, 93, 0.2);
-  border-radius: 18px;
-
-  background: rgba(244, 201, 93, 0.09);
-
-  text-align: center;
-}
-
-.natal-label {
-  display: block;
-
-  margin-bottom: 6px;
-
-  font-size: 13px;
-
-  opacity: 0.72;
-}
-
-.natal-value {
-  display: block;
-
-  color: #f4c95d;
-
-  font-size: 16px;
-  font-weight: 800;
-}
-
-/* ======================================== */
-/* LISTE DES PLANÈTES                       */
-/* ======================================== */
-
-.natal-planets {
-  display: grid;
-  gap: 10px;
-
-  margin-top: 20px;
-}
-
-.natal-planet-row {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 12px;
-
-  padding: 13px 15px;
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.055);
-}
-
-.natal-planet-name {
-  font-weight: 800;
-}
-
-.natal-planet-pos {
-  color: #f4c95d;
-
-  font-weight: 700;
-  text-align: right;
-}
-
-.natal-retro {
-  color: #ffb4b4;
-
-  font-weight: 900;
-}
-
-/* ======================================== */
-/* CARTES DES PLANÈTES                      */
-/* ======================================== */
-
-.natal-planets-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-
-  margin-top: 24px;
-}
-
-.natal-planet-card {
-  padding: 20px 14px;
-
-  border: 1px solid rgba(244, 201, 93, 0.18);
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.055);
-
-  text-align: center;
-}
-
-.natal-planet-symbol {
-  margin-bottom: 8px;
-
-  color: #f4c95d;
-
-  font-size: 38px;
-  line-height: 1;
-}
-
-.natal-planet-title {
-  margin-bottom: 10px;
-
-  font-size: 17px;
-  font-weight: 900;
-}
-
-.natal-planet-sign {
-  margin-bottom: 6px;
-
-  color: #f4c95d;
-
-  font-size: 16px;
-  font-weight: 800;
-}
-
-.natal-planet-sign span {
-  margin-right: 6px;
-}
-
-.natal-planet-degree {
-  font-size: 14px;
-
-  opacity: 0.9;
-}
-
-/* ======================================== */
-/* ACTIONS APRÈS LA CARTE                   */
-/* ======================================== */
-
-.natal-result-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-
-  width: 100%;
-  margin: 22px 0 8px;
-}
-
-.natal-download-btn {
-  width: 100%;
-  min-height: 54px;
-
-  margin: 0;
-  padding: 13px 18px;
-
-  border: none;
-  border-radius: 999px;
-
-  background: linear-gradient(
-    135deg,
-    #f4c95d 0%,
-    #fff0a8 100%
-  );
-
-  color: #120d2b;
-
-  font-size: 16px;
-  font-weight: 900;
-  line-height: 1.35;
-
-  cursor: pointer;
-
-  box-shadow: 0 12px 30px rgba(244, 201, 93, 0.18);
-
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-.natal-download-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-
-  box-shadow: 0 16px 38px rgba(244, 201, 93, 0.28);
-
-  filter: brightness(1.04);
-}
-
-.natal-download-btn:focus-visible {
-  outline: 3px solid rgba(255, 240, 168, 0.55);
-  outline-offset: 4px;
-}
-
-.natal-download-btn:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.natal-go-to-reports {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-
-  width: 100%;
-  min-height: 54px;
-
-  padding: 13px 18px;
-
-  border: 1px solid rgba(244, 201, 93, 0.5);
-  border-radius: 999px;
-
-  background: rgba(244, 201, 93, 0.08);
-  color: #f4c95d;
-
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1.35;
-  text-align: center;
-  text-decoration: none;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.natal-go-to-reports:hover {
-  transform: translateY(-2px);
-
-  border-color: rgba(244, 201, 93, 0.78);
-
-  background: rgba(244, 201, 93, 0.14);
-
-  box-shadow: 0 12px 28px rgba(244, 201, 93, 0.14);
-}
-
-.natal-go-to-reports:focus-visible {
-  outline: 3px solid rgba(244, 201, 93, 0.42);
-  outline-offset: 4px;
-}
-
-#rapports-astrologiques {
-  scroll-margin-top: 100px;
-}
-
-/* ======================================== */
-/* OFFRES PREMIUM PLEINE LARGEUR            */
-/* ======================================== */
-
-.natal-premium-wide {
-  width: 100%;
-  max-width: 1180px;
-
-  margin: 46px auto 0;
-}
-
-/* ======================================== */
-/* ZONE CACHÉE POUR L’IMAGE PARTAGE         */
-/* ======================================== */
-
-.natal-share-capture-zone {
-  position: fixed;
-  top: 0;
-  left: -10000px;
-
-  width: 900px;
-
-  pointer-events: none;
-}
-
-.natal-share-card {
-  width: 900px;
-  min-height: 1200px;
-
-  padding: 54px;
-
-  border: 2px solid rgba(244, 201, 93, 0.45);
-
+/*
+|--------------------------------------------------------------------------
+| Page générale
+|--------------------------------------------------------------------------
+*/
+
+.signature-page {
+  --signature-background: #f8f3ec;
+  --signature-background-soft: #fffaf4;
+  --signature-card: rgba(255, 255, 255, 0.78);
+  --signature-card-solid: #ffffff;
+  --signature-dark: #20172b;
+  --signature-dark-soft: #34263e;
+  --signature-text: #4f4557;
+  --signature-muted: #756b7b;
+  --signature-border: rgba(90, 63, 96, 0.15);
+  --signature-purple: #5a365f;
+  --signature-purple-dark: #351d3b;
+  --signature-purple-soft: #9a6fa1;
+  --signature-gold: #c89a4d;
+  --signature-gold-light: #efd49a;
+  --signature-shadow:
+    0 24px 70px rgba(45, 28, 51, 0.12);
+  --signature-shadow-soft:
+    0 15px 45px rgba(45, 28, 51, 0.08);
+
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--signature-text);
   background:
     radial-gradient(
-      circle at top,
-      rgba(244, 201, 93, 0.22),
-      transparent 38%
+      circle at 10% 10%,
+      rgba(198, 164, 203, 0.18),
+      transparent 31rem
+    ),
+    radial-gradient(
+      circle at 90% 28%,
+      rgba(225, 194, 132, 0.15),
+      transparent 34rem
     ),
     linear-gradient(
       180deg,
-      #100b28 0%,
-      #070816 100%
+      #fbf7f1 0%,
+      #f7f1e9 48%,
+      #fbf8f4 100%
     );
+}
 
-  color: #ffffff;
+.signature-main {
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding:
+    clamp(26px, 4vw, 64px)
+    clamp(18px, 5vw, 72px)
+    60px;
+}
 
-  font-family: Arial, sans-serif;
+.signature-page *,
+.signature-page *::before,
+.signature-page *::after {
+  box-sizing: border-box;
+}
+
+.signature-page h1,
+.signature-page h2,
+.signature-page h3,
+.signature-page p {
+  margin-top: 0;
+}
+
+.signature-page a {
+  color: inherit;
+}
+
+.signature-page img {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Éléments partagés
+|--------------------------------------------------------------------------
+*/
+
+.signature-section-heading {
+  width: min(100%, 760px);
+  margin: 0 auto clamp(38px, 5vw, 68px);
   text-align: center;
 }
 
-.natal-share-header {
-  margin-bottom: 28px;
-}
-
-.natal-share-brand {
-  display: inline-block;
-
-  margin-bottom: 18px;
-  padding: 8px 18px;
-
-  border: 1px solid rgba(244, 201, 93, 0.35);
-  border-radius: 999px;
-
-  background: rgba(244, 201, 93, 0.15);
-  color: #f4c95d;
-
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.natal-share-header h2 {
-  margin: 0 0 12px;
-
-  font-size: 54px;
-}
-
-.natal-share-header p {
-  margin: 0;
-
-  color: rgba(255, 255, 255, 0.75);
-
-  font-size: 22px;
-}
-
-.natal-share-footer {
-  margin-top: 30px;
-  padding: 22px;
-
-  border: 1px solid rgba(244, 201, 93, 0.25);
-  border-radius: 22px;
-
-  background: rgba(244, 201, 93, 0.1);
-  color: #f4c95d;
-
-  font-size: 24px;
-  font-weight: 800;
-}
-
-/* ======================================== */
-/* ROUE ASTROLOGIQUE                        */
-/* ======================================== */
-
-.natal-wheel-wrap {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.natal-wheel-caption {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
-
-  margin-top: 12px;
-
-  font-size: 14px;
-
-  opacity: 0.9;
-}
-
-.natal-wheel-caption strong {
-  color: #f4c95d;
-}
-
-/* ======================================== */
-/* DÉTAILS DES PLANÈTES                     */
-/* ======================================== */
-
-.natal-details {
-  margin-top: 28px;
-}
-
-.natal-details-btn {
-  width: 100%;
-  min-height: 52px;
-
-  border: 1px solid rgba(244, 201, 93, 0.28);
-  border-radius: 999px;
-
-  background: rgba(255, 255, 255, 0.045);
-  color: #f4c95d;
-
-  font-size: 15px;
-  font-weight: 900;
-
-  cursor: pointer;
-
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
-}
-
-.natal-details-btn:hover {
-  transform: translateY(-1px);
-
-  border-color: rgba(244, 201, 93, 0.55);
-
-  background: rgba(244, 201, 93, 0.09);
-}
-
-.natal-details-btn:focus-visible {
-  outline: 3px solid rgba(244, 201, 93, 0.38);
-  outline-offset: 4px;
-}
-
-.natal-details .natal-planets-grid {
-  margin-top: 20px;
-}
-
-/* ======================================== */
-/* CONTENU SEO                              */
-/* ======================================== */
-
-.astro-seo-content {
-  max-width: 1120px;
-
-  margin: 72px auto 0;
-  padding: 42px 34px;
-
-  border: 1px solid rgba(244, 201, 93, 0.22);
-  border-radius: 32px;
-
-  background:
-    radial-gradient(
-      circle at top center,
-      rgba(244, 201, 93, 0.08),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(13, 19, 38, 0.86) 0%,
-      rgba(8, 12, 26, 0.76) 100%
-    );
-
-  box-shadow:
-    0 30px 85px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-.astro-seo-content section + section {
-  margin-top: 54px;
-  padding-top: 46px;
-
-  border-top: 1px solid rgba(244, 201, 93, 0.14);
-}
-
-.astro-content-kicker {
+.signature-section-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  margin-bottom: 14px;
-  padding: 7px 13px;
-
-  border: 1px solid rgba(244, 201, 93, 0.24);
-  border-radius: 999px;
-
-  background: rgba(244, 201, 93, 0.1);
-  color: #f4c95d;
-
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.04em;
+  margin-bottom: 15px;
+  color: var(--signature-gold);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  line-height: 1.4;
   text-transform: uppercase;
 }
 
-.astro-seo-content h2 {
-  max-width: 850px;
+.signature-section-heading h2,
+.signature-report-copy h2,
+.signature-benefits-copy h2,
+.signature-comparison h2 {
+  margin-bottom: 18px;
+  color: var(--signature-dark);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size:
+    clamp(2rem, 4.1vw, 3.55rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
 
-  margin: 0 0 18px;
+.signature-section-heading p,
+.signature-report-copy > p,
+.signature-benefits-copy > p,
+.signature-comparison > p {
+  margin-bottom: 0;
+  color: var(--signature-muted);
+  font-size:
+    clamp(1rem, 1.35vw, 1.14rem);
+  line-height: 1.8;
+}
 
+.signature-button {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 23px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.94rem;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.signature-button:hover {
+  transform: translateY(-2px);
+}
+
+.signature-button-primary {
+  border-color: rgba(255, 255, 255, 0.12);
   color: #ffffff;
-
-  font-size: clamp(28px, 4vw, 42px);
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-}
-
-.astro-seo-content h3 {
-  margin: 0 0 10px;
-
-  color: #ffffff;
-
-  font-size: 20px;
-  line-height: 1.25;
-}
-
-.astro-seo-content p {
-  max-width: 920px;
-
-  margin: 0 0 16px;
-
-  color: #d5defc;
-
-  font-size: 16px;
-  line-height: 1.78;
-}
-
-/* ======================================== */
-/* CARTES D’INFORMATION SEO                 */
-/* ======================================== */
-
-.astro-info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-
-  margin-top: 28px;
-}
-
-.astro-info-card {
-  padding: 24px 22px;
-
-  border: 1px solid rgba(244, 201, 93, 0.18);
-  border-radius: 22px;
-
   background:
     linear-gradient(
-      180deg,
-      rgba(20, 28, 55, 0.92) 0%,
-      rgba(11, 17, 36, 0.88) 100%
+      135deg,
+      var(--signature-purple) 0%,
+      var(--signature-purple-dark) 100%
     );
-
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 14px 30px rgba(81, 47, 91, 0.25);
 }
 
-.astro-info-card p {
-  margin: 0;
-
-  color: rgba(229, 235, 255, 0.86);
-
-  font-size: 14px;
-  line-height: 1.65;
+.signature-button-primary:hover {
+  box-shadow:
+    0 18px 38px rgba(81, 47, 91, 0.34);
 }
 
-/* ======================================== */
-/* FAQ                                      */
-/* ======================================== */
-
-.astro-faq-list {
-  display: grid;
-  gap: 14px;
-
-  margin-top: 26px;
+.signature-button-secondary {
+  border-color: rgba(111, 71, 120, 0.28);
+  color: var(--signature-purple-dark);
+  background: rgba(255, 255, 255, 0.73);
+  box-shadow:
+    0 10px 26px rgba(56, 38, 62, 0.07);
 }
 
-.astro-faq-item {
-  overflow: hidden;
-
-  border: 1px solid rgba(244, 201, 93, 0.16);
-  border-radius: 18px;
-
-  background: rgba(255, 255, 255, 0.045);
+.signature-button-secondary:hover {
+  border-color: rgba(111, 71, 120, 0.46);
+  background: #ffffff;
 }
 
-.astro-faq-item summary {
+.signature-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--signature-purple-dark);
+  font-size: 0.94rem;
+  font-weight: 800;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.signature-text-link:hover {
+  text-decoration: underline;
+}
+
+.signature-section-action {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(34px, 5vw, 60px);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Hero
+|--------------------------------------------------------------------------
+*/
+
+.signature-hero {
   position: relative;
-
-  padding: 20px 52px 20px 20px;
-
+  isolation: isolate;
+  display: grid;
+  min-height: 720px;
+  grid-template-columns:
+    minmax(0, 1.08fr)
+    minmax(330px, 0.72fr);
+  align-items: center;
+  gap: clamp(45px, 7vw, 105px);
+  padding:
+    clamp(48px, 7vw, 92px)
+    clamp(30px, 6vw, 92px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 42px;
   color: #ffffff;
-
-  font-size: 16px;
-  font-weight: 850;
-  line-height: 1.4;
-
-  cursor: pointer;
-  list-style: none;
+  background:
+    radial-gradient(
+      circle at 78% 25%,
+      rgba(208, 170, 216, 0.3),
+      transparent 20rem
+    ),
+    radial-gradient(
+      circle at 18% 90%,
+      rgba(213, 168, 91, 0.15),
+      transparent 24rem
+    ),
+    linear-gradient(
+      135deg,
+      #160f1d 0%,
+      #2b1932 48%,
+      #51325a 100%
+    );
+  box-shadow:
+    0 34px 90px rgba(36, 22, 43, 0.25);
 }
 
-.astro-faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.astro-faq-item summary::after {
-  content: "+";
-
+.signature-hero-glow {
   position: absolute;
-  top: 50%;
-  right: 20px;
+  z-index: -2;
+  top: -220px;
+  right: -180px;
+  width: 570px;
+  height: 570px;
+  border-radius: 50%;
+  opacity: 0.55;
+  background:
+    radial-gradient(
+      circle,
+      rgba(229, 197, 135, 0.31),
+      rgba(151, 103, 160, 0.1) 43%,
+      transparent 71%
+    );
+  filter: blur(8px);
+}
 
-  transform: translateY(-50%);
+.signature-hero-stars {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  opacity: 0.43;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.93) 0 1px,
+      transparent 1.7px
+    ),
+    radial-gradient(
+      circle,
+      rgba(229, 197, 135, 0.78) 0 1px,
+      transparent 1.8px
+    );
+  background-position:
+    0 0,
+    34px 27px;
+  background-size:
+    83px 83px,
+    119px 119px;
+  mask-image:
+    linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.9),
+      transparent 76%
+    );
+}
 
-  color: #f4c95d;
+.signature-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 730px;
+}
 
-  font-size: 24px;
+.signature-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 21px;
+  padding: 9px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #f1d49e;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  font-size: 0.79rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  backdrop-filter: blur(12px);
+}
+
+.signature-hero-eyebrow {
+  margin-bottom: 17px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.signature-hero h1 {
+  max-width: 760px;
+  margin-bottom: 25px;
+  color: #ffffff;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size:
+    clamp(3rem, 6vw, 5.8rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.99;
+}
+
+.signature-hero h1 span {
+  color: #e5c587;
+  background:
+    linear-gradient(
+      90deg,
+      #f6deaa 0%,
+      #cea35f 58%,
+      #f5dba3 100%
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.signature-hero-description {
+  max-width: 690px;
+  margin-bottom: 31px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size:
+    clamp(1.02rem, 1.45vw, 1.18rem);
+  line-height: 1.8;
+}
+
+.signature-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-bottom: 18px;
+}
+
+.signature-hero .signature-button-primary {
+  color: #25192d;
+  background:
+    linear-gradient(
+      135deg,
+      #f4dca7 0%,
+      #c7964d 100%
+    );
+  box-shadow:
+    0 16px 34px rgba(188, 139, 66, 0.25);
+}
+
+.signature-hero .signature-button-secondary {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+  backdrop-filter: blur(14px);
+}
+
+.signature-hero .signature-button-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.signature-hero-preview-link {
+  display: inline-flex;
+  margin-bottom: 25px;
+  color: #f2d79e;
+  font-size: 0.89rem;
+  font-weight: 750;
+  line-height: 1.5;
+  text-underline-offset: 4px;
+}
+
+.signature-hero-preview-link:hover {
+  color: #ffffff;
+}
+
+.signature-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 19px;
+  margin-bottom: 29px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.81rem;
+  font-weight: 650;
+}
+
+.signature-hero-trust span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.signature-hero-price {
+  display: inline-flex;
+  min-width: 310px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 17px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.075);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+}
+
+.signature-hero-price div {
+  display: grid;
+  gap: 3px;
+}
+
+.signature-hero-price span {
+  color: #ffffff;
+  font-size: 0.9rem;
   font-weight: 800;
 }
 
-.astro-faq-item[open] summary::after {
-  content: "−";
+.signature-hero-price small {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.75rem;
 }
 
-.astro-faq-item p {
-  margin: 0;
-  padding: 0 20px 20px;
-
-  color: #d5defc;
-
-  font-size: 14.5px;
-  line-height: 1.7;
+.signature-hero-price strong {
+  flex: none;
+  color: #f1d49e;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.44rem;
+  font-weight: 600;
 }
 
-/* ======================================== */
-/* AVERTISSEMENT SEO                        */
-/* ======================================== */
+/*
+|--------------------------------------------------------------------------
+| Visuel du Hero
+|--------------------------------------------------------------------------
+*/
 
-.astro-seo-disclaimer {
-  margin: 42px auto 0 !important;
-  padding: 20px 22px;
+.signature-hero-visual {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: 575px;
+  align-items: center;
+  justify-content: center;
+}
 
-  border: 1px solid rgba(244, 201, 93, 0.16);
-  border-radius: 18px;
+.signature-cover-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(520px, 100%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(235, 204, 145, 0.35),
+      rgba(158, 112, 169, 0.14) 45%,
+      transparent 72%
+    );
+  filter: blur(14px);
+  transform: translate(-50%, -50%);
+}
 
-  background: rgba(244, 201, 93, 0.07);
-  color: rgba(224, 231, 255, 0.72) !important;
+.signature-cover-frame {
+  position: relative;
+  z-index: 3;
+  width: min(350px, 82%);
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.17),
+      rgba(255, 255, 255, 0.04)
+    );
+  box-shadow:
+    0 34px 80px rgba(9, 5, 12, 0.44);
+  transform:
+    perspective(1100px)
+    rotateY(-7deg)
+    rotateX(2deg);
+  backdrop-filter: blur(12px);
+}
 
-  font-size: 13px !important;
-  line-height: 1.6 !important;
+.signature-cover-image {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.signature-cover-badge {
+  position: absolute;
+  z-index: 5;
+  right: 1%;
+  bottom: 13%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #302038;
+  background: rgba(249, 231, 194, 0.93);
+  box-shadow:
+    0 14px 30px rgba(20, 11, 24, 0.27);
+  font-size: 0.78rem;
+  font-weight: 850;
+  backdrop-filter: blur(12px);
+}
+
+.signature-hero-orbit {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 62px;
+  height: 62px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: #f1d49e;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 12px 28px rgba(11, 6, 14, 0.25);
+  font-size: 1.7rem;
+  backdrop-filter: blur(12px);
+}
+
+.signature-hero-orbit-one {
+  top: 12%;
+  left: 2%;
+}
+
+.signature-hero-orbit-two {
+  right: -1%;
+  bottom: 21%;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Introduction
+|--------------------------------------------------------------------------
+*/
+
+.signature-introduction {
+  padding:
+    clamp(85px, 10vw, 150px)
+    0
+    clamp(80px, 9vw, 135px);
+}
+
+.signature-introduction-grid {
+  display: grid;
+  max-width: 1040px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0 auto;
+}
+
+.signature-introduction-card {
+  position: relative;
+  min-height: 320px;
+  padding: 36px;
+  overflow: hidden;
+  border: 1px solid var(--signature-border);
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.92),
+      rgba(255, 250, 244, 0.69)
+    );
+  box-shadow: var(--signature-shadow-soft);
+}
+
+.signature-introduction-card-featured {
+  border-color: rgba(111, 71, 120, 0.24);
+  background:
+    radial-gradient(
+      circle at 90% 0%,
+      rgba(207, 174, 212, 0.25),
+      transparent 15rem
+    ),
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f8f0f8
+    );
+}
+
+.signature-introduction-card-label {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  color: #ffffff;
+  background:
+    linear-gradient(
+      135deg,
+      var(--signature-purple),
+      var(--signature-purple-dark)
+    );
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.signature-introduction-icon {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  margin-bottom: 25px;
+  border: 1px solid rgba(188, 139, 66, 0.2);
+  border-radius: 17px;
+  color: var(--signature-gold);
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf0,
+      #f3e1bc
+    );
+  box-shadow:
+    0 12px 25px rgba(133, 94, 41, 0.1);
+  font-size: 1.55rem;
+}
+
+.signature-introduction-card > span:not(.signature-introduction-card-label) {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--signature-purple);
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.signature-introduction-card h3 {
+  margin-bottom: 12px;
+  color: var(--signature-dark);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.55rem;
+  font-weight: 500;
+}
+
+.signature-introduction-card p {
+  margin-bottom: 24px;
+  color: var(--signature-muted);
+  line-height: 1.72;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Présentation du rapport
+|--------------------------------------------------------------------------
+*/
+
+.signature-report-showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns:
+    minmax(300px, 0.78fr)
+    minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(55px, 8vw, 115px);
+  padding:
+    clamp(65px, 8vw, 108px)
+    clamp(30px, 7vw, 100px);
+  overflow: hidden;
+  border: 1px solid rgba(111, 71, 120, 0.13);
+  border-radius: 40px;
+  background:
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(208, 175, 213, 0.22),
+      transparent 30rem
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(250, 243, 235, 0.9)
+    );
+  box-shadow: var(--signature-shadow);
+}
+
+.signature-report-visual {
+  position: relative;
+  display: flex;
+  min-height: 565px;
+  align-items: center;
+  justify-content: center;
+}
+
+.signature-report-cover-wrapper {
+  position: relative;
+  z-index: 4;
+  width: min(325px, 76%);
+  padding: 8px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow:
+    0 30px 65px rgba(47, 29, 53, 0.22);
+  transform:
+    perspective(1200px)
+    rotateY(6deg)
+    rotateZ(-1deg);
+}
+
+.signature-report-cover {
+  width: 100%;
+  height: auto;
+  border-radius: 13px;
+}
+
+.signature-report-page {
+  position: absolute;
+  width: min(300px, 72%);
+  aspect-ratio: 0.707;
+  overflow: hidden;
+  border: 1px solid rgba(111, 71, 120, 0.11);
+  border-radius: 17px;
+  background:
+    linear-gradient(
+      145deg,
+      #fffdf9,
+      #efe4d7
+    );
+  box-shadow:
+    0 20px 44px rgba(47, 29, 53, 0.12);
+}
+
+.signature-report-page span {
+  position: absolute;
+  right: 24px;
+  bottom: 27px;
+  left: 24px;
+  color: rgba(75, 49, 82, 0.45);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 0.85rem;
   text-align: center;
 }
 
-/* ======================================== */
-/* TABLETTE                                 */
-/* ======================================== */
+.signature-report-page-back {
+  z-index: 1;
+  top: 16%;
+  left: 1%;
+  transform: rotate(-9deg);
+}
 
-@media (max-width: 900px) {
-  .astro-seo-content {
-    padding: 34px 24px;
+.signature-report-page-middle {
+  z-index: 2;
+  top: 10%;
+  right: 0;
+  transform: rotate(8deg);
+}
+
+.signature-report-copy {
+  position: relative;
+  z-index: 3;
+}
+
+.signature-report-copy h2 {
+  max-width: 720px;
+}
+
+.signature-report-copy > p {
+  max-width: 690px;
+}
+
+.signature-report-statistics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 33px 0;
+  overflow: hidden;
+  border: 1px solid var(--signature-border);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.signature-report-statistics > div {
+  display: grid;
+  min-height: 115px;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  padding: 18px;
+  text-align: center;
+}
+
+.signature-report-statistics > div + div {
+  border-left: 1px solid var(--signature-border);
+}
+
+.signature-report-statistics strong {
+  color: var(--signature-purple-dark);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.signature-report-statistics span {
+  color: var(--signature-muted);
+  font-size: 0.77rem;
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.signature-check-list {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.signature-check-list li {
+  position: relative;
+  padding-left: 29px;
+  color: var(--signature-text);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.signature-check-list li::before {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--signature-purple);
+  content: "✓";
+  font-size: 0.67rem;
+  font-weight: 900;
+}
+
+.signature-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Contenu du rapport
+|--------------------------------------------------------------------------
+*/
+
+.signature-contents {
+  padding:
+    clamp(90px, 11vw, 155px)
+    0
+    clamp(85px, 10vw, 140px);
+}
+
+.signature-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 19px;
+}
+
+.signature-feature-card {
+  min-height: 285px;
+  padding: 30px;
+  border: 1px solid var(--signature-border);
+  border-radius: 25px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.91),
+      rgba(255, 250, 244, 0.68)
+    );
+  box-shadow:
+    0 14px 38px rgba(48, 31, 55, 0.07);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.signature-feature-card:hover {
+  border-color: rgba(111, 71, 120, 0.24);
+  box-shadow:
+    0 20px 46px rgba(48, 31, 55, 0.11);
+  transform: translateY(-4px);
+}
+
+.signature-feature-icon {
+  display: grid;
+  width: 55px;
+  height: 55px;
+  place-items: center;
+  margin-bottom: 23px;
+  border: 1px solid rgba(188, 139, 66, 0.18);
+  border-radius: 17px;
+  color: var(--signature-gold);
+  background:
+    linear-gradient(
+      145deg,
+      #fffaf1,
+      #f4e2bd
+    );
+  font-size: 1.48rem;
+}
+
+.signature-feature-card h3 {
+  margin-bottom: 12px;
+  color: var(--signature-dark);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.42rem;
+  font-weight: 500;
+}
+
+.signature-feature-card p {
+  margin-bottom: 0;
+  color: var(--signature-muted);
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Bénéfices
+|--------------------------------------------------------------------------
+*/
+
+.signature-benefits {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.75fr)
+    minmax(0, 1.25fr);
+  align-items: center;
+  gap: clamp(48px, 8vw, 115px);
+  padding:
+    clamp(65px, 8vw, 110px)
+    clamp(28px, 7vw, 95px);
+  border-radius: 40px;
+  color: #ffffff;
+  background:
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(221, 185, 126, 0.16),
+      transparent 25rem
+    ),
+    linear-gradient(
+      135deg,
+      #24182c,
+      #4a2d52
+    );
+  box-shadow:
+    0 30px 80px rgba(39, 23, 45, 0.22);
+}
+
+.signature-benefits-copy .signature-section-label {
+  color: #e7c686;
+}
+
+.signature-benefits-copy h2 {
+  color: #ffffff;
+}
+
+.signature-benefits-copy > p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signature-benefits-copy .signature-text-link {
+  margin-top: 25px;
+  color: #f1d49e;
+}
+
+.signature-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.signature-benefit-card {
+  display: flex;
+  min-height: 188px;
+  gap: 17px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.075);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+}
+
+.signature-benefit-icon {
+  display: grid;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid rgba(240, 210, 156, 0.25);
+  border-radius: 14px;
+  color: #f1d49e;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 1.25rem;
+}
+
+.signature-benefit-card h3 {
+  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.signature-benefit-card p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.87rem;
+  line-height: 1.65;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Fonctionnement
+|--------------------------------------------------------------------------
+*/
+
+.signature-process {
+  padding:
+    clamp(90px, 11vw, 155px)
+    0;
+}
+
+.signature-process-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 21px;
+}
+
+.signature-process-grid::before {
+  position: absolute;
+  z-index: 0;
+  top: 50px;
+  right: 17%;
+  left: 17%;
+  height: 1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(111, 71, 120, 0.2),
+      transparent
+    );
+  content: "";
+}
+
+.signature-process-card {
+  position: relative;
+  z-index: 1;
+  min-height: 275px;
+  padding: 31px;
+  border: 1px solid var(--signature-border);
+  border-radius: 26px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(250, 244, 237, 0.73)
+    );
+  box-shadow: var(--signature-shadow-soft);
+}
+
+.signature-process-number {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  margin-bottom: 25px;
+  border-radius: 50%;
+  color: #ffffff;
+  background:
+    linear-gradient(
+      135deg,
+      var(--signature-purple),
+      var(--signature-purple-dark)
+    );
+  box-shadow:
+    0 12px 25px rgba(81, 49, 88, 0.2);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+}
+
+.signature-process-card h3 {
+  margin-bottom: 13px;
+  color: var(--signature-dark);
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.38rem;
+  font-weight: 500;
+}
+
+.signature-process-card p {
+  margin-bottom: 0;
+  color: var(--signature-muted);
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Commande
+|--------------------------------------------------------------------------
+*/
+
+.signature-order {
+  position: relative;
+  isolation: isolate;
+  padding:
+    clamp(66px, 8vw, 110px)
+    clamp(28px, 7vw, 100px);
+  overflow: hidden;
+  border-radius: 42px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(219, 185, 225, 0.3),
+      transparent 31rem
+    ),
+    linear-gradient(
+      145deg,
+      #fffdfb,
+      #f1e6f0
+    );
+  box-shadow: var(--signature-shadow);
+}
+
+.signature-order-glow {
+  position: absolute;
+  z-index: -1;
+  right: -170px;
+  bottom: -220px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(194, 155, 202, 0.25),
+      transparent 70%
+    );
+  filter: blur(8px);
+}
+
+.signature-order-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.25fr)
+    minmax(300px, 0.65fr);
+  align-items: start;
+  gap: 28px;
+}
+
+.signature-order-form {
+  min-width: 0;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid rgba(111, 71, 120, 0.13);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 18px 48px rgba(48, 29, 55, 0.1);
+  backdrop-filter: blur(15px);
+}
+
+.signature-order-summary {
+  position: sticky;
+  top: 115px;
+  padding: 30px;
+  border: 1px solid rgba(111, 71, 120, 0.16);
+  border-radius: 27px;
+  background:
+    linear-gradient(
+      145deg,
+      #2a1b33,
+      #4b3053
+    );
+  box-shadow:
+    0 24px 55px rgba(43, 25, 49, 0.2);
+  color: #ffffff;
+}
+
+.signature-order-summary-label {
+  display: block;
+  margin-bottom: 9px;
+  color: #e5c587;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.signature-order-summary h3 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.65rem;
+  font-weight: 500;
+}
+
+.signature-order-price {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+}
+
+.signature-order-price strong {
+  color: #f0d397;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.signature-order-price span {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.75rem;
+}
+
+.signature-order-summary ul {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
+}
+
+.signature-order-summary li {
+  position: relative;
+  padding-left: 25px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.signature-order-summary li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #e5c587;
+  content: "✓";
+  font-weight: 900;
+}
+
+.signature-order-security {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 23px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.signature-order-security > span {
+  font-size: 1.15rem;
+}
+
+.signature-order-security p {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 0;
+  color: #ffffff;
+  font-size: 0.83rem;
+  font-weight: 800;
+}
+
+.signature-order-security small {
+  color: rgba(255, 255, 255, 0.53);
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.signature-order-preview-link {
+  display: inline-flex;
+  color: #f0d397;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.55;
+  text-underline-offset: 4px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| FAQ
+|--------------------------------------------------------------------------
+*/
+
+.signature-faq {
+  padding:
+    clamp(90px, 11vw, 155px)
+    0
+    clamp(80px, 9vw, 125px);
+}
+
+.signature-faq-list {
+  display: grid;
+  max-width: 900px;
+  gap: 13px;
+  margin: 0 auto;
+}
+
+.signature-faq-item {
+  overflow: hidden;
+  border: 1px solid var(--signature-border);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 10px 30px rgba(47, 29, 53, 0.055);
+}
+
+.signature-faq-item summary {
+  position: relative;
+  padding: 21px 58px 21px 24px;
+  color: var(--signature-dark);
+  cursor: pointer;
+  font-size: 0.97rem;
+  font-weight: 800;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.signature-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.signature-faq-item summary::after {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--signature-purple);
+  background: rgba(111, 71, 120, 0.09);
+  content: "+";
+  font-size: 1.05rem;
+  transform: translateY(-50%);
+  transition: transform 180ms ease;
+}
+
+.signature-faq-item[open] summary::after {
+  transform:
+    translateY(-50%)
+    rotate(45deg);
+}
+
+.signature-faq-item p {
+  margin: 0;
+  padding:
+    0
+    58px
+    23px
+    24px;
+  color: var(--signature-muted);
+  font-size: 0.92rem;
+  line-height: 1.75;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Comparaison finale
+|--------------------------------------------------------------------------
+*/
+
+.signature-comparison {
+  position: relative;
+  isolation: isolate;
+  padding:
+    clamp(60px, 8vw, 100px)
+    clamp(27px, 7vw, 95px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 38px;
+  color: #ffffff;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(221, 184, 124, 0.17),
+      transparent 26rem
+    ),
+    linear-gradient(
+      135deg,
+      #25182d,
+      #513258
+    );
+  box-shadow:
+    0 30px 75px rgba(38, 22, 44, 0.22);
+}
+
+.signature-comparison-glow {
+  position: absolute;
+  z-index: -1;
+  top: -240px;
+  right: -170px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(210, 174, 218, 0.3),
+      transparent 70%
+    );
+}
+
+.signature-comparison .signature-section-label {
+  color: #e8c98b;
+}
+
+.signature-comparison h2 {
+  max-width: 850px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #ffffff;
+}
+
+.signature-comparison > p {
+  max-width: 710px;
+  margin-right: auto;
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.signature-comparison-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 13px;
+  margin-top: 31px;
+}
+
+.signature-comparison .signature-button-primary {
+  color: #291c30;
+  background:
+    linear-gradient(
+      135deg,
+      #f4dba4,
+      #c6954b
+    );
+}
+
+.signature-comparison .signature-button-secondary {
+  border-color: rgba(255, 255, 255, 0.23);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.signature-comparison .signature-button-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.38);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.signature-disclaimer {
+  max-width: 770px;
+  margin:
+    30px
+    auto
+    0;
+  color: rgba(78, 67, 84, 0.65);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Accessibilité
+|--------------------------------------------------------------------------
+*/
+
+.signature-button:focus-visible,
+.signature-text-link:focus-visible,
+.signature-hero-preview-link:focus-visible,
+.signature-order-preview-link:focus-visible,
+.signature-faq-item summary:focus-visible {
+  outline: 3px solid rgba(188, 139, 66, 0.48);
+  outline-offset: 4px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Tablette
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 1120px) {
+  .signature-hero {
+    min-height: auto;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(280px, 0.58fr);
+    gap: 42px;
   }
 
-  .astro-info-grid {
+  .signature-hero h1 {
+    font-size:
+      clamp(2.75rem, 6vw, 4.7rem);
+  }
+
+  .signature-feature-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .signature-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .signature-benefits-copy {
+    max-width: 700px;
+  }
+
+  .signature-order-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(270px, 0.55fr);
   }
 }
 
-/* ======================================== */
-/* MOBILE                                   */
-/* ======================================== */
-
-@media (max-width: 640px) {
-  .astro-chart-page {
-    padding: 36px 12px 60px;
+@media (max-width: 920px) {
+  .signature-main {
+    padding:
+      24px
+      18px
+      48px;
   }
 
-  .astro-hero {
-    margin-bottom: 24px;
+  .signature-hero {
+    grid-template-columns: 1fr;
+    padding:
+      58px
+      clamp(24px, 7vw, 55px);
   }
 
-  .astro-hero h1 {
-    font-size: clamp(34px, 11vw, 46px);
+  .signature-hero-copy {
+    max-width: 780px;
   }
 
-  .astro-hero .section-sub {
-    font-size: 16px;
-    line-height: 1.6;
+  .signature-hero-visual {
+    min-height: 540px;
   }
 
-  .natal-form,
-  .natal-result {
-    padding: 20px;
+  .signature-cover-frame {
+    width: min(330px, 72%);
   }
 
-  .natal-form {
-    gap: 16px;
-
-    border-radius: 20px;
+  .signature-cover-badge {
+    right: 15%;
   }
 
-  .natal-result {
-    margin-top: 28px;
-
-    border-radius: 22px;
-  }
-
-  .natal-angles,
-  .natal-planets-grid {
+  .signature-introduction-grid {
     grid-template-columns: 1fr;
   }
 
-  .natal-planet-row {
+  .signature-report-showcase {
     grid-template-columns: 1fr;
-
-    text-align: center;
   }
 
-  .natal-planet-pos {
-    text-align: center;
+  .signature-report-visual {
+    min-height: 530px;
   }
 
-  .natal-result-actions {
-    gap: 12px;
+  .signature-report-copy {
+    max-width: 760px;
+    margin: 0 auto;
   }
 
-  .natal-download-btn,
-  .natal-go-to-reports {
-    min-height: 52px;
-
-    padding: 12px 14px;
-
-    font-size: 14px;
+  .signature-process-grid {
+    grid-template-columns: 1fr;
   }
 
-  #rapports-astrologiques {
-    scroll-margin-top: 76px;
+  .signature-process-grid::before {
+    display: none;
   }
 
-  .natal-premium-wide {
-    margin-top: 34px;
+  .signature-process-card {
+    min-height: auto;
   }
 
-  .natal-wheel-caption {
-    gap: 8px;
-
-    font-size: 13px;
+  .signature-order-layout {
+    grid-template-columns: 1fr;
   }
 
-  .astro-seo-content {
-    margin-top: 52px;
-    padding: 28px 18px;
+  .signature-order-summary {
+    position: static;
+  }
+}
 
-    border-radius: 24px;
+/*
+|--------------------------------------------------------------------------
+| Mobile
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 680px) {
+  .signature-main {
+    padding:
+      14px
+      12px
+      36px;
   }
 
-  .astro-seo-content section + section {
-    margin-top: 40px;
-    padding-top: 36px;
+  .signature-hero {
+    gap: 28px;
+    padding:
+      42px
+      20px
+      35px;
+    border-radius: 27px;
   }
 
-  .astro-seo-content h2 {
-    font-size: 28px;
+  .signature-hero-badge {
+    margin-bottom: 17px;
+    padding: 8px 11px;
+    font-size: 0.7rem;
   }
 
-  .astro-seo-content h3 {
-    font-size: 18px;
+  .signature-hero-eyebrow {
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
   }
 
-  .astro-seo-content p {
-    font-size: 15px;
+  .signature-hero h1 {
+    margin-bottom: 20px;
+    font-size:
+      clamp(2.45rem, 12vw, 3.75rem);
+    line-height: 1.01;
+  }
+
+  .signature-hero-description {
+    margin-bottom: 25px;
+    font-size: 0.96rem;
     line-height: 1.7;
   }
 
-  .astro-info-grid {
+  .signature-hero-actions,
+  .signature-report-actions,
+  .signature-comparison-actions {
+    display: grid;
     grid-template-columns: 1fr;
-    gap: 14px;
   }
 
-  .astro-info-card {
-    padding: 20px 18px;
+  .signature-button {
+    width: 100%;
+    min-height: 52px;
   }
 
-  .astro-faq-item summary {
-    padding: 18px 46px 18px 18px;
-
-    font-size: 15px;
+  .signature-hero-preview-link {
+    display: block;
+    text-align: center;
   }
 
-  .astro-faq-item summary::after {
-    right: 18px;
+  .signature-hero-trust {
+    display: grid;
+    gap: 8px;
   }
 
-  .astro-faq-item p {
-    padding: 0 18px 18px;
+  .signature-hero-price {
+    width: 100%;
+    min-width: 0;
+  }
 
-    font-size: 14px;
+  .signature-hero-visual {
+    min-height: 430px;
+  }
+
+  .signature-cover-frame {
+    width: min(270px, 78%);
+  }
+
+  .signature-cover-badge {
+    right: 2%;
+    bottom: 12%;
+    padding: 9px 12px;
+    font-size: 0.7rem;
+  }
+
+  .signature-hero-orbit {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .signature-hero-orbit-one {
+    left: 1%;
+  }
+
+  .signature-hero-orbit-two {
+    right: 1%;
+  }
+
+  .signature-section-heading {
+    margin-bottom: 33px;
+  }
+
+  .signature-section-label {
+    font-size: 0.67rem;
+    letter-spacing: 0.13em;
+  }
+
+  .signature-section-heading h2,
+  .signature-report-copy h2,
+  .signature-benefits-copy h2,
+  .signature-comparison h2 {
+    font-size:
+      clamp(1.85rem, 9vw, 2.65rem);
+  }
+
+  .signature-section-heading p,
+  .signature-report-copy > p,
+  .signature-benefits-copy > p,
+  .signature-comparison > p {
+    font-size: 0.94rem;
+    line-height: 1.7;
+  }
+
+  .signature-introduction {
+    padding:
+      75px
+      0;
+  }
+
+  .signature-introduction-card {
+    min-height: auto;
+    padding: 28px 23px;
+    border-radius: 23px;
+  }
+
+  .signature-introduction-card-label {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 18px;
+  }
+
+  .signature-report-showcase {
+    gap: 35px;
+    padding:
+      50px
+      20px;
+    border-radius: 28px;
+  }
+
+  .signature-report-visual {
+    min-height: 405px;
+  }
+
+  .signature-report-cover-wrapper {
+    width: min(240px, 72%);
+  }
+
+  .signature-report-page {
+    width: min(225px, 69%);
+  }
+
+  .signature-report-statistics {
+    grid-template-columns: 1fr;
+  }
+
+  .signature-report-statistics > div {
+    min-height: 88px;
+  }
+
+  .signature-report-statistics > div + div {
+    border-top: 1px solid var(--signature-border);
+    border-left: 0;
+  }
+
+  .signature-contents {
+    padding:
+      80px
+      0;
+  }
+
+  .signature-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .signature-feature-card {
+    min-height: auto;
+    padding: 27px 23px;
+  }
+
+  .signature-benefits {
+    gap: 38px;
+    padding:
+      50px
+      20px;
+    border-radius: 28px;
+  }
+
+  .signature-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .signature-benefit-card {
+    min-height: auto;
+    padding: 21px;
+  }
+
+  .signature-process {
+    padding:
+      80px
+      0;
+  }
+
+  .signature-process-card {
+    padding: 27px 23px;
+  }
+
+  .signature-order {
+    padding:
+      50px
+      16px;
+    border-radius: 28px;
+  }
+
+  .signature-order-form {
+    padding:
+      18px
+      14px;
+    border-radius: 22px;
+  }
+
+  .signature-order-summary {
+    padding: 25px 21px;
+    border-radius: 22px;
+  }
+
+  .signature-faq {
+    padding:
+      80px
+      0;
+  }
+
+  .signature-faq-item {
+    border-radius: 17px;
+  }
+
+  .signature-faq-item summary {
+    padding:
+      19px
+      52px
+      19px
+      19px;
+    font-size: 0.9rem;
+  }
+
+  .signature-faq-item summary::after {
+    right: 16px;
+  }
+
+  .signature-faq-item p {
+    padding:
+      0
+      19px
+      20px;
+    font-size: 0.87rem;
+  }
+
+  .signature-comparison {
+    padding:
+      52px
+      20px;
+    border-radius: 28px;
   }
 }
-.signature-report-checkout-area {
-  width: 100%;
-  max-width: 760px;
-  margin: 48px auto 24px;
-  scroll-margin-top: 130px;
+
+/*
+|--------------------------------------------------------------------------
+| Très petit écran
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 390px) {
+  .signature-hero {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .signature-hero h1 {
+    font-size: 2.35rem;
+  }
+
+  .signature-hero-price {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .signature-hero-visual {
+    min-height: 375px;
+  }
+
+  .signature-cover-frame {
+    width: 235px;
+  }
+
+  .signature-cover-badge {
+    right: 0;
+  }
+
+  .signature-introduction-card,
+  .signature-feature-card,
+  .signature-process-card {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .signature-report-showcase,
+  .signature-benefits,
+  .signature-order,
+  .signature-comparison {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
 
-.signature-report-checkout-area h3 {
-  margin: 0 0 12px;
-  text-align: center;
+/*
+|--------------------------------------------------------------------------
+| Réduction des animations
+|--------------------------------------------------------------------------
+*/
+
+@media (prefers-reduced-motion: reduce) {
+  .signature-button,
+  .signature-feature-card,
+  .signature-faq-item summary::after {
+    transition: none;
+  }
+
+  .signature-button:hover,
+  .signature-feature-card:hover {
+    transform: none;
+  }
+}
+.signature-report-actions .signature-button-primary {
+  color: #ffffff !important;
 }
 
-.signature-report-checkout-area > p {
-  max-width: 620px;
-  margin: 0 auto 28px;
-  text-align: center;
-  line-height: 1.7;
+.signature-report-actions .signature-button-primary:hover {
+  color: #ffffff !important;
+}
+
+.signature-report-actions .signature-button-primary span {
+  color: #ffffff !important;
 }
