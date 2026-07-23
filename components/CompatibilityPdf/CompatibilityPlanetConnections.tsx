@@ -25,6 +25,10 @@ import {
   translateCompatibilityPlanet,
 } from "./CompatibilityPdfUtils";
 
+import {
+  getCompatibilityAspectInterpretation,
+} from "./texts/CompatibilityAspectInterpretations";
+
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
 const NAVY_CARD_LIGHT = "#0d1b30";
@@ -979,46 +983,6 @@ function getConnectionAspects(
     }));
 }
 
-function getAspectInterpretation(
-  type: CompatibilityAspect["type"],
-): string {
-  if (
-    type === "trine" ||
-    type === "sextile"
-  ) {
-    return (
-      "Cette interaction facilite la circulation de l’énergie et permet aux deux fonctions " +
-      "planétaires de se soutenir avec davantage de naturel."
-    );
-  }
-
-  if (type === "conjunction") {
-    return (
-      "Cette connexion intensifie fortement la rencontre des deux énergies. " +
-      "Elle peut créer une grande proximité, mais aussi amplifier leurs réactions."
-    );
-  }
-
-  if (type === "square") {
-    return (
-      "Cette tension pousse le couple à agir et à évoluer, mais elle demande de reconnaître " +
-      "les réactions défensives et les besoins contradictoires."
-    );
-  }
-
-  if (type === "opposition") {
-    return (
-      "Cette polarité crée une forte attraction et révèle deux manières opposées " +
-      "d’exprimer le même besoin relationnel."
-    );
-  }
-
-  return (
-    "Cette interaction demande des ajustements répétés. La compréhension se construit " +
-    "lorsque chacun accepte de modifier certaines habitudes."
-  );
-}
-
 function PageFrame({
   children,
   page,
@@ -1181,8 +1145,10 @@ function AspectCard({
         </Text>
 
         <Text style={styles.aspectText}>
-          {getAspectInterpretation(
+          {getCompatibilityAspectInterpretation(
+            aspect.person1Planet,
             aspect.type,
+            aspect.person2Planet,
           )}
         </Text>
       </View>
