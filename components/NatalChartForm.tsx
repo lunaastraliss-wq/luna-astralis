@@ -1,6 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import {
+  useRef,
+  useState,
+} from "react";
+
 import html2canvas from "html2canvas";
 
 import NatalChartWheel from "./NatalChartWheel";
@@ -8,6 +12,12 @@ import NatalShareCard from "./NatalShareCard";
 import NatalFreeSummary from "./NatalFreeSummary";
 import NatalPlanetDetails from "./NatalPlanetDetails";
 import NatalPremiumOffer from "./NatalPremiumOffer";
+
+/*
+|--------------------------------------------------------------------------
+| Planètes principales
+|--------------------------------------------------------------------------
+*/
 
 const MAIN_PLANETS = [
   "Sun",
@@ -78,47 +88,119 @@ const SIGN_GLYPH: Record<string, string> = {
   Pisces: "♓",
 };
 
-function translateFormatted(formatted: string): string {
-  if (!formatted) return "";
+/*
+|--------------------------------------------------------------------------
+| Traductions
+|--------------------------------------------------------------------------
+*/
 
-  let translated = formatted;
+function translateFormatted(
+  formatted: string
+): string {
+  if (!formatted) {
+    return "";
+  }
 
-  Object.entries(SIGN_FR).forEach(([english, french]) => {
-    translated = translated.split(english).join(french);
-  });
+  let translated =
+    formatted;
+
+  Object.entries(
+    SIGN_FR
+  ).forEach(
+    ([
+      english,
+      french,
+    ]) => {
+      translated =
+        translated
+          .split(english)
+          .join(french);
+    }
+  );
 
   return translated;
 }
 
-function translatePlanetName(name: string): string {
-  return PLANET_FR[name] || name;
+function translatePlanetName(
+  name: string
+): string {
+  return (
+    PLANET_FR[name] ||
+    name
+  );
 }
 
-function getPlanetGlyph(name: string): string {
-  return PLANET_GLYPH[name] || "";
+function getPlanetGlyph(
+  name: string
+): string {
+  return (
+    PLANET_GLYPH[name] ||
+    ""
+  );
 }
 
-function getSignGlyph(signName?: string): string {
-  if (!signName) return "";
-  return SIGN_GLYPH[signName] || "";
+function getSignGlyph(
+  signName?: string
+): string {
+  if (!signName) {
+    return "";
+  }
+
+  return (
+    SIGN_GLYPH[signName] ||
+    ""
+  );
 }
 
-function getSignName(signName?: string): string {
-  if (!signName) return "";
-  return SIGN_FR[signName] || signName;
+function getSignName(
+  signName?: string
+): string {
+  if (!signName) {
+    return "";
+  }
+
+  return (
+    SIGN_FR[signName] ||
+    signName
+  );
 }
 
-function formatDateFR(date: string): string {
-  if (!date) return "";
+/*
+|--------------------------------------------------------------------------
+| Formatage de la date
+|--------------------------------------------------------------------------
+*/
 
-  const [day, month, year] = date.split("/");
+function formatDateFR(
+  date: string
+): string {
+  if (!date) {
+    return "";
+  }
 
-  if (!day || !month || !year) {
+  const [
+    day,
+    month,
+    year,
+  ] =
+    date.split("/");
+
+  if (
+    !day ||
+    !month ||
+    !year
+  ) {
     return date;
   }
 
   return `${day}/${month}/${year}`;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Validation
+|--------------------------------------------------------------------------
+*/
 
 function isValidDate(
   day: number,
@@ -133,24 +215,44 @@ function isValidDate(
     return false;
   }
 
-  if (year < 1800 || year > new Date().getFullYear()) {
+  if (
+    year < 1800 ||
+    year >
+      new Date().getFullYear()
+  ) {
     return false;
   }
 
-  if (month < 1 || month > 12) {
+  if (
+    month < 1 ||
+    month > 12
+  ) {
     return false;
   }
 
-  const date = new Date(Date.UTC(year, month - 1, day));
+  const date =
+    new Date(
+      Date.UTC(
+        year,
+        month - 1,
+        day
+      )
+    );
 
   return (
-    date.getUTCFullYear() === year &&
-    date.getUTCMonth() === month - 1 &&
-    date.getUTCDate() === day
+    date.getUTCFullYear() ===
+      year &&
+    date.getUTCMonth() ===
+      month - 1 &&
+    date.getUTCDate() ===
+      day
   );
 }
 
-function isValidTime(hour: number, minute: number): boolean {
+function isValidTime(
+  hour: number,
+  minute: number
+): boolean {
   return (
     Number.isInteger(hour) &&
     Number.isInteger(minute) &&
@@ -161,247 +263,539 @@ function isValidTime(hour: number, minute: number): boolean {
   );
 }
 
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
+
 export default function NatalChartForm() {
-  const shareRef = useRef<HTMLDivElement | null>(null);
-  const pdfWheelRef = useRef<HTMLDivElement | null>(null);
+  const shareRef =
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
-  const [firstName, setFirstName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [birthTime, setBirthTime] = useState("");
-  const [birthCity, setBirthCity] = useState("");
+  const pdfWheelRef =
+    useRef<HTMLDivElement | null>(
+      null
+    );
 
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
+  const [
+    firstName,
+    setFirstName,
+  ] =
+    useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [error, setError] = useState("");
-  const [result, setResult] = useState<any>(null);
+  const [
+    birthDate,
+    setBirthDate,
+  ] =
+    useState("");
 
-  const handleSubmit = async (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
+  const [
+    birthTime,
+    setBirthTime,
+  ] =
+    useState("");
 
-    setError("");
-    setResult(null);
-    setLatitude(null);
-    setLongitude(null);
+  const [
+    birthCity,
+    setBirthCity,
+  ] =
+    useState("");
 
-    const cleanCity = birthCity.trim();
+  const [
+    latitude,
+    setLatitude,
+  ] =
+    useState<number | null>(
+      null
+    );
 
-    if (!birthDate || !cleanCity) {
-      setError(
-        "La date de naissance et la ville de naissance sont obligatoires."
-      );
-      return;
-    }
+  const [
+    longitude,
+    setLongitude,
+  ] =
+    useState<number | null>(
+      null
+    );
 
-    const dateParts = birthDate.split("/");
+  const [
+    loading,
+    setLoading,
+  ] =
+    useState(false);
 
-    if (dateParts.length !== 3) {
-      setError("Entre la date au format JJ/MM/AAAA.");
-      return;
-    }
+  const [
+    downloading,
+    setDownloading,
+  ] =
+    useState(false);
 
-    const [dayStr, monthStr, yearStr] = dateParts;
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
 
-    const day = Number.parseInt(dayStr, 10);
-    const month = Number.parseInt(monthStr, 10);
-    const year = Number.parseInt(yearStr, 10);
+  const [
+    result,
+    setResult,
+  ] =
+    useState<any>(null);
 
-    if (!isValidDate(day, month, year)) {
-      setError("La date de naissance est invalide.");
-      return;
-    }
+  /*
+  |--------------------------------------------------------------------------
+  | Création de la carte
+  |--------------------------------------------------------------------------
+  */
 
-    const effectiveBirthTime = birthTime || "12:00";
-    const [hourStr, minuteStr] = effectiveBirthTime.split(":");
+  const handleSubmit =
+    async (
+      event:
+        React.FormEvent<HTMLFormElement>
+    ) => {
+      event.preventDefault();
 
-    const hour = Number.parseInt(hourStr, 10);
-    const minute = Number.parseInt(minuteStr, 10);
+      setError("");
+      setResult(null);
+      setLatitude(null);
+      setLongitude(null);
 
-    if (!isValidTime(hour, minute)) {
-      setError("L’heure de naissance est invalide.");
-      return;
-    }
+      const cleanCity =
+        birthCity.trim();
 
-    setLoading(true);
-
-    try {
-      const geoResponse = await fetch(
-        `/api/geocode?city=${encodeURIComponent(cleanCity)}`,
-        {
-          method: "GET",
-          cache: "no-store",
-        }
-      );
-
-      const geoData = await geoResponse.json();
-
-     if (!geoResponse.ok || !geoData?.ok || !geoData?.result) {
-  setError(
-    geoData?.error ||
-      "Ville introuvable. Entre seulement le nom de la ville."
-  );
-  return;
-}
-
-const lat = Number(geoData.result.latitude);
-const lon = Number(geoData.result.longitude);
-
-if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
-  setError(
-    "Les coordonnées reçues pour cette ville sont invalides."
-  );
-  return;
-}
-      setLatitude(lat);
-      setLongitude(lon);
-
-      const chartResponse = await fetch("/api/natal-chart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-        body: JSON.stringify({
-          year,
-          month,
-          day,
-          hour,
-          minute,
-          latitude: lat,
-          longitude: lon,
-        }),
-      });
-
-      const chartData = await chartResponse.json();
-
-      if (!chartResponse.ok || !chartData?.ok || !chartData?.chart) {
+      if (
+        !birthDate ||
+        !cleanCity
+      ) {
         setError(
-          chartData?.error ||
-            "Erreur lors du calcul de la carte du ciel."
+          "La date de naissance et la ville de naissance sont obligatoires."
         );
+
         return;
       }
 
-      setResult(chartData.chart);
-    } catch (submitError) {
-      console.error(
-        "Erreur pendant la création de la carte du ciel :",
+      const dateParts =
+        birthDate.split("/");
+
+      if (
+        dateParts.length !== 3
+      ) {
+        setError(
+          "Entre la date au format JJ/MM/AAAA."
+        );
+
+        return;
+      }
+
+      const [
+        dayStr,
+        monthStr,
+        yearStr,
+      ] =
+        dateParts;
+
+      const day =
+        Number.parseInt(
+          dayStr,
+          10
+        );
+
+      const month =
+        Number.parseInt(
+          monthStr,
+          10
+        );
+
+      const year =
+        Number.parseInt(
+          yearStr,
+          10
+        );
+
+      if (
+        !isValidDate(
+          day,
+          month,
+          year
+        )
+      ) {
+        setError(
+          "La date de naissance est invalide."
+        );
+
+        return;
+      }
+
+      const effectiveBirthTime =
+        birthTime ||
+        "12:00";
+
+      const [
+        hourStr,
+        minuteStr,
+      ] =
+        effectiveBirthTime.split(
+          ":"
+        );
+
+      const hour =
+        Number.parseInt(
+          hourStr,
+          10
+        );
+
+      const minute =
+        Number.parseInt(
+          minuteStr,
+          10
+        );
+
+      if (
+        !isValidTime(
+          hour,
+          minute
+        )
+      ) {
+        setError(
+          "L’heure de naissance est invalide."
+        );
+
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        /*
+        |--------------------------------------------------------------------------
+        | Géocodage
+        |--------------------------------------------------------------------------
+        */
+
+        const geoResponse =
+          await fetch(
+            `/api/geocode?city=${encodeURIComponent(
+              cleanCity
+            )}`,
+            {
+              method:
+                "GET",
+
+              cache:
+                "no-store",
+            }
+          );
+
+        const geoData =
+          await geoResponse.json();
+
+        if (
+          !geoResponse.ok ||
+          !geoData?.ok ||
+          !geoData?.result
+        ) {
+          setError(
+            geoData?.error ||
+              "Ville introuvable. Entre seulement le nom de la ville."
+          );
+
+          return;
+        }
+
+        const lat =
+          Number(
+            geoData.result
+              .latitude
+          );
+
+        const lon =
+          Number(
+            geoData.result
+              .longitude
+          );
+
+        if (
+          !Number.isFinite(
+            lat
+          ) ||
+          !Number.isFinite(
+            lon
+          )
+        ) {
+          setError(
+            "Les coordonnées reçues pour cette ville sont invalides."
+          );
+
+          return;
+        }
+
+        setLatitude(lat);
+        setLongitude(lon);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Calcul astrologique
+        |--------------------------------------------------------------------------
+        */
+
+        const chartResponse =
+          await fetch(
+            "/api/natal-chart",
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              cache:
+                "no-store",
+
+              body:
+                JSON.stringify({
+                  year,
+                  month,
+                  day,
+                  hour,
+                  minute,
+                  latitude:
+                    lat,
+                  longitude:
+                    lon,
+                }),
+            }
+          );
+
+        const chartData =
+          await chartResponse.json();
+
+        if (
+          !chartResponse.ok ||
+          !chartData?.ok ||
+          !chartData?.chart
+        ) {
+          setError(
+            chartData?.error ||
+              "Erreur lors du calcul de la carte du ciel."
+          );
+
+          return;
+        }
+
+        setResult(
+          chartData.chart
+        );
+      } catch (
         submitError
-      );
+      ) {
+        console.error(
+          "Erreur pendant la création de la carte du ciel :",
+          submitError
+        );
 
-      setError(
-        "Une erreur est survenue pendant le calcul. Réessaie."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+        setError(
+          "Une erreur est survenue pendant le calcul. Réessaie."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const planets = (result?.planets || []).filter((planet: any) =>
-    MAIN_PLANETS.includes(planet?.name)
-  );
+  /*
+  |--------------------------------------------------------------------------
+  | Données calculées
+  |--------------------------------------------------------------------------
+  */
 
-  const angles = result?.angles || {};
-
-  const chartTitle = firstName.trim()
-    ? `Le thème astral de ${firstName.trim()}`
-    : "Ta carte du ciel";
-
-  const captureElementAsPng = async (
-    element: HTMLDivElement | null,
-    errorMessage: string,
-    backgroundColor: string | null,
-    scale: number
-  ): Promise<string> => {
-    if (!element) {
-      throw new Error(errorMessage);
-    }
-
-    const canvas = await html2canvas(element, {
-      backgroundColor,
-      scale,
-      useCORS: true,
-      logging: false,
-    });
-
-    const image = canvas.toDataURL("image/png");
-
-    if (!image || !image.startsWith("data:image/png;base64,")) {
-      throw new Error(
-        "L’image PNG de la carte astrologique n’a pas pu être créée."
-      );
-    }
-
-    return image;
-  };
-
-  const createShareImage = async (): Promise<string> => {
-    return captureElementAsPng(
-      shareRef.current,
-      "La carte astrologique à télécharger est introuvable.",
-      null,
-      2
+  const planets =
+    (
+      result?.planets ||
+      []
+    ).filter(
+      (
+        planet: any
+      ) =>
+        MAIN_PLANETS.includes(
+          planet?.name
+        )
     );
-  };
 
-  const createPdfWheelImage = async (): Promise<string> => {
-    return captureElementAsPng(
-      pdfWheelRef.current,
-      "La roue astrologique destinée au rapport est introuvable.",
-      "#0b1124",
-      3
-    );
-  };
+  const angles =
+    result?.angles ||
+    {};
 
-  const handleDownload = async () => {
-    setError("");
-    setDownloading(true);
+  const chartTitle =
+    firstName.trim()
+      ? `Le thème astral de ${firstName.trim()}`
+      : "Ta carte du ciel";
 
-    try {
-      const wheelImage = await createShareImage();
+  /*
+  |--------------------------------------------------------------------------
+  | Création des images
+  |--------------------------------------------------------------------------
+  */
 
-      const safeName = firstName.trim()
-        ? firstName
-            .trim()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/[^a-z0-9]+/g, "-")
-            .replace(/^-+|-+$/g, "")
-        : "luna-astralis";
+  const captureElementAsPng =
+    async (
+      element:
+        HTMLDivElement | null,
 
-      const link = document.createElement("a");
+      errorMessage:
+        string,
 
-      link.download = `carte-du-ciel-${safeName}.png`;
-      link.href = wheelImage;
+      backgroundColor:
+        string | null,
 
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (downloadError) {
-      console.error(
-        "Erreur pendant le téléchargement de la carte :",
+      scale:
+        number
+    ): Promise<string> => {
+      if (!element) {
+        throw new Error(
+          errorMessage
+        );
+      }
+
+      const canvas =
+        await html2canvas(
+          element,
+          {
+            backgroundColor,
+            scale,
+            useCORS:
+              true,
+            logging:
+              false,
+          }
+        );
+
+      const image =
+        canvas.toDataURL(
+          "image/png"
+        );
+
+      if (
+        !image ||
+        !image.startsWith(
+          "data:image/png;base64,"
+        )
+      ) {
+        throw new Error(
+          "L’image PNG de la carte astrologique n’a pas pu être créée."
+        );
+      }
+
+      return image;
+    };
+
+  const createShareImage =
+    async (): Promise<string> => {
+      return captureElementAsPng(
+        shareRef.current,
+        "La carte astrologique à télécharger est introuvable.",
+        null,
+        2
+      );
+    };
+
+  const createPdfWheelImage =
+    async (): Promise<string> => {
+      return captureElementAsPng(
+        pdfWheelRef.current,
+        "La roue astrologique destinée au rapport est introuvable.",
+        "#0b1124",
+        3
+      );
+    };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Téléchargement de la carte gratuite
+  |--------------------------------------------------------------------------
+  */
+
+  const handleDownload =
+    async () => {
+      setError("");
+      setDownloading(true);
+
+      try {
+        const wheelImage =
+          await createShareImage();
+
+        const safeName =
+          firstName.trim()
+            ? firstName
+                .trim()
+                .toLowerCase()
+                .normalize(
+                  "NFD"
+                )
+                .replace(
+                  /[\u0300-\u036f]/g,
+                  ""
+                )
+                .replace(
+                  /[^a-z0-9]+/g,
+                  "-"
+                )
+                .replace(
+                  /^-+|-+$/g,
+                  ""
+                )
+            : "luna-astralis";
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+        link.download =
+          `carte-du-ciel-${safeName}.png`;
+
+        link.href =
+          wheelImage;
+
+        document.body.appendChild(
+          link
+        );
+
+        link.click();
+        link.remove();
+      } catch (
         downloadError
-      );
+      ) {
+        console.error(
+          "Erreur pendant le téléchargement de la carte :",
+          downloadError
+        );
 
-      setError(
-        downloadError instanceof Error
-          ? downloadError.message
-          : "Impossible de télécharger l’image. Réessaie."
-      );
-    } finally {
-      setDownloading(false);
-    }
-  };
+        setError(
+          downloadError instanceof
+            Error
+            ? downloadError.message
+            : "Impossible de télécharger l’image. Réessaie."
+        );
+      } finally {
+        setDownloading(false);
+      }
+    };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Affichage
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <div className="natal-form-wrap">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={
+          handleSubmit
+        }
         className="natal-form"
         noValidate
       >
@@ -410,9 +804,16 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
 
           <input
             type="text"
-            value={firstName}
-            onChange={(event) =>
-              setFirstName(event.target.value)
+            value={
+              firstName
+            }
+            onChange={(
+              event
+            ) =>
+              setFirstName(
+                event.target
+                  .value
+              )
             }
             placeholder="Ton prénom"
             autoComplete="given-name"
@@ -425,25 +826,58 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
           <input
             type="text"
             inputMode="numeric"
-            value={birthDate}
-            onChange={(event) => {
-              let value = event.target.value
-                .replace(/\D/g, "")
-                .slice(0, 8);
+            value={
+              birthDate
+            }
+            onChange={(
+              event
+            ) => {
+              let value =
+                event.target.value
+                  .replace(
+                    /\D/g,
+                    ""
+                  )
+                  .slice(
+                    0,
+                    8
+                  );
 
-              if (value.length > 4) {
-                value = `${value.slice(0, 2)}/${value.slice(
-                  2,
-                  4
-                )}/${value.slice(4)}`;
-              } else if (value.length > 2) {
-                value = `${value.slice(0, 2)}/${value.slice(2)}`;
+              if (
+                value.length >
+                4
+              ) {
+                value =
+                  `${value.slice(
+                    0,
+                    2
+                  )}/${value.slice(
+                    2,
+                    4
+                  )}/${value.slice(
+                    4
+                  )}`;
+              } else if (
+                value.length >
+                2
+              ) {
+                value =
+                  `${value.slice(
+                    0,
+                    2
+                  )}/${value.slice(
+                    2
+                  )}`;
               }
 
-              setBirthDate(value);
+              setBirthDate(
+                value
+              );
             }}
             placeholder="JJ/MM/AAAA"
-            maxLength={10}
+            maxLength={
+              10
+            }
             autoComplete="bday"
             required
           />
@@ -454,9 +888,16 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
 
           <input
             type="time"
-            value={birthTime}
-            onChange={(event) =>
-              setBirthTime(event.target.value)
+            value={
+              birthTime
+            }
+            onChange={(
+              event
+            ) =>
+              setBirthTime(
+                event.target
+                  .value
+              )
             }
             autoComplete="off"
           />
@@ -467,9 +908,16 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
 
           <input
             type="text"
-            value={birthCity}
-            onChange={(event) =>
-              setBirthCity(event.target.value)
+            value={
+              birthCity
+            }
+            onChange={(
+              event
+            ) =>
+              setBirthCity(
+                event.target
+                  .value
+              )
             }
             placeholder="Ville de naissance"
             autoComplete="off"
@@ -480,7 +928,9 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
         <button
           type="submit"
           className="btn btn-small btn-primary"
-          disabled={loading}
+          disabled={
+            loading
+          }
         >
           {loading
             ? "Calcul en cours..."
@@ -488,7 +938,10 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
         </button>
 
         {error && (
-          <p className="natal-error" role="alert">
+          <p
+            className="natal-error"
+            role="alert"
+          >
             {error}
           </p>
         )}
@@ -497,22 +950,38 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
       {result && (
         <>
           <div className="natal-result">
-            <h3>{chartTitle}</h3>
+            <h3>
+              {chartTitle}
+            </h3>
 
             <NatalChartWheel
-              planets={planets}
-              houses={result?.houses}
+              planets={
+                planets
+              }
+              houses={
+                result?.houses
+              }
               ascendantLongitude={
-                angles?.ascendant?.longitude
+                angles
+                  ?.ascendant
+                  ?.longitude
               }
               midheavenLongitude={
-                angles?.midheaven?.longitude
+                angles
+                  ?.midheaven
+                  ?.longitude
               }
               ascendantFormatted={translateFormatted(
-                angles?.ascendant?.formatted || ""
+                angles
+                  ?.ascendant
+                  ?.formatted ||
+                  ""
               )}
               midheavenFormatted={translateFormatted(
-                angles?.midheaven?.formatted || ""
+                angles
+                  ?.midheaven
+                  ?.formatted ||
+                  ""
               )}
               size={460}
             />
@@ -526,7 +995,10 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
 
                   <span className="natal-value">
                     {translateFormatted(
-                      angles.ascendant.formatted || ""
+                      angles
+                        .ascendant
+                        .formatted ||
+                        ""
                     )}
                   </span>
                 </div>
@@ -540,34 +1012,81 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
 
                   <span className="natal-value">
                     {translateFormatted(
-                      angles.midheaven.formatted || ""
+                      angles
+                        .midheaven
+                        .formatted ||
+                        ""
                     )}
                   </span>
                 </div>
               )}
             </div>
 
-            <button
-              type="button"
-              className="natal-download-btn"
-              onClick={handleDownload}
-              disabled={downloading}
-            >
-              {downloading
-                ? "Préparation de l’image..."
-                : "📷 Télécharger ma carte du ciel"}
-            </button>
+            <div className="natal-result-actions">
+              <button
+                type="button"
+                className="natal-download-btn"
+                onClick={
+                  handleDownload
+                }
+                disabled={
+                  downloading
+                }
+              >
+                {downloading
+                  ? "Préparation de l’image..."
+                  : "📷 Télécharger ma carte du ciel"}
+              </button>
+
+              <a
+                href="#rapports-astrologiques"
+                className="natal-go-to-reports"
+              >
+                <span
+                  aria-hidden="true"
+                >
+                  ✨
+                </span>
+
+                <span>
+                  Voir les rapports Essentielle, Premium et Signature
+                </span>
+
+                <span
+                  aria-hidden="true"
+                >
+                  ↓
+                </span>
+              </a>
+            </div>
 
             <div className="natal-share-capture-zone">
-              <div ref={shareRef}>
+              <div
+                ref={
+                  shareRef
+                }
+              >
                 <NatalShareCard
-                  title={chartTitle}
-                  birthDate={formatDateFR(birthDate)}
-                  birthTime={birthTime || "12:00"}
+                  title={
+                    chartTitle
+                  }
+                  birthDate={formatDateFR(
+                    birthDate
+                  )}
+                  birthTime={
+                    birthTime ||
+                    "12:00"
+                  }
                   birthCity={birthCity.trim()}
-                  planets={planets}
-                  houses={result?.houses}
-                  angles={angles}
+                  planets={
+                    planets
+                  }
+                  houses={
+                    result?.houses
+                  }
+                  angles={
+                    angles
+                  }
                 />
               </div>
             </div>
@@ -575,67 +1094,135 @@ if (!Number.isFinite(lat) || !Number.isFinite(lon)) {
             <div
               aria-hidden="true"
               style={{
-                position: "fixed",
-                left: "-10000px",
-                top: 0,
-                width: 900,
-                height: 900,
-                pointerEvents: "none",
-                opacity: 1,
+                position:
+                  "fixed",
+
+                left:
+                  "-10000px",
+
+                top:
+                  0,
+
+                width:
+                  900,
+
+                height:
+                  900,
+
+                pointerEvents:
+                  "none",
+
+                opacity:
+                  1,
               }}
             >
-             <div
-  ref={pdfWheelRef}
-  style={{
-    width: 820,
-    height: 820,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#0b1124",
-    color: "#fff8e7",
-  }}
->
-  <NatalChartWheel
-    planets={planets}
-    houses={result?.houses}
-    ascendantLongitude={
-      angles?.ascendant?.longitude
-    }
-    midheavenLongitude={
-      angles?.midheaven?.longitude
-    }
-    size={760}
-    showLegend={false}
-  />
-</div>
-</div>              
+              <div
+                ref={
+                  pdfWheelRef
+                }
+                style={{
+                  width:
+                    820,
+
+                  height:
+                    820,
+
+                  display:
+                    "flex",
+
+                  alignItems:
+                    "center",
+
+                  justifyContent:
+                    "center",
+
+                  background:
+                    "#0b1124",
+
+                  color:
+                    "#fff8e7",
+                }}
+              >
+                <NatalChartWheel
+                  planets={
+                    planets
+                  }
+                  houses={
+                    result?.houses
+                  }
+                  ascendantLongitude={
+                    angles
+                      ?.ascendant
+                      ?.longitude
+                  }
+                  midheavenLongitude={
+                    angles
+                      ?.midheaven
+                      ?.longitude
+                  }
+                  size={
+                    760
+                  }
+                  showLegend={
+                    false
+                  }
+                />
+              </div>
+            </div>
+
             <NatalFreeSummary
-              planets={planets}
-              angles={angles}
+              planets={
+                planets
+              }
+              angles={
+                angles
+              }
             />
           </div>
 
           <div className="natal-premium-wide">
             <NatalPremiumOffer
               firstName={firstName.trim()}
-              birthDate={birthDate}
-              birthTime={birthTime || "12:00"}
+              birthDate={
+                birthDate
+              }
+              birthTime={
+                birthTime ||
+                "12:00"
+              }
               birthCity={birthCity.trim()}
-              latitude={latitude}
-              longitude={longitude}
-              getWheelImage={createPdfWheelImage}
+              latitude={
+                latitude
+              }
+              longitude={
+                longitude
+              }
+              getWheelImage={
+                createPdfWheelImage
+              }
             />
           </div>
 
           <div className="natal-result">
             <NatalPlanetDetails
-              planets={planets}
-              translateFormatted={translateFormatted}
-              translatePlanetName={translatePlanetName}
-              getPlanetGlyph={getPlanetGlyph}
-              getSignGlyph={getSignGlyph}
-              getSignName={getSignName}
+              planets={
+                planets
+              }
+              translateFormatted={
+                translateFormatted
+              }
+              translatePlanetName={
+                translatePlanetName
+              }
+              getPlanetGlyph={
+                getPlanetGlyph
+              }
+              getSignGlyph={
+                getSignGlyph
+              }
+              getSignName={
+                getSignName
+              }
             />
           </div>
         </>
