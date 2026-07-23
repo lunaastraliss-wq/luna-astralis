@@ -499,7 +499,10 @@ export default function NatalPremiumOffer(
   */
 
   return (
-    <section className="natal-premium-offer">
+    <section
+      id="rapports-astrologiques"
+      className="natal-premium-offer"
+    >
       <div className="natal-reports-head">
         <span className="natal-premium-badge">
           Rapports astrologiques personnalisés
