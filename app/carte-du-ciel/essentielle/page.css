@@ -1600,3 +1600,32 @@ html {
   max-width: 620px;
   text-align: center;
 }
+.essential-download-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  margin: 24px 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 14px;
+  background: rgba(212, 175, 55, 0.08);
+  text-align: left;
+}
+
+.essential-download-warning span {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.essential-download-warning p {
+  margin: 0;
+  color: inherit;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.essential-download-warning strong {
+  font-weight: 700;
+}
