@@ -407,3 +407,18 @@
     font-size: 15px;
   }
 }
+/* Force le texte blanc du bouton sur tous les rapports */
+
+.report-checkout__button,
+.report-checkout__button:hover,
+.report-checkout__button:focus,
+.report-checkout__button:focus-visible,
+.report-checkout__button:active,
+.report-checkout__button:disabled {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.report-checkout__button:disabled {
+  opacity: 0.7;
+}
