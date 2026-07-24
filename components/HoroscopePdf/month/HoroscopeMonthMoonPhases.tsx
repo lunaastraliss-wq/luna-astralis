@@ -1,13 +1,72 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  formatHoroscopePeriodLabel,
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
+
 import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY =
+  "#06101F";
+
+const NAVY_CARD =
+  "#0A1729";
+
+const NAVY_CARD_LIGHT =
+  "#0D1B30";
+
+const NAVY_SOFT =
+  "#101F35";
+
+const GOLD =
+  "#F4C95D";
+
+const CREAM =
+  "#FFF8E7";
+
+const MUTED_CREAM =
+  "#DDD5C6";
+
+const SOFT_TEXT =
+  "#B9AE98";
+
+const DARK_GOLD =
+  "#8F6E35";
+
+const DEEP_GOLD =
+  "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthMoonPhasesProps =
   Pick<
@@ -17,23 +76,55 @@ type HoroscopeMonthMoonPhasesProps =
   >;
 
 type MoonPhaseTone =
-  | "new-moon"
-  | "first-quarter"
-  | "full-moon"
-  | "last-quarter";
+  | "beginning"
+  | "growth"
+  | "culmination"
+  | "release";
 
 type TemporaryMoonPhase = {
-  id: string;
-  date: string;
-  phase: string;
-  symbol: string;
-  sign: string;
-  tone: MoonPhaseTone;
-  title: string;
-  description: string;
-  influence: string;
-  advice: string;
+  id:
+    string;
+
+  order:
+    number;
+
+  name:
+    string;
+
+  period:
+    string;
+
+  tone:
+    MoonPhaseTone;
+
+  keyword:
+    string;
+
+  title:
+    string;
+
+  description:
+    string;
+
+  favorableFor:
+    string;
+
+  advice:
+    string;
+
+  icon:
+    string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Données temporaires
+|--------------------------------------------------------------------------
+|
+| Les périodes exactes seront remplacées par les véritables dates
+| des phases lunaires lorsque le moteur astrologique sera branché.
+|
+*/
 
 const TEMPORARY_MOON_PHASES:
   TemporaryMoonPhase[] = [
@@ -41,130 +132,148 @@ const TEMPORARY_MOON_PHASES:
       id:
         "new-moon",
 
-      date:
-        "4 du mois",
+      order:
+        1,
 
-      phase:
+      name:
         "Nouvelle Lune",
 
-      symbol:
-        "●",
-
-      sign:
-        "Dans un signe de renouveau",
+      period:
+        "Début du cycle lunaire",
 
       tone:
-        "new-moon",
+        "beginning",
+
+      keyword:
+        "Nouveau départ",
 
       title:
-        "Un nouveau cycle commence à prendre forme",
+        "Définir une intention claire",
 
       description:
-        "La Nouvelle Lune ouvre une période d’intention, de réflexion et de recommencement. Elle vous invite à identifier ce que vous souhaitez construire durant les prochaines semaines.",
+        "La Nouvelle Lune ouvre un nouveau cycle. Elle favorise l’introspection, les décisions intérieures et les intentions que vous souhaitez faire grandir au cours des semaines suivantes.",
 
-      influence:
-        "Cette phase peut soutenir un nouveau projet, une décision personnelle ou une intention que vous souhaitez développer progressivement.",
+      favorableFor:
+        "Commencer un projet, clarifier une priorité, définir une nouvelle direction ou modifier une habitude.",
 
       advice:
-        "Choisissez une intention claire et réaliste, puis posez un premier geste concret pour lui donner vie.",
+        "Choisissez une intention simple et réaliste plutôt que de multiplier les objectifs.",
+
+      icon:
+        HOROSCOPE_ICONS.moon,
     },
 
     {
       id:
         "first-quarter",
 
-      date:
-        "11 du mois",
+      order:
+        2,
 
-      phase:
+      name:
         "Premier quartier",
 
-      symbol:
-        "◐",
-
-      sign:
-        "Dans un signe d’action",
+      period:
+        "Phase de progression",
 
       tone:
-        "first-quarter",
+        "growth",
+
+      keyword:
+        "Mise en action",
 
       title:
-        "Le moment d’agir malgré les premiers obstacles",
+        "Transformer vos intentions en actions",
 
       description:
-        "Le Premier quartier représente une étape de mouvement et d’ajustement. Les intentions formulées plus tôt demandent maintenant davantage d’engagement et de détermination.",
+        "Le premier quartier vous encourage à agir. Les premières résistances peuvent apparaître, mais elles servent à tester votre motivation et à préciser la manière dont vous souhaitez avancer.",
 
-      influence:
-        "Vous pourriez devoir modifier votre approche, défendre une priorité ou poursuivre un projet malgré une hésitation passagère.",
+      favorableFor:
+        "Prendre une décision, organiser vos démarches, défendre une idée ou relancer un projet qui stagnait.",
 
       advice:
-        "Ne confondez pas un obstacle temporaire avec un signe que vous devez abandonner.",
+        "Ne confondez pas un obstacle temporaire avec un signal vous demandant d’abandonner.",
+
+      icon:
+        HOROSCOPE_ICONS.mars,
     },
 
     {
       id:
         "full-moon",
 
-      date:
-        "19 du mois",
+      order:
+        3,
 
-      phase:
+      name:
         "Pleine Lune",
 
-      symbol:
-        "○",
-
-      sign:
-        "Dans un signe de révélation",
+      period:
+        "Sommet du cycle lunaire",
 
       tone:
-        "full-moon",
+        "culmination",
+
+      keyword:
+        "Révélation",
 
       title:
-        "Une prise de conscience devient difficile à ignorer",
+        "Voir plus clairement ce qui arrive à maturité",
 
       description:
-        "La Pleine Lune amplifie les émotions et met en lumière ce qui demande une réponse. Elle peut marquer un accomplissement, une révélation ou la fin d’une étape importante.",
+        "La Pleine Lune intensifie les émotions et met en lumière les résultats d’une situation amorcée auparavant. Elle peut apporter une compréhension, une réponse ou une prise de conscience importante.",
 
-      influence:
-        "Une situation relationnelle, professionnelle ou personnelle pourrait atteindre un point culminant et vous aider à voir plus clairement ce qui doit évoluer.",
+      favorableFor:
+        "Observer les résultats obtenus, reconnaître une vérité, célébrer une progression ou prendre une décision éclairée.",
 
       advice:
-        "Accueillez ce qui devient évident sans prendre une décision uniquement sous le coup de l’émotion.",
+        "Accueillez vos émotions sans prendre immédiatement une décision sous leur influence.",
+
+      icon:
+        HOROSCOPE_ICONS.sun,
     },
 
     {
       id:
         "last-quarter",
 
-      date:
-        "26 du mois",
+      order:
+        4,
 
-      phase:
+      name:
         "Dernier quartier",
 
-      symbol:
-        "◑",
-
-      sign:
-        "Dans un signe de libération",
+      period:
+        "Fin du cycle lunaire",
 
       tone:
-        "last-quarter",
+        "release",
+
+      keyword:
+        "Libération",
 
       title:
-        "Une période favorable au tri et au détachement",
+        "Faire de la place avant le prochain cycle",
 
       description:
-        "Le Dernier quartier invite à faire le point, à alléger ce qui est devenu inutile et à préparer la transition vers un nouveau cycle.",
+        "Le dernier quartier marque une période de tri, de réflexion et de détachement. Il vous aide à identifier ce que vous ne souhaitez plus transporter dans le prochain cycle.",
 
-      influence:
-        "Cette phase peut vous aider à abandonner une habitude, à terminer une démarche ou à prendre de la distance face à une situation devenue trop lourde.",
+      favorableFor:
+        "Terminer une démarche, modifier une stratégie, ranger, pardonner ou abandonner une habitude devenue inutile.",
 
       advice:
-        "Libérez de l’espace dans votre horaire, vos pensées ou vos relations afin de mieux accueillir la suite.",
+        "Libérez-vous de ce qui vous épuise sans chercher à tout résoudre dans la précipitation.",
+
+      icon:
+        HOROSCOPE_ICONS.saturn,
     },
   ];
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles =
   StyleSheet.create({
@@ -172,98 +281,132 @@ const styles =
       position:
         "relative",
 
-      minHeight:
-        "100%",
-
       paddingTop:
-        54,
+        34,
 
-      paddingRight:
-        48,
+      paddingHorizontal:
+        42,
 
       paddingBottom:
-        58,
-
-      paddingLeft:
-        48,
+        54,
 
       backgroundColor:
-        "#FBF8F2",
-
-      color:
-        "#2E2435",
+        NAVY,
 
       fontFamily:
         "Helvetica",
+
+      overflow:
+        "hidden",
     },
 
-    topDecoration: {
+    content: {
       position:
-        "absolute",
+        "relative",
 
-      top:
-        -80,
+      zIndex:
+        2,
 
-      right:
-        -70,
-
-      width:
-        192,
-
-      height:
-        192,
-
-      borderRadius:
-        96,
-
-      backgroundColor:
-        "#E6DCEA",
-
-      opacity:
-        0.56,
+      flex:
+        1,
     },
 
-    bottomDecoration: {
-      position:
-        "absolute",
+    header: {
+      flexDirection:
+        "row",
 
-      bottom:
-        -96,
+      alignItems:
+        "center",
 
-      left:
-        -82,
+      justifyContent:
+        "space-between",
 
+      marginBottom:
+        15,
+    },
+
+    logo: {
       width:
-        212,
+        108,
 
       height:
-        212,
+        38,
+
+      objectFit:
+        "contain",
+    },
+
+    signBadge: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      paddingVertical:
+        7,
+
+      paddingHorizontal:
+        12,
 
       borderRadius:
-        106,
+        18,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        DARK_GOLD,
 
       backgroundColor:
-        "#EEE2CC",
+        NAVY_CARD,
+    },
 
-      opacity:
-        0.46,
+    signIcon: {
+      width:
+        22,
+
+      height:
+        22,
+
+      marginRight:
+        7,
+
+      objectFit:
+        "contain",
+    },
+
+    signName: {
+      color:
+        GOLD,
+
+      fontSize:
+        8,
+
+      letterSpacing:
+        1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    titleBlock: {
+      marginBottom:
+        13,
     },
 
     eyebrow: {
       marginBottom:
-        8,
+        7,
 
       color:
-        "#9A7137",
+        GOLD,
 
       fontSize:
-        8.5,
-
-      fontWeight:
-        700,
+        9,
 
       letterSpacing:
-        1.5,
+        2.4,
 
       textTransform:
         "uppercase",
@@ -271,213 +414,326 @@ const styles =
 
     title: {
       maxWidth:
-        420,
+        430,
+
+      marginBottom:
+        7,
 
       color:
-        "#38273E",
+        CREAM,
 
       fontSize:
         24,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.12,
-    },
-
-    divider: {
-      width:
-        56,
-
-      height:
-        2,
-
-      marginTop:
-        14,
-
-      marginBottom:
-        17,
-
-      backgroundColor:
-        "#C79B52",
-    },
-
-    introduction: {
-      maxWidth:
-        465,
-
-      color:
-        "#5F5364",
-
-      fontSize:
-        10.2,
-
-      lineHeight:
-        1.55,
-    },
-
-    explanationBox: {
-      marginTop:
-        17,
-
-      paddingTop:
-        11,
-
-      paddingRight:
-        14,
-
-      paddingBottom:
-        11,
-
-      paddingLeft:
-        14,
-
-      borderLeft:
-        "3 solid #765279",
-
-      backgroundColor:
-        "#F1EAF2",
-    },
-
-    explanationText: {
-      color:
-        "#5B4C5E",
-
-      fontSize:
-        8.4,
-
-      lineHeight:
-        1.48,
-    },
-
-    cardsContainer: {
-      marginTop:
-        17,
-
-      gap:
-        11,
-    },
-
-    card: {
-      position:
-        "relative",
-
-      minHeight:
-        112,
-
-      paddingTop:
-        15,
-
-      paddingRight:
-        16,
-
-      paddingBottom:
-        14,
-
-      paddingLeft:
-        106,
-
-      border:
-        "1 solid #E4DCE4",
-
-      borderRadius:
-        8,
-
-      backgroundColor:
-        "#FFFFFF",
-    },
-
-    moonBlock: {
-      position:
-        "absolute",
-
-      top:
-        15,
-
-      bottom:
-        15,
-
-      left:
-        15,
-
-      width:
-        74,
-
-      alignItems:
-        "center",
-
-      justifyContent:
-        "center",
-
-      paddingRight:
-        7,
-
-      paddingLeft:
-        7,
-
-      borderRadius:
-        7,
-
-      backgroundColor:
-        "#F5F0F5",
-    },
-
-    moonSymbol: {
-      color:
-        "#56365C",
-
-      fontSize:
-        28,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1,
-    },
-
-    moonPhase: {
-      marginTop:
-        6,
-
-      color:
-        "#4A354E",
-
-      fontSize:
-        8.2,
-
-      fontWeight:
-        700,
-
-      textAlign:
-        "center",
 
       lineHeight:
         1.2,
     },
 
-    moonDate: {
-      marginTop:
-        4,
+    period: {
+      marginBottom:
+        9,
 
       color:
-        "#8D778F",
+        MUTED_CREAM,
 
       fontSize:
-        6.7,
+        9.7,
+    },
 
-      fontWeight:
-        700,
+    titleDecoration: {
+      flexDirection:
+        "row",
 
-      textAlign:
+      alignItems:
         "center",
+    },
+
+    titleLine: {
+      width:
+        62,
+
+      height:
+        1,
+
+      marginRight:
+        9,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    titleIcon: {
+      width:
+        16,
+
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
+    },
+
+    titleLineSmall: {
+      width:
+        22,
+
+      height:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
+    },
+
+    introductionCard: {
+      position:
+        "relative",
+
+      minHeight:
+        75,
+
+      marginBottom:
+        13,
+
+      paddingVertical:
+        12,
+
+      paddingHorizontal:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+
+      overflow:
+        "hidden",
+    },
+
+    introductionWatermark: {
+      position:
+        "absolute",
+
+      top:
+        4,
+
+      right:
+        16,
+
+      width:
+        66,
+
+      height:
+        66,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.055,
+    },
+
+    introductionLabel: {
+      marginBottom:
+        5,
+
+      color:
+        GOLD,
+
+      fontSize:
+        7,
+
+      letterSpacing:
+        1.2,
 
       textTransform:
         "uppercase",
     },
 
-    cardHeader: {
+    introduction: {
+      maxWidth:
+        460,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        8.5,
+
+      lineHeight:
+        1.5,
+    },
+
+    sectionHeader: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      marginBottom:
+        9,
+    },
+
+    sectionLine: {
+      width:
+        28,
+
+      height:
+        1,
+
+      marginRight:
+        9,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    sectionIcon: {
+      width:
+        16,
+
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
+    },
+
+    sectionTitle: {
+      color:
+        GOLD,
+
+      fontSize:
+        9.3,
+
+      letterSpacing:
+        1.45,
+
+      textTransform:
+        "uppercase",
+    },
+
+    phasesGrid: {
+      flexDirection:
+        "row",
+
+      flexWrap:
+        "wrap",
+
+      justifyContent:
+        "space-between",
+
+      marginBottom:
+        10,
+    },
+
+    phaseCard: {
+      position:
+        "relative",
+
+      width:
+        "48.8%",
+
+      minHeight:
+        205,
+
+      marginBottom:
+        10,
+
+      paddingVertical:
+        13,
+
+      paddingHorizontal:
+        13,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+
+      overflow:
+        "hidden",
+    },
+
+    orbitOne: {
+      position:
+        "absolute",
+
+      top:
+        -66,
+
+      right:
+        -67,
+
+      width:
+        150,
+
+      height:
+        150,
+
+      borderRadius:
+        75,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+    },
+
+    orbitTwo: {
+      position:
+        "absolute",
+
+      top:
+        -31,
+
+      right:
+        -32,
+
+      width:
+        92,
+
+      height:
+        92,
+
+      borderRadius:
+        46,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+    },
+
+    phaseHeader: {
       flexDirection:
         "row",
 
@@ -488,169 +744,276 @@ const styles =
         "space-between",
 
       marginBottom:
-        5,
+        9,
     },
 
-    phaseLabel: {
-      color:
-        "#8E7E91",
+    phaseIdentity: {
+      flexDirection:
+        "row",
 
-      fontSize:
-        6.8,
+      alignItems:
+        "center",
 
-      fontWeight:
-        700,
-
-      letterSpacing:
-        0.45,
-
-      textTransform:
-        "uppercase",
+      flex:
+        1,
     },
 
-    signBadge: {
-      maxWidth:
-        180,
+    phaseIconOuter: {
+      width:
+        45,
 
-      paddingTop:
-        3,
+      height:
+        45,
 
-      paddingRight:
-        8,
+      alignItems:
+        "center",
 
-      paddingBottom:
-        3,
+      justifyContent:
+        "center",
 
-      paddingLeft:
-        8,
-
-      borderRadius:
+      marginRight:
         9,
 
-      fontSize:
-        6.6,
+      borderRadius:
+        23,
 
-      fontWeight:
-        700,
+      borderWidth:
+        0.6,
 
-      letterSpacing:
-        0.3,
-
-      textTransform:
-        "uppercase",
+      borderColor:
+        DARK_GOLD,
     },
 
-    signNewMoon: {
-      color:
-        "#6B5C35",
+    phaseIconInner: {
+      width:
+        37,
+
+      height:
+        37,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      borderRadius:
+        19,
+
+      borderWidth:
+        0.8,
+
+      borderColor:
+        GOLD,
 
       backgroundColor:
-        "#F3ECD9",
+        NAVY_CARD,
     },
 
-    signFirstQuarter: {
-      color:
-        "#5C6780",
+    phaseIcon: {
+      width:
+        24,
 
-      backgroundColor:
-        "#E9EDF3",
+      height:
+        24,
+
+      objectFit:
+        "contain",
     },
 
-    signFullMoon: {
-      color:
-        "#765279",
-
-      backgroundColor:
-        "#EFE6F1",
+    phaseNameBlock: {
+      flex:
+        1,
     },
 
-    signLastQuarter: {
-      color:
-        "#6C6F50",
-
-      backgroundColor:
-        "#EEF0E3",
-    },
-
-    cardTitle: {
-      marginBottom:
-        5,
-
-      color:
-        "#342638",
-
-      fontSize:
-        11.3,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.25,
-    },
-
-    description: {
-      color:
-        "#625766",
-
-      fontSize:
-        8.3,
-
-      lineHeight:
-        1.47,
-    },
-
-    influenceContainer: {
-      marginTop:
-        7,
-
-      paddingTop:
-        7,
-
-      borderTop:
-        "1 solid #EEE8EE",
-    },
-
-    influenceTitle: {
+    phaseOrder: {
       marginBottom:
         3,
 
       color:
-        "#765279",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.8,
 
       letterSpacing:
-        0.65,
+        0.9,
 
       textTransform:
         "uppercase",
     },
 
-    influenceText: {
+    phaseName: {
+      marginBottom:
+        3,
+
       color:
-        "#514756",
+        CREAM,
 
       fontSize:
-        7.9,
+        9.4,
+
+      lineHeight:
+        1.2,
+    },
+
+    phasePeriod: {
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        6.4,
+    },
+
+    keywordBadge: {
+      paddingVertical:
+        4,
+
+      paddingHorizontal:
+        7,
+
+      borderRadius:
+        10,
+
+      borderWidth:
+        0.5,
+
+      fontSize:
+        6,
+
+      letterSpacing:
+        0.35,
+
+      textTransform:
+        "uppercase",
+    },
+
+    badgeBeginning: {
+      color:
+        "#E2D8F1",
+
+      borderColor:
+        "#6D5C82",
+
+      backgroundColor:
+        "#251F31",
+    },
+
+    badgeGrowth: {
+      color:
+        "#DCEFD8",
+
+      borderColor:
+        "#627C5E",
+
+      backgroundColor:
+        "#182C25",
+    },
+
+    badgeCulmination: {
+      color:
+        "#F7E6AB",
+
+      borderColor:
+        "#8C753E",
+
+      backgroundColor:
+        "#30291A",
+    },
+
+    badgeRelease: {
+      color:
+        "#D7DFED",
+
+      borderColor:
+        "#596B82",
+
+      backgroundColor:
+        "#1B2735",
+    },
+
+    phaseTitle: {
+      minHeight:
+        29,
+
+      marginBottom:
+        6,
+
+      color:
+        GOLD,
+
+      fontSize:
+        10.2,
+
+      lineHeight:
+        1.3,
+    },
+
+    phaseDescription: {
+      marginBottom:
+        7,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        7.55,
 
       lineHeight:
         1.42,
     },
 
-    adviceContainer: {
-      marginTop:
+    favorableBox: {
+      marginBottom:
         7,
 
       paddingTop:
-        7,
+        6,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
+    },
+
+    favorableLabel: {
+      marginBottom:
+        3,
+
+      color:
+        SOFT_TEXT,
+
+      fontSize:
+        6,
+
+      letterSpacing:
+        0.8,
+
+      textTransform:
+        "uppercase",
+    },
+
+    favorableText: {
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        7.25,
+
+      lineHeight:
+        1.38,
+    },
+
+    adviceBox: {
+      paddingTop:
+        6,
+
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
     },
 
     adviceLabel: {
@@ -658,95 +1021,32 @@ const styles =
         3,
 
       color:
-        "#A17638",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6,
 
       letterSpacing:
-        0.65,
+        0.8,
 
       textTransform:
         "uppercase",
     },
 
-    advice: {
+    adviceText: {
       color:
-        "#514756",
+        CREAM,
 
       fontSize:
-        7.9,
-
-      fontStyle:
-        "italic",
+        7.25,
 
       lineHeight:
-        1.42,
+        1.38,
     },
 
-    closingBox: {
-      marginTop:
-        17,
-
-      paddingTop:
-        13,
-
-      paddingRight:
-        15,
-
-      paddingBottom:
-        13,
-
-      paddingLeft:
-        15,
-
-      borderLeft:
-        "3 solid #C79B52",
-
-      backgroundColor:
-        "#F4EEE5",
-    },
-
-    closingTitle: {
-      marginBottom:
-        4,
-
-      color:
-        "#4A354E",
-
-      fontSize:
-        9,
-
-      fontWeight:
-        700,
-    },
-
-    closingText: {
-      color:
-        "#625665",
-
-      fontSize:
-        8.5,
-
-      lineHeight:
-        1.48,
-    },
-
-    footer: {
+    summaryCard: {
       position:
-        "absolute",
-
-      right:
-        48,
-
-      bottom:
-        25,
-
-      left:
-        48,
+        "relative",
 
       flexDirection:
         "row",
@@ -754,255 +1054,493 @@ const styles =
       alignItems:
         "center",
 
-      justifyContent:
-        "space-between",
+      minHeight:
+        76,
 
-      paddingTop:
-        8,
+      paddingVertical:
+        12,
 
-      borderTop:
-        "1 solid #DED5DF",
+      paddingHorizontal:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
     },
 
-    footerText: {
+    summaryWatermark: {
+      position:
+        "absolute",
+
+      top:
+        4,
+
+      right:
+        16,
+
+      width:
+        60,
+
+      height:
+        60,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.055,
+    },
+
+    summaryIconCircle: {
+      width:
+        39,
+
+      height:
+        39,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        12,
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+    },
+
+    summaryIcon: {
+      width:
+        24,
+
+      height:
+        24,
+
+      objectFit:
+        "contain",
+    },
+
+    summaryContent: {
+      flex:
+        1,
+    },
+
+    summaryTitle: {
+      marginBottom:
+        4,
+
       color:
-        "#8E7E91",
+        GOLD,
 
       fontSize:
         7,
+
+      letterSpacing:
+        1.15,
+
+      textTransform:
+        "uppercase",
+    },
+
+    summaryText: {
+      maxWidth:
+        425,
+
+      color:
+        CREAM,
+
+      fontSize:
+        8.25,
+
+      lineHeight:
+        1.46,
     },
   });
 
-function getMoonPhaseStyle(
-  tone: MoonPhaseTone,
+/*
+|--------------------------------------------------------------------------
+| Utilitaire
+|--------------------------------------------------------------------------
+*/
+
+function getKeywordStyle(
+  tone:
+    MoonPhaseTone,
 ) {
   switch (tone) {
-    case "new-moon":
-      return styles.signNewMoon;
+    case "beginning":
+      return styles.badgeBeginning;
 
-    case "first-quarter":
-      return styles.signFirstQuarter;
+    case "growth":
+      return styles.badgeGrowth;
 
-    case "full-moon":
-      return styles.signFullMoon;
+    case "culmination":
+      return styles.badgeCulmination;
 
-    case "last-quarter":
-      return styles.signLastQuarter;
+    case "release":
+      return styles.badgeRelease;
 
     default:
-      return styles.signNewMoon;
+      return styles.badgeBeginning;
   }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeMonthMoonPhases({
   identity,
   period,
 }: HoroscopeMonthMoonPhasesProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
+  const periodLabel =
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
   return (
     <Page
       size="A4"
       style={styles.page}
       wrap={false}
     >
-      <View
-        style={styles.topDecoration}
-      />
+      <HoroscopeStarBackground />
 
-      <View
-        style={styles.bottomDecoration}
-      />
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <Text style={styles.eyebrow}>
-        Le rythme lunaire
-      </Text>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <Text style={styles.title}>
-        Les phases de la Lune de votre mois
-      </Text>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <View style={styles.divider} />
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
 
-      <Text style={styles.introduction}>
-        Durant{" "}
-        {period.label}, les différentes
-        phases de la Lune accompagnent le
-        signe{" "}
-        {identity.zodiacSignLabel}
-        à travers un cycle de renouveau,
-        d’action, de révélation et de
-        libération. Chaque étape possède
-        une énergie particulière que vous
-        pouvez utiliser pour mieux rythmer
-        vos décisions.
-      </Text>
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
 
-      <View
-        style={styles.explanationBox}
-      >
-        <Text
-          style={styles.explanationText}
-        >
-          Les phases lunaires ne
-          représentent pas des événements
-          obligatoires. Elles indiquent
-          plutôt le climat émotionnel et
-          symbolique qui accompagne
-          certaines étapes du mois.
-        </Text>
-      </View>
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Votre rythme émotionnel
+          </Text>
 
-      <View
-        style={styles.cardsContainer}
-      >
-        {TEMPORARY_MOON_PHASES.map(
-          (
-            item,
-          ) => (
+          <Text style={styles.title}>
+            Les phases de la Lune
+          </Text>
+
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={HOROSCOPE_ICONS.moon}
+              style={styles.titleIcon}
+            />
+
             <View
-              key={item.id}
-              style={styles.card}
-              wrap={false}
+              style={styles.titleLineSmall}
+            />
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.moon}
+            style={
+              styles.introductionWatermark
+            }
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Le cycle lunaire
+          </Text>
+
+          <Text style={styles.introduction}>
+            La Lune accompagne les mouvements
+            émotionnels, les besoins intérieurs
+            et les différentes étapes de vos
+            projets. Durant{" "}
+            {periodLabel}, chaque phase apporte
+            au signe{" "}
+            {identity.zodiacSignLabel} un rythme
+            particulier : commencer, agir,
+            comprendre puis libérer.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Phases
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.moon}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionTitle}>
+            Les quatre temps du cycle
+          </Text>
+        </View>
+
+        <View style={styles.phasesGrid}>
+          {TEMPORARY_MOON_PHASES.map(
+            (
+              phase,
+            ) => (
+              <View
+                key={phase.id}
+                style={styles.phaseCard}
+                wrap={false}
+              >
+                <View style={styles.orbitOne} />
+                <View style={styles.orbitTwo} />
+
+                <View style={styles.phaseHeader}>
+                  <View
+                    style={styles.phaseIdentity}
+                  >
+                    <View
+                      style={
+                        styles.phaseIconOuter
+                      }
+                    >
+                      <View
+                        style={
+                          styles.phaseIconInner
+                        }
+                      >
+                        <Image
+                          src={phase.icon}
+                          style={
+                            styles.phaseIcon
+                          }
+                        />
+                      </View>
+                    </View>
+
+                    <View
+                      style={
+                        styles.phaseNameBlock
+                      }
+                    >
+                      <Text
+                        style={
+                          styles.phaseOrder
+                        }
+                      >
+                        Phase {phase.order}
+                      </Text>
+
+                      <Text
+                        style={
+                          styles.phaseName
+                        }
+                      >
+                        {phase.name}
+                      </Text>
+
+                      <Text
+                        style={
+                          styles.phasePeriod
+                        }
+                      >
+                        {phase.period}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <Text
+                    style={[
+                      styles.keywordBadge,
+                      getKeywordStyle(
+                        phase.tone,
+                      ),
+                    ]}
+                  >
+                    {phase.keyword}
+                  </Text>
+                </View>
+
+                <Text
+                  style={styles.phaseTitle}
+                >
+                  {phase.title}
+                </Text>
+
+                <Text
+                  style={
+                    styles.phaseDescription
+                  }
+                >
+                  {phase.description}
+                </Text>
+
+                <View
+                  style={styles.favorableBox}
+                >
+                  <Text
+                    style={
+                      styles.favorableLabel
+                    }
+                  >
+                    Période favorable pour
+                  </Text>
+
+                  <Text
+                    style={
+                      styles.favorableText
+                    }
+                  >
+                    {phase.favorableFor}
+                  </Text>
+                </View>
+
+                <View style={styles.adviceBox}>
+                  <Text
+                    style={
+                      styles.adviceLabel
+                    }
+                  >
+                    Conseil
+                  </Text>
+
+                  <Text
+                    style={
+                      styles.adviceText
+                    }
+                  >
+                    {phase.advice}
+                  </Text>
+                </View>
+              </View>
+            ),
+          )}
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Synthèse
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.summaryCard}
+          wrap={false}
+        >
+          <Image
+            src={
+              HOROSCOPE_ICONS.integrationGuide
+            }
+            style={styles.summaryWatermark}
+          />
+
+          <View
+            style={styles.summaryIconCircle}
+          >
+            <Image
+              src={
+                HOROSCOPE_ICONS.integrationGuide
+              }
+              style={styles.summaryIcon}
+            />
+          </View>
+
+          <View style={styles.summaryContent}>
+            <Text
+              style={styles.summaryTitle}
             >
-              <View
-                style={styles.moonBlock}
-              >
-                <Text
-                  style={styles.moonSymbol}
-                >
-                  {item.symbol}
-                </Text>
+              Votre rythme du mois
+            </Text>
 
-                <Text
-                  style={styles.moonPhase}
-                >
-                  {item.phase}
-                </Text>
-
-                <Text
-                  style={styles.moonDate}
-                >
-                  {item.date}
-                </Text>
-              </View>
-
-              <View
-                style={styles.cardHeader}
-              >
-                <Text
-                  style={styles.phaseLabel}
-                >
-                  Phase lunaire
-                </Text>
-
-                <Text
-                  style={[
-                    styles.signBadge,
-                    getMoonPhaseStyle(
-                      item.tone,
-                    ),
-                  ]}
-                >
-                  {item.sign}
-                </Text>
-              </View>
-
-              <Text
-                style={styles.cardTitle}
-              >
-                {item.title}
-              </Text>
-
-              <Text
-                style={styles.description}
-              >
-                {item.description}
-              </Text>
-
-              <View
-                style={
-                  styles.influenceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.influenceTitle
-                  }
-                >
-                  Influence possible
-                </Text>
-
-                <Text
-                  style={
-                    styles.influenceText
-                  }
-                >
-                  {item.influence}
-                </Text>
-              </View>
-
-              <View
-                style={
-                  styles.adviceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.adviceLabel
-                  }
-                >
-                  Conseil
-                </Text>
-
-                <Text
-                  style={styles.advice}
-                >
-                  {item.advice}
-                </Text>
-              </View>
-            </View>
-          ),
-        )}
+            <Text
+              style={styles.summaryText}
+            >
+              Respectez les différentes étapes
+              du cycle lunaire. Tout ne doit
+              pas commencer, progresser ou se
+              terminer au même moment. En
+              adaptant vos actions au rythme
+              du mois, vous pourrez mieux
+              reconnaître quand avancer et
+              quand prendre du recul.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.closingBox}>
-        <Text
-          style={styles.closingTitle}
-        >
-          Suivre le rythme plutôt que le forcer
-        </Text>
-
-        <Text
-          style={styles.closingText}
-        >
-          Utilisez la Nouvelle Lune pour
-          poser vos intentions, le Premier
-          quartier pour agir, la Pleine
-          Lune pour observer ce qui devient
-          évident et le Dernier quartier
-          pour vous libérer de ce qui
-          ralentit votre évolution.
-        </Text>
-      </View>
-
-      <View
-        fixed
-        style={styles.footer}
-      >
-        <Text
-          style={styles.footerText}
-        >
-          Luna Astralis
-        </Text>
-
-        <Text
-          style={styles.footerText}
-        >
-          {identity.zodiacSignLabel}
-          {" • "}
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
-
