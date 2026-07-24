@@ -1,7 +1,6 @@
 import {
   buildMonthlySeed,
   createMonthlyLoveTexts,
-  pickDistinctVariants,
   pickVariant,
 } from "./index";
 
@@ -11,10 +10,22 @@ import type {
   MonthlyLoveResult,
 } from "./types";
 
-type BuildMonthlyLoveParams = {
+/*
+|--------------------------------------------------------------------------
+| Paramètres de la section Amour
+|--------------------------------------------------------------------------
+*/
+
+export type BuildMonthlyLoveParams = {
   identity: MonthlyHoroscopeIdentity;
   period: MonthlyHoroscopePeriod;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Titres possibles
+|--------------------------------------------------------------------------
+*/
 
 const LOVE_TITLES = [
   "Un mois pour écouter votre cœur",
@@ -27,62 +38,88 @@ const LOVE_TITLES = [
   "Vos sentiments deviennent plus clairs",
 ];
 
+/*
+|--------------------------------------------------------------------------
+| Construction de la section Amour
+|--------------------------------------------------------------------------
+*/
+
 export function buildMonthlyLove({
   identity,
   period,
 }: BuildMonthlyLoveParams): MonthlyLoveResult {
-  const texts = createMonthlyLoveTexts();
+  /*
+  |--------------------------------------------------------------------------
+  | Banque de textes
+  |--------------------------------------------------------------------------
+  */
 
-  const seed = buildMonthlySeed({
-    identity,
-    period,
-    section: "love",
-  });
+  const texts =
+    createMonthlyLoveTexts();
 
   /*
   |--------------------------------------------------------------------------
-  | Score amoureux déterministe
+  | Graine déterministe
   |--------------------------------------------------------------------------
   |
-  | Le score reste identique pour une même personne et une même période.
-  | Il varie entre 58 et 94 afin de conserver une lecture réaliste.
+  | La graine dépend de la personne, de la période et de la section.
+  | Le résultat demeure donc identique pour une même personne et un même mois.
+  |
+  */
+
+  const seed =
+    buildMonthlySeed({
+      identity,
+      period,
+      section: "love",
+    });
+
+  /*
+  |--------------------------------------------------------------------------
+  | Score amoureux
+  |--------------------------------------------------------------------------
+  |
+  | Le score varie entre 58 et 94.
   |
   */
 
   const score =
-    58 + (Math.abs(seed) % 37);
+    58 +
+    (Math.abs(seed) % 37);
 
   /*
   |--------------------------------------------------------------------------
   | Texte principal
   |--------------------------------------------------------------------------
   |
-  | On réunit la tendance générale et le climat émotionnel afin de produire
-  | une lecture complète sans surcharger la page PDF.
+  | La tendance générale et le climat émotionnel sont réunis afin de créer
+  | un texte principal complet.
   |
   */
 
-  const generalText = pickVariant(
-    texts.general,
-    seed,
-    23,
-  );
+  const generalText =
+    pickVariant(
+      texts.general,
+      seed,
+      23,
+    );
 
-  const emotionalText = pickVariant(
-    texts.emotionalClimate,
-    seed,
-    71,
-  );
+  const emotionalText =
+    pickVariant(
+      texts.emotionalClimate,
+      seed,
+      71,
+    );
 
-  const text = `${generalText} ${emotionalText}`;
+  const text =
+    `${generalText} ${emotionalText}`;
 
   /*
   |--------------------------------------------------------------------------
   | Points importants
   |--------------------------------------------------------------------------
   |
-  | Les anciennes sections couple, célibataire, défi et conclusion deviennent
-  | les quatre points importants affichés dans HoroscopeLove.tsx.
+  | Les quatre éléments sont utilisés dans HoroscopeLove.tsx.
   |
   */
 
@@ -112,29 +149,38 @@ export function buildMonthlyLove({
     ),
   ];
 
+  /*
+  |--------------------------------------------------------------------------
+  | Résultat final
+  |--------------------------------------------------------------------------
+  */
+
   return {
-    title: pickVariant(
-      LOVE_TITLES,
-      seed,
-      5,
-    ),
+    title:
+      pickVariant(
+        LOVE_TITLES,
+        seed,
+        5,
+      ),
 
     score,
 
-    introduction: pickVariant(
-      texts.introduction,
-      seed,
-      11,
-    ),
+    introduction:
+      pickVariant(
+        texts.introduction,
+        seed,
+        11,
+      ),
 
     text,
 
     highlights,
 
-    advice: pickVariant(
-      texts.advice,
-      seed,
-      107,
-    ),
+    advice:
+      pickVariant(
+        texts.advice,
+        seed,
+        107,
+      ),
   };
 }
