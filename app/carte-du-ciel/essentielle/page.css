@@ -2029,3 +2029,28 @@
 .essential-report-actions .essential-button-primary span {
   color: #ffffff !important;
 }
+/* --------------------------------------------------------------------------
+   Correction définitive des boutons et liens
+-------------------------------------------------------------------------- */
+
+.essential-button-primary,
+.essential-button-primary:link,
+.essential-button-primary:visited {
+  color: #fff !important;
+}
+
+.essential-button-secondary,
+.essential-button-secondary:link,
+.essential-button-secondary:visited {
+  color: inherit;
+}
+
+.essential-hero .essential-button-primary,
+.essential-comparison .essential-button-primary {
+  color: #20172b !important;
+}
+
+.essential-hero .essential-button-secondary,
+.essential-comparison .essential-button-secondary {
+  color: #fff !important;
+}
