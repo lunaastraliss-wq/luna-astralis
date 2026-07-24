@@ -1,13 +1,74 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
+
 import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY =
+  "#06101F";
+
+const NAVY_CARD =
+  "#0A1729";
+
+const NAVY_CARD_LIGHT =
+  "#0D1B30";
+
+const NAVY_SOFT =
+  "#101F35";
+
+const NAVY_DEEP =
+  "#040B15";
+
+const GOLD =
+  "#F4C95D";
+
+const CREAM =
+  "#FFF8E7";
+
+const MUTED_CREAM =
+  "#DDD5C6";
+
+const SOFT_TEXT =
+  "#B9AE98";
+
+const DARK_GOLD =
+  "#8F6E35";
+
+const DEEP_GOLD =
+  "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthAstroEventsProps =
   Pick<
@@ -23,17 +84,46 @@ type AstroEventTone =
   | "transition";
 
 type TemporaryAstroEvent = {
-  id: string;
-  date: string;
-  symbol: string;
-  event: string;
-  tone: AstroEventTone;
-  category: string;
-  title: string;
-  description: string;
-  impact: string;
-  advice: string;
+  id:
+    string;
+
+  date:
+    string;
+
+  event:
+    string;
+
+  tone:
+    AstroEventTone;
+
+  category:
+    string;
+
+  title:
+    string;
+
+  description:
+    string;
+
+  impact:
+    string;
+
+  advice:
+    string;
+
+  icon:
+    string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Données temporaires
+|--------------------------------------------------------------------------
+|
+| Les dates et les événements seront remplacés par les véritables
+| mouvements astrologiques calculés pour le mois sélectionné.
+|
+*/
 
 const TEMPORARY_ASTRO_EVENTS:
   TemporaryAstroEvent[] = [
@@ -43,9 +133,6 @@ const TEMPORARY_ASTRO_EVENTS:
 
       date:
         "7 du mois",
-
-      symbol:
-        "☿",
 
       event:
         "Mercure change de signe",
@@ -60,13 +147,16 @@ const TEMPORARY_ASTRO_EVENTS:
         "Une nouvelle manière de réfléchir et de communiquer",
 
       description:
-        "Le déplacement de Mercure modifie progressivement le climat des échanges, des décisions et de l’organisation mentale. Certaines conversations peuvent devenir plus directes ou plus constructives.",
+        "Le déplacement de Mercure modifie progressivement le climat des échanges, des décisions et de l’organisation mentale. Certaines conversations peuvent devenir plus directes, plus précises ou plus constructives.",
 
       impact:
         "Cette influence peut vous aider à clarifier une idée, à reprendre une démarche ou à formuler plus précisément ce que vous souhaitez obtenir.",
 
       advice:
         "Utilisez cette période pour poser les bonnes questions et mettre par écrit les décisions importantes.",
+
+      icon:
+        HOROSCOPE_ICONS.mercury,
     },
 
     {
@@ -75,9 +165,6 @@ const TEMPORARY_ASTRO_EVENTS:
 
       date:
         "14 du mois",
-
-      symbol:
-        "♄",
 
       event:
         "Une planète ralentit",
@@ -92,13 +179,16 @@ const TEMPORARY_ASTRO_EVENTS:
         "Une période de recul utile avant la prochaine étape",
 
       description:
-        "Un mouvement rétrograde symbolique invite à ralentir et à revoir ce qui a été construit récemment. Il peut faire ressortir une responsabilité, une erreur ou une décision qui demande un ajustement.",
+        "Un mouvement rétrograde invite à ralentir et à revoir ce qui a été construit récemment. Il peut faire ressortir une responsabilité, une erreur ou une décision qui demande un ajustement.",
 
       impact:
         "Vous pourriez ressentir le besoin de reprendre un dossier, de corriger une stratégie ou de réfléchir davantage avant de poursuivre dans la même direction.",
 
       advice:
         "Ne voyez pas les retards comme un échec. Utilisez-les pour renforcer ce qui doit l’être.",
+
+      icon:
+        HOROSCOPE_ICONS.saturn,
     },
 
     {
@@ -107,9 +197,6 @@ const TEMPORARY_ASTRO_EVENTS:
 
       date:
         "21 du mois",
-
-      symbol:
-        "△",
 
       event:
         "Alignement harmonieux",
@@ -131,6 +218,9 @@ const TEMPORARY_ASTRO_EVENTS:
 
       advice:
         "Avancez sur les projets qui demandent de la diplomatie, de la créativité ou l’appui d’une autre personne.",
+
+      icon:
+        HOROSCOPE_ICONS.jupiter,
     },
 
     {
@@ -139,9 +229,6 @@ const TEMPORARY_ASTRO_EVENTS:
 
       date:
         "28 du mois",
-
-      symbol:
-        "☉",
 
       event:
         "Le Soleil change de signe",
@@ -163,107 +250,331 @@ const TEMPORARY_ASTRO_EVENTS:
 
       advice:
         "Observez ce qui perd de son importance et ce qui commence naturellement à réclamer votre attention.",
+
+      icon:
+        HOROSCOPE_ICONS.sun,
     },
   ];
 
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
+
 const styles =
   StyleSheet.create({
+    /*
+    |--------------------------------------------------------------------------
+    | Page
+    |--------------------------------------------------------------------------
+    */
+
     page: {
       position:
         "relative",
 
-      minHeight:
-        "100%",
-
       paddingTop:
-        54,
+        34,
 
       paddingRight:
-        48,
+        42,
 
       paddingBottom:
-        58,
+        54,
 
       paddingLeft:
-        48,
+        42,
 
       backgroundColor:
-        "#FBF8F2",
+        NAVY,
 
       color:
-        "#2E2435",
+        CREAM,
 
       fontFamily:
         "Helvetica",
+
+      overflow:
+        "hidden",
     },
 
-    topDecoration: {
+    content: {
+      position:
+        "relative",
+
+      zIndex:
+        2,
+
+      flex:
+        1,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Décorations générales
+    |--------------------------------------------------------------------------
+    */
+
+    topOrbitLarge: {
       position:
         "absolute",
 
       top:
-        -78,
+        -112,
 
       right:
-        -68,
+        -101,
 
       width:
-        190,
+        258,
 
       height:
-        190,
+        258,
 
       borderRadius:
-        95,
+        129,
 
-      backgroundColor:
-        "#E8DEEC",
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
 
       opacity:
-        0.56,
+        0.5,
     },
 
-    bottomDecoration: {
+    topOrbitMedium: {
+      position:
+        "absolute",
+
+      top:
+        -75,
+
+      right:
+        -64,
+
+      width:
+        184,
+
+      height:
+        184,
+
+      borderRadius:
+        92,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.45,
+    },
+
+    topOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -37,
+
+      right:
+        -27,
+
+      width:
+        108,
+
+      height:
+        108,
+
+      borderRadius:
+        54,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        GOLD,
+
+      opacity:
+        0.25,
+    },
+
+    bottomOrbitLarge: {
       position:
         "absolute",
 
       bottom:
-        -94,
+        -129,
 
       left:
-        -80,
+        -118,
 
       width:
-        210,
+        275,
 
       height:
-        210,
+        275,
 
       borderRadius:
-        105,
+        138,
 
-      backgroundColor:
-        "#F0E2CC",
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
 
       opacity:
-        0.46,
+        0.42,
+    },
+
+    bottomOrbitMedium: {
+      position:
+        "absolute",
+
+      bottom:
+        -84,
+
+      left:
+        -73,
+
+      width:
+        184,
+
+      height:
+        184,
+
+      borderRadius:
+        92,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.35,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête
+    |--------------------------------------------------------------------------
+    */
+
+    header: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "space-between",
+
+      marginBottom:
+        14,
+    },
+
+    logo: {
+      width:
+        108,
+
+      height:
+        38,
+
+      objectFit:
+        "contain",
+    },
+
+    signBadge: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      paddingTop:
+        7,
+
+      paddingRight:
+        12,
+
+      paddingBottom:
+        7,
+
+      paddingLeft:
+        10,
+
+      borderRadius:
+        18,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    signIcon: {
+      width:
+        22,
+
+      height:
+        22,
+
+      marginRight:
+        7,
+
+      objectFit:
+        "contain",
+    },
+
+    signName: {
+      color:
+        GOLD,
+
+      fontSize:
+        8,
+
+      letterSpacing:
+        1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Titre
+    |--------------------------------------------------------------------------
+    */
+
+    titleBlock: {
+      marginBottom:
+        12,
     },
 
     eyebrow: {
       marginBottom:
-        8,
+        7,
 
       color:
-        "#9A7137",
+        GOLD,
 
       fontSize:
-        8.5,
-
-      fontWeight:
-        700,
+        9,
 
       letterSpacing:
-        1.5,
+        2.35,
 
       textTransform:
         "uppercase",
@@ -271,138 +582,256 @@ const styles =
 
     title: {
       maxWidth:
-        420,
-
-      color:
-        "#38273E",
-
-      fontSize:
-        24,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.12,
-    },
-
-    divider: {
-      width:
-        56,
-
-      height:
-        2,
-
-      marginTop:
-        14,
+        440,
 
       marginBottom:
-        17,
-
-      backgroundColor:
-        "#C79B52",
-    },
-
-    introduction: {
-      maxWidth:
-        465,
+        6,
 
       color:
-        "#5F5364",
+        CREAM,
 
       fontSize:
-        10.2,
+        23.5,
 
       lineHeight:
-        1.55,
+        1.17,
     },
 
-    explanationBox: {
-      marginTop:
-        17,
+    period: {
+      marginBottom:
+        9,
 
-      paddingTop:
-        11,
+      color:
+        MUTED_CREAM,
 
-      paddingRight:
-        14,
+      fontSize:
+        9.5,
+    },
 
-      paddingBottom:
-        11,
+    titleDecoration: {
+      flexDirection:
+        "row",
 
-      paddingLeft:
-        14,
+      alignItems:
+        "center",
+    },
 
-      borderLeft:
-        "3 solid #765279",
+    titleLineLarge: {
+      width:
+        62,
+
+      height:
+        1,
+
+      marginRight:
+        9,
 
       backgroundColor:
-        "#F1EAF2",
+        GOLD,
     },
 
-    explanationText: {
-      color:
-        "#5B4C5E",
+    titleIcon: {
+      width:
+        16,
 
-      fontSize:
-        8.4,
+      height:
+        16,
 
-      lineHeight:
-        1.48,
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
     },
 
-    eventsContainer: {
-      marginTop:
-        17,
+    titleLineSmall: {
+      width:
+        23,
 
-      gap:
-        11,
+      height:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
     },
 
-    eventCard: {
+    /*
+    |--------------------------------------------------------------------------
+    | Introduction
+    |--------------------------------------------------------------------------
+    */
+
+    introductionCard: {
       position:
         "relative",
 
       minHeight:
-        116,
+        69,
+
+      marginBottom:
+        11,
 
       paddingTop:
-        15,
+        11,
 
       paddingRight:
-        16,
+        15,
 
       paddingBottom:
-        14,
+        11,
 
       paddingLeft:
-        108,
-
-      border:
-        "1 solid #E4DCE4",
+        15,
 
       borderRadius:
-        8,
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
 
       backgroundColor:
-        "#FFFFFF",
+        NAVY_CARD,
+
+      overflow:
+        "hidden",
     },
 
-    eventAside: {
+    introductionWatermark: {
       position:
         "absolute",
 
       top:
-        15,
+        3,
 
-      bottom:
-        15,
-
-      left:
+      right:
         15,
 
       width:
-        76,
+        64,
+
+      height:
+        64,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.05,
+    },
+
+    introductionLabel: {
+      marginBottom:
+        5,
+
+      color:
+        GOLD,
+
+      fontSize:
+        6.8,
+
+      letterSpacing:
+        1.1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    introductionText: {
+      maxWidth:
+        455,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        8.35,
+
+      lineHeight:
+        1.47,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Note explicative
+    |--------------------------------------------------------------------------
+    */
+
+    explanationCard: {
+      position:
+        "relative",
+
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      minHeight:
+        54,
+
+      marginBottom:
+        11,
+
+      paddingTop:
+        9,
+
+      paddingRight:
+        13,
+
+      paddingBottom:
+        9,
+
+      paddingLeft:
+        11,
+
+      borderRadius:
+        10,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
+    },
+
+    explanationAccent: {
+      width:
+        2,
+
+      alignSelf:
+        "stretch",
+
+      marginRight:
+        10,
+
+      borderRadius:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
+    },
+
+    explanationIconCircle: {
+      width:
+        31,
+
+      height:
+        31,
 
       alignItems:
         "center",
@@ -410,71 +839,426 @@ const styles =
       justifyContent:
         "center",
 
+      marginRight:
+        10,
+
+      borderRadius:
+        16,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    explanationIcon: {
+      width:
+        19,
+
+      height:
+        19,
+
+      objectFit:
+        "contain",
+    },
+
+    explanationText: {
+      flex:
+        1,
+
+      color:
+        SOFT_TEXT,
+
+      fontSize:
+        7.5,
+
+      lineHeight:
+        1.42,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête de section
+    |--------------------------------------------------------------------------
+    */
+
+    sectionHeader: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      marginBottom:
+        8,
+    },
+
+    sectionLine: {
+      width:
+        28,
+
+      height:
+        1,
+
+      marginRight:
+        9,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    sectionIcon: {
+      width:
+        15,
+
+      height:
+        15,
+
+      marginRight:
+        8,
+
+      objectFit:
+        "contain",
+    },
+
+    sectionTitle: {
+      color:
+        GOLD,
+
+      fontSize:
+        8.9,
+
+      letterSpacing:
+        1.35,
+
+      textTransform:
+        "uppercase",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Liste des événements
+    |--------------------------------------------------------------------------
+    */
+
+    eventsContainer: {
+      marginBottom:
+        10,
+    },
+
+    eventCard: {
+      position:
+        "relative",
+
+      flexDirection:
+        "row",
+
+      minHeight:
+        109,
+
+      marginBottom:
+        8,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+
+      overflow:
+        "hidden",
+    },
+
+    eventCardLast: {
+      marginBottom:
+        0,
+    },
+
+    eventAside: {
+      position:
+        "relative",
+
+      width:
+        91,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      paddingTop:
+        11,
+
       paddingRight:
-        7,
+        8,
+
+      paddingBottom:
+        11,
 
       paddingLeft:
+        8,
+
+      borderRightWidth:
+        0.6,
+
+      borderRightColor:
+        DEEP_GOLD,
+
+      backgroundColor:
+        NAVY_DEEP,
+
+      overflow:
+        "hidden",
+    },
+
+    asideOrbitLarge: {
+      position:
+        "absolute",
+
+      top:
+        -35,
+
+      left:
+        -30,
+
+      width:
+        98,
+
+      height:
+        98,
+
+      borderRadius:
+        49,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      opacity:
+        0.65,
+    },
+
+    asideOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -12,
+
+      left:
+        -8,
+
+      width:
+        55,
+
+      height:
+        55,
+
+      borderRadius:
+        28,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.55,
+    },
+
+    eventIconOuter: {
+      width:
+        43,
+
+      height:
+        43,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginBottom:
         7,
 
       borderRadius:
-        7,
+        22,
 
-      backgroundColor:
-        "#F5F0F5",
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
     },
 
-    eventSymbol: {
-      color:
-        "#56365C",
+    eventIconInner: {
+      width:
+        35,
 
-      fontSize:
-        27,
+      height:
+        35,
 
-      fontWeight:
-        700,
+      alignItems:
+        "center",
 
-      lineHeight:
-        1,
+      justifyContent:
+        "center",
+
+      borderRadius:
+        18,
+
+      borderWidth:
+        0.8,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    eventIcon: {
+      width:
+        23,
+
+      height:
+        23,
+
+      objectFit:
+        "contain",
     },
 
     eventName: {
-      marginTop:
-        6,
+      maxWidth:
+        72,
+
+      marginBottom:
+        4,
 
       color:
-        "#4A354E",
+        CREAM,
 
       fontSize:
-        7.6,
+        6.6,
 
-      fontWeight:
-        700,
+      lineHeight:
+        1.24,
 
       textAlign:
         "center",
-
-      lineHeight:
-        1.2,
     },
 
     eventDate: {
-      marginTop:
-        5,
-
       color:
-        "#8D778F",
+        GOLD,
 
       fontSize:
-        6.7,
+        6,
 
-      fontWeight:
-        700,
+      letterSpacing:
+        0.55,
 
       textAlign:
         "center",
 
       textTransform:
         "uppercase",
+    },
+
+    eventMain: {
+      position:
+        "relative",
+
+      flex:
+        1,
+
+      paddingTop:
+        10,
+
+      paddingRight:
+        13,
+
+      paddingBottom:
+        9,
+
+      paddingLeft:
+        13,
+
+      overflow:
+        "hidden",
+    },
+
+    eventMainOrbitLarge: {
+      position:
+        "absolute",
+
+      top:
+        -65,
+
+      right:
+        -68,
+
+      width:
+        144,
+
+      height:
+        144,
+
+      borderRadius:
+        72,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      opacity:
+        0.55,
+    },
+
+    eventMainOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -29,
+
+      right:
+        -32,
+
+      width:
+        76,
+
+      height:
+        76,
+
+      borderRadius:
+        38,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.4,
     },
 
     eventHeader: {
@@ -488,21 +1272,18 @@ const styles =
         "space-between",
 
       marginBottom:
-        5,
+        4,
     },
 
     eventLabel: {
       color:
-        "#8E7E91",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.9,
 
       letterSpacing:
-        0.45,
+        0.75,
 
       textTransform:
         "uppercase",
@@ -513,25 +1294,25 @@ const styles =
         3,
 
       paddingRight:
-        8,
+        7,
 
       paddingBottom:
         3,
 
       paddingLeft:
-        8,
+        7,
 
       borderRadius:
         9,
 
-      fontSize:
-        6.7,
+      borderWidth:
+        0.5,
 
-      fontWeight:
-        700,
+      fontSize:
+        5.8,
 
       letterSpacing:
-        0.3,
+        0.35,
 
       textTransform:
         "uppercase",
@@ -539,129 +1320,141 @@ const styles =
 
     categoryMovement: {
       color:
-        "#526A84",
+        "#D5E5F4",
+
+      borderColor:
+        "#526D88",
 
       backgroundColor:
-        "#E8EEF4",
+        "#17283B",
     },
 
     categoryRetrograde: {
       color:
-        "#7A5D3E",
+        "#F1DFC2",
+
+      borderColor:
+        "#806843",
 
       backgroundColor:
-        "#F3EBDD",
+        "#302719",
     },
 
     categoryAlignment: {
       color:
-        "#5E765B",
+        "#D9ECD6",
+
+      borderColor:
+        "#5F7B5A",
 
       backgroundColor:
-        "#E9F0E7",
+        "#182B22",
     },
 
     categoryTransition: {
       color:
-        "#80546F",
+        "#E7D7EA",
+
+      borderColor:
+        "#755679",
 
       backgroundColor:
-        "#F2E8EE",
+        "#2B1E30",
     },
 
     eventTitle: {
       marginBottom:
-        5,
+        4,
+
+      paddingRight:
+        20,
 
       color:
-        "#342638",
+        GOLD,
 
       fontSize:
-        11.3,
-
-      fontWeight:
-        700,
+        9.4,
 
       lineHeight:
         1.25,
     },
 
     eventDescription: {
+      marginBottom:
+        5,
+
       color:
-        "#625766",
+        MUTED_CREAM,
 
       fontSize:
-        8.3,
+        6.85,
 
       lineHeight:
-        1.47,
+        1.36,
     },
 
-    impactContainer: {
-      marginTop:
-        7,
+    informationRow: {
+      flexDirection:
+        "row",
 
       paddingTop:
-        7,
+        5,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
     },
 
-    impactTitle: {
+    informationColumn: {
+      width:
+        "50%",
+
+      paddingRight:
+        9,
+    },
+
+    adviceColumn: {
+      width:
+        "50%",
+
+      paddingLeft:
+        9,
+
+      borderLeftWidth:
+        0.5,
+
+      borderLeftColor:
+        DEEP_GOLD,
+    },
+
+    informationLabel: {
       marginBottom:
-        3,
+        2.5,
 
       color:
-        "#765279",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.5,
 
       letterSpacing:
         0.65,
 
       textTransform:
         "uppercase",
-    },
-
-    impactText: {
-      color:
-        "#514756",
-
-      fontSize:
-        7.9,
-
-      lineHeight:
-        1.42,
-    },
-
-    adviceContainer: {
-      marginTop:
-        7,
-
-      paddingTop:
-        7,
-
-      borderTop:
-        "1 solid #EEE8EE",
     },
 
     adviceLabel: {
       marginBottom:
-        3,
+        2.5,
 
       color:
-        "#A17638",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.5,
 
       letterSpacing:
         0.65,
@@ -670,80 +1463,37 @@ const styles =
         "uppercase",
     },
 
-    advice: {
+    informationText: {
       color:
-        "#514756",
+        MUTED_CREAM,
 
       fontSize:
-        7.9,
-
-      fontStyle:
-        "italic",
+        6.3,
 
       lineHeight:
-        1.42,
+        1.34,
     },
 
-    closingBox: {
-      marginTop:
-        17,
-
-      paddingTop:
-        13,
-
-      paddingRight:
-        15,
-
-      paddingBottom:
-        13,
-
-      paddingLeft:
-        15,
-
-      borderLeft:
-        "3 solid #C79B52",
-
-      backgroundColor:
-        "#F4EEE5",
-    },
-
-    closingTitle: {
-      marginBottom:
-        4,
-
+    adviceText: {
       color:
-        "#4A354E",
+        CREAM,
 
       fontSize:
-        9,
-
-      fontWeight:
-        700,
-    },
-
-    closingText: {
-      color:
-        "#625665",
-
-      fontSize:
-        8.5,
+        6.3,
 
       lineHeight:
-        1.48,
+        1.34,
     },
 
-    footer: {
+    /*
+    |--------------------------------------------------------------------------
+    | Synthèse
+    |--------------------------------------------------------------------------
+    */
+
+    closingCard: {
       position:
-        "absolute",
-
-      right:
-        48,
-
-      bottom:
-        25,
-
-      left:
-        48,
+        "relative",
 
       flexDirection:
         "row",
@@ -751,27 +1501,152 @@ const styles =
       alignItems:
         "center",
 
-      justifyContent:
-        "space-between",
+      minHeight:
+        68,
 
       paddingTop:
-        8,
+        10,
 
-      borderTop:
-        "1 solid #DED5DF",
+      paddingRight:
+        15,
+
+      paddingBottom:
+        10,
+
+      paddingLeft:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
     },
 
-    footerText: {
+    closingWatermark: {
+      position:
+        "absolute",
+
+      top:
+        3,
+
+      right:
+        15,
+
+      width:
+        60,
+
+      height:
+        60,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.05,
+    },
+
+    closingIconCircle: {
+      width:
+        38,
+
+      height:
+        38,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        11,
+
+      borderRadius:
+        19,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+    },
+
+    closingIcon: {
+      width:
+        23,
+
+      height:
+        23,
+
+      objectFit:
+        "contain",
+    },
+
+    closingContent: {
+      flex:
+        1,
+    },
+
+    closingTitle: {
+      marginBottom:
+        4,
+
       color:
-        "#8E7E91",
+        GOLD,
 
       fontSize:
-        7,
+        6.8,
+
+      letterSpacing:
+        1.05,
+
+      textTransform:
+        "uppercase",
+    },
+
+    closingText: {
+      maxWidth:
+        425,
+
+      color:
+        CREAM,
+
+      fontSize:
+        7.8,
+
+      lineHeight:
+        1.42,
     },
   });
 
+/*
+|--------------------------------------------------------------------------
+| Style du badge selon le type d’événement
+|--------------------------------------------------------------------------
+*/
+
 function getEventCategoryStyle(
-  tone: AstroEventTone,
+  tone:
+    AstroEventTone,
 ) {
   switch (tone) {
     case "movement":
@@ -791,214 +1666,430 @@ function getEventCategoryStyle(
   }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
+
 export default function HoroscopeMonthAstroEvents({
   identity,
   period,
 }: HoroscopeMonthAstroEventsProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
   return (
     <Page
       size="A4"
       style={styles.page}
       wrap={false}
     >
-      <View
-        style={styles.topDecoration}
-      />
+      {/*
+      |--------------------------------------------------------------------------
+      | Fond
+      |--------------------------------------------------------------------------
+      */}
 
-      <View
-        style={styles.bottomDecoration}
-      />
+      <HoroscopeStarBackground />
 
-      <Text style={styles.eyebrow}>
-        Les mouvements du ciel
-      </Text>
+      <View style={styles.topOrbitLarge} />
+      <View style={styles.topOrbitMedium} />
+      <View style={styles.topOrbitSmall} />
 
-      <Text style={styles.title}>
-        Les événements astrologiques du mois
-      </Text>
+      <View style={styles.bottomOrbitLarge} />
+      <View style={styles.bottomOrbitMedium} />
 
-      <View style={styles.divider} />
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <Text style={styles.introduction}>
-        Plusieurs mouvements astrologiques
-        peuvent influencer le climat de{" "}
-        {period.label} pour le signe{" "}
-        {identity.zodiacSignLabel}.
-        Ces événements indiquent les
-        moments où l’énergie générale
-        change, ralentit ou devient plus
-        favorable à certaines initiatives.
-      </Text>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <View
-        style={styles.explanationBox}
-      >
-        <Text
-          style={styles.explanationText}
-        >
-          Les événements astrologiques
-          décrivent des tendances
-          collectives. Leur influence
-          personnelle dépendra ensuite de
-          leur interaction avec votre signe
-          et avec les autres mouvements
-          présents durant le mois.
-        </Text>
-      </View>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <View
-        style={styles.eventsContainer}
-      >
-        {TEMPORARY_ASTRO_EVENTS.map(
-          (
-            item,
-          ) => (
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Les mouvements du ciel
+          </Text>
+
+          <Text style={styles.title}>
+            Les événements astrologiques du mois
+          </Text>
+
+          <Text style={styles.period}>
+            {period.label}
+          </Text>
+
+          <View style={styles.titleDecoration}>
             <View
-              key={item.id}
-              style={styles.eventCard}
-              wrap={false}
-            >
-              <View
-                style={styles.eventAside}
-              >
-                <Text
-                  style={styles.eventSymbol}
-                >
-                  {item.symbol}
-                </Text>
+              style={styles.titleLineLarge}
+            />
 
-                <Text
-                  style={styles.eventName}
-                >
-                  {item.event}
-                </Text>
+            <Image
+              src={HOROSCOPE_ICONS.sun}
+              style={styles.titleIcon}
+            />
 
-                <Text
-                  style={styles.eventDate}
-                >
-                  {item.date}
-                </Text>
-              </View>
+            <View
+              style={styles.titleLineSmall}
+            />
+          </View>
+        </View>
 
-              <View
-                style={styles.eventHeader}
-              >
-                <Text
-                  style={styles.eventLabel}
-                >
-                  Événement astrologique
-                </Text>
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
 
-                <Text
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.sun}
+            style={
+              styles.introductionWatermark
+            }
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Votre calendrier céleste
+          </Text>
+
+          <Text
+            style={styles.introductionText}
+          >
+            Plusieurs mouvements astrologiques
+            peuvent influencer le climat de{" "}
+            {period.label} pour le signe{" "}
+            {identity.zodiacSignLabel}. Ces
+            événements indiquent les moments où
+            l’énergie générale change, ralentit
+            ou devient plus favorable à certaines
+            initiatives.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Explication
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.explanationCard}
+          wrap={false}
+        >
+          <View
+            style={styles.explanationAccent}
+          />
+
+          <View
+            style={
+              styles.explanationIconCircle
+            }
+          >
+            <Image
+              src={HOROSCOPE_ICONS.jupiter}
+              style={styles.explanationIcon}
+            />
+          </View>
+
+          <Text
+            style={styles.explanationText}
+          >
+            Les événements astrologiques
+            décrivent des tendances collectives.
+            Leur influence personnelle dépend
+            ensuite de leur interaction avec
+            votre signe et avec les autres
+            mouvements présents durant le mois.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Événements
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.mercury}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionTitle}>
+            Les moments importants du mois
+          </Text>
+        </View>
+
+        <View style={styles.eventsContainer}>
+          {TEMPORARY_ASTRO_EVENTS.map(
+            (
+              item,
+              index,
+            ) => {
+              const isLast =
+                index ===
+                TEMPORARY_ASTRO_EVENTS.length -
+                  1;
+
+              return (
+                <View
+                  key={item.id}
                   style={[
-                    styles.categoryBadge,
-                    getEventCategoryStyle(
-                      item.tone,
-                    ),
+                    styles.eventCard,
+                    isLast
+                      ? styles.eventCardLast
+                      : {},
                   ]}
+                  wrap={false}
                 >
-                  {item.category}
-                </Text>
-              </View>
+                  {/*
+                  |--------------------------------------------------------------------------
+                  | Colonne gauche
+                  |--------------------------------------------------------------------------
+                  */}
 
-              <Text
-                style={styles.eventTitle}
-              >
-                {item.title}
-              </Text>
+                  <View style={styles.eventAside}>
+                    <View
+                      style={
+                        styles.asideOrbitLarge
+                      }
+                    />
 
-              <Text
-                style={
-                  styles.eventDescription
-                }
-              >
-                {item.description}
-              </Text>
+                    <View
+                      style={
+                        styles.asideOrbitSmall
+                      }
+                    />
 
-              <View
-                style={
-                  styles.impactContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.impactTitle
-                  }
-                >
-                  Influence possible
-                </Text>
+                    <View
+                      style={
+                        styles.eventIconOuter
+                      }
+                    >
+                      <View
+                        style={
+                          styles.eventIconInner
+                        }
+                      >
+                        <Image
+                          src={item.icon}
+                          style={
+                            styles.eventIcon
+                          }
+                        />
+                      </View>
+                    </View>
 
-                <Text
-                  style={styles.impactText}
-                >
-                  {item.impact}
-                </Text>
-              </View>
+                    <Text
+                      style={styles.eventName}
+                    >
+                      {item.event}
+                    </Text>
 
-              <View
-                style={
-                  styles.adviceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.adviceLabel
-                  }
-                >
-                  Conseil
-                </Text>
+                    <Text
+                      style={styles.eventDate}
+                    >
+                      {item.date}
+                    </Text>
+                  </View>
 
-                <Text
-                  style={styles.advice}
-                >
-                  {item.advice}
-                </Text>
-              </View>
-            </View>
-          ),
-        )}
+                  {/*
+                  |--------------------------------------------------------------------------
+                  | Contenu principal
+                  |--------------------------------------------------------------------------
+                  */}
+
+                  <View style={styles.eventMain}>
+                    <View
+                      style={
+                        styles.eventMainOrbitLarge
+                      }
+                    />
+
+                    <View
+                      style={
+                        styles.eventMainOrbitSmall
+                      }
+                    />
+
+                    <View
+                      style={styles.eventHeader}
+                    >
+                      <Text
+                        style={
+                          styles.eventLabel
+                        }
+                      >
+                        Événement astrologique
+                      </Text>
+
+                      <Text
+                        style={[
+                          styles.categoryBadge,
+                          getEventCategoryStyle(
+                            item.tone,
+                          ),
+                        ]}
+                      >
+                        {item.category}
+                      </Text>
+                    </View>
+
+                    <Text
+                      style={styles.eventTitle}
+                    >
+                      {item.title}
+                    </Text>
+
+                    <Text
+                      style={
+                        styles.eventDescription
+                      }
+                    >
+                      {item.description}
+                    </Text>
+
+                    <View
+                      style={
+                        styles.informationRow
+                      }
+                    >
+                      <View
+                        style={
+                          styles.informationColumn
+                        }
+                      >
+                        <Text
+                          style={
+                            styles.informationLabel
+                          }
+                        >
+                          Influence possible
+                        </Text>
+
+                        <Text
+                          style={
+                            styles.informationText
+                          }
+                        >
+                          {item.impact}
+                        </Text>
+                      </View>
+
+                      <View
+                        style={
+                          styles.adviceColumn
+                        }
+                      >
+                        <Text
+                          style={
+                            styles.adviceLabel
+                          }
+                        >
+                          Conseil
+                        </Text>
+
+                        <Text
+                          style={
+                            styles.adviceText
+                          }
+                        >
+                          {item.advice}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            },
+          )}
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Conclusion
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.closingCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.saturn}
+            style={styles.closingWatermark}
+          />
+
+          <View
+            style={
+              styles.closingIconCircle
+            }
+          >
+            <Image
+              src={HOROSCOPE_ICONS.saturn}
+              style={styles.closingIcon}
+            />
+          </View>
+
+          <View style={styles.closingContent}>
+            <Text
+              style={styles.closingTitle}
+            >
+              Observer les transitions du mois
+            </Text>
+
+            <Text
+              style={styles.closingText}
+            >
+              Certains mouvements vous
+              encouragent à agir, tandis que
+              d’autres vous invitent à réviser
+              votre approche. En observant ces
+              changements de rythme, vous pouvez
+              choisir plus consciemment les
+              périodes où avancer, ajuster ou
+              prendre du recul.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.closingBox}>
-        <Text
-          style={styles.closingTitle}
-        >
-          Observer les transitions du mois
-        </Text>
-
-        <Text
-          style={styles.closingText}
-        >
-          Certains mouvements vous
-          encouragent à agir, tandis que
-          d’autres vous invitent à réviser
-          votre approche. En observant ces
-          changements de rythme, vous
-          pouvez choisir plus consciemment
-          les périodes où avancer, ajuster
-          ou prendre du recul.
-        </Text>
-      </View>
-
-      <View
-        fixed
-        style={styles.footer}
-      >
-        <Text
-          style={styles.footerText}
-        >
-          Luna Astralis
-        </Text>
-
-        <Text
-          style={styles.footerText}
-        >
-          {identity.zodiacSignLabel}
-          {" • "}
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
-
