@@ -12,3 +12,7 @@ export {
 export {
   createMonthlyLoveTexts,
 } from "./createMonthlyLoveTexts";
+
+export {
+  buildMonthlyLove,
+} from "./buildMonthlyLove";
