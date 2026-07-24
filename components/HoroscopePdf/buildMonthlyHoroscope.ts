@@ -26,32 +26,31 @@ import type {
 
 import {
   buildMonthlyLove,
-} from "./month/buildMonthlyLove";
+} from "./month/data/buildMonthlyLove";
 
 import {
   buildMonthlyCareer,
-} from "./month/buildMonthlyCareer";
+} from "./month/data/buildMonthlyCareer";
 
 import {
   buildMonthlyFinance,
-} from "./month/buildMonthlyFinance";
+} from "./month/data/buildMonthlyFinance";
 
 import {
   buildMonthlyHealth,
-} from "./month/buildMonthlyHealth";
+} from "./month/data/buildMonthlyHealth";
 
 import {
   buildMonthlySocial,
-} from "./month/buildMonthlySocial";
+} from "./month/data/buildMonthlySocial";
 
 import {
   buildMonthlyChallenge,
-} from "./month/buildMonthlyChallenge";
+} from "./month/data/buildMonthlyChallenge";
 
 import {
   buildMonthlyOpportunity,
-} from "./month/buildMonthlyOpportunity";
-
+} from "./month/data/buildMonthlyOpportunity";
 /*
 |--------------------------------------------------------------------------
 | Types
