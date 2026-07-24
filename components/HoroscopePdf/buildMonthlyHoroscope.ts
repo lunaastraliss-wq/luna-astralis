@@ -986,26 +986,47 @@ export function buildMonthlyHoroscope({
   |--------------------------------------------------------------------------
   */
 
-  const love =
-    buildMonthlyLove(seed);
+ const monthlySectionParams = {
+  zodiacSign: normalizedSign,
+  zodiacSignLabel,
+  isoMonth,
+  seed,
+};
 
-  const career =
-    buildMonthlyCareer(seed);
+const love =
+  buildMonthlyLove(
+    monthlySectionParams,
+  );
 
-  const money =
-    buildMonthlyFinance(seed);
+const career =
+  buildMonthlyCareer(
+    monthlySectionParams,
+  );
 
-  const health =
-    buildMonthlyHealth(seed);
+const money =
+  buildMonthlyFinance(
+    monthlySectionParams,
+  );
 
-  const social =
-    buildMonthlySocial(seed);
+const health =
+  buildMonthlyHealth(
+    monthlySectionParams,
+  );
 
-  const challenge =
-    buildMonthlyChallenge(seed);
+const social =
+  buildMonthlySocial(
+    monthlySectionParams,
+  );
 
-  const opportunity =
-    buildMonthlyOpportunity(seed);
+const challenge =
+  buildMonthlyChallenge(
+    monthlySectionParams,
+  );
+
+const opportunity =
+  buildMonthlyOpportunity(
+    monthlySectionParams,
+  );
 
   /*
   |--------------------------------------------------------------------------
