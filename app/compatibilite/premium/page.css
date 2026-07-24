@@ -1816,3 +1816,93 @@
     transition: none;
   }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Correction finale — texte visible sur les cartes sombres
+|--------------------------------------------------------------------------
+*/
+
+.compat-premium-page .compat-premium-hero,
+.compat-premium-page .compat-premium-benefits,
+.compat-premium-page .compat-premium-order-summary,
+.compat-premium-page .compat-premium-final {
+  color: #ffffff;
+}
+
+.compat-premium-page .compat-premium-hero h1,
+.compat-premium-page .compat-premium-hero h2,
+.compat-premium-page .compat-premium-hero h3,
+.compat-premium-page .compat-premium-benefits h1,
+.compat-premium-page .compat-premium-benefits h2,
+.compat-premium-page .compat-premium-benefits h3,
+.compat-premium-page .compat-premium-order-summary h1,
+.compat-premium-page .compat-premium-order-summary h2,
+.compat-premium-page .compat-premium-order-summary h3,
+.compat-premium-page .compat-premium-final h1,
+.compat-premium-page .compat-premium-final h2,
+.compat-premium-page .compat-premium-final h3 {
+  color: #ffffff !important;
+}
+
+.compat-premium-page .compat-premium-hero p,
+.compat-premium-page .compat-premium-hero li,
+.compat-premium-page .compat-premium-benefits p,
+.compat-premium-page .compat-premium-benefits li,
+.compat-premium-page .compat-premium-order-summary p,
+.compat-premium-page .compat-premium-order-summary li,
+.compat-premium-page .compat-premium-final p,
+.compat-premium-page .compat-premium-final li {
+  color: rgba(255, 255, 255, 0.76) !important;
+}
+
+.compat-premium-page .compat-premium-order-summary small,
+.compat-premium-page .compat-premium-hero small,
+.compat-premium-page .compat-premium-benefits small,
+.compat-premium-page .compat-premium-final small {
+  color: rgba(255, 255, 255, 0.62) !important;
+}
+
+.compat-premium-page .compat-premium-section-label,
+.compat-premium-page .compat-premium-order-summary-label,
+.compat-premium-page .compat-premium-order-price strong,
+.compat-premium-page .compat-premium-order-preview-link,
+.compat-premium-page .compat-premium-benefits .compat-premium-text-link {
+  color: #f1d49e !important;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Correction définitive — couleur du texte des boutons-liens
+|--------------------------------------------------------------------------
+*/
+
+.compat-premium-page a.compat-premium-button-primary,
+.compat-premium-page a.compat-premium-button-primary:visited {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.compat-premium-page .compat-premium-report-actions a.compat-premium-button-primary,
+.compat-premium-page .compat-premium-section-action a.compat-premium-button-primary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.compat-premium-page .compat-premium-hero a.compat-premium-button-primary,
+.compat-premium-page .compat-premium-final a.compat-premium-button-primary {
+  color: #25192d !important;
+  -webkit-text-fill-color: #25192d !important;
+}
+
+.compat-premium-page a.compat-premium-button-secondary,
+.compat-premium-page a.compat-premium-button-secondary:visited {
+  color: var(--compat-purple-dark) !important;
+  -webkit-text-fill-color: var(--compat-purple-dark) !important;
+}
+
+.compat-premium-page .compat-premium-hero a.compat-premium-button-secondary,
+.compat-premium-page .compat-premium-final a.compat-premium-button-secondary {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
