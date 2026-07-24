@@ -1,7 +1,7 @@
 import type {
   HoroscopePlanetaryInfluence,
   HoroscopeZodiacSign,
-} from "./HoroscopePdfTypes";
+} from "../HoroscopePdfTypes";
 
 export type BuildMonthlyPlanetaryInfluencesOptions = {
   zodiacSign: HoroscopeZodiacSign;
