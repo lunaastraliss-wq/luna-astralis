@@ -24,6 +24,34 @@ import type {
   MonthlyMajorEnergiesResult,
 } from "./month/buildMonthlyMajorEnergies";
 
+import {
+  buildMonthlyLove,
+} from "./month/buildMonthlyLove";
+
+import {
+  buildMonthlyCareer,
+} from "./month/buildMonthlyCareer";
+
+import {
+  buildMonthlyFinance,
+} from "./month/buildMonthlyFinance";
+
+import {
+  buildMonthlyHealth,
+} from "./month/buildMonthlyHealth";
+
+import {
+  buildMonthlySocial,
+} from "./month/buildMonthlySocial";
+
+import {
+  buildMonthlyChallenge,
+} from "./month/buildMonthlyChallenge";
+
+import {
+  buildMonthlyOpportunity,
+} from "./month/buildMonthlyOpportunity";
+
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -32,11 +60,18 @@ import type {
 
 type BuildMonthlyHoroscopeOptions = {
   firstName?: string;
-  zodiacSign: HoroscopeZodiacSign | string;
+
+  zodiacSign:
+    | HoroscopeZodiacSign
+    | string;
 
   /*
+  |--------------------------------------------------------------------------
   | Format attendu : YYYY-MM
+  |--------------------------------------------------------------------------
+  |
   | Exemple : 2026-07
+  |
   */
 
   month?: string;
@@ -88,8 +123,11 @@ export type MonthlyHoroscopeResult = {
 |--------------------------------------------------------------------------
 */
 
-function getLocalIsoMonth(date = new Date()): string {
-  const year = date.getFullYear();
+function getLocalIsoMonth(
+  date = new Date(),
+): string {
+  const year =
+    date.getFullYear();
 
   const month = String(
     date.getMonth() + 1,
@@ -131,7 +169,9 @@ function getMonthDates(
     monthValue,
   ] = isoMonth.split("-");
 
-  const year = Number(yearValue);
+  const year =
+    Number(yearValue);
+
   const monthIndex =
     Number(monthValue) - 1;
 
@@ -214,7 +254,9 @@ function getMonthlyWeekLabels(
     monthValue,
   ] = isoMonth.split("-");
 
-  const year = Number(yearValue);
+  const year =
+    Number(yearValue);
+
   const monthIndex =
     Number(monthValue) - 1;
 
@@ -299,8 +341,9 @@ function pick<T>(
   offset = 0,
 ): T {
   return values[
-    (seed + offset) %
-      values.length
+    Math.abs(
+      seed + offset * 31,
+    ) % values.length
   ];
 }
 
@@ -315,9 +358,8 @@ function createScore(
 
   return (
     minimum +
-    (
-      seed +
-      offset * 17
+    Math.abs(
+      seed + offset * 17,
     ) %
       range
   );
@@ -389,7 +431,9 @@ function buildMonthlyWeek(
 
   return {
     ...selected,
+
     dateLabel,
+
     scores: buildWeekScores(
       seed,
       weekNumber,
@@ -399,7 +443,7 @@ function buildMonthlyWeek(
 
 /*
 |--------------------------------------------------------------------------
-| Textes — vue d’ensemble
+| Vue d’ensemble
 |--------------------------------------------------------------------------
 */
 
@@ -458,7 +502,7 @@ const SUMMARY_TEXTS = [
 
 /*
 |--------------------------------------------------------------------------
-| Textes — énergie
+| Énergie générale
 |--------------------------------------------------------------------------
 */
 
@@ -517,308 +561,14 @@ const ENERGY_TEXTS = [
 
 /*
 |--------------------------------------------------------------------------
-| Textes — amour
-|--------------------------------------------------------------------------
-*/
-
-const LOVE_TEXTS = [
-  {
-    introduction:
-      "Votre vie affective entre dans une période de clarification.",
-
-    text:
-      "En couple, certaines conversations permettront de mieux comprendre les besoins de chacun. Célibataire, une rencontre pourrait évoluer progressivement sans révéler immédiatement tout son potentiel.",
-
-    advice:
-      "Laissez les liens se développer naturellement sans chercher à accélérer les réponses.",
-
-    highlights: [
-      "Clarification",
-      "Évolution",
-      "Sincérité",
-    ],
-  },
-
-  {
-    introduction:
-      "Ce mois favorise les rapprochements et les échanges plus profonds.",
-
-    text:
-      "Les gestes simples, la disponibilité et l’écoute auront davantage d’impact que les grandes déclarations. Une relation pourrait se renforcer grâce à une présence plus constante.",
-
-    advice:
-      "Exprimez votre affection d’une manière concrète et régulière.",
-
-    highlights: [
-      "Rapprochement",
-      "Écoute",
-      "Complicité",
-    ],
-  },
-
-  {
-    introduction:
-      "Votre besoin de liberté cherche à s’accorder avec votre besoin de sécurité.",
-
-    text:
-      "Vous pourriez alterner entre le désir de vous rapprocher et celui de préserver votre espace. Une communication claire empêchera les malentendus de s’installer.",
-
-    advice:
-      "Expliquez vos besoins sans vous éloigner silencieusement.",
-
-    highlights: [
-      "Liberté",
-      "Sécurité",
-      "Communication",
-    ],
-  },
-] as const;
-
-/*
-|--------------------------------------------------------------------------
-| Textes — travail
-|--------------------------------------------------------------------------
-*/
-
-const CAREER_TEXTS = [
-  {
-    introduction:
-      "Ce mois favorise la planification et les décisions professionnelles réfléchies.",
-
-    text:
-      "Vous pourriez constater qu’un projet demande une meilleure structure avant de pouvoir progresser. Une méthode claire vous permettra d’éviter les efforts inutiles.",
-
-    advice:
-      "Définissez vos priorités avant d’ajouter de nouvelles responsabilités.",
-
-    highlights: [
-      "Planification",
-      "Structure",
-      "Progression",
-    ],
-  },
-
-  {
-    introduction:
-      "Une occasion de démontrer vos compétences peut apparaître.",
-
-    text:
-      "Votre efficacité ou votre capacité à résoudre un problème pourrait être remarquée. Veillez toutefois à ne pas accepter une charge excessive simplement pour prouver votre valeur.",
-
-    advice:
-      "Montrez ce que vous savez faire tout en respectant vos limites.",
-
-    highlights: [
-      "Compétence",
-      "Reconnaissance",
-      "Limites",
-    ],
-  },
-
-  {
-    introduction:
-      "La collaboration joue un rôle important dans votre évolution professionnelle.",
-
-    text:
-      "Une discussion, un partenariat ou une idée extérieure pourrait accélérer un projet. Vous gagnerez à rester ouverte aux suggestions tout en conservant votre jugement.",
-
-    advice:
-      "Choisissez des collaborations fondées sur des objectifs clairs.",
-
-    highlights: [
-      "Collaboration",
-      "Ouverture",
-      "Stratégie",
-    ],
-  },
-] as const;
-
-/*
-|--------------------------------------------------------------------------
-| Textes — finances
-|--------------------------------------------------------------------------
-*/
-
-const MONEY_TEXTS = [
-  {
-    introduction:
-      "Ce mois vous invite à renforcer votre organisation financière.",
-
-    text:
-      "Une meilleure vue d’ensemble de vos dépenses et de vos priorités pourrait vous permettre de retrouver davantage de contrôle. Les petites corrections auront un effet cumulatif important.",
-
-    advice:
-      "Examinez vos dépenses récurrentes avant d’envisager de nouveaux engagements.",
-
-    highlights: [
-      "Organisation",
-      "Contrôle",
-      "Prévision",
-    ],
-  },
-
-  {
-    introduction:
-      "Une possibilité financière mérite d’être étudiée attentivement.",
-
-    text:
-      "Une proposition, un achat ou un projet pourrait sembler intéressant, mais certaines conditions devront être vérifiées. La patience vous aidera à distinguer une véritable occasion d’une décision impulsive.",
-
-    advice:
-      "Comparez les options et vérifiez les conséquences à long terme.",
-
-    highlights: [
-      "Occasion",
-      "Analyse",
-      "Patience",
-    ],
-  },
-
-  {
-    introduction:
-      "La stabilité demeure plus importante que la rapidité ce mois-ci.",
-
-    text:
-      "Vous pourriez être tentée d’accélérer une décision pour obtenir un résultat immédiat. Une approche progressive vous permettra toutefois de préserver une meilleure marge de sécurité.",
-
-    advice:
-      "Privilégiez les décisions que vous pourrez soutenir durablement.",
-
-    highlights: [
-      "Stabilité",
-      "Sécurité",
-      "Prudence",
-    ],
-  },
-] as const;
-
-/*
-|--------------------------------------------------------------------------
-| Textes — bien-être
-|--------------------------------------------------------------------------
-*/
-
-const HEALTH_TEXTS = [
-  {
-    introduction:
-      "Votre bien-être dépendra principalement de la régularité.",
-
-    text:
-      "Les habitudes simples et répétées auront davantage d’effet qu’un changement intense difficile à maintenir. Votre corps bénéficiera d’un rythme stable.",
-
-    advice:
-      "Choisissez une routine réaliste que vous pourrez conserver tout le mois.",
-
-    highlights: [
-      "Régularité",
-      "Routine",
-      "Stabilité",
-    ],
-  },
-
-  {
-    introduction:
-      "Ce mois vous invite à mieux équilibrer activité et récupération.",
-
-    text:
-      "Votre motivation pourrait vous pousser à dépasser vos limites pendant certaines périodes. Les pauses et le sommeil seront essentiels pour maintenir votre énergie.",
-
-    advice:
-      "Planifiez votre récupération avec la même importance que vos activités.",
-
-    highlights: [
-      "Équilibre",
-      "Repos",
-      "Énergie",
-    ],
-  },
-
-  {
-    introduction:
-      "Votre calme mental influence directement votre énergie physique.",
-
-    text:
-      "Une surcharge de pensées ou de responsabilités pourrait créer davantage de fatigue que prévu. Des périodes sans sollicitations favoriseront votre récupération.",
-
-    advice:
-      "Réservez régulièrement du temps à une activité réellement apaisante.",
-
-    highlights: [
-      "Calme",
-      "Détente",
-      "Récupération",
-    ],
-  },
-] as const;
-
-/*
-|--------------------------------------------------------------------------
-| Textes — vie sociale
-|--------------------------------------------------------------------------
-*/
-
-const SOCIAL_TEXTS = [
-  {
-    introduction:
-      "Ce mois privilégie la qualité des relations plutôt que leur nombre.",
-
-    text:
-      "Vous pourriez rechercher des échanges plus authentiques et vous éloigner naturellement des interactions superficielles. Une relation importante pourrait gagner en profondeur.",
-
-    advice:
-      "Accordez davantage de temps aux personnes avec lesquelles vous pouvez rester vous-même.",
-
-    highlights: [
-      "Authenticité",
-      "Profondeur",
-      "Sélection",
-    ],
-  },
-
-  {
-    introduction:
-      "Votre présence attire davantage l’attention ce mois-ci.",
-
-    text:
-      "Vous pourriez être invitée à prendre plus de place dans un groupe ou à exprimer vos idées. Votre naturel produira une meilleure impression que toute tentative de convaincre.",
-
-    advice:
-      "Exprimez-vous avec confiance sans chercher l’approbation générale.",
-
-    highlights: [
-      "Présence",
-      "Expression",
-      "Confiance",
-    ],
-  },
-
-  {
-    introduction:
-      "Certaines relations demandent une mise au point constructive.",
-
-    text:
-      "Un malentendu ou une tension pourrait être réglé plus facilement que prévu grâce à une conversation directe. Évitez toutefois d’aborder un sujet important sous le coup de l’émotion.",
-
-    advice:
-      "Choisissez un moment calme pour clarifier ce qui doit l’être.",
-
-    highlights: [
-      "Dialogue",
-      "Apaisement",
-      "Compréhension",
-    ],
-  },
-] as const;
-
-/*
-|--------------------------------------------------------------------------
-| Textes — progression des quatre semaines
+| Semaine 1
 |--------------------------------------------------------------------------
 */
 
 const WEEK_1_TEXTS = [
   {
-    title: "Poser des bases solides",
+    title:
+      "Poser des bases solides",
 
     introduction:
       "Cette première semaine vous invite à ralentir suffisamment pour définir une direction claire.",
@@ -837,7 +587,8 @@ const WEEK_1_TEXTS = [
   },
 
   {
-    title: "Clarifier vos priorités",
+    title:
+      "Clarifier vos priorités",
 
     introduction:
       "Le début du mois met en lumière ce qui doit être conservé, ajusté ou laissé derrière vous.",
@@ -856,7 +607,8 @@ const WEEK_1_TEXTS = [
   },
 
   {
-    title: "Préparer un nouveau départ",
+    title:
+      "Préparer un nouveau départ",
 
     introduction:
       "Une énergie de renouvellement accompagne cette première étape du mois.",
@@ -875,9 +627,16 @@ const WEEK_1_TEXTS = [
   },
 ] as const;
 
+/*
+|--------------------------------------------------------------------------
+| Semaine 2
+|--------------------------------------------------------------------------
+*/
+
 const WEEK_2_TEXTS = [
   {
-    title: "Passer à l’action",
+    title:
+      "Passer à l’action",
 
     introduction:
       "Cette deuxième semaine favorise les initiatives, les échanges dynamiques et les décisions concrètes.",
@@ -896,7 +655,8 @@ const WEEK_2_TEXTS = [
   },
 
   {
-    title: "Faire avancer vos projets",
+    title:
+      "Faire avancer vos projets",
 
     introduction:
       "Le rythme s’accélère et vous encourage à transformer vos intentions en résultats visibles.",
@@ -915,7 +675,8 @@ const WEEK_2_TEXTS = [
   },
 
   {
-    title: "Affirmer votre direction",
+    title:
+      "Affirmer votre direction",
 
     introduction:
       "Cette semaine renforce votre volonté et votre capacité à prendre davantage de place.",
@@ -934,9 +695,16 @@ const WEEK_2_TEXTS = [
   },
 ] as const;
 
+/*
+|--------------------------------------------------------------------------
+| Semaine 3
+|--------------------------------------------------------------------------
+*/
+
 const WEEK_3_TEXTS = [
   {
-    title: "Ajuster votre trajectoire",
+    title:
+      "Ajuster votre trajectoire",
 
     introduction:
       "La troisième semaine vous invite à observer les résultats obtenus et à corriger ce qui doit l’être.",
@@ -955,7 +723,8 @@ const WEEK_3_TEXTS = [
   },
 
   {
-    title: "Retrouver votre équilibre",
+    title:
+      "Retrouver votre équilibre",
 
     introduction:
       "Cette période demande une meilleure répartition entre vos obligations, vos relations et votre récupération.",
@@ -974,7 +743,8 @@ const WEEK_3_TEXTS = [
   },
 
   {
-    title: "Écouter les signes utiles",
+    title:
+      "Écouter les signes utiles",
 
     introduction:
       "Votre intuition devient plus précise lorsque vous la confrontez aux faits et à votre expérience.",
@@ -993,9 +763,16 @@ const WEEK_3_TEXTS = [
   },
 ] as const;
 
+/*
+|--------------------------------------------------------------------------
+| Semaine 4
+|--------------------------------------------------------------------------
+*/
+
 const WEEK_4_TEXTS = [
   {
-    title: "Consolider vos acquis",
+    title:
+      "Consolider vos acquis",
 
     introduction:
       "La dernière partie du mois vous invite à stabiliser ce que vous avez construit et à reconnaître votre progression.",
@@ -1014,7 +791,8 @@ const WEEK_4_TEXTS = [
   },
 
   {
-    title: "Récolter les résultats",
+    title:
+      "Récolter les résultats",
 
     introduction:
       "Cette quatrième semaine met en évidence les conséquences de vos choix et de vos efforts précédents.",
@@ -1033,7 +811,8 @@ const WEEK_4_TEXTS = [
   },
 
   {
-    title: "Préparer le prochain cycle",
+    title:
+      "Préparer le prochain cycle",
 
     introduction:
       "La fin du mois crée un espace favorable à la synthèse, au détachement et à la préparation.",
@@ -1168,7 +947,9 @@ export function buildMonthlyHoroscope({
     );
 
   /*
-  | Le contenu reste identique pendant tout le mois.
+  |--------------------------------------------------------------------------
+  | Le contenu demeure identique pour le signe durant tout le mois
+  |--------------------------------------------------------------------------
   */
 
   const seed = createSeed(
@@ -1177,6 +958,12 @@ export function buildMonthlyHoroscope({
 
   const weekLabels =
     getMonthlyWeekLabels(isoMonth);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Générateurs astrologiques
+  |--------------------------------------------------------------------------
+  */
 
   const planetary =
     buildMonthlyPlanetaryInfluences({
@@ -1193,6 +980,39 @@ export function buildMonthlyHoroscope({
       isoMonth,
       seed,
     });
+
+  /*
+  |--------------------------------------------------------------------------
+  | Nouveaux générateurs de sections
+  |--------------------------------------------------------------------------
+  */
+
+  const love =
+    buildMonthlyLove(seed);
+
+  const career =
+    buildMonthlyCareer(seed);
+
+  const money =
+    buildMonthlyFinance(seed);
+
+  const health =
+    buildMonthlyHealth(seed);
+
+  const social =
+    buildMonthlySocial(seed);
+
+  const challenge =
+    buildMonthlyChallenge(seed);
+
+  const opportunity =
+    buildMonthlyOpportunity(seed);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Progression des quatre semaines
+  |--------------------------------------------------------------------------
+  */
 
   const weeks: MonthlyHoroscopeWeeks = {
     week1: buildMonthlyWeek(
@@ -1236,44 +1056,11 @@ export function buildMonthlyHoroscope({
     2,
   );
 
-  const love = pick(
-    LOVE_TEXTS,
-    seed,
-    3,
-  );
-
-  const career = pick(
-    CAREER_TEXTS,
-    seed,
-    4,
-  );
-
-  const money = pick(
-    MONEY_TEXTS,
-    seed,
-    5,
-  );
-
-  const health = pick(
-    HEALTH_TEXTS,
-    seed,
-    6,
-  );
-
-  const social = pick(
-    SOCIAL_TEXTS,
-    seed,
-    7,
-  );
-
-  const scores = {
-    energy: createScore(seed, 1),
-    love: createScore(seed, 2),
-    career: createScore(seed, 3),
-    money: createScore(seed, 4),
-    health: createScore(seed, 5),
-    social: createScore(seed, 6),
-  };
+  /*
+  |--------------------------------------------------------------------------
+  | Identité
+  |--------------------------------------------------------------------------
+  */
 
   const identity: HoroscopeIdentity = {
     firstName,
@@ -1285,12 +1072,47 @@ export function buildMonthlyHoroscope({
     birthCountry,
   };
 
+  /*
+  |--------------------------------------------------------------------------
+  | Période
+  |--------------------------------------------------------------------------
+  */
+
   const period: HoroscopePeriodData = {
     type: "month",
     label: formattedMonth,
     startDate,
     endDate,
   };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Scores généraux
+  |--------------------------------------------------------------------------
+  */
+
+  const scores = {
+    energy: createScore(
+      seed,
+      1,
+    ),
+
+    love: love.score,
+
+    career: career.score,
+
+    money: money.score,
+
+    health: health.score,
+
+    social: social.score,
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Contenu complet du PDF
+  |--------------------------------------------------------------------------
+  */
 
   const content: HoroscopePdfContent = {
     reportTitle:
@@ -1309,27 +1131,43 @@ export function buildMonthlyHoroscope({
     openingQuote:
       "Chaque mois ouvre un nouveau cycle et révèle une direction différente.",
 
+    /*
+    |--------------------------------------------------------------------------
+    | Vue d’ensemble
+    |--------------------------------------------------------------------------
+    */
+
     summary: {
-      title: "Vue d’ensemble du mois",
+      title:
+        "Vue d’ensemble du mois",
+
       ...summary,
-      score: createScore(seed, 7),
+
+      score: createScore(
+        seed,
+        7,
+      ),
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | Énergie
+    |--------------------------------------------------------------------------
+    */
+
     energy: {
-      title: "Énergie du mois",
+      title:
+        "Énergie du mois",
+
       ...energy,
+
       score: scores.energy,
     },
 
     /*
     |--------------------------------------------------------------------------
-    | Influences planétaires mensuelles
+    | Influences planétaires
     |--------------------------------------------------------------------------
-    |
-    | Cette première version fournit une lecture astrologique symbolique et
-    | déterministe selon le signe et le mois sélectionné. Elle ne présente
-    | aucune position céleste ou aucun aspect astronomique non calculé.
-    |
     */
 
     planetaryIntroduction:
@@ -1338,117 +1176,164 @@ export function buildMonthlyHoroscope({
     planetaryInfluences:
       planetary.influences,
 
-    love: {
-      title: "Amour et relations",
-      ...love,
-      score: scores.love,
-    },
+    /*
+    |--------------------------------------------------------------------------
+    | Amour
+    |--------------------------------------------------------------------------
+    */
 
-    career: {
-      title: "Travail et carrière",
-      ...career,
-      score: scores.career,
-    },
+    love,
 
-    money: {
-      title: "Finances",
-      ...money,
-      score: scores.money,
-    },
+    /*
+    |--------------------------------------------------------------------------
+    | Travail et carrière
+    |--------------------------------------------------------------------------
+    */
 
-    health: {
-      title: "Bien-être",
-      ...health,
-      score: scores.health,
-    },
+    career,
 
-    social: {
-      title: "Vie sociale et familiale",
-      ...social,
-      score: scores.social,
-    },
+    /*
+    |--------------------------------------------------------------------------
+    | Finances
+    |--------------------------------------------------------------------------
+    */
+
+    money,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bien-être
+    |--------------------------------------------------------------------------
+    */
+
+    health,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Vie sociale
+    |--------------------------------------------------------------------------
+    */
+
+    social,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Défis
+    |--------------------------------------------------------------------------
+    |
+    | Le générateur commun retourne une section complète.
+    | On l’adapte ici à la structure déjà utilisée par HoroscopeChallenges.
+    |
+    */
 
     challengesIntroduction:
-      "Les défis du mois vous invitent à mieux répartir votre énergie et à éviter les décisions précipitées.",
+      challenge.introduction,
 
     challenges: [
       {
         title:
-          "Maintenir votre constance",
+          challenge.title,
 
         theme:
-          "Progression",
-
-        description:
-          "Votre motivation pourrait varier d’une semaine à l’autre.",
-
-        advice:
-          "Appuyez-vous sur une organisation simple plutôt que sur votre motivation du moment.",
-      },
-
-      {
-        title:
-          "Éviter les conclusions prématurées",
-
-        theme:
+          challenge.highlights[0] ??
           "Discernement",
 
         description:
-          "Une situation pourrait évoluer plusieurs fois avant la fin du mois.",
+          challenge.text,
 
         advice:
-          "Attendez de disposer de toutes les informations avant de prendre une décision définitive.",
-      },
-    ],
-
-    opportunitiesIntroduction:
-      "Certaines possibilités apparaîtront progressivement au fil des semaines.",
-
-    opportunities: [
-      {
-        title:
-          "Faire évoluer un projet",
-
-        theme:
-          "Développement",
-
-        description:
-          "Une idée laissée en attente pourrait retrouver une nouvelle direction.",
-
-        action:
-          "Définissez une étape concrète à accomplir chaque semaine.",
+          challenge.advice,
       },
 
       {
         title:
-          "Clarifier une relation",
+          "Votre point de vigilance",
 
         theme:
-          "Communication",
+          challenge.highlights[1] ??
+          challenge.highlights[0] ??
+          "Équilibre",
 
         description:
-          "Une conversation importante pourrait modifier votre compréhension d’une situation.",
+          challenge.highlights
+            .slice(1)
+            .join(" • ") ||
+          challenge.text,
 
-        action:
-          "Exprimez clairement vos attentes et écoutez la réponse sans l’anticiper.",
+        advice:
+          challenge.advice,
       },
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Progression du mois — compatibilité avec les composants communs
+    | Possibilités
     |--------------------------------------------------------------------------
     |
-    | Les quatre pages mensuelles utilisent directement result.weeks.
-    | La timeline demeure présente pour les anciens composants partagés.
+    | Le générateur commun est également adapté à la structure déjà utilisée
+    | par HoroscopeOpportunities.
+    |
+    */
+
+    opportunitiesIntroduction:
+      opportunity.introduction,
+
+    opportunities: [
+      {
+        title:
+          opportunity.title,
+
+        theme:
+          opportunity.highlights[0] ??
+          "Développement",
+
+        description:
+          opportunity.text,
+
+        action:
+          opportunity.advice,
+      },
+
+      {
+        title:
+          "Une direction à explorer",
+
+        theme:
+          opportunity.highlights[1] ??
+          opportunity.highlights[0] ??
+          "Progression",
+
+        description:
+          opportunity.highlights
+            .slice(1)
+            .join(" • ") ||
+          opportunity.text,
+
+        action:
+          opportunity.advice,
+      },
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Timeline
+    |--------------------------------------------------------------------------
+    |
+    | Les quatre vraies pages utilisent directement `weeks`.
+    | Cette timeline demeure nécessaire aux anciens composants partagés.
     |
     */
 
     timeline: [
       {
         period: "morning",
-        title: weeks.week1.title,
-        text: weeks.week1.text,
+
+        title:
+          weeks.week1.title,
+
+        text:
+          weeks.week1.text,
+
         score: Math.round(
           (
             weeks.week1.scores.energy +
@@ -1462,8 +1347,13 @@ export function buildMonthlyHoroscope({
 
       {
         period: "afternoon",
-        title: weeks.week2.title,
-        text: weeks.week2.text,
+
+        title:
+          weeks.week2.title,
+
+        text:
+          weeks.week2.text,
+
         score: Math.round(
           (
             weeks.week2.scores.energy +
@@ -1477,6 +1367,7 @@ export function buildMonthlyHoroscope({
 
       {
         period: "evening",
+
         title:
           `${weeks.week3.title} — ${weeks.week4.title}`,
 
@@ -1500,6 +1391,12 @@ export function buildMonthlyHoroscope({
       },
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Éléments chanceux
+    |--------------------------------------------------------------------------
+    */
+
     lucky: {
       introduction:
         "Ces éléments symboliques peuvent accompagner votre mois.",
@@ -1511,9 +1408,9 @@ export function buildMonthlyHoroscope({
 
         (_, index) =>
           1 +
-          (
+          Math.abs(
             seed +
-            index * 13
+            index * 13,
           ) %
             49,
       ),
@@ -1555,7 +1452,19 @@ export function buildMonthlyHoroscope({
       ),
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scores
+    |--------------------------------------------------------------------------
+    */
+
     scores,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Conclusion
+    |--------------------------------------------------------------------------
+    */
 
     conclusionTitle:
       "Votre message du mois",
@@ -1566,6 +1475,12 @@ export function buildMonthlyHoroscope({
     finalMessage:
       "Votre force réside ce mois-ci dans votre capacité à respecter votre rythme tout en restant fidèle à la direction que vous avez choisie.",
   };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Résultat final
+  |--------------------------------------------------------------------------
+  */
 
   return {
     identity,
