@@ -1,13 +1,28 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter from "../HoroscopePageFooter";
+import HoroscopeStarBackground from "../HoroscopeStarBackground";
+
 import type {
   MonthlyMajorEnergiesResult,
 } from "./buildMonthlyMajorEnergies";
+
+/*
+|--------------------------------------------------------------------------
+| Propriétés
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthMajorEnergiesProps = {
   majorEnergies: MonthlyMajorEnergiesResult;
@@ -15,291 +30,795 @@ type HoroscopeMonthMajorEnergiesProps = {
   zodiacIconUrl?: string;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Couleurs
+|--------------------------------------------------------------------------
+*/
+
+const NAVY = "#06101F";
+const NAVY_CARD = "#0A1729";
+const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
+const TRACK = "#202C3E";
+
+const GOLD = "#F4C95D";
+const CREAM = "#FFF8E7";
+const MUTED_CREAM = "#DDD5C6";
+const SOFT_TEXT = "#B9AE98";
+const DARK_GOLD = "#8F6E35";
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
+
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 48,
-    paddingRight: 52,
-    paddingBottom: 58,
-    paddingLeft: 52,
-    backgroundColor: "#fbf7f1",
-    color: "#2b2033",
+    paddingTop: 36,
+    paddingHorizontal: 42,
+    paddingBottom: 56,
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
   },
 
-  eyebrow: {
-    marginBottom: 8,
-    color: "#9a7041",
-    fontSize: 9,
-    fontWeight: 700,
-    letterSpacing: 2,
-    textAlign: "center",
+  content: {
+    position: "relative",
+    zIndex: 3,
+    flex: 1,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Décorations
+  |--------------------------------------------------------------------------
+  */
+
+  orbitLarge: {
+    position: "absolute",
+    top: 112,
+    right: -100,
+    width: 258,
+    height: 258,
+    borderRadius: 129,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    opacity: 0.3,
+  },
+
+  orbitMedium: {
+    position: "absolute",
+    top: 148,
+    right: -63,
+    width: 184,
+    height: 184,
+    borderRadius: 92,
+    borderWidth: 0.45,
+    borderColor: GOLD,
+    opacity: 0.18,
+  },
+
+  orbitSmall: {
+    position: "absolute",
+    bottom: 86,
+    left: -65,
+    width: 146,
+    height: 146,
+    borderRadius: 73,
+    borderWidth: 0.45,
+    borderColor: DARK_GOLD,
+    opacity: 0.24,
+  },
+
+  watermark: {
+    position: "absolute",
+    right: -7,
+    bottom: 14,
+    width: 114,
+    height: 114,
+    objectFit: "contain",
+    opacity: 0.045,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | En-tête
+  |--------------------------------------------------------------------------
+  */
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+
+  logo: {
+    width: 110,
+    height: 40,
+    objectFit: "contain",
+  },
+
+  signBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 18,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  signIcon: {
+    width: 22,
+    height: 22,
+    objectFit: "contain",
+    marginRight: 7,
+  },
+
+  signName: {
+    color: GOLD,
+    fontSize: 8,
+    letterSpacing: 1,
     textTransform: "uppercase",
   },
 
+  /*
+  |--------------------------------------------------------------------------
+  | Titre
+  |--------------------------------------------------------------------------
+  */
+
+  titleBlock: {
+    marginBottom: 13,
+  },
+
+  eyebrow: {
+    color: GOLD,
+    fontSize: 8.8,
+    letterSpacing: 2.2,
+    textTransform: "uppercase",
+    marginBottom: 7,
+  },
+
   title: {
-    marginBottom: 8,
-    color: "#3f2948",
-    fontSize: 24,
-    fontWeight: 700,
+    color: CREAM,
+    fontSize: 25,
     lineHeight: 1.15,
-    textAlign: "center",
+    marginBottom: 7,
   },
 
-  signLabel: {
-    marginBottom: 22,
-    color: "#9a7041",
-    fontSize: 11,
-    textAlign: "center",
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 
-  introduction: {
-    marginBottom: 22,
-    color: "#574b5d",
-    fontSize: 10.5,
-    lineHeight: 1.65,
+  titleLine: {
+    width: 64,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  titleIcon: {
+    width: 14,
+    height: 14,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  titleLineSmall: {
+    width: 20,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Introduction
+  |--------------------------------------------------------------------------
+  */
+
+  introductionCard: {
+    position: "relative",
+    overflow: "hidden",
+    paddingVertical: 13,
+    paddingHorizontal: 15,
+    marginBottom: 11,
+    borderRadius: 13,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  introductionGlow: {
+    position: "absolute",
+    top: -48,
+    right: -30,
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    borderWidth: 0.6,
+    borderColor: GOLD,
+    opacity: 0.14,
+  },
+
+  introductionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+
+  introductionIconBox: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 9,
+  },
+
+  introductionIcon: {
+    width: 18,
+    height: 18,
+    objectFit: "contain",
+  },
+
+  introductionLabel: {
+    color: GOLD,
+    fontSize: 8,
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+
+  introductionText: {
+    color: MUTED_CREAM,
+    fontSize: 8.3,
+    lineHeight: 1.48,
     textAlign: "justify",
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Cartes des énergies
+  |--------------------------------------------------------------------------
+  */
 
   cardsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    marginBottom: 1,
   },
 
   card: {
-    width: "48%",
-    minHeight: 176,
-    marginBottom: 16,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "#ded0c0",
-    borderRadius: 12,
-    backgroundColor: "#ffffff",
+    position: "relative",
+    overflow: "hidden",
+    width: "48.8%",
+    minHeight: 140,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    marginBottom: 10,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  cardAccent: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    height: 1.5,
+    backgroundColor: GOLD,
+  },
+
+  cardWatermark: {
+    position: "absolute",
+    right: -10,
+    bottom: -14,
+    width: 67,
+    height: 67,
+    objectFit: "contain",
+    opacity: 0.045,
   },
 
   cardHeader: {
-    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: 8,
+  },
+
+  cardIdentity: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    paddingRight: 8,
+  },
+
+  cardIconBox: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 8,
+  },
+
+  cardIcon: {
+    width: 17,
+    height: 17,
+    objectFit: "contain",
   },
 
   cardTitle: {
-    width: "72%",
-    color: "#493052",
-    fontSize: 13,
-    fontWeight: 700,
+    flex: 1,
+    color: GOLD,
+    fontSize: 9.2,
+    lineHeight: 1.25,
   },
 
   scoreBadge: {
-    minWidth: 42,
-    paddingTop: 5,
-    paddingRight: 7,
-    paddingBottom: 5,
-    paddingLeft: 7,
-    borderRadius: 10,
-    backgroundColor: "#f1e5d4",
+    minWidth: 41,
+    paddingVertical: 5,
+    paddingHorizontal: 7,
+    borderRadius: 12,
+    borderWidth: 0.6,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD,
   },
 
   scoreText: {
-    color: "#875f31",
-    fontSize: 10,
-    fontWeight: 700,
+    color: GOLD,
+    fontSize: 8.5,
     textAlign: "center",
   },
 
   scoreTrack: {
-    height: 5,
-    marginBottom: 12,
-    borderRadius: 3,
-    backgroundColor: "#eee6dc",
+    width: "100%",
+    height: 4,
+    marginBottom: 8,
+    borderRadius: 2,
+    backgroundColor: TRACK,
+    overflow: "hidden",
   },
 
   scoreFill: {
-    height: 5,
-    borderRadius: 3,
-    backgroundColor: "#9a7041",
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: GOLD,
   },
 
   description: {
-    marginBottom: 10,
-    color: "#5c505f",
-    fontSize: 9.2,
-    lineHeight: 1.5,
+    marginBottom: 7,
+    color: MUTED_CREAM,
+    fontSize: 7.35,
+    lineHeight: 1.42,
     textAlign: "justify",
   },
 
-  adviceLabel: {
+  adviceDivider: {
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 4,
-    color: "#875f31",
-    fontSize: 8.5,
-    fontWeight: 700,
+  },
+
+  adviceLine: {
+    width: 18,
+    height: 1,
+    marginRight: 6,
+    backgroundColor: DARK_GOLD,
+  },
+
+  adviceLabel: {
+    color: GOLD,
+    fontSize: 6.7,
+    letterSpacing: 0.9,
     textTransform: "uppercase",
   },
 
   advice: {
-    color: "#4e4253",
-    fontSize: 9,
-    lineHeight: 1.45,
+    color: CREAM,
+    fontSize: 7.1,
+    lineHeight: 1.38,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Synthèse et conseil final
+  |--------------------------------------------------------------------------
+  */
+
+  bottomRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 
   synthesisBox: {
-    marginTop: 4,
-    padding: 17,
-    borderLeftWidth: 4,
-    borderLeftColor: "#9a7041",
-    borderRadius: 8,
-    backgroundColor: "#f3ebe1",
-  },
-
-  synthesisTitle: {
-    marginBottom: 7,
-    color: "#493052",
-    fontSize: 12,
-    fontWeight: 700,
-  },
-
-  synthesisText: {
-    color: "#574b5d",
-    fontSize: 9.5,
-    lineHeight: 1.55,
-    textAlign: "justify",
+    position: "relative",
+    overflow: "hidden",
+    width: "60%",
+    minHeight: 94,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 1.6,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
   },
 
   finalAdviceBox: {
-    marginTop: 14,
-    paddingTop: 12,
-    paddingRight: 15,
-    paddingBottom: 12,
-    paddingLeft: 15,
-    borderWidth: 1,
-    borderColor: "#d8c4aa",
-    borderRadius: 8,
+    position: "relative",
+    overflow: "hidden",
+    width: "37.5%",
+    minHeight: 94,
+    paddingVertical: 11,
+    paddingHorizontal: 12,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderTopWidth: 1.6,
+    borderTopColor: GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  bottomWatermark: {
+    position: "absolute",
+    right: -8,
+    bottom: -13,
+    width: 65,
+    height: 65,
+    objectFit: "contain",
+    opacity: 0.05,
+  },
+
+  bottomHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  bottomIconBox: {
+    width: 27,
+    height: 27,
+    borderRadius: 13.5,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 7,
+  },
+
+  bottomIcon: {
+    width: 15,
+    height: 15,
+    objectFit: "contain",
+  },
+
+  synthesisTitle: {
+    flex: 1,
+    color: GOLD,
+    fontSize: 8.2,
+    lineHeight: 1.25,
+  },
+
+  synthesisText: {
+    color: MUTED_CREAM,
+    fontSize: 7.1,
+    lineHeight: 1.42,
+    textAlign: "justify",
+    paddingRight: 5,
   },
 
   finalAdviceTitle: {
-    marginBottom: 5,
-    color: "#875f31",
-    fontSize: 9,
-    fontWeight: 700,
-    letterSpacing: 1,
+    flex: 1,
+    color: GOLD,
+    fontSize: 7.6,
+    letterSpacing: 0.4,
+    lineHeight: 1.25,
     textTransform: "uppercase",
   },
 
   finalAdviceText: {
-    color: "#4f4454",
-    fontSize: 9.5,
-    lineHeight: 1.5,
-  },
-
-  footer: {
-    position: "absolute",
-    right: 52,
-    bottom: 25,
-    left: 52,
-    color: "#9a8d96",
-    fontSize: 8,
-    textAlign: "center",
+    color: CREAM,
+    fontSize: 7.1,
+    lineHeight: 1.42,
   },
 });
+
+/*
+|--------------------------------------------------------------------------
+| Icônes des cartes
+|--------------------------------------------------------------------------
+*/
+
+const ENERGY_ICONS = [
+  HOROSCOPE_ICONS.sun,
+  HOROSCOPE_ICONS.love,
+  HOROSCOPE_ICONS.lifePurpose,
+  HOROSCOPE_ICONS.innerWorld,
+  HOROSCOPE_ICONS.money,
+  HOROSCOPE_ICONS.hiddenTalents,
+];
+
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeMonthMajorEnergies({
   majorEnergies,
   zodiacSignLabel,
+  zodiacIconUrl,
 }: HoroscopeMonthMajorEnergiesProps) {
   return (
     <Page
       size="A4"
       style={styles.page}
+      wrap={false}
     >
-      <Text style={styles.eyebrow}>
-        Horoscope Premium mensuel
-      </Text>
+      <HoroscopeStarBackground />
 
-      <Text style={styles.title}>
-        Les grandes énergies du mois
-      </Text>
+      <View style={styles.orbitLarge} />
+      <View style={styles.orbitMedium} />
+      <View style={styles.orbitSmall} />
 
-      <Text style={styles.signLabel}>
-        {zodiacSignLabel}
-      </Text>
+      <Image
+        src={HOROSCOPE_ICONS.integrationGuide}
+        style={styles.watermark}
+      />
 
-      <Text style={styles.introduction}>
-        {majorEnergies.introduction}
-      </Text>
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <View style={styles.cardsGrid}>
-        {majorEnergies.energies.map(
-          (energy) => (
-            <View
-              key={energy.title}
-              style={styles.card}
-              wrap={false}
-            >
-              <View style={styles.cardHeader}>
-                <Text style={styles.cardTitle}>
-                  {energy.title}
-                </Text>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-                <View style={styles.scoreBadge}>
-                  <Text style={styles.scoreText}>
-                    {energy.score} %
+          <View style={styles.signBadge}>
+            {zodiacIconUrl ? (
+              <Image
+                src={zodiacIconUrl}
+                style={styles.signIcon}
+              />
+            ) : null}
+
+            <Text style={styles.signName}>
+              {zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Horoscope mensuel
+          </Text>
+
+          <Text style={styles.title}>
+            Les grandes énergies du mois
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={HOROSCOPE_ICONS.integrationGuide}
+              style={styles.titleIcon}
+            />
+
+            <View style={styles.titleLineSmall} />
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <View style={styles.introductionGlow} />
+
+          <View style={styles.introductionHeader}>
+            <View style={styles.introductionIconBox}>
+              <Image
+                src={HOROSCOPE_ICONS.sun}
+                style={styles.introductionIcon}
+              />
+            </View>
+
+            <Text style={styles.introductionLabel}>
+              Votre climat astrologique
+            </Text>
+          </View>
+
+          <Text style={styles.introductionText}>
+            {majorEnergies.introduction}
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Énergies
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.cardsGrid}>
+          {majorEnergies.energies.map(
+            (energy, index) => {
+              const score = Math.max(
+                0,
+                Math.min(100, energy.score),
+              );
+
+              const iconUrl =
+                ENERGY_ICONS[
+                  index % ENERGY_ICONS.length
+                ];
+
+              return (
+                <View
+                  key={`${energy.title}-${index}`}
+                  style={styles.card}
+                  wrap={false}
+                >
+                  <View style={styles.cardAccent} />
+
+                  <Image
+                    src={iconUrl}
+                    style={styles.cardWatermark}
+                  />
+
+                  <View style={styles.cardHeader}>
+                    <View style={styles.cardIdentity}>
+                      <View style={styles.cardIconBox}>
+                        <Image
+                          src={iconUrl}
+                          style={styles.cardIcon}
+                        />
+                      </View>
+
+                      <Text style={styles.cardTitle}>
+                        {energy.title}
+                      </Text>
+                    </View>
+
+                    <View style={styles.scoreBadge}>
+                      <Text style={styles.scoreText}>
+                        {score} %
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.scoreTrack}>
+                    <View
+                      style={[
+                        styles.scoreFill,
+                        {
+                          width: `${score}%`,
+                        },
+                      ]}
+                    />
+                  </View>
+
+                  <Text style={styles.description}>
+                    {energy.description}
+                  </Text>
+
+                  <View style={styles.adviceDivider}>
+                    <View style={styles.adviceLine} />
+
+                    <Text style={styles.adviceLabel}>
+                      Votre conseil
+                    </Text>
+                  </View>
+
+                  <Text style={styles.advice}>
+                    {energy.advice}
                   </Text>
                 </View>
-              </View>
+              );
+            },
+          )}
+        </View>
 
-              <View style={styles.scoreTrack}>
-                <View
-                  style={[
-                    styles.scoreFill,
-                    {
-                      width:
-                        `${energy.score}%`,
-                    },
-                  ]}
+        {/*
+        |--------------------------------------------------------------------------
+        | Synthèse et conseil
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.bottomRow}>
+          <View
+            style={styles.synthesisBox}
+            wrap={false}
+          >
+            <Image
+              src={HOROSCOPE_ICONS.hiddenTalents}
+              style={styles.bottomWatermark}
+            />
+
+            <View style={styles.bottomHeader}>
+              <View style={styles.bottomIconBox}>
+                <Image
+                  src={HOROSCOPE_ICONS.hiddenTalents}
+                  style={styles.bottomIcon}
                 />
               </View>
 
-              <Text style={styles.description}>
-                {energy.description}
-              </Text>
-
-              <Text style={styles.adviceLabel}>
-                Votre conseil
-              </Text>
-
-              <Text style={styles.advice}>
-                {energy.advice}
+              <Text style={styles.synthesisTitle}>
+                Comment ces énergies se combinent
               </Text>
             </View>
-          ),
-        )}
+
+            <Text style={styles.synthesisText}>
+              {majorEnergies.synthesis}
+            </Text>
+          </View>
+
+          <View
+            style={styles.finalAdviceBox}
+            wrap={false}
+          >
+            <Image
+              src={HOROSCOPE_ICONS.integrationGuide}
+              style={styles.bottomWatermark}
+            />
+
+            <View style={styles.bottomHeader}>
+              <View style={styles.bottomIconBox}>
+                <Image
+                  src={HOROSCOPE_ICONS.integrationGuide}
+                  style={styles.bottomIcon}
+                />
+              </View>
+
+              <Text style={styles.finalAdviceTitle}>
+                Conseil astrologique
+              </Text>
+            </View>
+
+            <Text style={styles.finalAdviceText}>
+              {majorEnergies.finalAdvice}
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.synthesisBox}>
-        <Text style={styles.synthesisTitle}>
-          Comment ces énergies se combinent
-        </Text>
-
-        <Text style={styles.synthesisText}>
-          {majorEnergies.synthesis}
-        </Text>
-      </View>
-
-      <View style={styles.finalAdviceBox}>
-        <Text style={styles.finalAdviceTitle}>
-          Conseil astrologique
-        </Text>
-
-        <Text style={styles.finalAdviceText}>
-          {majorEnergies.finalAdvice}
-        </Text>
-      </View>
-
-      <Text style={styles.footer}>
-        Luna Astralis • Les grandes énergies du mois
-      </Text>
+      <HoroscopePageFooter />
     </Page>
   );
 }
