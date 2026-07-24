@@ -675,27 +675,27 @@ const styles = StyleSheet.create({
   */
 
   summaryCard: {
-    marginTop: 5,
+    marginTop: 10,
 
-    paddingVertical: 11,
-    paddingHorizontal: 15,
+    paddingVertical: 18,
+    paddingHorizontal: 19,
 
-    borderRadius: 9,
+    borderRadius: 11,
 
-    borderWidth: 0.6,
+    borderWidth: 0.8,
     borderColor: DARK_GOLD,
 
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
   summaryTitle: {
-    marginBottom: 6,
+    marginBottom: 10,
 
     color: GOLD,
 
-    fontSize: 8.5,
+    fontSize: 10,
 
-    letterSpacing: 1.2,
+    letterSpacing: 1.4,
 
     textTransform: "uppercase",
   },
@@ -703,9 +703,23 @@ const styles = StyleSheet.create({
   summaryText: {
     color: MUTED_CREAM,
 
-    fontSize: 7.2,
+    fontSize: 8,
 
-    lineHeight: 1.45,
+    lineHeight: 1.6,
+  },
+
+  summaryParagraph: {
+    marginBottom: 8,
+  },
+
+  summaryClosing: {
+    marginTop: 2,
+
+    color: CREAM,
+
+    fontSize: 8.2,
+
+    lineHeight: 1.6,
   },
 
   /*
@@ -1377,16 +1391,66 @@ export default function HoroscopePlanets({
                   </Text>
 
                   <Text
-                    style={styles.summaryText}
+                    style={[
+                      styles.summaryText,
+                      styles.summaryParagraph,
+                    ]}
                   >
-                    Les influences planétaires
-                    de cette période interagissent
-                    pour créer une dynamique
-                    unique. Ensemble, elles
-                    révèlent les opportunités,
-                    les défis et les énergies
-                    qui guideront vos décisions
-                    au fil de cette période.
+                    Les mouvements planétaires
+                    de cette période ne
+                    s'expriment jamais de façon
+                    isolée. Ensemble, ils créent
+                    une dynamique qui influence
+                    vos émotions, votre manière
+                    d'agir, vos relations et les
+                    occasions qui se présenteront
+                    à vous.
+                  </Text>
+
+                  <Text
+                    style={[
+                      styles.summaryText,
+                      styles.summaryParagraph,
+                    ]}
+                  >
+                    Votre planète dominante donne
+                    le ton principal de cette
+                    période, tandis que les autres
+                    influences viennent nuancer
+                    votre parcours en mettant
+                    l'accent sur certains domaines
+                    de votre vie. Certaines
+                    favoriseront l'action, alors
+                    que d'autres inviteront à la
+                    réflexion, à la prudence ou à
+                    l'ouverture.
+                  </Text>
+
+                  <Text
+                    style={[
+                      styles.summaryText,
+                      styles.summaryParagraph,
+                    ]}
+                  >
+                    En observant ces énergies dans
+                    leur ensemble plutôt que
+                    séparément, vous pourrez
+                    prendre des décisions plus
+                    éclairées, reconnaître les
+                    périodes favorables et mieux
+                    traverser les défis lorsqu'ils
+                    se présenteront.
+                  </Text>
+
+                  <Text
+                    style={styles.summaryClosing}
+                  >
+                    Utilisez ces indications comme
+                    une boussole plutôt qu'une
+                    certitude. L'astrologie met en
+                    lumière des tendances, mais
+                    vos choix demeurent au cœur de
+                    votre évolution.
                   </Text>
                 </View>
               </>
