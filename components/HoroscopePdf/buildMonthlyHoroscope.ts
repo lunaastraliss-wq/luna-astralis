@@ -982,51 +982,78 @@ export function buildMonthlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
+  | Identité
+  |--------------------------------------------------------------------------
+  */
+
+  const identity: HoroscopeIdentity = {
+    firstName,
+    zodiacSign: normalizedSign,
+    zodiacSignLabel,
+    birthDate,
+    birthTime,
+    birthCity,
+    birthCountry,
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Période
+  |--------------------------------------------------------------------------
+  */
+
+  const period: HoroscopePeriodData = {
+    type: "month",
+    label: formattedMonth,
+    startDate,
+    endDate,
+  };
+
+  /*
+  |--------------------------------------------------------------------------
   | Nouveaux générateurs de sections
   |--------------------------------------------------------------------------
   */
 
- const monthlySectionParams = {
-  zodiacSign: normalizedSign,
-  zodiacSignLabel,
-  isoMonth,
-  seed,
-};
+  const monthlySectionParams = {
+    identity,
+    period,
+  };
 
-const love =
-  buildMonthlyLove(
-    monthlySectionParams,
-  );
+  const love =
+    buildMonthlyLove(
+      monthlySectionParams,
+    );
 
-const career =
-  buildMonthlyCareer(
-    monthlySectionParams,
-  );
+  const career =
+    buildMonthlyCareer(
+      monthlySectionParams,
+    );
 
-const money =
-  buildMonthlyFinance(
-    monthlySectionParams,
-  );
+  const money =
+    buildMonthlyFinance(
+      monthlySectionParams,
+    );
 
-const health =
-  buildMonthlyHealth(
-    monthlySectionParams,
-  );
+  const health =
+    buildMonthlyHealth(
+      monthlySectionParams,
+    );
 
-const social =
-  buildMonthlySocial(
-    monthlySectionParams,
-  );
+  const social =
+    buildMonthlySocial(
+      monthlySectionParams,
+    );
 
-const challenge =
-  buildMonthlyChallenge(
-    monthlySectionParams,
-  );
+  const challenge =
+    buildMonthlyChallenge(
+      monthlySectionParams,
+    );
 
-const opportunity =
-  buildMonthlyOpportunity(
-    monthlySectionParams,
-  );
+  const opportunity =
+    buildMonthlyOpportunity(
+      monthlySectionParams,
+    );
 
   /*
   |--------------------------------------------------------------------------
@@ -1075,35 +1102,6 @@ const opportunity =
     seed,
     2,
   );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Identité
-  |--------------------------------------------------------------------------
-  */
-
-  const identity: HoroscopeIdentity = {
-    firstName,
-    zodiacSign: normalizedSign,
-    zodiacSignLabel,
-    birthDate,
-    birthTime,
-    birthCity,
-    birthCountry,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Période
-  |--------------------------------------------------------------------------
-  */
-
-  const period: HoroscopePeriodData = {
-    type: "month",
-    label: formattedMonth,
-    startDate,
-    endDate,
-  };
 
   /*
   |--------------------------------------------------------------------------
