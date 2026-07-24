@@ -2086,3 +2086,37 @@
   color: #f0d397 !important;
   -webkit-text-fill-color: #f0d397 !important;
 }
+/* Réduction de la hauteur du Hero Signature */
+
+.signature-hero {
+  min-height: 600px;
+  padding-top: 55px;
+  padding-bottom: 55px;
+}
+
+.signature-hero-visual {
+  min-height: 480px;
+}
+
+@media (max-width: 1120px) {
+  .signature-hero {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 920px) {
+  .signature-hero {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+
+  .signature-hero-visual {
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 680px) {
+  .signature-hero-visual {
+    min-height: 390px;
+  }
+}
