@@ -675,27 +675,27 @@ const styles = StyleSheet.create({
   */
 
   summaryCard: {
-    marginTop: 10,
+    marginTop: 5,
 
-    paddingVertical: 18,
-    paddingHorizontal: 19,
+    paddingVertical: 11,
+    paddingHorizontal: 15,
 
-    borderRadius: 11,
+    borderRadius: 9,
 
-    borderWidth: 0.8,
+    borderWidth: 0.6,
     borderColor: DARK_GOLD,
 
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
   summaryTitle: {
-    marginBottom: 10,
+    marginBottom: 6,
 
     color: GOLD,
 
-    fontSize: 10,
+    fontSize: 8.5,
 
-    letterSpacing: 1.4,
+    letterSpacing: 1.2,
 
     textTransform: "uppercase",
   },
@@ -703,153 +703,7 @@ const styles = StyleSheet.create({
   summaryText: {
     color: MUTED_CREAM,
 
-    fontSize: 8,
-
-    lineHeight: 1.6,
-  },
-
-  summaryParagraph: {
-    marginBottom: 8,
-  },
-
-  summaryClosing: {
-    marginTop: 2,
-
-    color: CREAM,
-
-    fontSize: 8.2,
-
-    lineHeight: 1.6,
-  },
-
-  guidanceCard: {
-    marginTop: 12,
-
-    paddingVertical: 16,
-    paddingHorizontal: 19,
-
-    borderRadius: 11,
-
-    borderWidth: 0.8,
-    borderColor: DARK_GOLD,
-
-    backgroundColor: NAVY_CARD,
-  },
-
-  guidanceHeader: {
-    flexDirection: "row",
-
-    alignItems: "center",
-
-    marginBottom: 9,
-  },
-
-  guidanceIconCircle: {
-    width: 30,
-    height: 30,
-
-    alignItems: "center",
-    justifyContent: "center",
-
-    marginRight: 10,
-
-    borderRadius: 15,
-
-    borderWidth: 0.8,
-    borderColor: GOLD,
-
-    backgroundColor: NAVY_HIGHLIGHT,
-  },
-
-  guidanceIcon: {
-    width: 18,
-    height: 18,
-
-    objectFit: "contain",
-  },
-
-  guidanceTitle: {
-    color: GOLD,
-
-    fontSize: 9.5,
-
-    letterSpacing: 1.2,
-
-    textTransform: "uppercase",
-  },
-
-  guidanceText: {
-    color: MUTED_CREAM,
-
-    fontSize: 8,
-
-    lineHeight: 1.58,
-  },
-
-  takeawayCard: {
-    marginTop: 12,
-
-    paddingVertical: 15,
-    paddingHorizontal: 18,
-
-    borderRadius: 11,
-
-    borderWidth: 0.8,
-    borderColor: DARK_GOLD,
-
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  takeawayTitle: {
-    marginBottom: 10,
-
-    color: GOLD,
-
-    fontSize: 9.5,
-
-    letterSpacing: 1.2,
-
-    textTransform: "uppercase",
-  },
-
-  takeawayRow: {
-    flexDirection: "row",
-
-    alignItems: "flex-start",
-
-    marginBottom: 7,
-  },
-
-  takeawayDot: {
-    width: 6,
-    height: 6,
-
-    marginTop: 4,
-    marginRight: 9,
-
-    borderRadius: 3,
-
-    backgroundColor: GOLD,
-  },
-
-  takeawayLabel: {
-    width: 118,
-
-    color: SOFT_TEXT,
-
     fontSize: 7.2,
-
-    lineHeight: 1.45,
-
-    textTransform: "uppercase",
-  },
-
-  takeawayValue: {
-    flex: 1,
-
-    color: CREAM,
-
-    fontSize: 7.8,
 
     lineHeight: 1.45,
   },
@@ -1366,21 +1220,6 @@ export default function HoroscopePlanets({
   const secondaryInfluences =
     influences.slice(1);
 
-  const dominantPlanetName =
-    dominantInfluence
-      ? normalizePlanetName(
-          dominantInfluence,
-        )
-      : "";
-
-  const dominantTheme =
-    dominantInfluence?.title?.trim() ||
-    "Comprendre le mouvement principal de cette période";
-
-  const dominantKey =
-    dominantInfluence?.advice?.trim() ||
-    "Avancez avec constance et restez attentive aux signes qui se répètent.";
-
   return (
     <Page
       size="A4"
@@ -1538,213 +1377,17 @@ export default function HoroscopePlanets({
                   </Text>
 
                   <Text
-                    style={[
-                      styles.summaryText,
-                      styles.summaryParagraph,
-                    ]}
+                    style={styles.summaryText}
                   >
-                    Les mouvements planétaires
-                    de cette période ne
-                    s'expriment jamais de façon
-                    isolée. Ensemble, ils créent
-                    une dynamique qui influence
-                    vos émotions, votre manière
-                    d'agir, vos relations et les
-                    occasions qui se présenteront
-                    à vous.
+                    Les influences planétaires
+                    de cette période interagissent
+                    pour créer une dynamique
+                    unique. Ensemble, elles
+                    révèlent les opportunités,
+                    les défis et les énergies
+                    qui guideront vos décisions
+                    au fil de cette période.
                   </Text>
-
-                  <Text
-                    style={[
-                      styles.summaryText,
-                      styles.summaryParagraph,
-                    ]}
-                  >
-                    Votre planète dominante donne
-                    le ton principal de cette
-                    période, tandis que les autres
-                    influences viennent nuancer
-                    votre parcours en mettant
-                    l'accent sur certains domaines
-                    de votre vie. Certaines
-                    favoriseront l'action, alors
-                    que d'autres inviteront à la
-                    réflexion, à la prudence ou à
-                    l'ouverture.
-                  </Text>
-
-                  <Text
-                    style={[
-                      styles.summaryText,
-                      styles.summaryParagraph,
-                    ]}
-                  >
-                    En observant ces énergies dans
-                    leur ensemble plutôt que
-                    séparément, vous pourrez
-                    prendre des décisions plus
-                    éclairées, reconnaître les
-                    périodes favorables et mieux
-                    traverser les défis lorsqu'ils
-                    se présenteront.
-                  </Text>
-
-                  <Text
-                    style={styles.summaryClosing}
-                  >
-                    Utilisez ces indications comme
-                    une boussole plutôt qu'une
-                    certitude. L'astrologie met en
-                    lumière des tendances, mais
-                    vos choix demeurent au cœur de
-                    votre évolution.
-                  </Text>
-                </View>
-
-                <View
-                  style={styles.guidanceCard}
-                  wrap={false}
-                >
-                  <View
-                    style={styles.guidanceHeader}
-                  >
-                    <View
-                      style={
-                        styles.guidanceIconCircle
-                      }
-                    >
-                      <Image
-                        src={
-                          HOROSCOPE_ICONS.integrationGuide
-                        }
-                        style={
-                          styles.guidanceIcon
-                        }
-                      />
-                    </View>
-
-                    <Text
-                      style={styles.guidanceTitle}
-                    >
-                      Conseil pour cette période
-                    </Text>
-                  </View>
-
-                  <Text
-                    style={styles.guidanceText}
-                  >
-                    Les planètes éclairent les
-                    tendances de votre chemin,
-                    mais elles ne prennent jamais
-                    les décisions à votre place.
-                    Accueillez les occasions avec
-                    discernement, prenez le temps
-                    d'observer ce qui se répète et
-                    choisissez les actions qui
-                    respectent réellement votre
-                    rythme. Chaque décision
-                    consciente peut transformer
-                    une tension en apprentissage
-                    et une possibilité en véritable
-                    évolution.
-                  </Text>
-                </View>
-
-                <View
-                  style={styles.takeawayCard}
-                  wrap={false}
-                >
-                  <Text
-                    style={styles.takeawayTitle}
-                  >
-                    À retenir
-                  </Text>
-
-                  <View
-                    style={styles.takeawayRow}
-                  >
-                    <View
-                      style={styles.takeawayDot}
-                    />
-
-                    <Text
-                      style={styles.takeawayLabel}
-                    >
-                      Influence dominante
-                    </Text>
-
-                    <Text
-                      style={styles.takeawayValue}
-                    >
-                      {dominantPlanetName}
-                    </Text>
-                  </View>
-
-                  <View
-                    style={styles.takeawayRow}
-                  >
-                    <View
-                      style={styles.takeawayDot}
-                    />
-
-                    <Text
-                      style={styles.takeawayLabel}
-                    >
-                      Thème central
-                    </Text>
-
-                    <Text
-                      style={styles.takeawayValue}
-                    >
-                      {dominantTheme}
-                    </Text>
-                  </View>
-
-                  <View
-                    style={styles.takeawayRow}
-                  >
-                    <View
-                      style={styles.takeawayDot}
-                    />
-
-                    <Text
-                      style={styles.takeawayLabel}
-                    >
-                      Mouvements observés
-                    </Text>
-
-                    <Text
-                      style={styles.takeawayValue}
-                    >
-                      {influences.length} influences
-                      planétaires principales
-                    </Text>
-                  </View>
-
-                  <View
-                    style={[
-                      styles.takeawayRow,
-                      {
-                        marginBottom: 0,
-                      },
-                    ]}
-                  >
-                    <View
-                      style={styles.takeawayDot}
-                    />
-
-                    <Text
-                      style={styles.takeawayLabel}
-                    >
-                      Votre clé
-                    </Text>
-
-                    <Text
-                      style={styles.takeawayValue}
-                    >
-                      {dominantKey}
-                    </Text>
-                  </View>
                 </View>
               </>
             ) : null}
