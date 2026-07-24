@@ -986,16 +986,27 @@ export function buildMonthlyHoroscope({
   |--------------------------------------------------------------------------
   */
 
-  const identity: HoroscopeIdentity = {
-    firstName,
-    zodiacSign: normalizedSign,
-    zodiacSignLabel,
-    birthDate,
-    birthTime,
-    birthCity,
-    birthCountry,
-  };
+  const identity = {
+  firstName:
+    firstName ?? "",
 
+  zodiacSign:
+    normalizedSign,
+
+  zodiacSignLabel,
+
+  birthDate:
+    birthDate ?? "",
+
+  birthTime:
+    birthTime ?? "",
+
+  birthCity:
+    birthCity ?? "",
+
+  birthCountry:
+    birthCountry ?? "",
+} satisfies HoroscopeIdentity;
   /*
   |--------------------------------------------------------------------------
   | Période
