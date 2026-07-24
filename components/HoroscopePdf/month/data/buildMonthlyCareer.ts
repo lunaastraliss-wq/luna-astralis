@@ -18,6 +18,17 @@ type BuildMonthlyCareerParams = {
   period: MonthlyHoroscopePeriod;
 };
 
+const CAREER_TITLES = [
+  "Un mois pour faire avancer vos ambitions",
+  "Votre carrière entre dans une phase d’évolution",
+  "Des décisions importantes se précisent",
+  "Vos efforts commencent à porter leurs fruits",
+  "Une période favorable à la progression",
+  "Votre vie professionnelle gagne en clarté",
+  "Un nouveau cap professionnel se dessine",
+  "Vos projets demandent structure et confiance",
+];
+
 /*
 |--------------------------------------------------------------------------
 | Génération personnalisée — Travail et carrière
@@ -37,53 +48,68 @@ export function buildMonthlyCareer({
     section: "career",
   });
 
+  const score =
+    58 + (Math.abs(seed + 41) % 37);
+
+  const generalText = pickVariant(
+    texts.general,
+    seed,
+    31,
+  );
+
+  const projectsText = pickVariant(
+    texts.projects,
+    seed,
+    47,
+  );
+
   return {
+    title: pickVariant(
+      CAREER_TITLES,
+      seed,
+      7,
+    ),
+
+    score,
+
     introduction: pickVariant(
       texts.introduction,
       seed,
       17,
     ),
 
-    general: pickVariant(
-      texts.general,
-      seed,
-      31,
-    ),
+    text: `${generalText} ${projectsText}`,
 
-    projects: pickVariant(
-      texts.projects,
-      seed,
-      47,
-    ),
+    highlights: [
+      pickVariant(
+        texts.relationships,
+        seed,
+        67,
+      ),
 
-    relationships: pickVariant(
-      texts.relationships,
-      seed,
-      67,
-    ),
+      pickVariant(
+        texts.opportunities,
+        seed,
+        83,
+      ),
 
-    opportunities: pickVariant(
-      texts.opportunities,
-      seed,
-      83,
-    ),
+      pickVariant(
+        texts.challenge,
+        seed,
+        101,
+      ),
 
-    challenge: pickVariant(
-      texts.challenge,
-      seed,
-      101,
-    ),
+      pickVariant(
+        texts.conclusion,
+        seed,
+        149,
+      ),
+    ],
 
     advice: pickVariant(
       texts.advice,
       seed,
       127,
-    ),
-
-    conclusion: pickVariant(
-      texts.conclusion,
-      seed,
-      149,
     ),
   };
 }
