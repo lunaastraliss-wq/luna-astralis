@@ -1,13 +1,74 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
+
 import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY =
+  "#06101F";
+
+const NAVY_DEEP =
+  "#040B15";
+
+const NAVY_CARD =
+  "#0A1729";
+
+const NAVY_CARD_LIGHT =
+  "#0D1B30";
+
+const NAVY_SOFT =
+  "#101F35";
+
+const GOLD =
+  "#F4C95D";
+
+const CREAM =
+  "#FFF8E7";
+
+const MUTED_CREAM =
+  "#DDD5C6";
+
+const SOFT_TEXT =
+  "#B9AE98";
+
+const DARK_GOLD =
+  "#8F6E35";
+
+const DEEP_GOLD =
+  "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthDelicatePeriodsProps =
   Pick<
@@ -23,15 +84,37 @@ type DelicatePeriodCategory =
   | "energy";
 
 type TemporaryDelicatePeriod = {
-  id: string;
-  dates: string;
+  id:
+    string;
+
+  dates:
+    string;
+
   category:
     DelicatePeriodCategory;
-  categoryLabel: string;
-  title: string;
-  description: string;
-  advice: string;
+
+  categoryLabel:
+    string;
+
+  title:
+    string;
+
+  description:
+    string;
+
+  advice:
+    string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Périodes temporaires
+|--------------------------------------------------------------------------
+|
+| Ces données seront remplacées plus tard par les véritables périodes
+| délicates calculées à partir des mouvements astrologiques du mois.
+|
+*/
 
 const TEMPORARY_DELICATE_PERIODS:
   TemporaryDelicatePeriod[] = [
@@ -128,104 +211,325 @@ const TEMPORARY_DELICATE_PERIODS:
     },
   ];
 
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
+
 const styles =
   StyleSheet.create({
+    /*
+    |--------------------------------------------------------------------------
+    | Page
+    |--------------------------------------------------------------------------
+    */
+
     page: {
       position:
         "relative",
 
-      minHeight:
-        "100%",
-
       paddingTop:
-        54,
+        34,
 
       paddingRight:
-        48,
+        42,
 
       paddingBottom:
-        58,
+        54,
 
       paddingLeft:
-        48,
+        42,
 
       backgroundColor:
-        "#FBF8F2",
+        NAVY,
 
       color:
-        "#2E2435",
+        CREAM,
 
       fontFamily:
         "Helvetica",
+
+      overflow:
+        "hidden",
     },
 
-    topDecoration: {
+    content: {
+      position:
+        "relative",
+
+      zIndex:
+        2,
+
+      flex:
+        1,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cercles célestes
+    |--------------------------------------------------------------------------
+    */
+
+    topOrbitLarge: {
       position:
         "absolute",
 
       top:
-        -76,
+        -112,
 
       right:
-        -68,
+        -101,
 
       width:
-        185,
+        258,
 
       height:
-        185,
+        258,
 
       borderRadius:
-        93,
+        129,
 
-      backgroundColor:
-        "#E9DEE9",
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
 
       opacity:
-        0.52,
+        0.5,
     },
 
-    bottomDecoration: {
+    topOrbitMedium: {
+      position:
+        "absolute",
+
+      top:
+        -75,
+
+      right:
+        -64,
+
+      width:
+        184,
+
+      height:
+        184,
+
+      borderRadius:
+        92,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.45,
+    },
+
+    topOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -37,
+
+      right:
+        -27,
+
+      width:
+        108,
+
+      height:
+        108,
+
+      borderRadius:
+        54,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        GOLD,
+
+      opacity:
+        0.25,
+    },
+
+    bottomOrbitLarge: {
       position:
         "absolute",
 
       bottom:
-        -92,
+        -129,
 
       left:
-        -78,
+        -118,
 
       width:
-        205,
+        275,
 
       height:
-        205,
+        275,
 
       borderRadius:
-        103,
+        138,
 
-      backgroundColor:
-        "#EFE2D3",
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
 
       opacity:
-        0.48,
+        0.42,
+    },
+
+    bottomOrbitMedium: {
+      position:
+        "absolute",
+
+      bottom:
+        -84,
+
+      left:
+        -73,
+
+      width:
+        184,
+
+      height:
+        184,
+
+      borderRadius:
+        92,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.35,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête
+    |--------------------------------------------------------------------------
+    */
+
+    header: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "space-between",
+
+      marginBottom:
+        14,
+    },
+
+    logo: {
+      width:
+        108,
+
+      height:
+        38,
+
+      objectFit:
+        "contain",
+    },
+
+    signBadge: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      paddingTop:
+        7,
+
+      paddingRight:
+        12,
+
+      paddingBottom:
+        7,
+
+      paddingLeft:
+        10,
+
+      borderRadius:
+        18,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    signIcon: {
+      width:
+        22,
+
+      height:
+        22,
+
+      marginRight:
+        7,
+
+      objectFit:
+        "contain",
+    },
+
+    signName: {
+      color:
+        GOLD,
+
+      fontSize:
+        8,
+
+      letterSpacing:
+        1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Titre
+    |--------------------------------------------------------------------------
+    */
+
+    titleBlock: {
+      marginBottom:
+        13,
     },
 
     eyebrow: {
       marginBottom:
-        8,
+        7,
 
       color:
-        "#9A7137",
+        GOLD,
 
       fontSize:
-        8.5,
-
-      fontWeight:
-        700,
+        9,
 
       letterSpacing:
-        1.5,
+        2.35,
 
       textTransform:
         "uppercase",
@@ -233,138 +537,256 @@ const styles =
 
     title: {
       maxWidth:
-        420,
-
-      color:
-        "#38273E",
-
-      fontSize:
-        24,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.12,
-    },
-
-    divider: {
-      width:
-        56,
-
-      height:
-        2,
-
-      marginTop:
-        14,
+        455,
 
       marginBottom:
-        17,
-
-      backgroundColor:
-        "#C79B52",
-    },
-
-    introduction: {
-      maxWidth:
-        465,
+        6,
 
       color:
-        "#5F5364",
+        CREAM,
 
       fontSize:
-        10.2,
+        23.5,
 
       lineHeight:
-        1.55,
+        1.17,
     },
 
-    noticeBox: {
-      marginTop:
-        17,
+    period: {
+      marginBottom:
+        9,
 
-      paddingTop:
-        11,
+      color:
+        MUTED_CREAM,
 
-      paddingRight:
-        14,
+      fontSize:
+        9.5,
+    },
 
-      paddingBottom:
-        11,
+    titleDecoration: {
+      flexDirection:
+        "row",
 
-      paddingLeft:
-        14,
+      alignItems:
+        "center",
+    },
 
-      borderLeft:
-        "3 solid #9B738C",
+    titleLineLarge: {
+      width:
+        62,
+
+      height:
+        1,
+
+      marginRight:
+        9,
 
       backgroundColor:
-        "#F3ECF1",
+        GOLD,
     },
 
-    noticeText: {
-      color:
-        "#5D4D5A",
-
-      fontSize:
-        8.4,
-
-      lineHeight:
-        1.48,
-    },
-
-    cardsContainer: {
-      marginTop:
+    titleIcon: {
+      width:
         16,
 
-      gap:
-        11,
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
     },
 
-    card: {
+    titleLineSmall: {
+      width:
+        23,
+
+      height:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Introduction
+    |--------------------------------------------------------------------------
+    */
+
+    introductionCard: {
       position:
         "relative",
 
       minHeight:
-        104,
+        69,
+
+      marginBottom:
+        9,
 
       paddingTop:
-        15,
+        11,
 
       paddingRight:
-        16,
+        15,
 
       paddingBottom:
-        14,
+        11,
 
       paddingLeft:
-        114,
-
-      border:
-        "1 solid #E4DCE4",
+        15,
 
       borderRadius:
-        8,
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
 
       backgroundColor:
-        "#FFFFFF",
+        NAVY_CARD,
+
+      overflow:
+        "hidden",
     },
 
-    dateBlock: {
+    introductionWatermark: {
       position:
         "absolute",
 
       top:
-        15,
+        2,
 
-      bottom:
-        15,
-
-      left:
-        15,
+      right:
+        14,
 
       width:
-        82,
+        66,
+
+      height:
+        66,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.05,
+    },
+
+    introductionLabel: {
+      marginBottom:
+        5,
+
+      color:
+        GOLD,
+
+      fontSize:
+        6.8,
+
+      letterSpacing:
+        1.1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    introductionText: {
+      maxWidth:
+        455,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        8.05,
+
+      lineHeight:
+        1.44,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Note de vigilance
+    |--------------------------------------------------------------------------
+    */
+
+    noticeCard: {
+      position:
+        "relative",
+
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      minHeight:
+        51,
+
+      marginBottom:
+        10,
+
+      paddingTop:
+        8,
+
+      paddingRight:
+        13,
+
+      paddingBottom:
+        8,
+
+      paddingLeft:
+        11,
+
+      borderRadius:
+        10,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
+    },
+
+    noticeAccent: {
+      width:
+        2,
+
+      alignSelf:
+        "stretch",
+
+      marginRight:
+        10,
+
+      borderRadius:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
+    },
+
+    noticeIconCircle: {
+      width:
+        31,
+
+      height:
+        31,
 
       alignItems:
         "center",
@@ -372,54 +794,438 @@ const styles =
       justifyContent:
         "center",
 
+      marginRight:
+        10,
+
+      borderRadius:
+        16,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    noticeIcon: {
+      width:
+        19,
+
+      height:
+        19,
+
+      objectFit:
+        "contain",
+    },
+
+    noticeText: {
+      flex:
+        1,
+
+      color:
+        SOFT_TEXT,
+
+      fontSize:
+        7.4,
+
+      lineHeight:
+        1.4,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête de section
+    |--------------------------------------------------------------------------
+    */
+
+    sectionHeader: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      marginBottom:
+        8,
+    },
+
+    sectionLine: {
+      width:
+        28,
+
+      height:
+        1,
+
+      marginRight:
+        9,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    sectionIcon: {
+      width:
+        15,
+
+      height:
+        15,
+
+      marginRight:
+        8,
+
+      objectFit:
+        "contain",
+    },
+
+    sectionTitle: {
+      color:
+        GOLD,
+
+      fontSize:
+        8.9,
+
+      letterSpacing:
+        1.35,
+
+      textTransform:
+        "uppercase",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cartes
+    |--------------------------------------------------------------------------
+    */
+
+    cardsContainer: {
+      marginBottom:
+        10,
+    },
+
+    card: {
+      position:
+        "relative",
+
+      flexDirection:
+        "row",
+
+      minHeight:
+        104,
+
+      marginBottom:
+        8,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+
+      overflow:
+        "hidden",
+    },
+
+    cardLast: {
+      marginBottom:
+        0,
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Bloc des dates
+    |--------------------------------------------------------------------------
+    */
+
+    dateBlock: {
+      position:
+        "relative",
+
+      width:
+        94,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      paddingTop:
+        11,
+
       paddingRight:
         8,
+
+      paddingBottom:
+        11,
 
       paddingLeft:
         8,
 
-      borderRadius:
-        7,
+      borderRightWidth:
+        0.6,
+
+      borderRightColor:
+        DEEP_GOLD,
 
       backgroundColor:
-        "#F2E9EC",
+        NAVY_DEEP,
+
+      overflow:
+        "hidden",
+    },
+
+    dateOrbitLarge: {
+      position:
+        "absolute",
+
+      top:
+        -38,
+
+      left:
+        -34,
+
+      width:
+        104,
+
+      height:
+        104,
+
+      borderRadius:
+        52,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      opacity:
+        0.65,
+    },
+
+    dateOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -13,
+
+      left:
+        -9,
+
+      width:
+        57,
+
+      height:
+        57,
+
+      borderRadius:
+        29,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.55,
+    },
+
+    dateIconOuter: {
+      width:
+        40,
+
+      height:
+        40,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginBottom:
+        7,
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+    },
+
+    dateIconInner: {
+      width:
+        32,
+
+      height:
+        32,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      borderRadius:
+        16,
+
+      borderWidth:
+        0.8,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    dateIcon: {
+      width:
+        21,
+
+      height:
+        21,
+
+      objectFit:
+        "contain",
     },
 
     dateLabel: {
       marginBottom:
-        5,
+        3,
 
       color:
-        "#8D5E72",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.8,
 
       letterSpacing:
-        0.7,
+        0.8,
+
+      textAlign:
+        "center",
 
       textTransform:
         "uppercase",
     },
 
     dates: {
+      maxWidth:
+        74,
+
       color:
-        "#4A354E",
+        GOLD,
 
       fontSize:
-        11,
-
-      fontWeight:
-        700,
-
-      textAlign:
-        "center",
+        8.4,
 
       lineHeight:
         1.25,
+
+      textAlign:
+        "center",
+    },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contenu principal
+    |--------------------------------------------------------------------------
+    */
+
+    cardMain: {
+      position:
+        "relative",
+
+      flex:
+        1,
+
+      paddingTop:
+        10,
+
+      paddingRight:
+        13,
+
+      paddingBottom:
+        9,
+
+      paddingLeft:
+        13,
+
+      overflow:
+        "hidden",
+    },
+
+    cardOrbitLarge: {
+      position:
+        "absolute",
+
+      top:
+        -65,
+
+      right:
+        -68,
+
+      width:
+        144,
+
+      height:
+        144,
+
+      borderRadius:
+        72,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+
+      opacity:
+        0.55,
+    },
+
+    cardOrbitSmall: {
+      position:
+        "absolute",
+
+      top:
+        -29,
+
+      right:
+        -32,
+
+      width:
+        76,
+
+      height:
+        76,
+
+      borderRadius:
+        38,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+
+      opacity:
+        0.4,
     },
 
     cardHeader: {
@@ -433,7 +1239,29 @@ const styles =
         "space-between",
 
       marginBottom:
-        5,
+        4,
+    },
+
+    categoryContent: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+    },
+
+    categoryIcon: {
+      width:
+        14,
+
+      height:
+        14,
+
+      marginRight:
+        6,
+
+      objectFit:
+        "contain",
     },
 
     categoryBadge: {
@@ -441,22 +1269,22 @@ const styles =
         3,
 
       paddingRight:
-        8,
+        7,
 
       paddingBottom:
         3,
 
       paddingLeft:
-        8,
+        7,
 
       borderRadius:
         9,
 
-      fontSize:
-        6.8,
+      borderWidth:
+        0.5,
 
-      fontWeight:
-        700,
+      fontSize:
+        5.8,
 
       letterSpacing:
         0.35,
@@ -467,48 +1295,57 @@ const styles =
 
     categoryCommunication: {
       color:
-        "#6B5B84",
+        "#E1DCF1",
+
+      borderColor:
+        "#74658C",
 
       backgroundColor:
-        "#EDE9F3",
+        "#251F35",
     },
 
     categoryRelationships: {
       color:
-        "#8A5367",
+        "#F0D9E3",
+
+      borderColor:
+        "#8A566A",
 
       backgroundColor:
-        "#F5E8ED",
+        "#321D27",
     },
 
     categoryCareer: {
       color:
-        "#5B667F",
+        "#D9E3F0",
+
+      borderColor:
+        "#5A6E88",
 
       backgroundColor:
-        "#E9EDF3",
+        "#192638",
     },
 
     categoryEnergy: {
       color:
-        "#806044",
+        "#F1DDC8",
+
+      borderColor:
+        "#876545",
 
       backgroundColor:
-        "#F4EBDD",
+        "#302419",
     },
 
     delicateLabel: {
       color:
-        "#9A7A87",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.8,
 
       letterSpacing:
-        0.5,
+        0.75,
 
       textTransform:
         "uppercase",
@@ -516,58 +1353,86 @@ const styles =
 
     cardTitle: {
       marginBottom:
-        5,
+        4,
+
+      paddingRight:
+        20,
 
       color:
-        "#342638",
+        GOLD,
 
       fontSize:
-        11.5,
-
-      fontWeight:
-        700,
+        9.5,
 
       lineHeight:
         1.25,
     },
 
     description: {
+      marginBottom:
+        5,
+
       color:
-        "#625766",
+        MUTED_CREAM,
 
       fontSize:
-        8.4,
+        6.9,
 
       lineHeight:
-        1.48,
+        1.38,
     },
 
     adviceContainer: {
-      marginTop:
-        8,
+      flexDirection:
+        "row",
+
+      alignItems:
+        "flex-start",
 
       paddingTop:
-        7,
+        5,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
+    },
+
+    adviceAccent: {
+      width:
+        2,
+
+      alignSelf:
+        "stretch",
+
+      marginRight:
+        8,
+
+      borderRadius:
+        1,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    adviceContent: {
+      flex:
+        1,
     },
 
     adviceLabel: {
       marginBottom:
-        3,
+        2.5,
 
       color:
-        "#8D5E72",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        5.5,
 
       letterSpacing:
-        0.65,
+        0.7,
 
       textTransform:
         "uppercase",
@@ -575,78 +1440,24 @@ const styles =
 
     advice: {
       color:
-        "#514756",
+        CREAM,
 
       fontSize:
-        8,
-
-      fontStyle:
-        "italic",
+        6.4,
 
       lineHeight:
-        1.42,
+        1.35,
     },
 
-    closingBox: {
-      marginTop:
-        17,
+    /*
+    |--------------------------------------------------------------------------
+    | Conclusion
+    |--------------------------------------------------------------------------
+    */
 
-      paddingTop:
-        13,
-
-      paddingRight:
-        15,
-
-      paddingBottom:
-        13,
-
-      paddingLeft:
-        15,
-
-      borderLeft:
-        "3 solid #C79B52",
-
-      backgroundColor:
-        "#F4EEE5",
-    },
-
-    closingTitle: {
-      marginBottom:
-        4,
-
-      color:
-        "#4A354E",
-
-      fontSize:
-        9,
-
-      fontWeight:
-        700,
-    },
-
-    closingText: {
-      color:
-        "#625665",
-
-      fontSize:
-        8.5,
-
-      lineHeight:
-        1.48,
-    },
-
-    footer: {
+    closingCard: {
       position:
-        "absolute",
-
-      right:
-        48,
-
-      bottom:
-        25,
-
-      left:
-        48,
+        "relative",
 
       flexDirection:
         "row",
@@ -654,24 +1465,148 @@ const styles =
       alignItems:
         "center",
 
-      justifyContent:
-        "space-between",
+      minHeight:
+        68,
 
       paddingTop:
-        8,
+        10,
 
-      borderTop:
-        "1 solid #DED5DF",
+      paddingRight:
+        15,
+
+      paddingBottom:
+        10,
+
+      paddingLeft:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
     },
 
-    footerText: {
+    closingWatermark: {
+      position:
+        "absolute",
+
+      top:
+        3,
+
+      right:
+        15,
+
+      width:
+        60,
+
+      height:
+        60,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.05,
+    },
+
+    closingIconCircle: {
+      width:
+        38,
+
+      height:
+        38,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        11,
+
+      borderRadius:
+        19,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+    },
+
+    closingIcon: {
+      width:
+        23,
+
+      height:
+        23,
+
+      objectFit:
+        "contain",
+    },
+
+    closingContent: {
+      flex:
+        1,
+    },
+
+    closingTitle: {
+      marginBottom:
+        4,
+
       color:
-        "#8E7E91",
+        GOLD,
 
       fontSize:
-        7,
+        6.8,
+
+      letterSpacing:
+        1.05,
+
+      textTransform:
+        "uppercase",
+    },
+
+    closingText: {
+      maxWidth:
+        425,
+
+      color:
+        CREAM,
+
+      fontSize:
+        7.8,
+
+      lineHeight:
+        1.42,
     },
   });
+
+/*
+|--------------------------------------------------------------------------
+| Style de la catégorie
+|--------------------------------------------------------------------------
+*/
 
 function getCategoryStyle(
   category:
@@ -695,183 +1630,444 @@ function getCategoryStyle(
   }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Icône de la catégorie
+|--------------------------------------------------------------------------
+*/
+
+function getCategoryIcon(
+  category:
+    DelicatePeriodCategory,
+) {
+  switch (category) {
+    case "communication":
+      return HOROSCOPE_ICONS.mercury;
+
+    case "relationships":
+      return HOROSCOPE_ICONS.venus;
+
+    case "career":
+      return HOROSCOPE_ICONS.saturn;
+
+    case "energy":
+      return HOROSCOPE_ICONS.mars;
+
+    default:
+      return HOROSCOPE_ICONS.sun;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
+
 export default function HoroscopeMonthDelicatePeriods({
   identity,
   period,
 }: HoroscopeMonthDelicatePeriodsProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
   return (
     <Page
       size="A4"
       style={styles.page}
       wrap={false}
     >
-      <View
-        style={styles.topDecoration}
-      />
+      <HoroscopeStarBackground />
 
-      <View
-        style={styles.bottomDecoration}
-      />
+      <View style={styles.topOrbitLarge} />
+      <View style={styles.topOrbitMedium} />
+      <View style={styles.topOrbitSmall} />
 
-      <Text style={styles.eyebrow}>
-        Les moments de vigilance
-      </Text>
+      <View style={styles.bottomOrbitLarge} />
+      <View style={styles.bottomOrbitMedium} />
 
-      <Text style={styles.title}>
-        Les périodes plus délicates de votre mois
-      </Text>
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <View style={styles.divider} />
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <Text style={styles.introduction}>
-        Certaines périodes de{" "}
-        {period.label} pourraient demander
-        davantage de patience au signe{" "}
-        {identity.zodiacSignLabel}.
-        Elles ne représentent pas des
-        événements négatifs inévitables,
-        mais plutôt des moments où une
-        réaction réfléchie peut faire une
-        réelle différence.
-      </Text>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <View style={styles.noticeBox}>
-        <Text style={styles.noticeText}>
-          Une période délicate peut devenir
-          constructive lorsqu’elle vous
-          aide à ralentir, à revoir une
-          décision ou à mieux comprendre
-          ce qui demande votre attention.
-        </Text>
-      </View>
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
 
-      <View
-        style={styles.cardsContainer}
-      >
-        {TEMPORARY_DELICATE_PERIODS.map(
-          (
-            item,
-          ) => (
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Les moments de vigilance
+          </Text>
+
+          <Text style={styles.title}>
+            Les périodes plus délicates de votre mois
+          </Text>
+
+          <Text style={styles.period}>
+            {period.label}
+          </Text>
+
+          <View style={styles.titleDecoration}>
             <View
-              key={item.id}
-              style={styles.card}
-              wrap={false}
-            >
-              <View
-                style={styles.dateBlock}
-              >
-                <Text
-                  style={
-                    styles.dateLabel
-                  }
-                >
-                  Vigilance
-                </Text>
+              style={styles.titleLineLarge}
+            />
 
-                <Text
-                  style={styles.dates}
-                >
-                  {item.dates}
-                </Text>
-              </View>
+            <Image
+              src={HOROSCOPE_ICONS.saturn}
+              style={styles.titleIcon}
+            />
 
-              <View
-                style={styles.cardHeader}
-              >
-                <Text
+            <View
+              style={styles.titleLineSmall}
+            />
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.saturn}
+            style={
+              styles.introductionWatermark
+            }
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Anticiper sans craindre
+          </Text>
+
+          <Text
+            style={styles.introductionText}
+          >
+            Certaines périodes de{" "}
+            {period.label} pourraient demander
+            davantage de patience au signe{" "}
+            {identity.zodiacSignLabel}. Elles ne
+            représentent pas des événements
+            négatifs inévitables, mais plutôt des
+            moments où une réaction réfléchie
+            peut faire une réelle différence.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Note explicative
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.noticeCard}
+          wrap={false}
+        >
+          <View style={styles.noticeAccent} />
+
+          <View
+            style={
+              styles.noticeIconCircle
+            }
+          >
+            <Image
+              src={HOROSCOPE_ICONS.mercury}
+              style={styles.noticeIcon}
+            />
+          </View>
+
+          <Text style={styles.noticeText}>
+            Une période délicate peut devenir
+            constructive lorsqu’elle vous aide à
+            ralentir, à revoir une décision ou à
+            mieux comprendre ce qui demande
+            votre attention.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête de la liste
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.mars}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionTitle}>
+            Les périodes à surveiller
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Cartes
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.cardsContainer}>
+          {TEMPORARY_DELICATE_PERIODS.map(
+            (
+              item,
+              index,
+            ) => {
+              const isLast =
+                index ===
+                TEMPORARY_DELICATE_PERIODS.length -
+                  1;
+
+              const categoryIcon =
+                getCategoryIcon(
+                  item.category,
+                );
+
+              return (
+                <View
+                  key={item.id}
                   style={[
-                    styles.categoryBadge,
-                    getCategoryStyle(
-                      item.category,
-                    ),
+                    styles.card,
+                    isLast
+                      ? styles.cardLast
+                      : {},
                   ]}
+                  wrap={false}
                 >
-                  {item.categoryLabel}
-                </Text>
+                  {/*
+                  |--------------------------------------------------------------------------
+                  | Bloc de gauche
+                  |--------------------------------------------------------------------------
+                  */}
 
-                <Text
-                  style={
-                    styles.delicateLabel
-                  }
-                >
-                  À surveiller
-                </Text>
-              </View>
+                  <View style={styles.dateBlock}>
+                    <View
+                      style={
+                        styles.dateOrbitLarge
+                      }
+                    />
 
-              <Text
-                style={styles.cardTitle}
-              >
-                {item.title}
-              </Text>
+                    <View
+                      style={
+                        styles.dateOrbitSmall
+                      }
+                    />
 
-              <Text
-                style={styles.description}
-              >
-                {item.description}
-              </Text>
+                    <View
+                      style={
+                        styles.dateIconOuter
+                      }
+                    >
+                      <View
+                        style={
+                          styles.dateIconInner
+                        }
+                      >
+                        <Image
+                          src={categoryIcon}
+                          style={styles.dateIcon}
+                        />
+                      </View>
+                    </View>
 
-              <View
-                style={
-                  styles.adviceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.adviceLabel
-                  }
-                >
-                  La meilleure approche
-                </Text>
+                    <Text
+                      style={styles.dateLabel}
+                    >
+                      Vigilance
+                    </Text>
 
-                <Text
-                  style={styles.advice}
-                >
-                  {item.advice}
-                </Text>
-              </View>
-            </View>
-          ),
-        )}
+                    <Text style={styles.dates}>
+                      {item.dates}
+                    </Text>
+                  </View>
+
+                  {/*
+                  |--------------------------------------------------------------------------
+                  | Contenu principal
+                  |--------------------------------------------------------------------------
+                  */}
+
+                  <View style={styles.cardMain}>
+                    <View
+                      style={
+                        styles.cardOrbitLarge
+                      }
+                    />
+
+                    <View
+                      style={
+                        styles.cardOrbitSmall
+                      }
+                    />
+
+                    <View style={styles.cardHeader}>
+                      <View
+                        style={
+                          styles.categoryContent
+                        }
+                      >
+                        <Image
+                          src={categoryIcon}
+                          style={
+                            styles.categoryIcon
+                          }
+                        />
+
+                        <Text
+                          style={[
+                            styles.categoryBadge,
+                            getCategoryStyle(
+                              item.category,
+                            ),
+                          ]}
+                        >
+                          {item.categoryLabel}
+                        </Text>
+                      </View>
+
+                      <Text
+                        style={
+                          styles.delicateLabel
+                        }
+                      >
+                        À surveiller
+                      </Text>
+                    </View>
+
+                    <Text
+                      style={styles.cardTitle}
+                    >
+                      {item.title}
+                    </Text>
+
+                    <Text
+                      style={styles.description}
+                    >
+                      {item.description}
+                    </Text>
+
+                    <View
+                      style={
+                        styles.adviceContainer
+                      }
+                    >
+                      <View
+                        style={
+                          styles.adviceAccent
+                        }
+                      />
+
+                      <View
+                        style={
+                          styles.adviceContent
+                        }
+                      >
+                        <Text
+                          style={
+                            styles.adviceLabel
+                          }
+                        >
+                          La meilleure approche
+                        </Text>
+
+                        <Text
+                          style={styles.advice}
+                        >
+                          {item.advice}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            },
+          )}
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Conclusion
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.closingCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.saturn}
+            style={styles.closingWatermark}
+          />
+
+          <View
+            style={
+              styles.closingIconCircle
+            }
+          >
+            <Image
+              src={HOROSCOPE_ICONS.saturn}
+              style={styles.closingIcon}
+            />
+          </View>
+
+          <View style={styles.closingContent}>
+            <Text
+              style={styles.closingTitle}
+            >
+              Gardez votre pouvoir de décision
+            </Text>
+
+            <Text
+              style={styles.closingText}
+            >
+              L’objectif n’est pas d’éviter
+              toute difficulté, mais de choisir
+              une réponse plus consciente.
+              Prenez du recul lorsque la tension
+              augmente et attendez d’avoir une
+              vision plus claire avant de
+              prendre une décision importante.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.closingBox}>
-        <Text
-          style={styles.closingTitle}
-        >
-          Gardez votre pouvoir de décision
-        </Text>
-
-        <Text
-          style={styles.closingText}
-        >
-          L’objectif n’est pas d’éviter
-          toute difficulté, mais de choisir
-          une réponse plus consciente.
-          Prenez du recul lorsque la tension
-          augmente et attendez d’avoir une
-          vision plus claire avant de
-          prendre une décision importante.
-        </Text>
-      </View>
-
-      <View
-        fixed
-        style={styles.footer}
-      >
-        <Text
-          style={styles.footerText}
-        >
-          Luna Astralis
-        </Text>
-
-        <Text
-          style={styles.footerText}
-        >
-          {identity.zodiacSignLabel}
-          {" • "}
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
