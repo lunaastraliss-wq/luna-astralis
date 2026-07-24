@@ -42,6 +42,13 @@ export const metadata: Metadata = {
   },
 };
 
+const BENEFITS = [
+  "Analyse personnalisée selon votre thème natal",
+  "Transits astrologiques de votre journée",
+  "Amour, travail, énergie et décisions",
+  "Rapport PDF détaillé de 17 pages",
+];
+
 export default function HoroscopePremiumJourPage() {
   return (
     <AuthProvider>
@@ -52,29 +59,112 @@ export default function HoroscopePremiumJourPage() {
           className="horoscope-daily-hero"
           aria-labelledby="horoscope-daily-title"
         >
-          <span className="premium-section-kicker">
-            🌙 Horoscope Premium du jour
-          </span>
+          <div className="horoscope-daily-hero-copy">
+            <span className="premium-section-kicker">
+              🌙 Horoscope Premium du jour
+            </span>
 
-          <h1 id="horoscope-daily-title">
-            Votre journée, interprétée selon votre ciel personnel
-          </h1>
+            <h1 id="horoscope-daily-title">
+              Comprenez les influences de votre journée grâce à votre
+              ciel personnel
+            </h1>
 
-          <p>
-            Entrez vos informations de naissance pour calculer vos
-            transits astrologiques et créer votre rapport personnalisé
-            de 17 pages.
-          </p>
+            <p className="horoscope-daily-hero-description">
+              Recevez une lecture astrologique personnalisée à partir
+              de votre date, votre heure et votre lieu de naissance.
+              Vos transits du jour sont analysés pour vous aider à
+              mieux comprendre vos émotions, vos relations et vos
+              décisions.
+            </p>
 
-          <div className="horoscope-daily-price">
-            9,99&nbsp;$ US
+            <div className="horoscope-daily-hero-actions">
+              <a
+                href="#commande"
+                className="premium-button premium-button-primary"
+              >
+                Créer mon horoscope
+                <span aria-hidden="true">✦</span>
+              </a>
+
+              <Link
+                href="/horoscope/premium"
+                className="premium-button premium-button-secondary"
+              >
+                Voir toutes les formules
+              </Link>
+            </div>
+
+            <div className="horoscope-daily-trust">
+              <span>✓ 17 pages personnalisées</span>
+              <span>✓ Paiement unique</span>
+              <span>✓ Téléchargement après paiement</span>
+            </div>
           </div>
+
+          <aside className="horoscope-daily-offer">
+            <span className="horoscope-daily-offer-label">
+              Votre rapport du jour
+            </span>
+
+            <div className="horoscope-daily-price">
+              9,99&nbsp;$ US
+            </div>
+
+            <span className="horoscope-daily-payment">
+              Paiement unique
+            </span>
+
+            <ul>
+              {BENEFITS.map((benefit) => (
+                <li key={benefit}>
+                  <span aria-hidden="true">✓</span>
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+          </aside>
         </section>
 
         <section
-          className="horoscope-daily-content"
-          aria-label="Formulaire de commande de l’horoscope Premium du jour"
+          className="horoscope-daily-introduction"
+          aria-labelledby="horoscope-daily-introduction-title"
         >
+          <span className="premium-section-kicker">
+            Une lecture créée pour vous
+          </span>
+
+          <h2 id="horoscope-daily-introduction-title">
+            Bien plus qu’un horoscope général
+          </h2>
+
+          <p>
+            Un horoscope classique se base uniquement sur votre signe
+            solaire. Votre horoscope Premium tient également compte de
+            votre heure et de votre lieu de naissance afin de proposer
+            une lecture beaucoup plus personnelle et nuancée.
+          </p>
+        </section>
+
+        <section
+          id="commande"
+          className="horoscope-daily-content"
+          aria-labelledby="horoscope-daily-order-title"
+        >
+          <div className="horoscope-daily-content-heading">
+            <span className="premium-section-kicker">
+              Votre horoscope personnalisé
+            </span>
+
+            <h2 id="horoscope-daily-order-title">
+              Entrez vos informations de naissance
+            </h2>
+
+            <p>
+              Ces renseignements permettent de calculer votre thème
+              natal et les transits astrologiques actifs aujourd’hui.
+            </p>
+          </div>
+
           <HoroscopeDailyCheckoutForm />
         </section>
 
