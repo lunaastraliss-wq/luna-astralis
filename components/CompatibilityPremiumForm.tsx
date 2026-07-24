@@ -885,10 +885,15 @@ export default function CompatibilityPremiumForm() {
           </button>
 
           <p>
-            🔒 Paiement unique et sécurisé. Vos
-            informations servent uniquement à créer votre
-            rapport astrologique.
-          </p>
+  🔒 Paiement unique et sécurisé.
+  <br />
+  📥 Après le paiement, téléchargez immédiatement votre rapport PDF et
+  conservez-le sur votre appareil.
+  <br />
+  Aucun compte client n'est créé et Luna Astralis ne conserve aucune copie
+  de votre rapport. Si vous quittez cette page sans le télécharger, il ne
+  pourra pas être récupéré.
+</p>
         </div>
       </form>
 
