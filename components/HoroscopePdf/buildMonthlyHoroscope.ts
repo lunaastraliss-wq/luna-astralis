@@ -1001,7 +1001,7 @@ export function buildMonthlyHoroscope({
   |--------------------------------------------------------------------------
   */
 
-  const identity: MonthlyHoroscopeIdentity = {
+  const identity: HoroscopeIdentity = {
     firstName:
       firstName ?? "",
 
@@ -1025,15 +1025,43 @@ export function buildMonthlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
-  | Période
+  | Période principale du rapport PDF
   |--------------------------------------------------------------------------
   */
 
-  const period: MonthlyHoroscopePeriod = {
+  const period: HoroscopePeriodData = {
     type: "month",
     label: formattedMonth,
     startDate,
     endDate,
+  };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Données réservées aux générateurs mensuels
+  |--------------------------------------------------------------------------
+  */
+
+  const monthlyIdentity: MonthlyHoroscopeIdentity = {
+    firstName:
+      firstName ?? "",
+
+    birthDate:
+      birthDate ?? "",
+
+    birthTime:
+      birthTime ?? "",
+
+    birthPlace:
+      [birthCity, birthCountry]
+        .filter(Boolean)
+        .join(", "),
+
+    zodiacSign:
+      normalizedSign,
+  };
+
+  const monthlyPeriod: MonthlyHoroscopePeriod = {
     month: monthNumber,
     year,
   };
@@ -1045,8 +1073,8 @@ export function buildMonthlyHoroscope({
   */
 
   const monthlySectionParams = {
-    identity,
-    period,
+    identity: monthlyIdentity,
+    period: monthlyPeriod,
   };
 
   const love =
