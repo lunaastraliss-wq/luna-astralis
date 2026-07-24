@@ -1191,13 +1191,10 @@ export function buildMonthlyHoroscope({
 
   const content: HoroscopePdfContent = {
     reportTitle:
-      buildHoroscopeReportTitle(
-        "month",
-        normalizedSign,
-      ),
+  "Horoscope du mois",
 
-    reportSubtitle:
-      `${zodiacSignLabel} — ${formattedMonth}`,
+reportSubtitle:
+  formattedMonth,
 
     welcomeText: firstName
       ? `${firstName}, cette lecture vous accompagne à travers les principales tendances symboliques de votre mois.`
