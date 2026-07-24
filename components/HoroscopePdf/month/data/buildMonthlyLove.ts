@@ -1,6 +1,7 @@
 import {
   buildMonthlySeed,
   createMonthlyLoveTexts,
+  pickDistinctVariants,
   pickVariant,
 } from "./index";
 
@@ -15,12 +16,22 @@ type BuildMonthlyLoveParams = {
   period: MonthlyHoroscopePeriod;
 };
 
+const LOVE_TITLES = [
+  "Un mois pour écouter votre cœur",
+  "Vos émotions prennent une nouvelle direction",
+  "Une période de rapprochement et de vérité",
+  "Votre vie affective cherche son équilibre",
+  "Un nouveau souffle dans votre vie sentimentale",
+  "Le cœur vous invite à plus d’authenticité",
+  "Une période riche en prises de conscience",
+  "Vos sentiments deviennent plus clairs",
+];
+
 export function buildMonthlyLove({
   identity,
   period,
 }: BuildMonthlyLoveParams): MonthlyLoveResult {
-  const texts =
-    createMonthlyLoveTexts();
+  const texts = createMonthlyLoveTexts();
 
   const seed = buildMonthlySeed({
     identity,
@@ -28,53 +39,102 @@ export function buildMonthlyLove({
     section: "love",
   });
 
+  /*
+  |--------------------------------------------------------------------------
+  | Score amoureux déterministe
+  |--------------------------------------------------------------------------
+  |
+  | Le score reste identique pour une même personne et une même période.
+  | Il varie entre 58 et 94 afin de conserver une lecture réaliste.
+  |
+  */
+
+  const score =
+    58 + (Math.abs(seed) % 37);
+
+  /*
+  |--------------------------------------------------------------------------
+  | Texte principal
+  |--------------------------------------------------------------------------
+  |
+  | On réunit la tendance générale et le climat émotionnel afin de produire
+  | une lecture complète sans surcharger la page PDF.
+  |
+  */
+
+  const generalText = pickVariant(
+    texts.general,
+    seed,
+    23,
+  );
+
+  const emotionalText = pickVariant(
+    texts.emotionalClimate,
+    seed,
+    71,
+  );
+
+  const text = `${generalText} ${emotionalText}`;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Points importants
+  |--------------------------------------------------------------------------
+  |
+  | Les anciennes sections couple, célibataire, défi et conclusion deviennent
+  | les quatre points importants affichés dans HoroscopeLove.tsx.
+  |
+  */
+
+  const highlights = [
+    pickVariant(
+      texts.couple,
+      seed,
+      37,
+    ),
+
+    pickVariant(
+      texts.single,
+      seed,
+      53,
+    ),
+
+    pickVariant(
+      texts.challenge,
+      seed,
+      89,
+    ),
+
+    pickVariant(
+      texts.conclusion,
+      seed,
+      131,
+    ),
+  ];
+
   return {
+    title: pickVariant(
+      LOVE_TITLES,
+      seed,
+      5,
+    ),
+
+    score,
+
     introduction: pickVariant(
       texts.introduction,
       seed,
       11,
     ),
 
-    general: pickVariant(
-      texts.general,
-      seed,
-      23,
-    ),
+    text,
 
-    couple: pickVariant(
-      texts.couple,
-      seed,
-      37,
-    ),
-
-    single: pickVariant(
-      texts.single,
-      seed,
-      53,
-    ),
-
-    emotionalClimate: pickVariant(
-      texts.emotionalClimate,
-      seed,
-      71,
-    ),
-
-    challenge: pickVariant(
-      texts.challenge,
-      seed,
-      89,
-    ),
+    highlights,
 
     advice: pickVariant(
       texts.advice,
       seed,
       107,
-    ),
-
-    conclusion: pickVariant(
-      texts.conclusion,
-      seed,
-      131,
     ),
   };
 }
