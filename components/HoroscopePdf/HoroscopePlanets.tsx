@@ -670,6 +670,46 @@ const styles = StyleSheet.create({
 
   /*
   |--------------------------------------------------------------------------
+  | Synthèse des influences
+  |--------------------------------------------------------------------------
+  */
+
+  summaryCard: {
+    marginTop: 5,
+
+    paddingVertical: 11,
+    paddingHorizontal: 15,
+
+    borderRadius: 9,
+
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  summaryTitle: {
+    marginBottom: 6,
+
+    color: GOLD,
+
+    fontSize: 8.5,
+
+    letterSpacing: 1.2,
+
+    textTransform: "uppercase",
+  },
+
+  summaryText: {
+    color: MUTED_CREAM,
+
+    fontSize: 7.2,
+
+    lineHeight: 1.45,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
   | État vide
   |--------------------------------------------------------------------------
   */
@@ -1324,6 +1364,30 @@ export default function HoroscopePlanets({
                       />
                     ),
                   )}
+                </View>
+
+                <View
+                  style={styles.summaryCard}
+                  wrap={false}
+                >
+                  <Text
+                    style={styles.summaryTitle}
+                  >
+                    Synthèse des influences
+                  </Text>
+
+                  <Text
+                    style={styles.summaryText}
+                  >
+                    Les influences planétaires
+                    de cette période interagissent
+                    pour créer une dynamique
+                    unique. Ensemble, elles
+                    révèlent les opportunités,
+                    les défis et les énergies
+                    qui guideront vos décisions
+                    au fil de cette période.
+                  </Text>
                 </View>
               </>
             ) : null}
