@@ -6,6 +6,12 @@ import type {
   MonthlyHoroscopeResult,
 } from "./buildMonthlyHoroscope";
 
+/*
+|--------------------------------------------------------------------------
+| Pages communes
+|--------------------------------------------------------------------------
+*/
+
 import HoroscopeCover from "./HoroscopeCover";
 import HoroscopeWelcome from "./HoroscopeWelcome";
 import HoroscopeEnergy from "./HoroscopeEnergy";
@@ -21,25 +27,75 @@ import HoroscopeLucky from "./HoroscopeLucky";
 import HoroscopeConclusion from "./HoroscopeConclusion";
 import HoroscopeExplore from "./HoroscopeExplore";
 
-import HoroscopeMonthOverview from "./month/HoroscopeMonthOverview";
-import HoroscopeMonthMajorEnergies from "./month/HoroscopeMonthMajorEnergies";
-import HoroscopeMonthMajorAspects from "./month/HoroscopeMonthMajorAspects";
-import HoroscopeMonthWeek1 from "./month/HoroscopeMonthWeek1";
-import HoroscopeMonthWeek2 from "./month/HoroscopeMonthWeek2";
-import HoroscopeMonthWeek3 from "./month/HoroscopeMonthWeek3";
-import HoroscopeMonthWeek4 from "./month/HoroscopeMonthWeek4";
+/*
+|--------------------------------------------------------------------------
+| Pages propres à l’horoscope mensuel
+|--------------------------------------------------------------------------
+*/
 
-type HoroscopeMonthPdfProps = Pick<
-  MonthlyHoroscopeResult,
-  | "identity"
-  | "period"
-  | "content"
-  | "weeks"
-  | "majorEnergies"
-  | "zodiacIconUrl"
-> & {
-  logoUrl?: string;
-};
+import HoroscopeMonthOverview
+  from "./month/HoroscopeMonthOverview";
+
+import HoroscopeMonthMajorEnergies
+  from "./month/HoroscopeMonthMajorEnergies";
+
+import HoroscopeMonthMajorAspects
+  from "./month/HoroscopeMonthMajorAspects";
+
+import HoroscopeMonthBestPeriods
+  from "./month/HoroscopeMonthBestPeriods";
+
+import HoroscopeMonthDelicatePeriods
+  from "./month/HoroscopeMonthDelicatePeriods";
+
+import HoroscopeMonthDominantPlanets
+  from "./month/HoroscopeMonthDominantPlanets";
+
+import HoroscopeMonthActivatedHouses
+  from "./month/HoroscopeMonthActivatedHouses";
+
+import HoroscopeMonthMoonPhases
+  from "./month/HoroscopeMonthMoonPhases";
+
+import HoroscopeMonthAstroEvents
+  from "./month/HoroscopeMonthAstroEvents";
+
+import HoroscopeMonthWeek1
+  from "./month/HoroscopeMonthWeek1";
+
+import HoroscopeMonthWeek2
+  from "./month/HoroscopeMonthWeek2";
+
+import HoroscopeMonthWeek3
+  from "./month/HoroscopeMonthWeek3";
+
+import HoroscopeMonthWeek4
+  from "./month/HoroscopeMonthWeek4";
+
+/*
+|--------------------------------------------------------------------------
+| Propriétés du document mensuel
+|--------------------------------------------------------------------------
+*/
+
+type HoroscopeMonthPdfProps =
+  Pick<
+    MonthlyHoroscopeResult,
+    | "identity"
+    | "period"
+    | "content"
+    | "weeks"
+    | "majorEnergies"
+    | "zodiacIconUrl"
+  > & {
+    logoUrl?: string;
+  };
+
+/*
+|--------------------------------------------------------------------------
+| Document PDF mensuel
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeMonthPdf({
   identity,
@@ -50,6 +106,12 @@ export default function HoroscopeMonthPdf({
   logoUrl,
   zodiacIconUrl,
 }: HoroscopeMonthPdfProps) {
+  /*
+  |--------------------------------------------------------------------------
+  | Propriétés partagées par les pages communes
+  |--------------------------------------------------------------------------
+  */
+
   const sharedProps = {
     identity,
     period,
@@ -77,13 +139,25 @@ export default function HoroscopeMonthPdf({
       ].join(", ")}
       language="fr-FR"
     >
+      {/*
+      |--------------------------------------------------------------------------
+      | Introduction
+      |--------------------------------------------------------------------------
+      */}
+
       <HoroscopeCover
         identity={identity}
         period={period}
-        reportTitle={content.reportTitle}
-        reportSubtitle={content.reportSubtitle}
+        reportTitle={
+          content.reportTitle
+        }
+        reportSubtitle={
+          content.reportSubtitle
+        }
         logoUrl={logoUrl}
-        zodiacIconUrl={zodiacIconUrl}
+        zodiacIconUrl={
+          zodiacIconUrl
+        }
       />
 
       <HoroscopeWelcome
@@ -94,8 +168,16 @@ export default function HoroscopeMonthPdf({
         {...sharedProps}
       />
 
+      {/*
+      |--------------------------------------------------------------------------
+      | Climat général du mois
+      |--------------------------------------------------------------------------
+      */}
+
       <HoroscopeMonthMajorEnergies
-        majorEnergies={majorEnergies}
+        majorEnergies={
+          majorEnergies
+        }
         zodiacSignLabel={
           identity.zodiacSignLabel
         }
@@ -105,6 +187,12 @@ export default function HoroscopeMonthPdf({
         {...sharedProps}
       />
 
+      {/*
+      |--------------------------------------------------------------------------
+      | Influences astrologiques
+      |--------------------------------------------------------------------------
+      */}
+
       <HoroscopePlanets
         {...sharedProps}
       />
@@ -113,6 +201,32 @@ export default function HoroscopeMonthPdf({
         identity={identity}
         period={period}
       />
+
+      <HoroscopeMonthDominantPlanets
+        identity={identity}
+        period={period}
+      />
+
+      <HoroscopeMonthActivatedHouses
+        identity={identity}
+        period={period}
+      />
+
+      <HoroscopeMonthMoonPhases
+        identity={identity}
+        period={period}
+      />
+
+      <HoroscopeMonthAstroEvents
+        identity={identity}
+        period={period}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Domaines de vie
+      |--------------------------------------------------------------------------
+      */}
 
       <HoroscopeLove
         {...sharedProps}
@@ -134,6 +248,12 @@ export default function HoroscopeMonthPdf({
         {...sharedProps}
       />
 
+      {/*
+      |--------------------------------------------------------------------------
+      | Défis et possibilités
+      |--------------------------------------------------------------------------
+      */}
+
       <HoroscopeChallenges
         {...sharedProps}
       />
@@ -141,6 +261,22 @@ export default function HoroscopeMonthPdf({
       <HoroscopeOpportunities
         {...sharedProps}
       />
+
+      <HoroscopeMonthBestPeriods
+        identity={identity}
+        period={period}
+      />
+
+      <HoroscopeMonthDelicatePeriods
+        identity={identity}
+        period={period}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Prévisions semaine par semaine
+      |--------------------------------------------------------------------------
+      */}
 
       <HoroscopeMonthWeek1
         identity={identity}
@@ -165,6 +301,12 @@ export default function HoroscopeMonthPdf({
         period={period}
         week={weeks.week4}
       />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Fin du rapport
+      |--------------------------------------------------------------------------
+      */}
 
       <HoroscopeLucky
         {...sharedProps}
