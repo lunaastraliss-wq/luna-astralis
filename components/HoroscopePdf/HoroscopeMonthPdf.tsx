@@ -23,6 +23,7 @@ import HoroscopeExplore from "./HoroscopeExplore";
 
 import HoroscopeMonthOverview from "./month/HoroscopeMonthOverview";
 import HoroscopeMonthMajorEnergies from "./month/HoroscopeMonthMajorEnergies";
+import HoroscopeMonthMajorAspects from "./month/HoroscopeMonthMajorAspects";
 import HoroscopeMonthWeek1 from "./month/HoroscopeMonthWeek1";
 import HoroscopeMonthWeek2 from "./month/HoroscopeMonthWeek2";
 import HoroscopeMonthWeek3 from "./month/HoroscopeMonthWeek3";
@@ -106,6 +107,11 @@ export default function HoroscopeMonthPdf({
 
       <HoroscopePlanets
         {...sharedProps}
+      />
+
+      <HoroscopeMonthMajorAspects
+        identity={identity}
+        period={period}
       />
 
       <HoroscopeLove
