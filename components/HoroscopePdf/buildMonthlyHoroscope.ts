@@ -14,7 +14,7 @@ import {
 
 import {
   buildMonthlyPlanetaryInfluences,
-} from "./buildMonthlyPlanetaryInfluences";
+} from "./month/buildMonthlyPlanetaryInfluences";
 
 /*
 |--------------------------------------------------------------------------
