@@ -1,13 +1,55 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  formatHoroscopePeriodLabel,
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
+
 import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY = "#06101F";
+const NAVY_CARD = "#0A1729";
+const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
+
+const GOLD = "#F4C95D";
+const CREAM = "#FFF8E7";
+const MUTED_CREAM = "#DDD5C6";
+const SOFT_TEXT = "#B9AE98";
+
+const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthActivatedHousesProps =
   Pick<
@@ -16,121 +58,171 @@ type HoroscopeMonthActivatedHousesProps =
     | "period"
   >;
 
-type ActivatedHouseTone =
+type HouseTone =
   | "identity"
   | "relationships"
-  | "career";
+  | "career"
+  | "transformation";
 
 type TemporaryActivatedHouse = {
   id: string;
-  rank: number;
-  house: number;
-  tone: ActivatedHouseTone;
-  area: string;
+  number: number;
+  name: string;
+  icon: string;
+  tone: HouseTone;
+  category: string;
   title: string;
   description: string;
-  manifestations: string[];
+  manifestation: string;
   advice: string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Données temporaires
+|--------------------------------------------------------------------------
+|
+| Ces maisons seront remplacées plus tard par les maisons réellement
+| activées par les transits astrologiques du mois.
+|
+*/
 
 const TEMPORARY_ACTIVATED_HOUSES:
   TemporaryActivatedHouse[] = [
     {
       id:
-        "activated-house-1",
+        "house-one",
 
-      rank:
+      number:
         1,
 
-      house:
-        1,
+      name:
+        "Maison I",
+
+      icon:
+        HOROSCOPE_ICONS.sun,
 
       tone:
         "identity",
 
-      area:
-        "Identité et initiatives",
+      category:
+        "Identité",
 
       title:
-        "La Maison I met votre évolution personnelle au premier plan",
+        "Votre manière de vous affirmer évolue",
 
       description:
-        "Cette maison représente votre manière d’avancer, votre image, votre confiance et les nouveaux départs. Son activation indique un mois où vos décisions personnelles peuvent avoir davantage d’importance.",
+        "La première maison met en lumière votre identité, votre présence et la manière dont vous vous présentez au monde. Son activation vous encourage à prendre davantage conscience de votre pouvoir personnel.",
 
-      manifestations: [
-        "Un désir de reprendre votre place ou d’affirmer vos priorités.",
-        "Une envie de modifier votre manière de vous présenter.",
-        "Le besoin de commencer quelque chose qui vous ressemble davantage.",
-      ],
+      manifestation:
+        "Vous pourriez ressentir le besoin de modifier votre attitude, votre apparence ou votre façon de défendre vos choix.",
 
       advice:
-        "Choisissez des initiatives qui correspondent réellement à la personne que vous souhaitez devenir.",
+        "Affirmez-vous avec confiance, tout en laissant de la place à l’écoute et à l’adaptation.",
     },
 
     {
       id:
-        "activated-house-7",
+        "house-seven",
 
-      rank:
-        2,
-
-      house:
+      number:
         7,
+
+      name:
+        "Maison VII",
+
+      icon:
+        HOROSCOPE_ICONS.soulPath,
 
       tone:
         "relationships",
 
-      area:
-        "Relations et engagements",
+      category:
+        "Relations",
 
       title:
-        "La Maison VII attire votre attention sur vos relations importantes",
+        "Vos liens deviennent un miroir important",
 
       description:
-        "Cette maison concerne les relations de couple, les associations, les engagements et les rapports d’équilibre. Son activation peut rendre certaines interactions plus révélatrices.",
+        "La septième maison concerne les relations, les engagements et les partenariats. Son activation attire votre attention sur l’équilibre entre vos besoins personnels et ceux des autres.",
 
-      manifestations: [
-        "Une conversation importante dans une relation proche.",
-        "Un besoin de rééquilibrer les efforts et les responsabilités.",
-        "Une décision concernant un engagement ou une collaboration.",
-      ],
+      manifestation:
+        "Une relation pourrait demander une décision, une clarification ou une nouvelle manière de fonctionner ensemble.",
 
       advice:
-        "Recherchez la réciprocité sans oublier vos propres besoins et vos limites.",
+        "Cherchez une véritable réciprocité plutôt que de maintenir une harmonie uniquement en apparence.",
     },
 
     {
       id:
-        "activated-house-10",
+        "house-ten",
 
-      rank:
-        3,
-
-      house:
+      number:
         10,
+
+      name:
+        "Maison X",
+
+      icon:
+        HOROSCOPE_ICONS.lifePurpose,
 
       tone:
         "career",
 
-      area:
-        "Carrière et accomplissement",
+      category:
+        "Carrière",
 
       title:
-        "La Maison X renforce vos ambitions et votre visibilité",
+        "Votre direction professionnelle prend de l’importance",
 
       description:
-        "Cette maison représente votre carrière, votre réputation, vos objectifs et la direction que vous souhaitez donner à votre vie professionnelle. Son activation peut mettre en lumière une responsabilité ou une occasion de progresser.",
+        "La dixième maison représente la carrière, les ambitions et l’image que vous souhaitez construire dans le monde. Son activation peut renforcer votre désir de progresser ou d’être reconnu.",
 
-      manifestations: [
-        "Une attention plus grande portée à vos objectifs professionnels.",
-        "Une occasion de démontrer votre sérieux ou votre expertise.",
-        "Le besoin de clarifier la prochaine étape de votre parcours.",
-      ],
+      manifestation:
+        "Un projet professionnel, une responsabilité ou une décision concernant votre avenir pourrait prendre une place centrale.",
 
       advice:
-        "Concentrez votre énergie sur les projets capables de renforcer durablement votre position.",
+        "Concentrez vos efforts sur les objectifs qui correspondent réellement à votre vision à long terme.",
+    },
+
+    {
+      id:
+        "house-eight",
+
+      number:
+        8,
+
+      name:
+        "Maison VIII",
+
+      icon:
+        HOROSCOPE_ICONS.integrationGuide,
+
+      tone:
+        "transformation",
+
+      category:
+        "Transformation",
+
+      title:
+        "Une période de libération intérieure",
+
+      description:
+        "La huitième maison est associée aux transformations profondes, aux ressources partagées et aux vérités émotionnelles. Son activation vous invite à regarder ce qui doit être compris ou laissé derrière vous.",
+
+      manifestation:
+        "Vous pourriez traverser une prise de conscience importante concernant une peur, un attachement ou une situation financière partagée.",
+
+      advice:
+        "Acceptez de transformer ce qui ne peut plus continuer sous sa forme actuelle.",
     },
   ];
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles =
   StyleSheet.create({
@@ -138,98 +230,132 @@ const styles =
       position:
         "relative",
 
-      minHeight:
-        "100%",
-
       paddingTop:
-        54,
+        34,
 
-      paddingRight:
-        48,
+      paddingHorizontal:
+        42,
 
       paddingBottom:
-        58,
-
-      paddingLeft:
-        48,
+        54,
 
       backgroundColor:
-        "#FBF8F2",
-
-      color:
-        "#2E2435",
+        NAVY,
 
       fontFamily:
         "Helvetica",
+
+      overflow:
+        "hidden",
     },
 
-    topDecoration: {
+    content: {
       position:
-        "absolute",
+        "relative",
 
-      top:
-        -78,
+      zIndex:
+        2,
 
-      right:
-        -67,
-
-      width:
-        188,
-
-      height:
-        188,
-
-      borderRadius:
-        94,
-
-      backgroundColor:
-        "#E9DFEC",
-
-      opacity:
-        0.55,
+      flex:
+        1,
     },
 
-    bottomDecoration: {
-      position:
-        "absolute",
+    header: {
+      flexDirection:
+        "row",
 
-      bottom:
-        -92,
+      alignItems:
+        "center",
 
-      left:
-        -79,
+      justifyContent:
+        "space-between",
 
+      marginBottom:
+        15,
+    },
+
+    logo: {
       width:
-        206,
+        108,
 
       height:
-        206,
+        38,
+
+      objectFit:
+        "contain",
+    },
+
+    signBadge: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      paddingVertical:
+        7,
+
+      paddingHorizontal:
+        12,
 
       borderRadius:
-        103,
+        18,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        DARK_GOLD,
 
       backgroundColor:
-        "#F0E3CD",
+        NAVY_CARD,
+    },
 
-      opacity:
-        0.46,
+    signIcon: {
+      width:
+        22,
+
+      height:
+        22,
+
+      marginRight:
+        7,
+
+      objectFit:
+        "contain",
+    },
+
+    signName: {
+      color:
+        GOLD,
+
+      fontSize:
+        8,
+
+      letterSpacing:
+        1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    titleBlock: {
+      marginBottom:
+        13,
     },
 
     eyebrow: {
       marginBottom:
-        8,
+        7,
 
       color:
-        "#9A7137",
+        GOLD,
 
       fontSize:
-        8.5,
-
-      fontWeight:
-        700,
+        9,
 
       letterSpacing:
-        1.5,
+        2.4,
 
       textTransform:
         "uppercase",
@@ -237,229 +363,332 @@ const styles =
 
     title: {
       maxWidth:
-        420,
+        430,
+
+      marginBottom:
+        7,
 
       color:
-        "#38273E",
+        CREAM,
 
       fontSize:
         24,
 
-      fontWeight:
-        700,
-
       lineHeight:
-        1.12,
+        1.2,
     },
 
-    divider: {
+    period: {
+      marginBottom:
+        9,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        9.7,
+    },
+
+    titleDecoration: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+    },
+
+    titleLine: {
       width:
-        56,
+        62,
 
       height:
-        2,
+        1,
 
-      marginTop:
-        14,
-
-      marginBottom:
-        17,
+      marginRight:
+        9,
 
       backgroundColor:
-        "#C79B52",
+        GOLD,
     },
 
-    introduction: {
-      maxWidth:
-        465,
+    titleIcon: {
+      width:
+        16,
 
-      color:
-        "#5F5364",
+      height:
+        16,
 
-      fontSize:
-        10.2,
+      marginRight:
+        9,
 
-      lineHeight:
-        1.55,
+      objectFit:
+        "contain",
     },
 
-    explanationBox: {
-      marginTop:
-        17,
+    titleLineSmall: {
+      width:
+        22,
 
-      paddingTop:
-        11,
-
-      paddingRight:
-        14,
-
-      paddingBottom:
-        11,
-
-      paddingLeft:
-        14,
-
-      borderLeft:
-        "3 solid #765279",
+      height:
+        1,
 
       backgroundColor:
-        "#F1EAF2",
+        DARK_GOLD,
     },
 
-    explanationText: {
-      color:
-        "#5B4C5E",
-
-      fontSize:
-        8.4,
-
-      lineHeight:
-        1.48,
-    },
-
-    cardsContainer: {
-      marginTop:
-        17,
-
-      gap:
-        13,
-    },
-
-    card: {
+    introductionCard: {
       position:
         "relative",
 
-      paddingTop:
-        16,
+      minHeight:
+        74,
 
-      paddingRight:
-        17,
+      marginBottom:
+        13,
 
-      paddingBottom:
+      paddingVertical:
+        12,
+
+      paddingHorizontal:
         15,
 
-      paddingLeft:
-        94,
-
-      border:
-        "1 solid #E4DCE4",
-
       borderRadius:
-        8,
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
 
       backgroundColor:
-        "#FFFFFF",
+        NAVY_CARD,
+
+      overflow:
+        "hidden",
     },
 
-    houseBlock: {
+    introductionWatermark: {
       position:
         "absolute",
 
       top:
-        16,
+        5,
 
-      left:
-        16,
+      right:
+        17,
 
       width:
-        60,
-
-      alignItems:
-        "center",
-    },
-
-    rankCircle: {
-      width:
-        19,
+        64,
 
       height:
-        19,
+        64,
 
-      alignItems:
-        "center",
+      objectFit:
+        "contain",
 
-      justifyContent:
-        "center",
-
-      marginBottom:
-        7,
-
-      borderRadius:
-        10,
-
-      backgroundColor:
-        "#EDE3EF",
+      opacity:
+        0.055,
     },
 
-    rankText: {
+    introductionLabel: {
+      marginBottom:
+        5,
+
       color:
-        "#67446D",
+        GOLD,
 
       fontSize:
         7,
-
-      fontWeight:
-        700,
-    },
-
-    houseCircle: {
-      width:
-        46,
-
-      height:
-        46,
-
-      alignItems:
-        "center",
-
-      justifyContent:
-        "center",
-
-      border:
-        "1.5 solid #765279",
-
-      borderRadius:
-        23,
-
-      backgroundColor:
-        "#F7F1F7",
-    },
-
-    houseLabel: {
-      marginBottom:
-        2,
-
-      color:
-        "#8D778F",
-
-      fontSize:
-        5.8,
-
-      fontWeight:
-        700,
 
       letterSpacing:
-        0.4,
+        1.2,
 
       textTransform:
         "uppercase",
     },
 
-    houseNumber: {
+    introduction: {
+      maxWidth:
+        460,
+
       color:
-        "#56365C",
+        MUTED_CREAM,
 
       fontSize:
-        18,
-
-      fontWeight:
-        700,
+        8.5,
 
       lineHeight:
-        1,
+        1.5,
     },
 
-    cardHeader: {
+    sectionHeader: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      marginBottom:
+        9,
+    },
+
+    sectionLine: {
+      width:
+        28,
+
+      height:
+        1,
+
+      marginRight:
+        9,
+
+      backgroundColor:
+        GOLD,
+    },
+
+    sectionIcon: {
+      width:
+        16,
+
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
+    },
+
+    sectionTitle: {
+      color:
+        GOLD,
+
+      fontSize:
+        9.3,
+
+      letterSpacing:
+        1.45,
+
+      textTransform:
+        "uppercase",
+    },
+
+    housesGrid: {
+      flexDirection:
+        "row",
+
+      flexWrap:
+        "wrap",
+
+      justifyContent:
+        "space-between",
+
+      marginBottom:
+        10,
+    },
+
+    houseCard: {
+      position:
+        "relative",
+
+      width:
+        "48.8%",
+
+      minHeight:
+        204,
+
+      marginBottom:
+        10,
+
+      paddingTop:
+        13,
+
+      paddingRight:
+        13,
+
+      paddingBottom:
+        12,
+
+      paddingLeft:
+        13,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+
+      overflow:
+        "hidden",
+    },
+
+    cardOrbitOne: {
+      position:
+        "absolute",
+
+      top:
+        -67,
+
+      right:
+        -66,
+
+      width:
+        150,
+
+      height:
+        150,
+
+      borderRadius:
+        75,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+    },
+
+    cardOrbitTwo: {
+      position:
+        "absolute",
+
+      top:
+        -32,
+
+      right:
+        -31,
+
+      width:
+        91,
+
+      height:
+        91,
+
+      borderRadius:
+        46,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+    },
+
+    houseHeader: {
       flexDirection:
         "row",
 
@@ -470,186 +699,220 @@ const styles =
         "space-between",
 
       marginBottom:
-        6,
-    },
-
-    activatedLabel: {
-      color:
-        "#8E7E91",
-
-      fontSize:
-        6.8,
-
-      fontWeight:
-        700,
-
-      letterSpacing:
-        0.45,
-
-      textTransform:
-        "uppercase",
-    },
-
-    areaBadge: {
-      maxWidth:
-        180,
-
-      paddingTop:
-        3,
-
-      paddingRight:
-        8,
-
-      paddingBottom:
-        3,
-
-      paddingLeft:
-        8,
-
-      borderRadius:
         9,
-
-      fontSize:
-        6.6,
-
-      fontWeight:
-        700,
-
-      letterSpacing:
-        0.3,
-
-      textTransform:
-        "uppercase",
     },
 
-    areaIdentity: {
-      color:
-        "#725B35",
-
-      backgroundColor:
-        "#F3ECD9",
-    },
-
-    areaRelationships: {
-      color:
-        "#875267",
-
-      backgroundColor:
-        "#F5E8ED",
-    },
-
-    areaCareer: {
-      color:
-        "#526986",
-
-      backgroundColor:
-        "#E9EEF5",
-    },
-
-    cardTitle: {
-      marginBottom:
-        5,
-
-      color:
-        "#342638",
-
-      fontSize:
-        11.3,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.25,
-    },
-
-    description: {
-      color:
-        "#625766",
-
-      fontSize:
-        8.35,
-
-      lineHeight:
-        1.48,
-    },
-
-    manifestationsContainer: {
-      marginTop:
-        8,
-
-      paddingTop:
-        7,
-
-      borderTop:
-        "1 solid #EEE8EE",
-    },
-
-    manifestationsTitle: {
-      marginBottom:
-        4,
-
-      color:
-        "#765279",
-
-      fontSize:
-        6.8,
-
-      fontWeight:
-        700,
-
-      letterSpacing:
-        0.65,
-
-      textTransform:
-        "uppercase",
-    },
-
-    manifestationRow: {
+    houseIdentity: {
       flexDirection:
         "row",
 
-      marginBottom:
-        3,
+      alignItems:
+        "center",
     },
 
-    manifestationBullet: {
+    houseNumberCircle: {
       width:
-        11,
+        40,
 
+      height:
+        40,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        9,
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        0.8,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    houseNumber: {
       color:
-        "#A17638",
+        GOLD,
 
       fontSize:
-        8,
+        15,
 
-      fontWeight:
-        700,
+      lineHeight:
+        1,
+    },
+
+    houseNumberLabel: {
+      marginTop:
+        2,
+
+      color:
+        SOFT_TEXT,
+
+      fontSize:
+        5.2,
+
+      textTransform:
+        "uppercase",
+    },
+
+    houseNameBlock: {
+      flex:
+        1,
+    },
+
+    houseName: {
+      marginBottom:
+        3,
+
+      color:
+        CREAM,
+
+      fontSize:
+        9.2,
+    },
+
+    houseCategory: {
+      color:
+        GOLD,
+
+      fontSize:
+        6.2,
+
+      letterSpacing:
+        0.8,
+
+      textTransform:
+        "uppercase",
+    },
+
+    iconCircle: {
+      width:
+        33,
+
+      height:
+        33,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      borderRadius:
+        17,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+    },
+
+    houseIcon: {
+      width:
+        21,
+
+      height:
+        21,
+
+      objectFit:
+        "contain",
+    },
+
+    houseTitle: {
+      minHeight:
+        30,
+
+      marginBottom:
+        6,
+
+      color:
+        GOLD,
+
+      fontSize:
+        10.3,
+
+      lineHeight:
+        1.3,
+    },
+
+    houseDescription: {
+      marginBottom:
+        7,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        7.7,
+
+      lineHeight:
+        1.43,
+    },
+
+    manifestationBox: {
+      marginBottom:
+        7,
+
+      paddingTop:
+        6,
+
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
+    },
+
+    manifestationLabel: {
+      marginBottom:
+        3,
+
+      color:
+        SOFT_TEXT,
+
+      fontSize:
+        6.1,
+
+      letterSpacing:
+        0.8,
+
+      textTransform:
+        "uppercase",
     },
 
     manifestationText: {
-      flex:
-        1,
-
       color:
-        "#514756",
+        MUTED_CREAM,
 
       fontSize:
-        7.9,
+        7.35,
 
       lineHeight:
         1.4,
     },
 
-    adviceContainer: {
-      marginTop:
-        7,
-
+    adviceBox: {
       paddingTop:
-        7,
+        6,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
     },
 
     adviceLabel: {
@@ -657,95 +920,32 @@ const styles =
         3,
 
       color:
-        "#A17638",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6.1,
 
       letterSpacing:
-        0.65,
+        0.8,
 
       textTransform:
         "uppercase",
     },
 
-    advice: {
+    adviceText: {
       color:
-        "#514756",
+        CREAM,
 
       fontSize:
-        8,
-
-      fontStyle:
-        "italic",
+        7.35,
 
       lineHeight:
-        1.42,
+        1.4,
     },
 
-    closingBox: {
-      marginTop:
-        18,
-
-      paddingTop:
-        13,
-
-      paddingRight:
-        15,
-
-      paddingBottom:
-        13,
-
-      paddingLeft:
-        15,
-
-      borderLeft:
-        "3 solid #C79B52",
-
-      backgroundColor:
-        "#F4EEE5",
-    },
-
-    closingTitle: {
-      marginBottom:
-        4,
-
-      color:
-        "#4A354E",
-
-      fontSize:
-        9,
-
-      fontWeight:
-        700,
-    },
-
-    closingText: {
-      color:
-        "#625665",
-
-      fontSize:
-        8.5,
-
-      lineHeight:
-        1.48,
-    },
-
-    footer: {
+    summaryCard: {
       position:
-        "absolute",
-
-      right:
-        48,
-
-      bottom:
-        25,
-
-      left:
-        48,
+        "relative",
 
       flexDirection:
         "row",
@@ -753,286 +953,462 @@ const styles =
       alignItems:
         "center",
 
-      justifyContent:
-        "space-between",
+      minHeight:
+        76,
 
-      paddingTop:
-        8,
+      paddingVertical:
+        12,
 
-      borderTop:
-        "1 solid #DED5DF",
+      paddingHorizontal:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
     },
 
-    footerText: {
+    summaryWatermark: {
+      position:
+        "absolute",
+
+      top:
+        4,
+
+      right:
+        16,
+
+      width:
+        60,
+
+      height:
+        60,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.055,
+    },
+
+    summaryIconCircle: {
+      width:
+        39,
+
+      height:
+        39,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        12,
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+    },
+
+    summaryIcon: {
+      width:
+        24,
+
+      height:
+        24,
+
+      objectFit:
+        "contain",
+    },
+
+    summaryContent: {
+      flex:
+        1,
+    },
+
+    summaryTitle: {
+      marginBottom:
+        4,
+
       color:
-        "#8E7E91",
+        GOLD,
 
       fontSize:
         7,
+
+      letterSpacing:
+        1.15,
+
+      textTransform:
+        "uppercase",
+    },
+
+    summaryText: {
+      maxWidth:
+        425,
+
+      color:
+        CREAM,
+
+      fontSize:
+        8.25,
+
+      lineHeight:
+        1.46,
     },
   });
 
-function getAreaStyle(
-  tone: ActivatedHouseTone,
-) {
-  switch (tone) {
-    case "identity":
-      return styles.areaIdentity;
-
-    case "relationships":
-      return styles.areaRelationships;
-
-    case "career":
-      return styles.areaCareer;
-
-    default:
-      return styles.areaIdentity;
-  }
-}
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeMonthActivatedHouses({
   identity,
   period,
 }: HoroscopeMonthActivatedHousesProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
+  const periodLabel =
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
   return (
     <Page
       size="A4"
       style={styles.page}
       wrap={false}
     >
-      <View
-        style={styles.topDecoration}
-      />
+      <HoroscopeStarBackground />
 
-      <View
-        style={styles.bottomDecoration}
-      />
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <Text style={styles.eyebrow}>
-        Les domaines mis en lumière
-      </Text>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <Text style={styles.title}>
-        Les maisons astrologiques activées
-      </Text>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <View style={styles.divider} />
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
 
-      <Text style={styles.introduction}>
-        Pour le signe{" "}
-        {identity.zodiacSignLabel},
-        certaines maisons astrologiques
-        prennent davantage d’importance
-        durant{" "}
-        {period.label}. Elles indiquent
-        les domaines de vie qui pourraient
-        recevoir plus d’attention,
-        d’énergie ou de mouvement.
-      </Text>
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
 
-      <View
-        style={styles.explanationBox}
-      >
-        <Text
-          style={styles.explanationText}
-        >
-          Les maisons astrologiques
-          représentent les grandes sphères
-          de votre existence. Leur
-          activation peut annoncer une
-          période de décisions, de prises
-          de conscience ou d’évolution
-          dans les domaines concernés.
-        </Text>
-      </View>
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Les secteurs de votre vie
+          </Text>
 
-      <View
-        style={styles.cardsContainer}
-      >
-        {TEMPORARY_ACTIVATED_HOUSES.map(
-          (
-            item,
-          ) => (
+          <Text style={styles.title}>
+            Les maisons astrologiques activées
+          </Text>
+
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={HOROSCOPE_ICONS.soulPath}
+              style={styles.titleIcon}
+            />
+
             <View
-              key={item.id}
-              style={styles.card}
-              wrap={false}
-            >
+              style={styles.titleLineSmall}
+            />
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.soulPath}
+            style={
+              styles.introductionWatermark
+            }
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Votre carte du mois
+          </Text>
+
+          <Text style={styles.introduction}>
+            Les maisons astrologiques
+            représentent les différents
+            secteurs de votre vie. Durant{" "}
+            {periodLabel}, certaines maisons
+            peuvent recevoir davantage
+            d’attention et révéler les
+            domaines dans lesquels le signe{" "}
+            {identity.zodiacSignLabel} sera
+            invité à agir, comprendre ou
+            évoluer.
+          </Text>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Maisons activées
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.sun}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionTitle}>
+            Vos secteurs prioritaires
+          </Text>
+        </View>
+
+        <View style={styles.housesGrid}>
+          {TEMPORARY_ACTIVATED_HOUSES.map(
+            (
+              house,
+            ) => (
               <View
-                style={styles.houseBlock}
+                key={house.id}
+                style={styles.houseCard}
+                wrap={false}
               >
                 <View
-                  style={styles.rankCircle}
-                >
-                  <Text
-                    style={styles.rankText}
-                  >
-                    {item.rank}
-                  </Text>
-                </View>
+                  style={styles.cardOrbitOne}
+                />
 
                 <View
-                  style={styles.houseCircle}
-                >
-                  <Text
-                    style={styles.houseLabel}
+                  style={styles.cardOrbitTwo}
+                />
+
+                <View style={styles.houseHeader}>
+                  <View
+                    style={styles.houseIdentity}
                   >
-                    Maison
-                  </Text>
-
-                  <Text
-                    style={styles.houseNumber}
-                  >
-                    {item.house}
-                  </Text>
-                </View>
-              </View>
-
-              <View
-                style={styles.cardHeader}
-              >
-                <Text
-                  style={
-                    styles.activatedLabel
-                  }
-                >
-                  Maison dominante
-                </Text>
-
-                <Text
-                  style={[
-                    styles.areaBadge,
-                    getAreaStyle(
-                      item.tone,
-                    ),
-                  ]}
-                >
-                  {item.area}
-                </Text>
-              </View>
-
-              <Text
-                style={styles.cardTitle}
-              >
-                {item.title}
-              </Text>
-
-              <Text
-                style={styles.description}
-              >
-                {item.description}
-              </Text>
-
-              <View
-                style={
-                  styles.manifestationsContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.manifestationsTitle
-                  }
-                >
-                  Comment cela peut se manifester
-                </Text>
-
-                {item.manifestations.map(
-                  (
-                    manifestation,
-                    index,
-                  ) => (
                     <View
-                      key={
-                        `${item.id}-${index}`
-                      }
                       style={
-                        styles.manifestationRow
+                        styles.houseNumberCircle
                       }
                     >
                       <Text
                         style={
-                          styles.manifestationBullet
+                          styles.houseNumber
                         }
                       >
-                        •
+                        {house.number}
                       </Text>
 
                       <Text
                         style={
-                          styles.manifestationText
+                          styles.houseNumberLabel
                         }
                       >
-                        {manifestation}
+                        maison
                       </Text>
                     </View>
-                  ),
-                )}
-              </View>
 
-              <View
-                style={
-                  styles.adviceContainer
-                }
-              >
+                    <View
+                      style={
+                        styles.houseNameBlock
+                      }
+                    >
+                      <Text
+                        style={
+                          styles.houseName
+                        }
+                      >
+                        {house.name}
+                      </Text>
+
+                      <Text
+                        style={
+                          styles.houseCategory
+                        }
+                      >
+                        {house.category}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
+                    style={styles.iconCircle}
+                  >
+                    <Image
+                      src={house.icon}
+                      style={styles.houseIcon}
+                    />
+                  </View>
+                </View>
+
+                <Text style={styles.houseTitle}>
+                  {house.title}
+                </Text>
+
                 <Text
                   style={
-                    styles.adviceLabel
+                    styles.houseDescription
                   }
                 >
-                  Conseil
+                  {house.description}
                 </Text>
 
-                <Text
-                  style={styles.advice}
+                <View
+                  style={
+                    styles.manifestationBox
+                  }
                 >
-                  {item.advice}
-                </Text>
+                  <Text
+                    style={
+                      styles.manifestationLabel
+                    }
+                  >
+                    Manifestation possible
+                  </Text>
+
+                  <Text
+                    style={
+                      styles.manifestationText
+                    }
+                  >
+                    {house.manifestation}
+                  </Text>
+                </View>
+
+                <View style={styles.adviceBox}>
+                  <Text
+                    style={
+                      styles.adviceLabel
+                    }
+                  >
+                    Conseil
+                  </Text>
+
+                  <Text
+                    style={styles.adviceText}
+                  >
+                    {house.advice}
+                  </Text>
+                </View>
               </View>
-            </View>
-          ),
-        )}
+            ),
+          )}
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Synthèse
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.summaryCard}
+          wrap={false}
+        >
+          <Image
+            src={
+              HOROSCOPE_ICONS.integrationGuide
+            }
+            style={styles.summaryWatermark}
+          />
+
+          <View
+            style={styles.summaryIconCircle}
+          >
+            <Image
+              src={
+                HOROSCOPE_ICONS.integrationGuide
+              }
+              style={styles.summaryIcon}
+            />
+          </View>
+
+          <View style={styles.summaryContent}>
+            <Text
+              style={styles.summaryTitle}
+            >
+              Votre ligne directrice
+            </Text>
+
+            <Text
+              style={styles.summaryText}
+            >
+              Votre mois met en relation
+              l’affirmation personnelle, les
+              relations, les ambitions et la
+              transformation intérieure.
+              Chaque changement vécu dans un
+              secteur pourrait influencer les
+              autres et vous aider à créer un
+              équilibre plus solide.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.closingBox}>
-        <Text
-          style={styles.closingTitle}
-        >
-          Les priorités de votre mois
-        </Text>
-
-        <Text
-          style={styles.closingText}
-        >
-          Votre évolution personnelle,
-          vos relations et vos ambitions
-          professionnelles constituent les
-          trois grands axes de ce mois.
-          Cherchez un équilibre entre ce
-          que vous souhaitez pour vous-même,
-          ce que vous construisez avec les
-          autres et la direction que vous
-          voulez donner à votre avenir.
-        </Text>
-      </View>
-
-      <View
-        fixed
-        style={styles.footer}
-      >
-        <Text
-          style={styles.footerText}
-        >
-          Luna Astralis
-        </Text>
-
-        <Text
-          style={styles.footerText}
-        >
-          {identity.zodiacSignLabel}
-          {" • "}
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
