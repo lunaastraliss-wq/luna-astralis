@@ -428,9 +428,16 @@ const styles = StyleSheet.create({
     backgroundColor: NAVY_CARD_LIGHT,
   },
 
+  timelinePointTitle: {
+    color: GOLD,
+    fontSize: 7.5,
+    lineHeight: 1.25,
+    marginBottom: 2,
+  },
+
   timelineText: {
     color: CREAM,
-    fontSize: 7.5,
+    fontSize: 7.2,
     lineHeight: 1.4,
   },
 
@@ -656,6 +663,274 @@ function getFinancialGuidance(score: number) {
   };
 }
 
+
+type FinancialHighlightContext = {
+  title: string;
+  text: string;
+};
+
+const FINANCIAL_HIGHLIGHT_LIBRARY: Record<
+  string,
+  FinancialHighlightContext[]
+> = {
+  prudence: [
+    {
+      title: "Prudence",
+      text:
+        "Prenez le temps de vérifier les montants, les conditions et les conséquences avant toute dépense importante.",
+    },
+    {
+      title: "Prudence",
+      text:
+        "Conservez une marge de sécurité et évitez les décisions financières prises sous pression.",
+    },
+  ],
+
+  vérification: [
+    {
+      title: "Vérification",
+      text:
+        "Relisez les détails, comparez les options et assurez-vous qu’aucun coût important ne vous échappe.",
+    },
+    {
+      title: "Vérification",
+      text:
+        "Avant de vous engager, confirmez les chiffres, les échéances et les conditions qui pourraient influencer votre budget.",
+    },
+  ],
+
+  securite: [
+    {
+      title: "Sécurité",
+      text:
+        "Protégez votre stabilité en conservant une réserve et en limitant les engagements difficiles à soutenir.",
+    },
+    {
+      title: "Sécurité",
+      text:
+        "Privilégiez les décisions qui renforcent votre marge de manœuvre plutôt que les gains rapides.",
+    },
+  ],
+
+  sécurité: [
+    {
+      title: "Sécurité",
+      text:
+        "Protégez votre stabilité en conservant une réserve et en limitant les engagements difficiles à soutenir.",
+    },
+    {
+      title: "Sécurité",
+      text:
+        "Privilégiez les décisions qui renforcent votre marge de manœuvre plutôt que les gains rapides.",
+    },
+  ],
+
+  organisation: [
+    {
+      title: "Organisation",
+      text:
+        "Révisez vos dépenses récurrentes et classez vos priorités afin de retrouver une meilleure vue d’ensemble.",
+    },
+    {
+      title: "Organisation",
+      text:
+        "Planifiez les prochaines échéances et regroupez vos décisions financières autour d’objectifs précis.",
+    },
+  ],
+
+  prévision: [
+    {
+      title: "Prévision",
+      text:
+        "Anticipez les dépenses à venir afin d’éviter qu’une échéance prévisible fragilise votre équilibre.",
+    },
+    {
+      title: "Prévision",
+      text:
+        "Préparez les prochaines semaines en tenant compte des paiements fixes et des imprévus possibles.",
+    },
+  ],
+
+  controle: [
+    {
+      title: "Contrôle",
+      text:
+        "Gardez une vision claire de vos entrées et sorties d’argent avant d’ajouter une nouvelle dépense.",
+    },
+    {
+      title: "Contrôle",
+      text:
+        "Réduisez ce qui apporte peu de valeur et concentrez vos ressources sur vos véritables priorités.",
+    },
+  ],
+
+  contrôle: [
+    {
+      title: "Contrôle",
+      text:
+        "Gardez une vision claire de vos entrées et sorties d’argent avant d’ajouter une nouvelle dépense.",
+    },
+    {
+      title: "Contrôle",
+      text:
+        "Réduisez ce qui apporte peu de valeur et concentrez vos ressources sur vos véritables priorités.",
+    },
+  ],
+
+  occasion: [
+    {
+      title: "Occasion",
+      text:
+        "Une possibilité intéressante peut se présenter, mais elle mérite une analyse complète avant toute décision.",
+    },
+    {
+      title: "Occasion",
+      text:
+        "Évaluez le potentiel réel de la proposition sans vous laisser influencer uniquement par l’urgence.",
+    },
+  ],
+
+  analyse: [
+    {
+      title: "Analyse",
+      text:
+        "Comparez les avantages, les risques et les coûts à long terme avant de choisir votre prochaine direction.",
+    },
+    {
+      title: "Analyse",
+      text:
+        "Appuyez votre décision sur des chiffres précis plutôt que sur une impression momentanée.",
+    },
+  ],
+
+  patience: [
+    {
+      title: "Patience",
+      text:
+        "Attendez d’avoir toutes les informations nécessaires avant de vous engager ou de modifier votre stratégie.",
+    },
+    {
+      title: "Patience",
+      text:
+        "Une décision légèrement reportée peut vous permettre d’obtenir de meilleures conditions ou une vision plus claire.",
+    },
+  ],
+
+  stabilité: [
+    {
+      title: "Stabilité",
+      text:
+        "Consolidez ce qui fonctionne déjà avant de chercher à accélérer votre progression financière.",
+    },
+    {
+      title: "Stabilité",
+      text:
+        "Privilégiez les choix durables qui respectent votre budget et votre niveau de sécurité.",
+    },
+  ],
+
+  developpement: [
+    {
+      title: "Développement",
+      text:
+        "Repérez les actions capables d’améliorer progressivement vos revenus, vos projets ou votre autonomie.",
+    },
+  ],
+
+  développement: [
+    {
+      title: "Développement",
+      text:
+        "Repérez les actions capables d’améliorer progressivement vos revenus, vos projets ou votre autonomie.",
+    },
+  ],
+};
+
+const DEFAULT_FINANCIAL_HIGHLIGHTS: FinancialHighlightContext[] = [
+  {
+    title: "Priorités",
+    text:
+      "Concentrez vos ressources sur les dépenses et les projets qui soutiennent réellement vos objectifs.",
+  },
+  {
+    title: "Marge de sécurité",
+    text:
+      "Conservez une réserve suffisante avant d’accepter un nouvel engagement ou une dépense importante.",
+  },
+  {
+    title: "Décision réfléchie",
+    text:
+      "Comparez les options et vérifiez les conditions complètes avant de confirmer votre choix.",
+  },
+  {
+    title: "Vision à long terme",
+    text:
+      "Privilégiez les décisions capables de renforcer votre stabilité au-delà de cette seule période.",
+  },
+];
+
+function normalizeFinancialKeyword(value: string): string {
+  return value
+    .trim()
+    .toLocaleLowerCase("fr-CA");
+}
+
+function buildFinancialHighlights(
+  values: readonly string[],
+  score: number,
+): FinancialHighlightContext[] {
+  const source =
+    values.length > 0
+      ? values.slice(0, 4)
+      : DEFAULT_FINANCIAL_HIGHLIGHTS.map(
+          (highlight) => highlight.title,
+        );
+
+  return source.map((value, index) => {
+    const cleanValue = value.trim();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Les générateurs récents peuvent déjà fournir une phrase complète.
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      cleanValue.length >= 38 ||
+      /[.!?]$/.test(cleanValue)
+    ) {
+      return {
+        title: `Point ${String(index + 1).padStart(2, "0")}`,
+        text: cleanValue,
+      };
+    }
+
+    const normalizedKeyword =
+      normalizeFinancialKeyword(cleanValue);
+
+    const matchingVariants =
+      FINANCIAL_HIGHLIGHT_LIBRARY[normalizedKeyword];
+
+    if (
+      Array.isArray(matchingVariants) &&
+      matchingVariants.length > 0
+    ) {
+      return matchingVariants[
+        (score + index) %
+          matchingVariants.length
+      ];
+    }
+
+    return {
+      title: cleanValue || DEFAULT_FINANCIAL_HIGHLIGHTS[index].title,
+      text:
+        DEFAULT_FINANCIAL_HIGHLIGHTS[
+          index % DEFAULT_FINANCIAL_HIGHLIGHTS.length
+        ].text,
+    };
+  });
+}
+
 export default function HoroscopeMoney({
   identity,
   period,
@@ -671,9 +946,14 @@ export default function HoroscopeMoney({
     content.money.score ?? content.scores.money,
   );
 
-  const highlights = Array.isArray(content.money.highlights)
-    ? content.money.highlights.slice(0, 4)
+  const rawHighlights = Array.isArray(content.money.highlights)
+    ? content.money.highlights
     : [];
+
+  const highlights = buildFinancialHighlights(
+    rawHighlights,
+    moneyScore,
+  );
 
   const guidance = getFinancialGuidance(moneyScore);
 
@@ -856,7 +1136,7 @@ export default function HoroscopeMoney({
 
               {highlights.map((highlight, index) => (
                 <View
-                  key={`${highlight}-${index}`}
+                  key={`${highlight.title}-${index}`}
                   style={styles.timelineItem}
                   wrap={false}
                 >
@@ -867,8 +1147,12 @@ export default function HoroscopeMoney({
                   </View>
 
                   <View style={styles.timelineContent}>
+                    <Text style={styles.timelinePointTitle}>
+                      {highlight.title}
+                    </Text>
+
                     <Text style={styles.timelineText}>
-                      {highlight}
+                      {highlight.text}
                     </Text>
                   </View>
                 </View>
