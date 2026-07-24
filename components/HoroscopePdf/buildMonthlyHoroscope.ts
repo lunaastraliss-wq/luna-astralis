@@ -51,6 +51,11 @@ import {
 import {
   buildMonthlyOpportunity,
 } from "./month/data/buildMonthlyOpportunity";
+
+import type {
+  MonthlyHoroscopeIdentity,
+  MonthlyHoroscopePeriod,
+} from "./month/data/types";
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -162,6 +167,8 @@ function getMonthDates(
 ): {
   startDate: string;
   endDate: string;
+  month: number;
+  year: number;
 } {
   const [
     yearValue,
@@ -171,8 +178,11 @@ function getMonthDates(
   const year =
     Number(yearValue);
 
+  const month =
+    Number(monthValue);
+
   const monthIndex =
-    Number(monthValue) - 1;
+    month - 1;
 
   const lastDay = new Date(
     year,
@@ -188,6 +198,9 @@ function getMonthDates(
       `${yearValue}-${monthValue}-${String(
         lastDay,
       ).padStart(2, "0")}`,
+
+    month,
+    year,
   };
 }
 
@@ -935,6 +948,8 @@ export function buildMonthlyHoroscope({
   const {
     startDate,
     endDate,
+    month: monthNumber,
+    year,
   } = getMonthDates(isoMonth);
 
   const formattedMonth =
@@ -986,38 +1001,41 @@ export function buildMonthlyHoroscope({
   |--------------------------------------------------------------------------
   */
 
-  const identity = {
-  firstName:
-    firstName ?? "",
+  const identity: MonthlyHoroscopeIdentity = {
+    firstName:
+      firstName ?? "",
 
-  zodiacSign:
-    normalizedSign,
+    zodiacSign:
+      normalizedSign,
 
-  zodiacSignLabel,
+    zodiacSignLabel,
 
-  birthDate:
-    birthDate ?? "",
+    birthDate:
+      birthDate ?? "",
 
-  birthTime:
-    birthTime ?? "",
+    birthTime:
+      birthTime ?? "",
 
-  birthCity:
-    birthCity ?? "",
+    birthCity:
+      birthCity ?? "",
 
-  birthCountry:
-    birthCountry ?? "",
-} satisfies HoroscopeIdentity;
+    birthCountry:
+      birthCountry ?? "",
+  };
+
   /*
   |--------------------------------------------------------------------------
   | Période
   |--------------------------------------------------------------------------
   */
 
-  const period: HoroscopePeriodData = {
+  const period: MonthlyHoroscopePeriod = {
     type: "month",
     label: formattedMonth,
     startDate,
     endDate,
+    month: monthNumber,
+    year,
   };
 
   /*
