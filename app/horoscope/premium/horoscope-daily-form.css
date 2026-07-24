@@ -4,8 +4,16 @@
 |--------------------------------------------------------------------------
 */
 
+.horoscope-daily-page,
+.horoscope-daily-page *,
+.horoscope-daily-page *::before,
+.horoscope-daily-page *::after {
+  box-sizing: border-box;
+}
+
 .horoscope-daily-page {
   min-height: 100vh;
+
   padding:
     clamp(24px, 4vw, 58px)
     clamp(16px, 5vw, 70px)
@@ -24,19 +32,19 @@
 
   display: grid;
   grid-template-columns:
-    minmax(0, 1.2fr)
+    minmax(0, 1.18fr)
     minmax(320px, 0.62fr);
   align-items: center;
 
-  gap: clamp(40px, 6vw, 90px);
+  gap: clamp(38px, 6vw, 82px);
 
-  width: 100%;
-  max-width: 1380px;
+  width: min(1380px, 100%);
+  max-width: 100%;
   margin: 0 auto;
 
   padding:
-    clamp(52px, 7vw, 92px)
-    clamp(26px, 6vw, 82px);
+    clamp(50px, 7vw, 88px)
+    clamp(26px, 6vw, 76px);
 
   overflow: hidden;
 
@@ -72,7 +80,7 @@
   z-index: -2;
   inset: 0;
 
-  opacity: 0.32;
+  opacity: 0.3;
 
   pointer-events: none;
 
@@ -119,6 +127,7 @@
   position: relative;
   z-index: 2;
 
+  min-width: 0;
   max-width: 770px;
 }
 
@@ -138,18 +147,18 @@
     serif;
 
   font-size:
-    clamp(2.65rem, 5.1vw, 4.75rem);
+    clamp(2.55rem, 4.8vw, 4.55rem);
 
   font-weight: 500;
-  letter-spacing: -0.05em;
-  line-height: 1.03;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
 }
 
 .horoscope-daily-hero-description {
   max-width: 720px;
   margin: 0 0 30px;
 
-  color: rgba(255, 255, 255, 0.76);
+  color: rgba(255, 255, 255, 0.8);
 
   font-size:
     clamp(1rem, 1.35vw, 1.14rem);
@@ -166,41 +175,63 @@
 .horoscope-daily-hero-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 
-  gap: 13px;
+  gap: 12px;
 
   margin-bottom: 18px;
 }
 
 .horoscope-daily-hero-actions .premium-button {
-  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 50px;
+  padding: 12px 22px;
+
+  border-radius: 999px;
+
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .horoscope-daily-hero .premium-button-primary,
 .horoscope-daily-hero .premium-button-primary:visited {
-  color: #271a2e;
+  border: 1px solid rgba(239, 212, 154, 0.72);
+
+  color: #2b1c31;
 
   background:
     linear-gradient(
       135deg,
       #f4dda9,
-      #c7974e
+      #d3a75f
     );
 
   box-shadow:
-    0 16px 34px rgba(188, 139, 66, 0.25);
+    0 12px 28px rgba(188, 139, 66, 0.22);
 }
 
 .horoscope-daily-hero .premium-button-primary:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 20px 42px rgba(188, 139, 66, 0.34);
+    0 16px 34px rgba(188, 139, 66, 0.3);
 }
 
 .horoscope-daily-hero .premium-button-secondary,
 .horoscope-daily-hero .premium-button-secondary:visited {
-  border-color: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.24);
 
   color: #ffffff;
 
@@ -213,10 +244,12 @@
 }
 
 .horoscope-daily-hero .premium-button-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.36);
+  border-color: rgba(255, 255, 255, 0.42);
 
   background:
     rgba(255, 255, 255, 0.14);
+
+  transform: translateY(-2px);
 }
 
 /*
@@ -264,7 +297,7 @@
 
   gap: 9px 19px;
 
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.75);
 
   font-size: 0.82rem;
   font-weight: 700;
@@ -289,9 +322,13 @@
 
   width: 100%;
   max-width: 405px;
+  min-width: 0;
+
   justify-self: end;
 
   padding: 22px 24px 27px;
+
+  overflow: hidden;
 
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 28px;
@@ -319,7 +356,7 @@
 .horoscope-daily-cover {
   position: relative;
 
-  width: min(100%, 220px);
+  width: min(100%, 215px);
   margin: 0 auto 23px;
 
   border-radius: 14px;
@@ -400,7 +437,7 @@
 
   margin-bottom: 24px;
 
-  color: rgba(255, 255, 255, 0.56);
+  color: rgba(255, 255, 255, 0.62);
 
   font-size: 0.79rem;
 }
@@ -422,7 +459,7 @@
 
   gap: 10px;
 
-  color: rgba(255, 255, 255, 0.79);
+  color: rgba(255, 255, 255, 0.82);
 
   font-size: 0.87rem;
   line-height: 1.55;
@@ -481,20 +518,78 @@
 */
 
 .horoscope-daily-introduction {
-  max-width: 830px;
+  position: relative;
+
+  width: min(900px, 100%);
+  max-width: 900px;
 
   margin:
-    clamp(72px, 8vw, 112px)
+    clamp(72px, 8vw, 108px)
     auto;
 
+  padding:
+    clamp(42px, 6vw, 66px)
+    clamp(22px, 5vw, 58px);
+
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 32px;
+
   text-align: center;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(200, 154, 77, 0.14),
+      transparent 24rem
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.09),
+      rgba(255, 255, 255, 0.035)
+    );
+
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.16);
+
+  backdrop-filter: blur(14px);
 }
 
-.horoscope-daily-introduction h2,
-.horoscope-daily-content-heading h2 {
-  margin: 15px 0 18px;
+.horoscope-daily-introduction::before {
+  position: absolute;
+  inset: 0;
 
-  color: #24182c;
+  opacity: 0.18;
+
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.75) 0 1px,
+      transparent 1.4px
+    );
+
+  background-size: 78px 78px;
+
+  content: "";
+}
+
+.horoscope-daily-introduction > * {
+  position: relative;
+  z-index: 1;
+}
+
+.horoscope-daily-introduction
+  .premium-section-kicker {
+  color: #efd49a;
+}
+
+.horoscope-daily-introduction h2 {
+  margin: 16px 0 20px;
+
+  color: #ffffff;
 
   font-family:
     Georgia,
@@ -502,18 +597,21 @@
     serif;
 
   font-size:
-    clamp(2rem, 4vw, 3.35rem);
+    clamp(2.1rem, 4vw, 3.45rem);
 
   font-weight: 500;
   letter-spacing: -0.035em;
   line-height: 1.08;
+
+  text-shadow:
+    0 3px 16px rgba(0, 0, 0, 0.38);
 }
 
-.horoscope-daily-introduction p,
-.horoscope-daily-content-heading p {
-  margin: 0;
+.horoscope-daily-introduction p {
+  max-width: 760px;
+  margin: 0 auto;
 
-  color: #756b7b;
+  color: rgba(255, 255, 255, 0.82);
 
   font-size:
     clamp(1rem, 1.3vw, 1.1rem);
@@ -521,30 +619,62 @@
   line-height: 1.8;
 }
 
+/*
+|--------------------------------------------------------------------------
+| Bouton de l’introduction
+|--------------------------------------------------------------------------
+*/
+
 .horoscope-daily-introduction-actions {
   display: flex;
   justify-content: center;
 
-  margin-top: 27px;
-}
-
-.horoscope-daily-introduction-actions .premium-button-secondary,
-.horoscope-daily-introduction-actions
-  .premium-button-secondary:visited {
-  border-color: rgba(90, 54, 95, 0.2);
-
-  color: #5a365f;
-
-  background: rgba(255, 255, 255, 0.72);
+  margin-top: 28px;
 }
 
 .horoscope-daily-introduction-actions
-  .premium-button-secondary:hover {
-  border-color: rgba(90, 54, 95, 0.38);
+  .premium-button,
+.horoscope-daily-introduction-actions
+  .premium-button:visited {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  background: #ffffff;
+  min-height: 50px;
+  padding: 12px 23px;
 
+  border: 1px solid rgba(239, 212, 154, 0.7);
+  border-radius: 999px;
+
+  color: #2b1c31;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4dda9,
+      #d3a75f
+    );
+
+  box-shadow:
+    0 13px 30px rgba(188, 139, 66, 0.23);
+
+  font-size: 0.94rem;
+  font-weight: 800;
+  line-height: 1.2;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.horoscope-daily-introduction-actions
+  .premium-button:hover {
   transform: translateY(-2px);
+
+  box-shadow:
+    0 18px 38px rgba(188, 139, 66, 0.32);
 }
 
 /*
@@ -588,6 +718,35 @@
   text-align: center;
 }
 
+.horoscope-daily-content-heading h2 {
+  margin: 15px 0 18px;
+
+  color: #24182c;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size:
+    clamp(2rem, 4vw, 3.35rem);
+
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.horoscope-daily-content-heading p {
+  margin: 0;
+
+  color: #756b7b;
+
+  font-size:
+    clamp(1rem, 1.3vw, 1.1rem);
+
+  line-height: 1.8;
+}
+
 /*
 |--------------------------------------------------------------------------
 | Carte du formulaire
@@ -606,7 +765,7 @@
   color: #302638;
 
   background:
-    rgba(255, 255, 255, 0.78);
+    rgba(255, 255, 255, 0.82);
 
   box-shadow:
     0 20px 50px rgba(45, 28, 51, 0.09);
@@ -690,7 +849,7 @@
   color: #2b2131;
 
   background:
-    rgba(255, 255, 255, 0.92);
+    rgba(255, 255, 255, 0.94);
 
   font: inherit;
 
@@ -812,32 +971,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Correction générale des couleurs des boutons
-|--------------------------------------------------------------------------
-*/
-
-.horoscope-daily-page .premium-button-primary,
-.horoscope-daily-page .premium-button-primary:visited {
-  color: #ffffff;
-}
-
-.horoscope-daily-page .premium-button-secondary,
-.horoscope-daily-page .premium-button-secondary:visited {
-  color: #5a365f;
-}
-
-.horoscope-daily-hero .premium-button-primary,
-.horoscope-daily-hero .premium-button-primary:visited {
-  color: #271a2e;
-}
-
-.horoscope-daily-hero .premium-button-secondary,
-.horoscope-daily-hero .premium-button-secondary:visited {
-  color: #ffffff;
-}
-
-/*
-|--------------------------------------------------------------------------
 | Tablettes
 |--------------------------------------------------------------------------
 */
@@ -848,16 +981,16 @@
       minmax(0, 1fr)
       minmax(285px, 0.55fr);
 
-    gap: 38px;
+    gap: 34px;
 
     padding:
-      54px
-      38px;
+      52px
+      34px;
   }
 
   .horoscope-daily-hero h1 {
     font-size:
-      clamp(2.55rem, 6vw, 4rem);
+      clamp(2.45rem, 5.8vw, 3.9rem);
   }
 
   .horoscope-daily-offer {
@@ -868,7 +1001,7 @@
   }
 
   .horoscope-daily-cover {
-    width: min(100%, 195px);
+    width: min(100%, 190px);
   }
 }
 
@@ -910,7 +1043,7 @@
   }
 
   .horoscope-daily-cover {
-    width: min(100%, 210px);
+    width: min(100%, 205px);
   }
 }
 
@@ -943,9 +1076,9 @@
     margin-top: 15px;
 
     font-size:
-      clamp(2.25rem, 11vw, 3.35rem);
+      clamp(2.15rem, 10.5vw, 3.2rem);
 
-    letter-spacing: -0.045em;
+    letter-spacing: -0.04em;
   }
 
   .horoscope-daily-hero-description {
@@ -983,20 +1116,32 @@
   }
 
   .horoscope-daily-cover {
-    width: min(100%, 190px);
+    width: min(100%, 185px);
   }
 
   .horoscope-daily-introduction {
     margin:
-      67px
+      64px
       auto;
+
+    padding:
+      40px
+      19px;
+
+    border-radius: 25px;
+  }
+
+  .horoscope-daily-introduction h2 {
+    font-size:
+      clamp(2rem, 9vw, 2.8rem);
   }
 
   .horoscope-daily-introduction-actions {
     display: block;
   }
 
-  .horoscope-daily-introduction-actions .premium-button {
+  .horoscope-daily-introduction-actions
+    .premium-button {
     width: 100%;
   }
 
@@ -1043,7 +1188,7 @@
 
   .horoscope-daily-hero h1 {
     font-size:
-      clamp(2.05rem, 11vw, 2.75rem);
+      clamp(2rem, 10.5vw, 2.7rem);
   }
 
   .horoscope-daily-offer {
@@ -1054,11 +1199,17 @@
   }
 
   .horoscope-daily-cover {
-    width: min(100%, 175px);
+    width: min(100%, 170px);
   }
 
   .horoscope-daily-price {
     font-size: 2.3rem;
+  }
+
+  .horoscope-daily-introduction {
+    padding:
+      36px
+      16px;
   }
 
   .horoscope-daily-content {
