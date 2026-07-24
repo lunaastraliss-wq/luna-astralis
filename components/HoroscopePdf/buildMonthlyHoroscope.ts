@@ -16,6 +16,14 @@ import {
   buildMonthlyPlanetaryInfluences,
 } from "./month/buildMonthlyPlanetaryInfluences";
 
+import {
+  buildMonthlyMajorEnergies,
+} from "./month/buildMonthlyMajorEnergies";
+
+import type {
+  MonthlyMajorEnergiesResult,
+} from "./month/buildMonthlyMajorEnergies";
+
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -70,6 +78,7 @@ export type MonthlyHoroscopeResult = {
   period: HoroscopePeriodData;
   content: HoroscopePdfContent;
   weeks: MonthlyHoroscopeWeeks;
+  majorEnergies: MonthlyMajorEnergiesResult;
   zodiacIconUrl: string;
 };
 
@@ -1177,6 +1186,14 @@ export function buildMonthlyHoroscope({
       seed,
     });
 
+  const majorEnergies =
+    buildMonthlyMajorEnergies({
+      zodiacSign: normalizedSign,
+      zodiacSignLabel,
+      isoMonth,
+      seed,
+    });
+
   const weeks: MonthlyHoroscopeWeeks = {
     week1: buildMonthlyWeek(
       WEEK_1_TEXTS,
@@ -1555,6 +1572,7 @@ export function buildMonthlyHoroscope({
     period,
     content,
     weeks,
+    majorEnergies,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
