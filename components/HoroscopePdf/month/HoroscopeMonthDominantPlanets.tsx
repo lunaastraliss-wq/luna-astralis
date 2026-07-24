@@ -1,13 +1,72 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  formatHoroscopePeriodLabel,
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
+
 import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY =
+  "#06101F";
+
+const NAVY_CARD =
+  "#0A1729";
+
+const NAVY_CARD_LIGHT =
+  "#0D1B30";
+
+const NAVY_SOFT =
+  "#101F35";
+
+const GOLD =
+  "#F4C95D";
+
+const CREAM =
+  "#FFF8E7";
+
+const MUTED_CREAM =
+  "#DDD5C6";
+
+const SOFT_TEXT =
+  "#B9AE98";
+
+const DARK_GOLD =
+  "#8F6E35";
+
+const DEEP_GOLD =
+  "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type HoroscopeMonthDominantPlanetsProps =
   Pick<
@@ -24,9 +83,9 @@ type DominantPlanetTone =
 type TemporaryDominantPlanet = {
   id: string;
   rank: number;
-  symbol: string;
   planet: string;
-  sign: string;
+  icon: string;
+  influenceLabel: string;
   tone: DominantPlanetTone;
   theme: string;
   title: string;
@@ -34,6 +93,12 @@ type TemporaryDominantPlanet = {
   influence: string;
   advice: string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Données temporaires
+|--------------------------------------------------------------------------
+*/
 
 const TEMPORARY_DOMINANT_PLANETS:
   TemporaryDominantPlanet[] = [
@@ -44,14 +109,14 @@ const TEMPORARY_DOMINANT_PLANETS:
       rank:
         1,
 
-      symbol:
-        "♃",
-
       planet:
         "Jupiter",
 
-      sign:
-        "En influence principale",
+      icon:
+        HOROSCOPE_ICONS.jupiter,
+
+      influenceLabel:
+        "Influence principale",
 
       tone:
         "expansion",
@@ -79,14 +144,14 @@ const TEMPORARY_DOMINANT_PLANETS:
       rank:
         2,
 
-      symbol:
-        "♀",
-
       planet:
         "Vénus",
 
-      sign:
-        "En influence secondaire",
+      icon:
+        HOROSCOPE_ICONS.venus,
+
+      influenceLabel:
+        "Influence secondaire",
 
       tone:
         "relationships",
@@ -114,14 +179,14 @@ const TEMPORARY_DOMINANT_PLANETS:
       rank:
         3,
 
-      symbol:
-        "♂",
-
       planet:
         "Mars",
 
-      sign:
-        "En influence dynamique",
+      icon:
+        HOROSCOPE_ICONS.mars,
+
+      influenceLabel:
+        "Influence dynamique",
 
       tone:
         "action",
@@ -143,104 +208,144 @@ const TEMPORARY_DOMINANT_PLANETS:
     },
   ];
 
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
+
 const styles =
   StyleSheet.create({
     page: {
       position:
         "relative",
 
-      minHeight:
-        "100%",
-
       paddingTop:
-        54,
+        34,
 
-      paddingRight:
-        48,
+      paddingHorizontal:
+        42,
 
       paddingBottom:
-        58,
-
-      paddingLeft:
-        48,
+        54,
 
       backgroundColor:
-        "#FBF8F2",
-
-      color:
-        "#2E2435",
+        NAVY,
 
       fontFamily:
         "Helvetica",
+
+      overflow:
+        "hidden",
     },
 
-    topDecoration: {
+    content: {
       position:
-        "absolute",
+        "relative",
 
-      top:
-        -76,
+      zIndex:
+        2,
 
-      right:
-        -65,
-
-      width:
-        185,
-
-      height:
-        185,
-
-      borderRadius:
-        93,
-
-      backgroundColor:
-        "#E9DFED",
-
-      opacity:
-        0.55,
+      flex:
+        1,
     },
 
-    bottomDecoration: {
-      position:
-        "absolute",
+    header: {
+      flexDirection:
+        "row",
 
-      bottom:
-        -94,
+      alignItems:
+        "center",
 
-      left:
-        -82,
+      justifyContent:
+        "space-between",
 
+      marginBottom:
+        15,
+    },
+
+    logo: {
       width:
-        210,
+        108,
 
       height:
-        210,
+        38,
+
+      objectFit:
+        "contain",
+    },
+
+    signBadge: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+
+      paddingVertical:
+        7,
+
+      paddingHorizontal:
+        12,
 
       borderRadius:
-        105,
+        18,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        DARK_GOLD,
 
       backgroundColor:
-        "#F1E3CA",
+        NAVY_CARD,
+    },
 
-      opacity:
-        0.45,
+    signIcon: {
+      width:
+        22,
+
+      height:
+        22,
+
+      marginRight:
+        7,
+
+      objectFit:
+        "contain",
+    },
+
+    signName: {
+      color:
+        GOLD,
+
+      fontSize:
+        8,
+
+      letterSpacing:
+        1,
+
+      textTransform:
+        "uppercase",
+    },
+
+    titleBlock: {
+      marginBottom:
+        13,
     },
 
     eyebrow: {
       marginBottom:
-        8,
+        7,
 
       color:
-        "#9A7137",
+        GOLD,
 
       fontSize:
-        8.5,
-
-      fontWeight:
-        700,
+        9,
 
       letterSpacing:
-        1.5,
+        2.4,
 
       textTransform:
         "uppercase",
@@ -248,143 +353,336 @@ const styles =
 
     title: {
       maxWidth:
-        415,
+        430,
+
+      marginBottom:
+        7,
 
       color:
-        "#38273E",
+        CREAM,
 
       fontSize:
         24,
 
-      fontWeight:
-        700,
-
       lineHeight:
-        1.12,
+        1.2,
     },
 
-    divider: {
+    period: {
+      marginBottom:
+        9,
+
+      color:
+        MUTED_CREAM,
+
+      fontSize:
+        9.7,
+    },
+
+    titleDecoration: {
+      flexDirection:
+        "row",
+
+      alignItems:
+        "center",
+    },
+
+    titleLine: {
       width:
-        56,
+        62,
 
       height:
-        2,
+        1,
 
-      marginTop:
-        14,
-
-      marginBottom:
-        17,
+      marginRight:
+        9,
 
       backgroundColor:
-        "#C79B52",
+        GOLD,
+    },
+
+    titleIcon: {
+      width:
+        16,
+
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
+    },
+
+    titleLineSmall: {
+      width:
+        22,
+
+      height:
+        1,
+
+      backgroundColor:
+        DARK_GOLD,
+    },
+
+    introductionCard: {
+      position:
+        "relative",
+
+      minHeight:
+        76,
+
+      marginBottom:
+        13,
+
+      paddingVertical:
+        12,
+
+      paddingHorizontal:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+
+      overflow:
+        "hidden",
+    },
+
+    introductionWatermark: {
+      position:
+        "absolute",
+
+      top:
+        5,
+
+      right:
+        17,
+
+      width:
+        64,
+
+      height:
+        64,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.055,
+    },
+
+    introductionLabel: {
+      marginBottom:
+        5,
+
+      color:
+        GOLD,
+
+      fontSize:
+        7,
+
+      letterSpacing:
+        1.2,
+
+      textTransform:
+        "uppercase",
     },
 
     introduction: {
       maxWidth:
-        465,
+        460,
 
       color:
-        "#5F5364",
+        MUTED_CREAM,
 
       fontSize:
-        10.2,
+        8.5,
 
       lineHeight:
-        1.55,
+        1.5,
     },
 
-    highlightBox: {
-      marginTop:
-        17,
+    sectionHeader: {
+      flexDirection:
+        "row",
 
-      paddingTop:
-        11,
+      alignItems:
+        "center",
 
-      paddingRight:
-        14,
+      marginBottom:
+        9,
+    },
 
-      paddingBottom:
-        11,
+    sectionLine: {
+      width:
+        28,
 
-      paddingLeft:
-        14,
+      height:
+        1,
 
-      borderLeft:
-        "3 solid #7B587E",
+      marginRight:
+        9,
 
       backgroundColor:
-        "#F1EAF2",
+        GOLD,
     },
 
-    highlightText: {
+    sectionIcon: {
+      width:
+        16,
+
+      height:
+        16,
+
+      marginRight:
+        9,
+
+      objectFit:
+        "contain",
+    },
+
+    sectionTitle: {
       color:
-        "#5C4B5F",
+        GOLD,
 
       fontSize:
-        8.4,
+        9.3,
 
-      lineHeight:
-        1.48,
+      letterSpacing:
+        1.45,
+
+      textTransform:
+        "uppercase",
     },
 
     cardsContainer: {
-      marginTop:
-        17,
-
-      gap:
-        13,
+      marginBottom:
+        11,
     },
 
     card: {
       position:
         "relative",
 
-      paddingTop:
-        16,
+      flexDirection:
+        "row",
 
-      paddingRight:
-        17,
+      minHeight:
+        133,
 
-      paddingBottom:
-        15,
+      marginBottom:
+        10,
 
-      paddingLeft:
-        92,
+      paddingVertical:
+        13,
 
-      border:
-        "1 solid #E4DCE4",
+      paddingHorizontal:
+        14,
 
       borderRadius:
-        8,
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
 
       backgroundColor:
-        "#FFFFFF",
+        NAVY_CARD_LIGHT,
+
+      overflow:
+        "hidden",
     },
 
-    planetBlock: {
+    cardOrbitOne: {
       position:
         "absolute",
 
       top:
-        16,
+        -58,
 
       left:
-        16,
+        -62,
 
       width:
-        58,
+        150,
+
+      height:
+        150,
+
+      borderRadius:
+        75,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DEEP_GOLD,
+    },
+
+    cardOrbitTwo: {
+      position:
+        "absolute",
+
+      top:
+        -23,
+
+      left:
+        -29,
+
+      width:
+        92,
+
+      height:
+        92,
+
+      borderRadius:
+        46,
+
+      borderWidth:
+        0.5,
+
+      borderColor:
+        DARK_GOLD,
+    },
+
+    planetColumn: {
+      width:
+        83,
 
       alignItems:
         "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        14,
     },
 
     rankCircle: {
       width:
-        19,
+        20,
 
       height:
-        19,
+        20,
 
       alignItems:
         "center",
@@ -398,50 +696,101 @@ const styles =
       borderRadius:
         10,
 
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
       backgroundColor:
-        "#EDE3EF",
+        NAVY_CARD,
     },
 
     rankText: {
       color:
-        "#67446D",
+        GOLD,
 
       fontSize:
-        7,
-
-      fontWeight:
-        700,
+        7.2,
     },
 
-    planetSymbol: {
-      color:
-        "#5A3860",
+    planetCircleOuter: {
+      width:
+        58,
 
-      fontSize:
+      height:
+        58,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      borderRadius:
         29,
 
-      fontWeight:
-        700,
+      borderWidth:
+        0.6,
 
-      lineHeight:
-        1,
+      borderColor:
+        DARK_GOLD,
+    },
+
+    planetCircleInner: {
+      width:
+        48,
+
+      height:
+        48,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      borderRadius:
+        24,
+
+      borderWidth:
+        0.8,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD,
+    },
+
+    planetIcon: {
+      width:
+        31,
+
+      height:
+        31,
+
+      objectFit:
+        "contain",
     },
 
     planetName: {
       marginTop:
-        5,
+        6,
 
       color:
-        "#4A354E",
+        GOLD,
 
       fontSize:
-        8,
-
-      fontWeight:
-        700,
+        8.4,
 
       textAlign:
         "center",
+    },
+
+    cardContent: {
+      flex:
+        1,
     },
 
     cardHeader: {
@@ -449,56 +798,69 @@ const styles =
         "row",
 
       alignItems:
-        "center",
+        "flex-start",
 
       justifyContent:
         "space-between",
 
       marginBottom:
-        6,
+        5,
+    },
+
+    cardHeading: {
+      flex:
+        1,
+
+      paddingRight:
+        10,
     },
 
     influenceLabel: {
+      marginBottom:
+        3,
+
       color:
-        "#8E7E91",
+        SOFT_TEXT,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6.3,
 
       letterSpacing:
-        0.4,
+        1,
 
       textTransform:
         "uppercase",
     },
 
+    cardTitle: {
+      color:
+        CREAM,
+
+      fontSize:
+        10.9,
+
+      lineHeight:
+        1.28,
+    },
+
     themeBadge: {
-      paddingTop:
-        3,
+      paddingVertical:
+        4,
 
-      paddingRight:
-        8,
-
-      paddingBottom:
-        3,
-
-      paddingLeft:
+      paddingHorizontal:
         8,
 
       borderRadius:
-        9,
+        10,
+
+      borderWidth:
+        0.5,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6.3,
 
       letterSpacing:
-        0.35,
+        0.45,
 
       textTransform:
         "uppercase",
@@ -506,65 +868,63 @@ const styles =
 
     themeExpansion: {
       color:
-        "#796331",
+        "#F3E2A9",
+
+      borderColor:
+        "#8A743F",
 
       backgroundColor:
-        "#F3ECD9",
+        "#2F291B",
     },
 
     themeRelationships: {
       color:
+        "#EBCEDB",
+
+      borderColor:
         "#875267",
 
       backgroundColor:
-        "#F5E8ED",
+        "#301F29",
     },
 
     themeAction: {
       color:
+        "#F1D0B8",
+
+      borderColor:
         "#8B573D",
 
       backgroundColor:
-        "#F6E8DF",
-    },
-
-    cardTitle: {
-      marginBottom:
-        5,
-
-      color:
-        "#342638",
-
-      fontSize:
-        11.5,
-
-      fontWeight:
-        700,
-
-      lineHeight:
-        1.25,
+        "#322118",
     },
 
     description: {
+      marginBottom:
+        7,
+
       color:
-        "#625766",
+        MUTED_CREAM,
 
       fontSize:
-        8.4,
+        7.95,
 
       lineHeight:
-        1.48,
+        1.45,
     },
 
     influenceContainer: {
-      marginTop:
-        8,
-
-      paddingTop:
+      marginBottom:
         7,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      paddingTop:
+        6,
+
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
     },
 
     influenceTitle: {
@@ -572,16 +932,13 @@ const styles =
         3,
 
       color:
-        "#765279",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6.4,
 
       letterSpacing:
-        0.65,
+        0.9,
 
       textTransform:
         "uppercase",
@@ -589,24 +946,24 @@ const styles =
 
     influenceText: {
       color:
-        "#514756",
+        MUTED_CREAM,
 
       fontSize:
-        8,
+        7.75,
 
       lineHeight:
-        1.42,
+        1.4,
     },
 
     adviceContainer: {
-      marginTop:
-        7,
-
       paddingTop:
-        7,
+        6,
 
-      borderTop:
-        "1 solid #EEE8EE",
+      borderTopWidth:
+        0.5,
+
+      borderTopColor:
+        DEEP_GOLD,
     },
 
     adviceLabel: {
@@ -614,16 +971,13 @@ const styles =
         3,
 
       color:
-        "#A17638",
+        GOLD,
 
       fontSize:
-        6.8,
-
-      fontWeight:
-        700,
+        6.4,
 
       letterSpacing:
-        0.65,
+        0.9,
 
       textTransform:
         "uppercase",
@@ -631,78 +985,18 @@ const styles =
 
     advice: {
       color:
-        "#514756",
+        CREAM,
 
       fontSize:
-        8,
-
-      fontStyle:
-        "italic",
+        7.75,
 
       lineHeight:
-        1.42,
+        1.4,
     },
 
-    closingBox: {
-      marginTop:
-        18,
-
-      paddingTop:
-        13,
-
-      paddingRight:
-        15,
-
-      paddingBottom:
-        13,
-
-      paddingLeft:
-        15,
-
-      borderLeft:
-        "3 solid #C79B52",
-
-      backgroundColor:
-        "#F4EEE5",
-    },
-
-    closingTitle: {
-      marginBottom:
-        4,
-
-      color:
-        "#4A354E",
-
-      fontSize:
-        9,
-
-      fontWeight:
-        700,
-    },
-
-    closingText: {
-      color:
-        "#625665",
-
-      fontSize:
-        8.5,
-
-      lineHeight:
-        1.48,
-    },
-
-    footer: {
+    summaryCard: {
       position:
-        "absolute",
-
-      right:
-        48,
-
-      bottom:
-        25,
-
-      left:
-        48,
+        "relative",
 
       flexDirection:
         "row",
@@ -710,27 +1004,146 @@ const styles =
       alignItems:
         "center",
 
-      justifyContent:
-        "space-between",
+      minHeight:
+        76,
 
-      paddingTop:
-        8,
+      paddingVertical:
+        12,
 
-      borderTop:
-        "1 solid #DED5DF",
+      paddingHorizontal:
+        15,
+
+      borderRadius:
+        11,
+
+      borderWidth:
+        0.6,
+
+      borderColor:
+        DARK_GOLD,
+
+      borderLeftWidth:
+        2.2,
+
+      borderLeftColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_SOFT,
+
+      overflow:
+        "hidden",
     },
 
-    footerText: {
+    summaryWatermark: {
+      position:
+        "absolute",
+
+      top:
+        4,
+
+      right:
+        16,
+
+      width:
+        60,
+
+      height:
+        60,
+
+      objectFit:
+        "contain",
+
+      opacity:
+        0.055,
+    },
+
+    summaryIconCircle: {
+      width:
+        39,
+
+      height:
+        39,
+
+      alignItems:
+        "center",
+
+      justifyContent:
+        "center",
+
+      marginRight:
+        12,
+
+      borderRadius:
+        20,
+
+      borderWidth:
+        0.7,
+
+      borderColor:
+        GOLD,
+
+      backgroundColor:
+        NAVY_CARD_LIGHT,
+    },
+
+    summaryIcon: {
+      width:
+        24,
+
+      height:
+        24,
+
+      objectFit:
+        "contain",
+    },
+
+    summaryContent: {
+      flex:
+        1,
+    },
+
+    summaryTitle: {
+      marginBottom:
+        4,
+
       color:
-        "#8E7E91",
+        GOLD,
 
       fontSize:
         7,
+
+      letterSpacing:
+        1.15,
+
+      textTransform:
+        "uppercase",
+    },
+
+    summaryText: {
+      maxWidth:
+        425,
+
+      color:
+        CREAM,
+
+      fontSize:
+        8.25,
+
+      lineHeight:
+        1.46,
     },
   });
 
+/*
+|--------------------------------------------------------------------------
+| Utilitaire
+|--------------------------------------------------------------------------
+*/
+
 function getThemeStyle(
-  tone: DominantPlanetTone,
+  tone:
+    DominantPlanetTone,
 ) {
   switch (tone) {
     case "expansion":
@@ -747,220 +1160,314 @@ function getThemeStyle(
   }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
+
 export default function HoroscopeMonthDominantPlanets({
   identity,
   period,
 }: HoroscopeMonthDominantPlanetsProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
+  const periodLabel =
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
   return (
     <Page
       size="A4"
       style={styles.page}
       wrap={false}
     >
-      <View
-        style={styles.topDecoration}
-      />
+      <HoroscopeStarBackground />
 
-      <View
-        style={styles.bottomDecoration}
-      />
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <Text style={styles.eyebrow}>
-        Les forces dominantes
-      </Text>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <Text style={styles.title}>
-        Les planètes dominantes de votre mois
-      </Text>
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
+            </Text>
+          </View>
+        </View>
 
-      <View style={styles.divider} />
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Les forces dominantes
+          </Text>
 
-      <Text style={styles.introduction}>
-        Parmi les différentes influences
-        astrologiques de{" "}
-        {period.label}, certaines planètes
-        occupent une place plus importante
-        pour le signe{" "}
-        {identity.zodiacSignLabel}.
-        Elles représentent les énergies
-        que vous pourriez ressentir avec
-        le plus d’intensité durant le mois.
-      </Text>
+          <Text style={styles.title}>
+            Les planètes dominantes de votre mois
+          </Text>
 
-      <View style={styles.highlightBox}>
-        <Text style={styles.highlightText}>
-          Une planète dominante ne décide
-          pas de vos actions. Elle indique
-          plutôt le type d’énergie qui
-          pourrait revenir plus souvent
-          dans vos expériences, vos
-          décisions et vos relations.
-        </Text>
-      </View>
+          <Text style={styles.period}>
+            {periodLabel}
+          </Text>
 
-      <View
-        style={styles.cardsContainer}
-      >
-        {TEMPORARY_DOMINANT_PLANETS.map(
-          (
-            item,
-          ) => (
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={HOROSCOPE_ICONS.jupiter}
+              style={styles.titleIcon}
+            />
+
             <View
-              key={item.id}
-              style={styles.card}
-              wrap={false}
-            >
+              style={styles.titleLineSmall}
+            />
+          </View>
+        </View>
+
+        <View
+          style={styles.introductionCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.jupiter}
+            style={
+              styles.introductionWatermark
+            }
+          />
+
+          <Text
+            style={styles.introductionLabel}
+          >
+            Votre climat planétaire
+          </Text>
+
+          <Text style={styles.introduction}>
+            Parmi les différentes influences
+            astrologiques de{" "}
+            {periodLabel}, certaines planètes
+            occupent une place plus importante
+            pour le signe{" "}
+            {identity.zodiacSignLabel}.
+            Elles représentent les énergies
+            que vous pourriez ressentir avec
+            le plus d’intensité durant le mois.
+          </Text>
+        </View>
+
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.sun}
+            style={styles.sectionIcon}
+          />
+
+          <Text style={styles.sectionTitle}>
+            Votre trio dominant
+          </Text>
+        </View>
+
+        <View style={styles.cardsContainer}>
+          {TEMPORARY_DOMINANT_PLANETS.map(
+            (
+              item,
+            ) => (
               <View
-                style={styles.planetBlock}
+                key={item.id}
+                style={styles.card}
+                wrap={false}
               >
                 <View
-                  style={styles.rankCircle}
+                  style={styles.cardOrbitOne}
+                />
+
+                <View
+                  style={styles.cardOrbitTwo}
+                />
+
+                <View
+                  style={styles.planetColumn}
                 >
-                  <Text
-                    style={styles.rankText}
+                  <View
+                    style={styles.rankCircle}
                   >
-                    {item.rank}
+                    <Text
+                      style={styles.rankText}
+                    >
+                      {item.rank}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={
+                      styles.planetCircleOuter
+                    }
+                  >
+                    <View
+                      style={
+                        styles.planetCircleInner
+                      }
+                    >
+                      <Image
+                        src={item.icon}
+                        style={
+                          styles.planetIcon
+                        }
+                      />
+                    </View>
+                  </View>
+
+                  <Text
+                    style={
+                      styles.planetName
+                    }
+                  >
+                    {item.planet}
                   </Text>
                 </View>
 
-                <Text
-                  style={
-                    styles.planetSymbol
-                  }
-                >
-                  {item.symbol}
-                </Text>
+                <View style={styles.cardContent}>
+                  <View style={styles.cardHeader}>
+                    <View
+                      style={styles.cardHeading}
+                    >
+                      <Text
+                        style={
+                          styles.influenceLabel
+                        }
+                      >
+                        {item.influenceLabel}
+                      </Text>
 
-                <Text
-                  style={
-                    styles.planetName
-                  }
-                >
-                  {item.planet}
-                </Text>
+                      <Text
+                        style={styles.cardTitle}
+                      >
+                        {item.title}
+                      </Text>
+                    </View>
+
+                    <Text
+                      style={[
+                        styles.themeBadge,
+                        getThemeStyle(
+                          item.tone,
+                        ),
+                      ]}
+                    >
+                      {item.theme}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={styles.description}
+                  >
+                    {item.description}
+                  </Text>
+
+                  <View
+                    style={
+                      styles.influenceContainer
+                    }
+                  >
+                    <Text
+                      style={
+                        styles.influenceTitle
+                      }
+                    >
+                      Influence dans votre mois
+                    </Text>
+
+                    <Text
+                      style={
+                        styles.influenceText
+                      }
+                    >
+                      {item.influence}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={
+                      styles.adviceContainer
+                    }
+                  >
+                    <Text
+                      style={
+                        styles.adviceLabel
+                      }
+                    >
+                      Conseil
+                    </Text>
+
+                    <Text
+                      style={styles.advice}
+                    >
+                      {item.advice}
+                    </Text>
+                  </View>
+                </View>
               </View>
+            ),
+          )}
+        </View>
 
-              <View
-                style={styles.cardHeader}
-              >
-                <Text
-                  style={
-                    styles.influenceLabel
-                  }
-                >
-                  {item.sign}
-                </Text>
+        <View
+          style={styles.summaryCard}
+          wrap={false}
+        >
+          <Image
+            src={
+              HOROSCOPE_ICONS.integrationGuide
+            }
+            style={styles.summaryWatermark}
+          />
 
-                <Text
-                  style={[
-                    styles.themeBadge,
-                    getThemeStyle(
-                      item.tone,
-                    ),
-                  ]}
-                >
-                  {item.theme}
-                </Text>
-              </View>
+          <View
+            style={styles.summaryIconCircle}
+          >
+            <Image
+              src={
+                HOROSCOPE_ICONS.integrationGuide
+              }
+              style={styles.summaryIcon}
+            />
+          </View>
 
-              <Text
-                style={styles.cardTitle}
-              >
-                {item.title}
-              </Text>
+          <View style={styles.summaryContent}>
+            <Text
+              style={styles.summaryTitle}
+            >
+              Votre combinaison dominante
+            </Text>
 
-              <Text
-                style={styles.description}
-              >
-                {item.description}
-              </Text>
-
-              <View
-                style={
-                  styles.influenceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.influenceTitle
-                  }
-                >
-                  Influence dans votre mois
-                </Text>
-
-                <Text
-                  style={
-                    styles.influenceText
-                  }
-                >
-                  {item.influence}
-                </Text>
-              </View>
-
-              <View
-                style={
-                  styles.adviceContainer
-                }
-              >
-                <Text
-                  style={
-                    styles.adviceLabel
-                  }
-                >
-                  Conseil
-                </Text>
-
-                <Text
-                  style={styles.advice}
-                >
-                  {item.advice}
-                </Text>
-              </View>
-            </View>
-          ),
-        )}
+            <Text
+              style={styles.summaryText}
+            >
+              Ce mois combine une volonté
+              d’expansion, un besoin
+              d’harmonie relationnelle et une
+              énergie d’action plus directe.
+              Votre équilibre dépendra de
+              votre capacité à avancer avec
+              confiance sans négliger vos
+              limites ni les besoins des
+              personnes qui vous entourent.
+            </Text>
+          </View>
+        </View>
       </View>
 
-      <View style={styles.closingBox}>
-        <Text
-          style={styles.closingTitle}
-        >
-          Votre combinaison dominante
-        </Text>
-
-        <Text
-          style={styles.closingText}
-        >
-          Ce mois combine une volonté
-          d’expansion, un besoin d’harmonie
-          relationnelle et une énergie
-          d’action plus directe. Votre
-          équilibre dépendra de votre
-          capacité à avancer avec confiance
-          sans négliger vos limites ni les
-          besoins des personnes qui vous
-          entourent.
-        </Text>
-      </View>
-
-      <View
-        fixed
-        style={styles.footer}
-      >
-        <Text
-          style={styles.footerText}
-        >
-          Luna Astralis
-        </Text>
-
-        <Text
-          style={styles.footerText}
-        >
-          {identity.zodiacSignLabel}
-          {" • "}
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
