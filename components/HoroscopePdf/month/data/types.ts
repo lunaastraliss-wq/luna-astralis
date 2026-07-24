@@ -48,6 +48,34 @@ export type BuildMonthlySectionParams = {
 
 /*
 |--------------------------------------------------------------------------
+| Structure commune des sections mensuelles
+|--------------------------------------------------------------------------
+|
+| Cette structure correspond aux données attendues par les pages PDF :
+|
+| - title
+| - score
+| - introduction
+| - text
+| - highlights
+| - advice
+|
+| Les banques de textes restent détaillées. Les générateurs assemblent
+| ensuite ces textes pour produire cette structure commune.
+|
+*/
+
+export type MonthlySectionResult = {
+  title: string;
+  score: number;
+  introduction: string;
+  text: string;
+  highlights: string[];
+  advice: string;
+};
+
+/*
+|--------------------------------------------------------------------------
 | Amour et relations
 |--------------------------------------------------------------------------
 */
@@ -63,16 +91,8 @@ export type MonthlyLoveTexts = {
   conclusion: string[];
 };
 
-export type MonthlyLoveResult = {
-  introduction: string;
-  general: string;
-  couple: string;
-  single: string;
-  emotionalClimate: string;
-  challenge: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlyLoveResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,16 +111,8 @@ export type MonthlyCareerTexts = {
   conclusion: string[];
 };
 
-export type MonthlyCareerResult = {
-  introduction: string;
-  general: string;
-  projects: string;
-  relationships: string;
-  opportunities: string;
-  challenge: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlyCareerResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -119,16 +131,8 @@ export type MonthlyFinanceTexts = {
   conclusion: string[];
 };
 
-export type MonthlyFinanceResult = {
-  introduction: string;
-  general: string;
-  income: string;
-  expenses: string;
-  opportunities: string;
-  risks: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlyFinanceResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,16 +151,8 @@ export type MonthlyHealthTexts = {
   conclusion: string[];
 };
 
-export type MonthlyHealthResult = {
-  introduction: string;
-  energy: string;
-  emotionalBalance: string;
-  rest: string;
-  habits: string;
-  challenge: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlyHealthResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,17 +172,8 @@ export type MonthlySocialTexts = {
   conclusion: string[];
 };
 
-export type MonthlySocialResult = {
-  introduction: string;
-  general: string;
-  friendships: string;
-  family: string;
-  newConnections: string;
-  communication: string;
-  challenge: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlySocialResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -206,17 +193,8 @@ export type MonthlyChallengeTexts = {
   conclusion: string[];
 };
 
-export type MonthlyChallengeResult = {
-  introduction: string;
-  mainChallenge: string;
-  emotionalChallenge: string;
-  practicalChallenge: string;
-  relationshipChallenge: string;
-  hiddenLesson: string;
-  transformation: string;
-  advice: string;
-  conclusion: string;
-};
+export type MonthlyChallengeResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -237,23 +215,17 @@ export type MonthlyOpportunityTexts = {
   conclusion: string[];
 };
 
-export type MonthlyOpportunityResult = {
-  introduction: string;
-  mainOpportunity: string;
-  professionalOpportunity: string;
-  financialOpportunity: string;
-  relationshipOpportunity: string;
-  personalOpportunity: string;
-  timing: string;
-  action: string;
-  caution: string;
-  conclusion: string;
-};
+export type MonthlyOpportunityResult =
+  MonthlySectionResult;
 
 /*
 |--------------------------------------------------------------------------
 | Transits planétaires
 |--------------------------------------------------------------------------
+|
+| Les transits conservent une structure distincte parce qu’ils contiennent
+| une lecture séparée pour chaque planète.
+|
 */
 
 export type MonthlyTransitTexts = {
@@ -286,11 +258,10 @@ export type MonthlyTransitResult = {
 
 /*
 |--------------------------------------------------------------------------
-| Résultat complet actuellement disponible
+| Résultat complet du moteur mensuel
 |--------------------------------------------------------------------------
 |
-| Ce type permettra éventuellement de générer toutes les sections avec
-| une seule fonction.
+| Ce type regroupe toutes les sections produites par les générateurs.
 |
 */
 
