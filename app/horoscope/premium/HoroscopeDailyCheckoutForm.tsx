@@ -21,6 +21,7 @@ type CheckoutResponse = {
 
 type GeocodeResponse = {
   ok?: boolean;
+
   result?: {
     city?: string;
     name?: string;
@@ -31,14 +32,21 @@ type GeocodeResponse = {
     timezone?: string;
     timeZone?: string;
   };
+
   error?: string;
   detail?: string;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Validation de la date
+|--------------------------------------------------------------------------
+*/
+
 function isValidDate(
   day: number,
   month: number,
-  year: number
+  year: number,
 ): boolean {
   if (
     !Number.isInteger(day) ||
@@ -55,12 +63,19 @@ function isValidDate(
     return false;
   }
 
-  if (month < 1 || month > 12) {
+  if (
+    month < 1 ||
+    month > 12
+  ) {
     return false;
   }
 
   const date = new Date(
-    Date.UTC(year, month - 1, day)
+    Date.UTC(
+      year,
+      month - 1,
+      day,
+    ),
   );
 
   return (
@@ -70,115 +85,221 @@ function isValidDate(
   );
 }
 
-function convertDateToIso(
-  dateValue: string
-): string | null {
-  const parts = dateValue.split("/");
+/*
+|--------------------------------------------------------------------------
+| Conversion JJ/MM/AAAA vers AAAA-MM-JJ
+|--------------------------------------------------------------------------
+*/
 
-  if (parts.length !== 3) {
+function convertDateToIso(
+  dateValue: string,
+): string | null {
+  const parts =
+    dateValue.split("/");
+
+  if (
+    parts.length !== 3
+  ) {
     return null;
   }
 
-  const [dayValue, monthValue, yearValue] =
-    parts;
-
-  const day = Number.parseInt(dayValue, 10);
-  const month = Number.parseInt(
+  const [
+    dayValue,
     monthValue,
-    10
-  );
-  const year = Number.parseInt(
     yearValue,
-    10
-  );
+  ] = parts;
 
-  if (!isValidDate(day, month, year)) {
+  const day =
+    Number.parseInt(
+      dayValue,
+      10,
+    );
+
+  const month =
+    Number.parseInt(
+      monthValue,
+      10,
+    );
+
+  const year =
+    Number.parseInt(
+      yearValue,
+      10,
+    );
+
+  if (
+    !isValidDate(
+      day,
+      month,
+      year,
+    )
+  ) {
     return null;
   }
 
   return [
-    String(year).padStart(4, "0"),
-    String(month).padStart(2, "0"),
-    String(day).padStart(2, "0"),
+    String(year).padStart(
+      4,
+      "0",
+    ),
+
+    String(month).padStart(
+      2,
+      "0",
+    ),
+
+    String(day).padStart(
+      2,
+      "0",
+    ),
   ].join("-");
 }
 
-function formatBirthDateInput(
-  inputValue: string
-): string {
-  let value = inputValue
-    .replace(/\D/g, "")
-    .slice(0, 8);
+/*
+|--------------------------------------------------------------------------
+| Format automatique de la date
+|--------------------------------------------------------------------------
+*/
 
-  if (value.length > 4) {
-    value = `${value.slice(
-      0,
-      2
-    )}/${value.slice(
-      2,
-      4
-    )}/${value.slice(4)}`;
-  } else if (value.length > 2) {
-    value = `${value.slice(
-      0,
-      2
-    )}/${value.slice(2)}`;
+function formatBirthDateInput(
+  inputValue: string,
+): string {
+  let value =
+    inputValue
+      .replace(
+        /\D/g,
+        "",
+      )
+      .slice(
+        0,
+        8,
+      );
+
+  if (
+    value.length > 4
+  ) {
+    value =
+      `${value.slice(
+        0,
+        2,
+      )}/${value.slice(
+        2,
+        4,
+      )}/${value.slice(
+        4,
+      )}`;
+  } else if (
+    value.length > 2
+  ) {
+    value =
+      `${value.slice(
+        0,
+        2,
+      )}/${value.slice(
+        2,
+      )}`;
   }
 
   return value;
 }
 
+/*
+|--------------------------------------------------------------------------
+| Formulaire de commande
+|--------------------------------------------------------------------------
+*/
+
 export default function HoroscopeDailyCheckoutForm() {
-  const [firstName, setFirstName] =
+  const [
+    firstName,
+    setFirstName,
+  ] =
     useState("");
 
-  const [birthDate, setBirthDate] =
+  const [
+    birthDate,
+    setBirthDate,
+  ] =
     useState("");
 
-  const [birthTime, setBirthTime] =
+  const [
+    birthTime,
+    setBirthTime,
+  ] =
     useState("");
 
-  const [birthCity, setBirthCity] =
+  const [
+    birthCity,
+    setBirthCity,
+  ] =
     useState("");
 
-  const [birthCountry, setBirthCountry] =
-    useState("Canada");
+  const [
+    birthCountry,
+    setBirthCountry,
+  ] =
+    useState(
+      "Canada",
+    );
 
-  const [loading, setLoading] =
+  const [
+    loading,
+    setLoading,
+  ] =
     useState(false);
 
-  const [error, setError] =
+  const [
+    error,
+    setError,
+  ] =
     useState("");
+
+  /*
+  |--------------------------------------------------------------------------
+  | Recherche de la ville de naissance
+  |--------------------------------------------------------------------------
+  */
 
   async function geocodeBirthPlace(
     city: string,
-    country: string
+    country: string,
   ): Promise<GeocodeLocation> {
-    const cleanCity = city.trim();
-    const cleanCountry = country.trim();
+    const cleanCity =
+      city.trim();
 
-    const query = [
-      cleanCity,
-      cleanCountry,
-    ]
-      .filter(Boolean)
-      .join(", ");
+    const cleanCountry =
+      country.trim();
 
-    const response = await fetch(
-      `/api/geocode?city=${encodeURIComponent(
-        query
-      )}`,
-      {
-        method: "GET",
-        cache: "no-store",
-      }
-    );
+    const query =
+      [
+        cleanCity,
+        cleanCountry,
+      ]
+        .filter(Boolean)
+        .join(", ");
 
-    const data = (await response
-      .json()
-      .catch(
-        () => null
-      )) as GeocodeResponse | null;
+    const response =
+      await fetch(
+        `/api/geocode?city=${encodeURIComponent(
+          query,
+        )}`,
+        {
+          method:
+            "GET",
+
+          cache:
+            "no-store",
+        },
+      );
+
+    const data =
+      (await response
+        .json()
+        .catch(
+          () => null,
+        )) as
+        | GeocodeResponse
+        | null;
 
     if (
       !response.ok ||
@@ -188,24 +309,30 @@ export default function HoroscopeDailyCheckoutForm() {
       throw new Error(
         data?.detail ||
           data?.error ||
-          "Ville introuvable. Vérifiez le nom de la ville et le pays."
+          "Ville introuvable. Vérifiez le nom de la ville et le pays.",
       );
     }
 
-    const latitude = Number(
-      data.result.latitude
-    );
+    const latitude =
+      Number(
+        data.result.latitude,
+      );
 
-    const longitude = Number(
-      data.result.longitude
-    );
+    const longitude =
+      Number(
+        data.result.longitude,
+      );
 
     if (
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
+      !Number.isFinite(
+        latitude,
+      ) ||
+      !Number.isFinite(
+        longitude,
+      )
     ) {
       throw new Error(
-        "Les coordonnées reçues pour cette ville sont invalides."
+        "Les coordonnées reçues pour cette ville sont invalides.",
       );
     }
 
@@ -220,8 +347,11 @@ export default function HoroscopeDailyCheckoutForm() {
         data.result.countryName?.trim() ||
         cleanCountry,
 
-      latitude: String(latitude),
-      longitude: String(longitude),
+      latitude:
+        String(latitude),
+
+      longitude:
+        String(longitude),
 
       timezone:
         data.result.timezone?.trim() ||
@@ -230,8 +360,14 @@ export default function HoroscopeDailyCheckoutForm() {
     };
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | Envoi vers Stripe
+  |--------------------------------------------------------------------------
+  */
+
   async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
@@ -246,95 +382,148 @@ export default function HoroscopeDailyCheckoutForm() {
     const cleanCountry =
       birthCountry.trim();
 
-    if (!birthDate) {
+    /*
+    |--------------------------------------------------------------------------
+    | Validation de la date
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      !birthDate
+    ) {
       setError(
-        "Veuillez entrer votre date de naissance."
+        "Veuillez entrer votre date de naissance.",
       );
+
       return;
     }
 
     const isoBirthDate =
-      convertDateToIso(birthDate);
-
-    if (!isoBirthDate) {
-      setError(
-        "La date de naissance est invalide. Utilisez le format JJ/MM/AAAA."
+      convertDateToIso(
+        birthDate,
       );
+
+    if (
+      !isoBirthDate
+    ) {
+      setError(
+        "La date de naissance est invalide. Utilisez le format JJ/MM/AAAA.",
+      );
+
       return;
     }
 
-    if (!cleanCity) {
+    /*
+    |--------------------------------------------------------------------------
+    | Validation du lieu
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      !cleanCity
+    ) {
       setError(
-        "Veuillez entrer votre ville de naissance."
+        "Veuillez entrer votre ville de naissance.",
       );
+
       return;
     }
 
-    if (!cleanCountry) {
+    if (
+      !cleanCountry
+    ) {
       setError(
-        "Veuillez entrer votre pays de naissance."
+        "Veuillez entrer votre pays de naissance.",
       );
+
       return;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Heure par défaut
+    |--------------------------------------------------------------------------
+    */
 
     const effectiveBirthTime =
-      birthTime || "12:00";
+      birthTime ||
+      "12:00";
 
     setLoading(true);
 
     try {
+      /*
+      |--------------------------------------------------------------------------
+      | Géocodage
+      |--------------------------------------------------------------------------
+      */
+
       const location =
         await geocodeBirthPlace(
           cleanCity,
-          cleanCountry
+          cleanCountry,
         );
 
-      const response = await fetch(
-        "/api/reports/checkout",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
+      /*
+      |--------------------------------------------------------------------------
+      | Création de la session Stripe
+      |--------------------------------------------------------------------------
+      */
+
+      const response =
+        await fetch(
+          "/api/reports/checkout",
+          {
+            method:
+              "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body:
+              JSON.stringify({
+                reportType:
+                  "horoscope-daily",
+
+                firstName:
+                  cleanFirstName,
+
+                birthDate:
+                  isoBirthDate,
+
+                birthTime:
+                  effectiveBirthTime,
+
+                birthCity:
+                  location.city ||
+                  cleanCity,
+
+                birthCountry:
+                  location.country ||
+                  cleanCountry,
+
+                latitude:
+                  location.latitude,
+
+                longitude:
+                  location.longitude,
+
+                timezone:
+                  location.timezone,
+              }),
           },
-          body: JSON.stringify({
-            reportType:
-              "horoscope-daily",
+        );
 
-            firstName:
-              cleanFirstName,
-
-            birthDate:
-              isoBirthDate,
-
-            birthTime:
-              effectiveBirthTime,
-
-            birthCity:
-              location.city ||
-              cleanCity,
-
-            birthCountry:
-              location.country ||
-              cleanCountry,
-
-            latitude:
-              location.latitude,
-
-            longitude:
-              location.longitude,
-
-            timezone:
-              location.timezone,
-          }),
-        }
-      );
-
-      const data = (await response
-        .json()
-        .catch(
-          () => null
-        )) as CheckoutResponse | null;
+      const data =
+        (await response
+          .json()
+          .catch(
+            () => null,
+          )) as
+          | CheckoutResponse
+          | null;
 
       if (
         !response.ok ||
@@ -343,21 +532,37 @@ export default function HoroscopeDailyCheckoutForm() {
         throw new Error(
           data?.detail ||
             data?.error ||
-            "La session de paiement n’a pas pu être créée."
+            "La session de paiement n’a pas pu être créée.",
         );
       }
 
-      window.location.assign(data.url);
-    } catch (caughtError: unknown) {
+      /*
+      |--------------------------------------------------------------------------
+      | Redirection vers Stripe
+      |--------------------------------------------------------------------------
+      */
+
+      window.location.assign(
+        data.url,
+      );
+    } catch (
+      caughtError: unknown
+    ) {
       setError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Une erreur est survenue. Veuillez réessayer."
+          : "Une erreur est survenue. Veuillez réessayer.",
       );
 
       setLoading(false);
     }
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Affichage
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <div className="horoscope-daily-form-card">
@@ -367,15 +572,12 @@ export default function HoroscopeDailyCheckoutForm() {
         </span>
 
         <h2>
-          Créez votre horoscope Premium
-          du jour
+          Créez votre horoscope Premium du jour
         </h2>
 
         <p>
-          Votre horoscope est calculé à
-          partir de votre date, de votre
-          heure et de votre lieu de
-          naissance.
+          Votre horoscope est calculé à partir de votre date,
+          de votre heure et de votre lieu de naissance.
         </p>
       </div>
 
@@ -384,10 +586,19 @@ export default function HoroscopeDailyCheckoutForm() {
         className="horoscope-daily-form"
         noValidate
       >
+        {/*
+        |--------------------------------------------------------------------------
+        | Prénom
+        |--------------------------------------------------------------------------
+        */}
+
         <div className="horoscope-daily-field">
           <label htmlFor="firstName">
             Prénom{" "}
-            <span>(optionnel)</span>
+
+            <span>
+              (optionnel)
+            </span>
           </label>
 
           <input
@@ -395,15 +606,23 @@ export default function HoroscopeDailyCheckoutForm() {
             name="firstName"
             type="text"
             value={firstName}
-            onChange={(event) =>
+            onChange={(
+              event,
+            ) =>
               setFirstName(
-                event.target.value
+                event.target.value,
               )
             }
             autoComplete="given-name"
             placeholder="Votre prénom"
           />
         </div>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Date et heure
+        |--------------------------------------------------------------------------
+        */}
 
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
@@ -417,11 +636,13 @@ export default function HoroscopeDailyCheckoutForm() {
               type="text"
               inputMode="numeric"
               value={birthDate}
-              onChange={(event) =>
+              onChange={(
+                event,
+              ) =>
                 setBirthDate(
                   formatBirthDateInput(
-                    event.target.value
-                  )
+                    event.target.value,
+                  ),
                 )
               }
               placeholder="JJ/MM/AAAA"
@@ -441,9 +662,11 @@ export default function HoroscopeDailyCheckoutForm() {
               name="birthTime"
               type="time"
               value={birthTime}
-              onChange={(event) =>
+              onChange={(
+                event,
+              ) =>
                 setBirthTime(
-                  event.target.value
+                  event.target.value,
                 )
               }
               autoComplete="off"
@@ -454,6 +677,12 @@ export default function HoroscopeDailyCheckoutForm() {
             </small>
           </div>
         </div>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Ville et pays
+        |--------------------------------------------------------------------------
+        */}
 
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
@@ -466,9 +695,11 @@ export default function HoroscopeDailyCheckoutForm() {
               name="birthCity"
               type="text"
               value={birthCity}
-              onChange={(event) =>
+              onChange={(
+                event,
+              ) =>
                 setBirthCity(
-                  event.target.value
+                  event.target.value,
                 )
               }
               autoComplete="off"
@@ -487,9 +718,11 @@ export default function HoroscopeDailyCheckoutForm() {
               name="birthCountry"
               type="text"
               value={birthCountry}
-              onChange={(event) =>
+              onChange={(
+                event,
+              ) =>
                 setBirthCountry(
-                  event.target.value
+                  event.target.value,
                 )
               }
               autoComplete="country-name"
@@ -499,6 +732,12 @@ export default function HoroscopeDailyCheckoutForm() {
           </div>
         </div>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Erreur
+        |--------------------------------------------------------------------------
+        */}
+
         {error ? (
           <div
             className="horoscope-daily-error"
@@ -507,6 +746,33 @@ export default function HoroscopeDailyCheckoutForm() {
             {error}
           </div>
         ) : null}
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Avis de conservation du PDF
+        |--------------------------------------------------------------------------
+        */}
+
+        <div className="horoscope-daily-download-notice">
+          <span aria-hidden="true">
+            📥
+          </span>
+
+          <p>
+            <strong>
+              Important :
+            </strong>{" "}
+            téléchargez votre rapport dès qu’il est généré et
+            conservez-le dans un endroit sécuritaire. Luna Astralis
+            ne conserve aucune copie de votre PDF.
+          </p>
+        </div>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Bouton de commande
+        |--------------------------------------------------------------------------
+        */}
 
         <button
           type="submit"
@@ -520,8 +786,8 @@ export default function HoroscopeDailyCheckoutForm() {
 
         <p className="horoscope-daily-secure-note">
           🔒 Paiement sécurisé par Stripe
-          · PDF disponible immédiatement
-          après le paiement
+          {" · "}
+          PDF disponible immédiatement après le paiement
         </p>
       </form>
     </div>
