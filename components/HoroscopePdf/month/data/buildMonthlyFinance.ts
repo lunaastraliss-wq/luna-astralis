@@ -18,6 +18,17 @@ type BuildMonthlyFinanceParams = {
   period: MonthlyHoroscopePeriod;
 };
 
+const FINANCE_TITLES = [
+  "Une période favorable à vos finances",
+  "Vos ressources évoluent progressivement",
+  "Le mois invite à une meilleure gestion",
+  "Des occasions financières se présentent",
+  "Votre équilibre matériel se renforce",
+  "Un nouveau regard sur votre budget",
+  "Une période propice aux décisions financières",
+  "Vos priorités financières deviennent plus claires",
+];
+
 /*
 |--------------------------------------------------------------------------
 | Génération personnalisée — Finances
@@ -37,53 +48,68 @@ export function buildMonthlyFinance({
     section: "finance",
   });
 
+  const score =
+    58 + (Math.abs(seed + 83) % 37);
+
+  const generalText = pickVariant(
+    texts.general,
+    seed,
+    41,
+  );
+
+  const incomeText = pickVariant(
+    texts.income,
+    seed,
+    61,
+  );
+
   return {
+    title: pickVariant(
+      FINANCE_TITLES,
+      seed,
+      13,
+    ),
+
+    score,
+
     introduction: pickVariant(
       texts.introduction,
       seed,
       19,
     ),
 
-    general: pickVariant(
-      texts.general,
-      seed,
-      41,
-    ),
+    text: `${generalText} ${incomeText}`,
 
-    income: pickVariant(
-      texts.income,
-      seed,
-      61,
-    ),
+    highlights: [
+      pickVariant(
+        texts.expenses,
+        seed,
+        79,
+      ),
 
-    expenses: pickVariant(
-      texts.expenses,
-      seed,
-      79,
-    ),
+      pickVariant(
+        texts.opportunities,
+        seed,
+        103,
+      ),
 
-    opportunities: pickVariant(
-      texts.opportunities,
-      seed,
-      103,
-    ),
+      pickVariant(
+        texts.risks,
+        seed,
+        127,
+      ),
 
-    risks: pickVariant(
-      texts.risks,
-      seed,
-      127,
-    ),
+      pickVariant(
+        texts.conclusion,
+        seed,
+        179,
+      ),
+    ],
 
     advice: pickVariant(
       texts.advice,
       seed,
       151,
-    ),
-
-    conclusion: pickVariant(
-      texts.conclusion,
-      seed,
-      179,
     ),
   };
 }
