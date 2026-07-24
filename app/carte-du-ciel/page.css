@@ -2029,3 +2029,60 @@
 .signature-report-actions .signature-button-primary span {
   color: #ffffff !important;
 }
+/* --------------------------------------------------------------------------
+   Correction définitive des boutons et liens — Signature
+-------------------------------------------------------------------------- */
+
+.signature-button-primary,
+.signature-button-primary:link,
+.signature-button-primary:visited,
+.signature-button-primary:hover,
+.signature-button-primary:active,
+.signature-button-primary:focus {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.signature-button-secondary,
+.signature-button-secondary:link,
+.signature-button-secondary:visited {
+  color: var(--signature-purple-dark) !important;
+  -webkit-text-fill-color: var(--signature-purple-dark) !important;
+}
+
+/* Boutons dorés sur fond sombre */
+.signature-hero .signature-button-primary,
+.signature-hero .signature-button-primary:link,
+.signature-hero .signature-button-primary:visited,
+.signature-comparison .signature-button-primary,
+.signature-comparison .signature-button-primary:link,
+.signature-comparison .signature-button-primary:visited {
+  color: #25192d !important;
+  -webkit-text-fill-color: #25192d !important;
+}
+
+/* Boutons transparents sur fond sombre */
+.signature-hero .signature-button-secondary,
+.signature-hero .signature-button-secondary:link,
+.signature-hero .signature-button-secondary:visited,
+.signature-comparison .signature-button-secondary,
+.signature-comparison .signature-button-secondary:link,
+.signature-comparison .signature-button-secondary:visited {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Liens d’aperçu */
+.signature-hero-preview-link,
+.signature-hero-preview-link:link,
+.signature-hero-preview-link:visited {
+  color: #f2d79e !important;
+  -webkit-text-fill-color: #f2d79e !important;
+}
+
+.signature-order-preview-link,
+.signature-order-preview-link:link,
+.signature-order-preview-link:visited {
+  color: #f0d397 !important;
+  -webkit-text-fill-color: #f0d397 !important;
+}
