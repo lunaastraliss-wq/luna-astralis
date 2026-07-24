@@ -35,10 +35,37 @@ type BuildMonthlyHoroscopeOptions = {
   birthCountry?: string;
 };
 
+export type MonthlyWeekScores = {
+  energy: number;
+  love: number;
+  career: number;
+  money: number;
+  health: number;
+};
+
+export type MonthlyWeekContent = {
+  title: string;
+  dateLabel: string;
+  introduction: string;
+  text: string;
+  opportunity: string;
+  vigilance: string;
+  advice: string;
+  scores: MonthlyWeekScores;
+};
+
+export type MonthlyHoroscopeWeeks = {
+  week1: MonthlyWeekContent;
+  week2: MonthlyWeekContent;
+  week3: MonthlyWeekContent;
+  week4: MonthlyWeekContent;
+};
+
 export type MonthlyHoroscopeResult = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
   content: HoroscopePdfContent;
+  weeks: MonthlyHoroscopeWeeks;
   zodiacIconUrl: string;
 };
 
@@ -141,6 +168,92 @@ function formatHoroscopeMonth(
   );
 }
 
+function formatShortDate(
+  year: number,
+  monthIndex: number,
+  day: number,
+): string {
+  return new Intl.DateTimeFormat(
+    "fr-CA",
+    {
+      day: "numeric",
+      month: "long",
+    },
+  ).format(
+    new Date(
+      year,
+      monthIndex,
+      day,
+    ),
+  );
+}
+
+function getMonthlyWeekLabels(
+  isoMonth: string,
+): [
+  string,
+  string,
+  string,
+  string,
+] {
+  const [
+    yearValue,
+    monthValue,
+  ] = isoMonth.split("-");
+
+  const year = Number(yearValue);
+  const monthIndex =
+    Number(monthValue) - 1;
+
+  const lastDay = new Date(
+    year,
+    monthIndex + 1,
+    0,
+  ).getDate();
+
+  return [
+    `Du ${formatShortDate(
+      year,
+      monthIndex,
+      1,
+    )} au ${formatShortDate(
+      year,
+      monthIndex,
+      7,
+    )}`,
+
+    `Du ${formatShortDate(
+      year,
+      monthIndex,
+      8,
+    )} au ${formatShortDate(
+      year,
+      monthIndex,
+      14,
+    )}`,
+
+    `Du ${formatShortDate(
+      year,
+      monthIndex,
+      15,
+    )} au ${formatShortDate(
+      year,
+      monthIndex,
+      21,
+    )}`,
+
+    `Du ${formatShortDate(
+      year,
+      monthIndex,
+      22,
+    )} au ${formatShortDate(
+      year,
+      monthIndex,
+      lastDay,
+    )}`,
+  ];
+}
+
 /*
 |--------------------------------------------------------------------------
 | Génération déterministe
@@ -195,6 +308,80 @@ function createScore(
     ) %
       range
   );
+}
+
+function buildWeekScores(
+  seed: number,
+  weekNumber: number,
+): MonthlyWeekScores {
+  const baseOffset =
+    20 + weekNumber * 10;
+
+  return {
+    energy: createScore(
+      seed,
+      baseOffset + 1,
+      66,
+      95,
+    ),
+
+    love: createScore(
+      seed,
+      baseOffset + 2,
+      66,
+      95,
+    ),
+
+    career: createScore(
+      seed,
+      baseOffset + 3,
+      66,
+      95,
+    ),
+
+    money: createScore(
+      seed,
+      baseOffset + 4,
+      66,
+      95,
+    ),
+
+    health: createScore(
+      seed,
+      baseOffset + 5,
+      66,
+      95,
+    ),
+  };
+}
+
+function buildMonthlyWeek(
+  source: readonly {
+    title: string;
+    introduction: string;
+    text: string;
+    opportunity: string;
+    vigilance: string;
+    advice: string;
+  }[],
+  seed: number,
+  weekNumber: number,
+  dateLabel: string,
+): MonthlyWeekContent {
+  const selected = pick(
+    source,
+    seed,
+    30 + weekNumber,
+  );
+
+  return {
+    ...selected,
+    dateLabel,
+    scores: buildWeekScores(
+      seed,
+      weekNumber,
+    ),
+  };
 }
 
 /*
@@ -612,6 +799,248 @@ const SOCIAL_TEXTS = [
 
 /*
 |--------------------------------------------------------------------------
+| Textes — progression des quatre semaines
+|--------------------------------------------------------------------------
+*/
+
+const WEEK_1_TEXTS = [
+  {
+    title: "Poser des bases solides",
+
+    introduction:
+      "Cette première semaine vous invite à ralentir suffisamment pour définir une direction claire.",
+
+    text:
+      "Les premiers jours du mois sont favorables à l’observation, à l’organisation et aux décisions préparées avec soin. Vous gagnerez à déterminer ce qui mérite réellement votre énergie avant de multiplier les initiatives.",
+
+    opportunity:
+      "Une idée encore imprécise peut devenir un projet concret si vous lui donnez une structure simple et réaliste.",
+
+    vigilance:
+      "Évitez de vouloir obtenir immédiatement toutes les réponses. Certaines informations apparaîtront progressivement.",
+
+    advice:
+      "Commencez par une priorité essentielle. Une base stable vous permettra d’avancer plus rapidement durant les semaines suivantes.",
+  },
+
+  {
+    title: "Clarifier vos priorités",
+
+    introduction:
+      "Le début du mois met en lumière ce qui doit être conservé, ajusté ou laissé derrière vous.",
+
+    text:
+      "Votre lucidité augmente lorsque vous prenez le temps d’examiner vos besoins sans tenir compte des attentes extérieures. Une décision simple pourrait alléger considérablement la suite du mois.",
+
+    opportunity:
+      "Vous pouvez reprendre le contrôle d’une situation en définissant clairement vos limites et votre objectif principal.",
+
+    vigilance:
+      "La dispersion pourrait vous faire perdre du temps sur des détails qui ne changent pas réellement le résultat.",
+
+    advice:
+      "Choisissez ce qui soutient votre équilibre à long terme plutôt que ce qui vous procure seulement un soulagement immédiat.",
+  },
+
+  {
+    title: "Préparer un nouveau départ",
+
+    introduction:
+      "Une énergie de renouvellement accompagne cette première étape du mois.",
+
+    text:
+      "Vous pourriez ressentir le besoin de modifier une habitude, une méthode ou une manière de communiquer. Les changements les plus prometteurs seront ceux que vous pourrez intégrer progressivement.",
+
+    opportunity:
+      "Une nouvelle façon d’aborder un projet ou une relation peut ouvrir une possibilité que vous n’aviez pas encore envisagée.",
+
+    vigilance:
+      "Ne confondez pas nouveauté et précipitation. Un changement durable demande un minimum de préparation.",
+
+    advice:
+      "Donnez une forme concrète à votre intention : une date, une première action et un résultat réaliste à atteindre.",
+  },
+] as const;
+
+const WEEK_2_TEXTS = [
+  {
+    title: "Passer à l’action",
+
+    introduction:
+      "Cette deuxième semaine favorise les initiatives, les échanges dynamiques et les décisions concrètes.",
+
+    text:
+      "Après avoir posé vos bases, vous disposez d’un meilleur élan pour faire progresser un projet ou régler une situation restée en attente. Votre efficacité augmentera si vous avancez selon un ordre clair.",
+
+    opportunity:
+      "Une occasion intéressante peut apparaître dans un domaine où vous hésitiez encore à agir.",
+
+    vigilance:
+      "L’enthousiasme pourrait vous pousser à accepter trop de responsabilités ou à commencer plusieurs choses simultanément.",
+
+    advice:
+      "Agissez avec confiance, mais vérifiez que chaque décision contribue réellement à votre objectif du mois.",
+  },
+
+  {
+    title: "Faire avancer vos projets",
+
+    introduction:
+      "Le rythme s’accélère et vous encourage à transformer vos intentions en résultats visibles.",
+
+    text:
+      "Les démarches entreprises cette semaine peuvent produire une réponse plus rapide que prévu. Une conversation, une demande ou une proposition bien préparée favorisera votre progression.",
+
+    opportunity:
+      "Votre capacité à expliquer clairement votre idée peut attirer un soutien, un conseil ou une collaboration utile.",
+
+    vigilance:
+      "Évitez d’interpréter un délai ou une hésitation comme un refus définitif.",
+
+    advice:
+      "Concentrez votre énergie sur l’action qui peut créer le plus d’effet plutôt que sur la quantité de tâches accomplies.",
+  },
+
+  {
+    title: "Affirmer votre direction",
+
+    introduction:
+      "Cette semaine renforce votre volonté et votre capacité à prendre davantage de place.",
+
+    text:
+      "Vous pourriez être amenée à défendre une idée, exprimer un besoin ou prendre une décision que vous repoussiez. Une attitude calme et déterminée donnera plus de poids à votre message.",
+
+    opportunity:
+      "Une initiative personnelle peut vous permettre de reprendre l’avantage dans une situation devenue trop passive.",
+
+    vigilance:
+      "La fermeté sera utile, mais une réaction trop rapide pourrait fermer une porte encore intéressante.",
+
+    advice:
+      "Affirmez votre choix sans chercher à convaincre tout le monde. La cohérence de vos gestes parlera pour vous.",
+  },
+] as const;
+
+const WEEK_3_TEXTS = [
+  {
+    title: "Ajuster votre trajectoire",
+
+    introduction:
+      "La troisième semaine vous invite à observer les résultats obtenus et à corriger ce qui doit l’être.",
+
+    text:
+      "Vous disposez maintenant de suffisamment d’informations pour distinguer ce qui fonctionne de ce qui demande une autre approche. Un petit ajustement pourrait être plus efficace qu’un changement radical.",
+
+    opportunity:
+      "Une erreur, un retard ou une hésitation peut révéler une meilleure manière d’atteindre votre objectif.",
+
+    vigilance:
+      "Évitez de poursuivre une stratégie uniquement parce que vous y avez déjà consacré du temps.",
+
+    advice:
+      "Restez fidèle à votre direction, mais acceptez de modifier le chemin utilisé pour l’atteindre.",
+  },
+
+  {
+    title: "Retrouver votre équilibre",
+
+    introduction:
+      "Cette période demande une meilleure répartition entre vos obligations, vos relations et votre récupération.",
+
+    text:
+      "Vous pourriez constater qu’un domaine a occupé trop de place depuis le début du mois. En rééquilibrant votre horaire ou vos priorités, vous retrouverez davantage de disponibilité mentale.",
+
+    opportunity:
+      "Une limite clairement posée peut améliorer une relation ou vous redonner du temps pour un projet important.",
+
+    vigilance:
+      "La fatigue pourrait amplifier une contrariété ou vous faire douter inutilement de vos progrès.",
+
+    advice:
+      "Avant de prendre une décision importante, assurez-vous de disposer du calme et de l’énergie nécessaires.",
+  },
+
+  {
+    title: "Écouter les signes utiles",
+
+    introduction:
+      "Votre intuition devient plus précise lorsque vous la confrontez aux faits et à votre expérience.",
+
+    text:
+      "Une impression récurrente mérite votre attention, particulièrement si plusieurs événements semblent indiquer la même direction. Prenez toutefois le temps de vérifier ce que vous ressentez.",
+
+    opportunity:
+      "Une prise de conscience peut vous aider à comprendre une relation ou une situation sous un angle entièrement différent.",
+
+    vigilance:
+      "Ne laissez pas une inquiétude momentanée devenir une certitude sans preuve suffisante.",
+
+    advice:
+      "Écoutez votre ressenti, puis appuyez votre décision sur des éléments concrets et observables.",
+  },
+] as const;
+
+const WEEK_4_TEXTS = [
+  {
+    title: "Consolider vos acquis",
+
+    introduction:
+      "La dernière partie du mois vous invite à stabiliser ce que vous avez construit et à reconnaître votre progression.",
+
+    text:
+      "Certaines démarches commencent à produire des effets plus visibles. Vous gagnerez à terminer ce qui est déjà bien engagé avant de vous tourner vers un nouvel objectif.",
+
+    opportunity:
+      "Un résultat, une réponse ou une confirmation peut vous montrer que vos efforts réguliers n’ont pas été inutiles.",
+
+    vigilance:
+      "Évitez de minimiser vos avancées simplement parce que tout n’est pas encore parfaitement terminé.",
+
+    advice:
+      "Prenez le temps de mesurer le chemin parcouru et choisissez consciemment ce que vous souhaitez poursuivre le mois prochain.",
+  },
+
+  {
+    title: "Récolter les résultats",
+
+    introduction:
+      "Cette quatrième semaine met en évidence les conséquences de vos choix et de vos efforts précédents.",
+
+    text:
+      "Vous pourriez recevoir une réponse attendue, constater une amélioration ou comprendre enfin la portée d’une décision. Les résultats les plus utiles vous indiqueront aussi la prochaine étape.",
+
+    opportunity:
+      "Une réussite discrète peut devenir la base d’un développement plus important durant le prochain cycle.",
+
+    vigilance:
+      "Le désir de conclure rapidement pourrait vous faire négliger un dernier détail important.",
+
+    advice:
+      "Finalisez avec soin. Une conclusion bien préparée protège les progrès réalisés et facilite la suite.",
+  },
+
+  {
+    title: "Préparer le prochain cycle",
+
+    introduction:
+      "La fin du mois crée un espace favorable à la synthèse, au détachement et à la préparation.",
+
+    text:
+      "Vous comprenez mieux ce que cette période vous a appris sur vos besoins, vos limites et vos ambitions. Cette lucidité vous permettra d’aborder le mois suivant avec une direction plus précise.",
+
+    opportunity:
+      "Une décision prise maintenant peut simplifier considérablement votre organisation ou votre état d’esprit pour la suite.",
+
+    vigilance:
+      "Ne transportez pas automatiquement dans le prochain mois une obligation qui ne correspond plus à vos priorités.",
+
+    advice:
+      "Conservez les apprentissages utiles, terminez ce qui peut l’être et laissez de l’espace à une nouvelle étape.",
+  },
+] as const;
+
+/*
+|--------------------------------------------------------------------------
 | Éléments symboliques
 |--------------------------------------------------------------------------
 */
@@ -732,6 +1161,39 @@ export function buildMonthlyHoroscope({
   const seed = createSeed(
     `${normalizedSign}-${isoMonth}`,
   );
+
+  const weekLabels =
+    getMonthlyWeekLabels(isoMonth);
+
+  const weeks: MonthlyHoroscopeWeeks = {
+    week1: buildMonthlyWeek(
+      WEEK_1_TEXTS,
+      seed,
+      1,
+      weekLabels[0],
+    ),
+
+    week2: buildMonthlyWeek(
+      WEEK_2_TEXTS,
+      seed,
+      2,
+      weekLabels[1],
+    ),
+
+    week3: buildMonthlyWeek(
+      WEEK_3_TEXTS,
+      seed,
+      3,
+      weekLabels[2],
+    ),
+
+    week4: buildMonthlyWeek(
+      WEEK_4_TEXTS,
+      seed,
+      4,
+      weekLabels[3],
+    ),
+  };
 
   const summary = pick(
     SUMMARY_TEXTS,
@@ -945,50 +1407,67 @@ export function buildMonthlyHoroscope({
 
     /*
     |--------------------------------------------------------------------------
-    | Progression du mois
+    | Progression du mois — compatibilité avec les composants communs
     |--------------------------------------------------------------------------
     |
-    | Cette timeline temporaire permet aux composants communs de fonctionner.
-    | Les véritables pages Semaine 1 à Semaine 5 seront ajoutées dans
-    | components/HoroscopePdf/month/.
+    | Les quatre pages mensuelles utilisent directement result.weeks.
+    | La timeline demeure présente pour les anciens composants partagés.
     |
     */
 
     timeline: [
       {
         period: "morning",
-        title:
-          "Début du mois",
-
-        text:
-          "Cette première période favorise l’observation, l’organisation et la définition de vos priorités.",
-
-        score:
-          createScore(seed, 8),
+        title: weeks.week1.title,
+        text: weeks.week1.text,
+        score: Math.round(
+          (
+            weeks.week1.scores.energy +
+            weeks.week1.scores.love +
+            weeks.week1.scores.career +
+            weeks.week1.scores.money +
+            weeks.week1.scores.health
+          ) / 5,
+        ),
       },
 
       {
         period: "afternoon",
-        title:
-          "Milieu du mois",
-
-        text:
-          "L’énergie devient plus active et favorise les décisions concrètes ainsi que les échanges importants.",
-
-        score:
-          createScore(seed, 9),
+        title: weeks.week2.title,
+        text: weeks.week2.text,
+        score: Math.round(
+          (
+            weeks.week2.scores.energy +
+            weeks.week2.scores.love +
+            weeks.week2.scores.career +
+            weeks.week2.scores.money +
+            weeks.week2.scores.health
+          ) / 5,
+        ),
       },
 
       {
         period: "evening",
         title:
-          "Fin du mois",
+          `${weeks.week3.title} — ${weeks.week4.title}`,
 
         text:
-          "Cette dernière période vous invite à mesurer votre progression et à préparer le cycle suivant.",
+          `${weeks.week3.text} ${weeks.week4.text}`,
 
-        score:
-          createScore(seed, 10),
+        score: Math.round(
+          (
+            weeks.week3.scores.energy +
+            weeks.week3.scores.love +
+            weeks.week3.scores.career +
+            weeks.week3.scores.money +
+            weeks.week3.scores.health +
+            weeks.week4.scores.energy +
+            weeks.week4.scores.love +
+            weeks.week4.scores.career +
+            weeks.week4.scores.money +
+            weeks.week4.scores.health
+          ) / 10,
+        ),
       },
     ],
 
@@ -1063,6 +1542,7 @@ export function buildMonthlyHoroscope({
     identity,
     period,
     content,
+    weeks,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
