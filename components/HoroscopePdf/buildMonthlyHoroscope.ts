@@ -12,6 +12,10 @@ import {
   normalizeHoroscopeZodiacSign,
 } from "./HoroscopePdfUtils";
 
+import {
+  buildMonthlyPlanetaryInfluences,
+} from "./buildMonthlyPlanetaryInfluences";
+
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -1165,6 +1169,14 @@ export function buildMonthlyHoroscope({
   const weekLabels =
     getMonthlyWeekLabels(isoMonth);
 
+  const planetary =
+    buildMonthlyPlanetaryInfluences({
+      zodiacSign: normalizedSign,
+      zodiacSignLabel,
+      isoMonth,
+      seed,
+    });
+
   const weeks: MonthlyHoroscopeWeeks = {
     week1: buildMonthlyWeek(
       WEEK_1_TEXTS,
@@ -1294,20 +1306,20 @@ export function buildMonthlyHoroscope({
 
     /*
     |--------------------------------------------------------------------------
-    | Influences astrologiques réelles
+    | Influences planétaires mensuelles
     |--------------------------------------------------------------------------
     |
-    | Les transits, aspects et phases lunaires seront ajoutés lorsque le
-    | calcul astrologique mensuel sera branché.
-    |
-    | On ne génère aucune position planétaire fictive.
+    | Cette première version fournit une lecture astrologique symbolique et
+    | déterministe selon le signe et le mois sélectionné. Elle ne présente
+    | aucune position céleste ou aucun aspect astronomique non calculé.
     |
     */
 
     planetaryIntroduction:
-      "Cette section présentera les principales influences planétaires calculées pour le mois sélectionné.",
+      planetary.introduction,
 
-    planetaryInfluences: [],
+    planetaryInfluences:
+      planetary.influences,
 
     love: {
       title: "Amour et relations",
