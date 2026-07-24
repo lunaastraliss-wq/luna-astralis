@@ -18,6 +18,17 @@ type BuildMonthlyHealthParams = {
   period: MonthlyHoroscopePeriod;
 };
 
+const HEALTH_TITLES = [
+  "Votre équilibre intérieur évolue",
+  "Une période favorable au bien-être",
+  "Votre énergie retrouve son rythme",
+  "Le mois invite à prendre soin de vous",
+  "Un nouvel équilibre se met en place",
+  "Votre vitalité demande de l'attention",
+  "Un mois pour retrouver votre harmonie",
+  "Votre bien-être devient une priorité",
+];
+
 /*
 |--------------------------------------------------------------------------
 | Génération personnalisée — Bien-être et énergie
@@ -37,53 +48,68 @@ export function buildMonthlyHealth({
     section: "health",
   });
 
+  const score =
+    58 + (Math.abs(seed + 127) % 37);
+
+  const energyText = pickVariant(
+    texts.energy,
+    seed,
+    29,
+  );
+
+  const emotionalText = pickVariant(
+    texts.emotionalBalance,
+    seed,
+    43,
+  );
+
   return {
+    title: pickVariant(
+      HEALTH_TITLES,
+      seed,
+      17,
+    ),
+
+    score,
+
     introduction: pickVariant(
       texts.introduction,
       seed,
       13,
     ),
 
-    energy: pickVariant(
-      texts.energy,
-      seed,
-      29,
-    ),
+    text: `${energyText} ${emotionalText}`,
 
-    emotionalBalance: pickVariant(
-      texts.emotionalBalance,
-      seed,
-      43,
-    ),
+    highlights: [
+      pickVariant(
+        texts.rest,
+        seed,
+        59,
+      ),
 
-    rest: pickVariant(
-      texts.rest,
-      seed,
-      59,
-    ),
+      pickVariant(
+        texts.habits,
+        seed,
+        73,
+      ),
 
-    habits: pickVariant(
-      texts.habits,
-      seed,
-      73,
-    ),
+      pickVariant(
+        texts.challenge,
+        seed,
+        97,
+      ),
 
-    challenge: pickVariant(
-      texts.challenge,
-      seed,
-      97,
-    ),
+      pickVariant(
+        texts.conclusion,
+        seed,
+        137,
+      ),
+    ],
 
     advice: pickVariant(
       texts.advice,
       seed,
       113,
-    ),
-
-    conclusion: pickVariant(
-      texts.conclusion,
-      seed,
-      137,
     ),
   };
 }
