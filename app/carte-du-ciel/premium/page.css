@@ -2029,3 +2029,60 @@
 .premium-report-actions .premium-button-primary span {
   color: #ffffff !important;
 }
+/* --------------------------------------------------------------------------
+   Correction définitive des boutons et liens — Premium
+-------------------------------------------------------------------------- */
+
+.premium-button-primary,
+.premium-button-primary:link,
+.premium-button-primary:visited,
+.premium-button-primary:hover,
+.premium-button-primary:active,
+.premium-button-primary:focus {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.premium-button-secondary,
+.premium-button-secondary:link,
+.premium-button-secondary:visited {
+  color: var(--premium-purple-dark) !important;
+  -webkit-text-fill-color: var(--premium-purple-dark) !important;
+}
+
+/* Boutons dorés sur fond sombre */
+.premium-hero .premium-button-primary,
+.premium-hero .premium-button-primary:link,
+.premium-hero .premium-button-primary:visited,
+.premium-comparison .premium-button-primary,
+.premium-comparison .premium-button-primary:link,
+.premium-comparison .premium-button-primary:visited {
+  color: #25192d !important;
+  -webkit-text-fill-color: #25192d !important;
+}
+
+/* Boutons transparents sur fond sombre */
+.premium-hero .premium-button-secondary,
+.premium-hero .premium-button-secondary:link,
+.premium-hero .premium-button-secondary:visited,
+.premium-comparison .premium-button-secondary,
+.premium-comparison .premium-button-secondary:link,
+.premium-comparison .premium-button-secondary:visited {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Liens d’aperçu sur fond sombre */
+.premium-hero-preview-link,
+.premium-hero-preview-link:link,
+.premium-hero-preview-link:visited {
+  color: #f2d79e !important;
+  -webkit-text-fill-color: #f2d79e !important;
+}
+
+.premium-order-preview-link,
+.premium-order-preview-link:link,
+.premium-order-preview-link:visited {
+  color: #f0d397 !important;
+  -webkit-text-fill-color: #f0d397 !important;
+}
