@@ -25,6 +25,10 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyAstrologyResult,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -75,7 +79,12 @@ type HoroscopeMonthDelicatePeriodsProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    delicatePeriods:
+      MonthlyAstrologyResult[
+        "delicatePeriods"
+      ];
+  };
 
 type DelicatePeriodCategory =
   | "communication"
@@ -83,133 +92,424 @@ type DelicatePeriodCategory =
   | "career"
   | "energy";
 
-type TemporaryDelicatePeriod = {
-  id:
-    string;
-
-  dates:
-    string;
-
-  category:
-    DelicatePeriodCategory;
-
-  categoryLabel:
-    string;
-
-  title:
-    string;
-
-  description:
-    string;
-
-  advice:
-    string;
+type DisplayDelicatePeriod = {
+  id: string;
+  dates: string;
+  category: DelicatePeriodCategory;
+  categoryLabel: string;
+  title: string;
+  description: string;
+  advice: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Périodes temporaires
+| Adaptation des vraies périodes délicates
 |--------------------------------------------------------------------------
-|
-| Ces données seront remplacées plus tard par les véritables périodes
-| délicates calculées à partir des mouvements astrologiques du mois.
-|
 */
 
-const TEMPORARY_DELICATE_PERIODS:
-  TemporaryDelicatePeriod[] = [
+type DelicatePeriodRecord =
+  Record<
+    string,
+    unknown
+  >;
+
+function readString(
+  source:
+    DelicatePeriodRecord,
+  keys:
+    string[],
+): string {
+  for (
+    const key of keys
+  ) {
+    const value =
+      source[key];
+
+    if (
+      typeof value ===
+        "string" &&
+      value.trim()
+    ) {
+      return value.trim();
+    }
+  }
+
+  return "";
+}
+
+function normalizeText(
+  value:
+    string,
+): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+}
+
+function getDelicatePeriodCategory(
+  value:
+    string,
+): DelicatePeriodCategory {
+  const normalized =
+    normalizeText(
+      value,
+    );
+
+  if (
+    normalized.includes(
+      "communication",
+    ) ||
+    normalized.includes(
+      "message",
+    ) ||
+    normalized.includes(
+      "mercure",
+    ) ||
+    normalized.includes(
+      "mercury",
+    )
+  ) {
+    return "communication";
+  }
+
+  if (
+    normalized.includes(
+      "relation",
+    ) ||
+    normalized.includes(
+      "amour",
+    ) ||
+    normalized.includes(
+      "venus",
+    ) ||
+    normalized.includes(
+      "relationship",
+    )
+  ) {
+    return "relationships";
+  }
+
+  if (
+    normalized.includes(
+      "carriere",
+    ) ||
+    normalized.includes(
+      "travail",
+    ) ||
+    normalized.includes(
+      "profession",
+    ) ||
+    normalized.includes(
+      "career",
+    )
+  ) {
+    return "career";
+  }
+
+  return "energy";
+}
+
+function getCategoryLabel(
+  category:
+    DelicatePeriodCategory,
+): string {
+  switch (category) {
+    case "communication":
+      return "Communication";
+
+    case "relationships":
+      return "Relations";
+
+    case "career":
+      return "Carrière";
+
+    case "energy":
+    default:
+      return "Énergie";
+  }
+}
+
+function formatDelicatePeriodDate(
+  value:
+    string,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      value.includes("T")
+        ? value
+        : `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
     {
-      id:
-        "delicate-period-1",
+      day:
+        "numeric",
 
-      dates:
-        "Du 6 au 9",
-
-      category:
-        "communication",
-
-      categoryLabel:
-        "Communication",
-
-      title:
-        "Des échanges qui demandent plus de précision",
-
-      description:
-        "Certains messages pourraient être mal compris ou manquer de clarté. Une réponse trop rapide pourrait accentuer une tension qui aurait pourtant pu être évitée.",
-
-      advice:
-        "Relisez vos messages, vérifiez les informations et demandez des précisions avant de tirer une conclusion.",
+      month:
+        "long",
     },
+  ).format(date);
+}
 
-    {
-      id:
-        "delicate-period-2",
+function buildDatesLabel(
+  source:
+    DelicatePeriodRecord,
+): string {
+  const directLabel =
+    readString(
+      source,
+      [
+        "dates",
+        "dateLabel",
+        "periodLabel",
+        "label",
+      ],
+    );
 
-      dates:
-        "Du 13 au 16",
+  if (directLabel) {
+    return directLabel;
+  }
 
-      category:
-        "relationships",
+  const startDate =
+    formatDelicatePeriodDate(
+      readString(
+        source,
+        [
+          "startDate",
+          "from",
+          "dateFrom",
+          "start",
+        ],
+      ),
+    );
 
-      categoryLabel:
-        "Relations",
+  const endDate =
+    formatDelicatePeriodDate(
+      readString(
+        source,
+        [
+          "endDate",
+          "to",
+          "dateTo",
+          "end",
+        ],
+      ),
+    );
 
-      title:
-        "Une sensibilité émotionnelle plus marquée",
+  if (
+    startDate &&
+    endDate &&
+    startDate !== endDate
+  ) {
+    return `Du ${startDate} au ${endDate}`;
+  }
 
-      description:
-        "Les réactions peuvent être plus intenses durant cette période. Une ancienne frustration ou un besoin longtemps retenu pourrait refaire surface dans une relation importante.",
+  if (startDate) {
+    return startDate;
+  }
 
-      advice:
-        "Exprimez vos besoins calmement et évitez de transformer une émotion passagère en décision définitive.",
-    },
+  if (endDate) {
+    return endDate;
+  }
 
-    {
-      id:
-        "delicate-period-3",
+  const exactDate =
+    formatDelicatePeriodDate(
+      readString(
+        source,
+        [
+          "date",
+          "isoDate",
+          "exactDate",
+        ],
+      ),
+    );
 
-      dates:
-        "Du 20 au 23",
+  return (
+    exactDate ||
+    "Période à surveiller"
+  );
+}
 
-      category:
-        "career",
+function getDefaultTitle(
+  category:
+    DelicatePeriodCategory,
+): string {
+  switch (category) {
+    case "communication":
+      return "Des échanges qui demandent davantage de précision";
 
-      categoryLabel:
-        "Carrière",
+    case "relationships":
+      return "Une sensibilité relationnelle plus marquée";
 
-      title:
-        "Des ralentissements à utiliser intelligemment",
+    case "career":
+      return "Des ralentissements à utiliser intelligemment";
 
-      description:
-        "Un délai, une réponse tardive ou une responsabilité imprévue pourrait modifier votre organisation. Cette période vous demande davantage de structure et de patience.",
+    case "energy":
+    default:
+      return "Un besoin de ralentir et de récupérer";
+  }
+}
 
-      advice:
-        "Concentrez-vous sur ce qui dépend réellement de vous et utilisez les délais pour consolider votre préparation.",
-    },
+function getDefaultDescription(
+  category:
+    DelicatePeriodCategory,
+): string {
+  switch (category) {
+    case "communication":
+      return "Les messages, décisions ou informations peuvent manquer de clarté. Une réaction trop rapide pourrait accentuer une tension évitable.";
 
-    {
-      id:
-        "delicate-period-4",
+    case "relationships":
+      return "Les émotions peuvent être plus intenses. Une frustration ancienne ou un besoin retenu pourrait refaire surface dans une relation importante.";
 
-      dates:
-        "Du 27 au 29",
+    case "career":
+      return "Un délai, une réponse tardive ou une responsabilité imprévue peut modifier votre organisation et demander davantage de structure.";
 
-      category:
-        "energy",
+    case "energy":
+    default:
+      return "Votre énergie peut être moins constante. Une accumulation de responsabilités pourrait réduire votre patience ou votre concentration.";
+  }
+}
 
-      categoryLabel:
-        "Énergie",
+function getDefaultAdvice(
+  category:
+    DelicatePeriodCategory,
+): string {
+  switch (category) {
+    case "communication":
+      return "Relisez, vérifiez les informations et demandez des précisions avant de conclure.";
 
-      title:
-        "Un besoin de ralentir et de récupérer",
+    case "relationships":
+      return "Exprimez vos besoins calmement et évitez les décisions définitives sous le coup de l’émotion.";
 
-      description:
-        "Votre énergie pourrait être moins constante. Une accumulation de responsabilités peut vous rendre plus impatient ou diminuer votre capacité à rester concentré.",
+    case "career":
+      return "Concentrez-vous sur ce qui dépend de vous et utilisez les délais pour renforcer votre préparation.";
 
-      advice:
-        "Allégez votre horaire lorsque cela est possible et accordez davantage de place au repos.",
-    },
-  ];
+    case "energy":
+    default:
+      return "Allégez votre horaire lorsque cela est possible et accordez davantage de place au repos.";
+  }
+}
+
+function buildDisplayDelicatePeriod(
+  item:
+    MonthlyAstrologyResult[
+      "delicatePeriods"
+    ][number],
+  index:
+    number,
+): DisplayDelicatePeriod {
+  const source =
+    item as unknown as
+      DelicatePeriodRecord;
+
+  const rawCategory =
+    readString(
+      source,
+      [
+        "category",
+        "categoryLabel",
+        "domain",
+        "theme",
+        "area",
+      ],
+    );
+
+  const category =
+    getDelicatePeriodCategory(
+      rawCategory,
+    );
+
+  return {
+    id:
+      readString(
+        source,
+        [
+          "id",
+          "key",
+        ],
+      ) ||
+      `delicate-period-${index + 1}`,
+
+    dates:
+      buildDatesLabel(
+        source,
+      ),
+
+    category,
+
+    categoryLabel:
+      readString(
+        source,
+        [
+          "categoryLabel",
+          "domainLabel",
+        ],
+      ) ||
+      getCategoryLabel(
+        category,
+      ),
+
+    title:
+      readString(
+        source,
+        [
+          "title",
+          "headline",
+          "name",
+        ],
+      ) ||
+      getDefaultTitle(
+        category,
+      ),
+
+    description:
+      readString(
+        source,
+        [
+          "description",
+          "interpretation",
+          "meaning",
+          "text",
+        ],
+      ) ||
+      getDefaultDescription(
+        category,
+      ),
+
+    advice:
+      readString(
+        source,
+        [
+          "advice",
+          "guidance",
+          "recommendation",
+          "bestApproach",
+          "action",
+        ],
+      ) ||
+      getDefaultAdvice(
+        category,
+      ),
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1667,11 +1967,33 @@ function getCategoryIcon(
 export default function HoroscopeMonthDelicatePeriods({
   identity,
   period,
+  delicatePeriods,
 }: HoroscopeMonthDelicatePeriodsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
       identity.zodiacSign,
     );
+
+  const displayedPeriods =
+    (
+      Array.isArray(
+        delicatePeriods,
+      )
+        ? delicatePeriods
+        : []
+    )
+      .slice(0, 4)
+      .map(
+        buildDisplayDelicatePeriod,
+      );
+
+  const vigilanceWindows =
+    displayedPeriods
+      .map(
+        (item) =>
+          `${item.categoryLabel} : ${item.dates}`,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1843,14 +2165,14 @@ export default function HoroscopeMonthDelicatePeriods({
         */}
 
         <View style={styles.cardsContainer}>
-          {TEMPORARY_DELICATE_PERIODS.map(
+          {displayedPeriods.map(
             (
               item,
               index,
             ) => {
               const isLast =
                 index ===
-                TEMPORARY_DELICATE_PERIODS.length -
+                displayedPeriods.length -
                   1;
 
               const categoryIcon =
@@ -2055,13 +2377,9 @@ export default function HoroscopeMonthDelicatePeriods({
             <Text
               style={styles.closingText}
             >
-              L’objectif n’est pas d’éviter
-              toute difficulté, mais de choisir
-              une réponse plus consciente.
-              Prenez du recul lorsque la tension
-              augmente et attendez d’avoir une
-              vision plus claire avant de
-              prendre une décision importante.
+              {vigilanceWindows
+                ? `Les principales périodes de vigilance de ${period.label} sont ${vigilanceWindows}. L’objectif n’est pas d’éviter toute difficulté, mais de ralentir lorsque la tension augmente et de choisir une réponse plus consciente.`
+                : `Aucune période particulièrement délicate n’a été retenue pour ${period.label}. Gardez néanmoins votre pouvoir de décision et prenez du recul avant toute réaction importante lorsque la tension augmente.`}
             </Text>
           </View>
         </View>
