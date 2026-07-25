@@ -197,16 +197,7 @@ const PLANET_THEME_LABELS:
 
     Pluton:
       "Transformation • Vérité",
-
-    Chiron:
-      "Guérison • Compréhension",
-
-    "Nœud Nord":
-      "Évolution • Direction",
-
-    "Nœud Sud":
-      "Passé • Détachement",
-  };
+   };
 
 /*
 |--------------------------------------------------------------------------
@@ -261,16 +252,7 @@ function normalizePlanetIconKey(
 
       pluton:
         "pluto",
-
-      chiron:
-        "chiron",
-
-      "noeud nord":
-        "northNode",
-
-      "noeud sud":
-        "southNode",
-    };
+     };
 
   return (
     iconKeyMap[normalized] ??
