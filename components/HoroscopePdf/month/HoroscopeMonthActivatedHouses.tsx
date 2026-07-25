@@ -223,32 +223,39 @@ function buildManifestationText(
   house:
     MonthlyActivatedHouse,
 ): string {
-  const strongestDate =
-    formatHouseDate(
-      house.strongestDate,
-    );
+  const formattedDates =
+    house.dates
+      .slice(0, 3)
+      .map(
+        (date) =>
+          formatHouseDate(
+            date,
+          ),
+      )
+      .filter(
+        (date) =>
+          Boolean(date),
+      );
 
-  const transitText =
-    house.strongestTransit
-      ? `Le mouvement le plus marquant est lié à ${house.strongestTransit}.`
+  const planetsText =
+    house.activatingPlanets.length > 0
+      ? `Les planètes les plus actives dans ce secteur sont ${house.activatingPlanets.join(", ")}.`
       : "Les transits du mois attirent progressivement votre attention vers ce secteur.";
 
-  const dateText =
-    strongestDate
-      ? ` Cette activation atteint un sommet autour du ${strongestDate}.`
+  const datesText =
+    formattedDates.length > 0
+      ? ` Les dates les plus marquantes sont ${formattedDates.join(", ")}.`
       : "";
 
-  const countText =
-    house.transitCount > 1
-      ? ` ${house.transitCount} transits importants participent à cette activation.`
-      : house.transitCount === 1
-        ? " Un transit important participe directement à cette activation."
-        : "";
+  const reasonText =
+    house.reasons[0]
+      ? ` ${house.reasons[0]}`
+      : "";
 
   return (
-    transitText +
-    dateText +
-    countText
+    planetsText +
+    datesText +
+    reasonText
   );
 }
 
@@ -256,16 +263,6 @@ function buildHouseTitle(
   house:
     MonthlyActivatedHouse,
 ): string {
-  const primaryTheme =
-    house.themes[0];
-
-  if (primaryTheme) {
-    return (
-      `${house.title} : ` +
-      `${primaryTheme}`
-    );
-  }
-
   return house.title;
 }
 
@@ -282,10 +279,10 @@ function buildDisplayActivatedHouse(
     );
 
   const category =
+    house.lifeArea ||
     HOUSE_CATEGORIES[
       house.house
-    ] ??
-    house.themes[0] ??
+    ] ||
     "Évolution";
 
   return {
@@ -316,7 +313,7 @@ function buildDisplayActivatedHouse(
       ),
 
     description:
-      house.interpretation,
+      house.description,
 
     manifestation:
       buildManifestationText(
