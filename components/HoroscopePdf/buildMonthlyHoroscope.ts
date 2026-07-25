@@ -6,7 +6,6 @@ import type {
 } from "./HoroscopePdfTypes";
 
 import {
-  buildHoroscopeReportTitle,
   getHoroscopeZodiacIconUrl,
   getHoroscopeZodiacLabel,
   normalizeHoroscopeZodiacSign,
@@ -56,6 +55,14 @@ import type {
   MonthlyHoroscopeIdentity,
   MonthlyHoroscopePeriod,
 } from "./month/data/types";
+
+import {
+  calculateMonthlyAstrology,
+} from "./month/calculations/calculateMonthlyAstrology";
+
+import type {
+  MonthlyAstrologyResult,
+} from "./month/calculations/types";
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -118,6 +125,7 @@ export type MonthlyHoroscopeResult = {
   content: HoroscopePdfContent;
   weeks: MonthlyHoroscopeWeeks;
   majorEnergies: MonthlyMajorEnergiesResult;
+  astrology: MonthlyAstrologyResult;
   zodiacIconUrl: string;
 };
 
@@ -1068,6 +1076,41 @@ export function buildMonthlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
+  | Calculs astrologiques réels du mois
+  |--------------------------------------------------------------------------
+  */
+
+  const astrology =
+    calculateMonthlyAstrology({
+      identity: {
+        firstName:
+          firstName ?? "",
+
+        birthDate:
+          birthDate ?? "",
+
+        birthTime:
+          birthTime ?? "",
+
+        birthPlace:
+          [birthCity, birthCountry]
+            .filter(Boolean)
+            .join(", "),
+
+        zodiacSign:
+          normalizedSign,
+      },
+
+      period: {
+        month:
+          monthNumber,
+
+        year,
+      },
+    });
+
+  /*
+  |--------------------------------------------------------------------------
   | Nouveaux générateurs de sections
   |--------------------------------------------------------------------------
   */
@@ -1560,6 +1603,7 @@ reportSubtitle:
     content,
     weeks,
     majorEnergies,
+    astrology,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
