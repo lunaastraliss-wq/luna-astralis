@@ -26,6 +26,10 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyActivatedHouse,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -56,7 +60,10 @@ type HoroscopeMonthActivatedHousesProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    activatedHouses:
+      MonthlyActivatedHouse[];
+  };
 
 type HouseTone =
   | "identity"
@@ -64,7 +71,7 @@ type HouseTone =
   | "career"
   | "transformation";
 
-type TemporaryActivatedHouse = {
+type DisplayActivatedHouse = {
   id: string;
   number: number;
   name: string;
@@ -79,144 +86,247 @@ type TemporaryActivatedHouse = {
 
 /*
 |--------------------------------------------------------------------------
-| Données temporaires
+| Correspondance des maisons astrologiques
 |--------------------------------------------------------------------------
-|
-| Ces maisons seront remplacées plus tard par les maisons réellement
-| activées par les transits astrologiques du mois.
-|
 */
 
-const TEMPORARY_ACTIVATED_HOUSES:
-  TemporaryActivatedHouse[] = [
+const ROMAN_HOUSE_NUMBERS:
+  Record<number, string> = {
+    1: "I",
+    2: "II",
+    3: "III",
+    4: "IV",
+    5: "V",
+    6: "VI",
+    7: "VII",
+    8: "VIII",
+    9: "IX",
+    10: "X",
+    11: "XI",
+    12: "XII",
+  };
+
+const HOUSE_CATEGORIES:
+  Record<number, string> = {
+    1: "Identité",
+    2: "Ressources",
+    3: "Communication",
+    4: "Foyer",
+    5: "Créativité",
+    6: "Quotidien",
+    7: "Relations",
+    8: "Transformation",
+    9: "Expansion",
+    10: "Carrière",
+    11: "Projets",
+    12: "Intériorité",
+  };
+
+function getHouseTone(
+  house:
+    number,
+): HouseTone {
+  if (
+    house === 1 ||
+    house === 2 ||
+    house === 3
+  ) {
+    return "identity";
+  }
+
+  if (
+    house === 4 ||
+    house === 5 ||
+    house === 7
+  ) {
+    return "relationships";
+  }
+
+  if (
+    house === 6 ||
+    house === 9 ||
+    house === 10 ||
+    house === 11
+  ) {
+    return "career";
+  }
+
+  return "transformation";
+}
+
+function getHouseIcon(
+  house:
+    number,
+): string {
+  if (
+    house === 1 ||
+    house === 2 ||
+    house === 3
+  ) {
+    return HOROSCOPE_ICONS.sun;
+  }
+
+  if (
+    house === 4 ||
+    house === 5 ||
+    house === 7
+  ) {
+    return HOROSCOPE_ICONS.soulPath;
+  }
+
+  if (
+    house === 6 ||
+    house === 9 ||
+    house === 10 ||
+    house === 11
+  ) {
+    return HOROSCOPE_ICONS.lifePurpose;
+  }
+
+  return HOROSCOPE_ICONS.integrationGuide;
+}
+
+function formatHouseDate(
+  value?:
+    string,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
     {
-      id:
-        "house-one",
+      day:
+        "numeric",
 
-      number:
-        1,
-
-      name:
-        "Maison I",
-
-      icon:
-        HOROSCOPE_ICONS.sun,
-
-      tone:
-        "identity",
-
-      category:
-        "Identité",
-
-      title:
-        "Votre manière de vous affirmer évolue",
-
-      description:
-        "La première maison met en lumière votre identité, votre présence et la manière dont vous vous présentez au monde. Son activation vous encourage à prendre davantage conscience de votre pouvoir personnel.",
-
-      manifestation:
-        "Vous pourriez ressentir le besoin de modifier votre attitude, votre apparence ou votre façon de défendre vos choix.",
-
-      advice:
-        "Affirmez-vous avec confiance, tout en laissant de la place à l’écoute et à l’adaptation.",
+      month:
+        "long",
     },
+  ).format(date);
+}
 
-    {
-      id:
-        "house-seven",
+function buildManifestationText(
+  house:
+    MonthlyActivatedHouse,
+): string {
+  const strongestDate =
+    formatHouseDate(
+      house.strongestDate,
+    );
 
-      number:
-        7,
+  const transitText =
+    house.strongestTransit
+      ? `Le mouvement le plus marquant est lié à ${house.strongestTransit}.`
+      : "Les transits du mois attirent progressivement votre attention vers ce secteur.";
 
-      name:
-        "Maison VII",
+  const dateText =
+    strongestDate
+      ? ` Cette activation atteint un sommet autour du ${strongestDate}.`
+      : "";
 
-      icon:
-        HOROSCOPE_ICONS.soulPath,
+  const countText =
+    house.transitCount > 1
+      ? ` ${house.transitCount} transits importants participent à cette activation.`
+      : house.transitCount === 1
+        ? " Un transit important participe directement à cette activation."
+        : "";
 
-      tone:
-        "relationships",
+  return (
+    transitText +
+    dateText +
+    countText
+  );
+}
 
-      category:
-        "Relations",
+function buildHouseTitle(
+  house:
+    MonthlyActivatedHouse,
+): string {
+  const primaryTheme =
+    house.themes[0];
 
-      title:
-        "Vos liens deviennent un miroir important",
+  if (primaryTheme) {
+    return (
+      `${house.title} : ` +
+      `${primaryTheme}`
+    );
+  }
 
-      description:
-        "La septième maison concerne les relations, les engagements et les partenariats. Son activation attire votre attention sur l’équilibre entre vos besoins personnels et ceux des autres.",
+  return house.title;
+}
 
-      manifestation:
-        "Une relation pourrait demander une décision, une clarification ou une nouvelle manière de fonctionner ensemble.",
+function buildDisplayActivatedHouse(
+  house:
+    MonthlyActivatedHouse,
+): DisplayActivatedHouse {
+  const romanNumber =
+    ROMAN_HOUSE_NUMBERS[
+      house.house
+    ] ??
+    String(
+      house.house,
+    );
 
-      advice:
-        "Cherchez une véritable réciprocité plutôt que de maintenir une harmonie uniquement en apparence.",
-    },
+  const category =
+    HOUSE_CATEGORIES[
+      house.house
+    ] ??
+    house.themes[0] ??
+    "Évolution";
 
-    {
-      id:
-        "house-ten",
+  return {
+    id:
+      `activated-house-${house.house}`,
 
-      number:
-        10,
+    number:
+      house.house,
 
-      name:
-        "Maison X",
+    name:
+      `Maison ${romanNumber}`,
 
-      icon:
-        HOROSCOPE_ICONS.lifePurpose,
+    icon:
+      getHouseIcon(
+        house.house,
+      ),
 
-      tone:
-        "career",
+    tone:
+      getHouseTone(
+        house.house,
+      ),
 
-      category:
-        "Carrière",
+    category,
 
-      title:
-        "Votre direction professionnelle prend de l’importance",
+    title:
+      buildHouseTitle(
+        house,
+      ),
 
-      description:
-        "La dixième maison représente la carrière, les ambitions et l’image que vous souhaitez construire dans le monde. Son activation peut renforcer votre désir de progresser ou d’être reconnu.",
+    description:
+      house.interpretation,
 
-      manifestation:
-        "Un projet professionnel, une responsabilité ou une décision concernant votre avenir pourrait prendre une place centrale.",
+    manifestation:
+      buildManifestationText(
+        house,
+      ),
 
-      advice:
-        "Concentrez vos efforts sur les objectifs qui correspondent réellement à votre vision à long terme.",
-    },
-
-    {
-      id:
-        "house-eight",
-
-      number:
-        8,
-
-      name:
-        "Maison VIII",
-
-      icon:
-        HOROSCOPE_ICONS.integrationGuide,
-
-      tone:
-        "transformation",
-
-      category:
-        "Transformation",
-
-      title:
-        "Une période de libération intérieure",
-
-      description:
-        "La huitième maison est associée aux transformations profondes, aux ressources partagées et aux vérités émotionnelles. Son activation vous invite à regarder ce qui doit être compris ou laissé derrière vous.",
-
-      manifestation:
-        "Vous pourriez traverser une prise de conscience importante concernant une peur, un attachement ou une situation financière partagée.",
-
-      advice:
-        "Acceptez de transformer ce qui ne peut plus continuer sous sa forme actuelle.",
-    },
-  ];
+    advice:
+      house.advice,
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1093,6 +1203,7 @@ const styles =
 export default function HoroscopeMonthActivatedHouses({
   identity,
   period,
+  activatedHouses,
 }: HoroscopeMonthActivatedHousesProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1103,6 +1214,27 @@ export default function HoroscopeMonthActivatedHouses({
     formatHoroscopePeriodLabel(
       period,
     );
+
+  const displayedHouses =
+    (
+      Array.isArray(
+        activatedHouses,
+      )
+        ? activatedHouses
+        : []
+    )
+      .slice(0, 4)
+      .map(
+        buildDisplayActivatedHouse,
+      );
+
+  const houseNames =
+    displayedHouses
+      .map(
+        (house) =>
+          house.name,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1227,7 +1359,7 @@ export default function HoroscopeMonthActivatedHouses({
         </View>
 
         <View style={styles.housesGrid}>
-          {TEMPORARY_ACTIVATED_HOUSES.map(
+          {displayedHouses.map(
             (
               house,
             ) => (
@@ -1395,14 +1527,9 @@ export default function HoroscopeMonthActivatedHouses({
             <Text
               style={styles.summaryText}
             >
-              Votre mois met en relation
-              l’affirmation personnelle, les
-              relations, les ambitions et la
-              transformation intérieure.
-              Chaque changement vécu dans un
-              secteur pourrait influencer les
-              autres et vous aider à créer un
-              équilibre plus solide.
+              {houseNames
+                ? `Les secteurs les plus sollicités durant ${periodLabel} sont ${houseNames}. Les évolutions vécues dans l’un de ces domaines peuvent influencer les autres; observez leurs liens afin de construire un équilibre plus cohérent.`
+                : `Durant ${periodLabel}, les transits personnalisés ne révèlent pas encore de secteur nettement dominant. Avancez en observant les domaines de vie qui demandent naturellement le plus d’attention.`}
             </Text>
           </View>
         </View>
