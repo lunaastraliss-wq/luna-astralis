@@ -63,6 +63,14 @@ import {
 import type {
   MonthlyAstrologyResult,
 } from "./month/calculations/types";
+
+import {
+  buildMonthlyMantra,
+} from "./month/mantra/buildMonthlyMantra";
+
+import type {
+  MonthlyMantraResult,
+} from "./month/mantra/buildMonthlyMantra";
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -126,6 +134,7 @@ export type MonthlyHoroscopeResult = {
   weeks: MonthlyHoroscopeWeeks;
   majorEnergies: MonthlyMajorEnergiesResult;
   astrology: MonthlyAstrologyResult;
+  mantra: MonthlyMantraResult;
   zodiacIconUrl: string;
 };
 
@@ -1155,6 +1164,11 @@ export function buildMonthlyHoroscope({
       monthlySectionParams,
     );
 
+  const mantra =
+    buildMonthlyMantra(
+      monthlySectionParams,
+    );
+
   /*
   |--------------------------------------------------------------------------
   | Progression des quatre semaines
@@ -1604,6 +1618,7 @@ reportSubtitle:
     weeks,
     majorEnergies,
     astrology,
+    mantra,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
