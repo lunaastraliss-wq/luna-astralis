@@ -223,8 +223,29 @@ function buildManifestationText(
   house:
     MonthlyActivatedHouse,
 ): string {
+  const dates =
+    Array.isArray(
+      house.dates,
+    )
+      ? house.dates
+      : [];
+
+  const activatingPlanets =
+    Array.isArray(
+      house.activatingPlanets,
+    )
+      ? house.activatingPlanets
+      : [];
+
+  const reasons =
+    Array.isArray(
+      house.reasons,
+    )
+      ? house.reasons
+      : [];
+
   const formattedDates =
-    house.dates
+    dates
       .slice(0, 3)
       .map(
         (date) =>
@@ -233,30 +254,40 @@ function buildManifestationText(
           ),
       )
       .filter(
-        (date) =>
+        (date): date is string =>
           Boolean(date),
       );
 
-  const planetsText =
-    house.activatingPlanets.length > 0
-      ? `Les planètes les plus actives dans ce secteur sont ${house.activatingPlanets.join(", ")}.`
-      : "Les transits du mois attirent progressivement votre attention vers ce secteur.";
+  const parts:
+    string[] = [];
 
-  const datesText =
+  if (
+    activatingPlanets.length > 0
+  ) {
+    parts.push(
+      `Les influences de ${activatingPlanets.join(", ")} rendent ce secteur plus présent au cours du mois.`,
+    );
+  } else {
+    parts.push(
+      "Les mouvements du mois attirent progressivement votre attention vers ce secteur de votre vie.",
+    );
+  }
+
+  if (
     formattedDates.length > 0
-      ? ` Les dates les plus marquantes sont ${formattedDates.join(", ")}.`
-      : "";
+  ) {
+    parts.push(
+      `Les périodes autour du ${formattedDates.join(", du ")} peuvent être particulièrement révélatrices.`,
+    );
+  }
 
-  const reasonText =
-    house.reasons[0]
-      ? ` ${house.reasons[0]}`
-      : "";
+  if (reasons[0]) {
+    parts.push(
+      reasons[0],
+    );
+  }
 
-  return (
-    planetsText +
-    datesText +
-    reasonText
-  );
+  return parts.join(" ");
 }
 
 function buildHouseTitle(
@@ -1323,16 +1354,14 @@ export default function HoroscopeMonthActivatedHouses({
           </Text>
 
           <Text style={styles.introduction}>
-            Les maisons astrologiques
-            représentent les différents
-            secteurs de votre vie. Durant{" "}
-            {periodLabel}, certaines maisons
-            peuvent recevoir davantage
-            d’attention et révéler les
-            domaines dans lesquels le signe{" "}
-            {identity.zodiacSignLabel} sera
-            invité à agir, comprendre ou
-            évoluer.
+            Au cours de {periodLabel}, certains
+            domaines de votre vie peuvent prendre
+            davantage de place que d’autres. Les
+            maisons astrologiques mettent en lumière
+            les secteurs où votre attention, vos
+            décisions ou vos expériences pourraient
+            se concentrer plus fortement pour le signe{" "}
+            {identity.zodiacSignLabel}.
           </Text>
         </View>
 
@@ -1454,7 +1483,7 @@ export default function HoroscopeMonthActivatedHouses({
                       styles.manifestationLabel
                     }
                   >
-                    Manifestation possible
+                    Ce que vous pourriez remarquer
                   </Text>
 
                   <Text
@@ -1472,7 +1501,7 @@ export default function HoroscopeMonthActivatedHouses({
                       styles.adviceLabel
                     }
                   >
-                    Conseil
+                    Conseil Luna Astralis
                   </Text>
 
                   <Text
@@ -1525,8 +1554,8 @@ export default function HoroscopeMonthActivatedHouses({
               style={styles.summaryText}
             >
               {houseNames
-                ? `Les secteurs les plus sollicités durant ${periodLabel} sont ${houseNames}. Les évolutions vécues dans l’un de ces domaines peuvent influencer les autres; observez leurs liens afin de construire un équilibre plus cohérent.`
-                : `Durant ${periodLabel}, les transits personnalisés ne révèlent pas encore de secteur nettement dominant. Avancez en observant les domaines de vie qui demandent naturellement le plus d’attention.`}
+                ? `Durant ${periodLabel}, ${houseNames} constituent les principaux secteurs d’attention. Ce qui évolue dans l’un de ces domaines peut se répercuter sur les autres; observez ces liens afin d’avancer avec davantage de cohérence et de discernement.`
+                : `Durant ${periodLabel}, aucun secteur ne se distingue nettement des autres. Observez simplement les domaines de votre vie qui réclament naturellement plus d’attention, sans chercher à forcer une direction.`}
             </Text>
           </View>
         </View>
