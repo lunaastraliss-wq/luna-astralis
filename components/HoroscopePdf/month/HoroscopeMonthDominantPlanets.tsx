@@ -104,7 +104,7 @@ type DisplayDominantPlanet = {
 
 /*
 |--------------------------------------------------------------------------
-| Correspondance des données astrologiques
+| Ton visuel des planètes
 |--------------------------------------------------------------------------
 */
 
@@ -115,24 +115,113 @@ const PLANET_TONES:
       DominantPlanetTone
     >
   > = {
-    Jupiter:
+    Soleil:
+      "action",
+
+    Lune:
+      "relationships",
+
+    Mercure:
       "expansion",
 
     Vénus:
       "relationships",
 
-    Lune:
-      "relationships",
-
     Mars:
       "action",
 
-    Soleil:
+    Jupiter:
+      "expansion",
+
+    Saturne:
       "action",
+
+    Uranus:
+      "expansion",
+
+    Neptune:
+      "relationships",
 
     Pluton:
       "action",
+
+    Chiron:
+      "relationships",
+
+    "Nœud Nord":
+      "expansion",
+
+    "Nœud Sud":
+      "relationships",
   };
+
+/*
+|--------------------------------------------------------------------------
+| Thèmes courts pour les badges
+|--------------------------------------------------------------------------
+|
+| Important :
+| Le badge doit toujours contenir un texte court.
+|
+| Il ne faut pas utiliser planet.reasons ici, car reasons contient
+| des phrases complètes comme :
+|
+| "42 aspects importants influencent son énergie."
+|
+| Ces phrases écrasaient le titre dans la mise en page React PDF.
+|--------------------------------------------------------------------------
+*/
+
+const PLANET_THEME_LABELS:
+  Record<
+    MonthlyPlanetName,
+    string
+  > = {
+    Soleil:
+      "Identité • Vitalité",
+
+    Lune:
+      "Émotions • Intuition",
+
+    Mercure:
+      "Réflexion • Échanges",
+
+    Vénus:
+      "Relations • Harmonie",
+
+    Mars:
+      "Action • Courage",
+
+    Jupiter:
+      "Expansion • Occasions",
+
+    Saturne:
+      "Structure • Maturité",
+
+    Uranus:
+      "Liberté • Renouveau",
+
+    Neptune:
+      "Inspiration • Sensibilité",
+
+    Pluton:
+      "Transformation • Vérité",
+
+    Chiron:
+      "Guérison • Compréhension",
+
+    "Nœud Nord":
+      "Évolution • Direction",
+
+    "Nœud Sud":
+      "Passé • Détachement",
+  };
+
+/*
+|--------------------------------------------------------------------------
+| Icônes
+|--------------------------------------------------------------------------
+*/
 
 function normalizePlanetIconKey(
   planet:
@@ -181,6 +270,15 @@ function normalizePlanetIconKey(
 
       pluton:
         "pluto",
+
+      chiron:
+        "chiron",
+
+      "noeud nord":
+        "northNode",
+
+      "noeud sud":
+        "southNode",
     };
 
   return (
@@ -200,6 +298,12 @@ function getPlanetIcon(
   ];
 }
 
+/*
+|--------------------------------------------------------------------------
+| Données d’affichage
+|--------------------------------------------------------------------------
+*/
+
 function getPlanetTone(
   planet:
     MonthlyPlanetName,
@@ -207,6 +311,16 @@ function getPlanetTone(
   return (
     PLANET_TONES[planet] ??
     "expansion"
+  );
+}
+
+function getPlanetTheme(
+  planet:
+    MonthlyPlanetName,
+): string {
+  return (
+    PLANET_THEME_LABELS[planet] ??
+    "Influence majeure"
   );
 }
 
@@ -225,6 +339,12 @@ function getInfluenceLabel(
   return "Influence complémentaire";
 }
 
+/*
+|--------------------------------------------------------------------------
+| Texte expliquant l’influence
+|--------------------------------------------------------------------------
+*/
+
 function buildInfluenceText(
   planet:
     MonthlyDominantPlanet,
@@ -236,18 +356,27 @@ function buildInfluenceText(
       ? planet.reasons
       : [];
 
-  const reasonsText =
-    reasons.length > 0
-      ? ` ${reasons
-          .slice(0, 2)
-          .join(" ")}`
-      : "";
+  const scoreText =
+    `Cette planète obtient un score d’influence de ${planet.score} %.`;
 
-  return (
-    `Cette planète obtient un score d’influence de ${planet.score} %.` +
-    reasonsText
-  );
+  if (reasons.length === 0) {
+    return scoreText;
+  }
+
+  return [
+    scoreText,
+    ...reasons.slice(
+      0,
+      2,
+    ),
+  ].join(" ");
 }
+
+/*
+|--------------------------------------------------------------------------
+| Conversion vers les données visuelles
+|--------------------------------------------------------------------------
+*/
 
 function buildDisplayDominantPlanet(
   planet:
@@ -258,20 +387,6 @@ function buildDisplayDominantPlanet(
   const rank =
     planet.rank ??
     index + 1;
-
-  const reasons =
-    Array.isArray(
-      planet.reasons,
-    )
-      ? planet.reasons
-      : [];
-
-  const theme =
-    reasons.length > 0
-      ? reasons
-          .slice(0, 2)
-          .join(" • ")
-      : "Influence astrologique majeure";
 
   return {
     id:
@@ -297,7 +412,14 @@ function buildDisplayDominantPlanet(
         planet.planet,
       ),
 
-    theme,
+    /*
+     * Correction :
+     * on utilise un thème court et non planet.reasons.
+     */
+    theme:
+      getPlanetTheme(
+        planet.planet,
+      ),
 
     title:
       planet.title,
@@ -356,6 +478,12 @@ const styles =
       flex:
         1,
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête
+    |--------------------------------------------------------------------------
+    */
 
     header: {
       flexDirection:
@@ -435,6 +563,12 @@ const styles =
       textTransform:
         "uppercase",
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Titre
+    |--------------------------------------------------------------------------
+    */
 
     titleBlock: {
       marginBottom:
@@ -533,6 +667,12 @@ const styles =
         DARK_GOLD,
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | Introduction
+    |--------------------------------------------------------------------------
+    */
+
     introductionCard: {
       position:
         "relative",
@@ -625,6 +765,12 @@ const styles =
         1.5,
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | Titre de section
+    |--------------------------------------------------------------------------
+    */
+
     sectionHeader: {
       flexDirection:
         "row",
@@ -677,6 +823,12 @@ const styles =
       textTransform:
         "uppercase",
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cartes des planètes
+    |--------------------------------------------------------------------------
+    */
 
     cardsContainer: {
       marginBottom:
@@ -773,6 +925,9 @@ const styles =
     planetColumn: {
       width:
         83,
+
+      flexShrink:
+        0,
 
       alignItems:
         "center",
@@ -896,9 +1051,21 @@ const styles =
     },
 
     cardContent: {
-      flex:
+      flexGrow:
         1,
+
+      flexShrink:
+        1,
+
+      minWidth:
+        0,
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | En-tête de carte
+    |--------------------------------------------------------------------------
+    */
 
     cardHeader: {
       flexDirection:
@@ -915,8 +1082,14 @@ const styles =
     },
 
     cardHeading: {
-      flex:
+      flexGrow:
         1,
+
+      flexShrink:
+        1,
+
+      minWidth:
+        0,
 
       paddingRight:
         10,
@@ -950,7 +1123,19 @@ const styles =
         1.28,
     },
 
+    /*
+    |--------------------------------------------------------------------------
+    | Badge court
+    |--------------------------------------------------------------------------
+    */
+
     themeBadge: {
+      maxWidth:
+        136,
+
+      flexShrink:
+        0,
+
       paddingVertical:
         4,
 
@@ -964,10 +1149,16 @@ const styles =
         0.5,
 
       fontSize:
-        6.3,
+        6.1,
+
+      lineHeight:
+        1.2,
 
       letterSpacing:
-        0.45,
+        0.35,
+
+      textAlign:
+        "center",
 
       textTransform:
         "uppercase",
@@ -1005,6 +1196,12 @@ const styles =
       backgroundColor:
         "#322118",
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contenu de carte
+    |--------------------------------------------------------------------------
+    */
 
     description: {
       marginBottom:
@@ -1100,6 +1297,12 @@ const styles =
       lineHeight:
         1.4,
     },
+
+    /*
+    |--------------------------------------------------------------------------
+    | Résumé
+    |--------------------------------------------------------------------------
+    */
 
     summaryCard: {
       position:
@@ -1244,7 +1447,7 @@ const styles =
 
 /*
 |--------------------------------------------------------------------------
-| Utilitaire
+| Style du badge selon la planète
 |--------------------------------------------------------------------------
 */
 
@@ -1296,7 +1499,10 @@ export default function HoroscopeMonthDominantPlanets({
         ? dominantPlanets
         : []
     )
-      .slice(0, 3)
+      .slice(
+        0,
+        3,
+      )
       .map(
         buildDisplayDominantPlanet,
       );
@@ -1318,6 +1524,12 @@ export default function HoroscopeMonthDominantPlanets({
       <HoroscopeStarBackground />
 
       <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.header}>
           <Image
             src={HOROSCOPE_LOGO_URL}
@@ -1335,6 +1547,12 @@ export default function HoroscopeMonthDominantPlanets({
             </Text>
           </View>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
 
         <View style={styles.titleBlock}>
           <Text style={styles.eyebrow}>
@@ -1357,11 +1575,15 @@ export default function HoroscopeMonthDominantPlanets({
               style={styles.titleIcon}
             />
 
-            <View
-              style={styles.titleLineSmall}
-            />
+            <View style={styles.titleLineSmall} />
           </View>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
 
         <View
           style={styles.introductionCard}
@@ -1369,14 +1591,10 @@ export default function HoroscopeMonthDominantPlanets({
         >
           <Image
             src={HOROSCOPE_ICONS.jupiter}
-            style={
-              styles.introductionWatermark
-            }
+            style={styles.introductionWatermark}
           />
 
-          <Text
-            style={styles.introductionLabel}
-          >
+          <Text style={styles.introductionLabel}>
             Votre climat planétaire
           </Text>
 
@@ -1393,6 +1611,12 @@ export default function HoroscopeMonthDominantPlanets({
           </Text>
         </View>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Section
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.sectionHeader}>
           <View style={styles.sectionLine} />
 
@@ -1405,6 +1629,12 @@ export default function HoroscopeMonthDominantPlanets({
             Votre trio dominant
           </Text>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Cartes
+        |--------------------------------------------------------------------------
+        */}
 
         <View style={styles.cardsContainer}>
           {displayedPlanets.map(
@@ -1424,15 +1654,9 @@ export default function HoroscopeMonthDominantPlanets({
                   style={styles.cardOrbitTwo}
                 />
 
-                <View
-                  style={styles.planetColumn}
-                >
-                  <View
-                    style={styles.rankCircle}
-                  >
-                    <Text
-                      style={styles.rankText}
-                    >
+                <View style={styles.planetColumn}>
+                  <View style={styles.rankCircle}>
+                    <Text style={styles.rankText}>
                       {item.rank}
                     </Text>
                   </View>
@@ -1449,38 +1673,26 @@ export default function HoroscopeMonthDominantPlanets({
                     >
                       <Image
                         src={item.icon}
-                        style={
-                          styles.planetIcon
-                        }
+                        style={styles.planetIcon}
                       />
                     </View>
                   </View>
 
-                  <Text
-                    style={
-                      styles.planetName
-                    }
-                  >
+                  <Text style={styles.planetName}>
                     {item.planet}
                   </Text>
                 </View>
 
                 <View style={styles.cardContent}>
                   <View style={styles.cardHeader}>
-                    <View
-                      style={styles.cardHeading}
-                    >
+                    <View style={styles.cardHeading}>
                       <Text
-                        style={
-                          styles.influenceLabel
-                        }
+                        style={styles.influenceLabel}
                       >
                         {item.influenceLabel}
                       </Text>
 
-                      <Text
-                        style={styles.cardTitle}
-                      >
+                      <Text style={styles.cardTitle}>
                         {item.title}
                       </Text>
                     </View>
@@ -1497,9 +1709,7 @@ export default function HoroscopeMonthDominantPlanets({
                     </Text>
                   </View>
 
-                  <Text
-                    style={styles.description}
-                  >
+                  <Text style={styles.description}>
                     {item.description}
                   </Text>
 
@@ -1531,16 +1741,12 @@ export default function HoroscopeMonthDominantPlanets({
                     }
                   >
                     <Text
-                      style={
-                        styles.adviceLabel
-                      }
+                      style={styles.adviceLabel}
                     >
                       Conseil
                     </Text>
 
-                    <Text
-                      style={styles.advice}
-                    >
+                    <Text style={styles.advice}>
                       {item.advice}
                     </Text>
                   </View>
@@ -1549,6 +1755,12 @@ export default function HoroscopeMonthDominantPlanets({
             ),
           )}
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Résumé
+        |--------------------------------------------------------------------------
+        */}
 
         <View
           style={styles.summaryCard}
@@ -1561,9 +1773,7 @@ export default function HoroscopeMonthDominantPlanets({
             style={styles.summaryWatermark}
           />
 
-          <View
-            style={styles.summaryIconCircle}
-          >
+          <View style={styles.summaryIconCircle}>
             <Image
               src={
                 HOROSCOPE_ICONS.integrationGuide
@@ -1573,15 +1783,11 @@ export default function HoroscopeMonthDominantPlanets({
           </View>
 
           <View style={styles.summaryContent}>
-            <Text
-              style={styles.summaryTitle}
-            >
+            <Text style={styles.summaryTitle}>
               Votre combinaison dominante
             </Text>
 
-            <Text
-              style={styles.summaryText}
-            >
+            <Text style={styles.summaryText}>
               {dominantNames
                 ? `Les énergies de ${dominantNames} composent votre combinaison dominante de ${periodLabel}. Appuyez-vous sur leurs forces complémentaires, tout en respectant le rythme et les ajustements indiqués dans leurs conseils.`
                 : `Les mouvements planétaires de ${periodLabel} vous invitent à avancer avec discernement, en observant les influences qui se présentent avant de prendre vos décisions.`}
