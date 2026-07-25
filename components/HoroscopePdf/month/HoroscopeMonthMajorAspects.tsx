@@ -26,6 +26,12 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyAspect,
+  MonthlyAspectType,
+  MonthlyPlanetName,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -73,151 +79,116 @@ type HoroscopeMonthMajorAspectsProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    aspects: MonthlyAspect[];
+  };
 
 type AspectTone =
   | "harmonious"
   | "dynamic"
   | "transformative";
 
-type TemporaryMonthlyAspect = {
+type DisplayMonthlyAspect = {
   id: string;
-
-  firstPlanet:
-    string;
-
-  secondPlanet:
-    string;
-
-  firstPlanetIcon:
-    string;
-
-  secondPlanetIcon:
-    string;
-
-  aspect:
-    string;
-
-  tone:
-    AspectTone;
-
-  title:
-    string;
-
-  description:
-    string;
-
-  advice:
-    string;
+  firstPlanet: MonthlyPlanetName;
+  secondPlanet: MonthlyPlanetName;
+  firstPlanetIcon: string;
+  secondPlanetIcon: string;
+  aspect: string;
+  tone: AspectTone;
+  title: string;
+  description: string;
+  advice: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Données temporaires
+| Correspondance des données astrologiques
 |--------------------------------------------------------------------------
-|
-| Elles seront remplacées plus tard par les véritables aspects calculés.
-|
 */
 
-const TEMPORARY_MONTHLY_ASPECTS:
-  TemporaryMonthlyAspect[] = [
-    {
-      id:
-        "sun-jupiter",
+function getPlanetIcon(
+  planet: MonthlyPlanetName,
+): string {
+  const iconKey =
+    planet
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        "",
+      );
 
-      firstPlanet:
-        "Soleil",
+  return (
+    HOROSCOPE_ICONS[
+      iconKey as keyof typeof HOROSCOPE_ICONS
+    ] ??
+    HOROSCOPE_ICONS.sun
+  );
+}
 
-      secondPlanet:
-        "Jupiter",
+const ASPECT_TONES:
+  Record<
+    MonthlyAspectType,
+    AspectTone
+  > = {
+    conjunction:
+      "transformative",
 
-      firstPlanetIcon:
-        HOROSCOPE_ICONS.sun,
+    sextile:
+      "harmonious",
 
-      secondPlanetIcon:
-        HOROSCOPE_ICONS.jupiter,
+    square:
+      "dynamic",
 
-      aspect:
-        "Aspect harmonieux",
+    trine:
+      "harmonious",
 
-      tone:
-        "harmonious",
+    opposition:
+      "dynamic",
+  };
 
-      title:
-        "Une dynamique d’expansion",
+const ASPECT_TITLES:
+  Record<
+    MonthlyAspectType,
+    string
+  > = {
+    conjunction:
+      "Une énergie qui se concentre",
 
-      description:
-        "Une énergie encourageante accompagne votre évolution durant ce mois. Elle favorise la confiance, l’ouverture et les décisions capables d’élargir vos possibilités.",
+    sextile:
+      "Une ouverture à développer",
 
-      advice:
-        "Avancez avec assurance, mais conservez une vision réaliste de vos priorités.",
-    },
+    square:
+      "Un ajustement nécessaire",
 
-    {
-      id:
-        "mercury-saturn",
+    trine:
+      "Une circulation plus fluide",
 
-      firstPlanet:
-        "Mercure",
+    opposition:
+      "Un équilibre à retrouver",
+  };
 
-      secondPlanet:
-        "Saturne",
+const ASPECT_ADVICES:
+  Record<
+    MonthlyAspectType,
+    string
+  > = {
+    conjunction:
+      "Canalisez cette énergie vers une intention précise afin d’éviter la dispersion.",
 
-      firstPlanetIcon:
-        HOROSCOPE_ICONS.mercury,
+    sextile:
+      "Saisissez les occasions qui se présentent et transformez-les en actions concrètes.",
 
-      secondPlanetIcon:
-        HOROSCOPE_ICONS.saturn,
+    square:
+      "Ralentissez avant de réagir et cherchez une solution qui respecte vos priorités.",
 
-      aspect:
-        "Aspect de tension",
+    trine:
+      "Appuyez-vous sur cette fluidité sans tenir les résultats pour acquis.",
 
-      tone:
-        "dynamic",
-
-      title:
-        "Des ajustements dans la communication",
-
-      description:
-        "Certaines conversations ou démarches pourraient demander davantage de patience. Les ralentissements rencontrés vous invitent à préciser vos idées avant de les exprimer.",
-
-      advice:
-        "Prenez le temps de vérifier les informations et évitez les conclusions trop rapides.",
-    },
-
-    {
-      id:
-        "venus-mars",
-
-      firstPlanet:
-        "Vénus",
-
-      secondPlanet:
-        "Mars",
-
-      firstPlanetIcon:
-        HOROSCOPE_ICONS.venus,
-
-      secondPlanetIcon:
-        HOROSCOPE_ICONS.mars,
-
-      aspect:
-        "Conjonction",
-
-      tone:
-        "transformative",
-
-      title:
-        "Une intensité relationnelle renouvelée",
-
-      description:
-        "Les émotions, les désirs et les élans affectifs peuvent se manifester avec plus de force. Cette influence soutient autant les rapprochements que les prises de conscience.",
-
-      advice:
-        "Exprimez vos besoins clairement sans chercher à provoquer une réaction immédiate.",
-    },
-  ];
+    opposition:
+      "Évitez les positions extrêmes et recherchez un compromis réellement équilibré.",
+  };
 
 /*
 |--------------------------------------------------------------------------
@@ -1094,6 +1065,88 @@ function getBadgeStyle(
   }
 }
 
+function formatAspectDate(
+  value: string,
+): string {
+  const date =
+    new Date(
+      `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
+    {
+      day: "numeric",
+      month: "long",
+    },
+  ).format(date);
+}
+
+function buildDisplayAspect(
+  aspect: MonthlyAspect,
+): DisplayMonthlyAspect {
+  const applyingLabel =
+    aspect.applying === true
+      ? " — appliquant"
+      : aspect.applying === false
+        ? " — séparant"
+        : "";
+
+  return {
+    id:
+      aspect.id,
+
+    firstPlanet:
+      aspect.planet1,
+
+    secondPlanet:
+      aspect.planet2,
+
+    firstPlanetIcon:
+      getPlanetIcon(
+        aspect.planet1,
+      ),
+
+    secondPlanetIcon:
+      getPlanetIcon(
+        aspect.planet2,
+      ),
+
+    aspect:
+      `${aspect.label}${applyingLabel}`,
+
+    tone:
+      ASPECT_TONES[
+        aspect.type
+      ],
+
+    title:
+      ASPECT_TITLES[
+        aspect.type
+      ],
+
+    description:
+      `${aspect.interpretation} Cet aspect atteint son influence la plus précise le ${formatAspectDate(
+        aspect.date,
+      )}, avec un orbe de ${aspect.orb.toFixed(
+        2,
+      )}°.`,
+
+    advice:
+      ASPECT_ADVICES[
+        aspect.type
+      ],
+  };
+}
+
 /*
 |--------------------------------------------------------------------------
 | Composant
@@ -1103,6 +1156,7 @@ function getBadgeStyle(
 export default function HoroscopeMonthMajorAspects({
   identity,
   period,
+  aspects,
 }: HoroscopeMonthMajorAspectsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1113,6 +1167,16 @@ export default function HoroscopeMonthMajorAspects({
     formatHoroscopePeriodLabel(
       period,
     );
+
+  const displayedAspects =
+    (Array.isArray(aspects)
+      ? aspects
+      : []
+    )
+      .slice(0, 3)
+      .map(
+        buildDisplayAspect,
+      );
 
   return (
     <Page
@@ -1238,7 +1302,7 @@ export default function HoroscopeMonthMajorAspects({
         </View>
 
         <View style={styles.cardsContainer}>
-          {TEMPORARY_MONTHLY_ASPECTS.map(
+          {displayedAspects.map(
             (
               item,
             ) => (
