@@ -80,9 +80,9 @@ type HoroscopeMonthBestPeriodsProps =
     | "identity"
     | "period"
   > & {
-    bestPeriods:
+    favorablePeriods:
       MonthlyAstrologyResult[
-        "bestPeriods"
+        "favorablePeriods"
       ];
   };
 
@@ -411,7 +411,7 @@ function getDefaultAdvice(
 function buildDisplayBestPeriod(
   item:
     MonthlyAstrologyResult[
-      "bestPeriods"
+      "favorablePeriods"
     ][number],
   index:
     number,
@@ -1846,7 +1846,7 @@ function getCategoryIcon(
 export default function HoroscopeMonthBestPeriods({
   identity,
   period,
-  bestPeriods,
+  favorablePeriods,
 }: HoroscopeMonthBestPeriodsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1856,9 +1856,9 @@ export default function HoroscopeMonthBestPeriods({
   const displayedPeriods =
     (
       Array.isArray(
-        bestPeriods,
+        favorablePeriods,
       )
-        ? bestPeriods
+        ? favorablePeriods
         : []
     )
       .slice(0, 4)
