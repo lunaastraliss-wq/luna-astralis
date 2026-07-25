@@ -5,6 +5,9 @@ import {
   View,
 } from "@react-pdf/renderer";
 
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
 import type {
   HoroscopeIdentity,
   HoroscopePeriodData,
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     minHeight: "100%",
     paddingTop: 46,
     paddingRight: 48,
-    paddingBottom: 46,
+    paddingBottom: 62,
     paddingLeft: 48,
     backgroundColor: "#FBF8F2",
     color: "#2E2533",
@@ -153,13 +156,13 @@ const styles = StyleSheet.create({
     width: 23,
     height: 23,
     marginRight: 10,
+    paddingTop: 7,
     borderRadius: 12,
     backgroundColor: "#5B3C63",
     color: "#FFFFFF",
     fontSize: 9,
     fontWeight: 700,
     lineHeight: 1,
-    paddingTop: 7,
     textAlign: "center",
   },
 
@@ -207,38 +210,6 @@ const styles = StyleSheet.create({
     color: "#4A3D4E",
     fontSize: 10,
     lineHeight: 1.65,
-  },
-
-  /*
-  |--------------------------------------------------------------------------
-  | Pied de page
-  |--------------------------------------------------------------------------
-  */
-
-  footer: {
-    position: "absolute",
-    right: 48,
-    bottom: 24,
-    left: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderTopWidth: 1,
-    borderTopColor: "#E4D9C8",
-    paddingTop: 8,
-  },
-
-  footerBrand: {
-    color: "#9B7441",
-    fontSize: 7,
-    fontWeight: 700,
-    letterSpacing: 1.1,
-    textTransform: "uppercase",
-  },
-
-  footerPeriod: {
-    color: "#8A808E",
-    fontSize: 7,
   },
 });
 
@@ -290,7 +261,10 @@ export default function HoroscopeMonthMantra({
       |--------------------------------------------------------------------------
       */}
 
-      <View style={styles.mantraCard}>
+      <View
+        style={styles.mantraCard}
+        wrap={false}
+      >
         <Text style={styles.mantraLabel}>
           À répéter tout au long du mois
         </Text>
@@ -307,7 +281,10 @@ export default function HoroscopeMonthMantra({
       */}
 
       <View style={styles.sections}>
-        <View style={styles.section}>
+        <View
+          style={styles.section}
+          wrap={false}
+        >
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionNumber}>
               1
@@ -323,7 +300,10 @@ export default function HoroscopeMonthMantra({
           </Text>
         </View>
 
-        <View style={styles.section}>
+        <View
+          style={styles.section}
+          wrap={false}
+        >
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionNumber}>
               2
@@ -346,7 +326,10 @@ export default function HoroscopeMonthMantra({
       |--------------------------------------------------------------------------
       */}
 
-      <View style={styles.messageCard}>
+      <View
+        style={styles.messageCard}
+        wrap={false}
+      >
         <Text style={styles.messageLabel}>
           Message de Luna Astralis
         </Text>
@@ -358,19 +341,11 @@ export default function HoroscopeMonthMantra({
 
       {/*
       |--------------------------------------------------------------------------
-      | Pied de page
+      | Pied de page commun avec numéro de page
       |--------------------------------------------------------------------------
       */}
 
-      <View style={styles.footer}>
-        <Text style={styles.footerBrand}>
-          Luna Astralis
-        </Text>
-
-        <Text style={styles.footerPeriod}>
-          {period.label}
-        </Text>
-      </View>
+      <HoroscopePageFooter />
     </Page>
   );
 }
