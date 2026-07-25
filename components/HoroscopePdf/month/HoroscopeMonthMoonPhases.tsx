@@ -26,6 +26,10 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyAstrologyResult,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -73,7 +77,12 @@ type HoroscopeMonthMoonPhasesProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    moonPhases:
+      MonthlyAstrologyResult[
+        "moonPhases"
+      ];
+  };
 
 type MoonPhaseTone =
   | "beginning"
@@ -81,193 +90,427 @@ type MoonPhaseTone =
   | "culmination"
   | "release";
 
-type TemporaryMoonPhase = {
-  id:
-    string;
-
-  order:
-    number;
-
-  name:
-    string;
-
-  period:
-    string;
-
-  tone:
-    MoonPhaseTone;
-
-  keyword:
-    string;
-
-  title:
-    string;
-
-  description:
-    string;
-
-  favorableFor:
-    string;
-
-  advice:
-    string;
-
-  icon:
-    string;
+type DisplayMoonPhase = {
+  id: string;
+  order: number;
+  name: string;
+  period: string;
+  tone: MoonPhaseTone;
+  keyword: string;
+  title: string;
+  description: string;
+  favorableFor: string;
+  advice: string;
+  icon: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Données temporaires
+| Adaptation des vraies phases lunaires
 |--------------------------------------------------------------------------
-|
-| Les périodes exactes seront remplacées par les véritables dates
-| des phases lunaires lorsque le moteur astrologique sera branché.
-|
 */
 
-const TEMPORARY_MOON_PHASES:
-  TemporaryMoonPhase[] = [
+type MoonPhaseRecord =
+  Record<
+    string,
+    unknown
+  >;
+
+function readString(
+  source:
+    MoonPhaseRecord,
+  keys:
+    string[],
+): string {
+  for (
+    const key of keys
+  ) {
+    const value =
+      source[key];
+
+    if (
+      typeof value ===
+        "string" &&
+      value.trim()
+    ) {
+      return value.trim();
+    }
+  }
+
+  return "";
+}
+
+function normalizePhaseName(
+  value:
+    string,
+): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+}
+
+function getPhaseTone(
+  phaseName:
+    string,
+): MoonPhaseTone {
+  const normalized =
+    normalizePhaseName(
+      phaseName,
+    );
+
+  if (
+    normalized.includes(
+      "nouvelle",
+    ) ||
+    normalized.includes(
+      "new moon",
+    )
+  ) {
+    return "beginning";
+  }
+
+  if (
+    normalized.includes(
+      "premier quartier",
+    ) ||
+    normalized.includes(
+      "first quarter",
+    ) ||
+    normalized.includes(
+      "croissant",
+    )
+  ) {
+    return "growth";
+  }
+
+  if (
+    normalized.includes(
+      "pleine",
+    ) ||
+    normalized.includes(
+      "full moon",
+    )
+  ) {
+    return "culmination";
+  }
+
+  return "release";
+}
+
+function getPhaseIcon(
+  tone:
+    MoonPhaseTone,
+): string {
+  switch (tone) {
+    case "beginning":
+      return HOROSCOPE_ICONS.moon;
+
+    case "growth":
+      return HOROSCOPE_ICONS.mars;
+
+    case "culmination":
+      return HOROSCOPE_ICONS.sun;
+
+    case "release":
+      return HOROSCOPE_ICONS.saturn;
+
+    default:
+      return HOROSCOPE_ICONS.moon;
+  }
+}
+
+function getPhaseKeyword(
+  tone:
+    MoonPhaseTone,
+): string {
+  switch (tone) {
+    case "beginning":
+      return "Nouveau départ";
+
+    case "growth":
+      return "Mise en action";
+
+    case "culmination":
+      return "Révélation";
+
+    case "release":
+      return "Libération";
+
+    default:
+      return "Évolution";
+  }
+}
+
+function getDefaultPhaseTitle(
+  tone:
+    MoonPhaseTone,
+): string {
+  switch (tone) {
+    case "beginning":
+      return "Définir une intention claire";
+
+    case "growth":
+      return "Transformer vos intentions en actions";
+
+    case "culmination":
+      return "Observer ce qui arrive à maturité";
+
+    case "release":
+      return "Faire de la place avant le prochain cycle";
+
+    default:
+      return "Suivre le mouvement du cycle lunaire";
+  }
+}
+
+function getDefaultFavorableText(
+  tone:
+    MoonPhaseTone,
+): string {
+  switch (tone) {
+    case "beginning":
+      return "Commencer, clarifier une priorité et définir une nouvelle direction.";
+
+    case "growth":
+      return "Agir, organiser vos démarches et relancer ce qui demande du mouvement.";
+
+    case "culmination":
+      return "Observer les résultats, reconnaître une vérité et prendre du recul.";
+
+    case "release":
+      return "Terminer, trier, pardonner et abandonner ce qui est devenu inutile.";
+
+    default:
+      return "Adapter vos actions au rythme émotionnel du moment.";
+  }
+}
+
+function getDefaultAdvice(
+  tone:
+    MoonPhaseTone,
+): string {
+  switch (tone) {
+    case "beginning":
+      return "Choisissez une intention simple, précise et réaliste.";
+
+    case "growth":
+      return "Avancez malgré les résistances, sans confondre obstacle et échec.";
+
+    case "culmination":
+      return "Accueillez vos émotions avant de prendre une décision importante.";
+
+    case "release":
+      return "Libérez-vous de ce qui vous épuise sans agir dans la précipitation.";
+
+    default:
+      return "Respectez votre rythme intérieur avant de forcer une évolution.";
+  }
+}
+
+function formatMoonPhaseDate(
+  value:
+    string,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      value.includes("T")
+        ? value
+        : `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
     {
-      id:
-        "new-moon",
+      day:
+        "numeric",
 
-      order:
-        1,
-
-      name:
-        "Nouvelle Lune",
-
-      period:
-        "Début du cycle lunaire",
-
-      tone:
-        "beginning",
-
-      keyword:
-        "Nouveau départ",
-
-      title:
-        "Définir une intention claire",
-
-      description:
-        "La Nouvelle Lune ouvre un nouveau cycle. Elle favorise l’introspection, les décisions intérieures et les intentions que vous souhaitez faire grandir au cours des semaines suivantes.",
-
-      favorableFor:
-        "Commencer un projet, clarifier une priorité, définir une nouvelle direction ou modifier une habitude.",
-
-      advice:
-        "Choisissez une intention simple et réaliste plutôt que de multiplier les objectifs.",
-
-      icon:
-        HOROSCOPE_ICONS.moon,
+      month:
+        "long",
     },
+  ).format(date);
+}
 
-    {
-      id:
-        "first-quarter",
+function buildDisplayMoonPhase(
+  phase:
+    MonthlyAstrologyResult[
+      "moonPhases"
+    ][number],
+  index:
+    number,
+): DisplayMoonPhase {
+  const source =
+    phase as unknown as
+      MoonPhaseRecord;
 
-      order:
-        2,
+  const name =
+    readString(
+      source,
+      [
+        "name",
+        "phase",
+        "phaseName",
+        "label",
+        "type",
+      ],
+    ) ||
+    `Phase lunaire ${index + 1}`;
 
-      name:
-        "Premier quartier",
+  const tone =
+    getPhaseTone(
+      name,
+    );
 
-      period:
-        "Phase de progression",
+  const rawDate =
+    readString(
+      source,
+      [
+        "date",
+        "isoDate",
+        "exactDate",
+        "occursOn",
+      ],
+    );
 
-      tone:
-        "growth",
+  const zodiacSign =
+    readString(
+      source,
+      [
+        "zodiacSignLabel",
+        "zodiacSign",
+        "signLabel",
+        "sign",
+      ],
+    );
 
-      keyword:
-        "Mise en action",
+  const formattedDate =
+    formatMoonPhaseDate(
+      rawDate,
+    );
 
-      title:
-        "Transformer vos intentions en actions",
+  const periodParts =
+    [
+      formattedDate,
+      zodiacSign
+        ? `en ${zodiacSign}`
+        : "",
+    ].filter(Boolean);
 
-      description:
-        "Le premier quartier vous encourage à agir. Les premières résistances peuvent apparaître, mais elles servent à tester votre motivation et à préciser la manière dont vous souhaitez avancer.",
+  const title =
+    readString(
+      source,
+      [
+        "title",
+        "headline",
+      ],
+    ) ||
+    getDefaultPhaseTitle(
+      tone,
+    );
 
-      favorableFor:
-        "Prendre une décision, organiser vos démarches, défendre une idée ou relancer un projet qui stagnait.",
+  const description =
+    readString(
+      source,
+      [
+        "interpretation",
+        "description",
+        "meaning",
+        "text",
+      ],
+    ) ||
+    "Cette phase lunaire marque une étape importante du cycle émotionnel et vous invite à adapter vos actions à l’énergie du moment.";
 
-      advice:
-        "Ne confondez pas un obstacle temporaire avec un signal vous demandant d’abandonner.",
+  const favorableFor =
+    readString(
+      source,
+      [
+        "favorableFor",
+        "bestFor",
+        "opportunities",
+        "focus",
+      ],
+    ) ||
+    getDefaultFavorableText(
+      tone,
+    );
 
-      icon:
-        HOROSCOPE_ICONS.mars,
-    },
+  const advice =
+    readString(
+      source,
+      [
+        "advice",
+        "guidance",
+        "recommendation",
+        "tip",
+      ],
+    ) ||
+    getDefaultAdvice(
+      tone,
+    );
 
-    {
-      id:
-        "full-moon",
+  return {
+    id:
+      readString(
+        source,
+        [
+          "id",
+          "key",
+        ],
+      ) ||
+      `moon-phase-${index + 1}`,
 
-      order:
-        3,
+    order:
+      index + 1,
 
-      name:
-        "Pleine Lune",
+    name,
 
-      period:
-        "Sommet du cycle lunaire",
+    period:
+      periodParts.join(" • ") ||
+      "Moment clé du cycle lunaire",
 
-      tone:
-        "culmination",
+    tone,
 
-      keyword:
-        "Révélation",
+    keyword:
+      readString(
+        source,
+        [
+          "keyword",
+          "theme",
+        ],
+      ) ||
+      getPhaseKeyword(
+        tone,
+      ),
 
-      title:
-        "Voir plus clairement ce qui arrive à maturité",
+    title,
 
-      description:
-        "La Pleine Lune intensifie les émotions et met en lumière les résultats d’une situation amorcée auparavant. Elle peut apporter une compréhension, une réponse ou une prise de conscience importante.",
+    description,
 
-      favorableFor:
-        "Observer les résultats obtenus, reconnaître une vérité, célébrer une progression ou prendre une décision éclairée.",
+    favorableFor,
 
-      advice:
-        "Accueillez vos émotions sans prendre immédiatement une décision sous leur influence.",
+    advice,
 
-      icon:
-        HOROSCOPE_ICONS.sun,
-    },
-
-    {
-      id:
-        "last-quarter",
-
-      order:
-        4,
-
-      name:
-        "Dernier quartier",
-
-      period:
-        "Fin du cycle lunaire",
-
-      tone:
-        "release",
-
-      keyword:
-        "Libération",
-
-      title:
-        "Faire de la place avant le prochain cycle",
-
-      description:
-        "Le dernier quartier marque une période de tri, de réflexion et de détachement. Il vous aide à identifier ce que vous ne souhaitez plus transporter dans le prochain cycle.",
-
-      favorableFor:
-        "Terminer une démarche, modifier une stratégie, ranger, pardonner ou abandonner une habitude devenue inutile.",
-
-      advice:
-        "Libérez-vous de ce qui vous épuise sans chercher à tout résoudre dans la précipitation.",
-
-      icon:
-        HOROSCOPE_ICONS.saturn,
-    },
-  ];
+    icon:
+      getPhaseIcon(
+        tone,
+      ),
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1222,6 +1465,7 @@ function getKeywordStyle(
 export default function HoroscopeMonthMoonPhases({
   identity,
   period,
+  moonPhases,
 }: HoroscopeMonthMoonPhasesProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1232,6 +1476,27 @@ export default function HoroscopeMonthMoonPhases({
     formatHoroscopePeriodLabel(
       period,
     );
+
+  const displayedPhases =
+    (
+      Array.isArray(
+        moonPhases,
+      )
+        ? moonPhases
+        : []
+    )
+      .slice(0, 4)
+      .map(
+        buildDisplayMoonPhase,
+      );
+
+  const phaseDates =
+    displayedPhases
+      .map(
+        (phase) =>
+          `${phase.name} (${phase.period})`,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1355,7 +1620,7 @@ export default function HoroscopeMonthMoonPhases({
         </View>
 
         <View style={styles.phasesGrid}>
-          {TEMPORARY_MOON_PHASES.map(
+          {displayedPhases.map(
             (
               phase,
             ) => (
@@ -1527,14 +1792,9 @@ export default function HoroscopeMonthMoonPhases({
             <Text
               style={styles.summaryText}
             >
-              Respectez les différentes étapes
-              du cycle lunaire. Tout ne doit
-              pas commencer, progresser ou se
-              terminer au même moment. En
-              adaptant vos actions au rythme
-              du mois, vous pourrez mieux
-              reconnaître quand avancer et
-              quand prendre du recul.
+              {phaseDates
+                ? `Les principaux repères lunaires de ${periodLabel} sont ${phaseDates}. Utilisez ces dates pour distinguer les moments propices aux commencements, à l’action, aux prises de conscience et au détachement.`
+                : `Les phases lunaires de ${periodLabel} vous invitent à respecter une progression naturelle : commencer, agir, comprendre puis libérer. Tout ne doit pas évoluer au même moment.`}
             </Text>
           </View>
         </View>
