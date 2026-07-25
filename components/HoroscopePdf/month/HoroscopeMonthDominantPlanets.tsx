@@ -164,9 +164,11 @@ const PLANET_TONES:
 */
 
 const PLANET_THEME_LABELS:
-  Record<
-    MonthlyPlanetName,
-    string
+  Partial<
+    Record<
+      MonthlyPlanetName,
+      string
+    >
   > = {
     Soleil:
       "Identité • Vitalité",
