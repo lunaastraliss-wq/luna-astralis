@@ -1,6 +1,7 @@
 import type {
   MonthlyActivatedHouse,
   MonthlyAspectType,
+  MonthlyPlanetName,
   MonthlyTransit,
 } from "./types";
 
@@ -27,7 +28,8 @@ type HouseScore = {
 
   challengingCount: number;
 
-  activatingPlanets: string[];
+  activatingPlanets:
+    MonthlyPlanetName[];
 
   dates: string[];
 
@@ -37,12 +39,6 @@ type HouseScore = {
 
   strongestEventScore: number;
 };
-
-type TransitRecord =
-  Record<
-    string,
-    unknown
-  >;
 
 /*
 |--------------------------------------------------------------------------
@@ -338,53 +334,31 @@ function addUniqueString(
   );
 }
 
+function addUniquePlanet(
+  values:
+    MonthlyPlanetName[],
+  value:
+    MonthlyPlanetName | undefined,
+): void {
+  if (
+    !value ||
+    values.includes(
+      value,
+    )
+  ) {
+    return;
+  }
+
+  values.push(
+    value,
+  );
+}
+
 /*
 |--------------------------------------------------------------------------
 | Lecture sécurisée des propriétés d’un transit
 |--------------------------------------------------------------------------
 */
-
-function getTransitRecord(
-  transit:
-    MonthlyTransit,
-): TransitRecord {
-  return transit as unknown as
-    TransitRecord;
-}
-
-function getTransitPlanet(
-  transit:
-    MonthlyTransit,
-): string | null {
-  const record =
-    getTransitRecord(
-      transit,
-    );
-
-  const possibleValues = [
-    record.transitingPlanet,
-    record.planet,
-    record.transitPlanet,
-    record.planetName,
-    record.movingPlanet,
-  ];
-
-  for (
-    const value
-    of possibleValues
-  ) {
-    const planet =
-      normalizeString(
-        value,
-      );
-
-    if (planet) {
-      return planet;
-    }
-  }
-
-  return null;
-}
 
 function getTransitDate(
   transit:
@@ -596,11 +570,9 @@ function addTransitToHouse({
       1;
   }
 
-  addUniqueString(
+  addUniquePlanet(
     houseScore.activatingPlanets,
-    getTransitPlanet(
-      transit,
-    ),
+    transit.transitPlanet,
   );
 
   addUniqueString(
