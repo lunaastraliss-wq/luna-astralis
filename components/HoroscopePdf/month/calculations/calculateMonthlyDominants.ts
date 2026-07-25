@@ -790,11 +790,11 @@ function buildReasons(
         score.supportiveCount > 1
           ? "s"
           : ""
-      } soutient${
-        score.supportiveCount === 1
-          ? ""
-          : "iennent"
-      } son expression.`,
+      } soutien${
+  score.supportiveCount === 1
+    ? "t"
+    : "nent"
+} son expression.`,
     );
   }
 
