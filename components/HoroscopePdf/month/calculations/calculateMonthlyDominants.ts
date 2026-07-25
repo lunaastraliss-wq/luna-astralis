@@ -298,6 +298,29 @@ function clamp(
   );
 }
 
+
+function getPlanetLabel(
+  planet:
+    MonthlyPlanetName,
+): string {
+  switch (planet) {
+    case "Soleil":
+      return "Le Soleil";
+
+    case "Lune":
+      return "La Lune";
+
+    case "Nœud Nord":
+      return "Le Nœud Nord";
+
+    case "Nœud Sud":
+      return "Le Nœud Sud";
+
+    default:
+      return planet;
+  }
+}
+
 function roundValue(
   value: number,
   decimals = 2,
@@ -914,6 +937,11 @@ function buildDescription(
     themes[1] ??
     themes[0];
 
+  const planetLabel =
+    getPlanetLabel(
+      score.planet,
+    );
+
   const tone =
     getDominantTone(
       score,
@@ -924,7 +952,7 @@ function buildDescription(
     "favorable"
   ) {
     return (
-      `${score.planet} exerce une influence constructive durant le mois. ` +
+      `${planetLabel} exerce une influence constructive durant le mois. ` +
       `Elle soutient particulièrement ${primaryTheme} et ${secondaryTheme}. ` +
       "Les occasions liées à cette planète peuvent se présenter plus naturellement lorsque vous accompagnez son énergie par des décisions concrètes."
     );
@@ -935,7 +963,7 @@ function buildDescription(
     "challenging"
   ) {
     return (
-      `${score.planet} occupe une place transformatrice durant le mois. ` +
+      `${planetLabel} occupe une place transformatrice durant le mois. ` +
       `Elle met particulièrement en mouvement ${primaryTheme} et ${secondaryTheme}. ` +
       "Certaines tensions peuvent demander une adaptation, mais elles révèlent aussi ce qui doit évoluer."
     );
@@ -946,14 +974,14 @@ function buildDescription(
     "intense"
   ) {
     return (
-      `${score.planet} concentre une énergie particulièrement forte durant le mois. ` +
-      `Les thèmes associés à ${primaryTheme} et ${secondaryTheme} prennent davantage de place. ` +
+      `${planetLabel} concentre une énergie particulièrement forte durant le mois. ` +
+      `Les thèmes suivants prennent davantage de place : ${primaryTheme} et ${secondaryTheme}. ` +
       "Cette influence gagne à être dirigée vers une priorité claire."
     );
   }
 
   return (
-    `${score.planet} accompagne plusieurs mouvements importants du mois. ` +
+    `${planetLabel} accompagne plusieurs mouvements importants du mois. ` +
     `Son influence touche surtout ${primaryTheme} et ${secondaryTheme}. ` +
     "Elle invite à maintenir un équilibre entre les occasions de progression et les ajustements nécessaires."
   );
