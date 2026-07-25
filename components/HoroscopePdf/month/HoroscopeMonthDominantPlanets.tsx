@@ -225,67 +225,27 @@ function getInfluenceLabel(
   return "Influence complémentaire";
 }
 
-function formatStrongestDate(
-  value?:
-    string,
-): string {
-  if (!value) {
-    return "";
-  }
-
-  const date =
-    new Date(
-      `${value}T12:00:00`,
-    );
-
-  if (
-    Number.isNaN(
-      date.getTime(),
-    )
-  ) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat(
-    "fr-CA",
-    {
-      day:
-        "numeric",
-
-      month:
-        "long",
-    },
-  ).format(date);
-}
-
 function buildInfluenceText(
   planet:
     MonthlyDominantPlanet,
 ): string {
-  const eventsCount =
-    planet.aspectCount +
-    planet.transitCount;
+  const reasons =
+    Array.isArray(
+      planet.reasons,
+    )
+      ? planet.reasons
+      : [];
 
-  const strongestDate =
-    formatStrongestDate(
-      planet.strongestDate,
-    );
-
-  const eventLabel =
-    eventsCount > 1
-      ? `${eventsCount} mouvements astrologiques`
-      : eventsCount === 1
-        ? "1 mouvement astrologique"
-        : "l’équilibre général du ciel";
-
-  const dateText =
-    strongestDate
-      ? ` Son influence atteint un point particulièrement marqué autour du ${strongestDate}.`
+  const reasonsText =
+    reasons.length > 0
+      ? ` ${reasons
+          .slice(0, 2)
+          .join(" ")}`
       : "";
 
   return (
-    `${planet.influenceLevel} avec un score de ${planet.score} %. ` +
-    `Cette planète ressort à travers ${eventLabel}.${dateText}`
+    `Cette planète obtient un score d’influence de ${planet.score} %.` +
+    reasonsText
   );
 }
 
@@ -296,14 +256,22 @@ function buildDisplayDominantPlanet(
     number,
 ): DisplayDominantPlanet {
   const rank =
+    planet.rank ??
     index + 1;
 
-  const themes =
-    planet.themes.length > 0
-      ? planet.themes
-      : [
-          "évolution",
-        ];
+  const reasons =
+    Array.isArray(
+      planet.reasons,
+    )
+      ? planet.reasons
+      : [];
+
+  const theme =
+    reasons.length > 0
+      ? reasons
+          .slice(0, 2)
+          .join(" • ")
+      : "Influence astrologique majeure";
 
   return {
     id:
@@ -329,18 +297,13 @@ function buildDisplayDominantPlanet(
         planet.planet,
       ),
 
-    theme:
-      themes
-        .slice(0, 2)
-        .join(" • "),
+    theme,
 
     title:
-      rank === 1
-        ? `${planet.planet}, planète dominante du mois`
-        : `${planet.planet}, influence majeure no ${rank}`,
+      planet.title,
 
     description:
-      planet.interpretation,
+      planet.description,
 
     influence:
       buildInfluenceText(
