@@ -54,6 +54,7 @@ import {
 import type {
   MonthlyHoroscopeIdentity,
   MonthlyHoroscopePeriod,
+  MonthlyMantraResult,
 } from "./month/data/types";
 
 import {
@@ -68,9 +69,7 @@ import {
   buildMonthlyMantra,
 } from "./month/mantra/buildMonthlyMantra";
 
-import type {
-  MonthlyMantraResult,
-} from "./month/mantra/buildMonthlyMantra";
+
 /*
 |--------------------------------------------------------------------------
 | Types
