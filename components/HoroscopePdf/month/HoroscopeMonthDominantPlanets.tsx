@@ -144,16 +144,7 @@ const PLANET_TONES:
 
     Pluton:
       "action",
-
-    Chiron:
-      "relationships",
-
-    "Nœud Nord":
-      "expansion",
-
-    "Nœud Sud":
-      "relationships",
-  };
+    };
 
 /*
 |--------------------------------------------------------------------------
