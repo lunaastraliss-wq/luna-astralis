@@ -13,141 +13,195 @@ import type {
 */
 
 type PlanetDefinition = {
-  planet: MonthlyPlanetName;
+  planet:
+    MonthlyPlanetName;
+
   baseWeight: number;
+
   themes: string[];
 };
 
 const PLANET_DEFINITIONS:
   PlanetDefinition[] = [
     {
-      planet: "Soleil",
+      planet:
+        "Soleil",
+
       baseWeight: 8,
+
       themes: [
-        "identité",
-        "affirmation",
-        "vitalité",
-        "direction personnelle",
+        "l’identité",
+        "l’affirmation",
+        "la vitalité",
+        "la direction personnelle",
       ],
     },
+
     {
-      planet: "Lune",
+      planet:
+        "Lune",
+
       baseWeight: 6,
+
       themes: [
-        "émotions",
-        "intuition",
-        "sécurité intérieure",
-        "besoins personnels",
+        "les émotions",
+        "l’intuition",
+        "la sécurité intérieure",
+        "les besoins personnels",
       ],
     },
+
     {
-      planet: "Mercure",
+      planet:
+        "Mercure",
+
       baseWeight: 6,
+
       themes: [
-        "communication",
-        "réflexion",
-        "échanges",
-        "décisions",
+        "la communication",
+        "la réflexion",
+        "les échanges",
+        "les décisions",
       ],
     },
+
     {
-      planet: "Vénus",
+      planet:
+        "Vénus",
+
       baseWeight: 7,
+
       themes: [
-        "relations",
-        "attirance",
-        "harmonie",
-        "valeurs",
+        "les relations",
+        "l’attirance",
+        "l’harmonie",
+        "les valeurs",
       ],
     },
+
     {
-      planet: "Mars",
+      planet:
+        "Mars",
+
       baseWeight: 8,
+
       themes: [
-        "action",
-        "désir",
-        "courage",
-        "initiative",
+        "l’action",
+        "le désir",
+        "le courage",
+        "l’initiative",
       ],
     },
+
     {
-      planet: "Jupiter",
+      planet:
+        "Jupiter",
+
       baseWeight: 9,
+
       themes: [
-        "expansion",
-        "occasions",
-        "confiance",
-        "évolution",
+        "l’expansion",
+        "les occasions",
+        "la confiance",
+        "l’évolution",
       ],
     },
+
     {
-      planet: "Saturne",
+      planet:
+        "Saturne",
+
       baseWeight: 10,
+
       themes: [
-        "responsabilités",
-        "structure",
-        "limites",
-        "maturité",
+        "les responsabilités",
+        "la structure",
+        "les limites",
+        "la maturité",
       ],
     },
+
     {
-      planet: "Uranus",
+      planet:
+        "Uranus",
+
       baseWeight: 9,
+
       themes: [
-        "changements",
-        "liberté",
-        "surprises",
-        "renouveau",
+        "les changements",
+        "la liberté",
+        "les surprises",
+        "le renouveau",
       ],
     },
+
     {
-      planet: "Neptune",
+      planet:
+        "Neptune",
+
       baseWeight: 9,
+
       themes: [
-        "intuition",
-        "inspiration",
-        "sensibilité",
-        "idéaux",
+        "l’intuition",
+        "l’inspiration",
+        "la sensibilité",
+        "les idéaux",
       ],
     },
+
     {
-      planet: "Pluton",
+      planet:
+        "Pluton",
+
       baseWeight: 10,
+
       themes: [
-        "transformation",
-        "vérité",
-        "pouvoir intérieur",
-        "renaissance",
+        "la transformation",
+        "la vérité",
+        "le pouvoir intérieur",
+        "la renaissance",
       ],
     },
+
     {
-      planet: "Chiron",
+      planet:
+        "Chiron",
+
       baseWeight: 7,
+
       themes: [
-        "guérison",
-        "vulnérabilité",
-        "compréhension",
-        "réparation",
+        "la guérison",
+        "la vulnérabilité",
+        "la compréhension",
+        "la réparation",
       ],
     },
+
     {
-      planet: "Nœud Nord",
+      planet:
+        "Nœud Nord",
+
       baseWeight: 8,
+
       themes: [
-        "évolution",
-        "direction",
-        "apprentissage",
-        "destin",
+        "l’évolution",
+        "la direction",
+        "l’apprentissage",
+        "le chemin personnel",
       ],
     },
+
     {
-      planet: "Nœud Sud",
+      planet:
+        "Nœud Sud",
+
       baseWeight: 6,
+
       themes: [
-        "passé",
-        "habitudes",
-        "détachement",
-        "expérience acquise",
+        "le passé",
+        "les habitudes",
+        "le détachement",
+        "l’expérience acquise",
       ],
     },
   ];
@@ -172,7 +226,10 @@ const PLANET_MAP =
 */
 
 const ASPECT_WEIGHT:
-  Record<MonthlyAspectType, number> = {
+  Record<
+    MonthlyAspectType,
+    number
+  > = {
     conjunction: 12,
     sextile: 6,
     square: 10,
@@ -180,28 +237,33 @@ const ASPECT_WEIGHT:
     opposition: 11,
   };
 
-const CHALLENGING_ASPECTS =
-  new Set<MonthlyAspectType>([
-    "square",
-    "opposition",
-  ]);
-
 const SUPPORTIVE_ASPECTS =
-  new Set<MonthlyAspectType>([
+  new Set<
+    MonthlyAspectType
+  >([
     "sextile",
     "trine",
   ]);
 
+const CHALLENGING_ASPECTS =
+  new Set<
+    MonthlyAspectType
+  >([
+    "square",
+    "opposition",
+  ]);
+
 /*
 |--------------------------------------------------------------------------
-| Structure interne
+| Structure interne du score
 |--------------------------------------------------------------------------
 */
 
 type PlanetScore = {
-  planet: MonthlyPlanetName;
+  planet:
+    MonthlyPlanetName;
 
-  score: number;
+  rawScore: number;
 
   aspectCount: number;
   transitCount: number;
@@ -222,20 +284,6 @@ type PlanetScore = {
 |--------------------------------------------------------------------------
 */
 
-function roundValue(
-  value: number,
-  decimals = 2,
-): number {
-  const multiplier =
-    10 ** decimals;
-
-  return (
-    Math.round(
-      value * multiplier,
-    ) / multiplier
-  );
-}
-
 function clamp(
   value: number,
   minimum: number,
@@ -250,16 +298,33 @@ function clamp(
   );
 }
 
+function roundValue(
+  value: number,
+  decimals = 2,
+): number {
+  const multiplier =
+    10 ** decimals;
+
+  return (
+    Math.round(
+      value * multiplier,
+    ) / multiplier
+  );
+}
+
 function createPlanetScore(
-  planet: MonthlyPlanetName,
+  planet:
+    MonthlyPlanetName,
 ): PlanetScore {
   const definition =
-    PLANET_MAP.get(planet);
+    PLANET_MAP.get(
+      planet,
+    );
 
   return {
     planet,
 
-    score:
+    rawScore:
       definition?.baseWeight ??
       5,
 
@@ -276,15 +341,22 @@ function createPlanetScore(
   };
 }
 
-function getOrCreateScore(
+function getOrCreateScore({
+  scores,
+  planet,
+}: {
   scores: Map<
     MonthlyPlanetName,
     PlanetScore
-  >,
-  planet: MonthlyPlanetName,
-): PlanetScore {
+  >;
+
+  planet:
+    MonthlyPlanetName;
+}): PlanetScore {
   const existing =
-    scores.get(planet);
+    scores.get(
+      planet,
+    );
 
   if (existing) {
     return existing;
@@ -303,30 +375,35 @@ function getOrCreateScore(
   return created;
 }
 
-function registerStrongestDate({
+function registerStrongestEvent({
   score,
   date,
   eventScore,
 }: {
-  score: PlanetScore;
+  score:
+    PlanetScore;
+
   date: string;
+
   eventScore: number;
 }): void {
   if (
-    eventScore >
+    eventScore <=
     score.strongestEventScore
   ) {
-    score.strongestEventScore =
-      eventScore;
-
-    score.strongestDate =
-      date;
+    return;
   }
+
+  score.strongestEventScore =
+    eventScore;
+
+  score.strongestDate =
+    date;
 }
 
 /*
 |--------------------------------------------------------------------------
-| Contribution des aspects célestes
+| Contribution des aspects généraux
 |--------------------------------------------------------------------------
 */
 
@@ -338,7 +415,9 @@ function addAspectContribution({
     MonthlyPlanetName,
     PlanetScore
   >;
-  aspect: MonthlyAspect;
+
+  aspect:
+    MonthlyAspect;
 }): void {
   const aspectWeight =
     ASPECT_WEIGHT[
@@ -349,14 +428,21 @@ function addAspectContribution({
     Number.isFinite(
       aspect.importance,
     )
-      ? aspect.importance
+      ? clamp(
+          aspect.importance,
+          0,
+          100,
+        )
       : 50;
 
   const orb =
     Number.isFinite(
       aspect.orb,
     )
-      ? aspect.orb
+      ? Math.max(
+          0,
+          aspect.orb,
+        )
       : 5;
 
   const precisionBonus =
@@ -371,22 +457,26 @@ function addAspectContribution({
     importance / 10 +
     precisionBonus;
 
-  const planets = [
-    aspect.planet1,
-    aspect.planet2,
-  ];
+  const planets:
+    MonthlyPlanetName[] = [
+      aspect.planet1,
+      aspect.planet2,
+    ];
 
-  for (const planet of planets) {
+  for (
+    const planet
+    of planets
+  ) {
     const score =
-      getOrCreateScore(
+      getOrCreateScore({
         scores,
         planet,
-      );
+      });
+
+    score.rawScore +=
+      eventScore;
 
     score.aspectCount += 1;
-
-    score.score +=
-      eventScore;
 
     score.exactnessScore +=
       precisionBonus;
@@ -414,9 +504,10 @@ function addAspectContribution({
       score.conjunctionCount += 1;
     }
 
-    registerStrongestDate({
+    registerStrongestEvent({
       score,
-      date: aspect.date,
+      date:
+        aspect.date,
       eventScore,
     });
   }
@@ -436,26 +527,27 @@ function addTransitContribution({
     MonthlyPlanetName,
     PlanetScore
   >;
-  transit: MonthlyTransit;
+
+  transit:
+    MonthlyTransit;
 }): void {
-  const transitPlanet =
-    transit.transitPlanet;
-
-  if (!transitPlanet) {
-    return;
-  }
-
   const score =
-    getOrCreateScore(
+    getOrCreateScore({
       scores,
-      transitPlanet,
-    );
+
+      planet:
+        transit.transitPlanet,
+    });
 
   const importance =
     Number.isFinite(
       transit.importance,
     )
-      ? transit.importance
+      ? clamp(
+          transit.importance,
+          0,
+          100,
+        )
       : 50;
 
   const orb =
@@ -464,7 +556,10 @@ function addTransitContribution({
       Number.isFinite(
         transit.orb,
       )
-      ? transit.orb
+      ? Math.max(
+          0,
+          transit.orb,
+        )
       : 5;
 
   const precisionBonus =
@@ -482,16 +577,14 @@ function addTransitContribution({
       : 5;
 
   const eventScore =
-    aspectWeight +
-    importance / 8 +
-    precisionBonus;
+    (
+      aspectWeight +
+      importance / 8 +
+      precisionBonus
+    ) * 1.35;
 
-  /*
-   * Les transits personnalisés comptent
-   * davantage que les aspects généraux.
-   */
-  score.score +=
-    eventScore * 1.35;
+  score.rawScore +=
+    eventScore;
 
   score.transitCount += 1;
 
@@ -523,64 +616,97 @@ function addTransitContribution({
     score.conjunctionCount += 1;
   }
 
-  registerStrongestDate({
+  registerStrongestEvent({
     score,
-    date: transit.date,
-    eventScore:
-      eventScore * 1.35,
+
+    date:
+      transit.date,
+
+    eventScore,
   });
+
+  /*
+   * Une planète natale impliquée reçoit également
+   * une contribution plus légère.
+   */
+  if (
+    transit.natalPlanet
+  ) {
+    const natalScore =
+      getOrCreateScore({
+        scores,
+
+        planet:
+          transit.natalPlanet,
+      });
+
+    const natalContribution =
+      eventScore * 0.45;
+
+    natalScore.rawScore +=
+      natalContribution;
+
+    natalScore.transitCount += 1;
+
+    if (
+      transit.aspect &&
+      SUPPORTIVE_ASPECTS.has(
+        transit.aspect,
+      )
+    ) {
+      natalScore.supportiveCount += 1;
+    }
+
+    if (
+      transit.aspect &&
+      CHALLENGING_ASPECTS.has(
+        transit.aspect,
+      )
+    ) {
+      natalScore.challengingCount += 1;
+    }
+
+    if (
+      transit.aspect ===
+      "conjunction"
+    ) {
+      natalScore.conjunctionCount += 1;
+    }
+
+    registerStrongestEvent({
+      score:
+        natalScore,
+
+      date:
+        transit.date,
+
+      eventScore:
+        natalContribution,
+    });
+  }
 }
 
 /*
 |--------------------------------------------------------------------------
-| Niveau d’influence
+| Tonalité dominante
 |--------------------------------------------------------------------------
 */
 
-function getInfluenceLevel(
-  normalizedScore: number,
-): string {
-  if (
-    normalizedScore >= 85
-  ) {
-    return "Très dominante";
-  }
+type DominantTone =
+  | "favorable"
+  | "challenging"
+  | "intense"
+  | "balanced";
 
-  if (
-    normalizedScore >= 70
-  ) {
-    return "Dominante";
-  }
-
-  if (
-    normalizedScore >= 55
-  ) {
-    return "Marquée";
-  }
-
-  if (
-    normalizedScore >= 40
-  ) {
-    return "Présente";
-  }
-
-  return "Secondaire";
-}
-
-/*
-|--------------------------------------------------------------------------
-| Tonalité de la planète
-|--------------------------------------------------------------------------
-*/
-
-function getPlanetTone(
-  score: PlanetScore,
-): string {
+function getDominantTone(
+  score:
+    PlanetScore,
+): DominantTone {
   if (
     score.challengingCount >
     score.supportiveCount + 1
   ) {
-    return "transformatrice";
+    return "challenging";
   }
 
   if (
@@ -596,17 +722,179 @@ function getPlanetTone(
     return "intense";
   }
 
-  return "équilibrée";
+  return "balanced";
 }
 
 /*
 |--------------------------------------------------------------------------
-| Interprétation
+| Raisons expliquant la dominance
 |--------------------------------------------------------------------------
 */
 
-function buildInterpretation(
-  score: PlanetScore,
+function buildReasons(
+  score:
+    PlanetScore,
+): string[] {
+  const reasons:
+    string[] = [];
+
+  if (
+    score.transitCount > 0
+  ) {
+    reasons.push(
+      `${score.transitCount} transit${
+        score.transitCount > 1
+          ? "s"
+          : ""
+      } personnalisé${
+        score.transitCount > 1
+          ? "s"
+          : ""
+      } implique${
+        score.transitCount > 1
+          ? "nt"
+          : ""
+      } cette planète.`,
+    );
+  }
+
+  if (
+    score.aspectCount > 0
+  ) {
+    reasons.push(
+      `${score.aspectCount} aspect${
+        score.aspectCount > 1
+          ? "s"
+          : ""
+      } important${
+        score.aspectCount > 1
+          ? "s"
+          : ""
+      } influence${
+        score.aspectCount > 1
+          ? "nt"
+          : ""
+      } son énergie.`,
+    );
+  }
+
+  if (
+    score.supportiveCount > 0
+  ) {
+    reasons.push(
+      `${score.supportiveCount} configuration${
+        score.supportiveCount > 1
+          ? "s"
+          : ""
+      } favorable${
+        score.supportiveCount > 1
+          ? "s"
+          : ""
+      } soutient${
+        score.supportiveCount === 1
+          ? ""
+          : "iennent"
+      } son expression.`,
+    );
+  }
+
+  if (
+    score.challengingCount > 0
+  ) {
+    reasons.push(
+      `${score.challengingCount} configuration${
+        score.challengingCount > 1
+          ? "s"
+          : ""
+      } exigeante${
+        score.challengingCount > 1
+          ? "s"
+          : ""
+      } demande${
+        score.challengingCount > 1
+          ? "nt"
+          : ""
+      } des ajustements.`,
+    );
+  }
+
+  if (
+    score.conjunctionCount > 0
+  ) {
+    reasons.push(
+      `${score.conjunctionCount} conjonction${
+        score.conjunctionCount > 1
+          ? "s"
+          : ""
+      } concentre${
+        score.conjunctionCount > 1
+          ? "nt"
+          : ""
+      } fortement son influence.`,
+    );
+  }
+
+  if (
+    score.exactnessScore >= 10
+  ) {
+    reasons.push(
+      "Plusieurs aspects précis renforcent son importance durant le mois.",
+    );
+  }
+
+  if (
+    score.strongestDate
+  ) {
+    reasons.push(
+      `Son influence atteint un point particulièrement marqué autour du ${score.strongestDate}.`,
+    );
+  }
+
+  if (
+    reasons.length === 0
+  ) {
+    reasons.push(
+      "Son poids astrologique naturel lui donne une place notable dans l’équilibre général du mois.",
+    );
+  }
+
+  return reasons.slice(
+    0,
+    4,
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Titre
+|--------------------------------------------------------------------------
+*/
+
+function buildTitle({
+  planet,
+  rank,
+}: {
+  planet:
+    MonthlyPlanetName;
+
+  rank: number;
+}): string {
+  if (rank === 1) {
+    return `${planet}, planète dominante du mois`;
+  }
+
+  return `${planet}, influence majeure no ${rank}`;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Description
+|--------------------------------------------------------------------------
+*/
+
+function buildDescription(
+  score:
+    PlanetScore,
 ): string {
   const definition =
     PLANET_MAP.get(
@@ -614,16 +902,10 @@ function buildInterpretation(
     );
 
   const themes =
-    definition?.themes ??
-    [
-      "évolution",
-      "prise de conscience",
+    definition?.themes ?? [
+      "l’évolution",
+      "la prise de conscience",
     ];
-
-  const tone =
-    getPlanetTone(
-      score,
-    );
 
   const primaryTheme =
     themes[0];
@@ -632,39 +914,47 @@ function buildInterpretation(
     themes[1] ??
     themes[0];
 
+  const tone =
+    getDominantTone(
+      score,
+    );
+
   if (
-    tone === "favorable"
+    tone ===
+    "favorable"
   ) {
     return (
-      `${score.planet} exerce une influence favorable sur le mois. ` +
-      `Elle soutient particulièrement les thèmes de ${primaryTheme} et de ${secondaryTheme}. ` +
-      "Les occasions peuvent se présenter plus naturellement, à condition de rester attentive aux gestes concrets qui permettent de les saisir."
+      `${score.planet} exerce une influence constructive durant le mois. ` +
+      `Elle soutient particulièrement ${primaryTheme} et ${secondaryTheme}. ` +
+      "Les occasions liées à cette planète peuvent se présenter plus naturellement lorsque vous accompagnez son énergie par des décisions concrètes."
     );
   }
 
   if (
-    tone === "transformatrice"
+    tone ===
+    "challenging"
   ) {
     return (
       `${score.planet} occupe une place transformatrice durant le mois. ` +
-      `Elle met en mouvement les thèmes de ${primaryTheme} et de ${secondaryTheme}. ` +
-      "Certaines tensions peuvent demander une adaptation, mais elles servent aussi à révéler ce qui doit évoluer."
+      `Elle met particulièrement en mouvement ${primaryTheme} et ${secondaryTheme}. ` +
+      "Certaines tensions peuvent demander une adaptation, mais elles révèlent aussi ce qui doit évoluer."
     );
   }
 
   if (
-    tone === "intense"
+    tone ===
+    "intense"
   ) {
     return (
-      `${score.planet} concentre une énergie particulièrement intense. ` +
-      `Les thèmes de ${primaryTheme} et de ${secondaryTheme} prennent davantage de place. ` +
-      "Cette influence gagne à être dirigée vers un objectif précis afin d’éviter la dispersion."
+      `${score.planet} concentre une énergie particulièrement forte durant le mois. ` +
+      `Les thèmes associés à ${primaryTheme} et ${secondaryTheme} prennent davantage de place. ` +
+      "Cette influence gagne à être dirigée vers une priorité claire."
     );
   }
 
   return (
     `${score.planet} accompagne plusieurs mouvements importants du mois. ` +
-    `Son influence touche surtout les thèmes de ${primaryTheme} et de ${secondaryTheme}. ` +
+    `Son influence touche surtout ${primaryTheme} et ${secondaryTheme}. ` +
     "Elle invite à maintenir un équilibre entre les occasions de progression et les ajustements nécessaires."
   );
 }
@@ -676,64 +966,60 @@ function buildInterpretation(
 */
 
 function buildAdvice(
-  score: PlanetScore,
+  score:
+    PlanetScore,
 ): string {
   const tone =
-    getPlanetTone(
+    getDominantTone(
       score,
     );
 
-  if (
-    tone === "favorable"
-  ) {
-    return "Profitez des ouvertures présentes, mais transformez-les en décisions et en actions concrètes.";
-  }
+  switch (tone) {
+    case "favorable":
+      return "Profitez des ouvertures présentes et transformez-les en décisions et en actions concrètes.";
 
-  if (
-    tone === "transformatrice"
-  ) {
-    return "Ne résistez pas automatiquement au changement : observez ce que cette influence cherche à réorganiser.";
-  }
+    case "challenging":
+      return "Ne résistez pas automatiquement au changement : observez ce que cette influence cherche à réorganiser.";
 
-  if (
-    tone === "intense"
-  ) {
-    return "Canalisez votre énergie vers une priorité claire et évitez de vouloir tout régler en même temps.";
-  }
+    case "intense":
+      return "Canalisez votre énergie vers une priorité claire et évitez de vouloir tout régler en même temps.";
 
-  return "Avancez avec constance et ajustez votre rythme selon les événements plutôt que de forcer les résultats.";
+    case "balanced":
+      return "Avancez avec constance et ajustez votre rythme selon les événements plutôt que de forcer les résultats.";
+  }
 }
 
 /*
 |--------------------------------------------------------------------------
-| Conversion vers le résultat final
+| Conversion vers MonthlyDominantPlanet
 |--------------------------------------------------------------------------
 */
 
 function convertToDominantPlanet({
-  score,
+  planetScore,
   maximumScore,
+  rank,
 }: {
-  score: PlanetScore;
+  planetScore:
+    PlanetScore;
+
   maximumScore: number;
+
+  rank: number;
 }): MonthlyDominantPlanet {
   const normalizedScore =
     maximumScore > 0
       ? Math.round(
           (
-            score.score /
+            planetScore.rawScore /
             maximumScore
           ) * 100,
         )
-      : 0;
-
-  const definition =
-    PLANET_MAP.get(
-      score.planet,
-    );
+      : 1;
 
   return {
-    planet: score.planet,
+    planet:
+      planetScore.planet,
 
     score:
       clamp(
@@ -742,43 +1028,29 @@ function convertToDominantPlanet({
         100,
       ),
 
-    influenceLevel:
-      getInfluenceLevel(
-        normalizedScore,
+    rank,
+
+    reasons:
+      buildReasons(
+        planetScore,
       ),
 
-    tone:
-      getPlanetTone(
-        score,
-      ),
+    title:
+      buildTitle({
+        planet:
+          planetScore.planet,
 
-    themes:
-      definition?.themes ??
-      [],
+        rank,
+      }),
 
-    aspectCount:
-      score.aspectCount,
-
-    transitCount:
-      score.transitCount,
-
-    supportiveCount:
-      score.supportiveCount,
-
-    challengingCount:
-      score.challengingCount,
-
-    strongestDate:
-      score.strongestDate,
-
-    interpretation:
-      buildInterpretation(
-        score,
+    description:
+      buildDescription(
+        planetScore,
       ),
 
     advice:
       buildAdvice(
-        score,
+        planetScore,
       ),
   };
 }
@@ -794,8 +1066,12 @@ export function calculateMonthlyDominants({
   transits,
   limit = 5,
 }: {
-  aspects: MonthlyAspect[];
-  transits: MonthlyTransit[];
+  aspects:
+    MonthlyAspect[];
+
+  transits:
+    MonthlyTransit[];
+
   limit?: number;
 }): MonthlyDominantPlanet[] {
   const scores =
@@ -810,20 +1086,27 @@ export function calculateMonthlyDominants({
   ) {
     scores.set(
       definition.planet,
+
       createPlanetScore(
         definition.planet,
       ),
     );
   }
 
-  for (const aspect of aspects) {
+  for (
+    const aspect
+    of aspects
+  ) {
     addAspectContribution({
       scores,
       aspect,
     });
   }
 
-  for (const transit of transits) {
+  for (
+    const transit
+    of transits
+  ) {
     addTransitContribution({
       scores,
       transit,
@@ -838,13 +1121,13 @@ export function calculateMonthlyDominants({
         first,
         second,
       ) =>
-        second.score -
-        first.score,
+        second.rawScore -
+        first.rawScore,
     );
 
   const maximumScore =
-    sortedScores[0]?.score ??
-    1;
+    sortedScores[0]
+      ?.rawScore ?? 1;
 
   return sortedScores
     .slice(
@@ -855,10 +1138,16 @@ export function calculateMonthlyDominants({
       ),
     )
     .map(
-      (score) =>
+      (
+        planetScore,
+        index,
+      ) =>
         convertToDominantPlanet({
-          score,
+          planetScore,
           maximumScore,
+
+          rank:
+            index + 1,
         }),
     );
 }
