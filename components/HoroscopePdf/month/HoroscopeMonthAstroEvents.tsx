@@ -25,6 +25,10 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyAstrologyResult,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -75,7 +79,12 @@ type HoroscopeMonthAstroEventsProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    astroEvents:
+      MonthlyAstrologyResult[
+        "astroEvents"
+      ];
+  };
 
 type AstroEventTone =
   | "movement"
@@ -83,178 +92,490 @@ type AstroEventTone =
   | "alignment"
   | "transition";
 
-type TemporaryAstroEvent = {
-  id:
-    string;
-
-  date:
-    string;
-
-  event:
-    string;
-
-  tone:
-    AstroEventTone;
-
-  category:
-    string;
-
-  title:
-    string;
-
-  description:
-    string;
-
-  impact:
-    string;
-
-  advice:
-    string;
-
-  icon:
-    string;
+type DisplayAstroEvent = {
+  id: string;
+  date: string;
+  event: string;
+  tone: AstroEventTone;
+  category: string;
+  title: string;
+  description: string;
+  impact: string;
+  advice: string;
+  icon: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Données temporaires
+| Adaptation des vrais événements astrologiques
 |--------------------------------------------------------------------------
-|
-| Les dates et les événements seront remplacés par les véritables
-| mouvements astrologiques calculés pour le mois sélectionné.
-|
 */
 
-const TEMPORARY_ASTRO_EVENTS:
-  TemporaryAstroEvent[] = [
+type AstroEventRecord =
+  Record<
+    string,
+    unknown
+  >;
+
+function readString(
+  source:
+    AstroEventRecord,
+  keys:
+    string[],
+): string {
+  for (
+    const key of keys
+  ) {
+    const value =
+      source[key];
+
+    if (
+      typeof value ===
+        "string" &&
+      value.trim()
+    ) {
+      return value.trim();
+    }
+  }
+
+  return "";
+}
+
+function normalizeEventText(
+  value:
+    string,
+): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+}
+
+function getEventTone(
+  eventName:
+    string,
+  category:
+    string,
+): AstroEventTone {
+  const normalized =
+    normalizeEventText(
+      `${eventName} ${category}`,
+    );
+
+  if (
+    normalized.includes(
+      "retrograde",
+    ) ||
+    normalized.includes(
+      "station",
+    )
+  ) {
+    return "retrograde";
+  }
+
+  if (
+    normalized.includes(
+      "conjonction",
+    ) ||
+    normalized.includes(
+      "trigone",
+    ) ||
+    normalized.includes(
+      "sextile",
+    ) ||
+    normalized.includes(
+      "alignement",
+    ) ||
+    normalized.includes(
+      "aspect",
+    )
+  ) {
+    return "alignment";
+  }
+
+  if (
+    normalized.includes(
+      "entre en",
+    ) ||
+    normalized.includes(
+      "change de signe",
+    ) ||
+    normalized.includes(
+      "ingress",
+    ) ||
+    normalized.includes(
+      "transition",
+    )
+  ) {
+    return "transition";
+  }
+
+  return "movement";
+}
+
+function getEventCategory(
+  tone:
+    AstroEventTone,
+  fallback:
+    string,
+): string {
+  if (fallback) {
+    return fallback;
+  }
+
+  switch (tone) {
+    case "retrograde":
+      return "Révision";
+
+    case "alignment":
+      return "Alignement";
+
+    case "transition":
+      return "Transition";
+
+    case "movement":
+    default:
+      return "Mouvement";
+  }
+}
+
+function getPlanetIcon(
+  value:
+    string,
+): string {
+  const normalized =
+    normalizeEventText(
+      value,
+    );
+
+  if (
+    normalized.includes(
+      "mercure",
+    ) ||
+    normalized.includes(
+      "mercury",
+    )
+  ) {
+    return HOROSCOPE_ICONS.mercury;
+  }
+
+  if (
+    normalized.includes(
+      "venus",
+    )
+  ) {
+    return HOROSCOPE_ICONS.venus;
+  }
+
+  if (
+    normalized.includes(
+      "mars",
+    )
+  ) {
+    return HOROSCOPE_ICONS.mars;
+  }
+
+  if (
+    normalized.includes(
+      "jupiter",
+    )
+  ) {
+    return HOROSCOPE_ICONS.jupiter;
+  }
+
+  if (
+    normalized.includes(
+      "saturne",
+    ) ||
+    normalized.includes(
+      "saturn",
+    )
+  ) {
+    return HOROSCOPE_ICONS.saturn;
+  }
+
+  if (
+    normalized.includes(
+      "uranus",
+    )
+  ) {
+    return HOROSCOPE_ICONS.uranus;
+  }
+
+  if (
+    normalized.includes(
+      "neptune",
+    )
+  ) {
+    return HOROSCOPE_ICONS.neptune;
+  }
+
+  if (
+    normalized.includes(
+      "pluton",
+    ) ||
+    normalized.includes(
+      "pluto",
+    )
+  ) {
+    return HOROSCOPE_ICONS.pluto;
+  }
+
+  if (
+    normalized.includes(
+      "lune",
+    ) ||
+    normalized.includes(
+      "moon",
+    )
+  ) {
+    return HOROSCOPE_ICONS.moon;
+  }
+
+  return HOROSCOPE_ICONS.sun;
+}
+
+function formatEventDate(
+  value:
+    string,
+): string {
+  if (!value) {
+    return "Date à confirmer";
+  }
+
+  const date =
+    new Date(
+      value.includes("T")
+        ? value
+        : `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
     {
-      id:
-        "astro-event-mercury",
+      day:
+        "numeric",
 
-      date:
-        "7 du mois",
-
-      event:
-        "Mercure change de signe",
-
-      tone:
-        "movement",
-
-      category:
-        "Communication",
-
-      title:
-        "Une nouvelle manière de réfléchir et de communiquer",
-
-      description:
-        "Le déplacement de Mercure modifie progressivement le climat des échanges, des décisions et de l’organisation mentale. Certaines conversations peuvent devenir plus directes, plus précises ou plus constructives.",
-
-      impact:
-        "Cette influence peut vous aider à clarifier une idée, à reprendre une démarche ou à formuler plus précisément ce que vous souhaitez obtenir.",
-
-      advice:
-        "Utilisez cette période pour poser les bonnes questions et mettre par écrit les décisions importantes.",
-
-      icon:
-        HOROSCOPE_ICONS.mercury,
+      month:
+        "long",
     },
+  ).format(date);
+}
 
-    {
-      id:
-        "astro-event-retrograde",
+function getDefaultTitle(
+  tone:
+    AstroEventTone,
+): string {
+  switch (tone) {
+    case "retrograde":
+      return "Une période de révision et d’ajustement";
 
-      date:
-        "14 du mois",
+    case "alignment":
+      return "Un alignement qui modifie le climat du mois";
 
-      event:
-        "Une planète ralentit",
+    case "transition":
+      return "Une nouvelle dynamique commence à émerger";
 
-      tone:
-        "retrograde",
+    case "movement":
+    default:
+      return "Un mouvement céleste attire votre attention";
+  }
+}
 
-      category:
-        "Révision",
+function getDefaultImpact(
+  tone:
+    AstroEventTone,
+): string {
+  switch (tone) {
+    case "retrograde":
+      return "Cette influence peut faire revenir un dossier, une décision ou une situation qui demande davantage de recul.";
 
-      title:
-        "Une période de recul utile avant la prochaine étape",
+    case "alignment":
+      return "Cette configuration peut renforcer une opportunité, une prise de conscience ou un changement de perspective.";
 
-      description:
-        "Un mouvement rétrograde invite à ralentir et à revoir ce qui a été construit récemment. Il peut faire ressortir une responsabilité, une erreur ou une décision qui demande un ajustement.",
+    case "transition":
+      return "Cette transition peut déplacer progressivement vos priorités vers un nouveau domaine de vie.";
 
-      impact:
-        "Vous pourriez ressentir le besoin de reprendre un dossier, de corriger une stratégie ou de réfléchir davantage avant de poursuivre dans la même direction.",
+    case "movement":
+    default:
+      return "Ce mouvement peut modifier le rythme de vos échanges, de vos décisions ou de vos initiatives.";
+  }
+}
 
-      advice:
-        "Ne voyez pas les retards comme un échec. Utilisez-les pour renforcer ce qui doit l’être.",
+function getDefaultAdvice(
+  tone:
+    AstroEventTone,
+): string {
+  switch (tone) {
+    case "retrograde":
+      return "Prenez le temps de corriger, vérifier et consolider avant de poursuivre.";
 
-      icon:
-        HOROSCOPE_ICONS.saturn,
-    },
+    case "alignment":
+      return "Profitez de cette fenêtre pour agir avec clarté et coordonner vos efforts.";
 
-    {
-      id:
-        "astro-event-alignment",
+    case "transition":
+      return "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.";
 
-      date:
-        "21 du mois",
+    case "movement":
+    default:
+      return "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.";
+  }
+}
 
-      event:
-        "Alignement harmonieux",
+function buildDisplayAstroEvent(
+  item:
+    MonthlyAstrologyResult[
+      "astroEvents"
+    ][number],
+  index:
+    number,
+): DisplayAstroEvent {
+  const source =
+    item as unknown as
+      AstroEventRecord;
 
-      tone:
-        "alignment",
+  const event =
+    readString(
+      source,
+      [
+        "event",
+        "name",
+        "label",
+        "type",
+      ],
+    ) ||
+    `Événement astrologique ${index + 1}`;
 
-      category:
-        "Opportunité",
+  const rawCategory =
+    readString(
+      source,
+      [
+        "category",
+        "theme",
+        "kind",
+      ],
+    );
 
-      title:
-        "Un climat plus favorable à la coopération et au progrès",
+  const tone =
+    getEventTone(
+      event,
+      rawCategory,
+    );
 
-      description:
-        "Un aspect harmonieux entre plusieurs influences peut faciliter les échanges, la créativité et la recherche de solutions. Ce climat favorise les initiatives qui reposent sur une vision claire.",
+  const date =
+    formatEventDate(
+      readString(
+        source,
+        [
+          "date",
+          "isoDate",
+          "exactDate",
+          "occursOn",
+          "startDate",
+        ],
+      ),
+    );
 
-      impact:
-        "Cette période peut soutenir une discussion importante, une démarche professionnelle ou une décision qui nécessite confiance et collaboration.",
+  const title =
+    readString(
+      source,
+      [
+        "title",
+        "headline",
+      ],
+    ) ||
+    getDefaultTitle(
+      tone,
+    );
 
-      advice:
-        "Avancez sur les projets qui demandent de la diplomatie, de la créativité ou l’appui d’une autre personne.",
+  const description =
+    readString(
+      source,
+      [
+        "description",
+        "interpretation",
+        "meaning",
+        "text",
+      ],
+    ) ||
+    "Cet événement astrologique modifie le climat général du mois et peut mettre en lumière une nouvelle priorité, un ajustement ou une évolution importante.";
 
-      icon:
-        HOROSCOPE_ICONS.jupiter,
-    },
+  const impact =
+    readString(
+      source,
+      [
+        "impact",
+        "influence",
+        "effect",
+        "possibleImpact",
+      ],
+    ) ||
+    getDefaultImpact(
+      tone,
+    );
 
-    {
-      id:
-        "astro-event-sun",
+  const advice =
+    readString(
+      source,
+      [
+        "advice",
+        "guidance",
+        "recommendation",
+        "tip",
+      ],
+    ) ||
+    getDefaultAdvice(
+      tone,
+    );
 
-      date:
-        "28 du mois",
+  return {
+    id:
+      readString(
+        source,
+        [
+          "id",
+          "key",
+        ],
+      ) ||
+      `astro-event-${index + 1}`,
 
-      event:
-        "Le Soleil change de signe",
+    date,
 
-      tone:
-        "transition",
+    event,
 
-      category:
-        "Transition",
+    tone,
 
-      title:
-        "Une nouvelle priorité commence à émerger",
+    category:
+      getEventCategory(
+        tone,
+        rawCategory,
+      ),
 
-      description:
-        "Le changement de signe du Soleil marque une transition dans l’énergie générale du mois. Vos préoccupations peuvent progressivement se déplacer vers un nouveau domaine de vie.",
+    title,
 
-      impact:
-        "Cette influence peut vous aider à tourner votre attention vers un objectif différent, à terminer une étape ou à préparer le mois suivant avec davantage de clarté.",
+    description,
 
-      advice:
-        "Observez ce qui perd de son importance et ce qui commence naturellement à réclamer votre attention.",
+    impact,
 
-      icon:
-        HOROSCOPE_ICONS.sun,
-    },
-  ];
+    advice,
+
+    icon:
+      getPlanetIcon(
+        event,
+      ),
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1675,11 +1996,33 @@ function getEventCategoryStyle(
 export default function HoroscopeMonthAstroEvents({
   identity,
   period,
+  astroEvents,
 }: HoroscopeMonthAstroEventsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
       identity.zodiacSign,
     );
+
+  const displayedEvents =
+    (
+      Array.isArray(
+        astroEvents,
+      )
+        ? astroEvents
+        : []
+    )
+      .slice(0, 4)
+      .map(
+        buildDisplayAstroEvent,
+      );
+
+  const eventNames =
+    displayedEvents
+      .map(
+        (item) =>
+          `${item.event} (${item.date})`,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1856,14 +2199,14 @@ export default function HoroscopeMonthAstroEvents({
         </View>
 
         <View style={styles.eventsContainer}>
-          {TEMPORARY_ASTRO_EVENTS.map(
+          {displayedEvents.map(
             (
               item,
               index,
             ) => {
               const isLast =
                 index ===
-                TEMPORARY_ASTRO_EVENTS.length -
+                displayedEvents.length -
                   1;
 
               return (
@@ -2076,14 +2419,9 @@ export default function HoroscopeMonthAstroEvents({
             <Text
               style={styles.closingText}
             >
-              Certains mouvements vous
-              encouragent à agir, tandis que
-              d’autres vous invitent à réviser
-              votre approche. En observant ces
-              changements de rythme, vous pouvez
-              choisir plus consciemment les
-              périodes où avancer, ajuster ou
-              prendre du recul.
+              {eventNames
+                ? `Les principaux événements de ${period.label} sont ${eventNames}. Certains encouragent l’action, tandis que d’autres demandent une révision ou une transition. Utilisez ces repères pour choisir plus consciemment quand avancer, ajuster ou ralentir.`
+                : `Durant ${period.label}, aucun événement astrologique majeur n’a été retenu pour cette page. Observez néanmoins les changements de rythme du mois afin d’adapter vos décisions avec davantage de conscience.`}
             </Text>
           </View>
         </View>
