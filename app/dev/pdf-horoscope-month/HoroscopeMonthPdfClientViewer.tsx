@@ -43,6 +43,7 @@ export default function HoroscopeMonthPdfClientViewer({
           weeks={horoscope.weeks}
           majorEnergies={horoscope.majorEnergies}
           zodiacIconUrl={horoscope.zodiacIconUrl}
+          astrology={horoscope.astrology}
         />
       </PDFViewer>
     </main>
