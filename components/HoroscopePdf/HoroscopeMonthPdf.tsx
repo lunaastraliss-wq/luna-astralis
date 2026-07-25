@@ -72,6 +72,9 @@ import HoroscopeMonthWeek3
 import HoroscopeMonthWeek4
   from "./month/HoroscopeMonthWeek4";
 
+import HoroscopeMonthMantra
+  from "./month/HoroscopeMonthMantra";
+
 /*
 |--------------------------------------------------------------------------
 | Propriétés du document mensuel
@@ -87,6 +90,7 @@ type HoroscopeMonthPdfProps =
     | "weeks"
     | "majorEnergies"
     | "astrology"
+    | "mantra"
     | "zodiacIconUrl"
   > & {
     logoUrl?: string;
@@ -105,6 +109,7 @@ export default function HoroscopeMonthPdf({
   weeks,
   majorEnergies,
   astrology,
+  mantra,
   logoUrl,
   zodiacIconUrl,
 }: HoroscopeMonthPdfProps) {
@@ -182,6 +187,9 @@ export default function HoroscopeMonthPdf({
         }
         zodiacSignLabel={
           identity.zodiacSignLabel
+        }
+        zodiacIconUrl={
+          zodiacIconUrl
         }
       />
 
@@ -323,6 +331,18 @@ export default function HoroscopeMonthPdf({
         identity={identity}
         period={period}
         week={weeks.week4}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Guidance intérieure
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeMonthMantra
+        identity={identity}
+        period={period}
+        mantra={mantra}
       />
 
       {/*
