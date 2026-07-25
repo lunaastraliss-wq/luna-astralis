@@ -26,6 +26,11 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyDominantPlanet,
+  MonthlyPlanetName,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -73,17 +78,20 @@ type HoroscopeMonthDominantPlanetsProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    dominantPlanets:
+      MonthlyDominantPlanet[];
+  };
 
 type DominantPlanetTone =
   | "expansion"
   | "relationships"
   | "action";
 
-type TemporaryDominantPlanet = {
+type DisplayDominantPlanet = {
   id: string;
   rank: number;
-  planet: string;
+  planet: MonthlyPlanetName;
   icon: string;
   influenceLabel: string;
   tone: DominantPlanetTone;
@@ -96,117 +104,253 @@ type TemporaryDominantPlanet = {
 
 /*
 |--------------------------------------------------------------------------
-| Données temporaires
+| Correspondance des données astrologiques
 |--------------------------------------------------------------------------
 */
 
-const TEMPORARY_DOMINANT_PLANETS:
-  TemporaryDominantPlanet[] = [
-    {
-      id:
-        "dominant-jupiter",
+const PLANET_TONES:
+  Partial<
+    Record<
+      MonthlyPlanetName,
+      DominantPlanetTone
+    >
+  > = {
+    Jupiter:
+      "expansion",
 
-      rank:
-        1,
+    Vénus:
+      "relationships",
 
-      planet:
-        "Jupiter",
+    Lune:
+      "relationships",
 
-      icon:
-        HOROSCOPE_ICONS.jupiter,
+    Mars:
+      "action",
 
-      influenceLabel:
-        "Influence principale",
+    Soleil:
+      "action",
 
-      tone:
-        "expansion",
+    Pluton:
+      "action",
+  };
 
-      theme:
-        "Expansion",
+function normalizePlanetIconKey(
+  planet:
+    MonthlyPlanetName,
+): keyof typeof HOROSCOPE_ICONS {
+  const normalized =
+    planet
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(
+        /[\u0300-\u036f]/g,
+        "",
+      );
 
-      title:
-        "Une volonté de progresser et d’élargir vos possibilités",
+  const iconKeyMap:
+    Record<
+      string,
+      keyof typeof HOROSCOPE_ICONS
+    > = {
+      soleil:
+        "sun",
 
-      description:
-        "Jupiter représente la croissance, la confiance et l’ouverture vers de nouvelles possibilités. Son influence dominante vous encourage à dépasser certaines limites et à envisager votre avenir avec davantage d’optimisme.",
+      lune:
+        "moon",
 
-      influence:
-        "Cette énergie peut soutenir les projets ambitieux, les apprentissages, les démarches professionnelles et les décisions qui vous permettent d’évoluer.",
+      mercure:
+        "mercury",
 
-      advice:
-        "Voyez grand, mais avancez avec une stratégie réaliste et des objectifs clairement définis.",
-    },
+      venus:
+        "venus",
 
-    {
-      id:
-        "dominant-venus",
+      mars:
+        "mars",
 
-      rank:
-        2,
+      jupiter:
+        "jupiter",
 
-      planet:
-        "Vénus",
+      saturne:
+        "saturn",
 
-      icon:
-        HOROSCOPE_ICONS.venus,
+      uranus:
+        "uranus",
 
-      influenceLabel:
-        "Influence secondaire",
+      neptune:
+        "neptune",
 
-      tone:
-        "relationships",
+      pluton:
+        "pluto",
+    };
 
-      theme:
-        "Relations",
+  return (
+    iconKeyMap[normalized] ??
+    "sun"
+  );
+}
 
-      title:
-        "Un besoin plus marqué d’harmonie et de proximité",
-
-      description:
-        "Vénus met l’accent sur les relations, l’affection, les plaisirs et la manière dont vous reconnaissez votre propre valeur. Elle adoucit certaines tensions et favorise des échanges plus chaleureux.",
-
-      influence:
-        "Vous pourriez accorder davantage d’importance à votre vie affective, à votre environnement et aux relations qui contribuent réellement à votre bien-être.",
-
-      advice:
-        "Recherchez l’harmonie sans taire vos besoins ni accepter des compromis qui vous désavantagent.",
-    },
-
-    {
-      id:
-        "dominant-mars",
-
-      rank:
-        3,
-
-      planet:
-        "Mars",
-
-      icon:
-        HOROSCOPE_ICONS.mars,
-
-      influenceLabel:
-        "Influence dynamique",
-
-      tone:
-        "action",
-
-      theme:
-        "Action",
-
-      title:
-        "Une énergie qui vous pousse à agir plus directement",
-
-      description:
-        "Mars représente l’action, le courage, le désir et la manière dont vous défendez vos intérêts. Son influence augmente votre volonté d’avancer, mais peut également accentuer votre impatience.",
-
-      influence:
-        "Cette énergie est utile pour prendre une décision, affirmer une limite, défendre un projet ou reprendre le contrôle d’une situation qui stagnait.",
-
-      advice:
-        "Utilisez votre détermination pour construire, plutôt que pour réagir sous le coup de l’impulsion.",
-    },
+function getPlanetIcon(
+  planet:
+    MonthlyPlanetName,
+): string {
+  return HOROSCOPE_ICONS[
+    normalizePlanetIconKey(
+      planet,
+    )
   ];
+}
+
+function getPlanetTone(
+  planet:
+    MonthlyPlanetName,
+): DominantPlanetTone {
+  return (
+    PLANET_TONES[planet] ??
+    "expansion"
+  );
+}
+
+function getInfluenceLabel(
+  rank:
+    number,
+): string {
+  if (rank === 1) {
+    return "Influence principale";
+  }
+
+  if (rank === 2) {
+    return "Influence secondaire";
+  }
+
+  return "Influence complémentaire";
+}
+
+function formatStrongestDate(
+  value?:
+    string,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
+    {
+      day:
+        "numeric",
+
+      month:
+        "long",
+    },
+  ).format(date);
+}
+
+function buildInfluenceText(
+  planet:
+    MonthlyDominantPlanet,
+): string {
+  const eventsCount =
+    planet.aspectCount +
+    planet.transitCount;
+
+  const strongestDate =
+    formatStrongestDate(
+      planet.strongestDate,
+    );
+
+  const eventLabel =
+    eventsCount > 1
+      ? `${eventsCount} mouvements astrologiques`
+      : eventsCount === 1
+        ? "1 mouvement astrologique"
+        : "l’équilibre général du ciel";
+
+  const dateText =
+    strongestDate
+      ? ` Son influence atteint un point particulièrement marqué autour du ${strongestDate}.`
+      : "";
+
+  return (
+    `${planet.influenceLevel} avec un score de ${planet.score} %. ` +
+    `Cette planète ressort à travers ${eventLabel}.${dateText}`
+  );
+}
+
+function buildDisplayDominantPlanet(
+  planet:
+    MonthlyDominantPlanet,
+  index:
+    number,
+): DisplayDominantPlanet {
+  const rank =
+    index + 1;
+
+  const themes =
+    planet.themes.length > 0
+      ? planet.themes
+      : [
+          "évolution",
+        ];
+
+  return {
+    id:
+      `dominant-${planet.planet}-${rank}`,
+
+    rank,
+
+    planet:
+      planet.planet,
+
+    icon:
+      getPlanetIcon(
+        planet.planet,
+      ),
+
+    influenceLabel:
+      getInfluenceLabel(
+        rank,
+      ),
+
+    tone:
+      getPlanetTone(
+        planet.planet,
+      ),
+
+    theme:
+      themes
+        .slice(0, 2)
+        .join(" • "),
+
+    title:
+      rank === 1
+        ? `${planet.planet}, planète dominante du mois`
+        : `${planet.planet}, influence majeure no ${rank}`,
+
+    description:
+      planet.interpretation,
+
+    influence:
+      buildInfluenceText(
+        planet,
+      ),
+
+    advice:
+      planet.advice,
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1169,6 +1313,7 @@ function getThemeStyle(
 export default function HoroscopeMonthDominantPlanets({
   identity,
   period,
+  dominantPlanets,
 }: HoroscopeMonthDominantPlanetsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1179,6 +1324,27 @@ export default function HoroscopeMonthDominantPlanets({
     formatHoroscopePeriodLabel(
       period,
     );
+
+  const displayedPlanets =
+    (
+      Array.isArray(
+        dominantPlanets,
+      )
+        ? dominantPlanets
+        : []
+    )
+      .slice(0, 3)
+      .map(
+        buildDisplayDominantPlanet,
+      );
+
+  const dominantNames =
+    displayedPlanets
+      .map(
+        (item) =>
+          item.planet,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1278,7 +1444,7 @@ export default function HoroscopeMonthDominantPlanets({
         </View>
 
         <View style={styles.cardsContainer}>
-          {TEMPORARY_DOMINANT_PLANETS.map(
+          {displayedPlanets.map(
             (
               item,
             ) => (
@@ -1453,15 +1619,9 @@ export default function HoroscopeMonthDominantPlanets({
             <Text
               style={styles.summaryText}
             >
-              Ce mois combine une volonté
-              d’expansion, un besoin
-              d’harmonie relationnelle et une
-              énergie d’action plus directe.
-              Votre équilibre dépendra de
-              votre capacité à avancer avec
-              confiance sans négliger vos
-              limites ni les besoins des
-              personnes qui vous entourent.
+              {dominantNames
+                ? `Les énergies de ${dominantNames} composent votre combinaison dominante de ${periodLabel}. Appuyez-vous sur leurs forces complémentaires, tout en respectant le rythme et les ajustements indiqués dans leurs conseils.`
+                : `Les mouvements planétaires de ${periodLabel} vous invitent à avancer avec discernement, en observant les influences qui se présentent avant de prendre vos décisions.`}
             </Text>
           </View>
         </View>
