@@ -1,5 +1,6 @@
 import type {
   MonthlyMoonPhase,
+  MonthlyMoonPhaseName,
   MonthlyPlanetPosition,
   MonthlySkySnapshot,
 } from "./types";
@@ -11,17 +12,14 @@ import type {
 */
 
 type MoonPhaseDefinition = {
-  type:
-    | "new-moon"
-    | "first-quarter"
-    | "full-moon"
-    | "last-quarter";
-
-  label: string;
+  phase:
+    MonthlyMoonPhaseName;
 
   angle: number;
 
-  interpretation: string;
+  title: string;
+
+  description: string;
 
   advice: string;
 };
@@ -29,12 +27,15 @@ type MoonPhaseDefinition = {
 const MOON_PHASE_DEFINITIONS:
   MoonPhaseDefinition[] = [
     {
-      type: "new-moon",
-      label:
+      phase:
         "Nouvelle Lune",
+
       angle: 0,
 
-      interpretation:
+      title:
+        "Nouvelle Lune — Nouveau départ",
+
+      description:
         "La Nouvelle Lune marque le début d’un nouveau cycle émotionnel. Elle favorise les intentions, les décisions intérieures et les projets qui doivent encore prendre forme.",
 
       advice:
@@ -42,13 +43,15 @@ const MOON_PHASE_DEFINITIONS:
     },
 
     {
-      type:
-        "first-quarter",
-      label:
+      phase:
         "Premier quartier",
+
       angle: 90,
 
-      interpretation:
+      title:
+        "Premier quartier — Décision et mouvement",
+
+      description:
         "Le premier quartier crée une énergie de mouvement et de décision. Les intentions posées précédemment rencontrent leurs premiers défis et demandent une action concrète.",
 
       advice:
@@ -56,12 +59,15 @@ const MOON_PHASE_DEFINITIONS:
     },
 
     {
-      type: "full-moon",
-      label:
+      phase:
         "Pleine Lune",
+
       angle: 180,
 
-      interpretation:
+      title:
+        "Pleine Lune — Culmination et révélation",
+
+      description:
         "La Pleine Lune représente un moment de culmination, de révélation ou de prise de conscience. Les émotions peuvent devenir plus visibles et une situation peut atteindre un point décisif.",
 
       advice:
@@ -69,13 +75,15 @@ const MOON_PHASE_DEFINITIONS:
     },
 
     {
-      type:
-        "last-quarter",
-      label:
+      phase:
         "Dernier quartier",
+
       angle: 270,
 
-      interpretation:
+      title:
+        "Dernier quartier — Bilan et détachement",
+
+      description:
         "Le dernier quartier invite à faire le bilan du cycle en cours. Il favorise les ajustements, le détachement et la préparation d’une nouvelle étape.",
 
       advice:
@@ -99,8 +107,6 @@ type DailyLunarData = {
     MonthlyPlanetPosition;
 
   phaseAngle: number;
-
-  illumination: number;
 };
 
 type PhaseCandidate = {
@@ -110,8 +116,7 @@ type PhaseCandidate = {
   data:
     DailyLunarData;
 
-  distance:
-    number;
+  distance: number;
 };
 
 /*
@@ -129,40 +134,30 @@ function normalizeAngle(
   );
 }
 
-function roundValue(
-  value: number,
-  decimals = 2,
+function getCircularDistance(
+  angle: number,
+  targetAngle: number,
 ): number {
-  const multiplier =
-    10 ** decimals;
+  const difference =
+    Math.abs(
+      normalizeAngle(
+        angle,
+      ) -
+        normalizeAngle(
+          targetAngle,
+        ),
+    );
 
-  return (
-    Math.round(
-      value * multiplier,
-    ) / multiplier
-  );
-}
-
-function clamp(
-  value: number,
-  minimum: number,
-  maximum: number,
-): number {
-  return Math.max(
-    minimum,
-    Math.min(
-      maximum,
-      value,
-    ),
+  return Math.min(
+    difference,
+    360 - difference,
   );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Angle de phase
+| Angle de phase lunaire
 |--------------------------------------------------------------------------
-|
-| L’angle est calculé de manière directionnelle :
 |
 | 0°   = Nouvelle Lune
 | 90°  = Premier quartier
@@ -186,42 +181,6 @@ function calculatePhaseAngle({
 
 /*
 |--------------------------------------------------------------------------
-| Illumination approximative
-|--------------------------------------------------------------------------
-|
-| 0 %   = Nouvelle Lune
-| 100 % = Pleine Lune
-|
-*/
-
-function calculateIllumination(
-  phaseAngle: number,
-): number {
-  const radians =
-    (
-      phaseAngle *
-      Math.PI
-    ) / 180;
-
-  const illuminatedFraction =
-    (
-      1 -
-      Math.cos(radians)
-    ) / 2;
-
-  return roundValue(
-    clamp(
-      illuminatedFraction *
-        100,
-      0,
-      100,
-    ),
-    1,
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
 | Recherche des planètes
 |--------------------------------------------------------------------------
 */
@@ -229,34 +188,46 @@ function calculateIllumination(
 function findPlanet(
   snapshot:
     MonthlySkySnapshot,
-  planetName:
+
+  planet:
     "Soleil" | "Lune",
 ): MonthlyPlanetPosition | null {
   return (
     snapshot.positions.find(
       (position) =>
         position.planet ===
-        planetName,
+        planet,
     ) ?? null
   );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Données lunaires quotidiennes
+| Construction des données lunaires quotidiennes
 |--------------------------------------------------------------------------
 */
 
 function buildDailyLunarData(
-  snapshots:
+  skySnapshots:
     MonthlySkySnapshot[],
 ): DailyLunarData[] {
   const results:
     DailyLunarData[] = [];
 
+  const sortedSnapshots =
+    [...skySnapshots].sort(
+      (
+        first,
+        second,
+      ) =>
+        first.date.localeCompare(
+          second.date,
+        ),
+    );
+
   for (
     const snapshot
-    of snapshots
+    of sortedSnapshots
   ) {
     const sun =
       findPlanet(
@@ -277,15 +248,6 @@ function buildDailyLunarData(
       continue;
     }
 
-    const phaseAngle =
-      calculatePhaseAngle({
-        sunLongitude:
-          sun.longitude,
-
-        moonLongitude:
-          moon.longitude,
-      });
-
     results.push({
       date:
         snapshot.date,
@@ -293,53 +255,23 @@ function buildDailyLunarData(
       sun,
       moon,
 
-      phaseAngle,
+      phaseAngle:
+        calculatePhaseAngle({
+          sunLongitude:
+            sun.longitude,
 
-      illumination:
-        calculateIllumination(
-          phaseAngle,
-        ),
+          moonLongitude:
+            moon.longitude,
+        }),
     });
   }
 
-  return results.sort(
-    (
-      first,
-      second,
-    ) =>
-      first.date.localeCompare(
-        second.date,
-      ),
-  );
+  return results;
 }
 
 /*
 |--------------------------------------------------------------------------
-| Distance circulaire
-|--------------------------------------------------------------------------
-*/
-
-function getCircularDistance(
-  angle: number,
-  targetAngle: number,
-): number {
-  const rawDifference =
-    Math.abs(
-      normalizeAngle(angle) -
-        normalizeAngle(
-          targetAngle,
-        ),
-    );
-
-  return Math.min(
-    rawDifference,
-    360 - rawDifference,
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| Détection du passage exact
+| Passage autour de l’angle exact
 |--------------------------------------------------------------------------
 */
 
@@ -348,7 +280,9 @@ function unwrapAngleAroundTarget(
   targetAngle: number,
 ): number {
   let difference =
-    normalizeAngle(angle) -
+    normalizeAngle(
+      angle,
+    ) -
     normalizeAngle(
       targetAngle,
     );
@@ -410,7 +344,7 @@ function crossesTarget({
 
 /*
 |--------------------------------------------------------------------------
-| Sélection de la meilleure journée
+| Sélection des journées candidates
 |--------------------------------------------------------------------------
 */
 
@@ -437,10 +371,14 @@ function selectPhaseCandidates({
       dailyData[index];
 
     const previous =
-      dailyData[index - 1];
+      dailyData[
+        index - 1
+      ];
 
     const next =
-      dailyData[index + 1];
+      dailyData[
+        index + 1
+      ];
 
     const distance =
       getCircularDistance(
@@ -476,23 +414,27 @@ function selectPhaseCandidates({
           })
         : false;
 
-    const isLocalMinimum =
-      (
-        !previous ||
-        distance <=
-          getCircularDistance(
+    const previousDistance =
+      previous
+        ? getCircularDistance(
             previous.phaseAngle,
             definition.angle,
           )
-      ) &&
-      (
-        !next ||
-        distance <=
-          getCircularDistance(
+        : Number.POSITIVE_INFINITY;
+
+    const nextDistance =
+      next
+        ? getCircularDistance(
             next.phaseAngle,
             definition.angle,
           )
-      );
+        : Number.POSITIVE_INFINITY;
+
+    const isLocalMinimum =
+      distance <=
+        previousDistance &&
+      distance <=
+        nextDistance;
 
     if (
       crossedFromPrevious ||
@@ -512,11 +454,37 @@ function selectPhaseCandidates({
 
 /*
 |--------------------------------------------------------------------------
+| Différence entre deux dates
+|--------------------------------------------------------------------------
+*/
+
+function getDayDifference(
+  firstDate: string,
+  secondDate: string,
+): number {
+  const first =
+    new Date(
+      `${firstDate}T12:00:00Z`,
+    );
+
+  const second =
+    new Date(
+      `${secondDate}T12:00:00Z`,
+    );
+
+  return Math.abs(
+    second.getTime() -
+      first.getTime(),
+  ) / 86_400_000;
+}
+
+/*
+|--------------------------------------------------------------------------
 | Suppression des doublons
 |--------------------------------------------------------------------------
 |
-| Une phase peut être détectée sur deux journées voisines.
-| On conserve uniquement la journée la plus proche de l’angle exact.
+| Une même phase peut être détectée sur deux journées voisines.
+| On conserve la journée la plus proche de l’angle exact.
 |
 */
 
@@ -524,15 +492,27 @@ function removeDuplicateCandidates(
   candidates:
     PhaseCandidate[],
 ): PhaseCandidate[] {
-  const sortedCandidates =
+  const sorted =
     [...candidates].sort(
       (
         first,
         second,
-      ) =>
-        first.data.date.localeCompare(
+      ) => {
+        const phaseDifference =
+          first.definition.phase.localeCompare(
+            second.definition.phase,
+          );
+
+        if (
+          phaseDifference !== 0
+        ) {
+          return phaseDifference;
+        }
+
+        return first.data.date.localeCompare(
           second.data.date,
-        ),
+        );
+      },
     );
 
   const selected:
@@ -540,16 +520,14 @@ function removeDuplicateCandidates(
 
   for (
     const candidate
-    of sortedCandidates
+    of sorted
   ) {
-    const previousSelected =
+    const previous =
       selected[
         selected.length - 1
       ];
 
-    if (
-      !previousSelected
-    ) {
+    if (!previous) {
       selected.push(
         candidate,
       );
@@ -557,35 +535,25 @@ function removeDuplicateCandidates(
       continue;
     }
 
-    const previousDate =
-      new Date(
-        `${previousSelected.data.date}T12:00:00Z`,
-      );
-
-    const currentDate =
-      new Date(
-        `${candidate.data.date}T12:00:00Z`,
-      );
-
-    const differenceInDays =
-      Math.abs(
-        currentDate.getTime() -
-          previousDate.getTime(),
-      ) /
-      86_400_000;
-
     const samePhase =
-      previousSelected
-        .definition.type ===
-      candidate.definition.type;
+      previous.definition
+        .phase ===
+      candidate.definition
+        .phase;
+
+    const nearby =
+      getDayDifference(
+        previous.data.date,
+        candidate.data.date,
+      ) <= 2;
 
     if (
       samePhase &&
-      differenceInDays <= 2
+      nearby
     ) {
       if (
         candidate.distance <
-        previousSelected.distance
+        previous.distance
       ) {
         selected[
           selected.length - 1
@@ -605,83 +573,7 @@ function removeDuplicateCandidates(
 
 /*
 |--------------------------------------------------------------------------
-| Construction de l’identifiant
-|--------------------------------------------------------------------------
-*/
-
-function cleanIdPart(
-  value: string,
-): string {
-  return value
-    .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      "",
-    )
-    .replace(
-      /[^a-zA-Z0-9]+/g,
-      "-",
-    )
-    .replace(
-      /^-+|-+$/g,
-      "",
-    )
-    .toLowerCase();
-}
-
-/*
-|--------------------------------------------------------------------------
-| Ton énergétique
-|--------------------------------------------------------------------------
-*/
-
-function getPhaseTone(
-  phaseType:
-    MoonPhaseDefinition["type"],
-): string {
-  switch (phaseType) {
-    case "new-moon":
-      return "introspective";
-
-    case "first-quarter":
-      return "dynamique";
-
-    case "full-moon":
-      return "intense";
-
-    case "last-quarter":
-      return "libératrice";
-  }
-}
-
-/*
-|--------------------------------------------------------------------------
-| Thème principal
-|--------------------------------------------------------------------------
-*/
-
-function getPhaseTheme(
-  phaseType:
-    MoonPhaseDefinition["type"],
-): string {
-  switch (phaseType) {
-    case "new-moon":
-      return "Nouveau départ";
-
-    case "first-quarter":
-      return "Décision et mouvement";
-
-    case "full-moon":
-      return "Culmination et révélation";
-
-    case "last-quarter":
-      return "Bilan et détachement";
-  }
-}
-
-/*
-|--------------------------------------------------------------------------
-| Conversion vers le résultat
+| Conversion vers MonthlyMoonPhase
 |--------------------------------------------------------------------------
 */
 
@@ -692,64 +584,32 @@ function convertCandidateToPhase(
   const {
     definition,
     data,
-    distance,
   } = candidate;
 
   return {
-    id:
-      `${data.date}-` +
-      `${cleanIdPart(
-        definition.type,
-      )}`,
+    phase:
+      definition.phase,
 
     date:
       data.date,
 
-    type:
-      definition.type,
-
-    label:
-      definition.label,
-
-    phaseAngle:
-      roundValue(
-        data.phaseAngle,
-      ),
-
-    exactAngle:
-      definition.angle,
-
-    orb:
-      roundValue(
-        distance,
-      ),
-
-    illumination:
-      data.illumination,
-
-    moonSign:
+    sign:
       data.moon.sign,
 
-    moonSignLabel:
-      data.moon.signLabel,
+    signLabel:
+      data.moon
+        .signLabel,
 
-    moonDegree:
-      roundValue(
-        data.moon.degree,
-      ),
+    longitude:
+      data.moon
+        .longitude,
 
-    tone:
-      getPhaseTone(
-        definition.type,
-      ),
+    title:
+      `${definition.title} en ${data.moon.signLabel}`,
 
-    theme:
-      getPhaseTheme(
-        definition.type,
-      ),
-
-    interpretation:
-      definition.interpretation,
+    description:
+      `${definition.description} ` +
+      `Cette phase se produit dans le signe ${data.moon.signLabel}, ce qui colore son influence selon les qualités de ce signe.`,
 
     advice:
       definition.advice,
@@ -766,16 +626,18 @@ export function calculateMoonPhases(
   skySnapshots:
     MonthlySkySnapshot[],
 ): MonthlyMoonPhase[] {
-  const safeSnapshots =
-    Array.isArray(
+  if (
+    !Array.isArray(
       skySnapshots,
-    )
-      ? skySnapshots
-      : [];
+    ) ||
+    skySnapshots.length === 0
+  ) {
+    return [];
+  }
 
   const dailyData =
     buildDailyLunarData(
-      safeSnapshots,
+      skySnapshots,
     );
 
   if (
@@ -784,7 +646,7 @@ export function calculateMoonPhases(
     return [];
   }
 
-  const allCandidates =
+  const candidates =
     MOON_PHASE_DEFINITIONS.flatMap(
       (definition) =>
         selectPhaseCandidates({
@@ -793,12 +655,9 @@ export function calculateMoonPhases(
         }),
     );
 
-  const selectedCandidates =
-    removeDuplicateCandidates(
-      allCandidates,
-    );
-
-  return selectedCandidates
+  return removeDuplicateCandidates(
+    candidates,
+  )
     .map(
       convertCandidateToPhase,
     )
