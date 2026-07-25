@@ -1,6 +1,6 @@
 import type {
   MonthlyMantraTexts,
-} from "../types";
+} from "../data/types";
 
 /*
 |--------------------------------------------------------------------------
