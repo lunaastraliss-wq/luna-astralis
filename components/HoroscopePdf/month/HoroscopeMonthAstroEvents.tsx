@@ -107,7 +107,7 @@ type DisplayAstroEvent = {
 
 /*
 |--------------------------------------------------------------------------
-| Adaptation des vrais événements astrologiques
+| Adaptation des événements astrologiques calculés
 |--------------------------------------------------------------------------
 */
 
@@ -116,6 +116,139 @@ type AstroEventRecord =
     string,
     unknown
   >;
+
+type EventPresentation = {
+  label: string;
+  category: string;
+  tone: AstroEventTone;
+};
+
+const EVENT_PRESENTATIONS:
+  Record<
+    string,
+    EventPresentation
+  > = {
+    "sign-ingress": {
+      label:
+        "Entrée dans un nouveau signe",
+
+      category:
+        "Transition",
+
+      tone:
+        "transition",
+    },
+
+    ingress: {
+      label:
+        "Entrée dans un nouveau signe",
+
+      category:
+        "Transition",
+
+      tone:
+        "transition",
+    },
+
+    "retrograde-start": {
+      label:
+        "Début de rétrogradation",
+
+      category:
+        "Révision",
+
+      tone:
+        "retrograde",
+    },
+
+    "retrograde-end": {
+      label:
+        "Fin de rétrogradation",
+
+      category:
+        "Reprise",
+
+      tone:
+        "movement",
+    },
+
+    "station-retrograde": {
+      label:
+        "Station rétrograde",
+
+      category:
+        "Révision",
+
+      tone:
+        "retrograde",
+    },
+
+    "station-direct": {
+      label:
+        "Retour en mouvement direct",
+
+      category:
+        "Reprise",
+
+      tone:
+        "movement",
+    },
+
+    conjunction: {
+      label:
+        "Conjonction planétaire",
+
+      category:
+        "Alignement",
+
+      tone:
+        "alignment",
+    },
+
+    trine: {
+      label:
+        "Trigone planétaire",
+
+      category:
+        "Harmonie",
+
+      tone:
+        "alignment",
+    },
+
+    sextile: {
+      label:
+        "Sextile planétaire",
+
+      category:
+        "Ouverture",
+
+      tone:
+        "alignment",
+    },
+
+    square: {
+      label:
+        "Carré planétaire",
+
+      category:
+        "Ajustement",
+
+      tone:
+        "movement",
+    },
+
+    opposition: {
+      label:
+        "Opposition planétaire",
+
+      category:
+        "Prise de conscience",
+
+      tone:
+        "movement",
+    },
+  };
 
 function readString(
   source:
@@ -151,7 +284,33 @@ function normalizeEventText(
     .replace(
       /[\u0300-\u036f]/g,
       "",
-    );
+    )
+    .trim();
+}
+
+function getEventPresentation(
+  rawType:
+    string,
+): EventPresentation | null {
+  const normalizedType =
+    normalizeEventText(
+      rawType,
+    )
+      .replace(
+        /_/g,
+        "-",
+      )
+      .replace(
+        /\s+/g,
+        "-",
+      );
+
+  return (
+    EVENT_PRESENTATIONS[
+      normalizedType
+    ] ??
+    null
+  );
 }
 
 function getEventTone(
@@ -199,6 +358,9 @@ function getEventTone(
   if (
     normalized.includes(
       "entre en",
+    ) ||
+    normalized.includes(
+      "entree",
     ) ||
     normalized.includes(
       "change de signe",
@@ -379,13 +541,13 @@ function getDefaultTitle(
 ): string {
   switch (tone) {
     case "retrograde":
-      return "Une période de révision et d’ajustement";
+      return "Une période propice à la révision";
 
     case "alignment":
-      return "Un alignement qui modifie le climat du mois";
+      return "Une configuration qui transforme le climat du mois";
 
     case "transition":
-      return "Une nouvelle dynamique commence à émerger";
+      return "Une nouvelle dynamique commence à se dessiner";
 
     case "movement":
     default:
@@ -399,13 +561,13 @@ function getDefaultImpact(
 ): string {
   switch (tone) {
     case "retrograde":
-      return "Cette influence peut faire revenir un dossier, une décision ou une situation qui demande davantage de recul.";
+      return "Cette influence peut ramener un dossier, une décision ou une situation qui mérite d’être examinée avec davantage de recul.";
 
     case "alignment":
-      return "Cette configuration peut renforcer une opportunité, une prise de conscience ou un changement de perspective.";
+      return "Cette configuration peut favoriser une ouverture, une prise de conscience ou une nouvelle manière d’envisager la situation.";
 
     case "transition":
-      return "Cette transition peut déplacer progressivement vos priorités vers un nouveau domaine de vie.";
+      return "Cette transition peut déplacer progressivement votre attention vers de nouvelles priorités ou un autre domaine de votre vie.";
 
     case "movement":
     default:
@@ -419,10 +581,10 @@ function getDefaultAdvice(
 ): string {
   switch (tone) {
     case "retrograde":
-      return "Prenez le temps de corriger, vérifier et consolider avant de poursuivre.";
+      return "Prenez le temps de vérifier, de corriger et de consolider avant de poursuivre.";
 
     case "alignment":
-      return "Profitez de cette fenêtre pour agir avec clarté et coordonner vos efforts.";
+      return "Accueillez cette ouverture avec clarté et utilisez-la pour coordonner vos efforts.";
 
     case "transition":
       return "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.";
@@ -445,16 +607,33 @@ function buildDisplayAstroEvent(
     item as unknown as
       AstroEventRecord;
 
-  const event =
+  const rawType =
+    readString(
+      source,
+      [
+        "type",
+        "kind",
+      ],
+    );
+
+  const presentation =
+    getEventPresentation(
+      rawType,
+    );
+
+  const explicitEvent =
     readString(
       source,
       [
         "event",
         "name",
         "label",
-        "type",
       ],
-    ) ||
+    );
+
+  const event =
+    explicitEvent ||
+    presentation?.label ||
     `Événement astrologique ${index + 1}`;
 
   const rawCategory =
@@ -463,28 +642,34 @@ function buildDisplayAstroEvent(
       [
         "category",
         "theme",
-        "kind",
       ],
     );
 
   const tone =
+    presentation?.tone ??
     getEventTone(
       event,
       rawCategory,
     );
 
-  const date =
-    formatEventDate(
-      readString(
-        source,
-        [
-          "date",
-          "isoDate",
-          "exactDate",
-          "occursOn",
-          "startDate",
-        ],
-      ),
+  const category =
+    rawCategory ||
+    presentation?.category ||
+    getEventCategory(
+      tone,
+      "",
+    );
+
+  const rawDate =
+    readString(
+      source,
+      [
+        "date",
+        "isoDate",
+        "exactDate",
+        "occursOn",
+        "startDate",
+      ],
     );
 
   const title =
@@ -509,7 +694,7 @@ function buildDisplayAstroEvent(
         "text",
       ],
     ) ||
-    "Cet événement astrologique modifie le climat général du mois et peut mettre en lumière une nouvelle priorité, un ajustement ou une évolution importante.";
+    "Cet événement astrologique fait évoluer le climat général du mois. Il peut mettre en lumière une nouvelle priorité, un ajustement nécessaire ou une étape importante de votre progression.";
 
   const impact =
     readString(
@@ -548,19 +733,18 @@ function buildDisplayAstroEvent(
           "key",
         ],
       ) ||
-      `astro-event-${index + 1}`,
+      `${rawType || "astro-event"}-${rawDate || index}`,
 
-    date,
+    date:
+      formatEventDate(
+        rawDate,
+      ),
 
     event,
 
     tone,
 
-    category:
-      getEventCategory(
-        tone,
-        rawCategory,
-      ),
+    category,
 
     title,
 
@@ -572,9 +756,61 @@ function buildDisplayAstroEvent(
 
     icon:
       getPlanetIcon(
-        event,
+        `${explicitEvent} ${title} ${description}`,
       ),
   };
+}
+
+function sortAstroEventsByDate(
+  astroEvents:
+    MonthlyAstrologyResult[
+      "astroEvents"
+    ],
+): MonthlyAstrologyResult[
+  "astroEvents"
+] {
+  return [...astroEvents].sort(
+    (
+      first,
+      second,
+    ) => {
+      const firstSource =
+        first as unknown as
+          AstroEventRecord;
+
+      const secondSource =
+        second as unknown as
+          AstroEventRecord;
+
+      const firstDate =
+        readString(
+          firstSource,
+          [
+            "date",
+            "isoDate",
+            "exactDate",
+            "occursOn",
+            "startDate",
+          ],
+        );
+
+      const secondDate =
+        readString(
+          secondSource,
+          [
+            "date",
+            "isoDate",
+            "exactDate",
+            "occursOn",
+            "startDate",
+          ],
+        );
+
+      return firstDate.localeCompare(
+        secondDate,
+      );
+    },
+  );
 }
 
 /*
@@ -2004,14 +2240,17 @@ export default function HoroscopeMonthAstroEvents({
     );
 
   const displayedEvents =
-    (
+    sortAstroEventsByDate(
       Array.isArray(
         astroEvents,
       )
         ? astroEvents
-        : []
+        : [],
     )
-      .slice(0, 4)
+      .slice(
+        0,
+        4,
+      )
       .map(
         buildDisplayAstroEvent,
       );
@@ -2131,14 +2370,13 @@ export default function HoroscopeMonthAstroEvents({
           <Text
             style={styles.introductionText}
           >
-            Plusieurs mouvements astrologiques
-            peuvent influencer le climat de{" "}
-            {period.label} pour le signe{" "}
-            {identity.zodiacSignLabel}. Ces
-            événements indiquent les moments où
-            l’énergie générale change, ralentit
-            ou devient plus favorable à certaines
-            initiatives.
+            Les mouvements astrologiques de{" "}
+            {period.label} font évoluer le climat
+            général du mois pour le signe{" "}
+            {identity.zodiacSignLabel}. Ils mettent
+            en lumière les périodes où l’énergie
+            s’intensifie, ralentit ou vous invite
+            à modifier votre manière d’avancer.
           </Text>
         </View>
 
@@ -2170,12 +2408,12 @@ export default function HoroscopeMonthAstroEvents({
           <Text
             style={styles.explanationText}
           >
-            Les événements astrologiques
-            décrivent des tendances collectives.
-            Leur influence personnelle dépend
-            ensuite de leur interaction avec
-            votre signe et avec les autres
-            mouvements présents durant le mois.
+            Ces événements décrivent d’abord
+            des tendances collectives. Leur effet
+            personnel dépend de leur interaction
+            avec votre signe, votre thème natal
+            et les autres mouvements présents
+            durant le mois.
           </Text>
         </View>
 
@@ -2420,8 +2658,8 @@ export default function HoroscopeMonthAstroEvents({
               style={styles.closingText}
             >
               {eventNames
-                ? `Les principaux événements de ${period.label} sont ${eventNames}. Certains encouragent l’action, tandis que d’autres demandent une révision ou une transition. Utilisez ces repères pour choisir plus consciemment quand avancer, ajuster ou ralentir.`
-                : `Durant ${period.label}, aucun événement astrologique majeur n’a été retenu pour cette page. Observez néanmoins les changements de rythme du mois afin d’adapter vos décisions avec davantage de conscience.`}
+                ? `Les principaux événements de ${period.label} sont ${eventNames}. Certains favorisent l’élan et les prises de décision, tandis que d’autres invitent à réviser, ajuster ou ralentir. Utilisez ces repères pour avancer au moment le plus juste.`
+                : `Aucun événement astrologique majeur n’a été retenu pour ${period.label}. Restez néanmoins attentif aux changements de rythme afin d’adapter vos décisions avec davantage de discernement.`}
             </Text>
           </View>
         </View>
