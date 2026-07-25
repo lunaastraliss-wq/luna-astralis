@@ -12,7 +12,8 @@ import type {
 */
 
 type PlanetMovement = {
-  planet: MonthlyPlanetName;
+  planet:
+    MonthlyPlanetName;
 
   previous:
     MonthlyPlanetPosition;
@@ -23,29 +24,9 @@ type PlanetMovement = {
 
 /*
 |--------------------------------------------------------------------------
-| Configuration des planètes
+| Configuration
 |--------------------------------------------------------------------------
 */
-
-const PLANET_PRIORITY:
-  Record<
-    MonthlyPlanetName,
-    number
-  > = {
-    Soleil: 7,
-    Lune: 4,
-    Mercure: 7,
-    Vénus: 7,
-    Mars: 8,
-    Jupiter: 9,
-    Saturne: 10,
-    Uranus: 10,
-    Neptune: 10,
-    Pluton: 10,
-    Chiron: 7,
-    "Nœud Nord": 7,
-    "Nœud Sud": 6,
-  };
 
 const RETROGRADE_PLANETS =
   new Set<
@@ -62,11 +43,45 @@ const RETROGRADE_PLANETS =
     "Chiron",
   ]);
 
+const PLANET_IMPORTANCE:
+  Record<
+    MonthlyPlanetName,
+    number
+  > = {
+    Soleil: 72,
+    Lune: 55,
+    Mercure: 70,
+    Vénus: 72,
+    Mars: 76,
+    Jupiter: 84,
+    Saturne: 88,
+    Uranus: 90,
+    Neptune: 90,
+    Pluton: 92,
+    Chiron: 72,
+    "Nœud Nord": 74,
+    "Nœud Sud": 68,
+  };
+
 /*
 |--------------------------------------------------------------------------
-| Utilitaires généraux
+| Utilitaires
 |--------------------------------------------------------------------------
 */
+
+function clamp(
+  value: number,
+  minimum: number,
+  maximum: number,
+): number {
+  return Math.max(
+    minimum,
+    Math.min(
+      maximum,
+      value,
+    ),
+  );
+}
 
 function cleanIdPart(
   value: string,
@@ -88,73 +103,25 @@ function cleanIdPart(
     .toLowerCase();
 }
 
-function normalizeLongitude(
-  value: number,
+function getPlanetImportance(
+  planet:
+    MonthlyPlanetName,
+  bonus = 0,
 ): number {
-  return (
-    ((value % 360) + 360) %
-    360
+  return clamp(
+    (
+      PLANET_IMPORTANCE[
+        planet
+      ] ?? 60
+    ) + bonus,
+    1,
+    100,
   );
-}
-
-function clamp(
-  value: number,
-  minimum: number,
-  maximum: number,
-): number {
-  return Math.max(
-    minimum,
-    Math.min(
-      maximum,
-      value,
-    ),
-  );
-}
-
-function roundValue(
-  value: number,
-  decimals = 2,
-): number {
-  const multiplier =
-    10 ** decimals;
-
-  return (
-    Math.round(
-      value * multiplier,
-    ) / multiplier
-  );
-}
-
-function getSignedMovement(
-  previousLongitude: number,
-  currentLongitude: number,
-): number {
-  let difference =
-    normalizeLongitude(
-      currentLongitude,
-    ) -
-    normalizeLongitude(
-      previousLongitude,
-    );
-
-  if (
-    difference > 180
-  ) {
-    difference -= 360;
-  }
-
-  if (
-    difference < -180
-  ) {
-    difference += 360;
-  }
-
-  return difference;
 }
 
 /*
 |--------------------------------------------------------------------------
-| Recherche des positions
+| Positions par planète
 |--------------------------------------------------------------------------
 */
 
@@ -165,7 +132,7 @@ function buildPositionMap(
   MonthlyPlanetName,
   MonthlyPlanetPosition
 > {
-  const map =
+  const result =
     new Map<
       MonthlyPlanetName,
       MonthlyPlanetPosition
@@ -175,13 +142,13 @@ function buildPositionMap(
     const position
     of snapshot.positions
   ) {
-    map.set(
+    result.set(
       position.planet,
       position,
     );
   }
 
-  return map;
+  return result;
 }
 
 function buildPlanetMovements(
@@ -225,59 +192,21 @@ function buildPlanetMovements(
 
 /*
 |--------------------------------------------------------------------------
-| Importance
+| Conseils lors d’une entrée dans un signe
 |--------------------------------------------------------------------------
 */
 
-function calculateImportance({
-  planet,
-  bonus = 0,
-}: {
-  planet:
-    MonthlyPlanetName;
-
-  bonus?: number;
-}): number {
-  const planetPriority =
-    PLANET_PRIORITY[
-      planet
-    ] ?? 5;
-
-  return clamp(
-    35 +
-      planetPriority * 5 +
-      bonus,
-    1,
-    100,
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| Textes — entrée dans un signe
-|--------------------------------------------------------------------------
-*/
-
-function buildSignIngressDescription({
-  planet,
-  signLabel,
-}: {
-  planet:
-    MonthlyPlanetName;
-
-  signLabel: string;
-}): string {
-  return (
-    `${planet} entre en ${signLabel}. ` +
-    "Ce changement modifie la manière dont cette énergie s’exprime et ouvre une nouvelle étape astrologique."
-  );
-}
-
-function buildSignIngressAdvice(
+function buildIngressAdvice(
   planet:
     MonthlyPlanetName,
 ): string {
   switch (planet) {
+    case "Soleil":
+      return "Observez les objectifs et les priorités qui deviennent plus importants durant cette nouvelle étape.";
+
+    case "Lune":
+      return "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.";
+
     case "Mercure":
       return "Observez les changements dans votre manière de réfléchir, de communiquer et de prendre vos décisions.";
 
@@ -305,36 +234,19 @@ function buildSignIngressAdvice(
     case "Chiron":
       return "Accueillez les prises de conscience qui permettent une réparation intérieure.";
 
-    default:
-      return "Observez comment cette nouvelle énergie se manifeste avant de prendre une décision importante.";
+    case "Nœud Nord":
+      return "Observez les nouvelles directions qui semblent favoriser votre évolution.";
+
+    case "Nœud Sud":
+      return "Prenez conscience des habitudes anciennes qui demandent à être dépassées.";
   }
 }
 
 /*
 |--------------------------------------------------------------------------
-| Textes — rétrogradation
+| Conseils liés aux rétrogradations
 |--------------------------------------------------------------------------
 */
-
-function buildRetrogradeStartDescription(
-  planet:
-    MonthlyPlanetName,
-): string {
-  return (
-    `${planet} commence sa rétrogradation. ` +
-    "Son énergie devient plus intérieure et invite à revoir certaines décisions, habitudes ou situations avant de poursuivre."
-  );
-}
-
-function buildRetrogradeEndDescription(
-  planet:
-    MonthlyPlanetName,
-): string {
-  return (
-    `${planet} reprend sa marche directe. ` +
-    "Les situations ralenties ou réévaluées peuvent progressivement retrouver de la clarté et du mouvement."
-  );
-}
 
 function buildRetrogradeAdvice({
   planet,
@@ -346,7 +258,7 @@ function buildRetrogradeAdvice({
   starts: boolean;
 }): string {
   if (!starts) {
-    return "Reprenez progressivement les démarches mises en attente et appliquez ce que vous avez compris durant la rétrogradation.";
+    return "Reprenez progressivement les démarches mises en attente et appliquez ce que vous avez compris durant cette période de révision.";
   }
 
   switch (planet) {
@@ -384,7 +296,7 @@ function buildRetrogradeAdvice({
 
 /*
 |--------------------------------------------------------------------------
-| Détection — changement de signe
+| Entrée d’une planète dans un signe
 |--------------------------------------------------------------------------
 */
 
@@ -399,76 +311,60 @@ function detectSignIngress(
     return null;
   }
 
+  const {
+    planet,
+    current,
+  } = movement;
+
   return {
     id:
-      `${movement.current.date}-` +
+      `${current.date}-` +
       `${cleanIdPart(
-        movement.planet,
+        planet,
       )}-entree-` +
       `${cleanIdPart(
-        movement.current
-          .signLabel,
+        current.signLabel,
       )}`,
 
     date:
-      movement.current.date,
+      current.date,
 
     type:
       "sign-ingress",
 
-    label:
-      `${movement.planet} entre en ${movement.current.signLabel}`,
-
-    planet:
-      movement.planet,
-
-    sign:
-      movement.current.sign,
-
-    signLabel:
-      movement.current
-        .signLabel,
-
-    degree:
-      roundValue(
-        movement.current
-          .degree,
-      ),
-
-    importance:
-      calculateImportance({
-        planet:
-          movement.planet,
-
-        bonus: 8,
-      }),
-
-    tone:
-      "transition",
-
-    theme:
-      "Changement d’énergie",
+    title:
+      `${planet} entre en ${current.signLabel}`,
 
     description:
-      buildSignIngressDescription({
-        planet:
-          movement.planet,
+      `${planet} quitte le signe précédent et entre en ${current.signLabel}. ` +
+      "Ce changement modifie progressivement la manière dont son énergie s’exprime et ouvre une nouvelle étape astrologique.",
 
-        signLabel:
-          movement.current
-            .signLabel,
-      }),
+    planets: [
+      planet,
+    ],
+
+    sign:
+      current.sign,
+
+    signLabel:
+      current.signLabel,
+
+    importance:
+      getPlanetImportance(
+        planet,
+        6,
+      ),
 
     advice:
-      buildSignIngressAdvice(
-        movement.planet,
+      buildIngressAdvice(
+        planet,
       ),
   };
 }
 
 /*
 |--------------------------------------------------------------------------
-| Détection — début ou fin de rétrogradation
+| Début ou fin d’une rétrogradation
 |--------------------------------------------------------------------------
 */
 
@@ -476,108 +372,81 @@ function detectRetrogradeChange(
   movement:
     PlanetMovement,
 ): MonthlyAstroEvent | null {
+  const {
+    planet,
+    previous,
+    current,
+  } = movement;
+
   if (
     !RETROGRADE_PLANETS.has(
-      movement.planet,
+      planet,
     )
   ) {
     return null;
   }
 
-  const wasRetrograde =
-    movement.previous
-      .retrograde === true;
-
-  const isRetrograde =
-    movement.current
-      .retrograde === true;
-
   if (
-    wasRetrograde ===
-    isRetrograde
+    previous.retrograde ===
+    current.retrograde
   ) {
     return null;
   }
 
   const starts =
-    !wasRetrograde &&
-    isRetrograde;
-
-  const eventType =
-    starts
-      ? "retrograde-start"
-      : "retrograde-end";
+    current.retrograde;
 
   return {
     id:
-      `${movement.current.date}-` +
+      `${current.date}-` +
       `${cleanIdPart(
-        movement.planet,
+        planet,
       )}-` +
-      eventType,
-
-    date:
-      movement.current.date,
-
-    type:
-      eventType,
-
-    label:
-      starts
-        ? `${movement.planet} devient rétrograde`
-        : `${movement.planet} reprend sa marche directe`,
-
-    planet:
-      movement.planet,
-
-    sign:
-      movement.current.sign,
-
-    signLabel:
-      movement.current
-        .signLabel,
-
-    degree:
-      roundValue(
-        movement.current
-          .degree,
+      (
+        starts
+          ? "retrograde"
+          : "direct"
       ),
 
-    importance:
-      calculateImportance({
-        planet:
-          movement.planet,
+    date:
+      current.date,
 
-        bonus:
-          starts
-            ? 12
-            : 10,
-      }),
-
-    tone:
+    type:
       starts
-        ? "introspective"
-        : "progressive",
+        ? "retrograde-start"
+        : "retrograde-end",
 
-    theme:
+    title:
       starts
-        ? "Révision et recul"
-        : "Reprise et clarification",
+        ? `${planet} devient rétrograde`
+        : `${planet} reprend sa marche directe`,
 
     description:
       starts
-        ? buildRetrogradeStartDescription(
-            movement.planet,
-          )
-        : buildRetrogradeEndDescription(
-            movement.planet,
-          ),
+        ? `${planet} commence sa rétrogradation en ${current.signLabel}. Son influence devient plus intérieure et invite à revoir certaines décisions, habitudes ou situations avant de poursuivre.`
+        : `${planet} reprend sa marche directe en ${current.signLabel}. Les situations ralenties ou réévaluées peuvent progressivement retrouver de la clarté et du mouvement.`,
+
+    planets: [
+      planet,
+    ],
+
+    sign:
+      current.sign,
+
+    signLabel:
+      current.signLabel,
+
+    importance:
+      getPlanetImportance(
+        planet,
+        starts
+          ? 10
+          : 8,
+      ),
 
     advice:
       buildRetrogradeAdvice({
-        planet:
-          movement.planet,
-
+        planet,
         starts,
       }),
   };
@@ -585,10 +454,12 @@ function detectRetrogradeChange(
 
 /*
 |--------------------------------------------------------------------------
-| Détection — station planétaire
+| Station planétaire
 |--------------------------------------------------------------------------
 |
-| Cette détection fonctionne seulement lorsque Celestine fournit une vitesse.
+| Une station est détectée lorsqu’une planète devient très lente.
+| On évite toutefois de créer une station le même jour qu’un changement
+| officiel du statut rétrograde.
 |
 */
 
@@ -596,109 +467,101 @@ function detectStation(
   movement:
     PlanetMovement,
 ): MonthlyAstroEvent | null {
+  const {
+    planet,
+    previous,
+    current,
+  } = movement;
+
   if (
     !RETROGRADE_PLANETS.has(
-      movement.planet,
+      planet,
+    )
+  ) {
+    return null;
+  }
+
+  if (
+    previous.retrograde !==
+    current.retrograde
+  ) {
+    return null;
+  }
+
+  if (
+    typeof previous.speed !==
+      "number" ||
+    !Number.isFinite(
+      previous.speed,
+    ) ||
+    typeof current.speed !==
+      "number" ||
+    !Number.isFinite(
+      current.speed,
     )
   ) {
     return null;
   }
 
   const previousSpeed =
-    movement.previous.speed;
+    Math.abs(
+      previous.speed,
+    );
 
   const currentSpeed =
-    movement.current.speed;
-
-  if (
-    typeof previousSpeed !==
-      "number" ||
-    !Number.isFinite(
-      previousSpeed,
-    ) ||
-    typeof currentSpeed !==
-      "number" ||
-    !Number.isFinite(
-      currentSpeed,
-    )
-  ) {
-    return null;
-  }
-
-  const currentAbsoluteSpeed =
     Math.abs(
-      currentSpeed,
+      current.speed,
     );
 
-  const previousAbsoluteSpeed =
-    Math.abs(
-      previousSpeed,
-    );
+  const verySlow =
+    currentSpeed <= 0.05;
 
-  const isVerySlow =
-    currentAbsoluteSpeed <=
-    0.05;
-
-  const slowedDown =
-    currentAbsoluteSpeed <
-    previousAbsoluteSpeed;
+  const slowingDown =
+    currentSpeed <
+    previousSpeed;
 
   if (
-    !isVerySlow ||
-    !slowedDown
+    !verySlow ||
+    !slowingDown
   ) {
     return null;
   }
 
   return {
     id:
-      `${movement.current.date}-` +
+      `${current.date}-` +
       `${cleanIdPart(
-        movement.planet,
+        planet,
       )}-station`,
 
     date:
-      movement.current.date,
+      current.date,
 
     type:
       "station",
 
-    label:
-      `${movement.planet} atteint une station`,
-
-    planet:
-      movement.planet,
-
-    sign:
-      movement.current.sign,
-
-    signLabel:
-      movement.current
-        .signLabel,
-
-    degree:
-      roundValue(
-        movement.current
-          .degree,
-      ),
-
-    importance:
-      calculateImportance({
-        planet:
-          movement.planet,
-
-        bonus: 9,
-      }),
-
-    tone:
-      "intense",
-
-    theme:
-      "Point de bascule",
+    title:
+      `${planet} atteint une station`,
 
     description:
-      `${movement.planet} ralentit fortement avant un changement de direction. ` +
+      `${planet} ralentit fortement en ${current.signLabel}. ` +
       "Son influence devient plus concentrée et peut rendre les thèmes associés à cette planète particulièrement visibles.",
+
+    planets: [
+      planet,
+    ],
+
+    sign:
+      current.sign,
+
+    signLabel:
+      current.signLabel,
+
+    importance:
+      getPlanetImportance(
+        planet,
+        7,
+      ),
 
     advice:
       "Évitez de forcer les événements et observez ce qui demande une décision plus consciente.",
@@ -707,163 +570,7 @@ function detectStation(
 
 /*
 |--------------------------------------------------------------------------
-| Détection — changement de direction par longitude
-|--------------------------------------------------------------------------
-|
-| Cette sécurité est utilisée lorsque le statut rétrograde n’est pas fourni.
-|
-*/
-
-function detectDirectionChangeFromLongitude({
-  previousPrevious,
-  previous,
-  current,
-}: {
-  previousPrevious:
-    MonthlyPlanetPosition;
-
-  previous:
-    MonthlyPlanetPosition;
-
-  current:
-    MonthlyPlanetPosition;
-}): MonthlyAstroEvent | null {
-  if (
-    !RETROGRADE_PLANETS.has(
-      current.planet,
-    )
-  ) {
-    return null;
-  }
-
-  const firstMovement =
-    getSignedMovement(
-      previousPrevious.longitude,
-      previous.longitude,
-    );
-
-  const secondMovement =
-    getSignedMovement(
-      previous.longitude,
-      current.longitude,
-    );
-
-  const changedDirection =
-    (
-      firstMovement > 0 &&
-      secondMovement < 0
-    ) ||
-    (
-      firstMovement < 0 &&
-      secondMovement > 0
-    );
-
-  if (!changedDirection) {
-    return null;
-  }
-
-  const movementSize =
-    Math.max(
-      Math.abs(
-        firstMovement,
-      ),
-      Math.abs(
-        secondMovement,
-      ),
-    );
-
-  /*
-   * Évite les faux changements provoqués
-   * par un déplacement quotidien trop grand.
-   */
-  if (
-    movementSize > 2
-  ) {
-    return null;
-  }
-
-  const startsRetrograde =
-    secondMovement < 0;
-
-  const eventType =
-    startsRetrograde
-      ? "retrograde-start"
-      : "retrograde-end";
-
-  return {
-    id:
-      `${current.date}-` +
-      `${cleanIdPart(
-        current.planet,
-      )}-direction-` +
-      eventType,
-
-    date:
-      current.date,
-
-    type:
-      eventType,
-
-    label:
-      startsRetrograde
-        ? `${current.planet} devient rétrograde`
-        : `${current.planet} reprend sa marche directe`,
-
-    planet:
-      current.planet,
-
-    sign:
-      current.sign,
-
-    signLabel:
-      current.signLabel,
-
-    degree:
-      roundValue(
-        current.degree,
-      ),
-
-    importance:
-      calculateImportance({
-        planet:
-          current.planet,
-
-        bonus: 10,
-      }),
-
-    tone:
-      startsRetrograde
-        ? "introspective"
-        : "progressive",
-
-    theme:
-      startsRetrograde
-        ? "Révision et recul"
-        : "Reprise et clarification",
-
-    description:
-      startsRetrograde
-        ? buildRetrogradeStartDescription(
-            current.planet,
-          )
-        : buildRetrogradeEndDescription(
-            current.planet,
-          ),
-
-    advice:
-      buildRetrogradeAdvice({
-        planet:
-          current.planet,
-
-        starts:
-          startsRetrograde,
-      }),
-  };
-}
-
-/*
-|--------------------------------------------------------------------------
-| Détection des événements sur deux journées
+| Événements créés par un mouvement planétaire
 |--------------------------------------------------------------------------
 */
 
@@ -912,105 +619,6 @@ function detectMovementEvents(
 
 /*
 |--------------------------------------------------------------------------
-| Détection complémentaire sur trois journées
-|--------------------------------------------------------------------------
-*/
-
-function detectThreeDayDirectionChanges(
-  snapshots:
-    MonthlySkySnapshot[],
-): MonthlyAstroEvent[] {
-  const events:
-    MonthlyAstroEvent[] = [];
-
-  for (
-    let index = 2;
-    index <
-    snapshots.length;
-    index += 1
-  ) {
-    const previousPreviousSnapshot =
-      snapshots[index - 2];
-
-    const previousSnapshot =
-      snapshots[index - 1];
-
-    const currentSnapshot =
-      snapshots[index];
-
-    const previousPreviousMap =
-      buildPositionMap(
-        previousPreviousSnapshot,
-      );
-
-    const previousMap =
-      buildPositionMap(
-        previousSnapshot,
-      );
-
-    for (
-      const current
-      of currentSnapshot.positions
-    ) {
-      if (
-        !RETROGRADE_PLANETS.has(
-          current.planet,
-        )
-      ) {
-        continue;
-      }
-
-      const previous =
-        previousMap.get(
-          current.planet,
-        );
-
-      const previousPrevious =
-        previousPreviousMap.get(
-          current.planet,
-        );
-
-      if (
-        !previous ||
-        !previousPrevious
-      ) {
-        continue;
-      }
-
-      /*
-       * Lorsque Celestine fournit déjà clairement
-       * le statut rétrograde, la détection sur deux
-       * jours est plus fiable.
-       */
-      if (
-        typeof previous.retrograde ===
-          "boolean" &&
-        typeof current.retrograde ===
-          "boolean"
-      ) {
-        continue;
-      }
-
-      const event =
-        detectDirectionChangeFromLongitude({
-          previousPrevious,
-          previous,
-          current,
-        });
-
-      if (event) {
-        events.push(
-          event,
-        );
-      }
-    }
-  }
-
-  return events;
-}
-
-/*
-|--------------------------------------------------------------------------
 | Suppression des doublons
 |--------------------------------------------------------------------------
 */
@@ -1022,7 +630,7 @@ function buildEventKey(
   return [
     event.date,
     event.type,
-    event.planet ?? "",
+    event.planets.join(","),
     event.sign ?? "",
   ].join("|");
 }
@@ -1037,19 +645,22 @@ function removeDuplicateEvents(
       MonthlyAstroEvent
     >();
 
-  for (const event of events) {
+  for (
+    const event
+    of events
+  ) {
     const key =
       buildEventKey(
         event,
       );
 
-    const current =
+    const existing =
       selected.get(key);
 
     if (
-      !current ||
+      !existing ||
       event.importance >
-        current.importance
+        existing.importance
     ) {
       selected.set(
         key,
@@ -1073,26 +684,25 @@ export function calculateAstroEvents(
   skySnapshots:
     MonthlySkySnapshot[],
 ): MonthlyAstroEvent[] {
-  const snapshots =
-    Array.isArray(
-      skySnapshots,
-    )
-      ? [...skySnapshots].sort(
-          (
-            first,
-            second,
-          ) =>
-            first.date.localeCompare(
-              second.date,
-            ),
-        )
-      : [];
-
   if (
-    snapshots.length < 2
+    !Array.isArray(
+      skySnapshots,
+    ) ||
+    skySnapshots.length < 2
   ) {
     return [];
   }
+
+  const snapshots =
+    [...skySnapshots].sort(
+      (
+        first,
+        second,
+      ) =>
+        first.date.localeCompare(
+          second.date,
+        ),
+    );
 
   const events:
     MonthlyAstroEvent[] = [];
@@ -1126,12 +736,6 @@ export function calculateAstroEvents(
       );
     }
   }
-
-  events.push(
-    ...detectThreeDayDirectionChanges(
-      snapshots,
-    ),
-  );
 
   return removeDuplicateEvents(
     events,
