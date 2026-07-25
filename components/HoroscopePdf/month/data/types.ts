@@ -258,6 +258,30 @@ export type MonthlyTransitResult = {
 
 /*
 |--------------------------------------------------------------------------
+| Mantra du mois
+|--------------------------------------------------------------------------
+|
+| Cette section contient les différentes banques de textes utilisées
+| pour construire la page de mantra personnalisée.
+|
+*/
+
+export type MonthlyMantraTexts = {
+  mantra: string[];
+  intention: string[];
+  affirmation: string[];
+  message: string[];
+};
+
+export type MonthlyMantraResult = {
+  mantra: string;
+  intention: string;
+  affirmation: string;
+  message: string;
+};
+
+/*
+|--------------------------------------------------------------------------
 | Résultat complet du moteur mensuel
 |--------------------------------------------------------------------------
 |
@@ -274,4 +298,5 @@ export type MonthlyHoroscopeGeneratedContent = {
   challenge: MonthlyChallengeResult;
   opportunity: MonthlyOpportunityResult;
   transit: MonthlyTransitResult;
+  mantra: MonthlyMantraResult;
 };
