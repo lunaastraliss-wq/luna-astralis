@@ -154,19 +154,19 @@ const ASPECT_TITLES:
     string
   > = {
     conjunction:
-      "Une énergie qui se concentre",
+      "Deux forces se réunissent",
 
     sextile:
-      "Une ouverture à développer",
+      "Une occasion à faire grandir",
 
     square:
-      "Un ajustement nécessaire",
+      "Une tension qui demande un ajustement",
 
     trine:
-      "Une circulation plus fluide",
+      "Une énergie qui circule avec fluidité",
 
     opposition:
-      "Un équilibre à retrouver",
+      "Deux besoins à rééquilibrer",
   };
 
 const ASPECT_ADVICES:
@@ -175,19 +175,62 @@ const ASPECT_ADVICES:
     string
   > = {
     conjunction:
-      "Canalisez cette énergie vers une intention précise afin d’éviter la dispersion.",
+      "Concentrez cette énergie sur une priorité claire afin de lui donner une direction constructive.",
 
     sextile:
-      "Saisissez les occasions qui se présentent et transformez-les en actions concrètes.",
+      "Restez attentif aux ouvertures du moment et transformez-les en gestes concrets.",
 
     square:
-      "Ralentissez avant de réagir et cherchez une solution qui respecte vos priorités.",
+      "Évitez les réactions précipitées. Prenez le temps de comprendre la tension avant de choisir votre réponse.",
 
     trine:
-      "Appuyez-vous sur cette fluidité sans tenir les résultats pour acquis.",
+      "Appuyez-vous sur cette facilité pour avancer, sans toutefois tenir les résultats pour acquis.",
 
     opposition:
-      "Évitez les positions extrêmes et recherchez un compromis réellement équilibré.",
+      "Cherchez un point d’équilibre entre les deux besoins en présence plutôt que de favoriser un seul extrême.",
+  };
+
+
+const ASPECT_LABELS:
+  Record<
+    MonthlyAspectType,
+    string
+  > = {
+    conjunction:
+      "Conjonction",
+
+    sextile:
+      "Sextile",
+
+    square:
+      "Carré",
+
+    trine:
+      "Trigone",
+
+    opposition:
+      "Opposition",
+  };
+
+const ASPECT_MEANINGS:
+  Record<
+    MonthlyAspectType,
+    string
+  > = {
+    conjunction:
+      "La conjonction réunit deux énergies planétaires dans une même direction. Son influence peut être très concentrée et devenir particulièrement marquante.",
+
+    sextile:
+      "Le sextile crée une ouverture favorable. Il facilite les échanges entre les deux planètes, à condition de saisir consciemment l’occasion qu’il propose.",
+
+    square:
+      "Le carré révèle une tension entre deux forces qui ne progressent pas au même rythme. Il pousse à agir autrement et à corriger ce qui ne fonctionne plus.",
+
+    trine:
+      "Le trigone favorise une circulation naturelle entre les deux planètes. Les choses peuvent sembler plus simples, plus cohérentes ou plus faciles à mettre en mouvement.",
+
+    opposition:
+      "L’opposition place deux besoins face à face. Elle invite à sortir des positions extrêmes pour retrouver une manière plus équilibrée d’avancer.",
   };
 
 /*
@@ -1066,11 +1109,18 @@ function getBadgeStyle(
 }
 
 function formatAspectDate(
-  value: string,
+  value:
+    string,
 ): string {
+  if (!value) {
+    return "date à confirmer";
+  }
+
   const date =
     new Date(
-      `${value}T12:00:00`,
+      value.includes("T")
+        ? value
+        : `${value}T12:00:00`,
     );
 
   if (
@@ -1084,22 +1134,85 @@ function formatAspectDate(
   return new Intl.DateTimeFormat(
     "fr-CA",
     {
-      day: "numeric",
-      month: "long",
+      day:
+        "numeric",
+
+      month:
+        "long",
     },
   ).format(date);
 }
 
-function buildDisplayAspect(
-  aspect: MonthlyAspect,
-): DisplayMonthlyAspect {
-  const applyingLabel =
-    aspect.applying === true
-      ? " — appliquant"
-      : aspect.applying === false
-        ? " — séparant"
-        : "";
+function formatOrb(
+  orb:
+    number,
+): string {
+  if (
+    !Number.isFinite(
+      orb,
+    )
+  ) {
+    return "orbe non précisé";
+  }
 
+  return `orbe de ${orb.toFixed(
+    2,
+  )}°`;
+}
+
+function getApplyingLabel(
+  applying:
+    boolean | undefined,
+): string {
+  if (applying === true) {
+    return "L’aspect se rapproche encore de son point le plus précis.";
+  }
+
+  if (applying === false) {
+    return "L’aspect vient de dépasser son point le plus précis, mais son influence demeure active.";
+  }
+
+  return "L’aspect agit durant cette période sans indication supplémentaire sur sa progression.";
+}
+
+function buildAspectDescription(
+  aspect:
+    MonthlyAspect,
+): string {
+  const interpretation =
+    aspect.interpretation?.trim();
+
+  const meaning =
+    ASPECT_MEANINGS[
+      aspect.type
+    ];
+
+  const exactDate =
+    formatAspectDate(
+      aspect.date,
+    );
+
+  const orb =
+    formatOrb(
+      aspect.orb,
+    );
+
+  return [
+    interpretation ||
+      meaning,
+
+    `Son influence atteint son maximum autour du ${exactDate}, avec un ${orb}.`,
+
+    getApplyingLabel(
+      aspect.applying,
+    ),
+  ].join(" ");
+}
+
+function buildDisplayAspect(
+  aspect:
+    MonthlyAspect,
+): DisplayMonthlyAspect {
   return {
     id:
       aspect.id,
@@ -1121,7 +1234,9 @@ function buildDisplayAspect(
       ),
 
     aspect:
-      `${aspect.label}${applyingLabel}`,
+      ASPECT_LABELS[
+        aspect.type
+      ],
 
     tone:
       ASPECT_TONES[
@@ -1134,17 +1249,55 @@ function buildDisplayAspect(
       ],
 
     description:
-      `${aspect.interpretation} Cet aspect atteint son influence la plus précise le ${formatAspectDate(
-        aspect.date,
-      )}, avec un orbe de ${aspect.orb.toFixed(
-        2,
-      )}°.`,
+      buildAspectDescription(
+        aspect,
+      ),
 
     advice:
       ASPECT_ADVICES[
         aspect.type
       ],
   };
+}
+
+function sortAspectsByImportance(
+  aspects:
+    MonthlyAspect[],
+): MonthlyAspect[] {
+  return [...aspects].sort(
+    (
+      first,
+      second,
+    ) => {
+      const firstOrb =
+        Number.isFinite(
+          first.orb,
+        )
+          ? first.orb
+          : Number.POSITIVE_INFINITY;
+
+      const secondOrb =
+        Number.isFinite(
+          second.orb,
+        )
+          ? second.orb
+          : Number.POSITIVE_INFINITY;
+
+      if (
+        firstOrb !==
+        secondOrb
+      ) {
+        return (
+          firstOrb -
+          secondOrb
+        );
+      }
+
+      return first.date.localeCompare(
+        second.date,
+      );
+    },
+  );
 }
 
 /*
@@ -1169,11 +1322,17 @@ export default function HoroscopeMonthMajorAspects({
     );
 
   const displayedAspects =
-    (Array.isArray(aspects)
-      ? aspects
-      : []
+    sortAspectsByImportance(
+      Array.isArray(
+        aspects,
+      )
+        ? aspects
+        : [],
     )
-      .slice(0, 3)
+      .slice(
+        0,
+        3,
+      )
       .map(
         buildDisplayAspect,
       );
@@ -1223,7 +1382,7 @@ export default function HoroscopeMonthMajorAspects({
           </Text>
 
           <Text style={styles.title}>
-            Les aspects majeurs de votre mois
+            Les grands aspects de votre mois
           </Text>
 
           <Text style={styles.period}>
@@ -1268,17 +1427,18 @@ export default function HoroscopeMonthMajorAspects({
           </Text>
 
           <Text style={styles.introduction}>
-            Les aspects astrologiques
-            représentent les relations qui
-            se forment entre les planètes.
-            Pour le signe{" "}
-            {identity.zodiacSignLabel},
-            ces mouvements mettent en lumière
-            les principales dynamiques de{" "}
-            {periodLabel}. Certains aspects
-            facilitent votre progression,
-            tandis que d’autres vous invitent
-            à ajuster votre manière d’agir.
+            Les aspects astrologiques décrivent
+            la manière dont les planètes
+            interagissent entre elles. Pour le
+            signe{" "}
+            {identity.zodiacSignLabel}, ils
+            révèlent les dynamiques les plus
+            importantes de{" "}
+            {periodLabel}. Certains soutiennent
+            votre progression, tandis que
+            d’autres mettent en lumière un
+            ajustement, une décision ou un nouvel
+            équilibre à trouver.
           </Text>
         </View>
 
@@ -1297,7 +1457,7 @@ export default function HoroscopeMonthMajorAspects({
           />
 
           <Text style={styles.sectionTitle}>
-            Les influences principales
+            Les trois influences les plus marquantes
           </Text>
         </View>
 
@@ -1383,7 +1543,7 @@ export default function HoroscopeMonthMajorAspects({
                       <Text
                         style={styles.cardLabel}
                       >
-                        Aspect du mois
+                        Dynamique planétaire
                       </Text>
 
                       <Text
@@ -1474,13 +1634,9 @@ export default function HoroscopeMonthMajorAspects({
             <Text
               style={styles.summaryText}
             >
-              Ce mois vous demande de
-              combiner confiance et
-              discernement. Accueillez les
-              ouvertures qui se présentent,
-              tout en prenant le temps
-              nécessaire pour comprendre
-              les tensions avant d’y réagir.
+              {displayedAspects.length > 0
+                ? `Les aspects les plus précis de ${periodLabel} vous invitent à observer comment les différentes forces du mois se complètent ou se confrontent. Appuyez-vous sur les ouvertures disponibles, tout en prenant le temps de comprendre les tensions avant d’y répondre.`
+                : `Aucun aspect majeur n’a été retenu pour ${periodLabel}. Le climat astrologique du mois demeure toutefois évolutif : observez les changements de rythme et adaptez vos décisions avec discernement.`}
             </Text>
           </View>
         </View>
