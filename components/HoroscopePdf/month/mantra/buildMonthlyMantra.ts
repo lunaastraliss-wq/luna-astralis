@@ -1,7 +1,7 @@
 import {
   buildMonthlySeed,
   pickVariant,
-} from "../index";
+} from "../data";
 
 import {
   createMonthlyMantraTexts,
@@ -10,7 +10,7 @@ import {
 import type {
   BuildMonthlySectionParams,
   MonthlyMantraResult,
-} from "../types";
+} from "../data/types";
 
 /*
 |--------------------------------------------------------------------------
@@ -45,24 +45,28 @@ export function buildMonthlyMantra({
     );
 
   return {
-    mantra: pickVariant(
-      texts.mantra,
-      seed + 11,
-    ),
+    mantra:
+      pickVariant(
+        texts.mantra,
+        seed + 11,
+      ),
 
-    intention: pickVariant(
-      texts.intention,
-      seed + 23,
-    ),
+    intention:
+      pickVariant(
+        texts.intention,
+        seed + 23,
+      ),
 
-    affirmation: pickVariant(
-      texts.affirmation,
-      seed + 37,
-    ),
+    affirmation:
+      pickVariant(
+        texts.affirmation,
+        seed + 37,
+      ),
 
-    message: pickVariant(
-      texts.message,
-      seed + 53,
-    ),
+    message:
+      pickVariant(
+        texts.message,
+        seed + 53,
+      ),
   };
 }
