@@ -6,24 +6,56 @@ import type {
 
 /*
 |--------------------------------------------------------------------------
-| Définition des maisons astrologiques
+| Types internes
 |--------------------------------------------------------------------------
 */
 
 type HouseDefinition = {
   house: number;
-
-  title: string;
-
+  lifeArea: string;
   themes: string[];
 };
+
+type HouseScore = {
+  house: number;
+
+  rawScore: number;
+
+  transitCount: number;
+
+  supportiveCount: number;
+
+  challengingCount: number;
+
+  activatingPlanets: string[];
+
+  dates: string[];
+
+  strongestDate?: string;
+
+  strongestTransit?: string;
+
+  strongestEventScore: number;
+};
+
+type TransitRecord =
+  Record<
+    string,
+    unknown
+  >;
+
+/*
+|--------------------------------------------------------------------------
+| Signification des maisons
+|--------------------------------------------------------------------------
+*/
 
 const HOUSE_DEFINITIONS:
   HouseDefinition[] = [
     {
       house: 1,
 
-      title:
+      lifeArea:
         "Identité et affirmation",
 
       themes: [
@@ -37,7 +69,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 2,
 
-      title:
+      lifeArea:
         "Finances et valeurs",
 
       themes: [
@@ -51,7 +83,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 3,
 
-      title:
+      lifeArea:
         "Communication et entourage",
 
       themes: [
@@ -65,7 +97,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 4,
 
-      title:
+      lifeArea:
         "Foyer et fondations",
 
       themes: [
@@ -79,7 +111,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 5,
 
-      title:
+      lifeArea:
         "Créativité et plaisir",
 
       themes: [
@@ -93,7 +125,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 6,
 
-      title:
+      lifeArea:
         "Travail quotidien et bien-être",
 
       themes: [
@@ -107,7 +139,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 7,
 
-      title:
+      lifeArea:
         "Relations et engagements",
 
       themes: [
@@ -121,7 +153,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 8,
 
-      title:
+      lifeArea:
         "Transformation et ressources partagées",
 
       themes: [
@@ -135,7 +167,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 9,
 
-      title:
+      lifeArea:
         "Expansion et vision",
 
       themes: [
@@ -149,7 +181,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 10,
 
-      title:
+      lifeArea:
         "Carrière et accomplissement",
 
       themes: [
@@ -163,7 +195,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 11,
 
-      title:
+      lifeArea:
         "Projets et vie sociale",
 
       themes: [
@@ -177,7 +209,7 @@ const HOUSE_DEFINITIONS:
     {
       house: 12,
 
-      title:
+      lifeArea:
         "Intériorité et libération",
 
       themes: [
@@ -209,9 +241,11 @@ const HOUSE_MAP =
 */
 
 const ASPECT_WEIGHT:
-  Record<
-    MonthlyAspectType,
-    number
+  Partial<
+    Record<
+      MonthlyAspectType,
+      number
+    >
   > = {
     conjunction: 12,
     sextile: 7,
@@ -220,56 +254,9 @@ const ASPECT_WEIGHT:
     opposition: 11,
   };
 
-const SUPPORTIVE_ASPECTS =
-  new Set<
-    MonthlyAspectType
-  >([
-    "sextile",
-    "trine",
-  ]);
-
-const CHALLENGING_ASPECTS =
-  new Set<
-    MonthlyAspectType
-  >([
-    "square",
-    "opposition",
-  ]);
-
 /*
 |--------------------------------------------------------------------------
-| Types internes
-|--------------------------------------------------------------------------
-*/
-
-type HouseScore = {
-  house: number;
-
-  rawScore: number;
-
-  transitCount: number;
-
-  supportiveCount: number;
-
-  challengingCount: number;
-
-  transitIds: string[];
-
-  strongestDate?: string;
-
-  strongestTransit?: string;
-
-  strongestEventScore: number;
-};
-
-type HouseTone =
-  | "favorable"
-  | "challenging"
-  | "balanced";
-
-/*
-|--------------------------------------------------------------------------
-| Utilitaires
+| Utilitaires généraux
 |--------------------------------------------------------------------------
 */
 
@@ -315,6 +302,114 @@ function normalizeHouse(
   return house;
 }
 
+function normalizeString(
+  value: unknown,
+): string | null {
+  if (
+    typeof value !==
+    "string"
+  ) {
+    return null;
+  }
+
+  const normalized =
+    value.trim();
+
+  return normalized.length > 0
+    ? normalized
+    : null;
+}
+
+function addUniqueString(
+  values: string[],
+  value: string | null,
+): void {
+  if (
+    !value ||
+    values.includes(
+      value,
+    )
+  ) {
+    return;
+  }
+
+  values.push(
+    value,
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Lecture sécurisée des propriétés d’un transit
+|--------------------------------------------------------------------------
+*/
+
+function getTransitRecord(
+  transit:
+    MonthlyTransit,
+): TransitRecord {
+  return transit as unknown as
+    TransitRecord;
+}
+
+function getTransitPlanet(
+  transit:
+    MonthlyTransit,
+): string | null {
+  const record =
+    getTransitRecord(
+      transit,
+    );
+
+  const possibleValues = [
+    record.transitingPlanet,
+    record.planet,
+    record.transitPlanet,
+    record.planetName,
+    record.movingPlanet,
+  ];
+
+  for (
+    const value
+    of possibleValues
+  ) {
+    const planet =
+      normalizeString(
+        value,
+      );
+
+    if (planet) {
+      return planet;
+    }
+  }
+
+  return null;
+}
+
+function getTransitDate(
+  transit:
+    MonthlyTransit,
+): string | null {
+  return normalizeString(
+    transit.date,
+  );
+}
+
+function getTransitTitle(
+  transit:
+    MonthlyTransit,
+): string | null {
+  return normalizeString(
+    transit.title,
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Création du score d’une maison
+|--------------------------------------------------------------------------
+*/
+
 function createHouseScore(
   house: number,
 ): HouseScore {
@@ -329,7 +424,9 @@ function createHouseScore(
 
     challengingCount: 0,
 
-    transitIds: [],
+    activatingPlanets: [],
+
+    dates: [],
 
     strongestEventScore: 0,
   };
@@ -370,29 +467,32 @@ function getOrCreateHouseScore({
 
 /*
 |--------------------------------------------------------------------------
-| Nature de l’activation
+| Nature des aspects
 |--------------------------------------------------------------------------
 */
 
-function getHouseTone(
-  score:
-    HouseScore,
-): HouseTone {
-  if (
-    score.supportiveCount >
-    score.challengingCount
-  ) {
-    return "favorable";
-  }
+function isSupportiveAspect(
+  aspect?:
+    MonthlyAspectType,
+): boolean {
+  return (
+    aspect ===
+      "sextile" ||
+    aspect ===
+      "trine"
+  );
+}
 
-  if (
-    score.challengingCount >
-    score.supportiveCount
-  ) {
-    return "challenging";
-  }
-
-  return "balanced";
+function isChallengingAspect(
+  aspect?:
+    MonthlyAspectType,
+): boolean {
+  return (
+    aspect ===
+      "square" ||
+    aspect ===
+      "opposition"
+  );
 }
 
 /*
@@ -401,7 +501,7 @@ function getHouseTone(
 |--------------------------------------------------------------------------
 */
 
-function addTransitContribution({
+function addTransitToHouse({
   scores,
   transit,
 }: {
@@ -429,9 +529,11 @@ function addTransitContribution({
     });
 
   const importance =
-    Number.isFinite(
-      transit.importance,
-    )
+    typeof transit.importance ===
+        "number" &&
+      Number.isFinite(
+        transit.importance,
+      )
       ? clamp(
           transit.importance,
           0,
@@ -477,8 +579,7 @@ function addTransitContribution({
     1;
 
   if (
-    transit.aspect &&
-    SUPPORTIVE_ASPECTS.has(
+    isSupportiveAspect(
       transit.aspect,
     )
   ) {
@@ -487,8 +588,7 @@ function addTransitContribution({
   }
 
   if (
-    transit.aspect &&
-    CHALLENGING_ASPECTS.has(
+    isChallengingAspect(
       transit.aspect,
     )
   ) {
@@ -496,15 +596,19 @@ function addTransitContribution({
       1;
   }
 
-  if (
-    !houseScore.transitIds.includes(
-      transit.id,
-    )
-  ) {
-    houseScore.transitIds.push(
-      transit.id,
-    );
-  }
+  addUniqueString(
+    houseScore.activatingPlanets,
+    getTransitPlanet(
+      transit,
+    ),
+  );
+
+  addUniqueString(
+    houseScore.dates,
+    getTransitDate(
+      transit,
+    ),
+  );
 
   if (
     eventScore >
@@ -515,10 +619,14 @@ function addTransitContribution({
       eventScore;
 
     houseScore.strongestDate =
-      transit.date;
+      getTransitDate(
+        transit,
+      ) ?? undefined;
 
     houseScore.strongestTransit =
-      transit.title;
+      getTransitTitle(
+        transit,
+      ) ?? undefined;
   }
 }
 
@@ -543,15 +651,32 @@ function buildReasons(
         score.transitCount > 1
           ? "s"
           : ""
-      } personnalisé${
-        score.transitCount > 1
-          ? "s"
-          : ""
       } active${
         score.transitCount > 1
           ? "nt"
           : ""
       } cette maison.`,
+    );
+  }
+
+  if (
+    score.activatingPlanets.length >
+    0
+  ) {
+    reasons.push(
+      `Planète${
+        score.activatingPlanets.length >
+        1
+          ? "s"
+          : ""
+      } activatrice${
+        score.activatingPlanets.length >
+        1
+          ? "s"
+          : ""
+      } : ${score.activatingPlanets.join(
+        ", ",
+      )}.`,
     );
   }
 
@@ -567,11 +692,11 @@ function buildReasons(
         score.supportiveCount > 1
           ? "s"
           : ""
-      } facilite${
+      } soutienne${
         score.supportiveCount > 1
           ? "nt"
           : ""
-      } son expression.`,
+      } ce domaine.`,
     );
   }
 
@@ -599,15 +724,7 @@ function buildReasons(
     score.strongestDate
   ) {
     reasons.push(
-      `L’activation devient particulièrement importante autour du ${score.strongestDate}.`,
-    );
-  }
-
-  if (
-    score.strongestTransit
-  ) {
-    reasons.push(
-      `Le transit le plus marquant est : ${score.strongestTransit}.`,
+      `L’activation est particulièrement importante autour du ${score.strongestDate}.`,
     );
   }
 
@@ -619,37 +736,21 @@ function buildReasons(
 
 /*
 |--------------------------------------------------------------------------
-| Titre
+| Texte descriptif
 |--------------------------------------------------------------------------
 */
 
 function buildTitle({
   definition,
-  rank,
 }: {
   definition:
     HouseDefinition;
-
-  rank: number;
 }): string {
-  if (rank === 1) {
-    return (
-      `Maison ${definition.house} — ` +
-      `${definition.title}`
-    );
-  }
-
   return (
     `Maison ${definition.house} — ` +
-    `${definition.title}`
+    definition.lifeArea
   );
 }
-
-/*
-|--------------------------------------------------------------------------
-| Description
-|--------------------------------------------------------------------------
-*/
 
 function buildDescription({
   definition,
@@ -661,50 +762,39 @@ function buildDescription({
   score:
     HouseScore;
 }): string {
-  const tone =
-    getHouseTone(
-      score,
-    );
-
   const primaryTheme =
     definition.themes[0];
 
   const secondaryTheme =
     definition.themes[1] ??
-    definition.themes[0];
+    primaryTheme;
 
   if (
-    tone ===
-    "favorable"
+    score.supportiveCount >
+    score.challengingCount
   ) {
     return (
       `La maison ${definition.house} est favorablement activée durant le mois. ` +
       `Elle met en lumière les domaines de ${primaryTheme} et de ${secondaryTheme}. ` +
-      "Des occasions de progression peuvent apparaître plus naturellement lorsque vous prenez une initiative concrète."
+      "Des occasions de progression peuvent apparaître lorsque vous prenez une initiative concrète."
     );
   }
 
   if (
-    tone ===
-    "challenging"
+    score.challengingCount >
+    score.supportiveCount
   ) {
     return (
-      `La maison ${definition.house} devient un secteur important d’évolution durant le mois. ` +
-      `Les thèmes de ${primaryTheme} et de ${secondaryTheme} peuvent demander des ajustements, des décisions ou une nouvelle manière d’aborder certaines situations.`
+      `La maison ${definition.house} devient un secteur important d’évolution. ` +
+      `Les thèmes de ${primaryTheme} et de ${secondaryTheme} peuvent demander des ajustements, des décisions ou une nouvelle manière d’aborder la situation.`
     );
   }
 
   return (
-    `La maison ${definition.house} attire votre attention sur les domaines de ${primaryTheme} et de ${secondaryTheme}. ` +
+    `La maison ${definition.house} attire votre attention sur les thèmes de ${primaryTheme} et de ${secondaryTheme}. ` +
     "Le mois peut alterner entre ouvertures et ajustements, ce qui vous invite à avancer avec souplesse."
   );
 }
-
-/*
-|--------------------------------------------------------------------------
-| Conseil
-|--------------------------------------------------------------------------
-*/
 
 function buildAdvice({
   definition,
@@ -716,17 +806,12 @@ function buildAdvice({
   score:
     HouseScore;
 }): string {
-  const tone =
-    getHouseTone(
-      score,
-    );
-
   const primaryTheme =
     definition.themes[0];
 
   if (
-    tone ===
-    "favorable"
+    score.supportiveCount >
+    score.challengingCount
   ) {
     return (
       `Profitez des occasions liées à ${primaryTheme}, ` +
@@ -735,8 +820,8 @@ function buildAdvice({
   }
 
   if (
-    tone ===
-    "challenging"
+    score.challengingCount >
+    score.supportiveCount
   ) {
     return (
       `Prenez le temps de revoir votre manière de gérer ${primaryTheme} ` +
@@ -789,54 +874,55 @@ function convertToActivatedHouse({
         )
       : 1;
 
-  /*
-   * La conversion est centralisée ici afin que le reste
-   * du calcul demeure indépendant de l’affichage PDF.
-   */
-  return {
-    house:
-      houseScore.house,
+  const result:
+    MonthlyActivatedHouse = {
+      house:
+        houseScore.house,
 
-    score:
-      clamp(
-        normalizedScore,
-        1,
-        100,
-      ),
+      lifeArea:
+        definition.lifeArea,
 
-    rank,
+      activatingPlanets:
+        houseScore.activatingPlanets,
 
-    themes:
-      definition.themes,
+      dates:
+        houseScore.dates,
 
-    transitIds:
-      houseScore.transitIds,
+      score:
+        clamp(
+          normalizedScore,
+          1,
+          100,
+        ),
 
-    reasons:
-      buildReasons(
-        houseScore,
-      ),
+      rank,
 
-    title:
-      buildTitle({
-        definition,
-        rank,
-      }),
-
-    description:
-      buildDescription({
-        definition,
-        score:
+      reasons:
+        buildReasons(
           houseScore,
-      }),
+        ),
 
-    advice:
-      buildAdvice({
-        definition,
-        score:
-          houseScore,
-      }),
-  } as MonthlyActivatedHouse;
+      title:
+        buildTitle({
+          definition,
+        }),
+
+      description:
+        buildDescription({
+          definition,
+          score:
+            houseScore,
+        }),
+
+      advice:
+        buildAdvice({
+          definition,
+          score:
+            houseScore,
+        }),
+    };
+
+  return result;
 }
 
 /*
@@ -871,7 +957,7 @@ export function calculateActivatedHouses({
     const transit
     of safeTransits
   ) {
-    addTransitContribution({
+    addTransitToHouse({
       scores,
       transit,
     });
