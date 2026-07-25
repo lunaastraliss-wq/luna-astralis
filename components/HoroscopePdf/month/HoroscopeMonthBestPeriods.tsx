@@ -25,6 +25,10 @@ import type {
   MonthlyHoroscopeResult,
 } from "../buildMonthlyHoroscope";
 
+import type {
+  MonthlyAstrologyResult,
+} from "./calculations/types";
+
 /*
 |--------------------------------------------------------------------------
 | Couleurs Luna Astralis
@@ -75,7 +79,12 @@ type HoroscopeMonthBestPeriodsProps =
     MonthlyHoroscopeResult,
     | "identity"
     | "period"
-  >;
+  > & {
+    bestPeriods:
+      MonthlyAstrologyResult[
+        "bestPeriods"
+      ];
+  };
 
 type BestPeriodCategory =
   | "love"
@@ -83,133 +92,424 @@ type BestPeriodCategory =
   | "money"
   | "energy";
 
-type TemporaryBestPeriod = {
-  id:
-    string;
-
-  dates:
-    string;
-
-  category:
-    BestPeriodCategory;
-
-  categoryLabel:
-    string;
-
-  title:
-    string;
-
-  description:
-    string;
-
-  advice:
-    string;
+type DisplayBestPeriod = {
+  id: string;
+  dates: string;
+  category: BestPeriodCategory;
+  categoryLabel: string;
+  title: string;
+  description: string;
+  advice: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Périodes temporaires
+| Adaptation des vraies périodes favorables
 |--------------------------------------------------------------------------
-|
-| Ces périodes seront remplacées plus tard par les véritables fenêtres
-| favorables calculées pour le mois et le signe sélectionnés.
-|
 */
 
-const TEMPORARY_BEST_PERIODS:
-  TemporaryBestPeriod[] = [
+type BestPeriodRecord =
+  Record<
+    string,
+    unknown
+  >;
+
+function readString(
+  source:
+    BestPeriodRecord,
+  keys:
+    string[],
+): string {
+  for (
+    const key of keys
+  ) {
+    const value =
+      source[key];
+
+    if (
+      typeof value ===
+        "string" &&
+      value.trim()
+    ) {
+      return value.trim();
+    }
+  }
+
+  return "";
+}
+
+function normalizeText(
+  value:
+    string,
+): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+}
+
+function getBestPeriodCategory(
+  value:
+    string,
+): BestPeriodCategory {
+  const normalized =
+    normalizeText(
+      value,
+    );
+
+  if (
+    normalized.includes(
+      "amour",
+    ) ||
+    normalized.includes(
+      "relation",
+    ) ||
+    normalized.includes(
+      "venus",
+    ) ||
+    normalized.includes(
+      "love",
+    )
+  ) {
+    return "love";
+  }
+
+  if (
+    normalized.includes(
+      "carriere",
+    ) ||
+    normalized.includes(
+      "travail",
+    ) ||
+    normalized.includes(
+      "profession",
+    ) ||
+    normalized.includes(
+      "career",
+    )
+  ) {
+    return "career";
+  }
+
+  if (
+    normalized.includes(
+      "finance",
+    ) ||
+    normalized.includes(
+      "argent",
+    ) ||
+    normalized.includes(
+      "ressource",
+    ) ||
+    normalized.includes(
+      "money",
+    )
+  ) {
+    return "money";
+  }
+
+  return "energy";
+}
+
+function getCategoryLabel(
+  category:
+    BestPeriodCategory,
+): string {
+  switch (category) {
+    case "love":
+      return "Amour";
+
+    case "career":
+      return "Carrière";
+
+    case "money":
+      return "Finances";
+
+    case "energy":
+    default:
+      return "Énergie";
+  }
+}
+
+function formatBestPeriodDate(
+  value:
+    string,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const date =
+    new Date(
+      value.includes("T")
+        ? value
+        : `${value}T12:00:00`,
+    );
+
+  if (
+    Number.isNaN(
+      date.getTime(),
+    )
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(
+    "fr-CA",
     {
-      id:
-        "best-period-1",
+      day:
+        "numeric",
 
-      dates:
-        "Du 3 au 7",
-
-      category:
-        "energy",
-
-      categoryLabel:
-        "Énergie",
-
-      title:
-        "Une période idéale pour prendre votre élan",
-
-      description:
-        "Le début de cette période favorise les initiatives, les décisions et les actions qui demandent de la confiance. Vous pourriez ressentir davantage de clarté sur la direction à suivre.",
-
-      advice:
-        "Profitez de cette énergie pour commencer ce que vous remettez à plus tard.",
+      month:
+        "long",
     },
+  ).format(date);
+}
 
-    {
-      id:
-        "best-period-2",
+function buildDatesLabel(
+  source:
+    BestPeriodRecord,
+): string {
+  const directLabel =
+    readString(
+      source,
+      [
+        "dates",
+        "dateLabel",
+        "periodLabel",
+        "label",
+      ],
+    );
 
-      dates:
-        "Du 11 au 15",
+  if (directLabel) {
+    return directLabel;
+  }
 
-      category:
-        "love",
+  const startDate =
+    formatBestPeriodDate(
+      readString(
+        source,
+        [
+          "startDate",
+          "from",
+          "dateFrom",
+          "start",
+        ],
+      ),
+    );
 
-      categoryLabel:
-        "Amour",
+  const endDate =
+    formatBestPeriodDate(
+      readString(
+        source,
+        [
+          "endDate",
+          "to",
+          "dateTo",
+          "end",
+        ],
+      ),
+    );
 
-      title:
-        "Des échanges plus fluides et chaleureux",
+  if (
+    startDate &&
+    endDate &&
+    startDate !== endDate
+  ) {
+    return `Du ${startDate} au ${endDate}`;
+  }
 
-      description:
-        "Les relations bénéficient d’une atmosphère plus douce. Les rapprochements, les conversations sincères et les gestes affectueux pourraient être particulièrement bien reçus.",
+  if (startDate) {
+    return startDate;
+  }
 
-      advice:
-        "Exprimez ce que vous ressentez avec simplicité et authenticité.",
-    },
+  if (endDate) {
+    return endDate;
+  }
 
-    {
-      id:
-        "best-period-3",
+  const exactDate =
+    formatBestPeriodDate(
+      readString(
+        source,
+        [
+          "date",
+          "isoDate",
+          "exactDate",
+        ],
+      ),
+    );
 
-      dates:
-        "Du 18 au 22",
+  return (
+    exactDate ||
+    "Période favorable"
+  );
+}
 
-      category:
-        "career",
+function getDefaultTitle(
+  category:
+    BestPeriodCategory,
+): string {
+  switch (category) {
+    case "love":
+      return "Un climat favorable aux relations et aux rapprochements";
 
-      categoryLabel:
-        "Carrière",
+    case "career":
+      return "Une fenêtre utile pour faire avancer vos projets";
 
-      title:
-        "Une ouverture professionnelle intéressante",
+    case "money":
+      return "Une période propice aux décisions financières réfléchies";
 
-      description:
-        "Cette période peut favoriser une avancée, une réponse attendue ou une occasion de mettre vos compétences en valeur. Votre sérieux pourrait attirer une attention positive.",
+    case "energy":
+    default:
+      return "Une période idéale pour prendre votre élan";
+  }
+}
 
-      advice:
-        "Présentez vos idées avec assurance et restez attentif aux nouvelles possibilités.",
-    },
+function getDefaultDescription(
+  category:
+    BestPeriodCategory,
+): string {
+  switch (category) {
+    case "love":
+      return "Les échanges gagnent en fluidité et en chaleur. Cette période peut soutenir les rapprochements, les conversations sincères et les gestes affectueux.";
 
-    {
-      id:
-        "best-period-4",
+    case "career":
+      return "Le climat favorise les démarches professionnelles, la visibilité et les décisions qui demandent de la confiance ou de l’organisation.";
 
-      dates:
-        "Du 25 au 28",
+    case "money":
+      return "Cette période peut vous aider à mieux définir vos priorités, organiser vos ressources et prendre une décision utile à long terme.";
 
-      category:
-        "money",
+    case "energy":
+    default:
+      return "L’énergie du moment soutient les initiatives, les décisions et les actions qui demandent davantage d’assurance.";
+  }
+}
 
-      categoryLabel:
-        "Finances",
+function getDefaultAdvice(
+  category:
+    BestPeriodCategory,
+): string {
+  switch (category) {
+    case "love":
+      return "Exprimez ce que vous ressentez avec simplicité et authenticité.";
 
-      title:
-        "Un moment favorable pour mieux organiser vos ressources",
+    case "career":
+      return "Présentez vos idées clairement et restez attentif aux occasions concrètes.";
 
-      description:
-        "Vous pourriez voir plus clairement vos priorités financières. Une décision réfléchie ou une meilleure organisation peut renforcer votre sentiment de sécurité.",
+    case "money":
+      return "Privilégiez les choix durables plutôt que les décisions impulsives.";
 
-      advice:
-        "Privilégiez les choix utiles à long terme plutôt que les dépenses impulsives.",
-    },
-  ];
+    case "energy":
+    default:
+      return "Profitez de cette énergie pour avancer sur ce que vous reportez.";
+  }
+}
+
+function buildDisplayBestPeriod(
+  item:
+    MonthlyAstrologyResult[
+      "bestPeriods"
+    ][number],
+  index:
+    number,
+): DisplayBestPeriod {
+  const source =
+    item as unknown as
+      BestPeriodRecord;
+
+  const rawCategory =
+    readString(
+      source,
+      [
+        "category",
+        "categoryLabel",
+        "domain",
+        "theme",
+        "area",
+      ],
+    );
+
+  const category =
+    getBestPeriodCategory(
+      rawCategory,
+    );
+
+  return {
+    id:
+      readString(
+        source,
+        [
+          "id",
+          "key",
+        ],
+      ) ||
+      `best-period-${index + 1}`,
+
+    dates:
+      buildDatesLabel(
+        source,
+      ),
+
+    category,
+
+    categoryLabel:
+      readString(
+        source,
+        [
+          "categoryLabel",
+          "domainLabel",
+        ],
+      ) ||
+      getCategoryLabel(
+        category,
+      ),
+
+    title:
+      readString(
+        source,
+        [
+          "title",
+          "headline",
+          "name",
+        ],
+      ) ||
+      getDefaultTitle(
+        category,
+      ),
+
+    description:
+      readString(
+        source,
+        [
+          "description",
+          "interpretation",
+          "meaning",
+          "text",
+        ],
+      ) ||
+      getDefaultDescription(
+        category,
+      ),
+
+    advice:
+      readString(
+        source,
+        [
+          "advice",
+          "guidance",
+          "recommendation",
+          "bestUse",
+          "action",
+        ],
+      ) ||
+      getDefaultAdvice(
+        category,
+      ),
+  };
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -1546,11 +1846,33 @@ function getCategoryIcon(
 export default function HoroscopeMonthBestPeriods({
   identity,
   period,
+  bestPeriods,
 }: HoroscopeMonthBestPeriodsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
       identity.zodiacSign,
     );
+
+  const displayedPeriods =
+    (
+      Array.isArray(
+        bestPeriods,
+      )
+        ? bestPeriods
+        : []
+    )
+      .slice(0, 4)
+      .map(
+        buildDisplayBestPeriod,
+      );
+
+  const favorableWindows =
+    displayedPeriods
+      .map(
+        (item) =>
+          `${item.categoryLabel} : ${item.dates}`,
+      )
+      .join(", ");
 
   return (
     <Page
@@ -1698,14 +2020,14 @@ export default function HoroscopeMonthBestPeriods({
         */}
 
         <View style={styles.cardsContainer}>
-          {TEMPORARY_BEST_PERIODS.map(
+          {displayedPeriods.map(
             (
               item,
               index,
             ) => {
               const isLast =
                 index ===
-                TEMPORARY_BEST_PERIODS.length -
+                displayedPeriods.length -
                   1;
 
               const categoryIcon =
@@ -1910,13 +2232,9 @@ export default function HoroscopeMonthBestPeriods({
             <Text
               style={styles.closingText}
             >
-              Vous n’avez pas besoin de tout
-              accomplir en même temps.
-              Concentrez vos efforts sur les
-              périodes où l’énergie semble plus
-              fluide, puis utilisez les autres
-              moments pour réfléchir, ajuster et
-              préparer la suite.
+              {favorableWindows
+                ? `Les principales fenêtres favorables de ${period.label} sont ${favorableWindows}. Concentrez vos efforts sur ces moments, puis utilisez les autres périodes pour réfléchir, ajuster et préparer la suite.`
+                : `Aucune fenêtre nettement favorable n’a été retenue pour ${period.label}. Avancez avec discernement et utilisez les moments plus calmes pour préparer vos prochaines démarches.`}
             </Text>
           </View>
         </View>
