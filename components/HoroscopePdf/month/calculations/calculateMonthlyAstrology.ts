@@ -1,3 +1,12 @@
+import { calculateActivatedHouses } from "./calculateActivatedHouses";
+import { calculateAstroEvents } from "./calculateAstroEvents";
+import { calculateMonthlyAspects } from "./calculateMonthlyAspects";
+import { calculateMonthlyDominants } from "./calculateMonthlyDominants";
+import { calculateMonthlyPeriods } from "./calculateMonthlyPeriods";
+import { calculateMonthlySkySnapshots } from "./calculateMonthlySkySnapshots";
+import { calculateMonthlyTransits } from "./calculateMonthlyTransits";
+import { calculateMoonPhases } from "./calculateMoonPhases";
+
 import type {
   CalculateMonthlyAstrologyParams,
   MonthlyAstrologyResult,
@@ -22,7 +31,9 @@ function buildIsoMonth(
   year: number,
   month: number,
 ): string {
-  return `${year}-${padNumber(month)}`;
+  return `${year}-${padNumber(
+    month,
+  )}`;
 }
 
 function getMonthDateRange(
@@ -32,21 +43,61 @@ function getMonthDateRange(
   startDate: string;
   endDate: string;
 } {
-  const lastDay = new Date(
-    year,
-    month,
-    0,
-  ).getDate();
+  const lastDay =
+    new Date(
+      year,
+      month,
+      0,
+    ).getDate();
 
   return {
     startDate:
-      `${year}-${padNumber(month)}-01`,
+      `${year}-` +
+      `${padNumber(month)}-01`,
 
     endDate:
-      `${year}-${padNumber(month)}-${padNumber(
-        lastDay,
-      )}`,
+      `${year}-` +
+      `${padNumber(month)}-` +
+      `${padNumber(lastDay)}`,
   };
+}
+
+/*
+|--------------------------------------------------------------------------
+| Validation des paramètres
+|--------------------------------------------------------------------------
+*/
+
+function validateMonth(
+  month: number,
+): void {
+  if (
+    !Number.isInteger(month) ||
+    month < 1 ||
+    month > 12
+  ) {
+    throw new Error(
+      `Mois astrologique invalide : ${String(
+        month,
+      )}`,
+    );
+  }
+}
+
+function validateYear(
+  year: number,
+): void {
+  if (
+    !Number.isInteger(year) ||
+    year < 1900 ||
+    year > 2200
+  ) {
+    throw new Error(
+      `Année astrologique invalide : ${String(
+        year,
+      )}`,
+    );
+  }
 }
 
 /*
@@ -54,18 +105,19 @@ function getMonthDateRange(
 | Moteur astrologique mensuel
 |--------------------------------------------------------------------------
 |
-| Ce fichier sera le seul point d’entrée pour les huit pages calculées.
+| Ce fichier est le point d’entrée unique des huit pages astrologiques
+| calculées du rapport mensuel.
 |
-| On ajoutera progressivement :
+| Ordre des calculs :
 |
-| 1. calculateMonthlyPlanetPositions
-| 2. calculateMonthlyAspects
-| 3. calculateMonthlyTransits
-| 4. calculateMonthlyDominants
-| 5. calculateMonthlyPeriods
-| 6. calculateMonthlyActivatedHouses
-| 7. calculateMonthlyMoonPhases
-| 8. calculateMonthlyAstroEvents
+| 1. Positions planétaires quotidiennes
+| 2. Transits personnalisés
+| 3. Aspects planétaires du mois
+| 4. Planètes dominantes
+| 5. Périodes favorables et délicates
+| 6. Maisons astrologiques activées
+| 7. Phases de la Lune
+| 8. Événements astrologiques
 |
 */
 
@@ -78,35 +130,26 @@ export function calculateMonthlyAstrology({
     year,
   } = period;
 
-  if (
-    !Number.isInteger(month) ||
-    month < 1 ||
-    month > 12
-  ) {
-    throw new Error(
-      `Mois astrologique invalide : ${String(
-        month,
-      )}`,
-    );
-  }
+  /*
+  |--------------------------------------------------------------------------
+  | Validation
+  |--------------------------------------------------------------------------
+  */
 
-  if (
-    !Number.isInteger(year) ||
-    year < 1900 ||
-    year > 2200
-  ) {
-    throw new Error(
-      `Année astrologique invalide : ${String(
-        year,
-      )}`,
-    );
-  }
+  validateMonth(month);
+  validateYear(year);
 
   if (!identity.zodiacSign) {
     throw new Error(
       "Le signe astrologique est requis pour le calcul mensuel.",
     );
   }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Informations générales du mois
+  |--------------------------------------------------------------------------
+  */
 
   const isoMonth =
     buildIsoMonth(
@@ -124,12 +167,105 @@ export function calculateMonthlyAstrology({
 
   /*
   |--------------------------------------------------------------------------
-  | Résultat temporaire
+  | 1. Positions planétaires quotidiennes
   |--------------------------------------------------------------------------
-  |
-  | Il est volontairement vide tant que le moteur astronomique réel
-  | n’est pas branché. On ne génère aucune fausse position planétaire.
-  |
+  */
+
+  const skySnapshots =
+    calculateMonthlySkySnapshots({
+      identity,
+      month,
+      year,
+    });
+
+  /*
+  |--------------------------------------------------------------------------
+  | 2. Transits personnalisés
+  |--------------------------------------------------------------------------
+  */
+
+  const transits =
+    calculateMonthlyTransits({
+      identity,
+      skySnapshots,
+    });
+
+  /*
+  |--------------------------------------------------------------------------
+  | 3. Aspects planétaires du mois
+  |--------------------------------------------------------------------------
+  */
+
+  const aspects =
+    calculateMonthlyAspects(
+      skySnapshots,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | 4. Planètes dominantes
+  |--------------------------------------------------------------------------
+  */
+
+  const dominantPlanets =
+    calculateMonthlyDominants({
+      aspects,
+      transits,
+    });
+
+  /*
+  |--------------------------------------------------------------------------
+  | 5. Périodes favorables et délicates
+  |--------------------------------------------------------------------------
+  */
+
+  const {
+    favorablePeriods,
+    delicatePeriods,
+  } = calculateMonthlyPeriods({
+    aspects,
+    transits,
+    startDate,
+    endDate,
+  });
+
+  /*
+  |--------------------------------------------------------------------------
+  | 6. Maisons astrologiques activées
+  |--------------------------------------------------------------------------
+  */
+
+  const activatedHouses =
+    calculateActivatedHouses({
+      transits,
+    });
+
+  /*
+  |--------------------------------------------------------------------------
+  | 7. Phases de la Lune
+  |--------------------------------------------------------------------------
+  */
+
+  const moonPhases =
+    calculateMoonPhases(
+      skySnapshots,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | 8. Événements astrologiques
+  |--------------------------------------------------------------------------
+  */
+
+  const astroEvents =
+    calculateAstroEvents(
+      skySnapshots,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Résultat final
+  |--------------------------------------------------------------------------
   */
 
   return {
@@ -137,20 +273,20 @@ export function calculateMonthlyAstrology({
     startDate,
     endDate,
 
-    skySnapshots: [],
+    skySnapshots,
 
-    transits: [],
-    aspects: [],
+    transits,
+    aspects,
 
-    dominantPlanets: [],
+    dominantPlanets,
 
-    favorablePeriods: [],
-    delicatePeriods: [],
+    favorablePeriods,
+    delicatePeriods,
 
-    activatedHouses: [],
+    activatedHouses,
 
-    moonPhases: [],
+    moonPhases,
 
-    astroEvents: [],
+    astroEvents,
   };
 }
