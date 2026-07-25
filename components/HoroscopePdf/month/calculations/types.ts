@@ -243,6 +243,8 @@ export type MonthlyActivatedHouse = {
   score: number;
   rank: number;
 
+  reasons: string[];
+
   title: string;
   lifeArea: string;
 
