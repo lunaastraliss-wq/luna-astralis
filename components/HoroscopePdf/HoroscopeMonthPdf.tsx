@@ -86,6 +86,7 @@ type HoroscopeMonthPdfProps =
     | "content"
     | "weeks"
     | "majorEnergies"
+    | "astrology"
     | "zodiacIconUrl"
   > & {
     logoUrl?: string;
@@ -103,6 +104,7 @@ export default function HoroscopeMonthPdf({
   content,
   weeks,
   majorEnergies,
+  astrology,
   logoUrl,
   zodiacIconUrl,
 }: HoroscopeMonthPdfProps) {
@@ -200,26 +202,41 @@ export default function HoroscopeMonthPdf({
       <HoroscopeMonthMajorAspects
         identity={identity}
         period={period}
+        aspects={
+          astrology.aspects
+        }
       />
 
       <HoroscopeMonthDominantPlanets
         identity={identity}
         period={period}
+        dominantPlanets={
+          astrology.dominantPlanets
+        }
       />
 
       <HoroscopeMonthActivatedHouses
         identity={identity}
         period={period}
+        activatedHouses={
+          astrology.activatedHouses
+        }
       />
 
       <HoroscopeMonthMoonPhases
         identity={identity}
         period={period}
+        moonPhases={
+          astrology.moonPhases
+        }
       />
 
       <HoroscopeMonthAstroEvents
         identity={identity}
         period={period}
+        astroEvents={
+          astrology.astroEvents
+        }
       />
 
       {/*
@@ -265,11 +282,17 @@ export default function HoroscopeMonthPdf({
       <HoroscopeMonthBestPeriods
         identity={identity}
         period={period}
+        favorablePeriods={
+          astrology.favorablePeriods
+        }
       />
 
       <HoroscopeMonthDelicatePeriods
         identity={identity}
         period={period}
+        delicatePeriods={
+          astrology.delicatePeriods
+        }
       />
 
       {/*
