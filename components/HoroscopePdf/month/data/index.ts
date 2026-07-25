@@ -132,3 +132,27 @@ export {
 export {
   buildMonthlyTransit,
 } from "./buildMonthlyTransit";
+
+/*
+|--------------------------------------------------------------------------
+| Mantra du mois
+|--------------------------------------------------------------------------
+|
+| Le dossier mantra se trouve au même niveau que le dossier data :
+|
+| month/
+| ├── data/
+| │   └── index.ts
+| └── mantra/
+|     ├── createMonthlyMantraTexts.ts
+|     └── buildMonthlyMantra.ts
+|
+*/
+
+export {
+  createMonthlyMantraTexts,
+} from "../mantra/createMonthlyMantraTexts";
+
+export {
+  buildMonthlyMantra,
+} from "../mantra/buildMonthlyMantra";
