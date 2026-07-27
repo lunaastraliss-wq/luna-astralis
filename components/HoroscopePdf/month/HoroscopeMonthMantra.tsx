@@ -1,12 +1,26 @@
 import {
+  Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
 
+import {
+  HOROSCOPE_ICONS,
+  HOROSCOPE_LOGO_URL,
+} from "../HoroscopePdfAssets";
+
 import HoroscopePageFooter
   from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
+
+import {
+  formatHoroscopePeriodLabel,
+  getHoroscopeZodiacIconUrl,
+} from "../HoroscopePdfUtils";
 
 import type {
   HoroscopeIdentity,
@@ -16,6 +30,25 @@ import type {
 import type {
   MonthlyMantraResult,
 } from "./data/types";
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs Luna Astralis
+|--------------------------------------------------------------------------
+*/
+
+const NAVY = "#06101F";
+const NAVY_CARD = "#0A1729";
+const NAVY_CARD_LIGHT = "#0D1B30";
+const NAVY_SOFT = "#101F35";
+
+const GOLD = "#F4C95D";
+const CREAM = "#FFF8E7";
+const MUTED_CREAM = "#DDD5C6";
+const SOFT_TEXT = "#B9AE98";
+
+const DARK_GOLD = "#8F6E35";
+const DEEP_GOLD = "#4E412D";
 
 /*
 |--------------------------------------------------------------------------
@@ -38,14 +71,18 @@ type HoroscopeMonthMantraProps = {
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    minHeight: "100%",
-    paddingTop: 46,
-    paddingRight: 48,
-    paddingBottom: 62,
-    paddingLeft: 48,
-    backgroundColor: "#FBF8F2",
-    color: "#2E2533",
+    paddingTop: 34,
+    paddingHorizontal: 42,
+    paddingBottom: 54,
+    backgroundColor: NAVY,
     fontFamily: "Helvetica",
+    overflow: "hidden",
+  },
+
+  content: {
+    position: "relative",
+    zIndex: 2,
+    flex: 1,
   },
 
   /*
@@ -54,162 +91,369 @@ const styles = StyleSheet.create({
   |--------------------------------------------------------------------------
   */
 
-  eyebrow: {
-    marginBottom: 8,
-    color: "#9B7441",
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+
+  logo: {
+    width: 108,
+    height: 38,
+    objectFit: "contain",
+  },
+
+  signBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 7,
+    paddingHorizontal: 12,
+    borderRadius: 18,
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  signIcon: {
+    width: 22,
+    height: 22,
+    marginRight: 7,
+    objectFit: "contain",
+  },
+
+  signName: {
+    color: GOLD,
     fontSize: 8,
-    fontWeight: 700,
-    letterSpacing: 2.4,
-    textAlign: "center",
+    letterSpacing: 1,
     textTransform: "uppercase",
-  },
-
-  title: {
-    color: "#3C2945",
-    fontSize: 24,
-    fontWeight: 700,
-    lineHeight: 1.2,
-    textAlign: "center",
-  },
-
-  subtitle: {
-    marginTop: 7,
-    color: "#776C7B",
-    fontSize: 10,
-    lineHeight: 1.5,
-    textAlign: "center",
-  },
-
-  divider: {
-    alignSelf: "center",
-    width: 62,
-    height: 1,
-    marginTop: 17,
-    marginBottom: 22,
-    backgroundColor: "#CDAA6A",
   },
 
   /*
   |--------------------------------------------------------------------------
-  | Carte principale — mantra
+  | Titre
+  |--------------------------------------------------------------------------
+  */
+
+  titleBlock: {
+    marginBottom: 18,
+  },
+
+  eyebrow: {
+    marginBottom: 7,
+    color: GOLD,
+    fontSize: 9,
+    letterSpacing: 2.4,
+    textTransform: "uppercase",
+  },
+
+  title: {
+    maxWidth: 430,
+    marginBottom: 7,
+    color: CREAM,
+    fontSize: 24,
+    lineHeight: 1.2,
+  },
+
+  period: {
+    marginBottom: 9,
+    color: MUTED_CREAM,
+    fontSize: 9.7,
+  },
+
+  titleDecoration: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  titleLine: {
+    width: 62,
+    height: 1,
+    marginRight: 9,
+    backgroundColor: GOLD,
+  },
+
+  titleIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 9,
+    objectFit: "contain",
+  },
+
+  titleLineSmall: {
+    width: 22,
+    height: 1,
+    backgroundColor: DARK_GOLD,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Mantra principal
   |--------------------------------------------------------------------------
   */
 
   mantraCard: {
-    paddingTop: 28,
-    paddingRight: 30,
-    paddingBottom: 28,
-    paddingLeft: 30,
-    borderWidth: 1,
-    borderColor: "#D9C29A",
+    position: "relative",
+    minHeight: 154,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 14,
+    paddingVertical: 25,
+    paddingHorizontal: 30,
     borderRadius: 12,
-    backgroundColor: "#F3EBDD",
+    borderWidth: 0.7,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  mantraOrbitOne: {
+    position: "absolute",
+    top: -88,
+    right: -75,
+    width: 185,
+    height: 185,
+    borderRadius: 93,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  mantraOrbitTwo: {
+    position: "absolute",
+    top: -43,
+    right: -31,
+    width: 102,
+    height: 102,
+    borderRadius: 51,
+    borderWidth: 0.5,
+    borderColor: DARK_GOLD,
+  },
+
+  mantraWatermark: {
+    position: "absolute",
+    top: 20,
+    right: 24,
+    width: 92,
+    height: 92,
+    objectFit: "contain",
+    opacity: 0.05,
+  },
+
+  mantraIconCircle: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 11,
+    borderRadius: 20,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_SOFT,
+  },
+
+  mantraIcon: {
+    width: 24,
+    height: 24,
+    objectFit: "contain",
   },
 
   mantraLabel: {
-    marginBottom: 13,
-    color: "#9B7441",
-    fontSize: 8,
-    fontWeight: 700,
-    letterSpacing: 2,
+    marginBottom: 10,
+    color: GOLD,
+    fontSize: 7.2,
+    letterSpacing: 1.65,
     textAlign: "center",
     textTransform: "uppercase",
   },
 
   mantraText: {
-    color: "#3B2945",
-    fontSize: 18,
-    fontWeight: 700,
-    lineHeight: 1.5,
+    maxWidth: 440,
+    color: CREAM,
+    fontSize: 17,
+    lineHeight: 1.48,
     textAlign: "center",
   },
 
   /*
   |--------------------------------------------------------------------------
-  | Sections secondaires
+  | Intention et affirmation
   |--------------------------------------------------------------------------
   */
-
-  sections: {
-    marginTop: 21,
-  },
-
-  section: {
-    marginBottom: 13,
-    paddingTop: 16,
-    paddingRight: 18,
-    paddingBottom: 16,
-    paddingLeft: 18,
-    borderWidth: 1,
-    borderColor: "#E4D9C8",
-    borderRadius: 9,
-    backgroundColor: "#FFFFFF",
-  },
 
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 9,
   },
 
-  sectionNumber: {
-    width: 23,
-    height: 23,
-    marginRight: 10,
-    paddingTop: 7,
-    borderRadius: 12,
-    backgroundColor: "#5B3C63",
-    color: "#FFFFFF",
-    fontSize: 9,
-    fontWeight: 700,
-    lineHeight: 1,
-    textAlign: "center",
+  sectionLine: {
+    width: 28,
+    height: 1,
+    marginRight: 9,
+    backgroundColor: GOLD,
   },
 
-  sectionTitle: {
-    color: "#5B3C63",
-    fontSize: 10,
-    fontWeight: 700,
-    letterSpacing: 0.7,
+  sectionHeaderIcon: {
+    width: 16,
+    height: 16,
+    marginRight: 9,
+    objectFit: "contain",
+  },
+
+  sectionHeaderTitle: {
+    color: GOLD,
+    fontSize: 9.3,
+    letterSpacing: 1.45,
     textTransform: "uppercase",
   },
 
+  sectionsRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 14,
+  },
+
+  sectionCard: {
+    position: "relative",
+    width: "48.8%",
+    minHeight: 154,
+    paddingTop: 14,
+    paddingRight: 14,
+    paddingBottom: 13,
+    paddingLeft: 14,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+    overflow: "hidden",
+  },
+
+  cardOrbit: {
+    position: "absolute",
+    top: -54,
+    right: -50,
+    width: 115,
+    height: 115,
+    borderRadius: 58,
+    borderWidth: 0.5,
+    borderColor: DEEP_GOLD,
+  },
+
+  sectionCardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 11,
+  },
+
+  sectionNumberCircle: {
+    width: 34,
+    height: 34,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    borderRadius: 17,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_SOFT,
+  },
+
+  sectionNumber: {
+    color: GOLD,
+    fontSize: 12,
+    lineHeight: 1,
+  },
+
+  sectionTitleBlock: {
+    flex: 1,
+  },
+
+  sectionSmallLabel: {
+    marginBottom: 3,
+    color: SOFT_TEXT,
+    fontSize: 6,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+
+  sectionTitle: {
+    color: GOLD,
+    fontSize: 9.5,
+    lineHeight: 1.25,
+  },
+
   sectionText: {
-    color: "#4F4653",
-    fontSize: 10,
-    lineHeight: 1.6,
+    color: MUTED_CREAM,
+    fontSize: 8.5,
+    lineHeight: 1.52,
   },
 
   /*
   |--------------------------------------------------------------------------
-  | Message final
+  | Message Luna Astralis
   |--------------------------------------------------------------------------
   */
 
   messageCard: {
-    marginTop: 2,
-    paddingTop: 18,
-    paddingRight: 20,
-    paddingBottom: 18,
-    paddingLeft: 20,
-    borderLeftWidth: 3,
-    borderLeftColor: "#CDAA6A",
-    backgroundColor: "#F7F1E8",
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 104,
+    paddingVertical: 15,
+    paddingHorizontal: 16,
+    borderRadius: 11,
+    borderWidth: 0.6,
+    borderColor: DARK_GOLD,
+    borderLeftWidth: 2.2,
+    borderLeftColor: GOLD,
+    backgroundColor: NAVY_SOFT,
+    overflow: "hidden",
+  },
+
+  messageWatermark: {
+    position: "absolute",
+    top: 8,
+    right: 18,
+    width: 74,
+    height: 74,
+    objectFit: "contain",
+    opacity: 0.05,
+  },
+
+  messageIconCircle: {
+    width: 42,
+    height: 42,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 13,
+    borderRadius: 21,
+    borderWidth: 0.7,
+    borderColor: GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+  },
+
+  messageIcon: {
+    width: 25,
+    height: 25,
+    objectFit: "contain",
+  },
+
+  messageContent: {
+    flex: 1,
   },
 
   messageLabel: {
-    marginBottom: 8,
-    color: "#9B7441",
-    fontSize: 8,
-    fontWeight: 700,
-    letterSpacing: 1.7,
+    marginBottom: 5,
+    color: GOLD,
+    fontSize: 7,
+    letterSpacing: 1.15,
     textTransform: "uppercase",
   },
 
   messageText: {
-    color: "#4A3D4E",
-    fontSize: 10,
-    lineHeight: 1.65,
+    maxWidth: 420,
+    color: CREAM,
+    fontSize: 8.6,
+    lineHeight: 1.5,
   },
 });
 
@@ -224,6 +468,16 @@ export default function HoroscopeMonthMantra({
   period,
   mantra,
 }: HoroscopeMonthMantraProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
+  const periodLabel =
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
   const personLabel =
     identity.firstName?.trim() ||
     identity.zodiacSignLabel ||
@@ -235,115 +489,210 @@ export default function HoroscopeMonthMantra({
       style={styles.page}
       wrap={false}
     >
-      {/*
-      |--------------------------------------------------------------------------
-      | En-tête
-      |--------------------------------------------------------------------------
-      */}
+      <HoroscopeStarBackground />
 
-      <Text style={styles.eyebrow}>
-        Guidance intérieure
-      </Text>
+      <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
 
-      <Text style={styles.title}>
-        Votre mantra du mois
-      </Text>
+        <View style={styles.header}>
+          <Image
+            src={HOROSCOPE_LOGO_URL}
+            style={styles.logo}
+          />
 
-      <Text style={styles.subtitle}>
-        {personLabel} • {period.label}
-      </Text>
+          <View style={styles.signBadge}>
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
-      <View style={styles.divider} />
-
-      {/*
-      |--------------------------------------------------------------------------
-      | Mantra principal
-      |--------------------------------------------------------------------------
-      */}
-
-      <View
-        style={styles.mantraCard}
-        wrap={false}
-      >
-        <Text style={styles.mantraLabel}>
-          À répéter tout au long du mois
-        </Text>
-
-        <Text style={styles.mantraText}>
-          « {mantra.mantra} »
-        </Text>
-      </View>
-
-      {/*
-      |--------------------------------------------------------------------------
-      | Intention et affirmation
-      |--------------------------------------------------------------------------
-      */}
-
-      <View style={styles.sections}>
-        <View
-          style={styles.section}
-          wrap={false}
-        >
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionNumber}>
-              1
-            </Text>
-
-            <Text style={styles.sectionTitle}>
-              Votre intention
+            <Text style={styles.signName}>
+              {identity.zodiacSignLabel}
             </Text>
           </View>
+        </View>
 
-          <Text style={styles.sectionText}>
-            {mantra.intention}
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
+
+        <View style={styles.titleBlock}>
+          <Text style={styles.eyebrow}>
+            Guidance intérieure
+          </Text>
+
+          <Text style={styles.title}>
+            Votre mantra du mois
+          </Text>
+
+          <Text style={styles.period}>
+            {personLabel} • {periodLabel}
+          </Text>
+
+          <View style={styles.titleDecoration}>
+            <View style={styles.titleLine} />
+
+            <Image
+              src={HOROSCOPE_ICONS.soulPath}
+              style={styles.titleIcon}
+            />
+
+            <View style={styles.titleLineSmall} />
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Mantra principal
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.mantraCard}
+          wrap={false}
+        >
+          <View style={styles.mantraOrbitOne} />
+          <View style={styles.mantraOrbitTwo} />
+
+          <Image
+            src={HOROSCOPE_ICONS.soulPath}
+            style={styles.mantraWatermark}
+          />
+
+          <View style={styles.mantraIconCircle}>
+            <Image
+              src={HOROSCOPE_ICONS.soulPath}
+              style={styles.mantraIcon}
+            />
+          </View>
+
+          <Text style={styles.mantraLabel}>
+            À répéter tout au long du mois
+          </Text>
+
+          <Text style={styles.mantraText}>
+            « {mantra.mantra} »
           </Text>
         </View>
 
-        <View
-          style={styles.section}
-          wrap={false}
-        >
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionNumber}>
-              2
-            </Text>
+        {/*
+        |--------------------------------------------------------------------------
+        | Intention et affirmation
+        |--------------------------------------------------------------------------
+        */}
 
-            <Text style={styles.sectionTitle}>
-              Votre affirmation
+        <View style={styles.sectionHeader}>
+          <View style={styles.sectionLine} />
+
+          <Image
+            src={HOROSCOPE_ICONS.sun}
+            style={styles.sectionHeaderIcon}
+          />
+
+          <Text style={styles.sectionHeaderTitle}>
+            Votre pratique intérieure
+          </Text>
+        </View>
+
+        <View style={styles.sectionsRow}>
+          <View
+            style={styles.sectionCard}
+            wrap={false}
+          >
+            <View style={styles.cardOrbit} />
+
+            <View style={styles.sectionCardHeader}>
+              <View style={styles.sectionNumberCircle}>
+                <Text style={styles.sectionNumber}>
+                  1
+                </Text>
+              </View>
+
+              <View style={styles.sectionTitleBlock}>
+                <Text style={styles.sectionSmallLabel}>
+                  Direction du mois
+                </Text>
+
+                <Text style={styles.sectionTitle}>
+                  Votre intention
+                </Text>
+              </View>
+            </View>
+
+            <Text style={styles.sectionText}>
+              {mantra.intention}
             </Text>
           </View>
 
-          <Text style={styles.sectionText}>
-            {mantra.affirmation}
-          </Text>
+          <View
+            style={styles.sectionCard}
+            wrap={false}
+          >
+            <View style={styles.cardOrbit} />
+
+            <View style={styles.sectionCardHeader}>
+              <View style={styles.sectionNumberCircle}>
+                <Text style={styles.sectionNumber}>
+                  2
+                </Text>
+              </View>
+
+              <View style={styles.sectionTitleBlock}>
+                <Text style={styles.sectionSmallLabel}>
+                  Parole consciente
+                </Text>
+
+                <Text style={styles.sectionTitle}>
+                  Votre affirmation
+                </Text>
+              </View>
+            </View>
+
+            <Text style={styles.sectionText}>
+              {mantra.affirmation}
+            </Text>
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Message Luna Astralis
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.messageCard}
+          wrap={false}
+        >
+          <Image
+            src={HOROSCOPE_ICONS.integrationGuide}
+            style={styles.messageWatermark}
+          />
+
+          <View style={styles.messageIconCircle}>
+            <Image
+              src={HOROSCOPE_ICONS.integrationGuide}
+              style={styles.messageIcon}
+            />
+          </View>
+
+          <View style={styles.messageContent}>
+            <Text style={styles.messageLabel}>
+              Message de Luna Astralis
+            </Text>
+
+            <Text style={styles.messageText}>
+              {mantra.message}
+            </Text>
+          </View>
         </View>
       </View>
-
-      {/*
-      |--------------------------------------------------------------------------
-      | Message Luna Astralis
-      |--------------------------------------------------------------------------
-      */}
-
-      <View
-        style={styles.messageCard}
-        wrap={false}
-      >
-        <Text style={styles.messageLabel}>
-          Message de Luna Astralis
-        </Text>
-
-        <Text style={styles.messageText}>
-          {mantra.message}
-        </Text>
-      </View>
-
-      {/*
-      |--------------------------------------------------------------------------
-      | Pied de page commun avec numéro de page
-      |--------------------------------------------------------------------------
-      */}
 
       <HoroscopePageFooter />
     </Page>
