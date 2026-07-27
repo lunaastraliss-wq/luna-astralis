@@ -1,6 +1,15 @@
-import type { MetadataRoute } from "next";
+import type {
+  MetadataRoute,
+} from "next";
 
-const BASE_URL = "https://luna-astralis.app";
+const BASE_URL =
+  "https://luna-astralis.app";
+
+/*
+|--------------------------------------------------------------------------
+| Contenus dynamiques
+|--------------------------------------------------------------------------
+*/
 
 const SIGNES = [
   "belier",
@@ -41,159 +50,437 @@ const ASPECTS = [
   "quinconce",
 ] as const;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+/*
+|--------------------------------------------------------------------------
+| Création d’une entrée
+|--------------------------------------------------------------------------
+*/
+
+type SitemapEntryOptions = {
+  changeFrequency:
+    MetadataRoute.Sitemap[number]["changeFrequency"];
+
+  priority: number;
+};
+
+function createEntry(
+  path: string,
+  {
+    changeFrequency,
+    priority,
+  }: SitemapEntryOptions,
+): MetadataRoute.Sitemap[number] {
+  return {
+    url:
+      path === "/"
+        ? BASE_URL
+        : `${BASE_URL}${path}`,
+
+    changeFrequency,
+    priority,
+  };
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sitemap
+|--------------------------------------------------------------------------
+*/
+
+export default function sitemap():
+  MetadataRoute.Sitemap {
   return [
-    // ==========================
-    // Pages principales
-    // ==========================
+    /*
+    |--------------------------------------------------------------------------
+    | Pages principales
+    |--------------------------------------------------------------------------
+    */
 
-    {
-      url: BASE_URL,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${BASE_URL}/astrologie`,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/carte-du-ciel`,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/compatibilite`,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
+    createEntry(
+      "/",
+      {
+        changeFrequency:
+          "weekly",
 
-    // Ajoute cette route seulement lorsqu’elle existe réellement.
-    {
-      url: `${BASE_URL}/compatibilite/premium`,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+        priority:
+          1,
+      },
+    ),
 
-    // ==========================
-    // Horoscope
-    // ==========================
+    createEntry(
+      "/astrologie",
+      {
+        changeFrequency:
+          "weekly",
 
-    {
-      url: `${BASE_URL}/horoscope`,
-      changeFrequency: "daily",
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/horoscope/premium`,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+        priority:
+          0.95,
+      },
+    ),
 
-    ...SIGNES.map((signe) => ({
-      url: `${BASE_URL}/horoscope/${signe}`,
-      changeFrequency: "daily" as const,
-      priority: 0.9,
-    })),
+    createEntry(
+      "/horoscope",
+      {
+        changeFrequency:
+          "daily",
 
-    // ==========================
-    // Index astrologiques
-    // ==========================
+        priority:
+          0.95,
+      },
+    ),
 
-    {
-      url: `${BASE_URL}/astrologie/signes`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/astrologie/planetes`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/astrologie/maisons`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/astrologie/aspects`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/astrologie/ascendant`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
+    createEntry(
+      "/carte-du-ciel",
+      {
+        changeFrequency:
+          "weekly",
 
-    // ==========================
-    // Les 12 signes
-    // ==========================
+        priority:
+          0.95,
+      },
+    ),
 
-    ...SIGNES.map((signe) => ({
-      url: `${BASE_URL}/astrologie/${signe}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.85,
-    })),
+    createEntry(
+      "/compatibilite",
+      {
+        changeFrequency:
+          "weekly",
 
-    // ==========================
-    // Les 12 maisons
-    // ==========================
+        priority:
+          0.95,
+      },
+    ),
 
-    ...Array.from({ length: 12 }, (_, index) => ({
-      url: `${BASE_URL}/astrologie/maison-${index + 1}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.85,
-    })),
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscopes gratuits par signe
+    |--------------------------------------------------------------------------
+    */
 
-    // ==========================
-    // Planètes et points
-    // ==========================
+    ...SIGNES.map(
+      (
+        signe,
+      ) =>
+        createEntry(
+          `/horoscope/${signe}`,
+          {
+            changeFrequency:
+              "daily",
 
-    ...PLANETES.map((planete) => ({
-      url: `${BASE_URL}/astrologie/${planete}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.85,
-    })),
+            priority:
+              0.9,
+          },
+        ),
+    ),
 
-    // ==========================
-    // Aspects
-    // ==========================
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscopes Premium
+    |--------------------------------------------------------------------------
+    */
 
-    ...ASPECTS.map((aspect) => ({
-      url: `${BASE_URL}/astrologie/${aspect}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.85,
-    })),
+    createEntry(
+      "/horoscope/premium",
+      {
+        changeFrequency:
+          "weekly",
 
-    // ==========================
-    // Tarifs
-    // ==========================
+        priority:
+          0.9,
+      },
+    ),
 
-    {
-      url: `${BASE_URL}/pricing`,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
+    createEntry(
+      "/horoscope/premium/jour",
+      {
+        changeFrequency:
+          "weekly",
 
-    // ==========================
-    // Pages légales
-    // ==========================
+        priority:
+          0.9,
+      },
+    ),
 
-    {
-      url: `${BASE_URL}/conditions`,
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
-    {
-      url: `${BASE_URL}/confidentialite`,
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
-    {
-      url: `${BASE_URL}/mentions-legales`,
-      changeFrequency: "yearly",
-      priority: 0.2,
-    },
+    createEntry(
+      "/horoscope/premium/mois",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    /*
+     * Ne pas ajouter /horoscope/premium/annee
+     * avant que la page existe réellement.
+     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rapports de carte du ciel
+    |--------------------------------------------------------------------------
+    */
+
+    createEntry(
+      "/carte-du-ciel/essentielle",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/carte-du-ciel/premium",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/carte-du-ciel/signature",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Compatibilité Premium
+    |--------------------------------------------------------------------------
+    */
+
+    createEntry(
+      "/compatibilite/premium",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Index astrologiques
+    |--------------------------------------------------------------------------
+    */
+
+    createEntry(
+      "/astrologie/signes",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/astrologie/planetes",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/astrologie/maisons",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/astrologie/aspects",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    createEntry(
+      "/astrologie/ascendant",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.9,
+      },
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Les 12 signes astrologiques
+    |--------------------------------------------------------------------------
+    */
+
+    ...SIGNES.map(
+      (
+        signe,
+      ) =>
+        createEntry(
+          `/astrologie/${signe}`,
+          {
+            changeFrequency:
+              "monthly",
+
+            priority:
+              0.85,
+          },
+        ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Les 12 maisons astrologiques
+    |--------------------------------------------------------------------------
+    */
+
+    ...Array.from(
+      {
+        length:
+          12,
+      },
+      (
+        _,
+        index,
+      ) =>
+        createEntry(
+          `/astrologie/maison-${index + 1}`,
+          {
+            changeFrequency:
+              "monthly",
+
+            priority:
+              0.85,
+          },
+        ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Planètes et points astrologiques
+    |--------------------------------------------------------------------------
+    */
+
+    ...PLANETES.map(
+      (
+        planete,
+      ) =>
+        createEntry(
+          `/astrologie/${planete}`,
+          {
+            changeFrequency:
+              "monthly",
+
+            priority:
+              0.85,
+          },
+        ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aspects astrologiques
+    |--------------------------------------------------------------------------
+    */
+
+    ...ASPECTS.map(
+      (
+        aspect,
+      ) =>
+        createEntry(
+          `/astrologie/${aspect}`,
+          {
+            changeFrequency:
+              "monthly",
+
+            priority:
+              0.85,
+          },
+        ),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tarifs
+    |--------------------------------------------------------------------------
+    */
+
+    createEntry(
+      "/pricing",
+      {
+        changeFrequency:
+          "monthly",
+
+        priority:
+          0.8,
+      },
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pages légales
+    |--------------------------------------------------------------------------
+    */
+
+    createEntry(
+      "/conditions",
+      {
+        changeFrequency:
+          "yearly",
+
+        priority:
+          0.2,
+      },
+    ),
+
+    createEntry(
+      "/confidentialite",
+      {
+        changeFrequency:
+          "yearly",
+
+        priority:
+          0.2,
+      },
+    ),
+
+    createEntry(
+      "/mentions-legales",
+      {
+        changeFrequency:
+          "yearly",
+
+        priority:
+          0.2,
+      },
+    ),
   ];
 }
