@@ -3,9 +3,14 @@ import type {
 } from "next";
 
 import Link from "next/link";
+
 import {
   notFound,
 } from "next/navigation";
+
+import {
+  getCompatibility,
+} from "@/lib/compatibility";
 
 import {
   COMPATIBILITY_PAGES,
@@ -38,8 +43,11 @@ type CompatibilityDetailPageProps = {
 export function generateStaticParams() {
   return COMPATIBILITY_PAGES.map(
     (compatibility) => ({
-      signe1: compatibility.signA,
-      signe2: compatibility.signB,
+      signe1:
+        compatibility.signA,
+
+      signe2:
+        compatibility.signB,
     }),
   );
 }
@@ -86,17 +94,28 @@ export async function generateMetadata({
       compatibility.metaDescription,
 
     alternates: {
-      canonical: canonicalUrl,
+      canonical:
+        canonicalUrl,
     },
 
     openGraph: {
-      title: compatibility.title,
+      title:
+        compatibility.title,
+
       description:
         compatibility.metaDescription,
-      url: canonicalUrl,
-      siteName: "Luna Astralis",
-      type: "article",
-      locale: "fr_CA",
+
+      url:
+        canonicalUrl,
+
+      siteName:
+        "Luna Astralis",
+
+      type:
+        "article",
+
+      locale:
+        "fr_CA",
     },
 
     robots: {
@@ -151,12 +170,33 @@ export default async function CompatibilityDetailPage({
     notFound();
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | Score identique au calculateur gratuit
+  |--------------------------------------------------------------------------
+  */
+
+  const compatibilityResult =
+    getCompatibility(
+      signA.key,
+      signB.key,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Données structurées
+  |--------------------------------------------------------------------------
+  */
+
   const pageUrl =
     `https://luna-astralis.app/compatibilite/${signA.key}/${signB.key}`;
 
   const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
+    "@context":
+      "https://schema.org",
+
+    "@type":
+      "Article",
 
     headline:
       compatibility.title,
@@ -164,23 +204,39 @@ export default async function CompatibilityDetailPage({
     description:
       compatibility.metaDescription,
 
-    url: pageUrl,
+    url:
+      pageUrl,
 
     mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": pageUrl,
+      "@type":
+        "WebPage",
+
+      "@id":
+        pageUrl,
     },
 
     author: {
-      "@type": "Organization",
-      name: "Luna Astralis",
+      "@type":
+        "Organization",
+
+      name:
+        "Luna Astralis",
     },
 
     publisher: {
-      "@type": "Organization",
-      name: "Luna Astralis",
+      "@type":
+        "Organization",
+
+      name:
+        "Luna Astralis",
     },
   };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Affichage
+  |--------------------------------------------------------------------------
+  */
 
   return (
     <div className="compat-detail-page">
@@ -219,9 +275,16 @@ export default async function CompatibilityDetailPage({
           </span>
 
           <span>
-            {signA.label} et {signB.label}
+            {signA.label} et{" "}
+            {signB.label}
           </span>
         </nav>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Présentation
+        |--------------------------------------------------------------------------
+        */}
 
         <section className="compat-detail-hero">
           <span className="compat-detail-label">
@@ -271,10 +334,16 @@ export default async function CompatibilityDetailPage({
             </span>
 
             <strong>
-              {compatibility.score} %
+              {compatibilityResult.score} %
             </strong>
           </div>
         </section>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Analyse détaillée
+        |--------------------------------------------------------------------------
+        */}
 
         <section className="compat-detail-content">
           <article className="compat-detail-section">
@@ -389,7 +458,12 @@ export default async function CompatibilityDetailPage({
             </div>
           </article>
 
-          <article className="compat-detail-section compat-detail-section-advice">
+          <article
+            className="
+              compat-detail-section
+              compat-detail-section-advice
+            "
+          >
             <span aria-hidden="true">
               ✧
             </span>
@@ -406,19 +480,31 @@ export default async function CompatibilityDetailPage({
           </article>
         </section>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Résumé
+        |--------------------------------------------------------------------------
+        */}
+
         <section className="compat-detail-conclusion">
           <span className="compat-detail-label">
             En résumé
           </span>
 
           <h2>
-            Une relation intense à construire ensemble
+            Ce que cette relation peut devenir
           </h2>
 
           <p>
             {compatibility.conclusion}
           </p>
         </section>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Compatibilité Premium
+        |--------------------------------------------------------------------------
+        */}
 
         <section className="compat-detail-premium">
           <div>
@@ -427,14 +513,16 @@ export default async function CompatibilityDetailPage({
             </span>
 
             <h2>
-              Vos signes ne racontent qu’une partie de votre histoire
+              Vos signes ne révèlent qu’une partie
+              de votre histoire
             </h2>
 
             <p>
-              Découvrez votre compatibilité réelle grâce à la
-              comparaison de vos deux thèmes astraux complets,
-              incluant vos planètes, vos maisons et vos aspects
-              de synastrie.
+              Découvrez votre véritable dynamique
+              amoureuse grâce à la comparaison de
+              vos deux cartes du ciel complètes :
+              planètes, maisons astrologiques,
+              Vénus, Mars et aspects de synastrie.
             </p>
           </div>
 
@@ -442,20 +530,27 @@ export default async function CompatibilityDetailPage({
             href="/compatibilite/premium"
             className="compat-detail-button"
           >
-            Découvrir la compatibilité Premium
+            Découvrir votre compatibilité Premium
           </Link>
         </section>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Retour
+        |--------------------------------------------------------------------------
+        */}
+
         <div className="compat-detail-back">
           <Link href="/compatibilite">
-            ← Faire un autre test gratuit
+            ← Tester une autre combinaison
           </Link>
         </div>
 
         <p className="compat-detail-disclaimer">
-          L’astrologie est proposée comme un outil symbolique
-          d’exploration personnelle et relationnelle. Elle ne
-          détermine pas à elle seule la réussite d’une relation.
+          L’astrologie est proposée comme un outil
+          symbolique d’exploration personnelle et
+          relationnelle. Elle ne détermine pas à elle
+          seule la réussite d’une relation.
         </p>
       </main>
     </div>
