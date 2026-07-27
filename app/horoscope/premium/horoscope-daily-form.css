@@ -1233,7 +1233,6 @@
 .horoscope-daily-download-notice {
   display: flex;
   align-items: flex-start;
-
   gap: 14px;
 
   margin: 6px 0 4px;
@@ -1242,20 +1241,18 @@
   border: 1px solid rgba(212, 175, 78, 0.35);
   border-radius: 16px;
 
-  background:
-    linear-gradient(
-      180deg,
-      rgba(212, 175, 78, 0.12),
-      rgba(212, 175, 78, 0.06)
-    );
+  background: linear-gradient(
+    180deg,
+    #fffaf0,
+    #fff4dd
+  );
 
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .horoscope-daily-download-notice span {
   flex: none;
-
   font-size: 1.35rem;
   line-height: 1.2;
 }
@@ -1263,7 +1260,7 @@
 .horoscope-daily-download-notice p {
   margin: 0;
 
-  color: #f4f0f6;
+  color: #43352b;
 
   font-size: 0.93rem;
   font-weight: 500;
@@ -1271,16 +1268,15 @@
 }
 
 .horoscope-daily-download-notice strong {
-  color: #efd49a;
+  color: #9c6b18;
   font-weight: 800;
 }
 
 .horoscope-daily-download-notice small {
   display: block;
-
   margin-top: 6px;
 
-  color: rgba(255, 255, 255, 0.82);
+  color: #6d5b48;
 
   font-size: 0.84rem;
   line-height: 1.55;
