@@ -25,6 +25,10 @@ import {
   translateCompatibilityPlanet,
 } from "./CompatibilityPdfUtils";
 
+import {
+  getCompatibilityPlanetText,
+} from "./texts/CompatibilityPlanetTextSelector";
+
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
 const NAVY_CARD_LIGHT = "#0d1b30";
@@ -680,74 +684,6 @@ function getMarsStyle(sign: string): string {
   );
 }
 
-function areComplementaryElements(
-  first: string,
-  second: string,
-): boolean {
-  return (
-    (first === "Feu" && second === "Air") ||
-    (first === "Air" && second === "Feu") ||
-    (first === "Terre" && second === "Eau") ||
-    (first === "Eau" && second === "Terre")
-  );
-}
-
-function getVenusCompatibilityText(
-  sign1: string,
-  sign2: string,
-): string {
-  if (sign1 === "Non précisé" || sign2 === "Non précisé") {
-    return "Les deux positions de Vénus ne sont pas disponibles. L’analyse amoureuse pourra être approfondie lorsque les thèmes complets seront fournis.";
-  }
-
-  const normalized1 = normalizeValue(sign1);
-  const normalized2 = normalizeValue(sign2);
-  const element1 = getElement(sign1);
-  const element2 = getElement(sign2);
-
-  if (normalized1 === normalized2) {
-    return `Vos deux Vénus en ${sign1} recherchent un amour exprimé de manière très semblable. Vous reconnaissez facilement les gestes, les attentions et les valeurs qui rassurent l’autre. Cette proximité favorise un fort sentiment d’évidence, mais demande de ne pas considérer l’affection comme acquise.`;
-  }
-
-  if (element1 === element2) {
-    return `Vos Vénus en ${sign1} et en ${sign2} appartiennent au même élément, ${element1}. Vos besoins affectifs reposent donc sur une base commune. Même si vos styles diffèrent, vous pouvez généralement comprendre ce que l’autre considère comme une preuve d’amour.`;
-  }
-
-  if (areComplementaryElements(element1, element2)) {
-    return `Vos Vénus en ${sign1} et en ${sign2} expriment l’amour de façons différentes mais complémentaires. L’une apporte l’élan, l’expression ou la légèreté, tandis que l’autre ajoute de la profondeur, de la stabilité ou de la sensibilité. Votre lien gagne en richesse lorsque vous traduisez vos besoins sans attendre que l’autre les devine.`;
-  }
-
-  return `Vos Vénus en ${sign1} et en ${sign2} n’attendent pas toujours les mêmes preuves d’amour. L’un peut rechercher davantage de spontanéité, de mots ou de mouvement, tandis que l’autre privilégie la sécurité, la profondeur ou les gestes concrets. La compatibilité grandit lorsque chacun apprend réellement le langage affectif de l’autre.`;
-}
-
-function getMarsCompatibilityText(
-  sign1: string,
-  sign2: string,
-): string {
-  if (sign1 === "Non précisé" || sign2 === "Non précisé") {
-    return "Les deux positions de Mars ne sont pas disponibles. L’analyse de l’attirance et de la gestion des tensions pourra être approfondie lorsque les thèmes complets seront fournis.";
-  }
-
-  const normalized1 = normalizeValue(sign1);
-  const normalized2 = normalizeValue(sign2);
-  const element1 = getElement(sign1);
-  const element2 = getElement(sign2);
-
-  if (normalized1 === normalized2) {
-    return `Vos deux Mars en ${sign1} partagent un rythme d’action et de désir très proche. L’attirance peut être immédiate, et vous comprenez instinctivement comment l’autre prend l’initiative. Cette ressemblance peut aussi intensifier la compétition ou les réactions impulsives.`;
-  }
-
-  if (element1 === element2) {
-    return `Vos Mars en ${sign1} et en ${sign2} appartiennent au même élément, ${element1}. Vos énergies peuvent se mobiliser dans une direction semblable, ce qui favorise la coopération, le désir et la réalisation de projets communs.`;
-  }
-
-  if (areComplementaryElements(element1, element2)) {
-    return `Vos Mars en ${sign1} et en ${sign2} peuvent créer une attraction complémentaire. L’un stimule le mouvement et l’initiative, tandis que l’autre apporte persévérance, sensibilité ou profondeur. L’équilibre devient particulièrement fort lorsque personne ne cherche à imposer son propre rythme.`;
-  }
-
-  return `Vos Mars en ${sign1} et en ${sign2} n’agissent pas au même rythme. L’un peut réagir immédiatement alors que l’autre avance avec prudence, émotion ou réflexion. Cette différence nourrit parfois l’attirance, mais elle demande une gestion consciente de la frustration et des conflits.`;
-}
-
 function isPlanet(
   planetName: string,
   expected: string,
@@ -1281,7 +1217,14 @@ function VenusPage({
         </Text>
 
         <Text style={styles.interpretationText}>
-          {getVenusCompatibilityText(sign1, sign2)}
+          {getCompatibilityPlanetText({
+            body: "venus",
+            sign1,
+            sign2,
+            element1: getElement(sign1),
+            element2: getElement(sign2),
+            seed: `${person1Name}-${person2Name}`,
+          })}
         </Text>
       </View>
 
@@ -1464,7 +1407,14 @@ function MarsPage({
         </Text>
 
         <Text style={styles.interpretationText}>
-          {getMarsCompatibilityText(sign1, sign2)}
+          {getCompatibilityPlanetText({
+            body: "mars",
+            sign1,
+            sign2,
+            element1: getElement(sign1),
+            element2: getElement(sign2),
+            seed: `${person1Name}-${person2Name}`,
+          })}
         </Text>
       </View>
 
