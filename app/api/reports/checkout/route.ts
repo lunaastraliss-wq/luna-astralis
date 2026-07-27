@@ -1,15 +1,35 @@
-import { NextResponse } from "next/server";
-import Stripe from "stripe";
+import {
+  NextResponse,
+} from "next/server";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+import Stripe
+  from "stripe";
+
+export const runtime =
+  "nodejs";
+
+export const dynamic =
+  "force-dynamic";
+
+/*
+|--------------------------------------------------------------------------
+| Types de rapports
+|--------------------------------------------------------------------------
+*/
 
 type ReportType =
   | "essential"
   | "premium"
   | "signature"
   | "compatibility"
-  | "horoscope-daily";
+  | "horoscope-daily"
+  | "horoscope-month";
+
+/*
+|--------------------------------------------------------------------------
+| Données de naissance
+|--------------------------------------------------------------------------
+*/
 
 type BirthPersonRequestBody = {
   firstName?: unknown;
@@ -23,13 +43,21 @@ type BirthPersonRequestBody = {
   wheelImagePath?: unknown;
 };
 
+/*
+|--------------------------------------------------------------------------
+| Corps de la requête Stripe
+|--------------------------------------------------------------------------
+*/
+
 type CheckoutRequestBody = {
   reportType?: unknown;
 
   /*
-   * Données utilisées par les rapports de carte du ciel :
-   * essential, premium et signature.
-   */
+  |--------------------------------------------------------------------------
+  | Carte du ciel et horoscopes
+  |--------------------------------------------------------------------------
+  */
+
   firstName?: unknown;
   birthDate?: unknown;
   birthTime?: unknown;
@@ -41,10 +69,28 @@ type CheckoutRequestBody = {
   wheelImagePath?: unknown;
 
   /*
-   * Données utilisées par le rapport de compatibilité.
-   */
+  |--------------------------------------------------------------------------
+  | Horoscope mensuel
+  |--------------------------------------------------------------------------
+  */
+
+  month?: unknown;
+  year?: unknown;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Compatibilité
+  |--------------------------------------------------------------------------
+  */
+
   person1?: BirthPersonRequestBody;
   person2?: BirthPersonRequestBody;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Courriel Stripe
+  |--------------------------------------------------------------------------
+  */
 
   email?: unknown;
 };
@@ -61,14 +107,25 @@ type NormalizedBirthPerson = {
   wheelImagePath: string;
 };
 
-function s(value: unknown): string {
+/*
+|--------------------------------------------------------------------------
+| Utilitaires
+|--------------------------------------------------------------------------
+*/
+
+function s(
+  value: unknown,
+): string {
   return value == null
     ? ""
     : String(value).trim();
 }
 
-function cleanUrl(url: string): string {
-  const value = s(url);
+function cleanUrl(
+  url: string,
+): string {
+  const value =
+    s(url);
 
   return value.endsWith("/")
     ? value.slice(0, -1)
@@ -76,107 +133,274 @@ function cleanUrl(url: string): string {
 }
 
 function isReportType(
-  value: unknown
+  value: unknown,
 ): value is ReportType {
   return (
     value === "essential" ||
     value === "premium" ||
     value === "signature" ||
     value === "compatibility" ||
-    value === "horoscope-daily"
+    value === "horoscope-daily" ||
+    value === "horoscope-month"
   );
 }
 
 function normalizeBirthPerson(
-  person?: BirthPersonRequestBody | null
+  person?:
+    | BirthPersonRequestBody
+    | null,
 ): NormalizedBirthPerson {
   return {
-    firstName: s(person?.firstName),
-    birthDate: s(person?.birthDate),
+    firstName:
+      s(
+        person?.firstName,
+      ),
+
+    birthDate:
+      s(
+        person?.birthDate,
+      ),
+
     birthTime:
-      s(person?.birthTime) ||
+      s(
+        person?.birthTime,
+      ) ||
       "12:00",
-    birthCity: s(person?.birthCity),
-    birthCountry: s(person?.birthCountry),
-    latitude: s(person?.latitude),
-    longitude: s(person?.longitude),
-    timezone: s(person?.timezone),
-    wheelImagePath: s(person?.wheelImagePath),
+
+    birthCity:
+      s(
+        person?.birthCity,
+      ),
+
+    birthCountry:
+      s(
+        person?.birthCountry,
+      ),
+
+    latitude:
+      s(
+        person?.latitude,
+      ),
+
+    longitude:
+      s(
+        person?.longitude,
+      ),
+
+    timezone:
+      s(
+        person?.timezone,
+      ),
+
+    wheelImagePath:
+      s(
+        person?.wheelImagePath,
+      ),
   };
 }
 
 function hasRequiredBirthData(
-  person: NormalizedBirthPerson
+  person:
+    NormalizedBirthPerson,
 ): boolean {
   return Boolean(
     person.birthDate &&
       person.birthTime &&
       person.birthCity &&
       person.latitude &&
-      person.longitude
+      person.longitude,
   );
 }
 
 function serializeMetadataValue(
   value: unknown,
-  errorName: string
+  errorName: string,
 ): string {
-  const serialized = JSON.stringify(value);
+  const serialized =
+    JSON.stringify(
+      value,
+    );
 
   /*
    * Stripe autorise un maximum de 500 caractères
    * par valeur de metadata.
    */
-  if (serialized.length > 500) {
-    throw new Error(errorName);
+
+  if (
+    serialized.length >
+    500
+  ) {
+    throw new Error(
+      errorName,
+    );
   }
 
   return serialized;
 }
 
-const STRIPE_SECRET_KEY = s(
-  process.env.STRIPE_SECRET_KEY
-);
+function normalizeMonth(
+  value: unknown,
+): string {
+  const month =
+    Number(
+      s(value),
+    );
 
-const SITE_URL = cleanUrl(
-  process.env.NEXT_PUBLIC_SITE_URL || ""
-);
+  if (
+    !Number.isInteger(
+      month,
+    ) ||
+    month < 1 ||
+    month > 12
+  ) {
+    return "";
+  }
 
-const stripe = STRIPE_SECRET_KEY
-  ? new Stripe(STRIPE_SECRET_KEY, {
-      apiVersion: "2023-10-16",
-    })
-  : null;
+  return String(
+    month,
+  );
+}
 
-const REPORT_PRICE: Record<
-  ReportType,
-  string
-> = {
-  essential: s(
-    process.env.STRIPE_PRICE_ESSENTIAL
-  ),
+function normalizeYear(
+  value: unknown,
+): string {
+  const year =
+    Number(
+      s(value),
+    );
 
-  premium: s(
-    process.env.STRIPE_PRICE_PREMIUM
-  ),
+  if (
+    !Number.isInteger(
+      year,
+    ) ||
+    year < 2020 ||
+    year > 2100
+  ) {
+    return "";
+  }
 
-  signature: s(
-    process.env.STRIPE_PRICE_SIGNATURE
-  ),
+  return String(
+    year,
+  );
+}
 
-  compatibility: s(
-    process.env.STRIPE_COMPATIBILITY_PRICE_ID
-  ),
+/*
+|--------------------------------------------------------------------------
+| Variables d’environnement
+|--------------------------------------------------------------------------
+*/
 
-  "horoscope-daily": s(
-    process.env.STRIPE_PRICE_ID_HOROSCOPE_DAILY_PREMIUM
-  ),
-};
+const STRIPE_SECRET_KEY =
+  s(
+    process.env
+      .STRIPE_SECRET_KEY,
+  );
+
+const SITE_URL =
+  cleanUrl(
+    process.env
+      .NEXT_PUBLIC_SITE_URL ||
+      "",
+  );
+
+/*
+|--------------------------------------------------------------------------
+| Stripe
+|--------------------------------------------------------------------------
+*/
+
+const stripe =
+  STRIPE_SECRET_KEY
+    ? new Stripe(
+        STRIPE_SECRET_KEY,
+        {
+          apiVersion:
+            "2023-10-16",
+        },
+      )
+    : null;
+
+/*
+|--------------------------------------------------------------------------
+| Prix Stripe
+|--------------------------------------------------------------------------
+*/
+
+const REPORT_PRICE:
+  Record<
+    ReportType,
+    string
+  > = {
+    essential:
+      s(
+        process.env
+          .STRIPE_PRICE_ESSENTIAL,
+      ),
+
+    premium:
+      s(
+        process.env
+          .STRIPE_PRICE_PREMIUM,
+      ),
+
+    signature:
+      s(
+        process.env
+          .STRIPE_PRICE_SIGNATURE,
+      ),
+
+    compatibility:
+      s(
+        process.env
+          .STRIPE_COMPATIBILITY_PRICE_ID,
+      ),
+
+    "horoscope-daily":
+      s(
+        process.env
+          .STRIPE_PRICE_ID_HOROSCOPE_DAILY_PREMIUM,
+      ),
+
+    "horoscope-month":
+      s(
+        process.env
+          .STRIPE_MONTHLY_HOROSCOPE_PRICE_ID,
+      ),
+  };
+
+/*
+|--------------------------------------------------------------------------
+| Code promotionnel temporaire pour les tests
+|--------------------------------------------------------------------------
+|
+| Ce code rend actuellement l’horoscope du jour et l’horoscope du mois
+| gratuits dans Stripe.
+|
+| Lorsque les tests seront terminés, il faudra retirer les blocs
+| discounts dans les deux sections concernées.
+|
+|--------------------------------------------------------------------------
+*/
+
+const TEST_PROMOTION_CODE =
+  "promo_1Tv14nQctELy6iN1AGOhkx6G";
+
+/*
+|--------------------------------------------------------------------------
+| Route POST
+|--------------------------------------------------------------------------
+*/
 
 export async function POST(
-  req: Request
+  req: Request,
 ) {
   try {
+    /*
+    |--------------------------------------------------------------------------
+    | Vérification de Stripe
+    |--------------------------------------------------------------------------
+    */
+
     if (!stripe) {
       return NextResponse.json(
         {
@@ -185,7 +409,7 @@ export async function POST(
         },
         {
           status: 500,
-        }
+        },
       );
     }
 
@@ -197,35 +421,47 @@ export async function POST(
         },
         {
           status: 500,
-        }
+        },
       );
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Lecture du formulaire
+    |--------------------------------------------------------------------------
+    */
+
     const body =
-      (await req
-        .json()
-        .catch(
-          () => null
-        )) as CheckoutRequestBody | null;
+      (
+        await req
+          .json()
+          .catch(
+            () => null,
+          )
+      ) as
+        | CheckoutRequestBody
+        | null;
 
     if (!body) {
       return NextResponse.json(
         {
-          error: "INVALID_JSON",
+          error:
+            "INVALID_JSON",
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
-    const reportType = s(
-      body.reportType
-    );
+    const reportType =
+      s(
+        body.reportType,
+      );
 
     if (
       !isReportType(
-        reportType
+        reportType,
       )
     ) {
       return NextResponse.json(
@@ -235,9 +471,15 @@ export async function POST(
         },
         {
           status: 400,
-        }
+        },
       );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prix du rapport
+    |--------------------------------------------------------------------------
+    */
 
     const priceId =
       REPORT_PRICE[
@@ -255,38 +497,41 @@ export async function POST(
         },
         {
           status: 500,
-        }
+        },
       );
     }
 
-    const email = s(
-      body.email
-    );
+    const email =
+      s(
+        body.email,
+      );
 
     /*
-     * Rapport de compatibilité :
-     * deux personnes et deux roues astrologiques.
-     */
+    |--------------------------------------------------------------------------
+    | Rapport de compatibilité
+    |--------------------------------------------------------------------------
+    */
+
     if (
       reportType ===
       "compatibility"
     ) {
       const person1 =
         normalizeBirthPerson(
-          body.person1
+          body.person1,
         );
 
       const person2 =
         normalizeBirthPerson(
-          body.person2
+          body.person2,
         );
 
       if (
         !hasRequiredBirthData(
-          person1
+          person1,
         ) ||
         !hasRequiredBirthData(
-          person2
+          person2,
         )
       ) {
         return NextResponse.json(
@@ -299,13 +544,15 @@ export async function POST(
           },
           {
             status: 400,
-          }
+          },
         );
       }
 
       if (
-        !person1.wheelImagePath ||
-        !person2.wheelImagePath
+        !person1
+          .wheelImagePath ||
+        !person2
+          .wheelImagePath
       ) {
         return NextResponse.json(
           {
@@ -317,38 +564,37 @@ export async function POST(
           },
           {
             status: 400,
-          }
+          },
         );
       }
 
-      /*
-       * On sépare les deux personnes dans deux metadata
-       * différentes pour respecter la limite Stripe de
-       * 500 caractères par valeur.
-       */
       const serializedPerson1 =
         serializeMetadataValue(
           person1,
-          "PERSON_1_DATA_TOO_LARGE"
+          "PERSON_1_DATA_TOO_LARGE",
         );
 
       const serializedPerson2 =
         serializeMetadataValue(
           person2,
-          "PERSON_2_DATA_TOO_LARGE"
+          "PERSON_2_DATA_TOO_LARGE",
         );
 
       const session =
-        await stripe.checkout.sessions.create(
-          {
-            mode: "payment",
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
 
             line_items: [
               {
                 price:
                   priceId,
 
-                quantity: 1,
+                quantity:
+                  1,
               },
             ],
 
@@ -356,14 +602,6 @@ export async function POST(
               email ||
               undefined,
 
-            /*
-             * Permet d’inscrire ton coupon à 100 %
-             * directement dans Stripe Checkout.
-             */
-           /*
- * Coupon désactivé.
- * Réactiver le bloc discounts au besoin.
- */
             success_url:
               `${SITE_URL}/report-success` +
               `?session_id={CHECKOUT_SESSION_ID}`,
@@ -388,8 +626,7 @@ export async function POST(
               person_2_data:
                 serializedPerson2,
             },
-          }
-        );
+          });
 
       if (!session.url) {
         return NextResponse.json(
@@ -399,13 +636,14 @@ export async function POST(
           },
           {
             status: 500,
-          }
+          },
         );
       }
 
       return NextResponse.json(
         {
-          ok: true,
+          ok:
+            true,
 
           url:
             session.url,
@@ -417,18 +655,22 @@ export async function POST(
             "compatibility",
 
           person_1_wheel_image_path:
-            person1.wheelImagePath,
+            person1
+              .wheelImagePath,
 
           person_2_wheel_image_path:
-            person2.wheelImagePath,
-        }
+            person2
+              .wheelImagePath,
+        },
       );
     }
 
     /*
-     * Horoscope Premium du jour :
-     * une personne, sans image de roue obligatoire.
-     */
+    |--------------------------------------------------------------------------
+    | Horoscope Premium du jour
+    |--------------------------------------------------------------------------
+    */
+
     if (
       reportType ===
       "horoscope-daily"
@@ -465,7 +707,7 @@ export async function POST(
 
       if (
         !hasRequiredBirthData(
-          birthPerson
+          birthPerson,
         )
       ) {
         return NextResponse.json(
@@ -478,27 +720,31 @@ export async function POST(
           },
           {
             status: 400,
-          }
+          },
         );
       }
 
       const serializedBirthData =
         serializeMetadataValue(
           birthPerson,
-          "HOROSCOPE_BIRTH_DATA_TOO_LARGE"
+          "HOROSCOPE_BIRTH_DATA_TOO_LARGE",
         );
 
       const session =
-        await stripe.checkout.sessions.create(
-          {
-            mode: "payment",
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
 
             line_items: [
               {
                 price:
                   priceId,
 
-                quantity: 1,
+                quantity:
+                  1,
               },
             ],
 
@@ -506,11 +752,16 @@ export async function POST(
               email ||
               undefined,
 
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
             discounts: [
-  {
-    promotion_code: "promo_1Tv14nQctELy6iN1AGOhkx6G",
-  },
-],
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
 
             success_url:
               `${SITE_URL}/report-success` +
@@ -533,8 +784,7 @@ export async function POST(
               birth_data:
                 serializedBirthData,
             },
-          }
-        );
+          });
 
       if (!session.url) {
         return NextResponse.json(
@@ -544,13 +794,14 @@ export async function POST(
           },
           {
             status: 500,
-          }
+          },
         );
       }
 
       return NextResponse.json(
         {
-          ok: true,
+          ok:
+            true,
 
           url:
             session.url,
@@ -560,14 +811,206 @@ export async function POST(
 
           report_type:
             "horoscope-daily",
-        }
+        },
       );
     }
 
     /*
-     * Rapports existants :
-     * essential, premium et signature.
-     */
+    |--------------------------------------------------------------------------
+    | Horoscope Premium du mois
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "horoscope-month"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson,
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_MONTH_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope mensuel personnalisé.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const month =
+        normalizeMonth(
+          body.month,
+        );
+
+      const year =
+        normalizeYear(
+          body.year,
+        );
+
+      if (
+        !month ||
+        !year
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_MONTH_PERIOD",
+
+            detail:
+              "Le mois et l’année du rapport sont requis.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_MONTH_BIRTH_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
+            discounts: [
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium/mois` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_month_report",
+
+              report_type:
+                "horoscope-month",
+
+              birth_data:
+                serializedBirthData,
+
+              report_month:
+                month,
+
+              report_year:
+                year,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-month",
+
+          report_month:
+            month,
+
+          report_year:
+            year,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Carte du ciel : Essentielle, Premium et Signature
+    |--------------------------------------------------------------------------
+    */
+
     const birthPerson =
       normalizeBirthPerson({
         firstName:
@@ -600,7 +1043,7 @@ export async function POST(
 
     if (
       !hasRequiredBirthData(
-        birthPerson
+        birthPerson,
       )
     ) {
       return NextResponse.json(
@@ -613,12 +1056,13 @@ export async function POST(
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
     if (
-      !birthPerson.wheelImagePath
+      !birthPerson
+        .wheelImagePath
     ) {
       return NextResponse.json(
         {
@@ -630,27 +1074,31 @@ export async function POST(
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
     const serializedBirthData =
       serializeMetadataValue(
         birthPerson,
-        "BIRTH_DATA_TOO_LARGE"
+        "BIRTH_DATA_TOO_LARGE",
       );
 
     const session =
-      await stripe.checkout.sessions.create(
-        {
-          mode: "payment",
+      await stripe
+        .checkout
+        .sessions
+        .create({
+          mode:
+            "payment",
 
           line_items: [
             {
               price:
                 priceId,
 
-              quantity: 1,
+              quantity:
+                1,
             },
           ],
 
@@ -658,14 +1106,6 @@ export async function POST(
             email ||
             undefined,
 
-          /*
-           * On conserve aussi les coupons pour les
-           * trois rapports déjà existants.
-           */
-         /*
- * Coupon désactivé.
- * Réactiver le bloc discounts au besoin.
- */
           success_url:
             `${SITE_URL}/report-success` +
             `?session_id={CHECKOUT_SESSION_ID}`,
@@ -687,8 +1127,7 @@ export async function POST(
             birth_data:
               serializedBirthData,
           },
-        }
-      );
+        });
 
     if (!session.url) {
       return NextResponse.json(
@@ -698,13 +1137,14 @@ export async function POST(
         },
         {
           status: 500,
-        }
+        },
       );
     }
 
     return NextResponse.json(
       {
-        ok: true,
+        ok:
+          true,
 
         url:
           session.url,
@@ -713,13 +1153,16 @@ export async function POST(
           session.id,
 
         wheel_image_path:
-          birthPerson.wheelImagePath,
-      }
+          birthPerson
+            .wheelImagePath,
+      },
     );
-  } catch (error: unknown) {
+  } catch (
+    error: unknown,
+  ) {
     console.error(
       "[reports checkout]",
-      error
+      error,
     );
 
     const message =
@@ -734,7 +1177,7 @@ export async function POST(
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }
