@@ -388,21 +388,69 @@ export default function CompatibilityCard() {
           </div>
 
           {detailedPageUrl && (
-            <div className="compat-detail-action">
+            <section className="compat-detail-card">
+              <span className="compat-detail-badge">
+                ✨ Analyse exclusive
+              </span>
+
+              <div className="compat-detail-icon">
+                💞
+              </div>
+
+              <h3>
+                Analyse complète disponible
+              </h3>
+
+              <p className="compat-detail-intro">
+                Découvrez en profondeur la
+                compatibilité entre{" "}
+                <strong>
+                  {result.signA.label}
+                </strong>{" "}
+                et{" "}
+                <strong>
+                  {result.signB.label}
+                </strong>
+                .
+              </p>
+
+              <ul className="compat-detail-list">
+                <li>
+                  Vie amoureuse
+                </li>
+
+                <li>
+                  Communication
+                </li>
+
+                <li>
+                  Passion et attirance
+                </li>
+
+                <li>
+                  Vie quotidienne
+                </li>
+
+                <li>
+                  Forces de la relation
+                </li>
+
+                <li>
+                  Défis à surmonter
+                </li>
+
+                <li>
+                  Conseils astrologiques
+                </li>
+              </ul>
+
               <Link
                 href={detailedPageUrl}
                 className="compatibility-detail-link"
               >
-                Voir l’analyse complète
+                Lire l’analyse complète
               </Link>
-
-              <p>
-                Découvrez les forces,
-                les défis, la communication
-                et l’alchimie de cette
-                combinaison.
-              </p>
-            </div>
+            </section>
           )}
 
           <div className="compat-actions">
