@@ -1,23 +1,62 @@
-import type { MetadataRoute } from "next";
+import type {
+  MetadataRoute,
+} from "next";
 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://luna-astralis.app";
+const BASE_URL =
+  "https://luna-astralis.app";
 
+export default function robots():
+  MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
+
         allow: "/",
+
         disallow: [
+          /*
+          |--------------------------------------------------------------------------
+          | API
+          |--------------------------------------------------------------------------
+          */
+
           "/api/",
+
+          /*
+          |--------------------------------------------------------------------------
+          | Développement
+          |--------------------------------------------------------------------------
+          */
+
           "/dev/",
+          "/_next/",
+
+          /*
+          |--------------------------------------------------------------------------
+          | Paiement
+          |--------------------------------------------------------------------------
+          */
+
           "/checkout",
           "/report-success",
-          "/_next/",
+
+          /*
+          |--------------------------------------------------------------------------
+          | Pages techniques futures
+          |--------------------------------------------------------------------------
+          */
+
+          "/success",
+          "/cancel",
         ],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
+
+    sitemap:
+      `${BASE_URL}/sitemap.xml`,
+
+    host:
+      BASE_URL,
   };
 }
