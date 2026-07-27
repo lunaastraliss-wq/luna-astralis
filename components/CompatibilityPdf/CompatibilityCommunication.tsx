@@ -23,6 +23,10 @@ import {
   translateCompatibilityPlanet,
 } from "./CompatibilityPdfUtils";
 
+import {
+  getCompatibilityPlanetText,
+} from "./texts/CompatibilityPlanetTextSelector";
+
 const NAVY = "#06101f";
 const NAVY_CARD = "#0a1729";
 const NAVY_CARD_LIGHT = "#0d1b30";
@@ -877,73 +881,6 @@ function getElement(
   return "Non précisé";
 }
 
-function getMercuryCompatibilityText(
-  sign1: string,
-  sign2: string,
-): string {
-  if (
-    sign1 === "Non précisé" ||
-    sign2 === "Non précisé"
-  ) {
-    return (
-      "Les positions de Mercure ne sont pas toutes disponibles. " +
-      "L’analyse des échanges pourra être approfondie lorsque les deux thèmes complets seront fournis."
-    );
-  }
-
-  const normalized1 =
-    normalizeValue(sign1);
-
-  const normalized2 =
-    normalizeValue(sign2);
-
-  const element1 =
-    getElement(sign1);
-
-  const element2 =
-    getElement(sign2);
-
-  if (normalized1 === normalized2) {
-    return (
-      `Vos deux Mercure en ${sign1} indiquent une manière très semblable de réfléchir et de communiquer. ` +
-      "Vous pouvez rapidement comprendre la logique de l’autre, terminer ses phrases ou partager les mêmes références. " +
-      "Cette proximité mentale favorise les échanges, mais peut aussi renforcer les mêmes habitudes ou les mêmes angles morts."
-    );
-  }
-
-  if (element1 === element2) {
-    return (
-      `Vos Mercure en ${sign1} et en ${sign2} appartiennent au même élément, ${element1}. ` +
-      "Votre manière de traiter l’information repose donc sur une base commune. " +
-      "Vous ne choisissez pas toujours les mêmes mots, mais vous pouvez généralement suivre le raisonnement de l’autre avec naturel."
-    );
-  }
-
-  const complementary =
-    (element1 === "Feu" &&
-      element2 === "Air") ||
-    (element1 === "Air" &&
-      element2 === "Feu") ||
-    (element1 === "Terre" &&
-      element2 === "Eau") ||
-    (element1 === "Eau" &&
-      element2 === "Terre");
-
-  if (complementary) {
-    return (
-      `Vos Mercure en ${sign1} et en ${sign2} fonctionnent différemment, mais leurs éléments ${element1} et ${element2} peuvent se compléter. ` +
-      "L’un apporte une forme de mouvement, d’analyse ou de spontanéité, tandis que l’autre ajoute de la profondeur, du réalisme ou de la sensibilité. " +
-      "Votre communication devient particulièrement riche lorsque chacun respecte le rythme mental de l’autre."
-    );
-  }
-
-  return (
-    `Vos Mercure en ${sign1} et en ${sign2} ne traitent pas l’information de la même manière. ` +
-    "L’un peut privilégier la logique, la rapidité ou l’action, tandis que l’autre se fie davantage au ressenti, à la prudence ou à l’expérience. " +
-    "Les malentendus diminuent lorsque vous vérifiez ce que l’autre a réellement compris au lieu de présumer que votre message était évident."
-  );
-}
-
 function isMercuryPlanet(
   planetName: string,
 ): boolean {
@@ -1620,10 +1557,14 @@ export default function CompatibilityCommunication({
               localStyles.interpretationText
             }
           >
-            {getMercuryCompatibilityText(
-              mercurySign1,
-              mercurySign2,
-            )}
+            {getCompatibilityPlanetText({
+              body: "mercury",
+              sign1: mercurySign1,
+              sign2: mercurySign2,
+              element1: getElement(mercurySign1),
+              element2: getElement(mercurySign2),
+              seed: `${person1Name}-${person2Name}`,
+            })}
           </Text>
         </View>
 
