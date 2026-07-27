@@ -1158,7 +1158,7 @@ export async function POST(
       },
     );
   } catch (
-    error: unknown,
+    error: unknown
   ) {
     console.error(
       "[reports checkout]",
