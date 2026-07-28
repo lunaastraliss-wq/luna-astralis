@@ -29,15 +29,21 @@ import HoroscopeExplore from "./HoroscopeExplore";
 
 /*
 |--------------------------------------------------------------------------
-| Pages Premium propres à l’horoscope annuel
+| Pages avancées propres à l’horoscope annuel
 |--------------------------------------------------------------------------
 */
 
 import HoroscopeYearStrengths
-  from "./year/pages/HoroscopeYearStrengths";
+  from "./year/advanced/HoroscopeYearStrengths";
 
 import HoroscopeYearHiddenTalents
-  from "./year/pages/HoroscopeYearHiddenTalents";
+  from "./year/advanced/HoroscopeYearHiddenTalents";
+
+/*
+|--------------------------------------------------------------------------
+| Pages Premium propres à l’horoscope annuel
+|--------------------------------------------------------------------------
+*/
 
 import YearPremiumPage
   from "./year/premium/pages/YearPremiumPage";
@@ -247,10 +253,7 @@ export default function HoroscopeYearPdf({
       {premiumPages.map(
         (page, index) => (
           <YearPremiumPage
-            key={
-              page.id ??
-              `year-premium-page-${index}`
-            }
+            key={`year-premium-page-${index}`}
             identity={identity}
             period={period}
             page={page}
