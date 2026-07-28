@@ -48,8 +48,6 @@ import type {
   YearlyHoroscopePeriod,
   YearlyHoroscopeQuarters,
   YearlyHoroscopeMonths,
-  YearlyMajorEnergiesResult,
-  YearlyAstrologyResult,
   YearlyMantraResult,
 } from "./year/data/types";
 
@@ -103,9 +101,6 @@ export type YearlyHoroscopeResult = {
 
   months: YearlyHoroscopeMonths;
 
-  majorEnergies: YearlyMajorEnergiesResult;
-
-  astrology: YearlyAstrologyResult;
 
   mantra: YearlyMantraResult;
 
@@ -707,62 +702,6 @@ export function buildYearlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
-  | Données astrologiques temporaires
-  |--------------------------------------------------------------------------
-  |
-  | Ces objets seront remplacés lorsque les deux calculateurs annuels
-  | correspondants seront branchés :
-  |
-  | - buildYearlyMajorEnergies
-  | - calculateYearlyAstrology
-  |
-  */
-
-  const majorEnergies =
-    {
-      title:
-        "Les grandes énergies de l’année",
-
-      introduction:
-        transit.introduction,
-
-      dominantInfluence:
-        transit.dominantInfluence,
-
-      influences: [
-        ...transit.personalPlanets,
-        ...transit.collectivePlanets,
-      ],
-
-      advice:
-        transit.advice,
-
-      conclusion:
-        transit.conclusion,
-    } as YearlyMajorEnergiesResult;
-
-  const astrology =
-    {
-      year,
-
-      dominantInfluence:
-        transit.dominantInfluence,
-
-      personalPlanets:
-        transit.personalPlanets,
-
-      collectivePlanets:
-        transit.collectivePlanets,
-
-      advice:
-        transit.advice,
-
-      conclusion:
-        transit.conclusion,
-    } as YearlyAstrologyResult;
-
-  /*
-  |--------------------------------------------------------------------------
   | Résumés généraux
   |--------------------------------------------------------------------------
   */
@@ -1177,8 +1116,6 @@ export function buildYearlyHoroscope({
     content,
     quarters,
     months,
-    majorEnergies,
-    astrology,
     mantra,
     strengths,
     hiddenTalents,
