@@ -1,3 +1,7 @@
+import type {
+  HoroscopeZodiacSign,
+} from "../../HoroscopePdfTypes";
+
 /*
 |--------------------------------------------------------------------------
 | Identité utilisée pour personnaliser le rapport annuel
@@ -9,7 +13,7 @@ export type YearlyHoroscopeIdentity = {
   birthDate: string;
   birthTime?: string;
   birthPlace?: string;
-  zodiacSign: string;
+  zodiacSign: HoroscopeZodiacSign;
 };
 
 /*
