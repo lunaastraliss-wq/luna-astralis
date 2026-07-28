@@ -814,10 +814,19 @@ export function buildYearlyHoroscope({
     planetaryIntroduction:
       transit.introduction,
 
-    planetaryInfluences: [
-      ...transit.personalPlanets,
-      ...transit.collectivePlanets,
-    ],
+   planetaryInfluences: [
+  ...transit.personalPlanets,
+  ...transit.collectivePlanets,
+].map((influence) => ({
+  ...influence,
+
+  title:
+    `Influence de ${influence.planet}`,
+
+  description:
+    influence.advice ??
+    "Cette influence planétaire accompagne les principales évolutions de votre année.",
+})),
 
     /*
     |--------------------------------------------------------------------------
