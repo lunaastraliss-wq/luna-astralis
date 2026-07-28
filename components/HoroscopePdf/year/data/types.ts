@@ -62,6 +62,7 @@ export type YearlySectionResult = {
   text: string;
   highlights: string[];
   advice: string;
+  conclusion: string;
 };
 
 /*
