@@ -46,7 +46,7 @@ import HoroscopeYearHiddenTalents
 */
 
 import YearPremiumPage
-  from "./year/premium/pages/YearPremiumPage";
+  from "./year/advanced/templates/YearPremiumPage";
 
 /*
 |--------------------------------------------------------------------------
