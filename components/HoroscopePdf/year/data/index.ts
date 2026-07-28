@@ -35,6 +35,10 @@ export {
   buildYearlyLove,
 } from "./buildYearlyLove";
 
+export type {
+  BuildYearlyLoveParams,
+} from "./buildYearlyLove";
+
 /*
 |--------------------------------------------------------------------------
 | Travail et carrière
@@ -47,6 +51,10 @@ export {
 
 export {
   buildYearlyCareer,
+} from "./buildYearlyCareer";
+
+export type {
+  BuildYearlyCareerParams,
 } from "./buildYearlyCareer";
 
 /*
@@ -63,6 +71,10 @@ export {
   buildYearlyFinance,
 } from "./buildYearlyFinance";
 
+export type {
+  BuildYearlyFinanceParams,
+} from "./buildYearlyFinance";
+
 /*
 |--------------------------------------------------------------------------
 | Bien-être et énergie
@@ -75,6 +87,10 @@ export {
 
 export {
   buildYearlyHealth,
+} from "./buildYearlyHealth";
+
+export type {
+  BuildYearlyHealthParams,
 } from "./buildYearlyHealth";
 
 /*
@@ -91,6 +107,10 @@ export {
   buildYearlySocial,
 } from "./buildYearlySocial";
 
+export type {
+  BuildYearlySocialParams,
+} from "./buildYearlySocial";
+
 /*
 |--------------------------------------------------------------------------
 | Défis de l’année
@@ -103,6 +123,10 @@ export {
 
 export {
   buildYearlyChallenge,
+} from "./buildYearlyChallenge";
+
+export type {
+  BuildYearlyChallengeParams,
 } from "./buildYearlyChallenge";
 
 /*
@@ -119,6 +143,10 @@ export {
   buildYearlyOpportunity,
 } from "./buildYearlyOpportunity";
 
+export type {
+  BuildYearlyOpportunityParams,
+} from "./buildYearlyOpportunity";
+
 /*
 |--------------------------------------------------------------------------
 | Transits planétaires annuels
@@ -131,6 +159,10 @@ export {
 
 export {
   buildYearlyTransit,
+} from "./buildYearlyTransit";
+
+export type {
+  BuildYearlyTransitParams,
 } from "./buildYearlyTransit";
 
 /*
@@ -167,6 +199,7 @@ export {
 |     ├── createYearlyMantraTexts.ts
 |     └── buildYearlyMantra.ts
 |
+|--------------------------------------------------------------------------
 */
 
 export {
