@@ -239,14 +239,19 @@ const MONTHLY_MANTRA_TEXTS:
       "Vous rapprocher des personnes et des lieux qui vous apaisent. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte et à mieux traverser le défi suivant : ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En privilégiant des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous créerez les conditions nécessaires pour retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.",
     ],
 
-    affirmation: [
-      "Mes émotions sont légitimes et je sais les traverser avec douceur.",
-      "Je mérite de recevoir un amour stable, respectueux et rassurant.",
-      "Je peux poser mes limites sans renoncer à ma bienveillance.",
-      "Mon intuition me permet de reconnaître ce qui est bon pour moi.",
-      "Je suis mon propre refuge lorsque le monde devient trop intense.",
-      "Je libère les souvenirs qui n’ont plus besoin de diriger mon présent.",
-    ],
+   affirmation: [
+  "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.",
+
+  "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.",
+
+  "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.",
+
+  "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.",
+
+  "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.",
+
+  "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.",
+],
 
     message: [
       "Ce mois-ci, votre sensibilité pourrait vous révéler une vérité que votre esprit hésitait encore à reconnaître. Les semaines à venir vous invitent à mieux reconnaître votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins. Vous avancerez alors avec plus de clarté et pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.",
