@@ -814,18 +814,18 @@ export function buildYearlyHoroscope({
     planetaryIntroduction:
       transit.introduction,
 
-   planetaryInfluences: [
-  ...transit.personalPlanets,
-  ...transit.collectivePlanets,
-].map((influence) => ({
-  ...influence,
+    planetaryInfluences: [
+      ...transit.personalPlanets,
+      ...transit.collectivePlanets,
+    ].map((influence) => ({
+      ...influence,
 
-  title:
-    `Influence de ${influence.planet}`,
+      title:
+        `Influence de ${influence.planet}`,
 
-  description:
+      description:
         "Cette influence planétaire accompagne les principales évolutions de votre année.",
-})),
+    })),
 
     /*
     |--------------------------------------------------------------------------
@@ -902,9 +902,6 @@ export function buildYearlyHoroscope({
           "Équilibre",
 
         description:
-          challenge.keyPeriods?.join(
-            " • ",
-          ) ||
           challenge.highlights
             .slice(1)
             .join(" • ") ||
@@ -950,9 +947,6 @@ export function buildYearlyHoroscope({
           "Progression",
 
         description:
-          opportunity.keyPeriods?.join(
-            " • ",
-          ) ||
           opportunity.highlights
             .slice(1)
             .join(" • ") ||
