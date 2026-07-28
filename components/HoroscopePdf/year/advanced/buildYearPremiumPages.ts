@@ -2074,12 +2074,12 @@ function buildPremiumPage(
             identity,
           ),
 
-        advice:
-          personalizeText(
-            theme.heroAdvice ||
-              theme.advices[0],
-            identity,
-          ),
+        heroAdvice:
+  personalizeText(
+    theme.heroAdvice ||
+      theme.advices[0],
+    identity,
+  ),
       };
 
     case "grid":
