@@ -2,6 +2,10 @@ import type {
   MetadataRoute,
 } from "next";
 
+import {
+  COMPATIBILITY_PAGES,
+} from "@/lib/compatibility-pages";
+
 const BASE_URL =
   "https://luna-astralis.app";
 
@@ -271,6 +275,28 @@ export default function sitemap():
         priority:
           0.9,
       },
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Les 144 compatibilités amoureuses
+    |--------------------------------------------------------------------------
+    */
+
+    ...COMPATIBILITY_PAGES.map(
+      (
+        compatibility,
+      ) =>
+        createEntry(
+          `/compatibilite/${compatibility.signA}/${compatibility.signB}`,
+          {
+            changeFrequency:
+              "monthly",
+
+            priority:
+              0.85,
+          },
+        ),
     ),
 
     /*
