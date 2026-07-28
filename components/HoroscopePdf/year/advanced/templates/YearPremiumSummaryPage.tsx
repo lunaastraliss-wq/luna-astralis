@@ -7,6 +7,7 @@ import {
 } from "@react-pdf/renderer";
 
 import {
+  HOROSCOPE_ICONS,
   HOROSCOPE_LOGO_URL,
 } from "../../../HoroscopePdfAssets";
 
@@ -62,6 +63,202 @@ const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Icônes PNG stables
+|--------------------------------------------------------------------------
+*/
+
+type YearPremiumIconKey =
+  | "ascendant"
+  | "balance"
+  | "elementAir"
+  | "elementEarth"
+  | "elementFire"
+  | "elementWater"
+  | "fourElements"
+  | "heart"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "jupiter"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "mars"
+  | "mercury"
+  | "modalityCardinal"
+  | "modalityFixed"
+  | "modalityMutable"
+  | "money"
+  | "moon"
+  | "neptune"
+  | "planetSaturn"
+  | "pluto"
+  | "saturn"
+  | "soulPath"
+  | "sun"
+  | "uranus"
+  | "venus";
+
+type YearPremiumPageWithIconKey =
+  YearPremiumPageData & {
+    iconKey?: YearPremiumIconKey;
+    id?: string;
+    slug?: string;
+  };
+
+type YearPremiumCardWithIconKey =
+  YearPremiumCardItem & {
+    iconKey?: YearPremiumIconKey;
+  };
+
+const ICONS =
+  HOROSCOPE_ICONS as Record<string, string>;
+
+const PAGE_ID_TO_ICON_KEY: Record<
+  string,
+  YearPremiumIconKey
+> = {
+  ascendant: "ascendant",
+  balance: "balance",
+  equilibre: "balance",
+  "element-air": "elementAir",
+  "element-eau": "elementWater",
+  "element-feu": "elementFire",
+  "element-terre": "elementEarth",
+  elements: "fourElements",
+  "four-elements": "fourElements",
+  amour: "heart",
+  love: "heart",
+  "talents-caches": "hiddenTalents",
+  "hidden-talents": "hiddenTalents",
+  "monde-interieur": "innerWorld",
+  "inner-world": "innerWorld",
+  "integration-guide": "integrationGuide",
+  "guide-integration": "integrationGuide",
+  jupiter: "jupiter",
+  "blocages-interieurs": "lifeBlocks",
+  "life-blocks": "lifeBlocks",
+  "raison-etre": "lifePurpose",
+  "life-purpose": "lifePurpose",
+  mars: "mars",
+  mercure: "mercury",
+  mercury: "mercury",
+  "modalite-cardinale": "modalityCardinal",
+  "modality-cardinal": "modalityCardinal",
+  "modalite-fixe": "modalityFixed",
+  "modality-fixed": "modalityFixed",
+  "modalite-mutable": "modalityMutable",
+  "modality-mutable": "modalityMutable",
+  argent: "money",
+  money: "money",
+  lune: "moon",
+  moon: "moon",
+  neptune: "neptune",
+  saturne: "saturn",
+  saturn: "saturn",
+  "planet-saturn": "planetSaturn",
+  pluton: "pluto",
+  pluto: "pluto",
+  "mission-ame": "soulPath",
+  "soul-path": "soulPath",
+  soleil: "sun",
+  sun: "sun",
+  uranus: "uranus",
+  venus: "venus",
+};
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey =
+    "integrationGuide",
+): string {
+  const icon = ICONS[iconKey];
+  const fallback = ICONS[fallbackKey];
+
+  if (typeof icon === "string" && icon.length > 0) {
+    return icon;
+  }
+
+  if (
+    typeof fallback === "string" &&
+    fallback.length > 0
+  ) {
+    return fallback;
+  }
+
+  return "";
+}
+
+function normalizePageId(
+  value?: string,
+): string {
+  return (value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function resolvePageIconKey(
+  page: YearPremiumPageData,
+): YearPremiumIconKey {
+  const pageWithIconKey =
+    page as YearPremiumPageWithIconKey;
+
+  if (pageWithIconKey.iconKey) {
+    return pageWithIconKey.iconKey;
+  }
+
+  const stableId = normalizePageId(
+    pageWithIconKey.id ||
+      pageWithIconKey.slug,
+  );
+
+  if (stableId && PAGE_ID_TO_ICON_KEY[stableId]) {
+    return PAGE_ID_TO_ICON_KEY[stableId];
+  }
+
+  const legacyId = normalizePageId(page.title);
+
+  return (
+    PAGE_ID_TO_ICON_KEY[legacyId] ||
+    "integrationGuide"
+  );
+}
+
+function resolvePageIcon(
+  page: YearPremiumPageData,
+): {
+  iconKey: YearPremiumIconKey;
+  icon: string;
+} {
+  const iconKey = resolvePageIconKey(page);
+  const stableIcon = getIcon(iconKey);
+
+  return {
+    iconKey,
+    icon: stableIcon || page.icon,
+  };
+}
+
+function resolveSummaryItemIcon(
+  item: YearPremiumCardItem,
+  fallbackIcon: string,
+): string {
+  const itemWithIconKey =
+    item as YearPremiumCardWithIconKey;
+
+  if (itemWithIconKey.iconKey) {
+    return getIcon(itemWithIconKey.iconKey);
+  }
+
+  return item.icon || fallbackIcon;
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -569,7 +766,10 @@ function PremiumSummaryItem({
       : null;
 
   const icon =
-    item.icon || fallbackIcon;
+    resolveSummaryItemIcon(
+      item,
+      fallbackIcon,
+    );
 
   return (
     <View
@@ -659,6 +859,23 @@ export default function YearPremiumSummaryPage({
         : page.introduction
       : null;
 
+  const {
+    iconKey: pageIconKey,
+    icon: pageIcon,
+  } = resolvePageIcon(page);
+
+  const opportunityIcon =
+    getIcon("hiddenTalents", pageIconKey) ||
+    pageIcon;
+
+  const vigilanceIcon =
+    getIcon("lifeBlocks", pageIconKey) ||
+    pageIcon;
+
+  const conclusionIcon =
+    getIcon("integrationGuide", pageIconKey) ||
+    pageIcon;
+
   return (
     <Page
       size="A4"
@@ -710,7 +927,7 @@ export default function YearPremiumSummaryPage({
             <View style={styles.titleLine} />
 
             <Image
-              src={page.icon}
+              src={pageIcon}
               style={styles.titleIcon}
             />
 
@@ -725,7 +942,7 @@ export default function YearPremiumSummaryPage({
           <View style={styles.heroHeader}>
             <View style={styles.heroIconCircle}>
               <Image
-                src={page.icon}
+                src={pageIcon}
                 style={styles.heroIcon}
               />
             </View>
@@ -792,7 +1009,7 @@ export default function YearPremiumSummaryPage({
           <View style={styles.sectionLine} />
 
           <Image
-            src={page.icon}
+            src={pageIcon}
             style={styles.sectionIcon}
           />
 
@@ -809,7 +1026,7 @@ export default function YearPremiumSummaryPage({
                   key={`${page.key}-${item.title}-${index}`}
                   item={item}
                   index={index}
-                  fallbackIcon={page.icon}
+                  fallbackIcon={pageIcon}
                 />
               ),
             )}
@@ -829,7 +1046,7 @@ export default function YearPremiumSummaryPage({
               <View style={styles.lowerCard}>
                 <View style={styles.lowerHeader}>
                   <Image
-                    src={page.icon}
+                    src={opportunityIcon}
                     style={styles.lowerIcon}
                   />
 
@@ -848,7 +1065,7 @@ export default function YearPremiumSummaryPage({
               <View style={styles.lowerCard}>
                 <View style={styles.lowerHeader}>
                   <Image
-                    src={page.icon}
+                    src={vigilanceIcon}
                     style={styles.lowerIcon}
                   />
 
@@ -868,7 +1085,7 @@ export default function YearPremiumSummaryPage({
         {page.conclusion ? (
           <View style={styles.conclusionCard}>
             <Image
-              src={page.icon}
+              src={conclusionIcon}
               style={styles.conclusionWatermark}
             />
 
