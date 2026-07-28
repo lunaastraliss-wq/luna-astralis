@@ -26,8 +26,6 @@ import {
   buildYearlyChallenge,
   buildYearlyOpportunity,
   buildYearlyTransit,
-  buildYearlyQuarters,
-  buildYearlyMonths,
   buildYearlyStrengths,
   buildYearlyHiddenTalents,
   buildYearPremiumPages,
@@ -650,17 +648,7 @@ export function buildYearlyHoroscope({
       yearlySectionParams,
     );
 
-  const quarters =
-    buildYearlyQuarters(
-      yearlySectionParams,
-    );
-
-  const months =
-    buildYearlyMonths(
-      yearlySectionParams,
-    );
-
-  const mantra =
+    const mantra =
     buildYearlyMantra(
       yearlySectionParams,
     );
@@ -1116,8 +1104,6 @@ export function buildYearlyHoroscope({
     identity,
     period,
     content,
-    quarters,
-    months,
     mantra,
     strengths,
     hiddenTalents,
