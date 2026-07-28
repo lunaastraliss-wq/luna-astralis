@@ -824,8 +824,7 @@ export function buildYearlyHoroscope({
     `Influence de ${influence.planet}`,
 
   description:
-    influence.advice ??
-    "Cette influence planétaire accompagne les principales évolutions de votre année.",
+        "Cette influence planétaire accompagne les principales évolutions de votre année.",
 })),
 
     /*
