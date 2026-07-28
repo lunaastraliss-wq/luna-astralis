@@ -49,16 +49,6 @@ export type BuildYearlySectionParams = {
 |--------------------------------------------------------------------------
 | Structure commune des sections annuelles
 |--------------------------------------------------------------------------
-|
-| Cette structure correspond aux données attendues par les pages PDF :
-|
-| - title
-| - score
-| - introduction
-| - text
-| - highlights
-| - advice
-|
 */
 
 export type YearlySectionResult = {
@@ -147,7 +137,7 @@ export type YearlyHealthTexts = {
   emotionalBalance: string[];
   rest: string[];
   habits: string[];
-  seasonalRhythm: string[];
+  keyPeriods: string[];
   challenge: string[];
   advice: string[];
   conclusion: string[];
@@ -169,7 +159,7 @@ export type YearlySocialTexts = {
   family: string[];
   newConnections: string[];
   communication: string[];
-  socialEvolution: string[];
+  keyPeriods: string[];
   challenge: string[];
   advice: string[];
   conclusion: string[];
@@ -190,7 +180,7 @@ export type YearlyChallengeTexts = {
   emotionalChallenge: string[];
   practicalChallenge: string[];
   relationshipChallenge: string[];
-  professionalChallenge: string[];
+  keyPeriods: string[];
   hiddenLesson: string[];
   transformation: string[];
   advice: string[];
@@ -213,8 +203,7 @@ export type YearlyOpportunityTexts = {
   financialOpportunity: string[];
   relationshipOpportunity: string[];
   personalOpportunity: string[];
-  spiritualOpportunity: string[];
-  timing: string[];
+  keyPeriods: string[];
   action: string[];
   caution: string[];
   conclusion: string[];
@@ -225,12 +214,19 @@ export type YearlyOpportunityResult =
 
 /*
 |--------------------------------------------------------------------------
-| Transits planétaires annuels
+| Influence planétaire annuelle
 |--------------------------------------------------------------------------
-|
-| Les transits conservent une structure distincte parce qu’ils contiennent
-| une lecture séparée pour chaque planète et pour les grandes périodes.
-|
+*/
+
+export type YearlyTransitPlanetInfluence = {
+  planet: string;
+  text: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Textes des transits planétaires
+|--------------------------------------------------------------------------
 */
 
 export type YearlyTransitTexts = {
@@ -241,32 +237,29 @@ export type YearlyTransitTexts = {
   mars: string[];
   jupiter: string[];
   saturn: string[];
-  uranus: string[];
-  neptune: string[];
-  pluto: string[];
   outerPlanets: string[];
   dominantInfluence: string[];
-  retrogrades: string[];
-  eclipses: string[];
   advice: string[];
   conclusion: string[];
 };
 
+/*
+|--------------------------------------------------------------------------
+| Résultat des transits planétaires
+|--------------------------------------------------------------------------
+*/
+
 export type YearlyTransitResult = {
+  title: string;
   introduction: string;
-  sun: string;
-  mercury: string;
-  venus: string;
-  mars: string;
-  jupiter: string;
-  saturn: string;
-  uranus: string;
-  neptune: string;
-  pluto: string;
-  outerPlanets: string;
   dominantInfluence: string;
-  retrogrades: string;
-  eclipses: string;
+
+  personalPlanets:
+    YearlyTransitPlanetInfluence[];
+
+  collectivePlanets:
+    YearlyTransitPlanetInfluence[];
+
   advice: string;
   conclusion: string;
 };
@@ -372,9 +365,6 @@ export type YearlyMantraResult = {
 |--------------------------------------------------------------------------
 | Résultat complet du moteur annuel
 |--------------------------------------------------------------------------
-|
-| Ce type regroupe toutes les sections produites par les générateurs.
-|
 */
 
 export type YearlyHoroscopeGeneratedContent = {
