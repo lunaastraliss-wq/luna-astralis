@@ -29,6 +29,21 @@ import HoroscopeExplore from "./HoroscopeExplore";
 
 /*
 |--------------------------------------------------------------------------
+| Pages Premium propres à l’horoscope annuel
+|--------------------------------------------------------------------------
+*/
+
+import HoroscopeYearStrengths
+  from "./year/pages/HoroscopeYearStrengths";
+
+import HoroscopeYearHiddenTalents
+  from "./year/pages/HoroscopeYearHiddenTalents";
+
+import YearPremiumPage
+  from "./year/premium/pages/YearPremiumPage";
+
+/*
+|--------------------------------------------------------------------------
 | Propriétés du document annuel
 |--------------------------------------------------------------------------
 */
@@ -40,6 +55,9 @@ type HoroscopeYearPdfProps =
     | "period"
     | "content"
     | "zodiacIconUrl"
+    | "strengths"
+    | "hiddenTalents"
+    | "premiumPages"
   > & {
     logoUrl?: string;
   };
@@ -56,6 +74,9 @@ export default function HoroscopeYearPdf({
   content,
   logoUrl,
   zodiacIconUrl,
+  strengths,
+  hiddenTalents,
+  premiumPages,
 }: HoroscopeYearPdfProps) {
   /*
   |--------------------------------------------------------------------------
@@ -177,7 +198,7 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Fin du rapport
+      | Fin du rapport initial — pages 1 à 30
       |--------------------------------------------------------------------------
       */}
 
@@ -192,6 +213,50 @@ export default function HoroscopeYearPdf({
       <HoroscopeExplore
         {...sharedProps}
       />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Page 31 — Vos plus grandes forces
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearStrengths
+        identity={identity}
+        period={period}
+        strengths={strengths}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Page 32 — Vos talents cachés
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearHiddenTalents
+        identity={identity}
+        period={period}
+        hiddenTalents={hiddenTalents}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Pages 33 à 60 — Contenu Premium annuel
+      |--------------------------------------------------------------------------
+      */}
+
+      {premiumPages.map(
+        (page, index) => (
+          <YearPremiumPage
+            key={
+              page.id ??
+              `year-premium-page-${index}`
+            }
+            identity={identity}
+            period={period}
+            page={page}
+          />
+        ),
+      )}
     </Document>
   );
 }
