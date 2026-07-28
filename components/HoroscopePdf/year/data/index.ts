@@ -167,38 +167,7 @@ export type {
 
 /*
 |--------------------------------------------------------------------------
-| Trimestres de l’année
-|--------------------------------------------------------------------------
-*/
-
-export {
-  buildYearlyQuarters,
-} from "./buildYearlyQuarters";
-
-/*
-|--------------------------------------------------------------------------
-| Résumés des douze mois
-|--------------------------------------------------------------------------
-*/
-
-export {
-  buildYearlyMonths,
-} from "./buildYearlyMonths";
-
-/*
-|--------------------------------------------------------------------------
 | Page 31 — Forces dominantes
-|--------------------------------------------------------------------------
-|
-| Cette page demeure indépendante du générateur commun.
-|
-| Fichiers :
-|
-| year/
-| └── advanced/
-|     ├── createYearlyStrengthsTexts.ts
-|     └── buildYearlyStrengths.ts
-|
 |--------------------------------------------------------------------------
 */
 
@@ -214,17 +183,6 @@ export {
 |--------------------------------------------------------------------------
 | Page 32 — Talents cachés
 |--------------------------------------------------------------------------
-|
-| Cette page demeure indépendante du générateur commun.
-|
-| Fichiers :
-|
-| year/
-| └── advanced/
-|     ├── createYearlyHiddenTalentsTexts.ts
-|     └── buildYearlyHiddenTalents.ts
-|
-|--------------------------------------------------------------------------
 */
 
 export {
@@ -237,12 +195,7 @@ export {
 
 /*
 |--------------------------------------------------------------------------
-| Pages Premium 33 à 60
-|--------------------------------------------------------------------------
-|
-| Ces pages sont générées automatiquement à partir de la configuration
-| centrale et des modèles Premium réutilisables.
-|
+| Pages Premium annuelles
 |--------------------------------------------------------------------------
 */
 
@@ -253,7 +206,7 @@ export {
 
 /*
 |--------------------------------------------------------------------------
-| Configuration des pages Premium 33 à 60
+| Configuration des pages Premium annuelles
 |--------------------------------------------------------------------------
 */
 
@@ -264,7 +217,7 @@ export {
 
 /*
 |--------------------------------------------------------------------------
-| Types des pages Premium 33 à 60
+| Types des pages Premium annuelles
 |--------------------------------------------------------------------------
 */
 
@@ -280,18 +233,6 @@ export type {
 /*
 |--------------------------------------------------------------------------
 | Mantra de l’année
-|--------------------------------------------------------------------------
-|
-| Le dossier mantra se trouve au même niveau que le dossier data :
-|
-| year/
-| ├── data/
-| │   └── index.ts
-| │
-| └── mantra/
-|     ├── createYearlyMantraTexts.ts
-|     └── buildYearlyMantra.ts
-|
 |--------------------------------------------------------------------------
 */
 
