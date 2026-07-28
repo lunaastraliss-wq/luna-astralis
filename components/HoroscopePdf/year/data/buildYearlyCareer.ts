@@ -182,5 +182,12 @@ export function buildYearlyCareer({
         seed,
         149,
       ),
+
+     conclusion:
+      pickVariant(
+        texts.conclusion,
+        seed,
+        173,
+       ),
   };
 }
