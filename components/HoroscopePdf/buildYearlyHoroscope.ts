@@ -28,6 +28,9 @@ import {
   buildYearlyTransit,
   buildYearlyQuarters,
   buildYearlyMonths,
+  buildYearlyStrengths,
+  buildYearlyHiddenTalents,
+  buildYearPremiumPages,
 } from "./year/data";
 
 import {
@@ -105,6 +108,27 @@ export type YearlyHoroscopeResult = {
   astrology: YearlyAstrologyResult;
 
   mantra: YearlyMantraResult;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Pages Premium
+  |--------------------------------------------------------------------------
+  */
+
+  strengths:
+    ReturnType<
+      typeof buildYearlyStrengths
+    >;
+
+  hiddenTalents:
+    ReturnType<
+      typeof buildYearlyHiddenTalents
+    >;
+
+  premiumPages:
+    ReturnType<
+      typeof buildYearPremiumPages
+    >;
 
   zodiacIconUrl: string;
 };
@@ -648,6 +672,41 @@ export function buildYearlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
+  | Page 31 — Forces dominantes
+  |--------------------------------------------------------------------------
+  */
+
+  const strengths =
+    buildYearlyStrengths(
+      yearlySectionParams,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Page 32 — Talents cachés
+  |--------------------------------------------------------------------------
+  */
+
+  const hiddenTalents =
+    buildYearlyHiddenTalents(
+      yearlySectionParams,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Pages 33 à 60 — Pages Premium réutilisables
+  |--------------------------------------------------------------------------
+  */
+
+  const premiumPages =
+    buildYearPremiumPages({
+      identity,
+      period,
+    });
+
+
+  /*
+  |--------------------------------------------------------------------------
   | Données astrologiques temporaires
   |--------------------------------------------------------------------------
   |
@@ -1121,6 +1180,9 @@ export function buildYearlyHoroscope({
     majorEnergies,
     astrology,
     mantra,
+    strengths,
+    hiddenTalents,
+    premiumPages,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
