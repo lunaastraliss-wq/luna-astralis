@@ -178,5 +178,12 @@ export function buildYearlySocial({
         seed,
         149,
       ),
+
+    conclusion:
+      pickVariant(
+        texts.conclusion,
+        seed,
+        173,
+      ),
   };
 }
