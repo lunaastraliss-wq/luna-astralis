@@ -127,7 +127,7 @@ export function buildYearlyLove({
   | Points importants
   |--------------------------------------------------------------------------
   |
-  | Les quatre éléments peuvent être utilisés directement dans la page
+  | Les trois éléments peuvent être utilisés directement dans la page
   | commune HoroscopeLove.tsx.
   |
   */
@@ -149,12 +149,6 @@ export function buildYearlyLove({
       texts.challenge,
       seed,
       89,
-    ),
-
-    pickVariant(
-      texts.conclusion,
-      seed,
-      131,
     ),
   ];
 
@@ -190,6 +184,13 @@ export function buildYearlyLove({
         texts.advice,
         seed,
         107,
+      ),
+
+    conclusion:
+      pickVariant(
+        texts.conclusion,
+        seed,
+        131,
       ),
   };
 }
