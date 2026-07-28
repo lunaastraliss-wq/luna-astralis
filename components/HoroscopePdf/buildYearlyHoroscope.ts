@@ -945,65 +945,7 @@ export function buildYearlyHoroscope({
       },
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Timeline partagée
-    |--------------------------------------------------------------------------
-    |
-    | Les vraies pages annuelles utiliseront directement `quarters`.
-    | Cette timeline permet aux anciens composants communs de fonctionner.
-    |
-    */
-
-    timeline: [
-      {
-        period:
-          "morning",
-
-        title:
-          quarters.quarter1.title,
-
-        text:
-          quarters.quarter1.text,
-
-        score:
-          quarters.quarter1.score,
-      },
-
-      {
-        period:
-          "afternoon",
-
-        title:
-          `${quarters.quarter2.title} — ${quarters.quarter3.title}`,
-
-        text:
-          `${quarters.quarter2.text} ${quarters.quarter3.text}`,
-
-        score:
-          Math.round(
-            (
-              quarters.quarter2.score +
-              quarters.quarter3.score
-            ) / 2,
-          ),
-      },
-
-      {
-        period:
-          "evening",
-
-        title:
-          quarters.quarter4.title,
-
-        text:
-          quarters.quarter4.text,
-
-        score:
-          quarters.quarter4.score,
-      },
-    ],
-
+  timeline: [],
     /*
     |--------------------------------------------------------------------------
     | Éléments chanceux
