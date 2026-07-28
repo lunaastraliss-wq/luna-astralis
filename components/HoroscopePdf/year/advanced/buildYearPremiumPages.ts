@@ -106,21 +106,29 @@ function createSeed(
   period: HoroscopePeriodData,
   key: string,
 ): number {
+  const birthPlace = [
+    identity.birthCity,
+    identity.birthCountry,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   const source = [
     identity.firstName || "",
     identity.birthDate || "",
     identity.birthTime || "",
-    identity.birthPlace || "",
+    birthPlace,
     identity.zodiacSign,
     identity.zodiacSignLabel,
-    String(period.year || ""),
-    String(period.month || ""),
+    period.type || "",
+    period.label || "",
+    period.startDate || "",
+    period.endDate || "",
     key,
   ].join("|");
 
   return hashString(source);
 }
-
 function scoreFromSeed(
   seed: number,
   offset = 0,
