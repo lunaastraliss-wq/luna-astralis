@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| Types
+| Types communs de l’horoscope annuel
 |--------------------------------------------------------------------------
 */
 
@@ -187,6 +187,98 @@ export {
 
 /*
 |--------------------------------------------------------------------------
+| Page 31 — Forces dominantes
+|--------------------------------------------------------------------------
+|
+| Cette page demeure indépendante du générateur commun.
+|
+| Fichiers :
+|
+| year/
+| └── advanced/
+|     ├── createYearlyStrengthsTexts.ts
+|     └── buildYearlyStrengths.ts
+|
+|--------------------------------------------------------------------------
+*/
+
+export {
+  createYearlyStrengthsTexts,
+} from "../advanced/createYearlyStrengthsTexts";
+
+export {
+  buildYearlyStrengths,
+} from "../advanced/buildYearlyStrengths";
+
+/*
+|--------------------------------------------------------------------------
+| Page 32 — Talents cachés
+|--------------------------------------------------------------------------
+|
+| Cette page demeure indépendante du générateur commun.
+|
+| Fichiers :
+|
+| year/
+| └── advanced/
+|     ├── createYearlyHiddenTalentsTexts.ts
+|     └── buildYearlyHiddenTalents.ts
+|
+|--------------------------------------------------------------------------
+*/
+
+export {
+  createYearlyHiddenTalentsTexts,
+} from "../advanced/createYearlyHiddenTalentsTexts";
+
+export {
+  buildYearlyHiddenTalents,
+} from "../advanced/buildYearlyHiddenTalents";
+
+/*
+|--------------------------------------------------------------------------
+| Pages Premium 33 à 60
+|--------------------------------------------------------------------------
+|
+| Ces pages sont générées automatiquement à partir de la configuration
+| centrale et des modèles Premium réutilisables.
+|
+|--------------------------------------------------------------------------
+*/
+
+export {
+  buildYearPremiumPages,
+  buildYearPremiumPageByKey,
+} from "../advanced/buildYearPremiumPages";
+
+/*
+|--------------------------------------------------------------------------
+| Configuration des pages Premium 33 à 60
+|--------------------------------------------------------------------------
+*/
+
+export {
+  YEAR_PREMIUM_PAGES_CONFIG,
+  getYearPremiumPageConfig,
+} from "../advanced/config/yearPremiumPagesConfig";
+
+/*
+|--------------------------------------------------------------------------
+| Types des pages Premium 33 à 60
+|--------------------------------------------------------------------------
+*/
+
+export type {
+  YearPremiumPageType,
+  YearPremiumCardItem,
+  YearPremiumTimelineItem,
+  YearPremiumBalanceColumn,
+  YearPremiumPageData,
+  YearPremiumPageConfig,
+} from "../advanced/templates/YearPremiumPageTypes";
+
+/*
+|--------------------------------------------------------------------------
 | Mantra de l’année
 |--------------------------------------------------------------------------
 |
@@ -195,6 +287,7 @@ export {
 | year/
 | ├── data/
 | │   └── index.ts
+| │
 | └── mantra/
 |     ├── createYearlyMantraTexts.ts
 |     └── buildYearlyMantra.ts
