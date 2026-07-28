@@ -44,8 +44,6 @@ import {
 import type {
   YearlyHoroscopeIdentity,
   YearlyHoroscopePeriod,
-  YearlyHoroscopeQuarters,
-  YearlyHoroscopeMonths,
   YearlyMantraResult,
 } from "./year/data/types";
 
@@ -94,11 +92,6 @@ export type YearlyHoroscopeResult = {
   period: HoroscopePeriodData;
 
   content: HoroscopePdfContent;
-
-  quarters: YearlyHoroscopeQuarters;
-
-  months: YearlyHoroscopeMonths;
-
 
   mantra: YearlyMantraResult;
 
