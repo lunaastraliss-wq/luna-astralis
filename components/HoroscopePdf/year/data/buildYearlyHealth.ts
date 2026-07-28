@@ -137,12 +137,6 @@ export function buildYearlyHealth({
       seed,
       83,
     ),
-
-    pickVariant(
-      texts.conclusion,
-      seed,
-      127,
-    ),
   ];
 
   /*
@@ -177,6 +171,13 @@ export function buildYearlyHealth({
         texts.advice,
         seed,
         149,
+      ),
+
+    conclusion:
+      pickVariant(
+        texts.conclusion,
+        seed,
+        173,
       ),
   };
 }
