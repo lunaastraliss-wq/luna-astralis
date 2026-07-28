@@ -29,6 +29,15 @@ import HoroscopeExplore from "./HoroscopeExplore";
 
 /*
 |--------------------------------------------------------------------------
+| Mantra annuel
+|--------------------------------------------------------------------------
+*/
+
+import HoroscopeYearMantra
+  from "./year/mantra/HoroscopeYearMantra";
+
+/*
+|--------------------------------------------------------------------------
 | Pages avancées propres à l’horoscope annuel
 |--------------------------------------------------------------------------
 */
@@ -60,6 +69,7 @@ type HoroscopeYearPdfProps =
     | "identity"
     | "period"
     | "content"
+    | "mantra"
     | "zodiacIconUrl"
     | "strengths"
     | "hiddenTalents"
@@ -78,6 +88,7 @@ export default function HoroscopeYearPdf({
   identity,
   period,
   content,
+  mantra,
   logoUrl,
   zodiacIconUrl,
   strengths,
@@ -204,7 +215,7 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Fin du rapport initial — pages 1 à 30
+      | Éléments symboliques et conclusion
       |--------------------------------------------------------------------------
       */}
 
@@ -218,6 +229,18 @@ export default function HoroscopeYearPdf({
 
       <HoroscopeExplore
         {...sharedProps}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Mantra de l’année
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearMantra
+        identity={identity}
+        period={period}
+        mantra={mantra}
       />
 
       {/*
@@ -246,7 +269,7 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Pages 33 à 60 — Contenu Premium annuel
+      | Pages Premium annuelles
       |--------------------------------------------------------------------------
       */}
 
