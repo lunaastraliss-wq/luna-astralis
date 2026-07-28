@@ -15,10 +15,40 @@ export type {
   CompatibilityPageData,
 } from "./types";
 
+/*
+|--------------------------------------------------------------------------
+| Registre de toutes les pages
+|--------------------------------------------------------------------------
+*/
+
 export const COMPATIBILITY_PAGES:
   CompatibilityPageData[] = [
     ...BELIER_COMPATIBILITY_PAGES,
   ];
+
+/*
+|--------------------------------------------------------------------------
+| Carte d'accès rapide
+|--------------------------------------------------------------------------
+*/
+
+const COMPATIBILITY_MAP = new Map<
+  string,
+  CompatibilityPageData
+>(
+  COMPATIBILITY_PAGES.map(
+    (page) => [
+      `${page.signA}-${page.signB}`,
+      page,
+    ],
+  ),
+);
+
+/*
+|--------------------------------------------------------------------------
+| Récupérer un signe
+|--------------------------------------------------------------------------
+*/
 
 export function getSignByKey(
   key: SignKey,
@@ -29,16 +59,26 @@ export function getSignByKey(
   );
 }
 
+/*
+|--------------------------------------------------------------------------
+| Récupérer une compatibilité précise
+|--------------------------------------------------------------------------
+*/
+
 export function getCompatibilityPage(
   signA: SignKey,
   signB: SignKey,
 ) {
-  return COMPATIBILITY_PAGES.find(
-    (page) =>
-      page.signA === signA &&
-      page.signB === signB,
+  return COMPATIBILITY_MAP.get(
+    `${signA}-${signB}`,
   );
 }
+
+/*
+|--------------------------------------------------------------------------
+| Vérifier une clé de signe
+|--------------------------------------------------------------------------
+*/
 
 export function isSignKey(
   value: string,
