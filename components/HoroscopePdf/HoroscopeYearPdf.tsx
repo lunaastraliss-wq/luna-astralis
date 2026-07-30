@@ -168,16 +168,10 @@ export default function HoroscopeYearPdf({
       <HoroscopeCover
         identity={identity}
         period={period}
-        reportTitle={
-          content.reportTitle
-        }
-        reportSubtitle={
-          content.reportSubtitle
-        }
+        reportTitle={content.reportTitle}
+        reportSubtitle={content.reportSubtitle}
         logoUrl={logoUrl}
-        zodiacIconUrl={
-          zodiacIconUrl
-        }
+        zodiacIconUrl={zodiacIconUrl}
       />
 
       <HoroscopeWelcome
@@ -199,33 +193,25 @@ export default function HoroscopeYearPdf({
       <HoroscopeYearMajorEnergies
         identity={identity}
         period={period}
-        majorEnergies={
-          majorEnergies
-        }
+        majorEnergies={majorEnergies}
       />
 
       <HoroscopeYearMajorAspects
         identity={identity}
         period={period}
-        majorAspects={
-          majorAspects
-        }
+        majorAspects={majorAspects}
       />
 
       <HoroscopeYearDominantPlanets
         identity={identity}
         period={period}
-        dominantPlanets={
-          dominantPlanets
-        }
+        dominantPlanets={dominantPlanets}
       />
 
       <HoroscopeYearActivatedHouses
         identity={identity}
         period={period}
-        activatedHouses={
-          activatedHouses
-        }
+        activatedHouses={activatedHouses}
       />
 
       {/*
@@ -290,36 +276,6 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Éléments symboliques et conclusion
-      |--------------------------------------------------------------------------
-      */}
-
-      <HoroscopeLucky
-        {...sharedProps}
-      />
-
-      <HoroscopeConclusion
-        {...sharedProps}
-      />
-
-      <HoroscopeExplore
-        {...sharedProps}
-      />
-
-      {/*
-      |--------------------------------------------------------------------------
-      | Mantra de l’année
-      |--------------------------------------------------------------------------
-      */}
-
-      <HoroscopeYearMantra
-        identity={identity}
-        period={period}
-        mantra={mantra}
-      />
-
-      {/*
-      |--------------------------------------------------------------------------
       | Vos plus grandes forces
       |--------------------------------------------------------------------------
       */}
@@ -339,9 +295,7 @@ export default function HoroscopeYearPdf({
       <HoroscopeYearHiddenTalents
         identity={identity}
         period={period}
-        hiddenTalents={
-          hiddenTalents
-        }
+        hiddenTalents={hiddenTalents}
       />
 
       {/*
@@ -353,15 +307,55 @@ export default function HoroscopeYearPdf({
       {premiumPages.map(
         (page, index) => (
           <YearPremiumPage
-            key={
-              `year-premium-page-${index}`
-            }
+            key={`year-premium-page-${index}`}
             identity={identity}
             period={period}
             page={page}
           />
         ),
       )}
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Éléments symboliques
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeLucky
+        {...sharedProps}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Mantra de l’année
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearMantra
+        identity={identity}
+        period={period}
+        mantra={mantra}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Conclusion
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeConclusion
+        {...sharedProps}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Page finale
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeExplore
+        {...sharedProps}
+      />
     </Document>
   );
 }
