@@ -567,19 +567,39 @@ function beginsWithVowelSound(
   return /^[aeiouyh]/.test(normalized);
 }
 
+const MASCULINE_WORDS = new Set([
+  "contrôle",
+  "repli",
+  "surmenage",
+  "détachement",
+  "idéalisme",
+  "perfectionnisme",
+  "pessimisme",
+  "entêtement",
+  "évitement",
+]);
+
 function withDefiniteArticle(
   value: string,
 ): string {
-  return beginsWithVowelSound(value)
-    ? `l’${value}`
+  if (beginsWithVowelSound(value)) {
+    return `l’${value}`;
+  }
+
+  return MASCULINE_WORDS.has(value)
+    ? `le ${value}`
     : `la ${value}`;
 }
 
 function withDeArticle(
   value: string,
 ): string {
-  return beginsWithVowelSound(value)
-    ? `de l’${value}`
+  if (beginsWithVowelSound(value)) {
+    return `de l’${value}`;
+  }
+
+  return MASCULINE_WORDS.has(value)
+    ? `du ${value}`
     : `de la ${value}`;
 }
 
@@ -754,11 +774,11 @@ function buildMajorEnergies({
         ] as const;
 
         const adviceVariants = [
-          `Appuyez-vous sur votre ${strength}, tout en évitant que ${challenge} ne ralentisse votre progression.`,
-          `Faites de votre ${strength} un point d’appui, mais surveillez les moments où ${challenge} pourrait brouiller votre jugement.`,
-          `Votre meilleure stratégie consiste à exprimer votre ${strength} avec mesure, sans laisser ${challenge} prendre le contrôle de vos réactions.`,
+          `Appuyez-vous sur votre ${strength}, tout en évitant que ${withDefiniteArticle(challenge)} ne ralentisse votre progression.`,
+          `Faites de votre ${strength} un point d’appui, mais surveillez les moments où ${withDefiniteArticle(challenge)} pourrait brouiller votre jugement.`,
+          `Votre meilleure stratégie consiste à exprimer votre ${strength} avec mesure, sans laisser ${withDefiniteArticle(challenge)} prendre le contrôle de vos réactions.`,
           `Cultivez votre ${strength} avec constance. Une attention particulière à ${withDefiniteArticle(challenge)} vous aidera à préserver votre équilibre.`,
-          `Utilisez votre ${strength} pour avancer, puis prenez du recul dès que ${challenge} menace de vous éloigner de votre objectif principal.`,
+          `Utilisez votre ${strength} pour avancer, puis prenez du recul dès que ${withDefiniteArticle(challenge)} menace de vous éloigner de votre objectif principal.`,
         ] as const;
 
         return {
@@ -892,10 +912,10 @@ function buildMajorAspects({
         ] as const;
 
         const cautionVariants = [
-          `Éviter que ${challenge} ne vous pousse à réagir trop rapidement ou à perdre de vue votre objectif principal.`,
+          `Éviter que ${withDefiniteArticle(challenge)} ne vous pousse à réagir trop rapidement ou à perdre de vue votre objectif principal.`,
           `Rester attentif aux manifestations ${withDeArticle(challenge)}, surtout lorsque la pression vous incite à décider avant d’avoir toutes les informations.`,
-          `Ne pas laisser ${challenge} transformer une tension passagère en décision définitive. Le recul restera votre meilleur allié.`,
-          `Préserver votre énergie et vérifier que ${challenge} ne déforme pas votre perception de la situation.`,
+          `Ne pas laisser ${withDefiniteArticle(challenge)} transformer une tension passagère en décision définitive. Le recul restera votre meilleur allié.`,
+          `Préserver votre énergie et vérifier que ${withDefiniteArticle(challenge)} ne déforme pas votre perception de la situation.`,
           `Refuser les réactions automatiques liées à ${withDefiniteArticle(challenge)} et privilégier une réponse plus consciente, même lorsque les événements s’accélèrent.`,
         ] as const;
 
@@ -1031,9 +1051,9 @@ function buildDominantPlanets({
         ] as const;
 
         const adviceVariants = [
-          `Utilisez cette influence pour soutenir votre ${strength}, sans laisser ${challenge} prendre trop de place.`,
-          `Appuyez-vous sur votre ${strength}, puis prenez du recul lorsque ${challenge} menace de déséquilibrer vos décisions.`,
-          `Exprimez votre ${strength} de façon constructive et observez les situations dans lesquelles ${challenge} pourrait limiter votre progression.`,
+          `Utilisez cette influence pour soutenir votre ${strength}, sans laisser ${withDefiniteArticle(challenge)} prendre trop de place.`,
+          `Appuyez-vous sur votre ${strength}, puis prenez du recul lorsque ${withDefiniteArticle(challenge)} menace de déséquilibrer vos décisions.`,
+          `Exprimez votre ${strength} de façon constructive et observez les situations dans lesquelles ${withDefiniteArticle(challenge)} pourrait limiter votre progression.`,
           `Canalisez l’énergie de ${planet} vers des objectifs précis. Votre ${strength} sera plus efficace si elle n’est pas affaiblie par ${withDefiniteArticle(challenge)}.`,
           `Faites de votre ${strength} une ressource consciente et transformez les manifestations ${withDeArticle(challenge)} en occasion d’ajustement.`,
         ] as const;
@@ -1179,11 +1199,11 @@ function buildActivatedHouses({
         ] as const;
 
         const adviceVariants = [
-          `Évitez que ${challenge} ne vous empêche de reconnaître les possibilités de progression présentes dans ce secteur.`,
+          `Évitez que ${withDefiniteArticle(challenge)} ne vous empêche de reconnaître les possibilités de progression présentes dans ce secteur.`,
           `Restez attentif à ${withDefiniteArticle(challenge)}, qui pourrait vous faire sous-estimer une occasion ou retarder une décision utile.`,
-          `Ne laissez pas ${challenge} définir votre manière de réagir. Un ajustement progressif sera souvent plus efficace qu’une rupture précipitée.`,
+          `Ne laissez pas ${withDefiniteArticle(challenge)} définir votre manière de réagir. Un ajustement progressif sera souvent plus efficace qu’une rupture précipitée.`,
           `Dans ce secteur, votre principal défi sera de dépasser ${withDefiniteArticle(challenge)} sans perdre de vue vos besoins réels.`,
-          `Prenez du recul lorsque ${challenge} apparaît. Cette pause vous aidera à distinguer une véritable limite d’une résistance passagère.`,
+          `Prenez du recul lorsque ${withDefiniteArticle(challenge)} apparaît. Cette pause vous aidera à distinguer une véritable limite d’une résistance passagère.`,
           `Protégez votre progression contre les effets ${withDeArticle(challenge)} en revenant régulièrement à vos priorités essentielles.`,
         ] as const;
 
