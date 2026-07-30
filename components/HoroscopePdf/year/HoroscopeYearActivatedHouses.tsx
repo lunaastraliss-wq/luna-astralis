@@ -546,6 +546,7 @@ const styles =
 
     houseCard: {
       position: "relative",
+      flexShrink: 0,
 
       width: "48.8%",
 
@@ -610,37 +611,29 @@ const styles =
 
     houseHeader: {
       flexDirection: "row",
-
       alignItems: "center",
-
-      justifyContent: "space-between",
-
       marginBottom: 9,
     },
 
     houseIdentity: {
       flexDirection: "row",
-
       alignItems: "center",
+      flexGrow: 1,
+      flexShrink: 1,
+      minWidth: 0,
+      paddingRight: 10,
     },
 
     houseNumberCircle: {
       width: 40,
-
       height: 40,
-
+      flexShrink: 0,
       alignItems: "center",
-
       justifyContent: "center",
-
       marginRight: 9,
-
       borderRadius: 20,
-
       borderWidth: 0.8,
-
       borderColor: GOLD,
-
       backgroundColor: NAVY_CARD,
     },
 
@@ -663,42 +656,44 @@ const styles =
     },
 
     houseNameBlock: {
-      flex: 1,
+      flexGrow: 1,
+      flexShrink: 1,
+      minWidth: 0,
     },
 
     houseName: {
       marginBottom: 3,
-
       color: CREAM,
-
       fontSize: 9.2,
+      lineHeight: 1.2,
     },
 
     houseCategory: {
       color: GOLD,
-
       fontSize: 6.2,
+      lineHeight: 1.25,
+      letterSpacing: 0.5,
+      textTransform: "uppercase",
+    },
 
-      letterSpacing: 0.8,
-
+    intensityLabel: {
+      marginBottom: 6,
+      color: GOLD,
+      fontSize: 6.2,
+      lineHeight: 1.25,
+      letterSpacing: 0.5,
       textTransform: "uppercase",
     },
 
     iconCircle: {
       width: 33,
-
       height: 33,
-
+      flexShrink: 0,
       alignItems: "center",
-
       justifyContent: "center",
-
       borderRadius: 17,
-
       borderWidth: 0.6,
-
       borderColor: DARK_GOLD,
-
       backgroundColor: NAVY_SOFT,
     },
 
@@ -1109,7 +1104,7 @@ export default function HoroscopeYearActivatedHouses({
                   {house.title}
                 </Text>
 
-                <Text style={styles.houseCategory}>
+                <Text style={styles.intensityLabel}>
                   Intensité : {house.intensity} %
                 </Text>
 
