@@ -37,6 +37,26 @@ import type {
 |--------------------------------------------------------------------------
 */
 
+type YearPremiumIconKey =
+  | "sun"
+  | "moon"
+  | "mercury"
+  | "venus"
+  | "mars"
+  | "jupiter"
+  | "saturn"
+  | "uranus"
+  | "neptune"
+  | "pluto"
+  | "heart"
+  | "money"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "soulPath";
+
 type HoroscopeYearMajorEnergiesProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
@@ -271,6 +291,7 @@ const styles = StyleSheet.create({
   introductionIconBox: {
     width: 32,
     height: 32,
+    flexShrink: 0,
     borderRadius: 16,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -356,13 +377,16 @@ const styles = StyleSheet.create({
   cardIdentity: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     paddingRight: 8,
   },
 
   cardIconBox: {
     width: 30,
     height: 30,
+    flexShrink: 0,
     borderRadius: 15,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -379,7 +403,9 @@ const styles = StyleSheet.create({
   },
 
   cardTitle: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     color: GOLD,
     fontSize: 9.2,
     lineHeight: 1.25,
@@ -394,6 +420,7 @@ const styles = StyleSheet.create({
 
   scoreBadge: {
     minWidth: 41,
+    flexShrink: 0,
     paddingVertical: 5,
     paddingHorizontal: 7,
     borderRadius: 12,
@@ -517,6 +544,7 @@ const styles = StyleSheet.create({
   bottomIconBox: {
     width: 27,
     height: 27,
+    flexShrink: 0,
     borderRadius: 13.5,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -533,7 +561,9 @@ const styles = StyleSheet.create({
   },
 
   synthesisTitle: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     color: GOLD,
     fontSize: 8.2,
     lineHeight: 1.25,
@@ -548,7 +578,9 @@ const styles = StyleSheet.create({
   },
 
   finalAdviceTitle: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     color: GOLD,
     fontSize: 7.6,
     letterSpacing: 0.4,
@@ -565,18 +597,62 @@ const styles = StyleSheet.create({
 
 /*
 |--------------------------------------------------------------------------
-| Icônes des cartes
+| Résolution sécurisée des PNG
 |--------------------------------------------------------------------------
 */
 
-const ENERGY_ICONS = [
-  HOROSCOPE_ICONS.sun,
-  HOROSCOPE_ICONS.love,
-  HOROSCOPE_ICONS.lifePurpose,
-  HOROSCOPE_ICONS.innerWorld,
-  HOROSCOPE_ICONS.money,
-  HOROSCOPE_ICONS.hiddenTalents,
+const ICONS =
+  HOROSCOPE_ICONS as Record<string, string>;
+
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey = "sun",
+): string {
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
+
+  if (requestedIcon) {
+    return requestedIcon;
+  }
+
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
+  }
+
+  return (
+    Object.values(ICONS)
+      .map(cleanIconUrl)
+      .find(Boolean) || ""
+  );
+}
+
+const ENERGY_ICON_KEYS: YearPremiumIconKey[] = [
+  "sun",
+  "heart",
+  "lifePurpose",
+  "innerWorld",
+  "money",
+  "hiddenTalents",
 ];
+
+const PAGE_ICON =
+  getIcon("integrationGuide", "sun");
+
+const INTRODUCTION_ICON =
+  getIcon("sun", "integrationGuide");
+
+const SYNTHESIS_ICON =
+  getIcon("hiddenTalents", "integrationGuide");
+
+const ADVICE_ICON =
+  getIcon("integrationGuide", "sun");
 
 /*
 |--------------------------------------------------------------------------
@@ -606,7 +682,7 @@ export default function HoroscopeYearMajorEnergies({
       <View style={styles.orbitSmall} />
 
       <Image
-        src={HOROSCOPE_ICONS.integrationGuide}
+        src={PAGE_ICON}
         style={styles.watermark}
       />
 
@@ -654,7 +730,7 @@ export default function HoroscopeYearMajorEnergies({
             <View style={styles.titleLine} />
 
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
+              src={PAGE_ICON}
               style={styles.titleIcon}
             />
 
@@ -677,7 +753,7 @@ export default function HoroscopeYearMajorEnergies({
           <View style={styles.introductionHeader}>
             <View style={styles.introductionIconBox}>
               <Image
-                src={HOROSCOPE_ICONS.sun}
+                src={INTRODUCTION_ICON}
                 style={styles.introductionIcon}
               />
             </View>
@@ -706,10 +782,13 @@ export default function HoroscopeYearMajorEnergies({
                   energy.intensity,
                 );
 
-              const iconUrl =
-                ENERGY_ICONS[
-                  index % ENERGY_ICONS.length
+              const iconKey =
+                ENERGY_ICON_KEYS[
+                  index % ENERGY_ICON_KEYS.length
                 ];
+
+              const iconUrl =
+                getIcon(iconKey, "sun");
 
               return (
                 <View
@@ -793,14 +872,14 @@ export default function HoroscopeYearMajorEnergies({
             wrap={false}
           >
             <Image
-              src={HOROSCOPE_ICONS.hiddenTalents}
+              src={SYNTHESIS_ICON}
               style={styles.bottomWatermark}
             />
 
             <View style={styles.bottomHeader}>
               <View style={styles.bottomIconBox}>
                 <Image
-                  src={HOROSCOPE_ICONS.hiddenTalents}
+                  src={SYNTHESIS_ICON}
                   style={styles.bottomIcon}
                 />
               </View>
@@ -820,14 +899,14 @@ export default function HoroscopeYearMajorEnergies({
             wrap={false}
           >
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
+              src={ADVICE_ICON}
               style={styles.bottomWatermark}
             />
 
             <View style={styles.bottomHeader}>
               <View style={styles.bottomIconBox}>
                 <Image
-                  src={HOROSCOPE_ICONS.integrationGuide}
+                  src={ADVICE_ICON}
                   style={styles.bottomIcon}
                 />
               </View>
