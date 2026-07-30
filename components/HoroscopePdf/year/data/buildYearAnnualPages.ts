@@ -546,6 +546,19 @@ function capitalize(
   );
 }
 
+function lowercaseFirst(
+  value: string,
+): string {
+  if (!value) {
+    return value;
+  }
+
+  return (
+    value.charAt(0).toLowerCase() +
+    value.slice(1)
+  );
+}
+
 /*
 |--------------------------------------------------------------------------
 | Helpers de grammaire française
@@ -568,25 +581,63 @@ function beginsWithVowelSound(
 }
 
 const MASCULINE_WORDS = new Set([
+  "apprentissage",
+  "attachement",
+  "avenir",
+  "besoin de validation",
+  "collectif",
+  "compromis excessifs",
   "contrôle",
-  "repli",
-  "surmenage",
+  "courage",
   "détachement",
+  "entêtement",
+  "équilibre",
+  "évitement",
+  "excès",
   "idéalisme",
+  "manque de constance",
+  "mouvement",
+  "orgueil",
   "perfectionnisme",
   "pessimisme",
-  "entêtement",
-  "évitement",
+  "plaisir",
+  "rayonnement",
+  "renouveau",
+  "repli",
+  "surmenage",
 ]);
+
+const PLURAL_WORDS = new Set([
+  "compromis excessifs",
+  "confrontations",
+  "émotions",
+  "limites fragiles",
+  "réactions impulsives",
+  "relations",
+  "ruptures brusques",
+]);
+
+function normalizeGrammarValue(
+  value: string,
+): string {
+  return value.trim().toLowerCase();
+}
 
 function withDefiniteArticle(
   value: string,
 ): string {
+  const normalized =
+    normalizeGrammarValue(value);
+
+  if (PLURAL_WORDS.has(normalized)) {
+    return `les ${value}`;
+  }
+
   if (beginsWithVowelSound(value)) {
     return `l’${value}`;
   }
 
-  return MASCULINE_WORDS.has(value)
+  return MASCULINE_WORDS.has(normalized)
     ? `le ${value}`
     : `la ${value}`;
 }
@@ -594,13 +645,39 @@ function withDefiniteArticle(
 function withDeArticle(
   value: string,
 ): string {
+  const normalized =
+    normalizeGrammarValue(value);
+
+  if (PLURAL_WORDS.has(normalized)) {
+    return `des ${value}`;
+  }
+
   if (beginsWithVowelSound(value)) {
     return `de l’${value}`;
   }
 
-  return MASCULINE_WORDS.has(value)
+  return MASCULINE_WORDS.has(normalized)
     ? `du ${value}`
     : `de la ${value}`;
+}
+
+function withAArticle(
+  value: string,
+): string {
+  const normalized =
+    normalizeGrammarValue(value);
+
+  if (PLURAL_WORDS.has(normalized)) {
+    return `aux ${value}`;
+  }
+
+  if (beginsWithVowelSound(value)) {
+    return `à l’${value}`;
+  }
+
+  return MASCULINE_WORDS.has(normalized)
+    ? `au ${value}`
+    : `à la ${value}`;
 }
 
 function withDe(
@@ -609,6 +686,36 @@ function withDe(
   return beginsWithVowelSound(value)
     ? `d’${value}`
     : `de ${value}`;
+}
+
+function withDePlanet(
+  planet: string,
+): string {
+  if (planet === "Soleil") {
+    return "du Soleil";
+  }
+
+  if (planet === "Lune") {
+    return "de la Lune";
+  }
+
+  return beginsWithVowelSound(planet)
+    ? `d’${planet}`
+    : `de ${planet}`;
+}
+
+function withPlanetArticle(
+  planet: string,
+): string {
+  if (planet === "Soleil") {
+    return "le Soleil";
+  }
+
+  if (planet === "Lune") {
+    return "la Lune";
+  }
+
+  return planet;
 }
 
 /*
@@ -654,7 +761,7 @@ function buildOverview({
             keyword,
           )} devient un thème important de l’année. Vous serez amené à lui donner une place plus consciente dans vos décisions et dans votre évolution personnelle.`,
           `Le domaine ${withDeArticle(keyword)} connaîtra plusieurs mouvements au cours de l’année. Une approche progressive vous permettra d’en tirer les meilleurs résultats.`,
-          `Votre rapport à ${withDefiniteArticle(keyword)} évoluera de manière notable. Certaines situations vous aideront à mieux comprendre ce qui mérite réellement votre énergie.`,
+          `Votre rapport ${withAArticle(keyword)} évoluera de manière notable. Certaines situations vous aideront à mieux comprendre ce qui mérite réellement votre énergie.`,
           `Cette année favorise une nouvelle façon d’aborder ${withDefiniteArticle(keyword)}. Les expériences vécues pourront modifier durablement vos priorités.`,
         ];
 
@@ -678,11 +785,11 @@ function buildOverview({
       1,
     ),
 
-    introduction: `${personName}, ${pickVariant(
+    introduction: `${personName}, ${lowercaseFirst(pickVariant(
       OVERVIEW_INTRODUCTIONS,
       seed,
       2,
-    )}`,
+    ))}`,
 
     summary: pickVariant(
       OVERVIEW_SUMMARIES,
@@ -766,7 +873,7 @@ function buildMajorEnergies({
 
         const textVariants = [
           `Cette énergie stimule votre ${strength} et vous encourage à développer une approche plus consciente de vos choix. Son influence pourra se manifester dans plusieurs domaines au fil de l’année.`,
-          `Le courant lié à ${title.toLowerCase()} met en valeur votre ${strength}. Il vous invite à avancer avec plus de discernement et à reconnaître les occasions qui correspondent réellement à vos priorités.`,
+          `Le courant lié ${withAArticle(title.toLowerCase())} met en valeur votre ${strength}. Il vous invite à avancer avec plus de discernement et à reconnaître les occasions qui correspondent réellement à vos priorités.`,
           `Au cours de l’année, cette dynamique renforcera votre capacité à agir avec ${strength}. Certaines situations vous demanderont toutefois de canaliser cette force afin de l’utiliser de façon constructive.`,
           `Cette influence soutient une évolution fondée sur davantage ${withDe(strength)}. Elle pourra modifier votre manière d’aborder vos décisions, vos relations ou vos projets personnels.`,
           `${capitalize(strength)} devient ici un véritable levier de progression. Plus vous exprimerez cette qualité avec équilibre, plus cette énergie vous aidera à construire des résultats durables.`,
@@ -776,8 +883,8 @@ function buildMajorEnergies({
         const adviceVariants = [
           `Appuyez-vous sur votre ${strength}, tout en évitant que ${withDefiniteArticle(challenge)} ne ralentisse votre progression.`,
           `Faites de votre ${strength} un point d’appui, mais surveillez les moments où ${withDefiniteArticle(challenge)} pourrait brouiller votre jugement.`,
-          `Votre meilleure stratégie consiste à exprimer votre ${strength} avec mesure, sans laisser ${withDefiniteArticle(challenge)} prendre le contrôle de vos réactions.`,
-          `Cultivez votre ${strength} avec constance. Une attention particulière à ${withDefiniteArticle(challenge)} vous aidera à préserver votre équilibre.`,
+          `Votre meilleure stratégie consiste à exprimer votre ${strength} avec mesure, sans laisser ${withDefiniteArticle(challenge)} dominer vos réactions.`,
+          `Cultivez votre ${strength} avec constance. Une attention particulière ${withAArticle(challenge)} vous aidera à préserver votre équilibre.`,
           `Utilisez votre ${strength} pour avancer, puis prenez du recul dès que ${withDefiniteArticle(challenge)} menace de vous éloigner de votre objectif principal.`,
         ] as const;
 
@@ -907,7 +1014,7 @@ function buildMajorAspects({
           `Utiliser cette période pour renforcer votre ${keyword} et prendre des décisions capables de produire des résultats durables.`,
           `Transformer votre ${strength} en action concrète et faire progresser un projet qui demande davantage de clarté ou de constance.`,
           `Profiter de cette influence pour revoir vos priorités, consolider ce qui fonctionne et ouvrir une nouvelle voie là où un changement devient nécessaire.`,
-          `Donner une place plus consciente à ${withDefiniteArticle(keyword)} afin de construire des choix qui correspondent mieux à votre évolution actuelle.`,
+          `Donner une place plus consciente ${withAArticle(keyword)} afin de construire des choix qui correspondent mieux à votre évolution actuelle.`,
           `Saisir les occasions qui vous permettent d’exprimer votre ${strength} tout en développant une stratégie plus stable pour la suite.`,
         ] as const;
 
@@ -1039,13 +1146,13 @@ function buildDominantPlanets({
           `L’énergie de ${planet} met en lumière votre ${strength} et transforme votre façon d’aborder ${withDefiniteArticle(keyword)}.`,
           `${planet} joue un rôle important dans votre évolution annuelle. Cette planète soutient votre ${strength} tout en vous invitant à clarifier vos intentions.`,
           `Sous l’influence de ${planet}, le thème ${withDeArticle(keyword)} prend une dimension nouvelle. Votre ${strength} pourra alors devenir une force particulièrement utile.`,
-          `La présence de ${planet} renforce les situations qui sollicitent votre ${strength}. Elle vous aide à reconnaître ce qui doit être développé, corrigé ou dépassé.`,
+          `La présence ${withDePlanet(planet)} renforce les situations qui sollicitent votre ${strength}. Elle vous aide à reconnaître ce qui doit être développé, corrigé ou dépassé.`,
         ] as const;
 
         const messageVariants = [
-          `La présence symbolique ${withDe(planet)} vous rappelle que votre progression dépend autant de votre volonté que de votre capacité à comprendre le bon moment pour agir.`,
+          `La présence symbolique ${withDePlanet(planet)} vous rappelle que votre progression dépend autant de votre volonté que de votre capacité à comprendre le bon moment pour agir.`,
           `${planet} vous invite à observer le rythme naturel des événements. Tout ne demande pas une action immédiate, mais chaque situation peut offrir une information utile.`,
-          `Le message de ${planet} consiste à unir conscience et mouvement. Votre évolution deviendra plus fluide lorsque vos décisions respecteront à la fois vos besoins et la réalité.`,
+          `Le message ${withDePlanet(planet)} consiste à unir conscience et mouvement. Votre évolution deviendra plus fluide lorsque vos décisions respecteront à la fois vos besoins et la réalité.`,
           `À travers ${planet}, l’année vous demande de reconnaître votre pouvoir d’action sans chercher à tout contrôler. La justesse comptera davantage que la vitesse.`,
           `${planet} souligne une leçon essentielle : les progrès les plus solides apparaissent lorsque l’intention, le moment et l’action avancent dans la même direction.`,
         ] as const;
@@ -1107,7 +1214,9 @@ function buildDominantPlanets({
       .slice(1)
       .map(
         (planet) =>
-          planet.planet,
+          withPlanetArticle(
+            planet.planet,
+          ),
       )
       .join(
         ", ",
@@ -1200,7 +1309,7 @@ function buildActivatedHouses({
 
         const adviceVariants = [
           `Évitez que ${withDefiniteArticle(challenge)} ne vous empêche de reconnaître les possibilités de progression présentes dans ce secteur.`,
-          `Restez attentif à ${withDefiniteArticle(challenge)}, qui pourrait vous faire sous-estimer une occasion ou retarder une décision utile.`,
+          `Restez attentif ${withAArticle(challenge)}, qui pourrait vous faire sous-estimer une occasion ou retarder une décision utile.`,
           `Ne laissez pas ${withDefiniteArticle(challenge)} définir votre manière de réagir. Un ajustement progressif sera souvent plus efficace qu’une rupture précipitée.`,
           `Dans ce secteur, votre principal défi sera de dépasser ${withDefiniteArticle(challenge)} sans perdre de vue vos besoins réels.`,
           `Prenez du recul lorsque ${withDefiniteArticle(challenge)} apparaît. Cette pause vous aidera à distinguer une véritable limite d’une résistance passagère.`,
