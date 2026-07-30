@@ -38,6 +38,26 @@ import type {
 |--------------------------------------------------------------------------
 */
 
+type YearPremiumIconKey =
+  | "sun"
+  | "moon"
+  | "mercury"
+  | "venus"
+  | "mars"
+  | "jupiter"
+  | "saturn"
+  | "uranus"
+  | "neptune"
+  | "pluto"
+  | "heart"
+  | "money"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "soulPath";
+
 type HoroscopeYearOverviewProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
@@ -61,6 +81,73 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+
+/*
+|--------------------------------------------------------------------------
+| Résolution sécurisée des PNG
+|--------------------------------------------------------------------------
+*/
+
+const ICONS =
+  HOROSCOPE_ICONS as Record<string, string>;
+
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey = "integrationGuide",
+): string {
+  const requestedIcon =
+    cleanIconUrl(ICONS[iconKey]);
+
+  if (requestedIcon) {
+    return requestedIcon;
+  }
+
+  const fallbackIcon =
+    cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
+  }
+
+  return (
+    Object.values(ICONS)
+      .map(cleanIconUrl)
+      .find(Boolean) || ""
+  );
+}
+
+const AXIS_ICON_KEYS: YearPremiumIconKey[] = [
+  "sun",
+  "jupiter",
+  "innerWorld",
+];
+
+const PAGE_ICON =
+  getIcon("integrationGuide", "sun");
+
+const HERO_ICON =
+  getIcon("integrationGuide", "sun");
+
+const ENERGY_ICON =
+  getIcon("sun", "integrationGuide");
+
+const DOMINANT_ICON =
+  getIcon("sun", "integrationGuide");
+
+const AXES_SECTION_ICON =
+  getIcon("hiddenTalents", "integrationGuide");
+
+const ADVICE_ICON =
+  getIcon("integrationGuide", "sun");
+
+const DIRECTION_ICON =
+  getIcon("soulPath", "integrationGuide");
 
 /*
 |--------------------------------------------------------------------------
@@ -284,13 +371,16 @@ const styles = StyleSheet.create({
   heroIdentity: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     paddingRight: 14,
   },
 
   heroIconBox: {
     width: 50,
     height: 50,
+    flexShrink: 0,
     borderRadius: 25,
     borderWidth: 0.8,
     borderColor: DARK_GOLD,
@@ -307,7 +397,9 @@ const styles = StyleSheet.create({
   },
 
   heroHeading: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
   },
 
   heroLabel: {
@@ -327,6 +419,7 @@ const styles = StyleSheet.create({
   scoreBadgeOuter: {
     width: 70,
     height: 70,
+    flexShrink: 0,
     borderRadius: 35,
     borderWidth: 0.55,
     borderColor: DARK_GOLD,
@@ -415,6 +508,10 @@ const styles = StyleSheet.create({
   energyLabelRow: {
     flexDirection: "row",
     alignItems: "center",
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
+    paddingRight: 10,
   },
 
   energyIcon: {
@@ -481,6 +578,7 @@ const styles = StyleSheet.create({
   dominantIconBox: {
     width: 34,
     height: 34,
+    flexShrink: 0,
     borderRadius: 17,
     borderWidth: 0.6,
     borderColor: DARK_GOLD,
@@ -497,7 +595,9 @@ const styles = StyleSheet.create({
   },
 
   dominantBody: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     paddingRight: 22,
   },
 
@@ -647,6 +747,7 @@ const styles = StyleSheet.create({
   bottomIconBox: {
     width: 26,
     height: 26,
+    flexShrink: 0,
     borderRadius: 13,
     borderWidth: 0.55,
     borderColor: DARK_GOLD,
@@ -663,7 +764,9 @@ const styles = StyleSheet.create({
   },
 
   bottomLabel: {
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
+    minWidth: 0,
     color: GOLD,
     fontSize: 7,
     letterSpacing: 0.8,
@@ -730,9 +833,7 @@ export default function HoroscopeYearOverview({
       <View style={styles.orbitDot} />
 
       <Image
-        src={
-          HOROSCOPE_ICONS.integrationGuide
-        }
+        src={PAGE_ICON}
         style={styles.watermark}
       />
 
@@ -786,10 +887,7 @@ export default function HoroscopeYearOverview({
             <View style={styles.titleLine} />
 
             <Image
-              src={
-                HOROSCOPE_ICONS
-                  .integrationGuide
-              }
+              src={PAGE_ICON}
               style={styles.titleIcon}
             />
 
@@ -817,10 +915,7 @@ export default function HoroscopeYearOverview({
                 style={styles.heroIconBox}
               >
                 <Image
-                  src={
-                    HOROSCOPE_ICONS
-                      .integrationGuide
-                  }
+                  src={HERO_ICON}
                   style={styles.heroIcon}
                 />
               </View>
@@ -873,10 +968,7 @@ export default function HoroscopeYearOverview({
             />
 
             <Image
-              src={
-                HOROSCOPE_ICONS
-                  .integrationGuide
-              }
+              src={HERO_ICON}
               style={
                 styles.heroDividerIcon
               }
@@ -911,7 +1003,7 @@ export default function HoroscopeYearOverview({
               }
             >
               <Image
-                src={HOROSCOPE_ICONS.sun}
+                src={ENERGY_ICON}
                 style={styles.energyIcon}
               />
 
@@ -955,7 +1047,7 @@ export default function HoroscopeYearOverview({
           wrap={false}
         >
           <Image
-            src={HOROSCOPE_ICONS.sun}
+            src={DOMINANT_ICON}
             style={
               styles.dominantWatermark
             }
@@ -967,7 +1059,7 @@ export default function HoroscopeYearOverview({
             }
           >
             <Image
-              src={HOROSCOPE_ICONS.sun}
+              src={DOMINANT_ICON}
               style={styles.dominantIcon}
             />
           </View>
@@ -1003,9 +1095,7 @@ export default function HoroscopeYearOverview({
           />
 
           <Image
-            src={
-              HOROSCOPE_ICONS.hiddenTalents
-            }
+            src={AXES_SECTION_ICON}
             style={styles.sectionIcon}
           />
 
@@ -1025,15 +1115,12 @@ export default function HoroscopeYearOverview({
               wrap={false}
             >
               <Image
-                src={
-                  index === 0
-                    ? HOROSCOPE_ICONS.sun
-                    : index === 1
-                      ? HOROSCOPE_ICONS
-                          .jupiter
-                      : HOROSCOPE_ICONS
-                          .innerWorld
-                }
+                src={getIcon(
+                  AXIS_ICON_KEYS[
+                    index % AXIS_ICON_KEYS.length
+                  ],
+                  "sun",
+                )}
                 style={
                   styles.axisWatermark
                 }
@@ -1079,10 +1166,7 @@ export default function HoroscopeYearOverview({
             wrap={false}
           >
             <Image
-              src={
-                HOROSCOPE_ICONS
-                  .integrationGuide
-              }
+              src={ADVICE_ICON}
               style={
                 styles.bottomWatermark
               }
@@ -1097,10 +1181,7 @@ export default function HoroscopeYearOverview({
                 }
               >
                 <Image
-                  src={
-                    HOROSCOPE_ICONS
-                      .integrationGuide
-                  }
+                  src={ADVICE_ICON}
                   style={
                     styles.bottomIcon
                   }
@@ -1126,9 +1207,7 @@ export default function HoroscopeYearOverview({
             wrap={false}
           >
             <Image
-              src={
-                HOROSCOPE_ICONS.soulPath
-              }
+              src={DIRECTION_ICON}
               style={
                 styles.bottomWatermark
               }
@@ -1143,10 +1222,7 @@ export default function HoroscopeYearOverview({
                 }
               >
                 <Image
-                  src={
-                    HOROSCOPE_ICONS
-                      .soulPath
-                  }
+                  src={DIRECTION_ICON}
                   style={
                     styles.bottomIcon
                   }
