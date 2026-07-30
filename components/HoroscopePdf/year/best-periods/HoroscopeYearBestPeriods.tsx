@@ -600,7 +600,10 @@ export default function HoroscopeYearBestPeriods({
 
   const cautionMonths =
     Array.isArray(bestPeriods.cautionMonths)
-      ? bestPeriods.cautionMonths.join(" • ")
+      ? bestPeriods.cautionMonths
+          .map((item) => item.month?.trim())
+          .filter(Boolean)
+          .join(" • ")
       : "";
 
   return (
