@@ -50,15 +50,39 @@ export default function HoroscopeYearPdfClientViewer({
           mantra={
             horoscope.mantra
           }
+
+          overview={
+            horoscope.overview
+          }
+
+          majorEnergies={
+            horoscope.majorEnergies
+          }
+
+          majorAspects={
+            horoscope.majorAspects
+          }
+
+          dominantPlanets={
+            horoscope.dominantPlanets
+          }
+
+          activatedHouses={
+            horoscope.activatedHouses
+          }
+
           strengths={
             horoscope.strengths
           }
+
           hiddenTalents={
             horoscope.hiddenTalents
           }
+
           premiumPages={
             horoscope.premiumPages
           }
+
           zodiacIconUrl={
             horoscope.zodiacIconUrl
           }
