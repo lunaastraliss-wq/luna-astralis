@@ -29,6 +29,27 @@ import HoroscopeExplore from "./HoroscopeExplore";
 
 /*
 |--------------------------------------------------------------------------
+| Pages principales propres à l’horoscope annuel
+|--------------------------------------------------------------------------
+*/
+
+import HoroscopeYearOverview
+  from "./year/HoroscopeYearOverview";
+
+import HoroscopeYearMajorEnergies
+  from "./year/HoroscopeYearMajorEnergies";
+
+import HoroscopeYearMajorAspects
+  from "./year/HoroscopeYearMajorAspects";
+
+import HoroscopeYearDominantPlanets
+  from "./year/HoroscopeYearDominantPlanets";
+
+import HoroscopeYearActivatedHouses
+  from "./year/HoroscopeYearActivatedHouses";
+
+/*
+|--------------------------------------------------------------------------
 | Mantra annuel
 |--------------------------------------------------------------------------
 */
@@ -70,6 +91,11 @@ type HoroscopeYearPdfProps =
     | "period"
     | "content"
     | "mantra"
+    | "overview"
+    | "majorEnergies"
+    | "majorAspects"
+    | "dominantPlanets"
+    | "activatedHouses"
     | "zodiacIconUrl"
     | "strengths"
     | "hiddenTalents"
@@ -89,6 +115,11 @@ export default function HoroscopeYearPdf({
   period,
   content,
   mantra,
+  overview,
+  majorEnergies,
+  majorAspects,
+  dominantPlanets,
+  activatedHouses,
   logoUrl,
   zodiacIconUrl,
   strengths,
@@ -151,6 +182,50 @@ export default function HoroscopeYearPdf({
 
       <HoroscopeWelcome
         {...sharedProps}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Pages principales d’analyse annuelle
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearOverview
+        identity={identity}
+        period={period}
+        overview={overview}
+      />
+
+      <HoroscopeYearMajorEnergies
+        identity={identity}
+        period={period}
+        majorEnergies={
+          majorEnergies
+        }
+      />
+
+      <HoroscopeYearMajorAspects
+        identity={identity}
+        period={period}
+        majorAspects={
+          majorAspects
+        }
+      />
+
+      <HoroscopeYearDominantPlanets
+        identity={identity}
+        period={period}
+        dominantPlanets={
+          dominantPlanets
+        }
+      />
+
+      <HoroscopeYearActivatedHouses
+        identity={identity}
+        period={period}
+        activatedHouses={
+          activatedHouses
+        }
       />
 
       {/*
@@ -245,7 +320,7 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Page 31 — Vos plus grandes forces
+      | Vos plus grandes forces
       |--------------------------------------------------------------------------
       */}
 
@@ -257,14 +332,16 @@ export default function HoroscopeYearPdf({
 
       {/*
       |--------------------------------------------------------------------------
-      | Page 32 — Vos talents cachés
+      | Vos talents cachés
       |--------------------------------------------------------------------------
       */}
 
       <HoroscopeYearHiddenTalents
         identity={identity}
         period={period}
-        hiddenTalents={hiddenTalents}
+        hiddenTalents={
+          hiddenTalents
+        }
       />
 
       {/*
@@ -276,7 +353,9 @@ export default function HoroscopeYearPdf({
       {premiumPages.map(
         (page, index) => (
           <YearPremiumPage
-            key={`year-premium-page-${index}`}
+            key={
+              `year-premium-page-${index}`
+            }
             identity={identity}
             period={period}
             page={page}
