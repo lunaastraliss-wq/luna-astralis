@@ -38,11 +38,38 @@ export default function HoroscopeYearPdfClientViewer({
         showToolbar
       >
         <HoroscopeYearPdf
-          identity={horoscope.identity}
-          period={horoscope.period}
-          content={horoscope.content}
-          mantra={horoscope.mantra}
-          strengths={horoscope.strengths}
+          identity={
+            horoscope.identity
+          }
+          period={
+            horoscope.period
+          }
+          content={
+            horoscope.content
+          }
+          mantra={
+            horoscope.mantra
+          }
+
+          overview={
+            horoscope.overview
+          }
+          majorEnergies={
+            horoscope.majorEnergies
+          }
+          majorAspects={
+            horoscope.majorAspects
+          }
+          dominantPlanets={
+            horoscope.dominantPlanets
+          }
+          activatedHouses={
+            horoscope.activatedHouses
+          }
+
+          strengths={
+            horoscope.strengths
+          }
           hiddenTalents={
             horoscope.hiddenTalents
           }
