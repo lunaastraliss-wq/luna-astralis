@@ -612,7 +612,7 @@ const styles =
     houseHeader: {
       flexDirection: "row",
       alignItems: "center",
-      marginBottom: 9,
+      marginBottom: 6,
     },
 
     houseIdentity: {
@@ -662,17 +662,18 @@ const styles =
     },
 
     houseName: {
-      marginBottom: 3,
       color: CREAM,
-      fontSize: 9.2,
+      fontSize: 9.1,
       lineHeight: 1.2,
     },
 
     houseCategory: {
+      width: "100%",
+      marginBottom: 7,
       color: GOLD,
-      fontSize: 6.2,
-      lineHeight: 1.25,
-      letterSpacing: 0.5,
+      fontSize: 6.1,
+      lineHeight: 1.3,
+      letterSpacing: 0.45,
       textTransform: "uppercase",
     },
 
@@ -1080,13 +1081,6 @@ export default function HoroscopeYearActivatedHouses({
                         {house.name}
                       </Text>
 
-                      <Text
-                        style={
-                          styles.houseCategory
-                        }
-                      >
-                        {house.category}
-                      </Text>
                     </View>
                   </View>
 
@@ -1099,6 +1093,10 @@ export default function HoroscopeYearActivatedHouses({
                     />
                   </View>
                 </View>
+
+                <Text style={styles.houseCategory}>
+                  {house.category}
+                </Text>
 
                 <Text style={styles.houseTitle}>
                   {house.title}
