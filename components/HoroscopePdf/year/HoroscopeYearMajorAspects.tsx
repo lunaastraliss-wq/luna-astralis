@@ -23,14 +23,13 @@ import {
 } from "../HoroscopePdfUtils";
 
 import type {
-  YearlyHoroscopeResult,
-} from "../buildYearlyHoroscope";
+  HoroscopeIdentity,
+  HoroscopePeriodData,
+} from "../HoroscopePdfTypes";
 
 import type {
-  YearlyAspect,
-  YearlyAspectType,
-  YearlyPlanetName,
-} from "./annualPages/types";
+  YearMajorAspectsResult,
+} from "./data/types";
 
 /*
 |--------------------------------------------------------------------------
@@ -74,14 +73,11 @@ const DEEP_GOLD =
 |--------------------------------------------------------------------------
 */
 
-type HoroscopeYearMajorAspectsProps =
-  Pick<
-    YearlyHoroscopeResult,
-    | "identity"
-    | "period"
-  > & {
-    aspects: YearlyAspect[];
-  };
+type HoroscopeYearMajorAspectsProps = {
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  majorAspects: YearMajorAspectsResult;
+};
 
 type AspectTone =
   | "harmonious"
@@ -90,8 +86,8 @@ type AspectTone =
 
 type DisplayYearlyAspect = {
   id: string;
-  firstPlanet: YearlyPlanetName;
-  secondPlanet: YearlyPlanetName;
+  firstPlanet: string;
+  secondPlanet: string;
   firstPlanetIcon: string;
   secondPlanetIcon: string;
   aspect: string;
@@ -103,15 +99,79 @@ type DisplayYearlyAspect = {
 
 /*
 |--------------------------------------------------------------------------
-| Correspondance des données astrologiques
+| Correspondance des données annuelles
 |--------------------------------------------------------------------------
 */
 
-function getPlanetIcon(
-  planet: YearlyPlanetName,
+const PLANET_ICON_KEYS: Record<string, keyof typeof HOROSCOPE_ICONS> = {
+  soleil: "sun",
+  lune: "moon",
+  mercure: "mercury",
+  venus: "venus",
+  mars: "mars",
+  jupiter: "jupiter",
+  saturne: "saturn",
+  uranus: "uranus",
+  neptune: "neptune",
+  pluton: "pluto",
+};
+
+function normalizePlanetName(
+  value: string,
 ): string {
-  const iconKey =
-    planet
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+}
+
+function getPlanetIcon(
+  planet: string,
+): string {
+  const key =
+    PLANET_ICON_KEYS[
+      normalizePlanetName(planet)
+    ];
+
+  return key
+    ? HOROSCOPE_ICONS[key]
+    : HOROSCOPE_ICONS.sun;
+}
+
+function splitPlanetNames(
+  value: string,
+): [string, string] {
+  const cleaned = value.trim();
+
+  const parts = cleaned
+    .split(
+      /\s*(?:–|—|-|\/|\+|&| et )\s*/i,
+    )
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  if (parts.length >= 2) {
+    return [
+      parts[0],
+      parts.slice(1).join(" "),
+    ];
+  }
+
+  return [
+    cleaned || "Planète dominante",
+    "Influence associée",
+  ];
+}
+
+function getAspectTone(
+  value: string,
+): AspectTone {
+  const normalized =
+    value
       .toLowerCase()
       .normalize("NFD")
       .replace(
@@ -119,119 +179,22 @@ function getPlanetIcon(
         "",
       );
 
-  return (
-    HOROSCOPE_ICONS[
-      iconKey as keyof typeof HOROSCOPE_ICONS
-    ] ??
-    HOROSCOPE_ICONS.sun
-  );
+  if (
+    normalized.includes("trigone") ||
+    normalized.includes("sextile")
+  ) {
+    return "harmonious";
+  }
+
+  if (
+    normalized.includes("carre") ||
+    normalized.includes("opposition")
+  ) {
+    return "dynamic";
+  }
+
+  return "transformative";
 }
-
-const ASPECT_TONES:
-  Record<
-    YearlyAspectType,
-    AspectTone
-  > = {
-    conjunction:
-      "transformative",
-
-    sextile:
-      "harmonious",
-
-    square:
-      "dynamic",
-
-    trine:
-      "harmonious",
-
-    opposition:
-      "dynamic",
-  };
-
-const ASPECT_TITLES:
-  Record<
-    YearlyAspectType,
-    string
-  > = {
-    conjunction:
-      "Deux forces se réunissent",
-
-    sextile:
-      "Une occasion à faire grandir",
-
-    square:
-      "Une tension qui demande un ajustement",
-
-    trine:
-      "Une énergie qui circule avec fluidité",
-
-    opposition:
-      "Deux besoins à rééquilibrer",
-  };
-
-const ASPECT_ADVICES:
-  Record<
-    YearlyAspectType,
-    string
-  > = {
-    conjunction:
-      "Concentrez cette énergie sur une priorité claire afin de lui donner une direction constructive.",
-
-    sextile:
-      "Restez attentif aux ouvertures du moment et transformez-les en gestes concrets.",
-
-    square:
-      "Évitez les réactions précipitées. Prenez le temps de comprendre la tension avant de choisir votre réponse.",
-
-    trine:
-      "Appuyez-vous sur cette facilité pour avancer, sans toutefois tenir les résultats pour acquis.",
-
-    opposition:
-      "Cherchez un point d’équilibre entre les deux besoins en présence plutôt que de favoriser un seul extrême.",
-  };
-
-
-const ASPECT_LABELS:
-  Record<
-    YearlyAspectType,
-    string
-  > = {
-    conjunction:
-      "Conjonction",
-
-    sextile:
-      "Sextile",
-
-    square:
-      "Carré",
-
-    trine:
-      "Trigone",
-
-    opposition:
-      "Opposition",
-  };
-
-const ASPECT_MEANINGS:
-  Record<
-    YearlyAspectType,
-    string
-  > = {
-    conjunction:
-      "La conjonction réunit deux énergies planétaires dans une même direction. Son influence peut être très concentrée et devenir particulièrement marquante.",
-
-    sextile:
-      "Le sextile crée une ouverture favorable. Il facilite les échanges entre les deux planètes, à condition de saisir consciemment l’occasion qu’il propose.",
-
-    square:
-      "Le carré révèle une tension entre deux forces qui ne progressent pas au même rythme. Il pousse à agir autrement et à corriger ce qui ne fonctionne plus.",
-
-    trine:
-      "Le trigone favorise une circulation naturelle entre les deux planètes. Les choses peuvent sembler plus simples, plus cohérentes ou plus faciles à mettre en mouvement.",
-
-    opposition:
-      "L’opposition place deux besoins face à face. Elle invite à sortir des positions extrêmes pour retrouver une manière plus équilibrée d’avancer.",
-  };
 
 /*
 |--------------------------------------------------------------------------
@@ -1090,8 +1053,7 @@ const styles =
 */
 
 function getBadgeStyle(
-  tone:
-    AspectTone,
+  tone: AspectTone,
 ) {
   switch (tone) {
     case "harmonious":
@@ -1101,203 +1063,66 @@ function getBadgeStyle(
       return styles.badgeDynamic;
 
     case "transformative":
-      return styles.badgeTransformative;
-
     default:
       return styles.badgeTransformative;
   }
 }
 
-function formatAspectDate(
-  value:
-    string,
-): string {
-  if (!value) {
-    return "date à confirmer";
-  }
-
-  const date =
-    new Date(
-      value.includes("T")
-        ? value
-        : `${value}T12:00:00`,
-    );
-
-  if (
-    Number.isNaN(
-      date.getTime(),
-    )
-  ) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat(
-    "fr-CA",
-    {
-      day:
-        "numeric",
-
-      month:
-        "long",
-    },
-  ).format(date);
-}
-
-function formatOrb(
-  orb:
-    number,
-): string {
-  if (
-    !Number.isFinite(
-      orb,
-    )
-  ) {
-    return "orbe non précisé";
-  }
-
-  return `orbe de ${orb.toFixed(
-    2,
-  )}°`;
-}
-
-function getApplyingLabel(
-  applying:
-    boolean | undefined,
-): string {
-  if (applying === true) {
-    return "L’aspect se rapproche encore de son point le plus précis.";
-  }
-
-  if (applying === false) {
-    return "L’aspect vient de dépasser son point le plus précis, mais son influence demeure active.";
-  }
-
-  return "L’aspect agit durant cette période sans indication supplémentaire sur sa progression.";
-}
-
-function buildAspectDescription(
-  aspect:
-    YearlyAspect,
-): string {
-  const interpretation =
-    aspect.interpretation?.trim();
-
-  const meaning =
-    ASPECT_MEANINGS[
-      aspect.type
-    ];
-
-  const exactDate =
-    formatAspectDate(
-      aspect.date,
-    );
-
-  const orb =
-    formatOrb(
-      aspect.orb,
-    );
-
-  return [
-    interpretation ||
-      meaning,
-
-    `Son influence atteint son maximum autour du ${exactDate}, avec un ${orb}.`,
-
-    getApplyingLabel(
-      aspect.applying,
-    ),
-  ].join(" ");
-}
-
 function buildDisplayAspect(
-  aspect:
-    YearlyAspect,
+  item:
+    YearMajorAspectsResult["aspects"][number],
+  index: number,
 ): DisplayYearlyAspect {
+  const [
+    firstPlanet,
+    secondPlanet,
+  ] = splitPlanetNames(
+    item.planets,
+  );
+
+  const opportunity =
+    item.opportunity?.trim();
+
+  const influence =
+    item.influence?.trim();
+
+  const description = [
+    influence,
+    opportunity
+      ? `Ouverture possible : ${opportunity}`
+      : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return {
     id:
-      aspect.id,
+      `${item.planets}-${item.aspect}-${index}`,
 
-    firstPlanet:
-      aspect.planet1,
+    firstPlanet,
 
-    secondPlanet:
-      aspect.planet2,
+    secondPlanet,
 
     firstPlanetIcon:
-      getPlanetIcon(
-        aspect.planet1,
-      ),
+      getPlanetIcon(firstPlanet),
 
     secondPlanetIcon:
-      getPlanetIcon(
-        aspect.planet2,
-      ),
+      getPlanetIcon(secondPlanet),
 
     aspect:
-      ASPECT_LABELS[
-        aspect.type
-      ],
+      item.aspect,
 
     tone:
-      ASPECT_TONES[
-        aspect.type
-      ],
+      getAspectTone(item.aspect),
 
     title:
-      ASPECT_TITLES[
-        aspect.type
-      ],
+      item.period,
 
-    description:
-      buildAspectDescription(
-        aspect,
-      ),
+    description,
 
     advice:
-      ASPECT_ADVICES[
-        aspect.type
-      ],
+      item.caution,
   };
-}
-
-function sortAspectsByImportance(
-  aspects:
-    YearlyAspect[],
-): YearlyAspect[] {
-  return [...aspects].sort(
-    (
-      first,
-      second,
-    ) => {
-      const firstOrb =
-        Number.isFinite(
-          first.orb,
-        )
-          ? first.orb
-          : Number.POSITIVE_INFINITY;
-
-      const secondOrb =
-        Number.isFinite(
-          second.orb,
-        )
-          ? second.orb
-          : Number.POSITIVE_INFINITY;
-
-      if (
-        firstOrb !==
-        secondOrb
-      ) {
-        return (
-          firstOrb -
-          secondOrb
-        );
-      }
-
-      return first.date.localeCompare(
-        second.date,
-      );
-    },
-  );
 }
 
 /*
@@ -1309,7 +1134,7 @@ function sortAspectsByImportance(
 export default function HoroscopeYearMajorAspects({
   identity,
   period,
-  aspects,
+  majorAspects,
 }: HoroscopeYearMajorAspectsProps) {
   const zodiacIconUrl =
     getHoroscopeZodiacIconUrl(
@@ -1322,12 +1147,12 @@ export default function HoroscopeYearMajorAspects({
     );
 
   const displayedAspects =
-    sortAspectsByImportance(
+    (
       Array.isArray(
-        aspects,
+        majorAspects.aspects,
       )
-        ? aspects
-        : [],
+        ? majorAspects.aspects
+        : []
     )
       .slice(
         0,
@@ -1382,7 +1207,7 @@ export default function HoroscopeYearMajorAspects({
           </Text>
 
           <Text style={styles.title}>
-            Les grands aspects de votre mois
+            {majorAspects.title}
           </Text>
 
           <Text style={styles.period}>
@@ -1427,18 +1252,7 @@ export default function HoroscopeYearMajorAspects({
           </Text>
 
           <Text style={styles.introduction}>
-            Les aspects astrologiques décrivent
-            la manière dont les planètes
-            interagissent entre elles. Pour le
-            signe{" "}
-            {identity.zodiacSignLabel}, ils
-            révèlent les dynamiques les plus
-            importantes de{" "}
-            {periodLabel}. Certains soutiennent
-            votre progression, tandis que
-            d’autres mettent en lumière un
-            ajustement, une décision ou un nouvel
-            équilibre à trouver.
+            {majorAspects.introduction}
           </Text>
         </View>
 
@@ -1457,7 +1271,7 @@ export default function HoroscopeYearMajorAspects({
           />
 
           <Text style={styles.sectionTitle}>
-            Les trois influences les plus marquantes
+            Les trois influences les plus marquantes de l’année
           </Text>
         </View>
 
@@ -1634,9 +1448,12 @@ export default function HoroscopeYearMajorAspects({
             <Text
               style={styles.summaryText}
             >
-              {displayedAspects.length > 0
-                ? `Les aspects les plus précis de ${periodLabel} vous invitent à observer comment les différentes forces de l’année se complètent ou se confrontent. Appuyez-vous sur les ouvertures disponibles, tout en prenant le temps de comprendre les tensions avant d’y répondre.`
-                : `Aucun aspect majeur n’a été retenu pour ${periodLabel}. Le climat astrologique de l’année demeure toutefois évolutif : observez les changements de rythme et adaptez vos décisions avec discernement.`}
+              {[
+                  majorAspects.synthesis,
+                  majorAspects.advice,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
             </Text>
           </View>
         </View>
