@@ -23,7 +23,8 @@ type ReportType =
   | "signature"
   | "compatibility"
   | "horoscope-daily"
-  | "horoscope-month";
+  | "horoscope-month"
+  | "horoscope-year";
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +71,7 @@ type CheckoutRequestBody = {
 
   /*
   |--------------------------------------------------------------------------
-  | Horoscope mensuel
+  | Horoscope mensuel et annuel
   |--------------------------------------------------------------------------
   */
 
@@ -141,7 +142,8 @@ function isReportType(
     value === "signature" ||
     value === "compatibility" ||
     value === "horoscope-daily" ||
-    value === "horoscope-month"
+    value === "horoscope-month" ||
+    value === "horoscope-year"
   );
 }
 
@@ -366,6 +368,12 @@ const REPORT_PRICE:
         process.env
           .STRIPE_MONTHLY_HOROSCOPE_PRICE_ID,
       ),
+
+    "horoscope-year":
+      s(
+        process.env
+          .STRIPE_YEARLY_HOROSCOPE_PRICE_ID,
+      ),
   };
 
 /*
@@ -373,7 +381,7 @@ const REPORT_PRICE:
 | Code promotionnel temporaire pour les tests
 |--------------------------------------------------------------------------
 |
-| Ce code rend actuellement l’horoscope du jour et l’horoscope du mois
+| Ce code rend actuellement les horoscopes du jour, du mois et de l’année
 | gratuits dans Stripe.
 |
 | Lorsque les tests seront terminés, il faudra retirer les blocs
@@ -998,6 +1006,184 @@ export async function POST(
 
           report_month:
             month,
+
+          report_year:
+            year,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscope Premium de l’année
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "horoscope-year"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson,
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_YEAR_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope annuel personnalisé.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const year =
+        normalizeYear(
+          body.year,
+        );
+
+      if (
+        !year
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_YEAR_PERIOD",
+
+            detail:
+              "L’année du rapport est requise.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_YEAR_BIRTH_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
+            discounts: [
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium/annee` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_year_report",
+
+              report_type:
+                "horoscope-year",
+
+              birth_data:
+                serializedBirthData,
+
+              report_year:
+                year,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-year",
 
           report_year:
             year,
