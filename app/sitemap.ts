@@ -64,7 +64,8 @@ type SitemapEntryOptions = {
   changeFrequency:
     MetadataRoute.Sitemap[number]["changeFrequency"];
 
-  priority: number;
+  priority:
+    number;
 };
 
 function createEntry(
@@ -216,10 +217,16 @@ export default function sitemap():
       },
     ),
 
-    /*
-     * Ne pas ajouter /horoscope/premium/annee
-     * avant que la page existe réellement.
-     */
+    createEntry(
+      "/horoscope/premium/annee",
+      {
+        changeFrequency:
+          "weekly",
+
+        priority:
+          0.9,
+      },
+    ),
 
     /*
     |--------------------------------------------------------------------------
