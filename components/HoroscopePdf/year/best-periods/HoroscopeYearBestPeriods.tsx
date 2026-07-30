@@ -750,8 +750,10 @@ export default function HoroscopeYearBestPeriods({
             </Text>
 
             <Text style={styles.cautionText}>
-              {bestPeriods.cautionIntroduction}
-            </Text>
+  Ces périodes demandent davantage de patience, de recul et de prudence.
+  Évitez de forcer les décisions importantes et prenez le temps de vérifier
+  les détails avant de vous engager.
+</Text>
           </View>
         </View>
 
