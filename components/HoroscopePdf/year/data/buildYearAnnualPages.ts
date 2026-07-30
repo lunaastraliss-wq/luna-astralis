@@ -548,6 +548,51 @@ function capitalize(
 
 /*
 |--------------------------------------------------------------------------
+| Helpers de grammaire française
+|--------------------------------------------------------------------------
+*/
+
+function beginsWithVowelSound(
+  value: string,
+): boolean {
+  const normalized = value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      "",
+    );
+
+  return /^[aeiouyh]/.test(normalized);
+}
+
+function withDefiniteArticle(
+  value: string,
+): string {
+  return beginsWithVowelSound(value)
+    ? `l’${value}`
+    : `la ${value}`;
+}
+
+function withDeArticle(
+  value: string,
+): string {
+  return beginsWithVowelSound(value)
+    ? `de l’${value}`
+    : `de la ${value}`;
+}
+
+function withDe(
+  value: string,
+): string {
+  return beginsWithVowelSound(value)
+    ? `d’${value}`
+    : `de ${value}`;
+}
+
+/*
+|--------------------------------------------------------------------------
 | Construction de la vue d’ensemble
 |--------------------------------------------------------------------------
 */
@@ -588,9 +633,9 @@ function buildOverview({
           `${capitalize(
             keyword,
           )} devient un thème important de l’année. Vous serez amené à lui donner une place plus consciente dans vos décisions et dans votre évolution personnelle.`,
-          `Le domaine de la ${keyword} connaîtra plusieurs mouvements au cours de l’année. Une approche progressive vous permettra d’en tirer les meilleurs résultats.`,
-          `Votre rapport à la ${keyword} évoluera de manière notable. Certaines situations vous aideront à mieux comprendre ce qui mérite réellement votre énergie.`,
-          `Cette année favorise une nouvelle façon d’aborder la ${keyword}. Les expériences vécues pourront modifier durablement vos priorités.`,
+          `Le domaine ${withDeArticle(keyword)} connaîtra plusieurs mouvements au cours de l’année. Une approche progressive vous permettra d’en tirer les meilleurs résultats.`,
+          `Votre rapport à ${withDefiniteArticle(keyword)} évoluera de manière notable. Certaines situations vous aideront à mieux comprendre ce qui mérite réellement votre énergie.`,
+          `Cette année favorise une nouvelle façon d’aborder ${withDefiniteArticle(keyword)}. Les expériences vécues pourront modifier durablement vos priorités.`,
         ];
 
         return {
@@ -625,7 +670,7 @@ function buildOverview({
       3,
     ),
 
-    dominantTheme: `L’énergie dominante de votre année repose sur la ${selectedKeywords[0]}, soutenue par votre élément ${profile.element} et par la dynamique ${profile.modality.toLowerCase()} de votre signe.`,
+    dominantTheme: `L’énergie dominante de votre année repose sur ${withDefiniteArticle(selectedKeywords[0])}, soutenue par votre élément ${profile.element} et par la dynamique ${profile.modality.toLowerCase()} de votre signe.`,
 
     axes,
 
@@ -692,25 +737,58 @@ function buildMajorEnergies({
       (
         title,
         index,
-      ): YearMajorEnergyItem => ({
-        title,
+      ): YearMajorEnergyItem => {
+        const strength =
+          selectedStrengths[index];
 
-        subtitle:
-          index === 0
-            ? "Énergie dominante"
-            : `Influence complémentaire ${index + 1}`,
+        const challenge =
+          selectedChallenges[index];
 
-        intensity: calculateScore(
-          seed,
-          68,
-          96,
-          40 + index,
-        ),
+        const textVariants = [
+          `Cette énergie stimule votre ${strength} et vous encourage à développer une approche plus consciente de vos choix. Son influence pourra se manifester dans plusieurs domaines au fil de l’année.`,
+          `Le courant lié à ${title.toLowerCase()} met en valeur votre ${strength}. Il vous invite à avancer avec plus de discernement et à reconnaître les occasions qui correspondent réellement à vos priorités.`,
+          `Au cours de l’année, cette dynamique renforcera votre capacité à agir avec ${strength}. Certaines situations vous demanderont toutefois de canaliser cette force afin de l’utiliser de façon constructive.`,
+          `Cette influence soutient une évolution fondée sur davantage ${withDe(strength)}. Elle pourra modifier votre manière d’aborder vos décisions, vos relations ou vos projets personnels.`,
+          `${capitalize(strength)} devient ici un véritable levier de progression. Plus vous exprimerez cette qualité avec équilibre, plus cette énergie vous aidera à construire des résultats durables.`,
+          `La dynamique de ${title.toLowerCase()} vous pousse à mobiliser votre ${strength} d’une manière nouvelle. Elle favorise les choix réfléchis, les ajustements utiles et une meilleure maîtrise de votre direction.`,
+        ] as const;
 
-        text: `Cette énergie stimule votre ${selectedStrengths[index]} et vous encourage à développer une approche plus consciente de vos choix. Elle pourra se manifester dans plusieurs domaines au fil de l’année.`,
+        const adviceVariants = [
+          `Appuyez-vous sur votre ${strength}, tout en évitant que ${challenge} ne ralentisse votre progression.`,
+          `Faites de votre ${strength} un point d’appui, mais surveillez les moments où ${challenge} pourrait brouiller votre jugement.`,
+          `Votre meilleure stratégie consiste à exprimer votre ${strength} avec mesure, sans laisser ${challenge} prendre le contrôle de vos réactions.`,
+          `Cultivez votre ${strength} avec constance. Une attention particulière à ${withDefiniteArticle(challenge)} vous aidera à préserver votre équilibre.`,
+          `Utilisez votre ${strength} pour avancer, puis prenez du recul dès que ${challenge} menace de vous éloigner de votre objectif principal.`,
+        ] as const;
 
-        advice: `Appuyez-vous sur votre ${selectedStrengths[index]}, tout en évitant que ${selectedChallenges[index]} ne ralentisse votre progression.`,
-      }),
+        return {
+          title,
+
+          subtitle:
+            index === 0
+              ? "Énergie dominante"
+              : `Influence complémentaire ${index + 1}`,
+
+          intensity: calculateScore(
+            seed,
+            68,
+            96,
+            40 + index,
+          ),
+
+          text: pickVariant(
+            textVariants,
+            seed,
+            60 + index,
+          ),
+
+          advice: pickVariant(
+            adviceVariants,
+            seed,
+            70 + index,
+          ),
+        };
+      },
     );
 
   return {
@@ -782,11 +860,44 @@ function buildMajorAspects({
         selectedAspect,
         index,
       ): YearMajorAspectItem => {
-        const period = pickVariant(
+        const aspectPeriod = pickVariant(
           periods,
           seed,
           20 + index,
         );
+
+        const strength =
+          profile.strengths[index];
+
+        const keyword =
+          profile.keywords[index];
+
+        const challenge =
+          profile.challenges[index];
+
+        const influenceVariants = [
+          `Cet aspect agit sur votre capacité à développer davantage ${withDe(strength)}. Il peut provoquer une évolution importante dans votre manière de décider et d’organiser vos priorités.`,
+          `La rencontre symbolique entre ${selectedAspect.planets} renforce votre ${strength}. Elle peut vous conduire à modifier une méthode, une habitude ou une orientation devenue trop limitée.`,
+          `Cette configuration met en mouvement le thème ${withDeArticle(keyword)}. Son influence favorise les prises de conscience capables de transformer durablement votre manière d’agir.`,
+          `Sous cet aspect, votre ${strength} devient un outil essentiel. Les événements de cette période pourront vous inciter à faire des choix plus précis et mieux alignés avec vos objectifs.`,
+          `L’influence de ${selectedAspect.planets} crée un climat propice à une évolution intérieure ou concrète. Elle vous demande d’unir votre instinct à une vision plus structurée.`,
+        ] as const;
+
+        const opportunityVariants = [
+          `Utiliser cette période pour renforcer votre ${keyword} et prendre des décisions capables de produire des résultats durables.`,
+          `Transformer votre ${strength} en action concrète et faire progresser un projet qui demande davantage de clarté ou de constance.`,
+          `Profiter de cette influence pour revoir vos priorités, consolider ce qui fonctionne et ouvrir une nouvelle voie là où un changement devient nécessaire.`,
+          `Donner une place plus consciente à ${withDefiniteArticle(keyword)} afin de construire des choix qui correspondent mieux à votre évolution actuelle.`,
+          `Saisir les occasions qui vous permettent d’exprimer votre ${strength} tout en développant une stratégie plus stable pour la suite.`,
+        ] as const;
+
+        const cautionVariants = [
+          `Éviter que ${challenge} ne vous pousse à réagir trop rapidement ou à perdre de vue votre objectif principal.`,
+          `Rester attentif aux manifestations ${withDeArticle(challenge)}, surtout lorsque la pression vous incite à décider avant d’avoir toutes les informations.`,
+          `Ne pas laisser ${challenge} transformer une tension passagère en décision définitive. Le recul restera votre meilleur allié.`,
+          `Préserver votre énergie et vérifier que ${challenge} ne déforme pas votre perception de la situation.`,
+          `Refuser les réactions automatiques liées à ${withDefiniteArticle(challenge)} et privilégier une réponse plus consciente, même lorsque les événements s’accélèrent.`,
+        ] as const;
 
         return {
           planets:
@@ -795,13 +906,25 @@ function buildMajorAspects({
           aspect:
             selectedAspect.aspect,
 
-          period,
+          period: aspectPeriod,
 
-          influence: `Cet aspect agit sur votre capacité à développer davantage de ${profile.strengths[index]}. Il peut provoquer une évolution importante dans votre manière de décider et d’organiser vos priorités.`,
+          influence: pickVariant(
+            influenceVariants,
+            seed,
+            40 + index,
+          ),
 
-          opportunity: `Utiliser cette période pour renforcer votre ${profile.keywords[index]} et prendre des décisions capables de produire des résultats durables.`,
+          opportunity: pickVariant(
+            opportunityVariants,
+            seed,
+            50 + index,
+          ),
 
-          caution: `Éviter que ${profile.challenges[index]} ne vous pousse à réagir trop rapidement ou à perdre de vue votre objectif principal.`,
+          caution: pickVariant(
+            cautionVariants,
+            seed,
+            60 + index,
+          ),
         };
       },
     );
@@ -881,26 +1004,73 @@ function buildDominantPlanets({
       (
         planet,
         index,
-      ): YearDominantPlanetItem => ({
-        planet,
+      ): YearDominantPlanetItem => {
+        const keyword =
+          profile.keywords[index];
 
-        influence: `${planet} accentue votre rapport à la ${profile.keywords[index]}. Son influence vous encourage à développer plus consciemment votre ${profile.strengths[index]}.`,
+        const strength =
+          profile.strengths[index];
 
-        area:
-          PLANET_AREAS[planet] ??
-          "évolution personnelle et décisions importantes",
+        const challenge =
+          profile.challenges[index];
 
-        strength: calculateScore(
-          seed,
-          70,
-          97,
-          20 + index,
-        ),
+        const influenceVariants = [
+          `${planet} accentue votre rapport à ${withDefiniteArticle(keyword)}. Son influence vous encourage à développer plus consciemment votre ${strength}.`,
+          `L’énergie de ${planet} met en lumière votre ${strength} et transforme votre façon d’aborder ${withDefiniteArticle(keyword)}.`,
+          `${planet} joue un rôle important dans votre évolution annuelle. Cette planète soutient votre ${strength} tout en vous invitant à clarifier vos intentions.`,
+          `Sous l’influence de ${planet}, le thème ${withDeArticle(keyword)} prend une dimension nouvelle. Votre ${strength} pourra alors devenir une force particulièrement utile.`,
+          `La présence de ${planet} renforce les situations qui sollicitent votre ${strength}. Elle vous aide à reconnaître ce qui doit être développé, corrigé ou dépassé.`,
+        ] as const;
 
-        message: `La présence symbolique de ${planet} vous rappelle que votre progression dépend autant de votre volonté que de votre capacité à comprendre le bon moment pour agir.`,
+        const messageVariants = [
+          `La présence symbolique ${withDe(planet)} vous rappelle que votre progression dépend autant de votre volonté que de votre capacité à comprendre le bon moment pour agir.`,
+          `${planet} vous invite à observer le rythme naturel des événements. Tout ne demande pas une action immédiate, mais chaque situation peut offrir une information utile.`,
+          `Le message de ${planet} consiste à unir conscience et mouvement. Votre évolution deviendra plus fluide lorsque vos décisions respecteront à la fois vos besoins et la réalité.`,
+          `À travers ${planet}, l’année vous demande de reconnaître votre pouvoir d’action sans chercher à tout contrôler. La justesse comptera davantage que la vitesse.`,
+          `${planet} souligne une leçon essentielle : les progrès les plus solides apparaissent lorsque l’intention, le moment et l’action avancent dans la même direction.`,
+        ] as const;
 
-        advice: `Utilisez cette influence pour soutenir votre ${profile.strengths[index]}, sans laisser ${profile.challenges[index]} prendre trop de place.`,
-      }),
+        const adviceVariants = [
+          `Utilisez cette influence pour soutenir votre ${strength}, sans laisser ${challenge} prendre trop de place.`,
+          `Appuyez-vous sur votre ${strength}, puis prenez du recul lorsque ${challenge} menace de déséquilibrer vos décisions.`,
+          `Exprimez votre ${strength} de façon constructive et observez les situations dans lesquelles ${challenge} pourrait limiter votre progression.`,
+          `Canalisez l’énergie de ${planet} vers des objectifs précis. Votre ${strength} sera plus efficace si elle n’est pas affaiblie par ${withDefiniteArticle(challenge)}.`,
+          `Faites de votre ${strength} une ressource consciente et transformez les manifestations ${withDeArticle(challenge)} en occasion d’ajustement.`,
+        ] as const;
+
+        return {
+          planet,
+
+          influence: pickVariant(
+            influenceVariants,
+            seed,
+            40 + index,
+          ),
+
+          area:
+            PLANET_AREAS[planet] ??
+            "évolution personnelle et décisions importantes",
+
+          strength: calculateScore(
+            seed,
+            70,
+            97,
+            20 + index,
+          ),
+
+          message: pickVariant(
+            messageVariants,
+            seed,
+            50 + index,
+          ),
+
+          advice: pickVariant(
+            adviceVariants,
+            seed,
+            60 + index,
+          ),
+        };
+      },
     );
 
   return {
@@ -980,28 +1150,77 @@ function buildActivatedHouses({
       (
         house,
         index,
-      ): YearActivatedHouseItem => ({
-        house,
+      ): YearActivatedHouseItem => {
+        const area =
+          HOUSE_AREAS[house];
 
-        title:
-          HOUSE_TITLES[house],
+        const strength =
+          profile.strengths[index];
 
-        area:
-          HOUSE_AREAS[house],
+        const challenge =
+          profile.challenges[index];
 
-        intensity: calculateScore(
-          seed,
-          69,
-          96,
-          20 + index,
-        ),
+        const influenceVariants = [
+          `Cette maison met l’accent sur ${area}. Plusieurs événements pourront vous amener à revoir vos habitudes, vos attentes ou votre manière d’agir dans ce secteur.`,
+          `Le secteur associé à cette maison prendra une importance particulière au cours de l’année. Les expériences vécues autour de ${area} pourront transformer vos priorités.`,
+          `Cette maison devient un point actif de votre évolution annuelle. Elle attire votre attention sur ${area} et vous encourage à y construire des repères plus adaptés à vos besoins actuels.`,
+          `Les événements liés à ${area} pourront se multiplier ou gagner en intensité. Cette dynamique vous invitera à faire des choix plus conscients dans ce domaine.`,
+          `L’activation de cette maison met en lumière ${area}. Ce secteur pourra devenir le théâtre d’une décision, d’un changement ou d’une consolidation importante.`,
+          `Une partie de votre progression passera cette année par ${area}. Vous pourriez y constater une évolution graduelle, mais suffisamment profonde pour modifier votre équilibre général.`,
+        ] as const;
 
-        influence: `Cette maison met l’accent sur ${HOUSE_AREAS[house]}. Plusieurs événements pourront vous amener à revoir vos habitudes, vos attentes ou votre manière d’agir dans ce secteur.`,
+        const opportunityVariants = [
+          `Faire évoluer ce domaine grâce à davantage ${withDe(strength)}. Les décisions prises avec constance pourront créer des effets durables.`,
+          `Utiliser votre ${strength} pour consolider ce secteur et transformer une situation encore fragile en base plus stable.`,
+          `Profiter des changements dans ce domaine pour exprimer votre ${strength}, revoir vos priorités et ouvrir une voie plus cohérente.`,
+          `Développer une nouvelle manière d’aborder ${area}, en vous appuyant sur votre ${strength} et sur des choix concrets.`,
+          `Reconnaître les occasions de progression qui se présentent dans ce secteur et les soutenir avec votre ${strength}.`,
+          `Créer un meilleur équilibre dans ce domaine en transformant votre ${strength} en actions régulières et mesurables.`,
+        ] as const;
 
-        opportunity: `Faire évoluer ce domaine grâce à davantage de ${profile.strengths[index]}. Les décisions prises avec constance pourront créer des effets durables.`,
+        const adviceVariants = [
+          `Évitez que ${challenge} ne vous empêche de reconnaître les possibilités de progression présentes dans ce secteur.`,
+          `Restez attentif à ${withDefiniteArticle(challenge)}, qui pourrait vous faire sous-estimer une occasion ou retarder une décision utile.`,
+          `Ne laissez pas ${challenge} définir votre manière de réagir. Un ajustement progressif sera souvent plus efficace qu’une rupture précipitée.`,
+          `Dans ce secteur, votre principal défi sera de dépasser ${withDefiniteArticle(challenge)} sans perdre de vue vos besoins réels.`,
+          `Prenez du recul lorsque ${challenge} apparaît. Cette pause vous aidera à distinguer une véritable limite d’une résistance passagère.`,
+          `Protégez votre progression contre les effets ${withDeArticle(challenge)} en revenant régulièrement à vos priorités essentielles.`,
+        ] as const;
 
-        advice: `Évitez que ${profile.challenges[index]} ne vous empêche de reconnaître les possibilités de progression présentes dans ce secteur.`,
-      }),
+        return {
+          house,
+
+          title:
+            HOUSE_TITLES[house],
+
+          area,
+
+          intensity: calculateScore(
+            seed,
+            69,
+            96,
+            20 + index,
+          ),
+
+          influence: pickVariant(
+            influenceVariants,
+            seed,
+            40 + index,
+          ),
+
+          opportunity: pickVariant(
+            opportunityVariants,
+            seed,
+            50 + index,
+          ),
+
+          advice: pickVariant(
+            adviceVariants,
+            seed,
+            60 + index,
+          ),
+        };
+      },
     );
 
   return {
