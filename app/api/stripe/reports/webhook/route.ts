@@ -17,6 +17,15 @@ export const dynamic =
 
 /*
 |--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
+
+type JsonRecord =
+  Record<string, any>;
+
+/*
+|--------------------------------------------------------------------------
 | Utilitaires
 |--------------------------------------------------------------------------
 */
@@ -29,11 +38,21 @@ function clean(
     : String(value).trim();
 }
 
+function normalize(
+  value: unknown,
+): string {
+  return clean(value)
+    .toLowerCase()
+    .replace(/-/g, "_")
+    .replace(/\s+/g, "_");
+}
+
 function parseJsonMetadata(
   value:
     | string
+    | null
     | undefined,
-): Record<string, any> {
+): JsonRecord {
   if (!value) {
     return {};
   }
@@ -42,14 +61,15 @@ function parseJsonMetadata(
     const parsed =
       JSON.parse(value);
 
-    return (
+    if (
       parsed &&
-      typeof parsed ===
-        "object" &&
+      typeof parsed === "object" &&
       !Array.isArray(parsed)
-    )
-      ? parsed
-      : {};
+    ) {
+      return parsed;
+    }
+
+    return {};
   } catch {
     return {};
   }
@@ -236,16 +256,20 @@ export async function POST(
             STRIPE_REPORTS_WEBHOOK_SECRET,
           );
     } catch (
-      error: any
+      error: unknown
     ) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : String(error);
+
       return NextResponse.json(
         {
           error:
             "INVALID_STRIPE_SIGNATURE",
 
           detail:
-            error?.message ||
-            String(error),
+            message,
         },
         {
           status: 400,
@@ -308,25 +332,55 @@ export async function POST(
       session.metadata || {};
 
     const product =
-      clean(
+      normalize(
         metadata.product,
-      ).toLowerCase();
+      );
+
+    const reportType =
+      normalize(
+        metadata.report_type,
+      );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Détection du type de produit
+    |--------------------------------------------------------------------------
+    */
 
     const isNatalReport =
       product ===
-      "astrology_report";
+        "astrology_report" ||
+      [
+        "essential",
+        "premium",
+        "signature",
+      ].includes(
+        reportType,
+      );
 
     const isCompatibilityReport =
       product ===
-      "compatibility_report";
+        "compatibility_report" ||
+      reportType ===
+        "compatibility";
 
     const isHoroscopeDailyReport =
       product ===
-      "horoscope_daily_report";
+        "horoscope_daily_report" ||
+      reportType ===
+        "horoscope_daily";
 
     const isHoroscopeMonthReport =
       product ===
-      "horoscope_month_report";
+        "horoscope_month_report" ||
+      reportType ===
+        "horoscope_month";
+
+    const isHoroscopeYearReport =
+      product ===
+        "horoscope_year_report" ||
+      reportType ===
+        "horoscope_year";
 
     /*
     |--------------------------------------------------------------------------
@@ -334,12 +388,14 @@ export async function POST(
     |--------------------------------------------------------------------------
     */
 
-    if (
-      !isNatalReport &&
-      !isCompatibilityReport &&
-      !isHoroscopeDailyReport &&
-      !isHoroscopeMonthReport
-    ) {
+    const isSupportedReport =
+      isNatalReport ||
+      isCompatibilityReport ||
+      isHoroscopeDailyReport ||
+      isHoroscopeMonthReport ||
+      isHoroscopeYearReport;
+
+    if (!isSupportedReport) {
       return NextResponse.json({
         received:
           true,
@@ -348,19 +404,11 @@ export async function POST(
           "NOT_SUPPORTED_REPORT",
 
         product,
+
+        report_type:
+          reportType,
       });
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Type de rapport
-    |--------------------------------------------------------------------------
-    */
-
-    const reportType =
-      clean(
-        metadata.report_type,
-      ).toLowerCase();
 
     if (!reportType) {
       return NextResponse.json({
@@ -369,6 +417,8 @@ export async function POST(
 
         warning:
           "MISSING_REPORT_TYPE",
+
+        product,
       });
     }
 
@@ -379,7 +429,7 @@ export async function POST(
     */
 
     let birthData:
-      Record<string, any> = {};
+      JsonRecord = {};
 
     if (
       isCompatibilityReport
@@ -446,7 +496,7 @@ export async function POST(
 
       /*
       |--------------------------------------------------------------------------
-      | Période de l’horoscope mensuel
+      | Horoscope mensuel
       |--------------------------------------------------------------------------
       */
 
@@ -489,6 +539,40 @@ export async function POST(
             reportYear,
         };
       }
+
+      /*
+      |--------------------------------------------------------------------------
+      | Horoscope annuel
+      |--------------------------------------------------------------------------
+      */
+
+      if (
+        isHoroscopeYearReport
+      ) {
+        const reportYear =
+          clean(
+            metadata.report_year,
+          );
+
+        if (!reportYear) {
+          return NextResponse.json({
+            received:
+              true,
+
+            warning:
+              "MISSING_HOROSCOPE_YEAR_PERIOD",
+          });
+        }
+
+        birthData = {
+          ...birthData,
+
+          reportYear,
+
+          report_year:
+            reportYear,
+        };
+      }
     }
 
     /*
@@ -507,12 +591,13 @@ export async function POST(
 
     /*
     |--------------------------------------------------------------------------
-    | Sauvegarde dans Supabase
+    | Sauvegarde de la commande
     |--------------------------------------------------------------------------
     */
 
     const {
-      error,
+      error:
+        orderError,
     } =
       await supabase
         .from(
@@ -548,10 +633,10 @@ export async function POST(
           },
         );
 
-    if (error) {
+    if (orderError) {
       console.error(
         "ORDER_SAVE_FAILED",
-        error,
+        orderError,
       );
 
       return NextResponse.json(
@@ -563,7 +648,7 @@ export async function POST(
             "ORDER_SAVE_FAILED",
 
           detail:
-            error.message,
+            orderError.message,
         },
         {
           status: 200,
@@ -573,7 +658,7 @@ export async function POST(
 
     /*
     |--------------------------------------------------------------------------
-    | Réponse réussie
+    | Réponse
     |--------------------------------------------------------------------------
     */
 
@@ -605,10 +690,24 @@ export async function POST(
               ),
           }
         : {}),
+
+      ...(isHoroscopeYearReport
+        ? {
+            report_year:
+              clean(
+                metadata.report_year,
+              ),
+          }
+        : {}),
     });
   } catch (
-    error: any
+    error: unknown
   ) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "REPORTS_WEBHOOK_ERROR";
+
     console.error(
       "REPORTS_WEBHOOK_ERROR",
       error,
@@ -617,8 +716,7 @@ export async function POST(
     return NextResponse.json(
       {
         error:
-          error?.message ||
-          "REPORTS_WEBHOOK_ERROR",
+          message,
       },
       {
         status: 500,
