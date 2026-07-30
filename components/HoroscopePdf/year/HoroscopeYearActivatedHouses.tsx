@@ -11,11 +11,9 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "../HoroscopePdfAssets";
 
-import HoroscopePageFooter
-  from "../HoroscopePageFooter";
+import HoroscopePageFooter from "../HoroscopePageFooter";
 
-import HoroscopeStarBackground
-  from "../HoroscopeStarBackground";
+import HoroscopeStarBackground from "../HoroscopeStarBackground";
 
 import {
   formatHoroscopePeriodLabel,
@@ -56,14 +54,33 @@ const DEEP_GOLD = "#4E412D";
 |--------------------------------------------------------------------------
 */
 
+type YearPremiumIconKey =
+  | "sun"
+  | "moon"
+  | "mercury"
+  | "venus"
+  | "mars"
+  | "jupiter"
+  | "saturn"
+  | "uranus"
+  | "neptune"
+  | "pluto"
+  | "heart"
+  | "money"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "soulPath";
+
 type HoroscopeYearActivatedHousesProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
   activatedHouses: YearActivatedHousesResult;
 };
 
-type ActivatedHouseItem =
-  YearActivatedHousesResult["houses"][number];
+type ActivatedHouseItem = YearActivatedHousesResult["houses"][number];
 
 type HouseTone =
   | "identity"
@@ -75,7 +92,7 @@ type DisplayActivatedHouse = {
   id: string;
   number: number;
   name: string;
-  icon: string;
+  iconKey: YearPremiumIconKey;
   tone: HouseTone;
   category: string;
   title: string;
@@ -91,8 +108,7 @@ type DisplayActivatedHouse = {
 |--------------------------------------------------------------------------
 */
 
-const ROMAN_HOUSE_NUMBERS:
-  Record<number, string> = {
+const ROMAN_HOUSE_NUMBERS: Record<number, string> = {
     1: "I",
     2: "II",
     3: "III",
@@ -107,8 +123,7 @@ const ROMAN_HOUSE_NUMBERS:
     12: "XII",
   };
 
-const HOUSE_CATEGORIES:
-  Record<number, string> = {
+const HOUSE_CATEGORIES: Record<number, string> = {
     1: "Identité",
     2: "Ressources",
     3: "Communication",
@@ -123,9 +138,7 @@ const HOUSE_CATEGORIES:
     12: "Intériorité",
   };
 
-function getHouseTone(
-  house: number,
-): HouseTone {
+function getHouseTone(house: number): HouseTone {
   if (
     house === 1 ||
     house === 2 ||
@@ -154,40 +167,45 @@ function getHouseTone(
   return "transformation";
 }
 
-function getHouseIcon(
-  house: number,
-): string {
-  if (
-    house === 1 ||
-    house === 2 ||
-    house === 3
-  ) {
-    return HOROSCOPE_ICONS.sun;
-  }
-
-  if (
-    house === 4 ||
-    house === 5 ||
-    house === 7
-  ) {
-    return HOROSCOPE_ICONS.soulPath;
-  }
-
-  if (
-    house === 6 ||
-    house === 9 ||
-    house === 10 ||
-    house === 11
-  ) {
-    return HOROSCOPE_ICONS.lifePurpose;
-  }
-
-  return HOROSCOPE_ICONS.integrationGuide;
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string" ? value.trim() : "";
 }
 
-function normalizeIntensity(
-  value: number,
-): number {
+const ICONS = HOROSCOPE_ICONS as Record<string, string>;
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey = "soulPath",
+): string {
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
+  if (requestedIcon) return requestedIcon;
+
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+  if (fallbackIcon) return fallbackIcon;
+
+  return Object.values(ICONS).map(cleanIconUrl).find(Boolean) || "";
+}
+
+function getHouseIconKey(house: number): YearPremiumIconKey {
+  const houseIcons: Record<number, YearPremiumIconKey> = {
+    1: "sun",
+    2: "money",
+    3: "mercury",
+    4: "innerWorld",
+    5: "hiddenTalents",
+    6: "saturn",
+    7: "heart",
+    8: "pluto",
+    9: "jupiter",
+    10: "lifePurpose",
+    11: "uranus",
+    12: "neptune",
+  };
+
+  return houseIcons[house] || "integrationGuide";
+}
+
+function normalizeIntensity(value: number): number {
   if (!Number.isFinite(value)) {
     return 0;
   }
@@ -207,56 +225,36 @@ function normalizeIntensity(
 |--------------------------------------------------------------------------
 */
 
-function buildDisplayActivatedHouse(
-  house: ActivatedHouseItem,
-): DisplayActivatedHouse {
+function buildDisplayActivatedHouse(house: ActivatedHouseItem): DisplayActivatedHouse {
   const romanNumber =
-    ROMAN_HOUSE_NUMBERS[
-      house.house
-    ] ??
-    String(
-      house.house,
-    );
+    ROMAN_HOUSE_NUMBERS[house.house] ??
+    String(house.house);
 
   const category =
     house.area ||
-    HOUSE_CATEGORIES[
-      house.house
-    ] ||
+    HOUSE_CATEGORIES[house.house] ||
     "Évolution";
 
   const intensity =
-    normalizeIntensity(
-      house.intensity,
-    );
+    normalizeIntensity(house.intensity);
 
   return {
-    id:
-      `activated-house-${house.house}`,
+    id: `activated-house-${house.house}`,
 
-    number:
-      house.house,
+    number: house.house,
 
-    name:
-      `Maison ${romanNumber}`,
+    name: `Maison ${romanNumber}`,
 
-    icon:
-      getHouseIcon(
-        house.house,
-      ),
+    iconKey: getHouseIconKey(house.house),
 
     tone:
-      getHouseTone(
-        house.house,
-      ),
+      getHouseTone(house.house),
 
     category,
 
-    title:
-      house.title,
+    title: house.title,
 
-    description:
-      house.influence,
+    description: house.influence,
 
     manifestation:
       [
@@ -266,12 +264,15 @@ function buildDisplayActivatedHouse(
         .filter(Boolean)
         .join(" "),
 
-    advice:
-      house.advice,
+    advice: house.advice,
 
     intensity,
   };
 }
+
+const PAGE_ICON = getIcon("soulPath", "sun");
+const SECTION_ICON = getIcon("sun", "soulPath");
+const SUMMARY_ICON = getIcon("integrationGuide", "soulPath");
 
 /*
 |--------------------------------------------------------------------------
@@ -282,860 +283,609 @@ function buildDisplayActivatedHouse(
 const styles =
   StyleSheet.create({
     page: {
-      position:
-        "relative",
+      position: "relative",
 
-      paddingTop:
-        34,
+      paddingTop: 34,
 
-      paddingHorizontal:
-        42,
+      paddingHorizontal: 42,
 
-      paddingBottom:
-        54,
+      paddingBottom: 54,
 
-      backgroundColor:
-        NAVY,
+      backgroundColor: NAVY,
 
-      fontFamily:
-        "Helvetica",
+      fontFamily: "Helvetica",
 
-      overflow:
-        "hidden",
+      overflow: "hidden",
     },
 
     content: {
-      position:
-        "relative",
+      position: "relative",
 
-      zIndex:
-        2,
+      zIndex: 2,
 
-      flex:
-        1,
+      flex: 1,
     },
 
     header: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      justifyContent:
-        "space-between",
+      justifyContent: "space-between",
 
-      marginBottom:
-        15,
+      marginBottom: 15,
     },
 
     logo: {
-      width:
-        108,
+      width: 108,
 
-      height:
-        38,
+      height: 38,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     signBadge: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      paddingVertical:
-        7,
+      paddingVertical: 7,
 
-      paddingHorizontal:
-        12,
+      paddingHorizontal: 12,
 
-      borderRadius:
-        18,
+      borderRadius: 18,
 
-      borderWidth:
-        0.7,
+      borderWidth: 0.7,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
 
-      backgroundColor:
-        NAVY_CARD,
+      backgroundColor: NAVY_CARD,
     },
 
     signIcon: {
-      width:
-        22,
+      width: 22,
 
-      height:
-        22,
+      height: 22,
 
-      marginRight:
-        7,
+      marginRight: 7,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     signName: {
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        8,
+      fontSize: 8,
 
-      letterSpacing:
-        1,
+      letterSpacing: 1,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     titleBlock: {
-      marginBottom:
-        13,
+      marginBottom: 13,
     },
 
     eyebrow: {
-      marginBottom:
-        7,
+      marginBottom: 7,
 
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        9,
+      fontSize: 9,
 
-      letterSpacing:
-        2.4,
+      letterSpacing: 2.4,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     title: {
-      maxWidth:
-        430,
+      maxWidth: 430,
 
-      marginBottom:
-        7,
+      marginBottom: 7,
 
-      color:
-        CREAM,
+      color: CREAM,
 
-      fontSize:
-        24,
+      fontSize: 24,
 
-      lineHeight:
-        1.2,
+      lineHeight: 1.2,
     },
 
     period: {
-      marginBottom:
-        9,
+      marginBottom: 9,
 
-      color:
-        MUTED_CREAM,
+      color: MUTED_CREAM,
 
-      fontSize:
-        9.7,
+      fontSize: 9.7,
     },
 
     titleDecoration: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
     },
 
     titleLine: {
-      width:
-        62,
+      width: 62,
 
-      height:
-        1,
+      height: 1,
 
-      marginRight:
-        9,
+      marginRight: 9,
 
-      backgroundColor:
-        GOLD,
+      backgroundColor: GOLD,
     },
 
     titleIcon: {
-      width:
-        16,
+      width: 16,
 
-      height:
-        16,
+      height: 16,
 
-      marginRight:
-        9,
+      marginRight: 9,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     titleLineSmall: {
-      width:
-        22,
+      width: 22,
 
-      height:
-        1,
+      height: 1,
 
-      backgroundColor:
-        DARK_GOLD,
+      backgroundColor: DARK_GOLD,
     },
 
     introductionCard: {
-      position:
-        "relative",
+      position: "relative",
 
-      minHeight:
-        74,
+      minHeight: 74,
 
-      marginBottom:
-        13,
+      marginBottom: 13,
 
-      paddingVertical:
-        12,
+      paddingVertical: 12,
 
-      paddingHorizontal:
-        15,
+      paddingHorizontal: 15,
 
-      borderRadius:
-        11,
+      borderRadius: 11,
 
-      borderWidth:
-        0.6,
+      borderWidth: 0.6,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
 
-      borderLeftWidth:
-        2.2,
+      borderLeftWidth: 2.2,
 
-      borderLeftColor:
-        GOLD,
+      borderLeftColor: GOLD,
 
-      backgroundColor:
-        NAVY_CARD,
+      backgroundColor: NAVY_CARD,
 
-      overflow:
-        "hidden",
+      overflow: "hidden",
     },
 
     introductionWatermark: {
-      position:
-        "absolute",
+      position: "absolute",
 
-      top:
-        5,
+      top: 5,
 
-      right:
-        17,
+      right: 17,
 
-      width:
-        64,
+      width: 64,
 
-      height:
-        64,
+      height: 64,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
 
-      opacity:
-        0.055,
+      opacity: 0.055,
     },
 
     introductionLabel: {
-      marginBottom:
-        5,
+      marginBottom: 5,
 
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        7,
+      fontSize: 7,
 
-      letterSpacing:
-        1.2,
+      letterSpacing: 1.2,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     introduction: {
-      maxWidth:
-        460,
+      maxWidth: 460,
 
-      color:
-        MUTED_CREAM,
+      color: MUTED_CREAM,
 
-      fontSize:
-        8.5,
+      fontSize: 8.5,
 
-      lineHeight:
-        1.5,
+      lineHeight: 1.5,
     },
 
     sectionHeader: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      marginBottom:
-        9,
+      marginBottom: 9,
     },
 
     sectionLine: {
-      width:
-        28,
+      width: 28,
 
-      height:
-        1,
+      height: 1,
 
-      marginRight:
-        9,
+      marginRight: 9,
 
-      backgroundColor:
-        GOLD,
+      backgroundColor: GOLD,
     },
 
     sectionIcon: {
-      width:
-        16,
+      width: 16,
 
-      height:
-        16,
+      height: 16,
 
-      marginRight:
-        9,
+      marginRight: 9,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     sectionTitle: {
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        9.3,
+      fontSize: 9.3,
 
-      letterSpacing:
-        1.45,
+      letterSpacing: 1.45,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     housesGrid: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      flexWrap:
-        "wrap",
+      flexWrap: "wrap",
 
-      justifyContent:
-        "space-between",
+      justifyContent: "space-between",
 
-      marginBottom:
-        10,
+      marginBottom: 10,
     },
 
     houseCard: {
-      position:
-        "relative",
+      position: "relative",
 
-      width:
-        "48.8%",
+      width: "48.8%",
 
-      minHeight:
-        204,
+      minHeight: 204,
 
-      marginBottom:
-        10,
+      marginBottom: 10,
 
-      paddingTop:
-        13,
+      paddingTop: 13,
 
-      paddingRight:
-        13,
+      paddingRight: 13,
 
-      paddingBottom:
-        12,
+      paddingBottom: 12,
 
-      paddingLeft:
-        13,
+      paddingLeft: 13,
 
-      borderRadius:
-        11,
+      borderRadius: 11,
 
-      borderWidth:
-        0.6,
+      borderWidth: 0.6,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
 
-      backgroundColor:
-        NAVY_CARD_LIGHT,
+      backgroundColor: NAVY_CARD_LIGHT,
 
-      overflow:
-        "hidden",
+      overflow: "hidden",
     },
 
     cardOrbitOne: {
-      position:
-        "absolute",
+      position: "absolute",
 
-      top:
-        -67,
+      top: -67,
 
-      right:
-        -66,
+      right: -66,
 
-      width:
-        150,
+      width: 150,
 
-      height:
-        150,
+      height: 150,
 
-      borderRadius:
-        75,
+      borderRadius: 75,
 
-      borderWidth:
-        0.5,
+      borderWidth: 0.5,
 
-      borderColor:
-        DEEP_GOLD,
+      borderColor: DEEP_GOLD,
     },
 
     cardOrbitTwo: {
-      position:
-        "absolute",
+      position: "absolute",
 
-      top:
-        -32,
+      top: -32,
 
-      right:
-        -31,
+      right: -31,
 
-      width:
-        91,
+      width: 91,
 
-      height:
-        91,
+      height: 91,
 
-      borderRadius:
-        46,
+      borderRadius: 46,
 
-      borderWidth:
-        0.5,
+      borderWidth: 0.5,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
     },
 
     houseHeader: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      justifyContent:
-        "space-between",
+      justifyContent: "space-between",
 
-      marginBottom:
-        9,
+      marginBottom: 9,
     },
 
     houseIdentity: {
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
     },
 
     houseNumberCircle: {
-      width:
-        40,
+      width: 40,
 
-      height:
-        40,
+      height: 40,
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      justifyContent:
-        "center",
+      justifyContent: "center",
 
-      marginRight:
-        9,
+      marginRight: 9,
 
-      borderRadius:
-        20,
+      borderRadius: 20,
 
-      borderWidth:
-        0.8,
+      borderWidth: 0.8,
 
-      borderColor:
-        GOLD,
+      borderColor: GOLD,
 
-      backgroundColor:
-        NAVY_CARD,
+      backgroundColor: NAVY_CARD,
     },
 
     houseNumber: {
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        15,
+      fontSize: 15,
 
-      lineHeight:
-        1,
+      lineHeight: 1,
     },
 
     houseNumberLabel: {
-      marginTop:
-        2,
+      marginTop: 2,
 
-      color:
-        SOFT_TEXT,
+      color: SOFT_TEXT,
 
-      fontSize:
-        5.2,
+      fontSize: 5.2,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     houseNameBlock: {
-      flex:
-        1,
+      flex: 1,
     },
 
     houseName: {
-      marginBottom:
-        3,
+      marginBottom: 3,
 
-      color:
-        CREAM,
+      color: CREAM,
 
-      fontSize:
-        9.2,
+      fontSize: 9.2,
     },
 
     houseCategory: {
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        6.2,
+      fontSize: 6.2,
 
-      letterSpacing:
-        0.8,
+      letterSpacing: 0.8,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     iconCircle: {
-      width:
-        33,
+      width: 33,
 
-      height:
-        33,
+      height: 33,
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      justifyContent:
-        "center",
+      justifyContent: "center",
 
-      borderRadius:
-        17,
+      borderRadius: 17,
 
-      borderWidth:
-        0.6,
+      borderWidth: 0.6,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
 
-      backgroundColor:
-        NAVY_SOFT,
+      backgroundColor: NAVY_SOFT,
     },
 
     houseIcon: {
-      width:
-        21,
+      width: 21,
 
-      height:
-        21,
+      height: 21,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     houseTitle: {
-      minHeight:
-        30,
+      minHeight: 30,
 
-      marginBottom:
-        6,
+      marginBottom: 6,
 
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        10.3,
+      fontSize: 10.3,
 
-      lineHeight:
-        1.3,
+      lineHeight: 1.3,
     },
 
     houseDescription: {
-      marginBottom:
-        7,
+      marginBottom: 7,
 
-      color:
-        MUTED_CREAM,
+      color: MUTED_CREAM,
 
-      fontSize:
-        7.7,
+      fontSize: 7.7,
 
-      lineHeight:
-        1.43,
+      lineHeight: 1.43,
     },
 
     manifestationBox: {
-      marginBottom:
-        7,
+      marginBottom: 7,
 
-      paddingTop:
-        6,
+      paddingTop: 6,
 
-      borderTopWidth:
-        0.5,
+      borderTopWidth: 0.5,
 
-      borderTopColor:
-        DEEP_GOLD,
+      borderTopColor: DEEP_GOLD,
     },
 
     manifestationLabel: {
-      marginBottom:
-        3,
+      marginBottom: 3,
 
-      color:
-        SOFT_TEXT,
+      color: SOFT_TEXT,
 
-      fontSize:
-        6.1,
+      fontSize: 6.1,
 
-      letterSpacing:
-        0.8,
+      letterSpacing: 0.8,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     manifestationText: {
-      color:
-        MUTED_CREAM,
+      color: MUTED_CREAM,
 
-      fontSize:
-        7.35,
+      fontSize: 7.35,
 
-      lineHeight:
-        1.4,
+      lineHeight: 1.4,
     },
 
     adviceBox: {
-      paddingTop:
-        6,
+      paddingTop: 6,
 
-      borderTopWidth:
-        0.5,
+      borderTopWidth: 0.5,
 
-      borderTopColor:
-        DEEP_GOLD,
+      borderTopColor: DEEP_GOLD,
     },
 
     adviceLabel: {
-      marginBottom:
-        3,
+      marginBottom: 3,
 
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        6.1,
+      fontSize: 6.1,
 
-      letterSpacing:
-        0.8,
+      letterSpacing: 0.8,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     adviceText: {
-      color:
-        CREAM,
+      color: CREAM,
 
-      fontSize:
-        7.35,
+      fontSize: 7.35,
 
-      lineHeight:
-        1.4,
+      lineHeight: 1.4,
     },
 
     summaryCard: {
-      position:
-        "relative",
+      position: "relative",
 
-      flexDirection:
-        "row",
+      flexDirection: "row",
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      minHeight:
-        76,
+      minHeight: 76,
 
-      paddingVertical:
-        12,
+      paddingVertical: 12,
 
-      paddingHorizontal:
-        15,
+      paddingHorizontal: 15,
 
-      borderRadius:
-        11,
+      borderRadius: 11,
 
-      borderWidth:
-        0.6,
+      borderWidth: 0.6,
 
-      borderColor:
-        DARK_GOLD,
+      borderColor: DARK_GOLD,
 
-      borderLeftWidth:
-        2.2,
+      borderLeftWidth: 2.2,
 
-      borderLeftColor:
-        GOLD,
+      borderLeftColor: GOLD,
 
-      backgroundColor:
-        NAVY_SOFT,
+      backgroundColor: NAVY_SOFT,
 
-      overflow:
-        "hidden",
+      overflow: "hidden",
     },
 
     summaryWatermark: {
-      position:
-        "absolute",
+      position: "absolute",
 
-      top:
-        4,
+      top: 4,
 
-      right:
-        16,
+      right: 16,
 
-      width:
-        60,
+      width: 60,
 
-      height:
-        60,
+      height: 60,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
 
-      opacity:
-        0.055,
+      opacity: 0.055,
     },
 
     summaryIconCircle: {
-      width:
-        39,
+      width: 39,
 
-      height:
-        39,
+      height: 39,
 
-      alignItems:
-        "center",
+      alignItems: "center",
 
-      justifyContent:
-        "center",
+      justifyContent: "center",
 
-      marginRight:
-        12,
+      marginRight: 12,
 
-      borderRadius:
-        20,
+      borderRadius: 20,
 
-      borderWidth:
-        0.7,
+      borderWidth: 0.7,
 
-      borderColor:
-        GOLD,
+      borderColor: GOLD,
 
-      backgroundColor:
-        NAVY_CARD_LIGHT,
+      backgroundColor: NAVY_CARD_LIGHT,
     },
 
     summaryIcon: {
-      width:
-        24,
+      width: 24,
 
-      height:
-        24,
+      height: 24,
 
-      objectFit:
-        "contain",
+      objectFit: "contain",
     },
 
     summaryContent: {
-      flex:
-        1,
+      flex: 1,
     },
 
     summaryTitle: {
-      marginBottom:
-        4,
+      marginBottom: 4,
 
-      color:
-        GOLD,
+      color: GOLD,
 
-      fontSize:
-        7,
+      fontSize: 7,
 
-      letterSpacing:
-        1.15,
+      letterSpacing: 1.15,
 
-      textTransform:
-        "uppercase",
+      textTransform: "uppercase",
     },
 
     summaryText: {
-      maxWidth:
-        425,
+      maxWidth: 425,
 
-      color:
-        CREAM,
+      color: CREAM,
 
-      fontSize:
-        8.25,
+      fontSize: 8.25,
 
-      lineHeight:
-        1.46,
+      lineHeight: 1.46,
     },
   });
 
@@ -1151,28 +901,19 @@ export default function HoroscopeYearActivatedHouses({
   activatedHouses,
 }: HoroscopeYearActivatedHousesProps) {
   const zodiacIconUrl =
-    getHoroscopeZodiacIconUrl(
-      identity.zodiacSign,
-    );
+    getHoroscopeZodiacIconUrl(identity.zodiacSign);
 
   const periodLabel =
-    formatHoroscopePeriodLabel(
-      period,
-    );
+    formatHoroscopePeriodLabel(period);
 
   const displayedHouses =
     (
-      Array.isArray(
-        activatedHouses.houses,
-      )
+      Array.isArray(activatedHouses.houses)
         ? activatedHouses.houses
         : []
     )
       .slice(0, 4)
-      .map(
-        buildDisplayActivatedHouse,
-      );
-
+      .map(buildDisplayActivatedHouse);
 
   return (
     <Page
@@ -1230,7 +971,7 @@ export default function HoroscopeYearActivatedHouses({
             <View style={styles.titleLine} />
 
             <Image
-              src={HOROSCOPE_ICONS.soulPath}
+              src={PAGE_ICON}
               style={styles.titleIcon}
             />
 
@@ -1251,7 +992,7 @@ export default function HoroscopeYearActivatedHouses({
           wrap={false}
         >
           <Image
-            src={HOROSCOPE_ICONS.soulPath}
+            src={PAGE_ICON}
             style={
               styles.introductionWatermark
             }
@@ -1278,7 +1019,7 @@ export default function HoroscopeYearActivatedHouses({
           <View style={styles.sectionLine} />
 
           <Image
-            src={HOROSCOPE_ICONS.sun}
+            src={SECTION_ICON}
             style={styles.sectionIcon}
           />
 
@@ -1358,7 +1099,7 @@ export default function HoroscopeYearActivatedHouses({
                     style={styles.iconCircle}
                   >
                     <Image
-                      src={house.icon}
+                      src={getIcon(house.iconKey, "soulPath")}
                       style={styles.houseIcon}
                     />
                   </View>
@@ -1433,9 +1174,7 @@ export default function HoroscopeYearActivatedHouses({
           wrap={false}
         >
           <Image
-            src={
-              HOROSCOPE_ICONS.integrationGuide
-            }
+            src={SUMMARY_ICON}
             style={styles.summaryWatermark}
           />
 
@@ -1443,9 +1182,7 @@ export default function HoroscopeYearActivatedHouses({
             style={styles.summaryIconCircle}
           >
             <Image
-              src={
-                HOROSCOPE_ICONS.integrationGuide
-              }
+              src={SUMMARY_ICON}
               style={styles.summaryIcon}
             />
           </View>
