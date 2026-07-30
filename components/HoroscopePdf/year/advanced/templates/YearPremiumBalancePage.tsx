@@ -170,26 +170,43 @@ const PAGE_ID_TO_ICON_KEY: Record<
   "venus": "venus",
 };
 
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
 function getIcon(
   iconKey: YearPremiumIconKey,
-  fallbackKey: YearPremiumIconKey =
-    "integrationGuide",
+  fallbackKey: YearPremiumIconKey = "sun",
 ): string {
-  const icon = ICONS[iconKey];
-  const fallback = ICONS[fallbackKey];
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
 
-  if (typeof icon === "string" && icon.length > 0) {
-    return icon;
+  if (requestedIcon) {
+    return requestedIcon;
   }
 
-  if (
-    typeof fallback === "string" &&
-    fallback.length > 0
-  ) {
-    return fallback;
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
   }
 
-  return "";
+  /*
+  |--------------------------------------------------------------------------
+  | Dernier repli de sécurité
+  |--------------------------------------------------------------------------
+  |
+  | On ne retourne jamais volontairement une mauvaise clé. Si une image
+  | manque dans HoroscopePdfAssets, on utilise la première image réellement
+  | disponible afin d'éviter les cercles vides dans le PDF.
+  |
+  */
+  const firstAvailableIcon = Object.values(ICONS)
+    .map(cleanIconUrl)
+    .find(Boolean);
+
+  return firstAvailableIcon || "";
 }
 
 function normalizePageId(
@@ -232,7 +249,7 @@ function resolvePageIconKey(
 
   return (
     PAGE_ID_TO_ICON_KEY[legacyId] ||
-    "integrationGuide"
+    "sun"
   );
 }
 
@@ -773,13 +790,27 @@ function PremiumBalanceColumn({
   fallbackIcon,
   side,
 }: PremiumBalanceColumnProps) {
-  const columnWithIconKey =
-    column as YearPremiumColumnWithIconKey | undefined;
+  const fallbackIconKey: YearPremiumIconKey =
+    side === "left" ? "elementFire" : "elementWater";
 
-  const icon =
-    columnWithIconKey?.iconKey
-      ? getIcon(columnWithIconKey.iconKey)
-      : column?.icon || fallbackIcon;
+  const iconKey = resolveColumnIconKey(
+    column,
+    fallbackIconKey,
+  );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Une seule source pour les PNG
+  |--------------------------------------------------------------------------
+  |
+  | On n'utilise plus column.icon. Toutes les images passent maintenant par
+  | HOROSCOPE_ICONS et iconKey. Cela empêche les URL vides, les anciennes
+  | valeurs et la répétition accidentelle de la même image.
+  |
+  */
+  const icon = getIcon(iconKey);
+  const safeFallbackIcon = cleanIconUrl(fallbackIcon);
+  const displayedIcon = icon || safeFallbackIcon;
 
   const items =
     Array.isArray(column?.items)
@@ -796,17 +827,21 @@ function PremiumBalanceColumn({
       ]}
       wrap={false}
     >
-      <Image
-        src={icon}
-        style={styles.columnWatermark}
-      />
+      {displayedIcon ? (
+        <Image
+          src={displayedIcon}
+          style={styles.columnWatermark}
+        />
+      ) : null}
 
       <View style={styles.columnIconOuter}>
         <View style={styles.columnIconInner}>
-          <Image
-            src={icon}
-            style={styles.columnIcon}
-          />
+          {displayedIcon ? (
+            <Image
+              src={displayedIcon}
+              style={styles.columnIcon}
+            />
+          ) : null}
         </View>
       </View>
 
