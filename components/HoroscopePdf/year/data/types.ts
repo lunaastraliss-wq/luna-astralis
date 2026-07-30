@@ -427,6 +427,111 @@ export type YearAnnualPagesResult = {
 
 /*
 |--------------------------------------------------------------------------
+| Page annuelle — Calendrier astrologique
+|--------------------------------------------------------------------------
+*/
+
+export type YearMonthForecastItem = {
+  month: string;
+  monthNumber: number;
+
+  score: number;
+
+  theme: string;
+  text: string;
+  advice: string;
+
+  isFavorable: boolean;
+  requiresCaution: boolean;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Résultat du calendrier astrologique annuel
+|--------------------------------------------------------------------------
+*/
+
+export type YearCalendarResult = {
+  title: string;
+
+  introduction: string;
+
+  months: YearMonthForecastItem[];
+
+  bestMonth: YearMonthForecastItem;
+
+  mostDelicateMonth: YearMonthForecastItem;
+
+  annualAverageScore: number;
+
+  synthesis: string;
+
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Catégories des meilleurs moments de l’année
+|--------------------------------------------------------------------------
+*/
+
+export type YearBestPeriodCategory =
+  | "love"
+  | "career"
+  | "finance"
+  | "project";
+
+/*
+|--------------------------------------------------------------------------
+| Période favorable par catégorie
+|--------------------------------------------------------------------------
+*/
+
+export type YearBestPeriodItem = {
+  category: YearBestPeriodCategory;
+
+  title: string;
+
+  month: string;
+  monthNumber: number;
+
+  score: number;
+
+  text: string;
+
+  advice: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Résultat des meilleurs moments de l’année
+|--------------------------------------------------------------------------
+*/
+
+export type YearBestPeriodsResult = {
+  title: string;
+
+  introduction: string;
+
+  bestMonths: YearMonthForecastItem[];
+
+  cautionMonths: YearMonthForecastItem[];
+
+  love: YearBestPeriodItem;
+
+  career: YearBestPeriodItem;
+
+  finance: YearBestPeriodItem;
+
+  project: YearBestPeriodItem;
+
+  synthesis: string;
+
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
 | Résultat complet du moteur annuel
 |--------------------------------------------------------------------------
 */
@@ -446,5 +551,9 @@ export type YearlyHoroscopeGeneratedContent = {
   challenge: YearlyChallengeResult;
   opportunity: YearlyOpportunityResult;
   transit: YearlyTransitResult;
+
+  bestPeriods: YearBestPeriodsResult;
+  calendar: YearCalendarResult;
+
   mantra: YearlyMantraResult;
 };
