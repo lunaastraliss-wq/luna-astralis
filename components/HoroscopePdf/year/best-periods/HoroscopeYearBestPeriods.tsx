@@ -32,11 +32,23 @@ import type {
   YearBestPeriodsResult,
 } from "../data/types";
 
+/*
+|--------------------------------------------------------------------------
+| Propriétés
+|--------------------------------------------------------------------------
+*/
+
 type HoroscopeYearBestPeriodsProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
   bestPeriods: YearBestPeriodsResult;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs
+|--------------------------------------------------------------------------
+*/
 
 const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
@@ -46,6 +58,12 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
+
+/*
+|--------------------------------------------------------------------------
+| Icônes
+|--------------------------------------------------------------------------
+*/
 
 const ICONS =
   HOROSCOPE_ICONS as Record<string, string>;
@@ -63,15 +81,33 @@ function icon(
 }
 
 const PERIOD_ICON = icon("jupiter");
-const LOVE_ICON = icon("heart", "venus");
-const CAREER_ICON = icon("lifePurpose", "sun");
-const FINANCE_ICON = icon("money", "jupiter");
-const PROJECT_ICON = icon("mars", "uranus");
-const CAUTION_ICON = icon("lifeBlocks", "saturn");
-const CONCLUSION_ICON = icon(
-  "integrationGuide",
-  "jupiter",
-);
+
+const LOVE_ICON =
+  icon("heart", "venus");
+
+const CAREER_ICON =
+  icon("lifePurpose", "sun");
+
+const FINANCE_ICON =
+  icon("money", "jupiter");
+
+const PROJECT_ICON =
+  icon("mars", "uranus");
+
+const CAUTION_ICON =
+  icon("lifeBlocks", "saturn");
+
+const CONCLUSION_ICON =
+  icon(
+    "integrationGuide",
+    "jupiter",
+  );
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   page: {
@@ -89,6 +125,12 @@ const styles = StyleSheet.create({
     zIndex: 2,
     flex: 1,
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | En-tête
+  |--------------------------------------------------------------------------
+  */
 
   header: {
     flexDirection: "row",
@@ -127,6 +169,12 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Titre
+  |--------------------------------------------------------------------------
+  */
 
   titleBlock: {
     marginBottom: 12,
@@ -178,6 +226,12 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GOLD,
   },
 
+  /*
+  |--------------------------------------------------------------------------
+  | Introduction
+  |--------------------------------------------------------------------------
+  */
+
   introCard: {
     flexDirection: "row",
     alignItems: "center",
@@ -228,6 +282,12 @@ const styles = StyleSheet.create({
     lineHeight: 1.48,
     textAlign: "justify",
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Grille des périodes
+  |--------------------------------------------------------------------------
+  */
 
   grid: {
     flexDirection: "row",
@@ -315,6 +375,12 @@ const styles = StyleSheet.create({
     lineHeight: 1.38,
   },
 
+  /*
+  |--------------------------------------------------------------------------
+  | Vigilance
+  |--------------------------------------------------------------------------
+  */
+
   cautionCard: {
     flexDirection: "row",
     alignItems: "flex-start",
@@ -368,6 +434,12 @@ const styles = StyleSheet.create({
     fontSize: 7.4,
     lineHeight: 1.42,
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Conclusion
+  |--------------------------------------------------------------------------
+  */
 
   conclusionCard: {
     position: "relative",
@@ -431,13 +503,23 @@ const styles = StyleSheet.create({
   },
 });
 
-function getMonths(
+/*
+|--------------------------------------------------------------------------
+| Formatage de la période
+|--------------------------------------------------------------------------
+*/
+
+function getMonth(
   item: YearBestPeriodItem,
 ): string {
-  return Array.isArray(item.months)
-    ? item.months.join(" • ")
-    : "";
+  return item.month?.trim() || "";
 }
+
+/*
+|--------------------------------------------------------------------------
+| Carte d’une période
+|--------------------------------------------------------------------------
+*/
 
 function PeriodCard({
   title,
@@ -467,11 +549,11 @@ function PeriodCard({
       </View>
 
       <Text style={styles.monthsLabel}>
-        Périodes favorables
+        Période favorable
       </Text>
 
       <Text style={styles.months}>
-        {getMonths(item)}
+        {getMonth(item)}
       </Text>
 
       <Text style={styles.cardText}>
@@ -488,6 +570,12 @@ function PeriodCard({
     </View>
   );
 }
+
+/*
+|--------------------------------------------------------------------------
+| Page principale
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeYearBestPeriods({
   identity,
@@ -510,6 +598,11 @@ export default function HoroscopeYearBestPeriods({
       ? `${firstName}, ${bestPeriods.introduction}`
       : bestPeriods.introduction;
 
+  const cautionMonths =
+    Array.isArray(bestPeriods.cautionMonths)
+      ? bestPeriods.cautionMonths.join(" • ")
+      : "";
+
   return (
     <Page
       size="A4"
@@ -519,6 +612,12 @@ export default function HoroscopeYearBestPeriods({
       <HoroscopeStarBackground />
 
       <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.header}>
           <Image
             src={HOROSCOPE_LOGO_URL}
@@ -536,6 +635,12 @@ export default function HoroscopeYearBestPeriods({
             </Text>
           </View>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
 
         <View style={styles.titleBlock}>
           <Text style={styles.eyebrow}>
@@ -564,6 +669,12 @@ export default function HoroscopeYearBestPeriods({
           </View>
         </View>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Introduction
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.introCard}>
           <View style={styles.introIconCircle}>
             <Image
@@ -582,6 +693,12 @@ export default function HoroscopeYearBestPeriods({
             </Text>
           </View>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Meilleures périodes
+        |--------------------------------------------------------------------------
+        */}
 
         <View style={styles.grid}>
           <PeriodCard
@@ -609,6 +726,12 @@ export default function HoroscopeYearBestPeriods({
           />
         </View>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Périodes de vigilance
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.cautionCard}>
           <View style={styles.cautionIconCircle}>
             <Image
@@ -623,7 +746,7 @@ export default function HoroscopeYearBestPeriods({
             </Text>
 
             <Text style={styles.cautionMonths}>
-              {bestPeriods.cautionMonths.join(" • ")}
+              {cautionMonths}
             </Text>
 
             <Text style={styles.cautionText}>
@@ -631,6 +754,12 @@ export default function HoroscopeYearBestPeriods({
             </Text>
           </View>
         </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Conclusion
+        |--------------------------------------------------------------------------
+        */}
 
         <View style={styles.conclusionCard}>
           <Image
