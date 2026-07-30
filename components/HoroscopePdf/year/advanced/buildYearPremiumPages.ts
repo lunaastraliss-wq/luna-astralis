@@ -214,7 +214,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Comprendre ce qui ralentit votre progression afin de retrouver une liberté intérieure plus grande.",
 
     introduction:
-      "{firstName}, certains obstacles de cette année ne viennent pas seulement des circonstances extérieures. Ils révèlent aussi des habitudes, des peurs ou des mécanismes anciens qu’il devient possible de transformer.",
+      "certains obstacles de cette année ne viennent pas seulement des circonstances extérieures. Ils révèlent aussi des habitudes, des peurs ou des mécanismes anciens qu’il devient possible de transformer.",
 
     keywords: [
       "La peur du changement",
@@ -286,7 +286,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Identifier les conditions qui vous permettent de vous sentir compris, soutenu et intérieurement stable.",
 
     introduction:
-      "{firstName}, votre équilibre émotionnel dépendra moins de la quantité d’attention reçue que de la qualité des liens et de la sécurité que vous construisez autour de vous.",
+      "votre équilibre émotionnel dépendra moins de la quantité d’attention reçue que de la qualité des liens et de la sécurité que vous construisez autour de vous.",
 
     keywords: [
       "Sécurité",
@@ -332,7 +332,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "La direction essentielle qui donne du sens à vos décisions, vos efforts et vos transformations.",
 
     introduction:
-      "{firstName}, votre mission de l’année consiste à rapprocher davantage votre vie quotidienne de ce qui correspond réellement à vos valeurs.",
+      "votre mission de l’année consiste à rapprocher davantage votre vie quotidienne de ce qui correspond réellement à vos valeurs.",
 
     keywords: [
       "Alignement",
@@ -387,7 +387,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les qualités et les appuis intérieurs que vous pouvez mobiliser pour traverser l’année avec confiance.",
 
     introduction:
-      "{firstName}, vous disposez déjà de plusieurs ressources capables de soutenir vos projets, même si certaines sont encore sous-utilisées.",
+      "vous disposez déjà de plusieurs ressources capables de soutenir vos projets, même si certaines sont encore sous-utilisées.",
 
     keywords: [
       "Persévérance",
@@ -433,7 +433,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Renforcer votre sentiment de légitimité sans perdre votre capacité de remise en question.",
 
     introduction:
-      "{firstName}, votre confiance se développera surtout à travers les preuves concrètes que vous vous donnerez à vous-même.",
+      "votre confiance se développera surtout à travers les preuves concrètes que vous vous donnerez à vous-même.",
 
     keywords: [
       "Affirmation",
@@ -505,7 +505,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les différentes étapes par lesquelles une ancienne identité laisse progressivement place à une version plus libre de vous-même.",
 
     introduction:
-      "{firstName}, votre transformation ne se réalisera pas en une seule décision. Elle avancera par prises de conscience, ajustements et confirmations successives.",
+      "votre transformation ne se réalisera pas en une seule décision. Elle avancera par prises de conscience, ajustements et confirmations successives.",
 
     keywords: [
       "Prise de conscience",
@@ -551,7 +551,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les mouvements affectifs qui peuvent faire évoluer votre manière d’aimer, de choisir et de vous engager.",
 
     introduction:
-      "{firstName}, votre vie amoureuse traverse une année d’ajustement durant laquelle la qualité du lien comptera davantage que les apparences.",
+      "votre vie amoureuse traverse une année d’ajustement durant laquelle la qualité du lien comptera davantage que les apparences.",
 
     keywords: [
       "Clarification",
@@ -597,7 +597,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Comprendre les réactions automatiques qui influencent vos liens et apprendre à créer une relation plus consciente.",
 
     introduction:
-      "{firstName}, certaines réactions relationnelles pourraient se répéter jusqu’à ce que vous choisissiez une manière différente de communiquer ou de poser vos limites.",
+      "certaines réactions relationnelles pourraient se répéter jusqu’à ce que vous choisissiez une manière différente de communiquer ou de poser vos limites.",
 
     keywords: [
       "Protection",
@@ -669,7 +669,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les liens qui joueront un rôle déterminant dans vos choix, votre évolution et votre équilibre.",
 
     introduction:
-      "{firstName}, votre entourage aura une influence importante sur votre année, mais tous les liens ne joueront pas le même rôle.",
+      "votre entourage aura une influence importante sur votre année, mais tous les liens ne joueront pas le même rôle.",
 
     keywords: [
       "Le soutien",
@@ -715,7 +715,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "La manière dont vos paroles, votre écoute et votre présence peuvent transformer vos échanges.",
 
     introduction:
-      "{firstName}, votre communication gagnera en influence lorsque vous privilégierez la précision plutôt que la réaction immédiate.",
+      "votre communication gagnera en influence lorsque vous privilégierez la précision plutôt que la réaction immédiate.",
 
     keywords: [
       "Expression",
@@ -761,7 +761,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les principales phases de votre progression professionnelle et les choix capables de modifier votre trajectoire.",
 
     introduction:
-      "{firstName}, votre carrière évoluera par étapes. Une progression importante pourrait commencer par un ajustement discret mais stratégique.",
+      "votre carrière évoluera par étapes. Une progression importante pourrait commencer par un ajustement discret mais stratégique.",
 
     keywords: [
       "Évaluation",
@@ -807,7 +807,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les compétences qui peuvent accroître votre valeur, votre efficacité et votre reconnaissance professionnelle.",
 
     introduction:
-      "{firstName}, certaines de vos compétences seront particulièrement recherchées cette année, surtout lorsqu’elles seront présentées de manière concrète.",
+      "certaines de vos compétences seront particulièrement recherchées cette année, surtout lorsqu’elles seront présentées de manière concrète.",
 
     keywords: [
       "Organisation",
@@ -853,7 +853,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Votre capacité à donner une direction, inspirer la confiance et faire progresser un projet collectif.",
 
     introduction:
-      "{firstName}, votre leadership s’exprimera davantage par la cohérence de vos décisions que par une recherche d’autorité.",
+      "votre leadership s’exprimera davantage par la cohérence de vos décisions que par une recherche d’autorité.",
 
     keywords: [
       "Vision",
@@ -908,7 +908,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Trouver une organisation capable de soutenir vos ambitions sans épuiser votre énergie personnelle.",
 
     introduction:
-      "{firstName}, l’équilibre ne consistera pas à répartir votre temps également, mais à ajuster vos priorités selon les périodes.",
+      "l’équilibre ne consistera pas à répartir votre temps également, mais à ajuster vos priorités selon les périodes.",
 
     keywords: [
       "Ambition",
@@ -980,7 +980,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les périodes de préparation, d’expansion et de stabilisation qui marquent votre trajectoire matérielle.",
 
     introduction:
-      "{firstName}, vos finances évolueront selon plusieurs phases distinctes. Chaque période demandera une stratégie adaptée plutôt qu’une réaction identique.",
+      "vos finances évolueront selon plusieurs phases distinctes. Chaque période demandera une stratégie adaptée plutôt qu’une réaction identique.",
 
     keywords: [
       "Observation",
@@ -1026,7 +1026,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les actions concrètes capables d’améliorer vos revenus, votre stabilité et votre marge de décision.",
 
     introduction:
-      "{firstName}, votre prospérité dépendra surtout de quelques leviers précis plutôt que d’une multiplication désordonnée des efforts.",
+      "votre prospérité dépendra surtout de quelques leviers précis plutôt que d’une multiplication désordonnée des efforts.",
 
     keywords: [
       "Valorisation",
@@ -1072,7 +1072,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Comprendre les émotions, les croyances et les comportements qui influencent vos décisions matérielles.",
 
     introduction:
-      "{firstName}, votre relation avec l’argent évoluera lorsque vous distinguerez davantage la sécurité réelle de la peur de manquer.",
+      "votre relation avec l’argent évoluera lorsque vous distinguerez davantage la sécurité réelle de la peur de manquer.",
 
     keywords: [
       "Sécurité",
@@ -1144,7 +1144,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Reconnaître ce qui nourrit votre vitalité et ce qui provoque une fatigue évitable.",
 
     introduction:
-      "{firstName}, votre énergie ne sera pas constante. Une meilleure gestion de vos rythmes vous permettra toutefois de préserver une vitalité beaucoup plus régulière.",
+      "votre énergie ne sera pas constante. Une meilleure gestion de vos rythmes vous permettra toutefois de préserver une vitalité beaucoup plus régulière.",
 
     keywords: [
       "Sommeil",
@@ -1190,7 +1190,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les différentes phases d’un processus de réparation émotionnelle et de réconciliation avec votre histoire.",
 
     introduction:
-      "{firstName}, la guérison de cette année se produit progressivement, à mesure que vous donnez un sens nouveau à certaines expériences anciennes.",
+      "la guérison de cette année se produit progressivement, à mesure que vous donnez un sens nouveau à certaines expériences anciennes.",
 
     keywords: [
       "Reconnaissance",
@@ -1236,7 +1236,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les pratiques quotidiennes capables de transformer progressivement votre énergie, votre efficacité et votre bien-être.",
 
     introduction:
-      "{firstName}, vos résultats dépendront davantage de quelques habitudes simples répétées que d’efforts exceptionnels mais irréguliers.",
+      "vos résultats dépendront davantage de quelques habitudes simples répétées que d’efforts exceptionnels mais irréguliers.",
 
     keywords: [
       "Planification",
@@ -1282,7 +1282,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Réunir votre perception intérieure et votre capacité d’analyse pour prendre des décisions plus justes.",
 
     introduction:
-      "{firstName}, vos meilleures décisions apparaîtront lorsque votre intuition indiquera une direction et que votre raison vérifiera sa viabilité.",
+      "vos meilleures décisions apparaîtront lorsque votre intuition indiquera une direction et que votre raison vérifiera sa viabilité.",
 
     keywords: [
       "Perception",
@@ -1354,7 +1354,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Une méthode personnelle pour choisir avec plus de clarté, de confiance et de cohérence.",
 
     introduction:
-      "{firstName}, votre stratégie de décision gagnera en efficacité lorsque vous réduirez le nombre de critères secondaires.",
+      "votre stratégie de décision gagnera en efficacité lorsque vous réduirez le nombre de critères secondaires.",
 
     keywords: [
       "Priorité",
@@ -1409,7 +1409,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les domaines dans lesquels vos efforts peuvent produire les transformations les plus importantes.",
 
     introduction:
-      "{firstName}, votre croissance ne dépend pas d’une remise en question permanente, mais d’un développement ciblé de quelques capacités essentielles.",
+      "votre croissance ne dépend pas d’une remise en question permanente, mais d’un développement ciblé de quelques capacités essentielles.",
 
     keywords: [
       "Affirmation",
@@ -1455,7 +1455,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les étapes nécessaires pour transformer une intention en résultat concret et durable.",
 
     introduction:
-      "{firstName}, vos projets progresseront lorsque vous séparerez clairement la vision, la préparation, l’exécution et la consolidation.",
+      "vos projets progresseront lorsque vous séparerez clairement la vision, la préparation, l’exécution et la consolidation.",
 
     keywords: [
       "Vision",
@@ -1501,7 +1501,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Reconnaître les moments où l’initiative est nécessaire et ceux où le temps travaille déjà pour vous.",
 
     introduction:
-      "{firstName}, votre progression dépendra de votre capacité à ne pas utiliser la même vitesse pour toutes les situations.",
+      "votre progression dépendra de votre capacité à ne pas utiliser la même vitesse pour toutes les situations.",
 
     keywords: [
       "Initiative",
@@ -1573,7 +1573,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "La ligne directrice capable d’unifier vos décisions et de concentrer vos efforts sur ce qui compte réellement.",
 
     introduction:
-      "{firstName}, votre stratégie dominante consiste à avancer avec sélectivité plutôt qu’à répondre à toutes les possibilités.",
+      "votre stratégie dominante consiste à avancer avec sélectivité plutôt qu’à répondre à toutes les possibilités.",
 
     keywords: [
       "Priorisation",
@@ -1628,7 +1628,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Les apprentissages majeurs qui peuvent modifier durablement votre manière de vivre, de choisir et de progresser.",
 
     introduction:
-      "{firstName}, cette année ne vous apporte pas seulement des événements. Elle vous transmet aussi plusieurs leçons capables de transformer vos prochaines décisions.",
+      "cette année ne vous apporte pas seulement des événements. Elle vous transmet aussi plusieurs leçons capables de transformer vos prochaines décisions.",
 
     keywords: [
       "Choisir avec clarté",
@@ -1674,7 +1674,7 @@ const YEAR_PREMIUM_THEMES: Record<
       "Une vision globale des forces, des décisions et des transformations qui donnent sa direction à votre année.",
 
     introduction:
-      "{firstName}, votre année forme un parcours cohérent dans lequel chaque expérience contribue à préciser vos priorités et à renforcer votre autonomie.",
+      "votre année forme un parcours cohérent dans lequel chaque expérience contribue à préciser vos priorités et à renforcer votre autonomie.",
 
     keywords: [
       "Votre direction",
@@ -1721,7 +1721,7 @@ const FALLBACK_THEME: YearPremiumTheme = {
     "Une analyse approfondie des dynamiques qui influencent votre évolution annuelle.",
 
   introduction:
-    "{firstName}, cette dimension de votre année révèle plusieurs possibilités d’évolution, mais demande aussi de respecter votre propre rythme.",
+    "cette dimension de votre année révèle plusieurs possibilités d’évolution, mais demande aussi de respecter votre propre rythme.",
 
   keywords: [
     "Clarté",
@@ -2075,11 +2075,11 @@ function buildPremiumPage(
           ),
 
         heroAdvice:
-  personalizeText(
-    theme.heroAdvice ||
-      theme.advices[0],
-    identity,
-  ),
+          personalizeText(
+            theme.heroAdvice ||
+              theme.advices[0],
+            identity,
+          ),
       };
 
     case "grid":
