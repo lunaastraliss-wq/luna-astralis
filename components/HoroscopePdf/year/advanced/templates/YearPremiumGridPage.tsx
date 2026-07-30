@@ -231,18 +231,29 @@ function resolvePageIconKey(
   );
 }
 
-function resolveCardIcon(
+const DEFAULT_CARD_ICON_KEYS: YearPremiumIconKey[] = [
+  "sun",
+  "moon",
+  "jupiter",
+  "saturn",
+];
+
+function resolveCardIconKey(
   card: YearPremiumCardItem,
-  fallbackIcon: string,
-): string {
+  index: number,
+  pageIconKey: YearPremiumIconKey,
+): YearPremiumIconKey {
   const cardWithIconKey =
     card as YearPremiumCardWithIconKey;
 
   if (cardWithIconKey.iconKey) {
-    return getIcon(cardWithIconKey.iconKey);
+    return cardWithIconKey.iconKey;
   }
 
-  return card.icon || fallbackIcon;
+  return (
+    DEFAULT_CARD_ICON_KEYS[index] ||
+    pageIconKey
+  );
 }
 
 /*
@@ -738,21 +749,30 @@ const styles = StyleSheet.create({
 type PremiumGridCardProps = {
   card: YearPremiumCardItem;
   index: number;
-  fallbackIcon: string;
+  pageIconKey: YearPremiumIconKey;
 };
 
 function PremiumGridCard({
   card,
   index,
-  fallbackIcon,
+  pageIconKey,
 }: PremiumGridCardProps) {
   const cardScore =
     card.score !== undefined
       ? normalizeHoroscopeScore(card.score)
       : null;
 
-  const icon =
-    resolveCardIcon(card, fallbackIcon);
+  const iconKey =
+    resolveCardIconKey(
+      card,
+      index,
+      pageIconKey,
+    );
+
+  const icon = getIcon(
+    iconKey,
+    pageIconKey,
+  );
 
   return (
     <View
@@ -1009,7 +1029,7 @@ export default function YearPremiumGridPage({
                   key={`${page.key}-${card.title}-${index}`}
                   card={card}
                   index={index}
-                  fallbackIcon={pageIcon}
+                  pageIconKey={pageIconKey}
                 />
               ),
             )}
