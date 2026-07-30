@@ -11,12 +11,25 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "../HoroscopePdfAssets";
 
-import HoroscopePageFooter from "../HoroscopePageFooter";
-import HoroscopeStarBackground from "../HoroscopeStarBackground";
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
 
 import type {
-  YearlyMajorEnergiesResult,
-} from "./annualPages/types";
+  HoroscopeIdentity,
+  HoroscopePeriodData,
+} from "../HoroscopePdfTypes";
+
+import {
+  getHoroscopeZodiacIconUrl,
+  normalizeHoroscopeScore,
+} from "../HoroscopePdfUtils";
+
+import type {
+  YearMajorEnergiesResult,
+} from "./data/types";
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +38,9 @@ import type {
 */
 
 type HoroscopeYearMajorEnergiesProps = {
-  majorEnergies: YearlyMajorEnergiesResult;
-  zodiacSignLabel: string;
-  zodiacIconUrl?: string;
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  majorEnergies: YearMajorEnergiesResult;
 };
 
 /*
@@ -372,6 +385,13 @@ const styles = StyleSheet.create({
     lineHeight: 1.25,
   },
 
+  cardSubtitle: {
+    color: SOFT_TEXT,
+    fontSize: 6.6,
+    lineHeight: 1.3,
+    marginBottom: 6,
+  },
+
   scoreBadge: {
     minWidth: 41,
     paddingVertical: 5,
@@ -565,10 +585,14 @@ const ENERGY_ICONS = [
 */
 
 export default function HoroscopeYearMajorEnergies({
+  identity,
   majorEnergies,
-  zodiacSignLabel,
-  zodiacIconUrl,
 }: HoroscopeYearMajorEnergiesProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
+
   return (
     <Page
       size="A4"
@@ -600,15 +624,13 @@ export default function HoroscopeYearMajorEnergies({
           />
 
           <View style={styles.signBadge}>
-            {zodiacIconUrl ? (
-              <Image
-                src={zodiacIconUrl}
-                style={styles.signIcon}
-              />
-            ) : null}
+            <Image
+              src={zodiacIconUrl}
+              style={styles.signIcon}
+            />
 
             <Text style={styles.signName}>
-              {zodiacSignLabel}
+              {identity.zodiacSignLabel}
             </Text>
           </View>
         </View>
@@ -625,7 +647,7 @@ export default function HoroscopeYearMajorEnergies({
           </Text>
 
           <Text style={styles.title}>
-            Les grandes énergies de l’année
+            {majorEnergies.title}
           </Text>
 
           <View style={styles.titleDecoration}>
@@ -679,10 +701,10 @@ export default function HoroscopeYearMajorEnergies({
         <View style={styles.cardsGrid}>
           {majorEnergies.energies.map(
             (energy, index) => {
-              const score = Math.max(
-                0,
-                Math.min(100, energy.score),
-              );
+              const score =
+                normalizeHoroscopeScore(
+                  energy.intensity,
+                );
 
               const iconUrl =
                 ENERGY_ICONS[
@@ -723,6 +745,10 @@ export default function HoroscopeYearMajorEnergies({
                     </View>
                   </View>
 
+                  <Text style={styles.cardSubtitle}>
+                    {energy.subtitle}
+                  </Text>
+
                   <View style={styles.scoreTrack}>
                     <View
                       style={[
@@ -735,7 +761,7 @@ export default function HoroscopeYearMajorEnergies({
                   </View>
 
                   <Text style={styles.description}>
-                    {energy.description}
+                    {energy.text}
                   </Text>
 
                   <View style={styles.adviceDivider}>
@@ -812,7 +838,7 @@ export default function HoroscopeYearMajorEnergies({
             </View>
 
             <Text style={styles.finalAdviceText}>
-              {majorEnergies.finalAdvice}
+              {majorEnergies.advice}
             </Text>
           </View>
         </View>
