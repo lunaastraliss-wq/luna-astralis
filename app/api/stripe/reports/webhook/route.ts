@@ -424,6 +424,30 @@ export async function POST(
 
     /*
     |--------------------------------------------------------------------------
+    | Type enregistré dans Supabase
+    |--------------------------------------------------------------------------
+    |
+    | Le générateur de rapports attend :
+    |
+    | horoscope-daily
+    | horoscope-month
+    | horoscope-year
+    |
+    | Les autres produits restent inchangés.
+    |--------------------------------------------------------------------------
+    */
+
+    const storedProductType =
+      isHoroscopeDailyReport
+        ? "horoscope-daily"
+        : isHoroscopeMonthReport
+          ? "horoscope-month"
+          : isHoroscopeYearReport
+            ? "horoscope-year"
+            : reportType;
+
+    /*
+    |--------------------------------------------------------------------------
     | Données du rapport
     |--------------------------------------------------------------------------
     */
@@ -612,7 +636,7 @@ export async function POST(
               customerEmail,
 
             product_type:
-              reportType,
+              storedProductType,
 
             status:
               "paid",
@@ -673,6 +697,9 @@ export async function POST(
         session.id,
 
       report_type:
+        storedProductType,
+
+      original_report_type:
         reportType,
 
       product,
