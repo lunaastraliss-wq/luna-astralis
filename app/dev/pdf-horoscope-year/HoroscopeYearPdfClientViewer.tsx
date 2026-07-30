@@ -18,6 +18,22 @@ type HoroscopeYearPdfClientViewerProps = {
 export default function HoroscopeYearPdfClientViewer({
   horoscope,
 }: HoroscopeYearPdfClientViewerProps) {
+  const {
+    identity,
+    period,
+    content,
+    mantra,
+    overview,
+    majorEnergies,
+    majorAspects,
+    dominantPlanets,
+    activatedHouses,
+    strengths,
+    hiddenTalents,
+    premiumPages,
+    zodiacIconUrl,
+  } = horoscope;
+
   return (
     <main
       style={{
@@ -38,53 +54,32 @@ export default function HoroscopeYearPdfClientViewer({
         showToolbar
       >
         <HoroscopeYearPdf
-          identity={
-            horoscope.identity
-          }
-          period={
-            horoscope.period
-          }
-          content={
-            horoscope.content
-          }
-          mantra={
-            horoscope.mantra
-          }
-
-          overview={
-            horoscope.overview
-          }
-
+          identity={identity}
+          period={period}
+          content={content}
+          mantra={mantra}
+          overview={overview}
           majorEnergies={
-            horoscope.majorEnergies
+            majorEnergies
           }
-
           majorAspects={
-            horoscope.majorAspects
+            majorAspects
           }
-
           dominantPlanets={
-            horoscope.dominantPlanets
+            dominantPlanets
           }
-
           activatedHouses={
-            horoscope.activatedHouses
+            activatedHouses
           }
-
-          strengths={
-            horoscope.strengths
-          }
-
+          strengths={strengths}
           hiddenTalents={
-            horoscope.hiddenTalents
+            hiddenTalents
           }
-
           premiumPages={
-            horoscope.premiumPages
+            premiumPages
           }
-
           zodiacIconUrl={
-            horoscope.zodiacIconUrl
+            zodiacIconUrl
           }
         />
       </PDFViewer>
