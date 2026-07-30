@@ -232,6 +232,44 @@ export type {
 
 /*
 |--------------------------------------------------------------------------
+| Calendrier astrologique annuel
+|--------------------------------------------------------------------------
+*/
+
+export {
+  createYearlyCalendarTexts,
+} from "../calendar/createYearlyCalendarTexts";
+
+export type {
+  YearlyCalendarThemeTexts,
+  YearlyCalendarTexts,
+} from "../calendar/createYearlyCalendarTexts";
+
+export {
+  buildYearlyCalendar,
+} from "../calendar/buildYearlyCalendar";
+
+/*
+|--------------------------------------------------------------------------
+| Meilleurs moments de l’année
+|--------------------------------------------------------------------------
+*/
+
+export {
+  createYearlyBestPeriodsTexts,
+} from "../best-periods/createYearlyBestPeriodsTexts";
+
+export type {
+  YearlyBestPeriodCategoryTexts,
+  YearlyBestPeriodsTexts,
+} from "../best-periods/createYearlyBestPeriodsTexts";
+
+export {
+  buildYearlyBestPeriods,
+} from "../best-periods/buildYearlyBestPeriods";
+
+/*
+|--------------------------------------------------------------------------
 | Mantra de l’année
 |--------------------------------------------------------------------------
 */
