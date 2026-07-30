@@ -50,6 +50,24 @@ import HoroscopeYearActivatedHouses
 
 /*
 |--------------------------------------------------------------------------
+| Meilleures périodes de l’année
+|--------------------------------------------------------------------------
+*/
+
+import HoroscopeYearBestPeriods
+  from "./year/best-periods/HoroscopeYearBestPeriods";
+
+/*
+|--------------------------------------------------------------------------
+| Calendrier astrologique annuel
+|--------------------------------------------------------------------------
+*/
+
+import HoroscopeYearCalendar
+  from "./year/calendar/HoroscopeYearCalendar";
+
+/*
+|--------------------------------------------------------------------------
 | Mantra annuel
 |--------------------------------------------------------------------------
 */
@@ -100,6 +118,8 @@ type HoroscopeYearPdfProps =
     | "strengths"
     | "hiddenTalents"
     | "premiumPages"
+    | "bestPeriods"
+    | "calendar"
   > & {
     logoUrl?: string;
   };
@@ -125,6 +145,8 @@ export default function HoroscopeYearPdf({
   strengths,
   hiddenTalents,
   premiumPages,
+  bestPeriods,
+  calendar,
 }: HoroscopeYearPdfProps) {
   /*
   |--------------------------------------------------------------------------
@@ -314,6 +336,30 @@ export default function HoroscopeYearPdf({
           />
         ),
       )}
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Meilleures périodes de l’année
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearBestPeriods
+        identity={identity}
+        period={period}
+        bestPeriods={bestPeriods}
+      />
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Calendrier astrologique annuel
+      |--------------------------------------------------------------------------
+      */}
+
+      <HoroscopeYearCalendar
+        identity={identity}
+        period={period}
+        calendar={calendar}
+      />
 
       {/*
       |--------------------------------------------------------------------------
