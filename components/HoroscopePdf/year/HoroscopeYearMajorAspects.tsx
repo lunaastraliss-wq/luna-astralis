@@ -73,6 +73,26 @@ const DEEP_GOLD =
 |--------------------------------------------------------------------------
 */
 
+type YearPremiumIconKey =
+  | "sun"
+  | "moon"
+  | "mercury"
+  | "venus"
+  | "mars"
+  | "jupiter"
+  | "saturn"
+  | "uranus"
+  | "neptune"
+  | "pluto"
+  | "heart"
+  | "money"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "soulPath";
+
 type HoroscopeYearMajorAspectsProps = {
   identity: HoroscopeIdentity;
   period: HoroscopePeriodData;
@@ -88,8 +108,8 @@ type DisplayYearlyAspect = {
   id: string;
   firstPlanet: string;
   secondPlanet: string;
-  firstPlanetIcon: string;
-  secondPlanetIcon: string;
+  firstPlanetIconKey: YearPremiumIconKey;
+  secondPlanetIconKey: YearPremiumIconKey;
   aspect: string;
   tone: AspectTone;
   title: string;
@@ -103,44 +123,87 @@ type DisplayYearlyAspect = {
 |--------------------------------------------------------------------------
 */
 
-const PLANET_ICON_KEYS: Record<string, keyof typeof HOROSCOPE_ICONS> = {
+const ICONS =
+  HOROSCOPE_ICONS as Record<string, string>;
+
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey = "sun",
+): string {
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
+
+  if (requestedIcon) {
+    return requestedIcon;
+  }
+
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
+  }
+
+  return (
+    Object.values(ICONS)
+      .map(cleanIconUrl)
+      .find(Boolean) || ""
+  );
+}
+
+const PLANET_ICON_KEYS: Record<
+  string,
+  YearPremiumIconKey
+> = {
   soleil: "sun",
+  sun: "sun",
   lune: "moon",
+  moon: "moon",
   mercure: "mercury",
+  mercury: "mercury",
   venus: "venus",
   mars: "mars",
   jupiter: "jupiter",
   saturne: "saturn",
+  saturn: "saturn",
   uranus: "uranus",
   neptune: "neptune",
   pluton: "pluto",
+  pluto: "pluto",
 };
 
 function normalizePlanetName(
-  value: string,
+  value?: string,
 ): string {
-  return value
+  return (value || "")
     .trim()
     .toLowerCase()
     .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      "",
-    );
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
-function getPlanetIcon(
-  planet: string,
-): string {
-  const key =
+function resolvePlanetIconKey(
+  planet?: string,
+): YearPremiumIconKey {
+  return (
     PLANET_ICON_KEYS[
       normalizePlanetName(planet)
-    ];
-
-  return key
-    ? HOROSCOPE_ICONS[key]
-    : HOROSCOPE_ICONS.sun;
+    ] || "sun"
+  );
 }
+
+const PAGE_ICON =
+  getIcon("sun", "jupiter");
+
+const ASPECTS_ICON =
+  getIcon("jupiter", "sun");
+
+const SUMMARY_ICON =
+  getIcon("integrationGuide", "jupiter");
 
 function splitPlanetNames(
   value: string,
@@ -655,6 +718,9 @@ const styles =
       width:
         88,
 
+      flexShrink:
+        0,
+
       alignItems:
         "center",
 
@@ -742,8 +808,14 @@ const styles =
     },
 
     cardContent: {
-      flex:
+      flexGrow:
         1,
+
+      flexShrink:
+        1,
+
+      minWidth:
+        0,
     },
 
     cardHeader: {
@@ -761,8 +833,14 @@ const styles =
     },
 
     cardHeading: {
-      flex:
+      flexGrow:
         1,
+
+      flexShrink:
+        1,
+
+      minWidth:
+        0,
 
       paddingRight:
         10,
@@ -797,6 +875,12 @@ const styles =
     },
 
     badge: {
+      flexShrink:
+        0,
+
+      maxWidth:
+        130,
+
       paddingVertical:
         4,
 
@@ -1103,11 +1187,11 @@ function buildDisplayAspect(
 
     secondPlanet,
 
-    firstPlanetIcon:
-      getPlanetIcon(firstPlanet),
+    firstPlanetIconKey:
+      resolvePlanetIconKey(firstPlanet),
 
-    secondPlanetIcon:
-      getPlanetIcon(secondPlanet),
+    secondPlanetIconKey:
+      resolvePlanetIconKey(secondPlanet),
 
     aspect:
       item.aspect,
@@ -1218,7 +1302,7 @@ export default function HoroscopeYearMajorAspects({
             <View style={styles.titleLine} />
 
             <Image
-              src={HOROSCOPE_ICONS.sun}
+              src={PAGE_ICON}
               style={styles.titleIcon}
             />
 
@@ -1239,7 +1323,7 @@ export default function HoroscopeYearMajorAspects({
           wrap={false}
         >
           <Image
-            src={HOROSCOPE_ICONS.jupiter}
+            src={ASPECTS_ICON}
             style={
               styles.introductionWatermark
             }
@@ -1266,7 +1350,7 @@ export default function HoroscopeYearMajorAspects({
           <View style={styles.sectionLine} />
 
           <Image
-            src={HOROSCOPE_ICONS.jupiter}
+            src={ASPECTS_ICON}
             style={styles.sectionIcon}
           />
 
@@ -1307,9 +1391,10 @@ export default function HoroscopeYearMajorAspects({
                       }
                     >
                       <Image
-                        src={
-                          item.firstPlanetIcon
-                        }
+                        src={getIcon(
+                          item.firstPlanetIconKey,
+                          "sun",
+                        )}
                         style={
                           styles.planetIcon
                         }
@@ -1328,9 +1413,10 @@ export default function HoroscopeYearMajorAspects({
                       }
                     >
                       <Image
-                        src={
-                          item.secondPlanetIcon
-                        }
+                        src={getIcon(
+                          item.secondPlanetIconKey,
+                          "sun",
+                        )}
                         style={
                           styles.planetIcon
                         }
@@ -1421,9 +1507,7 @@ export default function HoroscopeYearMajorAspects({
           wrap={false}
         >
           <Image
-            src={
-              HOROSCOPE_ICONS.integrationGuide
-            }
+            src={SUMMARY_ICON}
             style={styles.summaryWatermark}
           />
 
@@ -1431,9 +1515,7 @@ export default function HoroscopeYearMajorAspects({
             style={styles.summaryIconCircle}
           >
             <Image
-              src={
-                HOROSCOPE_ICONS.integrationGuide
-              }
+              src={SUMMARY_ICON}
               style={styles.summaryIcon}
             />
           </View>
