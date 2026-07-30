@@ -163,26 +163,33 @@ const PAGE_ID_TO_ICON_KEY: Record<
   venus: "venus",
 };
 
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
 function getIcon(
   iconKey: YearPremiumIconKey,
-  fallbackKey: YearPremiumIconKey =
-    "integrationGuide",
+  fallbackKey: YearPremiumIconKey = "sun",
 ): string {
-  const icon = ICONS[iconKey];
-  const fallback = ICONS[fallbackKey];
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
 
-  if (typeof icon === "string" && icon.length > 0) {
-    return icon;
+  if (requestedIcon) {
+    return requestedIcon;
   }
 
-  if (
-    typeof fallback === "string" &&
-    fallback.length > 0
-  ) {
-    return fallback;
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
   }
 
-  return "";
+  const firstAvailableIcon = Object.values(ICONS)
+    .map(cleanIconUrl)
+    .find(Boolean);
+
+  return firstAvailableIcon || "";
 }
 
 function normalizePageId(
@@ -198,13 +205,79 @@ function normalizePageId(
     .replace(/^-+|-+$/g, "");
 }
 
+function isPremiumIconKey(
+  value: unknown,
+): value is YearPremiumIconKey {
+  return (
+    typeof value === "string" &&
+    cleanIconUrl(ICONS[value]).length > 0
+  );
+}
+
+function inferIconKeyFromText(
+  value?: string,
+): YearPremiumIconKey | null {
+  const normalized = normalizePageId(value);
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (PAGE_ID_TO_ICON_KEY[normalized]) {
+    return PAGE_ID_TO_ICON_KEY[normalized];
+  }
+
+  const keywordRules: Array<
+    [string[], YearPremiumIconKey]
+  > = [
+    [["soleil", "solaire"], "sun"],
+    [["lune", "lunaire", "emotion"], "moon"],
+    [["mercure", "communication", "mental"], "mercury"],
+    [["venus"], "venus"],
+    [["amour", "relation", "affectif"], "heart"],
+    [["mars", "action", "energie", "courage"], "mars"],
+    [["jupiter", "expansion", "chance", "croissance"], "jupiter"],
+    [["saturne", "structure", "discipline", "responsabilite"], "saturn"],
+    [["uranus", "changement", "liberte", "innovation"], "uranus"],
+    [["neptune", "intuition", "spiritualite", "reve"], "neptune"],
+    [["pluton", "transformation", "renaissance", "pouvoir"], "pluto"],
+    [["argent", "finance", "financier"], "money"],
+    [["talent", "opportunite", "potentiel"], "hiddenTalents"],
+    [["blocage", "defi", "vigilance", "obstacle"], "lifeBlocks"],
+    [["mission", "raison-etre", "vocation"], "lifePurpose"],
+    [["ame", "chemin"], "soulPath"],
+    [["interieur", "introspection"], "innerWorld"],
+    [["integration", "synthese", "conclusion"], "integrationGuide"],
+    [["feu"], "elementFire"],
+    [["terre"], "elementEarth"],
+    [["air"], "elementAir"],
+    [["eau"], "elementWater"],
+    [["cardinal"], "modalityCardinal"],
+    [["fixe"], "modalityFixed"],
+    [["mutable"], "modalityMutable"],
+    [["equilibre", "harmonie", "balance"], "balance"],
+  ];
+
+  for (const [keywords, iconKey] of keywordRules) {
+    if (
+      keywords.some((keyword) =>
+        normalized.includes(keyword)
+      )
+    ) {
+      return iconKey;
+    }
+  }
+
+  return null;
+}
+
 function resolvePageIconKey(
   page: YearPremiumPageData,
 ): YearPremiumIconKey {
   const pageWithIconKey =
     page as YearPremiumPageWithIconKey;
 
-  if (pageWithIconKey.iconKey) {
+  if (isPremiumIconKey(pageWithIconKey.iconKey)) {
     return pageWithIconKey.iconKey;
   }
 
@@ -217,11 +290,12 @@ function resolvePageIconKey(
     return PAGE_ID_TO_ICON_KEY[stableId];
   }
 
-  const legacyId = normalizePageId(page.title);
-
   return (
-    PAGE_ID_TO_ICON_KEY[legacyId] ||
-    "integrationGuide"
+    inferIconKeyFromText(page.title) ||
+    inferIconKeyFromText(page.subtitle) ||
+    inferIconKeyFromText(page.heroTitle) ||
+    inferIconKeyFromText(page.heroText) ||
+    "sun"
   );
 }
 
@@ -232,11 +306,10 @@ function resolvePageIcon(
   icon: string;
 } {
   const iconKey = resolvePageIconKey(page);
-  const stableIcon = getIcon(iconKey);
 
   return {
     iconKey,
-    icon: stableIcon || page.icon,
+    icon: getIcon(iconKey, "sun"),
   };
 }
 
