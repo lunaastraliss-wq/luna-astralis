@@ -1,1165 +1,1367 @@
-import type {
-  HoroscopeIdentity,
-  HoroscopePdfContent,
-  HoroscopePeriodData,
-  HoroscopeZodiacSign,
-} from "./HoroscopePdfTypes";
-
 import {
-  getHoroscopeZodiacIconUrl,
-  getHoroscopeZodiacLabel,
-  normalizeHoroscopeZodiacSign,
-} from "./HoroscopePdfUtils";
+  NextResponse,
+} from "next/server";
+
+import Stripe
+  from "stripe";
+
+export const runtime =
+  "nodejs";
+
+export const dynamic =
+  "force-dynamic";
 
 /*
 |--------------------------------------------------------------------------
-| Générateurs annuels
+| Types de rapports
 |--------------------------------------------------------------------------
 */
 
-import {
-  buildYearlyLove,
-  buildYearlyCareer,
-  buildYearlyFinance,
-  buildYearlyHealth,
-  buildYearlySocial,
-  buildYearlyChallenge,
-  buildYearlyOpportunity,
-  buildYearlyTransit,
-  buildYearlyStrengths,
-  buildYearlyHiddenTalents,
-  buildYearPremiumPages,
-  buildYearAnnualPages,
-  buildYearlyCalendar,
-  buildYearlyBestPeriods,
-} from "./year/data";
-
-import {
-  buildYearlyMantra,
-} from "./year/mantra/buildYearlyMantra";
+type ReportType =
+  | "essential"
+  | "premium"
+  | "signature"
+  | "compatibility"
+  | "horoscope-daily"
+  | "horoscope-month"
+  | "horoscope-year";
 
 /*
 |--------------------------------------------------------------------------
-| Types annuels
+| Données de naissance
 |--------------------------------------------------------------------------
 */
 
-import type {
-  YearlyHoroscopeIdentity,
-  YearlyHoroscopePeriod,
-  YearlyMantraResult,
-} from "./year/data/types";
-
-/*
-|--------------------------------------------------------------------------
-| Options du constructeur
-|--------------------------------------------------------------------------
-*/
-
-export type BuildYearlyHoroscopeOptions = {
-  firstName?: string;
-
-  zodiacSign:
-    | HoroscopeZodiacSign
-    | string;
-
-  /*
-  |--------------------------------------------------------------------------
-  | Année du rapport
-  |--------------------------------------------------------------------------
-  |
-  | Exemple :
-  |
-  | 2027
-  | "2027"
-  |
-  */
-
-  year?: number | string;
-
-  birthDate?: string;
-  birthTime?: string;
-  birthCity?: string;
-  birthCountry?: string;
+type BirthPersonRequestBody = {
+  firstName?: unknown;
+  birthDate?: unknown;
+  birthTime?: unknown;
+  birthCity?: unknown;
+  birthCountry?: unknown;
+  latitude?: unknown;
+  longitude?: unknown;
+  timezone?: unknown;
+  wheelImagePath?: unknown;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Résultat annuel complet
+| Corps de la requête Stripe
 |--------------------------------------------------------------------------
 */
 
-export type YearlyHoroscopeResult = {
-  identity: HoroscopeIdentity;
-
-  period: HoroscopePeriodData;
-
-  content: HoroscopePdfContent;
-
-  mantra: YearlyMantraResult;
+type CheckoutRequestBody = {
+  reportType?: unknown;
 
   /*
   |--------------------------------------------------------------------------
-  | Pages principales d’analyse annuelle
+  | Carte du ciel et horoscopes
   |--------------------------------------------------------------------------
   */
 
-  overview:
-    ReturnType<
-      typeof buildYearAnnualPages
-    >["overview"];
-
-  majorEnergies:
-    ReturnType<
-      typeof buildYearAnnualPages
-    >["majorEnergies"];
-
-  majorAspects:
-    ReturnType<
-      typeof buildYearAnnualPages
-    >["majorAspects"];
-
-  dominantPlanets:
-    ReturnType<
-      typeof buildYearAnnualPages
-    >["dominantPlanets"];
-
-  activatedHouses:
-    ReturnType<
-      typeof buildYearAnnualPages
-    >["activatedHouses"];
+  firstName?: unknown;
+  birthDate?: unknown;
+  birthTime?: unknown;
+  birthCity?: unknown;
+  birthCountry?: unknown;
+  latitude?: unknown;
+  longitude?: unknown;
+  timezone?: unknown;
+  wheelImagePath?: unknown;
 
   /*
   |--------------------------------------------------------------------------
-  | Pages Premium
+  | Horoscope mensuel
   |--------------------------------------------------------------------------
   */
 
-  strengths:
-    ReturnType<
-      typeof buildYearlyStrengths
-    >;
-
-  hiddenTalents:
-    ReturnType<
-      typeof buildYearlyHiddenTalents
-    >;
-
-  premiumPages:
-    ReturnType<
-      typeof buildYearPremiumPages
-    >;
+  month?: unknown;
+  year?: unknown;
 
   /*
   |--------------------------------------------------------------------------
-  | Meilleurs moments de l’année
+  | Compatibilité
   |--------------------------------------------------------------------------
   */
 
-  bestPeriods:
-    ReturnType<
-      typeof buildYearlyBestPeriods
-    >;
+  person1?: BirthPersonRequestBody;
+  person2?: BirthPersonRequestBody;
 
   /*
   |--------------------------------------------------------------------------
-  | Calendrier astrologique annuel
+  | Courriel Stripe
   |--------------------------------------------------------------------------
   */
 
-  calendar:
-    ReturnType<
-      typeof buildYearlyCalendar
-    >;
+  email?: unknown;
+};
 
-  zodiacIconUrl: string;
+type NormalizedBirthPerson = {
+  firstName: string;
+  birthDate: string;
+  birthTime: string;
+  birthCity: string;
+  birthCountry: string;
+  latitude: string;
+  longitude: string;
+  timezone: string;
+  wheelImagePath: string;
 };
 
 /*
 |--------------------------------------------------------------------------
-| Gestion de l’année
+| Utilitaires
 |--------------------------------------------------------------------------
 */
 
-function getCurrentYear(): number {
-  return new Date().getFullYear();
+function s(
+  value: unknown,
+): string {
+  return value == null
+    ? ""
+    : String(value).trim();
 }
 
-function normalizeYear(
-  value?: number | string,
-): number {
-  if (
-    typeof value === "number" &&
-    Number.isInteger(value) &&
-    value >= 1900 &&
-    value <= 2200
-  ) {
-    return value;
-  }
+function cleanUrl(
+  url: string,
+): string {
+  const value =
+    s(url);
 
-  if (
-    typeof value === "string" &&
-    /^\d{4}$/.test(value)
-  ) {
-    const parsedYear =
-      Number(value);
-
-    if (
-      parsedYear >= 1900 &&
-      parsedYear <= 2200
-    ) {
-      return parsedYear;
-    }
-  }
-
-  return getCurrentYear();
+  return value.endsWith("/")
+    ? value.slice(0, -1)
+    : value;
 }
 
-function getYearDates(
-  year: number,
-): {
-  startDate: string;
-  endDate: string;
-} {
+function isReportType(
+  value: unknown,
+): value is ReportType {
+  return (
+    value === "essential" ||
+    value === "premium" ||
+    value === "signature" ||
+    value === "compatibility" ||
+    value === "horoscope-daily" ||
+    value === "horoscope-month" ||
+    value === "horoscope-year"
+  );
+}
+
+function normalizeBirthPerson(
+  person?:
+    | BirthPersonRequestBody
+    | null,
+): NormalizedBirthPerson {
   return {
-    startDate:
-      `${year}-01-01`,
+    firstName:
+      s(
+        person?.firstName,
+      ),
 
-    endDate:
-      `${year}-12-31`,
+    birthDate:
+      s(
+        person?.birthDate,
+      ),
+
+    birthTime:
+      s(
+        person?.birthTime,
+      ) ||
+      "12:00",
+
+    birthCity:
+      s(
+        person?.birthCity,
+      ),
+
+    birthCountry:
+      s(
+        person?.birthCountry,
+      ),
+
+    latitude:
+      s(
+        person?.latitude,
+      ),
+
+    longitude:
+      s(
+        person?.longitude,
+      ),
+
+    timezone:
+      s(
+        person?.timezone,
+      ),
+
+    wheelImagePath:
+      s(
+        person?.wheelImagePath,
+      ),
   };
 }
 
-function formatHoroscopeYear(
-  year: number,
+function hasRequiredBirthData(
+  person:
+    NormalizedBirthPerson,
+): boolean {
+  return Boolean(
+    person.birthDate &&
+      person.birthTime &&
+      person.birthCity &&
+      person.latitude &&
+      person.longitude,
+  );
+}
+
+function serializeMetadataValue(
+  value: unknown,
+  errorName: string,
 ): string {
-  return `Année ${year}`;
-}
+  const serialized =
+    JSON.stringify(
+      value,
+    );
 
-/*
-|--------------------------------------------------------------------------
-| Génération déterministe
-|--------------------------------------------------------------------------
-*/
+  /*
+   * Stripe autorise un maximum de 500 caractères
+   * par valeur de metadata.
+   */
 
-function createSeed(
-  value: string,
-): number {
-  let hash = 0;
-
-  for (
-    let index = 0;
-    index < value.length;
-    index += 1
+  if (
+    serialized.length >
+    500
   ) {
-    hash =
-      (
-        hash * 31 +
-        value.charCodeAt(index)
-      ) >>> 0;
-  }
-
-  return hash;
-}
-
-function pick<T>(
-  values: readonly T[],
-  seed: number,
-  offset = 0,
-): T {
-  if (values.length === 0) {
     throw new Error(
-      "Impossible de sélectionner une variante dans une liste vide.",
+      errorName,
     );
   }
 
-  return values[
-    Math.abs(
-      seed + offset * 31,
-    ) % values.length
-  ];
+  return serialized;
 }
 
-function createScore(
-  seed: number,
-  offset: number,
-  minimum = 68,
-  maximum = 94,
-): number {
-  const range =
-    maximum - minimum + 1;
+function normalizeMonth(
+  value: unknown,
+): string {
+  const month =
+    Number(
+      s(value),
+    );
 
-  return (
-    minimum +
-    Math.abs(
-      seed + offset * 17,
-    ) %
-      range
+  if (
+    !Number.isInteger(
+      month,
+    ) ||
+    month < 1 ||
+    month > 12
+  ) {
+    return "";
+  }
+
+  return String(
+    month,
+  );
+}
+
+function normalizeYear(
+  value: unknown,
+): string {
+  const year =
+    Number(
+      s(value),
+    );
+
+  if (
+    !Number.isInteger(
+      year,
+    ) ||
+    year < 2020 ||
+    year > 2100
+  ) {
+    return "";
+  }
+
+  return String(
+    year,
   );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Vue d’ensemble annuelle
+| Variables d’environnement
 |--------------------------------------------------------------------------
 */
 
-const SUMMARY_TEXTS = [
-  {
-    introduction:
-      "Cette année ouvre un cycle de progression, de clarification et de transformation personnelle.",
+const STRIPE_SECRET_KEY =
+  s(
+    process.env
+      .STRIPE_SECRET_KEY,
+  );
 
-    text:
-      "Les prochains mois vous inviteront à mieux définir vos priorités et à construire une direction cohérente. Certaines évolutions seront rapides, tandis que d’autres demanderont du temps, de la patience et une meilleure compréhension de vos véritables besoins.",
-
-    advice:
-      "Avancez avec constance et accordez davantage d’importance à la solidité de vos choix qu’à la rapidité des résultats.",
-
-    highlights: [
-      "Évolution",
-      "Clarté",
-      "Construction",
-    ],
-  },
-
-  {
-    introduction:
-      "Une énergie de renouvellement accompagne cette nouvelle année.",
-
-    text:
-      "Vous pourriez ressentir le besoin de revoir certaines habitudes, relations ou ambitions. Les transformations les plus importantes seront celles que vous pourrez intégrer durablement à votre quotidien.",
-
-    advice:
-      "Choisissez quelques changements essentiels et donnez-leur suffisamment de temps pour produire leurs effets.",
-
-    highlights: [
-      "Renouveau",
-      "Transformation",
-      "Décision",
-    ],
-  },
-
-  {
-    introduction:
-      "Cette année favorise une meilleure compréhension de votre direction personnelle.",
-
-    text:
-      "Les expériences traversées au fil des mois vous aideront à distinguer ce qui correspond réellement à vos aspirations de ce qui vous éloigne de votre équilibre. Cette lucidité soutiendra des décisions plus solides.",
-
-    advice:
-      "Conservez ce qui nourrit votre évolution et réduisez progressivement ce qui disperse votre énergie.",
-
-    highlights: [
-      "Compréhension",
-      "Priorités",
-      "Alignement",
-    ],
-  },
-] as const;
+const SITE_URL =
+  cleanUrl(
+    process.env
+      .NEXT_PUBLIC_SITE_URL ||
+      "",
+  );
 
 /*
 |--------------------------------------------------------------------------
-| Énergie générale annuelle
+| Stripe
 |--------------------------------------------------------------------------
 */
 
-const ENERGY_TEXTS = [
-  {
-    introduction:
-      "Votre énergie évoluera par cycles distincts au cours de l’année.",
-
-    text:
-      "Certaines périodes seront propices à l’action et au développement, tandis que d’autres favoriseront davantage le recul, la récupération et la réflexion. Le respect de ces variations vous permettra de préserver votre stabilité.",
-
-    advice:
-      "Adaptez votre rythme aux différentes étapes de l’année plutôt que de maintenir constamment la même intensité.",
-
-    highlights: [
-      "Rythme",
-      "Adaptation",
-      "Stabilité",
-    ],
-  },
-
-  {
-    introduction:
-      "Cette année soutient une progression régulière et structurée.",
-
-    text:
-      "Votre motivation pourra grandir à mesure que vos projets prendront une forme plus concrète. Une organisation réaliste vous aidera à transformer vos intentions en résultats durables.",
-
-    advice:
-      "Travaillez avec des objectifs trimestriels simples et vérifiez régulièrement votre progression.",
-
-    highlights: [
-      "Motivation",
-      "Organisation",
-      "Résultats",
-    ],
-  },
-
-  {
-    introduction:
-      "Votre sensibilité jouera un rôle important dans la gestion de votre énergie.",
-
-    text:
-      "Les environnements, les relations et les responsabilités qui vous entourent pourront influencer fortement votre niveau de disponibilité. Une meilleure protection de votre temps facilitera votre concentration.",
-
-    advice:
-      "Préservez régulièrement des périodes de calme afin de retrouver votre énergie et votre clarté mentale.",
-
-    highlights: [
-      "Sensibilité",
-      "Protection",
-      "Récupération",
-    ],
-  },
-] as const;
+const stripe =
+  STRIPE_SECRET_KEY
+    ? new Stripe(
+        STRIPE_SECRET_KEY,
+        {
+          apiVersion:
+            "2023-10-16",
+        },
+      )
+    : null;
 
 /*
 |--------------------------------------------------------------------------
-| Éléments symboliques
+| Prix Stripe
 |--------------------------------------------------------------------------
 */
 
-const COLORS = [
-  "Bordeaux",
-  "Bleu nuit",
-  "Vert émeraude",
-  "Or",
-  "Violet profond",
-  "Rose poudré",
-] as const;
+const REPORT_PRICE:
+  Record<
+    ReportType,
+    string
+  > = {
+    essential:
+      s(
+        process.env
+          .STRIPE_PRICE_ESSENTIAL,
+      ),
 
-const STONES = [
-  "Obsidienne",
-  "Améthyste",
-  "Quartz rose",
-  "Labradorite",
-  "Citrine",
-  "Pierre de lune",
-] as const;
+    premium:
+      s(
+        process.env
+          .STRIPE_PRICE_PREMIUM,
+      ),
 
-const KEYWORDS = [
-  "Transformation",
-  "Clarté",
-  "Confiance",
-  "Équilibre",
-  "Renouveau",
-  "Intuition",
-] as const;
+    signature:
+      s(
+        process.env
+          .STRIPE_PRICE_SIGNATURE,
+      ),
 
-const SIGN_ELEMENTS: Record<
-  HoroscopeZodiacSign,
-  string
-> = {
-  belier: "Feu",
-  taureau: "Terre",
-  gemeaux: "Air",
-  cancer: "Eau",
-  lion: "Feu",
-  vierge: "Terre",
-  balance: "Air",
-  scorpion: "Eau",
-  sagittaire: "Feu",
-  capricorne: "Terre",
-  verseau: "Air",
-  poissons: "Eau",
-};
+    compatibility:
+      s(
+        process.env
+          .STRIPE_COMPATIBILITY_PRICE_ID,
+      ),
 
-const SIGN_PLANETS: Record<
-  HoroscopeZodiacSign,
-  string
-> = {
-  belier: "Mars",
-  taureau: "Vénus",
-  gemeaux: "Mercure",
-  cancer: "Lune",
-  lion: "Soleil",
-  vierge: "Mercure",
-  balance: "Vénus",
-  scorpion: "Pluton",
-  sagittaire: "Jupiter",
-  capricorne: "Saturne",
-  verseau: "Uranus",
-  poissons: "Neptune",
-};
+    "horoscope-daily":
+      s(
+        process.env
+          .STRIPE_PRICE_ID_HOROSCOPE_DAILY_PREMIUM,
+      ),
+
+    "horoscope-month":
+      s(
+        process.env
+          .STRIPE_MONTHLY_HOROSCOPE_PRICE_ID,
+      ),
+
+    "horoscope-year":
+      s(
+        process.env
+          .STRIPE_YEARLY_HOROSCOPE_PRICE_ID,
+      ),
+  };
 
 /*
 |--------------------------------------------------------------------------
-| Construction du rapport annuel
+| Code promotionnel temporaire pour les tests
+|--------------------------------------------------------------------------
+|
+| Ce code rend actuellement l’horoscope du jour, du mois et de l’année
+| gratuits dans Stripe.
+|
+| Lorsque les tests seront terminés, il faudra retirer les blocs
+| discounts dans les trois sections concernées.
+|
 |--------------------------------------------------------------------------
 */
 
-export function buildYearlyHoroscope({
-  firstName,
-  zodiacSign,
-  year: requestedYear,
-  birthDate,
-  birthTime,
-  birthCity,
-  birthCountry,
-}: BuildYearlyHoroscopeOptions): YearlyHoroscopeResult {
-  /*
-  |--------------------------------------------------------------------------
-  | Signe astrologique
-  |--------------------------------------------------------------------------
-  */
+const TEST_PROMOTION_CODE =
+  "promo_1Tv14nQctELy6iN1AGOhkx6G";
 
-  const normalizedSign =
-    typeof zodiacSign === "string"
-      ? normalizeHoroscopeZodiacSign(
-          zodiacSign,
+/*
+|--------------------------------------------------------------------------
+| Route POST
+|--------------------------------------------------------------------------
+*/
+
+export async function POST(
+  req: Request,
+) {
+  try {
+    /*
+    |--------------------------------------------------------------------------
+    | Vérification de Stripe
+    |--------------------------------------------------------------------------
+    */
+
+    if (!stripe) {
+      return NextResponse.json(
+        {
+          error:
+            "STRIPE_SECRET_KEY_MISSING",
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    if (!SITE_URL) {
+      return NextResponse.json(
+        {
+          error:
+            "NEXT_PUBLIC_SITE_URL_MISSING",
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lecture du formulaire
+    |--------------------------------------------------------------------------
+    */
+
+    const body =
+      (
+        await req
+          .json()
+          .catch(
+            () => null,
+          )
+      ) as
+        | CheckoutRequestBody
+        | null;
+
+    if (!body) {
+      return NextResponse.json(
+        {
+          error:
+            "INVALID_JSON",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const reportType =
+      s(
+        body.reportType,
+      );
+
+    if (
+      !isReportType(
+        reportType,
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "INVALID_REPORT_TYPE",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prix du rapport
+    |--------------------------------------------------------------------------
+    */
+
+    const priceId =
+      REPORT_PRICE[
+        reportType
+      ];
+
+    if (!priceId) {
+      return NextResponse.json(
+        {
+          error:
+            "REPORT_PRICE_MISSING",
+
+          detail:
+            `Le prix Stripe du rapport ${reportType} est absent.`,
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    const email =
+      s(
+        body.email,
+      );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rapport de compatibilité
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "compatibility"
+    ) {
+      const person1 =
+        normalizeBirthPerson(
+          body.person1,
+        );
+
+      const person2 =
+        normalizeBirthPerson(
+          body.person2,
+        );
+
+      if (
+        !hasRequiredBirthData(
+          person1,
+        ) ||
+        !hasRequiredBirthData(
+          person2,
         )
-      : zodiacSign;
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_COMPATIBILITY_BIRTH_DATA",
 
-  if (!normalizedSign) {
-    throw new Error(
-      `Signe astrologique invalide : ${String(
-        zodiacSign,
-      )}`,
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour les deux personnes.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      if (
+        !person1
+          .wheelImagePath ||
+        !person2
+          .wheelImagePath
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_COMPATIBILITY_WHEEL_IMAGE_PATH",
+
+            detail:
+              "Les images des deux roues astrologiques sont requises.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedPerson1 =
+        serializeMetadataValue(
+          person1,
+          "PERSON_1_DATA_TOO_LARGE",
+        );
+
+      const serializedPerson2 =
+        serializeMetadataValue(
+          person2,
+          "PERSON_2_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/compatibilite/premium` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "compatibility_report",
+
+              report_type:
+                "compatibility",
+
+              person_1_data:
+                serializedPerson1,
+
+              person_2_data:
+                serializedPerson2,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "compatibility",
+
+          person_1_wheel_image_path:
+            person1
+              .wheelImagePath,
+
+          person_2_wheel_image_path:
+            person2
+              .wheelImagePath,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscope Premium du jour
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "horoscope-daily"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson,
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope personnalisé.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_BIRTH_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
+            discounts: [
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_daily_report",
+
+              report_type:
+                "horoscope-daily",
+
+              birth_data:
+                serializedBirthData,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-daily",
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscope Premium du mois
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "horoscope-month"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson,
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_MONTH_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope mensuel personnalisé.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const month =
+        normalizeMonth(
+          body.month,
+        );
+
+      const year =
+        normalizeYear(
+          body.year,
+        );
+
+      if (
+        !month ||
+        !year
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_MONTH_PERIOD",
+
+            detail:
+              "Le mois et l’année du rapport sont requis.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_MONTH_BIRTH_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
+            discounts: [
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium/mois` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_month_report",
+
+              report_type:
+                "horoscope-month",
+
+              birth_data:
+                serializedBirthData,
+
+              report_month:
+                month,
+
+              report_year:
+                year,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-month",
+
+          report_month:
+            month,
+
+          report_year:
+            year,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Horoscope Premium de l’année
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+      reportType ===
+      "horoscope-year"
+    ) {
+      const birthPerson =
+        normalizeBirthPerson({
+          firstName:
+            body.firstName,
+
+          birthDate:
+            body.birthDate,
+
+          birthTime:
+            body.birthTime,
+
+          birthCity:
+            body.birthCity,
+
+          birthCountry:
+            body.birthCountry,
+
+          latitude:
+            body.latitude,
+
+          longitude:
+            body.longitude,
+
+          timezone:
+            body.timezone,
+
+          wheelImagePath:
+            body.wheelImagePath,
+        });
+
+      if (
+        !hasRequiredBirthData(
+          birthPerson,
+        )
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_YEAR_BIRTH_DATA",
+
+            detail:
+              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope annuel personnalisé.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const year =
+        normalizeYear(
+          body.year,
+        );
+
+      if (!year) {
+        return NextResponse.json(
+          {
+            error:
+              "MISSING_HOROSCOPE_YEAR_PERIOD",
+
+            detail:
+              "L’année du rapport est requise.",
+          },
+          {
+            status: 400,
+          },
+        );
+      }
+
+      const serializedBirthData =
+        serializeMetadataValue(
+          birthPerson,
+          "HOROSCOPE_YEAR_BIRTH_DATA_TOO_LARGE",
+        );
+
+      const session =
+        await stripe
+          .checkout
+          .sessions
+          .create({
+            mode:
+              "payment",
+
+            line_items: [
+              {
+                price:
+                  priceId,
+
+                quantity:
+                  1,
+              },
+            ],
+
+            customer_email:
+              email ||
+              undefined,
+
+            /*
+             * Gratuit temporairement pour les tests.
+             */
+
+            discounts: [
+              {
+                promotion_code:
+                  TEST_PROMOTION_CODE,
+              },
+            ],
+
+            success_url:
+              `${SITE_URL}/report-success` +
+              `?session_id={CHECKOUT_SESSION_ID}`,
+
+            cancel_url:
+              `${SITE_URL}/horoscope/premium/annee` +
+              `?canceled=1`,
+
+            metadata: {
+              app:
+                "luna-astralis",
+
+              product:
+                "horoscope_year_report",
+
+              report_type:
+                "horoscope-year",
+
+              birth_data:
+                serializedBirthData,
+
+              report_year:
+                year,
+            },
+          });
+
+      if (!session.url) {
+        return NextResponse.json(
+          {
+            error:
+              "STRIPE_SESSION_URL_MISSING",
+          },
+          {
+            status: 500,
+          },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          ok:
+            true,
+
+          url:
+            session.url,
+
+          session_id:
+            session.id,
+
+          report_type:
+            "horoscope-year",
+
+          report_year:
+            year,
+        },
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Carte du ciel : Essentielle, Premium et Signature
+    |--------------------------------------------------------------------------
+    */
+
+    const birthPerson =
+      normalizeBirthPerson({
+        firstName:
+          body.firstName,
+
+        birthDate:
+          body.birthDate,
+
+        birthTime:
+          body.birthTime,
+
+        birthCity:
+          body.birthCity,
+
+        birthCountry:
+          body.birthCountry,
+
+        latitude:
+          body.latitude,
+
+        longitude:
+          body.longitude,
+
+        timezone:
+          body.timezone,
+
+        wheelImagePath:
+          body.wheelImagePath,
+      });
+
+    if (
+      !hasRequiredBirthData(
+        birthPerson,
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "MISSING_BIRTH_DATA",
+
+          detail:
+            "La date, l’heure, la ville et les coordonnées de naissance sont requises.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    if (
+      !birthPerson
+        .wheelImagePath
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "MISSING_WHEEL_IMAGE_PATH",
+
+          detail:
+            "Le chemin de l’image de la roue astrologique est absent.",
+        },
+        {
+          status: 400,
+        },
+      );
+    }
+
+    const serializedBirthData =
+      serializeMetadataValue(
+        birthPerson,
+        "BIRTH_DATA_TOO_LARGE",
+      );
+
+    const session =
+      await stripe
+        .checkout
+        .sessions
+        .create({
+          mode:
+            "payment",
+
+          line_items: [
+            {
+              price:
+                priceId,
+
+              quantity:
+                1,
+            },
+          ],
+
+          customer_email:
+            email ||
+            undefined,
+
+          success_url:
+            `${SITE_URL}/report-success` +
+            `?session_id={CHECKOUT_SESSION_ID}`,
+
+          cancel_url:
+            `${SITE_URL}/carte-du-ciel` +
+            `?canceled=1`,
+
+          metadata: {
+            app:
+              "luna-astralis",
+
+            product:
+              "astrology_report",
+
+            report_type:
+              reportType,
+
+            birth_data:
+              serializedBirthData,
+          },
+        });
+
+    if (!session.url) {
+      return NextResponse.json(
+        {
+          error:
+            "STRIPE_SESSION_URL_MISSING",
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+
+    return NextResponse.json(
+      {
+        ok:
+          true,
+
+        url:
+          session.url,
+
+        session_id:
+          session.id,
+
+        wheel_image_path:
+          birthPerson
+            .wheelImagePath,
+      },
+    );
+  } catch (
+    error: unknown
+  ) {
+    console.error(
+      "[reports checkout]",
+      error,
+    );
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : "REPORT_CHECKOUT_ERROR";
+
+    return NextResponse.json(
+      {
+        error:
+          message,
+      },
+      {
+        status: 500,
+      },
     );
   }
-
-  /*
-  |--------------------------------------------------------------------------
-  | Année
-  |--------------------------------------------------------------------------
-  */
-
-  const year =
-    normalizeYear(requestedYear);
-
-  const {
-    startDate,
-    endDate,
-  } = getYearDates(year);
-
-  const formattedYear =
-    formatHoroscopeYear(year);
-
-  const zodiacSignLabel =
-    getHoroscopeZodiacLabel(
-      normalizedSign,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Graine annuelle
-  |--------------------------------------------------------------------------
-  |
-  | Le même signe et la même année produisent toujours le même contenu.
-  |
-  */
-
-  const seed =
-    createSeed(
-      `${normalizedSign}-${year}`,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Identité principale
-  |--------------------------------------------------------------------------
-  */
-
-  const identity: HoroscopeIdentity = {
-    firstName:
-      firstName ?? "",
-
-    zodiacSign:
-      normalizedSign,
-
-    zodiacSignLabel,
-
-    birthDate:
-      birthDate ?? "",
-
-    birthTime:
-      birthTime ?? "",
-
-    birthCity:
-      birthCity ?? "",
-
-    birthCountry:
-      birthCountry ?? "",
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Période principale
-  |--------------------------------------------------------------------------
-  */
-
-  const period: HoroscopePeriodData = {
-    type: "year",
-
-    label:
-      formattedYear,
-
-    startDate,
-
-    endDate,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Identité annuelle
-  |--------------------------------------------------------------------------
-  */
-
-  const yearlyIdentity: YearlyHoroscopeIdentity = {
-    firstName:
-      firstName ?? "",
-
-    birthDate:
-      birthDate ?? "",
-
-    birthTime:
-      birthTime ?? "",
-
-    birthPlace:
-      [birthCity, birthCountry]
-        .filter(Boolean)
-        .join(", "),
-
-    zodiacSign:
-      normalizedSign,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Période annuelle
-  |--------------------------------------------------------------------------
-  */
-
-  const yearlyPeriod: YearlyHoroscopePeriod = {
-    year,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Paramètres communs
-  |--------------------------------------------------------------------------
-  */
-
-  const yearlySectionParams = {
-    identity:
-      yearlyIdentity,
-
-    period:
-      yearlyPeriod,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Générateurs de sections
-  |--------------------------------------------------------------------------
-  */
-
-  const love =
-    buildYearlyLove(
-      yearlySectionParams,
-    );
-
-  const career =
-    buildYearlyCareer(
-      yearlySectionParams,
-    );
-
-  const money =
-    buildYearlyFinance(
-      yearlySectionParams,
-    );
-
-  const health =
-    buildYearlyHealth(
-      yearlySectionParams,
-    );
-
-  const social =
-    buildYearlySocial(
-      yearlySectionParams,
-    );
-
-  const challenge =
-    buildYearlyChallenge(
-      yearlySectionParams,
-    );
-
-  const opportunity =
-    buildYearlyOpportunity(
-      yearlySectionParams,
-    );
-
-  const transit =
-    buildYearlyTransit(
-      yearlySectionParams,
-    );
-
-  const mantra =
-    buildYearlyMantra(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Pages principales d’analyse annuelle
-  |--------------------------------------------------------------------------
-  */
-
-  const annualPages =
-    buildYearAnnualPages(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Meilleurs moments de l’année
-  |--------------------------------------------------------------------------
-  */
-
-  const bestPeriods =
-    buildYearlyBestPeriods(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Calendrier astrologique annuel
-  |--------------------------------------------------------------------------
-  */
-
-  const calendar =
-    buildYearlyCalendar(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Page 31 — Forces dominantes
-  |--------------------------------------------------------------------------
-  */
-
-  const strengths =
-    buildYearlyStrengths(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Page 32 — Talents cachés
-  |--------------------------------------------------------------------------
-  */
-
-  const hiddenTalents =
-    buildYearlyHiddenTalents(
-      yearlySectionParams,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Pages 33 à 60 — Pages Premium réutilisables
-  |--------------------------------------------------------------------------
-  */
-
-  const premiumPages =
-    buildYearPremiumPages({
-      identity,
-      period,
-    });
-
-  /*
-  |--------------------------------------------------------------------------
-  | Résumés généraux
-  |--------------------------------------------------------------------------
-  */
-
-  const summary =
-    pick(
-      SUMMARY_TEXTS,
-      seed,
-      1,
-    );
-
-  const energy =
-    pick(
-      ENERGY_TEXTS,
-      seed,
-      2,
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Scores
-  |--------------------------------------------------------------------------
-  */
-
-  const scores = {
-    energy:
-      createScore(
-        seed,
-        1,
-      ),
-
-    love:
-      love.score,
-
-    career:
-      career.score,
-
-    money:
-      money.score,
-
-    health:
-      health.score,
-
-    social:
-      social.score,
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Contenu partagé du PDF
-  |--------------------------------------------------------------------------
-  */
-
-  const content: HoroscopePdfContent = {
-    reportTitle:
-      "Horoscope de l’année",
-
-    reportSubtitle:
-      formattedYear,
-
-    welcomeText:
-      firstName
-        ? `${firstName}, cette lecture vous accompagne à travers les principales tendances symboliques de votre année ${year}.`
-        : `Cette lecture vous accompagne à travers les principales tendances symboliques de l’année ${year}.`,
-
-    openingQuote:
-      "Chaque année ouvre un nouveau cycle et révèle une direction différente.",
-
-    /*
-    |--------------------------------------------------------------------------
-    | Vue d’ensemble commune
-    |--------------------------------------------------------------------------
-    */
-
-    summary: {
-      title:
-        "Vue d’ensemble de l’année",
-
-      ...summary,
-
-      score:
-        createScore(
-          seed,
-          7,
-        ),
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Énergie commune
-    |--------------------------------------------------------------------------
-    */
-
-    energy: {
-      title:
-        "Énergie de l’année",
-
-      ...energy,
-
-      score:
-        scores.energy,
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Influences planétaires
-    |--------------------------------------------------------------------------
-    */
-
-    planetaryIntroduction:
-      transit.introduction,
-
-    planetaryInfluences: [
-      ...transit.personalPlanets,
-      ...transit.collectivePlanets,
-    ].map((influence) => ({
-      ...influence,
-
-      title:
-        `Influence de ${influence.planet}`,
-
-      description:
-        "Cette influence planétaire accompagne les principales évolutions de votre année.",
-    })),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Amour
-    |--------------------------------------------------------------------------
-    */
-
-    love,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Travail et carrière
-    |--------------------------------------------------------------------------
-    */
-
-    career,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Finances
-    |--------------------------------------------------------------------------
-    */
-
-    money,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Bien-être
-    |--------------------------------------------------------------------------
-    */
-
-    health,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Vie sociale
-    |--------------------------------------------------------------------------
-    */
-
-    social,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Défis
-    |--------------------------------------------------------------------------
-    */
-
-    challengesIntroduction:
-      challenge.introduction,
-
-    challenges: [
-      {
-        title:
-          challenge.title,
-
-        theme:
-          challenge.highlights[0] ??
-          "Discernement",
-
-        description:
-          challenge.text,
-
-        advice:
-          challenge.advice,
-      },
-
-      {
-        title:
-          "Votre principal point de vigilance",
-
-        theme:
-          challenge.highlights[1] ??
-          challenge.highlights[0] ??
-          "Équilibre",
-
-        description:
-          challenge.highlights
-            .slice(1)
-            .join(" • ") ||
-          challenge.text,
-
-        advice:
-          challenge.advice,
-      },
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Opportunités
-    |--------------------------------------------------------------------------
-    */
-
-    opportunitiesIntroduction:
-      opportunity.introduction,
-
-    opportunities: [
-      {
-        title:
-          opportunity.title,
-
-        theme:
-          opportunity.highlights[0] ??
-          "Développement",
-
-        description:
-          opportunity.text,
-
-        action:
-          opportunity.advice,
-      },
-
-      {
-        title:
-          "Une direction à explorer",
-
-        theme:
-          opportunity.highlights[1] ??
-          opportunity.highlights[0] ??
-          "Progression",
-
-        description:
-          opportunity.highlights
-            .slice(1)
-            .join(" • ") ||
-          opportunity.text,
-
-        action:
-          opportunity.advice,
-      },
-    ],
-
-    timeline: [],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Éléments chanceux
-    |--------------------------------------------------------------------------
-    */
-
-    lucky: {
-      introduction:
-        "Ces éléments symboliques peuvent accompagner votre année.",
-
-      numbers:
-        Array.from(
-          {
-            length: 6,
-          },
-
-          (_, index) =>
-            1 +
-            Math.abs(
-              seed +
-              index * 13,
-            ) %
-              49,
-        ),
-
-      color:
-        pick(
-          COLORS,
-          seed,
-          8,
-        ),
-
-      stone:
-        pick(
-          STONES,
-          seed,
-          9,
-        ),
-
-      element:
-        SIGN_ELEMENTS[
-          normalizedSign
-        ],
-
-      planet:
-        SIGN_PLANETS[
-          normalizedSign
-        ],
-
-      time:
-        `Trimestre ${
-          1 +
-          Math.abs(seed) % 4
-        }`,
-
-      quote:
-        "Les transformations les plus importantes prennent forme à travers des décisions répétées avec constance.",
-
-      keyword:
-        pick(
-          KEYWORDS,
-          seed,
-          10,
-        ),
-    },
-
-    /*
-    |--------------------------------------------------------------------------
-    | Scores
-    |--------------------------------------------------------------------------
-    */
-
-    scores,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Conclusion
-    |--------------------------------------------------------------------------
-    */
-
-    conclusionTitle:
-      "Votre message de l’année",
-
-    conclusion:
-      `L’année ${year} vous invite à progresser avec constance, à respecter les différentes étapes de votre évolution et à choisir vos engagements avec discernement. Vous n’avez pas besoin de tout transformer immédiatement. Une direction claire, des décisions cohérentes et des gestes réguliers peuvent produire une évolution profonde et durable.`,
-
-    finalMessage:
-      "Votre force réside cette année dans votre capacité à rester fidèle à votre direction tout en adaptant votre chemin aux nouvelles réalités.",
-  };
-
-  /*
-  |--------------------------------------------------------------------------
-  | Résultat final
-  |--------------------------------------------------------------------------
-  */
-
-  return {
-    identity,
-    period,
-    content,
-    mantra,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Cinq nouvelles pages annuelles
-    |--------------------------------------------------------------------------
-    */
-
-    overview:
-      annualPages.overview,
-
-    majorEnergies:
-      annualPages.majorEnergies,
-
-    majorAspects:
-      annualPages.majorAspects,
-
-    dominantPlanets:
-      annualPages.dominantPlanets,
-
-    activatedHouses:
-      annualPages.activatedHouses,
-
-    strengths,
-    hiddenTalents,
-    premiumPages,
-    bestPeriods,
-    calendar,
-
-    zodiacIconUrl:
-      getHoroscopeZodiacIconUrl(
-        normalizedSign,
-      ),
-  };
 }
