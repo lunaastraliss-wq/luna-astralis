@@ -11,11 +11,15 @@ import {
   HOROSCOPE_LOGO_URL,
 } from "../HoroscopePdfAssets";
 
-import HoroscopePageFooter from "../HoroscopePageFooter";
-import HoroscopeStarBackground from "../HoroscopeStarBackground";
+import HoroscopePageFooter
+  from "../HoroscopePageFooter";
+
+import HoroscopeStarBackground
+  from "../HoroscopeStarBackground";
 
 import type {
-  HoroscopeSectionProps,
+  HoroscopeIdentity,
+  HoroscopePeriodData,
 } from "../HoroscopePdfTypes";
 
 import {
@@ -23,6 +27,28 @@ import {
   getHoroscopeZodiacIconUrl,
   normalizeHoroscopeScore,
 } from "../HoroscopePdfUtils";
+
+import type {
+  YearOverviewResult,
+} from "./data/types";
+
+/*
+|--------------------------------------------------------------------------
+| Propriétés
+|--------------------------------------------------------------------------
+*/
+
+type HoroscopeYearOverviewProps = {
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  overview: YearOverviewResult;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs
+|--------------------------------------------------------------------------
+*/
 
 const NAVY = "#06101F";
 const NAVY_CARD = "#0A1729";
@@ -35,7 +61,12 @@ const CREAM = "#FFF8E7";
 const MUTED_CREAM = "#DDD5C6";
 const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
-const DEEP_GOLD = "#4E412D";
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   page: {
@@ -111,6 +142,12 @@ const styles = StyleSheet.create({
     opacity: 0.045,
   },
 
+  /*
+  |--------------------------------------------------------------------------
+  | En-tête
+  |--------------------------------------------------------------------------
+  */
+
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -148,6 +185,12 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Titre
+  |--------------------------------------------------------------------------
+  */
 
   titleBlock: {
     marginBottom: 11,
@@ -198,6 +241,12 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: DARK_GOLD,
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Carte principale
+  |--------------------------------------------------------------------------
+  */
 
   heroCard: {
     position: "relative",
@@ -340,6 +389,12 @@ const styles = StyleSheet.create({
     textAlign: "justify",
   },
 
+  /*
+  |--------------------------------------------------------------------------
+  | Intensité annuelle
+  |--------------------------------------------------------------------------
+  */
+
   energyCard: {
     paddingVertical: 10,
     paddingHorizontal: 13,
@@ -393,227 +448,27 @@ const styles = StyleSheet.create({
     backgroundColor: GOLD,
   },
 
-  focusHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
+  /*
+  |--------------------------------------------------------------------------
+  | Thème dominant
+  |--------------------------------------------------------------------------
+  */
 
-  focusLine: {
-    width: 24,
-    height: 1,
-    backgroundColor: GOLD,
-    marginRight: 8,
-  },
-
-  focusIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  focusTitle: {
-    color: GOLD,
-    fontSize: 9.1,
-    letterSpacing: 1.3,
-    textTransform: "uppercase",
-  },
-
-  focusGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 3,
-  },
-
-  focusCard: {
-    position: "relative",
-    width: "48.8%",
-    minHeight: 78,
-    paddingVertical: 9,
-    paddingHorizontal: 10,
-    marginBottom: 8,
-    borderRadius: 10,
-    borderWidth: 0.55,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-    overflow: "hidden",
-  },
-
-  focusWatermark: {
-    position: "absolute",
-    right: -7,
-    bottom: -10,
-    width: 52,
-    height: 52,
-    objectFit: "contain",
-    opacity: 0.05,
-  },
-
-  focusTopRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 6,
-  },
-
-  focusIconBox: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    borderWidth: 0.55,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 7,
-  },
-
-  focusCardIcon: {
-    width: 15,
-    height: 15,
-    objectFit: "contain",
-  },
-
-  focusCardTitle: {
-    color: GOLD,
-    fontSize: 7.8,
-    lineHeight: 1.25,
-  },
-
-  focusCardText: {
-    color: MUTED_CREAM,
-    fontSize: 6.8,
-    lineHeight: 1.38,
-    paddingRight: 10,
-  },
-
-  indicatorsHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 7,
-  },
-
-  indicatorsLine: {
-    width: 24,
-    height: 1,
-    backgroundColor: GOLD,
-    marginRight: 8,
-  },
-
-  indicatorsIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-    marginRight: 8,
-  },
-
-  indicatorsTitle: {
-    color: GOLD,
-    fontSize: 9.1,
-    letterSpacing: 1.3,
-    textTransform: "uppercase",
-  },
-
-  scoresGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: 2,
-  },
-
-  scoreCard: {
-    width: "31.6%",
-    minHeight: 76,
-    paddingVertical: 8,
-    paddingHorizontal: 9,
-    marginBottom: 7,
-    borderRadius: 9,
-    borderWidth: 0.55,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD_LIGHT,
-  },
-
-  scoreTopRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 6,
-  },
-
-  scoreIdentity: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-    paddingRight: 4,
-  },
-
-  scoreIconBox: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    borderWidth: 0.55,
-    borderColor: DARK_GOLD,
-    backgroundColor: NAVY_CARD,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 5,
-  },
-
-  scoreIcon: {
-    width: 13,
-    height: 13,
-    objectFit: "contain",
-  },
-
-  scoreLabel: {
-    color: CREAM,
-    fontSize: 7.1,
-  },
-
-  scoreValue: {
-    color: GOLD,
-    fontSize: 9.6,
-  },
-
-  scoreTrack: {
-    width: "100%",
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: TRACK,
-    overflow: "hidden",
-    marginBottom: 5,
-  },
-
-  scoreFill: {
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: GOLD,
-  },
-
-  scoreMessage: {
-    color: SOFT_TEXT,
-    fontSize: 5.9,
-    lineHeight: 1.28,
-  },
-
-  adviceCard: {
+  dominantCard: {
     position: "relative",
     overflow: "hidden",
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 58,
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 11,
     borderWidth: 0.55,
     borderColor: DARK_GOLD,
-    borderTopWidth: 1.3,
-    borderTopColor: GOLD,
     backgroundColor: NAVY_CARD,
+    marginBottom: 10,
   },
 
-  adviceWatermark: {
+  dominantWatermark: {
     position: "absolute",
     right: -6,
     bottom: -14,
@@ -623,7 +478,7 @@ const styles = StyleSheet.create({
     opacity: 0.05,
   },
 
-  adviceIconBox: {
+  dominantIconBox: {
     width: 34,
     height: 34,
     borderRadius: 17,
@@ -635,18 +490,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 
-  adviceIcon: {
+  dominantIcon: {
     width: 21,
     height: 21,
     objectFit: "contain",
   },
 
-  adviceBody: {
+  dominantBody: {
     flex: 1,
-    paddingRight: 24,
+    paddingRight: 22,
   },
 
-  adviceLabel: {
+  dominantLabel: {
     color: GOLD,
     fontSize: 7,
     letterSpacing: 1.15,
@@ -654,241 +509,219 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 
-  adviceText: {
+  dominantText: {
     color: CREAM,
-    fontSize: 7.6,
-    lineHeight: 1.42,
+    fontSize: 7.5,
+    lineHeight: 1.4,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Axes de l’année
+  |--------------------------------------------------------------------------
+  */
+
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 7,
+  },
+
+  sectionLine: {
+    width: 24,
+    height: 1,
+    backgroundColor: GOLD,
+    marginRight: 8,
+  },
+
+  sectionIcon: {
+    width: 13,
+    height: 13,
+    objectFit: "contain",
+    marginRight: 8,
+  },
+
+  sectionTitle: {
+    color: GOLD,
+    fontSize: 9.1,
+    letterSpacing: 1.3,
+    textTransform: "uppercase",
+  },
+
+  axesGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 3,
+  },
+
+  axisCard: {
+    position: "relative",
+    width: "31.7%",
+    minHeight: 104,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD_LIGHT,
+    overflow: "hidden",
+  },
+
+  axisWatermark: {
+    position: "absolute",
+    right: -8,
+    bottom: -10,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.045,
+  },
+
+  axisNumberBox: {
+    width: 25,
+    height: 25,
+    borderRadius: 13,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 7,
+  },
+
+  axisNumber: {
+    color: GOLD,
+    fontSize: 9,
+  },
+
+  axisTitle: {
+    color: GOLD,
+    fontSize: 8,
+    lineHeight: 1.25,
+    marginBottom: 5,
+  },
+
+  axisText: {
+    color: MUTED_CREAM,
+    fontSize: 6.7,
+    lineHeight: 1.38,
+    paddingRight: 4,
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Conseil et conclusion
+  |--------------------------------------------------------------------------
+  */
+
+  bottomGrid: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 8,
+  },
+
+  bottomCard: {
+    position: "relative",
+    overflow: "hidden",
+    width: "48.8%",
+    minHeight: 75,
+    paddingVertical: 10,
+    paddingHorizontal: 11,
+    borderRadius: 11,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_CARD,
+  },
+
+  bottomCardHighlighted: {
+    borderTopWidth: 1.3,
+    borderTopColor: GOLD,
+  },
+
+  bottomHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+
+  bottomIconBox: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 0.55,
+    borderColor: DARK_GOLD,
+    backgroundColor: NAVY_SOFT,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 7,
+  },
+
+  bottomIcon: {
+    width: 15,
+    height: 15,
+    objectFit: "contain",
+  },
+
+  bottomLabel: {
+    flex: 1,
+    color: GOLD,
+    fontSize: 7,
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+
+  bottomText: {
+    color: CREAM,
+    fontSize: 6.9,
+    lineHeight: 1.4,
+  },
+
+  bottomWatermark: {
+    position: "absolute",
+    right: -5,
+    bottom: -10,
+    width: 54,
+    height: 54,
+    objectFit: "contain",
+    opacity: 0.04,
   },
 });
 
-type ScoreItem = {
-  label: string;
-  value: number;
-  iconUrl: string;
-};
-
-type FocusItem = {
-  title: string;
-  text: string;
-  iconUrl: string;
-};
-
-function getScoreMessage(value: number): string {
-  if (value >= 85) {
-    return "Un secteur très porteur à utiliser pleinement.";
-  }
-
-  if (value >= 70) {
-    return "Une dynamique favorable soutient vos initiatives.";
-  }
-
-  if (value >= 55) {
-    return "Un équilibre constructif demande de la constance.";
-  }
-
-  if (value >= 40) {
-    return "Ce domaine demande davantage d’attention.";
-  }
-
-  return "Avancez doucement et protégez vos ressources.";
-}
-
-function getYearlyClimate(value: number) {
-  if (value >= 80) {
-    return {
-      title: "Un mois d’expansion",
-      text:
-        "Votre énergie dominante favorise l’élan, la confiance et les décisions constructives. C’est le moment de faire avancer ce qui compte vraiment.",
-    };
-  }
-
-  if (value >= 65) {
-    return {
-      title: "Un mois porteur",
-      text:
-        "Le climat général soutient une progression régulière. Vos meilleurs résultats viendront d’actions simples, cohérentes et bien préparées.",
-    };
-  }
-
-  if (value >= 50) {
-    return {
-      title: "Un mois d’ajustement",
-      text:
-        "Les possibilités sont présentes, mais elles demandent de la mesure. Observez ce qui évolue avant de choisir votre prochaine direction.",
-    };
-  }
-
-  return {
-    title: "Un mois de recentrage",
-    text:
-      "Le rythme peut sembler plus lent, mais il vous permet de retrouver de la clarté. Protégez votre énergie et concentrez-vous sur l’essentiel.",
-  };
-}
-
-function getDominantScore(scores: ScoreItem[]): ScoreItem {
-  return scores.reduce((best, current) =>
-    current.value > best.value ? current : best,
-  );
-}
-
-function getLowestScore(scores: ScoreItem[]): ScoreItem {
-  return scores.reduce((lowest, current) =>
-    current.value < lowest.value ? current : lowest,
-  );
-}
-
-function buildFocusItems(
-  scores: ScoreItem[],
-  overallScore: number,
-): FocusItem[] {
-  const dominant = getDominantScore(scores);
-  const vigilance = getLowestScore(scores);
-  const climate = getYearlyClimate(overallScore);
-
-  return [
-    {
-      title: "Force de l’année",
-      text: `${dominant.label} se présente comme votre secteur le plus favorable. Appuyez-vous sur cette énergie pour avancer avec davantage de confiance.`,
-      iconUrl: HOROSCOPE_ICONS.sun,
-    },
-    {
-      title: "Point de vigilance",
-      text: `${vigilance.label} demande plus de patience et de discernement. Évitez de forcer les choses et privilégiez les ajustements progressifs.`,
-      iconUrl: HOROSCOPE_ICONS.integrationGuide,
-    },
-    {
-      title: "Énergie dominante",
-      text: climate.text,
-      iconUrl: HOROSCOPE_ICONS.innerWorld,
-    },
-    {
-      title: "Opportunité principale",
-      text:
-        "Une décision claire, prise au bon moment, peut créer un effet positif durable. Choisissez une priorité et donnez-lui une place réelle.",
-      iconUrl: HOROSCOPE_ICONS.jupiter,
-    },
-  ];
-}
-
-function ScoreCard({
-  label,
-  value,
-  iconUrl,
-}: ScoreItem) {
-  const safeValue = normalizeHoroscopeScore(value);
-
-  return (
-    <View style={styles.scoreCard} wrap={false}>
-      <View style={styles.scoreTopRow}>
-        <View style={styles.scoreIdentity}>
-          <View style={styles.scoreIconBox}>
-            <Image src={iconUrl} style={styles.scoreIcon} />
-          </View>
-
-          <Text style={styles.scoreLabel}>
-            {label}
-          </Text>
-        </View>
-
-        <Text style={styles.scoreValue}>
-          {safeValue}
-        </Text>
-      </View>
-
-      <View style={styles.scoreTrack}>
-        <View
-          style={[
-            styles.scoreFill,
-            {
-              width: `${safeValue}%`,
-            },
-          ]}
-        />
-      </View>
-
-      <Text style={styles.scoreMessage}>
-        {getScoreMessage(safeValue)}
-      </Text>
-    </View>
-  );
-}
+/*
+|--------------------------------------------------------------------------
+| Composant
+|--------------------------------------------------------------------------
+*/
 
 export default function HoroscopeYearOverview({
   identity,
   period,
-  content,
-}: HoroscopeSectionProps) {
-  const zodiacIconUrl = getHoroscopeZodiacIconUrl(
-    identity.zodiacSign,
-  );
+  overview,
+}: HoroscopeYearOverviewProps) {
+  const zodiacIconUrl =
+    getHoroscopeZodiacIconUrl(
+      identity.zodiacSign,
+    );
 
-  const periodLabel = formatHoroscopePeriodLabel(period);
+  const periodLabel =
+    formatHoroscopePeriodLabel(period);
 
-  const scores: ScoreItem[] = [
-    {
-      label: "Énergie",
-      value: normalizeHoroscopeScore(content.scores.energy),
-      iconUrl: HOROSCOPE_ICONS.sun,
-    },
-    {
-      label: "Amour",
-      value: normalizeHoroscopeScore(content.scores.love),
-      iconUrl: HOROSCOPE_ICONS.love,
-    },
-    {
-      label: "Travail",
-      value: normalizeHoroscopeScore(content.scores.career),
-      iconUrl: HOROSCOPE_ICONS.lifePurpose,
-    },
-    {
-      label: "Finances",
-      value: normalizeHoroscopeScore(content.scores.money),
-      iconUrl: HOROSCOPE_ICONS.money,
-    },
-    {
-      label: "Bien-être",
-      value: normalizeHoroscopeScore(content.scores.health),
-      iconUrl: HOROSCOPE_ICONS.innerWorld,
-    },
-    {
-      label: "Vie sociale",
-      value: normalizeHoroscopeScore(
-        typeof content.scores.social === "number"
-          ? content.scores.social
-          : 50,
-      ),
-      iconUrl: HOROSCOPE_ICONS.soulPath,
-    },
-  ];
+  const safeScore =
+    normalizeHoroscopeScore(
+      overview.score,
+    );
 
-  const overallScore = Math.round(
-    scores.reduce(
-      (total, score) => total + score.value,
-      0,
-    ) / scores.length,
-  );
-
-  const yearlyClimate = getYearlyClimate(overallScore);
-  const focusItems = buildFocusItems(scores, overallScore);
-
-  const summaryTitle =
-    content.summary.title ||
-    yearlyClimate.title;
-
-  const summaryIntroduction =
-    content.summary.introduction ||
-    "Cette année ouvre une nouvelle séquence et met en lumière les domaines dans lesquels votre énergie peut évoluer avec le plus de force.";
-
-  const summaryText =
-    content.summary.text ||
-    "Les premières semaines favorisent l’observation et les ajustements, tandis que la suite de l’année encourage des actions plus affirmées. Votre progression dépendra moins de la vitesse que de la qualité de vos choix et de votre capacité à préserver vos priorités.";
-
-  const advice =
-    content.summary.advice ||
-    "Choisissez une priorité essentielle pour cette année et protégez-lui du temps, de l’énergie et une place concrète dans votre quotidien.";
+  const axes =
+    Array.isArray(overview.axes)
+      ? overview.axes.slice(0, 3)
+      : [];
 
   return (
-    <Page size="A4" style={styles.page} wrap={false}>
+    <Page
+      size="A4"
+      style={styles.page}
+      wrap={false}
+    >
       <HoroscopeStarBackground />
 
       <View style={styles.orbitLarge} />
@@ -897,11 +730,19 @@ export default function HoroscopeYearOverview({
       <View style={styles.orbitDot} />
 
       <Image
-        src={HOROSCOPE_ICONS.integrationGuide}
+        src={
+          HOROSCOPE_ICONS.integrationGuide
+        }
         style={styles.watermark}
       />
 
       <View style={styles.content}>
+        {/*
+        |--------------------------------------------------------------------------
+        | En-tête
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.header}>
           <Image
             src={HOROSCOPE_LOGO_URL}
@@ -920,6 +761,12 @@ export default function HoroscopeYearOverview({
           </View>
         </View>
 
+        {/*
+        |--------------------------------------------------------------------------
+        | Titre
+        |--------------------------------------------------------------------------
+        */}
+
         <View style={styles.titleBlock}>
           <Text style={styles.eyebrow}>
             Horoscope annuel
@@ -933,48 +780,85 @@ export default function HoroscopeYearOverview({
             {periodLabel}
           </Text>
 
-          <View style={styles.titleDecoration}>
+          <View
+            style={styles.titleDecoration}
+          >
             <View style={styles.titleLine} />
 
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
+              src={
+                HOROSCOPE_ICONS
+                  .integrationGuide
+              }
               style={styles.titleIcon}
             />
 
-            <View style={styles.titleLineSmall} />
+            <View
+              style={styles.titleLineSmall}
+            />
           </View>
         </View>
 
-        <View style={styles.heroCard} wrap={false}>
+        {/*
+        |--------------------------------------------------------------------------
+        | Vue générale
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.heroCard}
+          wrap={false}
+        >
           <View style={styles.heroGlow} />
 
           <View style={styles.heroTopRow}>
             <View style={styles.heroIdentity}>
-              <View style={styles.heroIconBox}>
+              <View
+                style={styles.heroIconBox}
+              >
                 <Image
-                  src={HOROSCOPE_ICONS.integrationGuide}
+                  src={
+                    HOROSCOPE_ICONS
+                      .integrationGuide
+                  }
                   style={styles.heroIcon}
                 />
               </View>
 
-              <View style={styles.heroHeading}>
-                <Text style={styles.heroLabel}>
+              <View
+                style={styles.heroHeading}
+              >
+                <Text
+                  style={styles.heroLabel}
+                >
                   L’année en un regard
                 </Text>
 
-                <Text style={styles.heroTitle}>
-                  {summaryTitle}
+                <Text
+                  style={styles.heroTitle}
+                >
+                  {overview.title}
                 </Text>
               </View>
             </View>
 
-            <View style={styles.scoreBadgeOuter}>
-              <View style={styles.scoreBadge}>
-                <Text style={styles.scoreNumber}>
-                  {overallScore}
+            <View
+              style={
+                styles.scoreBadgeOuter
+              }
+            >
+              <View
+                style={styles.scoreBadge}
+              >
+                <Text
+                  style={styles.scoreNumber}
+                >
+                  {safeScore}
                 </Text>
 
-                <Text style={styles.scoreOutOf}>
+                <Text
+                  style={styles.scoreOutOf}
+                >
                   sur 100
                 </Text>
               </View>
@@ -982,142 +866,304 @@ export default function HoroscopeYearOverview({
           </View>
 
           <View style={styles.heroDivider}>
-            <View style={styles.heroDividerLine} />
+            <View
+              style={
+                styles.heroDividerLine
+              }
+            />
 
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
-              style={styles.heroDividerIcon}
+              src={
+                HOROSCOPE_ICONS
+                  .integrationGuide
+              }
+              style={
+                styles.heroDividerIcon
+              }
             />
           </View>
 
           <Text style={styles.introduction}>
-            {summaryIntroduction}
+            {overview.introduction}
           </Text>
 
           <Text style={styles.summaryText}>
-            {summaryText}
+            {overview.summary}
           </Text>
         </View>
 
-        <View style={styles.energyCard} wrap={false}>
-          <View style={styles.energyHeader}>
-            <View style={styles.energyLabelRow}>
+        {/*
+        |--------------------------------------------------------------------------
+        | Intensité
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.energyCard}
+          wrap={false}
+        >
+          <View
+            style={styles.energyHeader}
+          >
+            <View
+              style={
+                styles.energyLabelRow
+              }
+            >
               <Image
                 src={HOROSCOPE_ICONS.sun}
                 style={styles.energyIcon}
               />
 
-              <Text style={styles.energyLabel}>
-                Intensité énergétique de l’année
+              <Text
+                style={styles.energyLabel}
+              >
+                Intensité énergétique de
+                l’année
               </Text>
             </View>
 
-            <Text style={styles.energyValue}>
-              {overallScore} %
+            <Text
+              style={styles.energyValue}
+            >
+              {safeScore} %
             </Text>
           </View>
 
-          <View style={styles.energyTrack}>
+          <View
+            style={styles.energyTrack}
+          >
             <View
               style={[
                 styles.energyFill,
                 {
-                  width: `${overallScore}%`,
+                  width: `${safeScore}%`,
                 },
               ]}
             />
           </View>
         </View>
 
-        <View style={styles.focusHeader}>
-          <View style={styles.focusLine} />
+        {/*
+        |--------------------------------------------------------------------------
+        | Thème dominant
+        |--------------------------------------------------------------------------
+        */}
 
+        <View
+          style={styles.dominantCard}
+          wrap={false}
+        >
           <Image
-            src={HOROSCOPE_ICONS.hiddenTalents}
-            style={styles.focusIcon}
+            src={HOROSCOPE_ICONS.sun}
+            style={
+              styles.dominantWatermark
+            }
           />
 
-          <Text style={styles.focusTitle}>
-            Les clés de votre mois
+          <View
+            style={
+              styles.dominantIconBox
+            }
+          >
+            <Image
+              src={HOROSCOPE_ICONS.sun}
+              style={styles.dominantIcon}
+            />
+          </View>
+
+          <View
+            style={styles.dominantBody}
+          >
+            <Text
+              style={styles.dominantLabel}
+            >
+              Votre énergie dominante
+            </Text>
+
+            <Text
+              style={styles.dominantText}
+            >
+              {overview.dominantTheme}
+            </Text>
+          </View>
+        </View>
+
+        {/*
+        |--------------------------------------------------------------------------
+        | Axes majeurs
+        |--------------------------------------------------------------------------
+        */}
+
+        <View
+          style={styles.sectionHeader}
+        >
+          <View
+            style={styles.sectionLine}
+          />
+
+          <Image
+            src={
+              HOROSCOPE_ICONS.hiddenTalents
+            }
+            style={styles.sectionIcon}
+          />
+
+          <Text
+            style={styles.sectionTitle}
+          >
+            Les axes majeurs de votre
+            année
           </Text>
         </View>
 
-        <View style={styles.focusGrid}>
-          {focusItems.map((item) => (
+        <View style={styles.axesGrid}>
+          {axes.map((axis, index) => (
             <View
-              key={item.title}
-              style={styles.focusCard}
+              key={`${axis.title}-${index}`}
+              style={styles.axisCard}
               wrap={false}
             >
               <Image
-                src={item.iconUrl}
-                style={styles.focusWatermark}
+                src={
+                  index === 0
+                    ? HOROSCOPE_ICONS.sun
+                    : index === 1
+                      ? HOROSCOPE_ICONS
+                          .jupiter
+                      : HOROSCOPE_ICONS
+                          .innerWorld
+                }
+                style={
+                  styles.axisWatermark
+                }
               />
 
-              <View style={styles.focusTopRow}>
-                <View style={styles.focusIconBox}>
-                  <Image
-                    src={item.iconUrl}
-                    style={styles.focusCardIcon}
-                  />
-                </View>
-
-                <Text style={styles.focusCardTitle}>
-                  {item.title}
+              <View
+                style={styles.axisNumberBox}
+              >
+                <Text
+                  style={styles.axisNumber}
+                >
+                  {index + 1}
                 </Text>
               </View>
 
-              <Text style={styles.focusCardText}>
-                {item.text}
+              <Text
+                style={styles.axisTitle}
+              >
+                {axis.title}
+              </Text>
+
+              <Text
+                style={styles.axisText}
+              >
+                {axis.text}
               </Text>
             </View>
           ))}
         </View>
 
-        <View style={styles.indicatorsHeader}>
-          <View style={styles.indicatorsLine} />
+        {/*
+        |--------------------------------------------------------------------------
+        | Conseil et conclusion
+        |--------------------------------------------------------------------------
+        */}
 
-          <Image
-            src={HOROSCOPE_ICONS.integrationGuide}
-            style={styles.indicatorsIcon}
-          />
-
-          <Text style={styles.indicatorsTitle}>
-            Les domaines à surveiller
-          </Text>
-        </View>
-
-        <View style={styles.scoresGrid}>
-          {scores.map((score) => (
-            <ScoreCard
-              key={score.label}
-              label={score.label}
-              value={score.value}
-              iconUrl={score.iconUrl}
-            />
-          ))}
-        </View>
-
-        <View style={styles.adviceCard} wrap={false}>
-          <Image
-            src={HOROSCOPE_ICONS.integrationGuide}
-            style={styles.adviceWatermark}
-          />
-
-          <View style={styles.adviceIconBox}>
+        <View style={styles.bottomGrid}>
+          <View
+            style={[
+              styles.bottomCard,
+              styles.bottomCardHighlighted,
+            ]}
+            wrap={false}
+          >
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
-              style={styles.adviceIcon}
+              src={
+                HOROSCOPE_ICONS
+                  .integrationGuide
+              }
+              style={
+                styles.bottomWatermark
+              }
             />
+
+            <View
+              style={styles.bottomHeader}
+            >
+              <View
+                style={
+                  styles.bottomIconBox
+                }
+              >
+                <Image
+                  src={
+                    HOROSCOPE_ICONS
+                      .integrationGuide
+                  }
+                  style={
+                    styles.bottomIcon
+                  }
+                />
+              </View>
+
+              <Text
+                style={styles.bottomLabel}
+              >
+                Votre conseil annuel
+              </Text>
+            </View>
+
+            <Text
+              style={styles.bottomText}
+            >
+              {overview.advice}
+            </Text>
           </View>
 
-          <View style={styles.adviceBody}>
-            <Text style={styles.adviceLabel}>
-              Votre priorité pour cette année
-            </Text>
+          <View
+            style={styles.bottomCard}
+            wrap={false}
+          >
+            <Image
+              src={
+                HOROSCOPE_ICONS.soulPath
+              }
+              style={
+                styles.bottomWatermark
+              }
+            />
 
-            <Text style={styles.adviceText}>
-              {advice}
+            <View
+              style={styles.bottomHeader}
+            >
+              <View
+                style={
+                  styles.bottomIconBox
+                }
+              >
+                <Image
+                  src={
+                    HOROSCOPE_ICONS
+                      .soulPath
+                  }
+                  style={
+                    styles.bottomIcon
+                  }
+                />
+              </View>
+
+              <Text
+                style={styles.bottomLabel}
+              >
+                Votre direction
+              </Text>
+            </View>
+
+            <Text
+              style={styles.bottomText}
+            >
+              {overview.conclusion}
             </Text>
           </View>
         </View>
