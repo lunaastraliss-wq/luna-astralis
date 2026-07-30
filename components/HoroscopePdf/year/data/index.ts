@@ -243,3 +243,32 @@ export {
 export {
   buildYearlyMantra,
 } from "../mantra/buildYearlyMantra";
+
+/*
+|--------------------------------------------------------------------------
+| Pages principales d’analyse annuelle
+|--------------------------------------------------------------------------
+*/
+
+export {
+  buildYearAnnualPages,
+} from "./buildYearAnnualPages";
+
+/*
+|--------------------------------------------------------------------------
+| Types des pages principales d’analyse annuelle
+|--------------------------------------------------------------------------
+*/
+
+export type {
+  YearOverviewData,
+  YearMajorEnergyItem,
+  YearMajorEnergiesData,
+  YearMajorAspectItem,
+  YearMajorAspectsData,
+  YearDominantPlanetItem,
+  YearDominantPlanetsData,
+  YearActivatedHouseItem,
+  YearActivatedHousesData,
+  YearAnnualPagesData,
+} from "./yearAnnualPagesTypes";
