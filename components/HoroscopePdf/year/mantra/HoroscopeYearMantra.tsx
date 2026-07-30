@@ -1,10 +1,14 @@
 import {
+  Font,
   Image,
   Page,
   StyleSheet,
   Text,
   View,
 } from "@react-pdf/renderer";
+
+/* Évite les mots coupés automatiquement en fin de ligne. */
+Font.registerHyphenationCallback((word) => [word]);
 
 import {
   HOROSCOPE_ICONS,
@@ -71,9 +75,9 @@ type HoroscopeYearMantraProps = {
 const styles = StyleSheet.create({
   page: {
     position: "relative",
-    paddingTop: 34,
+    paddingTop: 30,
     paddingHorizontal: 42,
-    paddingBottom: 54,
+    paddingBottom: 50,
     backgroundColor: NAVY,
     fontFamily: "Helvetica",
     overflow: "hidden",
@@ -95,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: 12,
   },
 
   logo: {
@@ -136,7 +140,7 @@ const styles = StyleSheet.create({
   */
 
   titleBlock: {
-    marginBottom: 18,
+    marginBottom: 15,
   },
 
   eyebrow: {
@@ -194,11 +198,11 @@ const styles = StyleSheet.create({
 
   mantraCard: {
     position: "relative",
-    minHeight: 154,
+    minHeight: 150,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 14,
-    paddingVertical: 25,
+    marginBottom: 12,
+    paddingVertical: 22,
     paddingHorizontal: 30,
     borderRadius: 12,
     borderWidth: 0.7,
@@ -267,10 +271,10 @@ const styles = StyleSheet.create({
   },
 
   mantraText: {
-    maxWidth: 440,
+    maxWidth: 445,
     color: CREAM,
-    fontSize: 17,
-    lineHeight: 1.48,
+    fontSize: 16.5,
+    lineHeight: 1.42,
     textAlign: "center",
   },
 
@@ -283,7 +287,7 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 9,
+    marginBottom: 8,
   },
 
   sectionLine: {
@@ -310,16 +314,17 @@ const styles = StyleSheet.create({
   sectionsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 14,
+    marginBottom: 12,
+    alignItems: "stretch",
   },
 
   sectionCard: {
     position: "relative",
     width: "48.8%",
-    minHeight: 154,
-    paddingTop: 14,
+    minHeight: 166,
+    paddingTop: 13,
     paddingRight: 14,
-    paddingBottom: 13,
+    paddingBottom: 12,
     paddingLeft: 14,
     borderRadius: 11,
     borderWidth: 0.6,
@@ -342,7 +347,7 @@ const styles = StyleSheet.create({
   sectionCardHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 11,
+    marginBottom: 9,
   },
 
   sectionNumberCircle: {
@@ -383,8 +388,8 @@ const styles = StyleSheet.create({
 
   sectionText: {
     color: MUTED_CREAM,
-    fontSize: 8.5,
-    lineHeight: 1.52,
+    fontSize: 8.15,
+    lineHeight: 1.42,
   },
 
   /*
@@ -397,8 +402,8 @@ const styles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "center",
-    minHeight: 104,
-    paddingVertical: 15,
+    minHeight: 96,
+    paddingVertical: 13,
     paddingHorizontal: 16,
     borderRadius: 11,
     borderWidth: 0.6,
@@ -452,8 +457,23 @@ const styles = StyleSheet.create({
   messageText: {
     maxWidth: 420,
     color: CREAM,
-    fontSize: 8.6,
-    lineHeight: 1.5,
+    fontSize: 8.25,
+    lineHeight: 1.42,
+  },
+
+  mantraTextCompact: {
+    fontSize: 15,
+    lineHeight: 1.36,
+  },
+
+  sectionTextCompact: {
+    fontSize: 7.55,
+    lineHeight: 1.34,
+  },
+
+  messageTextCompact: {
+    fontSize: 7.75,
+    lineHeight: 1.34,
   },
 });
 
@@ -482,6 +502,16 @@ export default function HoroscopeYearMantra({
     identity.firstName?.trim() ||
     identity.zodiacSignLabel ||
     "Votre signe";
+
+  const mantraText = mantra.mantra.trim();
+  const intentionText = mantra.intention.trim();
+  const affirmationText = mantra.affirmation.trim();
+  const messageText = mantra.message.trim();
+
+  const useCompactMantra = mantraText.length > 95;
+  const useCompactSections =
+    Math.max(intentionText.length, affirmationText.length) > 360;
+  const useCompactMessage = messageText.length > 430;
 
   return (
     <Page
@@ -576,8 +606,13 @@ export default function HoroscopeYearMantra({
             À méditer tout au long de l’année
           </Text>
 
-          <Text style={styles.mantraText}>
-            « {mantra.mantra} »
+          <Text
+            style={[
+              styles.mantraText,
+              useCompactMantra ? styles.mantraTextCompact : {},
+            ]}
+          >
+            « {mantraText} »
           </Text>
         </View>
 
@@ -625,8 +660,13 @@ export default function HoroscopeYearMantra({
               </View>
             </View>
 
-            <Text style={styles.sectionText}>
-              {mantra.intention}
+            <Text
+              style={[
+                styles.sectionText,
+                useCompactSections ? styles.sectionTextCompact : {},
+              ]}
+            >
+              {intentionText}
             </Text>
           </View>
 
@@ -654,8 +694,13 @@ export default function HoroscopeYearMantra({
               </View>
             </View>
 
-            <Text style={styles.sectionText}>
-              {mantra.affirmation}
+            <Text
+              style={[
+                styles.sectionText,
+                useCompactSections ? styles.sectionTextCompact : {},
+              ]}
+            >
+              {affirmationText}
             </Text>
           </View>
         </View>
@@ -687,8 +732,13 @@ export default function HoroscopeYearMantra({
               Message de Luna Astralis
             </Text>
 
-            <Text style={styles.messageText}>
-              {mantra.message}
+            <Text
+              style={[
+                styles.messageText,
+                useCompactMessage ? styles.messageTextCompact : {},
+              ]}
+            >
+              {messageText}
             </Text>
           </View>
         </View>
