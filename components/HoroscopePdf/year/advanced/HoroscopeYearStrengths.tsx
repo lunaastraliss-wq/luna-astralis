@@ -34,11 +34,42 @@ import {
 |--------------------------------------------------------------------------
 */
 
+type YearPremiumIconKey =
+  | "ascendant"
+  | "balance"
+  | "elementAir"
+  | "elementEarth"
+  | "elementFire"
+  | "elementWater"
+  | "fourElements"
+  | "heart"
+  | "hiddenTalents"
+  | "innerWorld"
+  | "integrationGuide"
+  | "jupiter"
+  | "lifeBlocks"
+  | "lifePurpose"
+  | "mars"
+  | "mercury"
+  | "modalityCardinal"
+  | "modalityFixed"
+  | "modalityMutable"
+  | "money"
+  | "moon"
+  | "neptune"
+  | "planetSaturn"
+  | "pluto"
+  | "saturn"
+  | "soulPath"
+  | "sun"
+  | "uranus"
+  | "venus";
+
 export type YearlyStrengthItem = {
   title: string;
   text: string;
   advice: string;
-  icon?: string;
+  iconKey?: YearPremiumIconKey;
 };
 
 export type YearlyStrengthsResult = {
@@ -77,8 +108,228 @@ const SOFT_TEXT = "#B9AE98";
 const DARK_GOLD = "#8F6E35";
 const DEEP_GOLD = "#4E412D";
 
-const HIDDEN_TALENTS_ICON =
-  "/astrology/hidden-talents.png";
+/*
+|--------------------------------------------------------------------------
+| Résolution sécurisée des icônes
+|--------------------------------------------------------------------------
+*/
+
+const ICONS =
+  HOROSCOPE_ICONS as Record<string, string>;
+
+const ICON_ID_TO_KEY: Record<
+  string,
+  YearPremiumIconKey
+> = {
+  ascendant: "ascendant",
+  balance: "balance",
+  equilibre: "balance",
+  "element-air": "elementAir",
+  "element-eau": "elementWater",
+  "element-feu": "elementFire",
+  "element-terre": "elementEarth",
+  elements: "fourElements",
+  "four-elements": "fourElements",
+  amour: "heart",
+  love: "heart",
+  "talents-caches": "hiddenTalents",
+  "hidden-talents": "hiddenTalents",
+  force: "hiddenTalents",
+  forces: "hiddenTalents",
+  "monde-interieur": "innerWorld",
+  "inner-world": "innerWorld",
+  "integration-guide": "integrationGuide",
+  "guide-integration": "integrationGuide",
+  jupiter: "jupiter",
+  "blocages-interieurs": "lifeBlocks",
+  "life-blocks": "lifeBlocks",
+  "raison-etre": "lifePurpose",
+  "life-purpose": "lifePurpose",
+  mars: "mars",
+  mercure: "mercury",
+  mercury: "mercury",
+  "modalite-cardinale": "modalityCardinal",
+  "modality-cardinal": "modalityCardinal",
+  "modalite-fixe": "modalityFixed",
+  "modality-fixed": "modalityFixed",
+  "modalite-mutable": "modalityMutable",
+  "modality-mutable": "modalityMutable",
+  argent: "money",
+  money: "money",
+  lune: "moon",
+  moon: "moon",
+  neptune: "neptune",
+  saturne: "saturn",
+  saturn: "saturn",
+  "planet-saturn": "planetSaturn",
+  pluton: "pluto",
+  pluto: "pluto",
+  "mission-ame": "soulPath",
+  "soul-path": "soulPath",
+  soleil: "sun",
+  sun: "sun",
+  uranus: "uranus",
+  venus: "venus",
+};
+
+function cleanIconUrl(value: unknown): string {
+  return typeof value === "string"
+    ? value.trim()
+    : "";
+}
+
+function getIcon(
+  iconKey: YearPremiumIconKey,
+  fallbackKey: YearPremiumIconKey = "hiddenTalents",
+): string {
+  const requestedIcon = cleanIconUrl(ICONS[iconKey]);
+
+  if (requestedIcon) {
+    return requestedIcon;
+  }
+
+  const fallbackIcon = cleanIconUrl(ICONS[fallbackKey]);
+
+  if (fallbackIcon) {
+    return fallbackIcon;
+  }
+
+  const firstAvailableIcon = Object.values(ICONS)
+    .map(cleanIconUrl)
+    .find(Boolean);
+
+  return firstAvailableIcon || "";
+}
+
+function normalizeIconText(
+  value?: string,
+): string {
+  return (value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function isPremiumIconKey(
+  value: unknown,
+): value is YearPremiumIconKey {
+  return (
+    typeof value === "string" &&
+    cleanIconUrl(ICONS[value]).length > 0
+  );
+}
+
+function inferIconKeyFromText(
+  value?: string,
+): YearPremiumIconKey | null {
+  const normalized = normalizeIconText(value);
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (ICON_ID_TO_KEY[normalized]) {
+    return ICON_ID_TO_KEY[normalized];
+  }
+
+  const keywordRules: Array<
+    [string[], YearPremiumIconKey]
+  > = [
+    [["soleil", "solaire", "rayonnement", "confiance"], "sun"],
+    [["lune", "lunaire", "emotion", "sensibilite"], "moon"],
+    [["mercure", "communication", "mental", "analyse"], "mercury"],
+    [["venus"], "venus"],
+    [["amour", "relation", "affectif"], "heart"],
+    [["mars", "action", "energie", "courage", "initiative"], "mars"],
+    [["jupiter", "expansion", "chance", "croissance", "ouverture"], "jupiter"],
+    [["saturne", "structure", "discipline", "responsabilite"], "saturn"],
+    [["uranus", "changement", "liberte", "innovation"], "uranus"],
+    [["neptune", "intuition", "spiritualite", "reve"], "neptune"],
+    [["pluton", "transformation", "renaissance", "pouvoir"], "pluto"],
+    [["argent", "finance", "financier"], "money"],
+    [["force", "talent", "don", "potentiel", "creativite"], "hiddenTalents"],
+    [["blocage", "frein", "defi", "vigilance", "obstacle"], "lifeBlocks"],
+    [["mission", "raison-etre", "vocation"], "lifePurpose"],
+    [["ame", "chemin"], "soulPath"],
+    [["interieur", "introspection"], "innerWorld"],
+    [["integration", "synthese", "conclusion", "combinaison"], "integrationGuide"],
+    [["feu"], "elementFire"],
+    [["terre"], "elementEarth"],
+    [["air"], "elementAir"],
+    [["eau"], "elementWater"],
+    [["cardinal"], "modalityCardinal"],
+    [["fixe"], "modalityFixed"],
+    [["mutable"], "modalityMutable"],
+    [["equilibre", "harmonie", "balance"], "balance"],
+  ];
+
+  for (const [keywords, iconKey] of keywordRules) {
+    if (
+      keywords.some((keyword) =>
+        normalized.includes(keyword)
+      )
+    ) {
+      return iconKey;
+    }
+  }
+
+  return null;
+}
+
+function resolveStrengthIconKey(
+  strength: YearlyStrengthItem,
+  index: number,
+): YearPremiumIconKey {
+  if (isPremiumIconKey(strength.iconKey)) {
+    return strength.iconKey;
+  }
+
+  const inferredIconKey =
+    inferIconKeyFromText(strength.title) ||
+    inferIconKeyFromText(strength.text) ||
+    inferIconKeyFromText(strength.advice);
+
+  if (inferredIconKey) {
+    return inferredIconKey;
+  }
+
+  const fallbackKeys: YearPremiumIconKey[] = [
+    "sun",
+    "moon",
+    "jupiter",
+    "soulPath",
+  ];
+
+  return fallbackKeys[index] || "hiddenTalents";
+}
+
+function resolveStrengthIcon(
+  strength: YearlyStrengthItem,
+  index: number,
+): string {
+  const iconKey = resolveStrengthIconKey(
+    strength,
+    index,
+  );
+
+  return getIcon(iconKey, "hiddenTalents");
+}
+
+const STRENGTHS_ICON =
+  getIcon("hiddenTalents", "sun");
+
+const OPPORTUNITY_ICON =
+  getIcon("hiddenTalents", "jupiter");
+
+const VIGILANCE_ICON =
+  getIcon("lifeBlocks", "saturn");
+
+const CONCLUSION_ICON =
+  getIcon("integrationGuide", "hiddenTalents");
 
 /*
 |--------------------------------------------------------------------------
@@ -582,19 +833,6 @@ const styles = StyleSheet.create({
 
 /*
 |--------------------------------------------------------------------------
-| Icônes
-|--------------------------------------------------------------------------
-*/
-
-const DEFAULT_STRENGTH_ICONS = [
-  HOROSCOPE_ICONS.sun,
-  HOROSCOPE_ICONS.moon,
-  HOROSCOPE_ICONS.jupiter,
-  HOROSCOPE_ICONS.soulPath,
-];
-
-/*
-|--------------------------------------------------------------------------
 | Composant
 |--------------------------------------------------------------------------
 */
@@ -676,7 +914,7 @@ export default function HoroscopeYearStrengths({
             <View style={styles.titleLine} />
 
             <Image
-              src={HIDDEN_TALENTS_ICON}
+              src={STRENGTHS_ICON}
               style={styles.titleIcon}
             />
 
@@ -691,7 +929,7 @@ export default function HoroscopeYearStrengths({
           <View style={styles.heroIconOuter}>
             <View style={styles.heroIconInner}>
               <Image
-                src={HIDDEN_TALENTS_ICON}
+                src={STRENGTHS_ICON}
                 style={styles.heroIcon}
               />
             </View>
@@ -734,7 +972,7 @@ export default function HoroscopeYearStrengths({
           <View style={styles.potentialHeader}>
             <View style={styles.potentialLeft}>
               <Image
-                src={HIDDEN_TALENTS_ICON}
+                src={STRENGTHS_ICON}
                 style={styles.potentialIcon}
               />
 
@@ -764,7 +1002,7 @@ export default function HoroscopeYearStrengths({
           <View style={styles.sectionHeaderLine} />
 
           <Image
-            src={HIDDEN_TALENTS_ICON}
+            src={STRENGTHS_ICON}
             style={styles.sectionHeaderIcon}
           />
 
@@ -784,11 +1022,10 @@ export default function HoroscopeYearStrengths({
                 <View style={styles.strengthHeader}>
                   <View style={styles.strengthIconCircle}>
                     <Image
-                      src={
-                        strength.icon ||
-                        DEFAULT_STRENGTH_ICONS[index] ||
-                        HIDDEN_TALENTS_ICON
-                      }
+                      src={resolveStrengthIcon(
+                        strength,
+                        index,
+                      )}
                       style={styles.strengthIcon}
                     />
                   </View>
@@ -818,7 +1055,7 @@ export default function HoroscopeYearStrengths({
           <View style={styles.balanceCard}>
             <View style={styles.balanceHeader}>
               <Image
-                src={HOROSCOPE_ICONS.jupiter}
+                src={OPPORTUNITY_ICON}
                 style={styles.balanceIcon}
               />
 
@@ -835,7 +1072,7 @@ export default function HoroscopeYearStrengths({
           <View style={styles.balanceCard}>
             <View style={styles.balanceHeader}>
               <Image
-                src={HOROSCOPE_ICONS.saturn}
+                src={VIGILANCE_ICON}
                 style={styles.balanceIcon}
               />
 
@@ -852,13 +1089,13 @@ export default function HoroscopeYearStrengths({
 
         <View style={styles.adviceCard}>
           <Image
-            src={HIDDEN_TALENTS_ICON}
+            src={STRENGTHS_ICON}
             style={styles.adviceWatermark}
           />
 
           <View style={styles.adviceIconCircle}>
             <Image
-              src={HOROSCOPE_ICONS.integrationGuide}
+              src={CONCLUSION_ICON}
               style={styles.adviceIcon}
             />
           </View>
