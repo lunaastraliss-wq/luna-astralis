@@ -31,6 +31,8 @@ export default function HoroscopeYearPdfClientViewer({
     strengths,
     hiddenTalents,
     premiumPages,
+    bestPeriods,
+    calendar,
     zodiacIconUrl,
   } = horoscope;
 
@@ -77,6 +79,12 @@ export default function HoroscopeYearPdfClientViewer({
           }
           premiumPages={
             premiumPages
+          }
+          bestPeriods={
+            bestPeriods
+          }
+          calendar={
+            calendar
           }
           zodiacIconUrl={
             zodiacIconUrl
