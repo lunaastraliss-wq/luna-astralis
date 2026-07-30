@@ -23,13 +23,13 @@ import {
 } from "../HoroscopePdfUtils";
 
 import type {
-  YearlyHoroscopeResult,
-} from "../buildYearlyHoroscope";
+  HoroscopeIdentity,
+  HoroscopePeriodData,
+} from "../HoroscopePdfTypes";
 
 import type {
-  YearlyDominantPlanet,
-  YearlyPlanetName,
-} from "./annualPages/types";
+  YearDominantPlanetsResult,
+} from "./data/types";
 
 /*
 |--------------------------------------------------------------------------
@@ -73,25 +73,24 @@ const DEEP_GOLD =
 |--------------------------------------------------------------------------
 */
 
-type HoroscopeYearDominantPlanetsProps =
-  Pick<
-    YearlyHoroscopeResult,
-    | "identity"
-    | "period"
-  > & {
-    dominantPlanets:
-      YearlyDominantPlanet[];
-  };
+type HoroscopeYearDominantPlanetsProps = {
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  dominantPlanets: YearDominantPlanetsResult;
+};
 
 type DominantPlanetTone =
   | "expansion"
   | "relationships"
   | "action";
 
+type DominantPlanetItem =
+  YearDominantPlanetsResult["planets"][number];
+
 type DisplayDominantPlanet = {
   id: string;
   rank: number;
-  planet: YearlyPlanetName;
+  planet: string;
   icon: string;
   influenceLabel: string;
   tone: DominantPlanetTone;
@@ -100,6 +99,7 @@ type DisplayDominantPlanet = {
   description: string;
   influence: string;
   advice: string;
+  strength: number;
 };
 
 /*
@@ -109,11 +109,9 @@ type DisplayDominantPlanet = {
 */
 
 const PLANET_TONES:
-  Partial<
-    Record<
-      YearlyPlanetName,
-      DominantPlanetTone
-    >
+  Record<
+    string,
+    DominantPlanetTone
   > = {
     Soleil:
       "action",
@@ -144,31 +142,18 @@ const PLANET_TONES:
 
     Pluton:
       "action",
-    };
+  };
 
 /*
 |--------------------------------------------------------------------------
 | Thèmes courts pour les badges
 |--------------------------------------------------------------------------
-|
-| Important :
-| Le badge doit toujours contenir un texte court.
-|
-| Il ne faut pas utiliser planet.reasons ici, car reasons contient
-| des phrases complètes comme :
-|
-| "42 aspects importants influencent son énergie."
-|
-| Ces phrases écrasaient le titre dans la mise en page React PDF.
-|--------------------------------------------------------------------------
 */
 
 const PLANET_THEME_LABELS:
-  Partial<
-    Record<
-      YearlyPlanetName,
-      string
-    >
+  Record<
+    string,
+    string
   > = {
     Soleil:
       "Identité • Vitalité",
@@ -199,7 +184,7 @@ const PLANET_THEME_LABELS:
 
     Pluton:
       "Transformation • Vérité",
-   };
+  };
 
 /*
 |--------------------------------------------------------------------------
@@ -208,8 +193,7 @@ const PLANET_THEME_LABELS:
 */
 
 function normalizePlanetIconKey(
-  planet:
-    YearlyPlanetName,
+  planet: string,
 ): keyof typeof HOROSCOPE_ICONS {
   const normalized =
     planet
@@ -254,7 +238,7 @@ function normalizePlanetIconKey(
 
       pluton:
         "pluto",
-     };
+    };
 
   return (
     iconKeyMap[normalized] ??
@@ -263,8 +247,7 @@ function normalizePlanetIconKey(
 }
 
 function getPlanetIcon(
-  planet:
-    YearlyPlanetName,
+  planet: string,
 ): string {
   return HOROSCOPE_ICONS[
     normalizePlanetIconKey(
@@ -280,8 +263,7 @@ function getPlanetIcon(
 */
 
 function getPlanetTone(
-  planet:
-    YearlyPlanetName,
+  planet: string,
 ): DominantPlanetTone {
   return (
     PLANET_TONES[planet] ??
@@ -290,18 +272,18 @@ function getPlanetTone(
 }
 
 function getPlanetTheme(
-  planet:
-    YearlyPlanetName,
+  planet: string,
+  area: string,
 ): string {
   return (
     PLANET_THEME_LABELS[planet] ??
+    area ??
     "Influence majeure"
   );
 }
 
 function getInfluenceLabel(
-  rank:
-    number,
+  rank: number,
 ): string {
   if (rank === 1) {
     return "Influence principale";
@@ -314,37 +296,20 @@ function getInfluenceLabel(
   return "Influence complémentaire";
 }
 
-/*
-|--------------------------------------------------------------------------
-| Texte expliquant l’influence
-|--------------------------------------------------------------------------
-*/
-
-function buildInfluenceText(
-  planet:
-    YearlyDominantPlanet,
-): string {
-  const reasons =
-    Array.isArray(
-      planet.reasons,
-    )
-      ? planet.reasons
-      : [];
-
-  const scoreText =
-    `Cette planète obtient un score d’influence de ${planet.score} %.`;
-
-  if (reasons.length === 0) {
-    return scoreText;
+function normalizeStrength(
+  value: number,
+): number {
+  if (!Number.isFinite(value)) {
+    return 0;
   }
 
-  return [
-    scoreText,
-    ...reasons.slice(
-      0,
-      2,
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(value),
     ),
-  ].join(" ");
+  );
 }
 
 /*
@@ -354,14 +319,16 @@ function buildInfluenceText(
 */
 
 function buildDisplayDominantPlanet(
-  planet:
-    YearlyDominantPlanet,
-  index:
-    number,
+  planet: DominantPlanetItem,
+  index: number,
 ): DisplayDominantPlanet {
   const rank =
-    planet.rank ??
     index + 1;
+
+  const strength =
+    normalizeStrength(
+      planet.strength,
+    );
 
   return {
     id:
@@ -387,28 +354,30 @@ function buildDisplayDominantPlanet(
         planet.planet,
       ),
 
-    /*
-     * Correction :
-     * on utilise un thème court et non planet.reasons.
-     */
     theme:
       getPlanetTheme(
         planet.planet,
+        planet.area,
       ),
 
     title:
-      planet.title,
+      planet.area,
 
     description:
-      planet.description,
+      planet.influence,
 
     influence:
-      buildInfluenceText(
-        planet,
-      ),
+      [
+        `Cette influence atteint une intensité de ${strength} %.`,
+        planet.message,
+      ]
+        .filter(Boolean)
+        .join(" "),
 
     advice:
       planet.advice,
+
+    strength,
   };
 }
 
@@ -1469,9 +1438,9 @@ export default function HoroscopeYearDominantPlanets({
   const displayedPlanets =
     (
       Array.isArray(
-        dominantPlanets,
+        dominantPlanets.planets,
       )
-        ? dominantPlanets
+        ? dominantPlanets.planets
         : []
     )
       .slice(
@@ -1482,13 +1451,6 @@ export default function HoroscopeYearDominantPlanets({
         buildDisplayDominantPlanet,
       );
 
-  const dominantNames =
-    displayedPlanets
-      .map(
-        (item) =>
-          item.planet,
-      )
-      .join(", ");
 
   return (
     <Page
@@ -1535,7 +1497,7 @@ export default function HoroscopeYearDominantPlanets({
           </Text>
 
           <Text style={styles.title}>
-            Les planètes dominantes de votre mois
+            {dominantPlanets.title}
           </Text>
 
           <Text style={styles.period}>
@@ -1574,15 +1536,7 @@ export default function HoroscopeYearDominantPlanets({
           </Text>
 
           <Text style={styles.introduction}>
-            Parmi les différentes influences
-            astrologiques de{" "}
-            {periodLabel}, certaines planètes
-            occupent une place plus importante
-            pour le signe{" "}
-            {identity.zodiacSignLabel}.
-            Elles représentent les énergies
-            que vous pourriez ressentir avec
-            le plus d’intensité durant l’année.
+            {dominantPlanets.introduction}
           </Text>
         </View>
 
@@ -1670,6 +1624,10 @@ export default function HoroscopeYearDominantPlanets({
                       <Text style={styles.cardTitle}>
                         {item.title}
                       </Text>
+
+                      <Text style={styles.influenceLabel}>
+                        Intensité : {item.strength} %
+                      </Text>
                     </View>
 
                     <Text
@@ -1698,7 +1656,7 @@ export default function HoroscopeYearDominantPlanets({
                         styles.influenceTitle
                       }
                     >
-                      Influence dans votre mois
+                      Influence dans votre année
                     </Text>
 
                     <Text
@@ -1763,9 +1721,13 @@ export default function HoroscopeYearDominantPlanets({
             </Text>
 
             <Text style={styles.summaryText}>
-              {dominantNames
-                ? `Les énergies de ${dominantNames} composent votre combinaison dominante de ${periodLabel}. Appuyez-vous sur leurs forces complémentaires, tout en respectant le rythme et les ajustements indiqués dans leurs conseils.`
-                : `Les mouvements planétaires de ${periodLabel} vous invitent à avancer avec discernement, en observant les influences qui se présentent avant de prendre vos décisions.`}
+              {[
+                  dominantPlanets.synthesis,
+                  dominantPlanets.advice,
+                  dominantPlanets.conclusion,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
             </Text>
           </View>
         </View>
