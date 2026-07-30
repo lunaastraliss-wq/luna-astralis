@@ -29,6 +29,7 @@ import {
   buildYearlyStrengths,
   buildYearlyHiddenTalents,
   buildYearPremiumPages,
+  buildYearAnnualPages,
 } from "./year/data";
 
 import {
@@ -94,6 +95,37 @@ export type YearlyHoroscopeResult = {
   content: HoroscopePdfContent;
 
   mantra: YearlyMantraResult;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Pages principales d’analyse annuelle
+  |--------------------------------------------------------------------------
+  */
+
+  overview:
+    ReturnType<
+      typeof buildYearAnnualPages
+    >["overview"];
+
+  majorEnergies:
+    ReturnType<
+      typeof buildYearAnnualPages
+    >["majorEnergies"];
+
+  majorAspects:
+    ReturnType<
+      typeof buildYearAnnualPages
+    >["majorAspects"];
+
+  dominantPlanets:
+    ReturnType<
+      typeof buildYearAnnualPages
+    >["dominantPlanets"];
+
+  activatedHouses:
+    ReturnType<
+      typeof buildYearAnnualPages
+    >["activatedHouses"];
 
   /*
   |--------------------------------------------------------------------------
@@ -641,8 +673,19 @@ export function buildYearlyHoroscope({
       yearlySectionParams,
     );
 
-    const mantra =
+  const mantra =
     buildYearlyMantra(
+      yearlySectionParams,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Pages principales d’analyse annuelle
+  |--------------------------------------------------------------------------
+  */
+
+  const annualPages =
+    buildYearAnnualPages(
       yearlySectionParams,
     );
 
@@ -679,7 +722,6 @@ export function buildYearlyHoroscope({
       identity,
       period,
     });
-
 
   /*
   |--------------------------------------------------------------------------
@@ -753,7 +795,7 @@ export function buildYearlyHoroscope({
 
     /*
     |--------------------------------------------------------------------------
-    | Vue d’ensemble
+    | Vue d’ensemble commune
     |--------------------------------------------------------------------------
     */
 
@@ -772,7 +814,7 @@ export function buildYearlyHoroscope({
 
     /*
     |--------------------------------------------------------------------------
-    | Énergie
+    | Énergie commune
     |--------------------------------------------------------------------------
     */
 
@@ -938,7 +980,8 @@ export function buildYearlyHoroscope({
       },
     ],
 
-  timeline: [],
+    timeline: [],
+
     /*
     |--------------------------------------------------------------------------
     | Éléments chanceux
@@ -1040,6 +1083,28 @@ export function buildYearlyHoroscope({
     period,
     content,
     mantra,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cinq nouvelles pages annuelles
+    |--------------------------------------------------------------------------
+    */
+
+    overview:
+      annualPages.overview,
+
+    majorEnergies:
+      annualPages.majorEnergies,
+
+    majorAspects:
+      annualPages.majorAspects,
+
+    dominantPlanets:
+      annualPages.dominantPlanets,
+
+    activatedHouses:
+      annualPages.activatedHouses,
+
     strengths,
     hiddenTalents,
     premiumPages,
