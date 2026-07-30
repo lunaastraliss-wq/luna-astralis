@@ -30,6 +30,8 @@ import {
   buildYearlyHiddenTalents,
   buildYearPremiumPages,
   buildYearAnnualPages,
+  buildYearlyCalendar,
+  buildYearlyBestPeriods,
 } from "./year/data";
 
 import {
@@ -146,6 +148,28 @@ export type YearlyHoroscopeResult = {
   premiumPages:
     ReturnType<
       typeof buildYearPremiumPages
+    >;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Meilleurs moments de l’année
+  |--------------------------------------------------------------------------
+  */
+
+  bestPeriods:
+    ReturnType<
+      typeof buildYearlyBestPeriods
+    >;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Calendrier astrologique annuel
+  |--------------------------------------------------------------------------
+  */
+
+  calendar:
+    ReturnType<
+      typeof buildYearlyCalendar
     >;
 
   zodiacIconUrl: string;
@@ -691,6 +715,28 @@ export function buildYearlyHoroscope({
 
   /*
   |--------------------------------------------------------------------------
+  | Meilleurs moments de l’année
+  |--------------------------------------------------------------------------
+  */
+
+  const bestPeriods =
+    buildYearlyBestPeriods(
+      yearlySectionParams,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Calendrier astrologique annuel
+  |--------------------------------------------------------------------------
+  */
+
+  const calendar =
+    buildYearlyCalendar(
+      yearlySectionParams,
+    );
+
+  /*
+  |--------------------------------------------------------------------------
   | Page 31 — Forces dominantes
   |--------------------------------------------------------------------------
   */
@@ -1108,6 +1154,8 @@ export function buildYearlyHoroscope({
     strengths,
     hiddenTalents,
     premiumPages,
+    bestPeriods,
+    calendar,
 
     zodiacIconUrl:
       getHoroscopeZodiacIconUrl(
