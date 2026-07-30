@@ -48,6 +48,9 @@ import HoroscopePdfDocument
 import HoroscopeMonthPdf
   from "@/components/HoroscopePdf/HoroscopeMonthPdf";
 
+import HoroscopeYearPdf
+  from "@/components/HoroscopePdf/HoroscopeYearPdf";
+
 /*
 |--------------------------------------------------------------------------
 | Générateurs — horoscopes
@@ -61,6 +64,10 @@ import {
 import {
   buildMonthlyHoroscope,
 } from "@/components/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope,
+} from "@/components/HoroscopePdf/buildYearlyHoroscope";
 
 /*
 |--------------------------------------------------------------------------
@@ -746,6 +753,40 @@ function getMonthlyReportIsoMonth(
       "0",
     )}`
   );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Année demandée pour l’horoscope annuel
+|--------------------------------------------------------------------------
+*/
+
+function getYearlyReportYear(
+  order: any,
+  birthData: any,
+): number {
+  const reportYear =
+    Number(
+      order?.report_year ??
+        order?.reportYear ??
+        birthData?.reportYear ??
+        birthData?.report_year ??
+        birthData?.year,
+    );
+
+  if (
+    !Number.isInteger(
+      reportYear,
+    ) ||
+    reportYear < 2020 ||
+    reportYear > 2200
+  ) {
+    throw new Error(
+      "INVALID_REPORT_YEAR",
+    );
+  }
+
+  return reportYear;
 }
 
 /*
@@ -1821,19 +1862,81 @@ export async function POST(
       |--------------------------------------------------------------------------
       | Horoscope de l’année
       |--------------------------------------------------------------------------
-      |
-      | Le rapport annuel n’est pas encore branché.
-      | Cette erreur empêche de générer accidentellement le PDF Essentielle.
-      |
       */
 
       else if (
         productType ===
         "horoscope-year"
       ) {
-        throw new Error(
-          "HOROSCOPE_YEAR_NOT_IMPLEMENTED",
+        const zodiac =
+          resolveZodiacSign(
+            chart.planets,
+            birthData,
+            order,
+          );
+
+        const reportYear =
+          getYearlyReportYear(
+            order,
+            birthData,
+          );
+
+        const horoscopeData =
+          buildYearlyHoroscope({
+            firstName:
+              chart.firstName,
+
+            zodiacSign:
+              zodiac.key,
+
+            year:
+              reportYear,
+
+            birthDate:
+              chart.birthDate,
+
+            birthTime:
+              chart.birthTime,
+
+            birthCity:
+              chart.birthCity,
+
+            birthCountry:
+              chart.birthCountry,
+          });
+
+        console.log(
+          "HOROSCOPE_YEAR_GENERATION",
+          {
+            sessionId,
+            productType,
+
+            firstName:
+              chart.firstName,
+
+            zodiacSign:
+              zodiac.key,
+
+            zodiacSignLabel:
+              zodiac.label,
+
+            year:
+              reportYear,
+
+            periodLabel:
+              horoscopeData
+                .period
+                .label,
+          },
         );
+
+        pdfDocument =
+          React.createElement(
+            HoroscopeYearPdf,
+            {
+              ...horoscopeData,
+            },
+          );
       }
 
       /*
@@ -1978,10 +2081,6 @@ export async function POST(
         "TIMEZONE_",
       );
 
-    const isNotImplemented =
-      message ===
-        "HOROSCOPE_YEAR_NOT_IMPLEMENTED";
-
     return NextResponse.json(
       {
         error:
@@ -1991,9 +2090,7 @@ export async function POST(
         status:
           isClientError
             ? 400
-            : isNotImplemented
-              ? 501
-              : 500,
+            : 500,
       },
     );
   }
