@@ -563,7 +563,7 @@ export default function HoroscopeYearCalendar({
             </View>
 
             <Text style={styles.summaryValue}>
-              {calendar.bestMonth}
+              {calendar.bestMonth.month}
             </Text>
           </View>
 
@@ -580,7 +580,7 @@ export default function HoroscopeYearCalendar({
             </View>
 
             <Text style={styles.summaryValue}>
-              {calendar.mostDelicateMonth}
+              {calendar.mostDelicateMonth.month}
             </Text>
           </View>
 
