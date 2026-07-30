@@ -764,13 +764,7 @@ export async function POST(
              * Gratuit temporairement pour les tests.
              */
 
-            discounts: [
-              {
-                promotion_code:
-                  TEST_PROMOTION_CODE,
-              },
-            ],
-
+            
             success_url:
               `${SITE_URL}/report-success` +
               `?session_id={CHECKOUT_SESSION_ID}`,
@@ -942,12 +936,6 @@ export async function POST(
              * Gratuit temporairement pour les tests.
              */
 
-            discounts: [
-              {
-                promotion_code:
-                  TEST_PROMOTION_CODE,
-              },
-            ],
 
             success_url:
               `${SITE_URL}/report-success` +
@@ -1125,13 +1113,6 @@ export async function POST(
             /*
              * Gratuit temporairement pour les tests.
              */
-
-            discounts: [
-              {
-                promotion_code:
-                  TEST_PROMOTION_CODE,
-              },
-            ],
 
             success_url:
               `${SITE_URL}/report-success` +
