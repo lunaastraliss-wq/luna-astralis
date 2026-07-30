@@ -178,7 +178,7 @@ function cleanIconUrl(value: unknown): string {
 
 function getIcon(
   iconKey: YearPremiumIconKey,
-  fallbackKey: YearPremiumIconKey = "sun",
+  fallbackKey: YearPremiumIconKey = "balance",
 ): string {
   const requestedIcon = cleanIconUrl(ICONS[iconKey]);
 
@@ -222,13 +222,72 @@ function normalizePageId(
     .replace(/^-+|-+$/g, "");
 }
 
+function isPremiumIconKey(
+  value: unknown,
+): value is YearPremiumIconKey {
+  return (
+    typeof value === "string" &&
+    cleanIconUrl(ICONS[value]).length > 0
+  );
+}
+
+function inferIconKeyFromText(
+  value?: string,
+): YearPremiumIconKey | null {
+  const normalized = normalizePageId(value);
+
+  if (!normalized) {
+    return null;
+  }
+
+  if (PAGE_ID_TO_ICON_KEY[normalized]) {
+    return PAGE_ID_TO_ICON_KEY[normalized];
+  }
+
+  const keywordRules: Array<[string[], YearPremiumIconKey]> = [
+    [["soleil", "solaire"], "sun"],
+    [["lune", "lunaire", "emotion"], "moon"],
+    [["mercure", "communication", "mental"], "mercury"],
+    [["venus", "amour", "relation", "affectif"], "venus"],
+    [["mars", "action", "energie", "courage"], "mars"],
+    [["jupiter", "expansion", "chance", "croissance"], "jupiter"],
+    [["saturne", "structure", "discipline", "responsabilite"], "saturn"],
+    [["uranus", "changement", "liberte", "innovation"], "uranus"],
+    [["neptune", "intuition", "spiritualite", "reve"], "neptune"],
+    [["pluton", "transformation", "renaissance", "pouvoir"], "pluto"],
+    [["argent", "finance", "financier"], "money"],
+    [["talent", "opportunite", "potentiel"], "hiddenTalents"],
+    [["blocage", "defi", "vigilance", "obstacle"], "lifeBlocks"],
+    [["mission", "raison-etre", "vocation"], "lifePurpose"],
+    [["ame", "chemin"], "soulPath"],
+    [["interieur", "introspection"], "innerWorld"],
+    [["integration", "synthese", "conclusion"], "integrationGuide"],
+    [["feu"], "elementFire"],
+    [["terre"], "elementEarth"],
+    [["air"], "elementAir"],
+    [["eau"], "elementWater"],
+    [["cardinal"], "modalityCardinal"],
+    [["fixe"], "modalityFixed"],
+    [["mutable"], "modalityMutable"],
+    [["equilibre", "harmonie", "balance"], "balance"],
+  ];
+
+  for (const [keywords, iconKey] of keywordRules) {
+    if (keywords.some((keyword) => normalized.includes(keyword))) {
+      return iconKey;
+    }
+  }
+
+  return null;
+}
+
 function resolvePageIconKey(
   page: YearPremiumPageData,
 ): YearPremiumIconKey {
   const pageWithIconKey =
     page as YearPremiumPageWithIconKey;
 
-  if (pageWithIconKey.iconKey) {
+  if (isPremiumIconKey(pageWithIconKey.iconKey)) {
     return pageWithIconKey.iconKey;
   }
 
@@ -241,15 +300,10 @@ function resolvePageIconKey(
     return PAGE_ID_TO_ICON_KEY[stableId];
   }
 
-  /*
-  | Compatibilité temporaire avec les anciennes données :
-  | dès que chaque page possède iconKey, ce repli peut être retiré.
-  */
-  const legacyId = normalizePageId(page.title);
-
   return (
-    PAGE_ID_TO_ICON_KEY[legacyId] ||
-    "sun"
+    inferIconKeyFromText(page.title) ||
+    inferIconKeyFromText(page.subtitle) ||
+    "balance"
   );
 }
 
@@ -260,7 +314,15 @@ function resolveColumnIconKey(
   const columnWithIconKey =
     column as YearPremiumColumnWithIconKey | undefined;
 
-  return columnWithIconKey?.iconKey || fallbackKey;
+  if (isPremiumIconKey(columnWithIconKey?.iconKey)) {
+    return columnWithIconKey.iconKey;
+  }
+
+  return (
+    inferIconKeyFromText(column?.title) ||
+    inferIconKeyFromText(column?.text) ||
+    fallbackKey
+  );
 }
 
 /*
@@ -781,36 +843,28 @@ const styles = StyleSheet.create({
 
 type PremiumBalanceColumnProps = {
   column: YearPremiumBalanceColumn | undefined;
-  fallbackIcon: string;
+  iconKey: YearPremiumIconKey;
   side: "left" | "right";
 };
 
 function PremiumBalanceColumn({
   column,
-  fallbackIcon,
+  iconKey,
   side,
 }: PremiumBalanceColumnProps) {
-  const fallbackIconKey: YearPremiumIconKey =
-    side === "left" ? "elementFire" : "elementWater";
-
-  const iconKey = resolveColumnIconKey(
-    column,
-    fallbackIconKey,
-  );
-
   /*
   |--------------------------------------------------------------------------
   | Une seule source pour les PNG
   |--------------------------------------------------------------------------
   |
-  | On n'utilise plus column.icon. Toutes les images passent maintenant par
-  | HOROSCOPE_ICONS et iconKey. Cela empêche les URL vides, les anciennes
-  | valeurs et la répétition accidentelle de la même image.
+  | La colonne reçoit une clé déjà résolue. Aucune URL provenant des données
+  | n'est utilisée : toutes les images passent par HOROSCOPE_ICONS.
   |
   */
-  const icon = getIcon(iconKey);
-  const safeFallbackIcon = cleanIconUrl(fallbackIcon);
-  const displayedIcon = icon || safeFallbackIcon;
+  const displayedIcon = getIcon(
+    iconKey,
+    side === "left" ? "elementFire" : "elementWater",
+  );
 
   const items =
     Array.isArray(column?.items)
@@ -934,20 +988,14 @@ export default function YearPremiumBalancePage({
   const leftColumnIconKey =
     resolveColumnIconKey(
       page.leftColumn,
-      pageIconKey,
+      "elementFire",
     );
 
   const rightColumnIconKey =
     resolveColumnIconKey(
       page.rightColumn,
-      pageIconKey,
+      "elementWater",
     );
-
-  const leftColumnIcon =
-    getIcon(leftColumnIconKey, pageIconKey);
-
-  const rightColumnIcon =
-    getIcon(rightColumnIconKey, pageIconKey);
 
   const opportunityIcon =
     getIcon("hiddenTalents", pageIconKey);
@@ -1096,7 +1144,7 @@ export default function YearPremiumBalancePage({
         <View style={styles.columnsRow}>
           <PremiumBalanceColumn
             column={page.leftColumn}
-            fallbackIcon={leftColumnIcon}
+            iconKey={leftColumnIconKey}
             side="left"
           />
 
@@ -1109,7 +1157,7 @@ export default function YearPremiumBalancePage({
 
           <PremiumBalanceColumn
             column={page.rightColumn}
-            fallbackIcon={rightColumnIcon}
+            iconKey={rightColumnIconKey}
             side="right"
           />
         </View>
