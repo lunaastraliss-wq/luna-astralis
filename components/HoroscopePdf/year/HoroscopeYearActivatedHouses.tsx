@@ -23,12 +23,13 @@ import {
 } from "../HoroscopePdfUtils";
 
 import type {
-  YearlyHoroscopeResult,
-} from "../buildYearlyHoroscope";
+  HoroscopeIdentity,
+  HoroscopePeriodData,
+} from "../HoroscopePdfTypes";
 
 import type {
-  YearlyActivatedHouse,
-} from "./annualPages/types";
+  YearActivatedHousesResult,
+} from "./data/types";
 
 /*
 |--------------------------------------------------------------------------
@@ -55,15 +56,14 @@ const DEEP_GOLD = "#4E412D";
 |--------------------------------------------------------------------------
 */
 
-type HoroscopeYearActivatedHousesProps =
-  Pick<
-    YearlyHoroscopeResult,
-    | "identity"
-    | "period"
-  > & {
-    activatedHouses:
-      YearlyActivatedHouse[];
-  };
+type HoroscopeYearActivatedHousesProps = {
+  identity: HoroscopeIdentity;
+  period: HoroscopePeriodData;
+  activatedHouses: YearActivatedHousesResult;
+};
+
+type ActivatedHouseItem =
+  YearActivatedHousesResult["houses"][number];
 
 type HouseTone =
   | "identity"
@@ -82,6 +82,7 @@ type DisplayActivatedHouse = {
   description: string;
   manifestation: string;
   advice: string;
+  intensity: number;
 };
 
 /*
@@ -123,8 +124,7 @@ const HOUSE_CATEGORIES:
   };
 
 function getHouseTone(
-  house:
-    number,
+  house: number,
 ): HouseTone {
   if (
     house === 1 ||
@@ -155,8 +155,7 @@ function getHouseTone(
 }
 
 function getHouseIcon(
-  house:
-    number,
+  house: number,
 ): string {
   if (
     house === 1 ||
@@ -186,120 +185,30 @@ function getHouseIcon(
   return HOROSCOPE_ICONS.integrationGuide;
 }
 
-function formatHouseDate(
-  value?:
-    string,
-): string {
-  if (!value) {
-    return "";
+function normalizeIntensity(
+  value: number,
+): number {
+  if (!Number.isFinite(value)) {
+    return 0;
   }
 
-  const date =
-    new Date(
-      `${value}T12:00:00`,
-    );
-
-  if (
-    Number.isNaN(
-      date.getTime(),
-    )
-  ) {
-    return value;
-  }
-
-  return new Intl.DateTimeFormat(
-    "fr-CA",
-    {
-      day:
-        "numeric",
-
-      month:
-        "long",
-    },
-  ).format(date);
+  return Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(value),
+    ),
+  );
 }
 
-function buildManifestationText(
-  house:
-    YearlyActivatedHouse,
-): string {
-  const dates =
-    Array.isArray(
-      house.dates,
-    )
-      ? house.dates
-      : [];
-
-  const activatingPlanets =
-    Array.isArray(
-      house.activatingPlanets,
-    )
-      ? house.activatingPlanets
-      : [];
-
-  const reasons =
-    Array.isArray(
-      house.reasons,
-    )
-      ? house.reasons
-      : [];
-
-  const formattedDates =
-    dates
-      .slice(0, 3)
-      .map(
-        (date) =>
-          formatHouseDate(
-            date,
-          ),
-      )
-      .filter(
-        (date): date is string =>
-          Boolean(date),
-      );
-
-  const parts:
-    string[] = [];
-
-  if (
-    activatingPlanets.length > 0
-  ) {
-    parts.push(
-      `Les influences de ${activatingPlanets.join(", ")} rendent ce secteur plus présent au cours de l’année.`,
-    );
-  } else {
-    parts.push(
-      "Les mouvements de l’année attirent progressivement votre attention vers ce secteur de votre vie.",
-    );
-  }
-
-  if (
-    formattedDates.length > 0
-  ) {
-    parts.push(
-      `Les périodes autour du ${formattedDates.join(", du ")} peuvent être particulièrement révélatrices.`,
-    );
-  }
-
-  if (reasons[0]) {
-    parts.push(
-      reasons[0],
-    );
-  }
-
-  return parts.join(" ");
-}
-
-function buildHouseTitle(
-  house:
-    YearlyActivatedHouse,
-): string {
-  return house.title;
-}
+/*
+|--------------------------------------------------------------------------
+| Conversion vers les données visuelles
+|--------------------------------------------------------------------------
+*/
 
 function buildDisplayActivatedHouse(
-  house:
-    YearlyActivatedHouse,
+  house: ActivatedHouseItem,
 ): DisplayActivatedHouse {
   const romanNumber =
     ROMAN_HOUSE_NUMBERS[
@@ -310,11 +219,16 @@ function buildDisplayActivatedHouse(
     );
 
   const category =
-    house.lifeArea ||
+    house.area ||
     HOUSE_CATEGORIES[
       house.house
     ] ||
     "Évolution";
+
+  const intensity =
+    normalizeIntensity(
+      house.intensity,
+    );
 
   return {
     id:
@@ -339,20 +253,23 @@ function buildDisplayActivatedHouse(
     category,
 
     title:
-      buildHouseTitle(
-        house,
-      ),
+      house.title,
 
     description:
-      house.description,
+      house.influence,
 
     manifestation:
-      buildManifestationText(
-        house,
-      ),
+      [
+        `Intensité annuelle : ${intensity} %.`,
+        house.opportunity,
+      ]
+        .filter(Boolean)
+        .join(" "),
 
     advice:
       house.advice,
+
+    intensity,
   };
 }
 
@@ -1246,9 +1163,9 @@ export default function HoroscopeYearActivatedHouses({
   const displayedHouses =
     (
       Array.isArray(
-        activatedHouses,
+        activatedHouses.houses,
       )
-        ? activatedHouses
+        ? activatedHouses.houses
         : []
     )
       .slice(0, 4)
@@ -1256,13 +1173,6 @@ export default function HoroscopeYearActivatedHouses({
         buildDisplayActivatedHouse,
       );
 
-  const houseNames =
-    displayedHouses
-      .map(
-        (house) =>
-          house.name,
-      )
-      .join(", ");
 
   return (
     <Page
@@ -1309,7 +1219,7 @@ export default function HoroscopeYearActivatedHouses({
           </Text>
 
           <Text style={styles.title}>
-            Les maisons astrologiques activées
+            {activatedHouses.title}
           </Text>
 
           <Text style={styles.period}>
@@ -1354,14 +1264,7 @@ export default function HoroscopeYearActivatedHouses({
           </Text>
 
           <Text style={styles.introduction}>
-            Au cours de {periodLabel}, certains
-            domaines de votre vie peuvent prendre
-            davantage de place que d’autres. Les
-            maisons astrologiques mettent en lumière
-            les secteurs où votre attention, vos
-            décisions ou vos expériences pourraient
-            se concentrer plus fortement pour le signe{" "}
-            {identity.zodiacSignLabel}.
+            {activatedHouses.introduction}
           </Text>
         </View>
 
@@ -1465,6 +1368,10 @@ export default function HoroscopeYearActivatedHouses({
                   {house.title}
                 </Text>
 
+                <Text style={styles.houseCategory}>
+                  Intensité : {house.intensity} %
+                </Text>
+
                 <Text
                   style={
                     styles.houseDescription
@@ -1483,7 +1390,7 @@ export default function HoroscopeYearActivatedHouses({
                       styles.manifestationLabel
                     }
                   >
-                    Ce que vous pourriez remarquer
+                    Occasion d’évolution
                   </Text>
 
                   <Text
@@ -1553,9 +1460,13 @@ export default function HoroscopeYearActivatedHouses({
             <Text
               style={styles.summaryText}
             >
-              {houseNames
-                ? `Durant ${periodLabel}, ${houseNames} constituent les principaux secteurs d’attention. Ce qui évolue dans l’un de ces domaines peut se répercuter sur les autres; observez ces liens afin d’avancer avec davantage de cohérence et de discernement.`
-                : `Durant ${periodLabel}, aucun secteur ne se distingue nettement des autres. Observez simplement les domaines de votre vie qui réclament naturellement plus d’attention, sans chercher à forcer une direction.`}
+              {[
+                  activatedHouses.synthesis,
+                  activatedHouses.advice,
+                  activatedHouses.conclusion,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
             </Text>
           </View>
         </View>
