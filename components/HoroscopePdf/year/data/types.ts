@@ -291,11 +291,153 @@ export type YearlyMantraResult = {
 
 /*
 |--------------------------------------------------------------------------
+| Page annuelle — Vue d’ensemble
+|--------------------------------------------------------------------------
+*/
+
+export type YearOverviewAxis = {
+  title: string;
+  text: string;
+};
+
+export type YearOverviewResult = {
+  title: string;
+  score: number;
+  introduction: string;
+  summary: string;
+  dominantTheme: string;
+  axes: YearOverviewAxis[];
+  advice: string;
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Page annuelle — Énergies majeures
+|--------------------------------------------------------------------------
+*/
+
+export type YearMajorEnergyItem = {
+  title: string;
+  subtitle?: string;
+  intensity: number;
+  text: string;
+  advice: string;
+};
+
+export type YearMajorEnergiesResult = {
+  title: string;
+  introduction: string;
+  globalIntensity: number;
+  energies: YearMajorEnergyItem[];
+  synthesis: string;
+  advice: string;
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Page annuelle — Aspects majeurs
+|--------------------------------------------------------------------------
+*/
+
+export type YearMajorAspectItem = {
+  planets: string;
+  aspect: string;
+  period: string;
+  influence: string;
+  opportunity: string;
+  caution: string;
+};
+
+export type YearMajorAspectsResult = {
+  title: string;
+  introduction: string;
+  aspects: YearMajorAspectItem[];
+  dominantAspect: string;
+  synthesis: string;
+  advice: string;
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Page annuelle — Planètes dominantes
+|--------------------------------------------------------------------------
+*/
+
+export type YearDominantPlanetItem = {
+  planet: string;
+  influence: string;
+  area: string;
+  strength: number;
+  message: string;
+  advice: string;
+};
+
+export type YearDominantPlanetsResult = {
+  title: string;
+  introduction: string;
+  planets: YearDominantPlanetItem[];
+  dominantPlanet: string;
+  synthesis: string;
+  advice: string;
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Page annuelle — Maisons activées
+|--------------------------------------------------------------------------
+*/
+
+export type YearActivatedHouseItem = {
+  house: number;
+  title: string;
+  area: string;
+  intensity: number;
+  influence: string;
+  opportunity: string;
+  advice: string;
+};
+
+export type YearActivatedHousesResult = {
+  title: string;
+  introduction: string;
+  houses: YearActivatedHouseItem[];
+  dominantHouse: number;
+  synthesis: string;
+  advice: string;
+  conclusion: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Regroupement des cinq pages principales d’analyse annuelle
+|--------------------------------------------------------------------------
+*/
+
+export type YearAnnualPagesResult = {
+  overview: YearOverviewResult;
+  majorEnergies: YearMajorEnergiesResult;
+  majorAspects: YearMajorAspectsResult;
+  dominantPlanets: YearDominantPlanetsResult;
+  activatedHouses: YearActivatedHousesResult;
+};
+
+/*
+|--------------------------------------------------------------------------
 | Résultat complet du moteur annuel
 |--------------------------------------------------------------------------
 */
 
 export type YearlyHoroscopeGeneratedContent = {
+  overview: YearOverviewResult;
+  majorEnergies: YearMajorEnergiesResult;
+  majorAspects: YearMajorAspectsResult;
+  dominantPlanets: YearDominantPlanetsResult;
+  activatedHouses: YearActivatedHousesResult;
+
   love: YearlyLoveResult;
   career: YearlyCareerResult;
   finance: YearlyFinanceResult;
