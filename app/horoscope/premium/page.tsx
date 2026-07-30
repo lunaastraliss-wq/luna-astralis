@@ -78,7 +78,7 @@ const FORMULES = [
     icon: "🌟",
     title: "Horoscope Premium de l’année",
     href: "/horoscope/premium/annee",
-    price: "39,99 $ US",
+    price: "34,99 $ US",
     buttonLabel: "Découvrir l’horoscope de l’année",
     description:
       "Une analyse complète des grandes étapes de votre année astrologique et des domaines les plus influencés.",
