@@ -1250,67 +1250,67 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "meaningKicker": "Bedeutung des siebten Hauses",
     "meaningTitle": "Wofür steht das siebte Haus?",
     "meaning": [
-      "The Seventh House is the house of committed relationships, couple and partnerships, showing how you join with another person as an equal.",
-      "It concerns marriage, lasting unions, professional collaborations, associations and contracts requiring cooperation.",
-      "It also reveals qualities sought in others and behaviors projected onto them.",
-      "Its starting point is the Descendant, directly opposite the Ascendant."
+      "Das siebte Haus ist das Haus der verbindlichen Beziehungen, der Partnerschaft und der Zusammenarbeit. Es zeigt, wie Sie sich mit einem anderen Menschen auf Augenhöhe verbinden.",
+      "Es betrifft Ehe, dauerhafte Verbindungen, berufliche Zusammenarbeit, Vereinigungen und Verträge, die echte Kooperation erfordern.",
+      "Es zeigt auch Eigenschaften, die Sie bei anderen suchen, sowie Verhaltensweisen, die Sie auf sie projizieren.",
+      "Sein Ausgangspunkt ist der Deszendent, der dem Aszendenten genau gegenüberliegt."
     ],
     "domainsTitle": "Die wichtigsten Bereiche des siebten Hauses",
     "traits": [
       [
         "Ihre Beziehungen",
         "♡",
-        "How you create bonds based on balance, commitment and reciprocity."
+        "Wie Sie Beziehungen auf der Grundlage von Gleichgewicht, Bindung und Gegenseitigkeit gestalten."
       ],
       [
         "Ihre Partnerschaften",
         "Ⅶ",
-        "Couples, professional associations, contracts and alliances requiring cooperation."
+        "Paare, berufliche Partnerschaften, Verträge und Bündnisse, die Zusammenarbeit erfordern."
       ],
       [
         "Ihr Deszendent",
         "DSC",
-        "The beginning of the Seventh House and the qualities you seek in others."
+        "Der Beginn des siebten Hauses und die Eigenschaften, die Sie bei anderen suchen."
       ]
     ],
     "descTitle": "Das siebte Haus und der Deszendent",
     "desc": [
-      "The Descendant is the sign setting on the horizon at birth and marks the beginning of the Seventh House.",
-      "While the Ascendant describes your instinctive approach to life, the Descendant shows qualities sought, admired or criticized in others.",
-      "It may reveal the kind of partner who attracts you and a part of yourself integrated through relationships."
+      "Der Deszendent ist das Zeichen, das bei Ihrer Geburt am westlichen Horizont unterging, und markiert den Beginn des siebten Hauses.",
+      "Während der Aszendent Ihre instinktive Art beschreibt, dem Leben zu begegnen, zeigt der Deszendent Eigenschaften, die Sie bei anderen suchen, bewundern oder kritisieren.",
+      "Er kann den Partnertyp zeigen, der Sie anzieht, und einen Teil von Ihnen selbst, den Sie durch Beziehungen integrieren."
     ],
     "highlightTitle": "Der Deszendent zeigt die Begegnung mit dem Gegenüber",
-    "highlight": "Examine the Descendant sign, its ruling planet, planets in the house and their aspects.",
+    "highlight": "Betrachten Sie das Zeichen des Deszendenten, seinen Herrscher, die Planeten im Haus und ihre Aspekte.",
     "highlightLink": "Die Achse Aszendent–Deszendent verstehen",
     "coupleTitle": "Partnerschaft, Ehe und Bindung",
     "couple": [
-      "It represents relationships in which two people choose to build something together.",
-      "It concerns commitment, mutual expectations, compromise and the ability to sustain a relationship.",
-      "A strong Seventh House can create a need for partnership; the challenge is preserving identity while building a real “we.”"
+      "Es steht für Beziehungen, in denen zwei Menschen beschließen, gemeinsam etwas aufzubauen.",
+      "Es betrifft Bindung, gegenseitige Erwartungen, Kompromisse und die Fähigkeit, eine Beziehung langfristig zu erhalten.",
+      "Ein starkes siebtes Haus kann ein großes Bedürfnis nach Partnerschaft erzeugen; die Herausforderung besteht darin, die eigene Identität zu bewahren und zugleich ein echtes ‚Wir‘ aufzubauen."
     ],
     "businessTitle": "Berufliche Partnerschaften und Verträge",
     "business": [
-      "It also represents professional associations, clients, business partners and contractual commitments.",
-      "It shows how you negotiate, collaborate and share responsibility.",
-      "Signs and planets reveal strengths and challenges related to contracts and cooperation."
+      "Es steht auch für berufliche Partnerschaften, Kunden, Geschäftspartner und vertragliche Verpflichtungen.",
+      "Es zeigt, wie Sie verhandeln, zusammenarbeiten und Verantwortung teilen.",
+      "Zeichen und Planeten zeigen Stärken und Herausforderungen im Zusammenhang mit Verträgen und Zusammenarbeit."
     ],
     "projectionTitle": "Projektion und Spiegeleffekt",
     "projection": [
-      "The Seventh House often works like a mirror, showing qualities quickly noticed in others.",
-      "Some may be underdeveloped or difficult to recognize in yourself.",
-      "Relationships can help you understand needs, boundaries and parts of yourself seeking integration."
+      "Das siebte Haus wirkt oft wie ein Spiegel und zeigt Eigenschaften, die Ihnen bei anderen schnell auffallen.",
+      "Einige davon können wenig entwickelt oder in Ihnen selbst schwer zu erkennen sein.",
+      "Beziehungen können Ihnen helfen, Bedürfnisse, Grenzen und Teile Ihrer Persönlichkeit zu verstehen, die integriert werden möchten."
     ],
     "conflictTitle": "Offene Konflikte und erklärte Gegner",
     "conflict": [
-      "Traditionally, it also represents known opponents, competitors and open conflicts.",
-      "Unlike hidden tensions, Seventh House issues are visible and direct.",
-      "It shows how you negotiate, defend your position and seek resolution."
+      "Traditionell steht es auch für bekannte Gegner, Konkurrenten und offene Konflikte.",
+      "Im Gegensatz zu verborgenen Spannungen sind Themen des siebten Hauses sichtbar und direkt.",
+      "Es zeigt, wie Sie verhandeln, Ihre Position verteidigen und nach einer Lösung suchen."
     ],
     "balanceTitle": "Gleichgewicht zwischen Selbst und Gegenüber",
     "balance": [
-      "The Seventh House opposes the First House, forming the axis of identity and relationship.",
-      "The First asks who you are; the Seventh teaches consideration of the other without disappearing.",
-      "Balance requires reciprocity, respect, communication and clear boundaries."
+      "Das siebte Haus steht dem ersten Haus gegenüber und bildet die Achse von Identität und Beziehung.",
+      "Das erste Haus fragt, wer Sie sind; das siebte lehrt, den anderen zu berücksichtigen, ohne sich selbst zu verlieren.",
+      "Gleichgewicht erfordert Gegenseitigkeit, Respekt, Kommunikation und klare Grenzen."
     ],
     "strengthsTitle": "Stärken und Herausforderungen des siebten Hauses",
     "strengthsKicker": "Natürliche Stärken",
@@ -1343,52 +1343,52 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Sonne",
         "☀",
-        "Relationships and partnerships become central to identity."
+        "Beziehungen und Partnerschaften werden zu einem zentralen Bestandteil der Identität."
       ],
       [
         "Mond",
         "☽",
-        "Emotional security depends strongly on relationship quality."
+        "Emotionale Sicherheit hängt stark von der Qualität der Beziehungen ab."
       ],
       [
         "Merkur",
         "☿",
-        "Dialogue, negotiation and intellectual partnership are emphasized."
+        "Dialog, Verhandlung und intellektuelle Partnerschaft werden betont."
       ],
       [
         "Venus",
         "♀",
-        "Harmony, affection and reciprocity are sought, but personal needs must remain visible."
+        "Harmonie, Zuneigung und Gegenseitigkeit werden gesucht, doch die eigenen Bedürfnisse müssen sichtbar bleiben."
       ],
       [
         "Mars",
         "♂",
-        "Passion and intensity can bring both stimulation and confrontation."
+        "Leidenschaft und Intensität können sowohl Anregung als auch Konfrontation bringen."
       ],
       [
         "Jupiter",
         "♃",
-        "Partnerships may broaden horizons, though idealization should be avoided."
+        "Partnerschaften können den Horizont erweitern, doch Idealisierung sollte vermieden werden."
       ],
       [
         "Saturn",
         "♄",
-        "Commitment may be serious or delayed, with lessons in responsibility."
+        "Bindung kann ernsthaft oder verzögert sein und Lektionen in Verantwortung bringen."
       ],
       [
         "Uranus",
         "♅",
-        "Freedom and originality are essential in relationships."
+        "Freiheit und Originalität sind in Beziehungen wesentlich."
       ],
       [
         "Neptun",
         "♆",
-        "Romance and intuition are strong, but clarity and boundaries are needed."
+        "Romantik und Intuition sind stark, doch Klarheit und Grenzen sind notwendig."
       ],
       [
         "Pluto",
         "♇",
-        "Relationships are intense, transformative and may involve power dynamics."
+        "Beziehungen sind intensiv, verwandelnd und können von Machtdynamiken geprägt sein."
       ]
     ],
     "signsTitle": "Die zwölf Zeichen im siebten Haus",
@@ -1401,62 +1401,62 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Widder",
         "♈",
-        "Direct and independent partners; balance cooperation with self-assertion."
+        "Direkte und unabhängige Partner; Zusammenarbeit und Selbstbehauptung müssen ausgeglichen werden."
       ],
       [
         "Stier",
         "♉",
-        "Stability, loyalty and lasting commitments are valued."
+        "Stabilität, Loyalität und dauerhafte Bindungen werden geschätzt."
       ],
       [
         "Zwillinge",
         "♊",
-        "Dialogue, curiosity and movement keep relationships alive."
+        "Dialog, Neugier und Bewegung halten Beziehungen lebendig."
       ],
       [
         "Krebs",
         "♋",
-        "Protection, sensitivity and emotional security are sought."
+        "Schutz, Sensibilität und emotionale Sicherheit werden gesucht."
       ],
       [
         "Löwe",
         "♌",
-        "Warm, creative and expressive partners are attractive."
+        "Warme, kreative und ausdrucksstarke Partner wirken anziehend."
       ],
       [
         "Jungfrau",
         "♍",
-        "Reliability, organization and service are valued, with risk of overanalysis."
+        "Zuverlässigkeit, Organisation und Hilfsbereitschaft werden geschätzt, mit der Gefahr von Überanalyse."
       ],
       [
         "Waage",
         "♎",
-        "Harmony, fairness and respectful cooperation are central."
+        "Harmonie, Fairness und respektvolle Zusammenarbeit stehen im Mittelpunkt."
       ],
       [
         "Skorpion",
         "♏",
-        "Deep, passionate and transformative bonds, with trust issues."
+        "Tiefe, leidenschaftliche und verwandelnde Bindungen, mit Fragen des Vertrauens."
       ],
       [
         "Schütze",
         "♐",
-        "Freedom, openness and growth are sought."
+        "Freiheit, Offenheit und Wachstum werden gesucht."
       ],
       [
         "Steinbock",
         "♑",
-        "Commitment is serious, responsible and long-term."
+        "Bindung ist ernsthaft, verantwortungsvoll und langfristig."
       ],
       [
         "Wassermann",
         "♒",
-        "Relationships need freedom, originality and equality."
+        "Beziehungen brauchen Freiheit, Originalität und Gleichberechtigung."
       ],
       [
         "Fische",
         "♓",
-        "Romance and compassion are strong, with a risk of idealization."
+        "Romantik und Mitgefühl sind stark, mit der Gefahr der Idealisierung."
       ]
     ],
     "emptyTitle": "Leeres siebtes Haus: Was bedeutet das?",
@@ -1467,8 +1467,8 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "rulerTitle": "Der Herrscher des siebten Hauses",
     "ruler": [
-      "The ruling planet governs the sign on the Descendant.",
-      "Its sign, house and aspects provide essential information about relationships, expectations and commitment."
+      "Der Herrscherplanet regiert das Zeichen am Deszendenten.",
+      "Sein Zeichen, Haus und seine Aspekte liefern wesentliche Informationen über Beziehungen, Erwartungen und Bindung."
     ],
     "rulers": [
       [
@@ -1556,37 +1556,37 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "evolutionTitle": "Das siebte Haus in der persönlichen Entwicklung",
     "evolution": [
-      "Meet the other without abandoning your identity.",
-      "Recognize projections, express needs and build reciprocity.",
-      "Balance autonomy and commitment, assertion and compromise, freedom and cooperation."
+      "Begegnen Sie dem anderen, ohne Ihre eigene Identität aufzugeben.",
+      "Erkennen Sie Projektionen, äußern Sie Ihre Bedürfnisse und schaffen Sie Gegenseitigkeit.",
+      "Bringen Sie Autonomie und Bindung, Selbstbehauptung und Kompromiss sowie Freiheit und Zusammenarbeit ins Gleichgewicht."
     ],
     "interpretTitle": "Wie deutet man das siebte Haus?",
     "steps": [
       [
         "1",
-        "Identify the Descendant sign",
-        "It describes your relationship style and qualities sought in others."
+        "Zeichen des Deszendenten bestimmen",
+        "Es beschreibt Ihren Beziehungsstil und die Eigenschaften, die Sie bei anderen suchen."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where partnership themes express themselves."
+        "Herrscherplaneten finden",
+        "Seine Stellung zeigt, wo sich Partnerschaftsthemen ausdrücken."
       ],
       [
         "3",
-        "Observe planets present",
-        "Each influences relationships and the people you attract."
+        "Vorhandene Planeten beachten",
+        "Jeder beeinflusst Beziehungen und die Menschen, die Sie anziehen."
       ],
       [
         "4",
-        "Analyze aspects",
-        "They clarify strengths, tensions and lessons in committed relationships."
+        "Aspekte analysieren",
+        "Sie verdeutlichen Stärken, Spannungen und Lernaufgaben in verbindlichen Beziehungen."
       ]
     ],
     "natalTitle": "Das siebte Haus im Geburtshoroskop",
     "natal": [
-      "Interpret the Seventh House within the whole chart: sign, ruler, planets and aspects.",
-      "This helps explain relational expectations, couple needs and partnership dynamics."
+      "Deuten Sie das siebte Haus im Zusammenhang des gesamten Horoskops: Zeichen, Herrscher, Planeten und Aspekte.",
+      "Dies hilft, Beziehungserwartungen, Bedürfnisse in der Partnerschaft und Partnerschaftsdynamiken zu verstehen."
     ],
     "ctaKicker": "Entdecken Sie Ihr Geburtshoroskop",
     "ctaTitle": "Welches Zeichen und welche Planeten stehen in Ihrem siebten Haus?",
@@ -1610,28 +1610,28 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "faqTitle": "Fragen zum siebten Haus",
     "faq": [
       [
-        "What does the Seventh House represent?",
-        "Marriage, partnerships, associations, contracts, committed relationships and declared enemies."
+        "Wofür steht das siebte Haus?",
+        "Für Ehe, Partnerschaften, Vereinigungen, Verträge, verbindliche Beziehungen und erklärte Gegner."
       ],
       [
-        "What is the Descendant?",
-        "The point opposite the Ascendant, marking the beginning of the Seventh House and how you meet the other."
+        "Was ist der Deszendent?",
+        "Der dem Aszendenten gegenüberliegende Punkt, der den Beginn des siebten Hauses und Ihre Art der Begegnung mit anderen beschreibt."
       ],
       [
-        "What does a planet in the Seventh House mean?",
-        "It strongly influences relationships, partnerships and commitments and may be projected onto others."
+        "Was bedeutet ein Planet im siebten Haus?",
+        "Er beeinflusst Beziehungen, Partnerschaften und Bindungen stark und kann auf andere projiziert werden."
       ],
       [
-        "What does an empty Seventh House mean?",
-        "It does not mean absence of relationships. Analyze the Descendant sign, ruler and aspects."
+        "Was bedeutet ein leeres siebtes Haus?",
+        "Es bedeutet nicht, dass Beziehungen fehlen. Analysieren Sie das Zeichen des Deszendenten, seinen Herrscher und die Aspekte."
       ],
       [
-        "What is the difference between the Fifth and Seventh Houses?",
-        "The Fifth concerns romance and seduction; the Seventh concerns commitment and lasting partnership."
+        "Was ist der Unterschied zwischen dem fünften und dem siebten Haus?",
+        "Das fünfte Haus betrifft Romantik und Verführung; das siebte Haus betrifft Bindung und dauerhafte Partnerschaften."
       ],
       [
-        "Why does it represent declared enemies?",
-        "Because it represents people facing us directly, including partners, known opponents and open conflicts."
+        "Warum steht es für erklärte Gegner?",
+        "Weil es Menschen symbolisiert, die uns direkt gegenüberstehen, einschließlich Partnern, bekannten Gegnern und offenen Konflikten."
       ]
     ],
     "disclaimer": "Astrologie wird als symbolische Sprache zur persönlichen Erkundung dargestellt. Sie ersetzt keine medizinische, psychologische, rechtliche oder finanzielle Beratung."
@@ -1655,67 +1655,67 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "meaningKicker": "Significato della Settima Casa",
     "meaningTitle": "Che cosa rappresenta la Settima Casa?",
     "meaning": [
-      "The Seventh House is the house of committed relationships, couple and partnerships, showing how you join with another person as an equal.",
-      "It concerns marriage, lasting unions, professional collaborations, associations and contracts requiring cooperation.",
-      "It also reveals qualities sought in others and behaviors projected onto them.",
-      "Its starting point is the Descendant, directly opposite the Ascendant."
+      "La Settima Casa è la casa delle relazioni impegnate, della coppia e delle partnership e mostra come ti unisci a un'altra persona su un piano di parità.",
+      "Riguarda il matrimonio, le unioni durature, le collaborazioni professionali, le associazioni e i contratti che richiedono cooperazione.",
+      "Rivela anche le qualità cercate negli altri e i comportamenti proiettati su di loro.",
+      "Il suo punto di partenza è il Discendente, esattamente opposto all'Ascendente."
     ],
     "domainsTitle": "I grandi ambiti della Settima Casa",
     "traits": [
       [
         "Le tue relazioni",
         "♡",
-        "How you create bonds based on balance, commitment and reciprocity."
+        "Il modo in cui crei legami basati su equilibrio, impegno e reciprocità."
       ],
       [
         "Le tue partnership",
         "Ⅶ",
-        "Couples, professional associations, contracts and alliances requiring cooperation."
+        "Coppie, associazioni professionali, contratti e alleanze che richiedono cooperazione."
       ],
       [
         "Il tuo Discendente",
         "DSC",
-        "The beginning of the Seventh House and the qualities you seek in others."
+        "L'inizio della Settima Casa e le qualità che cerchi negli altri."
       ]
     ],
     "descTitle": "La Settima Casa e il Discendente",
     "desc": [
-      "The Descendant is the sign setting on the horizon at birth and marks the beginning of the Seventh House.",
-      "While the Ascendant describes your instinctive approach to life, the Descendant shows qualities sought, admired or criticized in others.",
-      "It may reveal the kind of partner who attracts you and a part of yourself integrated through relationships."
+      "Il Discendente è il segno che tramontava all'orizzonte al momento della nascita e segna l'inizio della Settima Casa.",
+      "Mentre l'Ascendente descrive il tuo modo istintivo di affrontare la vita, il Discendente mostra le qualità cercate, ammirate o criticate negli altri.",
+      "Può rivelare il tipo di partner che ti attrae e una parte di te che integri attraverso le relazioni."
     ],
     "highlightTitle": "Il Discendente rivela l’incontro con l’altro",
-    "highlight": "Examine the Descendant sign, its ruling planet, planets in the house and their aspects.",
+    "highlight": "Osserva il segno del Discendente, il suo pianeta governatore, i pianeti nella casa e i loro aspetti.",
     "highlightLink": "Comprendere l’asse Ascendente–Discendente",
     "coupleTitle": "Coppia, matrimonio e impegno",
     "couple": [
-      "It represents relationships in which two people choose to build something together.",
-      "It concerns commitment, mutual expectations, compromise and the ability to sustain a relationship.",
-      "A strong Seventh House can create a need for partnership; the challenge is preserving identity while building a real “we.”"
+      "Rappresenta le relazioni in cui due persone scelgono di costruire qualcosa insieme.",
+      "Riguarda l'impegno, le aspettative reciproche, il compromesso e la capacità di mantenere una relazione nel tempo.",
+      "Una Settima Casa forte può creare un grande bisogno di partnership; la sfida consiste nel preservare la propria identità costruendo un vero «noi»."
     ],
     "businessTitle": "Partnership professionali e contratti",
     "business": [
-      "It also represents professional associations, clients, business partners and contractual commitments.",
-      "It shows how you negotiate, collaborate and share responsibility.",
-      "Signs and planets reveal strengths and challenges related to contracts and cooperation."
+      "Rappresenta anche associazioni professionali, clienti, partner d'affari e impegni contrattuali.",
+      "Mostra come negozi, collabori e condividi le responsabilità.",
+      "Segni e pianeti rivelano punti di forza e sfide legati ai contratti e alla cooperazione."
     ],
     "projectionTitle": "Proiezione ed effetto specchio",
     "projection": [
-      "The Seventh House often works like a mirror, showing qualities quickly noticed in others.",
-      "Some may be underdeveloped or difficult to recognize in yourself.",
-      "Relationships can help you understand needs, boundaries and parts of yourself seeking integration."
+      "La Settima Casa funziona spesso come uno specchio, mostrando qualità che noti rapidamente negli altri.",
+      "Alcune possono essere poco sviluppate o difficili da riconoscere in te stesso.",
+      "Le relazioni possono aiutarti a comprendere bisogni, limiti e parti di te che cercano integrazione."
     ],
     "conflictTitle": "Conflitti aperti e nemici dichiarati",
     "conflict": [
-      "Traditionally, it also represents known opponents, competitors and open conflicts.",
-      "Unlike hidden tensions, Seventh House issues are visible and direct.",
-      "It shows how you negotiate, defend your position and seek resolution."
+      "Tradizionalmente rappresenta anche avversari conosciuti, concorrenti e conflitti aperti.",
+      "A differenza delle tensioni nascoste, le questioni della Settima Casa sono visibili e dirette.",
+      "Mostra come negozi, difendi la tua posizione e cerchi una soluzione."
     ],
     "balanceTitle": "Equilibrio tra sé e l’altro",
     "balance": [
-      "The Seventh House opposes the First House, forming the axis of identity and relationship.",
-      "The First asks who you are; the Seventh teaches consideration of the other without disappearing.",
-      "Balance requires reciprocity, respect, communication and clear boundaries."
+      "La Settima Casa si oppone alla Prima Casa e forma l'asse dell'identità e della relazione.",
+      "La Prima Casa chiede chi sei; la Settima insegna a considerare l'altro senza scomparire nella relazione.",
+      "L'equilibrio richiede reciprocità, rispetto, comunicazione e limiti chiari."
     ],
     "strengthsTitle": "Punti di forza e sfide della Settima Casa",
     "strengthsKicker": "Punti di forza naturali",
@@ -1748,52 +1748,52 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Sole",
         "☀",
-        "Relationships and partnerships become central to identity."
+        "Le relazioni e le partnership diventano centrali per l'identità."
       ],
       [
         "Luna",
         "☽",
-        "Emotional security depends strongly on relationship quality."
+        "La sicurezza emotiva dipende fortemente dalla qualità delle relazioni."
       ],
       [
         "Mercurio",
         "☿",
-        "Dialogue, negotiation and intellectual partnership are emphasized."
+        "Dialogo, negoziazione e partnership intellettuale sono favoriti."
       ],
       [
         "Venere",
         "♀",
-        "Harmony, affection and reciprocity are sought, but personal needs must remain visible."
+        "Si cercano armonia, affetto e reciprocità, ma i bisogni personali devono restare visibili."
       ],
       [
         "Marte",
         "♂",
-        "Passion and intensity can bring both stimulation and confrontation."
+        "Passione e intensità possono portare sia stimolo sia confronto."
       ],
       [
         "Giove",
         "♃",
-        "Partnerships may broaden horizons, though idealization should be avoided."
+        "Le partnership possono ampliare gli orizzonti, ma è bene evitare l'idealizzazione."
       ],
       [
         "Saturno",
         "♄",
-        "Commitment may be serious or delayed, with lessons in responsibility."
+        "L'impegno può essere serio o tardivo e portare lezioni di responsabilità."
       ],
       [
         "Urano",
         "♅",
-        "Freedom and originality are essential in relationships."
+        "Libertà e originalità sono essenziali nelle relazioni."
       ],
       [
         "Nettuno",
         "♆",
-        "Romance and intuition are strong, but clarity and boundaries are needed."
+        "Romanticismo e intuizione sono forti, ma servono chiarezza e limiti."
       ],
       [
         "Plutone",
         "♇",
-        "Relationships are intense, transformative and may involve power dynamics."
+        "Le relazioni sono intense, trasformative e possono coinvolgere dinamiche di potere."
       ]
     ],
     "signsTitle": "I dodici segni nella Settima Casa",
@@ -1806,62 +1806,62 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Ariete",
         "♈",
-        "Direct and independent partners; balance cooperation with self-assertion."
+        "Partner diretti e indipendenti; occorre equilibrare cooperazione e affermazione personale."
       ],
       [
         "Toro",
         "♉",
-        "Stability, loyalty and lasting commitments are valued."
+        "Stabilità, lealtà e impegni duraturi sono valorizzati."
       ],
       [
         "Gemelli",
         "♊",
-        "Dialogue, curiosity and movement keep relationships alive."
+        "Dialogo, curiosità e movimento mantengono vive le relazioni."
       ],
       [
         "Cancro",
         "♋",
-        "Protection, sensitivity and emotional security are sought."
+        "Si cercano protezione, sensibilità e sicurezza emotiva."
       ],
       [
         "Leone",
         "♌",
-        "Warm, creative and expressive partners are attractive."
+        "I partner calorosi, creativi ed espressivi risultano attraenti."
       ],
       [
         "Vergine",
         "♍",
-        "Reliability, organization and service are valued, with risk of overanalysis."
+        "Affidabilità, organizzazione e spirito di servizio sono valorizzati, con rischio di analisi eccessiva."
       ],
       [
         "Bilancia",
         "♎",
-        "Harmony, fairness and respectful cooperation are central."
+        "Armonia, equità e cooperazione rispettosa sono centrali."
       ],
       [
         "Scorpione",
         "♏",
-        "Deep, passionate and transformative bonds, with trust issues."
+        "Legami profondi, appassionati e trasformativi, con questioni di fiducia."
       ],
       [
         "Sagittario",
         "♐",
-        "Freedom, openness and growth are sought."
+        "Si cercano libertà, apertura e crescita."
       ],
       [
         "Capricorno",
         "♑",
-        "Commitment is serious, responsible and long-term."
+        "L'impegno è serio, responsabile e a lungo termine."
       ],
       [
         "Acquario",
         "♒",
-        "Relationships need freedom, originality and equality."
+        "Le relazioni hanno bisogno di libertà, originalità e uguaglianza."
       ],
       [
         "Pesci",
         "♓",
-        "Romance and compassion are strong, with a risk of idealization."
+        "Romanticismo e compassione sono forti, con rischio di idealizzazione."
       ]
     ],
     "emptyTitle": "Settima Casa vuota: che cosa significa?",
@@ -1872,8 +1872,8 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "rulerTitle": "Il pianeta governatore della Settima Casa",
     "ruler": [
-      "The ruling planet governs the sign on the Descendant.",
-      "Its sign, house and aspects provide essential information about relationships, expectations and commitment."
+      "Il pianeta governatore domina il segno sul Discendente.",
+      "Il suo segno, la casa e gli aspetti forniscono informazioni essenziali su relazioni, aspettative e impegno."
     ],
     "rulers": [
       [
@@ -1961,37 +1961,37 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "evolutionTitle": "La Settima Casa nell’evoluzione personale",
     "evolution": [
-      "Meet the other without abandoning your identity.",
-      "Recognize projections, express needs and build reciprocity.",
-      "Balance autonomy and commitment, assertion and compromise, freedom and cooperation."
+      "Incontra l'altro senza abbandonare la tua identità.",
+      "Riconosci le proiezioni, esprimi i bisogni e costruisci reciprocità.",
+      "Equilibra autonomia e impegno, affermazione e compromesso, libertà e cooperazione."
     ],
     "interpretTitle": "Come interpretare la Settima Casa?",
     "steps": [
       [
         "1",
-        "Identify the Descendant sign",
-        "It describes your relationship style and qualities sought in others."
+        "Identifica il segno del Discendente",
+        "Descrive il tuo stile relazionale e le qualità che cerchi negli altri."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where partnership themes express themselves."
+        "Individua il pianeta governatore",
+        "La sua posizione mostra dove si esprimono i temi della partnership."
       ],
       [
         "3",
-        "Observe planets present",
-        "Each influences relationships and the people you attract."
+        "Osserva i pianeti presenti",
+        "Ognuno influenza le relazioni e le persone che attrai."
       ],
       [
         "4",
-        "Analyze aspects",
-        "They clarify strengths, tensions and lessons in committed relationships."
+        "Analizza gli aspetti",
+        "Chiariscono punti di forza, tensioni e apprendimenti nelle relazioni impegnate."
       ]
     ],
     "natalTitle": "La Settima Casa nel tema natale",
     "natal": [
-      "Interpret the Seventh House within the whole chart: sign, ruler, planets and aspects.",
-      "This helps explain relational expectations, couple needs and partnership dynamics."
+      "Interpreta la Settima Casa nel contesto dell'intero tema natale: segno, governatore, pianeti e aspetti.",
+      "Questo aiuta a comprendere aspettative relazionali, bisogni di coppia e dinamiche di partnership."
     ],
     "ctaKicker": "Scopri il tuo tema natale",
     "ctaTitle": "Quale segno e quali pianeti si trovano nella tua Settima Casa?",
@@ -2015,28 +2015,28 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "faqTitle": "Domande sulla Settima Casa",
     "faq": [
       [
-        "What does the Seventh House represent?",
-        "Marriage, partnerships, associations, contracts, committed relationships and declared enemies."
+        "Che cosa rappresenta la Settima Casa?",
+        "Matrimonio, partnership, associazioni, contratti, relazioni impegnate e nemici dichiarati."
       ],
       [
-        "What is the Descendant?",
-        "The point opposite the Ascendant, marking the beginning of the Seventh House and how you meet the other."
+        "Che cos'è il Discendente?",
+        "Il punto opposto all'Ascendente, che segna l'inizio della Settima Casa e il modo in cui incontri l'altro."
       ],
       [
-        "What does a planet in the Seventh House mean?",
-        "It strongly influences relationships, partnerships and commitments and may be projected onto others."
+        "Che cosa significa un pianeta nella Settima Casa?",
+        "Influenza fortemente relazioni, partnership e impegni e può essere proiettato sugli altri."
       ],
       [
-        "What does an empty Seventh House mean?",
-        "It does not mean absence of relationships. Analyze the Descendant sign, ruler and aspects."
+        "Che cosa significa una Settima Casa vuota?",
+        "Non significa assenza di relazioni. Analizza il segno del Discendente, il suo governatore e gli aspetti."
       ],
       [
-        "What is the difference between the Fifth and Seventh Houses?",
-        "The Fifth concerns romance and seduction; the Seventh concerns commitment and lasting partnership."
+        "Qual è la differenza tra la Quinta e la Settima Casa?",
+        "La Quinta Casa riguarda romanticismo e seduzione; la Settima riguarda impegno e partnership durature."
       ],
       [
-        "Why does it represent declared enemies?",
-        "Because it represents people facing us directly, including partners, known opponents and open conflicts."
+        "Perché rappresenta i nemici dichiarati?",
+        "Perché rappresenta le persone che ci stanno direttamente di fronte, compresi partner, avversari conosciuti e conflitti aperti."
       ]
     ],
     "disclaimer": "L’astrologia è presentata come un linguaggio simbolico di esplorazione personale. Non sostituisce consulenze mediche, psicologiche, legali o finanziarie."
@@ -2060,67 +2060,67 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "meaningKicker": "Significado da Casa 7",
     "meaningTitle": "O que a Casa 7 representa?",
     "meaning": [
-      "The Seventh House is the house of committed relationships, couple and partnerships, showing how you join with another person as an equal.",
-      "It concerns marriage, lasting unions, professional collaborations, associations and contracts requiring cooperation.",
-      "It also reveals qualities sought in others and behaviors projected onto them.",
-      "Its starting point is the Descendant, directly opposite the Ascendant."
+      "A Sétima Casa é a casa dos relacionamentos comprometidos, do casal e das parcerias, mostrando como você se une a outra pessoa em pé de igualdade.",
+      "Ela diz respeito ao casamento, às uniões duradouras, às colaborações profissionais, às associações e aos contratos que exigem cooperação.",
+      "Também revela as qualidades buscadas nos outros e os comportamentos projetados sobre eles.",
+      "Seu ponto de partida é o Descendente, exatamente oposto ao Ascendente."
     ],
     "domainsTitle": "As grandes áreas da Casa 7",
     "traits": [
       [
         "Seus relacionamentos",
         "♡",
-        "How you create bonds based on balance, commitment and reciprocity."
+        "Como você cria vínculos baseados em equilíbrio, compromisso e reciprocidade."
       ],
       [
         "Suas parcerias",
         "Ⅶ",
-        "Couples, professional associations, contracts and alliances requiring cooperation."
+        "Casais, associações profissionais, contratos e alianças que exigem cooperação."
       ],
       [
         "Seu Descendente",
         "DSC",
-        "The beginning of the Seventh House and the qualities you seek in others."
+        "O início da Sétima Casa e as qualidades que você busca nos outros."
       ]
     ],
     "descTitle": "A Casa 7 e o Descendente",
     "desc": [
-      "The Descendant is the sign setting on the horizon at birth and marks the beginning of the Seventh House.",
-      "While the Ascendant describes your instinctive approach to life, the Descendant shows qualities sought, admired or criticized in others.",
-      "It may reveal the kind of partner who attracts you and a part of yourself integrated through relationships."
+      "O Descendente é o signo que se punha no horizonte no momento do nascimento e marca o início da Sétima Casa.",
+      "Enquanto o Ascendente descreve sua forma instintiva de abordar a vida, o Descendente mostra qualidades buscadas, admiradas ou criticadas nos outros.",
+      "Ele pode revelar o tipo de parceiro que atrai você e uma parte de si que é integrada por meio dos relacionamentos."
     ],
     "highlightTitle": "O Descendente revela seu encontro com o outro",
-    "highlight": "Examine the Descendant sign, its ruling planet, planets in the house and their aspects.",
+    "highlight": "Observe o signo do Descendente, seu planeta regente, os planetas na casa e seus aspectos.",
     "highlightLink": "Compreender o eixo Ascendente–Descendente",
     "coupleTitle": "Casal, casamento e compromisso",
     "couple": [
-      "It represents relationships in which two people choose to build something together.",
-      "It concerns commitment, mutual expectations, compromise and the ability to sustain a relationship.",
-      "A strong Seventh House can create a need for partnership; the challenge is preserving identity while building a real “we.”"
+      "Ela representa relacionamentos nos quais duas pessoas escolhem construir algo juntas.",
+      "Ela diz respeito ao compromisso, às expectativas mútuas, aos acordos e à capacidade de manter um relacionamento ao longo do tempo.",
+      "Uma Sétima Casa forte pode criar grande necessidade de parceria; o desafio é preservar a identidade enquanto se constrói um verdadeiro ‘nós’."
     ],
     "businessTitle": "Parcerias profissionais e contratos",
     "business": [
-      "It also represents professional associations, clients, business partners and contractual commitments.",
-      "It shows how you negotiate, collaborate and share responsibility.",
-      "Signs and planets reveal strengths and challenges related to contracts and cooperation."
+      "Ela também representa associações profissionais, clientes, parceiros de negócios e compromissos contratuais.",
+      "Mostra como você negocia, colabora e compartilha responsabilidades.",
+      "Signos e planetas revelam forças e desafios relacionados a contratos e cooperação."
     ],
     "projectionTitle": "Projeção e efeito espelho",
     "projection": [
-      "The Seventh House often works like a mirror, showing qualities quickly noticed in others.",
-      "Some may be underdeveloped or difficult to recognize in yourself.",
-      "Relationships can help you understand needs, boundaries and parts of yourself seeking integration."
+      "A Sétima Casa frequentemente funciona como um espelho, mostrando qualidades percebidas rapidamente nos outros.",
+      "Algumas podem estar pouco desenvolvidas ou ser difíceis de reconhecer em si mesmo.",
+      "Os relacionamentos podem ajudar você a compreender necessidades, limites e partes de si que buscam integração."
     ],
     "conflictTitle": "Conflitos abertos e inimigos declarados",
     "conflict": [
-      "Traditionally, it also represents known opponents, competitors and open conflicts.",
-      "Unlike hidden tensions, Seventh House issues are visible and direct.",
-      "It shows how you negotiate, defend your position and seek resolution."
+      "Tradicionalmente, ela também representa adversários conhecidos, concorrentes e conflitos abertos.",
+      "Ao contrário das tensões ocultas, as questões da Sétima Casa são visíveis e diretas.",
+      "Mostra como você negocia, defende sua posição e busca uma solução."
     ],
     "balanceTitle": "Equilíbrio entre si e o outro",
     "balance": [
-      "The Seventh House opposes the First House, forming the axis of identity and relationship.",
-      "The First asks who you are; the Seventh teaches consideration of the other without disappearing.",
-      "Balance requires reciprocity, respect, communication and clear boundaries."
+      "A Sétima Casa se opõe à Primeira Casa, formando o eixo da identidade e do relacionamento.",
+      "A Primeira Casa pergunta quem você é; a Sétima ensina a considerar o outro sem desaparecer na relação.",
+      "O equilíbrio exige reciprocidade, respeito, comunicação e limites claros."
     ],
     "strengthsTitle": "Forças e desafios da Casa 7",
     "strengthsKicker": "Forças naturais",
@@ -2153,52 +2153,52 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Sol",
         "☀",
-        "Relationships and partnerships become central to identity."
+        "Relacionamentos e parcerias tornam-se centrais para a identidade."
       ],
       [
         "Lua",
         "☽",
-        "Emotional security depends strongly on relationship quality."
+        "A segurança emocional depende fortemente da qualidade dos relacionamentos."
       ],
       [
         "Mercúrio",
         "☿",
-        "Dialogue, negotiation and intellectual partnership are emphasized."
+        "Diálogo, negociação e parceria intelectual são enfatizados."
       ],
       [
         "Vênus",
         "♀",
-        "Harmony, affection and reciprocity are sought, but personal needs must remain visible."
+        "Buscam-se harmonia, afeto e reciprocidade, mas as necessidades pessoais devem permanecer visíveis."
       ],
       [
         "Marte",
         "♂",
-        "Passion and intensity can bring both stimulation and confrontation."
+        "Paixão e intensidade podem trazer tanto estímulo quanto confronto."
       ],
       [
         "Júpiter",
         "♃",
-        "Partnerships may broaden horizons, though idealization should be avoided."
+        "As parcerias podem ampliar horizontes, mas a idealização deve ser evitada."
       ],
       [
         "Saturno",
         "♄",
-        "Commitment may be serious or delayed, with lessons in responsibility."
+        "O compromisso pode ser sério ou tardio e trazer aprendizados sobre responsabilidade."
       ],
       [
         "Urano",
         "♅",
-        "Freedom and originality are essential in relationships."
+        "Liberdade e originalidade são essenciais nos relacionamentos."
       ],
       [
         "Netuno",
         "♆",
-        "Romance and intuition are strong, but clarity and boundaries are needed."
+        "Romantismo e intuição são fortes, mas clareza e limites são necessários."
       ],
       [
         "Plutão",
         "♇",
-        "Relationships are intense, transformative and may involve power dynamics."
+        "Os relacionamentos são intensos, transformadores e podem envolver dinâmicas de poder."
       ]
     ],
     "signsTitle": "Os doze signos na Casa 7",
@@ -2211,62 +2211,62 @@ export const MAISON_SEPT_TRANSLATIONS = {
       [
         "Áries",
         "♈",
-        "Direct and independent partners; balance cooperation with self-assertion."
+        "Parceiros diretos e independentes; é preciso equilibrar cooperação e afirmação pessoal."
       ],
       [
         "Touro",
         "♉",
-        "Stability, loyalty and lasting commitments are valued."
+        "Estabilidade, lealdade e compromissos duradouros são valorizados."
       ],
       [
         "Gêmeos",
         "♊",
-        "Dialogue, curiosity and movement keep relationships alive."
+        "Diálogo, curiosidade e movimento mantêm os relacionamentos vivos."
       ],
       [
         "Câncer",
         "♋",
-        "Protection, sensitivity and emotional security are sought."
+        "Buscam-se proteção, sensibilidade e segurança emocional."
       ],
       [
         "Leão",
         "♌",
-        "Warm, creative and expressive partners are attractive."
+        "Parceiros calorosos, criativos e expressivos são atraentes."
       ],
       [
         "Virgem",
         "♍",
-        "Reliability, organization and service are valued, with risk of overanalysis."
+        "Confiabilidade, organização e disposição para servir são valorizadas, com risco de análise excessiva."
       ],
       [
         "Libra",
         "♎",
-        "Harmony, fairness and respectful cooperation are central."
+        "Harmonia, justiça e cooperação respeitosa são centrais."
       ],
       [
         "Escorpião",
         "♏",
-        "Deep, passionate and transformative bonds, with trust issues."
+        "Vínculos profundos, apaixonados e transformadores, com questões de confiança."
       ],
       [
         "Sagitário",
         "♐",
-        "Freedom, openness and growth are sought."
+        "Buscam-se liberdade, abertura e crescimento."
       ],
       [
         "Capricórnio",
         "♑",
-        "Commitment is serious, responsible and long-term."
+        "O compromisso é sério, responsável e de longo prazo."
       ],
       [
         "Aquário",
         "♒",
-        "Relationships need freedom, originality and equality."
+        "Os relacionamentos precisam de liberdade, originalidade e igualdade."
       ],
       [
         "Peixes",
         "♓",
-        "Romance and compassion are strong, with a risk of idealization."
+        "Romantismo e compaixão são fortes, com risco de idealização."
       ]
     ],
     "emptyTitle": "Casa 7 vazia: o que significa?",
@@ -2277,8 +2277,8 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "rulerTitle": "O planeta regente da Casa 7",
     "ruler": [
-      "The ruling planet governs the sign on the Descendant.",
-      "Its sign, house and aspects provide essential information about relationships, expectations and commitment."
+      "O planeta regente governa o signo no Descendente.",
+      "Seu signo, casa e aspectos fornecem informações essenciais sobre relacionamentos, expectativas e compromisso."
     ],
     "rulers": [
       [
@@ -2366,37 +2366,37 @@ export const MAISON_SEPT_TRANSLATIONS = {
     ],
     "evolutionTitle": "A Casa 7 no desenvolvimento pessoal",
     "evolution": [
-      "Meet the other without abandoning your identity.",
-      "Recognize projections, express needs and build reciprocity.",
-      "Balance autonomy and commitment, assertion and compromise, freedom and cooperation."
+      "Encontre o outro sem abandonar sua identidade.",
+      "Reconheça as projeções, expresse suas necessidades e construa reciprocidade.",
+      "Equilibre autonomia e compromisso, afirmação e concessão, liberdade e cooperação."
     ],
     "interpretTitle": "Como interpretar sua Casa 7?",
     "steps": [
       [
         "1",
-        "Identify the Descendant sign",
-        "It describes your relationship style and qualities sought in others."
+        "Identifique o signo do Descendente",
+        "Ele descreve seu estilo de relacionamento e as qualidades buscadas nos outros."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where partnership themes express themselves."
+        "Encontre seu planeta regente",
+        "Sua posição mostra onde os temas de parceria se expressam."
       ],
       [
         "3",
-        "Observe planets present",
-        "Each influences relationships and the people you attract."
+        "Observe os planetas presentes",
+        "Cada um influencia os relacionamentos e as pessoas que você atrai."
       ],
       [
         "4",
-        "Analyze aspects",
-        "They clarify strengths, tensions and lessons in committed relationships."
+        "Analise os aspectos",
+        "Eles esclarecem forças, tensões e aprendizados nos relacionamentos comprometidos."
       ]
     ],
     "natalTitle": "A Casa 7 no seu mapa astral",
     "natal": [
-      "Interpret the Seventh House within the whole chart: sign, ruler, planets and aspects.",
-      "This helps explain relational expectations, couple needs and partnership dynamics."
+      "Interprete a Sétima Casa no contexto do mapa completo: signo, regente, planetas e aspectos.",
+      "Isso ajuda a compreender expectativas relacionais, necessidades do casal e dinâmicas de parceria."
     ],
     "ctaKicker": "Descubra seu mapa astral",
     "ctaTitle": "Qual signo e quais planetas estão na sua Casa 7?",
@@ -2420,28 +2420,28 @@ export const MAISON_SEPT_TRANSLATIONS = {
     "faqTitle": "Perguntas sobre a Casa 7",
     "faq": [
       [
-        "What does the Seventh House represent?",
-        "Marriage, partnerships, associations, contracts, committed relationships and declared enemies."
+        "O que a Sétima Casa representa?",
+        "Casamento, parcerias, associações, contratos, relacionamentos comprometidos e inimigos declarados."
       ],
       [
-        "What is the Descendant?",
-        "The point opposite the Ascendant, marking the beginning of the Seventh House and how you meet the other."
+        "O que é o Descendente?",
+        "O ponto oposto ao Ascendente, que marca o início da Sétima Casa e a maneira como você encontra o outro."
       ],
       [
-        "What does a planet in the Seventh House mean?",
-        "It strongly influences relationships, partnerships and commitments and may be projected onto others."
+        "O que significa um planeta na Sétima Casa?",
+        "Ele influencia fortemente os relacionamentos, as parcerias e os compromissos e pode ser projetado nos outros."
       ],
       [
-        "What does an empty Seventh House mean?",
-        "It does not mean absence of relationships. Analyze the Descendant sign, ruler and aspects."
+        "O que significa uma Sétima Casa vazia?",
+        "Não significa ausência de relacionamentos. Analise o signo do Descendente, seu regente e os aspectos."
       ],
       [
-        "What is the difference between the Fifth and Seventh Houses?",
-        "The Fifth concerns romance and seduction; the Seventh concerns commitment and lasting partnership."
+        "Qual é a diferença entre a Quinta e a Sétima Casa?",
+        "A Quinta Casa trata de romance e sedução; a Sétima trata de compromisso e parcerias duradouras."
       ],
       [
-        "Why does it represent declared enemies?",
-        "Because it represents people facing us directly, including partners, known opponents and open conflicts."
+        "Por que ela representa inimigos declarados?",
+        "Porque representa as pessoas que estão diretamente diante de nós, incluindo parceiros, adversários conhecidos e conflitos abertos."
       ]
     ],
     "disclaimer": "A astrologia é apresentada como uma linguagem simbólica de exploração pessoal. Ela não substitui orientação médica, psicológica, jurídica ou financeira."
