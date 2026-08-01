@@ -1,0 +1,41 @@
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 6px 10px;
+  border: 1px solid rgba(123, 88, 146, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 22px rgba(71, 46, 88, 0.08);
+}
+
+.language-switcher-flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.language-switcher select {
+  max-width: 115px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #3d2c48;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .language-switcher {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    border-radius: 14px;
+  }
+
+  .language-switcher select {
+    max-width: none;
+  }
+}
