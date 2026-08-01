@@ -1,6 +1,3 @@
-
-
-
 // i18n/pages/astrologie/maisons/maison-1.ts
 import type { Locale } from "@/i18n/config";
 
