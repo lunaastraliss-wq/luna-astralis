@@ -1,8 +1,14 @@
 // app/[locale]/astrologie/aspects/page.tsx
 
-import type { Metadata } from "next";
+import type {
+  Metadata,
+} from "next";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
+
+import {
+  notFound,
+} from "next/navigation";
 
 import {
   isLocale,
@@ -25,9 +31,11 @@ type Props = {
 };
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({
-    locale,
-  }));
+  return locales.map(
+    (locale) => ({
+      locale,
+    })
+  );
 }
 
 export function generateMetadata({
@@ -42,7 +50,9 @@ export function generateMetadata({
   }
 
   const text =
-    ASPECTS_TRANSLATIONS[locale];
+    ASPECTS_TRANSLATIONS[
+      locale
+    ];
 
   const pageUrl =
     `${SITE_URL}/${locale}/astrologie/aspects`;
@@ -132,7 +142,9 @@ export default function AspectsAstrologiquesPage({
   }
 
   const text =
-    ASPECTS_TRANSLATIONS[locale];
+    ASPECTS_TRANSLATIONS[
+      locale
+    ];
 
   const pageUrl =
     `${SITE_URL}/${locale}/astrologie/aspects`;
@@ -185,7 +197,7 @@ export default function AspectsAstrologiquesPage({
 
             url:
               `${SITE_URL}${localize(
-                `/astrologie/aspects/${aspect.slug}`
+                aspect.href
               )}`,
           })
         ),
@@ -296,7 +308,11 @@ export default function AspectsAstrologiquesPage({
           >
             {text.aspects.map(
               (aspect) => (
-                <span key={aspect.slug}>
+                <span
+                  key={
+                    aspect.name
+                  }
+                >
                   <strong>
                     {aspect.symbol}
                   </strong>
@@ -313,11 +329,17 @@ export default function AspectsAstrologiquesPage({
         <article className="aspects-content">
           <section>
             <span className="aspects-kicker">
-              {text.introduction.kicker}
+              {
+                text.introduction
+                  .kicker
+              }
             </span>
 
             <h2>
-              {text.introduction.title}
+              {
+                text.introduction
+                  .title
+              }
             </h2>
 
             {text.introduction.paragraphs.map(
@@ -331,7 +353,9 @@ export default function AspectsAstrologiquesPage({
 
           <section>
             <h2>
-              {text.interpretationTitle}
+              {
+                text.interpretationTitle
+              }
             </h2>
 
             <div className="aspects-reading-grid">
@@ -339,14 +363,20 @@ export default function AspectsAstrologiquesPage({
                 (step) => (
                   <article
                     className="aspects-reading-card"
-                    key={step.number}
+                    key={
+                      step.number
+                    }
                   >
                     <span className="aspects-reading-number">
-                      {step.number}
+                      {
+                        step.number
+                      }
                     </span>
 
                     <h3>
-                      {step.title}
+                      {
+                        step.title
+                      }
                     </h3>
 
                     <p>
@@ -360,15 +390,24 @@ export default function AspectsAstrologiquesPage({
 
           <section id="liste-des-aspects">
             <span className="aspects-kicker">
-              {text.aspectsSection.kicker}
+              {
+                text.aspectsSection
+                  .kicker
+              }
             </span>
 
             <h2>
-              {text.aspectsSection.title}
+              {
+                text.aspectsSection
+                  .title
+              }
             </h2>
 
             <p>
-              {text.aspectsSection.description}
+              {
+                text.aspectsSection
+                  .description
+              }
             </p>
 
             <div className="aspects-grid">
@@ -376,30 +415,42 @@ export default function AspectsAstrologiquesPage({
                 (aspect) => (
                   <article
                     className="aspect-card"
-                    key={aspect.slug}
+                    key={
+                      aspect.name
+                    }
                   >
                     <div className="aspect-card-top">
                       <div className="aspect-symbol-wrap">
                         <span className="aspect-symbol">
-                          {aspect.symbol}
+                          {
+                            aspect.symbol
+                          }
                         </span>
 
                         <span className="aspect-degree">
-                          {aspect.degree}
+                          {
+                            aspect.degree
+                          }
                         </span>
                       </div>
 
                       <span className="aspect-category">
-                        {aspect.category}
+                        {
+                          aspect.category
+                        }
                       </span>
                     </div>
 
                     <h3>
-                      {aspect.title}
+                      {
+                        aspect.title
+                      }
                     </h3>
 
                     <p className="aspect-keywords">
-                      {aspect.keywords}
+                      {
+                        aspect.keywords
+                      }
                     </p>
 
                     <p>
@@ -408,13 +459,17 @@ export default function AspectsAstrologiquesPage({
 
                     <Link
                       href={localize(
-                        `/astrologie/aspects/${aspect.slug}`
+                        aspect.href
                       )}
                       className="aspect-link"
                       aria-label={`${text.discoverAria} ${aspect.name}`}
                     >
-                      {text.discoverLabel}{" "}
-                      {aspect.name.toLowerCase()}
+                      {
+                        text.discoverLabel
+                      }{" "}
+                      {
+                        aspect.discoverName
+                      }
 
                       <span aria-hidden="true">
                         →
@@ -428,11 +483,15 @@ export default function AspectsAstrologiquesPage({
 
           <section>
             <span className="aspects-kicker">
-              {text.groups.kicker}
+              {
+                text.groups.kicker
+              }
             </span>
 
             <h2>
-              {text.groups.title}
+              {
+                text.groups.title
+              }
             </h2>
 
             <div className="aspects-groups-grid">
@@ -482,7 +541,10 @@ export default function AspectsAstrologiquesPage({
 
           <section>
             <h2>
-              {text.conjunction.title}
+              {
+                text.conjunction
+                  .title
+              }
             </h2>
 
             <div className="aspects-focus-card">
@@ -492,7 +554,10 @@ export default function AspectsAstrologiquesPage({
 
               <div>
                 <h3>
-                  {text.conjunction.subtitle}
+                  {
+                    text.conjunction
+                      .subtitle
+                  }
                 </h3>
 
                 {text.conjunction.paragraphs.map(
@@ -509,7 +574,10 @@ export default function AspectsAstrologiquesPage({
                   )}
                   className="aspects-text-link"
                 >
-                  {text.conjunction.link}
+                  {
+                    text.conjunction
+                      .link
+                  }
                 </Link>
               </div>
             </div>
@@ -517,7 +585,9 @@ export default function AspectsAstrologiquesPage({
 
           <section>
             <span className="aspects-kicker">
-              {text.orb.kicker}
+              {
+                text.orb.kicker
+              }
             </span>
 
             <h2>
@@ -525,7 +595,10 @@ export default function AspectsAstrologiquesPage({
             </h2>
 
             <p>
-              {text.orb.introduction}
+              {
+                text.orb
+                  .introduction
+              }
             </p>
 
             <div className="aspects-orb-grid">
@@ -533,14 +606,20 @@ export default function AspectsAstrologiquesPage({
                 (card) => (
                   <article
                     className="aspects-orb-card"
-                    key={card.value}
+                    key={
+                      card.value
+                    }
                   >
                     <span className="aspects-orb-value">
-                      {card.value}
+                      {
+                        card.value
+                      }
                     </span>
 
                     <h3>
-                      {card.title}
+                      {
+                        card.title
+                      }
                     </h3>
 
                     <p>
@@ -552,13 +631,18 @@ export default function AspectsAstrologiquesPage({
             </div>
 
             <p>
-              {text.orb.conclusion}
+              {
+                text.orb
+                  .conclusion
+              }
             </p>
           </section>
 
           <section>
             <h2>
-              {text.movement.title}
+              {
+                text.movement.title
+              }
             </h2>
 
             <div className="aspects-movement-grid">
@@ -566,19 +650,27 @@ export default function AspectsAstrologiquesPage({
                 (card) => (
                   <article
                     className="aspects-movement-card"
-                    key={card.title}
+                    key={
+                      card.title
+                    }
                   >
                     <span className="aspects-movement-icon">
-                      {card.icon}
+                      {
+                        card.icon
+                      }
                     </span>
 
                     <div>
                       <h3>
-                        {card.title}
+                        {
+                          card.title
+                        }
                       </h3>
 
                       <p>
-                        {card.text}
+                        {
+                          card.text
+                        }
                       </p>
                     </div>
                   </article>
@@ -589,7 +681,10 @@ export default function AspectsAstrologiquesPage({
 
           <section>
             <h2>
-              {text.importance.title}
+              {
+                text.importance
+                  .title
+              }
             </h2>
 
             {text.importance.paragraphs.map(
@@ -603,11 +698,15 @@ export default function AspectsAstrologiquesPage({
             <div className="aspects-cta-card">
               <div>
                 <span className="aspects-kicker">
-                  {text.cta.kicker}
+                  {
+                    text.cta.kicker
+                  }
                 </span>
 
                 <h2>
-                  {text.cta.title}
+                  {
+                    text.cta.title
+                  }
                 </h2>
 
                 <p>
@@ -628,7 +727,9 @@ export default function AspectsAstrologiquesPage({
 
           <section className="aspects-faq">
             <span className="aspects-kicker">
-              {text.faqKicker}
+              {
+                text.faqKicker
+              }
             </span>
 
             <h2>
@@ -640,14 +741,20 @@ export default function AspectsAstrologiquesPage({
                 (item) => (
                   <details
                     className="aspects-faq-item"
-                    key={item.question}
+                    key={
+                      item.question
+                    }
                   >
                     <summary>
-                      {item.question}
+                      {
+                        item.question
+                      }
                     </summary>
 
                     <p>
-                      {item.answer}
+                      {
+                        item.answer
+                      }
                     </p>
                   </details>
                 )
