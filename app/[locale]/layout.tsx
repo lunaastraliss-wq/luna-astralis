@@ -9,9 +9,16 @@ import {
 } from "next/navigation";
 
 import {
+  getDictionary,
+} from "@/i18n/getDictionary";
+
+import {
   isLocale,
   locales,
 } from "@/i18n/config";
+
+import TranslationProvider
+  from "@/i18n/TranslationProvider";
 
 /*
 |--------------------------------------------------------------------------
@@ -27,24 +34,45 @@ export function generateStaticParams() {
 
 /*
 |--------------------------------------------------------------------------
-| Mise en page linguistique
+| Propriétés
 |--------------------------------------------------------------------------
 */
 
 type LocaleLayoutProps = {
   children: ReactNode;
+
   params: {
     locale: string;
   };
 };
 
-export default function LocaleLayout({
+/*
+|--------------------------------------------------------------------------
+| Mise en page linguistique
+|--------------------------------------------------------------------------
+*/
+
+export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
-  if (!isLocale(params.locale)) {
+  const {
+    locale,
+  } = params;
+
+  if (!isLocale(locale)) {
     notFound();
   }
 
-  return children;
+  const dictionary =
+    await getDictionary(locale);
+
+  return (
+    <TranslationProvider
+      locale={locale}
+      dictionary={dictionary}
+    >
+      {children}
+    </TranslationProvider>
+  );
 }
