@@ -10,13 +10,47 @@ import {
 import {
   defaultLocale,
   isLocale,
-  localeFlags,
-  localeNames,
   locales,
   type Locale,
 } from "@/i18n/config";
 
 import "./LanguageSwitcher.css";
+
+/*
+|--------------------------------------------------------------------------
+| Codes courts affichés
+|--------------------------------------------------------------------------
+*/
+
+const localeCodes: Record<
+  Locale,
+  string
+> = {
+  fr: "FR",
+  en: "EN",
+  es: "ES",
+  de: "DE",
+  it: "IT",
+  pt: "PT",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Noms affichés dans la liste
+|--------------------------------------------------------------------------
+*/
+
+const localeLabels: Record<
+  Locale,
+  string
+> = {
+  fr: "Français",
+  en: "English",
+  es: "Español",
+  de: "Deutsch",
+  it: "Italiano",
+  pt: "Português",
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -90,10 +124,6 @@ export default function LanguageSwitcher() {
     |--------------------------------------------------------------------------
     | Ancienne route sans langue
     |--------------------------------------------------------------------------
-    |
-    | Pour le moment, seules les pages d’accueil /fr, /en, etc. existent.
-    | On dirige donc vers l’accueil de la langue sélectionnée.
-    |
     */
 
     router.push(
@@ -107,11 +137,11 @@ export default function LanguageSwitcher() {
       aria-label="Choisir la langue"
     >
       <span
-        className="language-switcher-flag"
+        className="language-switcher-code"
         aria-hidden="true"
       >
         {
-          localeFlags[
+          localeCodes[
             currentLocale
           ]
         }
@@ -138,12 +168,7 @@ export default function LanguageSwitcher() {
               }
             >
               {
-                localeFlags[
-                  availableLocale
-                ]
-              }{" "}
-              {
-                localeNames[
+                localeLabels[
                   availableLocale
                 ]
               }
