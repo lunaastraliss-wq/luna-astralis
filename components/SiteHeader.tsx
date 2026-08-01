@@ -11,6 +11,9 @@ import {
 
 import { useAuth } from "./AuthProvider";
 
+import LanguageSwitcher
+  from "./LanguageSwitcher";
+
 import "./SiteHeader.css";
 
 export default function SiteHeader() {
@@ -1059,6 +1062,8 @@ export default function SiteHeader() {
               ? "Mon compte"
               : "Se connecter"}
           </Link>
+
+          <LanguageSwitcher />
         </div>
 
         {/* ================================= */}
@@ -1528,6 +1533,8 @@ export default function SiteHeader() {
               ? "Mon compte"
               : "Se connecter"}
           </Link>
+
+          <LanguageSwitcher />
         </div>
       </nav>
     </header>
