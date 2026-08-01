@@ -8,16 +8,43 @@ import {
 } from "next/navigation";
 
 import {
+  defaultLocale,
+  isLocale,
   localeFlags,
   localeNames,
   locales,
+  type Locale,
 } from "@/i18n/config";
 
-import {
-  useTranslations,
-} from "@/i18n/TranslationProvider";
-
 import "./LanguageSwitcher.css";
+
+/*
+|--------------------------------------------------------------------------
+| Récupérer la langue dans l’URL
+|--------------------------------------------------------------------------
+*/
+
+function getLocaleFromPathname(
+  pathname: string
+): Locale {
+  const firstSegment =
+    pathname.split("/")[1];
+
+  if (
+    firstSegment &&
+    isLocale(firstSegment)
+  ) {
+    return firstSegment;
+  }
+
+  return defaultLocale;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sélecteur de langue
+|--------------------------------------------------------------------------
+*/
 
 export default function LanguageSwitcher() {
   const router =
@@ -26,12 +53,13 @@ export default function LanguageSwitcher() {
   const pathname =
     usePathname();
 
-  const {
-    locale,
-  } = useTranslations();
+  const currentLocale =
+    getLocaleFromPathname(
+      pathname
+    );
 
   function changeLanguage(
-    nextLocale: string
+    nextLocale: Locale
   ) {
     const segments =
       pathname
@@ -40,16 +68,13 @@ export default function LanguageSwitcher() {
 
     /*
     |--------------------------------------------------------------------------
-    | Remplacer la langue déjà présente
+    | Une langue existe déjà dans l’URL
     |--------------------------------------------------------------------------
     */
 
     if (
       segments.length > 0 &&
-      locales.includes(
-        segments[0] as
-          (typeof locales)[number]
-      )
+      isLocale(segments[0])
     ) {
       segments[0] =
         nextLocale;
@@ -63,8 +88,12 @@ export default function LanguageSwitcher() {
 
     /*
     |--------------------------------------------------------------------------
-    | Route sans langue : retourner vers l’accueil de la langue choisie
+    | Ancienne route sans langue
     |--------------------------------------------------------------------------
+    |
+    | Pour le moment, seules les pages d’accueil /fr, /en, etc. existent.
+    | On dirige donc vers l’accueil de la langue sélectionnée.
+    |
     */
 
     router.push(
@@ -81,14 +110,19 @@ export default function LanguageSwitcher() {
         className="language-switcher-flag"
         aria-hidden="true"
       >
-        {localeFlags[locale]}
+        {
+          localeFlags[
+            currentLocale
+          ]
+        }
       </span>
 
       <select
-        value={locale}
+        value={currentLocale}
         onChange={(event) =>
           changeLanguage(
-            event.target.value
+            event.target
+              .value as Locale
           )
         }
         aria-label="Langue"
@@ -96,8 +130,12 @@ export default function LanguageSwitcher() {
         {locales.map(
           (availableLocale) => (
             <option
-              key={availableLocale}
-              value={availableLocale}
+              key={
+                availableLocale
+              }
+              value={
+                availableLocale
+              }
             >
               {
                 localeFlags[
