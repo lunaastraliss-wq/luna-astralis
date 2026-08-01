@@ -10,11 +10,6 @@
   box-shadow: 0 8px 22px rgba(71, 46, 88, 0.08);
 }
 
-.language-switcher-flag {
-  font-size: 18px;
-  line-height: 1;
-}
-
 .language-switcher select {
   max-width: 115px;
   border: 0;
