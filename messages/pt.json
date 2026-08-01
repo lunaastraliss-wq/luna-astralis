@@ -1,1 +1,17 @@
-{}
+{
+  "common": {
+    "siteName": "Luna Astralis",
+    "home": "Início",
+    "horoscope": "Horóscopo",
+    "birthChart": "Mapa astral",
+    "compatibility": "Compatibilidade",
+    "astrology": "Astrologia",
+    "books": "Livros",
+    "login": "Entrar",
+    "account": "Minha conta",
+    "lunaAI": "Luna IA",
+    "free": "Grátis",
+    "premium": "Premium",
+    "signature": "Signature"
+  }
+}
