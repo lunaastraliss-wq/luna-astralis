@@ -1,10 +1,23 @@
 // middleware.ts
 
-import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import type {
+  NextRequest,
+} from "next/server";
 
-const CANON_HOST = "luna-astralis.app";
+import {
+  NextResponse,
+} from "next/server";
+
+import {
+  createMiddlewareClient,
+} from "@supabase/auth-helpers-nextjs";
+
+import {
+  isLocale,
+} from "@/i18n/config";
+
+const CANON_HOST =
+  "luna-astralis.app";
 
 /*
 |--------------------------------------------------------------------------
@@ -130,6 +143,28 @@ function checkDevAccess(
 
 /*
 |--------------------------------------------------------------------------
+| Récupération de la langue présente dans l’URL
+|--------------------------------------------------------------------------
+*/
+
+function getPathLocale(
+  pathname: string
+): string | null {
+  const firstSegment =
+    pathname.split("/")[1];
+
+  if (
+    firstSegment &&
+    isLocale(firstSegment)
+  ) {
+    return firstSegment;
+  }
+
+  return null;
+}
+
+/*
+|--------------------------------------------------------------------------
 | Middleware principal
 |--------------------------------------------------------------------------
 */
@@ -144,14 +179,19 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 1. Forcer le domaine officiel
+  | 1. Forcer le domaine officiel en production
   |--------------------------------------------------------------------------
   */
 
   const host =
     req.headers.get("host") || "";
 
+  const isProduction =
+    process.env.NODE_ENV ===
+    "production";
+
   if (
+    isProduction &&
     host &&
     host !== CANON_HOST
   ) {
@@ -184,7 +224,7 @@ export async function middleware(
       "/robots.txt" ||
     pathname ===
       "/sitemap.xml" ||
-    /\.(png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt|woff|woff2|ttf|otf)$/i.test(
+    /\.(png|jpg|jpeg|gif|webp|svg|ico|css|js|map|txt|xml|woff|woff2|ttf|otf)$/i.test(
       pathname
     )
   ) {
@@ -210,12 +250,44 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 4. Routes publiques
+  | 4. Rediriger la racine vers la version française
   |--------------------------------------------------------------------------
   */
 
+  if (pathname === "/") {
+    const url =
+      req.nextUrl.clone();
+
+    url.pathname = "/fr";
+
+    return NextResponse.redirect(
+      url
+    );
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | 5. Autoriser les routes multilingues
+  |--------------------------------------------------------------------------
+  */
+
+  const pathLocale =
+    getPathLocale(pathname);
+
+  if (pathLocale) {
+    return NextResponse.next();
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | 6. Routes publiques sans préfixe linguistique
+  |--------------------------------------------------------------------------
+  |
+  | Ces routes restent accessibles pendant la migration.
+  |
+  */
+
   if (
-    pathname === "/" ||
     pathname.startsWith(
       "/pricing"
     ) ||
@@ -240,7 +312,7 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 5. Protéger la section /chat avec Supabase
+  | 7. Protéger la section /chat avec Supabase
   |--------------------------------------------------------------------------
   */
 
@@ -289,8 +361,12 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 6. Toutes les autres pages
+  | 8. Toutes les autres pages
   |--------------------------------------------------------------------------
+  |
+  | Les anciennes routes continuent de fonctionner pendant que nous les
+  | convertissons progressivement vers /fr, /en, /es, /de, /it et /pt.
+  |
   */
 
   return NextResponse.next();
