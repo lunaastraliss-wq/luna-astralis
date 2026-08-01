@@ -803,60 +803,60 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "meaningKicker": "Significado de la Casa 3",
     "meaningTitle": "¿Qué representa la Casa 3?",
     "meaning": [
-      "The Third House is the house of communication, learning and daily exchange. It describes how you observe, understand and interpret your environment.",
-      "It represents speaking, writing, listening and sharing ideas, revealing whether communication is direct, cautious, emotional, creative or analytical.",
-      "It also concerns basic learning, early education, curiosity, mental habits and information gathering.",
-      "It is associated with siblings, neighbors, cousins, classmates, acquaintances and people in the close environment."
+      "La Casa 3 es la casa de la comunicación, el aprendizaje y los intercambios cotidianos. Describe cómo observas, comprendes e interpretas tu entorno.",
+      "Representa tu manera de hablar, escribir, escuchar y transmitir ideas. Puede mostrar si tu comunicación es directa, prudente, emocional, creativa o analítica.",
+      "También se relaciona con el aprendizaje básico, los primeros estudios, la curiosidad, los hábitos mentales y la forma de reunir información.",
+      "Además, está asociada con los hermanos, vecinos, primos, compañeros, conocidos y personas del entorno cercano."
     ],
     "domainsTitle": "Los grandes ámbitos de la Casa 3",
     "traits": [
       [
-        "Your communication",
+        "Tu comunicación",
         "✦",
-        "It describes how you speak, write, listen and share ideas in everyday exchanges."
+        "Describe cómo hablas, escribes, escuchas y transmites tus ideas en los intercambios cotidianos."
       ],
       [
-        "Your way of learning",
+        "Tu forma de aprender",
         "☿",
-        "It represents curiosity, basic learning, observation and how you gather information."
+        "Representa la curiosidad, el aprendizaje básico, la observación y la manera de reunir información."
       ],
       [
-        "Your close environment",
+        "Tu entorno cercano",
         "Ⅲ",
-        "It concerns siblings, neighbors, acquaintances, short trips and daily interactions."
+        "Se relaciona con hermanos, vecinos, conocidos, desplazamientos cortos e interacciones diarias."
       ]
     ],
     "communicationTitle": "La Casa 3 y tu manera de comunicar",
     "communication": [
-      "It reveals your style in ordinary conversations and how you express opinions, tell experiences and share knowledge.",
-      "The cusp sign colors speech; planets can make communication faster, more sensitive, serious, persuasive or original.",
-      "It also describes listening. Communication requires receiving information and understanding other people’s needs."
+      "La Casa 3 revela tu estilo en las conversaciones cotidianas y la forma en que expresas opiniones, cuentas experiencias y compartes conocimientos.",
+      "El signo situado en la cúspide da un matiz particular a tu manera de hablar. Los planetas presentes pueden volver la comunicación más rápida, sensible, seria, persuasiva u original.",
+      "También muestra cómo escuchas. Comunicar no significa solo hablar: también implica recibir información y comprender las necesidades de los demás."
     ],
     "highlightTitle": "La comunicación construye tu realidad",
-    "highlight": "The words you choose influence relationships, decisions and your understanding of the world. The Third House invites clearer and more conscious communication.",
+    "highlight": "Las palabras que eliges influyen en tus relaciones, tus decisiones y tu manera de comprender el mundo. La Casa 3 te invita a desarrollar una comunicación más clara, consciente y adaptada.",
     "learningTitle": "Aprendizaje, curiosidad y pensamiento cotidiano",
     "learning": [
-      "It describes how you learn practical information needed in daily life: through reading, observation, discussion, repetition or experience.",
-      "It shows your curiosity and how you connect ideas. A very active Third House can create a constant need to learn and ask questions.",
-      "Its challenge may be slowing down enough to explore information deeply."
+      "La Casa 3 describe cómo aprendes la información concreta necesaria para la vida cotidiana: leyendo, observando, conversando, repitiendo o experimentando.",
+      "También indica tu nivel de curiosidad y la manera de relacionar ideas. Una Casa 3 muy activa puede crear una necesidad constante de aprender, preguntar y descubrir.",
+      "Su desafío puede consistir en reducir la velocidad lo suficiente para profundizar en la información."
     ],
     "siblingsTitle": "Hermanos y entorno cercano",
     "siblings": [
-      "The Third House is traditionally associated with siblings and may describe the general dynamic of these relationships.",
-      "It also concerns neighbors, cousins, classmates and people encountered regularly.",
-      "Planets in the house may make close relationships especially important, stimulating, demanding or transformative."
+      "La Casa 3 se asocia tradicionalmente con los hermanos y puede describir la dinámica general de esas relaciones.",
+      "También se relaciona con vecinos, primos, compañeros de clase y personas que ves con frecuencia.",
+      "Los planetas presentes pueden hacer que las relaciones con el entorno cercano sean especialmente importantes, estimulantes, exigentes o transformadoras."
     ],
     "travelTitle": "Desplazamientos y entorno cotidiano",
     "travel": [
-      "It governs short trips: commuting, local visits, errands, walks and transportation in familiar surroundings.",
-      "Unlike the Ninth House, which concerns long-distance travel and shifts in perspective, the Third structures daily movement.",
-      "It also shows your ability to orient yourself, adapt to immediate change and remain connected."
+      "Gobierna los desplazamientos cortos: trayectos al trabajo, visitas locales, compras, paseos y transportes dentro del entorno habitual.",
+      "A diferencia de la Casa 9, relacionada con viajes lejanos y cambios de perspectiva, la Casa 3 estructura el movimiento cotidiano.",
+      "También muestra tu capacidad para orientarte, adaptarte a cambios inmediatos y mantenerte conectado con las personas y la información."
     ],
     "mediaTitle": "Escritura, medios y transmisión",
     "media": [
-      "The Third House is strongly linked to writing, reading, messages, calls, social media and everyday media.",
-      "It may reveal talent for storytelling, explaining, teaching, translating, selling, informing or creating content.",
-      "A developed Third House does not necessarily mean talking a lot; it may also show strong observation and synthesis."
+      "La Casa 3 está muy vinculada con la escritura, la lectura, los mensajes, las llamadas, las redes sociales y los medios de uso cotidiano.",
+      "Puede revelar talento para narrar, explicar, enseñar, traducir, vender, informar o crear contenido.",
+      "Una Casa 3 desarrollada no significa necesariamente hablar mucho; también puede manifestarse mediante una gran capacidad de observación, síntesis y transmisión."
     ],
     "strengthsTitle": "Fortalezas y desafíos de la Casa 3",
     "strengthsKicker": "Fortalezas naturales",
@@ -881,137 +881,137 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "planetsTitle": "Los planetas en la Casa 3",
     "planetsIntro": [
-      "A planet in the Third House directly influences thinking, communication and learning.",
-      "It may also affect siblings, the close environment and daily travel."
+      "Un planeta en la Casa 3 influye directamente en tu manera de pensar, comunicarte y aprender.",
+      "También puede desempeñar un papel importante en las relaciones con hermanos, el entorno cercano o los desplazamientos cotidianos."
     ],
     "planetLabel": "en la Casa 3",
     "planets": [
       [
         "Sol",
         "☀",
-        "Strengthens the need to communicate, learn and share ideas. Identity is partly built through exchange and knowledge."
+        "Refuerza la necesidad de comunicar, aprender y transmitir ideas. Una parte importante de la identidad se construye mediante los intercambios y el conocimiento."
       ],
       [
         "Luna",
         "☽",
-        "Connects emotions with speech and learning. The person may need to talk in order to understand feelings."
+        "Relaciona las emociones con la palabra y el aprendizaje. La persona puede necesitar hablar para comprender lo que siente."
       ],
       [
         "Mercurio",
         "☿",
-        "Favors curiosity, mental mobility, writing, teaching and exchange. The mind may be quick and flexible."
+        "Favorece la curiosidad, la movilidad mental, la escritura, la enseñanza y los intercambios. La mente puede ser rápida y flexible."
       ],
       [
         "Venus",
         "♀",
-        "Brings gentleness, diplomacy and charm to communication. The person may enjoy writing, creativity or languages."
+        "Aporta suavidad, diplomacia y encanto a la comunicación. La persona puede disfrutar de la escritura, la creatividad o los idiomas."
       ],
       [
         "Marte",
         "♂",
-        "Gives direct, lively and sometimes combative speech. The person quickly defends ideas and has strong mental energy."
+        "Da una palabra directa, viva y a veces combativa. La persona defiende rápidamente sus ideas y posee mucha energía mental."
       ],
       [
         "Júpiter",
         "♃",
-        "Expands curiosity and the desire to learn. The person may enjoy teaching and sharing knowledge."
+        "Amplifica la curiosidad y el deseo de aprender. La persona puede disfrutar enseñando y compartiendo conocimientos."
       ],
       [
         "Saturno",
         "♄",
-        "May make communication cautious, structured or reserved. Over time it supports rigorous and responsible thinking."
+        "Puede volver la comunicación más prudente, estructurada o reservada. Con el tiempo favorece un pensamiento riguroso y responsable."
       ],
       [
         "Urano",
         "♅",
-        "Gives an original, quick and independent mind, with unexpected ideas and unconventional learning methods."
+        "Da una mente original, rápida e independiente, con ideas inesperadas y métodos poco convencionales."
       ],
       [
         "Neptuno",
         "♆",
-        "Brings intuition, imagination and sensitivity to thought. The person may communicate through images, art or poetry."
+        "Aporta intuición, imaginación y sensibilidad al pensamiento. La persona puede comunicarse mediante imágenes, arte o poesía."
       ],
       [
         "Plutón",
         "♇",
-        "Gives deep, strategic and penetrating thought. The person often seeks what lies behind words."
+        "Da un pensamiento profundo, estratégico y penetrante. La persona suele buscar lo que se oculta detrás de las palabras."
       ]
     ],
     "signsTitle": "Los doce signos en la Casa 3",
-    "signsIntro": "The sign on the cusp of the Third House describes your style of thought, learning and communication with the close environment.",
+    "signsIntro": "El signo situado en la cúspide de la Casa 3 describe tu estilo de pensamiento, aprendizaje y comunicación con el entorno cercano.",
     "houseSignLabel": "Casa 3 en",
     "signs": [
       [
         "Aries",
         "♈",
-        "Direct, fast and spontaneous communication. Learning is effective through action and experience."
+        "Comunicación directa, rápida y espontánea. El aprendizaje es eficaz mediante la acción y la experiencia."
       ],
       [
         "Tauro",
         "♉",
-        "Concrete, stable and methodical thought. Information is absorbed slowly and practical knowledge is preferred."
+        "Pensamiento concreto, estable y metódico. La información se asimila lentamente y se prefieren los conocimientos útiles."
       ],
       [
         "Géminis",
         "♊",
-        "Curiosity, mobility and love of exchange. Many subjects may be explored with ease."
+        "Curiosidad, movilidad y gusto por los intercambios. La persona puede interesarse por muchos temas y comunicarse con facilidad."
       ],
       [
         "Cáncer",
         "♋",
-        "Sensitive and intuitive communication influenced by memories and emotional bonds."
+        "Comunicación sensible e intuitiva, influida por los recuerdos y los vínculos emocionales."
       ],
       [
         "Leo",
         "♌",
-        "Expressive, warm and creative speech, with talent for storytelling or teaching."
+        "Palabra expresiva, cálida y creativa, con talento para narrar o enseñar."
       ],
       [
         "Virgo",
         "♍",
-        "Analysis, precision and attention to detail. Information is organized and communicated clearly."
+        "Análisis, precisión y atención al detalle. La información se organiza y se comunica con claridad."
       ],
       [
         "Libra",
         "♎",
-        "Diplomacy, elegance and balance in exchange, with attention to different viewpoints."
+        "Diplomacia, elegancia y equilibrio en los intercambios, con atención a diferentes puntos de vista."
       ],
       [
         "Escorpio",
         "♏",
-        "Intense, deep and observant thought that seeks hidden motivations."
+        "Pensamiento intenso, profundo y observador que busca motivaciones ocultas."
       ],
       [
         "Sagitario",
         "♐",
-        "Expansive and optimistic thought focused on broad ideas and convictions."
+        "Pensamiento expansivo y optimista, orientado hacia las grandes ideas y convicciones."
       ],
       [
         "Capricornio",
         "♑",
-        "Serious, structured and cautious communication based on reliable information."
+        "Comunicación seria, estructurada y prudente basada en información fiable."
       ],
       [
         "Acuario",
         "♒",
-        "Inventive, independent and future-oriented thought that explores new ideas."
+        "Pensamiento inventivo, independiente y orientado al futuro que explora nuevas ideas."
       ],
       [
         "Piscis",
         "♓",
-        "Imagination, intuition and sensitivity in exchange, with a need for clarity."
+        "Imaginación, intuición y sensibilidad en los intercambios, con necesidad de claridad."
       ]
     ],
     "emptyTitle": "Casa 3 vacía: ¿qué significa?",
     "empty": [
-      "An empty Third House does not mean communication problems or lack of curiosity. Every house remains active without planets.",
-      "Examine the cusp sign and then identify its ruling planet.",
-      "The ruler’s placement shows where communication, learning and adaptation seek development."
+      "Una Casa 3 vacía no significa dificultades de comunicación ni falta de curiosidad. Todas las casas permanecen activas aunque no contengan planetas.",
+      "Observa el signo situado en la cúspide e identifica después su planeta regente.",
+      "La posición del regente muestra dónde y cómo buscan desarrollarse la comunicación, el aprendizaje y la adaptación."
     ],
     "rulerTitle": "El planeta regente de la Casa 3",
     "ruler": [
-      "The ruler is the planet governing the sign at the beginning of the Third House.",
-      "Its sign, house and aspects provide important information about thinking, learning and sharing ideas."
+      "El regente de la Casa 3 es el planeta que gobierna el signo situado al comienzo de esta casa.",
+      "Su signo, casa y aspectos aportan información importante sobre tu manera de pensar, aprender y transmitir ideas."
     ],
     "rulers": [
       [
@@ -1088,37 +1088,37 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "evolutionTitle": "La Casa 3 en tu evolución personal",
     "evolution": [
-      "The Third House invites flexible, curious and conscious thinking without automatically accepting every piece of information.",
-      "It encourages clear expression, listening and adapting communication to circumstances.",
-      "Its development involves balancing curiosity with depth and mental speed with reflection."
+      "La Casa 3 te invita a desarrollar un pensamiento flexible, curioso y consciente sin aceptar automáticamente toda la información recibida.",
+      "También te anima a expresarte con claridad, escuchar a los demás y adaptar tu comunicación a cada situación.",
+      "Su evolución consiste en equilibrar la curiosidad con la profundidad y la rapidez mental con la reflexión."
     ],
     "interpretTitle": "¿Cómo interpretar tu Casa 3?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Third House",
-        "It describes your natural style of thought, learning and communication."
+        "Identifica el signo de la Casa 3",
+        "Describe tu estilo natural de pensamiento, aprendizaje y comunicación."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where curiosity and communication abilities seek expression."
+        "Localiza su planeta regente",
+        "Su posición revela dónde buscan expresarse tu curiosidad y tus capacidades de transmisión."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet modifies speaking, thinking, learning and interaction."
+        "Observa los planetas presentes",
+        "Cada planeta modifica tu manera de hablar, pensar, aprender e interactuar con el entorno."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "They clarify ease, tension and learning related to communication."
+        "Analiza los aspectos",
+        "Los aspectos precisan las facilidades, tensiones y aprendizajes relacionados con la comunicación."
       ]
     ],
     "natalTitle": "La Casa 3 en tu carta natal",
     "natal": [
-      "It must be analyzed within the whole birth chart, including its sign, planets, ruler and aspects.",
-      "This helps explain learning style, mental habits, communication and the role of close surroundings."
+      "La Casa 3 debe analizarse con el conjunto de la carta natal, incluyendo su signo, los planetas presentes, el regente y los aspectos.",
+      "Este análisis puede ayudarte a comprender tu forma de aprender, tus hábitos mentales, tu estilo de comunicación y el papel del entorno cercano."
     ],
     "ctaKicker": "Descubre tu carta natal",
     "ctaTitle": "¿Qué signo y qué planetas están en tu Casa 3?",
@@ -1142,28 +1142,28 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "faqTitle": "Preguntas sobre la Casa 3",
     "faq": [
       [
-        "What does the Third House represent?",
-        "Communication, thought, learning, writing, siblings, neighbors, close surroundings and daily travel."
+        "¿Qué representa la Casa 3 en astrología?",
+        "La comunicación, el pensamiento, el aprendizaje, la escritura, los hermanos, los vecinos, el entorno cercano y los desplazamientos cotidianos."
       ],
       [
-        "Which planet is associated with the Third House?",
-        "Mercury, the planet of thought, communication, learning, exchange and movement."
+        "¿Qué planeta está asociado con la Casa 3?",
+        "Mercurio, planeta del pensamiento, la comunicación, el aprendizaje, los intercambios y el movimiento."
       ],
       [
-        "What does a planet in the Third House mean?",
-        "It influences thinking, learning, communication and relationships with the close environment."
+        "¿Qué significa un planeta en la Casa 3?",
+        "Influye en la manera de pensar, aprender y comunicar, así como en las relaciones con el entorno cercano."
       ],
       [
-        "What does an empty Third House mean?",
-        "It does not mean lack of communication or curiosity. Analyze the cusp sign, ruler and aspects."
+        "¿Qué significa una Casa 3 vacía?",
+        "No significa ausencia de comunicación o curiosidad. Hay que analizar el signo de la cúspide, su regente y los aspectos."
       ],
       [
-        "Does the Third House represent siblings?",
-        "Yes, as well as cousins, neighbors, classmates and people in the daily environment."
+        "¿La Casa 3 representa a los hermanos?",
+        "Sí. También se asocia con primos, vecinos, compañeros y personas del entorno cotidiano."
       ],
       [
-        "What is the difference between the Third and Ninth Houses?",
-        "The Third concerns everyday learning and close surroundings; the Ninth concerns higher education, distant travel, beliefs and meaning."
+        "¿Cuál es la diferencia entre la Casa 3 y la Casa 9?",
+        "La Casa 3 se relaciona con el aprendizaje cotidiano y el entorno cercano; la Casa 9 con los estudios superiores, los viajes lejanos, las creencias y la búsqueda de sentido."
       ]
     ],
     "disclaimer": "La astrología se presenta como un lenguaje simbólico de exploración personal. No sustituye asesoramiento médico, psicológico, legal o financiero."
@@ -1187,60 +1187,60 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "meaningKicker": "Bedeutung des dritten Hauses",
     "meaningTitle": "Wofür steht das dritte Haus?",
     "meaning": [
-      "The Third House is the house of communication, learning and daily exchange. It describes how you observe, understand and interpret your environment.",
-      "It represents speaking, writing, listening and sharing ideas, revealing whether communication is direct, cautious, emotional, creative or analytical.",
-      "It also concerns basic learning, early education, curiosity, mental habits and information gathering.",
-      "It is associated with siblings, neighbors, cousins, classmates, acquaintances and people in the close environment."
+      "Das dritte Haus ist das Haus der Kommunikation, des Lernens und des täglichen Austauschs. Es beschreibt, wie Sie Ihre Umgebung beobachten, verstehen und deuten.",
+      "Es steht für Sprechen, Schreiben, Zuhören und das Vermitteln von Ideen. Es zeigt, ob Ihre Kommunikation direkt, vorsichtig, emotional, kreativ oder analytisch ist.",
+      "Es betrifft außerdem grundlegendes Lernen, frühe Bildung, Neugier, Denkgewohnheiten und das Sammeln von Informationen.",
+      "Es ist auch mit Geschwistern, Nachbarn, Cousins, Mitschülern, Bekannten und Menschen aus dem nahen Umfeld verbunden."
     ],
     "domainsTitle": "Die wichtigsten Bereiche des dritten Hauses",
     "traits": [
       [
-        "Your communication",
+        "Ihre Kommunikation",
         "✦",
-        "It describes how you speak, write, listen and share ideas in everyday exchanges."
+        "Es beschreibt, wie Sie sprechen, schreiben, zuhören und im Alltag Ideen vermitteln."
       ],
       [
-        "Your way of learning",
+        "Ihre Art zu lernen",
         "☿",
-        "It represents curiosity, basic learning, observation and how you gather information."
+        "Es steht für Neugier, grundlegendes Lernen, Beobachtung und das Sammeln von Informationen."
       ],
       [
-        "Your close environment",
+        "Ihr nahes Umfeld",
         "Ⅲ",
-        "It concerns siblings, neighbors, acquaintances, short trips and daily interactions."
+        "Es betrifft Geschwister, Nachbarn, Bekannte, kurze Wege und tägliche Kontakte."
       ]
     ],
     "communicationTitle": "Das dritte Haus und Ihre Kommunikation",
     "communication": [
-      "It reveals your style in ordinary conversations and how you express opinions, tell experiences and share knowledge.",
-      "The cusp sign colors speech; planets can make communication faster, more sensitive, serious, persuasive or original.",
-      "It also describes listening. Communication requires receiving information and understanding other people’s needs."
+      "Das dritte Haus zeigt Ihren Stil in alltäglichen Gesprächen und wie Sie Meinungen äußern, Erlebnisse erzählen und Wissen weitergeben.",
+      "Das Zeichen an der Spitze färbt Ihre Sprache. Planeten können die Kommunikation schneller, sensibler, ernster, überzeugender oder origineller machen.",
+      "Es beschreibt auch das Zuhören. Kommunikation bedeutet nicht nur Sprechen, sondern auch Informationen aufzunehmen und die Bedürfnisse anderer zu verstehen."
     ],
     "highlightTitle": "Kommunikation gestaltet Ihre Wirklichkeit",
-    "highlight": "The words you choose influence relationships, decisions and your understanding of the world. The Third House invites clearer and more conscious communication.",
+    "highlight": "Die Worte, die Sie wählen, beeinflussen Beziehungen, Entscheidungen und Ihr Verständnis der Welt. Das dritte Haus lädt zu klarerer und bewussterer Kommunikation ein.",
     "learningTitle": "Lernen, Neugier und Alltagsdenken",
     "learning": [
-      "It describes how you learn practical information needed in daily life: through reading, observation, discussion, repetition or experience.",
-      "It shows your curiosity and how you connect ideas. A very active Third House can create a constant need to learn and ask questions.",
-      "Its challenge may be slowing down enough to explore information deeply."
+      "Das dritte Haus beschreibt, wie Sie konkrete Informationen für den Alltag lernen: durch Lesen, Beobachten, Gespräche, Wiederholung oder Erfahrung.",
+      "Es zeigt Ihre Neugier und wie Sie Ideen miteinander verbinden. Ein starkes drittes Haus kann ein ständiges Bedürfnis nach Lernen und Fragen schaffen.",
+      "Die Herausforderung kann darin bestehen, langsam genug zu werden, um Informationen wirklich zu vertiefen."
     ],
     "siblingsTitle": "Geschwister und nahes Umfeld",
     "siblings": [
-      "The Third House is traditionally associated with siblings and may describe the general dynamic of these relationships.",
-      "It also concerns neighbors, cousins, classmates and people encountered regularly.",
-      "Planets in the house may make close relationships especially important, stimulating, demanding or transformative."
+      "Das dritte Haus wird traditionell mit Geschwistern verbunden und kann die allgemeine Dynamik dieser Beziehungen beschreiben.",
+      "Es betrifft auch Nachbarn, Cousins, Mitschüler und Menschen, denen Sie regelmäßig begegnen.",
+      "Planeten in diesem Haus können Beziehungen zum nahen Umfeld besonders wichtig, anregend, anspruchsvoll oder verwandelnd machen."
     ],
     "travelTitle": "Wege und tägliches Umfeld",
     "travel": [
-      "It governs short trips: commuting, local visits, errands, walks and transportation in familiar surroundings.",
-      "Unlike the Ninth House, which concerns long-distance travel and shifts in perspective, the Third structures daily movement.",
-      "It also shows your ability to orient yourself, adapt to immediate change and remain connected."
+      "Es regiert kurze Wege: Arbeitswege, örtliche Besuche, Besorgungen, Spaziergänge und Verkehr im vertrauten Umfeld.",
+      "Im Gegensatz zum neunten Haus, das Fernreisen und Perspektivwechsel betrifft, strukturiert das dritte Haus die tägliche Bewegung.",
+      "Es zeigt auch Ihre Fähigkeit, sich zu orientieren, sich an unmittelbare Veränderungen anzupassen und verbunden zu bleiben."
     ],
     "mediaTitle": "Schreiben, Medien und Vermittlung",
     "media": [
-      "The Third House is strongly linked to writing, reading, messages, calls, social media and everyday media.",
-      "It may reveal talent for storytelling, explaining, teaching, translating, selling, informing or creating content.",
-      "A developed Third House does not necessarily mean talking a lot; it may also show strong observation and synthesis."
+      "Das dritte Haus ist eng mit Schreiben, Lesen, Nachrichten, Anrufen, sozialen Netzwerken und alltäglichen Medien verbunden.",
+      "Es kann Talent für Erzählen, Erklären, Lehren, Übersetzen, Verkaufen, Informieren oder das Erstellen von Inhalten zeigen.",
+      "Ein entwickeltes drittes Haus bedeutet nicht unbedingt, viel zu sprechen; es kann auch starke Beobachtungs- und Synthesefähigkeiten zeigen."
     ],
     "strengthsTitle": "Stärken und Herausforderungen des dritten Hauses",
     "strengthsKicker": "Natürliche Stärken",
@@ -1265,137 +1265,137 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "planetsTitle": "Planeten im dritten Haus",
     "planetsIntro": [
-      "A planet in the Third House directly influences thinking, communication and learning.",
-      "It may also affect siblings, the close environment and daily travel."
+      "Ein Planet im dritten Haus beeinflusst Denken, Kommunikation und Lernen unmittelbar.",
+      "Er kann auch Geschwister, das nahe Umfeld und tägliche Wege prägen."
     ],
     "planetLabel": "im dritten Haus",
     "planets": [
       [
         "Sonne",
         "☀",
-        "Strengthens the need to communicate, learn and share ideas. Identity is partly built through exchange and knowledge."
+        "Stärkt das Bedürfnis zu kommunizieren, zu lernen und Ideen zu teilen. Ein Teil der Identität entsteht durch Austausch und Wissen."
       ],
       [
         "Mond",
         "☽",
-        "Connects emotions with speech and learning. The person may need to talk in order to understand feelings."
+        "Verbindet Gefühle mit Sprache und Lernen. Die Person muss möglicherweise sprechen, um ihre Emotionen zu verstehen."
       ],
       [
         "Merkur",
         "☿",
-        "Favors curiosity, mental mobility, writing, teaching and exchange. The mind may be quick and flexible."
+        "Fördert Neugier, geistige Beweglichkeit, Schreiben, Lehren und Austausch. Der Geist kann schnell und flexibel sein."
       ],
       [
         "Venus",
         "♀",
-        "Brings gentleness, diplomacy and charm to communication. The person may enjoy writing, creativity or languages."
+        "Bringt Sanftheit, Diplomatie und Charme in die Kommunikation. Freude an Schreiben, Kreativität oder Sprachen ist möglich."
       ],
       [
         "Mars",
         "♂",
-        "Gives direct, lively and sometimes combative speech. The person quickly defends ideas and has strong mental energy."
+        "Gibt eine direkte, lebhafte und manchmal kämpferische Sprache. Ideen werden schnell verteidigt und die geistige Energie ist stark."
       ],
       [
         "Jupiter",
         "♃",
-        "Expands curiosity and the desire to learn. The person may enjoy teaching and sharing knowledge."
+        "Vergrößert Neugier und Lernwunsch. Die Person kann gerne lehren und Wissen teilen."
       ],
       [
         "Saturn",
         "♄",
-        "May make communication cautious, structured or reserved. Over time it supports rigorous and responsible thinking."
+        "Kann Kommunikation vorsichtiger, strukturierter oder zurückhaltender machen. Mit der Zeit unterstützt er gründliches und verantwortungsvolles Denken."
       ],
       [
         "Uranus",
         "♅",
-        "Gives an original, quick and independent mind, with unexpected ideas and unconventional learning methods."
+        "Gibt einen originellen, schnellen und unabhängigen Geist mit unerwarteten Ideen und unkonventionellen Lernmethoden."
       ],
       [
         "Neptun",
         "♆",
-        "Brings intuition, imagination and sensitivity to thought. The person may communicate through images, art or poetry."
+        "Bringt Intuition, Fantasie und Sensibilität ins Denken. Kommunikation kann durch Bilder, Kunst oder Poesie erfolgen."
       ],
       [
         "Pluto",
         "♇",
-        "Gives deep, strategic and penetrating thought. The person often seeks what lies behind words."
+        "Gibt tiefes, strategisches und durchdringendes Denken. Die Person sucht oft nach dem, was hinter den Worten liegt."
       ]
     ],
     "signsTitle": "Die zwölf Zeichen im dritten Haus",
-    "signsIntro": "The sign on the cusp of the Third House describes your style of thought, learning and communication with the close environment.",
+    "signsIntro": "Das Zeichen an der Spitze des dritten Hauses beschreibt Ihren Denk-, Lern- und Kommunikationsstil im nahen Umfeld.",
     "houseSignLabel": "Drittes Haus in",
     "signs": [
       [
         "Widder",
         "♈",
-        "Direct, fast and spontaneous communication. Learning is effective through action and experience."
+        "Direkte, schnelle und spontane Kommunikation. Lernen gelingt besonders gut durch Handeln und Erfahrung."
       ],
       [
         "Stier",
         "♉",
-        "Concrete, stable and methodical thought. Information is absorbed slowly and practical knowledge is preferred."
+        "Konkretes, stabiles und methodisches Denken. Informationen werden langsam aufgenommen und praktisches Wissen wird bevorzugt."
       ],
       [
         "Zwillinge",
         "♊",
-        "Curiosity, mobility and love of exchange. Many subjects may be explored with ease."
+        "Neugier, Beweglichkeit und Freude am Austausch. Viele Themen können leicht erkundet werden."
       ],
       [
         "Krebs",
         "♋",
-        "Sensitive and intuitive communication influenced by memories and emotional bonds."
+        "Sensible und intuitive Kommunikation, beeinflusst von Erinnerungen und emotionalen Bindungen."
       ],
       [
         "Löwe",
         "♌",
-        "Expressive, warm and creative speech, with talent for storytelling or teaching."
+        "Ausdrucksstarke, warme und kreative Sprache mit Talent zum Erzählen oder Lehren."
       ],
       [
         "Jungfrau",
         "♍",
-        "Analysis, precision and attention to detail. Information is organized and communicated clearly."
+        "Analyse, Genauigkeit und Liebe zum Detail. Informationen werden geordnet und klar vermittelt."
       ],
       [
         "Waage",
         "♎",
-        "Diplomacy, elegance and balance in exchange, with attention to different viewpoints."
+        "Diplomatie, Eleganz und Ausgewogenheit im Austausch mit Aufmerksamkeit für verschiedene Sichtweisen."
       ],
       [
         "Skorpion",
         "♏",
-        "Intense, deep and observant thought that seeks hidden motivations."
+        "Intensives, tiefes und beobachtendes Denken, das verborgene Motive sucht."
       ],
       [
         "Schütze",
         "♐",
-        "Expansive and optimistic thought focused on broad ideas and convictions."
+        "Weites und optimistisches Denken, das sich auf große Ideen und Überzeugungen richtet."
       ],
       [
         "Steinbock",
         "♑",
-        "Serious, structured and cautious communication based on reliable information."
+        "Ernste, strukturierte und vorsichtige Kommunikation auf Grundlage zuverlässiger Informationen."
       ],
       [
         "Wassermann",
         "♒",
-        "Inventive, independent and future-oriented thought that explores new ideas."
+        "Erfinderisches, unabhängiges und zukunftsorientiertes Denken, das neue Ideen erforscht."
       ],
       [
         "Fische",
         "♓",
-        "Imagination, intuition and sensitivity in exchange, with a need for clarity."
+        "Fantasie, Intuition und Sensibilität im Austausch mit einem Bedürfnis nach Klarheit."
       ]
     ],
     "emptyTitle": "Leeres drittes Haus: Was bedeutet das?",
     "empty": [
-      "An empty Third House does not mean communication problems or lack of curiosity. Every house remains active without planets.",
-      "Examine the cusp sign and then identify its ruling planet.",
-      "The ruler’s placement shows where communication, learning and adaptation seek development."
+      "Ein leeres drittes Haus bedeutet weder Kommunikationsprobleme noch fehlende Neugier. Jedes Haus bleibt auch ohne Planeten aktiv.",
+      "Betrachten Sie das Zeichen an der Spitze und bestimmen Sie anschließend seinen Herrscherplaneten.",
+      "Die Stellung des Herrschers zeigt, wo und wie Kommunikation, Lernen und Anpassung entwickelt werden möchten."
     ],
     "rulerTitle": "Der Herrscher des dritten Hauses",
     "ruler": [
-      "The ruler is the planet governing the sign at the beginning of the Third House.",
-      "Its sign, house and aspects provide important information about thinking, learning and sharing ideas."
+      "Der Herrscher des dritten Hauses ist der Planet, der das Zeichen am Beginn dieses Hauses regiert.",
+      "Sein Zeichen, seine Hausstellung und seine Aspekte liefern wichtige Hinweise auf Denken, Lernen und das Vermitteln von Ideen."
     ],
     "rulers": [
       [
@@ -1472,37 +1472,37 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "evolutionTitle": "Das dritte Haus in der persönlichen Entwicklung",
     "evolution": [
-      "The Third House invites flexible, curious and conscious thinking without automatically accepting every piece of information.",
-      "It encourages clear expression, listening and adapting communication to circumstances.",
-      "Its development involves balancing curiosity with depth and mental speed with reflection."
+      "Das dritte Haus lädt zu flexiblem, neugierigem und bewusstem Denken ein, ohne jede Information automatisch zu übernehmen.",
+      "Es fördert klare Ausdrucksweise, Zuhören und die Anpassung der Kommunikation an die jeweilige Situation.",
+      "Seine Entwicklung besteht darin, Neugier mit Tiefe und geistige Schnelligkeit mit Reflexion auszugleichen."
     ],
     "interpretTitle": "Wie deutet man das dritte Haus?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Third House",
-        "It describes your natural style of thought, learning and communication."
+        "Bestimmen Sie das Zeichen des dritten Hauses",
+        "Es beschreibt Ihren natürlichen Denk-, Lern- und Kommunikationsstil."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where curiosity and communication abilities seek expression."
+        "Finden Sie den Herrscherplaneten",
+        "Seine Stellung zeigt, wo Neugier und Vermittlungsfähigkeiten Ausdruck suchen."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet modifies speaking, thinking, learning and interaction."
+        "Beachten Sie die vorhandenen Planeten",
+        "Jeder Planet verändert Sprechen, Denken, Lernen und den Umgang mit dem Umfeld."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "They clarify ease, tension and learning related to communication."
+        "Analysieren Sie die Aspekte",
+        "Sie verdeutlichen Leichtigkeit, Spannungen und Lernprozesse in der Kommunikation."
       ]
     ],
     "natalTitle": "Das dritte Haus im Geburtshoroskop",
     "natal": [
-      "It must be analyzed within the whole birth chart, including its sign, planets, ruler and aspects.",
-      "This helps explain learning style, mental habits, communication and the role of close surroundings."
+      "Das dritte Haus muss im Zusammenhang mit dem gesamten Geburtshoroskop gedeutet werden, einschließlich Zeichen, Planeten, Herrscher und Aspekte.",
+      "Diese Analyse hilft, Lernstil, Denkgewohnheiten, Kommunikation und die Rolle des nahen Umfelds zu verstehen."
     ],
     "ctaKicker": "Entdecken Sie Ihr Geburtshoroskop",
     "ctaTitle": "Welches Zeichen und welche Planeten stehen in Ihrem dritten Haus?",
@@ -1526,28 +1526,28 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "faqTitle": "Fragen zum dritten Haus",
     "faq": [
       [
-        "What does the Third House represent?",
-        "Communication, thought, learning, writing, siblings, neighbors, close surroundings and daily travel."
+        "Wofür steht das dritte Haus?",
+        "Für Kommunikation, Denken, Lernen, Schreiben, Geschwister, Nachbarn, das nahe Umfeld und tägliche Wege."
       ],
       [
-        "Which planet is associated with the Third House?",
-        "Mercury, the planet of thought, communication, learning, exchange and movement."
+        "Welcher Planet ist mit dem dritten Haus verbunden?",
+        "Merkur, der Planet des Denkens, der Kommunikation, des Lernens, des Austauschs und der Bewegung."
       ],
       [
-        "What does a planet in the Third House mean?",
-        "It influences thinking, learning, communication and relationships with the close environment."
+        "Was bedeutet ein Planet im dritten Haus?",
+        "Er beeinflusst Denken, Lernen, Kommunikation und Beziehungen zum nahen Umfeld."
       ],
       [
-        "What does an empty Third House mean?",
-        "It does not mean lack of communication or curiosity. Analyze the cusp sign, ruler and aspects."
+        "Was bedeutet ein leeres drittes Haus?",
+        "Es bedeutet nicht, dass Kommunikation oder Neugier fehlen. Analysieren Sie Zeichen, Herrscher und Aspekte."
       ],
       [
-        "Does the Third House represent siblings?",
-        "Yes, as well as cousins, neighbors, classmates and people in the daily environment."
+        "Steht das dritte Haus für Geschwister?",
+        "Ja, ebenso für Cousins, Nachbarn, Mitschüler und Menschen des täglichen Umfelds."
       ],
       [
-        "What is the difference between the Third and Ninth Houses?",
-        "The Third concerns everyday learning and close surroundings; the Ninth concerns higher education, distant travel, beliefs and meaning."
+        "Was ist der Unterschied zwischen drittem und neuntem Haus?",
+        "Das dritte betrifft alltägliches Lernen und das nahe Umfeld; das neunte Hochschulbildung, Fernreisen, Glauben und Sinnsuche."
       ]
     ],
     "disclaimer": "Astrologie wird als symbolische Sprache zur persönlichen Erkundung dargestellt. Sie ersetzt keine medizinische, psychologische, rechtliche oder finanzielle Beratung."
@@ -1571,60 +1571,60 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "meaningKicker": "Significato della Terza Casa",
     "meaningTitle": "Che cosa rappresenta la Terza Casa?",
     "meaning": [
-      "The Third House is the house of communication, learning and daily exchange. It describes how you observe, understand and interpret your environment.",
-      "It represents speaking, writing, listening and sharing ideas, revealing whether communication is direct, cautious, emotional, creative or analytical.",
-      "It also concerns basic learning, early education, curiosity, mental habits and information gathering.",
-      "It is associated with siblings, neighbors, cousins, classmates, acquaintances and people in the close environment."
+      "La Terza Casa è la casa della comunicazione, dell’apprendimento e degli scambi quotidiani. Descrive come osservi, comprendi e interpreti il tuo ambiente.",
+      "Rappresenta il modo di parlare, scrivere, ascoltare e trasmettere idee. Può mostrare se la comunicazione è diretta, prudente, emotiva, creativa o analitica.",
+      "Riguarda anche l’apprendimento di base, i primi studi, la curiosità, le abitudini mentali e il modo di raccogliere informazioni.",
+      "È inoltre associata a fratelli, sorelle, vicini, cugini, compagni, conoscenti e persone dell’ambiente vicino."
     ],
     "domainsTitle": "I grandi ambiti della Terza Casa",
     "traits": [
       [
-        "Your communication",
+        "La tua comunicazione",
         "✦",
-        "It describes how you speak, write, listen and share ideas in everyday exchanges."
+        "Descrive come parli, scrivi, ascolti e trasmetti le idee negli scambi quotidiani."
       ],
       [
-        "Your way of learning",
+        "Il tuo modo di imparare",
         "☿",
-        "It represents curiosity, basic learning, observation and how you gather information."
+        "Rappresenta curiosità, apprendimento di base, osservazione e raccolta delle informazioni."
       ],
       [
-        "Your close environment",
+        "Il tuo ambiente vicino",
         "Ⅲ",
-        "It concerns siblings, neighbors, acquaintances, short trips and daily interactions."
+        "Riguarda fratelli, sorelle, vicini, conoscenti, spostamenti brevi e interazioni quotidiane."
       ]
     ],
     "communicationTitle": "La Terza Casa e il modo di comunicare",
     "communication": [
-      "It reveals your style in ordinary conversations and how you express opinions, tell experiences and share knowledge.",
-      "The cusp sign colors speech; planets can make communication faster, more sensitive, serious, persuasive or original.",
-      "It also describes listening. Communication requires receiving information and understanding other people’s needs."
+      "La Terza Casa rivela il tuo stile nelle conversazioni quotidiane e come esprimi opinioni, racconti esperienze e condividi conoscenze.",
+      "Il segno sulla cuspide colora la parola. I pianeti presenti possono rendere la comunicazione più rapida, sensibile, seria, persuasiva o originale.",
+      "Descrive anche il modo di ascoltare. Comunicare non significa soltanto parlare, ma anche ricevere informazioni e comprendere i bisogni degli altri."
     ],
     "highlightTitle": "La comunicazione costruisce la realtà",
-    "highlight": "The words you choose influence relationships, decisions and your understanding of the world. The Third House invites clearer and more conscious communication.",
+    "highlight": "Le parole che scegli influenzano relazioni, decisioni e comprensione del mondo. La Terza Casa invita a una comunicazione più chiara, consapevole e adatta all’ambiente.",
     "learningTitle": "Apprendimento, curiosità e pensiero quotidiano",
     "learning": [
-      "It describes how you learn practical information needed in daily life: through reading, observation, discussion, repetition or experience.",
-      "It shows your curiosity and how you connect ideas. A very active Third House can create a constant need to learn and ask questions.",
-      "Its challenge may be slowing down enough to explore information deeply."
+      "La Terza Casa descrive come impari le informazioni concrete necessarie alla vita quotidiana: leggendo, osservando, discutendo, ripetendo o sperimentando.",
+      "Mostra anche la curiosità e il modo in cui colleghi le idee. Una Terza Casa molto attiva può creare un bisogno costante di imparare e fare domande.",
+      "La sua sfida può consistere nel rallentare abbastanza da approfondire le informazioni."
     ],
     "siblingsTitle": "Fratelli e ambiente vicino",
     "siblings": [
-      "The Third House is traditionally associated with siblings and may describe the general dynamic of these relationships.",
-      "It also concerns neighbors, cousins, classmates and people encountered regularly.",
-      "Planets in the house may make close relationships especially important, stimulating, demanding or transformative."
+      "La Terza Casa è tradizionalmente associata a fratelli e sorelle e può descrivere la dinamica generale di questi rapporti.",
+      "Riguarda anche vicini, cugini, compagni di scuola e persone incontrate regolarmente.",
+      "I pianeti presenti possono rendere i rapporti con l’ambiente vicino particolarmente importanti, stimolanti, impegnativi o trasformativi."
     ],
     "travelTitle": "Spostamenti e ambiente quotidiano",
     "travel": [
-      "It governs short trips: commuting, local visits, errands, walks and transportation in familiar surroundings.",
-      "Unlike the Ninth House, which concerns long-distance travel and shifts in perspective, the Third structures daily movement.",
-      "It also shows your ability to orient yourself, adapt to immediate change and remain connected."
+      "Governa gli spostamenti brevi: tragitti di lavoro, visite locali, commissioni, passeggiate e trasporti nell’ambiente abituale.",
+      "A differenza della Nona Casa, legata ai viaggi lontani e ai cambiamenti di prospettiva, la Terza Casa struttura il movimento quotidiano.",
+      "Mostra anche la capacità di orientarsi, adattarsi ai cambiamenti immediati e rimanere in contatto."
     ],
     "mediaTitle": "Scrittura, media e trasmissione",
     "media": [
-      "The Third House is strongly linked to writing, reading, messages, calls, social media and everyday media.",
-      "It may reveal talent for storytelling, explaining, teaching, translating, selling, informing or creating content.",
-      "A developed Third House does not necessarily mean talking a lot; it may also show strong observation and synthesis."
+      "La Terza Casa è strettamente legata a scrittura, lettura, messaggi, telefonate, social network e mezzi di comunicazione quotidiani.",
+      "Può rivelare talento nel raccontare, spiegare, insegnare, tradurre, vendere, informare o creare contenuti.",
+      "Una Terza Casa sviluppata non significa necessariamente parlare molto; può anche indicare grande capacità di osservazione, sintesi e trasmissione."
     ],
     "strengthsTitle": "Punti di forza e sfide della Terza Casa",
     "strengthsKicker": "Punti di forza naturali",
@@ -1649,137 +1649,137 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "planetsTitle": "I pianeti nella Terza Casa",
     "planetsIntro": [
-      "A planet in the Third House directly influences thinking, communication and learning.",
-      "It may also affect siblings, the close environment and daily travel."
+      "Un pianeta nella Terza Casa influenza direttamente pensiero, comunicazione e apprendimento.",
+      "Può anche incidere sui rapporti con fratelli e sorelle, sull’ambiente vicino e sugli spostamenti quotidiani."
     ],
     "planetLabel": "nella Terza Casa",
     "planets": [
       [
         "Sole",
         "☀",
-        "Strengthens the need to communicate, learn and share ideas. Identity is partly built through exchange and knowledge."
+        "Rafforza il bisogno di comunicare, imparare e condividere idee. Una parte dell’identità si costruisce attraverso scambi e conoscenze."
       ],
       [
         "Luna",
         "☽",
-        "Connects emotions with speech and learning. The person may need to talk in order to understand feelings."
+        "Collega le emozioni alla parola e all’apprendimento. La persona può avere bisogno di parlare per comprendere ciò che prova."
       ],
       [
         "Mercurio",
         "☿",
-        "Favors curiosity, mental mobility, writing, teaching and exchange. The mind may be quick and flexible."
+        "Favorisce curiosità, mobilità mentale, scrittura, insegnamento e scambi. La mente può essere rapida e flessibile."
       ],
       [
         "Venere",
         "♀",
-        "Brings gentleness, diplomacy and charm to communication. The person may enjoy writing, creativity or languages."
+        "Porta dolcezza, diplomazia e fascino nella comunicazione. La persona può amare scrittura, creatività o lingue."
       ],
       [
         "Marte",
         "♂",
-        "Gives direct, lively and sometimes combative speech. The person quickly defends ideas and has strong mental energy."
+        "Dà una parola diretta, vivace e a volte combattiva. La persona difende rapidamente le proprie idee e possiede molta energia mentale."
       ],
       [
         "Giove",
         "♃",
-        "Expands curiosity and the desire to learn. The person may enjoy teaching and sharing knowledge."
+        "Amplifica curiosità e desiderio di imparare. La persona può amare insegnare e condividere conoscenze."
       ],
       [
         "Saturno",
         "♄",
-        "May make communication cautious, structured or reserved. Over time it supports rigorous and responsible thinking."
+        "Può rendere la comunicazione più prudente, strutturata o riservata. Nel tempo favorisce un pensiero rigoroso e responsabile."
       ],
       [
         "Urano",
         "♅",
-        "Gives an original, quick and independent mind, with unexpected ideas and unconventional learning methods."
+        "Dà una mente originale, rapida e indipendente, con idee inattese e metodi non convenzionali."
       ],
       [
         "Nettuno",
         "♆",
-        "Brings intuition, imagination and sensitivity to thought. The person may communicate through images, art or poetry."
+        "Porta intuizione, immaginazione e sensibilità nel pensiero. La persona può comunicare attraverso immagini, arte o poesia."
       ],
       [
         "Plutone",
         "♇",
-        "Gives deep, strategic and penetrating thought. The person often seeks what lies behind words."
+        "Dà un pensiero profondo, strategico e penetrante. La persona cerca spesso ciò che si nasconde dietro le parole."
       ]
     ],
     "signsTitle": "I dodici segni nella Terza Casa",
-    "signsIntro": "The sign on the cusp of the Third House describes your style of thought, learning and communication with the close environment.",
+    "signsIntro": "Il segno sulla cuspide della Terza Casa descrive il tuo stile di pensiero, apprendimento e comunicazione con l’ambiente vicino.",
     "houseSignLabel": "Terza Casa in",
     "signs": [
       [
         "Ariete",
         "♈",
-        "Direct, fast and spontaneous communication. Learning is effective through action and experience."
+        "Comunicazione diretta, rapida e spontanea. L’apprendimento è efficace attraverso l’azione e l’esperienza."
       ],
       [
         "Toro",
         "♉",
-        "Concrete, stable and methodical thought. Information is absorbed slowly and practical knowledge is preferred."
+        "Pensiero concreto, stabile e metodico. Le informazioni vengono assimilate lentamente e si preferiscono conoscenze utili."
       ],
       [
         "Gemelli",
         "♊",
-        "Curiosity, mobility and love of exchange. Many subjects may be explored with ease."
+        "Curiosità, mobilità e gusto per gli scambi. La persona può interessarsi a molti argomenti e comunicare con facilità."
       ],
       [
         "Cancro",
         "♋",
-        "Sensitive and intuitive communication influenced by memories and emotional bonds."
+        "Comunicazione sensibile e intuitiva, influenzata dai ricordi e dai legami emotivi."
       ],
       [
         "Leone",
         "♌",
-        "Expressive, warm and creative speech, with talent for storytelling or teaching."
+        "Parola espressiva, calda e creativa, con talento per il racconto o l’insegnamento."
       ],
       [
         "Vergine",
         "♍",
-        "Analysis, precision and attention to detail. Information is organized and communicated clearly."
+        "Analisi, precisione e attenzione ai dettagli. Le informazioni vengono organizzate e comunicate chiaramente."
       ],
       [
         "Bilancia",
         "♎",
-        "Diplomacy, elegance and balance in exchange, with attention to different viewpoints."
+        "Diplomazia, eleganza ed equilibrio negli scambi, con attenzione ai diversi punti di vista."
       ],
       [
         "Scorpione",
         "♏",
-        "Intense, deep and observant thought that seeks hidden motivations."
+        "Pensiero intenso, profondo e osservatore che cerca motivazioni nascoste."
       ],
       [
         "Sagittario",
         "♐",
-        "Expansive and optimistic thought focused on broad ideas and convictions."
+        "Pensiero espansivo e ottimista rivolto alle grandi idee e alle convinzioni."
       ],
       [
         "Capricorno",
         "♑",
-        "Serious, structured and cautious communication based on reliable information."
+        "Comunicazione seria, strutturata e prudente basata su informazioni affidabili."
       ],
       [
         "Acquario",
         "♒",
-        "Inventive, independent and future-oriented thought that explores new ideas."
+        "Pensiero inventivo, indipendente e orientato al futuro che esplora nuove idee."
       ],
       [
         "Pesci",
         "♓",
-        "Imagination, intuition and sensitivity in exchange, with a need for clarity."
+        "Immaginazione, intuizione e sensibilità negli scambi, con bisogno di chiarezza."
       ]
     ],
     "emptyTitle": "Terza Casa vuota: che cosa significa?",
     "empty": [
-      "An empty Third House does not mean communication problems or lack of curiosity. Every house remains active without planets.",
-      "Examine the cusp sign and then identify its ruling planet.",
-      "The ruler’s placement shows where communication, learning and adaptation seek development."
+      "Una Terza Casa vuota non significa problemi di comunicazione o mancanza di curiosità. Ogni casa resta attiva anche senza pianeti.",
+      "Osserva il segno sulla cuspide e individua il suo pianeta governatore.",
+      "La posizione del governatore mostra dove e come comunicazione, apprendimento e adattamento cercano di svilupparsi."
     ],
     "rulerTitle": "Il pianeta governatore della Terza Casa",
     "ruler": [
-      "The ruler is the planet governing the sign at the beginning of the Third House.",
-      "Its sign, house and aspects provide important information about thinking, learning and sharing ideas."
+      "Il governatore della Terza Casa è il pianeta che governa il segno posto all’inizio della casa.",
+      "Il suo segno, la casa e gli aspetti forniscono informazioni importanti sul modo di pensare, imparare e trasmettere idee."
     ],
     "rulers": [
       [
@@ -1856,37 +1856,37 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "evolutionTitle": "La Terza Casa nell’evoluzione personale",
     "evolution": [
-      "The Third House invites flexible, curious and conscious thinking without automatically accepting every piece of information.",
-      "It encourages clear expression, listening and adapting communication to circumstances.",
-      "Its development involves balancing curiosity with depth and mental speed with reflection."
+      "La Terza Casa invita a sviluppare un pensiero flessibile, curioso e consapevole senza accettare automaticamente ogni informazione ricevuta.",
+      "Incoraggia anche a esprimersi con chiarezza, ascoltare gli altri e adattare la comunicazione alle circostanze.",
+      "La sua evoluzione consiste nell’equilibrare curiosità e profondità, rapidità mentale e riflessione."
     ],
     "interpretTitle": "Come interpretare la Terza Casa?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Third House",
-        "It describes your natural style of thought, learning and communication."
+        "Identifica il segno della Terza Casa",
+        "Descrive il tuo stile naturale di pensiero, apprendimento e comunicazione."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where curiosity and communication abilities seek expression."
+        "Individua il pianeta governatore",
+        "La sua posizione mostra dove curiosità e capacità di trasmissione cercano espressione."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet modifies speaking, thinking, learning and interaction."
+        "Osserva i pianeti presenti",
+        "Ogni pianeta modifica il modo di parlare, pensare, imparare e interagire con l’ambiente."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "They clarify ease, tension and learning related to communication."
+        "Analizza gli aspetti",
+        "Chiariscono facilità, tensioni e apprendimenti legati alla comunicazione."
       ]
     ],
     "natalTitle": "La Terza Casa nel tema natale",
     "natal": [
-      "It must be analyzed within the whole birth chart, including its sign, planets, ruler and aspects.",
-      "This helps explain learning style, mental habits, communication and the role of close surroundings."
+      "La Terza Casa deve essere analizzata nel contesto dell’intero tema natale, considerando segno, pianeti, governatore e aspetti.",
+      "Questa analisi aiuta a comprendere stile di apprendimento, abitudini mentali, comunicazione e ruolo dell’ambiente vicino."
     ],
     "ctaKicker": "Scopri il tuo tema natale",
     "ctaTitle": "Quale segno e quali pianeti si trovano nella tua Terza Casa?",
@@ -1910,28 +1910,28 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "faqTitle": "Domande sulla Terza Casa",
     "faq": [
       [
-        "What does the Third House represent?",
-        "Communication, thought, learning, writing, siblings, neighbors, close surroundings and daily travel."
+        "Che cosa rappresenta la Terza Casa?",
+        "Comunicazione, pensiero, apprendimento, scrittura, fratelli e sorelle, vicini, ambiente vicino e spostamenti quotidiani."
       ],
       [
-        "Which planet is associated with the Third House?",
-        "Mercury, the planet of thought, communication, learning, exchange and movement."
+        "Quale pianeta è associato alla Terza Casa?",
+        "Mercurio, pianeta del pensiero, della comunicazione, dell’apprendimento, degli scambi e del movimento."
       ],
       [
-        "What does a planet in the Third House mean?",
-        "It influences thinking, learning, communication and relationships with the close environment."
+        "Che cosa significa un pianeta nella Terza Casa?",
+        "Influenza il modo di pensare, imparare e comunicare, oltre ai rapporti con l’ambiente vicino."
       ],
       [
-        "What does an empty Third House mean?",
-        "It does not mean lack of communication or curiosity. Analyze the cusp sign, ruler and aspects."
+        "Che cosa significa una Terza Casa vuota?",
+        "Non significa mancanza di comunicazione o curiosità. Occorre analizzare il segno, il governatore e gli aspetti."
       ],
       [
-        "Does the Third House represent siblings?",
-        "Yes, as well as cousins, neighbors, classmates and people in the daily environment."
+        "La Terza Casa rappresenta fratelli e sorelle?",
+        "Sì, oltre a cugini, vicini, compagni e persone dell’ambiente quotidiano."
       ],
       [
-        "What is the difference between the Third and Ninth Houses?",
-        "The Third concerns everyday learning and close surroundings; the Ninth concerns higher education, distant travel, beliefs and meaning."
+        "Qual è la differenza tra Terza e Nona Casa?",
+        "La Terza riguarda apprendimento quotidiano e ambiente vicino; la Nona studi superiori, viaggi lontani, credenze e ricerca di senso."
       ]
     ],
     "disclaimer": "L’astrologia è presentata come un linguaggio simbolico di esplorazione personale. Non sostituisce consulenze mediche, psicologiche, legali o finanziarie."
@@ -1955,60 +1955,60 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "meaningKicker": "Significado da Casa 3",
     "meaningTitle": "O que a Casa 3 representa?",
     "meaning": [
-      "The Third House is the house of communication, learning and daily exchange. It describes how you observe, understand and interpret your environment.",
-      "It represents speaking, writing, listening and sharing ideas, revealing whether communication is direct, cautious, emotional, creative or analytical.",
-      "It also concerns basic learning, early education, curiosity, mental habits and information gathering.",
-      "It is associated with siblings, neighbors, cousins, classmates, acquaintances and people in the close environment."
+      "A Casa 3 é a casa da comunicação, da aprendizagem e das trocas cotidianas. Ela descreve como você observa, compreende e interpreta o ambiente.",
+      "Representa a forma de falar, escrever, ouvir e transmitir ideias. Pode mostrar se sua comunicação é direta, prudente, emocional, criativa ou analítica.",
+      "Também se relaciona com a aprendizagem básica, os primeiros estudos, a curiosidade, os hábitos mentais e a maneira de reunir informações.",
+      "Além disso, está associada a irmãos, vizinhos, primos, colegas, conhecidos e pessoas do ambiente próximo."
     ],
     "domainsTitle": "As grandes áreas da Casa 3",
     "traits": [
       [
-        "Your communication",
+        "Sua comunicação",
         "✦",
-        "It describes how you speak, write, listen and share ideas in everyday exchanges."
+        "Descreve como você fala, escreve, ouve e transmite ideias nas trocas cotidianas."
       ],
       [
-        "Your way of learning",
+        "Sua forma de aprender",
         "☿",
-        "It represents curiosity, basic learning, observation and how you gather information."
+        "Representa curiosidade, aprendizagem básica, observação e coleta de informações."
       ],
       [
-        "Your close environment",
+        "Seu ambiente próximo",
         "Ⅲ",
-        "It concerns siblings, neighbors, acquaintances, short trips and daily interactions."
+        "Relaciona-se com irmãos, vizinhos, conhecidos, deslocamentos curtos e interações diárias."
       ]
     ],
     "communicationTitle": "A Casa 3 e sua maneira de comunicar",
     "communication": [
-      "It reveals your style in ordinary conversations and how you express opinions, tell experiences and share knowledge.",
-      "The cusp sign colors speech; planets can make communication faster, more sensitive, serious, persuasive or original.",
-      "It also describes listening. Communication requires receiving information and understanding other people’s needs."
+      "A Casa 3 revela seu estilo nas conversas comuns e como você expressa opiniões, conta experiências e compartilha conhecimentos.",
+      "O signo na cúspide dá um tom particular à fala. Os planetas presentes podem tornar a comunicação mais rápida, sensível, séria, persuasiva ou original.",
+      "Também descreve sua maneira de ouvir. Comunicar não significa apenas falar, mas também receber informações e compreender as necessidades dos outros."
     ],
     "highlightTitle": "A comunicação constrói sua realidade",
-    "highlight": "The words you choose influence relationships, decisions and your understanding of the world. The Third House invites clearer and more conscious communication.",
+    "highlight": "As palavras que você escolhe influenciam relações, decisões e sua compreensão do mundo. A Casa 3 convida a uma comunicação mais clara, consciente e adaptada.",
     "learningTitle": "Aprendizado, curiosidade e pensamento cotidiano",
     "learning": [
-      "It describes how you learn practical information needed in daily life: through reading, observation, discussion, repetition or experience.",
-      "It shows your curiosity and how you connect ideas. A very active Third House can create a constant need to learn and ask questions.",
-      "Its challenge may be slowing down enough to explore information deeply."
+      "A Casa 3 descreve como você aprende as informações concretas necessárias à vida cotidiana: lendo, observando, conversando, repetindo ou experimentando.",
+      "Também indica sua curiosidade e a maneira de conectar ideias. Uma Casa 3 muito ativa pode criar necessidade constante de aprender e fazer perguntas.",
+      "Seu desafio pode ser desacelerar o suficiente para aprofundar as informações."
     ],
     "siblingsTitle": "Irmãos e ambiente próximo",
     "siblings": [
-      "The Third House is traditionally associated with siblings and may describe the general dynamic of these relationships.",
-      "It also concerns neighbors, cousins, classmates and people encountered regularly.",
-      "Planets in the house may make close relationships especially important, stimulating, demanding or transformative."
+      "A Casa 3 é tradicionalmente associada a irmãos e pode descrever a dinâmica geral dessas relações.",
+      "Também envolve vizinhos, primos, colegas de escola e pessoas encontradas regularmente.",
+      "Os planetas presentes podem tornar as relações com o ambiente próximo especialmente importantes, estimulantes, exigentes ou transformadoras."
     ],
     "travelTitle": "Deslocamentos e ambiente cotidiano",
     "travel": [
-      "It governs short trips: commuting, local visits, errands, walks and transportation in familiar surroundings.",
-      "Unlike the Ninth House, which concerns long-distance travel and shifts in perspective, the Third structures daily movement.",
-      "It also shows your ability to orient yourself, adapt to immediate change and remain connected."
+      "Ela governa deslocamentos curtos: trajetos para o trabalho, visitas locais, compras, caminhadas e transportes no ambiente habitual.",
+      "Ao contrário da Casa 9, relacionada a viagens longas e mudanças de perspectiva, a Casa 3 estrutura o movimento cotidiano.",
+      "Também mostra sua capacidade de se orientar, adaptar-se a mudanças imediatas e permanecer conectado."
     ],
     "mediaTitle": "Escrita, mídia e transmissão",
     "media": [
-      "The Third House is strongly linked to writing, reading, messages, calls, social media and everyday media.",
-      "It may reveal talent for storytelling, explaining, teaching, translating, selling, informing or creating content.",
-      "A developed Third House does not necessarily mean talking a lot; it may also show strong observation and synthesis."
+      "A Casa 3 está fortemente ligada à escrita, leitura, mensagens, chamadas, redes sociais e meios de comunicação cotidianos.",
+      "Pode revelar talento para narrar, explicar, ensinar, traduzir, vender, informar ou criar conteúdo.",
+      "Uma Casa 3 desenvolvida não significa necessariamente falar muito; também pode indicar grande capacidade de observação, síntese e transmissão."
     ],
     "strengthsTitle": "Forças e desafios da Casa 3",
     "strengthsKicker": "Forças naturais",
@@ -2033,137 +2033,137 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "planetsTitle": "Os planetas na Casa 3",
     "planetsIntro": [
-      "A planet in the Third House directly influences thinking, communication and learning.",
-      "It may also affect siblings, the close environment and daily travel."
+      "Um planeta na Casa 3 influencia diretamente o pensamento, a comunicação e a aprendizagem.",
+      "Também pode afetar irmãos, o ambiente próximo e os deslocamentos cotidianos."
     ],
     "planetLabel": "na Casa 3",
     "planets": [
       [
         "Sol",
         "☀",
-        "Strengthens the need to communicate, learn and share ideas. Identity is partly built through exchange and knowledge."
+        "Reforça a necessidade de comunicar, aprender e compartilhar ideias. Parte da identidade se constrói por meio de trocas e conhecimentos."
       ],
       [
         "Lua",
         "☽",
-        "Connects emotions with speech and learning. The person may need to talk in order to understand feelings."
+        "Liga emoções à fala e à aprendizagem. A pessoa pode precisar conversar para compreender o que sente."
       ],
       [
         "Mercúrio",
         "☿",
-        "Favors curiosity, mental mobility, writing, teaching and exchange. The mind may be quick and flexible."
+        "Favorece curiosidade, mobilidade mental, escrita, ensino e trocas. A mente pode ser rápida e flexível."
       ],
       [
         "Vênus",
         "♀",
-        "Brings gentleness, diplomacy and charm to communication. The person may enjoy writing, creativity or languages."
+        "Traz suavidade, diplomacia e encanto à comunicação. A pessoa pode gostar de escrita, criatividade ou idiomas."
       ],
       [
         "Marte",
         "♂",
-        "Gives direct, lively and sometimes combative speech. The person quickly defends ideas and has strong mental energy."
+        "Dá uma fala direta, viva e às vezes combativa. A pessoa defende rapidamente suas ideias e possui muita energia mental."
       ],
       [
         "Júpiter",
         "♃",
-        "Expands curiosity and the desire to learn. The person may enjoy teaching and sharing knowledge."
+        "Amplia a curiosidade e o desejo de aprender. A pessoa pode gostar de ensinar e compartilhar conhecimentos."
       ],
       [
         "Saturno",
         "♄",
-        "May make communication cautious, structured or reserved. Over time it supports rigorous and responsible thinking."
+        "Pode tornar a comunicação mais prudente, estruturada ou reservada. Com o tempo, favorece pensamento rigoroso e responsável."
       ],
       [
         "Urano",
         "♅",
-        "Gives an original, quick and independent mind, with unexpected ideas and unconventional learning methods."
+        "Dá uma mente original, rápida e independente, com ideias inesperadas e métodos pouco convencionais."
       ],
       [
         "Netuno",
         "♆",
-        "Brings intuition, imagination and sensitivity to thought. The person may communicate through images, art or poetry."
+        "Traz intuição, imaginação e sensibilidade ao pensamento. A pessoa pode se comunicar por imagens, arte ou poesia."
       ],
       [
         "Plutão",
         "♇",
-        "Gives deep, strategic and penetrating thought. The person often seeks what lies behind words."
+        "Dá pensamento profundo, estratégico e penetrante. A pessoa costuma buscar o que existe por trás das palavras."
       ]
     ],
     "signsTitle": "Os doze signos na Casa 3",
-    "signsIntro": "The sign on the cusp of the Third House describes your style of thought, learning and communication with the close environment.",
+    "signsIntro": "O signo na cúspide da Casa 3 descreve seu estilo de pensamento, aprendizagem e comunicação com o ambiente próximo.",
     "houseSignLabel": "Casa 3 em",
     "signs": [
       [
         "Áries",
         "♈",
-        "Direct, fast and spontaneous communication. Learning is effective through action and experience."
+        "Comunicação direta, rápida e espontânea. A aprendizagem é eficaz por meio da ação e da experiência."
       ],
       [
         "Touro",
         "♉",
-        "Concrete, stable and methodical thought. Information is absorbed slowly and practical knowledge is preferred."
+        "Pensamento concreto, estável e metódico. As informações são assimiladas lentamente e o conhecimento útil é valorizado."
       ],
       [
         "Gêmeos",
         "♊",
-        "Curiosity, mobility and love of exchange. Many subjects may be explored with ease."
+        "Curiosidade, mobilidade e gosto pelas trocas. A pessoa pode se interessar por muitos assuntos e comunicar-se com facilidade."
       ],
       [
         "Câncer",
         "♋",
-        "Sensitive and intuitive communication influenced by memories and emotional bonds."
+        "Comunicação sensível e intuitiva, influenciada por lembranças e vínculos emocionais."
       ],
       [
         "Leão",
         "♌",
-        "Expressive, warm and creative speech, with talent for storytelling or teaching."
+        "Fala expressiva, calorosa e criativa, com talento para narrar ou ensinar."
       ],
       [
         "Virgem",
         "♍",
-        "Analysis, precision and attention to detail. Information is organized and communicated clearly."
+        "Análise, precisão e atenção aos detalhes. As informações são organizadas e comunicadas com clareza."
       ],
       [
         "Libra",
         "♎",
-        "Diplomacy, elegance and balance in exchange, with attention to different viewpoints."
+        "Diplomacia, elegância e equilíbrio nas trocas, com atenção a diferentes pontos de vista."
       ],
       [
         "Escorpião",
         "♏",
-        "Intense, deep and observant thought that seeks hidden motivations."
+        "Pensamento intenso, profundo e observador que busca motivações ocultas."
       ],
       [
         "Sagitário",
         "♐",
-        "Expansive and optimistic thought focused on broad ideas and convictions."
+        "Pensamento expansivo e otimista voltado para grandes ideias e convicções."
       ],
       [
         "Capricórnio",
         "♑",
-        "Serious, structured and cautious communication based on reliable information."
+        "Comunicação séria, estruturada e prudente baseada em informações confiáveis."
       ],
       [
         "Aquário",
         "♒",
-        "Inventive, independent and future-oriented thought that explores new ideas."
+        "Pensamento inventivo, independente e orientado para o futuro que explora novas ideias."
       ],
       [
         "Peixes",
         "♓",
-        "Imagination, intuition and sensitivity in exchange, with a need for clarity."
+        "Imaginação, intuição e sensibilidade nas trocas, com necessidade de clareza."
       ]
     ],
     "emptyTitle": "Casa 3 vazia: o que significa?",
     "empty": [
-      "An empty Third House does not mean communication problems or lack of curiosity. Every house remains active without planets.",
-      "Examine the cusp sign and then identify its ruling planet.",
-      "The ruler’s placement shows where communication, learning and adaptation seek development."
+      "Uma Casa 3 vazia não significa problemas de comunicação ou falta de curiosidade. Toda casa permanece ativa mesmo sem planetas.",
+      "Observe o signo na cúspide e identifique depois seu planeta regente.",
+      "A posição do regente mostra onde e como comunicação, aprendizagem e adaptação procuram se desenvolver."
     ],
     "rulerTitle": "O planeta regente da Casa 3",
     "ruler": [
-      "The ruler is the planet governing the sign at the beginning of the Third House.",
-      "Its sign, house and aspects provide important information about thinking, learning and sharing ideas."
+      "O regente da Casa 3 é o planeta que governa o signo situado no início dessa casa.",
+      "Seu signo, sua casa e seus aspectos fornecem informações importantes sobre pensamento, aprendizagem e transmissão de ideias."
     ],
     "rulers": [
       [
@@ -2240,37 +2240,37 @@ export const MAISON_TROIS_TRANSLATIONS = {
     ],
     "evolutionTitle": "A Casa 3 no desenvolvimento pessoal",
     "evolution": [
-      "The Third House invites flexible, curious and conscious thinking without automatically accepting every piece of information.",
-      "It encourages clear expression, listening and adapting communication to circumstances.",
-      "Its development involves balancing curiosity with depth and mental speed with reflection."
+      "A Casa 3 convida você a desenvolver um pensamento flexível, curioso e consciente sem aceitar automaticamente toda informação recebida.",
+      "Também incentiva uma expressão clara, a escuta dos outros e a adaptação da comunicação às circunstâncias.",
+      "Sua evolução consiste em equilibrar curiosidade e profundidade, rapidez mental e reflexão."
     ],
     "interpretTitle": "Como interpretar sua Casa 3?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Third House",
-        "It describes your natural style of thought, learning and communication."
+        "Identifique o signo da Casa 3",
+        "Ele descreve seu estilo natural de pensamento, aprendizagem e comunicação."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where curiosity and communication abilities seek expression."
+        "Encontre o planeta regente",
+        "Sua posição mostra onde a curiosidade e as capacidades de transmissão procuram expressão."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet modifies speaking, thinking, learning and interaction."
+        "Observe os planetas presentes",
+        "Cada planeta modifica a maneira de falar, pensar, aprender e interagir com o ambiente."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "They clarify ease, tension and learning related to communication."
+        "Analise os aspectos",
+        "Eles esclarecem facilidades, tensões e aprendizados ligados à comunicação."
       ]
     ],
     "natalTitle": "A Casa 3 no seu mapa astral",
     "natal": [
-      "It must be analyzed within the whole birth chart, including its sign, planets, ruler and aspects.",
-      "This helps explain learning style, mental habits, communication and the role of close surroundings."
+      "A Casa 3 deve ser analisada no contexto do mapa astral completo, incluindo signo, planetas, regente e aspectos.",
+      "Essa análise ajuda a compreender estilo de aprendizagem, hábitos mentais, comunicação e o papel do ambiente próximo."
     ],
     "ctaKicker": "Descubra seu mapa astral",
     "ctaTitle": "Qual signo e quais planetas estão na sua Casa 3?",
@@ -2294,28 +2294,28 @@ export const MAISON_TROIS_TRANSLATIONS = {
     "faqTitle": "Perguntas sobre a Casa 3",
     "faq": [
       [
-        "What does the Third House represent?",
-        "Communication, thought, learning, writing, siblings, neighbors, close surroundings and daily travel."
+        "O que a Casa 3 representa?",
+        "Comunicação, pensamento, aprendizagem, escrita, irmãos, vizinhos, ambiente próximo e deslocamentos cotidianos."
       ],
       [
-        "Which planet is associated with the Third House?",
-        "Mercury, the planet of thought, communication, learning, exchange and movement."
+        "Qual planeta está associado à Casa 3?",
+        "Mercúrio, planeta do pensamento, da comunicação, da aprendizagem, das trocas e do movimento."
       ],
       [
-        "What does a planet in the Third House mean?",
-        "It influences thinking, learning, communication and relationships with the close environment."
+        "O que significa um planeta na Casa 3?",
+        "Ele influencia a maneira de pensar, aprender e comunicar, além das relações com o ambiente próximo."
       ],
       [
-        "What does an empty Third House mean?",
-        "It does not mean lack of communication or curiosity. Analyze the cusp sign, ruler and aspects."
+        "O que significa uma Casa 3 vazia?",
+        "Não significa ausência de comunicação ou curiosidade. Analise o signo da cúspide, o regente e os aspectos."
       ],
       [
-        "Does the Third House represent siblings?",
-        "Yes, as well as cousins, neighbors, classmates and people in the daily environment."
+        "A Casa 3 representa irmãos?",
+        "Sim, além de primos, vizinhos, colegas e pessoas do ambiente cotidiano."
       ],
       [
-        "What is the difference between the Third and Ninth Houses?",
-        "The Third concerns everyday learning and close surroundings; the Ninth concerns higher education, distant travel, beliefs and meaning."
+        "Qual é a diferença entre a Casa 3 e a Casa 9?",
+        "A Casa 3 trata da aprendizagem cotidiana e do ambiente próximo; a Casa 9, de estudos superiores, viagens longas, crenças e busca de sentido."
       ]
     ],
     "disclaimer": "A astrologia é apresentada como uma linguagem simbólica de exploração pessoal. Ela não substitui orientação médica, psicológica, jurídica ou financeira."
