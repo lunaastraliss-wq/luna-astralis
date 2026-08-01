@@ -10,47 +10,12 @@ import {
 import {
   defaultLocale,
   isLocale,
+  localeNames,
   locales,
   type Locale,
 } from "@/i18n/config";
 
 import "./LanguageSwitcher.css";
-
-/*
-|--------------------------------------------------------------------------
-| Codes courts affichés
-|--------------------------------------------------------------------------
-*/
-
-const localeCodes: Record<
-  Locale,
-  string
-> = {
-  fr: "FR",
-  en: "EN",
-  es: "ES",
-  de: "DE",
-  it: "IT",
-  pt: "PT",
-};
-
-/*
-|--------------------------------------------------------------------------
-| Noms affichés dans la liste
-|--------------------------------------------------------------------------
-*/
-
-const localeLabels: Record<
-  Locale,
-  string
-> = {
-  fr: "Français",
-  en: "English",
-  es: "Español",
-  de: "Deutsch",
-  it: "Italiano",
-  pt: "Português",
-};
 
 /*
 |--------------------------------------------------------------------------
@@ -136,17 +101,6 @@ export default function LanguageSwitcher() {
       className="language-switcher"
       aria-label="Choisir la langue"
     >
-      <span
-        className="language-switcher-code"
-        aria-hidden="true"
-      >
-        {
-          localeCodes[
-            currentLocale
-          ]
-        }
-      </span>
-
       <select
         value={currentLocale}
         onChange={(event) =>
@@ -168,7 +122,7 @@ export default function LanguageSwitcher() {
               }
             >
               {
-                localeLabels[
+                localeNames[
                   availableLocale
                 ]
               }
