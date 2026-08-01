@@ -1160,48 +1160,48 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "meaningKicker": "Bedeutung des zweiten Hauses",
     "meaningTitle": "Wofür steht das zweite Haus?",
     "meaning": [
-      "The Second House is the house of personal resources. It describes what you own, what you can develop and how you create stability.",
-      "It concerns money earned through your own efforts, material goods, talents, skills and usable resources.",
-      "It is not only about money. It also represents values, priorities and what you consider important.",
-      "It is also connected with self-worth and the development of inner security."
+      "Das zweite Haus ist das Haus der persönlichen Ressourcen. Es beschreibt, was Sie besitzen, was Sie entwickeln können und wie Sie Stabilität aufbauen.",
+      "Es betrifft Geld, das Sie durch eigene Anstrengungen verdienen, materielle Güter, Talente, Fähigkeiten und nutzbare Ressourcen.",
+      "Es geht nicht nur um Geld. Es steht auch für Werte, Prioritäten und alles, was Sie für wichtig halten.",
+      "Es ist außerdem mit Selbstwert und der Entwicklung innerer Sicherheit verbunden."
     ],
     "domainsTitle": "Die wichtigsten Bereiche des zweiten Hauses",
     "traits": [
       [
-        "Your resources",
+        "Ihre Ressourcen",
         "◆",
-        "Material and personal resources used to build stability, including money, possessions, skills and available means."
+        "Materielle und persönliche Ressourcen, mit denen Sie Stabilität aufbauen, darunter Geld, Besitz, Fähigkeiten und verfügbare Mittel."
       ],
       [
-        "Your values",
+        "Ihre Werte",
         "♡",
-        "What truly matters to you: principles, needs and priorities that shape security and self-worth."
+        "Was Ihnen wirklich wichtig ist: Grundsätze, Bedürfnisse und Prioritäten, die Sicherheit und Selbstwert prägen."
       ],
       [
-        "Your sense of security",
+        "Ihr Sicherheitsgefühl",
         "Ⅱ",
-        "What you need to feel stable and confident, whether materially, emotionally, financially or inwardly."
+        "Was Sie brauchen, um sich stabil und zuversichtlich zu fühlen – materiell, emotional, finanziell oder innerlich."
       ]
     ],
     "moneyTitle": "Das zweite Haus und Ihr Umgang mit Geld",
     "money": [
-      "It describes how you earn, keep, spend and use money, and whether you primarily seek security, freedom, comfort, prestige or alignment with your values.",
-      "The sign on the cusp influences financial behavior; planets in the house add their needs, qualities and challenges.",
-      "A strongly occupied Second House can make resources and financial security especially important themes."
+      "Es beschreibt, wie Sie Geld verdienen, behalten, ausgeben und einsetzen und ob Sie vor allem Sicherheit, Freiheit, Komfort, Ansehen oder Übereinstimmung mit Ihren Werten suchen.",
+      "Das Zeichen an der Spitze beeinflusst Ihr finanzielles Verhalten; Planeten in diesem Haus ergänzen eigene Bedürfnisse, Eigenschaften und Herausforderungen.",
+      "Ein stark besetztes zweites Haus kann Ressourcen und finanzielle Sicherheit zu besonders wichtigen Lebensthemen machen."
     ],
     "highlightTitle": "Geld spiegelt oft Ihre Prioritäten",
-    "highlight": "How you use resources usually reveals what you value: comfort, freedom, experiences, family, knowledge or creativity.",
+    "highlight": "Die Art, wie Sie Ressourcen einsetzen, zeigt häufig, was Sie schätzen: Komfort, Freiheit, Erfahrungen, Familie, Wissen oder Kreativität.",
     "valuesTitle": "Persönliche Werte und Selbstwert",
     "values": [
-      "The Second House describes what you consider valuable, materially, morally, emotionally, intellectually or spiritually.",
-      "Living according to your values can create stability and coherence; acting against them can produce insecurity or loss of meaning.",
-      "It also teaches that your value does not depend only on income, possessions or productivity."
+      "Das zweite Haus beschreibt, was Sie materiell, moralisch, emotional, intellektuell oder spirituell für wertvoll halten.",
+      "Nach den eigenen Werten zu leben kann Stabilität und innere Stimmigkeit schaffen; gegen sie zu handeln kann Unsicherheit oder Sinnverlust auslösen.",
+      "Es lehrt außerdem, dass Ihr Wert nicht nur von Einkommen, Besitz oder Produktivität abhängt."
     ],
     "talentsTitle": "Talente und natürliche Ressourcen",
     "talents": [
-      "The Second House can reveal talents that help build stability, such as patience, organization, creativity, communication, practicality or relationship skills.",
-      "Its sign describes how you use these abilities; a planet in the house can become an important resource when developed consciously.",
-      "One lesson of the Second House is to recognize your skills and give them concrete value without minimizing or constantly comparing them."
+      "Das zweite Haus kann Talente zeigen, die beim Aufbau von Stabilität helfen, etwa Geduld, Organisation, Kreativität, Kommunikation, praktische Fähigkeiten oder Beziehungskompetenz.",
+      "Sein Zeichen beschreibt, wie Sie diese Fähigkeiten einsetzen; ein Planet in diesem Haus kann zu einer wichtigen Ressource werden, wenn er bewusst entwickelt wird.",
+      "Eine Aufgabe des zweiten Hauses besteht darin, die eigenen Fähigkeiten anzuerkennen und ihnen einen konkreten Wert zu geben, ohne sie kleinzureden oder ständig zu vergleichen."
     ],
     "strengthsTitle": "Stärken und Herausforderungen des zweiten Hauses",
     "strengthsKicker": "Natürliche Stärken",
@@ -1226,140 +1226,140 @@ export const MAISON_DEUX_TRANSLATIONS = {
     ],
     "planetsTitle": "Planeten im zweiten Haus",
     "planetsIntro": [
-      "A planet in the Second House influences resources, money, talents, possessions and security.",
-      "It may show a natural ability to develop resources, but also an area requiring greater stability and awareness."
+      "Ein Planet im zweiten Haus beeinflusst Ressourcen, Geld, Talente, Besitz und Sicherheit.",
+      "Er kann eine natürliche Fähigkeit zum Aufbau von Ressourcen zeigen, aber auch einen Bereich, der mehr Stabilität und Bewusstheit verlangt."
     ],
     "planetLabel": "im zweiten Haus",
     "planets": [
       [
         "Sonne",
         "☀",
-        "The Sun encourages identity to be built through talents, values and the ability to create personal resources. Recognition may be linked with usefulness and autonomy."
+        "Die Sonne fördert eine Identität, die auf Talenten, Werten und der Fähigkeit beruht, eigene Ressourcen aufzubauen. Anerkennung kann mit Nützlichkeit und Selbstständigkeit verbunden sein."
       ],
       [
         "Mond",
         "☽",
-        "The Moon creates an emotional need for stability. Finances or possessions may fluctuate with moods, family needs or the desire for protection."
+        "Der Mond erzeugt ein emotionales Bedürfnis nach Stabilität. Finanzen oder Besitz können mit Stimmungen, familiären Bedürfnissen oder dem Wunsch nach Schutz schwanken."
       ],
       [
         "Merkur",
         "☿",
-        "Mercury favors income through communication, commerce, writing, learning or exchange, and encourages reflection about resource management."
+        "Merkur begünstigt Einkommen durch Kommunikation, Handel, Schreiben, Lernen oder Austausch und fördert das Nachdenken über Ressourcenverwaltung."
       ],
       [
         "Venus",
         "♀",
-        "Venus may ease the attraction of resources and appreciation of comfort. Artistic, relational or aesthetic talents can become income sources."
+        "Venus kann das Anziehen von Ressourcen und die Freude an Komfort erleichtern. Künstlerische, zwischenmenschliche oder ästhetische Talente können zu Einkommensquellen werden."
       ],
       [
         "Mars",
         "♂",
-        "Mars brings energy to earn money and defend interests, but may encourage impulsive spending, competition or quick decisions."
+        "Mars bringt Energie, Geld zu verdienen und eigene Interessen zu verteidigen, kann aber impulsive Ausgaben, Konkurrenz oder schnelle Entscheidungen fördern."
       ],
       [
         "Jupiter",
         "♃",
-        "Jupiter may expand financial possibilities, talents and abundance, but excess and overestimation should be avoided."
+        "Jupiter kann finanzielle Möglichkeiten, Talente und Fülle erweitern; Übertreibung und Selbstüberschätzung sollten jedoch vermieden werden."
       ],
       [
         "Saturn",
         "♄",
-        "Saturn may create fear of scarcity or caution with money. Over time it supports solid, responsible and lasting management."
+        "Saturn kann Angst vor Mangel oder große Vorsicht im Umgang mit Geld erzeugen. Mit der Zeit unterstützt er eine solide, verantwortungsvolle und dauerhafte Verwaltung."
       ],
       [
         "Uranus",
         "♅",
-        "Uranus may bring irregular income, original earning methods or an independent relationship with possessions."
+        "Uranus kann unregelmäßige Einkünfte, originelle Verdienstmöglichkeiten oder einen unabhängigen Umgang mit Besitz anzeigen."
       ],
       [
         "Neptun",
         "♆",
-        "Neptune brings intuition and imagination to resource creation, but requires clarity to avoid confusion or financial illusions."
+        "Neptun bringt Intuition und Vorstellungskraft in die Erschaffung von Ressourcen, verlangt aber Klarheit, um Verwirrung oder finanzielle Illusionen zu vermeiden."
       ],
       [
         "Pluto",
         "♇",
-        "Pluto deeply transforms the relationship with money, power and security through cycles of loss, rebuilding and mastery."
+        "Pluto verändert die Beziehung zu Geld, Macht und Sicherheit tiefgreifend durch Zyklen von Verlust, Wiederaufbau und zunehmender Selbstbeherrschung."
       ]
     ],
     "signsTitle": "Die zwölf Zeichen im zweiten Haus",
     "signsIntro": [
-      "The sign at the beginning of the Second House describes how you build resources, manage finances and seek security.",
-      "It also shows qualities you can develop to recognize talents and strengthen self-worth."
+      "Das Zeichen am Beginn des zweiten Hauses beschreibt, wie Sie Ressourcen aufbauen, Finanzen verwalten und Sicherheit suchen.",
+      "Es zeigt auch Eigenschaften, die Sie entwickeln können, um Talente anzuerkennen und den Selbstwert zu stärken."
     ],
     "houseSignLabel": "Zweites Haus in",
     "signs": [
       [
         "Widder",
         "♈",
-        "Direct and active financial approach. The person seeks to earn through personal initiative but may spend quickly or take risks."
+        "Direkter und aktiver Umgang mit Geld. Die Person möchte durch eigene Initiative verdienen, kann aber schnell ausgeben oder Risiken eingehen."
       ],
       [
         "Stier",
         "♉",
-        "Strong need for security, stability and comfort. Resources are usually built patiently and durable possessions are valued."
+        "Starkes Bedürfnis nach Sicherheit, Stabilität und Komfort. Ressourcen werden meist geduldig aufgebaut und dauerhafter Besitz wird geschätzt."
       ],
       [
         "Zwillinge",
         "♊",
-        "Several income sources may develop. Communication, commerce, writing, teaching and varied activities become important."
+        "Mehrere Einkommensquellen können entstehen. Kommunikation, Handel, Schreiben, Lehren und abwechslungsreiche Tätigkeiten werden wichtig."
       ],
       [
         "Krebs",
         "♋",
-        "Financial security is tied to emotions, family and home. The person often accumulates to protect loved ones."
+        "Finanzielle Sicherheit ist mit Gefühlen, Familie und Zuhause verbunden. Häufig wird angespart, um nahestehende Menschen zu schützen."
       ],
       [
         "Löwe",
         "♌",
-        "Creativity, leadership and self-expression can generate resources. Spending may also affirm status or image."
+        "Kreativität, Führung und Selbstausdruck können Ressourcen schaffen. Ausgaben können auch Status oder Image unterstreichen."
       ],
       [
         "Jungfrau",
         "♍",
-        "Prudence, organization and attention to detail in financial management. Practical skills and service can create income."
+        "Vorsicht, Organisation und Detailgenauigkeit bei der Finanzverwaltung. Praktische Fähigkeiten und Dienstleistung können Einkommen schaffen."
       ],
       [
         "Waage",
         "♎",
-        "Resources may be linked to relationships, art, beauty, law or mediation. Balance between pleasure and stability is sought."
+        "Ressourcen können mit Beziehungen, Kunst, Schönheit, Recht oder Vermittlung verbunden sein. Gesucht wird ein Gleichgewicht zwischen Genuss und Stabilität."
       ],
       [
         "Skorpion",
         "♏",
-        "An intense relationship with money and security, with strong ability to rebuild after transformation."
+        "Intensive Beziehung zu Geld und Sicherheit mit einer starken Fähigkeit, sich nach Veränderungen neu aufzubauen."
       ],
       [
         "Schütze",
         "♐",
-        "Generosity, expansion and confidence. Income may be linked to travel, teaching, international activity or knowledge."
+        "Großzügigkeit, Expansion und Vertrauen. Einkommen kann mit Reisen, Lehre, internationalen Tätigkeiten oder Wissen verbunden sein."
       ],
       [
         "Steinbock",
         "♑",
-        "Security is built slowly and methodically through work, discipline, responsibility and lasting results."
+        "Sicherheit wird langsam und methodisch durch Arbeit, Disziplin, Verantwortung und dauerhafte Ergebnisse aufgebaut."
       ],
       [
         "Wassermann",
         "♒",
-        "Original, technological or independent income sources. Freedom is valued and possessions may be approached unconventionally."
+        "Originelle, technologische oder unabhängige Einkommensquellen. Freiheit wird geschätzt und Besitz kann unkonventionell betrachtet werden."
       ],
       [
         "Fische",
         "♓",
-        "Intuition, creativity and generosity, with a need for clarity. Resources may come from artistic, spiritual or helping fields."
+        "Intuition, Kreativität und Großzügigkeit mit einem Bedarf an Klarheit. Ressourcen können aus künstlerischen, spirituellen oder helfenden Bereichen stammen."
       ]
     ],
     "emptyTitle": "Leeres zweites Haus: Was bedeutet das?",
     "empty": [
-      "An empty Second House does not mean a lack of money, resources or talents. Every house remains active without planets.",
-      "Examine the sign on its cusp, then identify the planet ruling that sign.",
-      "The ruler’s sign and house show where and how Second House themes seek development."
+      "Ein leeres zweites Haus bedeutet nicht, dass Geld, Ressourcen oder Talente fehlen. Jedes Haus bleibt auch ohne Planeten aktiv.",
+      "Betrachten Sie das Zeichen an seiner Spitze und bestimmen Sie anschließend den Planeten, der dieses Zeichen regiert.",
+      "Zeichen und Hausstellung des Herrschers zeigen, wo und wie sich die Themen des zweiten Hauses entwickeln möchten."
     ],
     "rulerTitle": "Der Herrscher des zweiten Hauses",
     "ruler": [
-      "The ruler of the Second House is the planet governing the sign at the beginning of the house. It gives essential information about developing resources.",
-      "Its sign, house and aspects clarify financial strategies, talents and experiences affecting security."
+      "Der Herrscher des zweiten Hauses ist der Planet, der das Zeichen am Beginn dieses Hauses regiert. Er liefert wichtige Hinweise zur Entwicklung Ihrer Ressourcen.",
+      "Sein Zeichen, seine Hausstellung und seine Aspekte verdeutlichen finanzielle Strategien, Talente und Erfahrungen, die Ihre Sicherheit beeinflussen."
     ],
     "rulers": [
       [
@@ -1427,46 +1427,46 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "comparison2": [
       "Zweites Haus",
       "Ihre persönlichen Ressourcen",
-      "Eigenes Einkommen, Besitz, Talente, Werte und persönliche Sicherheit."
+      "Selbst verdientes Geld, Besitz, Talente, Werte und persönliche Sicherheit."
     ],
     "comparison8": [
       "Achtes Haus",
       "Gemeinsame Ressourcen",
-      "Schulden, Kredite, Erbschaften, Steuern, gemeinsame Anlagen und Partnerressourcen."
+      "Mit anderen geteiltes Geld: Schulden, Kredite, Erbschaften, Steuern, gemeinsame Investitionen und Ressourcen innerhalb einer Partnerschaft."
     ],
     "evolutionTitle": "Das zweite Haus in der persönlichen Entwicklung",
     "evolution": [
-      "The Second House invites you to build security that does not rest only on fear of scarcity or accumulation.",
-      "It teaches you to recognize talents, value skills and use resources consistently with real priorities.",
-      "Material stability becomes stronger when supported by self-worth and inner value."
+      "Das zweite Haus lädt Sie dazu ein, Sicherheit aufzubauen, die nicht nur auf Angst vor Mangel oder auf Anhäufung beruht.",
+      "Es lehrt Sie, Talente zu erkennen, Fähigkeiten wertzuschätzen und Ressourcen im Einklang mit Ihren wirklichen Prioritäten einzusetzen.",
+      "Materielle Stabilität wird stärker, wenn sie von Selbstwert und innerem Wert getragen wird."
     ],
     "interpretTitle": "Wie deutet man das zweite Haus?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Second House",
-        "The sign on its cusp describes your natural approach to resources, money and security."
+        "Bestimmen Sie das Zeichen des zweiten Hauses",
+        "Das Zeichen an seiner Spitze beschreibt Ihren natürlichen Umgang mit Ressourcen, Geld und Sicherheit."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where talents and resources seek development."
+        "Finden Sie seinen Herrscherplaneten",
+        "Seine Stellung zeigt, wo Talente und Ressourcen entwickelt werden möchten."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet influences money, talents and self-worth."
+        "Beachten Sie die vorhandenen Planeten",
+        "Jeder Planet beeinflusst Geld, Talente und Selbstwert."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "Aspects to the ruler clarify ease, tension and learning related to resources."
+        "Analysieren Sie die Aspekte",
+        "Aspekte zum Herrscher verdeutlichen Leichtigkeit, Spannungen und Lernprozesse rund um Ressourcen."
       ]
     ],
     "natalTitle": "Das zweite Haus im Geburtshoroskop",
     "natal": [
-      "The Second House must be interpreted within the whole chart. Its sign, planets, ruler and aspects reveal different dimensions of security.",
-      "This analysis can clarify money management, talents to develop and values guiding decisions."
+      "Das zweite Haus muss im Zusammenhang mit dem gesamten Geburtshoroskop gedeutet werden. Zeichen, Planeten, Herrscher und Aspekte zeigen verschiedene Dimensionen von Sicherheit.",
+      "Diese Analyse kann den Umgang mit Geld, zu entwickelnde Talente und die Werte verdeutlichen, die Ihre Entscheidungen leiten."
     ],
     "ctaKicker": "Entdecken Sie Ihr Geburtshoroskop",
     "ctaTitle": "Welches Zeichen und welche Planeten stehen in Ihrem zweiten Haus?",
@@ -1490,28 +1490,28 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "faqTitle": "Fragen zum zweiten Haus",
     "faq": [
       [
-        "What does the Second House represent?",
-        "Money, income, possessions, resources, talents, personal values, self-worth and material security."
+        "Wofür steht das zweite Haus?",
+        "Für Geld, Einkommen, Besitz, Ressourcen, Talente, persönliche Werte, Selbstwert und materielle Sicherheit."
       ],
       [
-        "Is it only about money?",
-        "No. It also concerns talents, skills, possessions, priorities, values and awareness of personal worth."
+        "Geht es ausschließlich um Geld?",
+        "Nein. Es betrifft auch Talente, Fähigkeiten, Besitz, Prioritäten, Werte und das Bewusstsein für den eigenen Wert."
       ],
       [
-        "What does a planet in the Second House mean?",
-        "It influences earning, managing and using resources, as well as security, possessions and self-worth."
+        "Was bedeutet ein Planet im zweiten Haus?",
+        "Er beeinflusst das Verdienen, Verwalten und Nutzen von Ressourcen sowie Sicherheit, Besitz und Selbstwert."
       ],
       [
-        "What does an empty Second House mean?",
-        "It does not mean absence of money or talent. Analyze the cusp sign, its ruler and aspects."
+        "Was bedeutet ein leeres zweites Haus?",
+        "Es bedeutet nicht, dass Geld oder Talente fehlen. Analysieren Sie das Zeichen an der Spitze, seinen Herrscher und die Aspekte."
       ],
       [
-        "What is the difference between the Second and Eighth Houses?",
-        "The Second concerns personal resources; the Eighth concerns shared resources, debts, inheritances and joint investments."
+        "Was ist der Unterschied zwischen dem zweiten und dem achten Haus?",
+        "Das zweite Haus betrifft persönliche Ressourcen; das achte Haus gemeinsame Ressourcen, Schulden, Erbschaften und gemeinsame Investitionen."
       ],
       [
-        "How can I know the sign of my Second House?",
-        "Calculate your birth chart using date, exact time and place of birth."
+        "Wie finde ich das Zeichen meines zweiten Hauses?",
+        "Berechnen Sie Ihr Geburtshoroskop mit Geburtsdatum, genauer Uhrzeit und Geburtsort."
       ]
     ],
     "disclaimer": "Astrologie wird als symbolische Sprache zur persönlichen Erkundung dargestellt. Sie ersetzt keine medizinische, psychologische, rechtliche oder finanzielle Beratung."
@@ -1535,48 +1535,48 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "meaningKicker": "Significato della Seconda Casa",
     "meaningTitle": "Che cosa rappresenta la Seconda Casa?",
     "meaning": [
-      "The Second House is the house of personal resources. It describes what you own, what you can develop and how you create stability.",
-      "It concerns money earned through your own efforts, material goods, talents, skills and usable resources.",
-      "It is not only about money. It also represents values, priorities and what you consider important.",
-      "It is also connected with self-worth and the development of inner security."
+      "La Seconda Casa è la casa delle risorse personali. Descrive ciò che possiedi, ciò che puoi sviluppare e il modo in cui costruisci stabilità.",
+      "Riguarda il denaro guadagnato con i propri mezzi, i beni materiali, i talenti, le competenze e le risorse utilizzabili.",
+      "Non riguarda soltanto il denaro. Rappresenta anche valori, priorità e ciò che consideri importante.",
+      "È inoltre collegata all’autostima e allo sviluppo della sicurezza interiore."
     ],
     "domainsTitle": "I grandi ambiti della Seconda Casa",
     "traits": [
       [
-        "Your resources",
+        "Le tue risorse",
         "◆",
-        "Material and personal resources used to build stability, including money, possessions, skills and available means."
+        "Risorse materiali e personali utilizzate per costruire stabilità, tra cui denaro, beni, competenze e mezzi disponibili."
       ],
       [
-        "Your values",
+        "I tuoi valori",
         "♡",
-        "What truly matters to you: principles, needs and priorities that shape security and self-worth."
+        "Ciò che conta davvero per te: principi, bisogni e priorità che influenzano sicurezza e autostima."
       ],
       [
-        "Your sense of security",
+        "Il tuo senso di sicurezza",
         "Ⅱ",
-        "What you need to feel stable and confident, whether materially, emotionally, financially or inwardly."
+        "Ciò di cui hai bisogno per sentirti stabile e fiducioso, sul piano materiale, emotivo, finanziario o interiore."
       ]
     ],
     "moneyTitle": "La Seconda Casa e il rapporto con il denaro",
     "money": [
-      "It describes how you earn, keep, spend and use money, and whether you primarily seek security, freedom, comfort, prestige or alignment with your values.",
-      "The sign on the cusp influences financial behavior; planets in the house add their needs, qualities and challenges.",
-      "A strongly occupied Second House can make resources and financial security especially important themes."
+      "Descrive come guadagni, conservi, spendi e utilizzi il denaro e se cerchi soprattutto sicurezza, libertà, comodità, prestigio o coerenza con i tuoi valori.",
+      "Il segno sulla cuspide influenza il comportamento finanziario; i pianeti presenti aggiungono bisogni, qualità e sfide specifiche.",
+      "Una Seconda Casa molto occupata può rendere le risorse e la sicurezza finanziaria temi particolarmente importanti."
     ],
     "highlightTitle": "Il denaro riflette spesso le priorità",
-    "highlight": "How you use resources usually reveals what you value: comfort, freedom, experiences, family, knowledge or creativity.",
+    "highlight": "Il modo in cui utilizzi le risorse rivela spesso ciò che apprezzi: comodità, libertà, esperienze, famiglia, conoscenza o creatività.",
     "valuesTitle": "Valori personali e autostima",
     "values": [
-      "The Second House describes what you consider valuable, materially, morally, emotionally, intellectually or spiritually.",
-      "Living according to your values can create stability and coherence; acting against them can produce insecurity or loss of meaning.",
-      "It also teaches that your value does not depend only on income, possessions or productivity."
+      "La Seconda Casa descrive ciò che consideri prezioso sul piano materiale, morale, emotivo, intellettuale o spirituale.",
+      "Vivere secondo i propri valori può creare stabilità e coerenza; agire contro di essi può generare insicurezza o perdita di significato.",
+      "Insegna inoltre che il tuo valore non dipende soltanto dal reddito, dai beni o dalla produttività."
     ],
     "talentsTitle": "Talenti e risorse naturali",
     "talents": [
-      "The Second House can reveal talents that help build stability, such as patience, organization, creativity, communication, practicality or relationship skills.",
-      "Its sign describes how you use these abilities; a planet in the house can become an important resource when developed consciously.",
-      "One lesson of the Second House is to recognize your skills and give them concrete value without minimizing or constantly comparing them."
+      "La Seconda Casa può rivelare talenti che aiutano a costruire stabilità, come pazienza, organizzazione, creatività, comunicazione, praticità o capacità relazionali.",
+      "Il segno descrive come utilizzi queste capacità; un pianeta presente può diventare una risorsa importante quando viene sviluppato consapevolmente.",
+      "Una lezione della Seconda Casa consiste nel riconoscere le proprie competenze e attribuire loro un valore concreto senza sminuirle o confrontarle continuamente."
     ],
     "strengthsTitle": "Punti di forza e sfide della Seconda Casa",
     "strengthsKicker": "Punti di forza naturali",
@@ -1601,140 +1601,140 @@ export const MAISON_DEUX_TRANSLATIONS = {
     ],
     "planetsTitle": "I pianeti nella Seconda Casa",
     "planetsIntro": [
-      "A planet in the Second House influences resources, money, talents, possessions and security.",
-      "It may show a natural ability to develop resources, but also an area requiring greater stability and awareness."
+      "Un pianeta nella Seconda Casa influenza risorse, denaro, talenti, beni e sicurezza.",
+      "Può mostrare una capacità naturale di sviluppare risorse, ma anche un ambito che richiede maggiore stabilità e consapevolezza."
     ],
     "planetLabel": "nella Seconda Casa",
     "planets": [
       [
         "Sole",
         "☀",
-        "The Sun encourages identity to be built through talents, values and the ability to create personal resources. Recognition may be linked with usefulness and autonomy."
+        "Il Sole favorisce un’identità costruita attraverso talenti, valori e capacità di creare risorse personali. Il riconoscimento può essere legato all’utilità e all’autonomia."
       ],
       [
         "Luna",
         "☽",
-        "The Moon creates an emotional need for stability. Finances or possessions may fluctuate with moods, family needs or the desire for protection."
+        "La Luna crea un bisogno emotivo di stabilità. Finanze e beni possono variare con l’umore, le esigenze familiari o il desiderio di protezione."
       ],
       [
         "Mercurio",
         "☿",
-        "Mercury favors income through communication, commerce, writing, learning or exchange, and encourages reflection about resource management."
+        "Mercurio favorisce entrate attraverso comunicazione, commercio, scrittura, apprendimento o scambio e incoraggia la riflessione sulla gestione delle risorse."
       ],
       [
         "Venere",
         "♀",
-        "Venus may ease the attraction of resources and appreciation of comfort. Artistic, relational or aesthetic talents can become income sources."
+        "Venere può facilitare l’attrazione di risorse e l’apprezzamento del comfort. Talenti artistici, relazionali o estetici possono diventare fonti di reddito."
       ],
       [
         "Marte",
         "♂",
-        "Mars brings energy to earn money and defend interests, but may encourage impulsive spending, competition or quick decisions."
+        "Marte porta energia per guadagnare e difendere i propri interessi, ma può incoraggiare spese impulsive, competizione o decisioni rapide."
       ],
       [
         "Giove",
         "♃",
-        "Jupiter may expand financial possibilities, talents and abundance, but excess and overestimation should be avoided."
+        "Giove può ampliare possibilità finanziarie, talenti e abbondanza, ma occorre evitare eccessi e sopravvalutazioni."
       ],
       [
         "Saturno",
         "♄",
-        "Saturn may create fear of scarcity or caution with money. Over time it supports solid, responsible and lasting management."
+        "Saturno può creare paura della mancanza o prudenza con il denaro. Nel tempo sostiene una gestione solida, responsabile e duratura."
       ],
       [
         "Urano",
         "♅",
-        "Uranus may bring irregular income, original earning methods or an independent relationship with possessions."
+        "Urano può portare entrate irregolari, modi originali di guadagnare o un rapporto indipendente con i beni."
       ],
       [
         "Nettuno",
         "♆",
-        "Neptune brings intuition and imagination to resource creation, but requires clarity to avoid confusion or financial illusions."
+        "Nettuno porta intuizione e immaginazione nella creazione di risorse, ma richiede chiarezza per evitare confusione o illusioni finanziarie."
       ],
       [
         "Plutone",
         "♇",
-        "Pluto deeply transforms the relationship with money, power and security through cycles of loss, rebuilding and mastery."
+        "Plutone trasforma profondamente il rapporto con denaro, potere e sicurezza attraverso cicli di perdita, ricostruzione e padronanza."
       ]
     ],
     "signsTitle": "I dodici segni nella Seconda Casa",
     "signsIntro": [
-      "The sign at the beginning of the Second House describes how you build resources, manage finances and seek security.",
-      "It also shows qualities you can develop to recognize talents and strengthen self-worth."
+      "Il segno all’inizio della Seconda Casa descrive come costruisci risorse, gestisci le finanze e cerchi sicurezza.",
+      "Mostra anche le qualità che puoi sviluppare per riconoscere i talenti e rafforzare l’autostima."
     ],
     "houseSignLabel": "Seconda Casa in",
     "signs": [
       [
         "Ariete",
         "♈",
-        "Direct and active financial approach. The person seeks to earn through personal initiative but may spend quickly or take risks."
+        "Approccio finanziario diretto e attivo. La persona cerca di guadagnare attraverso l’iniziativa personale, ma può spendere rapidamente o assumere rischi."
       ],
       [
         "Toro",
         "♉",
-        "Strong need for security, stability and comfort. Resources are usually built patiently and durable possessions are valued."
+        "Forte bisogno di sicurezza, stabilità e comfort. Le risorse vengono generalmente costruite con pazienza e si apprezzano i beni durevoli."
       ],
       [
         "Gemelli",
         "♊",
-        "Several income sources may develop. Communication, commerce, writing, teaching and varied activities become important."
+        "Possono svilupparsi più fonti di reddito. Comunicazione, commercio, scrittura, insegnamento e attività varie diventano importanti."
       ],
       [
         "Cancro",
         "♋",
-        "Financial security is tied to emotions, family and home. The person often accumulates to protect loved ones."
+        "La sicurezza finanziaria è legata alle emozioni, alla famiglia e alla casa. Spesso si accumulano risorse per proteggere le persone care."
       ],
       [
         "Leone",
         "♌",
-        "Creativity, leadership and self-expression can generate resources. Spending may also affirm status or image."
+        "Creatività, leadership ed espressione personale possono generare risorse. Le spese possono anche affermare status o immagine."
       ],
       [
         "Vergine",
         "♍",
-        "Prudence, organization and attention to detail in financial management. Practical skills and service can create income."
+        "Prudenza, organizzazione e attenzione ai dettagli nella gestione finanziaria. Competenze pratiche e servizio possono creare reddito."
       ],
       [
         "Bilancia",
         "♎",
-        "Resources may be linked to relationships, art, beauty, law or mediation. Balance between pleasure and stability is sought."
+        "Le risorse possono essere collegate a relazioni, arte, bellezza, diritto o mediazione. Si ricerca equilibrio tra piacere e stabilità."
       ],
       [
         "Scorpione",
         "♏",
-        "An intense relationship with money and security, with strong ability to rebuild after transformation."
+        "Rapporto intenso con denaro e sicurezza, con una forte capacità di ricostruirsi dopo una trasformazione."
       ],
       [
         "Sagittario",
         "♐",
-        "Generosity, expansion and confidence. Income may be linked to travel, teaching, international activity or knowledge."
+        "Generosità, espansione e fiducia. Il reddito può essere legato a viaggi, insegnamento, attività internazionali o conoscenza."
       ],
       [
         "Capricorno",
         "♑",
-        "Security is built slowly and methodically through work, discipline, responsibility and lasting results."
+        "La sicurezza viene costruita lentamente e metodicamente attraverso lavoro, disciplina, responsabilità e risultati duraturi."
       ],
       [
         "Acquario",
         "♒",
-        "Original, technological or independent income sources. Freedom is valued and possessions may be approached unconventionally."
+        "Fonti di reddito originali, tecnologiche o indipendenti. La libertà è importante e i beni possono essere vissuti in modo non convenzionale."
       ],
       [
         "Pesci",
         "♓",
-        "Intuition, creativity and generosity, with a need for clarity. Resources may come from artistic, spiritual or helping fields."
+        "Intuizione, creatività e generosità, con bisogno di chiarezza. Le risorse possono provenire da ambiti artistici, spirituali o di aiuto."
       ]
     ],
     "emptyTitle": "Seconda Casa vuota: che cosa significa?",
     "empty": [
-      "An empty Second House does not mean a lack of money, resources or talents. Every house remains active without planets.",
-      "Examine the sign on its cusp, then identify the planet ruling that sign.",
-      "The ruler’s sign and house show where and how Second House themes seek development."
+      "Una Seconda Casa vuota non significa mancanza di denaro, risorse o talenti. Ogni casa rimane attiva anche senza pianeti.",
+      "Osserva il segno sulla cuspide e individua il pianeta che governa quel segno.",
+      "Il segno e la casa del governatore mostrano dove e come i temi della Seconda Casa cercano di svilupparsi."
     ],
     "rulerTitle": "Il pianeta governatore della Seconda Casa",
     "ruler": [
-      "The ruler of the Second House is the planet governing the sign at the beginning of the house. It gives essential information about developing resources.",
-      "Its sign, house and aspects clarify financial strategies, talents and experiences affecting security."
+      "Il governatore della Seconda Casa è il pianeta che governa il segno all’inizio della casa. Fornisce informazioni essenziali sullo sviluppo delle risorse.",
+      "Il suo segno, la casa e gli aspetti chiariscono strategie finanziarie, talenti ed esperienze che influenzano la sicurezza."
     ],
     "rulers": [
       [
@@ -1806,42 +1806,42 @@ export const MAISON_DEUX_TRANSLATIONS = {
     ],
     "comparison8": [
       "Ottava Casa",
-      "Le risorse condivise",
-      "Debiti, prestiti, eredità, imposte, investimenti comuni e risorse della coppia."
+      "Risorse condivise",
+      "Denaro condiviso con altri: debiti, prestiti, eredità, imposte, investimenti comuni e risorse della coppia."
     ],
     "evolutionTitle": "La Seconda Casa nell’evoluzione personale",
     "evolution": [
-      "The Second House invites you to build security that does not rest only on fear of scarcity or accumulation.",
-      "It teaches you to recognize talents, value skills and use resources consistently with real priorities.",
-      "Material stability becomes stronger when supported by self-worth and inner value."
+      "La Seconda Casa ti invita a costruire una sicurezza che non dipenda soltanto dalla paura della mancanza o dall’accumulo.",
+      "Insegna a riconoscere i talenti, valorizzare le competenze e utilizzare le risorse in modo coerente con le vere priorità.",
+      "La stabilità materiale diventa più solida quando è sostenuta dall’autostima e dal valore interiore."
     ],
     "interpretTitle": "Come interpretare la Seconda Casa?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Second House",
-        "The sign on its cusp describes your natural approach to resources, money and security."
+        "Identifica il segno della Seconda Casa",
+        "Il segno sulla cuspide descrive il tuo approccio naturale a risorse, denaro e sicurezza."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where talents and resources seek development."
+        "Individua il pianeta governatore",
+        "La sua posizione mostra dove talenti e risorse cercano di svilupparsi."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet influences money, talents and self-worth."
+        "Osserva i pianeti presenti",
+        "Ogni pianeta influenza denaro, talenti e autostima."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "Aspects to the ruler clarify ease, tension and learning related to resources."
+        "Analizza gli aspetti",
+        "Gli aspetti al governatore chiariscono facilità, tensioni e apprendimenti legati alle risorse."
       ]
     ],
     "natalTitle": "La Seconda Casa nel tema natale",
     "natal": [
-      "The Second House must be interpreted within the whole chart. Its sign, planets, ruler and aspects reveal different dimensions of security.",
-      "This analysis can clarify money management, talents to develop and values guiding decisions."
+      "La Seconda Casa deve essere interpretata nel contesto dell’intero tema natale. Segno, pianeti, governatore e aspetti rivelano diverse dimensioni della sicurezza.",
+      "Questa analisi può chiarire la gestione del denaro, i talenti da sviluppare e i valori che guidano le decisioni."
     ],
     "ctaKicker": "Scopri il tuo tema natale",
     "ctaTitle": "Quale segno e quali pianeti si trovano nella tua Seconda Casa?",
@@ -1865,28 +1865,28 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "faqTitle": "Domande sulla Seconda Casa",
     "faq": [
       [
-        "What does the Second House represent?",
-        "Money, income, possessions, resources, talents, personal values, self-worth and material security."
+        "Che cosa rappresenta la Seconda Casa?",
+        "Denaro, reddito, beni, risorse, talenti, valori personali, autostima e sicurezza materiale."
       ],
       [
-        "Is it only about money?",
-        "No. It also concerns talents, skills, possessions, priorities, values and awareness of personal worth."
+        "Riguarda soltanto il denaro?",
+        "No. Riguarda anche talenti, competenze, beni, priorità, valori e consapevolezza del proprio valore."
       ],
       [
-        "What does a planet in the Second House mean?",
-        "It influences earning, managing and using resources, as well as security, possessions and self-worth."
+        "Che cosa significa un pianeta nella Seconda Casa?",
+        "Influenza il modo di guadagnare, gestire e utilizzare le risorse, oltre a sicurezza, beni e autostima."
       ],
       [
-        "What does an empty Second House mean?",
-        "It does not mean absence of money or talent. Analyze the cusp sign, its ruler and aspects."
+        "Che cosa significa una Seconda Casa vuota?",
+        "Non significa assenza di denaro o talento. Analizza il segno sulla cuspide, il suo governatore e gli aspetti."
       ],
       [
-        "What is the difference between the Second and Eighth Houses?",
-        "The Second concerns personal resources; the Eighth concerns shared resources, debts, inheritances and joint investments."
+        "Qual è la differenza tra Seconda e Ottava Casa?",
+        "La Seconda riguarda le risorse personali; l’Ottava le risorse condivise, i debiti, le eredità e gli investimenti comuni."
       ],
       [
-        "How can I know the sign of my Second House?",
-        "Calculate your birth chart using date, exact time and place of birth."
+        "Come posso conoscere il segno della mia Seconda Casa?",
+        "Calcola il tema natale usando data, ora esatta e luogo di nascita."
       ]
     ],
     "disclaimer": "L’astrologia è presentata come un linguaggio simbolico di esplorazione personale. Non sostituisce consulenze mediche, psicologiche, legali o finanziarie."
@@ -1910,48 +1910,48 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "meaningKicker": "Significado da Casa 2",
     "meaningTitle": "O que a Casa 2 representa?",
     "meaning": [
-      "The Second House is the house of personal resources. It describes what you own, what you can develop and how you create stability.",
-      "It concerns money earned through your own efforts, material goods, talents, skills and usable resources.",
-      "It is not only about money. It also represents values, priorities and what you consider important.",
-      "It is also connected with self-worth and the development of inner security."
+      "A Casa 2 é a casa dos recursos pessoais. Ela descreve o que você possui, o que pode desenvolver e como constrói estabilidade.",
+      "Ela envolve o dinheiro ganho por esforço próprio, os bens materiais, os talentos, as competências e os recursos que podem ser utilizados.",
+      "Não trata apenas de dinheiro. Também representa valores, prioridades e aquilo que você considera importante.",
+      "Também está ligada à autoestima e ao desenvolvimento da segurança interior."
     ],
     "domainsTitle": "As grandes áreas da Casa 2",
     "traits": [
       [
-        "Your resources",
+        "Seus recursos",
         "◆",
-        "Material and personal resources used to build stability, including money, possessions, skills and available means."
+        "Recursos materiais e pessoais usados para construir estabilidade, incluindo dinheiro, bens, competências e meios disponíveis."
       ],
       [
-        "Your values",
+        "Seus valores",
         "♡",
-        "What truly matters to you: principles, needs and priorities that shape security and self-worth."
+        "O que realmente importa para você: princípios, necessidades e prioridades que moldam a segurança e a autoestima."
       ],
       [
-        "Your sense of security",
+        "Seu senso de segurança",
         "Ⅱ",
-        "What you need to feel stable and confident, whether materially, emotionally, financially or inwardly."
+        "O que você precisa para se sentir estável e confiante, material, emocional, financeira ou interiormente."
       ]
     ],
     "moneyTitle": "A Casa 2 e sua relação com o dinheiro",
     "money": [
-      "It describes how you earn, keep, spend and use money, and whether you primarily seek security, freedom, comfort, prestige or alignment with your values.",
-      "The sign on the cusp influences financial behavior; planets in the house add their needs, qualities and challenges.",
-      "A strongly occupied Second House can make resources and financial security especially important themes."
+      "Ela descreve como você ganha, conserva, gasta e utiliza o dinheiro e se busca principalmente segurança, liberdade, conforto, prestígio ou coerência com seus valores.",
+      "O signo na cúspide influencia o comportamento financeiro; os planetas presentes acrescentam necessidades, qualidades e desafios próprios.",
+      "Uma Casa 2 muito ocupada pode tornar os recursos e a segurança financeira temas especialmente importantes."
     ],
     "highlightTitle": "O dinheiro costuma refletir suas prioridades",
-    "highlight": "How you use resources usually reveals what you value: comfort, freedom, experiences, family, knowledge or creativity.",
+    "highlight": "A maneira como você usa os recursos costuma revelar o que valoriza: conforto, liberdade, experiências, família, conhecimento ou criatividade.",
     "valuesTitle": "Valores pessoais e autoestima",
     "values": [
-      "The Second House describes what you consider valuable, materially, morally, emotionally, intellectually or spiritually.",
-      "Living according to your values can create stability and coherence; acting against them can produce insecurity or loss of meaning.",
-      "It also teaches that your value does not depend only on income, possessions or productivity."
+      "A Casa 2 descreve o que você considera valioso no plano material, moral, emocional, intelectual ou espiritual.",
+      "Viver de acordo com seus valores pode criar estabilidade e coerência; agir contra eles pode gerar insegurança ou perda de sentido.",
+      "Ela também ensina que seu valor não depende apenas da renda, dos bens ou da produtividade."
     ],
     "talentsTitle": "Talentos e recursos naturais",
     "talents": [
-      "The Second House can reveal talents that help build stability, such as patience, organization, creativity, communication, practicality or relationship skills.",
-      "Its sign describes how you use these abilities; a planet in the house can become an important resource when developed consciously.",
-      "One lesson of the Second House is to recognize your skills and give them concrete value without minimizing or constantly comparing them."
+      "A Casa 2 pode revelar talentos que ajudam a construir estabilidade, como paciência, organização, criatividade, comunicação, praticidade ou habilidade nos relacionamentos.",
+      "O signo descreve como você utiliza essas capacidades; um planeta presente pode se tornar um recurso importante quando desenvolvido conscientemente.",
+      "Uma lição da Casa 2 é reconhecer suas competências e atribuir valor concreto a elas sem diminuí-las ou compará-las o tempo todo."
     ],
     "strengthsTitle": "Forças e desafios da Casa 2",
     "strengthsKicker": "Forças naturais",
@@ -1976,140 +1976,140 @@ export const MAISON_DEUX_TRANSLATIONS = {
     ],
     "planetsTitle": "Os planetas na Casa 2",
     "planetsIntro": [
-      "A planet in the Second House influences resources, money, talents, possessions and security.",
-      "It may show a natural ability to develop resources, but also an area requiring greater stability and awareness."
+      "Um planeta na Casa 2 influencia recursos, dinheiro, talentos, bens e segurança.",
+      "Ele pode mostrar uma capacidade natural de desenvolver recursos, mas também uma área que exige maior estabilidade e consciência."
     ],
     "planetLabel": "na Casa 2",
     "planets": [
       [
         "Sol",
         "☀",
-        "The Sun encourages identity to be built through talents, values and the ability to create personal resources. Recognition may be linked with usefulness and autonomy."
+        "O Sol favorece uma identidade construída por meio de talentos, valores e capacidade de criar recursos pessoais. O reconhecimento pode estar ligado à utilidade e à autonomia."
       ],
       [
         "Lua",
         "☽",
-        "The Moon creates an emotional need for stability. Finances or possessions may fluctuate with moods, family needs or the desire for protection."
+        "A Lua cria uma necessidade emocional de estabilidade. Finanças ou bens podem variar com o humor, as necessidades familiares ou o desejo de proteção."
       ],
       [
         "Mercúrio",
         "☿",
-        "Mercury favors income through communication, commerce, writing, learning or exchange, and encourages reflection about resource management."
+        "Mercúrio favorece renda por meio de comunicação, comércio, escrita, aprendizagem ou intercâmbio e estimula a reflexão sobre a gestão de recursos."
       ],
       [
         "Vênus",
         "♀",
-        "Venus may ease the attraction of resources and appreciation of comfort. Artistic, relational or aesthetic talents can become income sources."
+        "Vênus pode facilitar a atração de recursos e a apreciação do conforto. Talentos artísticos, relacionais ou estéticos podem se transformar em fontes de renda."
       ],
       [
         "Marte",
         "♂",
-        "Mars brings energy to earn money and defend interests, but may encourage impulsive spending, competition or quick decisions."
+        "Marte traz energia para ganhar dinheiro e defender interesses, mas pode incentivar gastos impulsivos, competição ou decisões rápidas."
       ],
       [
         "Júpiter",
         "♃",
-        "Jupiter may expand financial possibilities, talents and abundance, but excess and overestimation should be avoided."
+        "Júpiter pode ampliar possibilidades financeiras, talentos e abundância, mas é preciso evitar excessos e superestimação."
       ],
       [
         "Saturno",
         "♄",
-        "Saturn may create fear of scarcity or caution with money. Over time it supports solid, responsible and lasting management."
+        "Saturno pode criar medo da falta ou cautela com o dinheiro. Com o tempo, favorece uma gestão sólida, responsável e duradoura."
       ],
       [
         "Urano",
         "♅",
-        "Uranus may bring irregular income, original earning methods or an independent relationship with possessions."
+        "Urano pode trazer renda irregular, formas originais de ganhar dinheiro ou uma relação independente com os bens."
       ],
       [
         "Netuno",
         "♆",
-        "Neptune brings intuition and imagination to resource creation, but requires clarity to avoid confusion or financial illusions."
+        "Netuno traz intuição e imaginação para a criação de recursos, mas exige clareza para evitar confusão ou ilusões financeiras."
       ],
       [
         "Plutão",
         "♇",
-        "Pluto deeply transforms the relationship with money, power and security through cycles of loss, rebuilding and mastery."
+        "Plutão transforma profundamente a relação com dinheiro, poder e segurança por meio de ciclos de perda, reconstrução e domínio."
       ]
     ],
     "signsTitle": "Os doze signos na Casa 2",
     "signsIntro": [
-      "The sign at the beginning of the Second House describes how you build resources, manage finances and seek security.",
-      "It also shows qualities you can develop to recognize talents and strengthen self-worth."
+      "O signo no início da Casa 2 descreve como você constrói recursos, administra as finanças e busca segurança.",
+      "Também mostra qualidades que podem ser desenvolvidas para reconhecer talentos e fortalecer a autoestima."
     ],
     "houseSignLabel": "Casa 2 em",
     "signs": [
       [
         "Áries",
         "♈",
-        "Direct and active financial approach. The person seeks to earn through personal initiative but may spend quickly or take risks."
+        "Abordagem financeira direta e ativa. A pessoa busca ganhar por iniciativa própria, mas pode gastar rapidamente ou assumir riscos."
       ],
       [
         "Touro",
         "♉",
-        "Strong need for security, stability and comfort. Resources are usually built patiently and durable possessions are valued."
+        "Forte necessidade de segurança, estabilidade e conforto. Os recursos costumam ser construídos com paciência e os bens duráveis são valorizados."
       ],
       [
         "Gêmeos",
         "♊",
-        "Several income sources may develop. Communication, commerce, writing, teaching and varied activities become important."
+        "Podem surgir várias fontes de renda. Comunicação, comércio, escrita, ensino e atividades variadas tornam-se importantes."
       ],
       [
         "Câncer",
         "♋",
-        "Financial security is tied to emotions, family and home. The person often accumulates to protect loved ones."
+        "A segurança financeira está ligada às emoções, à família e ao lar. A pessoa costuma acumular recursos para proteger quem ama."
       ],
       [
         "Leão",
         "♌",
-        "Creativity, leadership and self-expression can generate resources. Spending may also affirm status or image."
+        "Criatividade, liderança e expressão pessoal podem gerar recursos. Os gastos também podem afirmar status ou imagem."
       ],
       [
         "Virgem",
         "♍",
-        "Prudence, organization and attention to detail in financial management. Practical skills and service can create income."
+        "Prudência, organização e atenção aos detalhes na gestão financeira. Habilidades práticas e serviço podem criar renda."
       ],
       [
         "Libra",
         "♎",
-        "Resources may be linked to relationships, art, beauty, law or mediation. Balance between pleasure and stability is sought."
+        "Os recursos podem estar ligados a relacionamentos, arte, beleza, direito ou mediação. Busca-se equilíbrio entre prazer e estabilidade."
       ],
       [
         "Escorpião",
         "♏",
-        "An intense relationship with money and security, with strong ability to rebuild after transformation."
+        "Relação intensa com dinheiro e segurança, com forte capacidade de se reconstruir depois de transformações."
       ],
       [
         "Sagitário",
         "♐",
-        "Generosity, expansion and confidence. Income may be linked to travel, teaching, international activity or knowledge."
+        "Generosidade, expansão e confiança. A renda pode estar ligada a viagens, ensino, atividades internacionais ou conhecimento."
       ],
       [
         "Capricórnio",
         "♑",
-        "Security is built slowly and methodically through work, discipline, responsibility and lasting results."
+        "A segurança é construída lenta e metodicamente por meio de trabalho, disciplina, responsabilidade e resultados duradouros."
       ],
       [
         "Aquário",
         "♒",
-        "Original, technological or independent income sources. Freedom is valued and possessions may be approached unconventionally."
+        "Fontes de renda originais, tecnológicas ou independentes. A liberdade é valorizada e os bens podem ser vistos de maneira não convencional."
       ],
       [
         "Peixes",
         "♓",
-        "Intuition, creativity and generosity, with a need for clarity. Resources may come from artistic, spiritual or helping fields."
+        "Intuição, criatividade e generosidade, com necessidade de clareza. Os recursos podem vir de áreas artísticas, espirituais ou de ajuda."
       ]
     ],
     "emptyTitle": "Casa 2 vazia: o que significa?",
     "empty": [
-      "An empty Second House does not mean a lack of money, resources or talents. Every house remains active without planets.",
-      "Examine the sign on its cusp, then identify the planet ruling that sign.",
-      "The ruler’s sign and house show where and how Second House themes seek development."
+      "Uma Casa 2 vazia não significa falta de dinheiro, recursos ou talentos. Toda casa permanece ativa mesmo sem planetas.",
+      "Observe o signo na cúspide e identifique o planeta que governa esse signo.",
+      "O signo e a casa do regente mostram onde e como os temas da Casa 2 procuram se desenvolver."
     ],
     "rulerTitle": "O planeta regente da Casa 2",
     "ruler": [
-      "The ruler of the Second House is the planet governing the sign at the beginning of the house. It gives essential information about developing resources.",
-      "Its sign, house and aspects clarify financial strategies, talents and experiences affecting security."
+      "O regente da Casa 2 é o planeta que governa o signo no início dessa casa. Ele oferece informações essenciais sobre o desenvolvimento dos recursos.",
+      "Seu signo, sua casa e seus aspectos esclarecem estratégias financeiras, talentos e experiências que afetam a segurança."
     ],
     "rulers": [
       [
@@ -2177,46 +2177,46 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "comparison2": [
       "Casa 2",
       "Seus recursos pessoais",
-      "Dinheiro ganho, bens, talentos, valores e segurança pessoal."
+      "Dinheiro ganho por você, bens, talentos, valores e segurança pessoal."
     ],
     "comparison8": [
       "Casa 8",
-      "Os recursos compartilhados",
-      "Dívidas, empréstimos, heranças, impostos, investimentos comuns e recursos do casal."
+      "Recursos compartilhados",
+      "Dinheiro compartilhado com outras pessoas: dívidas, empréstimos, heranças, impostos, investimentos conjuntos e recursos do casal."
     ],
     "evolutionTitle": "A Casa 2 no desenvolvimento pessoal",
     "evolution": [
-      "The Second House invites you to build security that does not rest only on fear of scarcity or accumulation.",
-      "It teaches you to recognize talents, value skills and use resources consistently with real priorities.",
-      "Material stability becomes stronger when supported by self-worth and inner value."
+      "A Casa 2 convida você a construir uma segurança que não dependa apenas do medo da falta ou da acumulação.",
+      "Ela ensina a reconhecer talentos, valorizar competências e usar recursos de acordo com suas verdadeiras prioridades.",
+      "A estabilidade material se fortalece quando é sustentada pela autoestima e pelo valor interior."
     ],
     "interpretTitle": "Como interpretar sua Casa 2?",
     "steps": [
       [
         "1",
-        "Identify the sign of the Second House",
-        "The sign on its cusp describes your natural approach to resources, money and security."
+        "Identifique o signo da Casa 2",
+        "O signo na cúspide descreve sua abordagem natural aos recursos, ao dinheiro e à segurança."
       ],
       [
         "2",
-        "Find its ruling planet",
-        "Its placement shows where talents and resources seek development."
+        "Encontre o planeta regente",
+        "Sua posição mostra onde talentos e recursos procuram se desenvolver."
       ],
       [
         "3",
-        "Observe the planets present",
-        "Each planet influences money, talents and self-worth."
+        "Observe os planetas presentes",
+        "Cada planeta influencia dinheiro, talentos e autoestima."
       ],
       [
         "4",
-        "Analyze the aspects",
-        "Aspects to the ruler clarify ease, tension and learning related to resources."
+        "Analise os aspectos",
+        "Os aspectos ao regente esclarecem facilidades, tensões e aprendizados ligados aos recursos."
       ]
     ],
     "natalTitle": "A Casa 2 no seu mapa astral",
     "natal": [
-      "The Second House must be interpreted within the whole chart. Its sign, planets, ruler and aspects reveal different dimensions of security.",
-      "This analysis can clarify money management, talents to develop and values guiding decisions."
+      "A Casa 2 deve ser interpretada no contexto do mapa astral completo. Seu signo, planetas, regente e aspectos revelam diferentes dimensões da segurança.",
+      "Essa análise pode esclarecer a gestão do dinheiro, os talentos a desenvolver e os valores que orientam suas decisões."
     ],
     "ctaKicker": "Descubra seu mapa astral",
     "ctaTitle": "Qual signo e quais planetas estão na sua Casa 2?",
@@ -2240,28 +2240,28 @@ export const MAISON_DEUX_TRANSLATIONS = {
     "faqTitle": "Perguntas sobre a Casa 2",
     "faq": [
       [
-        "What does the Second House represent?",
-        "Money, income, possessions, resources, talents, personal values, self-worth and material security."
+        "O que a Casa 2 representa?",
+        "Dinheiro, renda, bens, recursos, talentos, valores pessoais, autoestima e segurança material."
       ],
       [
-        "Is it only about money?",
-        "No. It also concerns talents, skills, possessions, priorities, values and awareness of personal worth."
+        "Ela trata apenas de dinheiro?",
+        "Não. Também envolve talentos, competências, bens, prioridades, valores e consciência do próprio valor."
       ],
       [
-        "What does a planet in the Second House mean?",
-        "It influences earning, managing and using resources, as well as security, possessions and self-worth."
+        "O que significa um planeta na Casa 2?",
+        "Ele influencia a maneira de ganhar, administrar e utilizar recursos, além da segurança, dos bens e da autoestima."
       ],
       [
-        "What does an empty Second House mean?",
-        "It does not mean absence of money or talent. Analyze the cusp sign, its ruler and aspects."
+        "O que significa uma Casa 2 vazia?",
+        "Não significa ausência de dinheiro ou talento. Analise o signo na cúspide, seu regente e os aspectos."
       ],
       [
-        "What is the difference between the Second and Eighth Houses?",
-        "The Second concerns personal resources; the Eighth concerns shared resources, debts, inheritances and joint investments."
+        "Qual é a diferença entre a Casa 2 e a Casa 8?",
+        "A Casa 2 trata dos recursos pessoais; a Casa 8, dos recursos compartilhados, dívidas, heranças e investimentos conjuntos."
       ],
       [
-        "How can I know the sign of my Second House?",
-        "Calculate your birth chart using date, exact time and place of birth."
+        "Como saber o signo da minha Casa 2?",
+        "Calcule seu mapa astral usando data, hora exata e local de nascimento."
       ]
     ],
     "disclaimer": "A astrologia é apresentada como uma linguagem simbólica de exploração pessoal. Ela não substitui orientação médica, psicológica, jurídica ou financeira."
