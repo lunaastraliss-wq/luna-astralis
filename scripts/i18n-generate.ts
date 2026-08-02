@@ -1,10 +1,10 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-generate V2
+| i18n-generate V3
 |--------------------------------------------------------------------------
 |
 | Générateur intelligent pour Luna Astralis.
-| Compatible avec le nouvel audit classé par app, component, pdf et lib.
+| Dictionnaires persistants dans i18n/migrated pour éviter leur suppression après migration.
 |
 */
 
@@ -36,7 +36,8 @@ const AUDIT_SUMMARY_FILE = path.join(
 
 const OUTPUT_ROOT = path.join(
   PROJECT_ROOT,
-  "i18n-generated",
+  "i18n",
+  "migrated",
 );
 
 const SOURCE_LOCALE = "fr";
@@ -654,13 +655,16 @@ function main(): void {
   const groups =
     groupEntries(entries);
 
-  fs.rmSync(
-    OUTPUT_ROOT,
-    {
-      recursive: true,
-      force: true,
-    },
-  );
+  /*
+  |--------------------------------------------------------------------------
+  | Important
+  |--------------------------------------------------------------------------
+  |
+  | On ne supprime plus OUTPUT_ROOT.
+  | Les dictionnaires déjà utilisés par des fichiers migrés doivent rester
+  | présents lors des audits et générations suivants.
+  |
+  */
 
   generateLocaleFiles(groups);
 
@@ -725,13 +729,13 @@ function main(): void {
   );
   console.log("");
   console.log(
-    "Plan : i18n-generated/migration-plan.json",
+    "Plan : i18n/migrated/migration-plan.json",
   );
   console.log(
-    "Priorités : i18n-generated/top-priority.json",
+    "Priorités : i18n/migrated/top-priority.json",
   );
   console.log(
-    "Résumé : i18n-generated/README.md",
+    "Résumé : i18n/migrated/README.md",
   );
   console.log("");
 }
