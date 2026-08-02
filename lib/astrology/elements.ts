@@ -1,4 +1,10 @@
-export const SIGN_ELEMENT: Record<string, "Feu" | "Terre" | "Air" | "Eau"> = {
+import type { Locale } from "@/i18n/config";
+import {
+  ELEMENT_TRANSLATIONS,
+  type ElementKey,
+} from "@/i18n/lib/astrology/elements";
+
+export const SIGN_ELEMENT: Record<string, ElementKey> = {
   Aries: "Feu",
   Leo: "Feu",
   Sagittarius: "Feu",
@@ -16,12 +22,31 @@ export const SIGN_ELEMENT: Record<string, "Feu" | "Terre" | "Air" | "Eau"> = {
   Pisces: "Eau",
 };
 
-export const ELEMENT_TEXT: Record<string, string> = {
-  Feu: `Une dominante de Feu révèle une personnalité animée par l'élan, l'inspiration et le besoin d'agir. Vous avancez souvent avec passion, courage et spontanéité. Votre énergie vous pousse à entreprendre, à créer et à suivre ce qui vous enthousiasme profondément.`,
+/*
+|--------------------------------------------------------------------------
+| Compatibilité avec le code existant
+|--------------------------------------------------------------------------
+*/
 
-  Terre: `Une dominante de Terre révèle une personnalité stable, réaliste et tournée vers la construction. Vous avez besoin de concret, de sécurité et de résultats durables. Votre force réside dans votre patience, votre sens pratique et votre capacité à bâtir avec constance.`,
+export const ELEMENT_TEXT: Record<ElementKey, string> =
+  ELEMENT_TRANSLATIONS.fr.texts;
 
-  Air: `Une dominante d'Air révèle une personnalité curieuse, communicative et intellectuelle. Vous avez besoin d'échanger, de comprendre et de relier les idées entre elles. Votre force réside dans votre ouverture d'esprit, votre capacité d'adaptation et votre aisance à communiquer.`,
+/*
+|--------------------------------------------------------------------------
+| Accès multilingue
+|--------------------------------------------------------------------------
+*/
 
-  Eau: `Une dominante d'Eau révèle une personnalité intuitive, sensible et profondément connectée aux émotions. Vous ressentez les ambiances avec intensité et comprenez souvent les autres au-delà des mots. Votre force réside dans votre empathie, votre imagination et votre profondeur intérieure.`,
-};
+export function getElementLabel(
+  element: ElementKey,
+  locale: Locale = "fr",
+): string {
+  return ELEMENT_TRANSLATIONS[locale].labels[element];
+}
+
+export function getElementText(
+  element: ElementKey,
+  locale: Locale = "fr",
+): string {
+  return ELEMENT_TRANSLATIONS[locale].texts[element];
+}
