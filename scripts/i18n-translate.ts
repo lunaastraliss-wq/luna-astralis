@@ -4,7 +4,7 @@ import OpenAI from "openai";
 
 /*
 |--------------------------------------------------------------------------
-| i18n-translate V3 — Luna Astralis
+| i18n-translate V4 — Luna Astralis
 |--------------------------------------------------------------------------
 |
 | Traduit automatiquement les dictionnaires français vers :
@@ -706,16 +706,82 @@ function createGlossaryText(
 |--------------------------------------------------------------------------
 */
 
-async function translateBatch(
+async function requestTranslation(
   entries: Dictionary,
   locale: TargetLocale,
 ): Promise<Dictionary> {
   const targetLanguage =
     TARGET_LOCALES[locale];
 
+  const completion =
+    await client.chat.completions.create({
+      model:
+        process.env.OPENAI_TRANSLATION_MODEL ||
+        "gpt-4o-mini",
+
+      response_format: {
+        type: "json_object",
+      },
+
+      temperature: 0.1,
+
+      messages: [
+        {
+          role: "system",
+          content: [
+            `Translate a French astrology website dictionary into ${targetLanguage}.`,
+            "Return only one valid JSON object.",
+            "Keep every JSON key exactly unchanged.",
+            "Return every key received, even when a value appears repetitive.",
+            "Translate only the string values.",
+            "Use natural, professional language suitable for a public astrology website.",
+            "Preserve meaning, tone and SEO intent.",
+            "Preserve HTML, Markdown, emojis, punctuation, URLs, email addresses and placeholders exactly.",
+            "Never translate code, JSON keys, variable names, product names or the brand Luna Astralis.",
+            "Use the following astrology glossary whenever the French term is used in its astrological sense:",
+            createGlossaryText(locale),
+            "Do not add comments or explanations.",
+          ].join("\n"),
+        },
+        {
+          role: "user",
+          content: JSON.stringify(
+            entries,
+            null,
+            2,
+          ),
+        },
+      ],
+    });
+
+  const content =
+    completion.choices[0]
+      ?.message?.content;
+
+  if (!content) {
+    throw new Error(
+      "OpenAI n’a retourné aucun texte.",
+    );
+  }
+
+  return extractJson(content);
+}
+
+async function translateBatch(
+  entries: Dictionary,
+  locale: TargetLocale,
+): Promise<Dictionary> {
   const expectedKeys =
     Object.keys(entries);
 
+  if (expectedKeys.length === 0) {
+    return {};
+  }
+
+  let collected: Dictionary = {};
+  let pendingEntries: Dictionary = {
+    ...entries,
+  };
   let lastError: unknown = null;
 
   for (
@@ -724,131 +790,85 @@ async function translateBatch(
     attempt += 1
   ) {
     try {
-      const completion =
-        await client.chat.completions.create({
-          model:
-            process.env
-              .OPENAI_TRANSLATION_MODEL ||
-            "gpt-4o-mini",
-
-          response_format: {
-            type: "json_object",
-          },
-
-          temperature: 0.1,
-
-          messages: [
-            {
-              role: "system",
-
-              content: [
-                `Translate a French astrology website dictionary into ${targetLanguage}.`,
-                "Return only one valid JSON object.",
-                "Keep every JSON key exactly unchanged.",
-                "Translate only the string values.",
-                "Use natural, professional language suitable for a public astrology website.",
-                "Preserve the original meaning, tone and SEO intent.",
-                "Preserve HTML, Markdown, emojis, punctuation, URLs, email addresses and placeholders exactly.",
-                "Never translate code, JSON keys, variable names, product names or the brand Luna Astralis.",
-                "Use the following astrology glossary whenever a French term is used in its astrological sense:",
-                createGlossaryText(
-                  locale,
-                ),
-                "Do not add comments, notes or explanations.",
-              ].join("\n"),
-            },
-
-            {
-              role: "user",
-
-              content: JSON.stringify(
-                entries,
-                null,
-                2,
-              ),
-            },
-          ],
-        });
-
-      const content =
-        completion.choices[0]
-          ?.message?.content;
-
-      if (!content) {
-        throw new Error(
-          "OpenAI n’a retourné aucun texte.",
-        );
-      }
-
       const translated =
-        extractJson(content);
-
-      const returnedKeys =
-        Object.keys(translated);
-
-      const missingKeys =
-        expectedKeys.filter(
-          (key) =>
-            !returnedKeys.includes(
-              key,
-            ),
+        await requestTranslation(
+          pendingEntries,
+          locale,
         );
+
+      const pendingKeys =
+        Object.keys(pendingEntries);
 
       const unexpectedKeys =
-        returnedKeys.filter(
+        Object.keys(translated).filter(
           (key) =>
-            !expectedKeys.includes(
-              key,
-            ),
+            !pendingKeys.includes(key),
         );
 
-      if (
-        missingKeys.length > 0 ||
-        unexpectedKeys.length > 0
-      ) {
-        throw new Error(
-          [
-            "Les clés retournées ne correspondent pas.",
-            `Clés manquantes : ${
-              missingKeys.join(
-                ", ",
-              ) || "aucune"
-            }`,
-            `Clés inattendues : ${
-              unexpectedKeys.join(
-                ", ",
-              ) || "aucune"
-            }`,
-          ].join("\n"),
+      if (unexpectedKeys.length > 0) {
+        console.warn(
+          `Clés inattendues ignorées : ${unexpectedKeys.join(", ")}`,
         );
       }
 
-      for (
-        const key of expectedKeys
-      ) {
-        const sourceText =
-          entries[key];
-
+      for (const key of pendingKeys) {
         const translatedText =
           translated[key];
 
         if (
-          typeof translatedText !==
-            "string" ||
+          typeof translatedText !== "string" ||
           translatedText.trim() === ""
         ) {
-          throw new Error(
-            `Traduction vide pour la clé "${key}".`,
-          );
+          continue;
         }
 
         assertProtectedTokensPreserved(
-          sourceText,
+          pendingEntries[key],
           translatedText,
         );
+
+        collected[key] =
+          translatedText;
       }
 
-      return translated;
+      const missingKeys =
+        expectedKeys.filter(
+          (key) =>
+            typeof collected[key] !== "string" ||
+            collected[key].trim() === "",
+        );
+
+      if (missingKeys.length === 0) {
+        return Object.fromEntries(
+          expectedKeys.map((key) => [
+            key,
+            collected[key],
+          ]),
+        ) as Dictionary;
+      }
+
+      pendingEntries =
+        Object.fromEntries(
+          missingKeys.map((key) => [
+            key,
+            entries[key],
+          ]),
+        ) as Dictionary;
+
+      console.warn(
+        `Tentative ${attempt}/${MAX_RETRIES} incomplète — ${missingKeys.length} clé(s) à récupérer : ${missingKeys.join(", ")}`,
+      );
+
+      if (attempt < MAX_RETRIES) {
+        await new Promise<void>(
+          (resolve) => {
+            setTimeout(
+              resolve,
+              attempt * 2000,
+            );
+          },
+        );
+      }
     } catch (error) {
       lastError = error;
 
@@ -857,9 +877,7 @@ async function translateBatch(
       );
 
       if (error instanceof Error) {
-        console.warn(
-          error.message,
-        );
+        console.warn(error.message);
       }
 
       if (attempt < MAX_RETRIES) {
@@ -875,12 +893,83 @@ async function translateBatch(
     }
   }
 
-  if (lastError instanceof Error) {
-    throw lastError;
+  const missingKeys =
+    expectedKeys.filter(
+      (key) =>
+        typeof collected[key] !== "string" ||
+        collected[key].trim() === "",
+    );
+
+  if (missingKeys.length === 0) {
+    return Object.fromEntries(
+      expectedKeys.map((key) => [
+        key,
+        collected[key],
+      ]),
+    ) as Dictionary;
   }
 
+  if (expectedKeys.length > 1) {
+    console.warn(
+      `Le lot reste incomplet. Division automatique de ${expectedKeys.length} textes en sous-lots.`,
+    );
+
+    const midpoint =
+      Math.ceil(expectedKeys.length / 2);
+
+    const firstKeys =
+      expectedKeys.slice(0, midpoint);
+
+    const secondKeys =
+      expectedKeys.slice(midpoint);
+
+    const firstEntries =
+      Object.fromEntries(
+        firstKeys.map((key) => [
+          key,
+          entries[key],
+        ]),
+      ) as Dictionary;
+
+    const secondEntries =
+      Object.fromEntries(
+        secondKeys.map((key) => [
+          key,
+          entries[key],
+        ]),
+      ) as Dictionary;
+
+    const firstResult =
+      await translateBatch(
+        firstEntries,
+        locale,
+      );
+
+    const secondResult =
+      await translateBatch(
+        secondEntries,
+        locale,
+      );
+
+    return {
+      ...firstResult,
+      ...secondResult,
+    };
+  }
+
+  const onlyKey =
+    expectedKeys[0];
+
   throw new Error(
-    "La traduction du lot a échoué.",
+    [
+      `Impossible de traduire la clé ${onlyKey} après plusieurs essais.`,
+      `Texte : ${entries[onlyKey]}`,
+      lastError instanceof Error
+        ? `Dernière erreur : ${lastError.message}`
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n"),
   );
 }
 
@@ -1282,7 +1371,7 @@ async function main():
 
   console.log("");
   console.log(
-    "Traduction automatique V3 terminée.",
+    "Traduction automatique V4 terminée.",
   );
 
   console.log(
