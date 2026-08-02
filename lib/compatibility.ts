@@ -1,5 +1,8 @@
 // lib/compatibility.ts
 
+import type { Locale } from "@/i18n/config";
+import { COMPATIBILITY_TRANSLATIONS } from "@/i18n/lib/compatibility";
+
 export type SignKey =
   | "belier"
   | "taureau"
@@ -14,28 +17,66 @@ export type SignKey =
   | "verseau"
   | "poissons";
 
-export const SIGNS: {
+export type ElementKey =
+  | "feu"
+  | "terre"
+  | "air"
+  | "eau";
+
+export type SignDefinition = {
   key: SignKey;
   label: string;
   symbol: string;
-  element: string;
-}[] = [
-  { key: "belier", label: "Bélier", symbol: "♈", element: "feu" },
-  { key: "taureau", label: "Taureau", symbol: "♉", element: "terre" },
-  { key: "gemeaux", label: "Gémeaux", symbol: "♊", element: "air" },
-  { key: "cancer", label: "Cancer", symbol: "♋", element: "eau" },
-  { key: "lion", label: "Lion", symbol: "♌", element: "feu" },
-  { key: "vierge", label: "Vierge", symbol: "♍", element: "terre" },
-  { key: "balance", label: "Balance", symbol: "♎", element: "air" },
-  { key: "scorpion", label: "Scorpion", symbol: "♏", element: "eau" },
-  { key: "sagittaire", label: "Sagittaire", symbol: "♐", element: "feu" },
-  { key: "capricorne", label: "Capricorne", symbol: "♑", element: "terre" },
-  { key: "verseau", label: "Verseau", symbol: "♒", element: "air" },
-  { key: "poissons", label: "Poissons", symbol: "♓", element: "eau" },
+  element: ElementKey;
+};
+
+const SIGN_DEFINITIONS: Omit<SignDefinition, "label">[] = [
+  { key: "belier", symbol: "♈", element: "feu" },
+  { key: "taureau", symbol: "♉", element: "terre" },
+  { key: "gemeaux", symbol: "♊", element: "air" },
+  { key: "cancer", symbol: "♋", element: "eau" },
+  { key: "lion", symbol: "♌", element: "feu" },
+  { key: "vierge", symbol: "♍", element: "terre" },
+  { key: "balance", symbol: "♎", element: "air" },
+  { key: "scorpion", symbol: "♏", element: "eau" },
+  { key: "sagittaire", symbol: "♐", element: "feu" },
+  { key: "capricorne", symbol: "♑", element: "terre" },
+  { key: "verseau", symbol: "♒", element: "air" },
+  { key: "poissons", symbol: "♓", element: "eau" },
 ];
 
-function getSign(key: SignKey) {
-  return SIGNS.find((s) => s.key === key)!;
+export function getSigns(
+  locale: Locale = "fr",
+): SignDefinition[] {
+  const t = COMPATIBILITY_TRANSLATIONS[locale];
+
+  return SIGN_DEFINITIONS.map((sign) => ({
+    ...sign,
+    label: t.signs[sign.key],
+  }));
+}
+
+/*
+|--------------------------------------------------------------------------
+| Compatibilité avec le code français existant
+|--------------------------------------------------------------------------
+*/
+
+export const SIGNS: SignDefinition[] = getSigns("fr");
+
+function getSign(
+  key: SignKey,
+  locale: Locale,
+): SignDefinition {
+  const sign = getSigns(locale).find(
+    (item) => item.key === key,
+  );
+
+  if (!sign) {
+    throw new Error(`Unknown zodiac sign: ${key}`);
+  }
+
+  return sign;
 }
 
 const ELEMENT_SCORES: Record<string, number> = {
@@ -51,58 +92,36 @@ const ELEMENT_SCORES: Record<string, number> = {
   "eau-eau": 85,
 };
 
-function elementScore(e1: string, e2: string): number {
-  const key1 = `${e1}-${e2}`;
-  const key2 = `${e2}-${e1}`;
+function elementScore(
+  elementA: ElementKey,
+  elementB: ElementKey,
+): number {
+  const key1 = `${elementA}-${elementB}`;
+  const key2 = `${elementB}-${elementA}`;
 
-  return ELEMENT_SCORES[key1] ?? ELEMENT_SCORES[key2] ?? 65;
+  return (
+    ELEMENT_SCORES[key1] ??
+    ELEMENT_SCORES[key2] ??
+    65
+  );
 }
 
-const ELEMENT_TEXTS: Record<string, string> = {
-  "feu-feu":
-    "Deux flammes qui s'attisent : passion intense, mais attention aux égos.",
-
-  "feu-terre":
-    "Le feu cherche l'aventure, la terre cherche la stabilité. Un bel équilibre si chacun fait un pas.",
-
-  "feu-air":
-    "L'air nourrit le feu : une connexion vive, stimulante et pleine d'énergie.",
-
-  "feu-eau":
-    "Le feu et l'eau s'attirent autant qu'ils se testent. Une alchimie intense, parfois orageuse.",
-
-  "terre-terre":
-    "Deux ancrages solides : une relation stable, bâtie sur la confiance et le concret.",
-
-  "terre-air":
-    "La terre veut du concret, l'air veut de la liberté. Ça demande des compromis, mais ça peut durer.",
-
-  "terre-eau":
-    "La terre contient l'eau, l'eau nourrit la terre : une complicité naturelle et rassurante.",
-
-  "air-air":
-    "Deux esprits qui se comprennent à demi-mot : légèreté, discussions sans fin et complicité mentale.",
-
-  "air-eau":
-    "L'air analyse, l'eau ressent : deux façons de voir le monde qui peuvent se compléter ou se heurter.",
-
-  "eau-eau":
-    "Une connexion émotionnelle profonde, presque intuitive. Sensible, mais très puissante.",
-};
-
-export function getCompatibility(signA: SignKey, signB: SignKey) {
-  const a = getSign(signA);
-  const b = getSign(signB);
-
+export function getCompatibility(
+  signA: SignKey,
+  signB: SignKey,
+  locale: Locale = "fr",
+) {
+  const a = getSign(signA, locale);
+  const b = getSign(signB, locale);
   const score = elementScore(a.element, b.element);
-
   const key1 = `${a.element}-${b.element}`;
   const key2 = `${b.element}-${a.element}`;
+  const t = COMPATIBILITY_TRANSLATIONS[locale];
 
   const text =
-    ELEMENT_TEXTS[key1] ??
-    ELEMENT_TEXTS[key2] ??
-    "Une combinaison unique, pleine de potentiel à découvrir.";
+    t.combinations[key1] ??
+    t.combinations[key2] ??
+    t.fallback;
 
   return {
     signA: a,
