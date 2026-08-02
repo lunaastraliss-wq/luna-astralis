@@ -1,9 +1,11 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-migrate V4
+| i18n-migrate V5
 |--------------------------------------------------------------------------
 |
 | Migration modulaire pour Luna Astralis.
+|
+| V5 lit maintenant le plan persistant dans i18n/migrated.
 |
 | V4 sépare les transformations selon la catégorie :
 | - lib
@@ -39,7 +41,8 @@ const PROJECT_ROOT = process.cwd();
 
 const PLAN_FILE = path.join(
   PROJECT_ROOT,
-  "i18n-generated",
+  "i18n",
+  "migrated",
   "migration-plan.json",
 );
 
@@ -1135,8 +1138,8 @@ function main(): void {
     path.join(
       REPORT_ROOT,
       WRITE_MODE
-        ? "migration-v4-write.json"
-        : "migration-v4-simulation.json",
+        ? "migration-v5-write.json"
+        : "migration-v5-simulation.json",
     );
 
   writeJson(
@@ -1147,8 +1150,8 @@ function main(): void {
   console.log("");
   console.log(
     WRITE_MODE
-      ? "Migration i18n V4 terminée."
-      : "Simulation i18n V4 terminée.",
+      ? "Migration i18n V5 terminée."
+      : "Simulation i18n V5 terminée.",
   );
   console.log(
     `Fichiers considérés : ${report.totals.filesConsidered}`,
