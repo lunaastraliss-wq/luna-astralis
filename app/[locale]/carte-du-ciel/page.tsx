@@ -9,7 +9,6 @@ import {
 } from "next/navigation";
 
 import AuthProvider from "@/components/AuthProvider";
-import ReportCheckoutForm from "@/components/ReportCheckoutForm";
 import SiteHeader from "@/components/SiteHeader";
 
 import {
@@ -21,7 +20,7 @@ import {
   REPORTS_TRANSLATIONS,
 } from "@/i18n/pages/carte-du-ciel/reports";
 
-import "../../carte-du-ciel/signature/page.css";
+import "../../carte-du-ciel/page.css";
 
 /*
 |--------------------------------------------------------------------------
@@ -31,9 +30,6 @@ import "../../carte-du-ciel/signature/page.css";
 
 const SITE_URL =
   "https://luna-astralis.app";
-
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-carte-du-ciel-signature.pdf";
 
 const REPORT_COVER_URL =
   "/reports/couverture-carte-du-ciel-signature.png";
@@ -60,7 +56,7 @@ type Props = {
 
 /*
 |--------------------------------------------------------------------------
-| Métadonnées
+| Métadonnées SEO
 |--------------------------------------------------------------------------
 */
 
@@ -204,6 +200,9 @@ export default function ReportsPage({
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel`;
 
+  const freeChartUrl =
+    `/${locale}/carte-du-ciel/gratuite`;
+
   const essentialUrl =
     `/${locale}/carte-du-ciel/essentielle`;
 
@@ -254,7 +253,7 @@ export default function ReportsPage({
             1,
 
           name:
-            "Rapport Essentielle",
+            "Essentielle",
 
           url:
             `${SITE_URL}${essentialUrl}`,
@@ -268,7 +267,7 @@ export default function ReportsPage({
             2,
 
           name:
-            "Rapport Premium",
+            "Premium",
 
           url:
             `${SITE_URL}${premiumUrl}`,
@@ -282,7 +281,7 @@ export default function ReportsPage({
             3,
 
           name:
-            "Rapport Signature",
+            "Signature",
 
           url:
             `${SITE_URL}${signatureUrl}`,
@@ -364,28 +363,17 @@ export default function ReportsPage({
                   </span>
                 </Link>
 
-                <a
-                  href={REPORT_PREVIEW_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={freeChartUrl}
                   className="signature-button signature-button-secondary"
                 >
-                  {text.hero.previewButton}
-                </a>
+                  {text.introduction.freeChartLink}
+                </Link>
               </div>
-
-              <a
-                href={REPORT_PREVIEW_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="signature-hero-preview-link"
-              >
-                {text.hero.previewLink}
-              </a>
 
               <div className="signature-hero-trust">
                 <span>
-                  ✓ 3 niveaux
+                  ✓ 3 rapports
                 </span>
 
                 <span>
@@ -483,7 +471,7 @@ export default function ReportsPage({
                 </p>
 
                 <Link
-                  href={`/${locale}/carte-du-ciel/gratuite`}
+                  href={freeChartUrl}
                   className="signature-text-link"
                 >
                   {text.introduction.freeChartLink}
@@ -551,9 +539,9 @@ export default function ReportsPage({
               </h2>
 
               <p>
-                Choisissez le niveau d’analyse qui correspond à
-                vos besoins et à la profondeur de lecture que
-                vous recherchez.
+                Trois niveaux d’analyse personnalisée pour
+                découvrir votre thème natal selon la profondeur
+                que vous recherchez.
               </p>
             </div>
 
@@ -568,14 +556,20 @@ export default function ReportsPage({
                 </h3>
 
                 <p>
-                  Un premier portrait clair de votre Soleil,
-                  votre Lune, votre Ascendant, vos planètes,
-                  vos éléments et vos modalités.
+                  Découvrez les fondations de votre thème :
+                  Soleil, Lune, Ascendant, planètes, éléments
+                  et modalités.
                 </p>
 
                 <p>
                   <strong>
-                    17 pages · 24,99 $ US
+                    17 pages
+                  </strong>
+                </p>
+
+                <p>
+                  <strong>
+                    24,99 $ US
                   </strong>
                 </p>
 
@@ -584,6 +578,7 @@ export default function ReportsPage({
                   className="signature-text-link"
                 >
                   Découvrir Essentielle
+
                   <span aria-hidden="true">
                     {" "}
                     →
@@ -601,14 +596,20 @@ export default function ReportsPage({
                 </h3>
 
                 <p>
-                  Une analyse approfondie de vos maisons,
-                  aspects, dominantes, relations, forces,
-                  défis et potentiel professionnel.
+                  Approfondissez votre thème avec vos maisons,
+                  vos aspects, vos dominantes, vos relations,
+                  vos forces et votre carrière.
                 </p>
 
                 <p>
                   <strong>
-                    40 pages · 49,99 $ US
+                    40 pages
+                  </strong>
+                </p>
+
+                <p>
+                  <strong>
+                    49,99 $ US
                   </strong>
                 </p>
 
@@ -617,6 +618,7 @@ export default function ReportsPage({
                   className="signature-text-link"
                 >
                   Découvrir Premium
+
                   <span aria-hidden="true">
                     {" "}
                     →
@@ -634,14 +636,20 @@ export default function ReportsPage({
                 </h3>
 
                 <p>
-                  L’analyse la plus complète, avec votre
-                  évolution personnelle et une synthèse
+                  Profitez de l’analyse la plus complète avec
+                  votre évolution personnelle et une synthèse
                   astrologique finale.
                 </p>
 
                 <p>
                   <strong>
-                    58 pages · 79,99 $ US
+                    58 pages
+                  </strong>
+                </p>
+
+                <p>
+                  <strong>
+                    79,99 $ US
                   </strong>
                 </p>
 
@@ -650,6 +658,7 @@ export default function ReportsPage({
                   className="signature-text-link"
                 >
                   Découvrir Signature
+
                   <span aria-hidden="true">
                     {" "}
                     →
@@ -778,7 +787,7 @@ export default function ReportsPage({
 
           {/*
           |--------------------------------------------------------------------------
-          | Comparaison
+          | Comparaison finale
           |--------------------------------------------------------------------------
           */}
 
@@ -797,10 +806,10 @@ export default function ReportsPage({
             </h2>
 
             <p>
-              Essentielle vous présente les fondations de votre
-              thème, Premium approfondit vos grandes dynamiques
-              et Signature offre l’expérience astrologique la
-              plus complète.
+              Essentielle présente les fondations de votre
+              thème, Premium approfondit vos principales
+              dynamiques et Signature vous offre l’analyse
+              astrologique la plus complète.
             </p>
 
             <div className="signature-comparison-actions">
