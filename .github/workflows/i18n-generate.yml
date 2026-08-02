@@ -1,0 +1,59 @@
+name: Migration automatique i18n
+
+on:
+  workflow_dispatch:
+    inputs:
+      category:
+        description: Catégorie à migrer
+        required: true
+        default: lib
+        type: choice
+        options:
+          - lib
+          - component
+          - pdf
+          - app
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le projet
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm install
+
+      - name: Générer l’audit et les dictionnaires
+        run: npm run i18n:prepare
+
+      - name: Migrer automatiquement la catégorie
+        run: npm run i18n:migrate:write -- --category=${{ inputs.category }}
+
+      - name: Vérifier la compilation
+        run: npx next build
+
+      - name: Enregistrer les changements dans GitHub
+        run: |
+          git config user.name "Luna Astralis i18n"
+          git config user.email "actions@github.com"
+
+          git add app components lib i18n scripts
+
+          if git diff --cached --quiet; then
+            echo "Aucun changement à enregistrer."
+            exit 0
+          fi
+
+          git commit -m "Migrate i18n category: ${{ inputs.category }}"
+          git push
