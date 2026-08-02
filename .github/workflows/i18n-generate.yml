@@ -21,6 +21,9 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
 
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
     steps:
       - name: Récupérer le projet
         uses: actions/checkout@v4
@@ -48,7 +51,7 @@ jobs:
           git config user.name "Luna Astralis i18n"
           git config user.email "actions@github.com"
 
-          git add app components lib i18n scripts
+          git add app components lib i18n scripts package.json
 
           if git diff --cached --quiet; then
             echo "Aucun changement à enregistrer."
