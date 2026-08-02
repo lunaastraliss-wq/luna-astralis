@@ -8,8 +8,7 @@ import ts from "typescript";
 |--------------------------------------------------------------------------
 */
 
-const PROJECT_ROOT =
-  process.cwd();
+const PROJECT_ROOT = process.cwd();
 
 const SCAN_DIRECTORIES = [
   "app",
@@ -23,27 +22,33 @@ const IGNORED_DIRECTORIES = new Set([
   ".git",
   "public",
   "i18n",
+  "messages",
+  "i18n-audit",
+  "i18n-generated",
   "dist",
   "build",
+  "coverage",
 ]);
 
-const OUTPUT_DIRECTORY =
-  path.join(
-    PROJECT_ROOT,
-    "i18n-audit",
-  );
+const OUTPUT_DIRECTORY = path.join(
+  PROJECT_ROOT,
+  "i18n-audit",
+);
 
-const JSON_OUTPUT =
-  path.join(
-    OUTPUT_DIRECTORY,
-    "hardcoded-texts.json",
-  );
+const JSON_OUTPUT = path.join(
+  OUTPUT_DIRECTORY,
+  "hardcoded-texts.json",
+);
 
-const MARKDOWN_OUTPUT =
-  path.join(
-    OUTPUT_DIRECTORY,
-    "hardcoded-texts.md",
-  );
+const MARKDOWN_OUTPUT = path.join(
+  OUTPUT_DIRECTORY,
+  "hardcoded-texts.md",
+);
+
+const SUMMARY_OUTPUT = path.join(
+  OUTPUT_DIRECTORY,
+  "summary.json",
+);
 
 /*
 |--------------------------------------------------------------------------
@@ -57,14 +62,87 @@ type TextKind =
   | "string"
   | "template";
 
+type AuditCategory =
+  | "app"
+  | "component"
+  | "pdf"
+  | "lib";
+
 type AuditEntry = {
   file: string;
   line: number;
   column: number;
   kind: TextKind;
+  category: AuditCategory;
   text: string;
   suggestedKey: string;
 };
+
+type AuditSummary = {
+  filesScanned: number;
+  filesWithText: number;
+  textsDetected: number;
+  categories: Record<
+    AuditCategory,
+    {
+      files: number;
+      texts: number;
+    }
+  >;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Détection des fichiers à ignorer
+|--------------------------------------------------------------------------
+*/
+
+function normalizePath(
+  value: string,
+): string {
+  return value.replace(/\\/g, "/");
+}
+
+function shouldIgnoreFile(
+  filePath: string,
+): boolean {
+  const relativeFile = normalizePath(
+    path.relative(
+      PROJECT_ROOT,
+      filePath,
+    ),
+  );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Routes déjà migrées
+  |--------------------------------------------------------------------------
+  */
+
+  if (
+    relativeFile.startsWith("app/[locale]/")
+  ) {
+    return true;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fichiers de configuration et scripts internes
+  |--------------------------------------------------------------------------
+  */
+
+  if (
+    relativeFile.startsWith("scripts/") ||
+    relativeFile.endsWith(".d.ts") ||
+    relativeFile.includes("/__tests__/") ||
+    relativeFile.includes("/test/") ||
+    relativeFile.includes("/tests/")
+  ) {
+    return true;
+  }
+
+  return false;
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -88,13 +166,18 @@ function containsLetters(
   );
 }
 
+function looksLikeCodeIdentifier(
+  value: string,
+): boolean {
+  return /^[A-Za-z_$][A-Za-z0-9_$.-]*$/.test(
+    value,
+  );
+}
+
 function shouldIgnoreText(
   value: string,
 ): boolean {
-  const text =
-    normalizeText(
-      value,
-    );
+  const text = normalizeText(value);
 
   if (!text) {
     return true;
@@ -116,7 +199,17 @@ function shouldIgnoreText(
     text.startsWith("../") ||
     text.startsWith("@/") ||
     text.startsWith("http://") ||
-    text.startsWith("https://")
+    text.startsWith("https://") ||
+    text.startsWith("mailto:") ||
+    text.startsWith("tel:")
+  ) {
+    return true;
+  }
+
+  if (
+    /\.(png|jpg|jpeg|webp|svg|pdf|css|scss|sass|tsx?|jsx?|json|woff2?|ttf|otf)$/i.test(
+      text,
+    )
   ) {
     return true;
   }
@@ -129,9 +222,9 @@ function shouldIgnoreText(
   }
 
   if (
-    /\.(png|jpg|jpeg|webp|svg|pdf|css|tsx?|jsx?)$/i.test(
-      text,
-    )
+    looksLikeCodeIdentifier(text) &&
+    !/[À-ÖØ-öø-ÿ]/.test(text) &&
+    !text.includes(" ")
   ) {
     return true;
   }
@@ -144,12 +237,115 @@ function shouldIgnoreText(
 
   if (
     text.includes("className") ||
-    text.includes("application/ld+json")
+    text.includes("application/ld+json") ||
+    text === "article" ||
+    text === "website" ||
+    text === "summary_large_image" ||
+    text === "Organization" ||
+    text === "Article" ||
+    text === "WebPage" ||
+    text === "FAQPage" ||
+    text === "Question" ||
+    text === "Answer" ||
+    text === "BreadcrumbList" ||
+    text === "ListItem"
   ) {
     return true;
   }
 
   return false;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Propriétés techniques à ignorer
+|--------------------------------------------------------------------------
+*/
+
+const IGNORED_PROPERTY_NAMES = new Set([
+  "className",
+  "id",
+  "key",
+  "href",
+  "src",
+  "url",
+  "canonical",
+  "type",
+  "rel",
+  "target",
+  "method",
+  "action",
+  "name",
+  "item",
+  "@context",
+  "@type",
+  "@id",
+  "contentType",
+  "encoding",
+  "format",
+  "variant",
+  "display",
+  "position",
+  "flexDirection",
+  "alignItems",
+  "justifyContent",
+  "fontFamily",
+  "fontWeight",
+  "fontStyle",
+  "textAlign",
+  "objectFit",
+  "overflow",
+]);
+
+function getPropertyName(
+  node: ts.PropertyAssignment,
+  sourceFile: ts.SourceFile,
+): string {
+  return node.name
+    .getText(sourceFile)
+    .replace(/^["']|["']$/g, "");
+}
+
+/*
+|--------------------------------------------------------------------------
+| Catégorie
+|--------------------------------------------------------------------------
+*/
+
+function getCategory(
+  relativeFile: string,
+): AuditCategory {
+  if (
+    relativeFile.startsWith("app/")
+  ) {
+    return "app";
+  }
+
+  if (
+    relativeFile.startsWith("lib/")
+  ) {
+    return "lib";
+  }
+
+  if (
+    relativeFile.startsWith("components/")
+  ) {
+    const normalized =
+      relativeFile.toLowerCase();
+
+    if (
+      normalized.includes("/pdf/") ||
+      normalized.includes("pdf") ||
+      normalized.includes("report") ||
+      normalized.includes("horoscope")
+    ) {
+      return "pdf";
+    }
+
+    return "component";
+  }
+
+  return "component";
 }
 
 /*
@@ -202,12 +398,11 @@ function createSuggestedKey(
       )
       .replace(
         /^\.|\.$/g,
-        "");
+        "",
+      );
 
   const textKey =
-    slugify(
-      text,
-    ) || "text";
+    slugify(text) || "text";
 
   return `${fileKey}.${textKey}`;
 }
@@ -221,30 +416,20 @@ function createSuggestedKey(
 function getFilesRecursively(
   directory: string,
 ): string[] {
-  if (
-    !fs.existsSync(
-      directory,
-    )
-  ) {
+  if (!fs.existsSync(directory)) {
     return [];
   }
 
-  const entries =
-    fs.readdirSync(
-      directory,
-      {
-        withFileTypes:
-          true,
-      },
-    );
+  const entries = fs.readdirSync(
+    directory,
+    {
+      withFileTypes: true,
+    },
+  );
 
-  const files:
-    string[] = [];
+  const files: string[] = [];
 
-  for (
-    const entry
-    of entries
-  ) {
+  for (const entry of entries) {
     if (
       IGNORED_DIRECTORIES.has(
         entry.name,
@@ -253,32 +438,25 @@ function getFilesRecursively(
       continue;
     }
 
-    const fullPath =
-      path.join(
-        directory,
-        entry.name,
-      );
+    const fullPath = path.join(
+      directory,
+      entry.name,
+    );
 
-    if (
-      entry.isDirectory()
-    ) {
+    if (entry.isDirectory()) {
       files.push(
-        ...getFilesRecursively(
-          fullPath,
-        ),
+        ...getFilesRecursively(fullPath),
       );
-
       continue;
     }
 
     if (
       /\.(tsx|ts|jsx|js)$/.test(
         entry.name,
-      )
+      ) &&
+      !shouldIgnoreFile(fullPath)
     ) {
-      files.push(
-        fullPath,
-      );
+      files.push(fullPath);
     }
   }
 
@@ -292,24 +470,17 @@ function getFilesRecursively(
 */
 
 function getPosition(
-  sourceFile:
-    ts.SourceFile,
-  node:
-    ts.Node,
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
 ) {
   const position =
     sourceFile.getLineAndCharacterOfPosition(
-      node.getStart(
-        sourceFile,
-      ),
+      node.getStart(sourceFile),
     );
 
   return {
-    line:
-      position.line + 1,
-
-    column:
-      position.character + 1,
+    line: position.line + 1,
+    column: position.character + 1,
   };
 }
 
@@ -320,63 +491,38 @@ function getPosition(
 */
 
 function addEntry(
-  results:
-    AuditEntry[],
-  sourceFile:
-    ts.SourceFile,
-  filePath:
-    string,
-  node:
-    ts.Node,
-  kind:
-    TextKind,
-  rawText:
-    string,
+  results: AuditEntry[],
+  sourceFile: ts.SourceFile,
+  filePath: string,
+  node: ts.Node,
+  kind: TextKind,
+  rawText: string,
 ) {
-  const text =
-    normalizeText(
-      rawText,
-    );
+  const text = normalizeText(rawText);
 
-  if (
-    shouldIgnoreText(
-      text,
-    )
-  ) {
+  if (shouldIgnoreText(text)) {
     return;
   }
 
-  const relativeFile =
-    path
-      .relative(
-        PROJECT_ROOT,
-        filePath,
-      )
-      .replace(
-        /\\/g,
-        "/",
-      );
+  const relativeFile = normalizePath(
+    path.relative(
+      PROJECT_ROOT,
+      filePath,
+    ),
+  );
 
-  const position =
-    getPosition(
-      sourceFile,
-      node,
-    );
+  const position = getPosition(
+    sourceFile,
+    node,
+  );
 
   results.push({
-    file:
-      relativeFile,
-
-    line:
-      position.line,
-
-    column:
-      position.column,
-
+    file: relativeFile,
+    line: position.line,
+    column: position.column,
     kind,
-
+    category: getCategory(relativeFile),
     text,
-
     suggestedKey:
       createSuggestedKey(
         relativeFile,
@@ -406,67 +552,49 @@ function scanFile(
       sourceText,
       ts.ScriptTarget.Latest,
       true,
-      filePath.endsWith(
-        ".tsx",
-      ) ||
-      filePath.endsWith(
-        ".jsx",
-      )
+      filePath.endsWith(".tsx") ||
+      filePath.endsWith(".jsx")
         ? ts.ScriptKind.TSX
         : ts.ScriptKind.TS,
     );
 
-  const results:
-    AuditEntry[] = [];
+  const results: AuditEntry[] = [];
 
   function visit(
     node: ts.Node,
   ) {
     /*
     |--------------------------------------------------------------------------
-    | Texte JSX :
-    | <h1>Bonjour</h1>
+    | Texte JSX
     |--------------------------------------------------------------------------
     */
 
-    if (
-      ts.isJsxText(
-        node,
-      )
-    ) {
+    if (ts.isJsxText(node)) {
       addEntry(
         results,
         sourceFile,
         filePath,
         node,
         "jsx-text",
-        node.getText(
-          sourceFile,
-        ),
+        node.getText(sourceFile),
       );
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Attribut JSX :
-    | aria-label="Navigation astrologique"
-    | placeholder="Votre prénom"
+    | Attributs JSX traduisibles
     |--------------------------------------------------------------------------
     */
 
     if (
-      ts.isJsxAttribute(
-        node,
-      ) &&
+      ts.isJsxAttribute(node) &&
       node.initializer &&
       ts.isStringLiteral(
         node.initializer,
       )
     ) {
       const attributeName =
-        node.name.getText(
-          sourceFile,
-        );
+        node.name.getText(sourceFile);
 
       const translatableAttributes =
         new Set([
@@ -495,16 +623,12 @@ function scanFile(
 
     /*
     |--------------------------------------------------------------------------
-    | Chaînes dans les objets et tableaux :
-    | title: "Horoscope du jour"
-    | description: "Découvrez..."
+    | Chaînes dans les objets
     |--------------------------------------------------------------------------
     */
 
     if (
-      ts.isPropertyAssignment(
-        node,
-      ) &&
+      ts.isPropertyAssignment(node) &&
       (
         ts.isStringLiteral(
           node.initializer,
@@ -514,36 +638,42 @@ function scanFile(
         )
       )
     ) {
-      addEntry(
-        results,
-        sourceFile,
-        filePath,
-        node.initializer,
-        "string",
-        node.initializer.text,
-      );
+      const propertyName =
+        getPropertyName(
+          node,
+          sourceFile,
+        );
+
+      if (
+        !IGNORED_PROPERTY_NAMES.has(
+          propertyName,
+        )
+      ) {
+        addEntry(
+          results,
+          sourceFile,
+          filePath,
+          node.initializer,
+          "string",
+          node.initializer.text,
+        );
+      }
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Éléments de tableau :
-    | ["Amour", "Travail", "Finances"]
+    | Éléments de tableau
     |--------------------------------------------------------------------------
     */
 
     if (
-      ts.isArrayLiteralExpression(
-        node,
-      )
+      ts.isArrayLiteralExpression(node)
     ) {
       for (
-        const element
-        of node.elements
+        const element of node.elements
       ) {
         if (
-          ts.isStringLiteral(
-            element,
-          ) ||
+          ts.isStringLiteral(element) ||
           ts.isNoSubstitutionTemplateLiteral(
             element,
           )
@@ -562,15 +692,12 @@ function scanFile(
 
     /*
     |--------------------------------------------------------------------------
-    | Texte dans une expression JSX :
-    | <p>{"Paiement unique"}</p>
+    | Texte dans une expression JSX
     |--------------------------------------------------------------------------
     */
 
     if (
-      ts.isJsxExpression(
-        node,
-      ) &&
+      ts.isJsxExpression(node) &&
       node.expression &&
       (
         ts.isStringLiteral(
@@ -597,9 +724,7 @@ function scanFile(
     );
   }
 
-  visit(
-    sourceFile,
-  );
+  visit(sourceFile);
 
   return results;
 }
@@ -611,41 +736,109 @@ function scanFile(
 */
 
 function removeDuplicates(
-  entries:
-    AuditEntry[],
+  entries: AuditEntry[],
 ): AuditEntry[] {
-  const seen =
-    new Set<string>();
+  const seen = new Set<string>();
 
   return entries.filter(
-    (
-      entry,
-    ) => {
-      const id =
-        [
-          entry.file,
-          entry.line,
-          entry.column,
-          entry.text,
-        ].join(
-          "::",
-        );
+    (entry) => {
+      const id = [
+        entry.file,
+        entry.line,
+        entry.column,
+        entry.text,
+      ].join("::");
 
-      if (
-        seen.has(
-          id,
-        )
-      ) {
+      if (seen.has(id)) {
         return false;
       }
 
-      seen.add(
-        id,
-      );
-
+      seen.add(id);
       return true;
     },
   );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Résumé
+|--------------------------------------------------------------------------
+*/
+
+function createSummary(
+  files: string[],
+  entries: AuditEntry[],
+): AuditSummary {
+  const categories: AuditSummary["categories"] = {
+    app: {
+      files: 0,
+      texts: 0,
+    },
+    component: {
+      files: 0,
+      texts: 0,
+    },
+    pdf: {
+      files: 0,
+      texts: 0,
+    },
+    lib: {
+      files: 0,
+      texts: 0,
+    },
+  };
+
+  const filesByCategory =
+    new Map<
+      AuditCategory,
+      Set<string>
+    >();
+
+  for (
+    const category of [
+      "app",
+      "component",
+      "pdf",
+      "lib",
+    ] as AuditCategory[]
+  ) {
+    filesByCategory.set(
+      category,
+      new Set<string>(),
+    );
+  }
+
+  for (const entry of entries) {
+    categories[entry.category].texts += 1;
+
+    filesByCategory
+      .get(entry.category)
+      ?.add(entry.file);
+  }
+
+  for (
+    const category of [
+      "app",
+      "component",
+      "pdf",
+      "lib",
+    ] as AuditCategory[]
+  ) {
+    categories[category].files =
+      filesByCategory.get(category)?.size ?? 0;
+  }
+
+  return {
+    filesScanned: files.length,
+    filesWithText:
+      new Set(
+        entries.map(
+          (entry) => entry.file,
+        ),
+      ).size,
+    textsDetected: entries.length,
+    categories,
+  };
 }
 
 /*
@@ -655,8 +848,8 @@ function removeDuplicates(
 */
 
 function createMarkdownReport(
-  entries:
-    AuditEntry[],
+  entries: AuditEntry[],
+  summary: AuditSummary,
 ): string {
   const grouped =
     new Map<
@@ -664,31 +857,29 @@ function createMarkdownReport(
       AuditEntry[]
     >();
 
-  for (
-    const entry
-    of entries
-  ) {
+  for (const entry of entries) {
     const current =
-      grouped.get(
-        entry.file,
-      ) ?? [];
+      grouped.get(entry.file) ?? [];
 
-    current.push(
-      entry,
-    );
-
-    grouped.set(
-      entry.file,
-      current,
-    );
+    current.push(entry);
+    grouped.set(entry.file, current);
   }
 
   const lines = [
     "# Audit i18n Luna Astralis",
     "",
-    `Fichiers contenant du texte : ${grouped.size}`,
+    "## Résumé",
     "",
-    `Textes détectés : ${entries.length}`,
+    `- Fichiers analysés : ${summary.filesScanned}`,
+    `- Fichiers contenant du texte : ${summary.filesWithText}`,
+    `- Textes détectés : ${summary.textsDetected}`,
+    "",
+    "## Catégories",
+    "",
+    `- Pages restantes : ${summary.categories.app.files} fichiers / ${summary.categories.app.texts} textes`,
+    `- Composants : ${summary.categories.component.files} fichiers / ${summary.categories.component.texts} textes`,
+    `- PDF et rapports : ${summary.categories.pdf.files} fichiers / ${summary.categories.pdf.texts} textes`,
+    `- Lib et données : ${summary.categories.lib.files} fichiers / ${summary.categories.lib.texts} textes`,
     "",
   ];
 
@@ -696,8 +887,7 @@ function createMarkdownReport(
     const [
       file,
       fileEntries,
-    ]
-    of grouped
+    ] of grouped
   ) {
     lines.push(
       `## ${file}`,
@@ -705,11 +895,10 @@ function createMarkdownReport(
     );
 
     for (
-      const entry
-      of fileEntries
+      const entry of fileEntries
     ) {
       lines.push(
-        `- Ligne ${entry.line} — \`${entry.kind}\``,
+        `- Ligne ${entry.line} — \`${entry.kind}\` — \`${entry.category}\``,
         `  - Texte : ${JSON.stringify(entry.text)}`,
         `  - Clé suggérée : \`${entry.suggestedKey}\``,
         "",
@@ -717,9 +906,7 @@ function createMarkdownReport(
     }
   }
 
-  return lines.join(
-    "\n",
-  );
+  return lines.join("\n");
 }
 
 /*
@@ -731,9 +918,7 @@ function createMarkdownReport(
 function main() {
   const files =
     SCAN_DIRECTORIES.flatMap(
-      (
-        directory,
-      ) =>
+      (directory) =>
         getFilesRecursively(
           path.join(
             PROJECT_ROOT,
@@ -744,14 +929,20 @@ function main() {
 
   const entries =
     removeDuplicates(
-      files.flatMap(
-        scanFile,
-      ),
+      files.flatMap(scanFile),
     ).sort(
-      (
-        first,
-        second,
-      ) => {
+      (first, second) => {
+        const categoryComparison =
+          first.category.localeCompare(
+            second.category,
+          );
+
+        if (
+          categoryComparison !== 0
+        ) {
+          return categoryComparison;
+        }
+
         const fileComparison =
           first.file.localeCompare(
             second.file,
@@ -763,18 +954,20 @@ function main() {
           return fileComparison;
         }
 
-        return (
-          first.line -
-          second.line
-        );
+        return first.line - second.line;
       },
+    );
+
+  const summary =
+    createSummary(
+      files,
+      entries,
     );
 
   fs.mkdirSync(
     OUTPUT_DIRECTORY,
     {
-      recursive:
-        true,
+      recursive: true,
     },
   );
 
@@ -789,40 +982,69 @@ function main() {
   );
 
   fs.writeFileSync(
+    SUMMARY_OUTPUT,
+    JSON.stringify(
+      summary,
+      null,
+      2,
+    ),
+    "utf8",
+  );
+
+  fs.writeFileSync(
     MARKDOWN_OUTPUT,
     createMarkdownReport(
       entries,
+      summary,
     ),
     "utf8",
   );
 
   console.log("");
   console.log(
-    "Audit i18n terminé.",
+    "Audit i18n intelligent terminé.",
   );
-
   console.log(
-    `Fichiers analysés : ${files.length}`,
+    `Fichiers analysés : ${summary.filesScanned}`,
   );
-
   console.log(
-    `Textes détectés : ${entries.length}`,
+    `Fichiers contenant du texte : ${summary.filesWithText}`,
   );
-
+  console.log(
+    `Textes détectés : ${summary.textsDetected}`,
+  );
+  console.log("");
+  console.log(
+    `Pages restantes : ${summary.categories.app.files} fichiers / ${summary.categories.app.texts} textes`,
+  );
+  console.log(
+    `Composants : ${summary.categories.component.files} fichiers / ${summary.categories.component.texts} textes`,
+  );
+  console.log(
+    `PDF et rapports : ${summary.categories.pdf.files} fichiers / ${summary.categories.pdf.texts} textes`,
+  );
+  console.log(
+    `Lib et données : ${summary.categories.lib.files} fichiers / ${summary.categories.lib.texts} textes`,
+  );
+  console.log("");
   console.log(
     `Rapport JSON : ${path.relative(
       PROJECT_ROOT,
       JSON_OUTPUT,
     )}`,
   );
-
+  console.log(
+    `Résumé JSON : ${path.relative(
+      PROJECT_ROOT,
+      SUMMARY_OUTPUT,
+    )}`,
+  );
   console.log(
     `Rapport Markdown : ${path.relative(
       PROJECT_ROOT,
       MARKDOWN_OUTPUT,
     )}`,
   );
-
   console.log("");
 }
 
