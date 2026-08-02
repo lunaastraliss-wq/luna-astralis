@@ -21,7 +21,7 @@ import {
   ESSENTIAL_TRANSLATIONS,
 } from "@/i18n/pages/carte-du-ciel/essentielle";
 
-import "../../../../carte-du-ciel/essentielle/page.css";
+import "../../../carte-du-ciel/essentielle/page.css";
 
 /*
 |--------------------------------------------------------------------------
