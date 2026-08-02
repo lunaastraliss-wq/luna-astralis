@@ -1,17 +1,27 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-migrate V3
+| i18n-migrate V4
 |--------------------------------------------------------------------------
 |
-| Migration automatique prudente pour Luna Astralis.
+| Migration modulaire pour Luna Astralis.
 |
-| - Lit i18n-generated/migration-plan.json
-| - Sauvegarde les fichiers avant modification
-| - Remplace les textes simples par un dictionnaire français généré
-| - Ajoute automatiquement l’import du dictionnaire
-| - Ignore les cas ambigus au lieu de casser le fichier
-| - Mode simulation par défaut
-| - Utiliser --write pour appliquer les changements
+| V4 sépare les transformations selon la catégorie :
+| - lib
+| - component
+| - pdf
+| - app
+|
+| Sécurité :
+| - simulation par défaut
+| - sauvegarde avant écriture
+| - validation syntaxique avant modification
+| - rapport détaillé
+| - les cas ambigus sont ignorés
+|
+| Exemples :
+| npm run i18n:migrate
+| npm run i18n:migrate -- --category=lib --limit=5
+| npm run i18n:migrate:write -- --category=component --limit=10
 |
 */
 
@@ -61,11 +71,17 @@ const LIMIT_ARGUMENT =
     argument.startsWith("--limit="),
   );
 
-const FILE_LIMIT =
+const parsedLimit =
   LIMIT_ARGUMENT
     ? Number(
         LIMIT_ARGUMENT.split("=")[1],
       )
+    : Number.POSITIVE_INFINITY;
+
+const FILE_LIMIT =
+  Number.isFinite(parsedLimit) &&
+  parsedLimit >= 0
+    ? parsedLimit
     : Number.POSITIVE_INFINITY;
 
 /*
@@ -136,6 +152,19 @@ type Replacement = {
   line: number;
 };
 
+type TransformContext = {
+  group: FileGroup;
+  absoluteSource: string;
+  originalSource: string;
+  sourceFile: ts.SourceFile;
+};
+
+type TransformResult = {
+  replacements: Replacement[];
+  skippedReasons: string[];
+  importRequired: boolean;
+};
+
 type FileResult = {
   sourceFile: string;
   category: AuditCategory;
@@ -166,6 +195,10 @@ type MigrationReport = {
   };
   files: FileResult[];
 };
+
+type CategoryTransformer = (
+  context: TransformContext,
+) => TransformResult;
 
 /*
 |--------------------------------------------------------------------------
@@ -224,16 +257,73 @@ function createTimestamp(): string {
     .replace(/[:.]/g, "-");
 }
 
-function escapeForJsonAccess(
+function escapeKey(
   key: string,
 ): string {
   return JSON.stringify(key);
 }
 
-function createDictionaryAccess(
+function dictionaryAccess(
   key: string,
 ): string {
-  return `__i18n[${escapeForJsonAccess(key)}]`;
+  return `__i18n[${escapeKey(key)}]`;
+}
+
+function getScriptKind(
+  filePath: string,
+): ts.ScriptKind {
+  if (filePath.endsWith(".tsx")) {
+    return ts.ScriptKind.TSX;
+  }
+
+  if (filePath.endsWith(".jsx")) {
+    return ts.ScriptKind.JSX;
+  }
+
+  if (filePath.endsWith(".js")) {
+    return ts.ScriptKind.JS;
+  }
+
+  return ts.ScriptKind.TS;
+}
+
+function normalizeComparableText(
+  value: string,
+): string {
+  return value
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getNodeLine(
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+): number {
+  return (
+    sourceFile
+      .getLineAndCharacterOfPosition(
+        node.getStart(sourceFile),
+      )
+      .line + 1
+  );
+}
+
+function entryMatchesNode(
+  entry: GeneratedEntry,
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+  rawText: string,
+): boolean {
+  return (
+    getNodeLine(
+      sourceFile,
+      node,
+    ) === entry.line &&
+    normalizeComparableText(rawText) ===
+      normalizeComparableText(
+        entry.text,
+      )
+  );
 }
 
 function createRelativeImportPath(
@@ -260,16 +350,12 @@ function createRelativeImportPath(
         sourceDirectory,
         absoluteDictionary,
       ),
+    ).replace(
+      /\.json$/i,
+      "",
     );
 
-  relative = relative.replace(
-    /\.json$/i,
-    "",
-  );
-
-  if (
-    !relative.startsWith(".")
-  ) {
+  if (!relative.startsWith(".")) {
     relative = `./${relative}`;
   }
 
@@ -282,7 +368,7 @@ function addDictionaryImport(
 ): string {
   if (
     sourceText.includes(
-      'import __i18n from',
+      "import __i18n from",
     )
   ) {
     return sourceText;
@@ -291,16 +377,20 @@ function addDictionaryImport(
   const importLine =
     `import __i18n from ${JSON.stringify(importPath)};\n`;
 
-  const shebangMatch =
-    sourceText.match(/^#!.*\n/);
+  const directiveMatch =
+    sourceText.match(
+      /^(["'])use (client|server)\1;\s*/,
+    );
 
-  if (shebangMatch) {
+  if (directiveMatch) {
+    const position =
+      directiveMatch[0].length;
+
     return (
-      shebangMatch[0] +
+      sourceText.slice(0, position) +
+      "\n" +
       importLine +
-      sourceText.slice(
-        shebangMatch[0].length,
-      )
+      sourceText.slice(position)
     );
   }
 
@@ -334,295 +424,40 @@ function applyReplacements(
   return output;
 }
 
-/*
-|--------------------------------------------------------------------------
-| Chargement du plan
-|--------------------------------------------------------------------------
-*/
-
-function loadPlan(): MigrationPlan {
-  if (!fs.existsSync(PLAN_FILE)) {
-    throw new Error(
-      [
-        "Le plan de migration est introuvable.",
-        `Fichier attendu : ${path.relative(
-          PROJECT_ROOT,
-          PLAN_FILE,
-        )}`,
-        "Exécute d’abord : npm run i18n:prepare",
-      ].join("\n"),
-    );
-  }
-
-  return readJson<MigrationPlan>(
-    PLAN_FILE,
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| Recherche AST
-|--------------------------------------------------------------------------
-*/
-
-function getScriptKind(
-  filePath: string,
-): ts.ScriptKind {
-  if (
-    filePath.endsWith(".tsx")
-  ) {
-    return ts.ScriptKind.TSX;
-  }
-
-  if (
-    filePath.endsWith(".jsx")
-  ) {
-    return ts.ScriptKind.JSX;
-  }
-
-  if (
-    filePath.endsWith(".js")
-  ) {
-    return ts.ScriptKind.JS;
-  }
-
-  return ts.ScriptKind.TS;
-}
-
-function getNodeLine(
-  sourceFile: ts.SourceFile,
-  node: ts.Node,
-): number {
-  return (
-    sourceFile
-      .getLineAndCharacterOfPosition(
-        node.getStart(sourceFile),
-      )
-      .line + 1
-  );
-}
-
-function normalizeComparableText(
-  value: string,
-): string {
-  return value
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function entryMatchesNode(
-  entry: GeneratedEntry,
-  sourceFile: ts.SourceFile,
-  node: ts.Node,
-  rawText: string,
-): boolean {
-  return (
-    getNodeLine(
-      sourceFile,
-      node,
-    ) === entry.line &&
-    normalizeComparableText(rawText) ===
-      normalizeComparableText(
-        entry.text,
-      )
-  );
-}
-
-function buildReplacementForNode(
-  entry: GeneratedEntry,
-  sourceFile: ts.SourceFile,
-  node: ts.Node,
-): Replacement | null {
-  const access =
-    createDictionaryAccess(
-      entry.key,
-    );
-
-  if (
-    entry.kind === "jsx-text" &&
-    ts.isJsxText(node)
-  ) {
-    return {
-      start: node.getStart(sourceFile),
-      end: node.getEnd(),
-      value: `{${access}}`,
-      key: entry.key,
-      original: entry.text,
-      kind: entry.kind,
-      line: entry.line,
-    };
-  }
-
-  if (
-    entry.kind === "jsx-attribute" &&
-    ts.isStringLiteral(node)
-  ) {
-    return {
-      start: node.getStart(sourceFile),
-      end: node.getEnd(),
-      value: `{${access}}`,
-      key: entry.key,
-      original: entry.text,
-      kind: entry.kind,
-      line: entry.line,
-    };
-  }
-
-  if (
-    entry.kind === "string" &&
-    (
-      ts.isStringLiteral(node) ||
-      ts.isNoSubstitutionTemplateLiteral(
-        node,
-      )
-    )
-  ) {
-    return {
-      start: node.getStart(sourceFile),
-      end: node.getEnd(),
-      value: access,
-      key: entry.key,
-      original: entry.text,
-      kind: entry.kind,
-      line: entry.line,
-    };
-  }
-
-  return null;
-}
-
-function findReplacement(
-  entry: GeneratedEntry,
-  sourceFile: ts.SourceFile,
-): Replacement | null {
-  let found: Replacement | null =
-    null;
-
-  function visit(
-    node: ts.Node,
-  ): void {
-    if (found) {
-      return;
-    }
-
-    if (
-      entry.kind === "jsx-text" &&
-      ts.isJsxText(node)
-    ) {
-      const rawText =
-        node.getText(sourceFile);
-
-      if (
-        entryMatchesNode(
-          entry,
-          sourceFile,
-          node,
-          rawText,
-        )
-      ) {
-        found =
-          buildReplacementForNode(
-            entry,
-            sourceFile,
-            node,
-          );
-        return;
-      }
-    }
-
-    if (
-      entry.kind === "jsx-attribute" &&
-      ts.isJsxAttribute(node) &&
-      node.initializer &&
-      ts.isStringLiteral(
-        node.initializer,
-      )
-    ) {
-      if (
-        entryMatchesNode(
-          entry,
-          sourceFile,
-          node,
-          node.initializer.text,
-        )
-      ) {
-        found =
-          buildReplacementForNode(
-            entry,
-            sourceFile,
-            node.initializer,
-          );
-        return;
-      }
-    }
-
-    if (
-      entry.kind === "string" &&
-      (
-        ts.isStringLiteral(node) ||
-        ts.isNoSubstitutionTemplateLiteral(
-          node,
-        )
-      )
-    ) {
-      if (
-        entryMatchesNode(
-          entry,
-          sourceFile,
-          node,
-          node.text,
-        )
-      ) {
-        found =
-          buildReplacementForNode(
-            entry,
-            sourceFile,
-            node,
-          );
-        return;
-      }
-    }
-
-    ts.forEachChild(
-      node,
-      visit,
-    );
-  }
-
-  visit(sourceFile);
-
-  return found;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Validation simple
-|--------------------------------------------------------------------------
-*/
-
-function hasParseErrors(
+function hasSyntaxErrors(
   filePath: string,
   sourceText: string,
 ): boolean {
-  const parsed =
-    ts.createSourceFile(
-      filePath,
+  const result =
+    ts.transpileModule(
       sourceText,
-      ts.ScriptTarget.Latest,
-      true,
-      getScriptKind(filePath),
+      {
+        fileName: filePath,
+        reportDiagnostics: true,
+        compilerOptions: {
+          target:
+            ts.ScriptTarget.ES2022,
+          module:
+            ts.ModuleKind.ESNext,
+          moduleResolution:
+            ts.ModuleResolutionKind.NodeJs,
+          jsx:
+            ts.JsxEmit.Preserve,
+          allowJs: true,
+          resolveJsonModule: true,
+          esModuleInterop: true,
+        },
+      },
     );
 
   return (
-    parsed.parseDiagnostics.length > 0
+    result.diagnostics?.some(
+      (diagnostic) =>
+        diagnostic.category ===
+        ts.DiagnosticCategory.Error,
+    ) ?? false
   );
 }
-
-/*
-|--------------------------------------------------------------------------
-| Sauvegarde
-|--------------------------------------------------------------------------
-*/
 
 function backupFile(
   sourceFile: string,
@@ -651,6 +486,332 @@ function backupFile(
 
 /*
 |--------------------------------------------------------------------------
+| Chargement du plan
+|--------------------------------------------------------------------------
+*/
+
+function loadPlan(): MigrationPlan {
+  if (!fs.existsSync(PLAN_FILE)) {
+    throw new Error(
+      [
+        "Le plan de migration est introuvable.",
+        `Fichier attendu : ${path.relative(
+          PROJECT_ROOT,
+          PLAN_FILE,
+        )}`,
+        "Exécute d’abord : npm run i18n:prepare",
+      ].join("\n"),
+    );
+  }
+
+  return readJson<MigrationPlan>(
+    PLAN_FILE,
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Recherche des nœuds
+|--------------------------------------------------------------------------
+*/
+
+function buildReplacement(
+  entry: GeneratedEntry,
+  sourceFile: ts.SourceFile,
+  node: ts.Node,
+): Replacement | null {
+  const access =
+    dictionaryAccess(
+      entry.key,
+    );
+
+  if (
+    entry.kind === "jsx-text" &&
+    ts.isJsxText(node)
+  ) {
+    return {
+      start:
+        node.getStart(sourceFile),
+      end:
+        node.getEnd(),
+      value:
+        `{${access}}`,
+      key:
+        entry.key,
+      original:
+        entry.text,
+      kind:
+        entry.kind,
+      line:
+        entry.line,
+    };
+  }
+
+  if (
+    entry.kind === "jsx-attribute" &&
+    ts.isStringLiteral(node)
+  ) {
+    return {
+      start:
+        node.getStart(sourceFile),
+      end:
+        node.getEnd(),
+      value:
+        `{${access}}`,
+      key:
+        entry.key,
+      original:
+        entry.text,
+      kind:
+        entry.kind,
+      line:
+        entry.line,
+    };
+  }
+
+  if (
+    entry.kind === "string" &&
+    (
+      ts.isStringLiteral(node) ||
+      ts.isNoSubstitutionTemplateLiteral(
+        node,
+      )
+    )
+  ) {
+    return {
+      start:
+        node.getStart(sourceFile),
+      end:
+        node.getEnd(),
+      value:
+        access,
+      key:
+        entry.key,
+      original:
+        entry.text,
+      kind:
+        entry.kind,
+      line:
+        entry.line,
+    };
+  }
+
+  return null;
+}
+
+function findReplacement(
+  entry: GeneratedEntry,
+  sourceFile: ts.SourceFile,
+): Replacement | null {
+  let found:
+    Replacement | null = null;
+
+  function visit(
+    node: ts.Node,
+  ): void {
+    if (found) {
+      return;
+    }
+
+    if (
+      entry.kind === "jsx-text" &&
+      ts.isJsxText(node) &&
+      entryMatchesNode(
+        entry,
+        sourceFile,
+        node,
+        node.getText(sourceFile),
+      )
+    ) {
+      found =
+        buildReplacement(
+          entry,
+          sourceFile,
+          node,
+        );
+      return;
+    }
+
+    if (
+      entry.kind === "jsx-attribute" &&
+      ts.isJsxAttribute(node) &&
+      node.initializer &&
+      ts.isStringLiteral(
+        node.initializer,
+      ) &&
+      entryMatchesNode(
+        entry,
+        sourceFile,
+        node,
+        node.initializer.text,
+      )
+    ) {
+      found =
+        buildReplacement(
+          entry,
+          sourceFile,
+          node.initializer,
+        );
+      return;
+    }
+
+    if (
+      entry.kind === "string" &&
+      (
+        ts.isStringLiteral(node) ||
+        ts.isNoSubstitutionTemplateLiteral(
+          node,
+        )
+      ) &&
+      entryMatchesNode(
+        entry,
+        sourceFile,
+        node,
+        node.text,
+      )
+    ) {
+      found =
+        buildReplacement(
+          entry,
+          sourceFile,
+          node,
+        );
+      return;
+    }
+
+    ts.forEachChild(
+      node,
+      visit,
+    );
+  }
+
+  visit(sourceFile);
+
+  return found;
+}
+
+function collectSafeReplacements(
+  context: TransformContext,
+  allowedKinds: Set<TextKind>,
+): TransformResult {
+  const replacements:
+    Replacement[] = [];
+
+  const skippedReasons:
+    string[] = [];
+
+  for (
+    const entry of
+      context.group.entries
+  ) {
+    if (
+      !allowedKinds.has(
+        entry.kind,
+      )
+    ) {
+      skippedReasons.push(
+        `Type ignoré (${entry.kind}) à la ligne ${entry.line}.`,
+      );
+      continue;
+    }
+
+    const replacement =
+      findReplacement(
+        entry,
+        context.sourceFile,
+      );
+
+    if (replacement) {
+      replacements.push(
+        replacement,
+      );
+    } else {
+      skippedReasons.push(
+        `Texte non retrouvé à la ligne ${entry.line} : ${entry.text.slice(
+          0,
+          100,
+        )}`,
+      );
+    }
+  }
+
+  return {
+    replacements,
+    skippedReasons,
+    importRequired:
+      replacements.length > 0,
+  };
+}
+
+/*
+|--------------------------------------------------------------------------
+| Transformateurs par catégorie
+|--------------------------------------------------------------------------
+*/
+
+const transformLib:
+  CategoryTransformer =
+  (context) =>
+    collectSafeReplacements(
+      context,
+      new Set<TextKind>([
+        "string",
+      ]),
+    );
+
+const transformComponent:
+  CategoryTransformer =
+  (context) =>
+    collectSafeReplacements(
+      context,
+      new Set<TextKind>([
+        "jsx-text",
+        "jsx-attribute",
+        "string",
+      ]),
+    );
+
+const transformPdf:
+  CategoryTransformer =
+  (context) =>
+    collectSafeReplacements(
+      context,
+      new Set<TextKind>([
+        "jsx-text",
+        "jsx-attribute",
+        "string",
+      ]),
+    );
+
+const transformApp:
+  CategoryTransformer =
+  (context) =>
+    collectSafeReplacements(
+      context,
+      new Set<TextKind>([
+        "jsx-text",
+        "jsx-attribute",
+        "string",
+      ]),
+    );
+
+const TRANSFORMERS:
+  Record<
+    AuditCategory,
+    CategoryTransformer
+  > = {
+    lib:
+      transformLib,
+    component:
+      transformComponent,
+    pdf:
+      transformPdf,
+    app:
+      transformApp,
+  };
+
+/*
+|--------------------------------------------------------------------------
 | Migration d’un fichier
 |--------------------------------------------------------------------------
 */
@@ -665,8 +826,6 @@ function migrateFile(
       group.sourceFile,
     );
 
-  const reasons: string[] = [];
-
   if (
     !fs.existsSync(
       absoluteSource,
@@ -679,8 +838,10 @@ function migrateFile(
         group.category,
       dictionaryFile:
         group.outputFile,
-      status: "skipped",
-      replacementsApplied: 0,
+      status:
+        "skipped",
+      replacementsApplied:
+        0,
       replacementsSkipped:
         group.entries.length,
       reasons: [
@@ -706,34 +867,25 @@ function migrateFile(
       ),
     );
 
-  const replacements: Replacement[] =
-    [];
+  const context:
+    TransformContext = {
+      group,
+      absoluteSource,
+      originalSource,
+      sourceFile,
+    };
 
-  for (
-    const entry of group.entries
-  ) {
-    const replacement =
-      findReplacement(
-        entry,
-        sourceFile,
-      );
+  const transformer =
+    TRANSFORMERS[
+      group.category
+    ];
 
-    if (replacement) {
-      replacements.push(
-        replacement,
-      );
-    } else {
-      reasons.push(
-        `Texte ignoré à la ligne ${entry.line} : ${entry.text.slice(
-          0,
-          100,
-        )}`,
-      );
-    }
-  }
+  const transformed =
+    transformer(context);
 
   if (
-    replacements.length === 0
+    transformed.replacements.length ===
+    0
   ) {
     return {
       sourceFile:
@@ -742,13 +894,15 @@ function migrateFile(
         group.category,
       dictionaryFile:
         group.outputFile,
-      status: "skipped",
-      replacementsApplied: 0,
+      status:
+        "skipped",
+      replacementsApplied:
+        0,
       replacementsSkipped:
         group.entries.length,
       reasons:
-        reasons.length > 0
-          ? reasons
+        transformed.skippedReasons.length
+          ? transformed.skippedReasons
           : [
               "Aucun remplacement sûr trouvé.",
             ],
@@ -758,23 +912,27 @@ function migrateFile(
   let migratedSource =
     applyReplacements(
       originalSource,
-      replacements,
-    );
-
-  const importPath =
-    createRelativeImportPath(
-      group.sourceFile,
-      group.outputFile,
-    );
-
-  migratedSource =
-    addDictionaryImport(
-      migratedSource,
-      importPath,
+      transformed.replacements,
     );
 
   if (
-    hasParseErrors(
+    transformed.importRequired
+  ) {
+    const importPath =
+      createRelativeImportPath(
+        group.sourceFile,
+        group.outputFile,
+      );
+
+    migratedSource =
+      addDictionaryImport(
+        migratedSource,
+        importPath,
+      );
+  }
+
+  if (
+    hasSyntaxErrors(
       absoluteSource,
       migratedSource,
     )
@@ -786,13 +944,15 @@ function migrateFile(
         group.category,
       dictionaryFile:
         group.outputFile,
-      status: "error",
-      replacementsApplied: 0,
+      status:
+        "error",
+      replacementsApplied:
+        0,
       replacementsSkipped:
         group.entries.length,
       reasons: [
         "La transformation produit une erreur de syntaxe. Le fichier n’a pas été modifié.",
-        ...reasons,
+        ...transformed.skippedReasons,
       ],
     };
   }
@@ -822,11 +982,12 @@ function migrateFile(
         ? "modified"
         : "simulated",
     replacementsApplied:
-      replacements.length,
+      transformed.replacements.length,
     replacementsSkipped:
       group.entries.length -
-      replacements.length,
-    reasons,
+      transformed.replacements.length,
+    reasons:
+      transformed.skippedReasons,
   };
 }
 
@@ -849,7 +1010,9 @@ function createReport(
     selectedCategory:
       SELECTED_CATEGORY,
     fileLimit:
-      Number.isFinite(FILE_LIMIT)
+      Number.isFinite(
+        FILE_LIMIT,
+      )
         ? FILE_LIMIT
         : null,
     totals: {
@@ -900,7 +1063,8 @@ function createReport(
           0,
         ),
     },
-    files: results,
+    files:
+      results,
   };
 }
 
@@ -921,17 +1085,37 @@ function main(): void {
     [...plan.files];
 
   if (SELECTED_CATEGORY) {
-    groups = groups.filter(
-      (group) =>
-        group.category ===
-        SELECTED_CATEGORY,
-    );
+    const validCategories:
+      AuditCategory[] = [
+        "app",
+        "component",
+        "pdf",
+        "lib",
+      ];
+
+    if (
+      !validCategories.includes(
+        SELECTED_CATEGORY as AuditCategory,
+      )
+    ) {
+      throw new Error(
+        `Catégorie invalide : ${SELECTED_CATEGORY}`,
+      );
+    }
+
+    groups =
+      groups.filter(
+        (group) =>
+          group.category ===
+          SELECTED_CATEGORY,
+      );
   }
 
-  groups = groups.slice(
-    0,
-    FILE_LIMIT,
-  );
+  groups =
+    groups.slice(
+      0,
+      FILE_LIMIT,
+    );
 
   const results =
     groups.map(
@@ -943,14 +1127,16 @@ function main(): void {
     );
 
   const report =
-    createReport(results);
+    createReport(
+      results,
+    );
 
   const reportFile =
     path.join(
       REPORT_ROOT,
       WRITE_MODE
-        ? "migration-write.json"
-        : "migration-simulation.json",
+        ? "migration-v4-write.json"
+        : "migration-v4-simulation.json",
     );
 
   writeJson(
@@ -961,8 +1147,8 @@ function main(): void {
   console.log("");
   console.log(
     WRITE_MODE
-      ? "Migration i18n V3 terminée."
-      : "Simulation i18n V3 terminée.",
+      ? "Migration i18n V4 terminée."
+      : "Simulation i18n V4 terminée.",
   );
   console.log(
     `Fichiers considérés : ${report.totals.filesConsidered}`,
