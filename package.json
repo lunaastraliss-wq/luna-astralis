@@ -8,7 +8,9 @@
     "start": "next start",
     "i18n:audit": "tsx scripts/i18n-audit.ts",
     "i18n:generate": "tsx scripts/i18n-generate.ts",
-    "i18n:prepare": "npm run i18n:audit && npm run i18n:generate"
+    "i18n:prepare": "npm run i18n:audit && npm run i18n:generate",
+    "i18n:migrate": "tsx scripts/i18n-migrate.ts",
+    "i18n:migrate:write": "tsx scripts/i18n-migrate.ts --write"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",
