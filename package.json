@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "i18n:audit": "tsx scripts/i18n-audit.ts"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",
@@ -25,6 +26,7 @@
     "@types/node": "^20.11.5",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "tsx": "^4.20.3",
     "typescript": "^5.3.3"
   },
   "engines": {
