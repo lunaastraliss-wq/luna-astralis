@@ -32,7 +32,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
 
       - name: Installer les dépendances
         run: npm install
@@ -42,6 +41,9 @@ jobs:
 
       - name: Migrer automatiquement la catégorie
         run: npm run i18n:migrate:write -- --category=${{ inputs.category }}
+
+      - name: Traduire automatiquement les dictionnaires
+        run: npm run i18n:translate -- --category=${{ inputs.category }}
 
       - name: Vérifier la compilation
         run: npx next build
@@ -58,5 +60,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Migrate i18n category: ${{ inputs.category }}"
+          git commit -m "Migrate and translate i18n: ${{ inputs.category }}"
           git push
