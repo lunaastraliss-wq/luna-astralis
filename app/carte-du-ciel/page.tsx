@@ -2,8 +2,8 @@ import {
   redirect,
 } from "next/navigation";
 
-export default function SignaturePage() {
+export default function ReportsPage() {
   redirect(
-    "/fr/carte-du-ciel/signature"
+    "/fr/carte-du-ciel"
   );
 }
