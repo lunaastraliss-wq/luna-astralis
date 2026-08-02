@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       category:
-        description: Catégorie à migrer
+        description: Catégorie à migrer et traduire
         required: true
         default: lib
         type: choice
@@ -21,6 +21,9 @@ jobs:
   migrate:
     runs-on: ubuntu-latest
 
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
     steps:
       - name: Récupérer le projet
         uses: actions/checkout@v4
@@ -34,11 +37,14 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
-      - name: Générer l’audit et les dictionnaires
+      - name: Générer l’audit et les dictionnaires français
         run: npm run i18n:prepare
 
-      - name: Migrer automatiquement la catégorie
+      - name: Migrer automatiquement le code
         run: npm run i18n:migrate:write -- --category=${{ inputs.category }}
+
+      - name: Traduire automatiquement les dictionnaires
+        run: npm run i18n:translate -- --category=${{ inputs.category }}
 
       - name: Vérifier la compilation
         run: npx next build
@@ -48,12 +54,12 @@ jobs:
           git config user.name "Luna Astralis i18n"
           git config user.email "actions@github.com"
 
-          git add app components lib i18n scripts
+          git add app components lib i18n scripts package.json
 
           if git diff --cached --quiet; then
             echo "Aucun changement à enregistrer."
             exit 0
           fi
 
-          git commit -m "Migrate i18n category: ${{ inputs.category }}"
+          git commit -m "Migrate and translate i18n: ${{ inputs.category }}"
           git push
