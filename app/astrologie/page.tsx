@@ -1,11 +1,11 @@
-// app/astrologie/vierge/page.tsx
+// app/astrologie/page.tsx
 
 import {
   redirect,
 } from "next/navigation";
 
-export default function ViergeAstrologiePage() {
+export default function AstrologiePage() {
   redirect(
-    "/fr/astrologie/vierge"
+    "/fr/astrologie"
   );
 }
