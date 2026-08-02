@@ -1,4 +1,10 @@
-export const SIGN_MODALITY: Record<string, "Cardinal" | "Fixe" | "Mutable"> = {
+import type { Locale } from "@/i18n/config";
+import {
+  MODALITY_TRANSLATIONS,
+  type ModalityKey,
+} from "@/i18n/lib/astrology/modalities";
+
+export const SIGN_MODALITY: Record<string, ModalityKey> = {
   Aries: "Cardinal",
   Cancer: "Cardinal",
   Libra: "Cardinal",
@@ -15,10 +21,31 @@ export const SIGN_MODALITY: Record<string, "Cardinal" | "Fixe" | "Mutable"> = {
   Pisces: "Mutable",
 };
 
-export const MODALITY_TEXT: Record<string, string> = {
-  Cardinal: `Une dominante Cardinal révèle une personnalité qui initie, provoque le mouvement et aime ouvrir de nouveaux chemins. Vous possédez une énergie de départ, une capacité à lancer les choses et à agir lorsque la situation demande une impulsion claire.`,
+/*
+|--------------------------------------------------------------------------
+| Compatibilité avec le code existant
+|--------------------------------------------------------------------------
+*/
 
-  Fixe: `Une dominante Fixe révèle une personnalité persévérante, loyale et capable de maintenir ses efforts dans le temps. Vous avez besoin de stabilité et de profondeur. Votre force réside dans votre endurance, votre fidélité et votre capacité à aller jusqu'au bout.`,
+export const MODALITY_TEXT: Record<ModalityKey, string> =
+  MODALITY_TRANSLATIONS.fr.texts;
 
-  Mutable: `Une dominante Mutable révèle une personnalité adaptable, souple et capable d'évoluer avec les circonstances. Vous savez vous ajuster, apprendre et accompagner les transitions. Votre force réside dans votre flexibilité, votre ouverture et votre capacité à comprendre plusieurs réalités.`,
-};
+/*
+|--------------------------------------------------------------------------
+| Accès multilingue
+|--------------------------------------------------------------------------
+*/
+
+export function getModalityLabel(
+  modality: ModalityKey,
+  locale: Locale = "fr",
+): string {
+  return MODALITY_TRANSLATIONS[locale].labels[modality];
+}
+
+export function getModalityText(
+  modality: ModalityKey,
+  locale: Locale = "fr",
+): string {
+  return MODALITY_TRANSLATIONS[locale].texts[modality];
+}
