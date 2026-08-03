@@ -366,16 +366,22 @@ function addDictionaryImport(
   sourceText: string,
   importPath: string,
 ): string {
-  if (
-    sourceText.includes(
-      "import __i18n from",
-    )
-  ) {
-    return sourceText;
-  }
-
   const importLine =
     `import __i18n from ${JSON.stringify(importPath)};\n`;
+
+  const existingImportPattern =
+    /import\s+__i18n\s+from\s+["'][^"']+["'];?/;
+
+  if (
+    existingImportPattern.test(
+      sourceText,
+    )
+  ) {
+    return sourceText.replace(
+      existingImportPattern,
+      importLine.trim(),
+    );
+  }
 
   const directiveMatch =
     sourceText.match(
@@ -396,6 +402,7 @@ function addDictionaryImport(
 
   return importLine + sourceText;
 }
+
 
 function applyReplacements(
   sourceText: string,
@@ -1135,8 +1142,8 @@ function main(): void {
     path.join(
       REPORT_ROOT,
       WRITE_MODE
-        ? "migration-v5-write.json"
-        : "migration-v5-simulation.json",
+        ? "migration-v6-write.json"
+        : "migration-v6-simulation.json",
     );
 
   writeJson(
@@ -1147,8 +1154,8 @@ function main(): void {
   console.log("");
   console.log(
     WRITE_MODE
-      ? "Migration i18n V5 terminée."
-      : "Simulation i18n V5 terminée.",
+      ? "Migration i18n V6 terminée."
+      : "Simulation i18n V6 terminée.",
   );
   console.log(
     `Fichiers considérés : ${report.totals.filesConsidered}`,
