@@ -2,8 +2,8 @@
 
 ## Résumé
 
-- Fichiers préparés : 408
-- Textes préparés : 25642
+- Fichiers préparés : 386
+- Textes préparés : 23794
 
 ## Ordre recommandé
 
@@ -14,188 +14,12 @@
 
 ## Catégories
 
-- Lib et données : 22 fichiers / 1848 textes
+- Lib et données : 0 fichiers / 0 textes
 - Composants : 14 fichiers / 567 textes
 - PDF et rapports : 247 fichiers / 14481 textes
 - Pages : 125 fichiers / 8746 textes
 
 ## Fichiers prioritaires
-
-### lib/compatibility-pages/balance.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.balance`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/balance.json`
-
-### lib/compatibility-pages/belier.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.belier`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/belier.json`
-
-### lib/compatibility-pages/cancer.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.cancer`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/cancer.json`
-
-### lib/compatibility-pages/capricorne.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.capricorne`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/capricorne.json`
-
-### lib/compatibility-pages/gemeaux.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.gemeaux`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/gemeaux.json`
-
-### lib/compatibility-pages/lion.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.lion`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/lion.json`
-
-### lib/compatibility-pages/poissons.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.poissons`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/poissons.json`
-
-### lib/compatibility-pages/sagittaire.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.sagittaire`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/sagittaire.json`
-
-### lib/compatibility-pages/scorpion.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.scorpion`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/scorpion.json`
-
-### lib/compatibility-pages/taureau.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.taureau`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/taureau.json`
-
-### lib/compatibility-pages/verseau.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.verseau`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/verseau.json`
-
-### lib/compatibility-pages/vierge.ts
-
-- Catégorie : `lib`
-- Textes : 144
-- Priorité : 4144
-- Namespace : `lib.compatibility-pages.vierge`
-- Dictionnaire français : `i18n/migrated/fr/lib/compatibility-pages/vierge.json`
-
-### lib/astrology/jupiter.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.jupiter`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/jupiter.json`
-
-### lib/astrology/mars.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.mars`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/mars.json`
-
-### lib/astrology/mercury.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.mercury`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/mercury.json`
-
-### lib/astrology/moon.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.moon`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/moon.json`
-
-### lib/astrology/neptune.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.neptune`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/neptune.json`
-
-### lib/astrology/pluto.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.pluto`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/pluto.json`
-
-### lib/astrology/saturn.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.saturn`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/saturn.json`
-
-### lib/astrology/sun.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.sun`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/sun.json`
-
-### lib/astrology/uranus.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.uranus`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/uranus.json`
-
-### lib/astrology/venus.ts
-
-- Catégorie : `lib`
-- Textes : 12
-- Priorité : 4012
-- Namespace : `lib.astrology.venus`
-- Dictionnaire français : `i18n/migrated/fr/lib/astrology/venus.json`
 
 ### components/SiteHeader.tsx
 
@@ -821,5 +645,181 @@
 - Namespace : `components.compatibilitypdf.compatibilitylife`
 - Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilitylife.json`
 
-> 308 autres fichiers sont disponibles dans migration-plan.json.
+### components/SignaturePdf/PdfSignatureCareer.tsx
+
+- Catégorie : `pdf`
+- Textes : 85
+- Priorité : 2085
+- Namespace : `components.signaturepdf.pdfsignaturecareer`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignaturecareer.json`
+
+### components/PremiumPdf/PdfCareer.tsx
+
+- Catégorie : `pdf`
+- Textes : 84
+- Priorité : 2084
+- Namespace : `components.premiumpdf.pdfcareer`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfcareer.json`
+
+### components/CompatibilityPdf/CompatibilityCouple.tsx
+
+- Catégorie : `pdf`
+- Textes : 83
+- Priorité : 2083
+- Namespace : `components.compatibilitypdf.compatibilitycouple`
+- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilitycouple.json`
+
+### components/CompatibilityPdf/CompatibilityAspects.tsx
+
+- Catégorie : `pdf`
+- Textes : 81
+- Priorité : 2081
+- Namespace : `components.compatibilitypdf.compatibilityaspects`
+- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilityaspects.json`
+
+### components/HoroscopePdf/month/data/createMonthlyCareerTexts.ts
+
+- Catégorie : `pdf`
+- Textes : 80
+- Priorité : 2080
+- Namespace : `components.horoscopepdf.month.data.createmonthlycareertexts`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/data/createmonthlycareertexts.json`
+
+### components/HoroscopePdf/month/data/createMonthlyFinanceTexts.ts
+
+- Catégorie : `pdf`
+- Textes : 80
+- Priorité : 2080
+- Namespace : `components.horoscopepdf.month.data.createmonthlyfinancetexts`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/data/createmonthlyfinancetexts.json`
+
+### components/HoroscopePdf/month/data/createMonthlyHealthTexts.ts
+
+- Catégorie : `pdf`
+- Textes : 80
+- Priorité : 2080
+- Namespace : `components.horoscopepdf.month.data.createmonthlyhealthtexts`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/data/createmonthlyhealthtexts.json`
+
+### components/HoroscopePdf/month/data/createMonthlyLoveTexts.ts
+
+- Catégorie : `pdf`
+- Textes : 80
+- Priorité : 2080
+- Namespace : `components.horoscopepdf.month.data.createmonthlylovetexts`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/data/createmonthlylovetexts.json`
+
+### components/SignaturePdf/PdfSignatureDominants.tsx
+
+- Catégorie : `pdf`
+- Textes : 79
+- Priorité : 2079
+- Namespace : `components.signaturepdf.pdfsignaturedominants`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignaturedominants.json`
+
+### components/PremiumPdf/PdfDominants.tsx
+
+- Catégorie : `pdf`
+- Textes : 78
+- Priorité : 2078
+- Namespace : `components.premiumpdf.pdfdominants`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfdominants.json`
+
+### components/HoroscopePremiumCheckoutButton.tsx
+
+- Catégorie : `pdf`
+- Textes : 77
+- Priorité : 2077
+- Namespace : `components.horoscopepremiumcheckoutbutton`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepremiumcheckoutbutton.json`
+
+### components/SignaturePdf/PdfSignatureRelationships.tsx
+
+- Catégorie : `pdf`
+- Textes : 75
+- Priorité : 2075
+- Namespace : `components.signaturepdf.pdfsignaturerelationships`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignaturerelationships.json`
+
+### components/PremiumPdf/PdfRelationships.tsx
+
+- Catégorie : `pdf`
+- Textes : 74
+- Priorité : 2074
+- Namespace : `components.premiumpdf.pdfrelationships`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfrelationships.json`
+
+### components/PremiumPdf/PremiumPlanetStrengths.ts
+
+- Catégorie : `pdf`
+- Textes : 73
+- Priorité : 2073
+- Namespace : `components.premiumpdf.premiumplanetstrengths`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/premiumplanetstrengths.json`
+
+### components/SignaturePdf/SignaturePlanetStrengths.ts
+
+- Catégorie : `pdf`
+- Textes : 73
+- Priorité : 2073
+- Namespace : `components.signaturepdf.signatureplanetstrengths`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/signatureplanetstrengths.json`
+
+### components/PremiumPdf/PdfElements.tsx
+
+- Catégorie : `pdf`
+- Textes : 72
+- Priorité : 2072
+- Namespace : `components.premiumpdf.pdfelements`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfelements.json`
+
+### components/SignaturePdf/PdfSignatureElements.tsx
+
+- Catégorie : `pdf`
+- Textes : 72
+- Priorité : 2072
+- Namespace : `components.signaturepdf.pdfsignatureelements`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignatureelements.json`
+
+### components/CompatibilityPdf/CompatibilitySummary.tsx
+
+- Catégorie : `pdf`
+- Textes : 71
+- Priorité : 2071
+- Namespace : `components.compatibilitypdf.compatibilitysummary`
+- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilitysummary.json`
+
+### components/PremiumPdf/PremiumPdfStyles.ts
+
+- Catégorie : `pdf`
+- Textes : 71
+- Priorité : 2071
+- Namespace : `components.premiumpdf.premiumpdfstyles`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/premiumpdfstyles.json`
+
+### components/SignaturePdf/SignaturePdfStyles.ts
+
+- Catégorie : `pdf`
+- Textes : 71
+- Priorité : 2071
+- Namespace : `components.signaturepdf.signaturepdfstyles`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/signaturepdfstyles.json`
+
+### components/HoroscopePdf/HoroscopeMoney.tsx
+
+- Catégorie : `pdf`
+- Textes : 68
+- Priorité : 2068
+- Namespace : `components.horoscopepdf.horoscopemoney`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/horoscopemoney.json`
+
+### components/PremiumPdf/PdfModalities.tsx
+
+- Catégorie : `pdf`
+- Textes : 67
+- Priorité : 2067
+- Namespace : `components.premiumpdf.pdfmodalities`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfmodalities.json`
+
+> 286 autres fichiers sont disponibles dans migration-plan.json.
 
