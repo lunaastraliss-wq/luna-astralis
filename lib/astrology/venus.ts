@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/venus";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/venus.json";
 export const VENUS: Record<string, string> = {
   Aries: __i18n["venus_en_belier_revele_une_maniere_d_aimer_passionnee_sponta"],
 

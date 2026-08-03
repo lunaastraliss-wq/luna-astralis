@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/neptune";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/neptune.json";
 export const NEPTUNE: Record<string, string> = {
   Aries: __i18n["neptune_en_belier_revele_une_intuition_qui_s_exprime_par_l_a"],
 

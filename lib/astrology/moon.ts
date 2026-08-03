@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/moon";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/moon.json";
 export const MOON: Record<string, string> = {
   Aries: __i18n["la_lune_en_belier_revele_une_vie_emotionnelle_vive_spontanee"],
 

@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/saturn";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/saturn.json";
 export const SATURN: Record<string, string> = {
   Aries: __i18n["saturne_en_belier_revele_que_vos_plus_grandes_lecons_de_vie"],
 

@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/uranus";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/uranus.json";
 export const URANUS: Record<string, string> = {
   Aries: __i18n["uranus_en_belier_revele_un_profond_besoin_d_independance_et"],
 

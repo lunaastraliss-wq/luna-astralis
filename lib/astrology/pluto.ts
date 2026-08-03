@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/pluto";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/pluto.json";
 export const PLUTO: Record<string, string> = {
   Aries: __i18n["pluton_en_belier_revele_une_profonde_capacite_a_vous_reinven"],
 

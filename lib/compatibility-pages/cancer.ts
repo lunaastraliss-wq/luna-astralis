@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/cancer";
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/cancer.json";
 import type {
   CompatibilityPageData,
 } from "./types";

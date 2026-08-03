@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/belier";
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/belier.json";
 import type {
   CompatibilityPageData,
 } from "./types";

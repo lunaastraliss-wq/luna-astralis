@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/mars";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/mars.json";
 export const MARS: Record<string, string> = {
   Aries: __i18n["mars_en_belier_est_dans_son_signe_de_predilection_et_exprime"],
 

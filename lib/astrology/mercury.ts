@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/mercury";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/mercury.json";
 export const MERCURY: Record<string, string> = {
   Aries: __i18n["mercure_en_belier_revele_une_maniere_de_penser_rapide_direct"],
 

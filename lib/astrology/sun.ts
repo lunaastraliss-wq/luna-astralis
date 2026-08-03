@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/sun";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/sun.json";
 export const SUN: Record<string, string> = {
   
   Aries: __i18n["le_soleil_en_belier_revele_une_personnalite_dynamique_courag"],
