@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-migrate V6
+| i18n-migrate V7
 |--------------------------------------------------------------------------
 |
 | Migration modulaire pour Luna Astralis.
@@ -890,10 +890,91 @@ function migrateFile(
   const transformed =
     transformer(context);
 
+  const importPath =
+    createRelativeImportPath(
+      group.sourceFile,
+      group.outputFile,
+    );
+
+  /*
+   * Répare toujours un ancien import i18n, même lorsqu'aucun texte
+   * français ne reste à migrer dans le fichier.
+   */
   if (
     transformed.replacements.length ===
     0
   ) {
+    const repairedSource =
+      addDictionaryImport(
+        originalSource,
+        importPath,
+      );
+
+    const importWasRepaired =
+      repairedSource !== originalSource;
+
+    if (importWasRepaired) {
+      if (
+        hasSyntaxErrors(
+          absoluteSource,
+          repairedSource,
+        )
+      ) {
+        return {
+          sourceFile:
+            group.sourceFile,
+          category:
+            group.category,
+          dictionaryFile:
+            group.outputFile,
+          status:
+            "error",
+          replacementsApplied:
+            0,
+          replacementsSkipped:
+            group.entries.length,
+          reasons: [
+            "La réparation de l’import i18n produit une erreur de syntaxe.",
+            ...transformed.skippedReasons,
+          ],
+        };
+      }
+
+      if (WRITE_MODE) {
+        backupFile(
+          group.sourceFile,
+          timestamp,
+        );
+
+        fs.writeFileSync(
+          absoluteSource,
+          repairedSource,
+          "utf8",
+        );
+      }
+
+      return {
+        sourceFile:
+          group.sourceFile,
+        category:
+          group.category,
+        dictionaryFile:
+          group.outputFile,
+        status:
+          WRITE_MODE
+            ? "modified"
+            : "simulated",
+        replacementsApplied:
+          0,
+        replacementsSkipped:
+          group.entries.length,
+        reasons: [
+          "Import i18n existant réparé.",
+          ...transformed.skippedReasons,
+        ],
+      };
+    }
+
     return {
       sourceFile:
         group.sourceFile,
@@ -922,21 +1003,11 @@ function migrateFile(
       transformed.replacements,
     );
 
-  if (
-    transformed.importRequired
-  ) {
-    const importPath =
-      createRelativeImportPath(
-        group.sourceFile,
-        group.outputFile,
-      );
-
-    migratedSource =
-      addDictionaryImport(
-        migratedSource,
-        importPath,
-      );
-  }
+  migratedSource =
+    addDictionaryImport(
+      migratedSource,
+      importPath,
+    );
 
   if (
     hasSyntaxErrors(
@@ -1142,8 +1213,8 @@ function main(): void {
     path.join(
       REPORT_ROOT,
       WRITE_MODE
-        ? "migration-v6-write.json"
-        : "migration-v6-simulation.json",
+        ? "migration-v7-write.json"
+        : "migration-v7-simulation.json",
     );
 
   writeJson(
@@ -1154,8 +1225,8 @@ function main(): void {
   console.log("");
   console.log(
     WRITE_MODE
-      ? "Migration i18n V6 terminée."
-      : "Simulation i18n V6 terminée.",
+      ? "Migration i18n V7 terminée."
+      : "Simulation i18n V7 terminée.",
   );
   console.log(
     `Fichiers considérés : ${report.totals.filesConsidered}`,
