@@ -1,4 +1,4 @@
-import __i18n from "../../i18n/migrated/fr/lib/astrology/jupiter";
+import __i18n from "../../i18n/migrated/fr/lib/astrology/jupiter.json";
 export const JUPITER: Record<string, string> = {
   Aries: __i18n["jupiter_en_belier_revele_une_personnalite_qui_grandit_grace"],
 
