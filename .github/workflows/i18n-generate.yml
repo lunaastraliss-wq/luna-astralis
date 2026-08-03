@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       category:
-        description: Catégorie à migrer
+        description: Catégorie à migrer et traduire
         required: true
         default: lib
         type: choice
@@ -44,6 +44,11 @@ jobs:
 
       - name: Traduire automatiquement les dictionnaires
         run: npm run i18n:translate -- --category=${{ inputs.category }}
+
+      - name: Supprimer les sauvegardes temporaires
+        run: |
+          rm -rf .i18n-backup
+          rm -rf i18n-backup
 
       - name: Vérifier la compilation
         run: npx next build
