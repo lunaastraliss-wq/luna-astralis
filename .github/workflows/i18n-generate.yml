@@ -50,10 +50,7 @@ jobs:
           rm -rf .i18n-backup
           rm -rf i18n-backup
 
-      - name: Vérifier la compilation
-        run: npx next build
-
-      - name: Enregistrer les changements dans GitHub
+      - name: Enregistrer les traductions dans GitHub
         run: |
           git config user.name "Luna Astralis i18n"
           git config user.email "actions@github.com"
@@ -62,8 +59,10 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "Aucun changement à enregistrer."
-            exit 0
+          else
+            git commit -m "Migrate and translate i18n: ${{ inputs.category }}"
+            git push
           fi
 
-          git commit -m "Migrate and translate i18n: ${{ inputs.category }}"
-          git push
+      - name: Vérifier la compilation
+        run: npx next build
