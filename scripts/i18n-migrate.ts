@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-migrate V5
+| i18n-migrate V6
 |--------------------------------------------------------------------------
 |
 | Migration modulaire pour Luna Astralis.
@@ -353,9 +353,6 @@ function createRelativeImportPath(
         sourceDirectory,
         absoluteDictionary,
       ),
-    ).replace(
-      /\.json$/i,
-      "",
     );
 
   if (!relative.startsWith(".")) {
