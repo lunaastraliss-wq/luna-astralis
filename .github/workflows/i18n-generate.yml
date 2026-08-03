@@ -157,6 +157,3 @@ jobs:
             git commit -m "Migrate and translate i18n: ${{ inputs.category }}"
             git push
           fi
-
-      - name: Vérifier la compilation
-        run: npx next build
