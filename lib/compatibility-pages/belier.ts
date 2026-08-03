@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/belier";
 import type {
   CompatibilityPageData,
 } from "./types";
@@ -21,40 +22,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "belier",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Bélier",
+      __i18n["compatibilite_amoureuse_entre_belier_et_belier"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Bélier : attraction, communication, confiance, forces, défis et conseils pour le couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_belier"],
 
     introduction:
-      "La rencontre entre deux Bélier réunit deux personnalités spontanées, passionnées et déterminées. Cette relation peut avancer rapidement, portée par une énergie commune très forte. Elle demande cependant aux deux partenaires d’apprendre à partager l’initiative et à respecter le rythme de l’autre.",
+      __i18n["la_rencontre_entre_deux_belier_reunit_deux_personnalites_spo"],
 
     love:
-      "En amour, deux Bélier recherchent généralement une relation vivante, directe et stimulante. Ils aiment sentir que le lien avance et que la passion reste présente. Leur spontanéité peut créer une histoire intense dès les premiers instants, mais ils doivent aussi apprendre à construire une stabilité au-delà de l’enthousiasme initial.",
+      __i18n["en_amour_deux_belier_recherchent_generalement_une_relation_v"],
 
     communication:
-      "Leur communication est souvent franche et immédiate. Aucun des deux n’apprécie particulièrement les sous-entendus ou les longues hésitations. Cette honnêteté peut être une force, mais les échanges risquent de devenir brusques lorsque chacun souhaite avoir le dernier mot.",
+      __i18n["leur_communication_est_souvent_franche_et_immediate_aucun_de"],
 
     attraction:
-      "L’attirance peut être très forte dès le départ. Chacun reconnaît chez l’autre la même audace, la même énergie et le même goût de l’action. Cette intensité nourrit la passion, mais elle peut aussi transformer la relation en compétition si chacun cherche constamment à impressionner ou à diriger l’autre.",
+      __i18n["l_attirance_peut_etre_tres_forte_des_le_depart_chacun_reconn"],
 
     trust:
-      "La confiance peut s’installer rapidement lorsque les intentions sont clairement exprimées. Les deux partenaires apprécient généralement la loyauté et la franchise. Toutefois, leur impulsivité peut provoquer des réactions précipitées ou des paroles regrettées qui fragilisent temporairement le sentiment de sécurité.",
+      __i18n["la_confiance_peut_s_installer_rapidement_lorsque_les_intenti"],
 
     dailyLife:
-      "Le quotidien de deux Bélier est rarement monotone. Ils aiment entreprendre, bouger, décider et lancer de nouveaux projets. Pour éviter de s’épuiser ou d’abandonner trop rapidement leurs idées, ils gagnent à mieux organiser leurs priorités et à partager les responsabilités.",
+      __i18n["le_quotidien_de_deux_belier_est_rarement_monotone_ils_aiment"],
 
     strengths:
-      "Cette union possède beaucoup d’énergie, de courage et de capacité à rebondir. Ensemble, les deux Bélier peuvent se motiver, se défendre et affronter les obstacles avec détermination. Leur enthousiasme commun peut également rendre la relation très vivante et inspirante.",
+      __i18n["cette_union_possede_beaucoup_d_energie_de_courage_et_de_capa"],
 
     challenges:
-      "Le principal défi consiste à éviter les luttes de pouvoir. Deux personnalités très affirmées peuvent transformer une différence d’opinion en compétition. Les réactions impulsives, l’impatience et la difficulté à céder peuvent alors amplifier des conflits qui auraient pu rester mineurs.",
+      __i18n["le_principal_defi_consiste_a_eviter_les_luttes_de_pouvoir_de"],
 
     advice:
-      "Pour renforcer leur relation, les deux partenaires doivent apprendre à alterner les initiatives et à laisser à chacun un espace d’autonomie. Prendre quelques instants avant de répondre pendant un conflit peut aussi les aider à exprimer leurs besoins sans transformer chaque désaccord en affrontement.",
+      __i18n["pour_renforcer_leur_relation_les_deux_partenaires_doivent_ap"],
 
     conclusion:
-      "Bélier et Bélier peuvent former un couple passionné, courageux et dynamique. Leur relation fonctionne particulièrement bien lorsqu’ils transforment leur esprit de compétition en collaboration. En apprenant à ralentir, à écouter et à partager les décisions, ils peuvent bâtir une union aussi solide qu’intense.",
+      __i18n["belier_et_belier_peuvent_former_un_couple_passionne_courageu"],
   },
 
   /*
@@ -68,40 +69,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "taureau",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Taureau",
+      __i18n["compatibilite_amoureuse_entre_belier_et_taureau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Taureau : passion, stabilité, communication, confiance, défis et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_taureau"],
 
     introduction:
-      "Bélier et Taureau abordent la vie à des rythmes très différents. Le Bélier agit rapidement, suit son instinct et recherche le mouvement, tandis que le Taureau préfère prendre son temps, sécuriser ses choix et construire sur des bases solides. Leur relation peut devenir très complémentaire lorsqu’ils cessent de vouloir imposer leur propre cadence.",
+      __i18n["belier_et_taureau_abordent_la_vie_a_des_rythmes_tres_differe"],
 
     love:
-      "En amour, le Bélier apporte l’élan, la spontanéité et le désir de faire évoluer rapidement la relation. Le Taureau offre une présence stable, fidèle et rassurante. Le Bélier peut aider le Taureau à sortir de ses habitudes, alors que le Taureau apprend au Bélier à approfondir ses sentiments et à ne pas confondre intensité immédiate et engagement durable.",
+      __i18n["en_amour_le_belier_apporte_l_elan_la_spontaneite_et_le_desir"],
 
     communication:
-      "Le Bélier communique de manière directe et peut vouloir régler un problème immédiatement. Le Taureau réfléchit davantage et peut se fermer lorsqu’il se sent pressé. Les discussions deviennent plus constructives lorsque le Bélier modère son impatience et que le Taureau exprime clairement ce qu’il ressent au lieu de laisser le silence installer une tension.",
+      __i18n["le_belier_communique_de_maniere_directe_et_peut_vouloir_regl"],
 
     attraction:
-      "L’attirance entre ces deux signes peut être forte, car chacun possède une énergie très affirmée. Le Bélier est séduit par la sensualité et l’assurance tranquille du Taureau. Le Taureau peut être attiré par l’audace et la vitalité du Bélier. Leur alchimie devient particulièrement riche lorsque la passion du feu rencontre la sensualité de la terre.",
+      __i18n["l_attirance_entre_ces_deux_signes_peut_etre_forte_car_chacun"],
 
     trust:
-      "Le Taureau accorde beaucoup d’importance à la constance et peut avoir besoin de preuves concrètes avant de se sentir pleinement en sécurité. Le Bélier, plus spontané, considère souvent que sa franchise suffit à démontrer sa loyauté. La confiance se construit lorsque le Bélier tient ses engagements et que le Taureau évite de transformer son besoin de sécurité en contrôle.",
+      __i18n["le_taureau_accorde_beaucoup_d_importance_a_la_constance_et_p"],
 
     dailyLife:
-      "Dans la vie quotidienne, le Bélier aime improviser tandis que le Taureau préfère prévoir. Cette différence peut provoquer des désaccords sur les finances, les sorties, les projets ou l’organisation de la maison. Pourtant, elle peut aussi créer un équilibre efficace : le Bélier stimule l’action et le Taureau s’assure que les décisions demeurent réalistes.",
+      __i18n["dans_la_vie_quotidienne_le_belier_aime_improviser_tandis_que"],
 
     strengths:
-      "Le Bélier et le Taureau possèdent tous les deux une grande détermination. Lorsqu’ils poursuivent un objectif commun, le Bélier lance le mouvement et le Taureau lui donne de la continuité. Cette combinaison peut produire une relation courageuse, protectrice et capable de transformer une idée spontanée en projet durable.",
+      __i18n["le_belier_et_le_taureau_possedent_tous_les_deux_une_grande_d"],
 
     challenges:
-      "Leurs conflits peuvent devenir tenaces. Le Bélier s’emporte rapidement, puis souhaite passer à autre chose, alors que le Taureau peut retenir longtemps ce qui l’a blessé. L’impatience du Bélier se heurte alors à l’entêtement du Taureau. Aucun des deux ne doit confondre fermeté et refus systématique de faire un compromis.",
+      __i18n["leurs_conflits_peuvent_devenir_tenaces_le_belier_s_emporte_r"],
 
     advice:
-      "Le Bélier gagne à respecter le besoin de stabilité du Taureau sans l’interpréter comme un manque d’enthousiasme. Le Taureau doit laisser une place à la nouveauté et éviter de ralentir toutes les initiatives par prudence. En décidant ensemble quels domaines demandent de l’audace et lesquels nécessitent de la patience, ils peuvent mieux unir leurs forces.",
+      __i18n["le_belier_gagne_a_respecter_le_besoin_de_stabilite_du_taurea"],
 
     conclusion:
-      "Bélier et Taureau ne forment pas toujours le couple le plus simple, mais leur relation peut être profondément formatrice. Le Bélier apporte l’étincelle et le Taureau la solidité. Lorsqu’ils acceptent leurs différences de rythme, ils peuvent créer une union passionnée, sensuelle et beaucoup plus stable qu’elle ne le paraît au départ.",
+      __i18n["belier_et_taureau_ne_forment_pas_toujours_le_couple_le_plus"],
   },
 
   /*
@@ -115,40 +116,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "gemeaux",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Gémeaux",
+      __i18n["compatibilite_amoureuse_entre_belier_et_gemeaux"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Gémeaux : complicité, attraction, communication, confiance et avenir de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_gemeaux"],
 
     introduction:
-      "Bélier et Gémeaux forment une combinaison vive, curieuse et rarement monotone. Le Bélier aime agir, entreprendre et relever des défis, tandis que le Gémeaux nourrit la relation par ses idées, son humour et son besoin de découverte. Ensemble, ils peuvent vivre une histoire stimulante où le mouvement et la nouveauté occupent une place centrale.",
+      __i18n["belier_et_gemeaux_forment_une_combinaison_vive_curieuse_et_r"],
 
     love:
-      "En amour, le Bélier apprécie la légèreté et la vivacité du Gémeaux. Le Gémeaux est attiré par l’assurance et l’élan du Bélier. Leur relation se développe souvent rapidement, portée par une forte complicité et une envie commune d’expérimenter. Pour durer, elle doit toutefois intégrer davantage de profondeur émotionnelle et de continuité.",
+      __i18n["en_amour_le_belier_apprecie_la_legerete_et_la_vivacite_du_ge"],
 
     communication:
-      "La communication représente l’un de leurs plus grands atouts. Le Gémeaux aime échanger, questionner et explorer plusieurs points de vue, tandis que le Bélier répond avec franchise et spontanéité. Leurs conversations peuvent être animées et inspirantes. Ils doivent seulement éviter de parler trop vite ou de passer à autre chose avant d’avoir réellement résolu un désaccord.",
+      __i18n["la_communication_represente_l_un_de_leurs_plus_grands_atouts"],
 
     attraction:
-      "L’attraction repose autant sur l’énergie physique que sur la stimulation mentale. Le Bélier aime le caractère imprévisible du Gémeaux, tandis que le Gémeaux est séduit par la confiance et l’audace du Bélier. Leur alchimie reste forte lorsque chacun continue à surprendre l’autre et à nourrir la relation de nouvelles expériences.",
+      __i18n["l_attraction_repose_autant_sur_l_energie_physique_que_sur_la"],
 
     trust:
-      "Le Bélier peut parfois percevoir la souplesse du Gémeaux comme de l’inconstance. De son côté, le Gémeaux peut se sentir limité si le Bélier exige des réponses immédiates ou une disponibilité constante. La confiance grandit lorsque le Gémeaux communique clairement ses intentions et que le Bélier respecte son besoin d’espace intellectuel et social.",
+      __i18n["le_belier_peut_parfois_percevoir_la_souplesse_du_gemeaux_com"],
 
     dailyLife:
-      "Leur quotidien peut être rempli de sorties, de projets spontanés, de déplacements et de nouvelles idées. Ils partagent une certaine difficulté avec la routine et apprécient les changements. Le principal risque est de commencer plusieurs choses sans les terminer. Une organisation minimale les aide à transformer leur enthousiasme en réalisations concrètes.",
+      __i18n["leur_quotidien_peut_etre_rempli_de_sorties_de_projets_sponta"],
 
     strengths:
-      "Le Bélier apporte le courage d’agir et le Gémeaux la capacité de trouver plusieurs solutions. Ensemble, ils peuvent se stimuler, rire beaucoup et traverser les périodes difficiles avec créativité. Leur relation favorise l’autonomie, la découverte et une forme de jeunesse intérieure qui peut rester présente très longtemps.",
+      __i18n["le_belier_apporte_le_courage_d_agir_et_le_gemeaux_la_capacit"],
 
     challenges:
-      "Le Bélier peut devenir impatient devant les hésitations ou les changements d’avis du Gémeaux. Le Gémeaux peut trouver le Bélier trop catégorique ou trop intense. Si les deux évitent les conversations sérieuses par peur de perdre leur légèreté, certains problèmes risquent de revenir sous différentes formes.",
+      __i18n["le_belier_peut_devenir_impatient_devant_les_hesitations_ou_l"],
 
     advice:
-      "Pour solidifier leur union, ils doivent conserver leur spontanéité tout en créant quelques repères communs. Le Bélier gagne à écouter les nuances du Gémeaux avant de conclure trop vite. Le Gémeaux doit éviter de détourner les discussions importantes par l’humour ou la distraction. Une communication honnête leur permet de préserver à la fois leur liberté et leur engagement.",
+      __i18n["pour_solidifier_leur_union_ils_doivent_conserver_leur_sponta"],
 
     conclusion:
-      "Bélier et Gémeaux possèdent une compatibilité naturelle fondée sur l’énergie, la curiosité et le goût de la nouveauté. Leur couple peut être joyeux, inventif et très stimulant. Lorsqu’ils prennent le temps d’approfondir leur lien et de terminer ce qu’ils commencent, cette relation peut évoluer avec fluidité sans perdre son enthousiasme.",
+      __i18n["belier_et_gemeaux_possedent_une_compatibilite_naturelle_fond"],
   },
 
   /*
@@ -162,40 +163,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "cancer",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Cancer",
+      __i18n["compatibilite_amoureuse_entre_belier_et_cancer"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Cancer : émotions, passion, communication, confiance, différences et conseils de couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_cancer"],
 
     introduction:
-      "Bélier et Cancer possèdent des sensibilités très différentes. Le Bélier avance avec franchise, instinct et rapidité, tandis que le Cancer observe l’atmosphère, protège ses émotions et recherche un sentiment de sécurité. Cette relation peut être intense, car chacun touche chez l’autre une dimension qu’il maîtrise moins naturellement.",
+      __i18n["belier_et_cancer_possedent_des_sensibilites_tres_differentes"],
 
     love:
-      "Le Bélier aime avec élan et démontre souvent ses sentiments par l’action. Le Cancer exprime son attachement par la présence, les soins et la création d’un espace rassurant. Le Bélier peut apporter du courage au Cancer, tandis que le Cancer peut aider le Bélier à reconnaître la profondeur de ses émotions. Leur amour demande cependant beaucoup de délicatesse.",
+      __i18n["le_belier_aime_avec_elan_et_demontre_souvent_ses_sentiments"],
 
     communication:
-      "Le Bélier dit généralement ce qu’il pense sans détour. Le Cancer communique davantage par le ton, les silences et les réactions émotionnelles. Le Bélier peut ne pas comprendre pourquoi certaines paroles ont blessé, alors que le Cancer peut se refermer au lieu d’expliquer clairement son malaise. Ils progressent lorsque chacun adapte son langage à la sensibilité de l’autre.",
+      __i18n["le_belier_dit_generalement_ce_qu_il_pense_sans_detour_le_can"],
 
     attraction:
-      "L’attirance peut être surprenante et puissante. Le Cancer est souvent fasciné par la confiance et la détermination du Bélier. Le Bélier peut être touché par la douceur, l’intuition et la profondeur du Cancer. Cette attraction devient durable lorsque la force du Bélier sert à protéger le lien plutôt qu’à dominer les échanges.",
+      __i18n["l_attirance_peut_etre_surprenante_et_puissante_le_cancer_est"],
 
     trust:
-      "Le Cancer a besoin de stabilité émotionnelle et peut être déstabilisé par l’impulsivité du Bélier. Le Bélier, de son côté, peut se sentir incompris si le Cancer remet constamment en question ses intentions. La confiance exige des gestes cohérents, des paroles respectueuses et la capacité de rassurer sans tomber dans la dépendance ou la surveillance.",
+      __i18n["le_cancer_a_besoin_de_stabilite_emotionnelle_et_peut_etre_de"],
 
     dailyLife:
-      "Le Cancer apprécie généralement un foyer chaleureux et des habitudes qui renforcent le sentiment d’appartenance. Le Bélier a besoin d’action, d’autonomie et de projets extérieurs. Leur quotidien fonctionne mieux lorsqu’ils alternent les moments intimes avec les activités stimulantes, sans obliger l’un à vivre constamment selon les besoins de l’autre.",
+      __i18n["le_cancer_apprecie_generalement_un_foyer_chaleureux_et_des_h"],
 
     strengths:
-      "Le Bélier peut encourager le Cancer à défendre ses besoins et à sortir de sa zone de confort. Le Cancer peut enseigner au Bélier la patience, l’écoute et l’importance des liens affectifs. Ensemble, ils ont la possibilité d’unir courage et sensibilité, initiative et protection, passion et attachement.",
+      __i18n["le_belier_peut_encourager_le_cancer_a_defendre_ses_besoins_e"],
 
     challenges:
-      "Le Bélier risque de trouver le Cancer trop susceptible ou indirect. Le Cancer peut percevoir le Bélier comme brusque, centré sur lui-même ou émotionnellement imprudent. Les conflits deviennent difficiles lorsque le Bélier attaque pour obtenir une réponse et que le Cancer se retire pour se protéger.",
+      __i18n["le_belier_risque_de_trouver_le_cancer_trop_susceptible_ou_in"],
 
     advice:
-      "Le Bélier doit apprendre à ralentir avant de parler lorsqu’une émotion est forte. Le Cancer gagne à exprimer ses besoins directement plutôt qu’à attendre que son partenaire les devine. Les deux doivent éviter les réactions défensives et créer un climat où la franchise peut coexister avec la bienveillance.",
+      __i18n["le_belier_doit_apprendre_a_ralentir_avant_de_parler_lorsqu_u"],
 
     conclusion:
-      "Bélier et Cancer peuvent vivre une relation exigeante, mais profondément transformatrice. Le Bélier apporte le mouvement et le Cancer la profondeur affective. Lorsqu’ils respectent leurs différences et développent une communication plus douce, ils peuvent construire un lien protecteur, passionné et véritablement complémentaire.",
+      __i18n["belier_et_cancer_peuvent_vivre_une_relation_exigeante_mais_p"],
   },
 
   /*
@@ -209,40 +210,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "lion",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Lion",
+      __i18n["compatibilite_amoureuse_entre_belier_et_lion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Lion : passion, admiration, communication, confiance, forces et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_lion_pa"],
 
     introduction:
-      "Bélier et Lion partagent une énergie de feu qui favorise la passion, l’audace et le désir de vivre pleinement. Le Bélier aime initier, tandis que le Lion cherche à créer, rayonner et donner de l’ampleur à ce qu’il entreprend. Leur rencontre peut produire un couple dynamique, fier et particulièrement visible.",
+      __i18n["belier_et_lion_partagent_une_energie_de_feu_qui_favorise_la"],
 
     love:
-      "En amour, ces deux signes recherchent une relation intense et généreuse. Le Bélier apporte la spontanéité et le Lion une chaleur affective qui donne au lien une dimension spectaculaire. Ils aiment se sentir désirés, admirés et soutenus. Leur amour devient solide lorsqu’ils célèbrent mutuellement leurs réussites au lieu de chercher à occuper seuls le premier plan.",
+      __i18n["en_amour_ces_deux_signes_recherchent_une_relation_intense_et"],
 
     communication:
-      "La communication est franche, expressive et parfois théâtrale. Le Bélier va droit au but, alors que le Lion souhaite être entendu et respecté. Les disputes peuvent éclater rapidement, notamment lorsque l’un critique l’autre devant des personnes extérieures. Leur capacité à pardonner et à retrouver leur enthousiasme constitue néanmoins un avantage important.",
+      __i18n["la_communication_est_franche_expressive_et_parfois_theatrale"],
 
     attraction:
-      "L’attraction est souvent immédiate. Le Bélier est séduit par l’assurance, le charisme et la générosité du Lion. Le Lion apprécie le courage et l’énergie conquérante du Bélier. Leur passion peut rester forte à condition qu’ils continuent à se surprendre et à valoriser sincèrement les qualités de l’autre.",
+      __i18n["l_attraction_est_souvent_immediate_le_belier_est_seduit_par"],
 
     trust:
-      "La loyauté est importante pour les deux partenaires. Le Lion veut sentir qu’il occupe une place spéciale, tandis que le Bélier souhaite une relation claire et sans manipulation. La confiance peut être solide lorsque chacun respecte la fierté de l’autre. Les jeux de jalousie et les tentatives de provoquer une réaction risquent cependant de créer des blessures durables.",
+      __i18n["la_loyaute_est_importante_pour_les_deux_partenaires_le_lion"],
 
     dailyLife:
-      "Le quotidien de ce couple peut être actif, social et rempli de projets. Ils aiment organiser, recevoir, voyager ou poursuivre des objectifs ambitieux. Des tensions peuvent apparaître autour du leadership ou des dépenses impulsives. Une répartition claire des responsabilités les aide à éviter que chaque décision devienne une démonstration d’autorité.",
+      __i18n["le_quotidien_de_ce_couple_peut_etre_actif_social_et_rempli_d"],
 
     strengths:
-      "Bélier et Lion savent se motiver et défendre leur relation avec courage. Ils partagent un goût de l’action, une grande vitalité et la capacité d’encourager les ambitions de leur partenaire. Ensemble, ils peuvent créer une vie stimulante et inspirer leur entourage par leur enthousiasme.",
+      __i18n["belier_et_lion_savent_se_motiver_et_defendre_leur_relation_a"],
 
     challenges:
-      "Le principal défi concerne les égos. Le Bélier veut conserver son indépendance et le Lion souhaite que sa valeur soit reconnue. Une critique trop directe, un manque d’attention ou une compétition constante peuvent déclencher des conflits importants. Aucun des deux ne doit transformer l’amour en lutte pour la reconnaissance.",
+      __i18n["le_principal_defi_concerne_les_egos_le_belier_veut_conserver"],
 
     advice:
-      "Ils gagnent à pratiquer l’admiration réciproque sans flatterie artificielle. Le Bélier doit prendre en considération la sensibilité du Lion à la reconnaissance. Le Lion doit laisser au Bélier la liberté d’agir sans interpréter chaque initiative autonome comme un rejet. Leur couple progresse lorsqu’ils dirigent leur feu vers un projet commun.",
+      __i18n["ils_gagnent_a_pratiquer_l_admiration_reciproque_sans_flatter"],
 
     conclusion:
-      "Bélier et Lion peuvent former un couple passionné, ambitieux et profondément vivant. Leur compatibilité est forte lorsqu’ils utilisent leur énergie pour se soutenir plutôt que pour se surpasser mutuellement. Avec du respect, de la générosité et un partage équitable de l’attention, leur union peut rayonner durablement.",
+      __i18n["belier_et_lion_peuvent_former_un_couple_passionne_ambitieux"],
   },
 
   /*
@@ -256,40 +257,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "vierge",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Vierge",
+      __i18n["compatibilite_amoureuse_entre_belier_et_vierge"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Vierge : différences, communication, attraction, confiance et équilibre du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_vierge"],
 
     introduction:
-      "Bélier et Vierge fonctionnent selon des méthodes presque opposées. Le Bélier agit d’abord et ajuste ensuite, tandis que la Vierge observe, analyse et cherche à limiter les erreurs. Leur relation peut provoquer des incompréhensions, mais elle possède aussi un réel potentiel de complémentarité entre initiative et précision.",
+      __i18n["belier_et_vierge_fonctionnent_selon_des_methodes_presque_opp"],
 
     love:
-      "Le Bélier exprime souvent son amour de manière spontanée et énergique. La Vierge démontre davantage ses sentiments par des gestes utiles, une présence fiable et une attention aux détails. Le Bélier peut ne pas reconnaître immédiatement cette forme discrète d’affection, tandis que la Vierge peut douter de la constance d’un partenaire aussi impulsif.",
+      __i18n["le_belier_exprime_souvent_son_amour_de_maniere_spontanee_et"],
 
     communication:
-      "Le Bélier parle avec franchise et souhaite des réponses rapides. La Vierge choisit ses mots, analyse les nuances et peut relever ce qui lui semble incohérent. Le Bélier risque de percevoir ces observations comme des critiques, alors que la Vierge peut trouver son partenaire imprudent. Le dialogue devient plus fluide lorsqu’ils distinguent le conseil du jugement.",
+      __i18n["le_belier_parle_avec_franchise_et_souhaite_des_reponses_rapi"],
 
     attraction:
-      "L’attirance naît souvent de leurs différences. Le Bélier peut être intrigué par l’intelligence, la retenue et la compétence de la Vierge. La Vierge peut admirer le courage et la capacité du Bélier à agir sans se perdre dans les détails. Leur alchimie s’intensifie lorsqu’ils cessent d’essayer de modifier la personnalité de l’autre.",
+      __i18n["l_attirance_nait_souvent_de_leurs_differences_le_belier_peut"],
 
     trust:
-      "La Vierge accorde sa confiance progressivement et observe la cohérence entre les paroles et les actions. Le Bélier peut se montrer très sincère, mais changer rapidement de direction. Pour rassurer la Vierge, il doit respecter ses engagements. De son côté, la Vierge doit éviter d’interpréter chaque imprévu comme un signe d’irresponsabilité.",
+      __i18n["la_vierge_accorde_sa_confiance_progressivement_et_observe_la"],
 
     dailyLife:
-      "Leur vie quotidienne peut devenir très efficace lorsqu’ils répartissent les rôles selon leurs forces. Le Bélier lance les projets, prend des décisions et crée l’élan. La Vierge structure, vérifie et améliore les détails. Les tensions apparaissent si la Vierge corrige constamment le Bélier ou si le Bélier ignore systématiquement les conseils pratiques de la Vierge.",
+      __i18n["leur_vie_quotidienne_peut_devenir_tres_efficace_lorsqu_ils_r"],
 
     strengths:
-      "Cette relation peut unir courage et discernement. Le Bélier aide la Vierge à prendre davantage de risques et à faire confiance à son instinct. La Vierge aide le Bélier à organiser son énergie et à mener ses projets jusqu’au bout. Ensemble, ils peuvent obtenir des résultats qu’aucun des deux n’aurait atteints de la même façon seul.",
+      __i18n["cette_relation_peut_unir_courage_et_discernement_le_belier_a"],
 
     challenges:
-      "Le Bélier supporte difficilement les critiques répétées, tandis que la Vierge tolère mal les décisions désordonnées ou précipitées. Leurs conflits peuvent opposer l’impatience à l’inquiétude, puis créer une boucle où chacun renforce précisément le comportement que l’autre redoute.",
+      __i18n["le_belier_supporte_difficilement_les_critiques_repetees_tand"],
 
     advice:
-      "Le Bélier doit reconnaître que les questions de la Vierge ne servent pas toujours à ralentir les choses. La Vierge gagne à formuler ses observations avec encouragement et à accepter qu’une certaine part d’improvisation soit inévitable. Ils doivent se remercier davantage pour ce que chacun apporte concrètement à la relation.",
+      __i18n["le_belier_doit_reconnaitre_que_les_questions_de_la_vierge_ne"],
 
     conclusion:
-      "Bélier et Vierge peuvent construire une relation étonnamment productive et enrichissante. Leur compatibilité demande des ajustements, car l’un privilégie l’instinct et l’autre l’analyse. Lorsqu’ils valorisent leurs différences plutôt que de les combattre, ils forment un duo capable d’allier action, intelligence et sens pratique.",
+      __i18n["belier_et_vierge_peuvent_construire_une_relation_etonnamment"],
   },
 
   /*
@@ -303,40 +304,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "balance",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Balance",
+      __i18n["compatibilite_amoureuse_entre_belier_et_balance"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Balance : attraction, complémentarité, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_balance"],
 
     introduction:
-      "Bélier et Balance se trouvent à l’opposé l’un de l’autre dans le zodiaque, ce qui peut créer une attraction particulièrement forte. Le Bélier affirme son individualité et agit rapidement, tandis que la Balance recherche l’équilibre, le dialogue et la coopération. Cette opposition peut devenir une véritable complémentarité lorsqu’ils respectent leurs façons différentes de décider.",
+      __i18n["belier_et_balance_se_trouvent_a_l_oppose_l_un_de_l_autre_dan"],
 
     love:
-      "Le Bélier apporte à la relation la passion, le courage et une direction claire. La Balance ajoute le romantisme, l’élégance et le désir de construire un lien harmonieux. Le Bélier peut aider la Balance à choisir plus rapidement, tandis que la Balance apprend au Bélier à considérer les besoins du couple avant d’agir seul.",
+      __i18n["le_belier_apporte_a_la_relation_la_passion_le_courage_et_une"],
 
     communication:
-      "La Balance préfère généralement discuter calmement et examiner plusieurs perspectives. Le Bélier va droit au but et peut trouver cette approche trop hésitante. La Balance peut être déstabilisée par le ton direct du Bélier, mais elle possède souvent la diplomatie nécessaire pour apaiser les tensions. Le dialogue reste leur principal outil d’équilibre.",
+      __i18n["la_balance_prefere_generalement_discuter_calmement_et_examin"],
 
     attraction:
-      "L’attirance est souvent marquée par un jeu de contrastes. Le Bélier est fasciné par le charme, la douceur et la sociabilité de la Balance. La Balance peut être séduite par l’assurance et la spontanéité du Bélier. Leur alchimie combine initiative et séduction, intensité et raffinement.",
+      __i18n["l_attirance_est_souvent_marquee_par_un_jeu_de_contrastes_le"],
 
     trust:
-      "Le Bélier apprécie les positions claires et peut devenir méfiant lorsque la Balance évite de prendre parti. La Balance peut craindre les réactions trop vives du Bélier et choisir de cacher certains désaccords pour préserver la paix. La confiance se renforce lorsqu’ils expriment honnêtement leurs préférences sans utiliser la colère ou l’évitement.",
+      __i18n["le_belier_apprecie_les_positions_claires_et_peut_devenir_mef"],
 
     dailyLife:
-      "Le Bélier aime décider rapidement, alors que la Balance souhaite souvent comparer les options. Cette différence peut se manifester dans les achats, les sorties ou les projets communs. Leur quotidien devient harmonieux lorsque le Bélier prend en charge les situations qui exigent de l’action et que la Balance organise celles qui demandent négociation et sens de l’équilibre.",
+      __i18n["le_belier_aime_decider_rapidement_alors_que_la_balance_souha"],
 
     strengths:
-      "Ce couple possède une forte capacité de complémentarité. Le Bélier stimule la confiance et l’autonomie de la Balance. La Balance aide le Bélier à développer la patience, la coopération et une meilleure compréhension des relations. Ensemble, ils peuvent créer un lien vivant sans renoncer au respect mutuel.",
+      __i18n["ce_couple_possede_une_forte_capacite_de_complementarite_le_b"],
 
     challenges:
-      "Le Bélier peut considérer la Balance comme indécise ou trop préoccupée par l’opinion des autres. La Balance peut juger le Bélier trop brusque ou trop centré sur ses propres objectifs. Les tensions augmentent lorsque le Bélier impose une décision ou lorsque la Balance accepte quelque chose qu’elle ne souhaite pas vraiment.",
+      __i18n["le_belier_peut_considerer_la_balance_comme_indecise_ou_trop"],
 
     advice:
-      "Le Bélier doit laisser à la Balance un temps raisonnable pour réfléchir, sans transformer chaque hésitation en confrontation. La Balance doit exprimer clairement ses limites et ne pas sacrifier ses besoins pour éviter un conflit. En alternant leadership et coopération, ils trouvent un équilibre très naturel.",
+      __i18n["le_belier_doit_laisser_a_la_balance_un_temps_raisonnable_pou"],
 
     conclusion:
-      "Bélier et Balance peuvent former une union magnétique, romantique et profondément complémentaire. Leurs différences les obligent à grandir, mais elles constituent également leur plus grande richesse. Lorsqu’ils unissent l’audace du Bélier au sens relationnel de la Balance, leur couple peut atteindre un équilibre durable.",
+      __i18n["belier_et_balance_peuvent_former_une_union_magnetique_romant"],
   },
 
   /*
@@ -350,40 +351,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "scorpion",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Scorpion",
+      __i18n["compatibilite_amoureuse_entre_belier_et_scorpion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Scorpion : passion, intensité, confiance, communication et défis de cette relation.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_scorpio"],
 
     introduction:
-      "Bélier et Scorpion créent une rencontre intense entre deux personnalités puissantes. Le Bélier agit ouvertement et immédiatement, tandis que le Scorpion avance avec profondeur, stratégie et instinct. Leur relation peut être passionnée et transformatrice, mais elle exige une grande maturité pour éviter les rapports de force.",
+      __i18n["belier_et_scorpion_creent_une_rencontre_intense_entre_deux_p"],
 
     love:
-      "Le Bélier aime avec spontanéité et recherche une relation vivante. Le Scorpion souhaite un lien profond, exclusif et émotionnellement authentique. Le Bélier peut être fasciné par le mystère du Scorpion, tandis que le Scorpion admire le courage du Bélier. Leur amour devient très fort lorsque chacun accepte de montrer sa vulnérabilité.",
+      __i18n["le_belier_aime_avec_spontaneite_et_recherche_une_relation_vi"],
 
     communication:
-      "Le Bélier exprime rapidement ce qu’il pense et peut oublier un conflit aussi vite qu’il l’a commencé. Le Scorpion observe davantage, retient les détails et cherche à comprendre ce qui se cache derrière les paroles. Les échanges deviennent difficiles si le Bélier minimise les blessures ou si le Scorpion utilise le silence pour garder le contrôle.",
+      __i18n["le_belier_exprime_rapidement_ce_qu_il_pense_et_peut_oublier"],
 
     attraction:
-      "L’attraction peut être extrêmement puissante. Ces deux signes possèdent une énergie passionnée et une forte volonté. Le Bélier apporte l’élan et le Scorpion l’intensité émotionnelle. Leur alchimie peut être magnétique, mais elle doit rester fondée sur le respect plutôt que sur la provocation, la jalousie ou la compétition.",
+      __i18n["l_attraction_peut_etre_extremement_puissante_ces_deux_signes"],
 
     trust:
-      "Le Scorpion accorde une importance centrale à la loyauté et peut détecter rapidement les contradictions. Le Bélier apprécie la franchise, mais supporte mal d’être interrogé ou surveillé. La confiance nécessite une transparence réelle, des limites claires et l’abandon des jeux de pouvoir. Une trahison ou une manipulation serait difficile à surmonter.",
+      __i18n["le_scorpion_accorde_une_importance_centrale_a_la_loyaute_et"],
 
     dailyLife:
-      "Le Bélier aime conserver une grande liberté d’action, tandis que le Scorpion souhaite comprendre les motivations et les projets de son partenaire. Ils peuvent accomplir beaucoup ensemble, car tous deux sont déterminés. Cependant, leur quotidien devient tendu si chaque décision se transforme en test d’influence ou de loyauté.",
+      __i18n["le_belier_aime_conserver_une_grande_liberte_d_action_tandis"],
 
     strengths:
-      "Bélier et Scorpion possèdent une immense capacité de résistance. Ils peuvent se soutenir dans les crises, défendre leurs projets et refuser d’abandonner lorsque les circonstances deviennent difficiles. Leur relation peut favoriser un profond dépassement de soi et une transformation importante chez les deux partenaires.",
+      __i18n["belier_et_scorpion_possedent_une_immense_capacite_de_resista"],
 
     challenges:
-      "Leur principal défi réside dans la gestion du pouvoir. Le Bélier veut agir librement et le Scorpion souhaite garder une certaine maîtrise de la situation. Les réactions impulsives du Bélier peuvent réveiller la méfiance du Scorpion, tandis que l’intensité du Scorpion peut sembler étouffante au Bélier.",
+      __i18n["leur_principal_defi_reside_dans_la_gestion_du_pouvoir_le_bel"],
 
     advice:
-      "Le Bélier doit éviter de provoquer le Scorpion simplement pour obtenir une réaction. Le Scorpion doit exprimer ses craintes directement plutôt que de tester ou d’analyser silencieusement son partenaire. Ils gagnent à créer des règles claires concernant la liberté, la fidélité, les conflits et le respect de la vie privée.",
+      __i18n["le_belier_doit_eviter_de_provoquer_le_scorpion_simplement_po"],
 
     conclusion:
-      "Bélier et Scorpion peuvent vivre une relation passionnée, profonde et inoubliable. Leur compatibilité n’est pas toujours paisible, mais elle possède une force exceptionnelle. Lorsqu’ils transforment leur besoin de contrôle en engagement commun, ils peuvent former un couple loyal, courageux et extrêmement uni.",
+      __i18n["belier_et_scorpion_peuvent_vivre_une_relation_passionnee_pro"],
   },
 
   /*
@@ -397,40 +398,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "sagittaire",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Sagittaire",
+      __i18n["compatibilite_amoureuse_entre_belier_et_sagittaire"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Sagittaire : aventure, passion, liberté, communication et potentiel à long terme.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_sagitta"],
 
     introduction:
-      "Bélier et Sagittaire partagent une énergie enthousiaste, indépendante et tournée vers l’avenir. Le Bélier aime lancer de nouvelles expériences, tandis que le Sagittaire recherche l’expansion, la découverte et la liberté. Leur relation peut se développer naturellement autour d’une vision optimiste de la vie.",
+      __i18n["belier_et_sagittaire_partagent_une_energie_enthousiaste_inde"],
 
     love:
-      "En amour, ces deux signes apprécient une relation qui laisse de l’espace à l’individualité. Le Bélier apporte la passion immédiate et le Sagittaire une ouverture qui élargit les horizons du couple. Ils se stimulent mutuellement et peuvent vivre une histoire joyeuse, à condition de ne pas fuir les responsabilités affectives lorsque la nouveauté s’estompe.",
+      __i18n["en_amour_ces_deux_signes_apprecient_une_relation_qui_laisse"],
 
     communication:
-      "Leur communication est généralement directe, spontanée et remplie d’humour. Le Bélier apprécie la franchise du Sagittaire, même si certaines remarques peuvent manquer de tact. Le Sagittaire comprend bien le besoin d’action du Bélier. Ils doivent toutefois apprendre à écouter jusqu’au bout au lieu de transformer chaque discussion en débat ou en plaisanterie.",
+      __i18n["leur_communication_est_generalement_directe_spontanee_et_rem"],
 
     attraction:
-      "L’attraction repose sur l’énergie, la confiance et le goût de l’aventure. Le Bélier est attiré par l’optimisme et l’indépendance du Sagittaire. Le Sagittaire apprécie l’audace et la capacité d’initiative du Bélier. Leur passion reste vivante lorsque le couple continue à explorer de nouveaux projets, lieux ou idées.",
+      __i18n["l_attraction_repose_sur_l_energie_la_confiance_et_le_gout_de"],
 
     trust:
-      "Les deux partenaires accordent beaucoup d’importance à leur liberté. Cette compréhension commune peut favoriser la confiance, mais elle exige une communication claire sur les limites de la relation. Le Bélier peut devenir jaloux s’il se sent négligé, tandis que le Sagittaire supporte mal les restrictions ou les soupçons constants.",
+      __i18n["les_deux_partenaires_accordent_beaucoup_d_importance_a_leur"],
 
     dailyLife:
-      "Leur quotidien peut être très actif et parfois désorganisé. Ils aiment les projets spontanés, les voyages, les activités physiques et les changements de programme. Les tâches répétitives ou les obligations administratives risquent d’être repoussées. Une certaine structure est nécessaire pour éviter que leur liberté repose constamment sur les efforts d’une autre personne.",
+      __i18n["leur_quotidien_peut_etre_tres_actif_et_parfois_desorganise_i"],
 
     strengths:
-      "Bélier et Sagittaire savent s’encourager et retrouver rapidement leur enthousiasme après une difficulté. Ils partagent le courage, l’optimisme et le désir de progresser. Leur couple peut favoriser la croissance personnelle et offrir à chacun la sensation d’être soutenu sans être limité.",
+      __i18n["belier_et_sagittaire_savent_s_encourager_et_retrouver_rapide"],
 
     challenges:
-      "Le Bélier peut vouloir une réponse immédiate, alors que le Sagittaire refuse de se sentir enfermé. Les deux peuvent agir impulsivement, parler trop franchement ou promettre davantage qu’ils ne peuvent réellement accomplir. Leur tendance à chercher constamment la prochaine expérience peut aussi nuire à la construction d’une stabilité durable.",
+      __i18n["le_belier_peut_vouloir_une_reponse_immediate_alors_que_le_sa"],
 
     advice:
-      "Ils doivent préserver leur liberté tout en définissant clairement leurs engagements. Le Bélier gagne à ne pas interpréter chaque besoin d’espace comme un manque d’amour. Le Sagittaire doit démontrer sa fiabilité par des actions concrètes. Des projets communs à long terme peuvent donner une direction à toute leur énergie.",
+      __i18n["ils_doivent_preserver_leur_liberte_tout_en_definissant_clair"],
 
     conclusion:
-      "Bélier et Sagittaire forment souvent un couple naturel, vivant et aventureux. Leur relation peut conserver longtemps sa fraîcheur grâce à leur curiosité commune. Lorsqu’ils ajoutent de la constance à leur enthousiasme, ils peuvent bâtir une union libre, passionnée et durable.",
+      __i18n["belier_et_sagittaire_forment_souvent_un_couple_naturel_vivan"],
   },
 
   /*
@@ -444,40 +445,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "capricorne",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Capricorne",
+      __i18n["compatibilite_amoureuse_entre_belier_et_capricorne"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Capricorne : ambitions, communication, confiance, différences et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_caprico"],
 
     introduction:
-      "Bélier et Capricorne possèdent tous les deux une forte volonté, mais ils l’expriment de manière très différente. Le Bélier agit rapidement et cherche à ouvrir la voie, tandis que le Capricorne avance avec stratégie, patience et sens des responsabilités. Leur relation peut devenir puissante lorsqu’ils reconnaissent la valeur de ces deux formes d’ambition.",
+      __i18n["belier_et_capricorne_possedent_tous_les_deux_une_forte_volon"],
 
     love:
-      "Le Bélier apporte de la chaleur, de la spontanéité et une énergie qui peut réveiller le côté plus audacieux du Capricorne. Le Capricorne offre de la stabilité, de la loyauté et une capacité à construire dans le temps. Le Bélier peut toutefois souhaiter davantage de démonstrations affectives, alors que le Capricorne exprime souvent son amour par ses actes.",
+      __i18n["le_belier_apporte_de_la_chaleur_de_la_spontaneite_et_une_ene"],
 
     communication:
-      "Le Bélier communique rapidement et préfère régler les choses sur-le-champ. Le Capricorne réfléchit aux conséquences et peut adopter un ton plus réservé. Le Bélier risque de trouver cette prudence froide ou pessimiste. Le Capricorne peut juger le Bélier imprudent. Leur dialogue s’améliore lorsqu’ils évitent de présenter leur propre méthode comme la seule raisonnable.",
+      __i18n["le_belier_communique_rapidement_et_prefere_regler_les_choses"],
 
     attraction:
-      "L’attraction peut naître d’une admiration réciproque. Le Bélier respecte la force, l’autonomie et la détermination du Capricorne. Le Capricorne peut être séduit par l’audace et la vitalité du Bélier. Leur alchimie devient plus évidente lorsqu’ils quittent les rôles de compétition pour découvrir leur sensibilité respective.",
+      __i18n["l_attraction_peut_naitre_d_une_admiration_reciproque_le_beli"],
 
     trust:
-      "Le Capricorne valorise la fiabilité et observe si les promesses sont suivies d’actions. Le Bélier peut être sincère sur le moment, mais changer rapidement de priorité. Pour bâtir la confiance, il doit montrer davantage de constance. Le Capricorne doit aussi éviter de traiter le Bélier comme une personne qu’il faut continuellement encadrer.",
+      __i18n["le_capricorne_valorise_la_fiabilite_et_observe_si_les_promes"],
 
     dailyLife:
-      "Le Bélier aime agir selon l’inspiration, alors que le Capricorne organise les étapes et les responsabilités. Cette différence peut devenir très productive : le Bélier crée l’impulsion et le Capricorne assure la progression. Des tensions apparaissent toutefois si le Capricorne contrôle tout ou si le Bélier refuse les contraintes nécessaires à leurs projets.",
+      __i18n["le_belier_aime_agir_selon_l_inspiration_alors_que_le_caprico"],
 
     strengths:
-      "Ce couple possède une grande capacité de réalisation. Le Bélier ose commencer ce que le Capricorne hésite parfois à entreprendre. Le Capricorne donne au Bélier la discipline nécessaire pour atteindre un objectif à long terme. Ensemble, ils peuvent construire une vie ambitieuse, stable et tournée vers le progrès.",
+      __i18n["ce_couple_possede_une_grande_capacite_de_realisation_le_beli"],
 
     challenges:
-      "Les deux signes veulent souvent diriger. Le Bélier recherche une victoire rapide, tandis que le Capricorne préfère contrôler le processus et obtenir un résultat durable. Leur rigidité peut créer des affrontements où aucun ne souhaite reconnaître l’autorité ou la compétence de l’autre.",
+      __i18n["les_deux_signes_veulent_souvent_diriger_le_belier_recherche"],
 
     advice:
-      "Le Bélier doit respecter le rythme du Capricorne et comprendre que la prudence n’est pas nécessairement un refus. Le Capricorne gagne à laisser davantage de place à l’initiative et à l’improvisation. Ils doivent définir ensemble leurs objectifs, leurs responsabilités et les domaines dans lesquels chacun possède le dernier mot.",
+      __i18n["le_belier_doit_respecter_le_rythme_du_capricorne_et_comprend"],
 
     conclusion:
-      "Bélier et Capricorne peuvent former un couple exigeant, mais extrêmement solide. Leur réussite dépend de leur capacité à unir l’audace du Bélier à la discipline du Capricorne. Lorsqu’ils cessent de rivaliser pour le contrôle, ils deviennent une équipe ambitieuse et capable de construire sur le long terme.",
+      __i18n["belier_et_capricorne_peuvent_former_un_couple_exigeant_mais"],
   },
 
   /*
@@ -491,40 +492,40 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "verseau",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Verseau",
+      __i18n["compatibilite_amoureuse_entre_belier_et_verseau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Verseau : liberté, complicité, attraction, communication et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_verseau"],
 
     introduction:
-      "Bélier et Verseau forment une combinaison dynamique, indépendante et tournée vers la nouveauté. Le Bélier possède l’énergie nécessaire pour lancer les projets, tandis que le Verseau apporte des idées originales et une vision différente. Leur relation peut être très stimulante lorsqu’elle respecte le besoin d’autonomie de chacun.",
+      __i18n["belier_et_verseau_forment_une_combinaison_dynamique_independ"],
 
     love:
-      "Le Bélier apprécie le caractère imprévisible et libre du Verseau. Le Verseau est attiré par la spontanéité et le courage du Bélier. Leur amour peut commencer par une forte complicité ou une amitié stimulante. Ils ont toutefois intérêt à exprimer davantage leurs émotions afin que la relation ne repose pas uniquement sur les activités et les idées partagées.",
+      __i18n["le_belier_apprecie_le_caractere_imprevisible_et_libre_du_ver"],
 
     communication:
-      "Leur communication est généralement vivante, inventive et directe. Le Verseau aime explorer des concepts originaux, alors que le Bélier veut rapidement transformer les idées en actions. Leurs échanges peuvent produire de nombreux projets. Des tensions apparaissent si le Bélier exige une implication émotionnelle immédiate ou si le Verseau se réfugie dans la distance intellectuelle.",
+      __i18n["leur_communication_est_generalement_vivante_inventive_et_dir"],
 
     attraction:
-      "L’attraction est alimentée par la surprise et la liberté. Le Bélier aime conquérir ce qui ne se laisse pas facilement définir, tandis que le Verseau apprécie un partenaire capable de suivre son rythme. Leur alchimie reste forte lorsque chacun conserve ses intérêts personnels et apporte régulièrement quelque chose de nouveau à la relation.",
+      __i18n["l_attraction_est_alimentee_par_la_surprise_et_la_liberte_le"],
 
     trust:
-      "Le Verseau a besoin de liberté et peut résister aux attentes qu’il considère comme trop conventionnelles. Le Bélier peut accepter l’indépendance, mais veut savoir clairement où il se situe. La confiance grandit lorsque le Verseau communique ses intentions sans ambiguïté et que le Bélier évite de transformer son besoin de clarté en contrôle.",
+      __i18n["le_verseau_a_besoin_de_liberte_et_peut_resister_aux_attentes"],
 
     dailyLife:
-      "Leur quotidien est rarement traditionnel. Ils aiment expérimenter, modifier leurs habitudes et suivre leurs propres règles. Cette souplesse peut être libératrice, mais elle demande une organisation minimale. Les responsabilités pratiques ne doivent pas être négligées simplement parce qu’elles paraissent moins stimulantes que leurs nouveaux projets.",
+      __i18n["leur_quotidien_est_rarement_traditionnel_ils_aiment_experime"],
 
     strengths:
-      "Bélier et Verseau encouragent l’individualité et l’innovation. Le Bélier donne au Verseau l’impulsion nécessaire pour concrétiser ses idées. Le Verseau aide le Bélier à envisager des solutions moins évidentes. Leur couple peut être créatif, moderne et capable de s’adapter rapidement aux changements.",
+      __i18n["belier_et_verseau_encouragent_l_individualite_et_l_innovatio"],
 
     challenges:
-      "Le Bélier peut souhaiter davantage de chaleur ou de réactions immédiates, tandis que le Verseau peut prendre de la distance lorsqu’il se sent sous pression. Leurs fortes personnalités risquent également de créer des conflits autour de l’indépendance, des engagements et de la définition même du couple.",
+      __i18n["le_belier_peut_souhaiter_davantage_de_chaleur_ou_de_reaction"],
 
     advice:
-      "Ils doivent discuter ouvertement de leurs attentes plutôt que de supposer qu’ils partagent la même vision de la liberté. Le Bélier gagne à respecter les moments de recul du Verseau. Le Verseau doit offrir une présence affective suffisamment claire pour éviter que son indépendance soit interprétée comme de l’indifférence.",
+      __i18n["ils_doivent_discuter_ouvertement_de_leurs_attentes_plutot_qu"],
 
     conclusion:
-      "Bélier et Verseau possèdent une excellente compatibilité fondée sur l’énergie, l’originalité et le respect de l’autonomie. Leur relation peut rester stimulante pendant longtemps. Lorsqu’ils associent leur liberté à un engagement clairement défini, ils forment un couple inventif, complice et tourné vers l’avenir.",
+      __i18n["belier_et_verseau_possedent_une_excellente_compatibilite_fon"],
   },
 
   /*
@@ -538,39 +539,39 @@ export const BELIER_COMPATIBILITY_PAGES:
     signB: "poissons",
 
     title:
-      "Compatibilité amoureuse entre Bélier et Poissons",
+      __i18n["compatibilite_amoureuse_entre_belier_et_poissons"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Bélier et Poissons : sensibilité, passion, communication, confiance et équilibre de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_belier_et_poisson"],
 
     introduction:
-      "Bélier et Poissons réunissent l’action instinctive et la sensibilité intuitive. Le Bélier avance avec franchise et détermination, tandis que les Poissons ressentent les atmosphères, perçoivent les nuances et suivent davantage leur monde intérieur. Cette relation peut être tendre et inspirante, mais elle demande une grande compréhension émotionnelle.",
+      __i18n["belier_et_poissons_reunissent_l_action_instinctive_et_la_sen"],
 
     love:
-      "Le Bélier exprime son amour par l’enthousiasme, la protection et les initiatives. Les Poissons offrent une affection douce, imaginative et profondément empathique. Le Bélier peut aider les Poissons à agir avec davantage de confiance. Les Poissons peuvent révéler au Bélier une dimension plus subtile de ses émotions et de ses besoins affectifs.",
+      __i18n["le_belier_exprime_son_amour_par_l_enthousiasme_la_protection"],
 
     communication:
-      "Le Bélier communique directement et peut s’impatienter devant les réponses vagues ou hésitantes. Les Poissons s’expriment souvent par impressions, émotions et sous-entendus. Ils peuvent se sentir blessés par une parole que le Bélier considérait simplement comme honnête. Une communication plus lente et plus précise est essentielle.",
+      __i18n["le_belier_communique_directement_et_peut_s_impatienter_devan"],
 
     attraction:
-      "L’attirance repose sur une différence intrigante. Le Bélier peut être touché par la douceur, la créativité et le mystère des Poissons. Les Poissons sont souvent attirés par la force et l’assurance du Bélier. Leur alchimie peut être romantique et intense lorsque le Bélier respecte la sensibilité de son partenaire.",
+      __i18n["l_attirance_repose_sur_une_difference_intrigante_le_belier_p"],
 
     trust:
-      "Le Bélier souhaite généralement des réponses claires, alors que les Poissons peuvent avoir besoin de temps pour comprendre leurs propres sentiments. Cette différence peut créer de la confusion. La confiance se construit lorsque les Poissons expriment leurs limites avec franchise et que le Bélier évite les pressions, les ultimatums ou les réactions trop brusques.",
+      __i18n["le_belier_souhaite_generalement_des_reponses_claires_alors_q"],
 
     dailyLife:
-      "Le Bélier privilégie l’action et les résultats visibles. Les Poissons fonctionnent davantage selon l’inspiration et peuvent avoir besoin de périodes de retrait. Leur quotidien devient harmonieux lorsque le Bélier aide à structurer les projets sans tout contrôler et que les Poissons participent concrètement aux responsabilités du couple.",
+      __i18n["le_belier_privilegie_l_action_et_les_resultats_visibles_les"],
 
     strengths:
-      "Le Bélier apporte courage, direction et capacité à défendre la relation. Les Poissons offrent compassion, intuition et imagination. Ensemble, ils peuvent unir la force et la douceur. Le Bélier apprend à considérer davantage les émotions, tandis que les Poissons développent leur confiance et leur capacité d’action.",
+      __i18n["le_belier_apporte_courage_direction_et_capacite_a_defendre_l"],
 
     challenges:
-      "Le Bélier peut considérer les Poissons comme trop indécis, sensibles ou difficiles à comprendre. Les Poissons peuvent percevoir le Bélier comme trop intense ou peu attentif aux nuances émotionnelles. Le risque principal est que le Bélier impose son rythme pendant que les Poissons évitent le conflit jusqu’à l’épuisement.",
+      __i18n["le_belier_peut_considerer_les_poissons_comme_trop_indecis_se"],
 
     advice:
-      "Le Bélier doit poser des questions avec douceur et laisser aux Poissons le temps de formuler leurs émotions. Les Poissons gagnent à exprimer clairement leurs besoins plutôt que d’espérer qu’ils soient devinés. Des projets créatifs, spirituels ou humanitaires peuvent renforcer leur sentiment de complémentarité.",
+      __i18n["le_belier_doit_poser_des_questions_avec_douceur_et_laisser_a"],
 
     conclusion:
-      "Bélier et Poissons peuvent former un couple sensible, protecteur et profondément inspirant. Leur compatibilité demande des efforts, car ils ne perçoivent pas toujours les situations de la même façon. Lorsqu’ils associent la force du Bélier à l’intuition des Poissons, leur relation peut devenir aussi courageuse que tendre.",
+      __i18n["belier_et_poissons_peuvent_former_un_couple_sensible_protect"],
   },
 ];

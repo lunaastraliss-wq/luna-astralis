@@ -1,0 +1,20 @@
+{
+  "f4c95d": "#f4c95d",
+  "4fa3ff": "#4fa3ff",
+  "ff5c5c": "#ff5c5c",
+  "4fa3ff_2": "#4fa3ff",
+  "ff5c5c_2": "#ff5c5c",
+  "0_auto": "0 auto",
+  "carte_du_ciel_astrologique": "Carte du ciel astrologique",
+  "repeat_5_minmax_0_1fr": "repeat(5, minmax(0, 1fr))",
+  "14px_16px": "14px 16px",
+  "1px_solid_rgba_244_201_93_0_4": "1px solid rgba(244, 201, 93, 0.4)",
+  "rgba_7_13_29_0_62": "rgba(7, 13, 29, 0.62)",
+  "blur_8px": "blur(8px)",
+  "10px_22px": "10px 22px",
+  "f4c95d_2": "#f4c95d",
+  "ascendant": "Ascendant :",
+  "f4c95d_3": "#f4c95d",
+  "milieu_du_ciel": "Milieu du ciel :",
+  "media_max_width_620px_natal_aspect_legend_grid_template_colu": "@media (max-width: 620px) { .natal-aspect-legend { grid-template-columns: repeat( 2, minmax(0, 1fr) ) !important; } .natal-aspect-legend > div:last-child { grid-column: 1 / -1; } }"
+}

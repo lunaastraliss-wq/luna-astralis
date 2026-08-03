@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/lion";
 import type {
   CompatibilityPageData,
 } from "./types";
@@ -21,40 +22,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "belier",
 
     title:
-      "Compatibilité amoureuse entre Lion et Bélier",
+      __i18n["compatibilite_amoureuse_entre_lion_et_belier"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Bélier : passion, admiration, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_belier_pa"],
 
     introduction:
-      "Lion et Bélier forment une union énergique, passionnée et tournée vers l’action. Le Lion aime rayonner, créer et inspirer, tandis que le Bélier possède l’élan nécessaire pour démarrer rapidement de nouveaux projets. Leur relation peut être très stimulante lorsque chacun accepte de partager la lumière.",
+      __i18n["lion_et_belier_forment_une_union_energique_passionnee_et_tou"],
 
     love:
-      "En amour, le Lion apporte de la chaleur, de la générosité et un fort besoin de construire une relation valorisante. Le Bélier offre de la passion, de l’audace et une spontanéité qui entretient l’enthousiasme. Leur amour peut être intense, démonstratif et profondément vivant.",
+      __i18n["en_amour_le_lion_apporte_de_la_chaleur_de_la_generosite_et_u"],
 
     communication:
-      "Le Lion communique avec assurance et souhaite que ses sentiments soient respectés. Le Bélier s’exprime directement et préfère régler les problèmes rapidement. Leurs échanges peuvent être francs et efficaces, mais aussi explosifs lorsque la fierté du Lion rencontre l’impatience du Bélier.",
+      __i18n["le_lion_communique_avec_assurance_et_souhaite_que_ses_sentim"],
 
     attraction:
-      "L’attirance est souvent immédiate. Le Lion est séduit par le courage et la détermination du Bélier. Le Bélier apprécie le charisme, la confiance et la générosité du Lion. Leur alchimie reste forte lorsqu’ils continuent à s’admirer mutuellement.",
+      __i18n["l_attirance_est_souvent_immediate_le_lion_est_seduit_par_le"],
 
     trust:
-      "Les deux partenaires accordent beaucoup d’importance à la loyauté et à la franchise. Le Lion veut se sentir choisi et valorisé, tandis que le Bélier souhaite une relation claire et authentique. Les jeux de jalousie ou les provocations peuvent rapidement fragiliser leur confiance.",
+      __i18n["les_deux_partenaires_accordent_beaucoup_d_importance_a_la_lo"],
 
     dailyLife:
-      "Leur quotidien est souvent actif, social et rempli de projets. Le Lion aime organiser et donner de l’ampleur aux idées, tandis que le Bélier agit rapidement. Ils doivent toutefois répartir clairement les responsabilités afin d’éviter les luttes de pouvoir.",
+      __i18n["leur_quotidien_est_souvent_actif_social_et_rempli_de_projets"],
 
     strengths:
-      "Lion et Bélier possèdent du courage, de l’énergie et une grande capacité à se motiver. Ensemble, ils peuvent entreprendre, surmonter les obstacles et créer une relation inspirante. Leur enthousiasme commun constitue l’une de leurs plus grandes forces.",
+      __i18n["lion_et_belier_possedent_du_courage_de_l_energie_et_une_gran"],
 
     challenges:
-      "Le principal défi concerne les égos et le besoin de diriger. Le Lion supporte mal d’être ignoré, tandis que le Bélier n’apprécie pas qu’on limite ses initiatives. Les conflits deviennent importants lorsque chacun cherche à prouver qu’il a raison.",
+      __i18n["le_principal_defi_concerne_les_egos_et_le_besoin_de_diriger"],
 
     advice:
-      "Le Lion doit laisser au Bélier suffisamment de liberté pour agir. Le Bélier gagne à reconnaître les efforts et les qualités du Lion. Ils doivent transformer leur esprit de compétition en projet commun et apprendre à alterner le leadership.",
+      __i18n["le_lion_doit_laisser_au_belier_suffisamment_de_liberte_pour"],
 
     conclusion:
-      "Lion et Bélier possèdent une excellente compatibilité fondée sur la passion, le courage et l’admiration. Leur couple peut être puissant et durable lorsqu’ils cessent de rivaliser pour l’attention. Ensemble, ils peuvent construire une union chaleureuse et ambitieuse.",
+      __i18n["lion_et_belier_possedent_une_excellente_compatibilite_fondee"],
   },
 
   /*
@@ -68,40 +69,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "taureau",
 
     title:
-      "Compatibilité amoureuse entre Lion et Taureau",
+      __i18n["compatibilite_amoureuse_entre_lion_et_taureau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Taureau : loyauté, sensualité, fierté, confiance et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_taureau_l"],
 
     introduction:
-      "Lion et Taureau sont deux signes fixes, déterminés et attachés à leurs valeurs. Le Lion recherche la chaleur, la reconnaissance et une relation généreuse, tandis que le Taureau privilégie la stabilité, la sensualité et la sécurité. Leur couple peut devenir très solide, mais demande beaucoup de souplesse.",
+      __i18n["lion_et_taureau_sont_deux_signes_fixes_determines_et_attache"],
 
     love:
-      "Le Lion apporte du romantisme, de la passion et le désir de valoriser son partenaire. Le Taureau offre une présence constante, une grande fidélité et un amour concret. Ils apprécient tous deux la qualité, le confort et les relations capables de durer.",
+      __i18n["le_lion_apporte_du_romantisme_de_la_passion_et_le_desir_de_v"],
 
     communication:
-      "Le Lion communique avec assurance et souhaite être entendu. Le Taureau parle calmement, mais devient difficile à faire changer d’avis. Leurs discussions peuvent se transformer en affrontements prolongés si chacun protège sa fierté et refuse le compromis.",
+      __i18n["le_lion_communique_avec_assurance_et_souhaite_etre_entendu_l"],
 
     attraction:
-      "L’attirance est souvent forte, sensuelle et magnétique. Le Lion apprécie la présence rassurante du Taureau, tandis que le Taureau est séduit par le charisme et la chaleur du Lion. Leur alchimie peut être très durable lorsqu’elle repose sur une admiration sincère.",
+      __i18n["l_attirance_est_souvent_forte_sensuelle_et_magnetique_le_lio"],
 
     trust:
-      "La loyauté est essentielle aux deux partenaires. Le Lion souhaite se sentir important et admiré, tandis que le Taureau veut une présence constante et prévisible. La jalousie, la possessivité ou le manque de reconnaissance peuvent fragiliser leur confiance.",
+      __i18n["la_loyaute_est_essentielle_aux_deux_partenaires_le_lion_souh"],
 
     dailyLife:
-      "Lion et Taureau aiment souvent le confort, les beaux objets et les plaisirs de la vie. Leur quotidien peut être agréable et stable. Les tensions apparaissent cependant autour des dépenses, des décisions importantes et du partage de l’autorité.",
+      __i18n["lion_et_taureau_aiment_souvent_le_confort_les_beaux_objets_e"],
 
     strengths:
-      "Cette union possède beaucoup d’endurance, de fidélité et de générosité. Le Lion apporte l’enthousiasme et le Taureau la stabilité. Ensemble, ils peuvent créer une vie confortable, solide et remplie de chaleur.",
+      __i18n["cette_union_possede_beaucoup_d_endurance_de_fidelite_et_de_g"],
 
     challenges:
-      "Leur entêtement commun représente leur principal obstacle. Le Taureau résiste lorsqu’il se sent forcé, tandis que le Lion supporte mal de ne pas être reconnu. Une simple divergence peut devenir une lutte de pouvoir.",
+      __i18n["leur_entetement_commun_represente_leur_principal_obstacle_le"],
 
     advice:
-      "Le Lion doit respecter le rythme et les limites du Taureau. Le Taureau gagne à exprimer davantage son admiration et à laisser une place à la spontanéité. Ils doivent négocier sans considérer chaque compromis comme une défaite.",
+      __i18n["le_lion_doit_respecter_le_rythme_et_les_limites_du_taureau_l"],
 
     conclusion:
-      "Lion et Taureau peuvent former un couple loyal, sensuel et capable de durer. Leur compatibilité demande de la patience et de la souplesse. Lorsqu’ils remplacent l’entêtement par le respect, ils construisent une union particulièrement solide.",
+      __i18n["lion_et_taureau_peuvent_former_un_couple_loyal_sensuel_et_ca"],
   },
 
   /*
@@ -115,40 +116,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "gemeaux",
 
     title:
-      "Compatibilité amoureuse entre Lion et Gémeaux",
+      __i18n["compatibilite_amoureuse_entre_lion_et_gemeaux"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Gémeaux : complicité, attraction, communication, confiance et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_gemeaux_c"],
 
     introduction:
-      "Lion et Gémeaux forment généralement un couple vivant, social et créatif. Le Lion apporte de la chaleur, de l’assurance et une forte présence, tandis que le Gémeaux nourrit la relation par ses idées, son humour et sa curiosité. Leur union peut rester stimulante pendant longtemps.",
+      __i18n["lion_et_gemeaux_forment_generalement_un_couple_vivant_social"],
 
     love:
-      "Le Lion aime se sentir admiré, choisi et soutenu. Le Gémeaux apprécie une relation légère, intelligente et ouverte aux découvertes. Le Lion apporte de la profondeur et de la générosité, tandis que le Gémeaux évite que la relation ne devienne trop prévisible.",
+      __i18n["le_lion_aime_se_sentir_admire_choisi_et_soutenu_le_gemeaux_a"],
 
     communication:
-      "Le Gémeaux aime discuter de nombreux sujets et utiliser l’humour. Le Lion communique avec passion et souhaite que ses émotions soient prises au sérieux. Le Gémeaux doit éviter de minimiser les sentiments du Lion, tandis que le Lion gagne à ne pas dramatiser chaque désaccord.",
+      __i18n["le_gemeaux_aime_discuter_de_nombreux_sujets_et_utiliser_l_hu"],
 
     attraction:
-      "L’attirance est souvent immédiate et joyeuse. Le Lion est séduit par la vivacité et l’intelligence du Gémeaux. Le Gémeaux apprécie le charisme, la confiance et la générosité du Lion. Leur alchimie est nourrie par les sorties et les projets créatifs.",
+      __i18n["l_attirance_est_souvent_immediate_et_joyeuse_le_lion_est_sed"],
 
     trust:
-      "Le Lion souhaite une loyauté claire et une attention régulière. Le Gémeaux a besoin de liberté sociale et intellectuelle. La confiance grandit lorsque le Gémeaux communique ses intentions et que le Lion évite la jalousie excessive.",
+      __i18n["le_lion_souhaite_une_loyaute_claire_et_une_attention_regulie"],
 
     dailyLife:
-      "Leur quotidien peut être rempli d’activités, de rencontres et de nouvelles idées. Le Lion aime organiser et créer des moments mémorables, tandis que le Gémeaux apporte de la variété. Ils doivent toutefois veiller à gérer les responsabilités pratiques.",
+      __i18n["leur_quotidien_peut_etre_rempli_d_activites_de_rencontres_et"],
 
     strengths:
-      "Lion et Gémeaux se stimulent mutuellement et savent maintenir une atmosphère positive. Le Lion donne de l’ampleur aux idées du Gémeaux, tandis que le Gémeaux encourage la créativité du Lion. Leur couple peut être très inspirant.",
+      __i18n["lion_et_gemeaux_se_stimulent_mutuellement_et_savent_mainteni"],
 
     challenges:
-      "Le Lion peut trouver le Gémeaux trop changeant ou peu engagé. Le Gémeaux peut considérer le Lion comme trop exigeant en matière d’attention. Les conflits apparaissent lorsque l’un recherche davantage de reconnaissance et l’autre davantage de liberté.",
+      __i18n["le_lion_peut_trouver_le_gemeaux_trop_changeant_ou_peu_engage"],
 
     advice:
-      "Le Lion doit respecter la diversité des intérêts du Gémeaux. Le Gémeaux gagne à offrir davantage de continuité et de reconnaissance affective. Ils doivent utiliser leur créativité commune pour nourrir la relation et construire des projets durables.",
+      __i18n["le_lion_doit_respecter_la_diversite_des_interets_du_gemeaux"],
 
     conclusion:
-      "Lion et Gémeaux possèdent une compatibilité joyeuse, expressive et stimulante. Leur relation peut conserver longtemps sa fraîcheur. Avec de la loyauté et une communication claire, ils peuvent former un couple complice et durable.",
+      __i18n["lion_et_gemeaux_possedent_une_compatibilite_joyeuse_expressi"],
   },
 
   /*
@@ -162,40 +163,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "cancer",
 
     title:
-      "Compatibilité amoureuse entre Lion et Cancer",
+      __i18n["compatibilite_amoureuse_entre_lion_et_cancer"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Cancer : tendresse, passion, communication, confiance et équilibre du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_cancer_te"],
 
     introduction:
-      "Lion et Cancer recherchent tous deux une relation affectueuse et protectrice, mais ils expriment leurs besoins différemment. Le Lion souhaite être admiré et aimé ouvertement, tandis que le Cancer recherche une sécurité émotionnelle plus intime. Leur union peut être très chaleureuse.",
+      __i18n["lion_et_cancer_recherchent_tous_deux_une_relation_affectueus"],
 
     love:
-      "Le Lion apporte de la passion, de la générosité et une forte volonté de protéger son partenaire. Le Cancer offre de la tendresse, une grande profondeur émotionnelle et un foyer rassurant. Ensemble, ils peuvent créer une relation très affectueuse.",
+      __i18n["le_lion_apporte_de_la_passion_de_la_generosite_et_une_forte"],
 
     communication:
-      "Le Lion parle avec assurance et souhaite être entendu. Le Cancer communique avec sensibilité et peut se replier lorsqu’il est blessé. Le Lion doit éviter un ton trop imposant, tandis que le Cancer gagne à exprimer clairement ce qu’il ressent.",
+      __i18n["le_lion_parle_avec_assurance_et_souhaite_etre_entendu_le_can"],
 
     attraction:
-      "L’attirance repose sur la chaleur et la tendresse. Le Lion est touché par la douceur et la loyauté du Cancer. Le Cancer apprécie la confiance et le charisme du Lion. Leur alchimie devient durable lorsque chacun se sent reconnu et protégé.",
+      __i18n["l_attirance_repose_sur_la_chaleur_et_la_tendresse_le_lion_es"],
 
     trust:
-      "Le Cancer a besoin de constance émotionnelle, tandis que le Lion souhaite une loyauté visible. La confiance peut être forte si le Lion rassure régulièrement son partenaire et si le Cancer exprime son admiration sans s’effacer.",
+      __i18n["le_cancer_a_besoin_de_constance_emotionnelle_tandis_que_le_l"],
 
     dailyLife:
-      "Le Cancer aime créer un foyer chaleureux, tandis que le Lion apprécie les activités sociales et les projets ambitieux. Leur quotidien fonctionne lorsqu’ils alternent moments intimes et ouverture sur l’extérieur.",
+      __i18n["le_cancer_aime_creer_un_foyer_chaleureux_tandis_que_le_lion"],
 
     strengths:
-      "Le Lion apporte du courage, de la chaleur et de la générosité. Le Cancer offre de l’empathie, de la fidélité et un fort instinct protecteur. Ensemble, ils peuvent créer un couple très uni.",
+      __i18n["le_lion_apporte_du_courage_de_la_chaleur_et_de_la_generosite"],
 
     challenges:
-      "Le Cancer peut se sentir négligé si le Lion recherche trop d’attention extérieure. Le Lion peut se sentir rejeté lorsque le Cancer se ferme sans explication. Leur sensibilité et leur fierté peuvent prolonger les conflits.",
+      __i18n["le_cancer_peut_se_sentir_neglige_si_le_lion_recherche_trop_d"],
 
     advice:
-      "Le Lion doit écouter les émotions du Cancer sans les minimiser. Le Cancer gagne à exprimer clairement ses besoins et à reconnaître les efforts du Lion. Ils doivent entretenir régulièrement la tendresse et le sentiment d’appartenance.",
+      __i18n["le_lion_doit_ecouter_les_emotions_du_cancer_sans_les_minimis"],
 
     conclusion:
-      "Lion et Cancer peuvent construire une relation chaleureuse, protectrice et profondément affectueuse. Leur compatibilité augmente avec l’écoute et la reconnaissance mutuelle. Ensemble, ils peuvent créer un couple solide et généreux.",
+      __i18n["lion_et_cancer_peuvent_construire_une_relation_chaleureuse_p"],
   },
 
   /*
@@ -209,40 +210,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "lion",
 
     title:
-      "Compatibilité amoureuse entre Lion et Lion",
+      __i18n["compatibilite_amoureuse_entre_lion_et_lion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Lion : passion, loyauté, admiration, communication et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_lion_pass"],
 
     introduction:
-      "Deux Lion réunissent deux personnalités chaleureuses, fières et généreuses. Leur relation peut être spectaculaire, passionnée et remplie d’ambition. Chacun comprend le besoin de reconnaissance de l’autre, mais leur couple doit apprendre à partager l’attention.",
+      __i18n["deux_lion_reunissent_deux_personnalites_chaleureuses_fieres"],
 
     love:
-      "En amour, deux Lion aiment intensément et souhaitent vivre une relation valorisante. Ils apprécient les démonstrations affectives, les gestes généreux et le sentiment de former un couple remarquable. Leur amour peut être très fort lorsque l’admiration reste réciproque.",
+      __i18n["en_amour_deux_lion_aiment_intensement_et_souhaitent_vivre_un"],
 
     communication:
-      "Leur communication est expressive, franche et parfois théâtrale. Ils aiment être entendus et reconnus. Les discussions peuvent devenir difficiles lorsque chacun refuse de perdre la face ou considère une remarque comme une attaque contre sa valeur.",
+      __i18n["leur_communication_est_expressive_franche_et_parfois_theatra"],
 
     attraction:
-      "L’attirance est souvent puissante et immédiate. Chacun est séduit par le charisme, la confiance et l’énergie de l’autre. Leur passion reste vive lorsqu’ils continuent à se surprendre et à célébrer mutuellement leurs réussites.",
+      __i18n["l_attirance_est_souvent_puissante_et_immediate_chacun_est_se"],
 
     trust:
-      "Deux Lion valorisent la loyauté et souhaitent se sentir uniques aux yeux de leur partenaire. La confiance peut être solide, mais la jalousie et la compétition pour l’attention extérieure doivent être maîtrisées.",
+      __i18n["deux_lion_valorisent_la_loyaute_et_souhaitent_se_sentir_uniq"],
 
     dailyLife:
-      "Leur quotidien peut être actif, social et rempli de projets ambitieux. Ils aiment recevoir, organiser et profiter pleinement de la vie. Les dépenses et le partage de l’autorité peuvent toutefois devenir des sources de tension.",
+      __i18n["leur_quotidien_peut_etre_actif_social_et_rempli_de_projets_a"],
 
     strengths:
-      "Cette union possède de la chaleur, du courage et une grande capacité à inspirer. Deux Lion savent se soutenir, défendre leur couple et créer une vie passionnante. Leur générosité commune peut rendre la relation très forte.",
+      __i18n["cette_union_possede_de_la_chaleur_du_courage_et_une_grande_c"],
 
     challenges:
-      "Le principal défi concerne la fierté. Aucun ne souhaite être ignoré, critiqué ou placé au second plan. Les conflits peuvent durer lorsque les deux attendent des excuses ou de la reconnaissance sans faire le premier pas.",
+      __i18n["le_principal_defi_concerne_la_fierte_aucun_ne_souhaite_etre"],
 
     advice:
-      "Ils doivent apprendre à partager la lumière et à reconnaître sincèrement les qualités de leur partenaire. Alterner les initiatives et célébrer les réussites de l’autre permet de transformer la compétition en admiration.",
+      __i18n["ils_doivent_apprendre_a_partager_la_lumiere_et_a_reconnaitre"],
 
     conclusion:
-      "Lion et Lion peuvent former un couple passionné, loyal et particulièrement lumineux. Leur compatibilité est forte lorsqu’ils savent partager l’attention. Avec de la générosité et de la souplesse, leur union peut devenir remarquable.",
+      __i18n["lion_et_lion_peuvent_former_un_couple_passionne_loyal_et_par"],
   },
 
   /*
@@ -256,40 +257,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "vierge",
 
     title:
-      "Compatibilité amoureuse entre Lion et Vierge",
+      __i18n["compatibilite_amoureuse_entre_lion_et_vierge"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Vierge : différences, communication, confiance, attraction et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_vierge_di"],
 
     introduction:
-      "Lion et Vierge possèdent des personnalités très différentes. Le Lion cherche à rayonner, créer et exprimer ses sentiments avec chaleur, tandis que la Vierge préfère la discrétion, la précision et les gestes concrets. Leur relation peut devenir complémentaire lorsqu’ils reconnaissent leurs qualités respectives.",
+      __i18n["lion_et_vierge_possedent_des_personnalites_tres_differentes"],
 
     love:
-      "Le Lion apporte du romantisme, de la confiance et une grande générosité. La Vierge exprime son amour par l’aide, la fiabilité et l’attention aux détails. Le Lion peut apprendre à apprécier cette affection discrète, tandis que la Vierge gagne à montrer davantage ses sentiments.",
+      __i18n["le_lion_apporte_du_romantisme_de_la_confiance_et_une_grande"],
 
     communication:
-      "La Vierge analyse et remarque rapidement ce qui peut être amélioré. Le Lion souhaite être encouragé et peut vivre les critiques comme un manque de reconnaissance. Leur communication devient constructive lorsque la Vierge formule ses remarques avec douceur et que le Lion accepte les conseils sans se sentir diminué.",
+      __i18n["la_vierge_analyse_et_remarque_rapidement_ce_qui_peut_etre_am"],
 
     attraction:
-      "L’attirance peut naître d’une admiration pour leurs différences. Le Lion apprécie l’intelligence et la compétence de la Vierge. La Vierge peut être séduite par le charisme et l’assurance du Lion. Leur alchimie se développe souvent progressivement.",
+      __i18n["l_attirance_peut_naitre_d_une_admiration_pour_leurs_differen"],
 
     trust:
-      "La Vierge accorde sa confiance à travers la cohérence et les actions concrètes. Le Lion peut être loyal, mais son besoin d’attention peut parfois inquiéter son partenaire. La confiance grandit lorsque le Lion reste constant et que la Vierge évite d’interpréter chaque démonstration sociale comme une menace.",
+      __i18n["la_vierge_accorde_sa_confiance_a_travers_la_coherence_et_les"],
 
     dailyLife:
-      "Le Lion aime donner de l’ampleur aux projets, tandis que la Vierge organise les détails. Ils peuvent former une équipe très efficace. Les tensions apparaissent si la Vierge contrôle tout ou si le Lion néglige les aspects pratiques.",
+      __i18n["le_lion_aime_donner_de_l_ampleur_aux_projets_tandis_que_la_v"],
 
     strengths:
-      "Le Lion apporte de l’enthousiasme, de la créativité et du courage. La Vierge offre de la méthode, du réalisme et une grande fiabilité. Ensemble, ils peuvent transformer une idée ambitieuse en projet concret.",
+      __i18n["le_lion_apporte_de_l_enthousiasme_de_la_creativite_et_du_cou"],
 
     challenges:
-      "Le Lion peut se sentir insuffisamment valorisé, tandis que la Vierge peut juger son partenaire trop théâtral ou imprudent. Une dynamique de critique et de susceptibilité risque de s’installer.",
+      __i18n["le_lion_peut_se_sentir_insuffisamment_valorise_tandis_que_la"],
 
     advice:
-      "Le Lion doit reconnaître les gestes pratiques de la Vierge comme une forme d’amour. La Vierge gagne à exprimer davantage son admiration et à limiter les critiques inutiles. Ils doivent célébrer autant leurs progrès que leurs résultats.",
+      __i18n["le_lion_doit_reconnaitre_les_gestes_pratiques_de_la_vierge_c"],
 
     conclusion:
-      "Lion et Vierge peuvent construire une relation solide et productive malgré leurs différences. Le Lion apporte la chaleur et la Vierge la précision. En cultivant l’appréciation mutuelle, ils forment un couple très complémentaire.",
+      __i18n["lion_et_vierge_peuvent_construire_une_relation_solide_et_pro"],
   },
 
   /*
@@ -303,40 +304,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "balance",
 
     title:
-      "Compatibilité amoureuse entre Lion et Balance",
+      __i18n["compatibilite_amoureuse_entre_lion_et_balance"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Balance : romance, attraction, communication, confiance et harmonie du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_balance_r"],
 
     introduction:
-      "Lion et Balance forment souvent un couple romantique, social et naturellement harmonieux. Le Lion apporte de la chaleur, de la confiance et une forte présence, tandis que la Balance offre du charme, de la diplomatie et un grand sens relationnel.",
+      __i18n["lion_et_balance_forment_souvent_un_couple_romantique_social"],
 
     love:
-      "Le Lion aime se sentir admiré et valorisé, ce que la Balance sait généralement offrir avec finesse. La Balance apprécie la générosité, le romantisme et la protection du Lion. Leur amour peut être élégant, expressif et rempli d’attentions.",
+      __i18n["le_lion_aime_se_sentir_admire_et_valorise_ce_que_la_balance"],
 
     communication:
-      "La Balance favorise le dialogue et cherche des compromis. Le Lion communique avec assurance et souhaite être respecté. Leur communication est souvent fluide, mais la Balance doit éviter de cacher ses désaccords pour maintenir une paix apparente.",
+      __i18n["la_balance_favorise_le_dialogue_et_cherche_des_compromis_le"],
 
     attraction:
-      "L’attirance est généralement forte. Le Lion est séduit par l’élégance, la douceur et la sociabilité de la Balance. La Balance apprécie le charisme, la chaleur et la confiance du Lion. Ensemble, ils peuvent former un couple très magnétique.",
+      __i18n["l_attirance_est_generalement_forte_le_lion_est_seduit_par_l"],
 
     trust:
-      "Le Lion souhaite une loyauté claire et une place privilégiée. La Balance entretient souvent une vie sociale active, ce qui peut réveiller la jalousie du Lion. La confiance grandit grâce à des limites claires et une reconnaissance mutuelle.",
+      __i18n["le_lion_souhaite_une_loyaute_claire_et_une_place_privilegiee"],
 
     dailyLife:
-      "Leur quotidien peut être social, agréable et tourné vers les plaisirs de la vie. Le Lion aime organiser et diriger, tandis que la Balance veille à l’harmonie. Les décisions peuvent toutefois être retardées si la Balance hésite et si le Lion refuse de négocier.",
+      __i18n["leur_quotidien_peut_etre_social_agreable_et_tourne_vers_les"],
 
     strengths:
-      "Lion et Balance possèdent de la générosité, du charme et une grande capacité à créer une relation valorisante. Le Lion apporte l’élan, tandis que la Balance améliore la coopération et l’équilibre.",
+      __i18n["lion_et_balance_possedent_de_la_generosite_du_charme_et_une"],
 
     challenges:
-      "Le Lion peut devenir trop exigeant en matière d’attention. La Balance peut éviter les conflits ou accepter des choix qu’elle ne souhaite pas réellement. Les frustrations apparaissent lorsque l’harmonie extérieure remplace la sincérité.",
+      __i18n["le_lion_peut_devenir_trop_exigeant_en_matiere_d_attention_la"],
 
     advice:
-      "Le Lion doit écouter les préférences de la Balance sans imposer systématiquement sa volonté. La Balance gagne à prendre position clairement. Ils doivent entretenir la romance tout en parlant honnêtement des décisions importantes.",
+      __i18n["le_lion_doit_ecouter_les_preferences_de_la_balance_sans_impo"],
 
     conclusion:
-      "Lion et Balance possèdent une excellente compatibilité romantique et sociale. Leur union peut être chaleureuse, élégante et équilibrée. Avec de la franchise et un partage équitable des décisions, ils peuvent construire un couple durable.",
+      __i18n["lion_et_balance_possedent_une_excellente_compatibilite_roman"],
   },
 
   /*
@@ -350,40 +351,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "scorpion",
 
     title:
-      "Compatibilité amoureuse entre Lion et Scorpion",
+      __i18n["compatibilite_amoureuse_entre_lion_et_scorpion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Scorpion : passion, loyauté, confiance, pouvoir et défis de cette relation.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_scorpion"],
 
     introduction:
-      "Lion et Scorpion réunissent deux personnalités puissantes, fières et profondément déterminées. Le Lion exprime ouvertement sa force et son besoin de reconnaissance, tandis que le Scorpion agit avec intensité, profondeur et maîtrise. Leur relation peut être magnétique, mais demande une grande maturité.",
+      __i18n["lion_et_scorpion_reunissent_deux_personnalites_puissantes_fi"],
 
     love:
-      "Le Lion apporte de la chaleur, de la générosité et une passion visible. Le Scorpion offre une profondeur émotionnelle, une loyauté intense et un fort désir d’engagement. Leur amour peut devenir extrêmement puissant lorsque chacun accepte de montrer sa vulnérabilité.",
+      __i18n["le_lion_apporte_de_la_chaleur_de_la_generosite_et_une_passio"],
 
     communication:
-      "Le Lion souhaite une communication directe et expressive. Le Scorpion observe, analyse et révèle rarement immédiatement tout ce qu’il ressent. Le Lion peut se sentir exclu, tandis que le Scorpion peut trouver son partenaire trop théâtral ou dominateur.",
+      __i18n["le_lion_souhaite_une_communication_directe_et_expressive_le"],
 
     attraction:
-      "L’attirance est souvent magnétique et intense. Le Lion est intrigué par le mystère et la force intérieure du Scorpion. Le Scorpion est attiré par le charisme et la confiance du Lion. Leur alchimie peut être très profonde.",
+      __i18n["l_attirance_est_souvent_magnetique_et_intense_le_lion_est_in"],
 
     trust:
-      "Les deux signes valorisent fortement la loyauté. Le Lion veut se sentir choisi et admiré, tandis que le Scorpion recherche une fidélité totale. La jalousie, la possessivité et les jeux de pouvoir représentent toutefois des risques importants.",
+      __i18n["les_deux_signes_valorisent_fortement_la_loyaute_le_lion_veut"],
 
     dailyLife:
-      "Le Lion aime diriger ouvertement, tandis que le Scorpion cherche souvent à garder une certaine maîtrise en profondeur. Leur quotidien peut être productif, mais les décisions risquent de devenir des luttes d’influence.",
+      __i18n["le_lion_aime_diriger_ouvertement_tandis_que_le_scorpion_cher"],
 
     strengths:
-      "Lion et Scorpion possèdent du courage, de la résistance et une grande capacité à défendre leur relation. Ensemble, ils peuvent traverser des crises importantes et créer un lien extrêmement solide.",
+      __i18n["lion_et_scorpion_possedent_du_courage_de_la_resistance_et_un"],
 
     challenges:
-      "Leur besoin commun de contrôle et leur fierté peuvent rendre les conflits particulièrement intenses. Le Lion refuse d’être ignoré, tandis que le Scorpion n’oublie pas facilement les blessures ou les trahisons.",
+      __i18n["leur_besoin_commun_de_controle_et_leur_fierte_peuvent_rendre"],
 
     advice:
-      "Le Lion doit respecter le besoin de profondeur du Scorpion sans exiger constamment une réaction visible. Le Scorpion gagne à exprimer ses émotions directement plutôt que d’utiliser le silence ou les tests. Ils doivent choisir la confiance plutôt que la domination.",
+      __i18n["le_lion_doit_respecter_le_besoin_de_profondeur_du_scorpion_s"],
 
     conclusion:
-      "Lion et Scorpion peuvent vivre une relation passionnée, loyale et profondément transformatrice. Leur compatibilité demande de la maîtrise émotionnelle. Lorsqu’ils abandonnent les rapports de force, ils forment un couple extrêmement puissant.",
+      __i18n["lion_et_scorpion_peuvent_vivre_une_relation_passionnee_loyal"],
   },
 
   /*
@@ -397,40 +398,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "sagittaire",
 
     title:
-      "Compatibilité amoureuse entre Lion et Sagittaire",
+      __i18n["compatibilite_amoureuse_entre_lion_et_sagittaire"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Sagittaire : aventure, passion, liberté, communication et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_sagittair"],
 
     introduction:
-      "Lion et Sagittaire partagent une énergie chaleureuse, optimiste et tournée vers l’expansion. Le Lion apporte de la créativité, de la confiance et le désir de rayonner, tandis que le Sagittaire recherche l’aventure, la liberté et de nouveaux horizons.",
+      __i18n["lion_et_sagittaire_partagent_une_energie_chaleureuse_optimis"],
 
     love:
-      "Le Lion aime une relation passionnée, généreuse et valorisante. Le Sagittaire souhaite un amour vivant qui lui permette de continuer à évoluer. Ensemble, ils peuvent créer une union joyeuse, enthousiaste et remplie de projets.",
+      __i18n["le_lion_aime_une_relation_passionnee_genereuse_et_valorisant"],
 
     communication:
-      "Leur communication est généralement directe, animée et pleine d’humour. Le Sagittaire peut cependant manquer de tact, ce qui blesse parfois la fierté du Lion. Le Lion doit éviter de transformer chaque remarque maladroite en affront personnel.",
+      __i18n["leur_communication_est_generalement_directe_animee_et_pleine"],
 
     attraction:
-      "L’attirance est souvent immédiate et très forte. Le Lion apprécie l’optimisme et l’indépendance du Sagittaire. Le Sagittaire est séduit par le charisme et la générosité du Lion. Leur passion se nourrit des expériences nouvelles.",
+      __i18n["l_attirance_est_souvent_immediate_et_tres_forte_le_lion_appr"],
 
     trust:
-      "Le Lion souhaite se sentir important, tandis que le Sagittaire a besoin d’une grande liberté. La confiance se renforce lorsque le Sagittaire reste fiable et que le Lion évite les comportements possessifs.",
+      __i18n["le_lion_souhaite_se_sentir_important_tandis_que_le_sagittair"],
 
     dailyLife:
-      "Leur quotidien peut être actif, social et rempli de voyages ou de projets. Ils supportent difficilement une routine trop rigide. Ils doivent toutefois organiser les responsabilités afin que leur enthousiasme reste durable.",
+      __i18n["leur_quotidien_peut_etre_actif_social_et_rempli_de_voyages_o"],
 
     strengths:
-      "Lion et Sagittaire se motivent, s’encouragent et partagent une vision optimiste de la vie. Le Lion apporte de la créativité, tandis que le Sagittaire ouvre de nouvelles perspectives. Leur relation favorise la croissance.",
+      __i18n["lion_et_sagittaire_se_motivent_s_encouragent_et_partagent_un"],
 
     challenges:
-      "Le Lion peut demander davantage d’attention que le Sagittaire ne souhaite en donner constamment. Le Sagittaire peut se sentir limité par les attentes affectives du Lion. Leur franchise peut également provoquer des conflits rapides.",
+      __i18n["le_lion_peut_demander_davantage_d_attention_que_le_sagittair"],
 
     advice:
-      "Le Lion doit respecter le besoin d’espace du Sagittaire. Le Sagittaire gagne à montrer clairement son engagement et à reconnaître les besoins affectifs du Lion. Des projets communs ambitieux peuvent canaliser leur énergie.",
+      __i18n["le_lion_doit_respecter_le_besoin_d_espace_du_sagittaire_le_s"],
 
     conclusion:
-      "Lion et Sagittaire possèdent une excellente compatibilité fondée sur la passion, l’optimisme et l’aventure. Leur couple peut rester vivant pendant longtemps. Avec de la constance et du respect, ils construisent une union très épanouissante.",
+      __i18n["lion_et_sagittaire_possedent_une_excellente_compatibilite_fo"],
   },
 
   /*
@@ -444,40 +445,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "capricorne",
 
     title:
-      "Compatibilité amoureuse entre Lion et Capricorne",
+      __i18n["compatibilite_amoureuse_entre_lion_et_capricorne"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Capricorne : ambitions, loyauté, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_capricorn"],
 
     introduction:
-      "Lion et Capricorne partagent une forte ambition, mais ils l’expriment différemment. Le Lion recherche la reconnaissance, la créativité et une relation chaleureuse, tandis que le Capricorne privilégie la discipline, la structure et les résultats à long terme.",
+      __i18n["lion_et_capricorne_partagent_une_forte_ambition_mais_ils_l_e"],
 
     love:
-      "Le Lion apporte de la passion, du romantisme et une grande générosité. Le Capricorne offre de la stabilité, de la fidélité et un engagement solide. Leur amour peut se renforcer avec le temps lorsque le Lion reconnaît les actes du Capricorne et que celui-ci exprime davantage ses sentiments.",
+      __i18n["le_lion_apporte_de_la_passion_du_romantisme_et_une_grande_ge"],
 
     communication:
-      "Le Lion communique avec assurance et émotion, tandis que le Capricorne préfère un ton réservé et pragmatique. Le Lion peut trouver son partenaire froid ou trop critique. Le Capricorne peut considérer le Lion comme trop théâtral ou centré sur l’image.",
+      __i18n["le_lion_communique_avec_assurance_et_emotion_tandis_que_le_c"],
 
     attraction:
-      "L’attirance peut naître d’une admiration réciproque. Le Lion respecte la force, l’ambition et la maîtrise du Capricorne. Le Capricorne apprécie le charisme, le courage et l’enthousiasme du Lion.",
+      __i18n["l_attirance_peut_naitre_d_une_admiration_reciproque_le_lion"],
 
     trust:
-      "Les deux partenaires valorisent la loyauté et les engagements sérieux. Le Capricorne rassure par sa constance, tandis que le Lion démontre clairement son attachement. La confiance peut être solide lorsque chacun respecte les ambitions de l’autre.",
+      __i18n["les_deux_partenaires_valorisent_la_loyaute_et_les_engagement"],
 
     dailyLife:
-      "Le Capricorne organise les projets à long terme, tandis que le Lion apporte de la créativité et de l’énergie. Ils peuvent former une équipe ambitieuse. Les tensions apparaissent autour de l’autorité, des priorités professionnelles et du besoin de reconnaissance.",
+      __i18n["le_capricorne_organise_les_projets_a_long_terme_tandis_que_l"],
 
     strengths:
-      "Lion et Capricorne possèdent une grande capacité à construire et à réussir. Le Lion apporte la vision et la motivation. Le Capricorne offre la méthode, la patience et la discipline nécessaires pour concrétiser leurs objectifs.",
+      __i18n["lion_et_capricorne_possedent_une_grande_capacite_a_construir"],
 
     challenges:
-      "Le Lion peut se sentir négligé si le Capricorne se concentre trop sur le travail. Le Capricorne peut trouver les besoins d’attention du Lion excessifs. Leur relation risque également de devenir une compétition pour le statut ou le contrôle.",
+      __i18n["le_lion_peut_se_sentir_neglige_si_le_capricorne_se_concentre"],
 
     advice:
-      "Le Lion doit respecter la réserve et le rythme du Capricorne. Le Capricorne gagne à offrir davantage de reconnaissance et de chaleur. Ils doivent définir leurs objectifs communs et éviter de mesurer constamment leurs réussites respectives.",
+      __i18n["le_lion_doit_respecter_la_reserve_et_le_rythme_du_capricorne"],
 
     conclusion:
-      "Lion et Capricorne peuvent former un couple ambitieux, loyal et capable de grandes réalisations. Leur compatibilité demande de la compréhension émotionnelle. En unissant créativité et discipline, ils peuvent construire une union très solide.",
+      __i18n["lion_et_capricorne_peuvent_former_un_couple_ambitieux_loyal"],
   },
 
   /*
@@ -491,40 +492,40 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "verseau",
 
     title:
-      "Compatibilité amoureuse entre Lion et Verseau",
+      __i18n["compatibilite_amoureuse_entre_lion_et_verseau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Verseau : attraction, liberté, communication, confiance et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_verseau_a"],
 
     introduction:
-      "Lion et Verseau se trouvent à l’opposé dans le zodiaque, ce qui crée souvent une forte attraction. Le Lion souhaite rayonner, créer et aimer avec chaleur, tandis que le Verseau recherche l’indépendance, l’originalité et une vision différente du couple.",
+      __i18n["lion_et_verseau_se_trouvent_a_l_oppose_dans_le_zodiaque_ce_q"],
 
     love:
-      "Le Lion apporte de la passion, de la générosité et un fort besoin d’expression affective. Le Verseau offre de la liberté, des idées nouvelles et une relation fondée sur la complicité. Leur amour peut être très stimulant lorsqu’ils respectent leurs différences.",
+      __i18n["le_lion_apporte_de_la_passion_de_la_generosite_et_un_fort_be"],
 
     communication:
-      "Le Verseau communique surtout par les idées et la logique, tandis que le Lion parle avec le cœur et souhaite une réaction émotionnelle. Le Lion peut trouver le Verseau distant, tandis que le Verseau peut percevoir son partenaire comme trop exigeant.",
+      __i18n["le_verseau_communique_surtout_par_les_idees_et_la_logique_ta"],
 
     attraction:
-      "L’attirance est souvent magnétique grâce à leur opposition. Le Lion apprécie l’originalité et l’indépendance du Verseau. Le Verseau est séduit par le charisme, la chaleur et la créativité du Lion.",
+      __i18n["l_attirance_est_souvent_magnetique_grace_a_leur_opposition_l"],
 
     trust:
-      "Le Lion souhaite une loyauté visible et une place importante. Le Verseau veut conserver son autonomie et supporte mal la possessivité. La confiance grandit lorsque le Verseau exprime clairement son attachement et que le Lion respecte son espace.",
+      __i18n["le_lion_souhaite_une_loyaute_visible_et_une_place_importante"],
 
     dailyLife:
-      "Le Lion aime organiser et donner de l’ampleur aux projets. Le Verseau préfère expérimenter et suivre ses propres règles. Leur quotidien peut être très original, mais demande des accords clairs concernant les responsabilités et la liberté.",
+      __i18n["le_lion_aime_organiser_et_donner_de_l_ampleur_aux_projets_le"],
 
     strengths:
-      "Lion et Verseau possèdent de la créativité, de la détermination et une grande capacité à inspirer les autres. Le Lion apporte la chaleur, tandis que le Verseau offre une vision innovante. Leur couple peut être très moderne.",
+      __i18n["lion_et_verseau_possedent_de_la_creativite_de_la_determinati"],
 
     challenges:
-      "Les deux sont des signes fixes et peuvent devenir très rigides. Le Lion insiste sur ses besoins affectifs, tandis que le Verseau défend son indépendance. Leur relation risque de suivre un cycle de rapprochement et de distance.",
+      __i18n["les_deux_sont_des_signes_fixes_et_peuvent_devenir_tres_rigid"],
 
     advice:
-      "Le Lion doit éviter d’exiger une attention constante. Le Verseau gagne à montrer davantage ses émotions et sa loyauté. Ils doivent créer un modèle de couple qui respecte à la fois la chaleur affective et la liberté personnelle.",
+      __i18n["le_lion_doit_eviter_d_exiger_une_attention_constante_le_vers"],
 
     conclusion:
-      "Lion et Verseau peuvent former une union magnétique, créative et profondément évolutive. Leur compatibilité repose sur l’acceptation de leurs différences. Ensemble, ils peuvent unir le cœur et l’innovation.",
+      __i18n["lion_et_verseau_peuvent_former_une_union_magnetique_creative"],
   },
 
   /*
@@ -538,39 +539,39 @@ export const LION_COMPATIBILITY_PAGES:
     signB: "poissons",
 
     title:
-      "Compatibilité amoureuse entre Lion et Poissons",
+      __i18n["compatibilite_amoureuse_entre_lion_et_poissons"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Lion et Poissons : romantisme, émotions, confiance, communication et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_lion_et_poissons"],
 
     introduction:
-      "Lion et Poissons réunissent la chaleur expressive et la sensibilité intuitive. Le Lion aime rayonner, agir et protéger, tandis que les Poissons ressentent profondément les émotions et recherchent une relation inspirante. Leur union peut être romantique et créative.",
+      __i18n["lion_et_poissons_reunissent_la_chaleur_expressive_et_la_sens"],
 
     love:
-      "Le Lion apporte de la passion, de la générosité et un sentiment de sécurité. Les Poissons offrent de la douceur, de l’empathie et une grande imagination. Le Lion peut aider les Poissons à gagner en confiance, tandis que les Poissons révèlent une dimension plus sensible du Lion.",
+      __i18n["le_lion_apporte_de_la_passion_de_la_generosite_et_un_sentime"],
 
     communication:
-      "Le Lion parle directement et souhaite une réponse claire. Les Poissons communiquent souvent par les émotions, les impressions et les sous-entendus. Le Lion peut trouver son partenaire difficile à comprendre, tandis que les Poissons peuvent se sentir dominés par une personnalité trop forte.",
+      __i18n["le_lion_parle_directement_et_souhaite_une_reponse_claire_les"],
 
     attraction:
-      "L’attirance est souvent romantique et fascinante. Le Lion apprécie la douceur, la créativité et le mystère des Poissons. Les Poissons sont séduits par le charisme, la chaleur et la confiance du Lion.",
+      __i18n["l_attirance_est_souvent_romantique_et_fascinante_le_lion_app"],
 
     trust:
-      "Le Lion souhaite une loyauté claire, tandis que les Poissons peuvent parfois manquer de précision dans leurs intentions ou leurs limites. La confiance se construit lorsque les Poissons communiquent franchement et que le Lion évite les pressions ou les réactions trop imposantes.",
+      __i18n["le_lion_souhaite_une_loyaute_claire_tandis_que_les_poissons"],
 
     dailyLife:
-      "Le Lion apporte de la structure, de l’énergie et le désir d’agir. Les Poissons offrent de la souplesse, de l’imagination et une atmosphère plus douce. Ils doivent répartir les responsabilités afin que le Lion ne prenne pas toutes les décisions.",
+      __i18n["le_lion_apporte_de_la_structure_de_l_energie_et_le_desir_d_a"],
 
     strengths:
-      "Le Lion apporte du courage, de la protection et une grande générosité. Les Poissons offrent de la compassion, de l’intuition et une profonde sensibilité. Ensemble, ils peuvent créer une relation inspirante et créative.",
+      __i18n["le_lion_apporte_du_courage_de_la_protection_et_une_grande_ge"],
 
     challenges:
-      "Le Lion peut trouver les Poissons trop hésitants ou passifs. Les Poissons peuvent percevoir le Lion comme trop dominateur ou centré sur lui-même. Le risque est que l’un dirige constamment pendant que l’autre s’efface.",
+      __i18n["le_lion_peut_trouver_les_poissons_trop_hesitants_ou_passifs"],
 
     advice:
-      "Le Lion doit écouter les émotions des Poissons avec douceur et leur laisser une place réelle dans les décisions. Les Poissons gagnent à exprimer clairement leurs besoins et leurs limites. Ils doivent construire un équilibre entre protection et autonomie.",
+      __i18n["le_lion_doit_ecouter_les_emotions_des_poissons_avec_douceur"],
 
     conclusion:
-      "Lion et Poissons peuvent vivre une relation romantique, sensible et profondément créative. Leur compatibilité demande de la délicatesse et de la clarté. En unissant la chaleur du Lion à l’intuition des Poissons, ils peuvent former un couple très inspirant.",
+      __i18n["lion_et_poissons_peuvent_vivre_une_relation_romantique_sensi"],
   },
 ];

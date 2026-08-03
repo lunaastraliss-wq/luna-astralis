@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/taureau";
 import type {
   CompatibilityPageData,
 } from "./types";
@@ -21,40 +22,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "belier",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Bélier",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_belier"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Bélier : stabilité, passion, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_belier"],
 
     introduction:
-      "La relation entre Taureau et Bélier réunit deux tempéraments déterminés, mais animés par des rythmes très différents. Le Taureau recherche la sécurité, la constance et le temps nécessaire pour construire, alors que le Bélier avance rapidement et préfère agir selon son instinct. Leur union peut trouver un bel équilibre lorsque chacun reconnaît la valeur de l’autre.",
+      __i18n["la_relation_entre_taureau_et_belier_reunit_deux_temperaments"],
 
     love:
-      "En amour, le Taureau souhaite généralement développer un lien stable, rassurant et profondément sensuel. Le Bélier apporte de la passion, de l’audace et une énergie qui empêche la relation de devenir trop prévisible. Le Taureau peut apprendre à vivre davantage dans l’instant, tandis que le Bélier découvre l’importance de la patience et de la continuité.",
+      __i18n["en_amour_le_taureau_souhaite_generalement_developper_un_lien"],
 
     communication:
-      "Le Taureau prend souvent le temps de réfléchir avant de répondre, tandis que le Bélier exprime immédiatement ce qu’il pense. Le Bélier peut interpréter le silence du Taureau comme de l’indifférence ou de l’entêtement. De son côté, le Taureau peut se sentir agressé par un ton trop direct. Ils doivent apprendre à respecter leurs délais de réaction respectifs.",
+      __i18n["le_taureau_prend_souvent_le_temps_de_reflechir_avant_de_repo"],
 
     attraction:
-      "L’attraction peut être très forte grâce au contraste entre la sensualité du Taureau et la vitalité du Bélier. Le Taureau est attiré par le courage et l’enthousiasme de son partenaire. Le Bélier apprécie la présence rassurante et le magnétisme tranquille du Taureau. Leur alchimie devient durable lorsqu’elle s’accompagne d’un véritable respect.",
+      __i18n["l_attraction_peut_etre_tres_forte_grace_au_contraste_entre_l"],
 
     trust:
-      "Le Taureau accorde une grande importance à la fidélité et à la prévisibilité. Le Bélier peut être loyal, mais son besoin de mouvement et ses décisions rapides peuvent parfois inquiéter son partenaire. La confiance se renforce lorsque le Bélier tient ses engagements et que le Taureau évite de confondre sécurité affective et contrôle permanent.",
+      __i18n["le_taureau_accorde_une_grande_importance_a_la_fidelite_et_a"],
 
     dailyLife:
-      "Dans la vie quotidienne, le Taureau préfère souvent organiser les finances, les habitudes et les projets à long terme. Le Bélier apporte des idées nouvelles et pousse le couple à agir. Ils peuvent former une équipe efficace si le Taureau ne bloque pas chaque changement et si le Bélier accepte certaines règles nécessaires à la stabilité du foyer.",
+      __i18n["dans_la_vie_quotidienne_le_taureau_prefere_souvent_organiser"],
 
     strengths:
-      "Leur principale force repose sur la combinaison de l’endurance et de l’initiative. Le Taureau sait poursuivre un objectif avec constance, alors que le Bélier possède le courage de commencer. Ensemble, ils peuvent construire une relation solide, active et capable de résister aux périodes plus difficiles.",
+      __i18n["leur_principale_force_repose_sur_la_combinaison_de_l_enduran"],
 
     challenges:
-      "Le Taureau peut devenir très rigide lorsqu’il se sent bousculé, tandis que le Bélier supporte mal les délais et les résistances. Leurs désaccords risquent alors de se transformer en affrontements prolongés. Le Bélier veut obtenir une réponse rapide, alors que le Taureau refuse souvent de céder sous la pression.",
+      __i18n["le_taureau_peut_devenir_tres_rigide_lorsqu_il_se_sent_bouscu"],
 
     advice:
-      "Le Taureau gagne à laisser davantage de place à l’imprévu et à ne pas considérer chaque changement comme une menace. Le Bélier doit ralentir suffisamment pour respecter les besoins de son partenaire. En choisissant ensemble les décisions qui exigent de la prudence et celles qui demandent de l’audace, ils peuvent éviter de nombreux conflits.",
+      __i18n["le_taureau_gagne_a_laisser_davantage_de_place_a_l_imprevu_et"],
 
     conclusion:
-      "Taureau et Bélier peuvent créer une relation passionnée et durable malgré leurs différences. Le Taureau apporte les fondations, tandis que le Bélier maintient l’élan. Lorsqu’ils cessent de lutter pour imposer leur rythme, ils deviennent un couple capable d’unir stabilité, désir et volonté.",
+      __i18n["taureau_et_belier_peuvent_creer_une_relation_passionnee_et_d"],
   },
 
   /*
@@ -68,40 +69,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "taureau",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Taureau",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_taureau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Taureau : fidélité, sensualité, stabilité, communication et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_taurea"],
 
     introduction:
-      "Deux Taureau se reconnaissent souvent dans leur besoin de sécurité, de constance et de relations authentiques. Cette union peut évoluer lentement, mais elle possède des bases solides. Les deux partenaires apprécient généralement la stabilité, les plaisirs simples et la construction d’un quotidien rassurant.",
+      __i18n["deux_taureau_se_reconnaissent_souvent_dans_leur_besoin_de_se"],
 
     love:
-      "En amour, deux Taureau recherchent une relation fiable et concrète. Ils aiment démontrer leur affection par la présence, les gestes attentionnés et la création d’un environnement confortable. Leur lien peut devenir très profond, même si aucun des deux ne souhaite précipiter les étapes ou dévoiler trop rapidement sa vulnérabilité.",
+      __i18n["en_amour_deux_taureau_recherchent_une_relation_fiable_et_con"],
 
     communication:
-      "Leur communication est souvent calme et pragmatique. Ils préfèrent résoudre les problèmes de manière concrète plutôt que de multiplier les discussions abstraites. Cependant, lorsque les deux restent campés sur leurs positions, le silence peut s’installer longtemps. Chacun doit apprendre à parler avant que la frustration ne devienne du ressentiment.",
+      __i18n["leur_communication_est_souvent_calme_et_pragmatique_ils_pref"],
 
     attraction:
-      "L’attirance entre deux Taureau repose fortement sur la sensualité, la douceur et le besoin de proximité physique. Ils apprécient les ambiances agréables, les gestes tendres et une intimité qui se développe avec le temps. Leur alchimie peut être profonde, stable et particulièrement rassurante.",
+      __i18n["l_attirance_entre_deux_taureau_repose_fortement_sur_la_sensu"],
 
     trust:
-      "La confiance se construit progressivement, mais elle peut devenir extrêmement solide. Deux Taureau valorisent généralement la fidélité, la fiabilité et le respect des engagements. En revanche, une promesse brisée ou une trahison peut laisser une trace durable, car aucun des deux n’oublie facilement ce qui a fragilisé son sentiment de sécurité.",
+      __i18n["la_confiance_se_construit_progressivement_mais_elle_peut_dev"],
 
     dailyLife:
-      "Leur quotidien peut être confortable, organisé et très stable. Ils aiment construire des habitudes, gérer leurs ressources et profiter de leur foyer. Le principal risque est de tomber dans une routine trop rigide ou de repousser les changements nécessaires. Ils doivent conserver une ouverture à la nouveauté.",
+      __i18n["leur_quotidien_peut_etre_confortable_organise_et_tres_stable"],
 
     strengths:
-      "Cette relation possède une grande endurance. Les deux partenaires savent travailler pour protéger ce qu’ils ont construit et traverser les périodes difficiles avec patience. Leur fidélité, leur sens pratique et leur capacité à créer un environnement sécurisant constituent des bases importantes pour une union durable.",
+      __i18n["cette_relation_possede_une_grande_endurance_les_deux_partena"],
 
     challenges:
-      "Le principal défi est leur entêtement commun. Lorsqu’un désaccord apparaît, chacun peut attendre que l’autre fasse le premier pas. Leur besoin de confort peut également limiter leur évolution s’ils refusent les changements par peur de perdre leurs repères.",
+      __i18n["le_principal_defi_est_leur_entetement_commun_lorsqu_un_desac"],
 
     advice:
-      "Les deux Taureau doivent apprendre à faire des compromis avant que les positions deviennent trop rigides. Introduire régulièrement de nouvelles activités, de nouveaux projets ou de petites surprises peut aussi empêcher la relation de s’enfermer dans la routine. La stabilité doit rester vivante plutôt que devenir immobile.",
+      __i18n["les_deux_taureau_doivent_apprendre_a_faire_des_compromis_ava"],
 
     conclusion:
-      "Taureau et Taureau peuvent former un couple fidèle, sensuel et profondément stable. Leur relation possède un excellent potentiel à long terme lorsqu’ils restent ouverts au dialogue et au changement. En assouplissant leur entêtement, ils peuvent construire une union solide et harmonieuse.",
+      __i18n["taureau_et_taureau_peuvent_former_un_couple_fidele_sensuel_e"],
   },
 
   /*
@@ -115,40 +116,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "gemeaux",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Gémeaux",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_gemeaux"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Gémeaux : communication, stabilité, liberté, attraction et équilibre du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_gemeau"],
 
     introduction:
-      "Taureau et Gémeaux possèdent des besoins très différents. Le Taureau recherche la stabilité, la cohérence et une progression prévisible, tandis que le Gémeaux aime la variété, les échanges et les changements rapides. Leur relation peut sembler déroutante au départ, mais elle peut devenir enrichissante si chacun reste curieux de l’univers de l’autre.",
+      __i18n["taureau_et_gemeaux_possedent_des_besoins_tres_differents_le"],
 
     love:
-      "Le Taureau exprime son amour par la fidélité, la présence et les gestes concrets. Le Gémeaux nourrit le lien par les paroles, l’humour et la nouveauté. Le Taureau peut offrir au Gémeaux un ancrage sécurisant, tandis que le Gémeaux aide le Taureau à sortir de certaines habitudes et à aborder la relation avec plus de légèreté.",
+      __i18n["le_taureau_exprime_son_amour_par_la_fidelite_la_presence_et"],
 
     communication:
-      "Le Gémeaux aime parler de nombreux sujets et peut changer rapidement de perspective. Le Taureau préfère généralement les discussions simples, cohérentes et orientées vers une décision. Le Taureau peut trouver le Gémeaux dispersé, alors que le Gémeaux peut percevoir son partenaire comme trop lent ou inflexible.",
+      __i18n["le_gemeaux_aime_parler_de_nombreux_sujets_et_peut_changer_ra"],
 
     attraction:
-      "L’attraction naît souvent de la différence. Le Taureau est intrigué par l’intelligence et la vivacité du Gémeaux. Le Gémeaux peut être séduit par la sensualité, le calme et l’assurance du Taureau. Pour maintenir l’alchimie, ils doivent trouver un équilibre entre stimulation mentale et proximité physique.",
+      __i18n["l_attraction_nait_souvent_de_la_difference_le_taureau_est_in"],
 
     trust:
-      "Le Taureau a besoin de constance pour accorder sa confiance. Les changements d’avis ou les nombreuses relations sociales du Gémeaux peuvent créer de l’insécurité. Le Gémeaux, de son côté, peut se sentir surveillé si le Taureau exige trop d’explications. La clarté et la régularité sont essentielles.",
+      __i18n["le_taureau_a_besoin_de_constance_pour_accorder_sa_confiance"],
 
     dailyLife:
-      "Le Taureau apprécie les routines rassurantes, tandis que le Gémeaux a besoin de variété. Leur quotidien peut fonctionner si certaines bases demeurent stables tout en laissant de la place aux activités spontanées. Le Taureau peut gérer la continuité, et le Gémeaux apporter de nouvelles idées.",
+      __i18n["le_taureau_apprecie_les_routines_rassurantes_tandis_que_le_g"],
 
     strengths:
-      "Le Taureau aide le Gémeaux à concrétiser ses projets et à développer davantage de constance. Le Gémeaux encourage le Taureau à penser autrement et à ne pas rester enfermé dans ses certitudes. Cette relation peut unir intelligence pratique, curiosité et stabilité.",
+      __i18n["le_taureau_aide_le_gemeaux_a_concretiser_ses_projets_et_a_de"],
 
     challenges:
-      "Le Taureau peut reprocher au Gémeaux son manque de suivi ou sa difficulté à rester concentré sur un seul projet. Le Gémeaux peut trouver le Taureau trop prévisible ou trop attaché à ses habitudes. Les tensions augmentent lorsque l’un veut ralentir et que l’autre veut déjà passer à autre chose.",
+      __i18n["le_taureau_peut_reprocher_au_gemeaux_son_manque_de_suivi_ou"],
 
     advice:
-      "Le Taureau doit éviter de vouloir immobiliser le Gémeaux pour se rassurer. Le Gémeaux gagne à démontrer sa fiabilité par des gestes concrets et réguliers. Ils peuvent établir quelques repères fixes tout en réservant des espaces de liberté et de nouveauté.",
+      __i18n["le_taureau_doit_eviter_de_vouloir_immobiliser_le_gemeaux_pou"],
 
     conclusion:
-      "Taureau et Gémeaux ne partagent pas naturellement le même rythme, mais leur union peut favoriser une importante évolution personnelle. Le Taureau apporte la stabilité et le Gémeaux le mouvement. Avec de la patience et une communication claire, ils peuvent construire un lien équilibré et stimulant.",
+      __i18n["taureau_et_gemeaux_ne_partagent_pas_naturellement_le_meme_ry"],
   },
 
   /*
@@ -162,40 +163,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "cancer",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Cancer",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_cancer"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Cancer : tendresse, fidélité, sécurité émotionnelle, communication et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_cancer"],
 
     introduction:
-      "Taureau et Cancer partagent un besoin profond de sécurité, d’affection et de stabilité. Le Taureau construit des bases concrètes, tandis que le Cancer nourrit le lien émotionnel et le sentiment d’appartenance. Leur relation peut évoluer naturellement vers une union douce, protectrice et durable.",
+      __i18n["taureau_et_cancer_partagent_un_besoin_profond_de_securite_d"],
 
     love:
-      "Le Taureau aime offrir une présence constante et créer un environnement confortable. Le Cancer démontre son amour par l’attention, l’écoute et les soins apportés à son partenaire. Tous deux accordent beaucoup d’importance à la fidélité et à la création d’un foyer rassurant.",
+      __i18n["le_taureau_aime_offrir_une_presence_constante_et_creer_un_en"],
 
     communication:
-      "Le Taureau communique de manière simple et concrète, alors que le Cancer exprime davantage ses sentiments par les nuances et les réactions émotionnelles. Le Taureau doit éviter de minimiser les émotions du Cancer. Le Cancer gagne à formuler clairement ses besoins plutôt que d’attendre qu’ils soient devinés.",
+      __i18n["le_taureau_communique_de_maniere_simple_et_concrete_alors_qu"],
 
     attraction:
-      "L’attirance entre Taureau et Cancer est souvent tendre, sensuelle et progressive. Le Cancer est rassuré par la stabilité du Taureau, tandis que le Taureau apprécie la douceur et la sensibilité du Cancer. Leur intimité peut devenir très profonde grâce à leur confiance mutuelle.",
+      __i18n["l_attirance_entre_taureau_et_cancer_est_souvent_tendre_sensu"],
 
     trust:
-      "La confiance possède un excellent potentiel dans cette relation. Les deux signes recherchent généralement la loyauté et la continuité. Le Taureau rassure par sa constance, tandis que le Cancer crée une proximité émotionnelle. Ils doivent cependant éviter la possessivité ou la dépendance affective.",
+      __i18n["la_confiance_possede_un_excellent_potentiel_dans_cette_relat"],
 
     dailyLife:
-      "Leur quotidien peut être harmonieux, confortable et centré sur le foyer. Ils aiment prendre soin de leur environnement et développer des habitudes sécurisantes. Le principal risque est de rester enfermés dans leur zone de confort ou de résister aux changements extérieurs.",
+      __i18n["leur_quotidien_peut_etre_harmonieux_confortable_et_centre_su"],
 
     strengths:
-      "Taureau et Cancer savent créer une relation protectrice, stable et chaleureuse. Le Taureau apporte le réalisme et l’endurance, tandis que le Cancer renforce la compréhension émotionnelle. Ensemble, ils peuvent bâtir une vie commune fondée sur la confiance et le soutien.",
+      __i18n["taureau_et_cancer_savent_creer_une_relation_protectrice_stab"],
 
     challenges:
-      "Le Taureau peut devenir trop rigide ou peu démonstratif lorsque le Cancer a besoin d’être rassuré. Le Cancer peut être susceptible ou se refermer si ses émotions ne sont pas reconnues. Les non-dits risquent alors de s’accumuler derrière une apparence de calme.",
+      __i18n["le_taureau_peut_devenir_trop_rigide_ou_peu_demonstratif_lors"],
 
     advice:
-      "Le Taureau doit verbaliser davantage son affection au lieu de croire que ses gestes suffisent toujours. Le Cancer gagne à ne pas interpréter chaque moment de silence comme un rejet. Ils doivent aussi conserver des projets extérieurs afin que leur besoin de sécurité ne limite pas leur évolution.",
+      __i18n["le_taureau_doit_verbaliser_davantage_son_affection_au_lieu_d"],
 
     conclusion:
-      "Taureau et Cancer possèdent une compatibilité naturelle et rassurante. Leur relation peut devenir profondément fidèle, tendre et durable. Lorsqu’ils entretiennent le dialogue et restent ouverts au changement, ils construisent un couple solide et émotionnellement riche.",
+      __i18n["taureau_et_cancer_possedent_une_compatibilite_naturelle_et_r"],
   },
 
   /*
@@ -209,40 +210,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "lion",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Lion",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_lion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Lion : loyauté, sensualité, fierté, communication et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_lion_l"],
 
     introduction:
-      "Taureau et Lion sont deux signes fixes, déterminés et attachés à leurs valeurs. Le Taureau recherche la stabilité et le confort, tandis que le Lion souhaite vivre une relation chaleureuse, généreuse et valorisante. Leur union peut être solide, mais elle demande de savoir gérer les égos et l’entêtement.",
+      __i18n["taureau_et_lion_sont_deux_signes_fixes_determines_et_attache"],
 
     love:
-      "Le Taureau offre au Lion une présence constante et une loyauté rassurante. Le Lion apporte au Taureau de la chaleur, du romantisme et une énergie plus expressive. Ils aiment tous deux construire une relation de qualité et peuvent se montrer très généreux envers leur partenaire.",
+      __i18n["le_taureau_offre_au_lion_une_presence_constante_et_une_loyau"],
 
     communication:
-      "Le Taureau parle avec calme, mais peut devenir inflexible lorsqu’il a pris une décision. Le Lion s’exprime avec assurance et souhaite que son point de vue soit reconnu. Leurs discussions risquent de se transformer en affrontements silencieux ou théâtraux si aucun ne souhaite céder.",
+      __i18n["le_taureau_parle_avec_calme_mais_peut_devenir_inflexible_lor"],
 
     attraction:
-      "L’attraction est souvent forte, sensuelle et magnétique. Le Lion apprécie l’assurance tranquille et la présence physique du Taureau. Le Taureau est attiré par le charisme, la chaleur et la générosité du Lion. Leur relation peut être très passionnée lorsque l’admiration demeure réciproque.",
+      __i18n["l_attraction_est_souvent_forte_sensuelle_et_magnetique_le_li"],
 
     trust:
-      "Les deux signes valorisent généralement la loyauté. Le Taureau veut des preuves de constance, tandis que le Lion souhaite se sentir choisi et admiré. Les jeux de jalousie, le manque de reconnaissance ou les tentatives de contrôle peuvent fragiliser leur confiance.",
+      __i18n["les_deux_signes_valorisent_generalement_la_loyaute_le_taurea"],
 
     dailyLife:
-      "Taureau et Lion aiment souvent le confort, la qualité et les plaisirs de la vie. Leur quotidien peut être agréable, mais les dépenses, les décisions importantes et la répartition de l’autorité peuvent devenir des sources de conflit. Ils doivent établir des priorités communes.",
+      __i18n["taureau_et_lion_aiment_souvent_le_confort_la_qualite_et_les"],
 
     strengths:
-      "Cette relation possède beaucoup de fidélité, de courage et de capacité à construire. Le Taureau apporte la patience et le Lion l’enthousiasme. Ensemble, ils peuvent créer une vie stable, généreuse et matériellement confortable.",
+      __i18n["cette_relation_possede_beaucoup_de_fidelite_de_courage_et_de"],
 
     challenges:
-      "Leur principal défi est l’entêtement. Le Taureau refuse de bouger lorsqu’il se sent forcé, tandis que le Lion supporte mal de ne pas être entendu. Une simple différence peut devenir une lutte de pouvoir si chacun protège sa fierté au lieu de chercher une solution.",
+      __i18n["leur_principal_defi_est_l_entetement_le_taureau_refuse_de_bo"],
 
     advice:
-      "Le Taureau doit reconnaître davantage les efforts et les qualités du Lion. Le Lion gagne à respecter le rythme et les limites du Taureau. Ils doivent apprendre à négocier sans transformer chaque compromis en perte de prestige ou de contrôle.",
+      __i18n["le_taureau_doit_reconnaitre_davantage_les_efforts_et_les_qua"],
 
     conclusion:
-      "Taureau et Lion peuvent former un couple fort, loyal et passionné. Leur relation demande de la souplesse, mais elle possède un excellent potentiel de durée. Lorsqu’ils remplacent la compétition par l’admiration mutuelle, ils peuvent bâtir une union remarquable.",
+      __i18n["taureau_et_lion_peuvent_former_un_couple_fort_loyal_et_passi"],
   },
 
   /*
@@ -256,40 +257,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "vierge",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Vierge",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_vierge"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Vierge : stabilité, confiance, communication, vie quotidienne et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_vierge"],
 
     introduction:
-      "Taureau et Vierge partagent une approche réaliste, prudente et concrète de la vie. Tous deux apprécient la stabilité, la fiabilité et les relations qui se construisent progressivement. Leur union peut sembler discrète, mais elle repose souvent sur une compatibilité profonde et durable.",
+      __i18n["taureau_et_vierge_partagent_une_approche_realiste_prudente_e"],
 
     love:
-      "Le Taureau démontre son amour par la présence, la fidélité et la sensualité. La Vierge exprime son affection par des attentions pratiques et le désir d’améliorer le quotidien. Ils peuvent se comprendre sans avoir besoin de grandes démonstrations, même s’ils doivent parfois verbaliser davantage leurs sentiments.",
+      __i18n["le_taureau_demontre_son_amour_par_la_presence_la_fidelite_et"],
 
     communication:
-      "Leur communication est généralement logique et constructive. La Vierge analyse les détails, tandis que le Taureau privilégie les solutions simples et concrètes. Le Taureau peut trouver certaines critiques inutiles, et la Vierge peut juger son partenaire trop réticent au changement.",
+      __i18n["leur_communication_est_generalement_logique_et_constructive"],
 
     attraction:
-      "L’attirance se développe souvent lentement, mais elle peut devenir très solide. Le Taureau apprécie l’intelligence, la fiabilité et la discrétion de la Vierge. La Vierge est rassurée par le calme et la sensualité du Taureau. Leur intimité repose sur la confiance et l’attention portée aux besoins de l’autre.",
+      __i18n["l_attirance_se_developpe_souvent_lentement_mais_elle_peut_de"],
 
     trust:
-      "La confiance est généralement forte, car les deux signes accordent beaucoup d’importance à la cohérence et à la loyauté. Ils se rassurent par des actes concrets et par la régularité de leur présence. Ils doivent toutefois éviter que l’analyse excessive ou la rigidité ne crée des soupçons inutiles.",
+      __i18n["la_confiance_est_generalement_forte_car_les_deux_signes_acco"],
 
     dailyLife:
-      "Taureau et Vierge peuvent organiser efficacement leur quotidien. Le Taureau maintient la stabilité, tandis que la Vierge gère les détails et les ajustements. Ils peuvent construire une vie confortable et bien structurée, à condition de ne pas laisser les obligations remplacer les moments de plaisir.",
+      __i18n["taureau_et_vierge_peuvent_organiser_efficacement_leur_quotid"],
 
     strengths:
-      "Leur relation possède de la patience, du sens pratique et une véritable capacité à durer. Ils savent soutenir les projets de l’autre et résoudre les difficultés avec réalisme. Ensemble, ils peuvent créer une union fiable et profondément rassurante.",
+      __i18n["leur_relation_possede_de_la_patience_du_sens_pratique_et_une"],
 
     challenges:
-      "Le Taureau peut refuser les changements proposés par la Vierge, tandis que la Vierge peut devenir trop critique ou perfectionniste. Leur relation risque aussi de manquer de spontanéité s’ils se concentrent uniquement sur les responsabilités et les problèmes à régler.",
+      __i18n["le_taureau_peut_refuser_les_changements_proposes_par_la_vier"],
 
     advice:
-      "Le Taureau gagne à considérer certaines suggestions de la Vierge sans les percevoir comme des reproches. La Vierge doit reconnaître ce qui fonctionne déjà au lieu de chercher continuellement à l’améliorer. Ils doivent réserver du temps aux plaisirs, à la tendresse et aux expériences nouvelles.",
+      __i18n["le_taureau_gagne_a_considerer_certaines_suggestions_de_la_vi"],
 
     conclusion:
-      "Taureau et Vierge forment souvent un couple solide, fidèle et naturellement compatible. Leur relation se construit sur des valeurs communes et une grande fiabilité. En ajoutant davantage de spontanéité et d’expression affective, ils peuvent bâtir une union très durable.",
+      __i18n["taureau_et_vierge_forment_souvent_un_couple_solide_fidele_et"],
   },
 
   /*
@@ -303,40 +304,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "balance",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Balance",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_balance"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Balance : romance, sensualité, communication, confiance et équilibre du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_balanc"],
 
     introduction:
-      "Taureau et Balance partagent un goût prononcé pour l’harmonie, la beauté et les plaisirs de la vie. Le Taureau recherche une stabilité concrète, tandis que la Balance accorde beaucoup d’importance à l’équilibre relationnel et à la qualité des échanges. Leur union peut être élégante et sensuelle, mais elle demande certains ajustements.",
+      __i18n["taureau_et_balance_partagent_un_gout_prononce_pour_l_harmoni"],
 
     love:
-      "Le Taureau aime construire lentement une relation fidèle et rassurante. La Balance nourrit le lien par le romantisme, la séduction et le désir de créer une véritable complicité. Tous deux apprécient les attentions, les moments agréables et une relation où l’affection se manifeste avec douceur.",
+      __i18n["le_taureau_aime_construire_lentement_une_relation_fidele_et"],
 
     communication:
-      "La Balance préfère discuter et examiner plusieurs possibilités avant de choisir. Le Taureau souhaite généralement une réponse claire et stable. Le Taureau peut trouver la Balance indécise, alors que la Balance peut percevoir son partenaire comme trop rigide ou peu ouvert au dialogue.",
+      __i18n["la_balance_prefere_discuter_et_examiner_plusieurs_possibilit"],
 
     attraction:
-      "L’attraction est souvent naturelle, raffinée et sensuelle. Le Taureau est séduit par le charme et l’élégance de la Balance. La Balance apprécie la présence rassurante et la sensualité du Taureau. Ils peuvent créer une intimité harmonieuse fondée sur le plaisir et la tendresse.",
+      __i18n["l_attraction_est_souvent_naturelle_raffinee_et_sensuelle_le"],
 
     trust:
-      "Le Taureau valorise la constance et peut s’inquiéter de la sociabilité ou des hésitations de la Balance. La Balance souhaite être libre d’échanger et d’entretenir plusieurs liens sociaux sans être soupçonnée. La confiance nécessite des limites claires et une communication honnête.",
+      __i18n["le_taureau_valorise_la_constance_et_peut_s_inquieter_de_la_s"],
 
     dailyLife:
-      "Ils aiment souvent créer un environnement confortable, esthétique et agréable. Le Taureau s’occupe volontiers de la stabilité matérielle, tandis que la Balance apporte le sens de l’harmonie. Les difficultés peuvent concerner les dépenses, les décisions ou le partage des responsabilités.",
+      __i18n["ils_aiment_souvent_creer_un_environnement_confortable_esthet"],
 
     strengths:
-      "Taureau et Balance savent apprécier la beauté, la douceur et la qualité de la relation. Ils peuvent créer un couple affectueux, socialement agréable et capable de construire un mode de vie harmonieux. Leur sensibilité commune favorise la romance.",
+      __i18n["taureau_et_balance_savent_apprecier_la_beaute_la_douceur_et"],
 
     challenges:
-      "Le Taureau peut vouloir décider une fois pour toutes, tandis que la Balance continue à comparer les options. La Balance peut éviter les conflits, ce qui agace le Taureau lorsqu’il souhaite une réponse directe. Les problèmes non exprimés risquent alors de s’accumuler.",
+      __i18n["le_taureau_peut_vouloir_decider_une_fois_pour_toutes_tandis"],
 
     advice:
-      "Le Taureau doit laisser à la Balance un espace réel de discussion et éviter d’imposer ses choix. La Balance doit exprimer ses préférences clairement et accepter qu’une décision soit parfois nécessaire. Ils gagnent à établir ensemble des règles concernant les finances et les responsabilités.",
+      __i18n["le_taureau_doit_laisser_a_la_balance_un_espace_reel_de_discu"],
 
     conclusion:
-      "Taureau et Balance peuvent vivre une relation romantique, sensuelle et harmonieuse. Leur compatibilité repose sur des goûts communs et un profond besoin d’affection. Avec davantage de clarté dans les décisions, ils peuvent construire une union stable et raffinée.",
+      __i18n["taureau_et_balance_peuvent_vivre_une_relation_romantique_sen"],
   },
 
   /*
@@ -350,40 +351,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "scorpion",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Scorpion",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_scorpion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Scorpion : passion, loyauté, confiance, intensité et défis de cette union.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_scorpi"],
 
     introduction:
-      "Taureau et Scorpion se trouvent à l’opposé l’un de l’autre dans le zodiaque. Cette opposition crée souvent une attraction intense et un sentiment de reconnaissance profonde. Le Taureau recherche la stabilité, tandis que le Scorpion veut une connexion émotionnelle authentique et totale.",
+      __i18n["taureau_et_scorpion_se_trouvent_a_l_oppose_l_un_de_l_autre_d"],
 
     love:
-      "Le Taureau offre une présence rassurante et une grande fidélité. Le Scorpion apporte de la profondeur, de l’intensité et une capacité à transformer la relation. Leur amour peut être très puissant, car les deux partenaires prennent généralement l’engagement au sérieux.",
+      __i18n["le_taureau_offre_une_presence_rassurante_et_une_grande_fidel"],
 
     communication:
-      "Le Taureau communique de manière concrète et peut refuser d’expliquer longuement ses émotions. Le Scorpion cherche à comprendre les motivations cachées et les nuances psychologiques. Le Taureau peut se sentir interrogé, tandis que le Scorpion peut percevoir son silence comme une résistance.",
+      __i18n["le_taureau_communique_de_maniere_concrete_et_peut_refuser_d"],
 
     attraction:
-      "L’attirance est souvent magnétique, sensuelle et particulièrement profonde. Le Taureau apporte la présence physique et la stabilité, tandis que le Scorpion ajoute l’intensité émotionnelle. Leur alchimie peut devenir l’un des piliers les plus forts de leur relation.",
+      __i18n["l_attirance_est_souvent_magnetique_sensuelle_et_particuliere"],
 
     trust:
-      "La fidélité est essentielle pour les deux signes. Le Taureau veut une relation stable et prévisible, tandis que le Scorpion recherche une loyauté absolue. La confiance peut être exceptionnelle, mais la jalousie, la possessivité et les tentatives de contrôle doivent être surveillées.",
+      __i18n["la_fidelite_est_essentielle_pour_les_deux_signes_le_taureau"],
 
     dailyLife:
-      "Le Taureau organise la stabilité matérielle et les habitudes, tandis que le Scorpion souhaite garder une certaine maîtrise sur les décisions importantes. Ils peuvent construire une vie très solide, mais les désaccords deviennent difficiles lorsque chacun refuse de céder.",
+      __i18n["le_taureau_organise_la_stabilite_materielle_et_les_habitudes"],
 
     strengths:
-      "Cette union possède de la fidélité, de l’endurance et une grande capacité à traverser les crises. Le Taureau apporte l’ancrage et le Scorpion la force de transformation. Ensemble, ils peuvent créer un couple extrêmement uni et résistant.",
+      __i18n["cette_union_possede_de_la_fidelite_de_l_endurance_et_une_gra"],
 
     challenges:
-      "Leur entêtement commun et leur besoin de contrôle peuvent alimenter des luttes de pouvoir. Le Taureau résiste ouvertement, tandis que le Scorpion peut agir de manière plus stratégique. Une blessure émotionnelle risque de rester longtemps présente si elle n’est pas reconnue.",
+      __i18n["leur_entetement_commun_et_leur_besoin_de_controle_peuvent_al"],
 
     advice:
-      "Le Taureau doit accepter d’explorer davantage ses émotions au lieu de se fermer. Le Scorpion gagne à exprimer ses besoins directement plutôt que de tester la loyauté de son partenaire. Ils doivent préserver une certaine autonomie afin d’éviter une relation trop possessive.",
+      __i18n["le_taureau_doit_accepter_d_explorer_davantage_ses_emotions_a"],
 
     conclusion:
-      "Taureau et Scorpion peuvent former un couple passionné, fidèle et extrêmement puissant. Leur relation possède un grand potentiel de durée lorsqu’ils abandonnent les rapports de force. En choisissant la confiance plutôt que le contrôle, ils construisent une union profonde et solide.",
+      __i18n["taureau_et_scorpion_peuvent_former_un_couple_passionne_fidel"],
   },
 
   /*
@@ -397,40 +398,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "sagittaire",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Sagittaire",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_sagittaire"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Sagittaire : stabilité, liberté, communication, attraction et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_sagitt"],
 
     introduction:
-      "Taureau et Sagittaire possèdent des visions très différentes de la vie. Le Taureau recherche la stabilité, les repères et la continuité, tandis que le Sagittaire a besoin de liberté, de mouvement et de nouveaux horizons. Leur relation peut devenir enrichissante si aucun ne cherche à transformer complètement l’autre.",
+      __i18n["taureau_et_sagittaire_possedent_des_visions_tres_differentes"],
 
     love:
-      "Le Taureau souhaite construire un amour fiable et prévisible. Le Sagittaire préfère une relation qui lui permet de continuer à explorer et à évoluer. Le Taureau peut offrir une base rassurante, tandis que le Sagittaire apporte de l’enthousiasme et une ouverture vers de nouvelles expériences.",
+      __i18n["le_taureau_souhaite_construire_un_amour_fiable_et_previsible"],
 
     communication:
-      "Le Sagittaire s’exprime franchement et peut parfois manquer de tact. Le Taureau préfère un ton calme et n’apprécie pas que ses valeurs soient constamment remises en question. Les discussions peuvent être enrichissantes si le Sagittaire respecte la sensibilité du Taureau et si celui-ci reste ouvert à d’autres perspectives.",
+      __i18n["le_sagittaire_s_exprime_franchement_et_peut_parfois_manquer"],
 
     attraction:
-      "L’attirance repose souvent sur la fascination pour leurs différences. Le Taureau apprécie l’optimisme et l’énergie du Sagittaire. Le Sagittaire peut être séduit par la sensualité et la stabilité du Taureau. Leur alchimie demeure forte lorsqu’ils alternent aventure et moments de calme.",
+      __i18n["l_attirance_repose_souvent_sur_la_fascination_pour_leurs_dif"],
 
     trust:
-      "Le Taureau a besoin de savoir où va la relation, alors que le Sagittaire peut résister aux engagements qu’il considère comme trop restrictifs. La confiance se construit lorsque le Sagittaire respecte ses promesses et que le Taureau ne transforme pas son besoin de sécurité en surveillance.",
+      __i18n["le_taureau_a_besoin_de_savoir_ou_va_la_relation_alors_que_le"],
 
     dailyLife:
-      "Le Taureau aime les habitudes et une organisation prévisible. Le Sagittaire préfère improviser et modifier les plans. Leur quotidien fonctionne mieux lorsqu’ils disposent d’une base stable, tout en conservant des périodes réservées aux voyages, aux découvertes ou aux activités spontanées.",
+      __i18n["le_taureau_aime_les_habitudes_et_une_organisation_previsible"],
 
     strengths:
-      "Le Taureau donne au Sagittaire la stabilité nécessaire pour concrétiser ses idées. Le Sagittaire encourage le Taureau à sortir de sa zone de confort et à élargir ses horizons. Ils peuvent beaucoup apprendre l’un de l’autre.",
+      __i18n["le_taureau_donne_au_sagittaire_la_stabilite_necessaire_pour"],
 
     challenges:
-      "Le Taureau peut trouver le Sagittaire imprévisible ou peu fiable. Le Sagittaire peut se sentir limité par les besoins de sécurité du Taureau. Les tensions augmentent lorsque l’un insiste sur l’engagement et que l’autre cherche à préserver sa liberté à tout prix.",
+      __i18n["le_taureau_peut_trouver_le_sagittaire_imprevisible_ou_peu_fi"],
 
     advice:
-      "Le Taureau doit accepter que la liberté ne signifie pas nécessairement un manque d’amour. Le Sagittaire gagne à rassurer son partenaire par des gestes concrets et réguliers. Ils doivent définir clairement leurs attentes concernant les projets, les sorties et l’engagement.",
+      __i18n["le_taureau_doit_accepter_que_la_liberte_ne_signifie_pas_nece"],
 
     conclusion:
-      "Taureau et Sagittaire peuvent vivre une relation stimulante malgré leurs différences. Le Taureau apporte l’ancrage, tandis que le Sagittaire ouvre de nouveaux horizons. Avec des compromis réalistes, ils peuvent unir stabilité et aventure.",
+      __i18n["taureau_et_sagittaire_peuvent_vivre_une_relation_stimulante"],
   },
 
   /*
@@ -444,40 +445,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "capricorne",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Capricorne",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_capricorne"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Capricorne : stabilité, ambitions, confiance, amour et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_capric"],
 
     introduction:
-      "Taureau et Capricorne partagent une vision sérieuse, réaliste et durable des relations. Tous deux recherchent la sécurité, la fiabilité et la possibilité de construire quelque chose de concret. Leur union possède naturellement de solides fondations.",
+      __i18n["taureau_et_capricorne_partagent_une_vision_serieuse_realiste"],
 
     love:
-      "Le Taureau apporte de la sensualité, de la douceur et une présence rassurante. Le Capricorne offre de la loyauté, de l’engagement et une grande capacité à soutenir les projets communs. Leur amour se démontre souvent davantage par les actes que par les grandes déclarations.",
+      __i18n["le_taureau_apporte_de_la_sensualite_de_la_douceur_et_une_pre"],
 
     communication:
-      "Leur communication est généralement calme, logique et orientée vers les solutions. Le Taureau peut être plus attaché à ses habitudes, tandis que le Capricorne se concentre sur les objectifs à long terme. Ils doivent toutefois parler de leurs émotions et ne pas limiter leurs échanges aux responsabilités.",
+      __i18n["leur_communication_est_generalement_calme_logique_et_oriente"],
 
     attraction:
-      "L’attirance se développe progressivement, à travers la confiance et l’admiration mutuelle. Le Taureau apprécie la force tranquille et l’ambition du Capricorne. Le Capricorne est attiré par la sensualité, la stabilité et la fidélité du Taureau.",
+      __i18n["l_attirance_se_developpe_progressivement_a_travers_la_confia"],
 
     trust:
-      "La confiance représente généralement l’un des points forts de cette union. Les deux signes valorisent la cohérence, la responsabilité et le respect des engagements. Ils peuvent compter l’un sur l’autre, même si leur réserve émotionnelle doit parfois être dépassée.",
+      __i18n["la_confiance_represente_generalement_l_un_des_points_forts_d"],
 
     dailyLife:
-      "Taureau et Capricorne savent organiser les finances, les responsabilités et les projets à long terme. Leur quotidien peut être très stable et productif. Le risque est de consacrer trop d’énergie au travail ou aux obligations et de négliger la spontanéité.",
+      __i18n["taureau_et_capricorne_savent_organiser_les_finances_les_resp"],
 
     strengths:
-      "Cette relation possède de l’endurance, du réalisme et une grande capacité à construire. Le Taureau maintient la stabilité, tandis que le Capricorne donne une direction ambitieuse au couple. Ensemble, ils peuvent atteindre des objectifs importants.",
+      __i18n["cette_relation_possede_de_l_endurance_du_realisme_et_une_gra"],
 
     challenges:
-      "Le Taureau peut résister aux changements nécessaires, tandis que le Capricorne peut devenir trop exigeant ou concentré sur le travail. Leur relation risque de devenir trop sérieuse si aucun des deux ne crée des moments de détente et d’expression affective.",
+      __i18n["le_taureau_peut_resister_aux_changements_necessaires_tandis"],
 
     advice:
-      "Ils doivent réserver du temps au plaisir, à la tendresse et aux expériences qui ne répondent à aucun objectif pratique. Le Taureau gagne à soutenir les ambitions du Capricorne sans perdre ses propres besoins. Le Capricorne doit reconnaître les efforts affectifs du Taureau.",
+      __i18n["ils_doivent_reserver_du_temps_au_plaisir_a_la_tendresse_et_a"],
 
     conclusion:
-      "Taureau et Capricorne forment généralement un couple stable, fidèle et capable de durer. Leur compatibilité repose sur des valeurs communes et une grande fiabilité. En entretenant la romance, ils peuvent construire une union aussi chaleureuse que solide.",
+      __i18n["taureau_et_capricorne_forment_generalement_un_couple_stable"],
   },
 
   /*
@@ -491,40 +492,40 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "verseau",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Verseau",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_verseau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Verseau : différences, liberté, stabilité, communication et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_versea"],
 
     introduction:
-      "Taureau et Verseau sont deux signes fixes qui possèdent une grande détermination, mais des priorités très différentes. Le Taureau recherche la stabilité et des repères concrets, tandis que le Verseau valorise la liberté, l’innovation et les chemins moins conventionnels. Leur relation peut être déroutante, mais aussi très enrichissante.",
+      __i18n["taureau_et_verseau_sont_deux_signes_fixes_qui_possedent_une"],
 
     love:
-      "Le Taureau souhaite une relation rassurante, régulière et sensuelle. Le Verseau a besoin d’un lien qui respecte son indépendance et sa singularité. Le Taureau peut offrir une base solide, tandis que le Verseau introduit de nouvelles idées et aide son partenaire à sortir de certaines habitudes.",
+      __i18n["le_taureau_souhaite_une_relation_rassurante_reguliere_et_sen"],
 
     communication:
-      "Le Verseau aime explorer des idées originales et peut adopter une approche très intellectuelle. Le Taureau préfère des discussions concrètes et directement liées à la réalité. Le Taureau peut trouver le Verseau distant ou imprévisible, tandis que le Verseau peut juger son partenaire trop conservateur.",
+      __i18n["le_verseau_aime_explorer_des_idees_originales_et_peut_adopte"],
 
     attraction:
-      "L’attraction naît souvent de leur différence marquée. Le Taureau est intrigué par l’originalité du Verseau, tandis que le Verseau apprécie la présence calme et authentique du Taureau. Pour maintenir leur alchimie, ils doivent respecter leurs besoins distincts de proximité et d’espace.",
+      __i18n["l_attraction_nait_souvent_de_leur_difference_marquee_le_taur"],
 
     trust:
-      "Le Taureau recherche de la constance, alors que le Verseau veut conserver une grande autonomie. Le Taureau peut s’inquiéter de cette distance, tandis que le Verseau se sent rapidement limité par les attentes trop précises. La confiance exige des engagements clairement définis.",
+      __i18n["le_taureau_recherche_de_la_constance_alors_que_le_verseau_ve"],
 
     dailyLife:
-      "Le Taureau aime les habitudes et un environnement prévisible. Le Verseau préfère expérimenter et modifier les règles. Leur quotidien fonctionne lorsqu’ils conservent certaines bases stables tout en laissant une place réelle aux projets personnels et aux changements.",
+      __i18n["le_taureau_aime_les_habitudes_et_un_environnement_previsible"],
 
     strengths:
-      "Le Taureau aide le Verseau à donner une forme concrète à ses idées. Le Verseau pousse le Taureau à remettre en question ses habitudes et à envisager des solutions nouvelles. Leur relation peut favoriser une évolution importante chez les deux partenaires.",
+      __i18n["le_taureau_aide_le_verseau_a_donner_une_forme_concrete_a_ses"],
 
     challenges:
-      "Leur entêtement commun peut rendre les compromis difficiles. Le Taureau insiste sur la sécurité, tandis que le Verseau défend sa liberté. Les conflits deviennent prolongés si chacun refuse de reconnaître la légitimité des besoins de l’autre.",
+      __i18n["leur_entetement_commun_peut_rendre_les_compromis_difficiles"],
 
     advice:
-      "Le Taureau doit éviter de vouloir rendre le Verseau plus prévisible qu’il ne l’est naturellement. Le Verseau gagne à offrir davantage de régularité et de présence affective. Ils doivent créer leurs propres règles de couple plutôt que d’imposer un modèle unique.",
+      __i18n["le_taureau_doit_eviter_de_vouloir_rendre_le_verseau_plus_pre"],
 
     conclusion:
-      "Taureau et Verseau peuvent former une union atypique, stimulante et évolutive. Leur compatibilité demande de nombreux ajustements, mais leurs différences peuvent devenir une richesse. Avec du respect et des engagements clairs, ils peuvent unir stabilité et innovation.",
+      __i18n["taureau_et_verseau_peuvent_former_une_union_atypique_stimula"],
   },
 
   /*
@@ -538,39 +539,39 @@ export const TAUREAU_COMPATIBILITY_PAGES:
     signB: "poissons",
 
     title:
-      "Compatibilité amoureuse entre Taureau et Poissons",
+      __i18n["compatibilite_amoureuse_entre_taureau_et_poissons"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Taureau et Poissons : tendresse, sensualité, confiance, émotions et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_taureau_et_poisso"],
 
     introduction:
-      "Taureau et Poissons forment une combinaison douce, sensible et naturellement complémentaire. Le Taureau apporte la stabilité, le réalisme et un sentiment de sécurité, tandis que les Poissons offrent de l’imagination, de l’empathie et une grande profondeur émotionnelle.",
+      __i18n["taureau_et_poissons_forment_une_combinaison_douce_sensible_e"],
 
     love:
-      "Le Taureau aime construire un lien fidèle et rassurant. Les Poissons recherchent une relation romantique, intuitive et émotionnellement profonde. Le Taureau peut aider les Poissons à concrétiser leurs rêves, tandis que les Poissons ajoutent de la douceur et de la poésie au quotidien.",
+      __i18n["le_taureau_aime_construire_un_lien_fidele_et_rassurant_les_p"],
 
     communication:
-      "Le Taureau communique de manière simple et directe, tandis que les Poissons utilisent davantage les impressions et les émotions. Le Taureau peut avoir de la difficulté à comprendre certaines nuances, alors que les Poissons peuvent se sentir blessés par un manque apparent de délicatesse.",
+      __i18n["le_taureau_communique_de_maniere_simple_et_directe_tandis_qu"],
 
     attraction:
-      "L’attirance est souvent tendre, sensuelle et très romantique. Les Poissons sont rassurés par la présence solide du Taureau. Le Taureau est touché par la sensibilité, la créativité et la douceur des Poissons. Leur intimité peut devenir profondément affective.",
+      __i18n["l_attirance_est_souvent_tendre_sensuelle_et_tres_romantique"],
 
     trust:
-      "Le Taureau apporte la constance dont les Poissons ont souvent besoin. Les Poissons offrent une grande compréhension émotionnelle. La confiance peut être forte, mais les Poissons doivent éviter les ambiguïtés et le Taureau doit se montrer plus ouvert aux émotions moins rationnelles.",
+      __i18n["le_taureau_apporte_la_constance_dont_les_poissons_ont_souven"],
 
     dailyLife:
-      "Le Taureau organise les aspects pratiques et maintient une structure stable. Les Poissons apportent de l’inspiration, de la créativité et une atmosphère plus souple. Leur quotidien peut être harmonieux si les responsabilités sont clairement partagées.",
+      __i18n["le_taureau_organise_les_aspects_pratiques_et_maintient_une_s"],
 
     strengths:
-      "Cette union réunit le réalisme et l’intuition. Le Taureau aide les Poissons à transformer leurs idées en projets concrets. Les Poissons enseignent au Taureau davantage de souplesse, d’empathie et d’ouverture émotionnelle.",
+      __i18n["cette_union_reunit_le_realisme_et_l_intuition_le_taureau_aid"],
 
     challenges:
-      "Le Taureau peut trouver les Poissons trop indécis ou peu organisés. Les Poissons peuvent percevoir le Taureau comme trop rigide ou peu sensible aux nuances. Le risque est que le Taureau prenne toutes les décisions pendant que les Poissons évitent de défendre leurs besoins.",
+      __i18n["le_taureau_peut_trouver_les_poissons_trop_indecis_ou_peu_org"],
 
     advice:
-      "Le Taureau doit écouter les émotions des Poissons sans chercher immédiatement une solution pratique. Les Poissons gagnent à exprimer clairement leurs limites et à participer concrètement aux décisions. Une organisation simple permet de préserver leur douceur naturelle.",
+      __i18n["le_taureau_doit_ecouter_les_emotions_des_poissons_sans_cherc"],
 
     conclusion:
-      "Taureau et Poissons possèdent une compatibilité tendre, rassurante et profondément romantique. Le Taureau offre l’ancrage et les Poissons la sensibilité. Ensemble, ils peuvent construire une relation stable, créative et émotionnellement riche.",
+      __i18n["taureau_et_poissons_possedent_une_compatibilite_tendre_rassu"],
   },
 ];

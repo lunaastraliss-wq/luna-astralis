@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/lib/compatibility-pages/capricorne";
 import type {
   CompatibilityPageData,
 } from "./types";
@@ -21,40 +22,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "belier",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Bélier",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_belier"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Bélier : ambitions, communication, confiance, attraction et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_bel"],
 
     introduction:
-      "Capricorne et Bélier possèdent une forte volonté de réussir, mais avancent selon des rythmes très différents. Le Capricorne planifie, structure et construit sur le long terme, tandis que le Bélier agit rapidement et suit son instinct. Leur relation peut devenir très productive lorsqu’ils respectent leurs méthodes respectives.",
+      __i18n["capricorne_et_belier_possedent_une_forte_volonte_de_reussir"],
 
     love:
-      "Le Capricorne apporte de la stabilité, de la loyauté et un engagement sérieux. Le Bélier offre de la passion, de l’énergie et une grande spontanéité. Le Capricorne peut aider le Bélier à consolider ses projets, tandis que le Bélier encourage son partenaire à prendre davantage d’initiatives.",
+      __i18n["le_capricorne_apporte_de_la_stabilite_de_la_loyaute_et_un_en"],
 
     communication:
-      "Le Capricorne communique avec retenue, pragmatisme et précision. Le Bélier s’exprime directement et souhaite obtenir des réponses rapides. Le Bélier peut trouver son partenaire trop froid ou lent, tandis que le Capricorne peut le juger impulsif.",
+      __i18n["le_capricorne_communique_avec_retenue_pragmatisme_et_precisi"],
 
     attraction:
-      "L’attirance repose souvent sur l’admiration de leur force respective. Le Capricorne respecte le courage et l’assurance du Bélier. Le Bélier est attiré par l’ambition, la maîtrise et la solidité du Capricorne.",
+      __i18n["l_attirance_repose_souvent_sur_l_admiration_de_leur_force_re"],
 
     trust:
-      "Le Capricorne accorde sa confiance progressivement et observe les actions sur la durée. Le Bélier est généralement franc, mais peut changer rapidement de direction. La confiance grandit lorsque le Bélier respecte ses engagements et que le Capricorne évite de contrôler chaque initiative.",
+      __i18n["le_capricorne_accorde_sa_confiance_progressivement_et_observ"],
 
     dailyLife:
-      "Le Capricorne aime organiser les responsabilités et prévoir les étapes. Le Bélier préfère agir immédiatement. Leur quotidien fonctionne mieux lorsque le Capricorne établit une structure souple et que le Bélier participe à la continuité des projets.",
+      __i18n["le_capricorne_aime_organiser_les_responsabilites_et_prevoir"],
 
     strengths:
-      "Capricorne et Bélier possèdent de l’ambition, du courage et une grande capacité à surmonter les obstacles. Le Bélier lance les projets, tandis que le Capricorne leur donne de la structure et de la durée.",
+      __i18n["capricorne_et_belier_possedent_de_l_ambition_du_courage_et_u"],
 
     challenges:
-      "Le Capricorne peut trouver le Bélier imprudent ou impatient. Le Bélier peut se sentir freiné par les règles et la prudence du Capricorne. Leur besoin commun de diriger peut également provoquer des luttes de pouvoir.",
+      __i18n["le_capricorne_peut_trouver_le_belier_imprudent_ou_impatient"],
 
     advice:
-      "Le Capricorne doit laisser au Bélier une certaine liberté d’action. Le Bélier gagne à respecter l’expérience et la prudence de son partenaire. Ils doivent répartir clairement les responsabilités et reconnaître la valeur de leurs méthodes différentes.",
+      __i18n["le_capricorne_doit_laisser_au_belier_une_certaine_liberte_d"],
 
     conclusion:
-      "Capricorne et Bélier peuvent former un couple ambitieux, solide et très complémentaire. Leur compatibilité demande de la patience et du respect. En unissant initiative et discipline, ils peuvent accomplir de grandes choses.",
+      __i18n["capricorne_et_belier_peuvent_former_un_couple_ambitieux_soli"],
   },
 
   /*
@@ -68,40 +69,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "taureau",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Taureau",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_taureau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Taureau : stabilité, loyauté, confiance, sensualité et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_tau"],
 
     introduction:
-      "Capricorne et Taureau partagent un profond besoin de stabilité, de sécurité et de continuité. Tous deux préfèrent construire lentement une relation solide plutôt que de suivre des émotions passagères. Leur union possède naturellement des fondations durables.",
+      __i18n["capricorne_et_taureau_partagent_un_profond_besoin_de_stabili"],
 
     love:
-      "Le Capricorne exprime son amour par l’engagement, la protection et les responsabilités assumées. Le Taureau apporte de la sensualité, de la constance et une présence rassurante. Leur affection peut sembler discrète, mais elle repose sur des actes sincères.",
+      __i18n["le_capricorne_exprime_son_amour_par_l_engagement_la_protecti"],
 
     communication:
-      "Leur communication est généralement calme, concrète et orientée vers les solutions. Le Capricorne pense à long terme, tandis que le Taureau recherche des résultats simples et tangibles. Leurs discussions peuvent toutefois devenir rigides lorsque chacun refuse de changer d’avis.",
+      __i18n["leur_communication_est_generalement_calme_concrete_et_orient"],
 
     attraction:
-      "L’attirance se développe souvent progressivement grâce au respect et à la sécurité. Le Capricorne apprécie la sensualité, la patience et la fiabilité du Taureau. Le Taureau est séduit par l’ambition et la solidité du Capricorne.",
+      __i18n["l_attirance_se_developpe_souvent_progressivement_grace_au_re"],
 
     trust:
-      "La confiance constitue l’une des principales forces de cette union. Les deux partenaires valorisent la loyauté, la cohérence et les engagements durables. Ils savent généralement qu’ils peuvent compter l’un sur l’autre.",
+      __i18n["la_confiance_constitue_l_une_des_principales_forces_de_cette"],
 
     dailyLife:
-      "Capricorne et Taureau savent organiser leur quotidien, gérer les finances et construire un environnement confortable. Le Capricorne planifie l’avenir, tandis que le Taureau protège la stabilité présente.",
+      __i18n["capricorne_et_taureau_savent_organiser_leur_quotidien_gerer"],
 
     strengths:
-      "Cette relation possède de la patience, de l’endurance et une grande capacité à bâtir. Le Capricorne apporte la stratégie et la discipline, tandis que le Taureau offre la constance et le sens du concret.",
+      __i18n["cette_relation_possede_de_la_patience_de_l_endurance_et_une"],
 
     challenges:
-      "Leur couple peut devenir trop routinier, sérieux ou centré sur les responsabilités matérielles. Leur entêtement commun rend également les compromis difficiles lorsque leurs priorités divergent.",
+      __i18n["leur_couple_peut_devenir_trop_routinier_serieux_ou_centre_su"],
 
     advice:
-      "Le Capricorne doit accorder davantage de place au plaisir et à la tendresse. Le Taureau gagne à accepter certains changements nécessaires. Ils doivent préserver la romance au milieu de leurs objectifs pratiques.",
+      __i18n["le_capricorne_doit_accorder_davantage_de_place_au_plaisir_et"],
 
     conclusion:
-      "Capricorne et Taureau possèdent une excellente compatibilité fondée sur la stabilité, la loyauté et des valeurs communes. Leur union peut devenir extrêmement durable. Ensemble, ils construisent une relation solide et rassurante.",
+      __i18n["capricorne_et_taureau_possedent_une_excellente_compatibilite"],
   },
 
   /*
@@ -115,40 +116,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "gemeaux",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Gémeaux",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_gemeaux"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Gémeaux : différences, communication, confiance, attraction et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_gem"],
 
     introduction:
-      "Capricorne et Gémeaux possèdent des approches très différentes de la vie. Le Capricorne recherche la structure, la stabilité et des résultats à long terme, tandis que le Gémeaux privilégie la variété, la liberté intellectuelle et l’adaptation. Leur relation peut devenir enrichissante lorsqu’ils évitent de se juger.",
+      __i18n["capricorne_et_gemeaux_possedent_des_approches_tres_different"],
 
     love:
-      "Le Capricorne apporte de la loyauté, de la sécurité et une présence constante. Le Gémeaux offre de l’humour, de la curiosité et une grande légèreté. Le Capricorne peut aider le Gémeaux à concrétiser ses idées, tandis que celui-ci apporte davantage de souplesse.",
+      __i18n["le_capricorne_apporte_de_la_loyaute_de_la_securite_et_une_pr"],
 
     communication:
-      "Le Gémeaux aime explorer plusieurs sujets et changer rapidement de perspective. Le Capricorne préfère des échanges utiles, structurés et orientés vers un objectif. Le Capricorne peut trouver son partenaire dispersé, tandis que le Gémeaux peut le percevoir comme trop sérieux.",
+      __i18n["le_gemeaux_aime_explorer_plusieurs_sujets_et_changer_rapidem"],
 
     attraction:
-      "L’attirance peut naître de leurs différences intellectuelles. Le Capricorne est intrigué par la vivacité et l’adaptabilité du Gémeaux. Le Gémeaux apprécie la maîtrise, l’ambition et la fiabilité du Capricorne.",
+      __i18n["l_attirance_peut_naitre_de_leurs_differences_intellectuelles"],
 
     trust:
-      "Le Capricorne accorde sa confiance grâce à la cohérence et à la continuité. Le Gémeaux peut sembler changeant ou imprévisible. La confiance grandit lorsque le Gémeaux tient ses promesses et que le Capricorne accepte une certaine flexibilité.",
+      __i18n["le_capricorne_accorde_sa_confiance_grace_a_la_coherence_et_a"],
 
     dailyLife:
-      "Le Capricorne aime planifier et organiser les responsabilités. Le Gémeaux préfère une structure souple et des journées variées. Leur quotidien fonctionne si les obligations essentielles sont clairement définies sans éliminer toute spontanéité.",
+      __i18n["le_capricorne_aime_planifier_et_organiser_les_responsabilite"],
 
     strengths:
-      "Le Capricorne apporte de la discipline, de la patience et une grande capacité à finaliser les projets. Le Gémeaux offre de nouvelles idées, de l’adaptabilité et une communication vive. Ensemble, ils peuvent élargir leur manière de réfléchir.",
+      __i18n["le_capricorne_apporte_de_la_discipline_de_la_patience_et_une"],
 
     challenges:
-      "Le Capricorne peut trouver le Gémeaux peu constant ou superficiel. Le Gémeaux peut percevoir son partenaire comme rigide, pessimiste ou trop contrôlant. Leur différence de rythme risque de créer de la frustration.",
+      __i18n["le_capricorne_peut_trouver_le_gemeaux_peu_constant_ou_superf"],
 
     advice:
-      "Le Capricorne doit laisser davantage de place à la nouveauté et à l’humour. Le Gémeaux gagne à démontrer sa fiabilité dans les domaines importants. Ils doivent établir des attentes concrètes sans chercher à changer la personnalité de l’autre.",
+      __i18n["le_capricorne_doit_laisser_davantage_de_place_a_la_nouveaute"],
 
     conclusion:
-      "Capricorne et Gémeaux peuvent former un couple intelligent et complémentaire malgré leurs différences. Le Capricorne apporte la structure et le Gémeaux la souplesse. Avec de la patience, leur relation peut devenir très évolutive.",
+      __i18n["capricorne_et_gemeaux_peuvent_former_un_couple_intelligent_e"],
   },
 
   /*
@@ -162,40 +163,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "cancer",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Cancer",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_cancer"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Cancer : sécurité, émotions, confiance, loyauté et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_can"],
 
     introduction:
-      "Capricorne et Cancer se trouvent à l’opposé dans le zodiaque et partagent un profond besoin de sécurité. Le Capricorne construit cette sécurité par la structure, le travail et les engagements, tandis que le Cancer la recherche à travers les émotions, le foyer et la proximité affective.",
+      __i18n["capricorne_et_cancer_se_trouvent_a_l_oppose_dans_le_zodiaque"],
 
     love:
-      "Le Capricorne apporte de la stabilité, de la protection et une loyauté durable. Le Cancer offre de la tendresse, de l’empathie et une profonde présence émotionnelle. Leur amour peut devenir extrêmement solide lorsque chacun comprend la manière d’aimer de l’autre.",
+      __i18n["le_capricorne_apporte_de_la_stabilite_de_la_protection_et_un"],
 
     communication:
-      "Le Capricorne communique avec retenue et cherche des solutions concrètes. Le Cancer exprime ses besoins à travers ses émotions et sa sensibilité. Le Cancer peut trouver son partenaire froid, tandis que le Capricorne peut se sentir dépassé par certaines réactions.",
+      __i18n["le_capricorne_communique_avec_retenue_et_cherche_des_solutio"],
 
     attraction:
-      "L’attirance repose sur leur complémentarité naturelle. Le Capricorne est touché par la douceur et la loyauté du Cancer. Le Cancer se sent rassuré par la force, l’ambition et la stabilité du Capricorne.",
+      __i18n["l_attirance_repose_sur_leur_complementarite_naturelle_le_cap"],
 
     trust:
-      "La confiance peut devenir très forte grâce à leur désir commun de construire une relation durable. Le Capricorne rassure par ses actes, tandis que le Cancer offre une loyauté affective profonde. Les silences prolongés doivent toutefois être évités.",
+      __i18n["la_confiance_peut_devenir_tres_forte_grace_a_leur_desir_comm"],
 
     dailyLife:
-      "Le Capricorne s’occupe volontiers de la structure, des objectifs et de la sécurité matérielle. Le Cancer crée un foyer chaleureux et protège les liens familiaux. Leur quotidien peut être très stable et complémentaire.",
+      __i18n["le_capricorne_s_occupe_volontiers_de_la_structure_des_object"],
 
     strengths:
-      "Capricorne et Cancer possèdent de la loyauté, de la persévérance et un grand instinct protecteur. Le Capricorne construit les fondations, tandis que le Cancer nourrit l’intimité et le sentiment d’appartenance.",
+      __i18n["capricorne_et_cancer_possedent_de_la_loyaute_de_la_persevera"],
 
     challenges:
-      "Le Capricorne peut consacrer trop de temps au travail et négliger les besoins affectifs du Cancer. Le Cancer peut devenir trop inquiet ou dépendant. Chacun risque aussi de se refermer lorsqu’il est blessé.",
+      __i18n["le_capricorne_peut_consacrer_trop_de_temps_au_travail_et_neg"],
 
     advice:
-      "Le Capricorne doit exprimer davantage son affection et sa reconnaissance. Le Cancer gagne à parler directement de ses besoins plutôt que d’attendre qu’ils soient devinés. Ils doivent protéger autant leur intimité que leur sécurité matérielle.",
+      __i18n["le_capricorne_doit_exprimer_davantage_son_affection_et_sa_re"],
 
     conclusion:
-      "Capricorne et Cancer possèdent une excellente compatibilité fondée sur la sécurité, la loyauté et la complémentarité. Leur relation peut devenir profondément durable. Ensemble, ils peuvent construire un véritable foyer.",
+      __i18n["capricorne_et_cancer_possedent_une_excellente_compatibilite"],
   },
 
   /*
@@ -209,40 +210,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "lion",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Lion",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_lion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Lion : ambitions, loyauté, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_lio"],
 
     introduction:
-      "Capricorne et Lion partagent une forte ambition et un profond désir de réussite, mais ils l’expriment différemment. Le Capricorne privilégie la discipline, la discrétion et la construction à long terme, tandis que le Lion recherche la créativité, la reconnaissance et une expression plus éclatante.",
+      __i18n["capricorne_et_lion_partagent_une_forte_ambition_et_un_profon"],
 
     love:
-      "Le Capricorne apporte de la stabilité, de la fidélité et un engagement sérieux. Le Lion offre de la chaleur, de la passion et une grande générosité. Leur amour peut se renforcer lorsque le Capricorne exprime davantage ses sentiments et que le Lion reconnaît la valeur des actes concrets.",
+      __i18n["le_capricorne_apporte_de_la_stabilite_de_la_fidelite_et_un_e"],
 
     communication:
-      "Le Capricorne communique avec réserve et pragmatisme. Le Lion parle avec assurance et souhaite une réaction émotionnelle visible. Le Lion peut trouver son partenaire froid, tandis que le Capricorne peut considérer le Lion comme trop théâtral.",
+      __i18n["le_capricorne_communique_avec_reserve_et_pragmatisme_le_lion"],
 
     attraction:
-      "L’attirance naît souvent d’une admiration réciproque. Le Capricorne respecte le charisme, le courage et la créativité du Lion. Le Lion est attiré par l’ambition, la maîtrise et la solidité du Capricorne.",
+      __i18n["l_attirance_nait_souvent_d_une_admiration_reciproque_le_capr"],
 
     trust:
-      "Les deux partenaires valorisent la loyauté et les engagements sérieux. La confiance peut être solide lorsque chacun respecte les ambitions de l’autre. Le Lion doit toutefois éviter les provocations, et le Capricorne ne doit pas utiliser la distance comme protection.",
+      __i18n["les_deux_partenaires_valorisent_la_loyaute_et_les_engagement"],
 
     dailyLife:
-      "Le Capricorne organise les objectifs à long terme, tandis que le Lion apporte de l’énergie et de la créativité. Ils peuvent former une équipe ambitieuse. Les tensions apparaissent autour du contrôle, du travail et du besoin de reconnaissance.",
+      __i18n["le_capricorne_organise_les_objectifs_a_long_terme_tandis_que"],
 
     strengths:
-      "Capricorne et Lion possèdent du courage, de l’ambition et une grande capacité à construire. Le Capricorne offre la méthode, tandis que le Lion apporte une vision inspirante et le désir de réussir avec éclat.",
+      __i18n["capricorne_et_lion_possedent_du_courage_de_l_ambition_et_une"],
 
     challenges:
-      "Le Lion peut se sentir négligé si le Capricorne se concentre trop sur ses responsabilités. Le Capricorne peut trouver les besoins d’attention du Lion excessifs. Leur relation risque aussi de devenir une compétition.",
+      __i18n["le_lion_peut_se_sentir_neglige_si_le_capricorne_se_concentre"],
 
     advice:
-      "Le Capricorne doit montrer davantage sa fierté et son affection envers son partenaire. Le Lion gagne à reconnaître la loyauté discrète du Capricorne. Ils doivent transformer leur ambition personnelle en projet commun.",
+      __i18n["le_capricorne_doit_montrer_davantage_sa_fierte_et_son_affect"],
 
     conclusion:
-      "Capricorne et Lion peuvent former un couple puissant, ambitieux et durable. Leur compatibilité demande une meilleure compréhension émotionnelle. En unissant discipline et créativité, ils peuvent accomplir de grandes choses.",
+      __i18n["capricorne_et_lion_peuvent_former_un_couple_puissant_ambitie"],
   },
 
   /*
@@ -256,40 +257,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "vierge",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Vierge",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_vierge"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Vierge : stabilité, confiance, ambitions, communication et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_vie"],
 
     introduction:
-      "Capricorne et Vierge partagent une approche sérieuse, réaliste et structurée de la vie. Ils recherchent la fiabilité, la stabilité et une relation capable de soutenir leurs objectifs à long terme. Leur union possède naturellement des fondations très solides.",
+      __i18n["capricorne_et_vierge_partagent_une_approche_serieuse_realist"],
 
     love:
-      "Le Capricorne exprime son amour par l’engagement, les responsabilités et la constance. La Vierge démontre ses sentiments à travers les attentions, l’aide et la présence quotidienne. Leur affection peut être discrète, mais elle repose sur des actes durables.",
+      __i18n["le_capricorne_exprime_son_amour_par_l_engagement_les_respons"],
 
     communication:
-      "Leur communication est généralement calme, logique et orientée vers les solutions. Le Capricorne garde une vision stratégique, tandis que la Vierge analyse les détails. Ils doivent toutefois éviter de limiter leurs échanges aux tâches et aux responsabilités.",
+      __i18n["leur_communication_est_generalement_calme_logique_et_oriente"],
 
     attraction:
-      "L’attirance se développe progressivement grâce au respect et à l’admiration. Le Capricorne apprécie l’intelligence, la discrétion et la fiabilité de la Vierge. La Vierge est séduite par l’ambition, la maîtrise et la stabilité du Capricorne.",
+      __i18n["l_attirance_se_developpe_progressivement_grace_au_respect_et"],
 
     trust:
-      "La confiance est généralement très forte. Les deux partenaires valorisent la cohérence, la loyauté et les engagements concrets. Ils savent qu’ils peuvent compter l’un sur l’autre même dans les périodes exigeantes.",
+      __i18n["la_confiance_est_generalement_tres_forte_les_deux_partenaire"],
 
     dailyLife:
-      "Capricorne et Vierge organisent efficacement les responsabilités, les finances et les projets. Leur quotidien peut être très stable et productif. Ils doivent néanmoins éviter que le travail occupe toute la place.",
+      __i18n["capricorne_et_vierge_organisent_efficacement_les_responsabil"],
 
     strengths:
-      "Cette relation possède de la discipline, de l’endurance et une grande capacité à construire. Le Capricorne donne une direction à long terme, tandis que la Vierge améliore les détails et prévient les erreurs.",
+      __i18n["cette_relation_possede_de_la_discipline_de_l_endurance_et_un"],
 
     challenges:
-      "Leur couple peut devenir trop sérieux, perfectionniste ou centré sur les résultats. Le Capricorne se met une forte pression pour réussir, tandis que la Vierge s’inquiète facilement des détails.",
+      __i18n["leur_couple_peut_devenir_trop_serieux_perfectionniste_ou_cen"],
 
     advice:
-      "Le Capricorne doit exprimer davantage son affection et reconnaître les efforts quotidiens de la Vierge. La Vierge gagne à relâcher son perfectionnisme. Ils doivent réserver du temps au plaisir et à la spontanéité.",
+      __i18n["le_capricorne_doit_exprimer_davantage_son_affection_et_recon"],
 
     conclusion:
-      "Capricorne et Vierge possèdent une excellente compatibilité fondée sur la stabilité, la loyauté et des valeurs communes. Leur union peut devenir extrêmement durable. Ensemble, ils construisent une relation fiable et ambitieuse.",
+      __i18n["capricorne_et_vierge_possedent_une_excellente_compatibilite"],
   },
 
   /*
@@ -303,40 +304,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "balance",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Balance",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_balance"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Balance : stabilité, romance, communication, confiance et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_bal"],
 
     introduction:
-      "Capricorne et Balance possèdent des approches différentes, mais potentiellement complémentaires. Le Capricorne recherche la structure, la stabilité et des objectifs à long terme, tandis que la Balance valorise l’harmonie, les échanges et la qualité de la relation.",
+      __i18n["capricorne_et_balance_possedent_des_approches_differentes_ma"],
 
     love:
-      "Le Capricorne apporte de la loyauté, de la sécurité et un engagement sérieux. La Balance offre du romantisme, de la douceur et un grand sens du couple. La Balance peut adoucir la réserve du Capricorne, tandis que celui-ci apporte une direction stable.",
+      __i18n["le_capricorne_apporte_de_la_loyaute_de_la_securite_et_un_eng"],
 
     communication:
-      "Le Capricorne privilégie les décisions concrètes et efficaces. La Balance aime examiner plusieurs options avant de choisir. Le Capricorne peut trouver son partenaire indécis, tandis que la Balance peut le percevoir comme trop rigide ou autoritaire.",
+      __i18n["le_capricorne_privilegie_les_decisions_concretes_et_efficace"],
 
     attraction:
-      "L’attirance peut naître d’une admiration pour leurs qualités opposées. Le Capricorne apprécie le charme, l’élégance et la diplomatie de la Balance. La Balance est séduite par la force, l’ambition et la fiabilité du Capricorne.",
+      __i18n["l_attirance_peut_naitre_d_une_admiration_pour_leurs_qualites"],
 
     trust:
-      "Le Capricorne accorde sa confiance grâce à la cohérence et aux engagements respectés. La Balance peut parfois éviter de prendre position pour préserver la paix. La confiance grandit lorsque chacun exprime clairement ses intentions.",
+      __i18n["le_capricorne_accorde_sa_confiance_grace_a_la_coherence_et_a_2"],
 
     dailyLife:
-      "Le Capricorne organise les responsabilités et les projets à long terme. La Balance veille à l’harmonie et à la qualité du quotidien. Ils peuvent former une équipe efficace si les décisions sont réellement partagées.",
+      __i18n["le_capricorne_organise_les_responsabilites_et_les_projets_a"],
 
     strengths:
-      "Le Capricorne apporte de la discipline, de la stabilité et une grande capacité à construire. La Balance offre de la diplomatie, du charme et la capacité à négocier. Ensemble, ils peuvent créer une relation solide et élégante.",
+      __i18n["le_capricorne_apporte_de_la_discipline_de_la_stabilite_et_un"],
 
     challenges:
-      "La Balance peut se sentir négligée si le Capricorne consacre trop de temps au travail. Le Capricorne peut considérer son partenaire comme trop hésitant. Leur rythme affectif et leur manière de prendre des décisions diffèrent.",
+      __i18n["la_balance_peut_se_sentir_negligee_si_le_capricorne_consacre"],
 
     advice:
-      "Le Capricorne doit montrer davantage de chaleur et écouter les préférences de la Balance. La Balance gagne à prendre position plus clairement. Ils doivent équilibrer les ambitions, les responsabilités et la vie affective.",
+      __i18n["le_capricorne_doit_montrer_davantage_de_chaleur_et_ecouter_l"],
 
     conclusion:
-      "Capricorne et Balance peuvent construire une relation sérieuse, raffinée et durable. Leur compatibilité demande certains ajustements. En unissant structure et diplomatie, ils peuvent former un couple très solide.",
+      __i18n["capricorne_et_balance_peuvent_construire_une_relation_serieu"],
   },
 
   /*
@@ -350,40 +351,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "scorpion",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Scorpion",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_scorpion"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Scorpion : loyauté, passion, ambitions, confiance et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_sco"],
 
     introduction:
-      "Capricorne et Scorpion partagent une grande détermination, une forte volonté et une approche sérieuse des engagements. Le Capricorne apporte de la structure, de la patience et une vision à long terme, tandis que le Scorpion offre de la profondeur émotionnelle et une force de transformation.",
+      __i18n["capricorne_et_scorpion_partagent_une_grande_determination_un"],
 
     love:
-      "Le Capricorne exprime son amour par la constance, les responsabilités et la protection. Le Scorpion aime avec passion et recherche une loyauté totale. Leur affection peut sembler discrète à l’extérieur, mais elle devient souvent extrêmement profonde.",
+      __i18n["le_capricorne_exprime_son_amour_par_la_constance_les_respons"],
 
     communication:
-      "Le Capricorne privilégie la logique et les résultats concrets. Le Scorpion cherche à comprendre les émotions et les intentions cachées. Leurs échanges sont sérieux et riches, mais ils doivent éviter de garder leurs vulnérabilités pour eux.",
+      __i18n["le_capricorne_privilegie_la_logique_et_les_resultats_concret"],
 
     attraction:
-      "L’attirance repose sur la force, le respect et l’admiration. Le Capricorne est intrigué par la profondeur, le mystère et la détermination du Scorpion. Le Scorpion apprécie l’ambition, la maîtrise et la fiabilité du Capricorne.",
+      __i18n["l_attirance_repose_sur_la_force_le_respect_et_l_admiration_l"],
 
     trust:
-      "La confiance peut devenir extrêmement solide. Les deux partenaires valorisent la loyauté, la cohérence et les engagements durables. Ils doivent toutefois éviter les secrets, la surveillance et les luttes de contrôle.",
+      __i18n["la_confiance_peut_devenir_extremement_solide_les_deux_parten"],
 
     dailyLife:
-      "Le Capricorne structure les projets et les responsabilités, tandis que le Scorpion garde une vision stratégique et protège les intérêts du couple. Leur quotidien peut être stable, organisé et productif.",
+      __i18n["le_capricorne_structure_les_projets_et_les_responsabilites_t"],
 
     strengths:
-      "Capricorne et Scorpion possèdent de l’endurance, de l’ambition et une grande capacité à traverser les difficultés. Ensemble, ils peuvent bâtir une vie solide et atteindre des objectifs importants.",
+      __i18n["capricorne_et_scorpion_possedent_de_l_endurance_de_l_ambitio"],
 
     challenges:
-      "Les deux peuvent devenir rigides, réservés ou trop centrés sur le contrôle. Le Capricorne peut sembler froid, tandis que le Scorpion devient parfois méfiant. Leur relation risque également de manquer de légèreté.",
+      __i18n["les_deux_peuvent_devenir_rigides_reserves_ou_trop_centres_su"],
 
     advice:
-      "Le Capricorne doit exprimer davantage ses émotions et son affection. Le Scorpion gagne à communiquer ses besoins sans tester son partenaire. Ils doivent réserver du temps à l’intimité, au plaisir et à la détente.",
+      __i18n["le_capricorne_doit_exprimer_davantage_ses_emotions_et_son_af"],
 
     conclusion:
-      "Capricorne et Scorpion possèdent une excellente compatibilité fondée sur la force, la loyauté et l’ambition. Leur relation peut devenir extrêmement stable et durable. Ensemble, ils forment une alliance puissante.",
+      __i18n["capricorne_et_scorpion_possedent_une_excellente_compatibilit"],
   },
 
   /*
@@ -397,40 +398,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "sagittaire",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Sagittaire",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_sagittaire"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Sagittaire : ambitions, liberté, communication, confiance et équilibre du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_sag"],
 
     introduction:
-      "Capricorne et Sagittaire avancent selon des rythmes très différents. Le Capricorne privilégie la structure, la discipline et les résultats à long terme, tandis que le Sagittaire recherche la liberté, l’expansion et de nouvelles expériences. Leur union peut devenir très complémentaire.",
+      __i18n["capricorne_et_sagittaire_avancent_selon_des_rythmes_tres_dif"],
 
     love:
-      "Le Capricorne apporte de la loyauté, de la stabilité et un engagement sérieux. Le Sagittaire offre de l’optimisme, de la spontanéité et une vision inspirante. Le Capricorne peut aider le Sagittaire à concrétiser ses projets, tandis que celui-ci l’encourage à se détendre.",
+      __i18n["le_capricorne_apporte_de_la_loyaute_de_la_stabilite_et_un_en"],
 
     communication:
-      "Le Capricorne communique avec pragmatisme et se concentre sur ce qui est réalisable. Le Sagittaire exprime ses opinions avec franchise et pense en termes de possibilités. Leurs échanges peuvent être enrichissants, mais aussi critiques.",
+      __i18n["le_capricorne_communique_avec_pragmatisme_et_se_concentre_su"],
 
     attraction:
-      "L’attirance peut naître d’une admiration pour leurs différences. Le Capricorne est séduit par l’assurance, l’optimisme et l’ouverture du Sagittaire. Le Sagittaire respecte l’ambition, la maîtrise et la fiabilité du Capricorne.",
+      __i18n["l_attirance_peut_naitre_d_une_admiration_pour_leurs_differen"],
 
     trust:
-      "Le Capricorne a besoin de cohérence et de preuves concrètes d’engagement. Le Sagittaire souhaite conserver sa liberté. La confiance grandit lorsque le Sagittaire respecte ses promesses et que le Capricorne évite de contrôler chaque décision.",
+      __i18n["le_capricorne_a_besoin_de_coherence_et_de_preuves_concretes"],
 
     dailyLife:
-      "Le Capricorne aime planifier et organiser les responsabilités. Le Sagittaire préfère improviser et saisir les occasions. Leur quotidien fonctionne lorsqu’ils adoptent une structure souple permettant à chacun de respirer.",
+      __i18n["le_capricorne_aime_planifier_et_organiser_les_responsabilite_2"],
 
     strengths:
-      "Le Capricorne apporte de la discipline, de l’endurance et la capacité de concrétiser. Le Sagittaire offre une vision large, de l’optimisme et un esprit d’expansion. Ensemble, ils peuvent réaliser des projets ambitieux.",
+      __i18n["le_capricorne_apporte_de_la_discipline_de_l_endurance_et_la"],
 
     challenges:
-      "Le Capricorne peut trouver le Sagittaire trop imprévisible ou peu sérieux. Le Sagittaire peut se sentir limité par les règles et les attentes de son partenaire. Leur différence de rythme crée parfois des frustrations.",
+      __i18n["le_capricorne_peut_trouver_le_sagittaire_trop_imprevisible_o"],
 
     advice:
-      "Le Capricorne doit laisser davantage de place à la spontanéité et aux découvertes. Le Sagittaire gagne à démontrer plus de constance. Ils doivent définir des objectifs communs sans imposer un mode de vie unique.",
+      __i18n["le_capricorne_doit_laisser_davantage_de_place_a_la_spontanei"],
 
     conclusion:
-      "Capricorne et Sagittaire peuvent former un couple très complémentaire. Le Capricorne apporte la structure et le Sagittaire l’expansion. Avec de la patience et du respect, ils peuvent bâtir une relation solide et évolutive.",
+      __i18n["capricorne_et_sagittaire_peuvent_former_un_couple_tres_compl"],
   },
 
   /*
@@ -444,40 +445,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "capricorne",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Capricorne",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_capricorne"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Capricorne : stabilité, ambitions, confiance, communication et défis du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_cap"],
 
     introduction:
-      "Deux Capricorne partagent une approche sérieuse, ambitieuse et structurée de la vie. Ils comprennent naturellement le besoin de sécurité, de réussite et de continuité de leur partenaire. Leur relation peut devenir extrêmement solide, mais elle doit préserver une place pour les émotions et le plaisir.",
+      __i18n["deux_capricorne_partagent_une_approche_serieuse_ambitieuse_e"],
 
     love:
-      "En amour, deux Capricorne expriment souvent leurs sentiments à travers les actions, la loyauté et les responsabilités assumées. Leur affection peut sembler réservée, mais elle repose sur une volonté sincère de construire une relation durable.",
+      __i18n["en_amour_deux_capricorne_expriment_souvent_leurs_sentiments"],
 
     communication:
-      "Leur communication est pragmatique, calme et orientée vers les solutions. Ils savent planifier et prendre des décisions raisonnables. Ils doivent toutefois éviter de garder leurs émotions pour eux ou de considérer la vulnérabilité comme une faiblesse.",
+      __i18n["leur_communication_est_pragmatique_calme_et_orientee_vers_le"],
 
     attraction:
-      "L’attirance se développe généralement grâce au respect, à l’admiration et au sentiment de sécurité. Chacun apprécie l’ambition, la maîtrise et la fiabilité de l’autre. Leur intimité devient plus profonde avec le temps.",
+      __i18n["l_attirance_se_developpe_generalement_grace_au_respect_a_l_a"],
 
     trust:
-      "La confiance peut être extrêmement solide, car les deux partenaires valorisent la cohérence, la loyauté et les engagements durables. Ils doivent cependant éviter de se juger uniquement à travers leurs résultats ou leurs responsabilités.",
+      __i18n["la_confiance_peut_etre_extremement_solide_car_les_deux_parte"],
 
     dailyLife:
-      "Deux Capricorne savent organiser efficacement les finances, le travail et les projets à long terme. Leur quotidien peut être très stable et productif. Le risque est que le couple ressemble davantage à une entreprise qu’à une relation amoureuse.",
+      __i18n["deux_capricorne_savent_organiser_efficacement_les_finances_l"],
 
     strengths:
-      "Ils possèdent de l’endurance, de la discipline et une remarquable capacité à construire. Ensemble, ils peuvent traverser les périodes difficiles, atteindre des objectifs importants et créer une grande sécurité.",
+      __i18n["ils_possedent_de_l_endurance_de_la_discipline_et_une_remarqu"],
 
     challenges:
-      "Leur relation peut devenir trop sérieuse, rigide ou centrée sur le travail. Chacun peut attendre de l’autre une grande performance et oublier d’exprimer son affection. Les conflits peuvent aussi se transformer en silences prolongés.",
+      __i18n["leur_relation_peut_devenir_trop_serieuse_rigide_ou_centree_s"],
 
     advice:
-      "Ils doivent réserver du temps au plaisir, à la tendresse et aux expériences spontanées. Exprimer leurs émotions et célébrer leurs progrès est aussi important que d’atteindre leurs objectifs.",
+      __i18n["ils_doivent_reserver_du_temps_au_plaisir_a_la_tendresse_et_a"],
 
     conclusion:
-      "Capricorne et Capricorne peuvent former un couple extrêmement stable, loyal et ambitieux. Leur compatibilité est forte lorsqu’ils entretiennent la chaleur affective. Ensemble, ils peuvent bâtir une union durable et impressionnante.",
+      __i18n["capricorne_et_capricorne_peuvent_former_un_couple_extrememen"],
   },
 
   /*
@@ -491,40 +492,40 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "verseau",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Verseau",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_verseau"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Verseau : tradition, innovation, confiance, communication et potentiel du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_ver"],
 
     introduction:
-      "Capricorne et Verseau possèdent une grande détermination, mais leur vision de la vie diffère. Le Capricorne privilégie la structure, la tradition et les résultats éprouvés, tandis que le Verseau recherche l’innovation, la liberté et de nouvelles façons de fonctionner.",
+      __i18n["capricorne_et_verseau_possedent_une_grande_determination_mai"],
 
     love:
-      "Le Capricorne apporte de la loyauté, de la stabilité et un engagement sérieux. Le Verseau offre une relation originale, une grande ouverture d’esprit et de nouvelles perspectives. Leur amour peut se construire autour du respect et d’objectifs communs.",
+      __i18n["le_capricorne_apporte_de_la_loyaute_de_la_stabilite_et_un_en_2"],
 
     communication:
-      "Le Capricorne communique de manière concrète et pragmatique. Le Verseau privilégie les idées, les concepts et les possibilités futures. Le Capricorne peut trouver son partenaire irréaliste, tandis que le Verseau peut le percevoir comme trop conventionnel.",
+      __i18n["le_capricorne_communique_de_maniere_concrete_et_pragmatique"],
 
     attraction:
-      "L’attirance repose souvent sur l’intelligence et l’admiration. Le Capricorne est intrigué par l’originalité et l’indépendance du Verseau. Le Verseau apprécie la maîtrise, l’ambition et la fiabilité du Capricorne.",
+      __i18n["l_attirance_repose_souvent_sur_l_intelligence_et_l_admiratio"],
 
     trust:
-      "Le Capricorne recherche de la cohérence et des engagements concrets. Le Verseau souhaite préserver son autonomie. La confiance grandit lorsque le Verseau démontre sa fiabilité et que le Capricorne respecte son besoin d’espace.",
+      __i18n["le_capricorne_recherche_de_la_coherence_et_des_engagements_c"],
 
     dailyLife:
-      "Le Capricorne préfère une organisation claire et des responsabilités bien définies. Le Verseau aime modifier les règles et expérimenter. Leur quotidien fonctionne lorsqu’ils conservent une base stable tout en laissant de la place à l’innovation.",
+      __i18n["le_capricorne_prefere_une_organisation_claire_et_des_respons"],
 
     strengths:
-      "Le Capricorne apporte de la discipline, de la méthode et la capacité de concrétiser. Le Verseau offre une vision nouvelle, de l’originalité et une grande créativité intellectuelle. Ensemble, ils peuvent construire des projets innovants et durables.",
+      __i18n["le_capricorne_apporte_de_la_discipline_de_la_methode_et_la_c"],
 
     challenges:
-      "Le Capricorne peut trouver le Verseau imprévisible ou distant. Le Verseau peut percevoir le Capricorne comme rigide ou contrôlant. Leur entêtement commun rend parfois les compromis difficiles.",
+      __i18n["le_capricorne_peut_trouver_le_verseau_imprevisible_ou_distan"],
 
     advice:
-      "Le Capricorne doit accepter que certaines méthodes nouvelles puissent être efficaces. Le Verseau gagne à respecter les engagements et la structure nécessaires. Ils doivent créer un équilibre entre liberté et stabilité.",
+      __i18n["le_capricorne_doit_accepter_que_certaines_methodes_nouvelles"],
 
     conclusion:
-      "Capricorne et Verseau peuvent former un couple intelligent, original et très constructif. Leur compatibilité repose sur le respect de leurs différences. Ensemble, ils peuvent unir tradition et innovation.",
+      __i18n["capricorne_et_verseau_peuvent_former_un_couple_intelligent_o"],
   },
 
   /*
@@ -538,39 +539,39 @@ export const CAPRICORNE_COMPATIBILITY_PAGES:
     signB: "poissons",
 
     title:
-      "Compatibilité amoureuse entre Capricorne et Poissons",
+      __i18n["compatibilite_amoureuse_entre_capricorne_et_poissons"],
 
     metaDescription:
-      "Découvrez la compatibilité amoureuse entre Capricorne et Poissons : stabilité, émotions, confiance, romantisme et avenir du couple.",
+      __i18n["decouvrez_la_compatibilite_amoureuse_entre_capricorne_et_poi"],
 
     introduction:
-      "Capricorne et Poissons possèdent des qualités naturellement complémentaires. Le Capricorne apporte de la structure, de la stabilité et un sens pratique développé, tandis que les Poissons offrent de l’intuition, de la tendresse et une grande richesse émotionnelle.",
+      __i18n["capricorne_et_poissons_possedent_des_qualites_naturellement"],
 
     love:
-      "Le Capricorne exprime son amour par la protection, la loyauté et les actions concrètes. Les Poissons apportent du romantisme, de l’empathie et une affection intuitive. Le Capricorne rassure les Poissons, tandis que ceux-ci l’aident à révéler davantage sa sensibilité.",
+      __i18n["le_capricorne_exprime_son_amour_par_la_protection_la_loyaute"],
 
     communication:
-      "Le Capricorne privilégie les faits, les solutions et la logique. Les Poissons communiquent à travers les émotions, les impressions et les nuances. Le Capricorne peut trouver leur discours imprécis, tandis que les Poissons peuvent se sentir incompris.",
+      __i18n["le_capricorne_privilegie_les_faits_les_solutions_et_la_logiq"],
 
     attraction:
-      "L’attirance naît souvent de leur complémentarité. Le Capricorne est touché par la douceur, la créativité et la sensibilité des Poissons. Les Poissons sont rassurés par la force, la stabilité et la fiabilité du Capricorne.",
+      __i18n["l_attirance_nait_souvent_de_leur_complementarite_le_capricor"],
 
     trust:
-      "La confiance peut devenir très solide lorsque les Poissons communiquent clairement leurs intentions et que le Capricorne exprime davantage son affection. Les deux partenaires recherchent généralement une relation profonde et durable.",
+      __i18n["la_confiance_peut_devenir_tres_solide_lorsque_les_poissons_c"],
 
     dailyLife:
-      "Le Capricorne apporte la structure, l’organisation et la sécurité matérielle. Les Poissons créent une atmosphère douce, intuitive et imaginative. Leur quotidien fonctionne lorsque les responsabilités sont partagées équitablement.",
+      __i18n["le_capricorne_apporte_la_structure_l_organisation_et_la_secu"],
 
     strengths:
-      "Le Capricorne aide les Poissons à concrétiser leurs rêves et à établir des repères. Les Poissons apprennent au Capricorne à écouter son intuition et à accueillir davantage ses émotions. Leur complémentarité peut être très équilibrante.",
+      __i18n["le_capricorne_aide_les_poissons_a_concretiser_leurs_reves_et"],
 
     challenges:
-      "Le Capricorne peut devenir trop autoritaire ou considérer les Poissons comme peu réalistes. Les Poissons peuvent s’effacer ou éviter les responsabilités. Une dynamique de protecteur et de personne dépendante risque de s’installer.",
+      __i18n["le_capricorne_peut_devenir_trop_autoritaire_ou_considerer_le"],
 
     advice:
-      "Le Capricorne doit soutenir sans contrôler et écouter sans chercher immédiatement une solution. Les Poissons gagnent à exprimer leurs limites et à participer activement aux responsabilités du couple.",
+      __i18n["le_capricorne_doit_soutenir_sans_controler_et_ecouter_sans_c"],
 
     conclusion:
-      "Capricorne et Poissons possèdent une excellente compatibilité fondée sur la complémentarité, la loyauté et la tendresse. Le Capricorne apporte l’ancrage et les Poissons l’inspiration. Ensemble, ils peuvent construire une union très durable.",
+      __i18n["capricorne_et_poissons_possedent_une_excellente_compatibilit"],
   },
 ];
