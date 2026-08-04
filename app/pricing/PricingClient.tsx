@@ -2,6 +2,7 @@
 "use client";
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/pricing/pricingclient.json";
 import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import Link from "next/link";
@@ -354,7 +355,9 @@ export default function PricingClient() {
         </footer>
       </main>
 
-      <style jsx>{__i18n["pricing_msg_margin_14px_0_0_padding_12px_14px_border_radius"]}</style>
+      <style jsx>{`
+.pricing-msg { margin: 14px 0 0; padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.92); line-height: 1.35; } .pricing-msg.is-ok { background: rgba(120, 255, 190, 0.1); border-color: rgba(120, 255, 190, 0.22); } .pricing-msg.is-err { background: rgba(255, 90, 90, 0.1); border-color: rgba(255, 90, 90, 0.22); } .pricing-msg.is-info { background: rgba(159, 211, 255, 0.1); border-color: rgba(159, 211, 255, 0.22); } .price-cta[aria-busy="true"] { opacity: 0.75; pointer-events: none; }
+`}</style>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 "use client";
 
 
+
 import __i18n from "../i18n/migrated/fr/app/page.json";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

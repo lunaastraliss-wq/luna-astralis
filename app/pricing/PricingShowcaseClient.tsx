@@ -2,6 +2,7 @@
 "use client";
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/pricing/pricingshowcaseclient.json";
 import React, { useMemo } from "react";
 import Link from "next/link";
@@ -188,7 +189,9 @@ export default function PricingClient() {
           © {y} {__i18n["luna_astralis_prix_en_usd"]}</div>
       </main>
 
-      <style jsx>{__i18n["pricing_foot_margin_top_18px_font_size_12px_opacity_0_7_text"]}</style>
+      <style jsx>{`
+.pricing-foot { margin-top: 18px; font-size: 12px; opacity: 0.7; text-align: center; }
+`}</style>
     </div>
   );
 }

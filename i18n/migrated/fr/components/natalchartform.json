@@ -2,7 +2,6 @@
   "venus": "Vénus",
   "belier": "Bélier",
   "gemeaux": "Gémeaux",
-  "application_json": "application/json",
   "prenom_optionnel": "Prénom (optionnel)",
   "ton_prenom": "Ton prénom",
   "date_de_naissance": "Date de naissance",
@@ -11,7 +10,5 @@
   "ville_de_naissance": "Ville de naissance",
   "ville_de_naissance_2": "Ville de naissance",
   "milieu_du_ciel": "Milieu du ciel",
-  "voir_les_rapports_essentielle_premium_et_signature": "Voir les rapports Essentielle, Premium et Signature",
-  "0b1124": "#0b1124",
-  "fff8e7": "#fff8e7"
+  "voir_les_rapports_essentielle_premium_et_signature": "Voir les rapports Essentielle, Premium et Signature"
 }

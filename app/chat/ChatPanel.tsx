@@ -2,6 +2,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/chat/chatpanel.json";
 import React from "react";
 

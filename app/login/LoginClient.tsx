@@ -1,6 +1,7 @@
 "use client";
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/login/loginclient.json";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -446,7 +447,9 @@ export default function LoginClient() {
               {__i18n["aucun_compte_entre_un_email_un_mot_de_passe_puis_clique"]}<b>{__i18n["se_connecter_3"]}</b> {__i18n["pour_creer_le_compte"]}</p>
           </form>
 
-          <style jsx>{__i18n["pwd_wrap_position_relative_width_100_pwd_wrap_global_auth_in"]}</style>
+          <style jsx>{`
+.pwd-wrap { position: relative; width: 100%; } .pwd-wrap :global(.auth-input) { padding-right: 46px; } .pwd-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.92); cursor: pointer; display: grid; place-items: center; } .pwd-eye:disabled { opacity: 0.6; cursor: default; } .auth-msg.is-ok { background: rgba(120, 255, 190, 0.1); border-color: rgba(120, 255, 190, 0.22); } .auth-msg.is-err { background: rgba(255, 90, 90, 0.1); border-color: rgba(255, 90, 90, 0.22); } .auth-msg.is-info { background: rgba(159, 211, 255, 0.1); border-color: rgba(159, 211, 255, 0.22); }
+`}</style>
         </section>
       </main>
     </div>
