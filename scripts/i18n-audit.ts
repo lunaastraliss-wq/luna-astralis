@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| i18n-audit V5
+|--------------------------------------------------------------------------
+|
+| Audit intelligent pour Luna Astralis.
+| Ignore les valeurs techniques, le CSS inline et les blocs <style>.
+|
+*/
+
 import fs from "node:fs";
 import path from "node:path";
 import ts from "typescript";
@@ -238,6 +248,25 @@ function shouldIgnoreText(
   if (
     text.includes("className") ||
     text.includes("application/ld+json") ||
+    text.includes("application/json") ||
+    text.includes("text/html") ||
+    text.includes("multipart/form-data") ||
+    text.includes("@keyframes") ||
+    text.includes("linear-gradient(") ||
+    text.includes("radial-gradient(") ||
+    text.includes("rgba(") ||
+    text.includes("rgb(") ||
+    text.includes("hsl(") ||
+    text.includes("hsla(") ||
+    text.includes("var(--") ||
+    text.includes("calc(") ||
+    text.includes("clamp(") ||
+    text.includes("blur(") ||
+    text.includes("rotate(") ||
+    text.includes("translate(") ||
+    text.includes("scale(") ||
+    /^#[0-9a-f]{3,8}$/i.test(text) ||
+    /^-?\d+(?:\.\d+)?(?:px|rem|em|vh|vw|vmin|vmax|%|s|ms|deg)(?:\s+-?\d+(?:\.\d+)?(?:px|rem|em|vh|vw|vmin|vmax|%|s|ms|deg))*$/i.test(text) ||
     text === "article" ||
     text === "website" ||
     text === "summary_large_image" ||
@@ -281,20 +310,120 @@ const IGNORED_PROPERTY_NAMES = new Set([
   "@type",
   "@id",
   "contentType",
+  "Content-Type",
+  "Accept",
+  "Authorization",
   "encoding",
   "format",
   "variant",
+
+  // Propriétés CSS et valeurs de mise en page.
   "display",
   "position",
+  "top",
+  "right",
+  "bottom",
+  "left",
+  "inset",
+  "zIndex",
+  "width",
+  "minWidth",
+  "maxWidth",
+  "height",
+  "minHeight",
+  "maxHeight",
+  "margin",
+  "marginTop",
+  "marginRight",
+  "marginBottom",
+  "marginLeft",
+  "padding",
+  "paddingTop",
+  "paddingRight",
+  "paddingBottom",
+  "paddingLeft",
+  "gap",
+  "rowGap",
+  "columnGap",
+  "flex",
+  "flexGrow",
+  "flexShrink",
+  "flexBasis",
   "flexDirection",
+  "flexWrap",
   "alignItems",
+  "alignContent",
+  "alignSelf",
   "justifyContent",
+  "justifyItems",
+  "justifySelf",
+  "grid",
+  "gridTemplateColumns",
+  "gridTemplateRows",
+  "gridColumn",
+  "gridRow",
+  "placeItems",
+  "overflow",
+  "overflowX",
+  "overflowY",
+  "objectFit",
+  "objectPosition",
+  "boxSizing",
+  "border",
+  "borderTop",
+  "borderRight",
+  "borderBottom",
+  "borderLeft",
+  "borderColor",
+  "borderTopColor",
+  "borderRightColor",
+  "borderBottomColor",
+  "borderLeftColor",
+  "borderWidth",
+  "borderStyle",
+  "borderRadius",
+  "outline",
+  "boxShadow",
+  "background",
+  "backgroundColor",
+  "backgroundImage",
+  "backgroundPosition",
+  "backgroundSize",
+  "backgroundRepeat",
+  "color",
+  "opacity",
+  "filter",
+  "backdropFilter",
+  "WebkitBackdropFilter",
+  "transform",
+  "transformOrigin",
+  "transition",
+  "transitionProperty",
+  "transitionDuration",
+  "transitionTimingFunction",
+  "animation",
+  "animationName",
+  "animationDuration",
+  "animationTimingFunction",
+  "animationIterationCount",
+  "cursor",
+  "pointerEvents",
+  "userSelect",
+  "visibility",
+  "whiteSpace",
+  "wordBreak",
+  "overflowWrap",
+  "textOverflow",
+  "textDecoration",
+  "textUnderlineOffset",
+  "textTransform",
+  "textAlign",
+  "lineHeight",
+  "letterSpacing",
   "fontFamily",
+  "fontSize",
   "fontWeight",
   "fontStyle",
-  "textAlign",
-  "objectFit",
-  "overflow",
 ]);
 
 function getPropertyName(
@@ -304,6 +433,56 @@ function getPropertyName(
   return node.name
     .getText(sourceFile)
     .replace(/^["']|["']$/g, "");
+}
+
+
+function getJsxTagName(
+  node:
+    | ts.JsxOpeningElement
+    | ts.JsxSelfClosingElement,
+  sourceFile: ts.SourceFile,
+): string {
+  return node.tagName
+    .getText(sourceFile)
+    .toLowerCase();
+}
+
+function isStyleElement(
+  node: ts.Node,
+  sourceFile: ts.SourceFile,
+): boolean {
+  if (!ts.isJsxElement(node)) {
+    return false;
+  }
+
+  return (
+    getJsxTagName(
+      node.openingElement,
+      sourceFile,
+    ) === "style"
+  );
+}
+
+function isInsideJsxStyleAttribute(
+  node: ts.Node,
+  sourceFile: ts.SourceFile,
+): boolean {
+  let current:
+    ts.Node | undefined = node;
+
+  while (current) {
+    if (
+      ts.isJsxAttribute(current) &&
+      current.name.getText(sourceFile) ===
+        "style"
+    ) {
+      return true;
+    }
+
+    current = current.parent;
+  }
+
+  return false;
 }
 
 /*
@@ -564,6 +743,19 @@ function scanFile(
     node: ts.Node,
   ) {
     /*
+     * Le contenu de <style> et <style jsx> est du CSS technique.
+     * On ignore tout le sous-arbre pour ne jamais le traduire.
+     */
+    if (
+      isStyleElement(
+        node,
+        sourceFile,
+      )
+    ) {
+      return;
+    }
+
+    /*
     |--------------------------------------------------------------------------
     | Texte JSX
     |--------------------------------------------------------------------------
@@ -647,6 +839,10 @@ function scanFile(
       if (
         !IGNORED_PROPERTY_NAMES.has(
           propertyName,
+        ) &&
+        !isInsideJsxStyleAttribute(
+          node,
+          sourceFile,
         )
       ) {
         addEntry(
@@ -698,6 +894,10 @@ function scanFile(
 
     if (
       ts.isJsxExpression(node) &&
+      !isInsideJsxStyleAttribute(
+        node,
+        sourceFile,
+      ) &&
       node.expression &&
       (
         ts.isStringLiteral(
