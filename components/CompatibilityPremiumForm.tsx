@@ -4,13 +4,142 @@
 
 
 
-import __i18n from "../i18n/migrated/fr/components/compatibilitypremiumform.json";
+import fr from "../i18n/migrated/fr/components/compatibilitypremiumform.json";
+import en from "../i18n/migrated/en/components/compatibilitypremiumform.json";
+import es from "../i18n/migrated/es/components/compatibilitypremiumform.json";
+import de from "../i18n/migrated/de/components/compatibilitypremiumform.json";
+import it from "../i18n/migrated/it/components/compatibilitypremiumform.json";
+import pt from "../i18n/migrated/pt/components/compatibilitypremiumform.json";
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import html2canvas from "html2canvas";
 import { createClient } from "@supabase/supabase-js";
 
 import NatalChartWheel from "./NatalChartWheel";
+
+import type { Locale } from "@/i18n/config";
+
+
+
+type Dictionary = Record<string, string>;
+
+type CompatibilityPremiumFormProps = {
+  locale: Locale;
+};
+
+type FormTexts = {
+  yourFirstName: string;
+  otherFirstName: string;
+  yourBirthInfo: string;
+  otherBirthInfo: string;
+  firstPerson: string;
+  secondPerson: string;
+  preparingPayment: string;
+  submit: string;
+  enterFirstName: (person: string) => string;
+  enterBirthDate: (person: string) => string;
+  enterBirthDateFormat: (person: string) => string;
+  invalidBirthDate: (person: string) => string;
+  enterBirthTime: (person: string) => string;
+  invalidBirthTime: (person: string) => string;
+  enterBirthCity: (person: string) => string;
+  enterBirthCountry: (person: string) => string;
+  locationNotFound: (location: string) => string;
+  invalidCoordinates: (location: string) => string;
+  missingCoordinates: (name: string) => string;
+  chartCalculationFailed: (name: string) => string;
+  invalidImageFormat: string;
+  invalidImageType: string;
+  wheelNotFound: (name: string) => string;
+  wheelCreationFailed: (name: string) => string;
+  missingSupabase: string;
+  wheelUploadPreparationFailed: string;
+  wheelUploadFailed: string;
+  paymentError: (status: number) => string;
+  unknownError: string;
+};
+
+const DICTIONARIES: Record<Locale, Dictionary> = {
+  fr, en, es, de, it, pt,
+};
+
+const FORM_TEXTS: Record<Locale, FormTexts> = {
+  fr: {
+    yourFirstName: "Votre prénom", otherFirstName: "Le prénom de l’autre personne",
+    yourBirthInfo: "Vos informations de naissance", otherBirthInfo: "Les informations de l’autre personne",
+    firstPerson: "la première personne", secondPerson: "la deuxième personne",
+    preparingPayment: "Préparation du paiement...", submit: "Obtenir mon rapport de compatibilité",
+    enterFirstName: p => `Entre le prénom de ${p}.`, enterBirthDate: p => `Entre la date de naissance de ${p}.`,
+    enterBirthDateFormat: p => `Entre la date de naissance de ${p} au format JJ/MM/AAAA.`, invalidBirthDate: p => `La date de naissance de ${p} est invalide.`,
+    enterBirthTime: p => `Entre l’heure de naissance de ${p}.`, invalidBirthTime: p => `L’heure de naissance de ${p} est invalide.`,
+    enterBirthCity: p => `Entre la ville de naissance de ${p}.`, enterBirthCountry: p => `Entre le pays de naissance de ${p}.`,
+    locationNotFound: l => `Lieu introuvable : ${l}. Vérifie la ville et le pays.`, invalidCoordinates: l => `Les coordonnées reçues pour ${l} sont invalides.`,
+    missingCoordinates: n => `Les coordonnées de naissance de ${n} sont absentes.`, chartCalculationFailed: n => `Impossible de calculer le thème astral de ${n}.`,
+    invalidImageFormat: "Le format de l’image astrologique est invalide.",
+    invalidImageType: "Le type de l’image astrologique est invalide.",
+    wheelNotFound: n => `La roue astrologique de ${n} est introuvable.`,
+    wheelCreationFailed: n => `La roue astrologique de ${n} n’a pas pu être créée.`,
+    missingSupabase: "La configuration publique de Supabase est absente.",
+    wheelUploadPreparationFailed: "Impossible de préparer l’envoi de la roue.",
+    wheelUploadFailed: "Impossible d’enregistrer la roue astrologique.",
+    paymentError: s => `Erreur de paiement (${s}).`,
+    unknownError: "Une erreur est survenue. Vérifie les informations et réessaie.",
+  },
+  en: {
+    yourFirstName: "Your first name", otherFirstName: "The other person’s first name",
+    yourBirthInfo: "Your birth information", otherBirthInfo: "The other person’s birth information",
+    firstPerson: "the first person", secondPerson: "the second person",
+    preparingPayment: "Preparing payment...", submit: "Get my compatibility report",
+    enterFirstName: p => `Enter the first name of ${p}.`, enterBirthDate: p => `Enter the birth date of ${p}.`,
+    enterBirthDateFormat: p => `Enter the birth date of ${p} in DD/MM/YYYY format.`, invalidBirthDate: p => `The birth date of ${p} is invalid.`,
+    enterBirthTime: p => `Enter the birth time of ${p}.`, invalidBirthTime: p => `The birth time of ${p} is invalid.`,
+    enterBirthCity: p => `Enter the birth city of ${p}.`, enterBirthCountry: p => `Enter the birth country of ${p}.`,
+    locationNotFound: l => `Location not found: ${l}. Check the city and country.`, invalidCoordinates: l => `The coordinates received for ${l} are invalid.`,
+    missingCoordinates: n => `The birth coordinates for ${n} are missing.`, chartCalculationFailed: n => `Unable to calculate ${n}’s birth chart.`,
+    invalidImageFormat: "The astrology image format is invalid.", invalidImageType: "The astrology image type is invalid.",
+    wheelNotFound: n => `${n}’s astrology wheel could not be found.`, wheelCreationFailed: n => `${n}’s astrology wheel could not be created.`,
+    missingSupabase: "The public Supabase configuration is missing.", wheelUploadPreparationFailed: "Unable to prepare the wheel upload.",
+    wheelUploadFailed: "Unable to save the astrology wheel.", paymentError: s => `Payment error (${s}).`,
+    unknownError: "An error occurred. Check the information and try again.",
+  },
+  es: {
+    yourFirstName: "Tu nombre", otherFirstName: "El nombre de la otra persona", yourBirthInfo: "Tus datos de nacimiento", otherBirthInfo: "Los datos de nacimiento de la otra persona",
+    firstPerson: "la primera persona", secondPerson: "la segunda persona", preparingPayment: "Preparando el pago...", submit: "Obtener mi informe de compatibilidad",
+    enterFirstName: p => `Introduce el nombre de ${p}.`, enterBirthDate: p => `Introduce la fecha de nacimiento de ${p}.`, enterBirthDateFormat: p => `Introduce la fecha de nacimiento de ${p} en formato DD/MM/AAAA.`, invalidBirthDate: p => `La fecha de nacimiento de ${p} no es válida.`,
+    enterBirthTime: p => `Introduce la hora de nacimiento de ${p}.`, invalidBirthTime: p => `La hora de nacimiento de ${p} no es válida.`, enterBirthCity: p => `Introduce la ciudad de nacimiento de ${p}.`, enterBirthCountry: p => `Introduce el país de nacimiento de ${p}.`,
+    locationNotFound: l => `Lugar no encontrado: ${l}. Verifica la ciudad y el país.`, invalidCoordinates: l => `Las coordenadas recibidas para ${l} no son válidas.`, missingCoordinates: n => `Faltan las coordenadas de nacimiento de ${n}.`, chartCalculationFailed: n => `No se pudo calcular la carta natal de ${n}.`,
+    invalidImageFormat: "El formato de la imagen astrológica no es válido.", invalidImageType: "El tipo de imagen astrológica no es válido.", wheelNotFound: n => `No se encontró la rueda astrológica de ${n}.`, wheelCreationFailed: n => `No se pudo crear la rueda astrológica de ${n}.`,
+    missingSupabase: "Falta la configuración pública de Supabase.", wheelUploadPreparationFailed: "No se pudo preparar el envío de la rueda.", wheelUploadFailed: "No se pudo guardar la rueda astrológica.", paymentError: s => `Error de pago (${s}).`, unknownError: "Ocurrió un error. Verifica la información e inténtalo de nuevo.",
+  },
+  de: {
+    yourFirstName: "Ihr Vorname", otherFirstName: "Vorname der anderen Person", yourBirthInfo: "Ihre Geburtsangaben", otherBirthInfo: "Geburtsangaben der anderen Person",
+    firstPerson: "der ersten Person", secondPerson: "der zweiten Person", preparingPayment: "Zahlung wird vorbereitet...", submit: "Meinen Kompatibilitätsbericht erhalten",
+    enterFirstName: p => `Geben Sie den Vornamen ${p} ein.`, enterBirthDate: p => `Geben Sie das Geburtsdatum ${p} ein.`, enterBirthDateFormat: p => `Geben Sie das Geburtsdatum ${p} im Format TT/MM/JJJJ ein.`, invalidBirthDate: p => `Das Geburtsdatum ${p} ist ungültig.`,
+    enterBirthTime: p => `Geben Sie die Geburtszeit ${p} ein.`, invalidBirthTime: p => `Die Geburtszeit ${p} ist ungültig.`, enterBirthCity: p => `Geben Sie den Geburtsort ${p} ein.`, enterBirthCountry: p => `Geben Sie das Geburtsland ${p} ein.`,
+    locationNotFound: l => `Ort nicht gefunden: ${l}. Prüfen Sie Stadt und Land.`, invalidCoordinates: l => `Die Koordinaten für ${l} sind ungültig.`, missingCoordinates: n => `Die Geburtskoordinaten von ${n} fehlen.`, chartCalculationFailed: n => `Das Geburtshoroskop von ${n} konnte nicht berechnet werden.`,
+    invalidImageFormat: "Das Format des astrologischen Bildes ist ungültig.", invalidImageType: "Der Typ des astrologischen Bildes ist ungültig.", wheelNotFound: n => `Das astrologische Rad von ${n} wurde nicht gefunden.`, wheelCreationFailed: n => `Das astrologische Rad von ${n} konnte nicht erstellt werden.`,
+    missingSupabase: "Die öffentliche Supabase-Konfiguration fehlt.", wheelUploadPreparationFailed: "Der Upload des Rads konnte nicht vorbereitet werden.", wheelUploadFailed: "Das astrologische Rad konnte nicht gespeichert werden.", paymentError: s => `Zahlungsfehler (${s}).`, unknownError: "Ein Fehler ist aufgetreten. Prüfen Sie die Angaben und versuchen Sie es erneut.",
+  },
+  it: {
+    yourFirstName: "Il tuo nome", otherFirstName: "Il nome dell’altra persona", yourBirthInfo: "I tuoi dati di nascita", otherBirthInfo: "I dati di nascita dell’altra persona",
+    firstPerson: "la prima persona", secondPerson: "la seconda persona", preparingPayment: "Preparazione del pagamento...", submit: "Ottieni il mio rapporto di compatibilità",
+    enterFirstName: p => `Inserisci il nome di ${p}.`, enterBirthDate: p => `Inserisci la data di nascita di ${p}.`, enterBirthDateFormat: p => `Inserisci la data di nascita di ${p} nel formato GG/MM/AAAA.`, invalidBirthDate: p => `La data di nascita di ${p} non è valida.`,
+    enterBirthTime: p => `Inserisci l’ora di nascita di ${p}.`, invalidBirthTime: p => `L’ora di nascita di ${p} non è valida.`, enterBirthCity: p => `Inserisci la città di nascita di ${p}.`, enterBirthCountry: p => `Inserisci il paese di nascita di ${p}.`,
+    locationNotFound: l => `Luogo non trovato: ${l}. Verifica città e paese.`, invalidCoordinates: l => `Le coordinate ricevute per ${l} non sono valide.`, missingCoordinates: n => `Mancano le coordinate di nascita di ${n}.`, chartCalculationFailed: n => `Impossibile calcolare il tema natale di ${n}.`,
+    invalidImageFormat: "Il formato dell’immagine astrologica non è valido.", invalidImageType: "Il tipo di immagine astrologica non è valido.", wheelNotFound: n => `La ruota astrologica di ${n} non è stata trovata.`, wheelCreationFailed: n => `Non è stato possibile creare la ruota astrologica di ${n}.`,
+    missingSupabase: "Manca la configurazione pubblica di Supabase.", wheelUploadPreparationFailed: "Impossibile preparare l’invio della ruota.", wheelUploadFailed: "Impossibile salvare la ruota astrologica.", paymentError: s => `Errore di pagamento (${s}).`, unknownError: "Si è verificato un errore. Verifica i dati e riprova.",
+  },
+  pt: {
+    yourFirstName: "Seu nome", otherFirstName: "O nome da outra pessoa", yourBirthInfo: "Seus dados de nascimento", otherBirthInfo: "Os dados de nascimento da outra pessoa",
+    firstPerson: "a primeira pessoa", secondPerson: "a segunda pessoa", preparingPayment: "Preparando o pagamento...", submit: "Obter meu relatório de compatibilidade",
+    enterFirstName: p => `Digite o nome de ${p}.`, enterBirthDate: p => `Digite a data de nascimento de ${p}.`, enterBirthDateFormat: p => `Digite a data de nascimento de ${p} no formato DD/MM/AAAA.`, invalidBirthDate: p => `A data de nascimento de ${p} é inválida.`,
+    enterBirthTime: p => `Digite a hora de nascimento de ${p}.`, invalidBirthTime: p => `A hora de nascimento de ${p} é inválida.`, enterBirthCity: p => `Digite a cidade de nascimento de ${p}.`, enterBirthCountry: p => `Digite o país de nascimento de ${p}.`,
+    locationNotFound: l => `Local não encontrado: ${l}. Verifique a cidade e o país.`, invalidCoordinates: l => `As coordenadas recebidas para ${l} são inválidas.`, missingCoordinates: n => `As coordenadas de nascimento de ${n} estão ausentes.`, chartCalculationFailed: n => `Não foi possível calcular o mapa astral de ${n}.`,
+    invalidImageFormat: "O formato da imagem astrológica é inválido.", invalidImageType: "O tipo da imagem astrológica é inválido.", wheelNotFound: n => `A roda astrológica de ${n} não foi encontrada.`, wheelCreationFailed: n => `Não foi possível criar a roda astrológica de ${n}.`,
+    missingSupabase: "A configuração pública do Supabase está ausente.", wheelUploadPreparationFailed: "Não foi possível preparar o envio da roda.", wheelUploadFailed: "Não foi possível salvar a roda astrológica.", paymentError: s => `Erro de pagamento (${s}).`, unknownError: "Ocorreu um erro. Verifique as informações e tente novamente.",
+  },
+};
+
 
 type PersonForm = {
   firstName: string;
@@ -164,20 +293,21 @@ function isValidTime(value: string): boolean {
 
 function validatePerson(
   person: PersonForm,
-  personLabel: string
+  personLabel: string,
+  texts: FormTexts
 ): string | null {
   if (!person.firstName.trim()) {
-    return `Entre le prénom de ${personLabel}.`;
+    return texts.enterFirstName(personLabel);
   }
 
   if (!person.birthDate.trim()) {
-    return `Entre la date de naissance de ${personLabel}.`;
+    return texts.enterBirthDate(personLabel);
   }
 
   const dateParts = person.birthDate.split("/");
 
   if (dateParts.length !== 3) {
-    return `Entre la date de naissance de ${personLabel} au format JJ/MM/AAAA.`;
+    return texts.enterBirthDateFormat(personLabel);
   }
 
   const [dayString, monthString, yearString] = dateParts;
@@ -187,23 +317,23 @@ function validatePerson(
   const year = Number.parseInt(yearString, 10);
 
   if (!isValidDate(day, month, year)) {
-    return `La date de naissance de ${personLabel} est invalide.`;
+    return texts.invalidBirthDate(personLabel);
   }
 
   if (!person.birthTime) {
-    return `Entre l’heure de naissance de ${personLabel}.`;
+    return texts.enterBirthTime(personLabel);
   }
 
   if (!isValidTime(person.birthTime)) {
-    return `L’heure de naissance de ${personLabel} est invalide.`;
+    return texts.invalidBirthTime(personLabel);
   }
 
   if (!person.birthCity.trim()) {
-    return `Entre la ville de naissance de ${personLabel}.`;
+    return texts.enterBirthCity(personLabel);
   }
 
   if (!person.birthCountry.trim()) {
-    return `Entre le pays de naissance de ${personLabel}.`;
+    return texts.enterBirthCountry(personLabel);
   }
 
   return null;
@@ -244,7 +374,8 @@ async function readJsonResponse<T>(
 }
 
 async function geocodePerson(
-  person: PersonForm
+  person: PersonForm,
+  texts: FormTexts
 ): Promise<PersonForm> {
   const locationQuery = [
     person.birthCity.trim(),
@@ -266,7 +397,7 @@ async function geocodePerson(
   if (!response.ok || !data?.ok || !data?.result) {
     throw new Error(
       data?.error ||
-        `Lieu introuvable : ${locationQuery}. Vérifie la ville et le pays.`
+        texts.locationNotFound(locationQuery)
     );
   }
 
@@ -278,7 +409,7 @@ async function geocodePerson(
     !Number.isFinite(longitude)
   ) {
     throw new Error(
-      `Les coordonnées reçues pour ${locationQuery} sont invalides.`
+      texts.invalidCoordinates(locationQuery)
     );
   }
 
@@ -297,14 +428,15 @@ async function geocodePerson(
 }
 
 async function calculateNatalChart(
-  person: PersonForm
+  person: PersonForm,
+  texts: FormTexts
 ): Promise<NatalChart> {
   if (
     person.latitude === null ||
     person.longitude === null
   ) {
     throw new Error(
-      `Les coordonnées de naissance de ${person.firstName} sont absentes.`
+      texts.missingCoordinates(person.firstName)
     );
   }
 
@@ -333,19 +465,22 @@ async function calculateNatalChart(
   if (!response.ok || !data?.ok || !data?.chart) {
     throw new Error(
       data?.error ||
-        `Impossible de calculer le thème astral de ${person.firstName}.`
+        texts.chartCalculationFailed(person.firstName)
     );
   }
 
   return data.chart as NatalChart;
 }
 
-function dataUrlToBlob(dataUrl: string): Blob {
+function dataUrlToBlob(
+  dataUrl: string,
+  texts: FormTexts
+): Blob {
   const parts = dataUrl.split(",");
 
   if (parts.length !== 2) {
     throw new Error(
-      "Le format de l’image astrologique est invalide."
+      texts.invalidImageFormat
     );
   }
 
@@ -358,7 +493,7 @@ function dataUrlToBlob(dataUrl: string): Blob {
 
   if (!mimeMatch) {
     throw new Error(
-      "Le type de l’image astrologique est invalide."
+      texts.invalidImageType
     );
   }
 
@@ -380,11 +515,12 @@ function dataUrlToBlob(dataUrl: string): Blob {
 
 async function captureWheel(
   element: HTMLDivElement | null,
-  personName: string
+  personName: string,
+  texts: FormTexts
 ): Promise<string> {
   if (!element) {
     throw new Error(
-      `La roue astrologique de ${personName} est introuvable.`
+      texts.wheelNotFound(personName)
     );
   }
 
@@ -399,7 +535,7 @@ async function captureWheel(
 
   if (!image.startsWith("data:image/png;base64,")) {
     throw new Error(
-      `La roue astrologique de ${personName} n’a pas pu être créée.`
+      texts.wheelCreationFailed(personName)
     );
   }
 
@@ -407,15 +543,16 @@ async function captureWheel(
 }
 
 async function uploadWheelImage(
-  wheelImage: string
+  wheelImage: string,
+  texts: FormTexts
 ): Promise<string> {
   if (!supabase) {
     throw new Error(
-      "La configuration publique de Supabase est absente."
+      texts.missingSupabase
     );
   }
 
-  const wheelBlob = dataUrlToBlob(wheelImage);
+  const wheelBlob = dataUrlToBlob(wheelImage, texts);
 
   const signedResponse = await fetch(
     "/api/reports/wheel-upload",
@@ -440,7 +577,7 @@ async function uploadWheelImage(
     throw new Error(
       signedData?.detail ||
         signedData?.error ||
-        "Impossible de préparer l’envoi de la roue."
+        texts.wheelUploadPreparationFailed
     );
   }
 
@@ -460,7 +597,7 @@ async function uploadWheelImage(
   if (uploadError) {
     throw new Error(
       uploadError.message ||
-        "Impossible d’enregistrer la roue astrologique."
+        texts.wheelUploadFailed
     );
   }
 
@@ -472,6 +609,8 @@ type PersonFieldsProps = {
   title: string;
   subtitle: string;
   person: PersonForm;
+  dictionary: Dictionary;
+  texts: FormTexts;
   onChange: (
     field: keyof PersonForm,
     value: string
@@ -483,8 +622,11 @@ function PersonFields({
   title,
   subtitle,
   person,
+  dictionary,
+  texts,
   onChange,
 }: PersonFieldsProps) {
+  const __i18n = dictionary;
   const prefix = `compatibility-person-${number}`;
 
   return (
@@ -516,8 +658,8 @@ function PersonFields({
             }
             placeholder={
               number === 1
-                ? "Votre prénom"
-                : "Le prénom de l’autre personne"
+                ? texts.yourFirstName
+                : texts.otherFirstName
             }
             autoComplete={
               number === 1 ? "given-name" : "off"
@@ -615,7 +757,11 @@ function PersonFields({
   );
 }
 
-export default function CompatibilityPremiumForm() {
+export default function CompatibilityPremiumForm({
+  locale,
+}: CompatibilityPremiumFormProps) {
+  const __i18n = DICTIONARIES[locale];
+  const texts = FORM_TEXTS[locale];
   const person1WheelRef =
     useRef<HTMLDivElement | null>(null);
 
@@ -680,7 +826,8 @@ export default function CompatibilityPremiumForm() {
 
     const person1Error = validatePerson(
       person1,
-      "la première personne"
+      texts.firstPerson,
+      texts
     );
 
     if (person1Error) {
@@ -690,7 +837,8 @@ export default function CompatibilityPremiumForm() {
 
     const person2Error = validatePerson(
       person2,
-      "la deuxième personne"
+      texts.secondPerson,
+      texts
     );
 
     if (person2Error) {
@@ -703,13 +851,13 @@ export default function CompatibilityPremiumForm() {
     try {
       const [geocodedPerson1, geocodedPerson2] =
         await Promise.all([
-          geocodePerson(person1),
-          geocodePerson(person2),
+          geocodePerson(person1, texts),
+          geocodePerson(person2, texts),
         ]);
 
       const [chart1, chart2] = await Promise.all([
-        calculateNatalChart(geocodedPerson1),
-        calculateNatalChart(geocodedPerson2),
+        calculateNatalChart(geocodedPerson1, texts),
+        calculateNatalChart(geocodedPerson2, texts),
       ]);
 
       flushSync(() => {
@@ -729,18 +877,20 @@ export default function CompatibilityPremiumForm() {
         await Promise.all([
           captureWheel(
             person1WheelRef.current,
-            geocodedPerson1.firstName
+            geocodedPerson1.firstName,
+            texts
           ),
           captureWheel(
             person2WheelRef.current,
-            geocodedPerson2.firstName
+            geocodedPerson2.firstName,
+            texts
           ),
         ]);
 
       const [wheelImagePath1, wheelImagePath2] =
         await Promise.all([
-          uploadWheelImage(wheelImage1),
-          uploadWheelImage(wheelImage2),
+          uploadWheelImage(wheelImage1, texts),
+          uploadWheelImage(wheelImage2, texts),
         ]);
 
       const checkoutResponse = await fetch(
@@ -752,6 +902,7 @@ export default function CompatibilityPremiumForm() {
           },
           body: JSON.stringify({
             reportType: "compatibility",
+            locale,
             person1: {
               ...geocodedPerson1,
               wheelImagePath: wheelImagePath1,
@@ -773,13 +924,14 @@ export default function CompatibilityPremiumForm() {
         throw new Error(
           checkoutData?.detail ||
             checkoutData?.error ||
-            `Erreur de paiement (${checkoutResponse.status}).`
+            texts.paymentError(checkoutResponse.status)
         );
       }
 
       sessionStorage.setItem(
         "luna-astralis-compatibility-premium",
         JSON.stringify({
+          locale,
           person1: {
             ...geocodedPerson1,
             wheelImagePath: wheelImagePath1,
@@ -801,7 +953,7 @@ export default function CompatibilityPremiumForm() {
       setError(
         submitError instanceof Error
           ? submitError.message
-          : "Une erreur est survenue. Vérifie les informations et réessaie."
+          : texts.unknownError
       );
 
       setLoading(false);
@@ -841,8 +993,10 @@ export default function CompatibilityPremiumForm() {
           <PersonFields
             number={1}
             title={__i18n["premiere_personne"]}
-            subtitle="Vos informations de naissance"
+            subtitle={texts.yourBirthInfo}
             person={person1}
+            dictionary={__i18n}
+            texts={texts}
             onChange={updatePerson1}
           />
 
@@ -856,8 +1010,10 @@ export default function CompatibilityPremiumForm() {
           <PersonFields
             number={2}
             title={__i18n["deuxieme_personne"]}
-            subtitle="Les informations de l’autre personne"
+            subtitle={texts.otherBirthInfo}
             person={person2}
+            dictionary={__i18n}
+            texts={texts}
             onChange={updatePerson2}
           />
         </div>
@@ -879,8 +1035,8 @@ export default function CompatibilityPremiumForm() {
             aria-busy={loading}
           >
             {loading
-              ? "Préparation du paiement..."
-              : "Obtenir mon rapport de compatibilité"}
+              ? texts.preparingPayment
+              : texts.submit}
           </button>
 
           <p>
