@@ -1,6 +1,6 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-migrate V7
+| i18n-migrate V8
 |--------------------------------------------------------------------------
 |
 | Migration modulaire pour Luna Astralis.
@@ -369,23 +369,24 @@ function addDictionaryImport(
   const importLine =
     `import __i18n from ${JSON.stringify(importPath)};\n`;
 
-  const existingImportPattern =
-    /import\s+__i18n\s+from\s+["'][^"']+["'];?/;
-
-  if (
-    existingImportPattern.test(
-      sourceText,
-    )
-  ) {
-    return sourceText.replace(
-      existingImportPattern,
-      importLine.trim(),
+  /*
+   * Retire d'abord tout ancien import __i18n.
+   * Il sera ensuite replacé au bon endroit.
+   */
+  const sourceWithoutImport =
+    sourceText.replace(
+      /import\s+__i18n\s+from\s+["'][^"']+["'];?\s*/,
+      "",
     );
-  }
 
+  /*
+   * Une directive "use client" ou "use server" doit rester avant
+   * tous les imports. Les commentaires placés au début du fichier
+   * sont permis et sont conservés.
+   */
   const directiveMatch =
-    sourceText.match(
-      /^(["'])use (client|server)\1;\s*/,
+    sourceWithoutImport.match(
+      /^((?:(?:\s+)|(?:\/\/[^\n]*(?:\n|$))|(?:\/\*[\s\S]*?\*\/))*)(["'])use (client|server)\2;\s*/,
     );
 
   if (directiveMatch) {
@@ -393,16 +394,20 @@ function addDictionaryImport(
       directiveMatch[0].length;
 
     return (
-      sourceText.slice(0, position) +
+      sourceWithoutImport.slice(
+        0,
+        position,
+      ) +
       "\n" +
       importLine +
-      sourceText.slice(position)
+      sourceWithoutImport.slice(
+        position,
+      )
     );
   }
 
-  return importLine + sourceText;
+  return importLine + sourceWithoutImport;
 }
-
 
 function applyReplacements(
   sourceText: string,
@@ -1213,8 +1218,8 @@ function main(): void {
     path.join(
       REPORT_ROOT,
       WRITE_MODE
-        ? "migration-v7-write.json"
-        : "migration-v7-simulation.json",
+        ? "migration-v8-write.json"
+        : "migration-v8-simulation.json",
     );
 
   writeJson(
@@ -1225,8 +1230,8 @@ function main(): void {
   console.log("");
   console.log(
     WRITE_MODE
-      ? "Migration i18n V7 terminée."
-      : "Simulation i18n V7 terminée.",
+      ? "Migration i18n V8 terminée."
+      : "Simulation i18n V8 terminée.",
   );
   console.log(
     `Fichiers considérés : ${report.totals.filesConsidered}`,
