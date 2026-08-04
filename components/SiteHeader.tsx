@@ -495,18 +495,56 @@ export default function SiteHeader() {
     (path: string) => {
       /*
       |----------------------------------------------------------------------
-      | Migration progressive
+      | Routes multilingues
       |----------------------------------------------------------------------
       |
-      | Pour le moment, seule la page d’accueil existe sous /fr, /en, etc.
-      | Les autres routes restent donc sans préfixe afin d’éviter les erreurs 404.
+      | Toutes les routes internes sont préfixées par la langue active.
+      | La fonction conserve les paramètres de recherche et les ancres,
+      | puis évite d’ajouter deux fois un préfixe de langue.
       |
       */
-      if (path === "/") {
-        return `/${locale}`;
+
+      if (!path.startsWith("/")) {
+        return path;
       }
 
-      return path;
+      const hashIndex = path.indexOf("#");
+      const queryIndex = path.indexOf("?");
+
+      const suffixStartCandidates = [
+        hashIndex,
+        queryIndex,
+      ].filter((index) => index >= 0);
+
+      const suffixStart =
+        suffixStartCandidates.length > 0
+          ? Math.min(...suffixStartCandidates)
+          : path.length;
+
+      const pathnamePart =
+        path.slice(0, suffixStart) || "/";
+
+      const suffix =
+        path.slice(suffixStart);
+
+      const segments =
+        pathnamePart
+          .split("/")
+          .filter(Boolean);
+
+      if (
+        segments.length > 0 &&
+        isLocale(segments[0])
+      ) {
+        segments[0] = locale;
+      } else {
+        segments.unshift(locale);
+      }
+
+      const localizedPath =
+        `/${segments.join("/")}`;
+
+      return `${localizedPath}${suffix}`;
     },
     [locale]
   );
