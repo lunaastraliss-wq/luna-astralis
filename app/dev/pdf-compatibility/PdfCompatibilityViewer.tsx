@@ -1,6 +1,7 @@
 "use client";
 
 
+
 import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-compatibility/pdfcompatibilityviewer.json";
 import { PDFViewer } from "@react-pdf/renderer";
 

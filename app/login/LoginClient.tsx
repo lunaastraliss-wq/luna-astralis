@@ -1,7 +1,7 @@
-import __i18n from "../../i18n/migrated/fr/app/login/loginclient.json";
-
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/login/loginclient.json";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";

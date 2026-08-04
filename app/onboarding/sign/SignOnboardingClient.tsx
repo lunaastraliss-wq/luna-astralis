@@ -1,4 +1,3 @@
-import __i18n from "../../../i18n/migrated/fr/app/onboarding/sign/signonboardingclient.json";
 /* =========================================================
    app/onboarding/sign/page.tsx
    - Onboarding (connecté): choisir un signe -> save -> redirect
@@ -10,6 +9,8 @@ import __i18n from "../../../i18n/migrated/fr/app/onboarding/sign/signonboarding
 
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/onboarding/sign/signonboardingclient.json";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";

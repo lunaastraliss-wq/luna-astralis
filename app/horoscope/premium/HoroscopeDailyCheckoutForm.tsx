@@ -1,6 +1,7 @@
 "use client";
 
 
+
 import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopedailycheckoutform.json";
 import {
   FormEvent,

@@ -1,7 +1,8 @@
-import __i18n from "../../i18n/migrated/fr/app/chat/chatclient.json";
 // app/chat/ChatClient.tsx
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/chat/chatclient.json";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";

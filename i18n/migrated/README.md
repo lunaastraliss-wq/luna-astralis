@@ -2,8 +2,8 @@
 
 ## Résumé
 
-- Fichiers préparés : 386
-- Textes préparés : 23794
+- Fichiers préparés : 261
+- Textes préparés : 15048
 
 ## Ordre recommandé
 
@@ -17,7 +17,7 @@
 - Lib et données : 0 fichiers / 0 textes
 - Composants : 14 fichiers / 567 textes
 - PDF et rapports : 247 fichiers / 14481 textes
-- Pages : 125 fichiers / 8746 textes
+- Pages : 0 fichiers / 0 textes
 
 ## Fichiers prioritaires
 
@@ -821,5 +821,5 @@
 - Namespace : `components.premiumpdf.pdfmodalities`
 - Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfmodalities.json`
 
-> 286 autres fichiers sont disponibles dans migration-plan.json.
+> 161 autres fichiers sont disponibles dans migration-plan.json.
 

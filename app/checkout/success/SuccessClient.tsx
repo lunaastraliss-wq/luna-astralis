@@ -1,6 +1,7 @@
 "use client";
 
 
+
 import __i18n from "../../../i18n/migrated/fr/app/checkout/success/successclient.json";
 import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
