@@ -14,6 +14,7 @@ import SiteHeader from "@/components/SiteHeader";
 import {
   isLocale,
   locales,
+  type Locale,
 } from "@/i18n/config";
 
 import {
@@ -33,6 +34,261 @@ const SITE_URL =
 
 const REPORT_COVER_URL =
   "/reports/couverture-carte-du-ciel-signature.png";
+
+type ReportLevelText = {
+  name: string;
+  description: string;
+  pages: string;
+  price: string;
+  linkLabel: string;
+};
+
+type ReportsLocalText = {
+  reportsCount: string;
+  chooseLabel: string;
+  chooseTitle: string;
+  chooseDescription: string;
+  essential: ReportLevelText;
+  premium: ReportLevelText;
+  signature: ReportLevelText;
+  compareLink: string;
+  comparisonLabel: string;
+  comparisonTitle: string;
+  comparisonDescription: string;
+};
+
+const REPORTS_LOCAL_TEXTS: Record<
+  Locale,
+  ReportsLocalText
+> = {
+  fr: {
+    reportsCount: "3 rapports",
+    chooseLabel: "Choisissez votre niveau",
+    chooseTitle: "Essentielle, Premium ou Signature",
+    chooseDescription:
+      "Trois niveaux d’analyse personnalisée pour découvrir votre thème natal selon la profondeur que vous recherchez.",
+    essential: {
+      name: "Essentielle",
+      description:
+        "Découvrez les fondations de votre thème : Soleil, Lune, Ascendant, planètes, éléments et modalités.",
+      pages: "17 pages",
+      price: "24,99 $ US",
+      linkLabel: "Découvrir Essentielle",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Approfondissez votre thème avec vos maisons, vos aspects, vos dominantes, vos relations, vos forces et votre carrière.",
+      pages: "40 pages",
+      price: "49,99 $ US",
+      linkLabel: "Découvrir Premium",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Profitez de l’analyse la plus complète avec votre évolution personnelle et une synthèse astrologique finale.",
+      pages: "58 pages",
+      price: "79,99 $ US",
+      linkLabel: "Découvrir Signature",
+    },
+    compareLink: "Comparer les trois rapports",
+    comparisonLabel: "Trois niveaux personnalisés",
+    comparisonTitle:
+      "Choisissez le rapport qui vous correspond",
+    comparisonDescription:
+      "Essentielle présente les fondations de votre thème, Premium approfondit vos principales dynamiques et Signature vous offre l’analyse astrologique la plus complète.",
+  },
+
+  en: {
+    reportsCount: "3 reports",
+    chooseLabel: "Choose your level",
+    chooseTitle: "Essential, Premium or Signature",
+    chooseDescription:
+      "Three levels of personalized analysis to explore your birth chart at the depth that suits you.",
+    essential: {
+      name: "Essential",
+      description:
+        "Discover the foundations of your chart: Sun, Moon, Ascendant, planets, elements and modalities.",
+      pages: "17 pages",
+      price: "US$24.99",
+      linkLabel: "Discover Essential",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Explore your chart more deeply through your houses, aspects, dominant energies, relationships, strengths and career.",
+      pages: "40 pages",
+      price: "US$49.99",
+      linkLabel: "Discover Premium",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Enjoy the most complete analysis, including your personal growth and a final astrological synthesis.",
+      pages: "58 pages",
+      price: "US$79.99",
+      linkLabel: "Discover Signature",
+    },
+    compareLink: "Compare the three reports",
+    comparisonLabel: "Three personalized levels",
+    comparisonTitle:
+      "Choose the report that suits you",
+    comparisonDescription:
+      "Essential presents the foundations of your chart, Premium explores your main dynamics in greater depth, and Signature offers the most complete astrological analysis.",
+  },
+
+  es: {
+    reportsCount: "3 informes",
+    chooseLabel: "Elige tu nivel",
+    chooseTitle: "Esencial, Premium o Signature",
+    chooseDescription:
+      "Tres niveles de análisis personalizado para descubrir tu carta natal con la profundidad que buscas.",
+    essential: {
+      name: "Esencial",
+      description:
+        "Descubre las bases de tu carta: Sol, Luna, Ascendente, planetas, elementos y modalidades.",
+      pages: "17 páginas",
+      price: "24,99 US$",
+      linkLabel: "Descubrir Esencial",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Profundiza en tu carta con tus casas, aspectos, energías dominantes, relaciones, fortalezas y carrera.",
+      pages: "40 páginas",
+      price: "49,99 US$",
+      linkLabel: "Descubrir Premium",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Disfruta del análisis más completo con tu evolución personal y una síntesis astrológica final.",
+      pages: "58 páginas",
+      price: "79,99 US$",
+      linkLabel: "Descubrir Signature",
+    },
+    compareLink: "Comparar los tres informes",
+    comparisonLabel: "Tres niveles personalizados",
+    comparisonTitle:
+      "Elige el informe que mejor se adapte a ti",
+    comparisonDescription:
+      "Esencial presenta las bases de tu carta, Premium profundiza en tus principales dinámicas y Signature ofrece el análisis astrológico más completo.",
+  },
+
+  de: {
+    reportsCount: "3 Berichte",
+    chooseLabel: "Wählen Sie Ihre Stufe",
+    chooseTitle: "Essential, Premium oder Signature",
+    chooseDescription:
+      "Drei Stufen persönlicher Analyse, mit denen Sie Ihr Geburtshoroskop in der gewünschten Tiefe entdecken können.",
+    essential: {
+      name: "Essential",
+      description:
+        "Entdecken Sie die Grundlagen Ihres Horoskops: Sonne, Mond, Aszendent, Planeten, Elemente und Modalitäten.",
+      pages: "17 Seiten",
+      price: "24,99 US$",
+      linkLabel: "Essential entdecken",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Vertiefen Sie Ihr Horoskop mit Häusern, Aspekten, dominanten Energien, Beziehungen, Stärken und Karriere.",
+      pages: "40 Seiten",
+      price: "49,99 US$",
+      linkLabel: "Premium entdecken",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Erhalten Sie die umfassendste Analyse mit persönlicher Entwicklung und abschließender astrologischer Synthese.",
+      pages: "58 Seiten",
+      price: "79,99 US$",
+      linkLabel: "Signature entdecken",
+    },
+    compareLink: "Die drei Berichte vergleichen",
+    comparisonLabel: "Drei persönliche Stufen",
+    comparisonTitle:
+      "Wählen Sie den passenden Bericht",
+    comparisonDescription:
+      "Essential zeigt die Grundlagen Ihres Horoskops, Premium vertieft die wichtigsten Dynamiken und Signature bietet die umfassendste astrologische Analyse.",
+  },
+
+  it: {
+    reportsCount: "3 rapporti",
+    chooseLabel: "Scegli il tuo livello",
+    chooseTitle: "Essenziale, Premium o Signature",
+    chooseDescription:
+      "Tre livelli di analisi personalizzata per scoprire il tuo tema natale con la profondità che desideri.",
+    essential: {
+      name: "Essenziale",
+      description:
+        "Scopri le basi del tuo tema: Sole, Luna, Ascendente, pianeti, elementi e modalità.",
+      pages: "17 pagine",
+      price: "24,99 USD",
+      linkLabel: "Scopri Essenziale",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Approfondisci il tuo tema con case, aspetti, energie dominanti, relazioni, punti di forza e carriera.",
+      pages: "40 pagine",
+      price: "49,99 USD",
+      linkLabel: "Scopri Premium",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Scegli l’analisi più completa con evoluzione personale e sintesi astrologica finale.",
+      pages: "58 pagine",
+      price: "79,99 USD",
+      linkLabel: "Scopri Signature",
+    },
+    compareLink: "Confronta i tre rapporti",
+    comparisonLabel: "Tre livelli personalizzati",
+    comparisonTitle:
+      "Scegli il rapporto più adatto a te",
+    comparisonDescription:
+      "Essenziale presenta le basi del tuo tema, Premium approfondisce le dinamiche principali e Signature offre l’analisi astrologica più completa.",
+  },
+
+  pt: {
+    reportsCount: "3 relatórios",
+    chooseLabel: "Escolha seu nível",
+    chooseTitle: "Essencial, Premium ou Signature",
+    chooseDescription:
+      "Três níveis de análise personalizada para descobrir seu mapa astral com a profundidade que você procura.",
+    essential: {
+      name: "Essencial",
+      description:
+        "Descubra as bases do seu mapa: Sol, Lua, Ascendente, planetas, elementos e modalidades.",
+      pages: "17 páginas",
+      price: "US$ 24,99",
+      linkLabel: "Descobrir Essencial",
+    },
+    premium: {
+      name: "Premium",
+      description:
+        "Aprofunde seu mapa com casas, aspectos, energias dominantes, relacionamentos, forças e carreira.",
+      pages: "40 páginas",
+      price: "US$ 49,99",
+      linkLabel: "Descobrir Premium",
+    },
+    signature: {
+      name: "Signature",
+      description:
+        "Tenha a análise mais completa, incluindo evolução pessoal e uma síntese astrológica final.",
+      pages: "58 páginas",
+      price: "US$ 79,99",
+      linkLabel: "Descobrir Signature",
+    },
+    compareLink: "Comparar os três relatórios",
+    comparisonLabel: "Três níveis personalizados",
+    comparisonTitle:
+      "Escolha o relatório ideal para você",
+    comparisonDescription:
+      "Essencial apresenta as bases do seu mapa, Premium aprofunda suas principais dinâmicas e Signature oferece a análise astrológica mais completa.",
+  },
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +329,11 @@ export function generateMetadata({
 
   const text =
     REPORTS_TRANSLATIONS[
+      locale
+    ];
+
+  const localText =
+    REPORTS_LOCAL_TEXTS[
       locale
     ];
 
@@ -197,6 +458,11 @@ export default function ReportsPage({
       locale
     ];
 
+  const localText =
+    REPORTS_LOCAL_TEXTS[
+      locale
+    ];
+
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel`;
 
@@ -253,7 +519,7 @@ export default function ReportsPage({
             1,
 
           name:
-            "Essentielle",
+            localText.essential.name,
 
           url:
             `${SITE_URL}${essentialUrl}`,
@@ -267,7 +533,7 @@ export default function ReportsPage({
             2,
 
           name:
-            "Premium",
+            localText.premium.name,
 
           url:
             `${SITE_URL}${premiumUrl}`,
@@ -281,7 +547,7 @@ export default function ReportsPage({
             3,
 
           name:
-            "Signature",
+            localText.signature.name,
 
           url:
             `${SITE_URL}${signatureUrl}`,
@@ -373,7 +639,7 @@ export default function ReportsPage({
 
               <div className="signature-hero-trust">
                 <span>
-                  ✓ 3 rapports
+                  ✓ {localText.reportsCount}
                 </span>
 
                 <span>
@@ -531,17 +797,15 @@ export default function ReportsPage({
           >
             <div className="signature-section-heading">
               <span className="signature-section-label">
-                Choisissez votre niveau
+                {localText.chooseLabel}
               </span>
 
               <h2>
-                Essentielle, Premium ou Signature
+                {localText.chooseTitle}
               </h2>
 
               <p>
-                Trois niveaux d’analyse personnalisée pour
-                découvrir votre thème natal selon la profondeur
-                que vous recherchez.
+                {localText.chooseDescription}
               </p>
             </div>
 
@@ -552,24 +816,22 @@ export default function ReportsPage({
                 </div>
 
                 <h3>
-                  Essentielle
+                  {localText.essential.name}
                 </h3>
 
                 <p>
-                  Découvrez les fondations de votre thème :
-                  Soleil, Lune, Ascendant, planètes, éléments
-                  et modalités.
+                  {localText.essential.description}
                 </p>
 
                 <p>
                   <strong>
-                    17 pages
+                    {localText.essential.pages}
                   </strong>
                 </p>
 
                 <p>
                   <strong>
-                    24,99 $ US
+                    {localText.essential.price}
                   </strong>
                 </p>
 
@@ -577,7 +839,7 @@ export default function ReportsPage({
                   href={essentialUrl}
                   className="signature-text-link"
                 >
-                  Découvrir Essentielle
+                  {localText.essential.linkLabel}
 
                   <span aria-hidden="true">
                     {" "}
@@ -592,24 +854,22 @@ export default function ReportsPage({
                 </div>
 
                 <h3>
-                  Premium
+                  {localText.premium.name}
                 </h3>
 
                 <p>
-                  Approfondissez votre thème avec vos maisons,
-                  vos aspects, vos dominantes, vos relations,
-                  vos forces et votre carrière.
+                  {localText.premium.description}
                 </p>
 
                 <p>
                   <strong>
-                    40 pages
+                    {localText.premium.pages}
                   </strong>
                 </p>
 
                 <p>
                   <strong>
-                    49,99 $ US
+                    {localText.premium.price}
                   </strong>
                 </p>
 
@@ -617,7 +877,7 @@ export default function ReportsPage({
                   href={premiumUrl}
                   className="signature-text-link"
                 >
-                  Découvrir Premium
+                  {localText.premium.linkLabel}
 
                   <span aria-hidden="true">
                     {" "}
@@ -632,24 +892,22 @@ export default function ReportsPage({
                 </div>
 
                 <h3>
-                  Signature
+                  {localText.signature.name}
                 </h3>
 
                 <p>
-                  Profitez de l’analyse la plus complète avec
-                  votre évolution personnelle et une synthèse
-                  astrologique finale.
+                  {localText.signature.description}
                 </p>
 
                 <p>
                   <strong>
-                    58 pages
+                    {localText.signature.pages}
                   </strong>
                 </p>
 
                 <p>
                   <strong>
-                    79,99 $ US
+                    {localText.signature.price}
                   </strong>
                 </p>
 
@@ -657,7 +915,7 @@ export default function ReportsPage({
                   href={signatureUrl}
                   className="signature-text-link"
                 >
-                  Découvrir Signature
+                  {localText.signature.linkLabel}
 
                   <span aria-hidden="true">
                     {" "}
@@ -692,7 +950,7 @@ export default function ReportsPage({
                 href="#rapports"
                 className="signature-text-link"
               >
-                Comparer les trois rapports
+                {localText.compareLink}
 
                 <span aria-hidden="true">
                   {" "}
@@ -798,18 +1056,15 @@ export default function ReportsPage({
             />
 
             <span className="signature-section-label">
-              Trois niveaux personnalisés
+              {localText.comparisonLabel}
             </span>
 
             <h2>
-              Choisissez le rapport qui vous correspond
+              {localText.comparisonTitle}
             </h2>
 
             <p>
-              Essentielle présente les fondations de votre
-              thème, Premium approfondit vos principales
-              dynamiques et Signature vous offre l’analyse
-              astrologique la plus complète.
+              {localText.comparisonDescription}
             </p>
 
             <div className="signature-comparison-actions">
@@ -817,21 +1072,21 @@ export default function ReportsPage({
                 href={essentialUrl}
                 className="signature-button signature-button-secondary"
               >
-                Essentielle
+                {localText.essential.name}
               </Link>
 
               <Link
                 href={premiumUrl}
                 className="signature-button signature-button-secondary"
               >
-                Premium
+                {localText.premium.name}
               </Link>
 
               <Link
                 href={signatureUrl}
                 className="signature-button signature-button-primary"
               >
-                Signature
+                {localText.signature.name}
 
                 <span aria-hidden="true">
                   →
