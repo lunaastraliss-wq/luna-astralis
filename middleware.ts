@@ -1,4 +1,4 @@
-// middleware.ts
+// middleware.ts — V2
 
 import type {
   NextRequest,
@@ -14,6 +14,7 @@ import {
 
 import {
   isLocale,
+  type Locale,
 } from "@/i18n/config";
 
 const CANON_HOST =
@@ -149,7 +150,7 @@ function checkDevAccess(
 
 function getPathLocale(
   pathname: string
-): string | null {
+): Locale | null {
   const firstSegment =
     pathname.split("/")[1];
 
@@ -161,6 +162,31 @@ function getPathLocale(
   }
 
   return null;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Retirer le préfixe de langue d’une route
+|--------------------------------------------------------------------------
+*/
+
+function removeLocaleFromPathname(
+  pathname: string,
+  locale: Locale | null
+): string {
+  if (!locale) {
+    return pathname;
+  }
+
+  const pathnameWithoutLocale =
+    pathname.replace(
+      new RegExp(
+        `^/${locale}(?=/|$)`
+      ),
+      ""
+    );
+
+  return pathnameWithoutLocale || "/";
 }
 
 /*
@@ -267,12 +293,82 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 5. Autoriser les routes multilingues
+  | 5. Détecter la langue et normaliser la route
   |--------------------------------------------------------------------------
   */
 
   const pathLocale =
     getPathLocale(pathname);
+
+  const pathnameWithoutLocale =
+    removeLocaleFromPathname(
+      pathname,
+      pathLocale
+    );
+
+  /*
+  |--------------------------------------------------------------------------
+  | 6. Protéger la section /chat avec Supabase
+  |--------------------------------------------------------------------------
+  */
+
+  if (
+    pathnameWithoutLocale ===
+      "/chat" ||
+    pathnameWithoutLocale.startsWith(
+      "/chat/"
+    )
+  ) {
+    const response =
+      NextResponse.next();
+
+    const supabase =
+      createMiddlewareClient({
+        req,
+        res: response,
+      });
+
+    const {
+      data: {
+        user,
+      },
+      error,
+    } =
+      await supabase.auth.getUser();
+
+    if (
+      error ||
+      !user
+    ) {
+      const loginUrl =
+        req.nextUrl.clone();
+
+      loginUrl.pathname =
+        pathLocale
+          ? `/${pathLocale}/login`
+          : "/login";
+
+      loginUrl.search = "";
+
+      loginUrl.searchParams.set(
+        "next",
+        pathname +
+          (search || "")
+      );
+
+      return NextResponse.redirect(
+        loginUrl
+      );
+    }
+
+    return response;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | 7. Autoriser les routes multilingues
+  |--------------------------------------------------------------------------
+  */
 
   if (pathLocale) {
     return NextResponse.next();
@@ -280,10 +376,11 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 6. Routes publiques sans préfixe linguistique
+  | 8. Routes publiques sans préfixe linguistique
   |--------------------------------------------------------------------------
   |
-  | Ces routes restent accessibles pendant la migration.
+  | Ces routes restent accessibles sans préfixe lorsqu’elles sont utilisées
+  | directement par l’authentification, les paiements ou les API.
   |
   */
 
@@ -312,60 +409,11 @@ export async function middleware(
 
   /*
   |--------------------------------------------------------------------------
-  | 7. Protéger la section /chat avec Supabase
-  |--------------------------------------------------------------------------
-  */
-
-  if (
-    pathname === "/chat" ||
-    pathname.startsWith(
-      "/chat/"
-    )
-  ) {
-    const response =
-      NextResponse.next();
-
-    const supabase =
-      createMiddlewareClient({
-        req,
-        res: response,
-      });
-
-    const {
-      data,
-    } =
-      await supabase.auth.getSession();
-
-    if (!data.session) {
-      const loginUrl =
-        req.nextUrl.clone();
-
-      loginUrl.pathname =
-        "/login";
-
-      loginUrl.search = "";
-
-      loginUrl.searchParams.set(
-        "next",
-        pathname +
-          (search || "")
-      );
-
-      return NextResponse.redirect(
-        loginUrl
-      );
-    }
-
-    return response;
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | 8. Toutes les autres pages
+  | 9. Toutes les autres pages
   |--------------------------------------------------------------------------
   |
-  | Les anciennes routes continuent de fonctionner pendant que nous les
-  | convertissons progressivement vers /fr, /en, /es, /de, /it et /pt.
+  | Les anciennes routes sans préfixe continuent de fonctionner pendant la
+  | transition vers /fr, /en, /es, /de, /it et /pt.
   |
   */
 
