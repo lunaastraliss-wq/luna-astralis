@@ -84,33 +84,33 @@ const DICTIONARIES: Record<Locale, Dictionary> = {
 const FORM_TEXTS: Record<Locale, NatalFormTexts> = {
   fr: {
     requiredBirthDateAndCity:
-      texts.requiredBirthDateAndCity,
+      "La date de naissance et la ville de naissance sont obligatoires.",
     dateFormat:
-      texts.dateFormat,
+      "Entre la date au format JJ/MM/AAAA.",
     invalidBirthDate:
-      texts.invalidBirthDate,
+      "La date de naissance est invalide.",
     invalidBirthTime:
-      texts.invalidBirthTime,
+      "L’heure de naissance est invalide.",
     cityNotFound:
-      texts.cityNotFound,
+      "Ville introuvable. Entre seulement le nom de la ville.",
     invalidCoordinates:
-      texts.invalidCoordinates,
+      "Les coordonnées reçues pour cette ville sont invalides.",
     chartCalculationError:
-      texts.chartCalculationError,
+      "Erreur lors du calcul de la carte du ciel.",
     calculationError:
-      texts.calculationError,
+      "Une erreur est survenue pendant le calcul. Réessaie.",
     chartOf: (name) =>
       `Le thème astral de ${name}`,
     yourChart:
       "Ta carte du ciel",
     pngCreationError:
-      texts.pngCreationError,
+      "L’image PNG de la carte astrologique n’a pas pu être créée.",
     shareCardMissing:
-      texts.shareCardMissing,
+      "La carte astrologique à télécharger est introuvable.",
     pdfWheelMissing:
-      texts.pdfWheelMissing,
+      "La roue astrologique destinée au rapport est introuvable.",
     imageDownloadError:
-      texts.imageDownloadError,
+      "Impossible de télécharger l’image. Réessaie.",
     calculating:
       "Calcul en cours...",
     createChart:
