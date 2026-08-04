@@ -1,0 +1,5 @@
+{
+  "missing_email": "Fehlende E-Mail",
+  "missing_next_public_supabase_url": "Fehlender NEXT_PUBLIC_SUPABASE_URL",
+  "missing_supabase_service_role_key": "Fehlender SUPABASE_SERVICE_ROLE_KEY"
+}

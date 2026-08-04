@@ -1,34 +1,29 @@
+import __i18n from "../../i18n/migrated/fr/app/conditions/page.json";
 export const metadata = {
-  title: "Conditions d’utilisation — Luna Astralis",
+  title: __i18n["conditions_d_utilisation_luna_astralis"],
 };
 
 export default function ConditionsPage() {
   return (
     <main className="legal-page">
       <div className="legal-wrap">
-        <h1>Conditions d’utilisation</h1>
+        <h1>{__i18n["conditions_d_utilisation"]}</h1>
 
-        <p>Luna Astralis est un outil d’exploration personnelle et introspective.</p>
+        <p>{__i18n["luna_astralis_est_un_outil_d_exploration_personnelle_et_intr"]}</p>
 
         <p>
-          Il ne constitue en aucun cas un service médical, psychologique,
-          psychiatrique ou thérapeutique.
-        </p>
+          {__i18n["il_ne_constitue_en_aucun_cas_un_service_medical_psychologiqu"]}</p>
 
-        <h2>Responsabilité</h2>
+        <h2>{__i18n["responsabilite"]}</h2>
         <p>
-          L’utilisateur reconnaît utiliser le service sous sa seule responsabilité.
-          Aucun diagnostic ni traitement n’est fourni.
-        </p>
+          {__i18n["l_utilisateur_reconnait_utiliser_le_service_sous_sa_seule_re"]}</p>
 
         <h2>Abonnements</h2>
         <p>
-          Certaines fonctionnalités peuvent être payantes. Les abonnements sont
-          résiliables à tout moment selon les modalités indiquées.
-        </p>
+          {__i18n["certaines_fonctionnalites_peuvent_etre_payantes_les_abonneme"]}</p>
 
-        <h2>Disponibilité</h2>
-        <p>Le service est fourni sans garantie de disponibilité continue.</p>
+        <h2>{__i18n["disponibilite"]}</h2>
+        <p>{__i18n["le_service_est_fourni_sans_garantie_de_disponibilite_continu"]}</p>
       </div>
     </main>
   );

@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopeyearlycheckoutform.json";
 import {
   type FormEvent,
   useState,
@@ -535,7 +537,7 @@ export default function HoroscopeYearlyCheckoutForm() {
 
             headers: {
               "Content-Type":
-                "application/json",
+                __i18n["application_json"],
             },
 
             body:
@@ -628,17 +630,13 @@ export default function HoroscopeYearlyCheckoutForm() {
     <div className="horoscope-daily-form-card">
       <div className="horoscope-daily-form-heading">
         <span className="premium-section-kicker">
-          Votre année personnalisée
-        </span>
+          {__i18n["votre_annee_personnalisee"]}</span>
 
         <h2>
-          Créez votre horoscope Premium de l’année
-        </h2>
+          {__i18n["creez_votre_horoscope_premium_de_l_annee"]}</h2>
 
         <p>
-          Sélectionnez l’année à analyser, puis entrez votre date,
-          votre heure et votre lieu de naissance.
-        </p>
+          {__i18n["selectionnez_l_annee_a_analyser_puis_entrez_votre_date_votre"]}</p>
       </div>
 
       <form
@@ -654,8 +652,7 @@ export default function HoroscopeYearlyCheckoutForm() {
 
         <div className="horoscope-daily-field">
           <label htmlFor="reportYear">
-            Année du rapport *
-          </label>
+            {__i18n["annee_du_rapport"]}</label>
 
           <select
             id="reportYear"
@@ -693,11 +690,10 @@ export default function HoroscopeYearlyCheckoutForm() {
 
         <div className="horoscope-daily-field">
           <label htmlFor="yearlyFirstName">
-            Prénom{" "}
+            {__i18n["prenom"]}{" "}
 
             <span>
-              (optionnel)
-            </span>
+              {__i18n["optionnel"]}</span>
           </label>
 
           <input
@@ -713,7 +709,7 @@ export default function HoroscopeYearlyCheckoutForm() {
               )
             }
             autoComplete="given-name"
-            placeholder="Votre prénom"
+            placeholder={__i18n["votre_prenom"]}
           />
         </div>
 
@@ -726,8 +722,7 @@ export default function HoroscopeYearlyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthDate">
-              Date de naissance *
-            </label>
+              {__i18n["date_de_naissance"]}</label>
 
             <input
               id="yearlyBirthDate"
@@ -744,7 +739,7 @@ export default function HoroscopeYearlyCheckoutForm() {
                   ),
                 )
               }
-              placeholder="JJ/MM/AAAA"
+              placeholder={__i18n["jj_mm_aaaa"]}
               maxLength={10}
               autoComplete="bday"
               required
@@ -753,8 +748,7 @@ export default function HoroscopeYearlyCheckoutForm() {
 
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthTime">
-              Heure de naissance
-            </label>
+              {__i18n["heure_de_naissance"]}</label>
 
             <input
               id="yearlyBirthTime"
@@ -772,8 +766,7 @@ export default function HoroscopeYearlyCheckoutForm() {
             />
 
             <small>
-              Optionnelle, mais recommandée
-            </small>
+              {__i18n["optionnelle_mais_recommandee"]}</small>
           </div>
         </div>
 
@@ -786,8 +779,7 @@ export default function HoroscopeYearlyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthCity">
-              Ville de naissance *
-            </label>
+              {__i18n["ville_de_naissance"]}</label>
 
             <input
               id="yearlyBirthCity"
@@ -802,15 +794,14 @@ export default function HoroscopeYearlyCheckoutForm() {
                 )
               }
               autoComplete="off"
-              placeholder="Ex. Québec"
+              placeholder={__i18n["ex_quebec"]}
               required
             />
           </div>
 
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthCountry">
-              Pays de naissance *
-            </label>
+              {__i18n["pays_de_naissance"]}</label>
 
             <input
               id="yearlyBirthCountry"
@@ -825,7 +816,7 @@ export default function HoroscopeYearlyCheckoutForm() {
                 )
               }
               autoComplete="country-name"
-              placeholder="Ex. Canada"
+              placeholder={__i18n["ex_canada"]}
               required
             />
           </div>
@@ -859,12 +850,8 @@ export default function HoroscopeYearlyCheckoutForm() {
 
           <p>
             <strong>
-              Important :
-            </strong>{" "}
-            téléchargez votre rapport dès qu’il est généré et
-            conservez-le dans un endroit sécuritaire. Luna Astralis
-            ne conserve aucune copie de votre PDF.
-          </p>
+              {__i18n["important"]}</strong>{" "}
+            {__i18n["telechargez_votre_rapport_des_qu_il_est_genere_et_conservez"]}</p>
         </div>
 
         {/*
@@ -884,10 +871,8 @@ export default function HoroscopeYearlyCheckoutForm() {
         </button>
 
         <p className="horoscope-daily-secure-note">
-          🔒 Paiement sécurisé par Stripe
-          {" · "}
-          PDF disponible immédiatement après le paiement
-        </p>
+          {__i18n["paiement_securise_par_stripe"]}{" · "}
+          {__i18n["pdf_disponible_immediatement_apres_le_paiement"]}</p>
       </form>
     </div>
   );

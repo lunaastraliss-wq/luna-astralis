@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-horoscope-year/page.json";
 import PdfHoroscopeYearViewer
   from "./PdfHoroscopeYearViewer";
 
@@ -16,7 +17,7 @@ export default function PdfHoroscopeYearDevPage() {
 
       birthDate: "17/11/1970",
       birthTime: "21:36",
-      birthCity: "Québec",
+      birthCity: __i18n["quebec"],
       birthCountry: "Canada",
     });
 

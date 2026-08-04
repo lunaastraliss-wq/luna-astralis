@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopemonthlycheckoutform.json";
 import {
   type FormEvent,
   useState,
@@ -56,7 +58,7 @@ const MONTHS = [
   },
   {
     value: 2,
-    label: "Février",
+    label: __i18n["fevrier"],
   },
   {
     value: 3,
@@ -80,7 +82,7 @@ const MONTHS = [
   },
   {
     value: 8,
-    label: "Août",
+    label: __i18n["aout"],
   },
   {
     value: 9,
@@ -96,7 +98,7 @@ const MONTHS = [
   },
   {
     value: 12,
-    label: "Décembre",
+    label: __i18n["decembre"],
   },
 ];
 
@@ -624,7 +626,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
 
             headers: {
               "Content-Type":
-                "application/json",
+                __i18n["application_json"],
             },
 
             body:
@@ -719,17 +721,13 @@ export default function HoroscopeMonthlyCheckoutForm() {
     <div className="horoscope-daily-form-card">
       <div className="horoscope-daily-form-heading">
         <span className="premium-section-kicker">
-          Votre mois personnalisé
-        </span>
+          {__i18n["votre_mois_personnalise"]}</span>
 
         <h2>
-          Créez votre horoscope Premium du mois
-        </h2>
+          {__i18n["creez_votre_horoscope_premium_du_mois"]}</h2>
 
         <p>
-          Sélectionnez le mois à analyser, puis entrez votre date,
-          votre heure et votre lieu de naissance.
-        </p>
+          {__i18n["selectionnez_le_mois_a_analyser_puis_entrez_votre_date_votre"]}</p>
       </div>
 
       <form
@@ -746,8 +744,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="reportMonth">
-              Mois du rapport *
-            </label>
+              {__i18n["mois_du_rapport"]}</label>
 
             <select
               id="reportMonth"
@@ -779,8 +776,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
 
           <div className="horoscope-daily-field">
             <label htmlFor="reportYear">
-              Année du rapport *
-            </label>
+              {__i18n["annee_du_rapport"]}</label>
 
             <select
               id="reportYear"
@@ -819,11 +815,10 @@ export default function HoroscopeMonthlyCheckoutForm() {
 
         <div className="horoscope-daily-field">
           <label htmlFor="monthlyFirstName">
-            Prénom{" "}
+            {__i18n["prenom"]}{" "}
 
             <span>
-              (optionnel)
-            </span>
+              {__i18n["optionnel"]}</span>
           </label>
 
           <input
@@ -839,7 +834,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
               )
             }
             autoComplete="given-name"
-            placeholder="Votre prénom"
+            placeholder={__i18n["votre_prenom"]}
           />
         </div>
 
@@ -852,8 +847,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="monthlyBirthDate">
-              Date de naissance *
-            </label>
+              {__i18n["date_de_naissance"]}</label>
 
             <input
               id="monthlyBirthDate"
@@ -870,7 +864,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
                   ),
                 )
               }
-              placeholder="JJ/MM/AAAA"
+              placeholder={__i18n["jj_mm_aaaa"]}
               maxLength={10}
               autoComplete="bday"
               required
@@ -879,8 +873,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
 
           <div className="horoscope-daily-field">
             <label htmlFor="monthlyBirthTime">
-              Heure de naissance
-            </label>
+              {__i18n["heure_de_naissance"]}</label>
 
             <input
               id="monthlyBirthTime"
@@ -898,8 +891,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
             />
 
             <small>
-              Optionnelle, mais recommandée
-            </small>
+              {__i18n["optionnelle_mais_recommandee"]}</small>
           </div>
         </div>
 
@@ -912,8 +904,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="monthlyBirthCity">
-              Ville de naissance *
-            </label>
+              {__i18n["ville_de_naissance"]}</label>
 
             <input
               id="monthlyBirthCity"
@@ -928,15 +919,14 @@ export default function HoroscopeMonthlyCheckoutForm() {
                 )
               }
               autoComplete="off"
-              placeholder="Ex. Québec"
+              placeholder={__i18n["ex_quebec"]}
               required
             />
           </div>
 
           <div className="horoscope-daily-field">
             <label htmlFor="monthlyBirthCountry">
-              Pays de naissance *
-            </label>
+              {__i18n["pays_de_naissance"]}</label>
 
             <input
               id="monthlyBirthCountry"
@@ -951,7 +941,7 @@ export default function HoroscopeMonthlyCheckoutForm() {
                 )
               }
               autoComplete="country-name"
-              placeholder="Ex. Canada"
+              placeholder={__i18n["ex_canada"]}
               required
             />
           </div>
@@ -985,12 +975,8 @@ export default function HoroscopeMonthlyCheckoutForm() {
 
           <p>
             <strong>
-              Important :
-            </strong>{" "}
-            téléchargez votre rapport dès qu’il est généré et
-            conservez-le dans un endroit sécuritaire. Luna Astralis
-            ne conserve aucune copie de votre PDF.
-          </p>
+              {__i18n["important"]}</strong>{" "}
+            {__i18n["telechargez_votre_rapport_des_qu_il_est_genere_et_conservez"]}</p>
         </div>
 
         {/*
@@ -1010,10 +996,8 @@ export default function HoroscopeMonthlyCheckoutForm() {
         </button>
 
         <p className="horoscope-daily-secure-note">
-          🔒 Paiement sécurisé par Stripe
-          {" · "}
-          PDF disponible immédiatement après le paiement
-        </p>
+          {__i18n["paiement_securise_par_stripe"]}{" · "}
+          {__i18n["pdf_disponible_immediatement_apres_le_paiement"]}</p>
       </form>
     </div>
   );

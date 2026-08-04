@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/app/pricing/pricingclient.json";
 // app/pricing/PricingClient.tsx
 "use client";
 
@@ -96,7 +97,7 @@ export default function PricingClient() {
 
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": __i18n["application_json"] },
         body: JSON.stringify({ plan, next: nextUrl }),
       });
 
@@ -152,18 +153,18 @@ export default function PricingClient() {
   return (
     <div className="pricing-body pricing-page">
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label="Accueil Luna Astralis">
+        <Link className="brand" href="/" aria-label={__i18n["accueil_luna_astralis"]}>
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
 
           <div className="brand-text">
-            <div className="brand-name">LUNA ASTRALIS</div>
-            <div className="brand-sub">Astro & psycho</div>
+            <div className="brand-name">{__i18n["luna_astralis"]}</div>
+            <div className="brand-sub">{__i18n["astro_psycho"]}</div>
           </div>
         </Link>
 
-        <nav className="nav" aria-label="Navigation principale">
+        <nav className="nav" aria-label={__i18n["navigation_principale"]}>
           <Link href="/">Accueil</Link>
           <Link className="active" href={`/pricing?next=${nextEnc}`}>
             Tarifs
@@ -178,19 +179,19 @@ export default function PricingClient() {
         {/* ===========================
             HERO
         =========================== */}
-        <section className="pricing-hero" aria-label="Présentation des tarifs">
+        <section className="pricing-hero" aria-label={__i18n["presentation_des_tarifs"]}>
           <div className="pricing-hero-inner">
-            <div className="pricing-kicker">Accès 24h/7</div>
+            <div className="pricing-kicker">{__i18n["acces_24h_7"]}</div>
             <div className="pricing-kicker pricing-kicker-alt">TARIFS</div>
 
-            <h1 className="pricing-title">Débloque une direction claire quand tu es dans le flou</h1>
+            <h1 className="pricing-title">{__i18n["debloque_une_direction_claire_quand_tu_es_dans_le_flou"]}</h1>
 
-            <p className="pricing-subtitle">Paiement sécurisé • Accès immédiat • Annule quand tu veux</p>
+            <p className="pricing-subtitle">{__i18n["paiement_securise_acces_immediat_annule_quand_tu_veux"]}</p>
 
             <div className="pricing-chips" aria-label="Informations">
-              <span className="chip">Prix en dollars US (USD)</span>
-              <span className="chip">Change ou annule en tout temps</span>
-              <span className="chip">Réponse claire en quelques minutes</span>
+              <span className="chip">{__i18n["prix_en_dollars_us_usd"]}</span>
+              <span className="chip">{__i18n["change_ou_annule_en_tout_temps"]}</span>
+              <span className="chip">{__i18n["reponse_claire_en_quelques_minutes"]}</span>
             </div>
 
             {msg ? (
@@ -206,8 +207,8 @@ export default function PricingClient() {
         =========================== */}
         <section className="section" aria-label="Confiance">
           <div className="pricing-trust">
-            <div className="trust-line">✦ Une guidance douce et directe pour comprendre ce qui se joue — et savoir quoi faire maintenant.</div>
-            <div className="trust-sub">Paiement sécurisé • Annulation simple • Aucun frais caché</div>
+            <div className="trust-line">{__i18n["une_guidance_douce_et_directe_pour_comprendre_ce_qui_se_joue"]}</div>
+            <div className="trust-sub">{__i18n["paiement_securise_annulation_simple_aucun_frais_cache"]}</div>
           </div>
         </section>
 
@@ -217,21 +218,21 @@ export default function PricingClient() {
         <section className="section" aria-label="Formules">
           <div className="pricing-grid">
             {/* Mensuel — Essentiel */}
-            <article className="price-card" aria-label="Mensuel — Débloquer la réponse">
+            <article className="price-card" aria-label={__i18n["mensuel_debloquer_la_reponse"]}>
               <div className="price-head">
-                <div className="price-name">Débloquer la réponse</div>
+                <div className="price-name">{__i18n["debloquer_la_reponse"]}</div>
                 <div className="price-value">
-                  <span className="price-now">4,99&nbsp;$</span>
+                  <span className="price-now">{__i18n["4_99_nbsp"]}</span>
                   <span className="price-period">/ mois</span>
                 </div>
-                <div className="price-mini">Quand tu veux une direction claire, tout de suite.</div>
+                <div className="price-mini">{__i18n["quand_tu_veux_une_direction_claire_tout_de_suite"]}</div>
               </div>
 
               <ul className="price-features">
-                <li>Clarifier ce qui se passe vraiment</li>
-                <li>Voir ta part + l’autre part (sans te juger)</li>
-                <li>Savoir quoi faire maintenant</li>
-                <li>Accès 24h/7 – mobile</li>
+                <li>{__i18n["clarifier_ce_qui_se_passe_vraiment"]}</li>
+                <li>{__i18n["voir_ta_part_l_autre_part_sans_te_juger"]}</li>
+                <li>{__i18n["savoir_quoi_faire_maintenant"]}</li>
+                <li>{__i18n["acces_24h_7_mobile"]}</li>
               </ul>
 
               <button
@@ -246,24 +247,24 @@ export default function PricingClient() {
             </article>
 
             {/* Mensuel — Illimité (populaire) */}
-            <div className="price-halo" role="group" aria-label="Mensuel — Illimité (le plus populaire)">
-              <article className="price-card price-featured" aria-label="Mensuel — Aller au fond des choses">
-                <div className="price-badge">LE PLUS POPULAIRE</div>
+            <div className="price-halo" role="group" aria-label={__i18n["mensuel_illimite_le_plus_populaire"]}>
+              <article className="price-card price-featured" aria-label={__i18n["mensuel_aller_au_fond_des_choses"]}>
+                <div className="price-badge">{__i18n["le_plus_populaire"]}</div>
 
                 <div className="price-head">
-                  <div className="price-name">Aller au fond des choses</div>
+                  <div className="price-name">{__i18n["aller_au_fond_des_choses"]}</div>
                   <div className="price-value">
-                    <span className="price-now">9,99&nbsp;$</span>
+                    <span className="price-now">{__i18n["9_99_nbsp"]}</span>
                     <span className="price-period">/ mois</span>
                   </div>
-                  <div className="price-mini">Pour avancer avec un vrai fil conducteur.</div>
+                  <div className="price-mini">{__i18n["pour_avancer_avec_un_vrai_fil_conducteur"]}</div>
                 </div>
 
                 <ul className="price-features">
-                  <li>Explorer en profondeur (patterns, émotions, répétitions)</li>
-                  <li>Historique pour suivre ton évolution</li>
-                  <li>Guidance plus complète (astro + psycho)</li>
-                  <li>Accès 24h/7 – sans limites</li>
+                  <li>{__i18n["explorer_en_profondeur_patterns_emotions_repetitions"]}</li>
+                  <li>{__i18n["historique_pour_suivre_ton_evolution"]}</li>
+                  <li>{__i18n["guidance_plus_complete_astro_psycho"]}</li>
+                  <li>{__i18n["acces_24h_7_sans_limites"]}</li>
                 </ul>
 
                 <button
@@ -280,24 +281,24 @@ export default function PricingClient() {
 
             {/* ===== Annuel (à “cacher” plus bas : ici c’est juste le copy, tu gères le layout via CSS plus tard) ===== */}
 
-            <article className="price-card" aria-label="Annuel — Essentiel (pour celles qui reviennent souvent)">
+            <article className="price-card" aria-label={__i18n["annuel_essentiel_pour_celles_qui_reviennent_souvent"]}>
               <div className="price-head">
-                <div className="price-name">Annuel — Essentiel (pour celles qui reviennent souvent)</div>
+                <div className="price-name">{__i18n["annuel_essentiel_pour_celles_qui_reviennent_souvent_2"]}</div>
                 <div className="price-value">
                   <span className="price-was">
-                    <s>59,99&nbsp;$</s>
+                    <s>{__i18n["59_99_nbsp"]}</s>
                   </span>
-                  <span className="price-now">49,99&nbsp;$</span>
+                  <span className="price-now">{__i18n["49_99_nbsp"]}</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">Le plus économique si tu utilises Luna régulièrement.</div>
+                <div className="price-mini">{__i18n["le_plus_economique_si_tu_utilises_luna_regulierement"]}</div>
               </div>
 
               <ul className="price-features">
-                <li>Direction claire quand tu en as besoin</li>
-                <li>Un rythme simple, sans pression</li>
-                <li>Accès 24h/7 toute l’année</li>
-                <li>Meilleur prix sur 12 mois</li>
+                <li>{__i18n["direction_claire_quand_tu_en_as_besoin"]}</li>
+                <li>{__i18n["un_rythme_simple_sans_pression"]}</li>
+                <li>{__i18n["acces_24h_7_toute_l_annee"]}</li>
+                <li>{__i18n["meilleur_prix_sur_12_mois"]}</li>
               </ul>
 
               <button
@@ -311,26 +312,26 @@ export default function PricingClient() {
               </button>
             </article>
 
-            <article className="price-card premium" aria-label="Annuel — Illimité (accompagnement complet)">
-              <div className="price-badge premium">MEILLEURE VALEUR</div>
+            <article className="price-card premium" aria-label={__i18n["annuel_illimite_accompagnement_complet"]}>
+              <div className="price-badge premium">{__i18n["meilleure_valeur"]}</div>
 
               <div className="price-head">
-                <div className="price-name">Annuel — Illimité (accompagnement complet)</div>
+                <div className="price-name">{__i18n["annuel_illimite_accompagnement_complet_2"]}</div>
                 <div className="price-value">
                   <span className="price-was">
-                    <s>119,99&nbsp;$</s>
+                    <s>{__i18n["119_99_nbsp"]}</s>
                   </span>
-                  <span className="price-now">99,99&nbsp;$</span>
+                  <span className="price-now">{__i18n["99_99_nbsp"]}</span>
                   <span className="price-period">/ an</span>
                 </div>
-                <div className="price-mini">Si tu veux un espace stable pour te comprendre en profondeur.</div>
+                <div className="price-mini">{__i18n["si_tu_veux_un_espace_stable_pour_te_comprendre_en_profondeur"]}</div>
               </div>
 
               <ul className="price-features">
-                <li>Illimité + historique complet</li>
-                <li>Accès prioritaire</li>
-                <li>Évolution future (Tarot, Lune, Ascendant)</li>
-                <li>Le meilleur prix par mois</li>
+                <li>{__i18n["illimite_historique_complet"]}</li>
+                <li>{__i18n["acces_prioritaire"]}</li>
+                <li>{__i18n["evolution_future_tarot_lune_ascendant"]}</li>
+                <li>{__i18n["le_meilleur_prix_par_mois"]}</li>
               </ul>
 
               <button
@@ -347,38 +348,12 @@ export default function PricingClient() {
         </section>
 
         <footer className="footer" role="contentinfo">
-          <div>© {y} Luna Astralis</div>
-          <div className="footer-note">Prix en USD • Accès 24h/7</div>
+          <div>© {y} {__i18n["luna_astralis_2"]}</div>
+          <div className="footer-note">{__i18n["prix_en_usd_acces_24h_7"]}</div>
         </footer>
       </main>
 
-      <style jsx>{`
-        .pricing-msg {
-          margin: 14px 0 0;
-          padding: 12px 14px;
-          border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          background: rgba(255, 255, 255, 0.06);
-          color: rgba(255, 255, 255, 0.92);
-          line-height: 1.35;
-        }
-        .pricing-msg.is-ok {
-          background: rgba(120, 255, 190, 0.1);
-          border-color: rgba(120, 255, 190, 0.22);
-        }
-        .pricing-msg.is-err {
-          background: rgba(255, 90, 90, 0.1);
-          border-color: rgba(255, 90, 90, 0.22);
-        }
-        .pricing-msg.is-info {
-          background: rgba(159, 211, 255, 0.1);
-          border-color: rgba(159, 211, 255, 0.22);
-        }
-        .price-cta[aria-busy="true"] {
-          opacity: 0.75;
-          pointer-events: none;
-        }
-      `}</style>
+      <style jsx>{__i18n["pricing_msg_margin_14px_0_0_padding_12px_14px_border_radius"]}</style>
     </div>
   );
 }

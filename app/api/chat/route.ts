@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/chat/route.json";
 // app/api/chat/route.ts
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -113,30 +114,30 @@ function pickLastNMessages(
 }
 
 const S1_VARIANTS_FR = [
-  "Je te lis.",
-  "Je suis là.",
-  "D’accord, je comprends.",
-  "Merci de me le dire.",
-  "Ok, je t’écoute.",
+  __i18n["je_te_lis"],
+  __i18n["je_suis_la"],
+  __i18n["d_accord_je_comprends"],
+  __i18n["merci_de_me_le_dire"],
+  __i18n["ok_je_t_ecoute"],
 ];
 
 const S2_VARIANTS_FR = [
-  "Il semble y avoir une émotion importante derrière ce que tu vis.",
-  "On dirait que quelque chose demande à être clarifié en toi.",
-  "Je sens une tension entre ce que tu ressens et ce que tu veux vraiment.",
-  "Cette situation semble toucher une limite ou un besoin profond.",
-  "Il y a peut-être un choix intérieur qui cherche à se préciser.",
-  "Ton signe peut aider à mettre des mots sur ce que tu traverses.",
+  __i18n["il_semble_y_avoir_une_emotion_importante_derriere_ce_que_tu"],
+  __i18n["on_dirait_que_quelque_chose_demande_a_etre_clarifie_en_toi"],
+  __i18n["je_sens_une_tension_entre_ce_que_tu_ressens_et_ce_que_tu_veu"],
+  __i18n["cette_situation_semble_toucher_une_limite_ou_un_besoin_profo"],
+  __i18n["il_y_a_peut_etre_un_choix_interieur_qui_cherche_a_se_precise"],
+  __i18n["ton_signe_peut_aider_a_mettre_des_mots_sur_ce_que_tu_travers"],
 ];
 
 const Q_VARIANTS_FR = [
-  "Qu’est-ce qui pèse le plus en ce moment ?",
-  "Qu’aimerais-tu mieux comprendre dans cette situation ?",
-  "Quelle émotion revient le plus souvent ?",
-  "Qu’est-ce que tu aimerais changer concrètement ?",
-  "De quoi aurais-tu besoin pour te sentir plus aligné(e) ?",
-  "Qu’est-ce que ton intuition te dit déjà ?",
-  "Par quoi veux-tu commencer ?",
+  __i18n["qu_est_ce_qui_pese_le_plus_en_ce_moment"],
+  __i18n["qu_aimerais_tu_mieux_comprendre_dans_cette_situation"],
+  __i18n["quelle_emotion_revient_le_plus_souvent"],
+  __i18n["qu_est_ce_que_tu_aimerais_changer_concretement"],
+  __i18n["de_quoi_aurais_tu_besoin_pour_te_sentir_plus_aligne_e"],
+  __i18n["qu_est_ce_que_ton_intuition_te_dit_deja"],
+  __i18n["par_quoi_veux_tu_commencer"],
 ];
 
 function enforceShortFormatFR(input: string, lastS2?: string) {
@@ -556,7 +557,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           error: "GUEST_ID_MISSING",
-          detail: "guestId requis pour le mode invité.",
+          detail: __i18n["guestid_requis_pour_le_mode_invite"],
         },
         { status: 400 }
       );

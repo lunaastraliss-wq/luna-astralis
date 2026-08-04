@@ -1,0 +1,16 @@
+{
+  "stripe_webhook_endpoint_use_post_from_stripe_only": "Stripe Webhook-Endpunkt. Verwenden Sie nur POST von Stripe.",
+  "missing_stripe_secret_key": "Fehlender STRIPE_SECRET_KEY",
+  "missing_stripe_webhook_secret": "Fehlendes STRIPE_WEBHOOK_SECRET",
+  "missing_supabase_url_or_supabase_service_role_key": "Fehlendes SUPABASE_URL oder SUPABASE_SERVICE_ROLE_KEY",
+  "missing_stripe_signature": "Fehlende stripe-signature",
+  "invalid_signature": "Ungültige Signatur",
+  "missing_invalid_user_id_on_checkout_session": "Fehlende/ungültige user_id in der Checkout-Sitzung",
+  "db_upsert_failed_on_checkout_session_completed": "DB Upsert fehlgeschlagen bei checkout.session.completed",
+  "if_fk_user_id_fails_check_supabase_url_service_role_belong_t": "Wenn FK user_id fehlschlägt: Überprüfen Sie, ob SUPABASE_URL + SERVICE_ROLE zum selben Supabase-Projekt gehören wie Ihre Auth-Benutzer.",
+  "db_upsert_failed_on_subscription_by_user_id": "DB Upsert fehlgeschlagen bei subscription.* nach user_id",
+  "check_supabase_env_vars_match_the_project_that_owns_auth_use": "Überprüfen Sie, ob die Supabase-Umgebungsvariablen mit dem Projekt übereinstimmen, das auth.users besitzt.",
+  "db_upsert_failed_by_customer_id": "DB Upsert fehlgeschlagen nach customer_id",
+  "db_upsert_failed_on_subscription_deleted": "DB Upsert fehlgeschlagen bei subscription.deleted",
+  "db_upsert_failed_by_customer_id_on_deleted": "DB Upsert fehlgeschlagen nach customer_id bei gelöscht"
+}

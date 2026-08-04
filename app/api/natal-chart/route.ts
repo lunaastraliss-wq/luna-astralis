@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/natal-chart/route.json";
 import { NextResponse } from "next/server";
 import { calculateChart } from "celestine";
 import tzlookup from "tz-lookup";
@@ -118,7 +119,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Données manquantes ou invalides.",
+          error: __i18n["donnees_manquantes_ou_invalides"],
         },
         { status: 400 }
       );
@@ -149,7 +150,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           ok: false,
-          error: "Date, heure ou coordonnées invalides.",
+          error: __i18n["date_heure_ou_coordonnees_invalides"],
         },
         { status: 400 }
       );
@@ -167,7 +168,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           ok: false,
-          error: "La date de naissance est invalide.",
+          error: __i18n["la_date_de_naissance_est_invalide"],
         },
         { status: 400 }
       );

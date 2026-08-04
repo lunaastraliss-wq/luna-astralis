@@ -1,0 +1,8 @@
+{
+  "belier": "Aries",
+  "belier_2": "Aries",
+  "gemeaux": "Gemini",
+  "gemeaux_2": "Gemini",
+  "supabase_url_ou_supabase_service_role_key_est_absent": "SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is missing.",
+  "les_donnees_des_deux_personnes_sont_absentes": "The data for both individuals is missing."
+}

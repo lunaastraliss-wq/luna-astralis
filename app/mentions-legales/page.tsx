@@ -1,41 +1,35 @@
+import __i18n from "../../i18n/migrated/fr/app/mentions-legales/page.json";
 export const metadata = {
-  title: "Mentions légales — Luna Astralis",
+  title: __i18n["mentions_legales_luna_astralis"],
 };
 
 export default function MentionsLegalesPage() {
   return (
     <main className="legal-page">
       <div className="legal-wrap">
-        <h1>Mentions légales</h1>
+        <h1>{__i18n["mentions_legales"]}</h1>
 
         <p>
-          <strong>Luna Astralis</strong>
+          <strong>{__i18n["luna_astralis"]}</strong>
           <br />
-          Plateforme d’exploration personnelle et introspective.
-        </p>
+          {__i18n["plateforme_d_exploration_personnelle_et_introspective"]}</p>
 
         <p>
-          <strong>Éditeur</strong>
+          <strong>{__i18n["editeur"]}</strong>
           <br />
-          Nom : Luna Astralis
-          <br />
-          Pays : Canada
-          <br />
-          Contact : lunaastraliss@gmail.com
-        </p>
+          {__i18n["nom_luna_astralis"]}<br />
+          {__i18n["pays_canada"]}<br />
+          {__i18n["contact_lunaastraliss_gmail_com"]}</p>
 
         <p>
-          <strong>Hébergement</strong>
+          <strong>{__i18n["hebergement"]}</strong>
           <br />
-          Service hébergé par un prestataire tiers sécurisé.
-        </p>
+          {__i18n["service_heberge_par_un_prestataire_tiers_securise"]}</p>
 
         <p>
-          <strong>Propriété intellectuelle</strong>
+          <strong>{__i18n["propriete_intellectuelle"]}</strong>
           <br />
-          L’ensemble des contenus (textes, visuels, design) est protégé par le
-          droit d’auteur. Toute reproduction sans autorisation est interdite.
-        </p>
+          {__i18n["l_ensemble_des_contenus_textes_visuels_design_est_protege_pa"]}</p>
       </div>
     </main>
   );

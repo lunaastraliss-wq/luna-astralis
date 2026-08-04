@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/geocode/route.json";
 import { NextResponse } from "next/server";
 import { geocodeCity } from "@/lib/geocoding";
 
@@ -11,7 +12,7 @@ export async function GET(req: Request) {
 
     if (!city) {
       return NextResponse.json(
-        { ok: false, error: "Ville manquante" },
+        { ok: false, error: __i18n["ville_manquante"] },
         { status: 400 }
       );
     }
@@ -20,7 +21,7 @@ export async function GET(req: Request) {
 
     if (!result) {
       return NextResponse.json(
-        { ok: false, error: "Ville introuvable" },
+        { ok: false, error: __i18n["ville_introuvable"] },
         { status: 404 }
       );
     }

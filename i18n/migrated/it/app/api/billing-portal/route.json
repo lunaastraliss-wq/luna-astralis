@@ -1,0 +1,7 @@
+{
+  "missing_stripe_secret_key": "Chiave STRIPE_SECRET_KEY mancante",
+  "missing_stripe_portal_config_luna": "Configurazione STRIPE_PORTAL_CONFIG_LUNA mancante",
+  "missing_next_public_site_url": "URL del sito NEXT_PUBLIC_SITE_URL mancante",
+  "not_authenticated": "Non autenticato",
+  "aucun_stripe_customer_id_l_utilisateur_n_a_pas_encore_de_cli": "Nessun stripe_customer_id. L'utente non ha ancora un cliente Stripe."
+}

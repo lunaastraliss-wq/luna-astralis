@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/ping/route.json";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -11,7 +12,7 @@ export async function GET() {
 
     if (!url || !anonKey) {
       return NextResponse.json(
-        { ok: false, error: "Missing Supabase env" },
+        { ok: false, error: __i18n["missing_supabase_env"] },
         { status: 500 }
       );
     }

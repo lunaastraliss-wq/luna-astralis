@@ -1,0 +1,7 @@
+{
+  "invalid_or_missing_email": "Ungültige oder fehlende E-Mail",
+  "missing_next_public_supabase_url": "Fehlender NEXT_PUBLIC_SUPABASE_URL",
+  "missing_supabase_service_role_key": "Fehlender SUPABASE_SERVICE_ROLE_KEY",
+  "missing_resend_api_key": "Fehlender RESEND_API_KEY",
+  "bienvenue_ton_acces_est_pret": "🌙 Willkommen — dein Zugang ist bereit ✨"
+}

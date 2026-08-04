@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/checkout/success/successclient.json";
 import { useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -21,7 +23,7 @@ export default function SuccessClient() {
       try {
         // @ts-ignore
         window.gtag?.("event", "conversion", {
-          send_to: "AW-17878472225/YVPXCMjRqQcbEKGsj81C",
+          send_to: __i18n["aw_17878472225_yvpxcmjrqqcbekgsj81c"],
         });
       } catch {}
 
@@ -32,7 +34,7 @@ export default function SuccessClient() {
         try {
           await fetch("/api/stripe/sync", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": __i18n["application_json"] },
             body: JSON.stringify({ session_id: sessionId }),
           });
         } catch {}
@@ -52,8 +54,8 @@ export default function SuccessClient() {
 
   return (
     <div style={{ padding: 24 }}>
-      <h1>Paiement confirmé</h1>
-      <p>Redirection en cours…</p>
+      <h1>{__i18n["paiement_confirme"]}</h1>
+      <p>{__i18n["redirection_en_cours"]}</p>
     </div>
   );
 }

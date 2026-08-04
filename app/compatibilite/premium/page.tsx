@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/compatibilite/premium/page.json";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,10 +38,10 @@ const REPORT_COVER_URL =
 
 export const metadata: Metadata = {
   title:
-    "Compatibilité amoureuse Premium et synastrie | Luna Astralis",
+    __i18n["compatibilite_amoureuse_premium_et_synastrie_luna_astralis"],
 
   description:
-    "Comparez deux thèmes astraux complets et recevez un rapport PDF personnalisé sur votre compatibilité émotionnelle, amoureuse, mentale et relationnelle.",
+    __i18n["comparez_deux_themes_astraux_complets_et_recevez_un_rapport"],
 
   alternates: {
     canonical: PAGE_URL,
@@ -48,13 +49,13 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Compatibilité Premium et rapport de synastrie | Luna Astralis",
+      __i18n["compatibilite_premium_et_rapport_de_synastrie_luna_astralis"],
 
     description:
-      "Découvrez les forces, les défis et le potentiel de votre relation grâce à l’analyse personnalisée de deux thèmes astraux complets.",
+      __i18n["decouvrez_les_forces_les_defis_et_le_potentiel_de_votre_rela"],
 
     url: PAGE_URL,
-    siteName: "Luna Astralis",
+    siteName: __i18n["luna_astralis"],
     type: "website",
     locale: "fr_CA",
 
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
         url: REPORT_COVER_URL,
         width: 1414,
         height: 2000,
-        alt: "Couverture du rapport Compatibilité Premium",
+        alt: __i18n["couverture_du_rapport_compatibilite_premium"],
       },
     ],
   },
@@ -72,10 +73,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "Compatibilité Premium et synastrie | Luna Astralis",
+      __i18n["compatibilite_premium_et_synastrie_luna_astralis"],
 
     description:
-      "Une analyse approfondie de la rencontre entre deux thèmes astraux.",
+      __i18n["une_analyse_approfondie_de_la_rencontre_entre_deux_themes_as"],
 
     images: [REPORT_COVER_URL],
   },
@@ -95,174 +96,174 @@ export const metadata: Metadata = {
 const REPORT_FEATURES = [
   {
     icon: "✦",
-    title: "Compatibilité globale",
+    title: __i18n["compatibilite_globale"],
     description:
-      "Découvrez votre indice général ainsi que les grandes tendances qui structurent votre relation.",
+      __i18n["decouvrez_votre_indice_general_ainsi_que_les_grandes_tendanc"],
   },
   {
     icon: "☾",
-    title: "Lien émotionnel",
+    title: __i18n["lien_emotionnel"],
     description:
-      "Comprenez vos besoins affectifs, vos sensibilités et votre façon de créer un climat de sécurité.",
+      __i18n["comprenez_vos_besoins_affectifs_vos_sensibilites_et_votre_fa"],
   },
   {
     icon: "☿",
     title: "Communication",
     description:
-      "Analysez votre manière d’échanger, de vous comprendre et de traverser les désaccords.",
+      __i18n["analysez_votre_maniere_d_echanger_de_vous_comprendre_et_de_t"],
   },
   {
     icon: "♀",
-    title: "Affinité amoureuse",
+    title: __i18n["affinite_amoureuse"],
     description:
-      "Explorez vos langages amoureux, vos valeurs, vos attentes et votre manière de donner de l’affection.",
+      __i18n["explorez_vos_langages_amoureux_vos_valeurs_vos_attentes_et_v"],
   },
   {
     icon: "♂",
-    title: "Attirance et passion",
+    title: __i18n["attirance_et_passion"],
     description:
-      "Découvrez votre alchimie, votre rythme de désir et les dynamiques qui nourrissent l’attirance.",
+      __i18n["decouvrez_votre_alchimie_votre_rythme_de_desir_et_les_dynami"],
   },
   {
     icon: "♄",
-    title: "Stabilité et durée",
+    title: __i18n["stabilite_et_duree"],
     description:
-      "Identifiez les forces qui soutiennent le lien et les défis pouvant influencer son évolution.",
+      __i18n["identifiez_les_forces_qui_soutiennent_le_lien_et_les_defis_p"],
   },
   {
     icon: "△",
-    title: "Aspects de synastrie",
+    title: __i18n["aspects_de_synastrie"],
     description:
-      "Comprenez les harmonies, les tensions et les complémentarités entre les planètes de vos deux thèmes.",
+      __i18n["comprenez_les_harmonies_les_tensions_et_les_complementarites"],
   },
   {
     icon: "☉",
-    title: "Vos deux profils",
+    title: __i18n["vos_deux_profils"],
     description:
-      "Découvrez les principales énergies relationnelles que chaque personne apporte naturellement au lien.",
+      __i18n["decouvrez_les_principales_energies_relationnelles_que_chaque"],
   },
   {
     icon: "⚖",
-    title: "Forces et défis",
+    title: __i18n["forces_et_defis"],
     description:
-      "Repérez ce qui vous rapproche, ce qui demande davantage d’ajustement et les points de vigilance.",
+      __i18n["reperez_ce_qui_vous_rapproche_ce_qui_demande_davantage_d_aju"],
   },
   {
     icon: "♃",
-    title: "Potentiel d’évolution",
+    title: __i18n["potentiel_d_evolution"],
     description:
-      "Explorez les apprentissages, les possibilités de croissance et les mouvements de transformation du couple.",
+      __i18n["explorez_les_apprentissages_les_possibilites_de_croissance_e"],
   },
   {
     icon: "♡",
-    title: "Conseils relationnels",
+    title: __i18n["conseils_relationnels"],
     description:
-      "Recevez des pistes concrètes pour mieux accueillir vos différences et soutenir vos forces communes.",
+      __i18n["recevez_des_pistes_concretes_pour_mieux_accueillir_vos_diffe"],
   },
 ];
 
 const BENEFIT_ITEMS = [
   {
     icon: "☾",
-    title: "Comprendre vos besoins affectifs",
+    title: __i18n["comprendre_vos_besoins_affectifs"],
     text:
-      "Observez comment chacun recherche la sécurité, l’écoute et la proximité émotionnelle.",
+      __i18n["observez_comment_chacun_recherche_la_securite_l_ecoute_et_la"],
   },
   {
     icon: "☿",
-    title: "Améliorer votre communication",
+    title: __i18n["ameliorer_votre_communication"],
     text:
-      "Identifiez vos façons naturelles d’échanger ainsi que les malentendus qui peuvent se répéter.",
+      __i18n["identifiez_vos_facons_naturelles_d_echanger_ainsi_que_les_ma"],
   },
   {
     icon: "♀",
-    title: "Décoder votre façon d’aimer",
+    title: __i18n["decoder_votre_facon_d_aimer"],
     text:
-      "Comprenez vos attentes, vos gestes d’affection et ce qui vous fait réellement sentir aimé.",
+      __i18n["comprenez_vos_attentes_vos_gestes_d_affection_et_ce_qui_vous"],
   },
   {
     icon: "♂",
-    title: "Explorer votre attraction",
+    title: __i18n["explorer_votre_attraction"],
     text:
-      "Mettez en lumière les dynamiques de désir, d’action, de passion et de rapprochement.",
+      __i18n["mettez_en_lumiere_les_dynamiques_de_desir_d_action_de_passio"],
   },
   {
     icon: "♄",
-    title: "Évaluer votre solidité",
+    title: __i18n["evaluer_votre_solidite"],
     text:
-      "Repérez les facteurs d’engagement, de continuité et les défis qui demandent de la maturité.",
+      __i18n["reperez_les_facteurs_d_engagement_de_continuite_et_les_defis"],
   },
   {
     icon: "✧",
-    title: "Relier toutes les dimensions",
+    title: __i18n["relier_toutes_les_dimensions"],
     text:
-      "Recevez une synthèse claire qui rassemble les principales forces et tensions de votre relation.",
+      __i18n["recevez_une_synthese_claire_qui_rassemble_les_principales_fo"],
   },
 ];
 
 const PROCESS_STEPS = [
   {
     number: "01",
-    title: "Indiquez vos naissances",
+    title: __i18n["indiquez_vos_naissances"],
     description:
-      "Entrez le prénom, la date, l’heure, la ville et le pays de naissance des deux personnes.",
+      __i18n["entrez_le_prenom_la_date_l_heure_la_ville_et_le_pays_de_nais"],
   },
   {
     number: "02",
-    title: "Vos deux thèmes sont comparés",
+    title: __i18n["vos_deux_themes_sont_compares"],
     description:
-      "Les positions planétaires, les maisons et les aspects de synastrie sont calculés et analysés.",
+      __i18n["les_positions_planetaires_les_maisons_et_les_aspects_de_syna"],
   },
   {
     number: "03",
-    title: "Téléchargez votre rapport",
+    title: __i18n["telechargez_votre_rapport"],
     description:
-      "Après le paiement, votre rapport personnalisé est généré et offert en téléchargement.",
+      __i18n["apres_le_paiement_votre_rapport_personnalise_est_genere_et_o"],
   },
 ];
 
 const FAQ_ITEMS = [
   {
     question:
-      "Quelle est la différence avec la compatibilité gratuite ?",
+      __i18n["quelle_est_la_difference_avec_la_compatibilite_gratuite"],
     answer:
-      "La compatibilité gratuite compare deux signes astrologiques. Le rapport Premium utilise la date, l’heure et le lieu de naissance des deux personnes afin de comparer leurs thèmes astraux complets.",
+      __i18n["la_compatibilite_gratuite_compare_deux_signes_astrologiques"],
   },
   {
     question:
-      "Quelles informations dois-je fournir ?",
+      __i18n["quelles_informations_dois_je_fournir"],
     answer:
-      "Vous devez fournir le prénom, la date de naissance, l’heure de naissance, la ville et le pays de naissance des deux personnes.",
+      __i18n["vous_devez_fournir_le_prenom_la_date_de_naissance_l_heure_de"],
   },
   {
     question:
-      "Que contient le rapport ?",
+      __i18n["que_contient_le_rapport"],
     answer:
-      "Le rapport présente les deux profils astrologiques, la compatibilité globale, le lien émotionnel, la communication, l’amour, l’attirance, la stabilité, les aspects de synastrie, les forces, les défis et une synthèse personnalisée.",
+      __i18n["le_rapport_presente_les_deux_profils_astrologiques_la_compat"],
   },
   {
     question:
-      "Que faire si je ne connais pas une heure de naissance ?",
+      __i18n["que_faire_si_je_ne_connais_pas_une_heure_de_naissance"],
     answer:
-      "Certaines positions peuvent être calculées sans heure précise, mais l’Ascendant et les maisons astrologiques risquent d’être inexacts ou indisponibles.",
+      __i18n["certaines_positions_peuvent_etre_calculees_sans_heure_precis"],
   },
   {
     question:
-      "Le score détermine-t-il si une relation va fonctionner ?",
+      __i18n["le_score_determine_t_il_si_une_relation_va_fonctionner"],
     answer:
-      "Non. Les scores présentent de grandes tendances astrologiques. Ils ne constituent pas un verdict et ne remplacent pas les choix, l’expérience et le libre arbitre des deux personnes.",
+      __i18n["non_les_scores_presentent_de_grandes_tendances_astrologiques"],
   },
   {
     question:
-      "Comment vais-je recevoir mon rapport ?",
+      __i18n["comment_vais_je_recevoir_mon_rapport"],
     answer:
-      "Votre rapport est généré au format PDF après le paiement. Vous devez le télécharger et le conserver immédiatement, puisqu’aucun compte client n’est créé et qu’aucune copie récupérable n’est conservée.",
+      __i18n["votre_rapport_est_genere_au_format_pdf_apres_le_paiement_vou"],
   },
   {
     question:
-      "Mes informations sont-elles conservées ?",
+      __i18n["mes_informations_sont_elles_conservees"],
     answer:
-      "Non. Vos informations de naissance servent uniquement à calculer et générer votre rapport personnalisé. Elles ne sont pas conservées après la génération du PDF.",
+      __i18n["non_vos_informations_de_naissance_servent_uniquement_a_calcu"],
   },
 ];
 
@@ -280,7 +281,7 @@ const jsonLd = {
     "Rapport de compatibilité astrologique Premium",
 
   description:
-    "Rapport PDF personnalisé comparant deux thèmes astraux complets et leurs principales dynamiques relationnelles.",
+    __i18n["rapport_pdf_personnalise_comparant_deux_themes_astraux_compl"],
 
   image:
     `https://luna-astralis.app${REPORT_COVER_URL}`,
@@ -342,35 +343,26 @@ export default function CompatibilityPremiumPage() {
 
             <div className="compat-premium-hero-copy">
               <div className="compat-premium-hero-badge">
-                ✨ Rapport astrologique personnalisé
-              </div>
+                {__i18n["rapport_astrologique_personnalise"]}</div>
 
               <p className="compat-premium-hero-eyebrow">
-                Deux thèmes natals • Une rencontre unique
-              </p>
+                {__i18n["deux_themes_natals_une_rencontre_unique"]}</p>
 
               <h1 id="compat-premium-title">
-                Découvrez en profondeur votre
-                <span>
+                {__i18n["decouvrez_en_profondeur_votre"]}<span>
                   {" "}
-                  compatibilité amoureuse
-                </span>
+                  {__i18n["compatibilite_amoureuse"]}</span>
               </h1>
 
               <p className="compat-premium-hero-description">
-                Explorez vos affinités naturelles, votre
-                communication, votre lien émotionnel, votre
-                attirance, vos défis et le potentiel d’évolution
-                de votre relation.
-              </p>
+                {__i18n["explorez_vos_affinites_naturelles_votre_communication_votre"]}</p>
 
               <div className="compat-premium-hero-actions">
                 <Link
                   href="#commande"
                   className="compat-premium-button compat-premium-button-primary"
                 >
-                  Créer notre rapport
-                  <span aria-hidden="true">
+                  {__i18n["creer_notre_rapport"]}<span aria-hidden="true">
                     ♡
                   </span>
                 </Link>
@@ -381,8 +373,7 @@ export default function CompatibilityPremiumPage() {
                   rel="noopener noreferrer"
                   className="compat-premium-button compat-premium-button-secondary"
                 >
-                  Voir l’aperçu PDF
-                </a>
+                  {__i18n["voir_l_apercu_pdf"]}</a>
               </div>
 
               <a
@@ -391,19 +382,18 @@ export default function CompatibilityPremiumPage() {
                 rel="noopener noreferrer"
                 className="compat-premium-hero-preview-link"
               >
-                📖 Consulter un véritable aperçu du rapport
-              </a>
+                {__i18n["consulter_un_veritable_apercu_du_rapport"]}</a>
 
               <div className="compat-premium-hero-trust">
-                <span>✓ Deux thèmes astraux</span>
+                <span>{__i18n["deux_themes_astraux"]}</span>
                 <span>✓ {REPORT_PAGES}</span>
-                <span>✓ Téléchargement après paiement</span>
+                <span>{__i18n["telechargement_apres_paiement"]}</span>
               </div>
 
               <div className="compat-premium-hero-price">
                 <div>
-                  <span>Compatibilité Premium</span>
-                  <small>Paiement unique</small>
+                  <span>{__i18n["compatibilite_premium"]}</span>
+                  <small>{__i18n["paiement_unique"]}</small>
                 </div>
 
                 <strong>{REPORT_PRICE}</strong>
@@ -419,7 +409,7 @@ export default function CompatibilityPremiumPage() {
               <div className="compat-premium-cover-frame">
                 <Image
                   src={REPORT_COVER_URL}
-                  alt="Couverture du rapport Compatibilité Premium"
+                  alt={__i18n["couverture_du_rapport_compatibilite_premium_2"]}
                   width={707}
                   height={1000}
                   priority
@@ -429,8 +419,7 @@ export default function CompatibilityPremiumPage() {
 
               <div className="compat-premium-cover-badge">
                 <span aria-hidden="true">♡</span>
-                Créé pour votre relation
-              </div>
+                {__i18n["cree_pour_votre_relation"]}</div>
 
               <div
                 className="compat-premium-hero-orbit compat-premium-hero-orbit-one"
@@ -451,20 +440,13 @@ export default function CompatibilityPremiumPage() {
           <section className="compat-premium-introduction">
             <div className="compat-premium-section-heading">
               <span className="compat-premium-section-label">
-                Au-delà des signes
-              </span>
+                {__i18n["au_dela_des_signes"]}</span>
 
               <h2>
-                Une relation est bien plus que deux signes
-                astrologiques
-              </h2>
+                {__i18n["une_relation_est_bien_plus_que_deux_signes_astrologiques"]}</h2>
 
               <p>
-                La synastrie compare deux thèmes natals complets.
-                Elle révèle la manière dont vos émotions, vos
-                pensées, vos désirs et vos besoins relationnels
-                se rencontrent.
-              </p>
+                {__i18n["la_synastrie_compare_deux_themes_natals_complets_elle_revele"]}</p>
             </div>
 
             <div className="compat-premium-introduction-grid">
@@ -473,51 +455,41 @@ export default function CompatibilityPremiumPage() {
                   ♡
                 </div>
 
-                <span>Compatibilité gratuite</span>
+                <span>{__i18n["compatibilite_gratuite"]}</span>
 
-                <h3>Une première impression</h3>
+                <h3>{__i18n["une_premiere_impression"]}</h3>
 
                 <p>
-                  Une lecture simple fondée sur vos deux signes
-                  solaires, avec un score général et une courte
-                  interprétation.
-                </p>
+                  {__i18n["une_lecture_simple_fondee_sur_vos_deux_signes_solaires_avec"]}</p>
 
                 <Link
                   href="/compatibilite"
                   className="compat-premium-text-link"
                 >
-                  Faire le test gratuit
-                  <span aria-hidden="true"> →</span>
+                  {__i18n["faire_le_test_gratuit"]}<span aria-hidden="true"> →</span>
                 </Link>
               </article>
 
               <article className="compat-premium-introduction-card compat-premium-introduction-card-featured">
                 <div className="compat-premium-introduction-card-label">
-                  Analyse approfondie
-                </div>
+                  {__i18n["analyse_approfondie"]}</div>
 
                 <div className="compat-premium-introduction-icon">
                   ✦
                 </div>
 
-                <span>Synastrie Premium</span>
+                <span>{__i18n["synastrie_premium"]}</span>
 
-                <h3>Une relation complète</h3>
+                <h3>{__i18n["une_relation_complete"]}</h3>
 
                 <p>
-                  Le rapport Premium compare vos deux thèmes,
-                  vos planètes, vos maisons et vos aspects pour
-                  offrir une lecture riche, nuancée et réellement
-                  personnalisée.
-                </p>
+                  {__i18n["le_rapport_premium_compare_vos_deux_themes_vos_planetes_vos"]}</p>
 
                 <Link
                   href="#commande"
                   className="compat-premium-text-link"
                 >
-                  Commencer notre analyse
-                  <span aria-hidden="true"> →</span>
+                  {__i18n["commencer_notre_analyse"]}<span aria-hidden="true"> →</span>
                 </Link>
               </article>
             </div>
@@ -531,7 +503,7 @@ export default function CompatibilityPremiumPage() {
               <div className="compat-premium-report-cover-wrapper">
                 <Image
                   src={REPORT_COVER_URL}
-                  alt="Aperçu de la couverture du rapport Compatibilité Premium"
+                  alt={__i18n["apercu_de_la_couverture_du_rapport_compatibilite_premium"]}
                   width={566}
                   height={800}
                   className="compat-premium-report-cover"
@@ -542,56 +514,50 @@ export default function CompatibilityPremiumPage() {
                 className="compat-premium-report-page compat-premium-report-page-back"
                 aria-hidden="true"
               >
-                <span>Luna Astralis</span>
+                <span>{__i18n["luna_astralis_2"]}</span>
               </div>
 
               <div
                 className="compat-premium-report-page compat-premium-report-page-middle"
                 aria-hidden="true"
               >
-                <span>Votre synastrie personnalisée</span>
+                <span>{__i18n["votre_synastrie_personnalisee"]}</span>
               </div>
             </div>
 
             <div className="compat-premium-report-copy">
               <span className="compat-premium-section-label">
-                Votre rapport personnalisé
-              </span>
+                {__i18n["votre_rapport_personnalise"]}</span>
 
               <h2>
-                Bien plus qu’un simple pourcentage
-              </h2>
+                {__i18n["bien_plus_qu_un_simple_pourcentage"]}</h2>
 
               <p>
-                Votre rapport explique le fonctionnement profond
-                de votre relation. Il relie les deux profils,
-                les scores et les interactions planétaires afin
-                de présenter une vision complète de votre lien.
-              </p>
+                {__i18n["votre_rapport_explique_le_fonctionnement_profond_de_votre_re"]}</p>
 
               <div className="compat-premium-report-statistics">
                 <div>
                   <strong>2</strong>
-                  <span>thèmes astraux</span>
+                  <span>{__i18n["themes_astraux"]}</span>
                 </div>
 
                 <div>
                   <strong>6</strong>
-                  <span>dimensions principales</span>
+                  <span>{__i18n["dimensions_principales"]}</span>
                 </div>
 
                 <div>
                   <strong>50</strong>
-                  <span>pages environ</span>
+                  <span>{__i18n["pages_environ"]}</span>
                 </div>
               </div>
 
               <ul className="compat-premium-check-list">
-                <li>Vos deux profils relationnels</li>
-                <li>Votre indice général de compatibilité</li>
-                <li>Vos interactions planétaires principales</li>
-                <li>Vos forces naturelles et vos défis</li>
-                <li>Une synthèse et des conseils personnalisés</li>
+                <li>{__i18n["vos_deux_profils_relationnels"]}</li>
+                <li>{__i18n["votre_indice_general_de_compatibilite"]}</li>
+                <li>{__i18n["vos_interactions_planetaires_principales"]}</li>
+                <li>{__i18n["vos_forces_naturelles_et_vos_defis"]}</li>
+                <li>{__i18n["une_synthese_et_des_conseils_personnalises"]}</li>
               </ul>
 
               <div className="compat-premium-report-actions">
@@ -601,15 +567,13 @@ export default function CompatibilityPremiumPage() {
                   rel="noopener noreferrer"
                   className="compat-premium-button compat-premium-button-primary"
                 >
-                  📖 Voir l’aperçu du rapport
-                </a>
+                  {__i18n["voir_l_apercu_du_rapport"]}</a>
 
                 <Link
                   href="#commande"
                   className="compat-premium-button compat-premium-button-secondary"
                 >
-                  Créer notre rapport
-                </Link>
+                  {__i18n["creer_notre_rapport_2"]}</Link>
               </div>
             </div>
           </section>
@@ -617,18 +581,13 @@ export default function CompatibilityPremiumPage() {
           <section className="compat-premium-contents">
             <div className="compat-premium-section-heading">
               <span className="compat-premium-section-label">
-                Dans votre rapport
-              </span>
+                {__i18n["dans_votre_rapport"]}</span>
 
               <h2>
-                Tout ce que votre synastrie vous révèle
-              </h2>
+                {__i18n["tout_ce_que_votre_synastrie_vous_revele"]}</h2>
 
               <p>
-                Chaque section éclaire une dimension précise de
-                votre relation et aide à comprendre ce qui vous
-                rapproche ou demande davantage d’ajustement.
-              </p>
+                {__i18n["chaque_section_eclaire_une_dimension_precise_de_votre_relati"]}</p>
             </div>
 
             <div className="compat-premium-feature-grid">
@@ -652,8 +611,7 @@ export default function CompatibilityPremiumPage() {
                 href="#commande"
                 className="compat-premium-button compat-premium-button-primary"
               >
-                Obtenir notre rapport Premium
-                <span aria-hidden="true">♡</span>
+                {__i18n["obtenir_notre_rapport_premium"]}<span aria-hidden="true">♡</span>
               </Link>
             </div>
           </section>
@@ -661,20 +619,13 @@ export default function CompatibilityPremiumPage() {
           <section className="compat-premium-benefits">
             <div className="compat-premium-benefits-copy">
               <span className="compat-premium-section-label">
-                Une lecture profonde du lien
-              </span>
+                {__i18n["une_lecture_profonde_du_lien"]}</span>
 
               <h2>
-                Comprenez ce qui vous rapproche, vous stimule
-                ou vous déstabilise
-              </h2>
+                {__i18n["comprenez_ce_qui_vous_rapproche_vous_stimule_ou_vous_destabi"]}</h2>
 
               <p>
-                La synastrie ne décide pas de l’avenir d’une
-                relation. Elle offre un langage symbolique pour
-                mieux comprendre vos besoins, vos réactions et
-                vos différences.
-              </p>
+                {__i18n["la_synastrie_ne_decide_pas_de_l_avenir_d_une_relation_elle_o"]}</p>
 
               <a
                 href={REPORT_PREVIEW_URL}
@@ -682,8 +633,7 @@ export default function CompatibilityPremiumPage() {
                 rel="noopener noreferrer"
                 className="compat-premium-text-link"
               >
-                Consulter l’aperçu réel
-                <span aria-hidden="true"> →</span>
+                {__i18n["consulter_l_apercu_reel"]}<span aria-hidden="true"> →</span>
               </a>
             </div>
 
@@ -709,16 +659,12 @@ export default function CompatibilityPremiumPage() {
           <section className="compat-premium-process">
             <div className="compat-premium-section-heading">
               <span className="compat-premium-section-label">
-                Simple et immédiat
-              </span>
+                {__i18n["simple_et_immediat"]}</span>
 
-              <h2>Comment obtenir votre rapport ?</h2>
+              <h2>{__i18n["comment_obtenir_votre_rapport"]}</h2>
 
               <p>
-                Quelques minutes suffisent pour transmettre vos
-                informations et lancer la création de votre
-                analyse personnalisée.
-              </p>
+                {__i18n["quelques_minutes_suffisent_pour_transmettre_vos_informations"]}</p>
             </div>
 
             <div className="compat-premium-process-grid">
@@ -749,18 +695,13 @@ export default function CompatibilityPremiumPage() {
 
             <div className="compat-premium-section-heading">
               <span className="compat-premium-section-label">
-                Votre rapport personnalisé
-              </span>
+                {__i18n["votre_rapport_personnalise_2"]}</span>
 
               <h2>
-                Créez votre rapport Compatibilité Premium
-              </h2>
+                {__i18n["creez_votre_rapport_compatibilite_premium"]}</h2>
 
               <p>
-                Entrez les informations de naissance des deux
-                personnes afin de calculer vos thèmes et de
-                préparer votre analyse relationnelle.
-              </p>
+                {__i18n["entrez_les_informations_de_naissance_des_deux_personnes_afin"]}</p>
             </div>
 
             <div className="compat-premium-order-layout">
@@ -770,32 +711,30 @@ export default function CompatibilityPremiumPage() {
 
               <aside className="compat-premium-order-summary">
                 <span className="compat-premium-order-summary-label">
-                  Votre commande
-                </span>
+                  {__i18n["votre_commande"]}</span>
 
-                <h3>Compatibilité Premium</h3>
+                <h3>{__i18n["compatibilite_premium_2"]}</h3>
 
                 <div className="compat-premium-order-price">
                   <strong>{REPORT_PRICE}</strong>
-                  <span>Paiement unique</span>
+                  <span>{__i18n["paiement_unique_2"]}</span>
                 </div>
 
                 <ul>
-                  <li>Rapport PDF personnalisé</li>
-                  <li>Deux thèmes astraux complets</li>
-                  <li>Environ 50 pages</li>
-                  <li>Scores relationnels détaillés</li>
-                  <li>Aspects de synastrie</li>
-                  <li>Forces, défis et conseils</li>
-                  <li>Téléchargement après le paiement</li>
+                  <li>{__i18n["rapport_pdf_personnalise"]}</li>
+                  <li>{__i18n["deux_themes_astraux_complets"]}</li>
+                  <li>{__i18n["environ_50_pages"]}</li>
+                  <li>{__i18n["scores_relationnels_detailles"]}</li>
+                  <li>{__i18n["aspects_de_synastrie_2"]}</li>
+                  <li>{__i18n["forces_defis_et_conseils"]}</li>
+                  <li>{__i18n["telechargement_apres_le_paiement"]}</li>
                 </ul>
 
                 <div className="compat-premium-order-security">
                   <span aria-hidden="true">🔒</span>
 
                   <p>
-                    Paiement sécurisé
-                    <small>Aucun abonnement</small>
+                    {__i18n["paiement_securise"]}<small>{__i18n["aucun_abonnement"]}</small>
                   </p>
                 </div>
 
@@ -803,12 +742,8 @@ export default function CompatibilityPremiumPage() {
                   <span aria-hidden="true">⬇</span>
 
                   <p>
-                    Téléchargez et conservez votre PDF
-                    <small>
-                      Aucun compte client n’est créé et le
-                      rapport ne pourra pas être récupéré plus
-                      tard.
-                    </small>
+                    {__i18n["telechargez_et_conservez_votre_pdf"]}<small>
+                      {__i18n["aucun_compte_client_n_est_cree_et_le_rapport_ne_pourra_pas_e"]}</small>
                   </p>
                 </div>
 
@@ -816,11 +751,8 @@ export default function CompatibilityPremiumPage() {
                   <span aria-hidden="true">✓</span>
 
                   <p>
-                    Vos données ne sont pas conservées
-                    <small>
-                      Elles servent uniquement à générer votre
-                      rapport personnalisé.
-                    </small>
+                    {__i18n["vos_donnees_ne_sont_pas_conservees"]}<small>
+                      {__i18n["elles_servent_uniquement_a_generer_votre_rapport_personnalis"]}</small>
                   </p>
                 </div>
 
@@ -830,8 +762,7 @@ export default function CompatibilityPremiumPage() {
                   rel="noopener noreferrer"
                   className="compat-premium-order-preview-link"
                 >
-                  Voir l’aperçu avant de commander
-                  <span aria-hidden="true"> →</span>
+                  {__i18n["voir_l_apercu_avant_de_commander"]}<span aria-hidden="true"> →</span>
                 </a>
               </aside>
             </div>
@@ -840,10 +771,9 @@ export default function CompatibilityPremiumPage() {
           <section className="compat-premium-faq">
             <div className="compat-premium-section-heading">
               <span className="compat-premium-section-label">
-                Questions fréquentes
-              </span>
+                {__i18n["questions_frequentes"]}</span>
 
-              <h2>Tout savoir avant de commencer</h2>
+              <h2>{__i18n["tout_savoir_avant_de_commencer"]}</h2>
             </div>
 
             <div className="compat-premium-faq-list">
@@ -866,43 +796,32 @@ export default function CompatibilityPremiumPage() {
             />
 
             <span className="compat-premium-section-label">
-              Une première découverte gratuite
-            </span>
+              {__i18n["une_premiere_decouverte_gratuite"]}</span>
 
             <h2>
-              Commencez par comparer vos deux signes
-            </h2>
+              {__i18n["commencez_par_comparer_vos_deux_signes"]}</h2>
 
             <p>
-              Essayez gratuitement la compatibilité par signes,
-              puis passez à la synastrie Premium pour explorer
-              vos deux thèmes astraux complets.
-            </p>
+              {__i18n["essayez_gratuitement_la_compatibilite_par_signes_puis_passez"]}</p>
 
             <div className="compat-premium-final-actions">
               <Link
                 href="/compatibilite"
                 className="compat-premium-button compat-premium-button-primary"
               >
-                Faire le test gratuit
-                <span aria-hidden="true">→</span>
+                {__i18n["faire_le_test_gratuit_2"]}<span aria-hidden="true">→</span>
               </Link>
 
               <Link
                 href="#commande"
                 className="compat-premium-button compat-premium-button-secondary"
               >
-                Choisir Premium
-              </Link>
+                {__i18n["choisir_premium"]}</Link>
             </div>
           </section>
 
           <p className="compat-premium-disclaimer">
-            L’astrologie est proposée comme un outil symbolique
-            d’exploration personnelle et relationnelle. Elle ne
-            remplace pas un avis médical, psychologique,
-            juridique ou financier.
-          </p>
+            {__i18n["l_astrologie_est_proposee_comme_un_outil_symbolique_d_explor"]}</p>
         </main>
       </div>
     </AuthProvider>

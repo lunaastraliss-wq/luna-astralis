@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/email/send-welcome/route.json";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
@@ -44,14 +45,14 @@ export async function POST() {
 
   const userId = userRes.user.id;
   const emailRaw = userRes.user.email ?? "";
-  if (!isValidEmail(emailRaw)) return json(400, { ok: false, error: "Invalid or missing email" });
+  if (!isValidEmail(emailRaw)) return json(400, { ok: false, error: __i18n["invalid_or_missing_email"] });
   const email = emailRaw.trim().toLowerCase();
 
   // 2) Admin Supabase
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl) return json(400, { ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL" });
-  if (!serviceRole) return json(400, { ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
+  if (!supabaseUrl) return json(400, { ok: false, error: __i18n["missing_next_public_supabase_url"] });
+  if (!serviceRole) return json(400, { ok: false, error: __i18n["missing_supabase_service_role_key"] });
 
   const admin = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
 
@@ -76,7 +77,7 @@ export async function POST() {
 
   // 5) Resend
   const key = process.env.RESEND_API_KEY;
-  if (!key) return json(400, { ok: false, error: "Missing RESEND_API_KEY" });
+  if (!key) return json(400, { ok: false, error: __i18n["missing_resend_api_key"] });
 
   const from = process.env.FROM_EMAIL || "Luna Astralis <contact@luna-astralis.app>";
   const replyTo = process.env.RESEND_REPLY_TO || "lunaastraliss@gmail.com";
@@ -89,7 +90,7 @@ export async function POST() {
   from,
   to: email,
   replyTo,
-  subject: "🌙 Bienvenue — ton accès est prêt ✨",
+  subject: __i18n["bienvenue_ton_acces_est_pret"],
   text: `Bienvenue sur Luna Astralis ✨
 
 Ton accès est prêt.

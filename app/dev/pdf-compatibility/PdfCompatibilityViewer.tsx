@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-compatibility/pdfcompatibilityviewer.json";
 import { PDFViewer } from "@react-pdf/renderer";
 
 import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
@@ -174,7 +176,7 @@ const person1 = {
   firstName: "Martine",
   birthDate: "17/11/1970",
   birthTime: "21:36",
-  birthCity: "Québec",
+  birthCity: __i18n["quebec"],
   birthCountry: "Canada",
 
   planets: person1Planets,
@@ -193,7 +195,7 @@ const person2 = {
   firstName: "Alexandre",
   birthDate: "12/05/1988",
   birthTime: "10:15",
-  birthCity: "Montréal",
+  birthCity: __i18n["montreal"],
   birthCountry: "Canada",
 
   planets: person2Planets,

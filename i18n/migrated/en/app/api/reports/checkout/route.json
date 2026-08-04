@@ -1,0 +1,11 @@
+{
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son": "The date, time, city, and birth details are required for both individuals.",
+  "les_images_des_deux_roues_astrologiques_sont_requises": "Images of both astrological wheels are required.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_2": "The date, time, city, and birth details are required to generate the personalized horoscope.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_3": "The date, time, city, and birth details are required to generate the personalized monthly horoscope.",
+  "le_mois_et_l_annee_du_rapport_sont_requis": "The month and year of the report are required.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_4": "The date, time, city, and birth details are required to generate the personalized annual horoscope.",
+  "l_annee_du_rapport_est_requise": "The year of the report is required.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_5": "The date, time, city, and birth details are required.",
+  "le_chemin_de_l_image_de_la_roue_astrologique_est_absent": "The path to the astrological wheel image is missing."
+}

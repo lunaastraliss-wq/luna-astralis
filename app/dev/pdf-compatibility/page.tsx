@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-compatibility/page.json";
 import dynamic from "next/dynamic";
 
 const PdfCompatibilityViewer = dynamic(
@@ -18,12 +20,11 @@ const PdfCompatibilityViewer = dynamic(
           margin: 0,
           padding: 0,
           backgroundColor: "#081020",
-          color: "#fff8e7",
+          color: __i18n["fff8e7"],
           fontFamily: "Arial, sans-serif",
         }}
       >
-        Génération du rapport de compatibilité…
-      </main>
+        {__i18n["generation_du_rapport_de_compatibilite"]}</main>
     ),
   },
 );

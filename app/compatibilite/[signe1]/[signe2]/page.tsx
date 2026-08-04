@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/compatibilite/index/index/page.json";
 import type {
   Metadata,
 } from "next";
@@ -109,7 +110,7 @@ export async function generateMetadata({
         canonicalUrl,
 
       siteName:
-        "Luna Astralis",
+        __i18n["luna_astralis"],
 
       type:
         "article",
@@ -256,7 +257,7 @@ export default async function CompatibilityDetailPage({
       <main className="compat-detail-main">
         <nav
           className="compat-detail-breadcrumb"
-          aria-label="Fil d’Ariane"
+          aria-label={__i18n["fil_d_ariane"]}
         >
           <Link href="/">
             Accueil
@@ -267,8 +268,7 @@ export default async function CompatibilityDetailPage({
           </span>
 
           <Link href="/compatibilite">
-            Compatibilité
-          </Link>
+            {__i18n["compatibilite"]}</Link>
 
           <span aria-hidden="true">
             /
@@ -288,8 +288,7 @@ export default async function CompatibilityDetailPage({
 
         <section className="compat-detail-hero">
           <span className="compat-detail-label">
-            Compatibilité amoureuse
-          </span>
+            {__i18n["compatibilite_amoureuse"]}</span>
 
           <div className="compat-detail-signs">
             <div className="compat-detail-sign">
@@ -330,8 +329,7 @@ export default async function CompatibilityDetailPage({
 
           <div className="compat-detail-score">
             <span>
-              Compatibilité générale
-            </span>
+              {__i18n["compatibilite_generale"]}</span>
 
             <strong>
               {compatibilityResult.score} %
@@ -353,8 +351,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Compatibilité amoureuse
-              </h2>
+                {__i18n["compatibilite_amoureuse_2"]}</h2>
 
               <p>
                 {compatibility.love}
@@ -385,8 +382,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Attraction et alchimie
-              </h2>
+                {__i18n["attraction_et_alchimie"]}</h2>
 
               <p>
                 {compatibility.attraction}
@@ -417,8 +413,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Vie quotidienne
-              </h2>
+                {__i18n["vie_quotidienne"]}</h2>
 
               <p>
                 {compatibility.dailyLife}
@@ -433,8 +428,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Forces de la relation
-              </h2>
+                {__i18n["forces_de_la_relation"]}</h2>
 
               <p>
                 {compatibility.strengths}
@@ -449,8 +443,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Défis à surmonter
-              </h2>
+                {__i18n["defis_a_surmonter"]}</h2>
 
               <p>
                 {compatibility.challenges}
@@ -470,8 +463,7 @@ export default async function CompatibilityDetailPage({
 
             <div>
               <h2>
-                Conseil astrologique
-              </h2>
+                {__i18n["conseil_astrologique"]}</h2>
 
               <p>
                 {compatibility.advice}
@@ -488,12 +480,10 @@ export default async function CompatibilityDetailPage({
 
         <section className="compat-detail-conclusion">
           <span className="compat-detail-label">
-            En résumé
-          </span>
+            {__i18n["en_resume"]}</span>
 
           <h2>
-            Ce que cette relation peut devenir
-          </h2>
+            {__i18n["ce_que_cette_relation_peut_devenir"]}</h2>
 
           <p>
             {compatibility.conclusion}
@@ -509,29 +499,20 @@ export default async function CompatibilityDetailPage({
         <section className="compat-detail-premium">
           <div>
             <span className="compat-detail-label">
-              Analyse personnalisée
-            </span>
+              {__i18n["analyse_personnalisee"]}</span>
 
             <h2>
-              Vos signes ne révèlent qu’une partie
-              de votre histoire
-            </h2>
+              {__i18n["vos_signes_ne_revelent_qu_une_partie_de_votre_histoire"]}</h2>
 
             <p>
-              Découvrez votre véritable dynamique
-              amoureuse grâce à la comparaison de
-              vos deux cartes du ciel complètes :
-              planètes, maisons astrologiques,
-              Vénus, Mars et aspects de synastrie.
-            </p>
+              {__i18n["decouvrez_votre_veritable_dynamique_amoureuse_grace_a_la_com"]}</p>
           </div>
 
           <Link
             href="/compatibilite/premium"
             className="compat-detail-button"
           >
-            Découvrir votre compatibilité Premium
-          </Link>
+            {__i18n["decouvrir_votre_compatibilite_premium"]}</Link>
         </section>
 
         {/*
@@ -542,16 +523,11 @@ export default async function CompatibilityDetailPage({
 
         <div className="compat-detail-back">
           <Link href="/compatibilite">
-            ← Tester une autre combinaison
-          </Link>
+            {__i18n["tester_une_autre_combinaison"]}</Link>
         </div>
 
         <p className="compat-detail-disclaimer">
-          L’astrologie est proposée comme un outil
-          symbolique d’exploration personnelle et
-          relationnelle. Elle ne détermine pas à elle
-          seule la réussite d’une relation.
-        </p>
+          {__i18n["l_astrologie_est_proposee_comme_un_outil_symbolique_d_explor"]}</p>
       </main>
     </div>
   );

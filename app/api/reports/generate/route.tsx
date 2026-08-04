@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/reports/generate/route.json";
 import React from "react";
 
 import {
@@ -140,12 +141,12 @@ const ZODIAC_SIGNS: Record<
 > = {
   aries: {
     key: "belier",
-    label: "Bélier",
+    label: __i18n["belier"],
   },
 
   belier: {
     key: "belier",
-    label: "Bélier",
+    label: __i18n["belier_2"],
   },
 
   taurus: {
@@ -160,12 +161,12 @@ const ZODIAC_SIGNS: Record<
 
   gemini: {
     key: "gemeaux",
-    label: "Gémeaux",
+    label: __i18n["gemeaux"],
   },
 
   gemeaux: {
     key: "gemeaux",
-    label: "Gémeaux",
+    label: __i18n["gemeaux_2"],
   },
 
   cancer: {
@@ -1318,7 +1319,7 @@ export async function POST(
             "SUPABASE_CONFIG_MISSING",
 
           detail:
-            "SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY est absent.",
+            __i18n["supabase_url_ou_supabase_service_role_key_est_absent"],
         },
         {
           status: 500,
@@ -1457,7 +1458,7 @@ export async function POST(
               "INVALID_COMPATIBILITY_DATA",
 
             detail:
-              "Les données des deux personnes sont absentes.",
+              __i18n["les_donnees_des_deux_personnes_sont_absentes"],
 
             birth_data:
               birthData,

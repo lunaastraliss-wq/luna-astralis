@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/success/page.json";
 import { useEffect } from "react";
 import Link from "next/link";
 
@@ -25,7 +27,7 @@ function fireConversion(): boolean {
   if (typeof window.gtag !== "function") return false;
 
   window.gtag("event", "conversion", {
-    send_to: "AW-17878472225/YVPXCMjRqOcbEKGsj81C",
+    send_to: __i18n["aw_17878472225_yvpxcmjrqocbekgsj81c"],
     transaction_id: "",
   });
 
@@ -59,9 +61,9 @@ export default function SuccessPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "40px 20px",
-        background: "#070b18",
-        color: "#fff",
+        padding: __i18n["40px_20px"],
+        background: __i18n["070b18"],
+        color: __i18n["fff"],
       }}
     >
       <div
@@ -71,41 +73,36 @@ export default function SuccessPage() {
           textAlign: "center",
           padding: 40,
           borderRadius: 24,
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid rgba(244,201,93,.25)",
-          boxShadow: "0 30px 80px rgba(0,0,0,.35)",
+          background: __i18n["rgba_255_255_255_0_05"],
+          border: __i18n["1px_solid_rgba_244_201_93_25"],
+          boxShadow: __i18n["0_30px_80px_rgba_0_0_0_35"],
         }}
       >
         <div style={{ fontSize: 64, marginBottom: 20 }}>🌙</div>
 
         <h1 style={{ fontSize: 38, marginBottom: 16 }}>
-          Accès confirmé
-        </h1>
+          {__i18n["acces_confirme"]}</h1>
 
         <p style={{ fontSize: 18, opacity: 0.9, lineHeight: 1.7 }}>
-          Merci pour votre confiance.
-        </p>
+          {__i18n["merci_pour_votre_confiance"]}</p>
 
         <p style={{ marginTop: 12, opacity: 0.75, lineHeight: 1.7 }}>
-          Votre accès à Luna est maintenant activé.
-          Vous pouvez commencer votre échange dès maintenant.
-        </p>
+          {__i18n["votre_acces_a_luna_est_maintenant_active_vous_pouvez_commenc"]}</p>
 
         <Link
           href="/chat"
           style={{
             display: "inline-block",
             marginTop: 32,
-            padding: "14px 32px",
+            padding: __i18n["14px_32px"],
             borderRadius: 999,
             textDecoration: "none",
-            background: "#f4c95d",
+            background: __i18n["f4c95d"],
             color: "#111",
             fontWeight: 700,
           }}
         >
-          Aller au chat
-        </Link>
+          {__i18n["aller_au_chat"]}</Link>
       </div>
     </main>
   );

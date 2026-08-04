@@ -1,3 +1,4 @@
+import __i18n from "../../../../../i18n/migrated/fr/app/api/stripe/reports/webhook/route.json";
 import {
   NextResponse,
 } from "next/server";
@@ -160,7 +161,7 @@ export async function GET() {
       true,
 
     message:
-      "Reports webhook is active. Stripe must call this route with POST.",
+      __i18n["reports_webhook_is_active_stripe_must_call_this_route_with_p"],
   });
 }
 

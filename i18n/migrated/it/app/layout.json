@@ -1,0 +1,11 @@
+{
+  "luna_astralis_astro_psycho": "Luna Astralis — Astro & psycho",
+  "s_luna_astralis": "%s | Luna Astralis",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee": "Esplorazione dolce e guidata attraverso una discussione privata basata sul tuo segno astrologico.",
+  "luna_astralis_astro_psycho_2": "Luna Astralis — Astro & psycho",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_2": "Esplorazione dolce e guidata attraverso una discussione privata basata sul tuo segno astrologico.",
+  "luna_astralis": "Luna Astralis",
+  "luna_astralis_astro_psycho_3": "Luna Astralis — Astro & psycho",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_3": "Esplorazione dolce e guidata attraverso una discussione privata basata sul tuo segno astrologico.",
+  "window_datalayer_window_datalayer_function_gtag_datalayer_pu": "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} window.gtag = window.gtag || gtag; // Consent Mode : per impostazione predefinita, rifiutiamo tutto (fino alla scelta dell'utente) gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }); gtag('js', new Date()); gtag('config', 'AW-17878472225');"
+}

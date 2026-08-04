@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/stripe/webhook/route.json";
 // app/api/stripe/webhook/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
@@ -156,7 +157,7 @@ async function getPlanFromPriceId(priceId: string): Promise<{
 ===================== */
 export async function GET() {
   return NextResponse.json(
-    { ok: true, message: "Stripe webhook endpoint. Use POST from Stripe only." },
+    { ok: true, message: __i18n["stripe_webhook_endpoint_use_post_from_stripe_only"] },
     { status: 200 }
   );
 }
@@ -167,21 +168,21 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     if (!stripe) {
-      return NextResponse.json({ ok: false, error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+      return NextResponse.json({ ok: false, error: __i18n["missing_stripe_secret_key"] }, { status: 500 });
     }
     if (!STRIPE_WEBHOOK_SECRET) {
-      return NextResponse.json({ ok: false, error: "Missing STRIPE_WEBHOOK_SECRET" }, { status: 500 });
+      return NextResponse.json({ ok: false, error: __i18n["missing_stripe_webhook_secret"] }, { status: 500 });
     }
     if (!supabase) {
       return NextResponse.json(
-        { ok: false, error: "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY" },
+        { ok: false, error: __i18n["missing_supabase_url_or_supabase_service_role_key"] },
         { status: 500 }
       );
     }
 
     const sig = req.headers.get("stripe-signature");
     if (!sig) {
-      return NextResponse.json({ ok: false, error: "Missing stripe-signature" }, { status: 400 });
+      return NextResponse.json({ ok: false, error: __i18n["missing_stripe_signature"] }, { status: 400 });
     }
 
     const rawBody = await req.text();
@@ -191,7 +192,7 @@ export async function POST(req: Request) {
       event = stripe.webhooks.constructEvent(rawBody, sig, STRIPE_WEBHOOK_SECRET);
     } catch (err: any) {
       return NextResponse.json(
-        { ok: false, error: "Invalid signature", details: err?.message || String(err) },
+        { ok: false, error: __i18n["invalid_signature"], details: err?.message || String(err) },
         { status: 400 }
       );
     }
@@ -209,7 +210,7 @@ export async function POST(req: Request) {
       // ✅ stop retry if user_id absent/invalid
       if (!userId || userId === "guest" || !isUuid(userId)) {
         return NextResponse.json(
-          { received: true, warning: "Missing/invalid user_id on checkout session" },
+          { received: true, warning: __i18n["missing_invalid_user_id_on_checkout_session"] },
           { status: 200 }
         );
       }
@@ -229,9 +230,9 @@ export async function POST(req: Request) {
         return NextResponse.json(
           {
             received: true,
-            warning: "DB upsert failed on checkout.session.completed",
+            warning: __i18n["db_upsert_failed_on_checkout_session_completed"],
             details: msg,
-            hint: "If FK user_id fails: check SUPABASE_URL + SERVICE_ROLE belong to the SAME Supabase project as your auth users.",
+            hint: __i18n["if_fk_user_id_fails_check_supabase_url_service_role_belong_t"],
           },
           { status: 200 }
         );
@@ -290,9 +291,9 @@ export async function POST(req: Request) {
           return NextResponse.json(
             {
               received: true,
-              warning: "DB upsert failed on subscription.* by user_id",
+              warning: __i18n["db_upsert_failed_on_subscription_by_user_id"],
               details: msg,
-              hint: "Check Supabase env vars match the project that owns auth.users.",
+              hint: __i18n["check_supabase_env_vars_match_the_project_that_owns_auth_use"],
             },
             { status: 200 }
           );
@@ -306,7 +307,7 @@ export async function POST(req: Request) {
         } catch (e: any) {
           const msg = e?.message || String(e);
           return NextResponse.json(
-            { received: true, warning: "DB upsert failed by customer_id", details: msg },
+            { received: true, warning: __i18n["db_upsert_failed_by_customer_id"], details: msg },
             { status: 200 }
           );
         }
@@ -338,7 +339,7 @@ export async function POST(req: Request) {
         } catch (e: any) {
           const msg = e?.message || String(e);
           return NextResponse.json(
-            { received: true, warning: "DB upsert failed on subscription.deleted", details: msg },
+            { received: true, warning: __i18n["db_upsert_failed_on_subscription_deleted"], details: msg },
             { status: 200 }
           );
         }
@@ -350,7 +351,7 @@ export async function POST(req: Request) {
         } catch (e: any) {
           const msg = e?.message || String(e);
           return NextResponse.json(
-            { received: true, warning: "DB upsert failed by customer_id on deleted", details: msg },
+            { received: true, warning: __i18n["db_upsert_failed_by_customer_id_on_deleted"], details: msg },
             { status: 200 }
           );
         }

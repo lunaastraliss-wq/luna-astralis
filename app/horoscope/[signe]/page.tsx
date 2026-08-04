@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/horoscope/index/page.json";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -43,10 +44,10 @@ type PageProps = {
 
 const SIGNES: HoroscopeSign[] = [
   {
-    nom: "Bélier",
+    nom: __i18n["belier"],
     slug: "belier",
     symbole: "♈",
-    dates: "21 mars au 19 avril",
+    dates: __i18n["21_mars_au_19_avril"],
     element: "Feu",
     qualite: "initiative",
     couleurs: [
@@ -59,7 +60,7 @@ const SIGNES: HoroscopeSign[] = [
       "Jaune",
       "Cuivre",
       "Grenat",
-      "Écarlate",
+      __i18n["ecarlate"],
     ],
     nombres: [1, 9, 18, 27, 36, 5, 14, 23, 32, 41],
   },
@@ -67,16 +68,16 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Taureau",
     slug: "taureau",
     symbole: "♉",
-    dates: "20 avril au 20 mai",
+    dates: __i18n["20_avril_au_20_mai"],
     element: "Terre",
-    qualite: "stabilité",
+    qualite: __i18n["stabilite"],
     couleurs: [
       "Vert",
-      "Rose poudré",
+      __i18n["rose_poudre"],
       "Beige",
-      "Crème",
+      __i18n["creme"],
       "Brun",
-      "Vert olive",
+      __i18n["vert_olive"],
       "Blanc",
       "Cuivre",
       "Terracotta",
@@ -85,18 +86,18 @@ const SIGNES: HoroscopeSign[] = [
     nombres: [6, 15, 24, 33, 42, 2, 11, 20, 29, 38],
   },
   {
-    nom: "Gémeaux",
+    nom: __i18n["gemeaux"],
     slug: "gemeaux",
     symbole: "♊",
-    dates: "21 mai au 20 juin",
+    dates: __i18n["21_mai_au_20_juin"],
     element: "Air",
     qualite: "communication",
     couleurs: [
       "Jaune",
-      "Bleu ciel",
+      __i18n["bleu_ciel"],
       "Argent",
       "Blanc",
-      "Vert menthe",
+      __i18n["vert_menthe"],
       "Orange",
       "Lavande",
       "Turquoise",
@@ -109,20 +110,20 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Cancer",
     slug: "cancer",
     symbole: "♋",
-    dates: "21 juin au 22 juillet",
+    dates: __i18n["21_juin_au_22_juillet"],
     element: "Eau",
-    qualite: "sensibilité",
+    qualite: __i18n["sensibilite"],
     couleurs: [
       "Blanc",
       "Argent",
-      "Bleu pâle",
+      __i18n["bleu_pale"],
       "Perle",
-      "Crème",
+      __i18n["creme_2"],
       "Turquoise",
-      "Rose tendre",
+      __i18n["rose_tendre"],
       "Lavande",
-      "Bleu nuit",
-      "Vert d’eau",
+      __i18n["bleu_nuit"],
+      __i18n["vert_d_eau"],
     ],
     nombres: [2, 11, 20, 29, 38, 4, 13, 22, 31, 40],
   },
@@ -130,14 +131,14 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Lion",
     slug: "lion",
     symbole: "♌",
-    dates: "23 juillet au 22 août",
+    dates: __i18n["23_juillet_au_22_aout"],
     element: "Feu",
     qualite: "confiance",
     couleurs: [
       "Or",
       "Orange",
       "Rouge",
-      "Jaune soleil",
+      __i18n["jaune_soleil"],
       "Cuivre",
       "Pourpre",
       "Blanc",
@@ -151,16 +152,16 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Vierge",
     slug: "vierge",
     symbole: "♍",
-    dates: "23 août au 22 septembre",
+    dates: __i18n["23_aout_au_22_septembre"],
     element: "Terre",
     qualite: "organisation",
     couleurs: [
       "Beige",
-      "Vert sauge",
+      __i18n["vert_sauge"],
       "Blanc",
-      "Brun clair",
-      "Bleu gris",
-      "Crème",
+      __i18n["brun_clair"],
+      __i18n["bleu_gris"],
+      __i18n["creme_3"],
       "Olive",
       "Terracotta",
       "Lavande",
@@ -172,20 +173,20 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Balance",
     slug: "balance",
     symbole: "♎",
-    dates: "23 septembre au 22 octobre",
+    dates: __i18n["23_septembre_au_22_octobre"],
     element: "Air",
     qualite: "harmonie",
     couleurs: [
       "Rose",
-      "Bleu ciel",
+      __i18n["bleu_ciel_2"],
       "Lavande",
       "Blanc",
-      "Vert tendre",
-      "Or rose",
+      __i18n["vert_tendre"],
+      __i18n["or_rose"],
       "Turquoise",
       "Corail",
       "Argent",
-      "Violet clair",
+      __i18n["violet_clair"],
     ],
     nombres: [7, 16, 25, 34, 43, 5, 14, 23, 32, 41],
   },
@@ -193,20 +194,20 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Scorpion",
     slug: "scorpion",
     symbole: "♏",
-    dates: "23 octobre au 21 novembre",
+    dates: __i18n["23_octobre_au_21_novembre"],
     element: "Eau",
     qualite: "transformation",
     couleurs: [
       "Bordeaux",
       "Noir",
-      "Rouge profond",
+      __i18n["rouge_profond"],
       "Prune",
       "Grenat",
       "Violet",
-      "Bleu nuit",
+      __i18n["bleu_nuit_2"],
       "Or",
       "Argent",
-      "Émeraude",
+      __i18n["emeraude"],
     ],
     nombres: [8, 17, 26, 35, 44, 4, 13, 22, 31, 40],
   },
@@ -214,12 +215,12 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Sagittaire",
     slug: "sagittaire",
     symbole: "♐",
-    dates: "22 novembre au 21 décembre",
+    dates: __i18n["22_novembre_au_21_decembre"],
     element: "Feu",
     qualite: "expansion",
     couleurs: [
       "Violet",
-      "Bleu royal",
+      __i18n["bleu_royal"],
       "Turquoise",
       "Pourpre",
       "Orange",
@@ -235,16 +236,16 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Capricorne",
     slug: "capricorne",
     symbole: "♑",
-    dates: "22 décembre au 19 janvier",
+    dates: __i18n["22_decembre_au_19_janvier"],
     element: "Terre",
     qualite: "discipline",
     couleurs: [
       "Brun",
       "Noir",
-      "Vert forêt",
+      __i18n["vert_foret"],
       "Gris",
       "Bordeaux",
-      "Bleu marine",
+      __i18n["bleu_marine"],
       "Beige",
       "Or",
       "Taupe",
@@ -256,18 +257,18 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Verseau",
     slug: "verseau",
     symbole: "♒",
-    dates: "20 janvier au 18 février",
+    dates: __i18n["20_janvier_au_18_fevrier"],
     element: "Air",
     qualite: "innovation",
     couleurs: [
-      "Bleu électrique",
+      __i18n["bleu_electrique"],
       "Turquoise",
       "Argent",
       "Violet",
       "Blanc",
       "Indigo",
-      "Vert menthe",
-      "Bleu ciel",
+      __i18n["vert_menthe_2"],
+      __i18n["bleu_ciel_3"],
       "Or",
       "Magenta",
     ],
@@ -277,20 +278,20 @@ const SIGNES: HoroscopeSign[] = [
     nom: "Poissons",
     slug: "poissons",
     symbole: "♓",
-    dates: "19 février au 20 mars",
+    dates: __i18n["19_fevrier_au_20_mars"],
     element: "Eau",
     qualite: "intuition",
     couleurs: [
       "Turquoise",
-      "Bleu océan",
+      __i18n["bleu_ocean"],
       "Lavande",
       "Blanc",
-      "Vert d’eau",
-      "Rose pâle",
+      __i18n["vert_d_eau_2"],
+      __i18n["rose_pale"],
       "Argent",
       "Violet",
-      "Bleu nuit",
-      "Nacré",
+      __i18n["bleu_nuit_3"],
+      __i18n["nacre"],
     ],
     nombres: [12, 21, 30, 39, 48, 3, 14, 25, 36, 47],
   },
@@ -322,7 +323,7 @@ function getDateDuJour() {
       day: "numeric",
       month: "long",
       year: "numeric",
-      timeZone: "America/Toronto",
+      timeZone: __i18n["america_toronto"],
     }
   ).format(new Date());
 }
@@ -361,7 +362,7 @@ function getHoroscopeDuJour(
     new Intl.DateTimeFormat(
       "en-CA",
       {
-        timeZone: "America/Toronto",
+        timeZone: __i18n["america_toronto_2"],
       }
     ).format(new Date());
 
@@ -463,9 +464,9 @@ export async function generateMetadata({
   if (!signe) {
     return {
       title:
-        "Horoscope introuvable | Luna Astralis",
+        __i18n["horoscope_introuvable_luna_astralis"],
       description:
-        "Cet horoscope astrologique est introuvable.",
+        __i18n["cet_horoscope_astrologique_est_introuvable"],
     };
   }
 
@@ -491,7 +492,7 @@ export async function generateMetadata({
       description,
       url: canonical,
       siteName:
-        "Luna Astralis",
+        __i18n["luna_astralis"],
       locale:
         "fr_CA",
       type:
@@ -572,26 +573,18 @@ export default async function HoroscopeSignePage({
             </span>
 
             <span className="horoscope-eyebrow">
-              ✨ Mis à jour chaque jour
-            </span>
+              {__i18n["mis_a_jour_chaque_jour"]}</span>
 
             <h1>
               Horoscope{" "}
-              {signe.nom} du jour
-            </h1>
+              {signe.nom} {__i18n["du_jour"]}</h1>
 
             <p className="horoscope-date">
               {dateDuJour}
             </p>
 
             <p className="horoscope-intro">
-              Découvrez les
-              principales tendances
-              de votre journée en
-              amour, au travail,
-              dans vos finances et
-              votre bien-être.
-            </p>
+              {__i18n["decouvrez_les_principales_tendances_de_votre_journee_en_amou"]}</p>
 
             <div className="horoscope-sign-meta">
               <span>
@@ -599,7 +592,7 @@ export default async function HoroscopeSignePage({
               </span>
 
               <span>
-                Élément{" "}
+                {__i18n["element"]}{" "}
                 {signe.element}
               </span>
             </div>
@@ -620,8 +613,7 @@ export default async function HoroscopeSignePage({
 
               <div>
                 <h2>
-                  Énergie du jour
-                </h2>
+                  {__i18n["energie_du_jour"]}</h2>
 
                 <p>
                   {
@@ -704,8 +696,7 @@ export default async function HoroscopeSignePage({
 
               <div>
                 <h2>
-                  Bien-être
-                </h2>
+                  {__i18n["bien_etre"]}</h2>
 
                 <p>
                   {
@@ -722,12 +713,10 @@ export default async function HoroscopeSignePage({
         <section className="horoscope-advice-section">
           <div className="horoscope-advice-card">
             <span className="horoscope-section-kicker">
-              Conseil astrologique
-            </span>
+              {__i18n["conseil_astrologique"]}</span>
 
             <h2>
-              Votre conseil du jour
-            </h2>
+              {__i18n["votre_conseil_du_jour"]}</h2>
 
             <p>
               {horoscope.conseil}
@@ -736,8 +725,7 @@ export default async function HoroscopeSignePage({
             <div className="horoscope-lucky-grid">
               <div>
                 <span>
-                  Nombre du jour
-                </span>
+                  {__i18n["nombre_du_jour"]}</span>
 
                 <strong>
                   {horoscope.nombre}
@@ -746,8 +734,7 @@ export default async function HoroscopeSignePage({
 
               <div>
                 <span>
-                  Couleur du jour
-                </span>
+                  {__i18n["couleur_du_jour"]}</span>
 
                 <strong>
                   {horoscope.couleur}
@@ -756,8 +743,7 @@ export default async function HoroscopeSignePage({
 
               <div>
                 <span>
-                  Force à privilégier
-                </span>
+                  {__i18n["force_a_privilegier"]}</span>
 
                 <strong>
                   {signe.qualite}
@@ -772,41 +758,26 @@ export default async function HoroscopeSignePage({
         <section className="horoscope-cta-section">
           <div className="horoscope-cta">
             <span className="horoscope-cta-kicker">
-              🌌 Votre astrologie personnelle
-            </span>
+              {__i18n["votre_astrologie_personnelle"]}</span>
 
             <h2>
-              Votre horoscope
-              général n’est qu’un
-              aperçu
-            </h2>
+              {__i18n["votre_horoscope_general_n_est_qu_un_apercu"]}</h2>
 
             <p>
-              Votre carte du ciel
-              tient compte de votre
-              date, de votre heure
-              et de votre lieu de
-              naissance pour offrir
-              une lecture beaucoup
-              plus personnelle.
-            </p>
+              {__i18n["votre_carte_du_ciel_tient_compte_de_votre_date_de_votre_heur"]}</p>
 
             <div className="horoscope-cta-actions">
               <Link
                 href="/carte-du-ciel"
                 className="horoscope-primary-button"
               >
-                Créer ma carte du
-                ciel gratuite
-              </Link>
+                {__i18n["creer_ma_carte_du_ciel_gratuite"]}</Link>
 
               <Link
                 href="/compatibilite"
                 className="horoscope-secondary-button"
               >
-                Tester une
-                compatibilité
-              </Link>
+                {__i18n["tester_une_compatibilite"]}</Link>
             </div>
           </div>
         </section>
@@ -816,26 +787,13 @@ export default async function HoroscopeSignePage({
         <section className="horoscope-premium-section">
           <div className="horoscope-premium-card">
             <span className="horoscope-premium-kicker">
-              🌙 Luna Astralis
-              Premium
-            </span>
+              {__i18n["luna_astralis_premium"]}</span>
 
             <h2>
-              Découvrez votre
-              horoscope personnalisé
-            </h2>
+              {__i18n["decouvrez_votre_horoscope_personnalise"]}</h2>
 
             <p className="horoscope-premium-intro">
-              L’horoscope gratuit
-              présente les grandes
-              tendances de votre
-              signe solaire. Votre
-              horoscope Premium sera
-              calculé selon votre
-              date, votre heure et
-              votre lieu de
-              naissance.
-            </p>
+              {__i18n["l_horoscope_gratuit_presente_les_grandes_tendances_de_votre"]}</p>
 
             <div className="horoscope-premium-offers">
               <article className="horoscope-premium-offer">
@@ -848,17 +806,10 @@ export default async function HoroscopeSignePage({
 
                 <div>
                   <h3>
-                    Horoscope Premium
-                    du jour
-                  </h3>
+                    {__i18n["horoscope_premium_du_jour"]}</h3>
 
                   <p>
-                    Une lecture
-                    approfondie des
-                    énergies qui vous
-                    accompagnent
-                    aujourd’hui.
-                  </p>
+                    {__i18n["une_lecture_approfondie_des_energies_qui_vous_accompagnent_a"]}</p>
                 </div>
               </article>
 
@@ -872,18 +823,10 @@ export default async function HoroscopeSignePage({
 
                 <div>
                   <h3>
-                    Horoscope Premium
-                    du mois
-                  </h3>
+                    {__i18n["horoscope_premium_du_mois"]}</h3>
 
                   <p>
-                    Vos grandes
-                    périodes, vos
-                    opportunités et
-                    les moments à
-                    surveiller durant
-                    le mois.
-                  </p>
+                    {__i18n["vos_grandes_periodes_vos_opportunites_et_les_moments_a_surve"]}</p>
                 </div>
               </article>
 
@@ -897,18 +840,10 @@ export default async function HoroscopeSignePage({
 
                 <div>
                   <h3>
-                    Horoscope Premium
-                    de l’année
-                  </h3>
+                    {__i18n["horoscope_premium_de_l_annee"]}</h3>
 
                   <p>
-                    Une vision
-                    complète de votre
-                    année en amour,
-                    au travail, dans
-                    vos finances et
-                    votre évolution.
-                  </p>
+                    {__i18n["une_vision_complete_de_votre_annee_en_amour_au_travail_dans"]}</p>
                 </div>
               </article>
             </div>
@@ -922,9 +857,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <span>
-                  Analyse basée sur
-                  votre naissance
-                </span>
+                  {__i18n["analyse_basee_sur_votre_naissance"]}</span>
               </li>
 
               <li>
@@ -935,10 +868,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <span>
-                  Transits
-                  astrologiques
-                  personnalisés
-                </span>
+                  {__i18n["transits_astrologiques_personnalises"]}</span>
               </li>
 
               <li>
@@ -949,10 +879,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <span>
-                  Amour, travail,
-                  argent et
-                  bien-être
-                </span>
+                  {__i18n["amour_travail_argent_et_bien_etre"]}</span>
               </li>
 
               <li>
@@ -963,10 +890,7 @@ export default async function HoroscopeSignePage({
                 </span>
 
                 <span>
-                  Conseils
-                  approfondis et
-                  périodes clés
-                </span>
+                  {__i18n["conseils_approfondis_et_periodes_cles"]}</span>
               </li>
             </ul>
 
@@ -975,15 +899,10 @@ export default async function HoroscopeSignePage({
                 href="/horoscope/premium"
                 className="horoscope-premium-button"
               >
-                Découvrir
-                l’Horoscope Premium
-              </Link>
+                {__i18n["decouvrir_l_horoscope_premium"]}</Link>
 
               <p className="horoscope-premium-note">
-                Horoscope du jour,
-                du mois et de
-                l’année
-              </p>
+                {__i18n["horoscope_du_jour_du_mois_et_de_l_annee"]}</p>
             </div>
           </div>
         </section>
@@ -992,7 +911,7 @@ export default async function HoroscopeSignePage({
 
         <nav
           className="horoscope-sign-navigation"
-          aria-label="Navigation entre les horoscopes"
+          aria-label={__i18n["navigation_entre_les_horoscopes"]}
         >
           <Link
             href={`/horoscope/${signePrecedent.slug}`}
@@ -1006,8 +925,7 @@ export default async function HoroscopeSignePage({
           </Link>
 
           <Link href="/horoscope">
-            Tous les horoscopes
-          </Link>
+            {__i18n["tous_les_horoscopes"]}</Link>
 
           <Link
             href={`/horoscope/${signeSuivant.slug}`}

@@ -1,0 +1,11 @@
+{
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son": "La fecha, la hora, la ciudad y las coordenadas de nacimiento son requeridas para las dos personas.",
+  "les_images_des_deux_roues_astrologiques_sont_requises": "Las imágenes de las dos ruedas astrológicas son requeridas.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_2": "La fecha, la hora, la ciudad y las coordenadas de nacimiento son requeridas para generar el horóscopo personalizado.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_3": "La fecha, la hora, la ciudad y las coordenadas de nacimiento son requeridas para generar el horóscopo mensual personalizado.",
+  "le_mois_et_l_annee_du_rapport_sont_requis": "El mes y el año del informe son requeridos.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_4": "La fecha, la hora, la ciudad y las coordenadas de nacimiento son requeridas para generar el horóscopo anual personalizado.",
+  "l_annee_du_rapport_est_requise": "El año del informe es requerido.",
+  "la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_5": "La fecha, la hora, la ciudad y las coordenadas de nacimiento son requeridas.",
+  "le_chemin_de_l_image_de_la_roue_astrologique_est_absent": "La ruta de la imagen de la rueda astrológica está ausente."
+}

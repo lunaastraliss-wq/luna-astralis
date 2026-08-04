@@ -1,3 +1,4 @@
+import __i18n from "../../i18n/migrated/fr/app/chat/chatclient.json";
 // app/chat/ChatClient.tsx
 "use client";
 
@@ -21,60 +22,60 @@ const COOKIE_SIGN_KEY = "la_sign";
 const SIGN_QUERY_PARAM = "sign";
 
 const SIGNS: Record<string, string> = {
-  belier: "Bélier ♈",
-  taureau: "Taureau ♉",
-  gemeaux: "Gémeaux ♊",
-  cancer: "Cancer ♋",
-  lion: "Lion ♌",
-  vierge: "Vierge ♍",
-  balance: "Balance ♎",
-  scorpion: "Scorpion ♏",
-  sagittaire: "Sagittaire ♐",
-  capricorne: "Capricorne ♑",
-  verseau: "Verseau ♒",
-  poissons: "Poissons ♓",
+  belier: __i18n["belier"],
+  taureau: __i18n["taureau"],
+  gemeaux: __i18n["gemeaux"],
+  cancer: __i18n["cancer"],
+  lion: __i18n["lion"],
+  vierge: __i18n["vierge"],
+  balance: __i18n["balance"],
+  scorpion: __i18n["scorpion"],
+  sagittaire: __i18n["sagittaire"],
+  capricorne: __i18n["capricorne"],
+  verseau: __i18n["verseau"],
+  poissons: __i18n["poissons"],
 };
 
 const SIGN_DESC: Record<string, string> = {
   belier:
-    "Énergie d’action et d’élan. On explore ton impulsion, ta colère (quand elle monte), et comment canaliser ton courage sans te brûler.",
+    __i18n["energie_d_action_et_d_elan_on_explore_ton_impulsion_ta_coler"],
   taureau:
-    "Besoin de stabilité et de concret. On explore l’attachement, le plaisir, la sécurité intérieure, et comment lâcher sans perdre ton ancrage.",
+    __i18n["besoin_de_stabilite_et_de_concret_on_explore_l_attachement_l"],
   gemeaux:
-    "Mental rapide et curiosité. On explore tes pensées en boucle, ta dualité, et comment clarifier ce que tu ressens derrière ce que tu analyses.",
+    __i18n["mental_rapide_et_curiosite_on_explore_tes_pensees_en_boucle"],
   cancer:
-    "Hyper-sensibilité et protection. On explore tes besoins affectifs, tes limites, et comment te sentir en sécurité sans tout porter seul·e.",
+    __i18n["hyper_sensibilite_et_protection_on_explore_tes_besoins_affec"],
   lion:
-    "Rayonnement et fierté du cœur. On explore l’estime de soi, la reconnaissance, et comment briller sans te suradapter au regard des autres.",
+    __i18n["rayonnement_et_fierte_du_c_ur_on_explore_l_estime_de_soi_la"],
   vierge:
-    "Lucidité et exigence. On explore le contrôle, la charge mentale, et comment trouver du calme quand tu veux que tout soit “bien fait”.",
+    __i18n["lucidite_et_exigence_on_explore_le_controle_la_charge_mental"],
   balance:
-    "Équilibre et relation. On explore la peur du conflit, le besoin d’harmonie, et comment dire “non” sans culpabilité.",
+    __i18n["equilibre_et_relation_on_explore_la_peur_du_conflit_le_besoi"],
   scorpion:
-    "Intensité et transformation. On explore la confiance, la jalousie/la peur de perdre, et comment traverser une émotion sans te fermer.",
+    __i18n["intensite_et_transformation_on_explore_la_confiance_la_jalou"],
   sagittaire:
-    "Sens et liberté. On explore l’ennui, l’envie d’ailleurs, et comment rester aligné·e quand tu te sens coincé·e ou limité·e.",
+    __i18n["sens_et_liberte_on_explore_l_ennui_l_envie_d_ailleurs_et_com"],
   capricorne:
-    "Structure et responsabilité. On explore la pression, la performance, et comment te reposer sans te sentir “inutile”.",
+    __i18n["structure_et_responsabilite_on_explore_la_pression_la_perfor"],
   verseau:
-    "Indépendance et vision. On explore la distance émotionnelle, ton besoin d’espace, et comment te connecter sans te sentir envahi·e.",
+    __i18n["independance_et_vision_on_explore_la_distance_emotionnelle_t"],
   poissons:
-    "Intuition et empathie. On explore l’hypersensibilité, la fatigue émotionnelle, et comment te protéger sans t’éteindre.",
+    __i18n["intuition_et_empathie_on_explore_l_hypersensibilite_la_fatig"],
 };
 // --- DESC COURTE (mobile) ---
 const SIGN_DESC_MOBILE: Record<string, string> = {
-  belier: "Action, élan.",
-  taureau: "Stabilité, sécurité.",
-  gemeaux: "Mental, dualité.",
-  cancer: "Émotions, protection.",
-  lion: "Confiance, cœur.",
-  vierge: "Clarté, contrôle.",
-  balance: "Relation, équilibre.",
-  scorpion: "Intensité, confiance.",
-  sagittaire: "Liberté, sens.",
-  capricorne: "Pression, maîtrise.",
-  verseau: "Indépendance.",
-  poissons: "Intuition, empathie.",
+  belier: __i18n["action_elan"],
+  taureau: __i18n["stabilite_securite"],
+  gemeaux: __i18n["mental_dualite"],
+  cancer: __i18n["emotions_protection"],
+  lion: __i18n["confiance_c_ur"],
+  vierge: __i18n["clarte_controle"],
+  balance: __i18n["relation_equilibre"],
+  scorpion: __i18n["intensite_confiance"],
+  sagittaire: __i18n["liberte_sens"],
+  capricorne: __i18n["pression_maitrise"],
+  verseau: __i18n["independance"],
+  poissons: __i18n["intuition_empathie"],
 };
 
 const SIGN_BOOKS: Record<string, string> = {
@@ -585,7 +586,7 @@ setSavedRemaining(safe);
 
       const res = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": __i18n["application_json"] },
         cache: "no-store",
         body: JSON.stringify(payload),
       });
@@ -787,7 +788,7 @@ if (typeof data?.remaining === "number") {
         </div>
 
         <main className="chat-wrap" role="main" style={{ padding: 24 }}>
-          <div>Chargement…</div>
+          <div>{__i18n["chargement"]}</div>
         </main>
       </div>
     );
@@ -811,7 +812,7 @@ if (typeof data?.remaining === "number") {
         />
 
         <section className="chat-panel">
-          <div className="mobile-sign-card" aria-label="Profil du signe (mobile)">
+          <div className="mobile-sign-card" aria-label={__i18n["profil_du_signe_mobile"]}>
             <div className="msc-row">
               <img className="msc-avatar" src="/ia-luna-astralis.png" alt="Luna" loading="lazy" />
               <div className="msc-text">
@@ -839,7 +840,7 @@ if (typeof data?.remaining === "number") {
             ) : null}
           </div>
 
-          <div className="chat-actions-bar" role="navigation" aria-label="Actions du chat">
+          <div className="chat-actions-bar" role="navigation" aria-label={__i18n["actions_du_chat"]}>
             <div className="cab-left">
               <span className="cab-pill">{signName}</span>
             </div>
@@ -847,13 +848,11 @@ if (typeof data?.remaining === "number") {
             <div className="cab-right">
               {!isAuth ? (
                 <button type="button" className="btn btn-small btn-ghost" onClick={onLogin}>
-                  Se connecter
-                </button>
+                  {__i18n["se_connecter"]}</button>
               ) : null}
 
               <button type="button" className="btn btn-small btn-ghost" onClick={onChangeSign}>
-                Changer de signe
-              </button>
+                {__i18n["changer_de_signe"]}</button>
 
               <button
                 type="button"
@@ -892,72 +891,7 @@ if (typeof data?.remaining === "number") {
         nextUrl={currentPathWithQuery()}
       />
 
-      <style jsx>{`
-  .chat-actions-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px 10px;
-    margin: 10px 0 8px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.06);
-  }
-
-  .cab-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .cab-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.06);
-    opacity: 0.95;
-  }
-
-  @media (max-width: 768px) {
-  .mobile-sign-card {
-    display: none !important;
-  }
-
-  .chat-actions-bar {
-    padding: 6px !important;
-    margin: 0 0 6px !important;
-    gap: 6px;
-  }
-
-  .cab-left {
-    display: none !important;
-  }
-
-  .cab-right {
-    width: 100%;
-    justify-content: space-between !important;
-    flex-wrap: nowrap !important;
-    gap: 6px;
-  }
-
-  .cab-right .btn {
-    font-size: 12px !important;
-    padding: 8px 10px !important;
-    white-space: nowrap !important;
-  }
-
-  .cab-pill {
-    font-size: 11px;
-    padding: 4px 8px;
-  }
- }
-`}</style>
+      <style jsx>{__i18n["chat_actions_bar_display_flex_align_items_center_justify_con"]}</style>
     </div>
   );
 }

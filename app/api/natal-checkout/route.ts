@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/natal-checkout/route.json";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
 
     if (!price) {
       return NextResponse.json(
-        { error: "Plan invalide." },
+        { error: __i18n["plan_invalide"] },
         { status: 400 }
       );
     }
@@ -50,7 +51,7 @@ export async function POST(req: Request) {
     console.error("Natal checkout error:", error);
 
     return NextResponse.json(
-      { error: "Erreur lors de la création du paiement." },
+      { error: __i18n["erreur_lors_de_la_creation_du_paiement"] },
       { status: 500 }
     );
   }

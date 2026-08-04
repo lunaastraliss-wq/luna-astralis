@@ -1,0 +1,8 @@
+{
+  "belier": "Widder",
+  "belier_2": "Widder",
+  "gemeaux": "Zwillinge",
+  "gemeaux_2": "Zwillinge",
+  "supabase_url_ou_supabase_service_role_key_est_absent": "SUPABASE_URL oder SUPABASE_SERVICE_ROLE_KEY fehlt.",
+  "les_donnees_des_deux_personnes_sont_absentes": "Die Daten der beiden Personen fehlen."
+}

@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/chat/chatpanel.json";
 import React from "react";
 
 export type ThreadMsg = { role: "user" | "ai"; text: string };
@@ -13,15 +15,15 @@ export function TopBar({
 }) {
   return (
     <>
-      <a className="chat-brand" href="/" aria-label="Retour à l’accueil">
+      <a className="chat-brand" href="/" aria-label={__i18n["retour_a_l_accueil"]}>
         <img
           className="chat-logo"
           src="/logo-luna-astralis-transparent.png"
-          alt="Luna Astralis"
+          alt={__i18n["luna_astralis"]}
         />
         <div className="chat-brand-text">
-          <div className="chat-brand-name">LUNA ASTRALIS</div>
-          <div className="chat-brand-sub">Astro & psycho</div>
+          <div className="chat-brand-name">{__i18n["luna_astralis_2"]}</div>
+          <div className="chat-brand-sub">{__i18n["astro_psycho"]}</div>
         </div>
       </a>
 
@@ -31,14 +33,14 @@ export function TopBar({
             className="chat-logout"
             href="#"
             onClick={onLogout}
-            aria-label="Déconnexion"
+            aria-label={__i18n["deconnexion"]}
           >
-            <span className="hide-mobile">Déconnexion</span>
+            <span className="hide-mobile">{__i18n["deconnexion_2"]}</span>
             <span className="show-mobile">Quitter</span>
           </a>
         ) : (
-          <a className="chat-login" href="/login?next=%2Fchat" aria-label="Se connecter">
-            <span className="hide-mobile">Se connecter</span>
+          <a className="chat-login" href="/login?next=%2Fchat" aria-label={__i18n["se_connecter"]}>
+            <span className="hide-mobile">{__i18n["se_connecter_2"]}</span>
             <span className="show-mobile">Login</span>
           </a>
         )}
@@ -88,7 +90,7 @@ export default function ChatPanel(props: {
               <img
                 className="msg-avatar"
                 src="/ia-luna-astralis.png"
-                alt="Luna (IA)"
+                alt={__i18n["luna_ia"]}
               />
             ) : (
               <div className="msg-avatar-spacer" />
@@ -102,7 +104,7 @@ export default function ChatPanel(props: {
       <form className="chat-inputbar" onSubmit={onSend} autoComplete="off">
         <input
           className="chat-input"
-          placeholder="Écris ton message…"
+          placeholder={__i18n["ecris_ton_message"]}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           autoComplete="off"

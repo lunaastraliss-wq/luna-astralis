@@ -1,0 +1,21 @@
+{
+  "aw_17878472225_f8fmcmdpdy_gbekgs181c": "AW-17878472225/f8fMCMDpDy-gbEKGs181C",
+  "accueil_luna_astralis": "Startseite Luna Astralis",
+  "luna_astralis": "LUNA ASTRALIS",
+  "astro_psycho": "Astro & Psycho",
+  "se_connecter": "Einloggen",
+  "connexion_requise_pour_continuer": "Eine Anmeldung ist erforderlich, um fortzufahren.",
+  "0_0_10px_0": "0 0 10px 0",
+  "connexion_active": "Aktive Verbindung.",
+  "se_deconnecter": "Abmelden",
+  "continuer_avec_google": "Mit Google fortfahren",
+  "ex_toi_email_com": "z. B. toi@email.com",
+  "mot_de_passe": "Passwort",
+  "6_caracteres_min": "Mindestens 6 Zeichen.",
+  "se_connecter_2": "Einloggen",
+  "mot_de_passe_oublie": "Passwort vergessen?",
+  "aucun_compte_entre_un_email_un_mot_de_passe_puis_clique": "Kein Konto? Gib eine E-Mail-Adresse + ein Passwort ein und klicke",
+  "se_connecter_3": "Einloggen",
+  "pour_creer_le_compte": "um das Konto zu erstellen.",
+  "pwd_wrap_position_relative_width_100_pwd_wrap_global_auth_in": ".pwd-wrap { position: relative; width: 100%; } .pwd-wrap :global(.auth-input) { padding-right: 46px; } .pwd-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.92); cursor: pointer; display: grid; place-items: center; } .pwd-eye:disabled { opacity: 0.6; cursor: default; } .auth-msg.is-ok { background: rgba(120, 255, 190, 0.1); border-color: rgba(120, 255, 190, 0.22); } .auth-msg.is-err { background: rgba(255, 90, 90, 0.1); border-color: rgba(255, 90, 90, 0.22); } .auth-msg.is-info { background: rgba(159, 211, 255, 0.1); border-color: rgba(159, 211, 255, 0.22); }"
+}

@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/chat/chatsidebar.json";
 import React, { useMemo, useCallback } from "react";
 import { supabase } from "../../lib/supabase/client";
 
@@ -21,9 +23,9 @@ type Props = {
 };
 
 const ADMIN_EMAILS = new Set([
-  "kemaprintstudio@gmail.com",
-  "spinoz.fr@gmail.com",
-  "comptanetquebec@gmail.com",
+  __i18n["kemaprintstudio_gmail_com"],
+  __i18n["spinoz_fr_gmail_com"],
+  __i18n["comptanetquebec_gmail_com"],
 ]);
 
 function normalizeFreeLeft(v: number | null): number | null {
@@ -114,7 +116,7 @@ export default function ChatSidebar({
   const showPlanBadge = plan !== "guest";
 
   return (
-    <aside className="chat-side" aria-label="Profil IA">
+    <aside className="chat-side" aria-label={__i18n["profil_ia"]}>
       <div className="chat-side-content">
         {/* Image: desktop seulement */}
         <div className="ai-face-wrap desktop-only" aria-hidden="true">
@@ -123,7 +125,7 @@ export default function ChatSidebar({
 
         <div className="chat-side-center">
           <p className="chat-side-p">
-            <strong>Signe :</strong> {signName}
+            <strong>{__i18n["signe"]}</strong> {signName}
           </p>
 
           <p className="chat-side-muted">{signDesc}</p>
@@ -137,8 +139,7 @@ export default function ChatSidebar({
   aria-label={`Approfondir ${signName}`}
   title={`Approfondir ${signName}`}
 >
-  ✦ Livre
-</a>
+  {__i18n["livre"]}</a>
 )}
 
           {/* Badge forfait */}
@@ -151,7 +152,7 @@ export default function ChatSidebar({
 
           {showEmail && <p className="chat-side-email">{sessionEmail}</p>}
 
-          <p className="chat-side-disclaimer">Outil d’exploration personnelle</p>
+          <p className="chat-side-disclaimer">{__i18n["outil_d_exploration_personnelle"]}</p>
         </div>
       </div>
 
@@ -168,11 +169,10 @@ export default function ChatSidebar({
             type="button"
             onClick={resetApp}
             className="reset-admin-btn"
-            aria-label="Reset admin"
-            title="Reset admin"
+            aria-label={__i18n["reset_admin"]}
+            title={__i18n["reset_admin_2"]}
           >
-            reset admin
-          </button>
+            {__i18n["reset_admin_3"]}</button>
         )}
       </div>
     </aside>

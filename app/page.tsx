@@ -1,3 +1,4 @@
+import __i18n from "../i18n/migrated/fr/app/page.json";
 // app/page.tsx
 
 "use client";
@@ -144,33 +145,33 @@ type HomeText = {
 const BOOKS = [
   {
     image: "ASTRO 101.jpg",
-    title: "Astro 101",
+    title: __i18n["astro_101"],
     amazon: "https://a.co/d/05rwtdhp",
   },
   {
     image: "ASTROLOGIE ET CHIROMANCIE.png",
-    title: "Astrologie et Chiromancie",
+    title: __i18n["astrologie_et_chiromancie"],
     amazon: "https://a.co/d/03osw44E",
   },
   {
     image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
-    title: "Développement personnel",
+    title: __i18n["developpement_personnel"],
     amazon: "https://a.co/d/05mlDRXi",
   },
   {
     image:
       "Astrologie et transformation personnelle (1).jpg",
-    title: "Transformation personnelle",
+    title: __i18n["transformation_personnelle"],
     amazon: "https://a.co/d/08qzDp1D",
   },
   {
     image: "guide-de-compatibilite-astrologique.jpg",
-    title: "Guide de compatibilité astrologique",
+    title: __i18n["guide_de_compatibilite_astrologique"],
     amazon: "https://a.co/d/00V8gKyx",
   },
   {
     image: "Bélier.jpg",
-    title: "Bélier",
+    title: __i18n["belier"],
     amazon: "https://a.co/d/0h9C8bSp",
   },
   {
@@ -180,7 +181,7 @@ const BOOKS = [
   },
   {
     image: "Gémeaux.jpg",
-    title: "Gémeaux",
+    title: __i18n["gemeaux"],
     amazon: "https://a.co/d/02MIWm2d",
   },
   {
@@ -238,1383 +239,1383 @@ const BOOKS = [
 
 const HOME_TRANSLATIONS: Record<Locale, HomeText> = {
   fr: {
-    heroAria: "Présentation de Luna Astralis",
-    toolsAria: "Outils astrologiques gratuits",
-    reviewsAria: "Avis des utilisateurs",
-    fiveStarsAria: "Cinq étoiles sur cinq",
-    legalLinksAria: "Liens légaux",
+    heroAria: __i18n["presentation_de_luna_astralis"],
+    toolsAria: __i18n["outils_astrologiques_gratuits"],
+    reviewsAria: __i18n["avis_des_utilisateurs"],
+    fiveStarsAria: __i18n["cinq_etoiles_sur_cinq"],
+    legalLinksAria: __i18n["liens_legaux"],
 
-    heroBadge: "Carte du ciel · Horoscope · Compatibilité",
-    heroTitle: "Carte du ciel gratuite et compatibilité amoureuse",
+    heroBadge: __i18n["carte_du_ciel_horoscope_compatibilite"],
+    heroTitle: __i18n["carte_du_ciel_gratuite_et_compatibilite_amoureuse"],
     heroSubtitle:
-      "Découvrez gratuitement votre Soleil, votre Lune, votre Ascendant et votre alchimie amoureuse.",
+      __i18n["decouvrez_gratuitement_votre_soleil_votre_lune_votre_ascenda"],
     heroLead:
-      "Créez votre thème astral, consultez votre horoscope quotidien et comparez deux signes astrologiques en quelques secondes.",
+      __i18n["creez_votre_theme_astral_consultez_votre_horoscope_quotidien"],
 
-    dailyUpdated: "✨ Mis à jour chaque jour",
-    horoscopeTitle: "Horoscope du jour gratuit",
+    dailyUpdated: __i18n["mis_a_jour_chaque_jour"],
+    horoscopeTitle: __i18n["horoscope_du_jour_gratuit"],
     horoscopeDescription:
-      "Consultez les prévisions astrologiques de votre signe pour mieux comprendre l’énergie de votre journée.",
+      __i18n["consultez_les_previsions_astrologiques_de_votre_signe_pour_m"],
     horoscopeItems: [
-      "☀️ Énergie générale",
-      "❤️ Amour et relations",
-      "💼 Travail et projets",
-      "💰 Finances",
-      "🌿 Bien-être",
-      "✨ Conseil du jour",
+      __i18n["energie_generale"],
+      __i18n["amour_et_relations"],
+      __i18n["travail_et_projets"],
+      __i18n["finances"],
+      __i18n["bien_etre"],
+      __i18n["conseil_du_jour"],
     ],
-    horoscopeButton: "Voir mon horoscope",
+    horoscopeButton: __i18n["voir_mon_horoscope"],
 
-    birthChartTitle: "Carte du ciel gratuite",
+    birthChartTitle: __i18n["carte_du_ciel_gratuite"],
     birthChartDescription:
-      "Générez votre thème astral avec votre Soleil, votre Lune, votre Ascendant et votre roue astrologique.",
+      __i18n["generez_votre_theme_astral_avec_votre_soleil_votre_lune_votr"],
     birthChartItems: [
-      "☀️ Soleil",
-      "🌙 Lune",
-      "⬆️ Ascendant",
-      "🪐 Roue astrologique",
-      "✨ Résumé personnalisé",
+      __i18n["soleil"],
+      __i18n["lune"],
+      __i18n["ascendant"],
+      __i18n["roue_astrologique"],
+      __i18n["resume_personnalise"],
     ],
-    birthChartButton: "Créer ma carte",
+    birthChartButton: __i18n["creer_ma_carte"],
 
-    compatibilityTitle: "Compatibilité amoureuse",
+    compatibilityTitle: __i18n["compatibilite_amoureuse"],
     compatibilityDescription:
-      "Comparez deux signes astrologiques et obtenez instantanément votre score, vos forces, vos défis et des conseils pour votre relation.",
+      __i18n["comparez_deux_signes_astrologiques_et_obtenez_instantanement"],
     compatibilityItems: [
-      "❤️ Score amoureux",
-      "✨ Forces du couple",
-      "⚠️ Défis possibles",
-      "💡 Conseils relationnels",
-      "📊 Analyse instantanée",
+      __i18n["score_amoureux"],
+      __i18n["forces_du_couple"],
+      __i18n["defis_possibles"],
+      __i18n["conseils_relationnels"],
+      __i18n["analyse_instantanee"],
     ],
-    compatibilityButton: "Comparer deux signes",
+    compatibilityButton: __i18n["comparer_deux_signes"],
 
-    trustBadge: "Une astrologie accessible",
-    trustTitle: "Pourquoi choisir Luna Astralis ?",
+    trustBadge: __i18n["une_astrologie_accessible"],
+    trustTitle: __i18n["pourquoi_choisir_luna_astralis"],
     trustSubtitle:
-      "Des outils simples, personnalisés et conçus pour vous aider à mieux comprendre votre personnalité, vos relations et votre chemin.",
+      __i18n["des_outils_simples_personnalises_et_concus_pour_vous_aider_a"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Calculs astrologiques personnalisés",
+        title: __i18n["calculs_astrologiques_personnalises"],
         text:
-          "Vos résultats sont établis à partir de vos informations de naissance et adaptés à votre profil astrologique.",
+          __i18n["vos_resultats_sont_etablis_a_partir_de_vos_informations_de_n"],
       },
       {
         icon: "⚡",
-        title: "Résultats instantanés",
+        title: __i18n["resultats_instantanes"],
         text:
-          "Découvrez rapidement votre horoscope, votre carte du ciel ou votre compatibilité amoureuse.",
+          __i18n["decouvrez_rapidement_votre_horoscope_votre_carte_du_ciel_ou"],
       },
       {
         icon: "📄",
-        title: "Rapports PDF détaillés",
+        title: __i18n["rapports_pdf_detailles"],
         text:
-          "Approfondissez votre thème natal grâce à des analyses personnalisées accessibles en format PDF.",
+          __i18n["approfondissez_votre_theme_natal_grace_a_des_analyses_person"],
       },
       {
         icon: "🌍",
-        title: "Une expérience multilingue",
+        title: __i18n["une_experience_multilingue"],
         text:
-          "Explorez l’astrologie avec des explications claires et accessibles dans plusieurs langues.",
+          __i18n["explorez_l_astrologie_avec_des_explications_claires_et_acces"],
       },
     ],
 
-    reportsBadge: "Rapports astrologiques personnalisés",
-    reportsTitle: "Approfondissez votre thème natal",
+    reportsBadge: __i18n["rapports_astrologiques_personnalises"],
+    reportsTitle: __i18n["approfondissez_votre_theme_natal"],
     reportsDescription:
-      "Après avoir créé votre carte du ciel gratuitement, choisissez le niveau d’analyse qui correspond à vos besoins. Chaque rapport est personnalisé selon votre date, votre heure et votre lieu de naissance.",
+      __i18n["apres_avoir_cree_votre_carte_du_ciel_gratuitement_choisissez"],
     reports: [
       {
         name: "Essentielle",
-        price: "24,99 $ US",
-        badge: "Pour commencer",
+        price: __i18n["24_99_us"],
+        badge: __i18n["pour_commencer"],
         description:
-          "Une première lecture personnalisée de votre thème natal pour comprendre vos grandes énergies astrologiques.",
+          __i18n["une_premiere_lecture_personnalisee_de_votre_theme_natal_pour"],
         features: [
-          "Votre roue astrologique",
-          "Votre Soleil, votre Lune et votre Ascendant",
-          "Vos dix principales planètes",
-          "Vos éléments et vos modalités",
-          "Rapport PDF personnalisé",
+          __i18n["votre_roue_astrologique"],
+          __i18n["votre_soleil_votre_lune_et_votre_ascendant"],
+          __i18n["vos_dix_principales_planetes"],
+          __i18n["vos_elements_et_vos_modalites"],
+          __i18n["rapport_pdf_personnalise"],
         ],
         featured: false,
       },
       {
         name: "Premium",
-        price: "49,99 $ US",
-        badge: "Analyse approfondie",
+        price: __i18n["49_99_us"],
+        badge: __i18n["analyse_approfondie"],
         description:
-          "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
+          __i18n["une_exploration_complete_de_votre_personnalite_de_vos_maison"],
         features: [
-          "Tout le contenu de l’analyse Essentielle",
-          "Vos douze maisons astrologiques",
-          "Vos aspects planétaires",
-          "Vos dominantes astrologiques",
-          "Relations, carrière, forces et défis",
+          __i18n["tout_le_contenu_de_l_analyse_essentielle"],
+          __i18n["vos_douze_maisons_astrologiques"],
+          __i18n["vos_aspects_planetaires"],
+          __i18n["vos_dominantes_astrologiques"],
+          __i18n["relations_carriere_forces_et_defis"],
         ],
         featured: true,
       },
       {
         name: "Signature",
-        price: "79,99 $ US",
-        badge: "Le plus complet",
+        price: __i18n["79_99_us"],
+        badge: __i18n["le_plus_complet"],
         description:
-          "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
+          __i18n["l_analyse_la_plus_complete_de_votre_theme_natal_avec_vos_gra"],
         features: [
-          "Tout le contenu du rapport Premium",
-          "Mission de vie et chemin de l’âme",
-          "Monde intérieur et blocages inconscients",
-          "Talents cachés et guide d’intégration",
-          "Synthèse Signature personnalisée",
+          __i18n["tout_le_contenu_du_rapport_premium"],
+          __i18n["mission_de_vie_et_chemin_de_l_ame"],
+          __i18n["monde_interieur_et_blocages_inconscients"],
+          __i18n["talents_caches_et_guide_d_integration"],
+          __i18n["synthese_signature_personnalisee"],
         ],
         featured: false,
       },
     ],
-    recommended: "Recommandé",
+    recommended: __i18n["recommande"],
     reportPrefix: "Rapport",
-    oneTimePayment: "Paiement unique",
-    freeChartButton: "Créer ma carte gratuite",
+    oneTimePayment: __i18n["paiement_unique"],
+    freeChartButton: __i18n["creer_ma_carte_gratuite"],
     reportsNote:
-      "Commencez gratuitement. Vos offres personnalisées apparaîtront après la création de votre carte du ciel.",
-    discoverChartButton: "✨ Découvrir mon thème natal",
+      __i18n["commencez_gratuitement_vos_offres_personnalisees_apparaitron"],
+    discoverChartButton: __i18n["decouvrir_mon_theme_natal"],
 
-    talkToLuna: "✨ Parler avec Luna",
-    discoverBooks: "📚 Découvrir les livres",
+    talkToLuna: __i18n["parler_avec_luna"],
+    discoverBooks: __i18n["decouvrir_les_livres"],
     freeNote:
-      "Gratuit pour commencer · Résultat instantané · Compatible avec mobile",
+      __i18n["gratuit_pour_commencer_resultat_instantane_compatible_avec_m"],
 
     reviews: [
       {
-        sign: "♈ Bélier",
+        sign: __i18n["belier_2"],
         name: "Marie L.",
         text:
-          "Je ne comprenais plus si ce qu’il ressentait était vrai ou juste un silence. Là, j’ai enfin mis des mots sur ce que je vivais.",
+          __i18n["je_ne_comprenais_plus_si_ce_qu_il_ressentait_etait_vrai_ou_j"],
       },
       {
-        sign: "♊ Gémeaux",
+        sign: __i18n["gemeaux_2"],
         name: "Julie R.",
         text:
-          "J’attendais un message chaque jour. En quelques minutes, j’ai su si ça venait de lui ou de mes pensées.",
+          __i18n["j_attendais_un_message_chaque_jour_en_quelques_minutes_j_ai"],
       },
       {
-        sign: "♋ Cancer",
+        sign: __i18n["cancer"],
         name: "Camille D.",
         text:
-          "Il était distant et je tournais en rond. Ça m’a aidée à comprendre mes besoins et mes doutes.",
+          __i18n["il_etait_distant_et_je_tournais_en_rond_ca_m_a_aidee_a_compr"],
       },
     ],
     techNote:
-      "Fonctionne instantanément sur mobile · Aucun téléchargement nécessaire pour les outils gratuits",
-    disclaimer: "Exploration personnelle non thérapeutique.",
+      __i18n["fonctionne_instantanement_sur_mobile_aucun_telechargement_ne"],
+    disclaimer: __i18n["exploration_personnelle_non_therapeutique"],
 
     problemIntro:
-      "En quelques minutes, vous comprenez mieux ce que vous vivez et les dynamiques qui vous entourent.",
+      __i18n["en_quelques_minutes_vous_comprenez_mieux_ce_que_vous_vivez_e"],
     problems: [
-      "Il ou elle est distant(e), et vous ne comprenez pas pourquoi ?",
-      "Vous attendez un message, mais rien ne vient ?",
-      "Vous sentez que quelque chose cloche sans savoir quoi ?",
+      __i18n["il_ou_elle_est_distant_e_et_vous_ne_comprenez_pas_pourquoi"],
+      __i18n["vous_attendez_un_message_mais_rien_ne_vient"],
+      __i18n["vous_sentez_que_quelque_chose_cloche_sans_savoir_quoi"],
     ],
 
-    libraryTitle: "La bibliothèque Luna Astralis",
+    libraryTitle: __i18n["la_bibliotheque_luna_astralis"],
     librarySubtitle:
-      "Découvrez des guides astrologiques conçus pour mieux comprendre votre personnalité, vos relations et votre évolution personnelle.",
-    availableAmazon: "Disponible sur Amazon",
-    collectionTitle: "Une collection complète d’astrologie",
+      __i18n["decouvrez_des_guides_astrologiques_concus_pour_mieux_compren"],
+    availableAmazon: __i18n["disponible_sur_amazon"],
+    collectionTitle: __i18n["une_collection_complete_d_astrologie"],
     collectionDescription:
-      "Signes du zodiaque, développement personnel, compatibilité amoureuse et bien plus encore.",
-    bookCoverAlt: "Couverture du livre",
-    viewAmazon: "Voir sur Amazon",
+      __i18n["signes_du_zodiaque_developpement_personnel_compatibilite_amo"],
+    bookCoverAlt: __i18n["couverture_du_livre"],
+    viewAmazon: __i18n["voir_sur_amazon"],
     fullCollectionTitle:
-      "Découvrez toute la collection Luna Astralis",
+      __i18n["decouvrez_toute_la_collection_luna_astralis"],
     fullCollectionDescription:
-      "Retrouvez tous les guides astrologiques disponibles sur Amazon.",
-    fullCollectionButton: "✨ Voir toute la collection",
+      __i18n["retrouvez_tous_les_guides_astrologiques_disponibles_sur_amaz"],
+    fullCollectionButton: __i18n["voir_toute_la_collection"],
 
-    howTitle: "Comment ça fonctionne",
-    howSubtitle: "Quatre étapes simples pour commencer.",
+    howTitle: __i18n["comment_ca_fonctionne"],
+    howSubtitle: __i18n["quatre_etapes_simples_pour_commencer"],
     steps: [
       {
         icon: "♈",
-        title: "Choisissez votre outil",
+        title: __i18n["choisissez_votre_outil"],
         text:
-          "Horoscope, carte du ciel, compatibilité ou discussion avec Luna.",
+          __i18n["horoscope_carte_du_ciel_compatibilite_ou_discussion_avec_lun"],
       },
       {
         icon: "🌙",
-        title: "Obtenez votre résultat",
-        text: "Votre analyse apparaît en quelques secondes.",
+        title: __i18n["obtenez_votre_resultat"],
+        text: __i18n["votre_analyse_apparait_en_quelques_secondes"],
       },
       {
         icon: "✧",
-        title: "Gagnez en clarté",
+        title: __i18n["gagnez_en_clarte"],
         text:
-          "Découvrez vos forces, vos besoins, vos défis et vos dynamiques relationnelles.",
+          __i18n["decouvrez_vos_forces_vos_besoins_vos_defis_et_vos_dynamiques"],
       },
       {
         icon: "🔐",
-        title: "Allez plus loin",
+        title: __i18n["allez_plus_loin"],
         text:
-          "Choisissez l’analyse Essentielle, Premium ou Signature pour approfondir votre thème natal.",
+          __i18n["choisissez_l_analyse_essentielle_premium_ou_signature_pour_a"],
       },
     ],
 
-    rightsReserved: "Tous droits réservés",
-    legalNotices: "Mentions légales",
-    privacy: "Confidentialité",
+    rightsReserved: __i18n["tous_droits_reserves"],
+    legalNotices: __i18n["mentions_legales"],
+    privacy: __i18n["confidentialite"],
     terms: "Conditions",
     footerNote:
-      "Exploration personnelle — non thérapeutique. Réservé aux personnes âgées de 18 ans et plus.",
+      __i18n["exploration_personnelle_non_therapeutique_reserve_aux_person"],
   },
 
   en: {
-    heroAria: "Introduction to Luna Astralis",
-    toolsAria: "Free astrology tools",
-    reviewsAria: "User reviews",
-    fiveStarsAria: "Five stars out of five",
-    legalLinksAria: "Legal links",
+    heroAria: __i18n["introduction_to_luna_astralis"],
+    toolsAria: __i18n["free_astrology_tools"],
+    reviewsAria: __i18n["user_reviews"],
+    fiveStarsAria: __i18n["five_stars_out_of_five"],
+    legalLinksAria: __i18n["legal_links"],
 
-    heroBadge: "Birth Chart · Horoscope · Compatibility",
-    heroTitle: "Free Birth Chart and Love Compatibility",
+    heroBadge: __i18n["birth_chart_horoscope_compatibility"],
+    heroTitle: __i18n["free_birth_chart_and_love_compatibility"],
     heroSubtitle:
-      "Discover your Sun, Moon, Ascendant and romantic chemistry for free.",
+      __i18n["discover_your_sun_moon_ascendant_and_romantic_chemistry_for"],
     heroLead:
-      "Create your birth chart, read your daily horoscope and compare two zodiac signs in seconds.",
+      __i18n["create_your_birth_chart_read_your_daily_horoscope_and_compar"],
 
-    dailyUpdated: "✨ Updated daily",
-    horoscopeTitle: "Free Daily Horoscope",
+    dailyUpdated: __i18n["updated_daily"],
+    horoscopeTitle: __i18n["free_daily_horoscope"],
     horoscopeDescription:
-      "Read the astrological forecast for your sign and better understand the energy of your day.",
+      __i18n["read_the_astrological_forecast_for_your_sign_and_better_unde"],
     horoscopeItems: [
-      "☀️ General energy",
-      "❤️ Love and relationships",
-      "💼 Work and projects",
-      "💰 Finances",
-      "🌿 Well-being",
-      "✨ Daily guidance",
+      __i18n["general_energy"],
+      __i18n["love_and_relationships"],
+      __i18n["work_and_projects"],
+      __i18n["finances_2"],
+      __i18n["well_being"],
+      __i18n["daily_guidance"],
     ],
-    horoscopeButton: "View my horoscope",
+    horoscopeButton: __i18n["view_my_horoscope"],
 
-    birthChartTitle: "Free Birth Chart",
+    birthChartTitle: __i18n["free_birth_chart"],
     birthChartDescription:
-      "Generate your birth chart with your Sun, Moon, Ascendant and astrological wheel.",
+      __i18n["generate_your_birth_chart_with_your_sun_moon_ascendant_and_a"],
     birthChartItems: [
-      "☀️ Sun",
-      "🌙 Moon",
-      "⬆️ Ascendant",
-      "🪐 Astrological wheel",
-      "✨ Personalized summary",
+      __i18n["sun"],
+      __i18n["moon"],
+      __i18n["ascendant_2"],
+      __i18n["astrological_wheel"],
+      __i18n["personalized_summary"],
     ],
-    birthChartButton: "Create my chart",
+    birthChartButton: __i18n["create_my_chart"],
 
-    compatibilityTitle: "Love Compatibility",
+    compatibilityTitle: __i18n["love_compatibility"],
     compatibilityDescription:
-      "Compare two zodiac signs and instantly receive your score, strengths, challenges and relationship advice.",
+      __i18n["compare_two_zodiac_signs_and_instantly_receive_your_score_st"],
     compatibilityItems: [
-      "❤️ Love score",
-      "✨ Couple strengths",
-      "⚠️ Possible challenges",
-      "💡 Relationship advice",
-      "📊 Instant analysis",
+      __i18n["love_score"],
+      __i18n["couple_strengths"],
+      __i18n["possible_challenges"],
+      __i18n["relationship_advice"],
+      __i18n["instant_analysis"],
     ],
-    compatibilityButton: "Compare two signs",
+    compatibilityButton: __i18n["compare_two_signs"],
 
-    trustBadge: "Astrology made accessible",
-    trustTitle: "Why choose Luna Astralis?",
+    trustBadge: __i18n["astrology_made_accessible"],
+    trustTitle: __i18n["why_choose_luna_astralis"],
     trustSubtitle:
-      "Simple, personalized tools designed to help you better understand your personality, relationships and path.",
+      __i18n["simple_personalized_tools_designed_to_help_you_better_unders"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Personalized astrological calculations",
+        title: __i18n["personalized_astrological_calculations"],
         text:
-          "Your results are calculated from your birth information and adapted to your astrological profile.",
+          __i18n["your_results_are_calculated_from_your_birth_information_and"],
       },
       {
         icon: "⚡",
-        title: "Instant results",
+        title: __i18n["instant_results"],
         text:
-          "Quickly discover your horoscope, birth chart or love compatibility.",
+          __i18n["quickly_discover_your_horoscope_birth_chart_or_love_compatib"],
       },
       {
         icon: "📄",
-        title: "Detailed PDF reports",
+        title: __i18n["detailed_pdf_reports"],
         text:
-          "Explore your birth chart more deeply through personalized analyses available as PDF reports.",
+          __i18n["explore_your_birth_chart_more_deeply_through_personalized_an"],
       },
       {
         icon: "🌍",
-        title: "A multilingual experience",
+        title: __i18n["a_multilingual_experience"],
         text:
-          "Explore astrology with clear and accessible explanations in several languages.",
+          __i18n["explore_astrology_with_clear_and_accessible_explanations_in"],
       },
     ],
 
-    reportsBadge: "Personalized astrology reports",
-    reportsTitle: "Explore your birth chart more deeply",
+    reportsBadge: __i18n["personalized_astrology_reports"],
+    reportsTitle: __i18n["explore_your_birth_chart_more_deeply"],
     reportsDescription:
-      "After creating your free birth chart, choose the level of analysis that suits your needs. Every report is personalized using your birth date, time and location.",
+      __i18n["after_creating_your_free_birth_chart_choose_the_level_of_ana"],
     reports: [
       {
         name: "Essential",
         price: "US$24.99",
-        badge: "A great starting point",
+        badge: __i18n["a_great_starting_point"],
         description:
-          "A personalized first reading of your birth chart to understand your main astrological energies.",
+          __i18n["a_personalized_first_reading_of_your_birth_chart_to_understa"],
         features: [
-          "Your astrological wheel",
-          "Your Sun, Moon and Ascendant",
-          "Your ten main planets",
-          "Your elements and modalities",
-          "Personalized PDF report",
+          __i18n["your_astrological_wheel"],
+          __i18n["your_sun_moon_and_ascendant"],
+          __i18n["your_ten_main_planets"],
+          __i18n["your_elements_and_modalities"],
+          __i18n["personalized_pdf_report"],
         ],
         featured: false,
       },
       {
         name: "Premium",
         price: "US$49.99",
-        badge: "In-depth analysis",
+        badge: __i18n["in_depth_analysis"],
         description:
-          "A complete exploration of your personality, houses, relationships and potential.",
+          __i18n["a_complete_exploration_of_your_personality_houses_relationsh"],
         features: [
-          "Everything in the Essential analysis",
-          "Your twelve astrological houses",
-          "Your planetary aspects",
-          "Your dominant astrological influences",
-          "Relationships, career, strengths and challenges",
+          __i18n["everything_in_the_essential_analysis"],
+          __i18n["your_twelve_astrological_houses"],
+          __i18n["your_planetary_aspects"],
+          __i18n["your_dominant_astrological_influences"],
+          __i18n["relationships_career_strengths_and_challenges"],
         ],
         featured: true,
       },
       {
         name: "Signature",
         price: "US$79.99",
-        badge: "Most complete",
+        badge: __i18n["most_complete"],
         description:
-          "Our most complete birth-chart analysis, including your major life dynamics and paths of growth.",
+          __i18n["our_most_complete_birth_chart_analysis_including_your_major"],
         features: [
-          "Everything in the Premium report",
-          "Life mission and soul path",
-          "Inner world and unconscious blocks",
-          "Hidden talents and integration guide",
-          "Personalized Signature synthesis",
+          __i18n["everything_in_the_premium_report"],
+          __i18n["life_mission_and_soul_path"],
+          __i18n["inner_world_and_unconscious_blocks"],
+          __i18n["hidden_talents_and_integration_guide"],
+          __i18n["personalized_signature_synthesis"],
         ],
         featured: false,
       },
     ],
     recommended: "Recommended",
     reportPrefix: "Report",
-    oneTimePayment: "One-time payment",
-    freeChartButton: "Create my free chart",
+    oneTimePayment: __i18n["one_time_payment"],
+    freeChartButton: __i18n["create_my_free_chart"],
     reportsNote:
-      "Start for free. Your personalized offers will appear after you create your birth chart.",
-    discoverChartButton: "✨ Discover my birth chart",
+      __i18n["start_for_free_your_personalized_offers_will_appear_after_yo"],
+    discoverChartButton: __i18n["discover_my_birth_chart"],
 
-    talkToLuna: "✨ Talk with Luna",
-    discoverBooks: "📚 Discover the books",
+    talkToLuna: __i18n["talk_with_luna"],
+    discoverBooks: __i18n["discover_the_books"],
     freeNote:
-      "Free to start · Instant result · Mobile friendly",
+      __i18n["free_to_start_instant_result_mobile_friendly"],
 
     reviews: [
       {
-        sign: "♈ Aries",
+        sign: __i18n["aries"],
         name: "Marie L.",
         text:
-          "I could no longer tell whether what he felt was real or whether it was just silence. This finally helped me put words to what I was experiencing.",
+          __i18n["i_could_no_longer_tell_whether_what_he_felt_was_real_or_whet"],
       },
       {
-        sign: "♊ Gemini",
+        sign: __i18n["gemini"],
         name: "Julie R.",
         text:
-          "I waited for a message every day. Within minutes, I understood whether it came from him or from my own thoughts.",
+          __i18n["i_waited_for_a_message_every_day_within_minutes_i_understood"],
       },
       {
-        sign: "♋ Cancer",
+        sign: __i18n["cancer_2"],
         name: "Camille D.",
         text:
-          "He was distant and I kept going in circles. This helped me understand my needs and doubts.",
+          __i18n["he_was_distant_and_i_kept_going_in_circles_this_helped_me_un"],
       },
     ],
     techNote:
-      "Works instantly on mobile · No download required for free tools",
-    disclaimer: "Personal exploration — not therapy.",
+      __i18n["works_instantly_on_mobile_no_download_required_for_free_tool"],
+    disclaimer: __i18n["personal_exploration_not_therapy"],
 
     problemIntro:
-      "In just a few minutes, gain a clearer understanding of what you are experiencing and the dynamics around you.",
+      __i18n["in_just_a_few_minutes_gain_a_clearer_understanding_of_what_y"],
     problems: [
-      "They seem distant, and you do not understand why?",
-      "You are waiting for a message, but nothing arrives?",
-      "You feel that something is wrong without knowing what?",
+      __i18n["they_seem_distant_and_you_do_not_understand_why"],
+      __i18n["you_are_waiting_for_a_message_but_nothing_arrives"],
+      __i18n["you_feel_that_something_is_wrong_without_knowing_what"],
     ],
 
-    libraryTitle: "The Luna Astralis Library",
+    libraryTitle: __i18n["the_luna_astralis_library"],
     librarySubtitle:
-      "Discover astrology guides designed to help you better understand your personality, relationships and personal growth.",
-    availableAmazon: "Available on Amazon",
-    collectionTitle: "A complete astrology collection",
+      __i18n["discover_astrology_guides_designed_to_help_you_better_unders"],
+    availableAmazon: __i18n["available_on_amazon"],
+    collectionTitle: __i18n["a_complete_astrology_collection"],
     collectionDescription:
-      "Zodiac signs, personal development, love compatibility and much more.",
-    bookCoverAlt: "Book cover",
-    viewAmazon: "View on Amazon",
+      __i18n["zodiac_signs_personal_development_love_compatibility_and_muc"],
+    bookCoverAlt: __i18n["book_cover"],
+    viewAmazon: __i18n["view_on_amazon"],
     fullCollectionTitle:
-      "Discover the complete Luna Astralis collection",
+      __i18n["discover_the_complete_luna_astralis_collection"],
     fullCollectionDescription:
-      "Find all available astrology guides on Amazon.",
-    fullCollectionButton: "✨ View the complete collection",
+      __i18n["find_all_available_astrology_guides_on_amazon"],
+    fullCollectionButton: __i18n["view_the_complete_collection"],
 
-    howTitle: "How it works",
-    howSubtitle: "Four simple steps to get started.",
+    howTitle: __i18n["how_it_works"],
+    howSubtitle: __i18n["four_simple_steps_to_get_started"],
     steps: [
       {
         icon: "♈",
-        title: "Choose your tool",
+        title: __i18n["choose_your_tool"],
         text:
-          "Horoscope, birth chart, compatibility or a conversation with Luna.",
+          __i18n["horoscope_birth_chart_compatibility_or_a_conversation_with_l"],
       },
       {
         icon: "🌙",
-        title: "Get your result",
-        text: "Your analysis appears in just a few seconds.",
+        title: __i18n["get_your_result"],
+        text: __i18n["your_analysis_appears_in_just_a_few_seconds"],
       },
       {
         icon: "✧",
-        title: "Gain clarity",
+        title: __i18n["gain_clarity"],
         text:
-          "Discover your strengths, needs, challenges and relationship dynamics.",
+          __i18n["discover_your_strengths_needs_challenges_and_relationship_dy"],
       },
       {
         icon: "🔐",
-        title: "Go further",
+        title: __i18n["go_further"],
         text:
-          "Choose the Essential, Premium or Signature analysis to explore your birth chart more deeply.",
+          __i18n["choose_the_essential_premium_or_signature_analysis_to_explor"],
       },
     ],
 
-    rightsReserved: "All rights reserved",
-    legalNotices: "Legal notice",
+    rightsReserved: __i18n["all_rights_reserved"],
+    legalNotices: __i18n["legal_notice"],
     privacy: "Privacy",
     terms: "Terms",
     footerNote:
-      "Personal exploration — not therapy. For adults aged 18 and over.",
+      __i18n["personal_exploration_not_therapy_for_adults_aged_18_and_over"],
   },
 
   es: {
-    heroAria: "Presentación de Luna Astralis",
-    toolsAria: "Herramientas astrológicas gratuitas",
-    reviewsAria: "Opiniones de usuarios",
-    fiveStarsAria: "Cinco estrellas de cinco",
-    legalLinksAria: "Enlaces legales",
+    heroAria: __i18n["presentacion_de_luna_astralis"],
+    toolsAria: __i18n["herramientas_astrologicas_gratuitas"],
+    reviewsAria: __i18n["opiniones_de_usuarios"],
+    fiveStarsAria: __i18n["cinco_estrellas_de_cinco"],
+    legalLinksAria: __i18n["enlaces_legales"],
 
-    heroBadge: "Carta natal · Horóscopo · Compatibilidad",
-    heroTitle: "Carta natal gratis y compatibilidad amorosa",
+    heroBadge: __i18n["carta_natal_horoscopo_compatibilidad"],
+    heroTitle: __i18n["carta_natal_gratis_y_compatibilidad_amorosa"],
     heroSubtitle:
-      "Descubre gratis tu Sol, tu Luna, tu Ascendente y tu química amorosa.",
+      __i18n["descubre_gratis_tu_sol_tu_luna_tu_ascendente_y_tu_quimica_am"],
     heroLead:
-      "Crea tu carta natal, consulta tu horóscopo diario y compara dos signos del zodiaco en pocos segundos.",
+      __i18n["crea_tu_carta_natal_consulta_tu_horoscopo_diario_y_compara_d"],
 
-    dailyUpdated: "✨ Actualizado cada día",
-    horoscopeTitle: "Horóscopo diario gratis",
+    dailyUpdated: __i18n["actualizado_cada_dia"],
+    horoscopeTitle: __i18n["horoscopo_diario_gratis"],
     horoscopeDescription:
-      "Consulta las previsiones astrológicas de tu signo para comprender mejor la energía de tu día.",
+      __i18n["consulta_las_previsiones_astrologicas_de_tu_signo_para_compr"],
     horoscopeItems: [
-      "☀️ Energía general",
-      "❤️ Amor y relaciones",
-      "💼 Trabajo y proyectos",
-      "💰 Finanzas",
-      "🌿 Bienestar",
-      "✨ Consejo del día",
+      __i18n["energia_general"],
+      __i18n["amor_y_relaciones"],
+      __i18n["trabajo_y_proyectos"],
+      __i18n["finanzas"],
+      __i18n["bienestar"],
+      __i18n["consejo_del_dia"],
     ],
-    horoscopeButton: "Ver mi horóscopo",
+    horoscopeButton: __i18n["ver_mi_horoscopo"],
 
-    birthChartTitle: "Carta natal gratis",
+    birthChartTitle: __i18n["carta_natal_gratis"],
     birthChartDescription:
-      "Genera tu carta natal con tu Sol, tu Luna, tu Ascendente y tu rueda astrológica.",
+      __i18n["genera_tu_carta_natal_con_tu_sol_tu_luna_tu_ascendente_y_tu"],
     birthChartItems: [
-      "☀️ Sol",
-      "🌙 Luna",
-      "⬆️ Ascendente",
-      "🪐 Rueda astrológica",
-      "✨ Resumen personalizado",
+      __i18n["sol"],
+      __i18n["luna"],
+      __i18n["ascendente"],
+      __i18n["rueda_astrologica"],
+      __i18n["resumen_personalizado"],
     ],
-    birthChartButton: "Crear mi carta",
+    birthChartButton: __i18n["crear_mi_carta"],
 
-    compatibilityTitle: "Compatibilidad amorosa",
+    compatibilityTitle: __i18n["compatibilidad_amorosa"],
     compatibilityDescription:
-      "Compara dos signos del zodiaco y obtén al instante tu puntuación, fortalezas, desafíos y consejos para la relación.",
+      __i18n["compara_dos_signos_del_zodiaco_y_obten_al_instante_tu_puntua"],
     compatibilityItems: [
-      "❤️ Puntuación amorosa",
-      "✨ Fortalezas de la pareja",
-      "⚠️ Posibles desafíos",
-      "💡 Consejos de pareja",
-      "📊 Análisis instantáneo",
+      __i18n["puntuacion_amorosa"],
+      __i18n["fortalezas_de_la_pareja"],
+      __i18n["posibles_desafios"],
+      __i18n["consejos_de_pareja"],
+      __i18n["analisis_instantaneo"],
     ],
-    compatibilityButton: "Comparar dos signos",
+    compatibilityButton: __i18n["comparar_dos_signos"],
 
-    trustBadge: "Astrología accesible",
-    trustTitle: "¿Por qué elegir Luna Astralis?",
+    trustBadge: __i18n["astrologia_accesible"],
+    trustTitle: __i18n["por_que_elegir_luna_astralis"],
     trustSubtitle:
-      "Herramientas sencillas y personalizadas para ayudarte a comprender mejor tu personalidad, tus relaciones y tu camino.",
+      __i18n["herramientas_sencillas_y_personalizadas_para_ayudarte_a_comp"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Cálculos astrológicos personalizados",
+        title: __i18n["calculos_astrologicos_personalizados"],
         text:
-          "Tus resultados se calculan a partir de tus datos de nacimiento y se adaptan a tu perfil astrológico.",
+          __i18n["tus_resultados_se_calculan_a_partir_de_tus_datos_de_nacimien"],
       },
       {
         icon: "⚡",
-        title: "Resultados instantáneos",
+        title: __i18n["resultados_instantaneos"],
         text:
-          "Descubre rápidamente tu horóscopo, tu carta natal o tu compatibilidad amorosa.",
+          __i18n["descubre_rapidamente_tu_horoscopo_tu_carta_natal_o_tu_compat"],
       },
       {
         icon: "📄",
-        title: "Informes PDF detallados",
+        title: __i18n["informes_pdf_detallados"],
         text:
-          "Profundiza en tu carta natal con análisis personalizados disponibles en formato PDF.",
+          __i18n["profundiza_en_tu_carta_natal_con_analisis_personalizados_dis"],
       },
       {
         icon: "🌍",
-        title: "Una experiencia multilingüe",
+        title: __i18n["una_experiencia_multilingue"],
         text:
-          "Explora la astrología con explicaciones claras y accesibles en varios idiomas.",
+          __i18n["explora_la_astrologia_con_explicaciones_claras_y_accesibles"],
       },
     ],
 
-    reportsBadge: "Informes astrológicos personalizados",
-    reportsTitle: "Profundiza en tu carta natal",
+    reportsBadge: __i18n["informes_astrologicos_personalizados"],
+    reportsTitle: __i18n["profundiza_en_tu_carta_natal"],
     reportsDescription:
-      "Después de crear gratis tu carta natal, elige el nivel de análisis que mejor se adapte a tus necesidades. Cada informe se personaliza según tu fecha, hora y lugar de nacimiento.",
+      __i18n["despues_de_crear_gratis_tu_carta_natal_elige_el_nivel_de_ana"],
     reports: [
       {
         name: "Esencial",
-        price: "24,99 US$",
-        badge: "Para comenzar",
+        price: __i18n["24_99_us_2"],
+        badge: __i18n["para_comenzar"],
         description:
-          "Una primera lectura personalizada de tu carta natal para comprender tus principales energías astrológicas.",
+          __i18n["una_primera_lectura_personalizada_de_tu_carta_natal_para_com"],
         features: [
-          "Tu rueda astrológica",
-          "Tu Sol, tu Luna y tu Ascendente",
-          "Tus diez planetas principales",
-          "Tus elementos y modalidades",
-          "Informe PDF personalizado",
+          __i18n["tu_rueda_astrologica"],
+          __i18n["tu_sol_tu_luna_y_tu_ascendente"],
+          __i18n["tus_diez_planetas_principales"],
+          __i18n["tus_elementos_y_modalidades"],
+          __i18n["informe_pdf_personalizado"],
         ],
         featured: false,
       },
       {
         name: "Premium",
-        price: "49,99 US$",
-        badge: "Análisis profundo",
+        price: __i18n["49_99_us_2"],
+        badge: __i18n["analisis_profundo"],
         description:
-          "Una exploración completa de tu personalidad, tus casas, tus relaciones y tu potencial.",
+          __i18n["una_exploracion_completa_de_tu_personalidad_tus_casas_tus_re"],
         features: [
-          "Todo el contenido del análisis Esencial",
-          "Tus doce casas astrológicas",
-          "Tus aspectos planetarios",
-          "Tus influencias dominantes",
-          "Relaciones, carrera, fortalezas y desafíos",
+          __i18n["todo_el_contenido_del_analisis_esencial"],
+          __i18n["tus_doce_casas_astrologicas"],
+          __i18n["tus_aspectos_planetarios"],
+          __i18n["tus_influencias_dominantes"],
+          __i18n["relaciones_carrera_fortalezas_y_desafios"],
         ],
         featured: true,
       },
       {
         name: "Signature",
-        price: "79,99 US$",
-        badge: "El más completo",
+        price: __i18n["79_99_us_2"],
+        badge: __i18n["el_mas_completo"],
         description:
-          "El análisis más completo de tu carta natal, con tus grandes dinámicas de vida y tus caminos de evolución.",
+          __i18n["el_analisis_mas_completo_de_tu_carta_natal_con_tus_grandes_d"],
         features: [
-          "Todo el contenido del informe Premium",
-          "Misión de vida y camino del alma",
-          "Mundo interior y bloqueos inconscientes",
-          "Talentos ocultos y guía de integración",
-          "Síntesis Signature personalizada",
+          __i18n["todo_el_contenido_del_informe_premium"],
+          __i18n["mision_de_vida_y_camino_del_alma"],
+          __i18n["mundo_interior_y_bloqueos_inconscientes"],
+          __i18n["talentos_ocultos_y_guia_de_integracion"],
+          __i18n["sintesis_signature_personalizada"],
         ],
         featured: false,
       },
     ],
     recommended: "Recomendado",
     reportPrefix: "Informe",
-    oneTimePayment: "Pago único",
-    freeChartButton: "Crear mi carta gratis",
+    oneTimePayment: __i18n["pago_unico"],
+    freeChartButton: __i18n["crear_mi_carta_gratis"],
     reportsNote:
-      "Comienza gratis. Tus ofertas personalizadas aparecerán después de crear tu carta natal.",
-    discoverChartButton: "✨ Descubrir mi carta natal",
+      __i18n["comienza_gratis_tus_ofertas_personalizadas_apareceran_despue"],
+    discoverChartButton: __i18n["descubrir_mi_carta_natal"],
 
-    talkToLuna: "✨ Hablar con Luna",
-    discoverBooks: "📚 Descubrir los libros",
+    talkToLuna: __i18n["hablar_con_luna"],
+    discoverBooks: __i18n["descubrir_los_libros"],
     freeNote:
-      "Gratis para comenzar · Resultado instantáneo · Compatible con móvil",
+      __i18n["gratis_para_comenzar_resultado_instantaneo_compatible_con_mo"],
 
     reviews: [
       {
-        sign: "♈ Aries",
+        sign: __i18n["aries_2"],
         name: "Marie L.",
         text:
-          "Ya no sabía si lo que sentía era real o si solo era silencio. Por fin pude poner palabras a lo que estaba viviendo.",
+          __i18n["ya_no_sabia_si_lo_que_sentia_era_real_o_si_solo_era_silencio"],
       },
       {
-        sign: "♊ Géminis",
+        sign: __i18n["geminis"],
         name: "Julie R.",
         text:
-          "Esperaba un mensaje cada día. En pocos minutos comprendí si venía de él o de mis propios pensamientos.",
+          __i18n["esperaba_un_mensaje_cada_dia_en_pocos_minutos_comprendi_si_v"],
       },
       {
-        sign: "♋ Cáncer",
+        sign: __i18n["cancer_3"],
         name: "Camille D.",
         text:
-          "Estaba distante y yo daba vueltas sin parar. Esto me ayudó a comprender mis necesidades y mis dudas.",
+          __i18n["estaba_distante_y_yo_daba_vueltas_sin_parar_esto_me_ayudo_a"],
       },
     ],
     techNote:
-      "Funciona al instante en móvil · No es necesario descargar nada para usar las herramientas gratuitas",
-    disclaimer: "Exploración personal — no terapéutica.",
+      __i18n["funciona_al_instante_en_movil_no_es_necesario_descargar_nada"],
+    disclaimer: __i18n["exploracion_personal_no_terapeutica"],
 
     problemIntro:
-      "En pocos minutos, comprendes mejor lo que estás viviendo y las dinámicas que te rodean.",
+      __i18n["en_pocos_minutos_comprendes_mejor_lo_que_estas_viviendo_y_la"],
     problems: [
-      "¿Está distante y no entiendes por qué?",
-      "¿Esperas un mensaje, pero no llega nada?",
-      "¿Sientes que algo no está bien sin saber qué?",
+      __i18n["esta_distante_y_no_entiendes_por_que"],
+      __i18n["esperas_un_mensaje_pero_no_llega_nada"],
+      __i18n["sientes_que_algo_no_esta_bien_sin_saber_que"],
     ],
 
-    libraryTitle: "La biblioteca Luna Astralis",
+    libraryTitle: __i18n["la_biblioteca_luna_astralis"],
     librarySubtitle:
-      "Descubre guías astrológicas creadas para comprender mejor tu personalidad, tus relaciones y tu evolución personal.",
-    availableAmazon: "Disponible en Amazon",
-    collectionTitle: "Una colección completa de astrología",
+      __i18n["descubre_guias_astrologicas_creadas_para_comprender_mejor_tu"],
+    availableAmazon: __i18n["disponible_en_amazon"],
+    collectionTitle: __i18n["una_coleccion_completa_de_astrologia"],
     collectionDescription:
-      "Signos del zodiaco, desarrollo personal, compatibilidad amorosa y mucho más.",
-    bookCoverAlt: "Portada del libro",
-    viewAmazon: "Ver en Amazon",
+      __i18n["signos_del_zodiaco_desarrollo_personal_compatibilidad_amoros"],
+    bookCoverAlt: __i18n["portada_del_libro"],
+    viewAmazon: __i18n["ver_en_amazon"],
     fullCollectionTitle:
-      "Descubre toda la colección Luna Astralis",
+      __i18n["descubre_toda_la_coleccion_luna_astralis"],
     fullCollectionDescription:
-      "Encuentra todas las guías astrológicas disponibles en Amazon.",
-    fullCollectionButton: "✨ Ver toda la colección",
+      __i18n["encuentra_todas_las_guias_astrologicas_disponibles_en_amazon"],
+    fullCollectionButton: __i18n["ver_toda_la_coleccion"],
 
-    howTitle: "Cómo funciona",
-    howSubtitle: "Cuatro pasos sencillos para comenzar.",
+    howTitle: __i18n["como_funciona"],
+    howSubtitle: __i18n["cuatro_pasos_sencillos_para_comenzar"],
     steps: [
       {
         icon: "♈",
-        title: "Elige tu herramienta",
+        title: __i18n["elige_tu_herramienta"],
         text:
-          "Horóscopo, carta natal, compatibilidad o conversación con Luna.",
+          __i18n["horoscopo_carta_natal_compatibilidad_o_conversacion_con_luna"],
       },
       {
         icon: "🌙",
-        title: "Obtén tu resultado",
-        text: "Tu análisis aparece en pocos segundos.",
+        title: __i18n["obten_tu_resultado"],
+        text: __i18n["tu_analisis_aparece_en_pocos_segundos"],
       },
       {
         icon: "✧",
-        title: "Gana claridad",
+        title: __i18n["gana_claridad"],
         text:
-          "Descubre tus fortalezas, necesidades, desafíos y dinámicas de relación.",
+          __i18n["descubre_tus_fortalezas_necesidades_desafios_y_dinamicas_de"],
       },
       {
         icon: "🔐",
-        title: "Ve más lejos",
+        title: __i18n["ve_mas_lejos"],
         text:
-          "Elige el análisis Esencial, Premium o Signature para profundizar en tu carta natal.",
+          __i18n["elige_el_analisis_esencial_premium_o_signature_para_profundi"],
       },
     ],
 
-    rightsReserved: "Todos los derechos reservados",
-    legalNotices: "Aviso legal",
+    rightsReserved: __i18n["todos_los_derechos_reservados"],
+    legalNotices: __i18n["aviso_legal"],
     privacy: "Privacidad",
     terms: "Condiciones",
     footerNote:
-      "Exploración personal — no terapéutica. Reservado para mayores de 18 años.",
+      __i18n["exploracion_personal_no_terapeutica_reservado_para_mayores_d"],
   },
 
   de: {
-    heroAria: "Vorstellung von Luna Astralis",
-    toolsAria: "Kostenlose Astrologie-Tools",
+    heroAria: __i18n["vorstellung_von_luna_astralis"],
+    toolsAria: __i18n["kostenlose_astrologie_tools"],
     reviewsAria: "Nutzerbewertungen",
-    fiveStarsAria: "Fünf von fünf Sternen",
-    legalLinksAria: "Rechtliche Links",
+    fiveStarsAria: __i18n["funf_von_funf_sternen"],
+    legalLinksAria: __i18n["rechtliche_links"],
 
-    heroBadge: "Geburtshoroskop · Horoskop · Kompatibilität",
-    heroTitle: "Kostenloses Geburtshoroskop und Liebeskompatibilität",
+    heroBadge: __i18n["geburtshoroskop_horoskop_kompatibilitat"],
+    heroTitle: __i18n["kostenloses_geburtshoroskop_und_liebeskompatibilitat"],
     heroSubtitle:
-      "Entdecken Sie kostenlos Ihre Sonne, Ihren Mond, Ihren Aszendenten und Ihre romantische Chemie.",
+      __i18n["entdecken_sie_kostenlos_ihre_sonne_ihren_mond_ihren_aszenden"],
     heroLead:
-      "Erstellen Sie Ihr Geburtshoroskop, lesen Sie Ihr Tageshoroskop und vergleichen Sie zwei Tierkreiszeichen in wenigen Sekunden.",
+      __i18n["erstellen_sie_ihr_geburtshoroskop_lesen_sie_ihr_tageshorosko"],
 
-    dailyUpdated: "✨ Täglich aktualisiert",
-    horoscopeTitle: "Kostenloses Tageshoroskop",
+    dailyUpdated: __i18n["taglich_aktualisiert"],
+    horoscopeTitle: __i18n["kostenloses_tageshoroskop"],
     horoscopeDescription:
-      "Lesen Sie die astrologische Prognose für Ihr Zeichen und verstehen Sie die Energie Ihres Tages besser.",
+      __i18n["lesen_sie_die_astrologische_prognose_fur_ihr_zeichen_und_ver"],
     horoscopeItems: [
-      "☀️ Allgemeine Energie",
-      "❤️ Liebe und Beziehungen",
-      "💼 Arbeit und Projekte",
-      "💰 Finanzen",
-      "🌿 Wohlbefinden",
-      "✨ Rat des Tages",
+      __i18n["allgemeine_energie"],
+      __i18n["liebe_und_beziehungen"],
+      __i18n["arbeit_und_projekte"],
+      __i18n["finanzen"],
+      __i18n["wohlbefinden"],
+      __i18n["rat_des_tages"],
     ],
-    horoscopeButton: "Mein Horoskop ansehen",
+    horoscopeButton: __i18n["mein_horoskop_ansehen"],
 
-    birthChartTitle: "Kostenloses Geburtshoroskop",
+    birthChartTitle: __i18n["kostenloses_geburtshoroskop"],
     birthChartDescription:
-      "Erstellen Sie Ihr Geburtshoroskop mit Sonne, Mond, Aszendent und astrologischem Rad.",
+      __i18n["erstellen_sie_ihr_geburtshoroskop_mit_sonne_mond_aszendent_u"],
     birthChartItems: [
-      "☀️ Sonne",
-      "🌙 Mond",
-      "⬆️ Aszendent",
-      "🪐 Astrologisches Rad",
-      "✨ Persönliche Zusammenfassung",
+      __i18n["sonne"],
+      __i18n["mond"],
+      __i18n["aszendent"],
+      __i18n["astrologisches_rad"],
+      __i18n["personliche_zusammenfassung"],
     ],
-    birthChartButton: "Mein Horoskop erstellen",
+    birthChartButton: __i18n["mein_horoskop_erstellen"],
 
-    compatibilityTitle: "Liebeskompatibilität",
+    compatibilityTitle: __i18n["liebeskompatibilitat"],
     compatibilityDescription:
-      "Vergleichen Sie zwei Tierkreiszeichen und erhalten Sie sofort Ihre Punktzahl, Stärken, Herausforderungen und Beziehungstipps.",
+      __i18n["vergleichen_sie_zwei_tierkreiszeichen_und_erhalten_sie_sofor"],
     compatibilityItems: [
-      "❤️ Liebeswert",
-      "✨ Stärken des Paares",
-      "⚠️ Mögliche Herausforderungen",
-      "💡 Beziehungstipps",
-      "📊 Sofortanalyse",
+      __i18n["liebeswert"],
+      __i18n["starken_des_paares"],
+      __i18n["mogliche_herausforderungen"],
+      __i18n["beziehungstipps"],
+      __i18n["sofortanalyse"],
     ],
-    compatibilityButton: "Zwei Zeichen vergleichen",
+    compatibilityButton: __i18n["zwei_zeichen_vergleichen"],
 
-    trustBadge: "Astrologie leicht zugänglich",
-    trustTitle: "Warum Luna Astralis wählen?",
+    trustBadge: __i18n["astrologie_leicht_zuganglich"],
+    trustTitle: __i18n["warum_luna_astralis_wahlen"],
     trustSubtitle:
-      "Einfache, personalisierte Werkzeuge, die Ihnen helfen, Ihre Persönlichkeit, Beziehungen und Ihren Weg besser zu verstehen.",
+      __i18n["einfache_personalisierte_werkzeuge_die_ihnen_helfen_ihre_per"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Personalisierte astrologische Berechnungen",
+        title: __i18n["personalisierte_astrologische_berechnungen"],
         text:
-          "Ihre Ergebnisse werden aus Ihren Geburtsdaten berechnet und an Ihr astrologisches Profil angepasst.",
+          __i18n["ihre_ergebnisse_werden_aus_ihren_geburtsdaten_berechnet_und"],
       },
       {
         icon: "⚡",
-        title: "Sofortige Ergebnisse",
+        title: __i18n["sofortige_ergebnisse"],
         text:
-          "Entdecken Sie schnell Ihr Horoskop, Geburtshoroskop oder Ihre Liebeskompatibilität.",
+          __i18n["entdecken_sie_schnell_ihr_horoskop_geburtshoroskop_oder_ihre"],
       },
       {
         icon: "📄",
-        title: "Detaillierte PDF-Berichte",
+        title: __i18n["detaillierte_pdf_berichte"],
         text:
-          "Vertiefen Sie Ihr Geburtshoroskop mit personalisierten Analysen im PDF-Format.",
+          __i18n["vertiefen_sie_ihr_geburtshoroskop_mit_personalisierten_analy"],
       },
       {
         icon: "🌍",
-        title: "Mehrsprachiges Erlebnis",
+        title: __i18n["mehrsprachiges_erlebnis"],
         text:
-          "Entdecken Sie Astrologie mit klaren und verständlichen Erklärungen in mehreren Sprachen.",
+          __i18n["entdecken_sie_astrologie_mit_klaren_und_verstandlichen_erkla"],
       },
     ],
 
-    reportsBadge: "Personalisierte Astrologie-Berichte",
-    reportsTitle: "Vertiefen Sie Ihr Geburtshoroskop",
+    reportsBadge: __i18n["personalisierte_astrologie_berichte"],
+    reportsTitle: __i18n["vertiefen_sie_ihr_geburtshoroskop"],
     reportsDescription:
-      "Nachdem Sie Ihr kostenloses Geburtshoroskop erstellt haben, wählen Sie die Analyse, die zu Ihren Bedürfnissen passt. Jeder Bericht wird anhand Ihres Geburtsdatums, Ihrer Uhrzeit und Ihres Geburtsortes personalisiert.",
+      __i18n["nachdem_sie_ihr_kostenloses_geburtshoroskop_erstellt_haben_w"],
     reports: [
       {
         name: "Essential",
-        price: "24,99 US$",
-        badge: "Zum Einstieg",
+        price: __i18n["24_99_us_3"],
+        badge: __i18n["zum_einstieg"],
         description:
-          "Eine erste persönliche Deutung Ihres Geburtshoroskops, um Ihre wichtigsten astrologischen Energien zu verstehen.",
+          __i18n["eine_erste_personliche_deutung_ihres_geburtshoroskops_um_ihr"],
         features: [
-          "Ihr astrologisches Rad",
-          "Ihre Sonne, Ihr Mond und Ihr Aszendent",
-          "Ihre zehn wichtigsten Planeten",
-          "Ihre Elemente und Modalitäten",
-          "Personalisierter PDF-Bericht",
+          __i18n["ihr_astrologisches_rad"],
+          __i18n["ihre_sonne_ihr_mond_und_ihr_aszendent"],
+          __i18n["ihre_zehn_wichtigsten_planeten"],
+          __i18n["ihre_elemente_und_modalitaten"],
+          __i18n["personalisierter_pdf_bericht"],
         ],
         featured: false,
       },
       {
         name: "Premium",
-        price: "49,99 US$",
-        badge: "Ausführliche Analyse",
+        price: __i18n["49_99_us_3"],
+        badge: __i18n["ausfuhrliche_analyse"],
         description:
-          "Eine umfassende Erkundung Ihrer Persönlichkeit, Häuser, Beziehungen und Ihres Potenzials.",
+          __i18n["eine_umfassende_erkundung_ihrer_personlichkeit_hauser_bezieh"],
         features: [
-          "Alle Inhalte der Essential-Analyse",
-          "Ihre zwölf astrologischen Häuser",
-          "Ihre planetaren Aspekte",
-          "Ihre dominanten astrologischen Einflüsse",
-          "Beziehungen, Karriere, Stärken und Herausforderungen",
+          __i18n["alle_inhalte_der_essential_analyse"],
+          __i18n["ihre_zwolf_astrologischen_hauser"],
+          __i18n["ihre_planetaren_aspekte"],
+          __i18n["ihre_dominanten_astrologischen_einflusse"],
+          __i18n["beziehungen_karriere_starken_und_herausforderungen"],
         ],
         featured: true,
       },
       {
         name: "Signature",
-        price: "79,99 US$",
-        badge: "Am umfassendsten",
+        price: __i18n["79_99_us_3"],
+        badge: __i18n["am_umfassendsten"],
         description:
-          "Die umfassendste Analyse Ihres Geburtshoroskops mit Ihren großen Lebensdynamiken und Entwicklungspfaden.",
+          __i18n["die_umfassendste_analyse_ihres_geburtshoroskops_mit_ihren_gr"],
         features: [
-          "Alle Inhalte des Premium-Berichts",
-          "Lebensaufgabe und Seelenweg",
-          "Innere Welt und unbewusste Blockaden",
-          "Verborgene Talente und Integrationsleitfaden",
-          "Personalisierte Signature-Synthese",
+          __i18n["alle_inhalte_des_premium_berichts"],
+          __i18n["lebensaufgabe_und_seelenweg"],
+          __i18n["innere_welt_und_unbewusste_blockaden"],
+          __i18n["verborgene_talente_und_integrationsleitfaden"],
+          __i18n["personalisierte_signature_synthese"],
         ],
         featured: false,
       },
     ],
     recommended: "Empfohlen",
     reportPrefix: "Bericht",
-    oneTimePayment: "Einmalige Zahlung",
-    freeChartButton: "Kostenloses Horoskop erstellen",
+    oneTimePayment: __i18n["einmalige_zahlung"],
+    freeChartButton: __i18n["kostenloses_horoskop_erstellen"],
     reportsNote:
-      "Starten Sie kostenlos. Ihre personalisierten Angebote erscheinen nach der Erstellung Ihres Geburtshoroskops.",
-    discoverChartButton: "✨ Mein Geburtshoroskop entdecken",
+      __i18n["starten_sie_kostenlos_ihre_personalisierten_angebote_erschei"],
+    discoverChartButton: __i18n["mein_geburtshoroskop_entdecken"],
 
-    talkToLuna: "✨ Mit Luna sprechen",
-    discoverBooks: "📚 Bücher entdecken",
+    talkToLuna: __i18n["mit_luna_sprechen"],
+    discoverBooks: __i18n["bucher_entdecken"],
     freeNote:
-      "Kostenlos starten · Sofortiges Ergebnis · Mobilfreundlich",
+      __i18n["kostenlos_starten_sofortiges_ergebnis_mobilfreundlich"],
 
     reviews: [
       {
-        sign: "♈ Widder",
+        sign: __i18n["widder"],
         name: "Marie L.",
         text:
-          "Ich wusste nicht mehr, ob seine Gefühle echt waren oder ob nur Schweigen blieb. Endlich konnte ich ausdrücken, was ich erlebte.",
+          __i18n["ich_wusste_nicht_mehr_ob_seine_gefuhle_echt_waren_oder_ob_nu"],
       },
       {
-        sign: "♊ Zwillinge",
+        sign: __i18n["zwillinge"],
         name: "Julie R.",
         text:
-          "Ich wartete jeden Tag auf eine Nachricht. Nach wenigen Minuten verstand ich, ob es von ihm oder von meinen eigenen Gedanken kam.",
+          __i18n["ich_wartete_jeden_tag_auf_eine_nachricht_nach_wenigen_minute"],
       },
       {
-        sign: "♋ Krebs",
+        sign: __i18n["krebs"],
         name: "Camille D.",
         text:
-          "Er war distanziert und ich drehte mich im Kreis. Das half mir, meine Bedürfnisse und Zweifel besser zu verstehen.",
+          __i18n["er_war_distanziert_und_ich_drehte_mich_im_kreis_das_half_mir"],
       },
     ],
     techNote:
-      "Funktioniert sofort auf Mobilgeräten · Für kostenlose Tools ist kein Download erforderlich",
-    disclaimer: "Persönliche Erkundung — keine Therapie.",
+      __i18n["funktioniert_sofort_auf_mobilgeraten_fur_kostenlose_tools_is"],
+    disclaimer: __i18n["personliche_erkundung_keine_therapie"],
 
     problemIntro:
-      "In wenigen Minuten verstehen Sie besser, was Sie erleben und welche Dynamiken Sie umgeben.",
+      __i18n["in_wenigen_minuten_verstehen_sie_besser_was_sie_erleben_und"],
     problems: [
-      "Die Person wirkt distanziert und Sie verstehen nicht warum?",
-      "Sie warten auf eine Nachricht, aber es kommt nichts?",
-      "Sie spüren, dass etwas nicht stimmt, wissen aber nicht was?",
+      __i18n["die_person_wirkt_distanziert_und_sie_verstehen_nicht_warum"],
+      __i18n["sie_warten_auf_eine_nachricht_aber_es_kommt_nichts"],
+      __i18n["sie_spuren_dass_etwas_nicht_stimmt_wissen_aber_nicht_was"],
     ],
 
-    libraryTitle: "Die Luna-Astralis-Bibliothek",
+    libraryTitle: __i18n["die_luna_astralis_bibliothek"],
     librarySubtitle:
-      "Entdecken Sie Astrologie-Ratgeber, die Ihnen helfen, Ihre Persönlichkeit, Beziehungen und persönliche Entwicklung besser zu verstehen.",
-    availableAmazon: "Bei Amazon erhältlich",
-    collectionTitle: "Eine umfassende Astrologie-Sammlung",
+      __i18n["entdecken_sie_astrologie_ratgeber_die_ihnen_helfen_ihre_pers"],
+    availableAmazon: __i18n["bei_amazon_erhaltlich"],
+    collectionTitle: __i18n["eine_umfassende_astrologie_sammlung"],
     collectionDescription:
-      "Tierkreiszeichen, persönliche Entwicklung, Liebeskompatibilität und vieles mehr.",
+      __i18n["tierkreiszeichen_personliche_entwicklung_liebeskompatibilita"],
     bookCoverAlt: "Buchcover",
-    viewAmazon: "Bei Amazon ansehen",
+    viewAmazon: __i18n["bei_amazon_ansehen"],
     fullCollectionTitle:
-      "Entdecken Sie die gesamte Luna-Astralis-Sammlung",
+      __i18n["entdecken_sie_die_gesamte_luna_astralis_sammlung"],
     fullCollectionDescription:
-      "Finden Sie alle verfügbaren Astrologie-Ratgeber bei Amazon.",
-    fullCollectionButton: "✨ Gesamte Sammlung ansehen",
+      __i18n["finden_sie_alle_verfugbaren_astrologie_ratgeber_bei_amazon"],
+    fullCollectionButton: __i18n["gesamte_sammlung_ansehen"],
 
-    howTitle: "So funktioniert es",
-    howSubtitle: "Vier einfache Schritte zum Start.",
+    howTitle: __i18n["so_funktioniert_es"],
+    howSubtitle: __i18n["vier_einfache_schritte_zum_start"],
     steps: [
       {
         icon: "♈",
-        title: "Werkzeug auswählen",
+        title: __i18n["werkzeug_auswahlen"],
         text:
-          "Horoskop, Geburtshoroskop, Kompatibilität oder Gespräch mit Luna.",
+          __i18n["horoskop_geburtshoroskop_kompatibilitat_oder_gesprach_mit_lu"],
       },
       {
         icon: "🌙",
-        title: "Ergebnis erhalten",
-        text: "Ihre Analyse erscheint in wenigen Sekunden.",
+        title: __i18n["ergebnis_erhalten"],
+        text: __i18n["ihre_analyse_erscheint_in_wenigen_sekunden"],
       },
       {
         icon: "✧",
-        title: "Klarheit gewinnen",
+        title: __i18n["klarheit_gewinnen"],
         text:
-          "Entdecken Sie Ihre Stärken, Bedürfnisse, Herausforderungen und Beziehungsdynamiken.",
+          __i18n["entdecken_sie_ihre_starken_bedurfnisse_herausforderungen_und"],
       },
       {
         icon: "🔐",
-        title: "Tiefer gehen",
+        title: __i18n["tiefer_gehen"],
         text:
-          "Wählen Sie die Essential-, Premium- oder Signature-Analyse, um Ihr Geburtshoroskop zu vertiefen.",
+          __i18n["wahlen_sie_die_essential_premium_oder_signature_analyse_um_i"],
       },
     ],
 
-    rightsReserved: "Alle Rechte vorbehalten",
+    rightsReserved: __i18n["alle_rechte_vorbehalten"],
     legalNotices: "Impressum",
     privacy: "Datenschutz",
     terms: "Bedingungen",
     footerNote:
-      "Persönliche Erkundung — keine Therapie. Nur für Personen ab 18 Jahren.",
+      __i18n["personliche_erkundung_keine_therapie_nur_fur_personen_ab_18"],
   },
 
   it: {
-    heroAria: "Presentazione di Luna Astralis",
-    toolsAria: "Strumenti astrologici gratuiti",
-    reviewsAria: "Recensioni degli utenti",
-    fiveStarsAria: "Cinque stelle su cinque",
-    legalLinksAria: "Link legali",
+    heroAria: __i18n["presentazione_di_luna_astralis"],
+    toolsAria: __i18n["strumenti_astrologici_gratuiti"],
+    reviewsAria: __i18n["recensioni_degli_utenti"],
+    fiveStarsAria: __i18n["cinque_stelle_su_cinque"],
+    legalLinksAria: __i18n["link_legali"],
 
-    heroBadge: "Tema natale · Oroscopo · Compatibilità",
-    heroTitle: "Tema natale gratuito e compatibilità amorosa",
+    heroBadge: __i18n["tema_natale_oroscopo_compatibilita"],
+    heroTitle: __i18n["tema_natale_gratuito_e_compatibilita_amorosa"],
     heroSubtitle:
-      "Scopri gratuitamente il tuo Sole, la tua Luna, il tuo Ascendente e la tua alchimia amorosa.",
+      __i18n["scopri_gratuitamente_il_tuo_sole_la_tua_luna_il_tuo_ascenden"],
     heroLead:
-      "Crea il tuo tema natale, consulta il tuo oroscopo quotidiano e confronta due segni zodiacali in pochi secondi.",
+      __i18n["crea_il_tuo_tema_natale_consulta_il_tuo_oroscopo_quotidiano"],
 
-    dailyUpdated: "✨ Aggiornato ogni giorno",
-    horoscopeTitle: "Oroscopo quotidiano gratuito",
+    dailyUpdated: __i18n["aggiornato_ogni_giorno"],
+    horoscopeTitle: __i18n["oroscopo_quotidiano_gratuito"],
     horoscopeDescription:
-      "Consulta le previsioni astrologiche del tuo segno per comprendere meglio l’energia della tua giornata.",
+      __i18n["consulta_le_previsioni_astrologiche_del_tuo_segno_per_compre"],
     horoscopeItems: [
-      "☀️ Energia generale",
-      "❤️ Amore e relazioni",
-      "💼 Lavoro e progetti",
-      "💰 Finanze",
-      "🌿 Benessere",
-      "✨ Consiglio del giorno",
+      __i18n["energia_generale"],
+      __i18n["amore_e_relazioni"],
+      __i18n["lavoro_e_progetti"],
+      __i18n["finanze"],
+      __i18n["benessere"],
+      __i18n["consiglio_del_giorno"],
     ],
-    horoscopeButton: "Vedi il mio oroscopo",
+    horoscopeButton: __i18n["vedi_il_mio_oroscopo"],
 
-    birthChartTitle: "Tema natale gratuito",
+    birthChartTitle: __i18n["tema_natale_gratuito"],
     birthChartDescription:
-      "Genera il tuo tema natale con Sole, Luna, Ascendente e ruota astrologica.",
+      __i18n["genera_il_tuo_tema_natale_con_sole_luna_ascendente_e_ruota_a"],
     birthChartItems: [
-      "☀️ Sole",
-      "🌙 Luna",
-      "⬆️ Ascendente",
-      "🪐 Ruota astrologica",
-      "✨ Sintesi personalizzata",
+      __i18n["sole"],
+      __i18n["luna_2"],
+      __i18n["ascendente_2"],
+      __i18n["ruota_astrologica"],
+      __i18n["sintesi_personalizzata"],
     ],
-    birthChartButton: "Crea il mio tema",
+    birthChartButton: __i18n["crea_il_mio_tema"],
 
-    compatibilityTitle: "Compatibilità amorosa",
+    compatibilityTitle: __i18n["compatibilita_amorosa"],
     compatibilityDescription:
-      "Confronta due segni zodiacali e ottieni subito il punteggio, i punti di forza, le sfide e i consigli per la relazione.",
+      __i18n["confronta_due_segni_zodiacali_e_ottieni_subito_il_punteggio"],
     compatibilityItems: [
-      "❤️ Punteggio d’amore",
-      "✨ Punti di forza della coppia",
-      "⚠️ Possibili sfide",
-      "💡 Consigli di coppia",
-      "📊 Analisi immediata",
+      __i18n["punteggio_d_amore"],
+      __i18n["punti_di_forza_della_coppia"],
+      __i18n["possibili_sfide"],
+      __i18n["consigli_di_coppia"],
+      __i18n["analisi_immediata"],
     ],
-    compatibilityButton: "Confronta due segni",
+    compatibilityButton: __i18n["confronta_due_segni"],
 
-    trustBadge: "Astrologia accessibile",
-    trustTitle: "Perché scegliere Luna Astralis?",
+    trustBadge: __i18n["astrologia_accessibile"],
+    trustTitle: __i18n["perche_scegliere_luna_astralis"],
     trustSubtitle:
-      "Strumenti semplici e personalizzati per aiutarti a comprendere meglio la tua personalità, le tue relazioni e il tuo percorso.",
+      __i18n["strumenti_semplici_e_personalizzati_per_aiutarti_a_comprende"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Calcoli astrologici personalizzati",
+        title: __i18n["calcoli_astrologici_personalizzati"],
         text:
-          "I risultati sono calcolati dai tuoi dati di nascita e adattati al tuo profilo astrologico.",
+          __i18n["i_risultati_sono_calcolati_dai_tuoi_dati_di_nascita_e_adatta"],
       },
       {
         icon: "⚡",
-        title: "Risultati immediati",
+        title: __i18n["risultati_immediati"],
         text:
-          "Scopri rapidamente il tuo oroscopo, il tema natale o la compatibilità amorosa.",
+          __i18n["scopri_rapidamente_il_tuo_oroscopo_il_tema_natale_o_la_compa"],
       },
       {
         icon: "📄",
-        title: "Rapporti PDF dettagliati",
+        title: __i18n["rapporti_pdf_dettagliati"],
         text:
-          "Approfondisci il tuo tema natale con analisi personalizzate disponibili in formato PDF.",
+          __i18n["approfondisci_il_tuo_tema_natale_con_analisi_personalizzate"],
       },
       {
         icon: "🌍",
-        title: "Un’esperienza multilingue",
+        title: __i18n["un_esperienza_multilingue"],
         text:
-          "Esplora l’astrologia con spiegazioni chiare e accessibili in diverse lingue.",
+          __i18n["esplora_l_astrologia_con_spiegazioni_chiare_e_accessibili_in"],
       },
     ],
 
-    reportsBadge: "Rapporti astrologici personalizzati",
-    reportsTitle: "Approfondisci il tuo tema natale",
+    reportsBadge: __i18n["rapporti_astrologici_personalizzati"],
+    reportsTitle: __i18n["approfondisci_il_tuo_tema_natale"],
     reportsDescription:
-      "Dopo aver creato gratuitamente il tuo tema natale, scegli il livello di analisi più adatto alle tue esigenze. Ogni rapporto è personalizzato in base a data, ora e luogo di nascita.",
+      __i18n["dopo_aver_creato_gratuitamente_il_tuo_tema_natale_scegli_il"],
     reports: [
       {
         name: "Essenziale",
-        price: "24,99 USD",
-        badge: "Per iniziare",
+        price: __i18n["24_99_usd"],
+        badge: __i18n["per_iniziare"],
         description:
-          "Una prima lettura personalizzata del tuo tema natale per comprendere le principali energie astrologiche.",
+          __i18n["una_prima_lettura_personalizzata_del_tuo_tema_natale_per_com"],
         features: [
-          "La tua ruota astrologica",
-          "Il tuo Sole, la tua Luna e il tuo Ascendente",
-          "I tuoi dieci pianeti principali",
-          "I tuoi elementi e le tue modalità",
-          "Rapporto PDF personalizzato",
+          __i18n["la_tua_ruota_astrologica"],
+          __i18n["il_tuo_sole_la_tua_luna_e_il_tuo_ascendente"],
+          __i18n["i_tuoi_dieci_pianeti_principali"],
+          __i18n["i_tuoi_elementi_e_le_tue_modalita"],
+          __i18n["rapporto_pdf_personalizzato"],
         ],
         featured: false,
       },
       {
         name: "Premium",
-        price: "49,99 USD",
-        badge: "Analisi approfondita",
+        price: __i18n["49_99_usd"],
+        badge: __i18n["analisi_approfondita"],
         description:
-          "Un’esplorazione completa della tua personalità, delle case, delle relazioni e del tuo potenziale.",
+          __i18n["un_esplorazione_completa_della_tua_personalita_delle_case_de"],
         features: [
-          "Tutto il contenuto dell’analisi Essenziale",
-          "Le tue dodici case astrologiche",
-          "I tuoi aspetti planetari",
-          "Le tue influenze astrologiche dominanti",
-          "Relazioni, carriera, punti di forza e sfide",
+          __i18n["tutto_il_contenuto_dell_analisi_essenziale"],
+          __i18n["le_tue_dodici_case_astrologiche"],
+          __i18n["i_tuoi_aspetti_planetari"],
+          __i18n["le_tue_influenze_astrologiche_dominanti"],
+          __i18n["relazioni_carriera_punti_di_forza_e_sfide"],
         ],
         featured: true,
       },
       {
         name: "Signature",
-        price: "79,99 USD",
-        badge: "Il più completo",
+        price: __i18n["79_99_usd"],
+        badge: __i18n["il_piu_completo"],
         description:
-          "L’analisi più completa del tuo tema natale, con le principali dinamiche di vita e i percorsi di evoluzione.",
+          __i18n["l_analisi_piu_completa_del_tuo_tema_natale_con_le_principali"],
         features: [
-          "Tutto il contenuto del rapporto Premium",
-          "Missione di vita e cammino dell’anima",
-          "Mondo interiore e blocchi inconsci",
-          "Talenti nascosti e guida all’integrazione",
-          "Sintesi Signature personalizzata",
+          __i18n["tutto_il_contenuto_del_rapporto_premium"],
+          __i18n["missione_di_vita_e_cammino_dell_anima"],
+          __i18n["mondo_interiore_e_blocchi_inconsci"],
+          __i18n["talenti_nascosti_e_guida_all_integrazione"],
+          __i18n["sintesi_signature_personalizzata"],
         ],
         featured: false,
       },
     ],
     recommended: "Consigliato",
     reportPrefix: "Rapporto",
-    oneTimePayment: "Pagamento unico",
-    freeChartButton: "Crea il mio tema gratuito",
+    oneTimePayment: __i18n["pagamento_unico"],
+    freeChartButton: __i18n["crea_il_mio_tema_gratuito"],
     reportsNote:
-      "Inizia gratuitamente. Le offerte personalizzate appariranno dopo la creazione del tuo tema natale.",
-    discoverChartButton: "✨ Scopri il mio tema natale",
+      __i18n["inizia_gratuitamente_le_offerte_personalizzate_appariranno_d"],
+    discoverChartButton: __i18n["scopri_il_mio_tema_natale"],
 
-    talkToLuna: "✨ Parla con Luna",
-    discoverBooks: "📚 Scopri i libri",
+    talkToLuna: __i18n["parla_con_luna"],
+    discoverBooks: __i18n["scopri_i_libri"],
     freeNote:
-      "Gratis per iniziare · Risultato immediato · Compatibile con dispositivi mobili",
+      __i18n["gratis_per_iniziare_risultato_immediato_compatibile_con_disp"],
 
     reviews: [
       {
-        sign: "♈ Ariete",
+        sign: __i18n["ariete"],
         name: "Marie L.",
         text:
-          "Non capivo più se ciò che provava fosse reale o se ci fosse solo silenzio. Finalmente ho trovato le parole per descrivere ciò che vivevo.",
+          __i18n["non_capivo_piu_se_cio_che_provava_fosse_reale_o_se_ci_fosse"],
       },
       {
-        sign: "♊ Gemelli",
+        sign: __i18n["gemelli"],
         name: "Julie R.",
         text:
-          "Aspettavo un messaggio ogni giorno. In pochi minuti ho capito se dipendeva da lui o dai miei pensieri.",
+          __i18n["aspettavo_un_messaggio_ogni_giorno_in_pochi_minuti_ho_capito"],
       },
       {
-        sign: "♋ Cancro",
+        sign: __i18n["cancro"],
         name: "Camille D.",
         text:
-          "Era distante e continuavo a girare in tondo. Questo mi ha aiutata a capire i miei bisogni e i miei dubbi.",
+          __i18n["era_distante_e_continuavo_a_girare_in_tondo_questo_mi_ha_aiu"],
       },
     ],
     techNote:
-      "Funziona subito su mobile · Nessun download richiesto per gli strumenti gratuiti",
-    disclaimer: "Esplorazione personale — non terapeutica.",
+      __i18n["funziona_subito_su_mobile_nessun_download_richiesto_per_gli"],
+    disclaimer: __i18n["esplorazione_personale_non_terapeutica"],
 
     problemIntro:
-      "In pochi minuti comprendi meglio ciò che stai vivendo e le dinamiche che ti circondano.",
+      __i18n["in_pochi_minuti_comprendi_meglio_cio_che_stai_vivendo_e_le_d"],
     problems: [
-      "È distante e non capisci perché?",
-      "Aspetti un messaggio, ma non arriva nulla?",
-      "Senti che qualcosa non va senza sapere cosa?",
+      __i18n["e_distante_e_non_capisci_perche"],
+      __i18n["aspetti_un_messaggio_ma_non_arriva_nulla"],
+      __i18n["senti_che_qualcosa_non_va_senza_sapere_cosa"],
     ],
 
-    libraryTitle: "La biblioteca Luna Astralis",
+    libraryTitle: __i18n["la_biblioteca_luna_astralis_2"],
     librarySubtitle:
-      "Scopri guide astrologiche create per comprendere meglio la tua personalità, le tue relazioni e la tua crescita personale.",
-    availableAmazon: "Disponibile su Amazon",
-    collectionTitle: "Una collezione completa di astrologia",
+      __i18n["scopri_guide_astrologiche_create_per_comprendere_meglio_la_t"],
+    availableAmazon: __i18n["disponibile_su_amazon"],
+    collectionTitle: __i18n["una_collezione_completa_di_astrologia"],
     collectionDescription:
-      "Segni zodiacali, crescita personale, compatibilità amorosa e molto altro.",
-    bookCoverAlt: "Copertina del libro",
-    viewAmazon: "Vedi su Amazon",
+      __i18n["segni_zodiacali_crescita_personale_compatibilita_amorosa_e_m"],
+    bookCoverAlt: __i18n["copertina_del_libro"],
+    viewAmazon: __i18n["vedi_su_amazon"],
     fullCollectionTitle:
-      "Scopri tutta la collezione Luna Astralis",
+      __i18n["scopri_tutta_la_collezione_luna_astralis"],
     fullCollectionDescription:
-      "Trova tutte le guide astrologiche disponibili su Amazon.",
-    fullCollectionButton: "✨ Vedi tutta la collezione",
+      __i18n["trova_tutte_le_guide_astrologiche_disponibili_su_amazon"],
+    fullCollectionButton: __i18n["vedi_tutta_la_collezione"],
 
-    howTitle: "Come funziona",
-    howSubtitle: "Quattro semplici passaggi per iniziare.",
+    howTitle: __i18n["come_funziona"],
+    howSubtitle: __i18n["quattro_semplici_passaggi_per_iniziare"],
     steps: [
       {
         icon: "♈",
-        title: "Scegli il tuo strumento",
+        title: __i18n["scegli_il_tuo_strumento"],
         text:
-          "Oroscopo, tema natale, compatibilità o conversazione con Luna.",
+          __i18n["oroscopo_tema_natale_compatibilita_o_conversazione_con_luna"],
       },
       {
         icon: "🌙",
-        title: "Ottieni il risultato",
-        text: "La tua analisi appare in pochi secondi.",
+        title: __i18n["ottieni_il_risultato"],
+        text: __i18n["la_tua_analisi_appare_in_pochi_secondi"],
       },
       {
         icon: "✧",
-        title: "Ottieni chiarezza",
+        title: __i18n["ottieni_chiarezza"],
         text:
-          "Scopri i tuoi punti di forza, bisogni, sfide e dinamiche relazionali.",
+          __i18n["scopri_i_tuoi_punti_di_forza_bisogni_sfide_e_dinamiche_relaz"],
       },
       {
         icon: "🔐",
-        title: "Vai oltre",
+        title: __i18n["vai_oltre"],
         text:
-          "Scegli l’analisi Essenziale, Premium o Signature per approfondire il tuo tema natale.",
+          __i18n["scegli_l_analisi_essenziale_premium_o_signature_per_approfon"],
       },
     ],
 
-    rightsReserved: "Tutti i diritti riservati",
-    legalNotices: "Note legali",
+    rightsReserved: __i18n["tutti_i_diritti_riservati"],
+    legalNotices: __i18n["note_legali"],
     privacy: "Privacy",
     terms: "Condizioni",
     footerNote:
-      "Esplorazione personale — non terapeutica. Riservato ai maggiori di 18 anni.",
+      __i18n["esplorazione_personale_non_terapeutica_riservato_ai_maggiori"],
   },
 
   pt: {
-    heroAria: "Apresentação da Luna Astralis",
-    toolsAria: "Ferramentas astrológicas gratuitas",
-    reviewsAria: "Avaliações dos usuários",
-    fiveStarsAria: "Cinco estrelas de cinco",
-    legalLinksAria: "Links legais",
+    heroAria: __i18n["apresentacao_da_luna_astralis"],
+    toolsAria: __i18n["ferramentas_astrologicas_gratuitas"],
+    reviewsAria: __i18n["avaliacoes_dos_usuarios"],
+    fiveStarsAria: __i18n["cinco_estrelas_de_cinco"],
+    legalLinksAria: __i18n["links_legais"],
 
-    heroBadge: "Mapa astral · Horóscopo · Compatibilidade",
-    heroTitle: "Mapa astral grátis e compatibilidade amorosa",
+    heroBadge: __i18n["mapa_astral_horoscopo_compatibilidade"],
+    heroTitle: __i18n["mapa_astral_gratis_e_compatibilidade_amorosa"],
     heroSubtitle:
-      "Descubra gratuitamente seu Sol, sua Lua, seu Ascendente e sua química amorosa.",
+      __i18n["descubra_gratuitamente_seu_sol_sua_lua_seu_ascendente_e_sua"],
     heroLead:
-      "Crie seu mapa astral, consulte seu horóscopo diário e compare dois signos do zodíaco em poucos segundos.",
+      __i18n["crie_seu_mapa_astral_consulte_seu_horoscopo_diario_e_compare"],
 
-    dailyUpdated: "✨ Atualizado todos os dias",
-    horoscopeTitle: "Horóscopo diário grátis",
+    dailyUpdated: __i18n["atualizado_todos_os_dias"],
+    horoscopeTitle: __i18n["horoscopo_diario_gratis_2"],
     horoscopeDescription:
-      "Consulte as previsões astrológicas do seu signo para compreender melhor a energia do seu dia.",
+      __i18n["consulte_as_previsoes_astrologicas_do_seu_signo_para_compree"],
     horoscopeItems: [
-      "☀️ Energia geral",
-      "❤️ Amor e relacionamentos",
-      "💼 Trabalho e projetos",
-      "💰 Finanças",
-      "🌿 Bem-estar",
-      "✨ Conselho do dia",
+      __i18n["energia_geral"],
+      __i18n["amor_e_relacionamentos"],
+      __i18n["trabalho_e_projetos"],
+      __i18n["financas"],
+      __i18n["bem_estar"],
+      __i18n["conselho_do_dia"],
     ],
-    horoscopeButton: "Ver meu horóscopo",
+    horoscopeButton: __i18n["ver_meu_horoscopo"],
 
-    birthChartTitle: "Mapa astral grátis",
+    birthChartTitle: __i18n["mapa_astral_gratis"],
     birthChartDescription:
-      "Gere seu mapa astral com seu Sol, sua Lua, seu Ascendente e sua roda astrológica.",
+      __i18n["gere_seu_mapa_astral_com_seu_sol_sua_lua_seu_ascendente_e_su"],
     birthChartItems: [
-      "☀️ Sol",
-      "🌙 Lua",
-      "⬆️ Ascendente",
-      "🪐 Roda astrológica",
-      "✨ Resumo personalizado",
+      __i18n["sol_2"],
+      __i18n["lua"],
+      __i18n["ascendente_3"],
+      __i18n["roda_astrologica"],
+      __i18n["resumo_personalizado"],
     ],
-    birthChartButton: "Criar meu mapa",
+    birthChartButton: __i18n["criar_meu_mapa"],
 
-    compatibilityTitle: "Compatibilidade amorosa",
+    compatibilityTitle: __i18n["compatibilidade_amorosa"],
     compatibilityDescription:
-      "Compare dois signos do zodíaco e receba imediatamente sua pontuação, forças, desafios e conselhos para o relacionamento.",
+      __i18n["compare_dois_signos_do_zodiaco_e_receba_imediatamente_sua_po"],
     compatibilityItems: [
-      "❤️ Pontuação amorosa",
-      "✨ Forças do casal",
-      "⚠️ Possíveis desafios",
-      "💡 Conselhos de relacionamento",
-      "📊 Análise instantânea",
+      __i18n["pontuacao_amorosa"],
+      __i18n["forcas_do_casal"],
+      __i18n["possiveis_desafios"],
+      __i18n["conselhos_de_relacionamento"],
+      __i18n["analise_instantanea"],
     ],
-    compatibilityButton: "Comparar dois signos",
+    compatibilityButton: __i18n["comparar_dois_signos"],
 
-    trustBadge: "Astrologia acessível",
-    trustTitle: "Por que escolher a Luna Astralis?",
+    trustBadge: __i18n["astrologia_acessivel"],
+    trustTitle: __i18n["por_que_escolher_a_luna_astralis"],
     trustSubtitle:
-      "Ferramentas simples e personalizadas para ajudar você a compreender melhor sua personalidade, seus relacionamentos e seu caminho.",
+      __i18n["ferramentas_simples_e_personalizadas_para_ajudar_voce_a_comp"],
     trustFeatures: [
       {
         icon: "🔮",
-        title: "Cálculos astrológicos personalizados",
+        title: __i18n["calculos_astrologicos_personalizados_2"],
         text:
-          "Seus resultados são calculados a partir dos seus dados de nascimento e adaptados ao seu perfil astrológico.",
+          __i18n["seus_resultados_sao_calculados_a_partir_dos_seus_dados_de_na"],
       },
       {
         icon: "⚡",
-        title: "Resultados instantâneos",
+        title: __i18n["resultados_instantaneos_2"],
         text:
-          "Descubra rapidamente seu horóscopo, mapa astral ou compatibilidade amorosa.",
+          __i18n["descubra_rapidamente_seu_horoscopo_mapa_astral_ou_compatibil"],
       },
       {
         icon: "📄",
-        title: "Relatórios PDF detalhados",
+        title: __i18n["relatorios_pdf_detalhados"],
         text:
-          "Aprofunde seu mapa astral com análises personalizadas disponíveis em PDF.",
+          __i18n["aprofunde_seu_mapa_astral_com_analises_personalizadas_dispon"],
       },
       {
         icon: "🌍",
-        title: "Uma experiência multilíngue",
+        title: __i18n["uma_experiencia_multilingue"],
         text:
-          "Explore a astrologia com explicações claras e acessíveis em vários idiomas.",
+          __i18n["explore_a_astrologia_com_explicacoes_claras_e_acessiveis_em"],
       },
     ],
 
-    reportsBadge: "Relatórios astrológicos personalizados",
-    reportsTitle: "Aprofunde seu mapa astral",
+    reportsBadge: __i18n["relatorios_astrologicos_personalizados"],
+    reportsTitle: __i18n["aprofunde_seu_mapa_astral"],
     reportsDescription:
-      "Depois de criar gratuitamente seu mapa astral, escolha o nível de análise ideal para suas necessidades. Cada relatório é personalizado com sua data, hora e local de nascimento.",
+      __i18n["depois_de_criar_gratuitamente_seu_mapa_astral_escolha_o_nive"],
     reports: [
       {
         name: "Essencial",
-        price: "US$ 24,99",
-        badge: "Para começar",
+        price: __i18n["us_24_99"],
+        badge: __i18n["para_comecar"],
         description:
-          "Uma primeira leitura personalizada do seu mapa astral para compreender suas principais energias astrológicas.",
+          __i18n["uma_primeira_leitura_personalizada_do_seu_mapa_astral_para_c"],
         features: [
-          "Sua roda astrológica",
-          "Seu Sol, sua Lua e seu Ascendente",
-          "Seus dez planetas principais",
-          "Seus elementos e modalidades",
-          "Relatório PDF personalizado",
+          __i18n["sua_roda_astrologica"],
+          __i18n["seu_sol_sua_lua_e_seu_ascendente"],
+          __i18n["seus_dez_planetas_principais"],
+          __i18n["seus_elementos_e_modalidades"],
+          __i18n["relatorio_pdf_personalizado"],
         ],
         featured: false,
       },
       {
         name: "Premium",
-        price: "US$ 49,99",
-        badge: "Análise aprofundada",
+        price: __i18n["us_49_99"],
+        badge: __i18n["analise_aprofundada"],
         description:
-          "Uma exploração completa da sua personalidade, das casas, dos relacionamentos e do seu potencial.",
+          __i18n["uma_exploracao_completa_da_sua_personalidade_das_casas_dos_r"],
         features: [
-          "Todo o conteúdo da análise Essencial",
-          "Suas doze casas astrológicas",
-          "Seus aspectos planetários",
-          "Suas influências astrológicas dominantes",
-          "Relacionamentos, carreira, forças e desafios",
+          __i18n["todo_o_conteudo_da_analise_essencial"],
+          __i18n["suas_doze_casas_astrologicas"],
+          __i18n["seus_aspectos_planetarios"],
+          __i18n["suas_influencias_astrologicas_dominantes"],
+          __i18n["relacionamentos_carreira_forcas_e_desafios"],
         ],
         featured: true,
       },
       {
         name: "Signature",
-        price: "US$ 79,99",
-        badge: "O mais completo",
+        price: __i18n["us_79_99"],
+        badge: __i18n["o_mais_completo"],
         description:
-          "A análise mais completa do seu mapa astral, com suas grandes dinâmicas de vida e caminhos de evolução.",
+          __i18n["a_analise_mais_completa_do_seu_mapa_astral_com_suas_grandes"],
         features: [
-          "Todo o conteúdo do relatório Premium",
-          "Missão de vida e caminho da alma",
-          "Mundo interior e bloqueios inconscientes",
-          "Talentos ocultos e guia de integração",
-          "Síntese Signature personalizada",
+          __i18n["todo_o_conteudo_do_relatorio_premium"],
+          __i18n["missao_de_vida_e_caminho_da_alma"],
+          __i18n["mundo_interior_e_bloqueios_inconscientes"],
+          __i18n["talentos_ocultos_e_guia_de_integracao"],
+          __i18n["sintese_signature_personalizada"],
         ],
         featured: false,
       },
     ],
     recommended: "Recomendado",
-    reportPrefix: "Relatório",
-    oneTimePayment: "Pagamento único",
-    freeChartButton: "Criar meu mapa grátis",
+    reportPrefix: __i18n["relatorio"],
+    oneTimePayment: __i18n["pagamento_unico_2"],
+    freeChartButton: __i18n["criar_meu_mapa_gratis"],
     reportsNote:
-      "Comece gratuitamente. Suas ofertas personalizadas aparecerão depois da criação do seu mapa astral.",
-    discoverChartButton: "✨ Descobrir meu mapa astral",
+      __i18n["comece_gratuitamente_suas_ofertas_personalizadas_aparecerao"],
+    discoverChartButton: __i18n["descobrir_meu_mapa_astral"],
 
-    talkToLuna: "✨ Falar com Luna",
-    discoverBooks: "📚 Descobrir os livros",
+    talkToLuna: __i18n["falar_com_luna"],
+    discoverBooks: __i18n["descobrir_os_livros"],
     freeNote:
-      "Grátis para começar · Resultado instantâneo · Compatível com celular",
+      __i18n["gratis_para_comecar_resultado_instantaneo_compativel_com_cel"],
 
     reviews: [
       {
-        sign: "♈ Áries",
+        sign: __i18n["aries_3"],
         name: "Marie L.",
         text:
-          "Eu já não sabia se o que ele sentia era real ou se havia apenas silêncio. Finalmente consegui colocar em palavras o que eu vivia.",
+          __i18n["eu_ja_nao_sabia_se_o_que_ele_sentia_era_real_ou_se_havia_ape"],
       },
       {
-        sign: "♊ Gêmeos",
+        sign: __i18n["gemeos"],
         name: "Julie R.",
         text:
-          "Eu esperava uma mensagem todos os dias. Em poucos minutos, entendi se aquilo vinha dele ou dos meus próprios pensamentos.",
+          __i18n["eu_esperava_uma_mensagem_todos_os_dias_em_poucos_minutos_ent"],
       },
       {
-        sign: "♋ Câncer",
+        sign: __i18n["cancer_4"],
         name: "Camille D.",
         text:
-          "Ele estava distante e eu continuava andando em círculos. Isso me ajudou a compreender minhas necessidades e dúvidas.",
+          __i18n["ele_estava_distante_e_eu_continuava_andando_em_circulos_isso"],
       },
     ],
     techNote:
-      "Funciona instantaneamente no celular · Nenhum download é necessário para as ferramentas gratuitas",
-    disclaimer: "Exploração pessoal — não terapêutica.",
+      __i18n["funciona_instantaneamente_no_celular_nenhum_download_e_neces"],
+    disclaimer: __i18n["exploracao_pessoal_nao_terapeutica"],
 
     problemIntro:
-      "Em poucos minutos, você entende melhor o que está vivendo e as dinâmicas ao seu redor.",
+      __i18n["em_poucos_minutos_voce_entende_melhor_o_que_esta_vivendo_e_a"],
     problems: [
-      "A pessoa está distante e você não entende por quê?",
-      "Você espera uma mensagem, mas nada chega?",
-      "Você sente que algo está errado sem saber o quê?",
+      __i18n["a_pessoa_esta_distante_e_voce_nao_entende_por_que"],
+      __i18n["voce_espera_uma_mensagem_mas_nada_chega"],
+      __i18n["voce_sente_que_algo_esta_errado_sem_saber_o_que"],
     ],
 
-    libraryTitle: "A biblioteca Luna Astralis",
+    libraryTitle: __i18n["a_biblioteca_luna_astralis"],
     librarySubtitle:
-      "Descubra guias astrológicos criados para compreender melhor sua personalidade, seus relacionamentos e sua evolução pessoal.",
-    availableAmazon: "Disponível na Amazon",
-    collectionTitle: "Uma coleção completa de astrologia",
+      __i18n["descubra_guias_astrologicos_criados_para_compreender_melhor"],
+    availableAmazon: __i18n["disponivel_na_amazon"],
+    collectionTitle: __i18n["uma_colecao_completa_de_astrologia"],
     collectionDescription:
-      "Signos do zodíaco, desenvolvimento pessoal, compatibilidade amorosa e muito mais.",
-    bookCoverAlt: "Capa do livro",
-    viewAmazon: "Ver na Amazon",
+      __i18n["signos_do_zodiaco_desenvolvimento_pessoal_compatibilidade_am"],
+    bookCoverAlt: __i18n["capa_do_livro"],
+    viewAmazon: __i18n["ver_na_amazon"],
     fullCollectionTitle:
-      "Descubra toda a coleção Luna Astralis",
+      __i18n["descubra_toda_a_colecao_luna_astralis"],
     fullCollectionDescription:
-      "Encontre todos os guias astrológicos disponíveis na Amazon.",
-    fullCollectionButton: "✨ Ver toda a coleção",
+      __i18n["encontre_todos_os_guias_astrologicos_disponiveis_na_amazon"],
+    fullCollectionButton: __i18n["ver_toda_a_colecao"],
 
-    howTitle: "Como funciona",
-    howSubtitle: "Quatro passos simples para começar.",
+    howTitle: __i18n["como_funciona_2"],
+    howSubtitle: __i18n["quatro_passos_simples_para_comecar"],
     steps: [
       {
         icon: "♈",
-        title: "Escolha sua ferramenta",
+        title: __i18n["escolha_sua_ferramenta"],
         text:
-          "Horóscopo, mapa astral, compatibilidade ou conversa com Luna.",
+          __i18n["horoscopo_mapa_astral_compatibilidade_ou_conversa_com_luna"],
       },
       {
         icon: "🌙",
-        title: "Receba seu resultado",
-        text: "Sua análise aparece em poucos segundos.",
+        title: __i18n["receba_seu_resultado"],
+        text: __i18n["sua_analise_aparece_em_poucos_segundos"],
       },
       {
         icon: "✧",
-        title: "Ganhe clareza",
+        title: __i18n["ganhe_clareza"],
         text:
-          "Descubra suas forças, necessidades, desafios e dinâmicas de relacionamento.",
+          __i18n["descubra_suas_forcas_necessidades_desafios_e_dinamicas_de_re"],
       },
       {
         icon: "🔐",
-        title: "Vá mais longe",
+        title: __i18n["va_mais_longe"],
         text:
-          "Escolha a análise Essencial, Premium ou Signature para aprofundar seu mapa astral.",
+          __i18n["escolha_a_analise_essencial_premium_ou_signature_para_aprofu"],
       },
     ],
 
-    rightsReserved: "Todos os direitos reservados",
-    legalNotices: "Aviso legal",
+    rightsReserved: __i18n["todos_os_direitos_reservados"],
+    legalNotices: __i18n["aviso_legal_2"],
     privacy: "Privacidade",
-    terms: "Condições",
+    terms: __i18n["condicoes"],
     footerNote:
-      "Exploração pessoal — não terapêutica. Reservado para maiores de 18 anos.",
+      __i18n["exploracao_pessoal_nao_terapeutica_reservado_para_maiores_de"],
   },
 };
 
@@ -1678,8 +1679,7 @@ export default function HomePage() {
               <div className="hero-top">
                 <div className="hero-kicker">
                   <span className="astro-mark">
-                    ☾ Luna Astralis
-                  </span>
+                    {__i18n["luna_astralis"]}</span>
 
                   <span className="hero-badge">
                     {text.heroBadge}
@@ -2249,8 +2249,7 @@ export default function HomePage() {
               <div className="footer-row">
                 <div className="footer-left">
                   <div className="footer-brand">
-                    Luna Astralis
-                  </div>
+                    {__i18n["luna_astralis_2"]}</div>
 
                   <div className="footer-copy">
                     © {year} ·{" "}

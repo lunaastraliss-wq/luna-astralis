@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-essential/page.json";
 import dynamic from "next/dynamic";
 
 const PdfEssentialViewer = dynamic(
@@ -15,12 +17,11 @@ const PdfEssentialViewer = dynamic(
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#081020",
-          color: "#fff8e7",
+          color: __i18n["fff8e7"],
           fontFamily: "Arial, sans-serif",
         }}
       >
-        Génération du rapport…
-      </main>
+        {__i18n["generation_du_rapport"]}</main>
     ),
   }
 );

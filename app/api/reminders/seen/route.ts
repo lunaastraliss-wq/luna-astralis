@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/reminders/seen/route.json";
 // app/api/reminders/seen/route.ts
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -31,14 +32,14 @@ export async function POST() {
   const user = userRes.user;
   const userId = user.id;
   const email = clean(user.email).toLowerCase();
-  if (!email) return json(400, { ok: false, error: "Missing email" });
+  if (!email) return json(400, { ok: false, error: __i18n["missing_email"] });
 
   // 2) service role (admin)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!supabaseUrl) return json(400, { ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL" });
-  if (!serviceRole) return json(400, { ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
+  if (!supabaseUrl) return json(400, { ok: false, error: __i18n["missing_next_public_supabase_url"] });
+  if (!serviceRole) return json(400, { ok: false, error: __i18n["missing_supabase_service_role_key"] });
 
   const admin = createClient(supabaseUrl, serviceRole, {
     auth: { persistSession: false },

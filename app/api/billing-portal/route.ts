@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/api/billing-portal/route.json";
 // app/api/billing-portal/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
@@ -22,18 +23,18 @@ function cleanUrl(url: string) {
 
 export async function POST() {
   try {
-    if (!stripe) return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+    if (!stripe) return NextResponse.json({ error: __i18n["missing_stripe_secret_key"] }, { status: 500 });
     if (!STRIPE_PORTAL_CONFIG_LUNA)
-      return NextResponse.json({ error: "Missing STRIPE_PORTAL_CONFIG_LUNA" }, { status: 500 });
+      return NextResponse.json({ error: __i18n["missing_stripe_portal_config_luna"] }, { status: 500 });
 
     const site = cleanUrl(SITE_URL);
-    if (!site) return NextResponse.json({ error: "Missing NEXT_PUBLIC_SITE_URL" }, { status: 500 });
+    if (!site) return NextResponse.json({ error: __i18n["missing_next_public_site_url"] }, { status: 500 });
 
     // user connecté obligatoire pour gérer abonnement
     const supabase = createRouteHandlerClient({ cookies });
     const { data: u } = await supabase.auth.getUser();
     const user = u?.user;
-    if (!user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    if (!user) return NextResponse.json({ error: __i18n["not_authenticated"] }, { status: 401 });
 
     // Récupérer stripe_customer_id depuis profiles
     const { data: profile, error: pErr } = await supabase
@@ -47,7 +48,7 @@ export async function POST() {
     const customerId = profile?.stripe_customer_id;
     if (!customerId) {
       return NextResponse.json(
-        { error: "Aucun stripe_customer_id. L’utilisateur n’a pas encore de client Stripe." },
+        { error: __i18n["aucun_stripe_customer_id_l_utilisateur_n_a_pas_encore_de_cli"] },
         { status: 400 }
       );
     }

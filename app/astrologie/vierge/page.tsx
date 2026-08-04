@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/astrologie/vierge/page.json";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -8,10 +9,10 @@ const PAGE_URL =
 
 export const metadata: Metadata = {
   title:
-    "Vierge : personnalité, amour, travail et compatibilités | Luna Astralis",
+    __i18n["vierge_personnalite_amour_travail_et_compatibilites_luna_ast"],
 
   description:
-    "Découvrez le signe de la Vierge en astrologie : personnalité, qualités, défis, amour, travail, compatibilités, Mercure, élément Terre, Lune et Ascendant Vierge.",
+    __i18n["decouvrez_le_signe_de_la_vierge_en_astrologie_personnalite_q"],
 
   alternates: {
     canonical: PAGE_URL,
@@ -19,11 +20,11 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "La Vierge en astrologie : personnalité, amour et compatibilités",
+      __i18n["la_vierge_en_astrologie_personnalite_amour_et_compatibilites"],
     description:
-      "Guide complet du signe de la Vierge : caractère, forces, défis, relations, carrière, planète Mercure et principales compatibilités astrologiques.",
+      __i18n["guide_complet_du_signe_de_la_vierge_caractere_forces_defis_r"],
     url: PAGE_URL,
-    siteName: "Luna Astralis",
+    siteName: __i18n["luna_astralis"],
     locale: "fr_CA",
     type: "article",
   },
@@ -31,9 +32,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Le signe de la Vierge | Luna Astralis",
+      __i18n["le_signe_de_la_vierge_luna_astralis"],
     description:
-      "Découvrez la personnalité de la Vierge, ses qualités, ses défis, ses relations et ses compatibilités astrologiques.",
+      __i18n["decouvrez_la_personnalite_de_la_vierge_ses_qualites_ses_defi"],
   },
 
   robots: {
@@ -44,41 +45,41 @@ export const metadata: Metadata = {
 
 const VIRGO_TRAITS = [
   {
-    title: "Le sens de l’analyse",
+    title: __i18n["le_sens_de_l_analyse"],
     symbol: "☿",
     text:
-      "La Vierge observe attentivement les détails et cherche à comprendre comment les choses fonctionnent. Son esprit analytique lui permet de repérer rapidement ce qui peut être amélioré.",
+      __i18n["la_vierge_observe_attentivement_les_details_et_cherche_a_com"],
   },
   {
-    title: "Le sens du service",
+    title: __i18n["le_sens_du_service"],
     symbol: "✦",
     text:
-      "Ce signe aime se rendre utile et apporter des solutions concrètes. Il exprime souvent son affection en aidant, en organisant ou en facilitant la vie des personnes qui l’entourent.",
+      __i18n["ce_signe_aime_se_rendre_utile_et_apporter_des_solutions_conc"],
   },
   {
-    title: "La recherche de précision",
+    title: __i18n["la_recherche_de_precision"],
     symbol: "◇",
     text:
-      "La Vierge apprécie la clarté, l’ordre et le travail bien fait. Elle cherche généralement à progresser par la méthode, la discipline et l’attention portée aux petites choses.",
+      __i18n["la_vierge_apprecie_la_clarte_l_ordre_et_le_travail_bien_fait"],
   },
 ];
 
 const VIRGO_STRENGTHS = [
-  "Sens de l’analyse",
-  "Fiabilité",
+  __i18n["sens_de_l_analyse"],
+  __i18n["fiabilite"],
   "Organisation",
-  "Précision",
-  "Discrétion",
-  "Sens du service",
+  __i18n["precision"],
+  __i18n["discretion"],
+  __i18n["sens_du_service"],
 ];
 
 const VIRGO_CHALLENGES = [
   "Perfectionnisme",
   "Autocritique",
-  "Anxiété",
-  "Difficulté à lâcher prise",
-  "Tendance à trop analyser",
-  "Exigence envers soi et les autres",
+  __i18n["anxiete"],
+  __i18n["difficulte_a_lacher_prise"],
+  __i18n["tendance_a_trop_analyser"],
+  __i18n["exigence_envers_soi_et_les_autres"],
 ];
 
 const COMPATIBILITIES = [
@@ -86,58 +87,58 @@ const COMPATIBILITIES = [
     sign: "Taureau",
     symbol: "♉",
     text:
-      "Le Taureau partage avec la Vierge un besoin de stabilité, de réalisme et de sécurité. Cette relation peut se construire lentement sur des bases solides et durables.",
+      __i18n["le_taureau_partage_avec_la_vierge_un_besoin_de_stabilite_de"],
   },
   {
     sign: "Capricorne",
     symbol: "♑",
     text:
-      "Le Capricorne apprécie le sérieux, l’organisation et la fiabilité de la Vierge. Ensemble, ils peuvent bâtir des projets structurés et une relation fondée sur la confiance.",
+      __i18n["le_capricorne_apprecie_le_serieux_l_organisation_et_la_fiabi"],
   },
   {
     sign: "Cancer",
     symbol: "♋",
     text:
-      "Le Cancer apporte sensibilité, douceur et profondeur émotionnelle. La Vierge peut offrir en retour soutien, stabilité et attention aux besoins du quotidien.",
+      __i18n["le_cancer_apporte_sensibilite_douceur_et_profondeur_emotionn"],
   },
   {
     sign: "Scorpion",
     symbol: "♏",
     text:
-      "Le Scorpion peut apprécier la discrétion et la loyauté de la Vierge. Leur relation peut favoriser la confiance, l’engagement et une compréhension profonde des besoins de l’autre.",
+      __i18n["le_scorpion_peut_apprecier_la_discretion_et_la_loyaute_de_la"],
   },
 ];
 
 const FAQ_ITEMS = [
   {
     question:
-      "Quelles sont les principales qualités de la Vierge ?",
+      __i18n["quelles_sont_les_principales_qualites_de_la_vierge"],
     answer:
-      "La Vierge est souvent associée à l’intelligence pratique, à l’organisation, à la précision, à la fiabilité, à la discrétion et au désir de se rendre utile.",
+      __i18n["la_vierge_est_souvent_associee_a_l_intelligence_pratique_a_l"],
   },
   {
     question:
-      "Quels sont les principaux défis de la Vierge ?",
+      __i18n["quels_sont_les_principaux_defis_de_la_vierge"],
     answer:
-      "La Vierge peut parfois devenir perfectionniste, trop critique envers elle-même ou préoccupée par les détails. Son évolution passe souvent par davantage de souplesse, de confiance et de bienveillance envers elle-même.",
+      __i18n["la_vierge_peut_parfois_devenir_perfectionniste_trop_critique"],
   },
   {
     question:
-      "Quelle planète gouverne la Vierge ?",
+      __i18n["quelle_planete_gouverne_la_vierge"],
     answer:
-      "La Vierge est gouvernée par Mercure, planète traditionnellement associée à la pensée, à l’analyse, à la communication, aux apprentissages et à la capacité d’organiser l’information.",
+      __i18n["la_vierge_est_gouvernee_par_mercure_planete_traditionnelleme"],
   },
   {
     question:
-      "Quel est l’élément de la Vierge ?",
+      __i18n["quel_est_l_element_de_la_vierge"],
     answer:
-      "La Vierge appartient à l’élément Terre. Cet élément est lié au réalisme, à la stabilité, au sens pratique, à l’organisation et à la construction de résultats concrets.",
+      __i18n["la_vierge_appartient_a_l_element_terre_cet_element_est_lie_a"],
   },
   {
     question:
-      "Comment savoir si la Vierge est importante dans mon thème natal ?",
+      __i18n["comment_savoir_si_la_vierge_est_importante_dans_mon_theme_na"],
     answer:
-      "La Vierge peut être importante si votre Soleil, votre Lune, votre Ascendant ou plusieurs planètes se trouvent dans ce signe. Une carte du ciel complète permet également de découvrir la maison astrologique occupée par la Vierge.",
+      __i18n["la_vierge_peut_etre_importante_si_votre_soleil_votre_lune_vo"],
   },
 ];
 
@@ -145,9 +146,9 @@ const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
   headline:
-    "La Vierge en astrologie : personnalité, amour, travail et compatibilités",
+    __i18n["la_vierge_en_astrologie_personnalite_amour_travail_et_compat"],
   description:
-    "Guide complet consacré au signe de la Vierge, à ses qualités, ses défis, ses relations, sa carrière et ses principales caractéristiques astrologiques.",
+    __i18n["guide_complet_consacre_au_signe_de_la_vierge_a_ses_qualites"],
   inLanguage: "fr-CA",
   mainEntityOfPage: PAGE_URL,
   publisher: {
@@ -196,76 +197,50 @@ export default function ViergeAstrologiePage() {
       <main className="virgo-wrap">
         <section className="virgo-hero">
           <div className="virgo-badge">
-            ♍ Sixième signe du zodiaque
-          </div>
+            {__i18n["sixieme_signe_du_zodiaque"]}</div>
 
           <h1>
-            La Vierge en astrologie
-          </h1>
+            {__i18n["la_vierge_en_astrologie"]}</h1>
 
           <p className="virgo-hero-lead">
-            La Vierge symbolise l’analyse, l’organisation,
-            l’amélioration et le sens du service. Ce signe de
-            Terre cherche à comprendre les détails, à créer de
-            l’ordre et à rendre les choses plus utiles,
-            efficaces et harmonieuses.
-          </p>
+            {__i18n["la_vierge_symbolise_l_analyse_l_organisation_l_amelioration"]}</p>
 
           <div className="virgo-hero-actions">
             <Link
               href="/carte-du-ciel"
               className="virgo-primary-button"
             >
-              Créer ma carte du ciel gratuite
-            </Link>
+              {__i18n["creer_ma_carte_du_ciel_gratuite"]}</Link>
 
             <a
               href="#personnalite-vierge"
               className="virgo-secondary-button"
             >
-              Découvrir la Vierge
-            </a>
+              {__i18n["decouvrir_la_vierge"]}</a>
           </div>
         </section>
 
         <article className="virgo-content">
           <section id="personnalite-vierge">
             <span className="virgo-kicker">
-              Personnalité de la Vierge
-            </span>
+              {__i18n["personnalite_de_la_vierge"]}</span>
 
             <h2>
-              Que représente le signe de la Vierge ?
-            </h2>
+              {__i18n["que_represente_le_signe_de_la_vierge"]}</h2>
 
             <p>
-              La Vierge est le sixième signe du zodiaque. Elle
-              représente l’analyse, la méthode, le sens du
-              détail, l’organisation et la volonté de rendre
-              les choses plus claires et plus efficaces.
-            </p>
+              {__i18n["la_vierge_est_le_sixieme_signe_du_zodiaque_elle_represente_l"]}</p>
 
             <p>
-              Une personne marquée par la Vierge cherche
-              généralement à comprendre ce qui peut être
-              amélioré. Elle observe, compare et organise afin
-              de trouver des solutions concrètes aux problèmes
-              du quotidien.
-            </p>
+              {__i18n["une_personne_marquee_par_la_vierge_cherche_generalement_a_co"]}</p>
 
             <p>
-              Cette énergie apporte précision, fiabilité et
-              discernement. Elle demande toutefois d’apprendre
-              à accepter l’imperfection, à moins se juger et à
-              reconnaître que tout ne peut pas toujours être
-              contrôlé ou corrigé.
-            </p>
+              {__i18n["cette_energie_apporte_precision_fiabilite_et_discernement_el"]}</p>
           </section>
 
           <section>
             <h2>
-              Les grandes caractéristiques de la Vierge
-            </h2>
+              {__i18n["les_grandes_caracteristiques_de_la_vierge"]}</h2>
 
             <div className="virgo-info-grid">
               {VIRGO_TRAITS.map((item) => (
@@ -291,8 +266,7 @@ export default function ViergeAstrologiePage() {
 
           <section>
             <h2>
-              Élément, modalité et planète maîtresse
-            </h2>
+              {__i18n["element_modalite_et_planete_maitresse"]}</h2>
 
             <div className="virgo-pillars">
               <div className="virgo-pillar-card">
@@ -301,15 +275,10 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Élément Terre
-                </h3>
+                  {__i18n["element_terre"]}</h3>
 
                 <p>
-                  La Terre apporte réalisme, patience,
-                  stabilité et sens pratique. Elle pousse la
-                  Vierge à transformer ses idées en solutions
-                  concrètes et utiles.
-                </p>
+                  {__i18n["la_terre_apporte_realisme_patience_stabilite_et_sens_pratiqu"]}</p>
               </div>
 
               <div className="virgo-pillar-card">
@@ -318,14 +287,10 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Modalité mutable
-                </h3>
+                  {__i18n["modalite_mutable"]}</h3>
 
                 <p>
-                  La modalité mutable favorise l’adaptation, la
-                  souplesse et la capacité d’ajuster une méthode
-                  lorsque les circonstances évoluent.
-                </p>
+                  {__i18n["la_modalite_mutable_favorise_l_adaptation_la_souplesse_et_la"]}</p>
               </div>
 
               <div className="virgo-pillar-card">
@@ -334,33 +299,25 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Planète Mercure
-                </h3>
+                  {__i18n["planete_mercure"]}</h3>
 
                 <p>
-                  Mercure représente la pensée, l’analyse, les
-                  apprentissages et la communication. Elle
-                  renforce la capacité de la Vierge à observer,
-                  classer et comprendre.
-                </p>
+                  {__i18n["mercure_represente_la_pensee_l_analyse_les_apprentissages_et"]}</p>
               </div>
             </div>
           </section>
 
           <section>
             <h2>
-              Les forces et les défis de la Vierge
-            </h2>
+              {__i18n["les_forces_et_les_defis_de_la_vierge"]}</h2>
 
             <div className="virgo-strengths-grid">
               <div className="virgo-list-card">
                 <span className="virgo-kicker">
-                  Forces naturelles
-                </span>
+                  {__i18n["forces_naturelles"]}</span>
 
                 <h3>
-                  Ce que la Vierge apporte
-                </h3>
+                  {__i18n["ce_que_la_vierge_apporte"]}</h3>
 
                 <ul>
                   {VIRGO_STRENGTHS.map((item) => (
@@ -373,12 +330,10 @@ export default function ViergeAstrologiePage() {
 
               <div className="virgo-list-card">
                 <span className="virgo-kicker">
-                  Points d’attention
-                </span>
+                  {__i18n["points_d_attention"]}</span>
 
                 <h3>
-                  Ce que la Vierge apprend
-                </h3>
+                  {__i18n["ce_que_la_vierge_apprend"]}</h3>
 
                 <ul>
                   {VIRGO_CHALLENGES.map((item) => (
@@ -393,67 +348,35 @@ export default function ViergeAstrologiePage() {
 
           <section>
             <h2>
-              La Vierge en amour
-            </h2>
+              {__i18n["la_vierge_en_amour"]}</h2>
 
             <p>
-              En amour, la Vierge recherche généralement une
-              relation stable, sincère et construite sur la
-              confiance. Elle peut être discrète dans
-              l’expression de ses sentiments, mais elle montre
-              souvent son affection par des gestes concrets.
-            </p>
+              {__i18n["en_amour_la_vierge_recherche_generalement_une_relation_stabl"]}</p>
 
             <p>
-              Elle remarque les détails, se souvient des besoins
-              de l’autre et cherche naturellement à rendre la
-              relation plus fluide. Sa loyauté se manifeste
-              souvent par sa présence, son écoute et son désir
-              d’aider.
-            </p>
+              {__i18n["elle_remarque_les_details_se_souvient_des_besoins_de_l_autre"]}</p>
 
             <p>
-              Son principal défi consiste à ne pas analyser
-              constamment la relation ou chercher à corriger
-              l’autre. Une relation durable lui demande
-              d’accepter davantage la vulnérabilité,
-              l’imprévu et les imperfections humaines.
-            </p>
+              {__i18n["son_principal_defi_consiste_a_ne_pas_analyser_constamment_la"]}</p>
           </section>
 
           <section>
             <h2>
-              La Vierge au travail
-            </h2>
+              {__i18n["la_vierge_au_travail"]}</h2>
 
             <p>
-              Dans la vie professionnelle, la Vierge se
-              distingue souvent par sa rigueur, son sens de
-              l’organisation et sa capacité à traiter des
-              informations complexes avec précision.
-            </p>
+              {__i18n["dans_la_vie_professionnelle_la_vierge_se_distingue_souvent_p"]}</p>
 
             <p>
-              Elle peut être particulièrement efficace dans les
-              domaines liés à l’analyse, à la santé, à
-              l’administration, à la comptabilité, à la
-              recherche, à la rédaction, à l’enseignement, à
-              l’organisation ou au soutien technique.
-            </p>
+              {__i18n["elle_peut_etre_particulierement_efficace_dans_les_domaines_l"]}</p>
 
             <p>
-              Elle apprécie généralement les environnements où
-              son travail possède une utilité réelle. Elle gagne
-              toutefois à reconnaître ses réussites et à ne pas
-              retarder inutilement un projet par peur qu’il ne
-              soit pas parfaitement terminé.
-            </p>
+              {__i18n["elle_apprecie_generalement_les_environnements_ou_son_travail"]}</p>
           </section>
 
           <section>
             <h2>
-              Soleil, Lune et Ascendant en Vierge
-            </h2>
+              {__i18n["soleil_lune_et_ascendant_en_vierge"]}</h2>
 
             <div className="virgo-pillars">
               <div className="virgo-pillar-card">
@@ -462,21 +385,16 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Soleil en Vierge
-                </h3>
+                  {__i18n["soleil_en_vierge"]}</h3>
 
                 <p>
-                  Le Soleil en Vierge construit son identité par
-                  l’analyse, la recherche d’amélioration, le
-                  travail précis et le désir de se rendre utile.
-                </p>
+                  {__i18n["le_soleil_en_vierge_construit_son_identite_par_l_analyse_la"]}</p>
 
                 <Link
                   href="/astrologie/soleil"
                   className="virgo-text-link"
                 >
-                  Comprendre le Soleil
-                </Link>
+                  {__i18n["comprendre_le_soleil"]}</Link>
               </div>
 
               <div className="virgo-pillar-card">
@@ -485,22 +403,16 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Lune en Vierge
-                </h3>
+                  {__i18n["lune_en_vierge"]}</h3>
 
                 <p>
-                  La Lune en Vierge a besoin d’ordre, de clarté
-                  et de repères concrets pour retrouver son
-                  équilibre émotionnel et calmer ses
-                  préoccupations.
-                </p>
+                  {__i18n["la_lune_en_vierge_a_besoin_d_ordre_de_clarte_et_de_reperes_c"]}</p>
 
                 <Link
                   href="/astrologie/lune"
                   className="virgo-text-link"
                 >
-                  Comprendre la Lune
-                </Link>
+                  {__i18n["comprendre_la_lune"]}</Link>
               </div>
 
               <div className="virgo-pillar-card">
@@ -509,45 +421,29 @@ export default function ViergeAstrologiePage() {
                 </div>
 
                 <h3>
-                  Ascendant Vierge
-                </h3>
+                  {__i18n["ascendant_vierge"]}</h3>
 
                 <p>
-                  L’Ascendant Vierge donne une présence
-                  discrète, attentive et observatrice. Il
-                  aborde généralement la vie avec prudence,
-                  méthode et sens pratique.
-                </p>
+                  {__i18n["l_ascendant_vierge_donne_une_presence_discrete_attentive_et"]}</p>
 
                 <Link
                   href="/astrologie/ascendant"
                   className="virgo-text-link"
                 >
-                  Comprendre l’Ascendant
-                </Link>
+                  {__i18n["comprendre_l_ascendant"]}</Link>
               </div>
             </div>
           </section>
 
           <section>
             <h2>
-              Les compatibilités de la Vierge
-            </h2>
+              {__i18n["les_compatibilites_de_la_vierge"]}</h2>
 
             <p>
-              Les compatibilités astrologiques ne reposent
-              jamais uniquement sur le signe solaire. La Lune,
-              Vénus, Mars, l’Ascendant et les aspects entre les
-              deux thèmes apportent des informations
-              essentielles.
-            </p>
+              {__i18n["les_compatibilites_astrologiques_ne_reposent_jamais_uniqueme"]}</p>
 
             <p>
-              Certaines associations peuvent néanmoins sembler
-              naturellement plus harmonieuses lorsqu’elles
-              partagent un besoin de stabilité, de fidélité,
-              d’organisation et de sécurité émotionnelle.
-            </p>
+              {__i18n["certaines_associations_peuvent_neanmoins_sembler_naturelleme"]}</p>
 
             <div className="virgo-compatibility-grid">
               {COMPATIBILITIES.map((item) => (
@@ -560,7 +456,7 @@ export default function ViergeAstrologiePage() {
                   </div>
 
                   <h3>
-                    Vierge et {item.sign}
+                    {__i18n["vierge_et"]}{item.sign}
                   </h3>
 
                   <p>
@@ -573,58 +469,40 @@ export default function ViergeAstrologiePage() {
 
           <section>
             <h2>
-              La Vierge dans votre thème natal
-            </h2>
+              {__i18n["la_vierge_dans_votre_theme_natal"]}</h2>
 
             <p>
-              La Vierge ne concerne pas uniquement les
-              personnes nées sous ce signe. Chaque thème natal
-              contient la Vierge dans une maison astrologique
-              particulière.
-            </p>
+              {__i18n["la_vierge_ne_concerne_pas_uniquement_les_personnes_nees_sous"]}</p>
 
             <p>
-              Cette maison montre le domaine de vie dans lequel
-              vous cherchez à organiser, analyser, améliorer ou
-              vous rendre utile. La présence de planètes en
-              Vierge renforce également cette énergie.
-            </p>
+              {__i18n["cette_maison_montre_le_domaine_de_vie_dans_lequel_vous_cherc"]}</p>
 
             <div className="virgo-cta-card">
               <div>
                 <span className="virgo-kicker">
-                  Découvrez votre thème natal
-                </span>
+                  {__i18n["decouvrez_votre_theme_natal"]}</span>
 
                 <h2>
-                  Où se trouve la Vierge dans votre carte du ciel ?
-                </h2>
+                  {__i18n["ou_se_trouve_la_vierge_dans_votre_carte_du_ciel"]}</h2>
 
                 <p>
-                  Générez gratuitement votre carte du ciel pour
-                  découvrir vos signes, vos maisons
-                  astrologiques, votre Ascendant et les
-                  positions de vos planètes.
-                </p>
+                  {__i18n["generez_gratuitement_votre_carte_du_ciel_pour_decouvrir_vos"]}</p>
               </div>
 
               <Link
                 href="/carte-du-ciel"
                 className="virgo-primary-button"
               >
-                Créer ma carte du ciel
-              </Link>
+                {__i18n["creer_ma_carte_du_ciel"]}</Link>
             </div>
           </section>
 
           <section className="virgo-faq">
             <span className="virgo-kicker">
-              Questions fréquentes
-            </span>
+              {__i18n["questions_frequentes"]}</span>
 
             <h2>
-              Questions sur la Vierge
-            </h2>
+              {__i18n["questions_sur_la_vierge"]}</h2>
 
             <div className="virgo-faq-list">
               {FAQ_ITEMS.map((item) => (
@@ -645,11 +523,7 @@ export default function ViergeAstrologiePage() {
           </section>
 
           <p className="virgo-disclaimer">
-            L’astrologie est présentée comme un langage
-            symbolique d’exploration personnelle. Elle ne
-            remplace pas un avis médical, psychologique,
-            juridique ou financier.
-          </p>
+            {__i18n["l_astrologie_est_presentee_comme_un_langage_symbolique_d_exp"]}</p>
         </article>
       </main>
     </div>

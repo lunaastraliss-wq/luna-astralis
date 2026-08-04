@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../i18n/migrated/fr/app/chat/chatmodals.json";
 import React from "react";
 
 type ThreadMsg = { role: "user" | "ai"; text: string };
@@ -39,26 +41,22 @@ export default function ChatModals(props: {
         }}
       >
         <div className="paywall-card" role="dialog" aria-modal="true">
-          <h3 className="paywall-title">Continuer la discussion</h3>
+          <h3 className="paywall-title">{__i18n["continuer_la_discussion"]}</h3>
 
           {paywallMode === "guest" ? (
             <>
               <p className="paywall-text">
-                Tu as atteint la limite gratuite. Crée un compte (gratuit) pour continuer et
-                retrouver tes échanges.
-              </p>
+                {__i18n["tu_as_atteint_la_limite_gratuite_cree_un_compte_gratuit_pour"]}</p>
 
               <div className="paywall-actions">
                 <a
                   className="paywall-link primary"
                   href={`/login?next=${enc(nextUrl)}`}
                 >
-                  Créer un compte / Se connecter
-                </a>
+                  {__i18n["creer_un_compte_se_connecter"]}</a>
 
                 <a className="paywall-link" href={`/pricing?next=${enc(nextUrl)}`}>
-                  Voir les offres
-                </a>
+                  {__i18n["voir_les_offres"]}</a>
 
                 <button className="paywall-btn" type="button" onClick={onClosePaywall}>
                   Fermer
@@ -66,21 +64,16 @@ export default function ChatModals(props: {
               </div>
 
               <div className="paywall-footnote">
-                Astuce : le compte sert à sauvegarder ton historique. L’accès complet est
-                disponible via une offre.
-              </div>
+                {__i18n["astuce_le_compte_sert_a_sauvegarder_ton_historique_l_acces_c"]}</div>
             </>
           ) : (
             <>
               <p className="paywall-text">
-                Ton compte est bien connecté, mais ce chat complet est réservé aux abonnés.
-                Choisis une offre pour continuer.
-              </p>
+                {__i18n["ton_compte_est_bien_connecte_mais_ce_chat_complet_est_reserv"]}</p>
 
               <div className="paywall-actions">
                 <a className="paywall-link primary" href={`/pricing?next=${enc(nextUrl)}`}>
-                  Voir les offres
-                </a>
+                  {__i18n["voir_les_offres_2"]}</a>
 
                 <button className="paywall-btn" type="button" onClick={onClosePaywall}>
                   Fermer
@@ -88,8 +81,7 @@ export default function ChatModals(props: {
               </div>
 
               <div className="paywall-footnote">
-                Après paiement, reviens ici : l’accès se débloquera automatiquement.
-              </div>
+                {__i18n["apres_paiement_reviens_ici_l_acces_se_debloquera_automatique"]}</div>
             </>
           )}
         </div>
@@ -120,7 +112,7 @@ export default function ChatModals(props: {
                   <img
                     className="history-avatar"
                     src="/ia-luna-astralis.png"
-                    alt="Luna (IA)"
+                    alt={__i18n["luna_ia"]}
                   />
                 ) : (
                   <div style={{ width: 34, height: 34 }} />
@@ -140,12 +132,10 @@ export default function ChatModals(props: {
                 if (el) el.scrollTop = el.scrollHeight;
               }}
             >
-              Aller au bas
-            </button>
+              {__i18n["aller_au_bas"]}</button>
 
             <button className="paywall-btn" type="button" onClick={onClearHistoryLocal}>
-              Effacer (local)
-            </button>
+              {__i18n["effacer_local"]}</button>
           </div>
         </div>
       </div>

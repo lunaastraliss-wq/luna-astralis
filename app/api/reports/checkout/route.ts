@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/reports/checkout/route.json";
 import {
   NextResponse,
 } from "next/server";
@@ -548,7 +549,7 @@ export async function POST(
               "MISSING_COMPATIBILITY_BIRTH_DATA",
 
             detail:
-              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour les deux personnes.",
+              __i18n["la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son"],
           },
           {
             status: 400,
@@ -568,7 +569,7 @@ export async function POST(
               "MISSING_COMPATIBILITY_WHEEL_IMAGE_PATH",
 
             detail:
-              "Les images des deux roues astrologiques sont requises.",
+              __i18n["les_images_des_deux_roues_astrologiques_sont_requises"],
           },
           {
             status: 400,
@@ -724,7 +725,7 @@ export async function POST(
               "MISSING_HOROSCOPE_BIRTH_DATA",
 
             detail:
-              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope personnalisé.",
+              __i18n["la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_2"],
           },
           {
             status: 400,
@@ -868,7 +869,7 @@ export async function POST(
               "MISSING_HOROSCOPE_MONTH_BIRTH_DATA",
 
             detail:
-              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope mensuel personnalisé.",
+              __i18n["la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_3"],
           },
           {
             status: 400,
@@ -896,7 +897,7 @@ export async function POST(
               "MISSING_HOROSCOPE_MONTH_PERIOD",
 
             detail:
-              "Le mois et l’année du rapport sont requis.",
+              __i18n["le_mois_et_l_annee_du_rapport_sont_requis"],
           },
           {
             status: 400,
@@ -1052,7 +1053,7 @@ export async function POST(
               "MISSING_HOROSCOPE_YEAR_BIRTH_DATA",
 
             detail:
-              "La date, l’heure, la ville et les coordonnées de naissance sont requises pour générer l’horoscope annuel personnalisé.",
+              __i18n["la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_4"],
           },
           {
             status: 400,
@@ -1074,7 +1075,7 @@ export async function POST(
               "MISSING_HOROSCOPE_YEAR_PERIOD",
 
             detail:
-              "L’année du rapport est requise.",
+              __i18n["l_annee_du_rapport_est_requise"],
           },
           {
             status: 400,
@@ -1219,7 +1220,7 @@ export async function POST(
             "MISSING_BIRTH_DATA",
 
           detail:
-            "La date, l’heure, la ville et les coordonnées de naissance sont requises.",
+            __i18n["la_date_l_heure_la_ville_et_les_coordonnees_de_naissance_son_5"],
         },
         {
           status: 400,
@@ -1237,7 +1238,7 @@ export async function POST(
             "MISSING_WHEEL_IMAGE_PATH",
 
           detail:
-            "Le chemin de l’image de la roue astrologique est absent.",
+            __i18n["le_chemin_de_l_image_de_la_roue_astrologique_est_absent"],
         },
         {
           status: 400,

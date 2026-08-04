@@ -1,0 +1,22 @@
+{
+  "application_json": "application/json",
+  "votre_annee_personnalisee": "Ihr personalisiertes Jahr",
+  "creez_votre_horoscope_premium_de_l_annee": "Erstellen Sie Ihr Premium-Horoskop für das Jahr",
+  "selectionnez_l_annee_a_analyser_puis_entrez_votre_date_votre": "Wählen Sie das Jahr aus, das Sie analysieren möchten, und geben Sie dann Ihr Geburtsdatum, Ihre Geburtszeit und Ihren Geburtsort ein.",
+  "annee_du_rapport": "Jahr des Berichts *",
+  "prenom": "Vorname",
+  "optionnel": "(optional)",
+  "votre_prenom": "Ihr Vorname",
+  "date_de_naissance": "Geburtsdatum *",
+  "jj_mm_aaaa": "TT/MM/JJJJ",
+  "heure_de_naissance": "Geburtszeit",
+  "optionnelle_mais_recommandee": "Optional, aber empfohlen",
+  "ville_de_naissance": "Geburtsstadt *",
+  "ex_quebec": "Z.B. Québec",
+  "pays_de_naissance": "Geburtsland *",
+  "ex_canada": "Z.B. Kanada",
+  "important": "Wichtig:",
+  "telechargez_votre_rapport_des_qu_il_est_genere_et_conservez": "Laden Sie Ihren Bericht herunter, sobald er erstellt wurde, und bewahren Sie ihn an einem sicheren Ort auf. Luna Astralis speichert keine Kopie Ihres PDFs.",
+  "paiement_securise_par_stripe": "🔒 Sicherer Zahlungsvorgang über Stripe",
+  "pdf_disponible_immediatement_apres_le_paiement": "PDF sofort nach der Zahlung verfügbar"
+}

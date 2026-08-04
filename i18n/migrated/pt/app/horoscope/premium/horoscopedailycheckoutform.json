@@ -1,0 +1,21 @@
+{
+  "application_json": "application/json",
+  "votre_naissance": "Seu nascimento",
+  "creez_votre_horoscope_premium_du_jour": "Crie seu horóscopo Premium do dia",
+  "votre_horoscope_est_calcule_a_partir_de_votre_date_de_votre": "Seu horóscopo é calculado a partir da sua data, hora e local de nascimento.",
+  "prenom": "Primeiro nome",
+  "optionnel": "(opcional)",
+  "votre_prenom": "Seu primeiro nome",
+  "date_de_naissance": "Data de nascimento *",
+  "jj_mm_aaaa": "DD/MM/AAAA",
+  "heure_de_naissance": "Hora de nascimento",
+  "optionnelle_mais_recommandee": "Opcional, mas recomendado",
+  "ville_de_naissance": "Cidade de nascimento *",
+  "ex_quebec": "Ex. Québec",
+  "pays_de_naissance": "País de nascimento *",
+  "ex_canada": "Ex. Canadá",
+  "important": "Importante :",
+  "telechargez_votre_rapport_des_qu_il_est_genere_et_conservez": "baixe seu relatório assim que ele for gerado e guarde-o em um lugar seguro. Luna Astralis não mantém nenhuma cópia do seu PDF.",
+  "paiement_securise_par_stripe": "🔒 Pagamento seguro pelo Stripe",
+  "pdf_disponible_immediatement_apres_le_paiement": "PDF disponível imediatamente após o pagamento"
+}

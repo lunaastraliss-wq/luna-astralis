@@ -1,5 +1,7 @@
 "use client";
 
+
+import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopedailycheckoutform.json";
 import {
   FormEvent,
   useState,
@@ -479,7 +481,7 @@ export default function HoroscopeDailyCheckoutForm() {
 
             headers: {
               "Content-Type":
-                "application/json",
+                __i18n["application_json"],
             },
 
             body:
@@ -568,17 +570,13 @@ export default function HoroscopeDailyCheckoutForm() {
     <div className="horoscope-daily-form-card">
       <div className="horoscope-daily-form-heading">
         <span className="premium-section-kicker">
-          Votre naissance
-        </span>
+          {__i18n["votre_naissance"]}</span>
 
         <h2>
-          Créez votre horoscope Premium du jour
-        </h2>
+          {__i18n["creez_votre_horoscope_premium_du_jour"]}</h2>
 
         <p>
-          Votre horoscope est calculé à partir de votre date,
-          de votre heure et de votre lieu de naissance.
-        </p>
+          {__i18n["votre_horoscope_est_calcule_a_partir_de_votre_date_de_votre"]}</p>
       </div>
 
       <form
@@ -594,11 +592,10 @@ export default function HoroscopeDailyCheckoutForm() {
 
         <div className="horoscope-daily-field">
           <label htmlFor="firstName">
-            Prénom{" "}
+            {__i18n["prenom"]}{" "}
 
             <span>
-              (optionnel)
-            </span>
+              {__i18n["optionnel"]}</span>
           </label>
 
           <input
@@ -614,7 +611,7 @@ export default function HoroscopeDailyCheckoutForm() {
               )
             }
             autoComplete="given-name"
-            placeholder="Votre prénom"
+            placeholder={__i18n["votre_prenom"]}
           />
         </div>
 
@@ -627,8 +624,7 @@ export default function HoroscopeDailyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="birthDate">
-              Date de naissance *
-            </label>
+              {__i18n["date_de_naissance"]}</label>
 
             <input
               id="birthDate"
@@ -645,7 +641,7 @@ export default function HoroscopeDailyCheckoutForm() {
                   ),
                 )
               }
-              placeholder="JJ/MM/AAAA"
+              placeholder={__i18n["jj_mm_aaaa"]}
               maxLength={10}
               autoComplete="bday"
               required
@@ -654,8 +650,7 @@ export default function HoroscopeDailyCheckoutForm() {
 
           <div className="horoscope-daily-field">
             <label htmlFor="birthTime">
-              Heure de naissance
-            </label>
+              {__i18n["heure_de_naissance"]}</label>
 
             <input
               id="birthTime"
@@ -673,8 +668,7 @@ export default function HoroscopeDailyCheckoutForm() {
             />
 
             <small>
-              Optionnelle, mais recommandée
-            </small>
+              {__i18n["optionnelle_mais_recommandee"]}</small>
           </div>
         </div>
 
@@ -687,8 +681,7 @@ export default function HoroscopeDailyCheckoutForm() {
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="birthCity">
-              Ville de naissance *
-            </label>
+              {__i18n["ville_de_naissance"]}</label>
 
             <input
               id="birthCity"
@@ -703,15 +696,14 @@ export default function HoroscopeDailyCheckoutForm() {
                 )
               }
               autoComplete="off"
-              placeholder="Ex. Québec"
+              placeholder={__i18n["ex_quebec"]}
               required
             />
           </div>
 
           <div className="horoscope-daily-field">
             <label htmlFor="birthCountry">
-              Pays de naissance *
-            </label>
+              {__i18n["pays_de_naissance"]}</label>
 
             <input
               id="birthCountry"
@@ -726,7 +718,7 @@ export default function HoroscopeDailyCheckoutForm() {
                 )
               }
               autoComplete="country-name"
-              placeholder="Ex. Canada"
+              placeholder={__i18n["ex_canada"]}
               required
             />
           </div>
@@ -760,12 +752,8 @@ export default function HoroscopeDailyCheckoutForm() {
 
           <p>
             <strong>
-              Important :
-            </strong>{" "}
-            téléchargez votre rapport dès qu’il est généré et
-            conservez-le dans un endroit sécuritaire. Luna Astralis
-            ne conserve aucune copie de votre PDF.
-          </p>
+              {__i18n["important"]}</strong>{" "}
+            {__i18n["telechargez_votre_rapport_des_qu_il_est_genere_et_conservez"]}</p>
         </div>
 
         {/*
@@ -785,10 +773,8 @@ export default function HoroscopeDailyCheckoutForm() {
         </button>
 
         <p className="horoscope-daily-secure-note">
-          🔒 Paiement sécurisé par Stripe
-          {" · "}
-          PDF disponible immédiatement après le paiement
-        </p>
+          {__i18n["paiement_securise_par_stripe"]}{" · "}
+          {__i18n["pdf_disponible_immediatement_apres_le_paiement"]}</p>
       </form>
     </div>
   );

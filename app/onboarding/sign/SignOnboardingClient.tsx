@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/onboarding/sign/signonboardingclient.json";
 /* =========================================================
    app/onboarding/sign/page.tsx
    - Onboarding (connecté): choisir un signe -> save -> redirect
@@ -17,21 +18,21 @@ type ElementKey = "feu" | "terre" | "air" | "eau";
 type Sign = { key: string; label: string; element: ElementKey };
 
 const SIGNS: Sign[] = [
-  { key: "belier", label: "Bélier ♈", element: "feu" },
-  { key: "lion", label: "Lion ♌", element: "feu" },
-  { key: "sagittaire", label: "Sagittaire ♐", element: "feu" },
+  { key: "belier", label: __i18n["belier"], element: "feu" },
+  { key: "lion", label: __i18n["lion"], element: "feu" },
+  { key: "sagittaire", label: __i18n["sagittaire"], element: "feu" },
 
-  { key: "taureau", label: "Taureau ♉", element: "terre" },
-  { key: "vierge", label: "Vierge ♍", element: "terre" },
-  { key: "capricorne", label: "Capricorne ♑", element: "terre" },
+  { key: "taureau", label: __i18n["taureau"], element: "terre" },
+  { key: "vierge", label: __i18n["vierge"], element: "terre" },
+  { key: "capricorne", label: __i18n["capricorne"], element: "terre" },
 
-  { key: "gemeaux", label: "Gémeaux ♊", element: "air" },
-  { key: "balance", label: "Balance ♎", element: "air" },
-  { key: "verseau", label: "Verseau ♒", element: "air" },
+  { key: "gemeaux", label: __i18n["gemeaux"], element: "air" },
+  { key: "balance", label: __i18n["balance"], element: "air" },
+  { key: "verseau", label: __i18n["verseau"], element: "air" },
 
-  { key: "cancer", label: "Cancer ♋", element: "eau" },
-  { key: "scorpion", label: "Scorpion ♏", element: "eau" },
-  { key: "poissons", label: "Poissons ♓", element: "eau" },
+  { key: "cancer", label: __i18n["cancer"], element: "eau" },
+  { key: "scorpion", label: __i18n["scorpion"], element: "eau" },
+  { key: "poissons", label: __i18n["poissons"], element: "eau" },
 ];
 
 const LS_SIGN_KEY = "la_sign";
@@ -171,8 +172,8 @@ export default function OnboardingSignPage() {
       <main style={styles.page}>
         <div style={styles.shell}>
           <div style={styles.loadingCard}>
-            <div style={styles.loadingTitle}>Chargement…</div>
-            <div style={styles.loadingSub}>Préparation de ton espace Luna Astralis</div>
+            <div style={styles.loadingTitle}>{__i18n["chargement"]}</div>
+            <div style={styles.loadingSub}>{__i18n["preparation_de_ton_espace_luna_astralis"]}</div>
           </div>
         </div>
       </main>
@@ -186,27 +187,25 @@ export default function OnboardingSignPage() {
       <div style={styles.shell}>
         {/* HEADER */}
         <div style={styles.head}>
-          <div style={styles.kicker}>Exploration personnelle reliée à ton signe</div>
+          <div style={styles.kicker}>{__i18n["exploration_personnelle_reliee_a_ton_signe"]}</div>
           <h1 style={styles.h1}>{changeMode ? "Changer de signe" : "Choisir un signe"}</h1>
           <p style={styles.sub}>
-            Tu as droit à <b>15 messages gratuits à vie</b>. Ensuite, tu peux débloquer l’accès complet si tu le souhaites.
-          </p>
+            {__i18n["tu_as_droit_a"]}<b>{__i18n["15_messages_gratuits_a_vie"]}</b>{__i18n["ensuite_tu_peux_debloquer_l_acces_complet_si_tu_le_souhaites"]}</p>
         </div>
 
         {/* STEPS */}
-        <div style={styles.stepsWrap} aria-label="Étapes">
-          <StepCard no="01" icon="♈" title="Choisis ton signe" text="Tu démarres en 1 clic." />
+        <div style={styles.stepsWrap} aria-label={__i18n["etapes"]}>
+          <StepCard no="01" icon="♈" title={__i18n["choisis_ton_signe"]} text="Tu démarres en 1 clic." />
           <StepCard no="02" icon="🔐" title="Connecte-toi" text="Ton accès est sécurisé et tes échanges sont protégés." />
-          <StepCard no="03" icon="✧" title="Gagne en clarté" text="Forces, blocages, besoins." />
-          <StepCard no="04" icon="☾" title="Garde le contrôle" text="Une exploration guidée, à travers ton signe." />
+          <StepCard no="03" icon="✧" title={__i18n["gagne_en_clarte"]} text="Forces, blocages, besoins." />
+          <StepCard no="04" icon="☾" title={__i18n["garde_le_controle"]} text="Une exploration guidée, à travers ton signe." />
         </div>
 
         {/* GRID SIGNS */}
         <div style={styles.sectionTitleRow}>
-          <div style={styles.sectionTitle}>Choisir un signe</div>
+          <div style={styles.sectionTitle}>{__i18n["choisir_un_signe"]}</div>
           <div style={styles.sectionHint}>
-            Clique un signe : si tu n’es pas connectée, on te redirige vers le login.
-          </div>
+            {__i18n["clique_un_signe_si_tu_n_es_pas_connectee_on_te_redirige_vers"]}</div>
         </div>
 
         <div style={styles.grid}>
@@ -255,12 +254,12 @@ export default function OnboardingSignPage() {
         {/* FOOTER */}
         <div style={styles.footer}>
           <div style={styles.footerLeft}>
-            <div style={styles.footerBrand}>Luna Astralis</div>
-            <div style={styles.footerCopy}>© {new Date().getFullYear()} · Tous droits réservés</div>
+            <div style={styles.footerBrand}>{__i18n["luna_astralis"]}</div>
+            <div style={styles.footerCopy}>© {new Date().getFullYear()} {__i18n["tous_droits_reserves"]}</div>
           </div>
 
           <div style={styles.footerRight}>
-            <div style={styles.footerNote}>Exploration personnelle — non thérapeutique. Réservé aux 18 ans et plus.</div>
+            <div style={styles.footerNote}>{__i18n["exploration_personnelle_non_therapeutique_reserve_aux_18_ans"]}</div>
           </div>
         </div>
       </div>
@@ -299,17 +298,17 @@ const styles: Record<string, React.CSSProperties> = {
   page: {
     minHeight: "100vh",
     background:
-      "radial-gradient(1200px 700px at 20% 10%, rgba(130,90,255,0.22), transparent 60%), radial-gradient(900px 600px at 80% 20%, rgba(0,200,255,0.12), transparent 55%), linear-gradient(180deg, #0b0c12 0%, #07070b 100%)",
-    color: "rgba(255,255,255,0.92)",
-    padding: "22px 14px",
+      __i18n["radial_gradient_1200px_700px_at_20_10_rgba_130_90_255_0_22_t"],
+    color: __i18n["rgba_255_255_255_0_92"],
+    padding: __i18n["22px_14px"],
   },
-  shell: { maxWidth: 1020, margin: "0 auto" },
+  shell: { maxWidth: 1020, margin: __i18n["0_auto"] },
 
   /* Loading */
   loadingCard: {
     marginTop: 12,
-    background: "rgba(255,255,255,0.06)",
-    border: "1px solid rgba(255,255,255,0.10)",
+    background: __i18n["rgba_255_255_255_0_06"],
+    border: __i18n["1px_solid_rgba_255_255_255_0_10"],
     borderRadius: 18,
     padding: 18,
     maxWidth: 520,
@@ -325,10 +324,10 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 900,
     letterSpacing: 0.2,
     opacity: 0.8,
-    padding: "7px 10px",
+    padding: __i18n["7px_10px"],
     borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.05)",
+    border: __i18n["1px_solid_rgba_255_255_255_0_12"],
+    background: __i18n["rgba_255_255_255_0_05"],
     marginBottom: 10,
   },
   h1: { fontSize: 28, fontWeight: 900, letterSpacing: -0.3, margin: 0 },
@@ -337,18 +336,18 @@ const styles: Record<string, React.CSSProperties> = {
   /* Steps */
   stepsWrap: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+    gridTemplateColumns: __i18n["repeat_auto_fit_minmax_190px_1fr"],
     gap: 12,
     marginTop: 14,
     marginBottom: 16,
   },
   stepCard: {
-    background: "linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04))",
-    border: "1px solid rgba(255,255,255,0.12)",
+    background: __i18n["linear_gradient_180deg_rgba_255_255_255_0_07_rgba_255_255_25"],
+    border: __i18n["1px_solid_rgba_255_255_255_0_12_2"],
     borderRadius: 18,
     padding: 14,
     minHeight: 92,
-    boxShadow: "0 10px 30px rgba(0,0,0,0.25)",
+    boxShadow: __i18n["0_10px_30px_rgba_0_0_0_0_25"],
   },
   stepTop: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 },
   stepNo: { fontSize: 12, opacity: 0.75, fontWeight: 900 },
@@ -365,48 +364,48 @@ const styles: Record<string, React.CSSProperties> = {
   /* Grid */
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+    gridTemplateColumns: __i18n["repeat_auto_fit_minmax_150px_1fr"],
     gap: 12,
     marginTop: 10,
   },
 
   signBtn: {
-    padding: "16px 14px",
+    padding: __i18n["16px_14px"],
     borderRadius: 16,
-    border: "1px solid rgba(255,255,255,0.10)",
-    background: "rgba(255,255,255,0.06)",
-    color: "rgba(255,255,255,0.92)",
+    border: __i18n["1px_solid_rgba_255_255_255_0_10_2"],
+    background: __i18n["rgba_255_255_255_0_06_2"],
+    color: __i18n["rgba_255_255_255_0_92_2"],
     textAlign: "left",
     cursor: "pointer",
-    transition: "transform 140ms ease, filter 140ms ease, border-color 140ms ease, box-shadow 140ms ease",
+    transition: __i18n["transform_140ms_ease_filter_140ms_ease_border_color_140ms_ea"],
     WebkitTapHighlightColor: "transparent",
-    boxShadow: "0 12px 26px rgba(0,0,0,0.22)",
+    boxShadow: __i18n["0_12px_26px_rgba_0_0_0_0_22"],
   },
   signLabel: { fontSize: 16, fontWeight: 900, letterSpacing: -0.1 },
 
   // Couleurs douces par élément (sans changer ton UI)
   sign_feu: {
     background:
-      "linear-gradient(90deg, rgba(255,170,90,0.16), rgba(255,120,80,0.06))",
+      __i18n["linear_gradient_90deg_rgba_255_170_90_0_16_rgba_255_120_80_0"],
   },
   sign_terre: {
     background:
-      "linear-gradient(90deg, rgba(120,255,170,0.14), rgba(80,200,140,0.06))",
+      __i18n["linear_gradient_90deg_rgba_120_255_170_0_14_rgba_80_200_140"],
   },
   sign_air: {
     background:
-      "linear-gradient(90deg, rgba(170,200,255,0.14), rgba(120,160,255,0.06))",
+      __i18n["linear_gradient_90deg_rgba_170_200_255_0_14_rgba_120_160_255"],
   },
   sign_eau: {
     background:
-      "linear-gradient(90deg, rgba(90,220,255,0.14), rgba(80,140,255,0.06))",
+      __i18n["linear_gradient_90deg_rgba_90_220_255_0_14_rgba_80_140_255_0"],
   },
 
   active: {
-    borderColor: "rgba(255,255,255,0.22)",
-    transform: "translateY(-1px)",
-    filter: "brightness(1.06) saturate(1.1)",
-    boxShadow: "0 14px 34px rgba(0,0,0,0.30)",
+    borderColor: __i18n["rgba_255_255_255_0_22"],
+    transform: __i18n["translatey_1px"],
+    filter: __i18n["brightness_1_06_saturate_1_1"],
+    boxShadow: __i18n["0_14px_34px_rgba_0_0_0_0_30"],
   },
   disabled: { opacity: 0.75, cursor: "default" },
 
@@ -416,22 +415,22 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: 11,
     letterSpacing: 0.8,
     fontWeight: 900,
-    padding: "6px 10px",
+    padding: __i18n["6px_10px"],
     borderRadius: 999,
-    border: "1px solid rgba(255,255,255,0.12)",
-    background: "rgba(255,255,255,0.05)",
+    border: __i18n["1px_solid_rgba_255_255_255_0_12_3"],
+    background: __i18n["rgba_255_255_255_0_05_2"],
     opacity: 0.92,
   },
-  chip_feu: { background: "rgba(255,160,90,0.12)" },
-  chip_terre: { background: "rgba(120,255,170,0.10)" },
-  chip_air: { background: "rgba(170,200,255,0.10)" },
-  chip_eau: { background: "rgba(90,220,255,0.10)" },
+  chip_feu: { background: __i18n["rgba_255_160_90_0_12"] },
+  chip_terre: { background: __i18n["rgba_120_255_170_0_10"] },
+  chip_air: { background: __i18n["rgba_170_200_255_0_10"] },
+  chip_eau: { background: __i18n["rgba_90_220_255_0_10"] },
 
   /* Footer */
   footer: {
     marginTop: 18,
     paddingTop: 14,
-    borderTop: "1px solid rgba(255,255,255,0.10)",
+    borderTop: __i18n["1px_solid_rgba_255_255_255_0_10_3"],
     display: "flex",
     gap: 12,
     justifyContent: "space-between",

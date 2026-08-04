@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/cron/reminders/route.json";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createClient } from "@supabase/supabase-js";
@@ -93,9 +94,9 @@ export async function GET(req: Request) {
   const fromEmail = process.env.FROM_EMAIL || "Luna Astralis <contact@luna-astralis.app>";
   const replyTo = process.env.RESEND_REPLY_TO || "lunaastraliss@gmail.com";
 
-  if (!resendKey) return json(400, { ok: false, error: "Missing RESEND_API_KEY" });
-  if (!supabaseUrl) return json(400, { ok: false, error: "Missing NEXT_PUBLIC_SUPABASE_URL" });
-  if (!serviceRole) return json(400, { ok: false, error: "Missing SUPABASE_SERVICE_ROLE_KEY" });
+  if (!resendKey) return json(400, { ok: false, error: __i18n["missing_resend_api_key"] });
+  if (!supabaseUrl) return json(400, { ok: false, error: __i18n["missing_next_public_supabase_url"] });
+  if (!serviceRole) return json(400, { ok: false, error: __i18n["missing_supabase_service_role_key"] });
 
   const supabase = createClient(supabaseUrl, serviceRole, { auth: { persistSession: false } });
   const resend = new Resend(resendKey);

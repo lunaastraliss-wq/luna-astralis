@@ -1,0 +1,3 @@
+{
+  "reports_webhook_is_active_stripe_must_call_this_route_with_p": "Der Webhook für Berichte ist aktiv. Stripe muss diese Route mit POST aufrufen."
+}

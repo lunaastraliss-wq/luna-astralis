@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/dev/essential/page.json";
 import EssentialReport from "@/components/reports/Essential/EssentialReport";
 
 const previewPlanets = [
@@ -29,7 +30,7 @@ export default function EssentialPreviewPage() {
     <main
       style={{
         minHeight: "100vh",
-        padding: "40px 20px",
+        padding: __i18n["40px_20px"],
         background: "#050814",
       }}
     >

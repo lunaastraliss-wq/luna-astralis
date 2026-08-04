@@ -1,22 +1,21 @@
+import __i18n from "../../i18n/migrated/fr/app/age-18/page.json";
 export const metadata = {
-  title: "Restriction d’âge — Luna Astralis",
+  title: __i18n["restriction_d_age_luna_astralis"],
 };
 
 export default function Age18Page() {
   return (
     <main className="legal-page">
       <div className="legal-wrap">
-        <h1>Restriction d’âge</h1>
+        <h1>{__i18n["restriction_d_age"]}</h1>
 
         <p>
-          Luna Astralis est réservé exclusivement aux personnes{" "}
-          <strong>âgées de 18 ans ou plus</strong>.
+          {__i18n["luna_astralis_est_reserve_exclusivement_aux_personnes"]}{" "}
+          <strong>{__i18n["agees_de_18_ans_ou_plus"]}</strong>.
         </p>
 
         <p>
-          En utilisant ce service, l’utilisateur confirme avoir atteint l’âge
-          légal requis.
-        </p>
+          {__i18n["en_utilisant_ce_service_l_utilisateur_confirme_avoir_atteint"]}</p>
       </div>
     </main>
   );

@@ -1,3 +1,4 @@
+import __i18n from "../../../../i18n/migrated/fr/app/api/email/send-premium/route.json";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
 
   // ✅ 1) ENV
   const key = process.env.RESEND_API_KEY;
-  if (!key) return json(400, { ok: false, error: "Missing RESEND_API_KEY" });
+  if (!key) return json(400, { ok: false, error: __i18n["missing_resend_api_key"] });
 
   const from = process.env.FROM_EMAIL || "Luna Astralis <contact@luna-astralis.app>";
   const replyTo = process.env.RESEND_REPLY_TO || "lunaastraliss@gmail.com";
@@ -45,13 +46,13 @@ export async function POST(req: Request) {
   try {
     body = await req.json();
   } catch {
-    return json(400, { ok: false, error: "Invalid JSON" });
+    return json(400, { ok: false, error: __i18n["invalid_json"] });
   }
 
   const email = body?.email;
   const plan = typeof body?.plan === "string" ? body.plan.trim() : "premium";
 
-  if (!isValidEmail(email)) return json(400, { ok: false, error: "Invalid email" });
+  if (!isValidEmail(email)) return json(400, { ok: false, error: __i18n["invalid_email"] });
 
   // ✅ 3) Envoi
   const resend = new Resend(key);
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
     from,
     to: email.trim().toLowerCase(),
     replyTo,
-    subject: "✅ Abonnement activé — Luna Astralis",
+    subject: __i18n["abonnement_active_luna_astralis"],
     text:
       `Merci ! Ton abonnement (${plan}) est activé.\n\n` +
       `Accède au chat : ${chatUrl}\n\n` +

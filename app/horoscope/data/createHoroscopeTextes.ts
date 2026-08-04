@@ -1,3 +1,4 @@
+import __i18n from "../../../i18n/migrated/fr/app/horoscope/data/createhoroscopetextes.json";
 import type {
   HoroscopeSigneData,
   HoroscopeTextes,
@@ -14,129 +15,129 @@ export function createHoroscopeTextes(
 
       `Votre nature ${signe.element.toLowerCase()} vous aide à retrouver votre élan. Écoutez ce qui vous semble juste avant d’agir.`,
 
-      `Un changement de rythme pourrait vous être bénéfique aujourd’hui. Accordez de la place à ce qui nourrit réellement votre équilibre.`,
+      __i18n["un_changement_de_rythme_pourrait_vous_etre_benefique_aujourd"],
 
-      `Votre énergie évolue progressivement au fil de la journée. Prenez le temps d’observer avant de choisir votre prochaine direction.`,
+      __i18n["votre_energie_evolue_progressivement_au_fil_de_la_journee_pr"],
 
-      `Une nouvelle perspective pourrait vous aider à comprendre une situation autrement. Restez disponible aux idées inattendues.`,
+      __i18n["une_nouvelle_perspective_pourrait_vous_aider_a_comprendre_un"],
 
       `La journée favorise les gestes simples et les décisions cohérentes. Votre ${signe.qualite} peut vous aider à avancer avec assurance.`,
 
-      `Vous pourriez ressentir le besoin de revenir à l’essentiel. Ne vous dispersez pas dans des situations qui ne vous ressemblent plus.`,
+      __i18n["vous_pourriez_ressentir_le_besoin_de_revenir_a_l_essentiel_n"],
 
-      `Une énergie plus lumineuse vous accompagne aujourd’hui. Profitez-en pour reprendre confiance dans un projet ou une décision.`,
+      __i18n["une_energie_plus_lumineuse_vous_accompagne_aujourd_hui_profi"],
 
-      `Votre sensibilité aux ambiances sera plus forte. Choisissez soigneusement les personnes et les environnements qui vous entourent.`,
+      __i18n["votre_sensibilite_aux_ambiances_sera_plus_forte_choisissez_s"],
     ],
 
     amour: [
-      "Les échanges gagnent à rester simples et sincères. Une parole bien choisie peut rapprocher les cœurs.",
+      __i18n["les_echanges_gagnent_a_rester_simples_et_sinceres_une_parole"],
 
-      "Prenez le temps d’écouter avant de répondre. La douceur favorisera une meilleure compréhension dans vos relations.",
+      __i18n["prenez_le_temps_d_ecouter_avant_de_repondre_la_douceur_favor"],
 
-      "Une belle occasion de créer de la complicité pourrait se présenter. Restez ouvert sans forcer les choses.",
+      __i18n["une_belle_occasion_de_creer_de_la_complicite_pourrait_se_pre"],
 
-      "Votre vie affective demande de la présence plus que de grandes promesses. Les petits gestes auront beaucoup de valeur.",
+      __i18n["votre_vie_affective_demande_de_la_presence_plus_que_de_grand"],
 
-      "Une discussion honnête pourrait dissiper un doute. Exprimez vos besoins sans chercher à imposer votre point de vue.",
+      __i18n["une_discussion_honnete_pourrait_dissiper_un_doute_exprimez_v"],
 
-      "Une personne pourrait vous surprendre par son attention ou sa disponibilité. Accueillez ce geste avec simplicité.",
+      __i18n["une_personne_pourrait_vous_surprendre_par_son_attention_ou_s"],
 
-      "Vous pourriez ressentir le besoin d’être rassuré. Évitez toutefois de chercher des réponses dans chaque silence.",
+      __i18n["vous_pourriez_ressentir_le_besoin_d_etre_rassure_evitez_tout"],
 
-      "Une énergie de rapprochement favorise les échanges. Célibataire, une rencontre légère pourrait éveiller votre curiosité.",
+      __i18n["une_energie_de_rapprochement_favorise_les_echanges_celibatai"],
 
-      "Votre intuition relationnelle sera particulièrement forte. Faites-lui confiance, mais évitez les conclusions trop rapides.",
+      __i18n["votre_intuition_relationnelle_sera_particulierement_forte_fa"],
 
-      "L’harmonie passe aujourd’hui par un équilibre entre proximité et liberté. Respectez votre rythme autant que celui de l’autre.",
+      __i18n["l_harmonie_passe_aujourd_hui_par_un_equilibre_entre_proximit"],
     ],
 
     travail: [
-      "Une tâche qui semblait lourde pourrait avancer plus facilement avec une méthode claire et quelques priorités bien choisies.",
+      __i18n["une_tache_qui_semblait_lourde_pourrait_avancer_plus_facileme"],
 
-      "Votre concentration sera votre meilleure alliée. Évitez de disperser votre énergie dans trop de directions.",
+      __i18n["votre_concentration_sera_votre_meilleure_alliee_evitez_de_di"],
 
-      "Une idée mérite d’être notée ou partagée. Elle pourrait devenir plus importante que vous ne le pensez.",
+      __i18n["une_idee_merite_d_etre_notee_ou_partagee_elle_pourrait_deven"],
 
-      "Le climat favorise les ajustements intelligents. Corrigez ce qui doit l’être sans remettre tout votre plan en question.",
+      __i18n["le_climat_favorise_les_ajustements_intelligents_corrigez_ce"],
 
-      "Une conversation professionnelle pourrait vous aider à mieux comprendre les attentes d’une personne ou d’un projet.",
+      __i18n["une_conversation_professionnelle_pourrait_vous_aider_a_mieux"],
 
-      "Vous pourriez recevoir une information utile. Prenez le temps de l’analyser avant de modifier votre organisation.",
+      __i18n["vous_pourriez_recevoir_une_information_utile_prenez_le_temps"],
 
-      "Votre constance portera davantage ses fruits que la précipitation. Avancez étape par étape.",
+      __i18n["votre_constance_portera_davantage_ses_fruits_que_la_precipit"],
 
-      "Une responsabilité supplémentaire pourrait se présenter. Vérifiez votre disponibilité avant de vous engager.",
+      __i18n["une_responsabilite_supplementaire_pourrait_se_presenter_veri"],
 
-      "Une solution plus simple pourrait remplacer une méthode devenue trop compliquée. Osez revoir votre façon de faire.",
+      __i18n["une_solution_plus_simple_pourrait_remplacer_une_methode_deve"],
 
-      "Votre travail pourrait être remarqué aujourd’hui. Restez professionnel et laissez vos résultats parler pour vous.",
+      __i18n["votre_travail_pourrait_etre_remarque_aujourd_hui_restez_prof"],
     ],
 
     finances: [
-      "La prudence reste préférable pour les dépenses impulsives. Vérifiez vos priorités avant de prendre une décision.",
+      __i18n["la_prudence_reste_preferable_pour_les_depenses_impulsives_ve"],
 
-      "Une meilleure organisation de vos dépenses pourrait vous apporter un sentiment de contrôle et de tranquillité.",
+      __i18n["une_meilleure_organisation_de_vos_depenses_pourrait_vous_app"],
 
-      "Évitez les décisions prises sous le coup de l’émotion. Une courte réflexion peut faire une vraie différence.",
+      __i18n["evitez_les_decisions_prises_sous_le_coup_de_l_emotion_une_co"],
 
-      "La journée convient davantage à la planification qu’aux grands risques financiers.",
+      __i18n["la_journee_convient_davantage_a_la_planification_qu_aux_gran"],
 
-      "Une petite économie réalisée aujourd’hui pourrait devenir plus importante avec le temps. Pensez à long terme.",
+      __i18n["une_petite_economie_realisee_aujourd_hui_pourrait_devenir_pl"],
 
-      "Vous pourriez être tenté de vous offrir quelque chose pour compenser une émotion. Accordez-vous quelques heures avant d’acheter.",
+      __i18n["vous_pourriez_etre_tente_de_vous_offrir_quelque_chose_pour_c"],
 
-      "Un détail administratif ou financier mérite votre attention. Une vérification rapide pourrait éviter une erreur.",
+      __i18n["un_detail_administratif_ou_financier_merite_votre_attention"],
 
-      "La stabilité financière passe aujourd’hui par la modération. Vous n’avez pas besoin de tout régler immédiatement.",
+      __i18n["la_stabilite_financiere_passe_aujourd_hui_par_la_moderation"],
 
-      "Une discussion concernant l’argent gagnerait à être claire et précise. Évitez les suppositions.",
+      __i18n["une_discussion_concernant_l_argent_gagnerait_a_etre_claire_e"],
 
-      "Votre intuition peut vous alerter sur une dépense ou une proposition. Prenez le temps de vérifier les conditions.",
+      __i18n["votre_intuition_peut_vous_alerter_sur_une_depense_ou_une_pro"],
     ],
 
     bienEtre: [
-      "Votre corps pourrait réclamer un rythme plus régulier. Hydratation, mouvement doux et repos seront bénéfiques.",
+      __i18n["votre_corps_pourrait_reclamer_un_rythme_plus_regulier_hydrat"],
 
-      "Accordez-vous quelques minutes de calme pour relâcher la tension mentale accumulée.",
+      __i18n["accordez_vous_quelques_minutes_de_calme_pour_relacher_la_ten"],
 
-      "Une activité simple à l’extérieur pourrait vous aider à retrouver plus d’énergie.",
+      __i18n["une_activite_simple_a_l_exterieur_pourrait_vous_aider_a_retr"],
 
-      "Respectez vos limites sans culpabilité. Votre équilibre dépend aussi de votre capacité à ralentir.",
+      __i18n["respectez_vos_limites_sans_culpabilite_votre_equilibre_depen"],
 
-      "Une routine légère pourrait vous faire beaucoup de bien. Évitez de surcharger votre journée inutilement.",
+      __i18n["une_routine_legere_pourrait_vous_faire_beaucoup_de_bien_evit"],
 
-      "Votre énergie pourrait varier selon les moments. Adaptez votre rythme au lieu de lutter contre votre fatigue.",
+      __i18n["votre_energie_pourrait_varier_selon_les_moments_adaptez_votr"],
 
-      "Un moment loin des écrans vous aiderait à retrouver davantage de présence et de calme intérieur.",
+      __i18n["un_moment_loin_des_ecrans_vous_aiderait_a_retrouver_davantag"],
 
-      "Votre bien-être passe aujourd’hui par des choix simples : respirer, marcher, vous hydrater et dormir suffisamment.",
+      __i18n["votre_bien_etre_passe_aujourd_hui_par_des_choix_simples_resp"],
 
-      "Une tension émotionnelle pourrait se manifester physiquement. Prenez le temps de relâcher votre corps.",
+      __i18n["une_tension_emotionnelle_pourrait_se_manifester_physiquement"],
 
-      "Vous pourriez bénéficier d’un environnement plus calme. Accordez-vous un espace où vous n’avez rien à prouver.",
+      __i18n["vous_pourriez_beneficier_d_un_environnement_plus_calme_accor"],
     ],
 
     conseil: [
-      "Faites aujourd’hui un pas concret plutôt que d’attendre le moment parfait.",
+      __i18n["faites_aujourd_hui_un_pas_concret_plutot_que_d_attendre_le_m"],
 
-      "Choisissez ce qui vous apporte de la clarté, pas ce qui nourrit la confusion.",
+      __i18n["choisissez_ce_qui_vous_apporte_de_la_clarte_pas_ce_qui_nourr"],
 
-      "Ne sous-estimez pas la puissance d’une décision calme et réfléchie.",
+      __i18n["ne_sous_estimez_pas_la_puissance_d_une_decision_calme_et_ref"],
 
-      "Votre intuition peut vous guider, mais prenez aussi le temps de vérifier les faits.",
+      __i18n["votre_intuition_peut_vous_guider_mais_prenez_aussi_le_temps"],
 
-      "Ne dépensez pas votre énergie à convaincre les personnes qui refusent de vous comprendre.",
+      __i18n["ne_depensez_pas_votre_energie_a_convaincre_les_personnes_qui"],
 
-      "Ce qui avance lentement peut tout de même avancer dans la bonne direction.",
+      __i18n["ce_qui_avance_lentement_peut_tout_de_meme_avancer_dans_la_bo"],
 
-      "Une limite clairement exprimée vaut mieux qu’un silence rempli de frustration.",
+      __i18n["une_limite_clairement_exprimee_vaut_mieux_qu_un_silence_remp"],
 
-      "Faites confiance à ce que vous ressentez, sans laisser la peur décider à votre place.",
+      __i18n["faites_confiance_a_ce_que_vous_ressentez_sans_laisser_la_peu"],
 
-      "Donnez votre attention à ce que vous pouvez réellement améliorer aujourd’hui.",
+      __i18n["donnez_votre_attention_a_ce_que_vous_pouvez_reellement_ameli"],
 
-      "Vous n’avez pas besoin de tout comprendre immédiatement pour continuer à avancer.",
+      __i18n["vous_n_avez_pas_besoin_de_tout_comprendre_immediatement_pour"],
     ],
   };
 }
