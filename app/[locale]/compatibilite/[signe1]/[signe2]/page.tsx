@@ -286,7 +286,7 @@ function createTranslationKey(
     )
     .slice(
       0,
-      64,
+      60,
     );
 }
 
