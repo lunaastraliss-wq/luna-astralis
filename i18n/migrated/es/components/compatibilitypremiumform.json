@@ -1,0 +1,19 @@
+{
+  "prenom": "Nombre",
+  "date_de_naissance": "Fecha de nacimiento",
+  "jj_mm_aaaa": "DD/MM/AAAA",
+  "heure_de_naissance": "Hora de nacimiento",
+  "l_heure_exacte_permet_de_calculer_l_ascendant_et_les_maisons": "La hora exacta permite calcular el Ascendente y las casas.",
+  "ville_de_naissance": "Ciudad de nacimiento",
+  "ex_quebec": "Ej. : Quebec",
+  "pays_de_naissance": "País de nacimiento",
+  "ex_canada": "Ej. : Canadá",
+  "votre_rapport_personnalise": "Su informe personalizado",
+  "entrez_les_informations_des_deux_personnes": "Ingrese la información de las dos personas",
+  "ces_renseignements_permettent_de_calculer_les_deux_themes_as": "Esta información permite calcular las dos cartas natales y sus conexiones de sinastría.",
+  "premiere_personne": "Primera persona",
+  "deuxieme_personne": "Segunda persona",
+  "paiement_unique_et_securise": "🔒 Pago único y seguro.",
+  "apres_le_paiement_telechargez_immediatement_votre_rapport_pd": "📥 Después del pago, descargue inmediatamente su informe PDF y guárdelo en su dispositivo.",
+  "aucun_compte_client_n_est_cree_et_luna_astralis_ne_conserve": "No se crea ninguna cuenta de cliente y Luna Astralis no conserva ninguna copia de su informe. Si sale de esta página sin descargarlo, no podrá recuperarlo."
+}

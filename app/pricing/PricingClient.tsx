@@ -3,6 +3,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/pricing/pricingclient.json";
 import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import Link from "next/link";

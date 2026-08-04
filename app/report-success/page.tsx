@@ -1,6 +1,7 @@
 "use client";
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/report-success/page.json";
 import { useEffect, useState } from "react";
 import Link from "next/link";

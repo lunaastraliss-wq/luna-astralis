@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/compatibilityform.json";
 import { useState } from "react";
 
 import NatalChartWheel from "./NatalChartWheel";
@@ -84,9 +87,9 @@ function translateFormatted(value: string): string {
   if (!value) return "";
 
   const signs: Record<string, string> = {
-    Aries: "Bélier",
+    Aries: __i18n["belier"],
     Taurus: "Taureau",
-    Gemini: "Gémeaux",
+    Gemini: __i18n["gemeaux"],
     Cancer: "Cancer",
     Leo: "Lion",
     Virgo: "Vierge",
@@ -257,23 +260,19 @@ function PersonFields({
 
       <div className="compat-premium-fields">
         <label>
-          Prénom
-
-          <input
+          {__i18n["prenom"]}<input
             type="text"
             value={person.firstName}
             onChange={(event) =>
               updateField("firstName", event.target.value)
             }
-            placeholder="Prénom"
+            placeholder={__i18n["prenom_2"]}
             autoComplete="off"
           />
         </label>
 
         <label>
-          Date de naissance
-
-          <input
+          {__i18n["date_de_naissance"]}<input
             type="text"
             inputMode="numeric"
             value={person.birthDate}
@@ -283,7 +282,7 @@ function PersonFields({
                 formatBirthDate(event.target.value)
               )
             }
-            placeholder="JJ/MM/AAAA"
+            placeholder={__i18n["jj_mm_aaaa"]}
             maxLength={10}
             autoComplete="off"
             required
@@ -291,9 +290,7 @@ function PersonFields({
         </label>
 
         <label>
-          Heure de naissance
-
-          <input
+          {__i18n["heure_de_naissance"]}<input
             type="time"
             value={person.birthTime}
             onChange={(event) =>
@@ -303,21 +300,17 @@ function PersonFields({
           />
 
           <small>
-            Facultative, mais recommandée pour calculer
-            l’Ascendant et les maisons.
-          </small>
+            {__i18n["facultative_mais_recommandee_pour_calculer_l_ascendant_et_le"]}</small>
         </label>
 
         <label>
-          Ville de naissance
-
-          <input
+          {__i18n["ville_de_naissance"]}<input
             type="text"
             value={person.birthCity}
             onChange={(event) =>
               updateField("birthCity", event.target.value)
             }
-            placeholder="Ville de naissance"
+            placeholder={__i18n["ville_de_naissance_2"]}
             autoComplete="off"
             required
           />
@@ -346,7 +339,7 @@ function PersonResult({
   return (
     <article className="compat-premium-result-card">
       <div className="compat-premium-result-heading">
-        <span>Thème natal</span>
+        <span>{__i18n["theme_natal"]}</span>
         <h3>{displayName}</h3>
       </div>
 
@@ -380,7 +373,7 @@ function PersonResult({
         </div>
 
         <div>
-          <span>Milieu du ciel</span>
+          <span>{__i18n["milieu_du_ciel"]}</span>
 
           <strong>
             {translateFormatted(
@@ -457,13 +450,13 @@ export default function CompatibilityForm() {
       >
         <div className="compat-premium-person-grid">
           <PersonFields
-            title="Première personne"
+            title={__i18n["premiere_personne"]}
             person={person1}
             onChange={setPerson1}
           />
 
           <PersonFields
-            title="Deuxième personne"
+            title={__i18n["deuxieme_personne"]}
             person={person2}
             onChange={setPerson2}
           />
@@ -481,9 +474,7 @@ export default function CompatibilityForm() {
           </button>
 
           <p>
-            Les informations servent uniquement à calculer
-            les deux thèmes astrologiques.
-          </p>
+            {__i18n["les_informations_servent_uniquement_a_calculer_les_deux_them"]}</p>
         </div>
 
         {error && (
@@ -499,7 +490,7 @@ export default function CompatibilityForm() {
       {result1 && result2 && (
         <section className="compat-premium-results">
           <div className="compat-premium-results-intro">
-            <span>Vos deux thèmes astrologiques</span>
+            <span>{__i18n["vos_deux_themes_astrologiques"]}</span>
 
             <h2>
               {result1.firstName.trim() || "Personne 1"}
@@ -508,11 +499,7 @@ export default function CompatibilityForm() {
             </h2>
 
             <p>
-              Les deux cartes ont été calculées. La prochaine
-              étape permettra d’analyser les planètes, les
-              éléments, les aspects et les grandes dynamiques
-              de votre relation.
-            </p>
+              {__i18n["les_deux_cartes_ont_ete_calculees_la_prochaine_etape_permett"]}</p>
           </div>
 
           <div className="compat-premium-result-grid">
@@ -529,32 +516,23 @@ export default function CompatibilityForm() {
 
           <div className="compat-premium-offer">
             <span className="compat-premium-offer-badge">
-              Rapport personnalisé
-            </span>
+              {__i18n["rapport_personnalise"]}</span>
 
             <h2>
-              Découvrez votre compatibilité complète
-            </h2>
+              {__i18n["decouvrez_votre_compatibilite_complete"]}</h2>
 
             <p>
-              Obtenez une analyse détaillée de vos émotions,
-              de votre communication, de votre attirance, de
-              vos forces, de vos défis et de votre potentiel
-              à long terme.
-            </p>
+              {__i18n["obtenez_une_analyse_detaillee_de_vos_emotions_de_votre_commu"]}</p>
 
             <button
               type="button"
               className="btn btn-primary"
               disabled
             >
-              Rapport Premium – 49,99 $ US
-            </button>
+              {__i18n["rapport_premium_49_99_us"]}</button>
 
             <small>
-              Le paiement Stripe sera branché à la prochaine
-              étape.
-            </small>
+              {__i18n["le_paiement_stripe_sera_branche_a_la_prochaine_etape"]}</small>
           </div>
         </section>
       )}

@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/compatibilitycard.json";
 import Link from "next/link";
 
 import {
@@ -213,10 +216,10 @@ export default function CompatibilityCard() {
                 files: [file],
 
                 title:
-                  "Ma compatibilité astro - Luna Astralis",
+                  __i18n["ma_compatibilite_astro_luna_astralis"],
 
                 text:
-                  "Découvre ta compatibilité sur luna-astralis.app",
+                  __i18n["decouvre_ta_compatibilite_sur_luna_astralis_app"],
               });
             } catch {
               return;
@@ -260,19 +263,16 @@ export default function CompatibilityCard() {
       <div className="compat-choice-card">
         <div className="compat-choice-top">
           <span>
-            Choisissez deux signes
-          </span>
+            {__i18n["choisissez_deux_signes"]}</span>
 
           <strong>
-            Résultat instantané
-          </strong>
+            {__i18n["resultat_instantane"]}</strong>
         </div>
 
         <div className="compat-selectors">
           <label className="compat-field">
             <span>
-              Premier signe
-            </span>
+              {__i18n["premier_signe"]}</span>
 
             <select
               value={signA}
@@ -306,8 +306,7 @@ export default function CompatibilityCard() {
 
           <label className="compat-field">
             <span>
-              Deuxième signe
-            </span>
+              {__i18n["deuxieme_signe"]}</span>
 
             <select
               value={signB}
@@ -340,8 +339,7 @@ export default function CompatibilityCard() {
             setShowCard(true)
           }
         >
-          Voir la compatibilité
-        </button>
+          {__i18n["voir_la_compatibilite"]}</button>
       </div>
 
       {showCard && (
@@ -351,8 +349,7 @@ export default function CompatibilityCard() {
             className="compat-result-card"
           >
             <div className="compat-result-brand">
-              Luna Astralis
-            </div>
+              {__i18n["luna_astralis"]}</div>
 
             <div className="compat-result-signs">
               <strong className="compat-result-name">
@@ -390,20 +387,17 @@ export default function CompatibilityCard() {
           {detailedPageUrl && (
             <section className="compat-detail-card">
               <span className="compat-detail-badge">
-                ✨ Analyse exclusive
-              </span>
+                {__i18n["analyse_exclusive"]}</span>
 
               <div className="compat-detail-icon">
                 💞
               </div>
 
               <h3>
-                Analyse complète disponible
-              </h3>
+                {__i18n["analyse_complete_disponible"]}</h3>
 
               <p className="compat-detail-intro">
-                Découvrez en profondeur la
-                compatibilité entre{" "}
+                {__i18n["decouvrez_en_profondeur_la_compatibilite_entre"]}{" "}
                 <strong>
                   {result.signA.label}
                 </strong>{" "}
@@ -416,40 +410,33 @@ export default function CompatibilityCard() {
 
               <ul className="compat-detail-list">
                 <li>
-                  Vie amoureuse
-                </li>
+                  {__i18n["vie_amoureuse"]}</li>
 
                 <li>
                   Communication
                 </li>
 
                 <li>
-                  Passion et attirance
-                </li>
+                  {__i18n["passion_et_attirance"]}</li>
 
                 <li>
-                  Vie quotidienne
-                </li>
+                  {__i18n["vie_quotidienne"]}</li>
 
                 <li>
-                  Forces de la relation
-                </li>
+                  {__i18n["forces_de_la_relation"]}</li>
 
                 <li>
-                  Défis à surmonter
-                </li>
+                  {__i18n["defis_a_surmonter"]}</li>
 
                 <li>
-                  Conseils astrologiques
-                </li>
+                  {__i18n["conseils_astrologiques"]}</li>
               </ul>
 
               <Link
                 href={detailedPageUrl}
                 className="compatibility-detail-link"
               >
-                Lire l’analyse complète
-              </Link>
+                {__i18n["lire_l_analyse_complete"]}</Link>
             </section>
           )}
 
@@ -465,8 +452,7 @@ export default function CompatibilityCard() {
               type="button"
               onClick={handleDownload}
             >
-              Télécharger
-            </button>
+              {__i18n["telecharger"]}</button>
           </div>
         </>
       )}

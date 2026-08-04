@@ -1,14 +1,17 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/natalfreesummary.json";
 type Props = {
   planets: any[];
   angles: any;
 };
 
 const SIGN_FR: Record<string, string> = {
-  Aries: "Bélier",
+  Aries: __i18n["belier"],
   Taurus: "Taureau",
-  Gemini: "Gémeaux",
+  Gemini: __i18n["gemeaux"],
   Cancer: "Cancer",
   Leo: "Lion",
   Virgo: "Vierge",
@@ -70,15 +73,15 @@ export default function NatalFreeSummary({ planets, angles }: Props) {
 
   return (
     <section className="natal-free-summary">
-      <div className="natal-summary-badge">Résumé gratuit</div>
+      <div className="natal-summary-badge">{__i18n["resume_gratuit"]}</div>
 
-      <h3>Les grandes lignes de votre thème astral</h3>
+      <h3>{__i18n["les_grandes_lignes_de_votre_theme_astral"]}</h3>
 
       <div className="natal-summary-grid">
         {sun && (
           <article className="natal-summary-card">
             <div className="natal-summary-icon">☉</div>
-            <h4>Votre Soleil</h4>
+            <h4>{__i18n["votre_soleil"]}</h4>
             <p>{textForSun(sun.signName)}</p>
           </article>
         )}
@@ -86,14 +89,14 @@ export default function NatalFreeSummary({ planets, angles }: Props) {
         {moon && (
           <article className="natal-summary-card">
             <div className="natal-summary-icon">☽</div>
-            <h4>Votre Lune</h4>
+            <h4>{__i18n["votre_lune"]}</h4>
             <p>{textForMoon(moon.signName)}</p>
           </article>
         )}
 
         <article className="natal-summary-card">
           <div className="natal-summary-icon">⬆</div>
-          <h4>Votre Ascendant</h4>
+          <h4>{__i18n["votre_ascendant"]}</h4>
           <p>{textForAscendant(ascendant?.formatted)}</p>
         </article>
       </div>

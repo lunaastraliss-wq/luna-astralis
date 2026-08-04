@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/cookiebanner.json";
 import { useEffect, useState } from "react";
 
 const CONSENT_KEY = "luna_astralis_cookie_consent_v1"; // "all" | "necessary" | "analytics"
@@ -144,9 +147,7 @@ export default function CookieBanner() {
         }}
       >
         <p style={{ fontSize: 13, textAlign: "center", lineHeight: 1.4, margin: 0 }}>
-          Luna Astralis utilise des cookies pour assurer le bon fonctionnement du site et mesurer
-          l’audience. Tu peux accepter ou refuser les cookies non essentiels.
-        </p>
+          {__i18n["luna_astralis_utilise_des_cookies_pour_assurer_le_bon_foncti"]}</p>
 
         {showSettings && (
           <div
@@ -160,12 +161,11 @@ export default function CookieBanner() {
             }}
           >
             <h3 style={{ margin: 0, marginBottom: 4, fontSize: 13, fontWeight: 800 }}>
-              Paramètres des cookies
-            </h3>
+              {__i18n["parametres_des_cookies"]}</h3>
 
             <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <input type="checkbox" checked readOnly />
-              <span style={{ fontSize: 12 }}>Cookies essentiels (obligatoires)</span>
+              <span style={{ fontSize: 12 }}>{__i18n["cookies_essentiels_obligatoires"]}</span>
             </label>
 
             <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
@@ -174,7 +174,7 @@ export default function CookieBanner() {
                 checked={analyticsAllowed}
                 onChange={(e) => setAnalyticsAllowed(e.target.checked)}
               />
-              <span style={{ fontSize: 12 }}>Mesure d’audience (analytics)</span>
+              <span style={{ fontSize: 12 }}>{__i18n["mesure_d_audience_analytics"]}</span>
             </label>
 
             <button
@@ -191,8 +191,7 @@ export default function CookieBanner() {
                 cursor: "pointer",
               }}
             >
-              Enregistrer mes préférences
-            </button>
+              {__i18n["enregistrer_mes_preferences"]}</button>
           </div>
         )}
 
@@ -211,8 +210,7 @@ export default function CookieBanner() {
               minWidth: 130,
             }}
           >
-            Paramétrer
-          </button>
+            {__i18n["parametrer"]}</button>
 
           <button
             onClick={decline}
@@ -245,8 +243,7 @@ export default function CookieBanner() {
               minWidth: 130,
             }}
           >
-            Tout accepter
-          </button>
+            {__i18n["tout_accepter"]}</button>
         </div>
       </div>
     </div>

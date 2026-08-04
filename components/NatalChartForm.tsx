@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/natalchartform.json";
 import {
   useRef,
   useState,
@@ -36,7 +39,7 @@ const PLANET_FR: Record<string, string> = {
   Sun: "Soleil",
   Moon: "Lune",
   Mercury: "Mercure",
-  Venus: "Vénus",
+  Venus: __i18n["venus"],
   Mars: "Mars",
   Jupiter: "Jupiter",
   Saturn: "Saturne",
@@ -59,9 +62,9 @@ const PLANET_GLYPH: Record<string, string> = {
 };
 
 const SIGN_FR: Record<string, string> = {
-  Aries: "Bélier",
+  Aries: __i18n["belier"],
   Taurus: "Taureau",
-  Gemini: "Gémeaux",
+  Gemini: __i18n["gemeaux"],
   Cancer: "Cancer",
   Leo: "Lion",
   Virgo: "Vierge",
@@ -800,9 +803,7 @@ export default function NatalChartForm() {
         noValidate
       >
         <label>
-          Prénom (optionnel)
-
-          <input
+          {__i18n["prenom_optionnel"]}<input
             type="text"
             value={
               firstName
@@ -815,15 +816,13 @@ export default function NatalChartForm() {
                   .value
               )
             }
-            placeholder="Ton prénom"
+            placeholder={__i18n["ton_prenom"]}
             autoComplete="given-name"
           />
         </label>
 
         <label>
-          Date de naissance
-
-          <input
+          {__i18n["date_de_naissance"]}<input
             type="text"
             inputMode="numeric"
             value={
@@ -874,7 +873,7 @@ export default function NatalChartForm() {
                 value
               );
             }}
-            placeholder="JJ/MM/AAAA"
+            placeholder={__i18n["jj_mm_aaaa"]}
             maxLength={
               10
             }
@@ -884,9 +883,7 @@ export default function NatalChartForm() {
         </label>
 
         <label>
-          Heure de naissance (optionnelle, mais recommandée)
-
-          <input
+          {__i18n["heure_de_naissance_optionnelle_mais_recommandee"]}<input
             type="time"
             value={
               birthTime
@@ -904,9 +901,7 @@ export default function NatalChartForm() {
         </label>
 
         <label>
-          Ville de naissance
-
-          <input
+          {__i18n["ville_de_naissance"]}<input
             type="text"
             value={
               birthCity
@@ -919,7 +914,7 @@ export default function NatalChartForm() {
                   .value
               )
             }
-            placeholder="Ville de naissance"
+            placeholder={__i18n["ville_de_naissance_2"]}
             autoComplete="off"
             required
           />
@@ -1007,8 +1002,7 @@ export default function NatalChartForm() {
               {angles?.midheaven && (
                 <div className="natal-angle-item">
                   <span className="natal-label">
-                    Milieu du ciel
-                  </span>
+                    {__i18n["milieu_du_ciel"]}</span>
 
                   <span className="natal-value">
                     {translateFormatted(
@@ -1049,8 +1043,7 @@ export default function NatalChartForm() {
                 </span>
 
                 <span>
-                  Voir les rapports Essentielle, Premium et Signature
-                </span>
+                  {__i18n["voir_les_rapports_essentielle_premium_et_signature"]}</span>
 
                 <span
                   aria-hidden="true"

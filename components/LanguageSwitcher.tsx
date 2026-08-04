@@ -2,6 +2,9 @@
 
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/languageswitcher.json";
 import {
   usePathname,
   useRouter,
@@ -99,7 +102,7 @@ export default function LanguageSwitcher() {
   return (
     <label
       className="language-switcher"
-      aria-label="Choisir la langue"
+      aria-label={__i18n["choisir_la_langue"]}
     >
       <select
         value={currentLocale}

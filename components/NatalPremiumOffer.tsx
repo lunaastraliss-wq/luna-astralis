@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/natalpremiumoffer.json";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
@@ -91,25 +94,25 @@ const OFFERS: Offer[] = [
 
     name: "Essentielle",
 
-    badge: "Pour commencer",
+    badge: __i18n["pour_commencer"],
 
-    price: "24,99 $ US",
+    price: __i18n["24_99_us"],
 
     description:
-      "Une première lecture personnalisée de votre thème natal pour comprendre vos grandes énergies astrologiques.",
+      __i18n["une_premiere_lecture_personnalisee_de_votre_theme_natal_pour"],
 
     button:
-      "Choisir Essentielle",
+      __i18n["choisir_essentielle"],
 
     previewHref:
       "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf",
 
     features: [
-      "Votre roue astrologique personnalisée",
-      "Votre Soleil, votre Lune et votre Ascendant",
-      "Vos dix principales planètes",
-      "Vos éléments et vos modalités",
-      "Rapport PDF personnalisé et téléchargeable",
+      __i18n["votre_roue_astrologique_personnalisee"],
+      __i18n["votre_soleil_votre_lune_et_votre_ascendant"],
+      __i18n["vos_dix_principales_planetes"],
+      __i18n["vos_elements_et_vos_modalites"],
+      __i18n["rapport_pdf_personnalise_et_telechargeable"],
     ],
   },
 
@@ -119,15 +122,15 @@ const OFFERS: Offer[] = [
     name: "Premium",
 
     badge:
-      "Analyse approfondie",
+      __i18n["analyse_approfondie"],
 
-    price: "49,99 $ US",
+    price: __i18n["49_99_us"],
 
     description:
-      "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
+      __i18n["une_exploration_complete_de_votre_personnalite_de_vos_maison"],
 
     button:
-      "Choisir Premium",
+      __i18n["choisir_premium"],
 
     previewHref:
       "/reports/apercu-rapport-carte-du-ciel-premium.pdf",
@@ -135,11 +138,11 @@ const OFFERS: Offer[] = [
     featured: true,
 
     features: [
-      "Tout le contenu du rapport Essentielle",
-      "Vos douze maisons astrologiques",
-      "Vos aspects et vos dominantes astrologiques",
-      "Relations, carrière, forces et défis",
-      "Rapport PDF détaillé et téléchargeable",
+      __i18n["tout_le_contenu_du_rapport_essentielle"],
+      __i18n["vos_douze_maisons_astrologiques"],
+      __i18n["vos_aspects_et_vos_dominantes_astrologiques"],
+      __i18n["relations_carriere_forces_et_defis"],
+      __i18n["rapport_pdf_detaille_et_telechargeable"],
     ],
   },
 
@@ -149,25 +152,25 @@ const OFFERS: Offer[] = [
     name: "Signature",
 
     badge:
-      "Le plus complet",
+      __i18n["le_plus_complet"],
 
-    price: "79,99 $ US",
+    price: __i18n["79_99_us"],
 
     description:
-      "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
+      __i18n["l_analyse_la_plus_complete_de_votre_theme_natal_avec_vos_gra"],
 
     button:
-      "Choisir Signature",
+      __i18n["choisir_signature"],
 
     previewHref:
       "/reports/apercu-rapport-carte-du-ciel-signature.pdf",
 
     features: [
-      "Tout le contenu du rapport Premium",
-      "Mission de vie et chemin de l’âme",
-      "Chiron, nœuds lunaires et aspects majeurs",
-      "Talents cachés, blocages et guide d’intégration",
-      "Synthèse Signature personnalisée",
+      __i18n["tout_le_contenu_du_rapport_premium"],
+      __i18n["mission_de_vie_et_chemin_de_l_ame"],
+      __i18n["chiron_n_uds_lunaires_et_aspects_majeurs"],
+      __i18n["talents_caches_blocages_et_guide_d_integration"],
+      __i18n["synthese_signature_personnalisee"],
     ],
   },
 ];
@@ -505,18 +508,12 @@ export default function NatalPremiumOffer(
     >
       <div className="natal-reports-head">
         <span className="natal-premium-badge">
-          Rapports astrologiques personnalisés
-        </span>
+          {__i18n["rapports_astrologiques_personnalises"]}</span>
 
         <h3>{title}</h3>
 
         <p className="natal-premium-intro">
-          Votre carte du ciel est maintenant prête.
-          Choisissez le niveau d’analyse qui correspond
-          à vos besoins. Chaque rapport est personnalisé
-          selon votre date, votre heure et votre lieu de
-          naissance.
-        </p>
+          {__i18n["votre_carte_du_ciel_est_maintenant_prete_choisissez_le_nivea"]}</p>
       </div>
 
       <div className="natal-offers">
@@ -559,8 +556,7 @@ export default function NatalPremiumOffer(
               >
                 {offer.featured ? (
                   <div className="natal-featured-label">
-                    Recommandé
-                  </div>
+                    {__i18n["recommande"]}</div>
                 ) : null}
 
                 <div className="natal-offer-badge">
@@ -577,8 +573,7 @@ export default function NatalPremiumOffer(
                 </div>
 
                 <div className="natal-offer-payment">
-                  Paiement unique
-                </div>
+                  {__i18n["paiement_unique"]}</div>
 
                 <p className="natal-offer-description">
                   {offer.description}
@@ -625,8 +620,7 @@ export default function NatalPremiumOffer(
                   rel="noopener noreferrer"
                   className="natal-report-preview-link"
                 >
-                  📖 Voir un aperçu réel du rapport PDF
-                </a>
+                  {__i18n["voir_un_apercu_reel_du_rapport_pdf"]}</a>
               </article>
             );
           }
@@ -635,9 +629,7 @@ export default function NatalPremiumOffer(
 
       <div className="natal-premium-note">
         <p>
-          Paiement unique • Aucun abonnement • Rapport PDF
-          personnalisé et téléchargeable
-        </p>
+          {__i18n["paiement_unique_aucun_abonnement_rapport_pdf_personnalise_et"]}</p>
       </div>
     </section>
   );

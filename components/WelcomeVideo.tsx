@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/welcomevideo.json";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function WelcomeVideo() {
@@ -45,7 +48,7 @@ export default function WelcomeVideo() {
   }, [soundOn]);
 
   return (
-    <div className="astro-video-wrap" aria-label="Bienvenue Luna Astralis">
+    <div className="astro-video-wrap" aria-label={__i18n["bienvenue_luna_astralis"]}>
       <div className="astro-video-frame">
         <video
           ref={videoRef}
@@ -69,7 +72,7 @@ export default function WelcomeVideo() {
         </span>
       </div>
 
-      <p className="astro-video-caption">Bienvenue sur Luna Astralis ✨</p>
+      <p className="astro-video-caption">{__i18n["bienvenue_sur_luna_astralis"]}</p>
     </div>
   );
 }

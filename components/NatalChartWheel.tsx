@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/natalchartwheel.json";
 import { useId } from "react";
 
 const SIGNS = [
@@ -448,7 +451,7 @@ const descendantPoint = point(
           width="100%"
           height="100%"
           role="img"
-          aria-label="Carte du ciel astrologique"
+          aria-label={__i18n["carte_du_ciel_astrologique"]}
           style={{
             display: "block",
             overflow: "visible",
@@ -1496,8 +1499,7 @@ const descendantPoint = point(
                   color: "#f4c95d",
                 }}
               >
-                Ascendant :
-              </strong>{" "}
+                {__i18n["ascendant"]}</strong>{" "}
               {ascendantFormatted}
             </span>
           )}
@@ -1509,8 +1511,7 @@ const descendantPoint = point(
                   color: "#f4c95d",
                 }}
               >
-                Milieu du ciel :
-              </strong>{" "}
+                {__i18n["milieu_du_ciel"]}</strong>{" "}
               {midheavenFormatted}
             </span>
           )}

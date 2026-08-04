@@ -3,6 +3,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/success/page.json";
 import { useEffect } from "react";
 import Link from "next/link";

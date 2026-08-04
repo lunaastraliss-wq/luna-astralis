@@ -3,6 +3,7 @@
 
 
 
+
 import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopeyearlycheckoutform.json";
 import {
   type FormEvent,

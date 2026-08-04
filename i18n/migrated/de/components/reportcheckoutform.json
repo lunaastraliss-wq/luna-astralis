@@ -1,0 +1,22 @@
+{
+  "24_99_us": "24,99 $ US",
+  "commander_le_rapport_essentielle": "Bericht Essentiell bestellen",
+  "49_99_us": "49,99 $ US",
+  "commander_le_rapport_premium": "Bericht Premium bestellen",
+  "79_99_us": "79,99 $ US",
+  "commander_le_rapport_signature": "Bericht Signature bestellen",
+  "commande_securisee": "Sichere Bestellung",
+  "commander_le_rapport": "Bericht bestellen",
+  "entrez_vos_informations_de_naissance_votre_theme_astral_sera": "Geben Sie Ihre Geburtsinformationen ein. Ihr Geburtshoroskop wird berechnet, bevor Sie zur sicheren Zahlung über Stripe weitergeleitet werden.",
+  "prenom": "Vorname",
+  "votre_prenom": "Ihr Vorname",
+  "date_de_naissance": "Geburtsdatum",
+  "jj_mm_aaaa": "TT/MM/JJJJ",
+  "heure_de_naissance": "Geburtszeit",
+  "sans_heure_precise_12_00_sera_utilise": "Ohne genaue Uhrzeit wird 12:00 verwendet.",
+  "ville_de_naissance": "Geburtsstadt",
+  "exemple_quebec": "Beispiel: Québec",
+  "important": "Wichtig:",
+  "telechargez_votre_rapport_des_qu_il_est_genere_et_conservez": "Laden Sie Ihren Bericht herunter, sobald er erstellt wurde, und bewahren Sie ihn an einem sicheren Ort auf. Luna Astralis speichert keine Kopie Ihres PDFs.",
+  "paiement_unique_aucun_abonnement_paiement_securise_par_strip": "Einmalige Zahlung • Kein Abonnement • Sichere Zahlung über Stripe"
+}

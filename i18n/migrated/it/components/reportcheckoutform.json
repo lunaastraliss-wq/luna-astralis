@@ -1,0 +1,22 @@
+{
+  "24_99_us": "24,99 $ US",
+  "commander_le_rapport_essentielle": "Comanda il rapporto Essenziale",
+  "49_99_us": "49,99 $ US",
+  "commander_le_rapport_premium": "Comanda il rapporto Premium",
+  "79_99_us": "79,99 $ US",
+  "commander_le_rapport_signature": "Comanda il rapporto Signature",
+  "commande_securisee": "Ordine sicuro",
+  "commander_le_rapport": "Comanda il rapporto",
+  "entrez_vos_informations_de_naissance_votre_theme_astral_sera": "Inserisci le tue informazioni di nascita. Il tuo tema natale sarà calcolato prima di essere reindirizzato al pagamento sicuro Stripe.",
+  "prenom": "Nome",
+  "votre_prenom": "Il tuo nome",
+  "date_de_naissance": "Data di nascita",
+  "jj_mm_aaaa": "GG/MM/AAAA",
+  "heure_de_naissance": "Ora di nascita",
+  "sans_heure_precise_12_00_sera_utilise": "Senza ora precisa, verrà utilizzato le 12:00.",
+  "ville_de_naissance": "Città di nascita",
+  "exemple_quebec": "Esempio: Québec",
+  "important": "Importante :",
+  "telechargez_votre_rapport_des_qu_il_est_genere_et_conservez": "scarica il tuo rapporto non appena viene generato e conservalo in un luogo sicuro. Luna Astralis non conserva alcuna copia del tuo PDF.",
+  "paiement_unique_aucun_abonnement_paiement_securise_par_strip": "Pagamento unico • Nessun abbonamento • Pagamento sicuro tramite Stripe"
+}

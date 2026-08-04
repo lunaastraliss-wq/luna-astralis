@@ -2,6 +2,9 @@
 
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/footer.json";
 import {
   usePathname,
 } from "next/navigation";
@@ -26,33 +29,33 @@ const FOOTER_TEXT: Record<
   }
 > = {
   fr: {
-    support: "Support :",
-    response: "Réponse sous 24 h",
+    support: __i18n["support"],
+    response: __i18n["reponse_sous_24_h"],
   },
 
   en: {
-    support: "Support:",
-    response: "Reply within 24 hours",
+    support: __i18n["support_2"],
+    response: __i18n["reply_within_24_hours"],
   },
 
   es: {
-    support: "Soporte:",
-    response: "Respuesta en menos de 24 horas",
+    support: __i18n["soporte"],
+    response: __i18n["respuesta_en_menos_de_24_horas"],
   },
 
   de: {
-    support: "Support:",
-    response: "Antwort innerhalb von 24 Stunden",
+    support: __i18n["support_3"],
+    response: __i18n["antwort_innerhalb_von_24_stunden"],
   },
 
   it: {
-    support: "Supporto:",
-    response: "Risposta entro 24 ore",
+    support: __i18n["supporto"],
+    response: __i18n["risposta_entro_24_ore"],
   },
 
   pt: {
-    support: "Suporte:",
-    response: "Resposta em até 24 horas",
+    support: __i18n["suporte"],
+    response: __i18n["resposta_em_ate_24_horas"],
   },
 };
 
@@ -123,8 +126,7 @@ export default function Footer() {
             "underline",
         }}
       >
-        contact@luna-astralis.app
-      </a>
+        {__i18n["contact_luna_astralis_app"]}</a>
 
       <span
         style={{

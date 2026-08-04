@@ -2,6 +2,9 @@
 
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/signgrid.json";
 import Link from "next/link";
 
 import {
@@ -153,13 +156,13 @@ const SIGN_GRID_TRANSLATIONS: Record<
   SignGridText
 > = {
   fr: {
-    title: "Choisir un signe",
+    title: __i18n["choisir_un_signe"],
     subtitleLoggedOut:
-      "Choisissez votre signe. Si vous n’êtes pas connectée, vous serez redirigée vers la connexion.",
+      __i18n["choisissez_votre_signe_si_vous_n_etes_pas_connectee_vous_ser"],
     subtitleLoggedIn:
-      "Choisissez votre signe pour commencer votre discussion avec Luna.",
+      __i18n["choisissez_votre_signe_pour_commencer_votre_discussion_avec"],
     elementsAria:
-      "Éléments astrologiques",
+      __i18n["elements_astrologiques"],
     elements: {
       fire: "Feu",
       earth: "Terre",
@@ -167,9 +170,9 @@ const SIGN_GRID_TRANSLATIONS: Record<
       water: "Eau",
     },
     signs: {
-      belier: "Bélier",
+      belier: __i18n["belier"],
       taureau: "Taureau",
-      gemeaux: "Gémeaux",
+      gemeaux: __i18n["gemeaux"],
       cancer: "Cancer",
       lion: "Lion",
       vierge: "Vierge",
@@ -180,18 +183,18 @@ const SIGN_GRID_TRANSLATIONS: Record<
       verseau: "Verseau",
       poissons: "Poissons",
     },
-    account: "Mon compte →",
-    login: "Se connecter →",
+    account: __i18n["mon_compte"],
+    login: __i18n["se_connecter"],
   },
 
   en: {
-    title: "Choose a zodiac sign",
+    title: __i18n["choose_a_zodiac_sign"],
     subtitleLoggedOut:
-      "Choose your zodiac sign. If you are not signed in, you will be redirected to the sign-in page.",
+      __i18n["choose_your_zodiac_sign_if_you_are_not_signed_in_you_will_be"],
     subtitleLoggedIn:
-      "Choose your zodiac sign to start your conversation with Luna.",
+      __i18n["choose_your_zodiac_sign_to_start_your_conversation_with_luna"],
     elementsAria:
-      "Astrological elements",
+      __i18n["astrological_elements"],
     elements: {
       fire: "Fire",
       earth: "Earth",
@@ -212,18 +215,18 @@ const SIGN_GRID_TRANSLATIONS: Record<
       verseau: "Aquarius",
       poissons: "Pisces",
     },
-    account: "My account →",
-    login: "Sign in →",
+    account: __i18n["my_account"],
+    login: __i18n["sign_in"],
   },
 
   es: {
-    title: "Elegir un signo",
+    title: __i18n["elegir_un_signo"],
     subtitleLoggedOut:
-      "Elige tu signo. Si no has iniciado sesión, serás redirigida a la página de acceso.",
+      __i18n["elige_tu_signo_si_no_has_iniciado_sesion_seras_redirigida_a"],
     subtitleLoggedIn:
-      "Elige tu signo para comenzar tu conversación con Luna.",
+      __i18n["elige_tu_signo_para_comenzar_tu_conversacion_con_luna"],
     elementsAria:
-      "Elementos astrológicos",
+      __i18n["elementos_astrologicos"],
     elements: {
       fire: "Fuego",
       earth: "Tierra",
@@ -233,8 +236,8 @@ const SIGN_GRID_TRANSLATIONS: Record<
     signs: {
       belier: "Aries",
       taureau: "Tauro",
-      gemeaux: "Géminis",
-      cancer: "Cáncer",
+      gemeaux: __i18n["geminis"],
+      cancer: __i18n["cancer"],
       lion: "Leo",
       vierge: "Virgo",
       balance: "Libra",
@@ -244,18 +247,18 @@ const SIGN_GRID_TRANSLATIONS: Record<
       verseau: "Acuario",
       poissons: "Piscis",
     },
-    account: "Mi cuenta →",
-    login: "Iniciar sesión →",
+    account: __i18n["mi_cuenta"],
+    login: __i18n["iniciar_sesion"],
   },
 
   de: {
-    title: "Tierkreiszeichen auswählen",
+    title: __i18n["tierkreiszeichen_auswahlen"],
     subtitleLoggedOut:
-      "Wählen Sie Ihr Tierkreiszeichen. Wenn Sie nicht angemeldet sind, werden Sie zur Anmeldung weitergeleitet.",
+      __i18n["wahlen_sie_ihr_tierkreiszeichen_wenn_sie_nicht_angemeldet_si"],
     subtitleLoggedIn:
-      "Wählen Sie Ihr Tierkreiszeichen, um Ihr Gespräch mit Luna zu beginnen.",
+      __i18n["wahlen_sie_ihr_tierkreiszeichen_um_ihr_gesprach_mit_luna_zu"],
     elementsAria:
-      "Astrologische Elemente",
+      __i18n["astrologische_elemente"],
     elements: {
       fire: "Feuer",
       earth: "Erde",
@@ -267,27 +270,27 @@ const SIGN_GRID_TRANSLATIONS: Record<
       taureau: "Stier",
       gemeaux: "Zwillinge",
       cancer: "Krebs",
-      lion: "Löwe",
+      lion: __i18n["lowe"],
       vierge: "Jungfrau",
       balance: "Waage",
       scorpion: "Skorpion",
-      sagittaire: "Schütze",
+      sagittaire: __i18n["schutze"],
       capricorne: "Steinbock",
       verseau: "Wassermann",
       poissons: "Fische",
     },
-    account: "Mein Konto →",
-    login: "Anmelden →",
+    account: __i18n["mein_konto"],
+    login: __i18n["anmelden"],
   },
 
   it: {
-    title: "Scegli un segno",
+    title: __i18n["scegli_un_segno"],
     subtitleLoggedOut:
-      "Scegli il tuo segno. Se non hai effettuato l’accesso, verrai reindirizzata alla pagina di accesso.",
+      __i18n["scegli_il_tuo_segno_se_non_hai_effettuato_l_accesso_verrai_r"],
     subtitleLoggedIn:
-      "Scegli il tuo segno per iniziare la conversazione con Luna.",
+      __i18n["scegli_il_tuo_segno_per_iniziare_la_conversazione_con_luna"],
     elementsAria:
-      "Elementi astrologici",
+      __i18n["elementi_astrologici"],
     elements: {
       fire: "Fuoco",
       earth: "Terra",
@@ -308,40 +311,40 @@ const SIGN_GRID_TRANSLATIONS: Record<
       verseau: "Acquario",
       poissons: "Pesci",
     },
-    account: "Il mio account →",
-    login: "Accedi →",
+    account: __i18n["il_mio_account"],
+    login: __i18n["accedi"],
   },
 
   pt: {
-    title: "Escolher um signo",
+    title: __i18n["escolher_um_signo"],
     subtitleLoggedOut:
-      "Escolha seu signo. Se você não estiver conectada, será redirecionada para a página de acesso.",
+      __i18n["escolha_seu_signo_se_voce_nao_estiver_conectada_sera_redirec"],
     subtitleLoggedIn:
-      "Escolha seu signo para começar sua conversa com Luna.",
+      __i18n["escolha_seu_signo_para_comecar_sua_conversa_com_luna"],
     elementsAria:
-      "Elementos astrológicos",
+      __i18n["elementos_astrologicos_2"],
     elements: {
       fire: "Fogo",
       earth: "Terra",
       air: "Ar",
-      water: "Água",
+      water: __i18n["agua"],
     },
     signs: {
-      belier: "Áries",
+      belier: __i18n["aries"],
       taureau: "Touro",
-      gemeaux: "Gêmeos",
-      cancer: "Câncer",
-      lion: "Leão",
+      gemeaux: __i18n["gemeos"],
+      cancer: __i18n["cancer_2"],
+      lion: __i18n["leao"],
       vierge: "Virgem",
       balance: "Libra",
-      scorpion: "Escorpião",
-      sagittaire: "Sagitário",
-      capricorne: "Capricórnio",
-      verseau: "Aquário",
+      scorpion: __i18n["escorpiao"],
+      sagittaire: __i18n["sagitario"],
+      capricorne: __i18n["capricornio"],
+      verseau: __i18n["aquario"],
       poissons: "Peixes",
     },
-    account: "Minha conta →",
-    login: "Entrar →",
+    account: __i18n["minha_conta"],
+    login: __i18n["entrar"],
   },
 };
 

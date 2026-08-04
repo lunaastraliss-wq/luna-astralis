@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/natalsharecard.json";
 import NatalChartWheel from "./NatalChartWheel";
 
 type Props = {
@@ -38,7 +41,7 @@ export default function NatalShareCard({
       <div className="natal-share-stars" />
 
       <div className="natal-share-header">
-        <div className="natal-share-brand">🌙 Luna Astralis</div>
+        <div className="natal-share-brand">{__i18n["luna_astralis"]}</div>
 
         <h2>{title}</h2>
 
@@ -59,8 +62,8 @@ export default function NatalShareCard({
       </div>
 
       <div className="natal-share-footer">
-        <strong>Votre thème astral est unique.</strong>
-        <span>Explorez-en toute la richesse sur Luna Astralis.</span>
+        <strong>{__i18n["votre_theme_astral_est_unique"]}</strong>
+        <span>{__i18n["explorez_en_toute_la_richesse_sur_luna_astralis"]}</span>
       </div>
 
       <div className="natal-share-site">www.luna-astralis.app</div>

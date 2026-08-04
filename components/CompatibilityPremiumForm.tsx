@@ -1,5 +1,8 @@
 "use client";
 
+
+
+import __i18n from "../i18n/migrated/fr/components/compatibilitypremiumform.json";
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import html2canvas from "html2canvas";
@@ -500,7 +503,7 @@ function PersonFields({
           className="compatibility-form-field compatibility-form-field-full"
           htmlFor={`${prefix}-first-name`}
         >
-          <span>Prénom</span>
+          <span>{__i18n["prenom"]}</span>
 
           <input
             id={`${prefix}-first-name`}
@@ -525,7 +528,7 @@ function PersonFields({
           className="compatibility-form-field"
           htmlFor={`${prefix}-birth-date`}
         >
-          <span>Date de naissance</span>
+          <span>{__i18n["date_de_naissance"]}</span>
 
           <input
             id={`${prefix}-birth-date`}
@@ -538,7 +541,7 @@ function PersonFields({
                 formatBirthDate(event.target.value)
               )
             }
-            placeholder="JJ/MM/AAAA"
+            placeholder={__i18n["jj_mm_aaaa"]}
             maxLength={10}
             autoComplete={number === 1 ? "bday" : "off"}
             required
@@ -549,7 +552,7 @@ function PersonFields({
           className="compatibility-form-field"
           htmlFor={`${prefix}-birth-time`}
         >
-          <span>Heure de naissance</span>
+          <span>{__i18n["heure_de_naissance"]}</span>
 
           <input
             id={`${prefix}-birth-time`}
@@ -563,16 +566,14 @@ function PersonFields({
           />
 
           <small>
-            L’heure exacte permet de calculer l’Ascendant
-            et les maisons.
-          </small>
+            {__i18n["l_heure_exacte_permet_de_calculer_l_ascendant_et_les_maisons"]}</small>
         </label>
 
         <label
           className="compatibility-form-field"
           htmlFor={`${prefix}-birth-city`}
         >
-          <span>Ville de naissance</span>
+          <span>{__i18n["ville_de_naissance"]}</span>
 
           <input
             id={`${prefix}-birth-city`}
@@ -581,7 +582,7 @@ function PersonFields({
             onChange={(event) =>
               onChange("birthCity", event.target.value)
             }
-            placeholder="Ex. : Québec"
+            placeholder={__i18n["ex_quebec"]}
             autoComplete="off"
             required
           />
@@ -591,7 +592,7 @@ function PersonFields({
           className="compatibility-form-field"
           htmlFor={`${prefix}-birth-country`}
         >
-          <span>Pays de naissance</span>
+          <span>{__i18n["pays_de_naissance"]}</span>
 
           <input
             id={`${prefix}-birth-country`}
@@ -600,7 +601,7 @@ function PersonFields({
             onChange={(event) =>
               onChange("birthCountry", event.target.value)
             }
-            placeholder="Ex. : Canada"
+            placeholder={__i18n["ex_canada"]}
             autoComplete={
               number === 1 ? "country-name" : "off"
             }
@@ -820,17 +821,13 @@ export default function CompatibilityPremiumForm() {
   return (
     <div className="compatibility-premium-form-wrap">
       <div className="compatibility-premium-form-intro">
-        <span>Votre rapport personnalisé</span>
+        <span>{__i18n["votre_rapport_personnalise"]}</span>
 
         <h3>
-          Entrez les informations des deux personnes
-        </h3>
+          {__i18n["entrez_les_informations_des_deux_personnes"]}</h3>
 
         <p>
-          Ces renseignements permettent de calculer les
-          deux thèmes astraux et leurs connexions de
-          synastrie.
-        </p>
+          {__i18n["ces_renseignements_permettent_de_calculer_les_deux_themes_as"]}</p>
       </div>
 
       <form
@@ -841,7 +838,7 @@ export default function CompatibilityPremiumForm() {
         <div className="compatibility-form-persons">
           <PersonFields
             number={1}
-            title="Première personne"
+            title={__i18n["premiere_personne"]}
             subtitle="Vos informations de naissance"
             person={person1}
             onChange={updatePerson1}
@@ -856,7 +853,7 @@ export default function CompatibilityPremiumForm() {
 
           <PersonFields
             number={2}
-            title="Deuxième personne"
+            title={__i18n["deuxieme_personne"]}
             subtitle="Les informations de l’autre personne"
             person={person2}
             onChange={updatePerson2}
@@ -885,15 +882,9 @@ export default function CompatibilityPremiumForm() {
           </button>
 
           <p>
-  🔒 Paiement unique et sécurisé.
-  <br />
-  📥 Après le paiement, téléchargez immédiatement votre rapport PDF et
-  conservez-le sur votre appareil.
-  <br />
-  Aucun compte client n'est créé et Luna Astralis ne conserve aucune copie
-  de votre rapport. Si vous quittez cette page sans le télécharger, il ne
-  pourra pas être récupéré.
-</p>
+  {__i18n["paiement_unique_et_securise"]}<br />
+  {__i18n["apres_le_paiement_telechargez_immediatement_votre_rapport_pd"]}<br />
+  {__i18n["aucun_compte_client_n_est_cree_et_luna_astralis_ne_conserve"]}</p>
         </div>
       </form>
 
