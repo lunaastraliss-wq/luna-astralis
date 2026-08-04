@@ -4,6 +4,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/chat/chatmodals.json";
 import React from "react";
 

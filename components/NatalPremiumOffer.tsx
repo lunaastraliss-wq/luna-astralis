@@ -2,6 +2,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/natalpremiumoffer.json";
 import { useState } from "react";
 import { createClient } from "@supabase/supabase-js";

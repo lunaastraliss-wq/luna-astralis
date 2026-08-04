@@ -2,6 +2,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/welcomevideo.json";
 import { useCallback, useEffect, useRef, useState } from "react";
 

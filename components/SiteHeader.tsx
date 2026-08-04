@@ -2,6 +2,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/siteheader.json";
 import Link from "next/link";
 import {

@@ -2,6 +2,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/natalsharecard.json";
 import NatalChartWheel from "./NatalChartWheel";
 

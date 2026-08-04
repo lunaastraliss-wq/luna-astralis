@@ -2,8 +2,8 @@
 
 ## Résumé
 
-- Fichiers préparés : 258
-- Textes préparés : 13605
+- Fichiers préparés : 244
+- Textes préparés : 13092
 
 ## Ordre recommandé
 
@@ -15,123 +15,11 @@
 ## Catégories
 
 - Lib et données : 0 fichiers / 0 textes
-- Composants : 14 fichiers / 513 textes
+- Composants : 0 fichiers / 0 textes
 - PDF et rapports : 244 fichiers / 13092 textes
 - Pages : 0 fichiers / 0 textes
 
 ## Fichiers prioritaires
-
-### components/SiteHeader.tsx
-
-- Catégorie : `component`
-- Textes : 323
-- Priorité : 3323
-- Namespace : `components.siteheader`
-- Dictionnaire français : `i18n/migrated/fr/components/siteheader.json`
-
-### components/SignGrid.tsx
-
-- Catégorie : `component`
-- Textes : 51
-- Priorité : 3051
-- Namespace : `components.signgrid`
-- Dictionnaire français : `i18n/migrated/fr/components/signgrid.json`
-
-### components/NatalPremiumOffer.tsx
-
-- Catégorie : `component`
-- Textes : 33
-- Priorité : 3033
-- Namespace : `components.natalpremiumoffer`
-- Dictionnaire français : `i18n/migrated/fr/components/natalpremiumoffer.json`
-
-### components/CompatibilityForm.tsx
-
-- Catégorie : `component`
-- Textes : 22
-- Priorité : 3022
-- Namespace : `components.compatibilityform`
-- Dictionnaire français : `i18n/migrated/fr/components/compatibilityform.json`
-
-### components/CompatibilityCard.tsx
-
-- Catégorie : `component`
-- Textes : 19
-- Priorité : 3019
-- Namespace : `components.compatibilitycard`
-- Dictionnaire français : `i18n/migrated/fr/components/compatibilitycard.json`
-
-### components/CompatibilityPremiumForm.tsx
-
-- Catégorie : `component`
-- Textes : 17
-- Priorité : 3017
-- Namespace : `components.compatibilitypremiumform`
-- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypremiumform.json`
-
-### components/Footer.tsx
-
-- Catégorie : `component`
-- Textes : 13
-- Priorité : 3013
-- Namespace : `components.footer`
-- Dictionnaire français : `i18n/migrated/fr/components/footer.json`
-
-### components/NatalChartForm.tsx
-
-- Catégorie : `component`
-- Textes : 12
-- Priorité : 3012
-- Namespace : `components.natalchartform`
-- Dictionnaire français : `i18n/migrated/fr/components/natalchartform.json`
-
-### components/CookieBanner.tsx
-
-- Catégorie : `component`
-- Textes : 7
-- Priorité : 3007
-- Namespace : `components.cookiebanner`
-- Dictionnaire français : `i18n/migrated/fr/components/cookiebanner.json`
-
-### components/NatalFreeSummary.tsx
-
-- Catégorie : `component`
-- Textes : 7
-- Priorité : 3007
-- Namespace : `components.natalfreesummary`
-- Dictionnaire français : `i18n/migrated/fr/components/natalfreesummary.json`
-
-### components/NatalChartWheel.tsx
-
-- Catégorie : `component`
-- Textes : 3
-- Priorité : 3003
-- Namespace : `components.natalchartwheel`
-- Dictionnaire français : `i18n/migrated/fr/components/natalchartwheel.json`
-
-### components/NatalShareCard.tsx
-
-- Catégorie : `component`
-- Textes : 3
-- Priorité : 3003
-- Namespace : `components.natalsharecard`
-- Dictionnaire français : `i18n/migrated/fr/components/natalsharecard.json`
-
-### components/WelcomeVideo.tsx
-
-- Catégorie : `component`
-- Textes : 2
-- Priorité : 3002
-- Namespace : `components.welcomevideo`
-- Dictionnaire français : `i18n/migrated/fr/components/welcomevideo.json`
-
-### components/LanguageSwitcher.tsx
-
-- Catégorie : `component`
-- Textes : 1
-- Priorité : 3001
-- Namespace : `components.languageswitcher`
-- Dictionnaire français : `i18n/migrated/fr/components/languageswitcher.json`
 
 ### components/HoroscopePdf/year/advanced/buildYearPremiumPages.ts
 
@@ -821,5 +709,117 @@
 - Namespace : `components.premiumpdf.pdfdominants`
 - Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfdominants.json`
 
-> 158 autres fichiers sont disponibles dans migration-plan.json.
+### components/reports/Essential/EssentialPlanet.tsx
+
+- Catégorie : `pdf`
+- Textes : 38
+- Priorité : 2038
+- Namespace : `components.reports.essential.essentialplanet`
+- Dictionnaire français : `i18n/migrated/fr/components/reports/essential/essentialplanet.json`
+
+### components/EssentialPdf/EssentialPdfUtils.ts
+
+- Catégorie : `pdf`
+- Textes : 36
+- Priorité : 2036
+- Namespace : `components.essentialpdf.essentialpdfutils`
+- Dictionnaire français : `i18n/migrated/fr/components/essentialpdf/essentialpdfutils.json`
+
+### components/HoroscopePdf/month/calculations/calculateActivatedHouses.ts
+
+- Catégorie : `pdf`
+- Textes : 35
+- Priorité : 2035
+- Namespace : `components.horoscopepdf.month.calculations.calculateactivatedhouses`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/calculations/calculateactivatedhouses.json`
+
+### components/CompatibilityPdf/CompatibilityEmotional.tsx
+
+- Catégorie : `pdf`
+- Textes : 34
+- Priorité : 2034
+- Namespace : `components.compatibilitypdf.compatibilityemotional`
+- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilityemotional.json`
+
+### components/CompatibilityPdf/CompatibilityCommunication.tsx
+
+- Catégorie : `pdf`
+- Textes : 33
+- Priorité : 2033
+- Namespace : `components.compatibilitypdf.compatibilitycommunication`
+- Dictionnaire français : `i18n/migrated/fr/components/compatibilitypdf/compatibilitycommunication.json`
+
+### components/PremiumPdf/PdfElements.tsx
+
+- Catégorie : `pdf`
+- Textes : 32
+- Priorité : 2032
+- Namespace : `components.premiumpdf.pdfelements`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfelements.json`
+
+### components/SignaturePdf/PdfSignatureElements.tsx
+
+- Catégorie : `pdf`
+- Textes : 32
+- Priorité : 2032
+- Namespace : `components.signaturepdf.pdfsignatureelements`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignatureelements.json`
+
+### components/EssentialPdf/PdfPlanet.tsx
+
+- Catégorie : `pdf`
+- Textes : 31
+- Priorité : 2031
+- Namespace : `components.essentialpdf.pdfplanet`
+- Dictionnaire français : `i18n/migrated/fr/components/essentialpdf/pdfplanet.json`
+
+### components/HoroscopePdf/HoroscopeLucky.tsx
+
+- Catégorie : `pdf`
+- Textes : 30
+- Priorité : 2030
+- Namespace : `components.horoscopepdf.horoscopelucky`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/horoscopelucky.json`
+
+### components/PremiumPdf/PdfSummary.tsx
+
+- Catégorie : `pdf`
+- Textes : 30
+- Priorité : 2030
+- Namespace : `components.premiumpdf.pdfsummary`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfsummary.json`
+
+### components/SignaturePdf/PdfSignatureSummary.tsx
+
+- Catégorie : `pdf`
+- Textes : 30
+- Priorité : 2030
+- Namespace : `components.signaturepdf.pdfsignaturesummary`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignaturesummary.json`
+
+### components/PremiumPdf/PdfModalities.tsx
+
+- Catégorie : `pdf`
+- Textes : 27
+- Priorité : 2027
+- Namespace : `components.premiumpdf.pdfmodalities`
+- Dictionnaire français : `i18n/migrated/fr/components/premiumpdf/pdfmodalities.json`
+
+### components/SignaturePdf/PdfSignatureModalities.tsx
+
+- Catégorie : `pdf`
+- Textes : 27
+- Priorité : 2027
+- Namespace : `components.signaturepdf.pdfsignaturemodalities`
+- Dictionnaire français : `i18n/migrated/fr/components/signaturepdf/pdfsignaturemodalities.json`
+
+### components/HoroscopePdf/month/HoroscopeMonthAstroEvents.tsx
+
+- Catégorie : `pdf`
+- Textes : 25
+- Priorité : 2025
+- Namespace : `components.horoscopepdf.month.horoscopemonthastroevents`
+- Dictionnaire français : `i18n/migrated/fr/components/horoscopepdf/month/horoscopemonthastroevents.json`
+
+> 144 autres fichiers sont disponibles dans migration-plan.json.
 
