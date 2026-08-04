@@ -7,18 +7,87 @@ import dePage from "../../../../../i18n/migrated/de/app/compatibilite/index/inde
 import itPage from "../../../../../i18n/migrated/it/app/compatibilite/index/index/page.json";
 import ptPage from "../../../../../i18n/migrated/pt/app/compatibilite/index/index/page.json";
 
-import frCompatibility from "../../../../../i18n/migrated/fr/lib/compatibility-pages.json";
-import enCompatibility from "../../../../../i18n/migrated/en/lib/compatibility-pages.json";
-import esCompatibility from "../../../../../i18n/migrated/es/lib/compatibility-pages.json";
-import deCompatibility from "../../../../../i18n/migrated/de/lib/compatibility-pages.json";
-import itCompatibility from "../../../../../i18n/migrated/it/lib/compatibility-pages.json";
-import ptCompatibility from "../../../../../i18n/migrated/pt/lib/compatibility-pages.json";
+import frBelier from "../../../../../i18n/migrated/fr/lib/compatibility-pages/belier.json";
+import frTaureau from "../../../../../i18n/migrated/fr/lib/compatibility-pages/taureau.json";
+import frGemeaux from "../../../../../i18n/migrated/fr/lib/compatibility-pages/gemeaux.json";
+import frCancer from "../../../../../i18n/migrated/fr/lib/compatibility-pages/cancer.json";
+import frLion from "../../../../../i18n/migrated/fr/lib/compatibility-pages/lion.json";
+import frVierge from "../../../../../i18n/migrated/fr/lib/compatibility-pages/vierge.json";
+import frBalance from "../../../../../i18n/migrated/fr/lib/compatibility-pages/balance.json";
+import frScorpion from "../../../../../i18n/migrated/fr/lib/compatibility-pages/scorpion.json";
+import frSagittaire from "../../../../../i18n/migrated/fr/lib/compatibility-pages/sagittaire.json";
+import frCapricorne from "../../../../../i18n/migrated/fr/lib/compatibility-pages/capricorne.json";
+import frVerseau from "../../../../../i18n/migrated/fr/lib/compatibility-pages/verseau.json";
+import frPoissons from "../../../../../i18n/migrated/fr/lib/compatibility-pages/poissons.json";
+import enBelier from "../../../../../i18n/migrated/en/lib/compatibility-pages/belier.json";
+import enTaureau from "../../../../../i18n/migrated/en/lib/compatibility-pages/taureau.json";
+import enGemeaux from "../../../../../i18n/migrated/en/lib/compatibility-pages/gemeaux.json";
+import enCancer from "../../../../../i18n/migrated/en/lib/compatibility-pages/cancer.json";
+import enLion from "../../../../../i18n/migrated/en/lib/compatibility-pages/lion.json";
+import enVierge from "../../../../../i18n/migrated/en/lib/compatibility-pages/vierge.json";
+import enBalance from "../../../../../i18n/migrated/en/lib/compatibility-pages/balance.json";
+import enScorpion from "../../../../../i18n/migrated/en/lib/compatibility-pages/scorpion.json";
+import enSagittaire from "../../../../../i18n/migrated/en/lib/compatibility-pages/sagittaire.json";
+import enCapricorne from "../../../../../i18n/migrated/en/lib/compatibility-pages/capricorne.json";
+import enVerseau from "../../../../../i18n/migrated/en/lib/compatibility-pages/verseau.json";
+import enPoissons from "../../../../../i18n/migrated/en/lib/compatibility-pages/poissons.json";
+import esBelier from "../../../../../i18n/migrated/es/lib/compatibility-pages/belier.json";
+import esTaureau from "../../../../../i18n/migrated/es/lib/compatibility-pages/taureau.json";
+import esGemeaux from "../../../../../i18n/migrated/es/lib/compatibility-pages/gemeaux.json";
+import esCancer from "../../../../../i18n/migrated/es/lib/compatibility-pages/cancer.json";
+import esLion from "../../../../../i18n/migrated/es/lib/compatibility-pages/lion.json";
+import esVierge from "../../../../../i18n/migrated/es/lib/compatibility-pages/vierge.json";
+import esBalance from "../../../../../i18n/migrated/es/lib/compatibility-pages/balance.json";
+import esScorpion from "../../../../../i18n/migrated/es/lib/compatibility-pages/scorpion.json";
+import esSagittaire from "../../../../../i18n/migrated/es/lib/compatibility-pages/sagittaire.json";
+import esCapricorne from "../../../../../i18n/migrated/es/lib/compatibility-pages/capricorne.json";
+import esVerseau from "../../../../../i18n/migrated/es/lib/compatibility-pages/verseau.json";
+import esPoissons from "../../../../../i18n/migrated/es/lib/compatibility-pages/poissons.json";
+import deBelier from "../../../../../i18n/migrated/de/lib/compatibility-pages/belier.json";
+import deTaureau from "../../../../../i18n/migrated/de/lib/compatibility-pages/taureau.json";
+import deGemeaux from "../../../../../i18n/migrated/de/lib/compatibility-pages/gemeaux.json";
+import deCancer from "../../../../../i18n/migrated/de/lib/compatibility-pages/cancer.json";
+import deLion from "../../../../../i18n/migrated/de/lib/compatibility-pages/lion.json";
+import deVierge from "../../../../../i18n/migrated/de/lib/compatibility-pages/vierge.json";
+import deBalance from "../../../../../i18n/migrated/de/lib/compatibility-pages/balance.json";
+import deScorpion from "../../../../../i18n/migrated/de/lib/compatibility-pages/scorpion.json";
+import deSagittaire from "../../../../../i18n/migrated/de/lib/compatibility-pages/sagittaire.json";
+import deCapricorne from "../../../../../i18n/migrated/de/lib/compatibility-pages/capricorne.json";
+import deVerseau from "../../../../../i18n/migrated/de/lib/compatibility-pages/verseau.json";
+import dePoissons from "../../../../../i18n/migrated/de/lib/compatibility-pages/poissons.json";
+import itBelier from "../../../../../i18n/migrated/it/lib/compatibility-pages/belier.json";
+import itTaureau from "../../../../../i18n/migrated/it/lib/compatibility-pages/taureau.json";
+import itGemeaux from "../../../../../i18n/migrated/it/lib/compatibility-pages/gemeaux.json";
+import itCancer from "../../../../../i18n/migrated/it/lib/compatibility-pages/cancer.json";
+import itLion from "../../../../../i18n/migrated/it/lib/compatibility-pages/lion.json";
+import itVierge from "../../../../../i18n/migrated/it/lib/compatibility-pages/vierge.json";
+import itBalance from "../../../../../i18n/migrated/it/lib/compatibility-pages/balance.json";
+import itScorpion from "../../../../../i18n/migrated/it/lib/compatibility-pages/scorpion.json";
+import itSagittaire from "../../../../../i18n/migrated/it/lib/compatibility-pages/sagittaire.json";
+import itCapricorne from "../../../../../i18n/migrated/it/lib/compatibility-pages/capricorne.json";
+import itVerseau from "../../../../../i18n/migrated/it/lib/compatibility-pages/verseau.json";
+import itPoissons from "../../../../../i18n/migrated/it/lib/compatibility-pages/poissons.json";
+import ptBelier from "../../../../../i18n/migrated/pt/lib/compatibility-pages/belier.json";
+import ptTaureau from "../../../../../i18n/migrated/pt/lib/compatibility-pages/taureau.json";
+import ptGemeaux from "../../../../../i18n/migrated/pt/lib/compatibility-pages/gemeaux.json";
+import ptCancer from "../../../../../i18n/migrated/pt/lib/compatibility-pages/cancer.json";
+import ptLion from "../../../../../i18n/migrated/pt/lib/compatibility-pages/lion.json";
+import ptVierge from "../../../../../i18n/migrated/pt/lib/compatibility-pages/vierge.json";
+import ptBalance from "../../../../../i18n/migrated/pt/lib/compatibility-pages/balance.json";
+import ptScorpion from "../../../../../i18n/migrated/pt/lib/compatibility-pages/scorpion.json";
+import ptSagittaire from "../../../../../i18n/migrated/pt/lib/compatibility-pages/sagittaire.json";
+import ptCapricorne from "../../../../../i18n/migrated/pt/lib/compatibility-pages/capricorne.json";
+import ptVerseau from "../../../../../i18n/migrated/pt/lib/compatibility-pages/verseau.json";
+import ptPoissons from "../../../../../i18n/migrated/pt/lib/compatibility-pages/poissons.json";
 
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { getCompatibility } from "@/lib/compatibility";
+import {
+  getCompatibility,
+  type SignKey,
+} from "@/lib/compatibility";
 
 import {
   COMPATIBILITY_PAGES,
@@ -88,14 +157,92 @@ const PAGE_DICTIONARIES: Record<
 
 const COMPATIBILITY_DICTIONARIES: Record<
   Locale,
-  Dictionary
+  Record<SignKey, Dictionary>
 > = {
-  fr: frCompatibility,
-  en: enCompatibility,
-  es: esCompatibility,
-  de: deCompatibility,
-  it: itCompatibility,
-  pt: ptCompatibility,
+  fr: {
+    belier: frBelier,
+    taureau: frTaureau,
+    gemeaux: frGemeaux,
+    cancer: frCancer,
+    lion: frLion,
+    vierge: frVierge,
+    balance: frBalance,
+    scorpion: frScorpion,
+    sagittaire: frSagittaire,
+    capricorne: frCapricorne,
+    verseau: frVerseau,
+    poissons: frPoissons,
+  },
+  en: {
+    belier: enBelier,
+    taureau: enTaureau,
+    gemeaux: enGemeaux,
+    cancer: enCancer,
+    lion: enLion,
+    vierge: enVierge,
+    balance: enBalance,
+    scorpion: enScorpion,
+    sagittaire: enSagittaire,
+    capricorne: enCapricorne,
+    verseau: enVerseau,
+    poissons: enPoissons,
+  },
+  es: {
+    belier: esBelier,
+    taureau: esTaureau,
+    gemeaux: esGemeaux,
+    cancer: esCancer,
+    lion: esLion,
+    vierge: esVierge,
+    balance: esBalance,
+    scorpion: esScorpion,
+    sagittaire: esSagittaire,
+    capricorne: esCapricorne,
+    verseau: esVerseau,
+    poissons: esPoissons,
+  },
+  de: {
+    belier: deBelier,
+    taureau: deTaureau,
+    gemeaux: deGemeaux,
+    cancer: deCancer,
+    lion: deLion,
+    vierge: deVierge,
+    balance: deBalance,
+    scorpion: deScorpion,
+    sagittaire: deSagittaire,
+    capricorne: deCapricorne,
+    verseau: deVerseau,
+    poissons: dePoissons,
+  },
+  it: {
+    belier: itBelier,
+    taureau: itTaureau,
+    gemeaux: itGemeaux,
+    cancer: itCancer,
+    lion: itLion,
+    vierge: itVierge,
+    balance: itBalance,
+    scorpion: itScorpion,
+    sagittaire: itSagittaire,
+    capricorne: itCapricorne,
+    verseau: itVerseau,
+    poissons: itPoissons,
+  },
+  pt: {
+    belier: ptBelier,
+    taureau: ptTaureau,
+    gemeaux: ptGemeaux,
+    cancer: ptCancer,
+    lion: ptLion,
+    vierge: ptVierge,
+    balance: ptBalance,
+    scorpion: ptScorpion,
+    sagittaire: ptSagittaire,
+    capricorne: ptCapricorne,
+    verseau: ptVerseau,
+    poissons: ptPoissons,
+  },
 };
 
 /*
@@ -151,14 +298,13 @@ function createTranslationKey(
 
 function createTranslator(
   locale: Locale,
+  primarySign: SignKey,
 ) {
   const pageDictionary =
     PAGE_DICTIONARIES[locale];
 
   const compatibilityDictionary =
-    COMPATIBILITY_DICTIONARIES[
-      locale
-    ];
+    COMPATIBILITY_DICTIONARIES[locale][primarySign];
 
   return (
     originalValue: string,
@@ -259,7 +405,10 @@ export async function generateMetadata({
   }
 
   const t =
-    createTranslator(locale);
+    createTranslator(
+      locale,
+      compatibility.signA,
+    );
 
   const title =
     t(compatibility.title);
@@ -415,12 +564,16 @@ export default async function CompatibilityDetailPage({
     PAGE_DICTIONARIES[locale];
 
   const t =
-    createTranslator(locale);
+    createTranslator(
+      locale,
+      compatibility.signA,
+    );
 
   const compatibilityResult =
     getCompatibility(
       signA.key,
       signB.key,
+      locale,
     );
 
   const localizedHome =
@@ -448,10 +601,10 @@ export default async function CompatibilityDetailPage({
     );
 
   const translatedSignA =
-    t(signA.label);
+    compatibilityResult.signA.label;
 
   const translatedSignB =
-    t(signB.label);
+    compatibilityResult.signB.label;
 
   const jsonLd = {
     "@context":
