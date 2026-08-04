@@ -152,6 +152,188 @@ jobs:
           )
           PY
 
+      - name: Restaurer les blocs styled-jsx
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          import re
+
+          roots = [
+              Path("app"),
+              Path("components"),
+              Path("lib"),
+          ]
+
+          extensions = {
+              ".tsx",
+              ".jsx",
+              ".ts",
+              ".js",
+          }
+
+          import_pattern = re.compile(
+              r'import\s+__i18n\s+from\s+'
+              r'["\']([^"\']+\.json)["\'];?'
+          )
+
+          style_pattern = re.compile(
+              r'<style'
+              r'(?P<attributes>\s+[^>]*)?'
+              r'>\s*'
+              r'\{\s*__i18n'
+              r'\[\s*["\']'
+              r'(?P<key>[^"\']+)'
+              r'["\']\s*\]'
+              r'\s*\}\s*'
+              r'</style>',
+              re.DOTALL,
+          )
+
+          repaired_files = 0
+          repaired_blocks = [0]
+          warnings = []
+
+          def escape_template_literal(
+              value: str,
+          ) -> str:
+              return (
+                  value
+                  .replace("\\", "\\\\")
+                  .replace("`", "\\`")
+                  .replace("${", "\\${")
+              )
+
+          for root in roots:
+              if not root.exists():
+                  continue
+
+              for source_file in root.rglob("*"):
+                  if (
+                      not source_file.is_file()
+                      or source_file.suffix not in extensions
+                  ):
+                      continue
+
+                  source = source_file.read_text(
+                      encoding="utf-8",
+                  )
+
+                  if "<style" not in source:
+                      continue
+
+                  dictionary_match = (
+                      import_pattern.search(source)
+                  )
+
+                  if not dictionary_match:
+                      continue
+
+                  dictionary_import = (
+                      dictionary_match.group(1)
+                  )
+
+                  dictionary_file = (
+                      source_file.parent
+                      / dictionary_import
+                  ).resolve()
+
+                  if not dictionary_file.exists():
+                      warnings.append(
+                          "Dictionnaire introuvable : "
+                          f"{dictionary_file}"
+                      )
+                      continue
+
+                  try:
+                      dictionary = json.loads(
+                          dictionary_file.read_text(
+                              encoding="utf-8",
+                          )
+                      )
+                  except Exception as error:
+                      warnings.append(
+                          "JSON invalide dans "
+                          f"{dictionary_file} : "
+                          f"{error}"
+                      )
+                      continue
+
+                  file_repairs = [0]
+
+                  def restore_style(
+                      match: re.Match[str],
+                  ) -> str:
+                      key = match.group("key")
+                      css = dictionary.get(key)
+
+                      if not isinstance(css, str):
+                          warnings.append(
+                              f"Clé CSS absente : "
+                              f"{dictionary_file} — "
+                              f"{key}"
+                          )
+                          return match.group(0)
+
+                      attributes = (
+                          match.group("attributes")
+                          or ""
+                      )
+
+                      safe_css = (
+                          escape_template_literal(css)
+                      )
+
+                      file_repairs[0] += 1
+                      repaired_blocks[0] += 1
+
+                      return (
+                          f"<style{attributes}>"
+                          f"{{`\n"
+                          f"{safe_css}\n"
+                          f"`}}"
+                          f"</style>"
+                      )
+
+                  corrected = style_pattern.sub(
+                      restore_style,
+                      source,
+                  )
+
+                  if corrected == source:
+                      continue
+
+                  source_file.write_text(
+                      corrected,
+                      encoding="utf-8",
+                  )
+
+                  repaired_files += 1
+
+                  print(
+                      "Styled JSX réparé : "
+                      f"{source_file} "
+                      f"({file_repairs[0]} bloc(s))"
+                  )
+
+          print("")
+          print(
+              "Fichiers styled-jsx réparés : "
+              f"{repaired_files}"
+          )
+          print(
+              "Blocs styled-jsx réparés : "
+              f"{repaired_blocks[0]}"
+          )
+
+          if warnings:
+              print("")
+              print("Avertissements :")
+
+              for warning in warnings:
+                  print(f"- {warning}")
+          PY
+
       - name: Traduire automatiquement les dictionnaires
         run: npm run i18n:translate -- --category=${{ inputs.category }}
 
