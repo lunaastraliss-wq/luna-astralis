@@ -4,7 +4,14 @@
 
 
 
-import __i18n from "../i18n/migrated/fr/components/natalchartform.json";
+import fr from "../i18n/migrated/fr/components/natalchartform.json";
+import en from "../i18n/migrated/en/components/natalchartform.json";
+import es from "../i18n/migrated/es/components/natalchartform.json";
+import de from "../i18n/migrated/de/components/natalchartform.json";
+import it from "../i18n/migrated/it/components/natalchartform.json";
+import pt from "../i18n/migrated/pt/components/natalchartform.json";
+
+import type { Locale } from "@/i18n/config";
 import {
   useRef,
   useState,
@@ -37,45 +44,457 @@ const MAIN_PLANETS = [
   "Pluto",
 ];
 
-const PLANET_FR: Record<string, string> = {
-  Sun: "Soleil",
-  Moon: "Lune",
-  Mercury: "Mercure",
-  Venus: __i18n["venus"],
-  Mars: "Mars",
-  Jupiter: "Jupiter",
-  Saturn: "Saturne",
-  Uranus: "Uranus",
-  Neptune: "Neptune",
-  Pluto: "Pluton",
+type Dictionary = Record<string, string>;
+
+type NatalChartFormProps = {
+  locale: Locale;
 };
 
-const PLANET_GLYPH: Record<string, string> = {
-  Sun: "☉",
-  Moon: "☽",
-  Mercury: "☿",
-  Venus: "♀",
-  Mars: "♂",
-  Jupiter: "♃",
-  Saturn: "♄",
-  Uranus: "♅",
-  Neptune: "♆",
-  Pluto: "♇",
+type NatalFormTexts = {
+  requiredBirthDateAndCity: string;
+  dateFormat: string;
+  invalidBirthDate: string;
+  invalidBirthTime: string;
+  cityNotFound: string;
+  invalidCoordinates: string;
+  chartCalculationError: string;
+  calculationError: string;
+  chartOf: (name: string) => string;
+  yourChart: string;
+  pngCreationError: string;
+  shareCardMissing: string;
+  pdfWheelMissing: string;
+  imageDownloadError: string;
+  calculating: string;
+  createChart: string;
+  ascendant: string;
+  preparingImage: string;
+  downloadChart: string;
 };
 
-const SIGN_FR: Record<string, string> = {
-  Aries: __i18n["belier"],
-  Taurus: "Taureau",
-  Gemini: __i18n["gemeaux"],
-  Cancer: "Cancer",
-  Leo: "Lion",
-  Virgo: "Vierge",
-  Libra: "Balance",
-  Scorpio: "Scorpion",
-  Sagittarius: "Sagittaire",
-  Capricorn: "Capricorne",
-  Aquarius: "Verseau",
-  Pisces: "Poissons",
+const DICTIONARIES: Record<Locale, Dictionary> = {
+  fr,
+  en,
+  es,
+  de,
+  it,
+  pt,
+};
+
+const FORM_TEXTS: Record<Locale, NatalFormTexts> = {
+  fr: {
+    requiredBirthDateAndCity:
+      texts.requiredBirthDateAndCity,
+    dateFormat:
+      texts.dateFormat,
+    invalidBirthDate:
+      texts.invalidBirthDate,
+    invalidBirthTime:
+      texts.invalidBirthTime,
+    cityNotFound:
+      texts.cityNotFound,
+    invalidCoordinates:
+      texts.invalidCoordinates,
+    chartCalculationError:
+      texts.chartCalculationError,
+    calculationError:
+      texts.calculationError,
+    chartOf: (name) =>
+      `Le thème astral de ${name}`,
+    yourChart:
+      "Ta carte du ciel",
+    pngCreationError:
+      texts.pngCreationError,
+    shareCardMissing:
+      texts.shareCardMissing,
+    pdfWheelMissing:
+      texts.pdfWheelMissing,
+    imageDownloadError:
+      texts.imageDownloadError,
+    calculating:
+      "Calcul en cours...",
+    createChart:
+      "Créer ma carte du ciel",
+    ascendant:
+      "Ascendant",
+    preparingImage:
+      "Préparation de l’image...",
+    downloadChart:
+      "📷 Télécharger ma carte du ciel",
+  },
+
+  en: {
+    requiredBirthDateAndCity:
+      "Birth date and birth city are required.",
+    dateFormat:
+      "Enter the date in DD/MM/YYYY format.",
+    invalidBirthDate:
+      "The birth date is invalid.",
+    invalidBirthTime:
+      "The birth time is invalid.",
+    cityNotFound:
+      "City not found. Enter only the city name.",
+    invalidCoordinates:
+      "The coordinates received for this city are invalid.",
+    chartCalculationError:
+      "An error occurred while calculating the birth chart.",
+    calculationError:
+      "An error occurred during the calculation. Try again.",
+    chartOf: (name) =>
+      `${name}’s birth chart`,
+    yourChart:
+      "Your birth chart",
+    pngCreationError:
+      "The PNG image of the astrology chart could not be created.",
+    shareCardMissing:
+      "The astrology chart to download could not be found.",
+    pdfWheelMissing:
+      "The astrology wheel for the report could not be found.",
+    imageDownloadError:
+      "Unable to download the image. Try again.",
+    calculating:
+      "Calculating...",
+    createChart:
+      "Create my birth chart",
+    ascendant:
+      "Ascendant",
+    preparingImage:
+      "Preparing the image...",
+    downloadChart:
+      "📷 Download my birth chart",
+  },
+
+  es: {
+    requiredBirthDateAndCity:
+      "La fecha y la ciudad de nacimiento son obligatorias.",
+    dateFormat:
+      "Introduce la fecha en formato DD/MM/AAAA.",
+    invalidBirthDate:
+      "La fecha de nacimiento no es válida.",
+    invalidBirthTime:
+      "La hora de nacimiento no es válida.",
+    cityNotFound:
+      "Ciudad no encontrada. Introduce solo el nombre de la ciudad.",
+    invalidCoordinates:
+      "Las coordenadas recibidas para esta ciudad no son válidas.",
+    chartCalculationError:
+      "Error al calcular la carta natal.",
+    calculationError:
+      "Ocurrió un error durante el cálculo. Inténtalo de nuevo.",
+    chartOf: (name) =>
+      `Carta natal de ${name}`,
+    yourChart:
+      "Tu carta natal",
+    pngCreationError:
+      "No se pudo crear la imagen PNG de la carta astrológica.",
+    shareCardMissing:
+      "No se encontró la carta astrológica para descargar.",
+    pdfWheelMissing:
+      "No se encontró la rueda astrológica destinada al informe.",
+    imageDownloadError:
+      "No se pudo descargar la imagen. Inténtalo de nuevo.",
+    calculating:
+      "Calculando...",
+    createChart:
+      "Crear mi carta natal",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparando la imagen...",
+    downloadChart:
+      "📷 Descargar mi carta natal",
+  },
+
+  de: {
+    requiredBirthDateAndCity:
+      "Geburtsdatum und Geburtsort sind erforderlich.",
+    dateFormat:
+      "Geben Sie das Datum im Format TT/MM/JJJJ ein.",
+    invalidBirthDate:
+      "Das Geburtsdatum ist ungültig.",
+    invalidBirthTime:
+      "Die Geburtszeit ist ungültig.",
+    cityNotFound:
+      "Stadt nicht gefunden. Geben Sie nur den Städtenamen ein.",
+    invalidCoordinates:
+      "Die empfangenen Koordinaten für diese Stadt sind ungültig.",
+    chartCalculationError:
+      "Fehler bei der Berechnung des Geburtshoroskops.",
+    calculationError:
+      "Bei der Berechnung ist ein Fehler aufgetreten. Versuchen Sie es erneut.",
+    chartOf: (name) =>
+      `Geburtshoroskop von ${name}`,
+    yourChart:
+      "Ihr Geburtshoroskop",
+    pngCreationError:
+      "Das PNG-Bild des astrologischen Horoskops konnte nicht erstellt werden.",
+    shareCardMissing:
+      "Das herunterzuladende astrologische Horoskop wurde nicht gefunden.",
+    pdfWheelMissing:
+      "Das astrologische Rad für den Bericht wurde nicht gefunden.",
+    imageDownloadError:
+      "Das Bild konnte nicht heruntergeladen werden. Versuchen Sie es erneut.",
+    calculating:
+      "Berechnung läuft...",
+    createChart:
+      "Mein Geburtshoroskop erstellen",
+    ascendant:
+      "Aszendent",
+    preparingImage:
+      "Bild wird vorbereitet...",
+    downloadChart:
+      "📷 Mein Geburtshoroskop herunterladen",
+  },
+
+  it: {
+    requiredBirthDateAndCity:
+      "La data e la città di nascita sono obbligatorie.",
+    dateFormat:
+      "Inserisci la data nel formato GG/MM/AAAA.",
+    invalidBirthDate:
+      "La data di nascita non è valida.",
+    invalidBirthTime:
+      "L’ora di nascita non è valida.",
+    cityNotFound:
+      "Città non trovata. Inserisci solo il nome della città.",
+    invalidCoordinates:
+      "Le coordinate ricevute per questa città non sono valide.",
+    chartCalculationError:
+      "Errore durante il calcolo del tema natale.",
+    calculationError:
+      "Si è verificato un errore durante il calcolo. Riprova.",
+    chartOf: (name) =>
+      `Tema natale di ${name}`,
+    yourChart:
+      "Il tuo tema natale",
+    pngCreationError:
+      "Non è stato possibile creare l’immagine PNG della carta astrologica.",
+    shareCardMissing:
+      "Non è stata trovata la carta astrologica da scaricare.",
+    pdfWheelMissing:
+      "Non è stata trovata la ruota astrologica destinata al rapporto.",
+    imageDownloadError:
+      "Impossibile scaricare l’immagine. Riprova.",
+    calculating:
+      "Calcolo in corso...",
+    createChart:
+      "Crea il mio tema natale",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparazione dell’immagine...",
+    downloadChart:
+      "📷 Scarica il mio tema natale",
+  },
+
+  pt: {
+    requiredBirthDateAndCity:
+      "A data e a cidade de nascimento são obrigatórias.",
+    dateFormat:
+      "Digite a data no formato DD/MM/AAAA.",
+    invalidBirthDate:
+      "A data de nascimento é inválida.",
+    invalidBirthTime:
+      "A hora de nascimento é inválida.",
+    cityNotFound:
+      "Cidade não encontrada. Digite apenas o nome da cidade.",
+    invalidCoordinates:
+      "As coordenadas recebidas para esta cidade são inválidas.",
+    chartCalculationError:
+      "Erro ao calcular o mapa astral.",
+    calculationError:
+      "Ocorreu um erro durante o cálculo. Tente novamente.",
+    chartOf: (name) =>
+      `Mapa astral de ${name}`,
+    yourChart:
+      "Seu mapa astral",
+    pngCreationError:
+      "Não foi possível criar a imagem PNG do mapa astrológico.",
+    shareCardMissing:
+      "O mapa astrológico para download não foi encontrado.",
+    pdfWheelMissing:
+      "A roda astrológica destinada ao relatório não foi encontrada.",
+    imageDownloadError:
+      "Não foi possível baixar a imagem. Tente novamente.",
+    calculating:
+      "Calculando...",
+    createChart:
+      "Criar meu mapa astral",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparando a imagem...",
+    downloadChart:
+      "📷 Baixar meu mapa astral",
+  },
+};
+
+const PLANET_NAMES: Record<
+  Locale,
+  Record<string, string>
+> = {
+  fr: {
+    Sun: "Soleil",
+    Moon: "Lune",
+    Mercury: "Mercure",
+    Venus: "Vénus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturne",
+    Uranus: "Uranus",
+    Neptune: "Neptune",
+    Pluto: "Pluton",
+  },
+  en: {
+    Sun: "Sun",
+    Moon: "Moon",
+    Mercury: "Mercury",
+    Venus: "Venus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturn",
+    Uranus: "Uranus",
+    Neptune: "Neptune",
+    Pluto: "Pluto",
+  },
+  es: {
+    Sun: "Sol",
+    Moon: "Luna",
+    Mercury: "Mercurio",
+    Venus: "Venus",
+    Mars: "Marte",
+    Jupiter: "Júpiter",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Neptuno",
+    Pluto: "Plutón",
+  },
+  de: {
+    Sun: "Sonne",
+    Moon: "Mond",
+    Mercury: "Merkur",
+    Venus: "Venus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturn",
+    Uranus: "Uranus",
+    Neptune: "Neptun",
+    Pluto: "Pluto",
+  },
+  it: {
+    Sun: "Sole",
+    Moon: "Luna",
+    Mercury: "Mercurio",
+    Venus: "Venere",
+    Mars: "Marte",
+    Jupiter: "Giove",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Nettuno",
+    Pluto: "Plutone",
+  },
+  pt: {
+    Sun: "Sol",
+    Moon: "Lua",
+    Mercury: "Mercúrio",
+    Venus: "Vênus",
+    Mars: "Marte",
+    Jupiter: "Júpiter",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Netuno",
+    Pluto: "Plutão",
+  },
+};
+
+const SIGN_NAMES: Record<
+  Locale,
+  Record<string, string>
+> = {
+  fr: {
+    Aries: "Bélier",
+    Taurus: "Taureau",
+    Gemini: "Gémeaux",
+    Cancer: "Cancer",
+    Leo: "Lion",
+    Virgo: "Vierge",
+    Libra: "Balance",
+    Scorpio: "Scorpion",
+    Sagittarius: "Sagittaire",
+    Capricorn: "Capricorne",
+    Aquarius: "Verseau",
+    Pisces: "Poissons",
+  },
+  en: {
+    Aries: "Aries",
+    Taurus: "Taurus",
+    Gemini: "Gemini",
+    Cancer: "Cancer",
+    Leo: "Leo",
+    Virgo: "Virgo",
+    Libra: "Libra",
+    Scorpio: "Scorpio",
+    Sagittarius: "Sagittarius",
+    Capricorn: "Capricorn",
+    Aquarius: "Aquarius",
+    Pisces: "Pisces",
+  },
+  es: {
+    Aries: "Aries",
+    Taurus: "Tauro",
+    Gemini: "Géminis",
+    Cancer: "Cáncer",
+    Leo: "Leo",
+    Virgo: "Virgo",
+    Libra: "Libra",
+    Scorpio: "Escorpio",
+    Sagittarius: "Sagitario",
+    Capricorn: "Capricornio",
+    Aquarius: "Acuario",
+    Pisces: "Piscis",
+  },
+  de: {
+    Aries: "Widder",
+    Taurus: "Stier",
+    Gemini: "Zwillinge",
+    Cancer: "Krebs",
+    Leo: "Löwe",
+    Virgo: "Jungfrau",
+    Libra: "Waage",
+    Scorpio: "Skorpion",
+    Sagittarius: "Schütze",
+    Capricorn: "Steinbock",
+    Aquarius: "Wassermann",
+    Pisces: "Fische",
+  },
+  it: {
+    Aries: "Ariete",
+    Taurus: "Toro",
+    Gemini: "Gemelli",
+    Cancer: "Cancro",
+    Leo: "Leone",
+    Virgo: "Vergine",
+    Libra: "Bilancia",
+    Scorpio: "Scorpione",
+    Sagittarius: "Sagittario",
+    Capricorn: "Capricorno",
+    Aquarius: "Acquario",
+    Pisces: "Pesci",
+  },
+  pt: {
+    Aries: "Áries",
+    Taurus: "Touro",
+    Gemini: "Gêmeos",
+    Cancer: "Câncer",
+    Leo: "Leão",
+    Virgo: "Virgem",
+    Libra: "Libra",
+    Scorpio: "Escorpião",
+    Sagittarius: "Sagitário",
+    Capricorn: "Capricórnio",
+    Aquarius: "Aquário",
+    Pisces: "Peixes",
+  },
 };
 
 const SIGN_GLYPH: Record<string, string> = {
@@ -100,7 +519,8 @@ const SIGN_GLYPH: Record<string, string> = {
 */
 
 function translateFormatted(
-  formatted: string
+  formatted: string,
+  locale: Locale
 ): string {
   if (!formatted) {
     return "";
@@ -110,7 +530,7 @@ function translateFormatted(
     formatted;
 
   Object.entries(
-    SIGN_FR
+    SIGN_NAMES[locale]
   ).forEach(
     ([
       english,
@@ -127,10 +547,11 @@ function translateFormatted(
 }
 
 function translatePlanetName(
-  name: string
+  name: string,
+  locale: Locale
 ): string {
   return (
-    PLANET_FR[name] ||
+    PLANET_NAMES[locale][name] ||
     name
   );
 }
@@ -158,14 +579,15 @@ function getSignGlyph(
 }
 
 function getSignName(
-  signName?: string
+  signName: string | undefined,
+  locale: Locale
 ): string {
   if (!signName) {
     return "";
   }
 
   return (
-    SIGN_FR[signName] ||
+    SIGN_NAMES[locale][signName] ||
     signName
   );
 }
@@ -274,7 +696,15 @@ function isValidTime(
 |--------------------------------------------------------------------------
 */
 
-export default function NatalChartForm() {
+export default function NatalChartForm({
+  locale,
+}: NatalChartFormProps) {
+  const __i18n =
+    DICTIONARIES[locale];
+
+  const texts =
+    FORM_TEXTS[locale];
+
   const shareRef =
     useRef<HTMLDivElement | null>(
       null
@@ -375,7 +805,7 @@ export default function NatalChartForm() {
         !cleanCity
       ) {
         setError(
-          "La date de naissance et la ville de naissance sont obligatoires."
+          texts.requiredBirthDateAndCity
         );
 
         return;
@@ -388,7 +818,7 @@ export default function NatalChartForm() {
         dateParts.length !== 3
       ) {
         setError(
-          "Entre la date au format JJ/MM/AAAA."
+          texts.dateFormat
         );
 
         return;
@@ -427,7 +857,7 @@ export default function NatalChartForm() {
         )
       ) {
         setError(
-          "La date de naissance est invalide."
+          texts.invalidBirthDate
         );
 
         return;
@@ -464,7 +894,7 @@ export default function NatalChartForm() {
         )
       ) {
         setError(
-          "L’heure de naissance est invalide."
+          texts.invalidBirthTime
         );
 
         return;
@@ -503,7 +933,7 @@ export default function NatalChartForm() {
         ) {
           setError(
             geoData?.error ||
-              "Ville introuvable. Entre seulement le nom de la ville."
+              texts.cityNotFound
           );
 
           return;
@@ -530,7 +960,7 @@ export default function NatalChartForm() {
           )
         ) {
           setError(
-            "Les coordonnées reçues pour cette ville sont invalides."
+            texts.invalidCoordinates
           );
 
           return;
@@ -585,7 +1015,7 @@ export default function NatalChartForm() {
         ) {
           setError(
             chartData?.error ||
-              "Erreur lors du calcul de la carte du ciel."
+              texts.chartCalculationError
           );
 
           return;
@@ -603,7 +1033,7 @@ export default function NatalChartForm() {
         );
 
         setError(
-          "Une erreur est survenue pendant le calcul. Réessaie."
+          texts.calculationError
         );
       } finally {
         setLoading(false);
@@ -635,8 +1065,10 @@ export default function NatalChartForm() {
 
   const chartTitle =
     firstName.trim()
-      ? `Le thème astral de ${firstName.trim()}`
-      : "Ta carte du ciel";
+      ? texts.chartOf(
+          firstName.trim()
+        )
+      : texts.yourChart;
 
   /*
   |--------------------------------------------------------------------------
@@ -689,7 +1121,7 @@ export default function NatalChartForm() {
         )
       ) {
         throw new Error(
-          "L’image PNG de la carte astrologique n’a pas pu être créée."
+          texts.pngCreationError
         );
       }
 
@@ -700,7 +1132,7 @@ export default function NatalChartForm() {
     async (): Promise<string> => {
       return captureElementAsPng(
         shareRef.current,
-        "La carte astrologique à télécharger est introuvable.",
+        texts.shareCardMissing,
         null,
         2
       );
@@ -710,7 +1142,7 @@ export default function NatalChartForm() {
     async (): Promise<string> => {
       return captureElementAsPng(
         pdfWheelRef.current,
-        "La roue astrologique destinée au rapport est introuvable.",
+        texts.pdfWheelMissing,
         "#0b1124",
         3
       );
@@ -759,7 +1191,7 @@ export default function NatalChartForm() {
           );
 
         link.download =
-          `carte-du-ciel-${safeName}.png`;
+          `birth-chart-${safeName}.png`;
 
         link.href =
           wheelImage;
@@ -782,7 +1214,7 @@ export default function NatalChartForm() {
           downloadError instanceof
             Error
             ? downloadError.message
-            : "Impossible de télécharger l’image. Réessaie."
+            : texts.imageDownloadError
         );
       } finally {
         setDownloading(false);
@@ -930,8 +1362,8 @@ export default function NatalChartForm() {
           }
         >
           {loading
-            ? "Calcul en cours..."
-            : "Créer ma carte du ciel"}
+            ? texts.calculating
+            : texts.createChart}
         </button>
 
         {error && (
@@ -972,13 +1404,15 @@ export default function NatalChartForm() {
                 angles
                   ?.ascendant
                   ?.formatted ||
-                  ""
+                  "",
+                locale
               )}
               midheavenFormatted={translateFormatted(
                 angles
                   ?.midheaven
                   ?.formatted ||
-                  ""
+                  "",
+                locale
               )}
               size={460}
             />
@@ -987,7 +1421,7 @@ export default function NatalChartForm() {
               {angles?.ascendant && (
                 <div className="natal-angle-item">
                   <span className="natal-label">
-                    Ascendant
+                    {texts.ascendant}
                   </span>
 
                   <span className="natal-value">
@@ -995,7 +1429,8 @@ export default function NatalChartForm() {
                       angles
                         .ascendant
                         .formatted ||
-                        ""
+                        "",
+                      locale
                     )}
                   </span>
                 </div>
@@ -1011,7 +1446,8 @@ export default function NatalChartForm() {
                       angles
                         .midheaven
                         .formatted ||
-                        ""
+                        "",
+                      locale
                     )}
                   </span>
                 </div>
@@ -1030,8 +1466,8 @@ export default function NatalChartForm() {
                 }
               >
                 {downloading
-                  ? "Préparation de l’image..."
-                  : "📷 Télécharger ma carte du ciel"}
+                  ? texts.preparingImage
+                  : texts.downloadChart}
               </button>
 
               <a
@@ -1203,11 +1639,21 @@ export default function NatalChartForm() {
               planets={
                 planets
               }
-              translateFormatted={
-                translateFormatted
+              translateFormatted={(
+                value: string
+              ) =>
+                translateFormatted(
+                  value,
+                  locale
+                )
               }
-              translatePlanetName={
-                translatePlanetName
+              translatePlanetName={(
+                name: string
+              ) =>
+                translatePlanetName(
+                  name,
+                  locale
+                )
               }
               getPlanetGlyph={
                 getPlanetGlyph
@@ -1215,8 +1661,13 @@ export default function NatalChartForm() {
               getSignGlyph={
                 getSignGlyph
               }
-              getSignName={
-                getSignName
+              getSignName={(
+                signName?: string
+              ) =>
+                getSignName(
+                  signName,
+                  locale
+                )
               }
             />
           </div>
