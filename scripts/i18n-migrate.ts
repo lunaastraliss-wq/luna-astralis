@@ -23,7 +23,7 @@
 | Exemples :
 | npm run i18n:migrate
 | npm run i18n:migrate -- --category=lib --limit=5
-| npm run i18n:migrate:write -- --category=component --limit=10
+| npm run i18n:migrate:write -- --category=components --limit=10
 |
 */
 
@@ -1164,10 +1164,23 @@ function main(): void {
   const timestamp =
     createTimestamp();
 
+  /*
+   * Le dossier du projet s'appelle "components",
+   * mais la catégorie interne du plan de migration
+   * demeure "component".
+   */
+  const normalizedCategory:
+    AuditCategory | null =
+    SELECTED_CATEGORY === "components"
+      ? "component"
+      : SELECTED_CATEGORY
+        ? (SELECTED_CATEGORY as AuditCategory)
+        : null;
+
   let groups =
     [...plan.files];
 
-  if (SELECTED_CATEGORY) {
+  if (normalizedCategory) {
     const validCategories:
       AuditCategory[] = [
         "app",
@@ -1178,7 +1191,7 @@ function main(): void {
 
     if (
       !validCategories.includes(
-        SELECTED_CATEGORY as AuditCategory,
+        normalizedCategory,
       )
     ) {
       throw new Error(
@@ -1190,7 +1203,7 @@ function main(): void {
       groups.filter(
         (group) =>
           group.category ===
-          SELECTED_CATEGORY,
+          normalizedCategory,
       );
   }
 
