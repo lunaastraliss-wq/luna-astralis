@@ -556,6 +556,18 @@ function translatePlanetName(
   );
 }
 
+const PLANET_GLYPH: Record<string, string> = {
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
+};
 function getPlanetGlyph(
   name: string
 ): string {
