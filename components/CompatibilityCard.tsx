@@ -1,10 +1,12 @@
 "use client";
 
+import fr from "../i18n/migrated/fr/components/compatibilitycard.json";
+import en from "../i18n/migrated/en/components/compatibilitycard.json";
+import es from "../i18n/migrated/es/components/compatibilitycard.json";
+import de from "../i18n/migrated/de/components/compatibilitycard.json";
+import it from "../i18n/migrated/it/components/compatibilitycard.json";
+import pt from "../i18n/migrated/pt/components/compatibilitycard.json";
 
-
-
-
-import __i18n from "../i18n/migrated/fr/components/compatibilitycard.json";
 import Link from "next/link";
 
 import {
@@ -15,14 +17,152 @@ import {
 import html2canvas from "html2canvas";
 
 import {
-  SIGNS,
   getCompatibility,
+  getSigns,
   type SignKey,
 } from "@/lib/compatibility";
 
 import {
   COMPATIBILITY_PAGES,
 } from "@/lib/compatibility-pages";
+
+import {
+  type Locale,
+} from "@/i18n/config";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
+
+type Dictionary = Record<string, string>;
+
+type CompatibilityCardProps = {
+  locale: Locale;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Dictionnaires
+|--------------------------------------------------------------------------
+*/
+
+const DICTIONARIES: Record<
+  Locale,
+  Dictionary
+> = {
+  fr,
+  en,
+  es,
+  de,
+  it,
+  pt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Textes de secours
+|--------------------------------------------------------------------------
+|
+| Ces textes garantissent que les quelques libellés écrits directement
+| dans le composant restent traduits même si une clé manque dans un JSON.
+|
+*/
+
+const FALLBACKS: Record<
+  Locale,
+  {
+    levels: {
+      exceptional: string;
+      excellent: string;
+      harmony: string;
+      balance: string;
+      challenges: string;
+    };
+    and: string;
+    communication: string;
+    share: string;
+  }
+> = {
+  fr: {
+    levels: {
+      exceptional: "Union exceptionnelle",
+      excellent: "Excellente compatibilité",
+      harmony: "Belle harmonie",
+      balance: "Équilibre à construire",
+      challenges: "Relation pleine de défis",
+    },
+    and: "et",
+    communication: "Communication",
+    share: "Partager",
+  },
+
+  en: {
+    levels: {
+      exceptional: "Exceptional union",
+      excellent: "Excellent compatibility",
+      harmony: "Beautiful harmony",
+      balance: "A balance to build",
+      challenges: "A relationship full of challenges",
+    },
+    and: "and",
+    communication: "Communication",
+    share: "Share",
+  },
+
+  es: {
+    levels: {
+      exceptional: "Unión excepcional",
+      excellent: "Compatibilidad excelente",
+      harmony: "Hermosa armonía",
+      balance: "Un equilibrio por construir",
+      challenges: "Una relación llena de desafíos",
+    },
+    and: "y",
+    communication: "Comunicación",
+    share: "Compartir",
+  },
+
+  de: {
+    levels: {
+      exceptional: "Außergewöhnliche Verbindung",
+      excellent: "Ausgezeichnete Kompatibilität",
+      harmony: "Schöne Harmonie",
+      balance: "Ein Gleichgewicht, das aufgebaut werden muss",
+      challenges: "Eine Beziehung voller Herausforderungen",
+    },
+    and: "und",
+    communication: "Kommunikation",
+    share: "Teilen",
+  },
+
+  it: {
+    levels: {
+      exceptional: "Unione eccezionale",
+      excellent: "Compatibilità eccellente",
+      harmony: "Bella armonia",
+      balance: "Un equilibrio da costruire",
+      challenges: "Una relazione piena di sfide",
+    },
+    and: "e",
+    communication: "Comunicazione",
+    share: "Condividi",
+  },
+
+  pt: {
+    levels: {
+      exceptional: "União excepcional",
+      excellent: "Excelente compatibilidade",
+      harmony: "Bela harmonia",
+      balance: "Um equilíbrio a construir",
+      challenges: "Uma relação cheia de desafios",
+    },
+    and: "e",
+    communication: "Comunicação",
+    share: "Compartilhar",
+  },
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -32,24 +172,28 @@ import {
 
 function getLevel(
   score: number,
-) {
+  locale: Locale,
+): string {
+  const levels =
+    FALLBACKS[locale].levels;
+
   if (score >= 90) {
-    return "Union exceptionnelle";
+    return levels.exceptional;
   }
 
   if (score >= 80) {
-    return "Excellente compatibilité";
+    return levels.excellent;
   }
 
   if (score >= 65) {
-    return "Belle harmonie";
+    return levels.harmony;
   }
 
   if (score >= 50) {
-    return "Équilibre à construire";
+    return levels.balance;
   }
 
-  return "Relation pleine de défis";
+  return levels.challenges;
 }
 
 /*
@@ -58,7 +202,15 @@ function getLevel(
 |--------------------------------------------------------------------------
 */
 
-export default function CompatibilityCard() {
+export default function CompatibilityCard({
+  locale,
+}: CompatibilityCardProps) {
+  const __i18n =
+    DICTIONARIES[locale];
+
+  const signs =
+    getSigns(locale);
+
   const [
     signA,
     setSignA,
@@ -93,11 +245,13 @@ export default function CompatibilityCard() {
     getCompatibility(
       signA,
       signB,
+      locale,
     );
 
   const level =
     getLevel(
       result.score,
+      locale,
     );
 
   /*
@@ -115,7 +269,7 @@ export default function CompatibilityCard() {
 
   const detailedPageUrl =
     detailedPage
-      ? `/compatibilite/${signA}/${signB}`
+      ? `/${locale}/compatibilite/${signA}/${signB}`
       : null;
 
   /*
@@ -138,9 +292,14 @@ export default function CompatibilityCard() {
           backgroundColor:
             "#050816",
 
-          scale: 2,
-          useCORS: true,
-          logging: false,
+          scale:
+            2,
+
+          useCORS:
+            true,
+
+          logging:
+            false,
         },
       );
     };
@@ -202,7 +361,8 @@ export default function CompatibilityCard() {
               [blob],
               "compatibilite.png",
               {
-                type: "image/png",
+                type:
+                  "image/png",
               },
             );
 
@@ -218,10 +378,16 @@ export default function CompatibilityCard() {
                 files: [file],
 
                 title:
-                  __i18n["ma_compatibilite_astro_luna_astralis"],
+                  __i18n[
+                    "ma_compatibilite_astro_luna_astralis"
+                  ] ??
+                  "Luna Astralis",
 
                 text:
-                  __i18n["decouvre_ta_compatibilite_sur_luna_astralis_app"],
+                  __i18n[
+                    "decouvre_ta_compatibilite_sur_luna_astralis_app"
+                  ] ??
+                  "Luna Astralis",
               });
             } catch {
               return;
@@ -265,16 +431,31 @@ export default function CompatibilityCard() {
       <div className="compat-choice-card">
         <div className="compat-choice-top">
           <span>
-            {__i18n["choisissez_deux_signes"]}</span>
+            {
+              __i18n[
+                "choisissez_deux_signes"
+              ]
+            }
+          </span>
 
           <strong>
-            {__i18n["resultat_instantane"]}</strong>
+            {
+              __i18n[
+                "resultat_instantane"
+              ]
+            }
+          </strong>
         </div>
 
         <div className="compat-selectors">
           <label className="compat-field">
             <span>
-              {__i18n["premier_signe"]}</span>
+              {
+                __i18n[
+                  "premier_signe"
+                ]
+              }
+            </span>
 
             <select
               value={signA}
@@ -285,13 +466,14 @@ export default function CompatibilityCard() {
                 )
               }
             >
-              {SIGNS.map(
+              {signs.map(
                 (sign) => (
                   <option
                     key={sign.key}
                     value={sign.key}
                   >
-                    {sign.symbol}{" "}
+                    {sign.symbol}
+                    {" "}
                     {sign.label}
                   </option>
                 ),
@@ -308,7 +490,12 @@ export default function CompatibilityCard() {
 
           <label className="compat-field">
             <span>
-              {__i18n["deuxieme_signe"]}</span>
+              {
+                __i18n[
+                  "deuxieme_signe"
+                ]
+              }
+            </span>
 
             <select
               value={signB}
@@ -319,13 +506,14 @@ export default function CompatibilityCard() {
                 )
               }
             >
-              {SIGNS.map(
+              {signs.map(
                 (sign) => (
                   <option
                     key={sign.key}
                     value={sign.key}
                   >
-                    {sign.symbol}{" "}
+                    {sign.symbol}
+                    {" "}
                     {sign.label}
                   </option>
                 ),
@@ -341,7 +529,12 @@ export default function CompatibilityCard() {
             setShowCard(true)
           }
         >
-          {__i18n["voir_la_compatibilite"]}</button>
+          {
+            __i18n[
+              "voir_la_compatibilite"
+            ]
+          }
+        </button>
       </div>
 
       {showCard && (
@@ -351,11 +544,17 @@ export default function CompatibilityCard() {
             className="compat-result-card"
           >
             <div className="compat-result-brand">
-              {__i18n["luna_astralis"]}</div>
+              {
+                __i18n[
+                  "luna_astralis"
+                ]
+              }
+            </div>
 
             <div className="compat-result-signs">
               <strong className="compat-result-name">
-                {result.signA.symbol}{" "}
+                {result.signA.symbol}
+                {" "}
                 {result.signA.label}
               </strong>
 
@@ -364,7 +563,8 @@ export default function CompatibilityCard() {
               </span>
 
               <strong className="compat-result-name">
-                {result.signB.symbol}{" "}
+                {result.signB.symbol}
+                {" "}
                 {result.signB.label}
               </strong>
             </div>
@@ -389,21 +589,38 @@ export default function CompatibilityCard() {
           {detailedPageUrl && (
             <section className="compat-detail-card">
               <span className="compat-detail-badge">
-                {__i18n["analyse_exclusive"]}</span>
+                {
+                  __i18n[
+                    "analyse_exclusive"
+                  ]
+                }
+              </span>
 
               <div className="compat-detail-icon">
                 💞
               </div>
 
               <h3>
-                {__i18n["analyse_complete_disponible"]}</h3>
+                {
+                  __i18n[
+                    "analyse_complete_disponible"
+                  ]
+                }
+              </h3>
 
               <p className="compat-detail-intro">
-                {__i18n["decouvrez_en_profondeur_la_compatibilite_entre"]}{" "}
+                {
+                  __i18n[
+                    "decouvrez_en_profondeur_la_compatibilite_entre"
+                  ]
+                }
+                {" "}
                 <strong>
                   {result.signA.label}
-                </strong>{" "}
-                et{" "}
+                </strong>
+                {" "}
+                {FALLBACKS[locale].and}
+                {" "}
                 <strong>
                   {result.signB.label}
                 </strong>
@@ -412,33 +629,75 @@ export default function CompatibilityCard() {
 
               <ul className="compat-detail-list">
                 <li>
-                  {__i18n["vie_amoureuse"]}</li>
-
-                <li>
-                  Communication
+                  {
+                    __i18n[
+                      "vie_amoureuse"
+                    ]
+                  }
                 </li>
 
                 <li>
-                  {__i18n["passion_et_attirance"]}</li>
+                  {
+                    __i18n[
+                      "communication"
+                    ] ??
+                    FALLBACKS[
+                      locale
+                    ].communication
+                  }
+                </li>
 
                 <li>
-                  {__i18n["vie_quotidienne"]}</li>
+                  {
+                    __i18n[
+                      "passion_et_attirance"
+                    ]
+                  }
+                </li>
 
                 <li>
-                  {__i18n["forces_de_la_relation"]}</li>
+                  {
+                    __i18n[
+                      "vie_quotidienne"
+                    ]
+                  }
+                </li>
 
                 <li>
-                  {__i18n["defis_a_surmonter"]}</li>
+                  {
+                    __i18n[
+                      "forces_de_la_relation"
+                    ]
+                  }
+                </li>
 
                 <li>
-                  {__i18n["conseils_astrologiques"]}</li>
+                  {
+                    __i18n[
+                      "defis_a_surmonter"
+                    ]
+                  }
+                </li>
+
+                <li>
+                  {
+                    __i18n[
+                      "conseils_astrologiques"
+                    ]
+                  }
+                </li>
               </ul>
 
               <Link
                 href={detailedPageUrl}
                 className="compatibility-detail-link"
               >
-                {__i18n["lire_l_analyse_complete"]}</Link>
+                {
+                  __i18n[
+                    "lire_l_analyse_complete"
+                  ]
+                }
+              </Link>
             </section>
           )}
 
@@ -447,14 +706,26 @@ export default function CompatibilityCard() {
               type="button"
               onClick={handleShare}
             >
-              Partager
+              {
+                __i18n[
+                  "partager"
+                ] ??
+                FALLBACKS[
+                  locale
+                ].share
+              }
             </button>
 
             <button
               type="button"
               onClick={handleDownload}
             >
-              {__i18n["telecharger"]}</button>
+              {
+                __i18n[
+                  "telecharger"
+                ]
+              }
+            </button>
           </div>
         </>
       )}
