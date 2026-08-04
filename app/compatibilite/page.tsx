@@ -41,7 +41,7 @@ export default function CompatibilitePage() {
           className="compat-card"
           aria-label={__i18n["calculateur_de_compatibilite_amoureuse"]}
         >
-          <CompatibilityCard />
+          <CompatibilityCard locale="fr" />
         </section>
 
         <section className="compat-services">
