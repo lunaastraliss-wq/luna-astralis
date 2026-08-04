@@ -9,7 +9,7 @@
 |
 | V4 sépare les transformations selon la catégorie :
 | - lib
-| - component
+| - components
 | - pdf
 | - app
 |
