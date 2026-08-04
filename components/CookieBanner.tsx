@@ -3,6 +3,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/cookiebanner.json";
 import { useEffect, useState } from "react";
 

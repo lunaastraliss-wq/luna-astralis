@@ -5,6 +5,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/chat/chatsidebar.json";
 import React, { useMemo, useCallback } from "react";
 import { supabase } from "../../lib/supabase/client";

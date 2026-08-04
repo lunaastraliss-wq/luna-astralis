@@ -3,6 +3,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/compatibilitypremiumform.json";
 import { useRef, useState } from "react";
 import { flushSync } from "react-dom";

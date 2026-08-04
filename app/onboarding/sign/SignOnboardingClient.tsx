@@ -13,6 +13,7 @@
 
 
 
+
 import __i18n from "../../../i18n/migrated/fr/app/onboarding/sign/signonboardingclient.json";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";

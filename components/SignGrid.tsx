@@ -5,6 +5,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/signgrid.json";
 import Link from "next/link";
 

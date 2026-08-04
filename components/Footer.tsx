@@ -5,6 +5,7 @@
 
 
 
+
 import __i18n from "../i18n/migrated/fr/components/footer.json";
 import {
   usePathname,

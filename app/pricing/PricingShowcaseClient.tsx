@@ -5,6 +5,7 @@
 
 
 
+
 import __i18n from "../../i18n/migrated/fr/app/pricing/pricingshowcaseclient.json";
 import React, { useMemo } from "react";
 import Link from "next/link";
