@@ -74,7 +74,7 @@ type TranslationMemory = Record<string, string>;
 
 const VALID_CATEGORIES = [
   "lib",
-  "component",
+  "components",
   "pdf",
   "app",
 ] as const;
