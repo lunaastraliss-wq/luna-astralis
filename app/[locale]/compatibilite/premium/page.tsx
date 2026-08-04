@@ -872,7 +872,7 @@ export default function CompatibilityPremiumPage({
 
             <div className="compat-premium-order-layout">
               <div className="compat-premium-order-form">
-                <CompatibilityPremiumForm />
+               <CompatibilityPremiumForm locale={locale} />
               </div>
 
               <aside className="compat-premium-order-summary">
