@@ -674,7 +674,7 @@ export default function CompatibilitePage({
               text.calculatorAria
             }
           >
-            <CompatibilityCard />
+           <CompatibilityCard locale={locale} />
           </section>
 
           <section className="compat-services">
