@@ -42,7 +42,7 @@ jobs:
       - name: Migrer automatiquement la catégorie
         run: npm run i18n:migrate:write -- --category=${{ inputs.category }}
 
-      - name: Réparer les anciens imports i18n
+      - name: Réparer les imports i18n
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -61,42 +61,20 @@ jobs:
               ".jsx",
           }
 
-          pattern = re.compile(
-              r'''(
-                  import
-                  \s+
-                  __i18n
-                  \s+
-                  from
-                  \s+
-                  ["']
-              )
-              (
-                  [^"']*i18n/migrated/[^"']+
-              )
-              (
-                  ["']
-                  ;?
-              )''',
-              re.VERBOSE,
+          import_pattern = re.compile(
+              r'import\s+__i18n\s+from\s+["\']([^"\']+)["\'];?\s*'
           )
 
-          repaired_count = [0]
+          directive_pattern = re.compile(
+              r'^('
+              r'(?:(?:\s+)'
+              r'|(?:\/\/[^\n]*(?:\n|$))'
+              r'|(?:\/\*[\s\S]*?\*\/))*'
+              r')'
+              r'(["\'])use (client|server)\2;\s*'
+          )
 
-          def repair_import(match: re.Match[str]) -> str:
-              import_path = match.group(2)
-
-              if import_path.endswith(".json"):
-                  return match.group(0)
-
-              repaired_count[0] += 1
-
-              return (
-                  match.group(1)
-                  + import_path
-                  + ".json"
-                  + match.group(3)
-              )
+          repaired_count = 0
 
           for root in roots:
               if not root.exists():
@@ -109,16 +87,52 @@ jobs:
                   ):
                       continue
 
-                  original = file_path.read_text(
+                  source = file_path.read_text(
                       encoding="utf-8",
                   )
 
-                  corrected = pattern.sub(
-                      repair_import,
-                      original,
+                  import_match = import_pattern.search(
+                      source,
                   )
 
-                  if corrected == original:
+                  if not import_match:
+                      continue
+
+                  import_path = import_match.group(1)
+
+                  if not import_path.endswith(".json"):
+                      import_path += ".json"
+
+                  import_line = (
+                      f'import __i18n from "{import_path}";\n'
+                  )
+
+                  source_without_import = import_pattern.sub(
+                      "",
+                      source,
+                      count=1,
+                  )
+
+                  directive_match = directive_pattern.match(
+                      source_without_import,
+                  )
+
+                  if directive_match:
+                      position = directive_match.end()
+
+                      corrected = (
+                          source_without_import[:position]
+                          + "\n"
+                          + import_line
+                          + source_without_import[position:]
+                      )
+                  else:
+                      corrected = (
+                          import_line
+                          + source_without_import
+                      )
+
+                  if corrected == source:
                       continue
 
                   file_path.write_text(
@@ -126,13 +140,15 @@ jobs:
                       encoding="utf-8",
                   )
 
+                  repaired_count += 1
+
                   print(
                       f"Import réparé : {file_path}"
                   )
 
           print(
-              f"Nombre d’imports réparés : "
-              f"{repaired_count[0]}"
+              f"Nombre de fichiers réparés : "
+              f"{repaired_count}"
           )
           PY
 
