@@ -1,4 +1,8 @@
 {
+  "essentielle": "Essentielle",
+  "premium": "Premium",
+  "signature": "Signature",
+
   "pour_commencer": "Pour commencer",
   "24_99_us": "24,99 $ US",
   "une_premiere_lecture_personnalisee_de_votre_theme_natal_pour": "Une première lecture personnalisée de votre thème natal pour comprendre vos grandes énergies astrologiques.",
@@ -8,6 +12,7 @@
   "vos_dix_principales_planetes": "Vos dix principales planètes",
   "vos_elements_et_vos_modalites": "Vos éléments et vos modalités",
   "rapport_pdf_personnalise_et_telechargeable": "Rapport PDF personnalisé et téléchargeable",
+
   "analyse_approfondie": "Analyse approfondie",
   "49_99_us": "49,99 $ US",
   "une_exploration_complete_de_votre_personnalite_de_vos_maison": "Une exploration complète de votre personnalité, de vos maisons, de vos relations et de votre potentiel.",
@@ -17,6 +22,7 @@
   "vos_aspects_et_vos_dominantes_astrologiques": "Vos aspects et vos dominantes astrologiques",
   "relations_carriere_forces_et_defis": "Relations, carrière, forces et défis",
   "rapport_pdf_detaille_et_telechargeable": "Rapport PDF détaillé et téléchargeable",
+
   "le_plus_complet": "Le plus complet",
   "79_99_us": "79,99 $ US",
   "l_analyse_la_plus_complete_de_votre_theme_natal_avec_vos_gra": "L’analyse la plus complète de votre thème natal, avec vos grandes dynamiques de vie et vos axes d’évolution.",
@@ -26,6 +32,7 @@
   "chiron_n_uds_lunaires_et_aspects_majeurs": "Chiron, nœuds lunaires et aspects majeurs",
   "talents_caches_blocages_et_guide_d_integration": "Talents cachés, blocages et guide d’intégration",
   "synthese_signature_personnalisee": "Synthèse Signature personnalisée",
+
   "rapports_astrologiques_personnalises": "Rapports astrologiques personnalisés",
   "votre_carte_du_ciel_est_maintenant_prete_choisissez_le_nivea": "Votre carte du ciel est maintenant prête. Choisissez le niveau d’analyse qui correspond à vos besoins. Chaque rapport est personnalisé selon votre date, votre heure et votre lieu de naissance.",
   "recommande": "Recommandé",
