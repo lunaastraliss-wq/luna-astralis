@@ -1792,12 +1792,16 @@ export default function HomePage() {
                       )}
                     </ul>
 
-                    <Link
-  href={localizedHref("/carte-du-ciel/gratuite")}
-  className="hero-free-btn"
->
-  {text.birthChartButton}
-</Link>
+                                        <Link
+                      href={localizedHref(
+                        "/carte-du-ciel/gratuite"
+                      )}
+                      className="hero-free-btn"
+                    >
+                      {text.birthChartButton}
+                    </Link>
+                  </article>
+                </div>
 
                 <article className="hero-tool-card hero-tool-card--compatibility">
                   <div
