@@ -1987,7 +1987,7 @@ export default function HomePage() {
                         </ul>
 
                         <Link
-                          href="/carte-du-ciel"
+                          href={localizedHref("/carte-du-ciel/gratuite")}
                           className={[
                             "hero-free-btn",
                             report.featured
@@ -2014,7 +2014,7 @@ export default function HomePage() {
                   </p>
 
                   <Link
-                    href="/carte-du-ciel"
+                    href={localizedHref("/carte-du-ciel/gratuite")}
                     className="hero-free-btn hero-free-btn--pulse"
                   >
                     {
