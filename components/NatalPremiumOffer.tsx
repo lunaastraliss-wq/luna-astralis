@@ -560,10 +560,13 @@ async function readJsonResponse<T>(
 export default function NatalPremiumOffer(
   props: Props
 ) {
-  const dictionary =
-    DICTIONARIES[
-      props.locale
-    ];
+  const localeDictionary =
+  DICTIONARIES[props.locale];
+
+const dictionary: Dictionary = {
+  ...fr,
+  ...localeDictionary,
+};
 
   const texts =
     OFFER_TEXTS[
