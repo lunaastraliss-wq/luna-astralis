@@ -330,6 +330,82 @@ const FORM_TEXTS: Record<Locale, NatalFormTexts> = {
   },
 };
 
+
+type NatalFormLabels = {
+  firstName: string;
+  firstNamePlaceholder: string;
+  birthDate: string;
+  birthDatePlaceholder: string;
+  birthTime: string;
+  birthCity: string;
+  birthCityPlaceholder: string;
+};
+
+const FORM_LABELS: Record<
+  Locale,
+  NatalFormLabels
+> = {
+  fr: {
+    firstName: "Prénom (optionnel)",
+    firstNamePlaceholder: "Ton prénom",
+    birthDate: "Date de naissance",
+    birthDatePlaceholder: "JJ/MM/AAAA",
+    birthTime: "Heure de naissance (optionnelle, mais recommandée)",
+    birthCity: "Ville de naissance",
+    birthCityPlaceholder: "Ex. : Québec, Canada",
+  },
+
+  en: {
+    firstName: "First name (optional)",
+    firstNamePlaceholder: "Your first name",
+    birthDate: "Birth date",
+    birthDatePlaceholder: "DD/MM/YYYY",
+    birthTime: "Birth time (optional, but recommended)",
+    birthCity: "Birth city",
+    birthCityPlaceholder: "Example: Toronto, Canada",
+  },
+
+  es: {
+    firstName: "Nombre (opcional)",
+    firstNamePlaceholder: "Tu nombre",
+    birthDate: "Fecha de nacimiento",
+    birthDatePlaceholder: "DD/MM/AAAA",
+    birthTime: "Hora de nacimiento (opcional, pero recomendada)",
+    birthCity: "Ciudad de nacimiento",
+    birthCityPlaceholder: "Ejemplo: Madrid, España",
+  },
+
+  de: {
+    firstName: "Vorname (optional)",
+    firstNamePlaceholder: "Ihr Vorname",
+    birthDate: "Geburtsdatum",
+    birthDatePlaceholder: "TT/MM/JJJJ",
+    birthTime: "Geburtszeit (optional, aber empfohlen)",
+    birthCity: "Geburtsort",
+    birthCityPlaceholder: "Beispiel: Berlin, Deutschland",
+  },
+
+  it: {
+    firstName: "Nome (facoltativo)",
+    firstNamePlaceholder: "Il tuo nome",
+    birthDate: "Data di nascita",
+    birthDatePlaceholder: "GG/MM/AAAA",
+    birthTime: "Ora di nascita (facoltativa, ma consigliata)",
+    birthCity: "Città di nascita",
+    birthCityPlaceholder: "Esempio: Roma, Italia",
+  },
+
+  pt: {
+    firstName: "Nome (opcional)",
+    firstNamePlaceholder: "Seu nome",
+    birthDate: "Data de nascimento",
+    birthDatePlaceholder: "DD/MM/AAAA",
+    birthTime: "Hora de nascimento (opcional, mas recomendada)",
+    birthCity: "Cidade de nascimento",
+    birthCityPlaceholder: "Exemplo: Lisboa, Portugal",
+  },
+};
+
 const PLANET_NAMES: Record<
   Locale,
   Record<string, string>
@@ -713,6 +789,10 @@ export default function NatalChartForm({
 
   const texts =
     FORM_TEXTS[locale];
+
+  const labels =
+    FORM_LABELS[locale];
+  
 
   const shareRef =
     useRef<HTMLDivElement | null>(
@@ -1246,7 +1326,7 @@ export default function NatalChartForm({
         noValidate
       >
         <label>
-          {__i18n["prenom_optionnel"]}<input
+          {labels.firstName}<input
             type="text"
             value={
               firstName
@@ -1259,13 +1339,13 @@ export default function NatalChartForm({
                   .value
               )
             }
-            placeholder={__i18n["ton_prenom"]}
+            placeholder={labels.firstNamePlaceholder}
             autoComplete="given-name"
           />
         </label>
 
         <label>
-          {__i18n["date_de_naissance"]}<input
+          {labels.birthDate}<input
             type="text"
             inputMode="numeric"
             value={
@@ -1316,7 +1396,7 @@ export default function NatalChartForm({
                 value
               );
             }}
-            placeholder={__i18n["jj_mm_aaaa"]}
+            placeholder={labels.birthDatePlaceholder}
             maxLength={
               10
             }
@@ -1326,7 +1406,7 @@ export default function NatalChartForm({
         </label>
 
         <label>
-          {__i18n["heure_de_naissance_optionnelle_mais_recommandee"]}<input
+          {labels.birthTime}<input
             type="time"
             value={
               birthTime
@@ -1344,7 +1424,7 @@ export default function NatalChartForm({
         </label>
 
         <label>
-          {__i18n["ville_de_naissance"]}<input
+          {labels.birthCity}<input
             type="text"
             value={
               birthCity
@@ -1357,7 +1437,7 @@ export default function NatalChartForm({
                   .value
               )
             }
-            placeholder={__i18n["ville_de_naissance_2"]}
+            placeholder={labels.birthCityPlaceholder}
             autoComplete="off"
             required
           />
