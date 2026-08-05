@@ -842,6 +842,7 @@ export default function SignaturePage({
               <div className="signature-order-form">
                 <ReportCheckoutForm
                   reportType="signature"
+                  locale={locale}
                 />
               </div>
 
