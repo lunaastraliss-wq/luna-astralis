@@ -526,22 +526,15 @@ function translateFormatted(
     return "";
   }
 
-  let translated =
-    formatted;
+  let translated = formatted;
 
   Object.entries(
     SIGN_NAMES[locale]
-  ).forEach(
-    ([
-      english,
-      french,
-    ]) => {
-      translated =
-        translated
-          .split(english)
-          .join(french);
-    }
-  );
+  ).forEach(([english, localized]) => {
+    translated = translated
+      .split(english)
+      .join(localized);
+  });
 
   return translated;
 }
@@ -551,16 +544,32 @@ function translatePlanetName(
   locale: Locale
 ): string {
   return (
-    PLANET_NAMES[locale][name] ||
+    PLANET_NAMES[locale][name] ??
     name
   );
 }
+
+const PLANET_GLYPH: Record<
+  string,
+  string
+> = {
+  Sun: "☉",
+  Moon: "☽",
+  Mercury: "☿",
+  Venus: "♀",
+  Mars: "♂",
+  Jupiter: "♃",
+  Saturn: "♄",
+  Uranus: "♅",
+  Neptune: "♆",
+  Pluto: "♇",
+};
 
 function getPlanetGlyph(
   name: string
 ): string {
   return (
-    PLANET_GLYPH[name] ||
+    PLANET_GLYPH[name] ??
     ""
   );
 }
@@ -573,7 +582,7 @@ function getSignGlyph(
   }
 
   return (
-    SIGN_GLYPH[signName] ||
+    SIGN_GLYPH[signName] ??
     ""
   );
 }
@@ -587,11 +596,10 @@ function getSignName(
   }
 
   return (
-    SIGN_NAMES[locale][signName] ||
+    SIGN_NAMES[locale][signName] ??
     signName
   );
 }
-
 /*
 |--------------------------------------------------------------------------
 | Formatage de la date
