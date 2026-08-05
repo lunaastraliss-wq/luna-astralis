@@ -1,22 +1,37 @@
 "use client";
 
-
-
-
-
-
-
-import __i18n from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopeyearlycheckoutform.json";
 import {
   type FormEvent,
   useState,
 } from "react";
+
+import {
+  useParams,
+} from "next/navigation";
+
+import fr from "../../../i18n/migrated/fr/app/horoscope/premium/horoscopeyearlycheckoutform.json";
+import en from "../../../i18n/migrated/en/app/horoscope/premium/horoscopeyearlycheckoutform.json";
+import es from "../../../i18n/migrated/es/app/horoscope/premium/horoscopeyearlycheckoutform.json";
+import de from "../../../i18n/migrated/de/app/horoscope/premium/horoscopeyearlycheckoutform.json";
+import it from "../../../i18n/migrated/it/app/horoscope/premium/horoscopeyearlycheckoutform.json";
+import pt from "../../../i18n/migrated/pt/app/horoscope/premium/horoscopeyearlycheckoutform.json";
 
 /*
 |--------------------------------------------------------------------------
 | Types
 |--------------------------------------------------------------------------
 */
+
+type Locale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+type TranslationDictionary =
+  Record<string, string>;
 
 type GeocodeLocation = {
   city: string;
@@ -52,6 +67,263 @@ type GeocodeResponse = {
 
 /*
 |--------------------------------------------------------------------------
+| Dictionnaires
+|--------------------------------------------------------------------------
+*/
+
+const DICTIONARIES: Record<
+  Locale,
+  TranslationDictionary
+> = {
+  fr,
+  en,
+  es,
+  de,
+  it,
+  pt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Textes techniques
+|--------------------------------------------------------------------------
+*/
+
+const EXTRA_TEXTS = {
+  fr: {
+    defaultCountry:
+      "Canada",
+
+    invalidYear:
+      "Veuillez sélectionner une année valide.",
+
+    birthDateRequired:
+      "Veuillez entrer votre date de naissance.",
+
+    invalidBirthDate:
+      "La date de naissance est invalide. Utilisez le format JJ/MM/AAAA.",
+
+    cityRequired:
+      "Veuillez entrer votre ville de naissance.",
+
+    countryRequired:
+      "Veuillez entrer votre pays de naissance.",
+
+    cityNotFound:
+      "Ville introuvable. Vérifiez le nom de la ville et le pays.",
+
+    invalidCoordinates:
+      "Les coordonnées reçues pour cette ville sont invalides.",
+
+    checkoutError:
+      "La session de paiement n’a pas pu être créée.",
+
+    genericError:
+      "Une erreur est survenue. Veuillez réessayer.",
+
+    loading:
+      "Préparation du paiement…",
+
+    submit:
+      "Créer mon horoscope — 34,99 $ US",
+  },
+
+  en: {
+    defaultCountry:
+      "Canada",
+
+    invalidYear:
+      "Please select a valid year.",
+
+    birthDateRequired:
+      "Please enter your date of birth.",
+
+    invalidBirthDate:
+      "The date of birth is invalid. Use the DD/MM/YYYY format.",
+
+    cityRequired:
+      "Please enter your city of birth.",
+
+    countryRequired:
+      "Please enter your country of birth.",
+
+    cityNotFound:
+      "City not found. Check the city and country names.",
+
+    invalidCoordinates:
+      "The coordinates received for this city are invalid.",
+
+    checkoutError:
+      "The payment session could not be created.",
+
+    genericError:
+      "An error occurred. Please try again.",
+
+    loading:
+      "Preparing payment…",
+
+    submit:
+      "Create my horoscope — US$34.99",
+  },
+
+  es: {
+    defaultCountry:
+      "Canadá",
+
+    invalidYear:
+      "Selecciona un año válido.",
+
+    birthDateRequired:
+      "Introduce tu fecha de nacimiento.",
+
+    invalidBirthDate:
+      "La fecha de nacimiento no es válida. Utiliza el formato DD/MM/AAAA.",
+
+    cityRequired:
+      "Introduce tu ciudad de nacimiento.",
+
+    countryRequired:
+      "Introduce tu país de nacimiento.",
+
+    cityNotFound:
+      "No se encontró la ciudad. Verifica el nombre de la ciudad y del país.",
+
+    invalidCoordinates:
+      "Las coordenadas recibidas para esta ciudad no son válidas.",
+
+    checkoutError:
+      "No se pudo crear la sesión de pago.",
+
+    genericError:
+      "Se produjo un error. Inténtalo de nuevo.",
+
+    loading:
+      "Preparando el pago…",
+
+    submit:
+      "Crear mi horóscopo — 34,99 US$",
+  },
+
+  de: {
+    defaultCountry:
+      "Kanada",
+
+    invalidYear:
+      "Bitte wähle ein gültiges Jahr aus.",
+
+    birthDateRequired:
+      "Bitte gib dein Geburtsdatum ein.",
+
+    invalidBirthDate:
+      "Das Geburtsdatum ist ungültig. Verwende das Format TT/MM/JJJJ.",
+
+    cityRequired:
+      "Bitte gib deinen Geburtsort ein.",
+
+    countryRequired:
+      "Bitte gib dein Geburtsland ein.",
+
+    cityNotFound:
+      "Die Stadt wurde nicht gefunden. Überprüfe den Namen der Stadt und des Landes.",
+
+    invalidCoordinates:
+      "Die empfangenen Koordinaten für diese Stadt sind ungültig.",
+
+    checkoutError:
+      "Die Zahlungssitzung konnte nicht erstellt werden.",
+
+    genericError:
+      "Ein Fehler ist aufgetreten. Bitte versuche es erneut.",
+
+    loading:
+      "Zahlung wird vorbereitet…",
+
+    submit:
+      "Mein Horoskop erstellen — 34,99 US$",
+  },
+
+  it: {
+    defaultCountry:
+      "Canada",
+
+    invalidYear:
+      "Seleziona un anno valido.",
+
+    birthDateRequired:
+      "Inserisci la tua data di nascita.",
+
+    invalidBirthDate:
+      "La data di nascita non è valida. Usa il formato GG/MM/AAAA.",
+
+    cityRequired:
+      "Inserisci la tua città di nascita.",
+
+    countryRequired:
+      "Inserisci il tuo Paese di nascita.",
+
+    cityNotFound:
+      "Città non trovata. Verifica il nome della città e del Paese.",
+
+    invalidCoordinates:
+      "Le coordinate ricevute per questa città non sono valide.",
+
+    checkoutError:
+      "Non è stato possibile creare la sessione di pagamento.",
+
+    genericError:
+      "Si è verificato un errore. Riprova.",
+
+    loading:
+      "Preparazione del pagamento…",
+
+    submit:
+      "Crea il mio oroscopo — 34,99 USD",
+  },
+
+  pt: {
+    defaultCountry:
+      "Canadá",
+
+    invalidYear:
+      "Selecione um ano válido.",
+
+    birthDateRequired:
+      "Informe sua data de nascimento.",
+
+    invalidBirthDate:
+      "A data de nascimento é inválida. Use o formato DD/MM/AAAA.",
+
+    cityRequired:
+      "Informe sua cidade de nascimento.",
+
+    countryRequired:
+      "Informe seu país de nascimento.",
+
+    cityNotFound:
+      "Cidade não encontrada. Verifique o nome da cidade e do país.",
+
+    invalidCoordinates:
+      "As coordenadas recebidas para esta cidade são inválidas.",
+
+    checkoutError:
+      "Não foi possível criar a sessão de pagamento.",
+
+    genericError:
+      "Ocorreu um erro. Tente novamente.",
+
+    loading:
+      "Preparando o pagamento…",
+
+    submit:
+      "Criar meu horóscopo — US$ 34,99",
+  },
+} satisfies Record<
+  Locale,
+  Record<string, string>
+>;
+
+/*
+|--------------------------------------------------------------------------
 | Validation de la date
 |--------------------------------------------------------------------------
 */
@@ -83,13 +355,14 @@ function isValidDate(
     return false;
   }
 
-  const date = new Date(
-    Date.UTC(
-      year,
-      month - 1,
-      day,
-    ),
-  );
+  const date =
+    new Date(
+      Date.UTC(
+        year,
+        month - 1,
+        day,
+      ),
+    );
 
   return (
     date.getUTCFullYear() === year &&
@@ -218,15 +491,38 @@ function formatBirthDateInput(
 
 /*
 |--------------------------------------------------------------------------
-| Formulaire de commande
+| Formulaire
 |--------------------------------------------------------------------------
 */
 
 export default function HoroscopeYearlyCheckoutForm() {
+  const params =
+    useParams<{
+      locale?: string;
+    }>();
+
+  const rawLocale =
+    params?.locale;
+
+  const locale: Locale =
+    rawLocale === "en" ||
+    rawLocale === "es" ||
+    rawLocale === "de" ||
+    rawLocale === "it" ||
+    rawLocale === "pt"
+      ? rawLocale
+      : "fr";
+
+  const text =
+    DICTIONARIES[locale];
+
+  const extra =
+    EXTRA_TEXTS[locale];
+
   const now =
     new Date();
 
-    const currentYear =
+  const currentYear =
     now.getFullYear();
 
   const availableYears = [
@@ -264,7 +560,7 @@ export default function HoroscopeYearlyCheckoutForm() {
     setBirthCountry,
   ] =
     useState(
-      "Canada",
+      extra.defaultCountry,
     );
 
   const [
@@ -291,7 +587,7 @@ export default function HoroscopeYearlyCheckoutForm() {
 
   /*
   |--------------------------------------------------------------------------
-  | Recherche de la ville de naissance
+  | Géocodage
   |--------------------------------------------------------------------------
   */
 
@@ -346,7 +642,7 @@ export default function HoroscopeYearlyCheckoutForm() {
       throw new Error(
         data?.detail ||
           data?.error ||
-          "Ville introuvable. Vérifiez le nom de la ville et le pays.",
+          extra.cityNotFound,
       );
     }
 
@@ -369,7 +665,7 @@ export default function HoroscopeYearlyCheckoutForm() {
       )
     ) {
       throw new Error(
-        "Les coordonnées reçues pour cette ville sont invalides.",
+        extra.invalidCoordinates,
       );
     }
 
@@ -425,12 +721,6 @@ export default function HoroscopeYearlyCheckoutForm() {
         reportYear,
       );
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation de la période
-    |--------------------------------------------------------------------------
-    */
-
     if (
       !Number.isInteger(
         year,
@@ -439,23 +729,17 @@ export default function HoroscopeYearlyCheckoutForm() {
       year > currentYear + 2
     ) {
       setError(
-        "Veuillez sélectionner une année valide.",
+        extra.invalidYear,
       );
 
       return;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation de la date de naissance
-    |--------------------------------------------------------------------------
-    */
-
     if (
       !birthDate
     ) {
       setError(
-        "Veuillez entrer votre date de naissance.",
+        extra.birthDateRequired,
       );
 
       return;
@@ -470,23 +754,17 @@ export default function HoroscopeYearlyCheckoutForm() {
       !isoBirthDate
     ) {
       setError(
-        "La date de naissance est invalide. Utilisez le format JJ/MM/AAAA.",
+        extra.invalidBirthDate,
       );
 
       return;
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Validation du lieu
-    |--------------------------------------------------------------------------
-    */
-
     if (
       !cleanCity
     ) {
       setError(
-        "Veuillez entrer votre ville de naissance.",
+        extra.cityRequired,
       );
 
       return;
@@ -496,17 +774,11 @@ export default function HoroscopeYearlyCheckoutForm() {
       !cleanCountry
     ) {
       setError(
-        "Veuillez entrer votre pays de naissance.",
+        extra.countryRequired,
       );
 
       return;
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Heure par défaut
-    |--------------------------------------------------------------------------
-    */
 
     const effectiveBirthTime =
       birthTime ||
@@ -515,23 +787,11 @@ export default function HoroscopeYearlyCheckoutForm() {
     setLoading(true);
 
     try {
-      /*
-      |--------------------------------------------------------------------------
-      | Géocodage
-      |--------------------------------------------------------------------------
-      */
-
       const location =
         await geocodeBirthPlace(
           cleanCity,
           cleanCountry,
         );
-
-      /*
-      |--------------------------------------------------------------------------
-      | Création de la session Stripe
-      |--------------------------------------------------------------------------
-      */
 
       const response =
         await fetch(
@@ -542,13 +802,15 @@ export default function HoroscopeYearlyCheckoutForm() {
 
             headers: {
               "Content-Type":
-                __i18n["application_json"],
+                "application/json",
             },
 
             body:
               JSON.stringify({
                 reportType:
                   "horoscope-year",
+
+                locale,
 
                 firstName:
                   cleanFirstName,
@@ -599,15 +861,9 @@ export default function HoroscopeYearlyCheckoutForm() {
         throw new Error(
           data?.detail ||
             data?.error ||
-            "La session de paiement n’a pas pu être créée.",
+            extra.checkoutError,
         );
       }
-
-      /*
-      |--------------------------------------------------------------------------
-      | Redirection vers Stripe
-      |--------------------------------------------------------------------------
-      */
 
       window.location.assign(
         data.url,
@@ -618,7 +874,7 @@ export default function HoroscopeYearlyCheckoutForm() {
       setError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Une erreur est survenue. Veuillez réessayer.",
+          : extra.genericError,
       );
 
       setLoading(false);
@@ -635,34 +891,52 @@ export default function HoroscopeYearlyCheckoutForm() {
     <div className="horoscope-daily-form-card">
       <div className="horoscope-daily-form-heading">
         <span className="premium-section-kicker">
-          {__i18n["votre_annee_personnalisee"]}</span>
+          {
+            text[
+              "votre_annee_personnalisee"
+            ]
+          }
+        </span>
 
         <h2>
-          {__i18n["creez_votre_horoscope_premium_de_l_annee"]}</h2>
+          {
+            text[
+              "creez_votre_horoscope_premium_de_l_annee"
+            ]
+          }
+        </h2>
 
         <p>
-          {__i18n["selectionnez_l_annee_a_analyser_puis_entrez_votre_date_votre"]}</p>
+          {
+            text[
+              "selectionnez_l_annee_a_analyser_puis_entrez_votre_date_votre"
+            ]
+          }
+        </p>
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={
+          handleSubmit
+        }
         className="horoscope-daily-form"
         noValidate
       >
-        {/*
-        |--------------------------------------------------------------------------
-        | Année du rapport
-        |--------------------------------------------------------------------------
-        */}
-
         <div className="horoscope-daily-field">
           <label htmlFor="reportYear">
-            {__i18n["annee_du_rapport"]}</label>
+            {
+              text[
+                "annee_du_rapport"
+              ]
+            }
+          </label>
 
           <select
             id="reportYear"
             name="reportYear"
-            value={reportYear}
+            value={
+              reportYear
+            }
             onChange={(
               event,
             ) =>
@@ -677,8 +951,12 @@ export default function HoroscopeYearlyCheckoutForm() {
                 year,
               ) => (
                 <option
-                  key={year}
-                  value={year}
+                  key={
+                    year
+                  }
+                  value={
+                    year
+                  }
                 >
                   {year}
                 </option>
@@ -687,25 +965,30 @@ export default function HoroscopeYearlyCheckoutForm() {
           </select>
         </div>
 
-        {/*
-        |--------------------------------------------------------------------------
-        | Prénom
-        |--------------------------------------------------------------------------
-        */}
-
         <div className="horoscope-daily-field">
           <label htmlFor="yearlyFirstName">
-            {__i18n["prenom"]}{" "}
+            {
+              text[
+                "prenom"
+              ]
+            }{" "}
 
             <span>
-              {__i18n["optionnel"]}</span>
+              {
+                text[
+                  "optionnel"
+                ]
+              }
+            </span>
           </label>
 
           <input
             id="yearlyFirstName"
             name="firstName"
             type="text"
-            value={firstName}
+            value={
+              firstName
+            }
             onChange={(
               event,
             ) =>
@@ -714,27 +997,32 @@ export default function HoroscopeYearlyCheckoutForm() {
               )
             }
             autoComplete="given-name"
-            placeholder={__i18n["votre_prenom"]}
+            placeholder={
+              text[
+                "votre_prenom"
+              ]
+            }
           />
         </div>
-
-        {/*
-        |--------------------------------------------------------------------------
-        | Date et heure de naissance
-        |--------------------------------------------------------------------------
-        */}
 
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthDate">
-              {__i18n["date_de_naissance"]}</label>
+              {
+                text[
+                  "date_de_naissance"
+                ]
+              }
+            </label>
 
             <input
               id="yearlyBirthDate"
               name="birthDate"
               type="text"
               inputMode="numeric"
-              value={birthDate}
+              value={
+                birthDate
+              }
               onChange={(
                 event,
               ) =>
@@ -744,8 +1032,14 @@ export default function HoroscopeYearlyCheckoutForm() {
                   ),
                 )
               }
-              placeholder={__i18n["jj_mm_aaaa"]}
-              maxLength={10}
+              placeholder={
+                text[
+                  "jj_mm_aaaa"
+                ]
+              }
+              maxLength={
+                10
+              }
               autoComplete="bday"
               required
             />
@@ -753,13 +1047,20 @@ export default function HoroscopeYearlyCheckoutForm() {
 
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthTime">
-              {__i18n["heure_de_naissance"]}</label>
+              {
+                text[
+                  "heure_de_naissance"
+                ]
+              }
+            </label>
 
             <input
               id="yearlyBirthTime"
               name="birthTime"
               type="time"
-              value={birthTime}
+              value={
+                birthTime
+              }
               onChange={(
                 event,
               ) =>
@@ -771,26 +1072,32 @@ export default function HoroscopeYearlyCheckoutForm() {
             />
 
             <small>
-              {__i18n["optionnelle_mais_recommandee"]}</small>
+              {
+                text[
+                  "optionnelle_mais_recommandee"
+                ]
+              }
+            </small>
           </div>
         </div>
-
-        {/*
-        |--------------------------------------------------------------------------
-        | Ville et pays de naissance
-        |--------------------------------------------------------------------------
-        */}
 
         <div className="horoscope-daily-form-grid">
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthCity">
-              {__i18n["ville_de_naissance"]}</label>
+              {
+                text[
+                  "ville_de_naissance"
+                ]
+              }
+            </label>
 
             <input
               id="yearlyBirthCity"
               name="birthCity"
               type="text"
-              value={birthCity}
+              value={
+                birthCity
+              }
               onChange={(
                 event,
               ) =>
@@ -799,20 +1106,31 @@ export default function HoroscopeYearlyCheckoutForm() {
                 )
               }
               autoComplete="off"
-              placeholder={__i18n["ex_quebec"]}
+              placeholder={
+                text[
+                  "ex_quebec"
+                ]
+              }
               required
             />
           </div>
 
           <div className="horoscope-daily-field">
             <label htmlFor="yearlyBirthCountry">
-              {__i18n["pays_de_naissance"]}</label>
+              {
+                text[
+                  "pays_de_naissance"
+                ]
+              }
+            </label>
 
             <input
               id="yearlyBirthCountry"
               name="birthCountry"
               type="text"
-              value={birthCountry}
+              value={
+                birthCountry
+              }
               onChange={(
                 event,
               ) =>
@@ -821,17 +1139,15 @@ export default function HoroscopeYearlyCheckoutForm() {
                 )
               }
               autoComplete="country-name"
-              placeholder={__i18n["ex_canada"]}
+              placeholder={
+                text[
+                  "ex_canada"
+                ]
+              }
               required
             />
           </div>
         </div>
-
-        {/*
-        |--------------------------------------------------------------------------
-        | Erreur
-        |--------------------------------------------------------------------------
-        */}
 
         {error ? (
           <div
@@ -842,12 +1158,6 @@ export default function HoroscopeYearlyCheckoutForm() {
           </div>
         ) : null}
 
-        {/*
-        |--------------------------------------------------------------------------
-        | Avis de conservation du PDF
-        |--------------------------------------------------------------------------
-        */}
-
         <div className="horoscope-daily-download-notice">
           <span aria-hidden="true">
             📥
@@ -855,29 +1165,50 @@ export default function HoroscopeYearlyCheckoutForm() {
 
           <p>
             <strong>
-              {__i18n["important"]}</strong>{" "}
-            {__i18n["telechargez_votre_rapport_des_qu_il_est_genere_et_conservez"]}</p>
-        </div>
+              {
+                text[
+                  "important"
+                ]
+              }
+            </strong>{" "}
 
-        {/*
-        |--------------------------------------------------------------------------
-        | Bouton de commande
-        |--------------------------------------------------------------------------
-        */}
+            {
+              text[
+                "telechargez_votre_rapport_des_qu_il_est_genere_et_conservez"
+              ]
+            }
+          </p>
+        </div>
 
         <button
           type="submit"
           className="premium-primary-button horoscope-daily-submit"
-          disabled={loading}
+          disabled={
+            loading
+          }
         >
-          {loading
-            ? "Préparation du paiement…"
-            : "Créer mon horoscope — 34,99 $ US"}
+          {
+            loading
+              ? extra.loading
+              : extra.submit
+          }
         </button>
 
         <p className="horoscope-daily-secure-note">
-          {__i18n["paiement_securise_par_stripe"]}{" · "}
-          {__i18n["pdf_disponible_immediatement_apres_le_paiement"]}</p>
+          {
+            text[
+              "paiement_securise_par_stripe"
+            ]
+          }
+
+          {" · "}
+
+          {
+            text[
+              "pdf_disponible_immediatement_apres_le_paiement"
+            ]
+          }
+        </p>
       </form>
     </div>
   );
