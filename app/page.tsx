@@ -1657,6 +1657,13 @@ export default function HomePage() {
       pathname
     );
 
+  const localizedHref = (
+    path: string
+  ) =>
+    locale === "fr"
+      ? path
+      : `/${locale}${path}`;
+
   const text =
     HOME_TRANSLATIONS[
       locale
@@ -1744,7 +1751,7 @@ export default function HomePage() {
                     </ul>
 
                     <Link
-                      href="/horoscope"
+                      href={localizedHref("/horoscope")}
                       className="hero-free-btn hero-free-btn--pulse"
                     >
                       {
@@ -1786,7 +1793,7 @@ export default function HomePage() {
                     </ul>
 
                     <Link
-                      href="/carte-du-ciel"
+                      href={localizedHref("/carte-du-ciel")}
                       className="hero-free-btn"
                     >
                       {
