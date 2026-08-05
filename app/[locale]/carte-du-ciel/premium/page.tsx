@@ -842,6 +842,7 @@ export default function PremiumPage({
               <div className="premium-order-form">
                 <ReportCheckoutForm
                   reportType="premium"
+                  locale={locale}
                 />
               </div>
 
