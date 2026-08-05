@@ -1,96 +1,78 @@
 "use client";
 
-import { useState } from "react";
-import { createClient } from "@supabase/supabase-js";
 
-import fr from "../i18n/migrated/fr/components/natalpremiumoffer.json";
-import en from "../i18n/migrated/en/components/natalpremiumoffer.json";
-import es from "../i18n/migrated/es/components/natalpremiumoffer.json";
-import de from "../i18n/migrated/de/components/natalpremiumoffer.json";
-import it from "../i18n/migrated/it/components/natalpremiumoffer.json";
-import pt from "../i18n/migrated/pt/components/natalpremiumoffer.json";
+
+
+
+import fr from "../i18n/migrated/fr/components/natalchartform.json";
+import en from "../i18n/migrated/en/components/natalchartform.json";
+import es from "../i18n/migrated/es/components/natalchartform.json";
+import de from "../i18n/migrated/de/components/natalchartform.json";
+import it from "../i18n/migrated/it/components/natalchartform.json";
+import pt from "../i18n/migrated/pt/components/natalchartform.json";
 
 import type { Locale } from "@/i18n/config";
+import {
+  useRef,
+  useState,
+} from "react";
 
-import "@/components/natal-report/natal-report.css";
+import html2canvas from "html2canvas";
 
-type PlanKey =
-  | "essential"
-  | "premium"
-  | "signature";
+import NatalChartWheel from "./NatalChartWheel";
+import NatalShareCard from "./NatalShareCard";
+import NatalFreeSummary from "./NatalFreeSummary";
+import NatalPlanetDetails from "./NatalPlanetDetails";
+import NatalPremiumOffer from "./NatalPremiumOffer";
+
+/*
+|--------------------------------------------------------------------------
+| Planètes principales
+|--------------------------------------------------------------------------
+*/
+
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
 
 type Dictionary = Record<string, string>;
 
-type Props = {
+type NatalChartFormProps = {
   locale: Locale;
-  firstName?: string;
-  birthDate?: string;
-  birthTime?: string;
-  birthCity?: string;
-  birthCountry?: string;
-
-  latitude?:
-    | string
-    | number
-    | null;
-
-  longitude?:
-    | string
-    | number
-    | null;
-
-  timezone?: string;
-  email?: string;
-  getWheelImage?: () => Promise<string>;
 };
 
-type SignedUploadResponse = {
-  ok?: boolean;
-  wheelImagePath?: string;
-  signedUrl?: string;
-  token?: string;
-  error?: string;
-  detail?: string;
+type NatalFormTexts = {
+  requiredBirthDateAndCity: string;
+  dateFormat: string;
+  invalidBirthDate: string;
+  invalidBirthTime: string;
+  cityNotFound: string;
+  invalidCoordinates: string;
+  chartCalculationError: string;
+  calculationError: string;
+  chartOf: (name: string) => string;
+  yourChart: string;
+  pngCreationError: string;
+  shareCardMissing: string;
+  pdfWheelMissing: string;
+  imageDownloadError: string;
+  calculating: string;
+  createChart: string;
+  ascendant: string;
+  preparingImage: string;
+  downloadChart: string;
 };
 
-type CheckoutResponse = {
-  url?: string;
-  error?: string;
-  detail?: string;
-};
-
-type Offer = {
-  key: PlanKey;
-  name: string;
-  badge: string;
-  price: string;
-  description: string;
-  button: string;
-  previewHref: string;
-  features: string[];
-  featured?: boolean;
-};
-
-type OfferTexts = {
-  titleWithName: (firstName: string) => string;
-  titleWithoutName: string;
-  reportLabel: string;
-  preparingReport: string;
-  invalidImageFormat: string;
-  invalidImageType: string;
-  missingWheelFunction: string;
-  missingSupabase: string;
-  wheelPreparationFailed: string;
-  wheelUploadPreparationFailed: string;
-  wheelUploadFailed: string;
-  paymentError: (status: number) => string;
-  paymentPreparationFailed: string;
-};
-
-const DICTIONARIES: Record<
-  Locale,
-  Dictionary
-> = {
+const DICTIONARIES: Record<Locale, Dictionary> = {
   fr,
   en,
   es,
@@ -99,456 +81,613 @@ const DICTIONARIES: Record<
   pt,
 };
 
-const OFFER_TEXTS: Record<
-  Locale,
-  OfferTexts
-> = {
+const FORM_TEXTS: Record<Locale, NatalFormTexts> = {
   fr: {
-    titleWithName: (firstName) =>
-      `Choisissez le rapport astrologique de ${firstName}`,
-    titleWithoutName:
-      "Choisissez votre rapport astrologique",
-    reportLabel:
-      "Rapport",
-    preparingReport:
-      "Préparation du rapport...",
-    invalidImageFormat:
-      "Le format de l’image astrologique est invalide.",
-    invalidImageType:
-      "Le type de l’image astrologique est invalide.",
-    missingWheelFunction:
-      "La fonction de création de la roue est absente.",
-    missingSupabase:
-      "La configuration publique de Supabase est absente.",
-    wheelPreparationFailed:
-      "La roue astrologique n’a pas pu être préparée.",
-    wheelUploadPreparationFailed:
-      "Impossible de préparer l’envoi de la roue.",
-    wheelUploadFailed:
-      "Impossible d’enregistrer la roue astrologique.",
-    paymentError: (status) =>
-      `Erreur de paiement (${status})`,
-    paymentPreparationFailed:
-      "Impossible de préparer le paiement. Réessaie.",
+    requiredBirthDateAndCity:
+      "La date de naissance et la ville de naissance sont obligatoires.",
+    dateFormat:
+      "Entre la date au format JJ/MM/AAAA.",
+    invalidBirthDate:
+      "La date de naissance est invalide.",
+    invalidBirthTime:
+      "L’heure de naissance est invalide.",
+    cityNotFound:
+      "Ville introuvable. Entre seulement le nom de la ville.",
+    invalidCoordinates:
+      "Les coordonnées reçues pour cette ville sont invalides.",
+    chartCalculationError:
+      "Erreur lors du calcul de la carte du ciel.",
+    calculationError:
+      "Une erreur est survenue pendant le calcul. Réessaie.",
+    chartOf: (name) =>
+      `Le thème astral de ${name}`,
+    yourChart:
+      "Ta carte du ciel",
+    pngCreationError:
+      "L’image PNG de la carte astrologique n’a pas pu être créée.",
+    shareCardMissing:
+      "La carte astrologique à télécharger est introuvable.",
+    pdfWheelMissing:
+      "La roue astrologique destinée au rapport est introuvable.",
+    imageDownloadError:
+      "Impossible de télécharger l’image. Réessaie.",
+    calculating:
+      "Calcul en cours...",
+    createChart:
+      "Créer ma carte du ciel",
+    ascendant:
+      "Ascendant",
+    preparingImage:
+      "Préparation de l’image...",
+    downloadChart:
+      "📷 Télécharger ma carte du ciel",
   },
 
   en: {
-    titleWithName: (firstName) =>
-      `Choose ${firstName}’s astrology report`,
-    titleWithoutName:
-      "Choose your astrology report",
-    reportLabel:
-      "Report",
-    preparingReport:
-      "Preparing the report...",
-    invalidImageFormat:
-      "The astrology image format is invalid.",
-    invalidImageType:
-      "The astrology image type is invalid.",
-    missingWheelFunction:
-      "The astrology wheel creation function is missing.",
-    missingSupabase:
-      "The public Supabase configuration is missing.",
-    wheelPreparationFailed:
-      "The astrology wheel could not be prepared.",
-    wheelUploadPreparationFailed:
-      "Unable to prepare the astrology wheel upload.",
-    wheelUploadFailed:
-      "Unable to save the astrology wheel.",
-    paymentError: (status) =>
-      `Payment error (${status})`,
-    paymentPreparationFailed:
-      "Unable to prepare the payment. Try again.",
+    requiredBirthDateAndCity:
+      "Birth date and birth city are required.",
+    dateFormat:
+      "Enter the date in DD/MM/YYYY format.",
+    invalidBirthDate:
+      "The birth date is invalid.",
+    invalidBirthTime:
+      "The birth time is invalid.",
+    cityNotFound:
+      "City not found. Enter only the city name.",
+    invalidCoordinates:
+      "The coordinates received for this city are invalid.",
+    chartCalculationError:
+      "An error occurred while calculating the birth chart.",
+    calculationError:
+      "An error occurred during the calculation. Try again.",
+    chartOf: (name) =>
+      `${name}’s birth chart`,
+    yourChart:
+      "Your birth chart",
+    pngCreationError:
+      "The PNG image of the astrology chart could not be created.",
+    shareCardMissing:
+      "The astrology chart to download could not be found.",
+    pdfWheelMissing:
+      "The astrology wheel for the report could not be found.",
+    imageDownloadError:
+      "Unable to download the image. Try again.",
+    calculating:
+      "Calculating...",
+    createChart:
+      "Create my birth chart",
+    ascendant:
+      "Ascendant",
+    preparingImage:
+      "Preparing the image...",
+    downloadChart:
+      "📷 Download my birth chart",
   },
 
   es: {
-    titleWithName: (firstName) =>
-      `Elige el informe astrológico de ${firstName}`,
-    titleWithoutName:
-      "Elige tu informe astrológico",
-    reportLabel:
-      "Informe",
-    preparingReport:
-      "Preparando el informe...",
-    invalidImageFormat:
-      "El formato de la imagen astrológica no es válido.",
-    invalidImageType:
-      "El tipo de imagen astrológica no es válido.",
-    missingWheelFunction:
-      "Falta la función de creación de la rueda astrológica.",
-    missingSupabase:
-      "Falta la configuración pública de Supabase.",
-    wheelPreparationFailed:
-      "No se pudo preparar la rueda astrológica.",
-    wheelUploadPreparationFailed:
-      "No se pudo preparar el envío de la rueda.",
-    wheelUploadFailed:
-      "No se pudo guardar la rueda astrológica.",
-    paymentError: (status) =>
-      `Error de pago (${status})`,
-    paymentPreparationFailed:
-      "No se pudo preparar el pago. Inténtalo de nuevo.",
+    requiredBirthDateAndCity:
+      "La fecha y la ciudad de nacimiento son obligatorias.",
+    dateFormat:
+      "Introduce la fecha en formato DD/MM/AAAA.",
+    invalidBirthDate:
+      "La fecha de nacimiento no es válida.",
+    invalidBirthTime:
+      "La hora de nacimiento no es válida.",
+    cityNotFound:
+      "Ciudad no encontrada. Introduce solo el nombre de la ciudad.",
+    invalidCoordinates:
+      "Las coordenadas recibidas para esta ciudad no son válidas.",
+    chartCalculationError:
+      "Error al calcular la carta natal.",
+    calculationError:
+      "Ocurrió un error durante el cálculo. Inténtalo de nuevo.",
+    chartOf: (name) =>
+      `Carta natal de ${name}`,
+    yourChart:
+      "Tu carta natal",
+    pngCreationError:
+      "No se pudo crear la imagen PNG de la carta astrológica.",
+    shareCardMissing:
+      "No se encontró la carta astrológica para descargar.",
+    pdfWheelMissing:
+      "No se encontró la rueda astrológica destinada al informe.",
+    imageDownloadError:
+      "No se pudo descargar la imagen. Inténtalo de nuevo.",
+    calculating:
+      "Calculando...",
+    createChart:
+      "Crear mi carta natal",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparando la imagen...",
+    downloadChart:
+      "📷 Descargar mi carta natal",
   },
 
   de: {
-    titleWithName: (firstName) =>
-      `Wählen Sie den astrologischen Bericht für ${firstName}`,
-    titleWithoutName:
-      "Wählen Sie Ihren astrologischen Bericht",
-    reportLabel:
-      "Bericht",
-    preparingReport:
-      "Bericht wird vorbereitet...",
-    invalidImageFormat:
-      "Das Format des astrologischen Bildes ist ungültig.",
-    invalidImageType:
-      "Der Typ des astrologischen Bildes ist ungültig.",
-    missingWheelFunction:
-      "Die Funktion zur Erstellung des astrologischen Rads fehlt.",
-    missingSupabase:
-      "Die öffentliche Supabase-Konfiguration fehlt.",
-    wheelPreparationFailed:
-      "Das astrologische Rad konnte nicht vorbereitet werden.",
-    wheelUploadPreparationFailed:
-      "Der Upload des astrologischen Rads konnte nicht vorbereitet werden.",
-    wheelUploadFailed:
-      "Das astrologische Rad konnte nicht gespeichert werden.",
-    paymentError: (status) =>
-      `Zahlungsfehler (${status})`,
-    paymentPreparationFailed:
-      "Die Zahlung konnte nicht vorbereitet werden. Versuchen Sie es erneut.",
+    requiredBirthDateAndCity:
+      "Geburtsdatum und Geburtsort sind erforderlich.",
+    dateFormat:
+      "Geben Sie das Datum im Format TT/MM/JJJJ ein.",
+    invalidBirthDate:
+      "Das Geburtsdatum ist ungültig.",
+    invalidBirthTime:
+      "Die Geburtszeit ist ungültig.",
+    cityNotFound:
+      "Stadt nicht gefunden. Geben Sie nur den Städtenamen ein.",
+    invalidCoordinates:
+      "Die empfangenen Koordinaten für diese Stadt sind ungültig.",
+    chartCalculationError:
+      "Fehler bei der Berechnung des Geburtshoroskops.",
+    calculationError:
+      "Bei der Berechnung ist ein Fehler aufgetreten. Versuchen Sie es erneut.",
+    chartOf: (name) =>
+      `Geburtshoroskop von ${name}`,
+    yourChart:
+      "Ihr Geburtshoroskop",
+    pngCreationError:
+      "Das PNG-Bild des astrologischen Horoskops konnte nicht erstellt werden.",
+    shareCardMissing:
+      "Das herunterzuladende astrologische Horoskop wurde nicht gefunden.",
+    pdfWheelMissing:
+      "Das astrologische Rad für den Bericht wurde nicht gefunden.",
+    imageDownloadError:
+      "Das Bild konnte nicht heruntergeladen werden. Versuchen Sie es erneut.",
+    calculating:
+      "Berechnung läuft...",
+    createChart:
+      "Mein Geburtshoroskop erstellen",
+    ascendant:
+      "Aszendent",
+    preparingImage:
+      "Bild wird vorbereitet...",
+    downloadChart:
+      "📷 Mein Geburtshoroskop herunterladen",
   },
 
   it: {
-    titleWithName: (firstName) =>
-      `Scegli il rapporto astrologico di ${firstName}`,
-    titleWithoutName:
-      "Scegli il tuo rapporto astrologico",
-    reportLabel:
-      "Rapporto",
-    preparingReport:
-      "Preparazione del rapporto...",
-    invalidImageFormat:
-      "Il formato dell’immagine astrologica non è valido.",
-    invalidImageType:
-      "Il tipo di immagine astrologica non è valido.",
-    missingWheelFunction:
-      "Manca la funzione di creazione della ruota astrologica.",
-    missingSupabase:
-      "Manca la configurazione pubblica di Supabase.",
-    wheelPreparationFailed:
-      "Non è stato possibile preparare la ruota astrologica.",
-    wheelUploadPreparationFailed:
-      "Impossibile preparare l’invio della ruota.",
-    wheelUploadFailed:
-      "Impossibile salvare la ruota astrologica.",
-    paymentError: (status) =>
-      `Errore di pagamento (${status})`,
-    paymentPreparationFailed:
-      "Impossibile preparare il pagamento. Riprova.",
+    requiredBirthDateAndCity:
+      "La data e la città di nascita sono obbligatorie.",
+    dateFormat:
+      "Inserisci la data nel formato GG/MM/AAAA.",
+    invalidBirthDate:
+      "La data di nascita non è valida.",
+    invalidBirthTime:
+      "L’ora di nascita non è valida.",
+    cityNotFound:
+      "Città non trovata. Inserisci solo il nome della città.",
+    invalidCoordinates:
+      "Le coordinate ricevute per questa città non sono valide.",
+    chartCalculationError:
+      "Errore durante il calcolo del tema natale.",
+    calculationError:
+      "Si è verificato un errore durante il calcolo. Riprova.",
+    chartOf: (name) =>
+      `Tema natale di ${name}`,
+    yourChart:
+      "Il tuo tema natale",
+    pngCreationError:
+      "Non è stato possibile creare l’immagine PNG della carta astrologica.",
+    shareCardMissing:
+      "Non è stata trovata la carta astrologica da scaricare.",
+    pdfWheelMissing:
+      "Non è stata trovata la ruota astrologica destinata al rapporto.",
+    imageDownloadError:
+      "Impossibile scaricare l’immagine. Riprova.",
+    calculating:
+      "Calcolo in corso...",
+    createChart:
+      "Crea il mio tema natale",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparazione dell’immagine...",
+    downloadChart:
+      "📷 Scarica il mio tema natale",
   },
 
   pt: {
-    titleWithName: (firstName) =>
-      `Escolha o relatório astrológico de ${firstName}`,
-    titleWithoutName:
-      "Escolha seu relatório astrológico",
-    reportLabel:
-      "Relatório",
-    preparingReport:
-      "Preparando o relatório...",
-    invalidImageFormat:
-      "O formato da imagem astrológica é inválido.",
-    invalidImageType:
-      "O tipo da imagem astrológica é inválido.",
-    missingWheelFunction:
-      "A função de criação da roda astrológica está ausente.",
-    missingSupabase:
-      "A configuração pública do Supabase está ausente.",
-    wheelPreparationFailed:
-      "Não foi possível preparar a roda astrológica.",
-    wheelUploadPreparationFailed:
-      "Não foi possível preparar o envio da roda.",
-    wheelUploadFailed:
-      "Não foi possível salvar a roda astrológica.",
-    paymentError: (status) =>
-      `Erro de pagamento (${status})`,
-    paymentPreparationFailed:
-      "Não foi possível preparar o pagamento. Tente novamente.",
+    requiredBirthDateAndCity:
+      "A data e a cidade de nascimento são obrigatórias.",
+    dateFormat:
+      "Digite a data no formato DD/MM/AAAA.",
+    invalidBirthDate:
+      "A data de nascimento é inválida.",
+    invalidBirthTime:
+      "A hora de nascimento é inválida.",
+    cityNotFound:
+      "Cidade não encontrada. Digite apenas o nome da cidade.",
+    invalidCoordinates:
+      "As coordenadas recebidas para esta cidade são inválidas.",
+    chartCalculationError:
+      "Erro ao calcular o mapa astral.",
+    calculationError:
+      "Ocorreu um erro durante o cálculo. Tente novamente.",
+    chartOf: (name) =>
+      `Mapa astral de ${name}`,
+    yourChart:
+      "Seu mapa astral",
+    pngCreationError:
+      "Não foi possível criar a imagem PNG do mapa astrológico.",
+    shareCardMissing:
+      "O mapa astrológico para download não foi encontrado.",
+    pdfWheelMissing:
+      "A roda astrológica destinada ao relatório não foi encontrada.",
+    imageDownloadError:
+      "Não foi possível baixar a imagem. Tente novamente.",
+    calculating:
+      "Calculando...",
+    createChart:
+      "Criar meu mapa astral",
+    ascendant:
+      "Ascendente",
+    preparingImage:
+      "Preparando a imagem...",
+    downloadChart:
+      "📷 Baixar meu mapa astral",
   },
 };
 
-const SUPABASE_URL =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  "";
+const PLANET_NAMES: Record<
+  Locale,
+  Record<string, string>
+> = {
+  fr: {
+    Sun: "Soleil",
+    Moon: "Lune",
+    Mercury: "Mercure",
+    Venus: "Vénus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturne",
+    Uranus: "Uranus",
+    Neptune: "Neptune",
+    Pluto: "Pluton",
+  },
+  en: {
+    Sun: "Sun",
+    Moon: "Moon",
+    Mercury: "Mercury",
+    Venus: "Venus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturn",
+    Uranus: "Uranus",
+    Neptune: "Neptune",
+    Pluto: "Pluto",
+  },
+  es: {
+    Sun: "Sol",
+    Moon: "Luna",
+    Mercury: "Mercurio",
+    Venus: "Venus",
+    Mars: "Marte",
+    Jupiter: "Júpiter",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Neptuno",
+    Pluto: "Plutón",
+  },
+  de: {
+    Sun: "Sonne",
+    Moon: "Mond",
+    Mercury: "Merkur",
+    Venus: "Venus",
+    Mars: "Mars",
+    Jupiter: "Jupiter",
+    Saturn: "Saturn",
+    Uranus: "Uranus",
+    Neptune: "Neptun",
+    Pluto: "Pluto",
+  },
+  it: {
+    Sun: "Sole",
+    Moon: "Luna",
+    Mercury: "Mercurio",
+    Venus: "Venere",
+    Mars: "Marte",
+    Jupiter: "Giove",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Nettuno",
+    Pluto: "Plutone",
+  },
+  pt: {
+    Sun: "Sol",
+    Moon: "Lua",
+    Mercury: "Mercúrio",
+    Venus: "Vênus",
+    Mars: "Marte",
+    Jupiter: "Júpiter",
+    Saturn: "Saturno",
+    Uranus: "Urano",
+    Neptune: "Netuno",
+    Pluto: "Plutão",
+  },
+};
 
-const SUPABASE_ANON_KEY =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "";
+const SIGN_NAMES: Record<
+  Locale,
+  Record<string, string>
+> = {
+  fr: {
+    Aries: "Bélier",
+    Taurus: "Taureau",
+    Gemini: "Gémeaux",
+    Cancer: "Cancer",
+    Leo: "Lion",
+    Virgo: "Vierge",
+    Libra: "Balance",
+    Scorpio: "Scorpion",
+    Sagittarius: "Sagittaire",
+    Capricorn: "Capricorne",
+    Aquarius: "Verseau",
+    Pisces: "Poissons",
+  },
+  en: {
+    Aries: "Aries",
+    Taurus: "Taurus",
+    Gemini: "Gemini",
+    Cancer: "Cancer",
+    Leo: "Leo",
+    Virgo: "Virgo",
+    Libra: "Libra",
+    Scorpio: "Scorpio",
+    Sagittarius: "Sagittarius",
+    Capricorn: "Capricorn",
+    Aquarius: "Aquarius",
+    Pisces: "Pisces",
+  },
+  es: {
+    Aries: "Aries",
+    Taurus: "Tauro",
+    Gemini: "Géminis",
+    Cancer: "Cáncer",
+    Leo: "Leo",
+    Virgo: "Virgo",
+    Libra: "Libra",
+    Scorpio: "Escorpio",
+    Sagittarius: "Sagitario",
+    Capricorn: "Capricornio",
+    Aquarius: "Acuario",
+    Pisces: "Piscis",
+  },
+  de: {
+    Aries: "Widder",
+    Taurus: "Stier",
+    Gemini: "Zwillinge",
+    Cancer: "Krebs",
+    Leo: "Löwe",
+    Virgo: "Jungfrau",
+    Libra: "Waage",
+    Scorpio: "Skorpion",
+    Sagittarius: "Schütze",
+    Capricorn: "Steinbock",
+    Aquarius: "Wassermann",
+    Pisces: "Fische",
+  },
+  it: {
+    Aries: "Ariete",
+    Taurus: "Toro",
+    Gemini: "Gemelli",
+    Cancer: "Cancro",
+    Leo: "Leone",
+    Virgo: "Vergine",
+    Libra: "Bilancia",
+    Scorpio: "Scorpione",
+    Sagittarius: "Sagittario",
+    Capricorn: "Capricorno",
+    Aquarius: "Acquario",
+    Pisces: "Pesci",
+  },
+  pt: {
+    Aries: "Áries",
+    Taurus: "Touro",
+    Gemini: "Gêmeos",
+    Cancer: "Câncer",
+    Leo: "Leão",
+    Virgo: "Virgem",
+    Libra: "Libra",
+    Scorpio: "Escorpião",
+    Sagittarius: "Sagitário",
+    Capricorn: "Capricórnio",
+    Aquarius: "Aquário",
+    Pisces: "Peixes",
+  },
+};
 
-const supabase =
-  SUPABASE_URL &&
-  SUPABASE_ANON_KEY
-    ? createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY,
-        {
-          auth: {
-            persistSession:
-              false,
-
-            autoRefreshToken:
-              false,
-          },
-        }
-      )
-    : null;
+const SIGN_GLYPH: Record<string, string> = {
+  Aries: "♈",
+  Taurus: "♉",
+  Gemini: "♊",
+  Cancer: "♋",
+  Leo: "♌",
+  Virgo: "♍",
+  Libra: "♎",
+  Scorpio: "♏",
+  Sagittarius: "♐",
+  Capricorn: "♑",
+  Aquarius: "♒",
+  Pisces: "♓",
+};
 
 /*
 |--------------------------------------------------------------------------
-| Création des offres
+| Traductions
 |--------------------------------------------------------------------------
 */
 
-function createOffers(
-  dictionary: Dictionary
-): Offer[] {
-  return [
-    {
-      key:
-        "essential",
+function translateFormatted(
+  formatted: string,
+  locale: Locale
+): string {
+  if (!formatted) {
+    return "";
+  }
 
-      name:
-        dictionary["essentielle"] ||
-        "Essentielle",
+  let translated =
+    formatted;
 
-      badge:
-        dictionary["pour_commencer"],
+  Object.entries(
+    SIGN_NAMES[locale]
+  ).forEach(
+    ([
+      english,
+      french,
+    ]) => {
+      translated =
+        translated
+          .split(english)
+          .join(french);
+    }
+  );
 
-      price:
-        dictionary["24_99_us"],
-
-      description:
-        dictionary[
-          "une_premiere_lecture_personnalisee_de_votre_theme_natal_pour"
-        ],
-
-      button:
-        dictionary["choisir_essentielle"],
-
-      previewHref:
-        "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf",
-
-      features: [
-        dictionary[
-          "votre_roue_astrologique_personnalisee"
-        ],
-        dictionary[
-          "votre_soleil_votre_lune_et_votre_ascendant"
-        ],
-        dictionary[
-          "vos_dix_principales_planetes"
-        ],
-        dictionary[
-          "vos_elements_et_vos_modalites"
-        ],
-        dictionary[
-          "rapport_pdf_personnalise_et_telechargeable"
-        ],
-      ],
-    },
-
-    {
-      key:
-        "premium",
-
-      name:
-        dictionary["premium"] ||
-        "Premium",
-
-      badge:
-        dictionary["analyse_approfondie"],
-
-      price:
-        dictionary["49_99_us"],
-
-      description:
-        dictionary[
-          "une_exploration_complete_de_votre_personnalite_de_vos_maison"
-        ],
-
-      button:
-        dictionary["choisir_premium"],
-
-      previewHref:
-        "/reports/apercu-rapport-carte-du-ciel-premium.pdf",
-
-      featured:
-        true,
-
-      features: [
-        dictionary[
-          "tout_le_contenu_du_rapport_essentielle"
-        ],
-        dictionary[
-          "vos_douze_maisons_astrologiques"
-        ],
-        dictionary[
-          "vos_aspects_et_vos_dominantes_astrologiques"
-        ],
-        dictionary[
-          "relations_carriere_forces_et_defis"
-        ],
-        dictionary[
-          "rapport_pdf_detaille_et_telechargeable"
-        ],
-      ],
-    },
-
-    {
-      key:
-        "signature",
-
-      name:
-        dictionary["signature"] ||
-        "Signature",
-
-      badge:
-        dictionary["le_plus_complet"],
-
-      price:
-        dictionary["79_99_us"],
-
-      description:
-        dictionary[
-          "l_analyse_la_plus_complete_de_votre_theme_natal_avec_vos_gra"
-        ],
-
-      button:
-        dictionary["choisir_signature"],
-
-      previewHref:
-        "/reports/apercu-rapport-carte-du-ciel-signature.pdf",
-
-      features: [
-        dictionary[
-          "tout_le_contenu_du_rapport_premium"
-        ],
-        dictionary[
-          "mission_de_vie_et_chemin_de_l_ame"
-        ],
-        dictionary[
-          "chiron_n_uds_lunaires_et_aspects_majeurs"
-        ],
-        dictionary[
-          "talents_caches_blocages_et_guide_d_integration"
-        ],
-        dictionary[
-          "synthese_signature_personnalisee"
-        ],
-      ],
-    },
-  ];
+  return translated;
 }
 
-/*
-|--------------------------------------------------------------------------
-| Conversion de la roue en fichier
-|--------------------------------------------------------------------------
-*/
+function translatePlanetName(
+  name: string,
+  locale: Locale
+): string {
+  return (
+    PLANET_NAMES[locale][name] ||
+    name
+  );
+}
 
-function dataUrlToBlob(
-  dataUrl: string,
-  texts: OfferTexts
-): Blob {
-  const parts =
-    dataUrl.split(",");
+function getPlanetGlyph(
+  name: string
+): string {
+  return (
+    PLANET_GLYPH[name] ||
+    ""
+  );
+}
 
-  if (
-    parts.length !== 2
-  ) {
-    throw new Error(
-      texts.invalidImageFormat
-    );
+function getSignGlyph(
+  signName?: string
+): string {
+  if (!signName) {
+    return "";
   }
 
-  const header =
-    parts[0];
+  return (
+    SIGN_GLYPH[signName] ||
+    ""
+  );
+}
 
-  const base64Data =
-    parts[1];
-
-  const mimeMatch =
-    header.match(
-      /^data:(image\/[a-zA-Z0-9.+-]+);base64$/
-    );
-
-  if (!mimeMatch) {
-    throw new Error(
-      texts.invalidImageType
-    );
+function getSignName(
+  signName: string | undefined,
+  locale: Locale
+): string {
+  if (!signName) {
+    return "";
   }
 
-  const mimeType =
-    mimeMatch[1];
-
-  const binaryString =
-    atob(
-      base64Data
-    );
-
-  const bytes =
-    new Uint8Array(
-      binaryString.length
-    );
-
-  for (
-    let index = 0;
-    index <
-    binaryString.length;
-    index += 1
-  ) {
-    bytes[index] =
-      binaryString.charCodeAt(
-        index
-      );
-  }
-
-  return new Blob(
-    [bytes],
-    {
-      type:
-        mimeType,
-    }
+  return (
+    SIGN_NAMES[locale][signName] ||
+    signName
   );
 }
 
 /*
 |--------------------------------------------------------------------------
-| Lecture sécurisée des réponses API
+| Formatage de la date
 |--------------------------------------------------------------------------
 */
 
-async function readJsonResponse<T>(
-  response: Response
-): Promise<T | null> {
-  const responseText =
-    await response.text();
-
-  if (!responseText) {
-    return null;
+function formatDateFR(
+  date: string
+): string {
+  if (!date) {
+    return "";
   }
 
-  try {
-    return JSON.parse(
-      responseText
-    ) as T;
-  } catch {
-    return {
-      error:
-        responseText,
-    } as T;
+  const [
+    day,
+    month,
+    year,
+  ] =
+    date.split("/");
+
+  if (
+    !day ||
+    !month ||
+    !year
+  ) {
+    return date;
   }
+
+  return `${day}/${month}/${year}`;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Validation
+|--------------------------------------------------------------------------
+*/
+
+function isValidDate(
+  day: number,
+  month: number,
+  year: number
+): boolean {
+  if (
+    !Number.isInteger(day) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(year)
+  ) {
+    return false;
+  }
+
+  if (
+    year < 1800 ||
+    year >
+      new Date().getFullYear()
+  ) {
+    return false;
+  }
+
+  if (
+    month < 1 ||
+    month > 12
+  ) {
+    return false;
+  }
+
+  const date =
+    new Date(
+      Date.UTC(
+        year,
+        month - 1,
+        day
+      )
+    );
+
+  return (
+    date.getUTCFullYear() ===
+      year &&
+    date.getUTCMonth() ===
+      month - 1 &&
+    date.getUTCDate() ===
+      day
+  );
+}
+
+function isValidTime(
+  hour: number,
+  minute: number
+): boolean {
+  return (
+    Number.isInteger(hour) &&
+    Number.isInteger(minute) &&
+    hour >= 0 &&
+    hour <= 23 &&
+    minute >= 0 &&
+    minute <= 59
+  );
 }
 
 /*
@@ -557,258 +696,530 @@ async function readJsonResponse<T>(
 |--------------------------------------------------------------------------
 */
 
-export default function NatalPremiumOffer(
-  props: Props
-) {
-  const dictionary =
-    DICTIONARIES[
-      props.locale
-    ];
+export default function NatalChartForm({
+  locale,
+}: NatalChartFormProps) {
+  const __i18n =
+    DICTIONARIES[locale];
 
   const texts =
-    OFFER_TEXTS[
-      props.locale
-    ];
+    FORM_TEXTS[locale];
 
-  const offers =
-    createOffers(
-      dictionary
-    );
-
-  const [
-    selectedPlan,
-    setSelectedPlan,
-  ] =
-    useState<PlanKey | null>(
+  const shareRef =
+    useRef<HTMLDivElement | null>(
       null
     );
 
-  const title =
-    props.firstName
-      ? texts.titleWithName(
-          props.firstName
-        )
-      : texts.titleWithoutName;
-
-  /*
-  |--------------------------------------------------------------------------
-  | Envoi de la roue vers Supabase
-  |--------------------------------------------------------------------------
-  */
-
-  async function uploadWheelImage(): Promise<string> {
-    if (
-      !props.getWheelImage
-    ) {
-      throw new Error(
-        texts.missingWheelFunction
-      );
-    }
-
-    if (!supabase) {
-      throw new Error(
-        texts.missingSupabase
-      );
-    }
-
-    const wheelImage =
-      await props.getWheelImage();
-
-    if (!wheelImage) {
-      throw new Error(
-        texts.wheelPreparationFailed
-      );
-    }
-
-    const wheelBlob =
-      dataUrlToBlob(
-        wheelImage,
-        texts
-      );
-
-    const signedResponse =
-      await fetch(
-        "/api/reports/wheel-upload",
-        {
-          method:
-            "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-        }
-      );
-
-    const signedData =
-      await readJsonResponse<SignedUploadResponse>(
-        signedResponse
-      );
-
-    if (
-      !signedResponse.ok ||
-      !signedData?.wheelImagePath ||
-      !signedData?.token
-    ) {
-      throw new Error(
-        signedData?.detail ||
-          signedData?.error ||
-          texts.wheelUploadPreparationFailed
-      );
-    }
-
-    const {
-      error:
-        uploadError,
-    } =
-      await supabase.storage
-        .from(
-          "rapport-images"
-        )
-        .uploadToSignedUrl(
-          signedData.wheelImagePath,
-          signedData.token,
-          wheelBlob,
-          {
-            contentType:
-              "image/png",
-
-            upsert:
-              false,
-          }
-        );
-
-    if (uploadError) {
-      throw new Error(
-        uploadError.message ||
-          texts.wheelUploadFailed
-      );
-    }
-
-    return signedData.wheelImagePath;
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | Redirection vers Stripe
-  |--------------------------------------------------------------------------
-  */
-
-  async function handleCheckout(
-    reportType: PlanKey
-  ): Promise<void> {
-    if (selectedPlan) {
-      return;
-    }
-
-    setSelectedPlan(
-      reportType
+  const pdfWheelRef =
+    useRef<HTMLDivElement | null>(
+      null
     );
 
-    try {
-      const wheelImagePath =
-        await uploadWheelImage();
+  const [
+    firstName,
+    setFirstName,
+  ] =
+    useState("");
 
-      const response =
-        await fetch(
-          "/api/reports/checkout",
-          {
-            method:
-              "POST",
+  const [
+    birthDate,
+    setBirthDate,
+  ] =
+    useState("");
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+  const [
+    birthTime,
+    setBirthTime,
+  ] =
+    useState("");
 
-            body:
-              JSON.stringify({
-                reportType,
-                locale:
-                  props.locale,
+  const [
+    birthCity,
+    setBirthCity,
+  ] =
+    useState("");
 
-                firstName:
-                  props.firstName,
+  const [
+    latitude,
+    setLatitude,
+  ] =
+    useState<number | null>(
+      null
+    );
 
-                birthDate:
-                  props.birthDate,
+  const [
+    longitude,
+    setLongitude,
+  ] =
+    useState<number | null>(
+      null
+    );
 
-                birthTime:
-                  props.birthTime ||
-                  "12:00",
+  const [
+    loading,
+    setLoading,
+  ] =
+    useState(false);
 
-                birthCity:
-                  props.birthCity,
+  const [
+    downloading,
+    setDownloading,
+  ] =
+    useState(false);
 
-                birthCountry:
-                  props.birthCountry,
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
 
-                latitude:
-                  props.latitude,
+  const [
+    result,
+    setResult,
+  ] =
+    useState<any>(null);
 
-                longitude:
-                  props.longitude,
+  /*
+  |--------------------------------------------------------------------------
+  | Création de la carte
+  |--------------------------------------------------------------------------
+  */
 
-                timezone:
-                  props.timezone,
+  const handleSubmit =
+    async (
+      event:
+        React.FormEvent<HTMLFormElement>
+    ) => {
+      event.preventDefault();
 
-                email:
-                  props.email,
+      setError("");
+      setResult(null);
+      setLatitude(null);
+      setLongitude(null);
 
-                wheelImagePath,
-              }),
-          }
-        );
-
-      const data =
-        await readJsonResponse<CheckoutResponse>(
-          response
-        );
+      const cleanCity =
+        birthCity.trim();
 
       if (
-        !response.ok ||
-        !data?.url
+        !birthDate ||
+        !cleanCity
       ) {
-        console.error(
-          "Checkout error:",
-          {
-            status:
-              response.status,
-
-            data,
-          }
-        );
-
-        alert(
-          data?.detail ||
-            data?.error ||
-            texts.paymentError(
-              response.status
-            )
+        setError(
+          texts.requiredBirthDateAndCity
         );
 
         return;
       }
 
-      window.location.href =
-        data.url;
-    } catch (error) {
-      console.error(
-        "Payment preparation error:",
-        error
-      );
+      const dateParts =
+        birthDate.split("/");
 
-      alert(
-        error instanceof Error
-          ? error.message
-          : texts.paymentPreparationFailed
+      if (
+        dateParts.length !== 3
+      ) {
+        setError(
+          texts.dateFormat
+        );
+
+        return;
+      }
+
+      const [
+        dayStr,
+        monthStr,
+        yearStr,
+      ] =
+        dateParts;
+
+      const day =
+        Number.parseInt(
+          dayStr,
+          10
+        );
+
+      const month =
+        Number.parseInt(
+          monthStr,
+          10
+        );
+
+      const year =
+        Number.parseInt(
+          yearStr,
+          10
+        );
+
+      if (
+        !isValidDate(
+          day,
+          month,
+          year
+        )
+      ) {
+        setError(
+          texts.invalidBirthDate
+        );
+
+        return;
+      }
+
+      const effectiveBirthTime =
+        birthTime ||
+        "12:00";
+
+      const [
+        hourStr,
+        minuteStr,
+      ] =
+        effectiveBirthTime.split(
+          ":"
+        );
+
+      const hour =
+        Number.parseInt(
+          hourStr,
+          10
+        );
+
+      const minute =
+        Number.parseInt(
+          minuteStr,
+          10
+        );
+
+      if (
+        !isValidTime(
+          hour,
+          minute
+        )
+      ) {
+        setError(
+          texts.invalidBirthTime
+        );
+
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        /*
+        |--------------------------------------------------------------------------
+        | Géocodage
+        |--------------------------------------------------------------------------
+        */
+
+        const geoResponse =
+          await fetch(
+            `/api/geocode?city=${encodeURIComponent(
+              cleanCity
+            )}`,
+            {
+              method:
+                "GET",
+
+              cache:
+                "no-store",
+            }
+          );
+
+        const geoData =
+          await geoResponse.json();
+
+        if (
+          !geoResponse.ok ||
+          !geoData?.ok ||
+          !geoData?.result
+        ) {
+          setError(
+            geoData?.error ||
+              texts.cityNotFound
+          );
+
+          return;
+        }
+
+        const lat =
+          Number(
+            geoData.result
+              .latitude
+          );
+
+        const lon =
+          Number(
+            geoData.result
+              .longitude
+          );
+
+        if (
+          !Number.isFinite(
+            lat
+          ) ||
+          !Number.isFinite(
+            lon
+          )
+        ) {
+          setError(
+            texts.invalidCoordinates
+          );
+
+          return;
+        }
+
+        setLatitude(lat);
+        setLongitude(lon);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Calcul astrologique
+        |--------------------------------------------------------------------------
+        */
+
+        const chartResponse =
+          await fetch(
+            "/api/natal-chart",
+            {
+              method:
+                "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              cache:
+                "no-store",
+
+              body:
+                JSON.stringify({
+                  year,
+                  month,
+                  day,
+                  hour,
+                  minute,
+                  latitude:
+                    lat,
+                  longitude:
+                    lon,
+                }),
+            }
+          );
+
+        const chartData =
+          await chartResponse.json();
+
+        if (
+          !chartResponse.ok ||
+          !chartData?.ok ||
+          !chartData?.chart
+        ) {
+          setError(
+            chartData?.error ||
+              texts.chartCalculationError
+          );
+
+          return;
+        }
+
+        setResult(
+          chartData.chart
+        );
+      } catch (
+        submitError
+      ) {
+        console.error(
+          "Erreur pendant la création de la carte du ciel :",
+          submitError
+        );
+
+        setError(
+          texts.calculationError
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Données calculées
+  |--------------------------------------------------------------------------
+  */
+
+  const planets =
+    (
+      result?.planets ||
+      []
+    ).filter(
+      (
+        planet: any
+      ) =>
+        MAIN_PLANETS.includes(
+          planet?.name
+        )
+    );
+
+  const angles =
+    result?.angles ||
+    {};
+
+  const chartTitle =
+    firstName.trim()
+      ? texts.chartOf(
+          firstName.trim()
+        )
+      : texts.yourChart;
+
+  /*
+  |--------------------------------------------------------------------------
+  | Création des images
+  |--------------------------------------------------------------------------
+  */
+
+  const captureElementAsPng =
+    async (
+      element:
+        HTMLDivElement | null,
+
+      errorMessage:
+        string,
+
+      backgroundColor:
+        string | null,
+
+      scale:
+        number
+    ): Promise<string> => {
+      if (!element) {
+        throw new Error(
+          errorMessage
+        );
+      }
+
+      const canvas =
+        await html2canvas(
+          element,
+          {
+            backgroundColor,
+            scale,
+            useCORS:
+              true,
+            logging:
+              false,
+          }
+        );
+
+      const image =
+        canvas.toDataURL(
+          "image/png"
+        );
+
+      if (
+        !image ||
+        !image.startsWith(
+          "data:image/png;base64,"
+        )
+      ) {
+        throw new Error(
+          texts.pngCreationError
+        );
+      }
+
+      return image;
+    };
+
+  const createShareImage =
+    async (): Promise<string> => {
+      return captureElementAsPng(
+        shareRef.current,
+        texts.shareCardMissing,
+        null,
+        2
       );
-    } finally {
-      setSelectedPlan(
-        null
+    };
+
+  const createPdfWheelImage =
+    async (): Promise<string> => {
+      return captureElementAsPng(
+        pdfWheelRef.current,
+        texts.pdfWheelMissing,
+        "#0b1124",
+        3
       );
-    }
-  }
+    };
+
+  /*
+  |--------------------------------------------------------------------------
+  | Téléchargement de la carte gratuite
+  |--------------------------------------------------------------------------
+  */
+
+  const handleDownload =
+    async () => {
+      setError("");
+      setDownloading(true);
+
+      try {
+        const wheelImage =
+          await createShareImage();
+
+        const safeName =
+          firstName.trim()
+            ? firstName
+                .trim()
+                .toLowerCase()
+                .normalize(
+                  "NFD"
+                )
+                .replace(
+                  /[\u0300-\u036f]/g,
+                  ""
+                )
+                .replace(
+                  /[^a-z0-9]+/g,
+                  "-"
+                )
+                .replace(
+                  /^-+|-+$/g,
+                  ""
+                )
+            : "luna-astralis";
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+        link.download =
+          `birth-chart-${safeName}.png`;
+
+        link.href =
+          wheelImage;
+
+        document.body.appendChild(
+          link
+        );
+
+        link.click();
+        link.remove();
+      } catch (
+        downloadError
+      ) {
+        console.error(
+          "Erreur pendant le téléchargement de la carte :",
+          downloadError
+        );
+
+        setError(
+          downloadError instanceof
+            Error
+            ? downloadError.message
+            : texts.imageDownloadError
+        );
+      } finally {
+        setDownloading(false);
+      }
+    };
 
   /*
   |--------------------------------------------------------------------------
@@ -817,186 +1228,451 @@ export default function NatalPremiumOffer(
   */
 
   return (
-    <section
-      id="rapports-astrologiques"
-      className="natal-premium-offer"
-    >
-      <div className="natal-reports-head">
-        <span className="natal-premium-badge">
-          {
-            dictionary[
-              "rapports_astrologiques_personnalises"
-            ]
+    <div className="natal-form-wrap">
+      <form
+        onSubmit={
+          handleSubmit
+        }
+        className="natal-form"
+        noValidate
+      >
+        <label>
+          {__i18n["prenom_optionnel"]}<input
+            type="text"
+            value={
+              firstName
+            }
+            onChange={(
+              event
+            ) =>
+              setFirstName(
+                event.target
+                  .value
+              )
+            }
+            placeholder={__i18n["ton_prenom"]}
+            autoComplete="given-name"
+          />
+        </label>
+
+        <label>
+          {__i18n["date_de_naissance"]}<input
+            type="text"
+            inputMode="numeric"
+            value={
+              birthDate
+            }
+            onChange={(
+              event
+            ) => {
+              let value =
+                event.target.value
+                  .replace(
+                    /\D/g,
+                    ""
+                  )
+                  .slice(
+                    0,
+                    8
+                  );
+
+              if (
+                value.length >
+                4
+              ) {
+                value =
+                  `${value.slice(
+                    0,
+                    2
+                  )}/${value.slice(
+                    2,
+                    4
+                  )}/${value.slice(
+                    4
+                  )}`;
+              } else if (
+                value.length >
+                2
+              ) {
+                value =
+                  `${value.slice(
+                    0,
+                    2
+                  )}/${value.slice(
+                    2
+                  )}`;
+              }
+
+              setBirthDate(
+                value
+              );
+            }}
+            placeholder={__i18n["jj_mm_aaaa"]}
+            maxLength={
+              10
+            }
+            autoComplete="bday"
+            required
+          />
+        </label>
+
+        <label>
+          {__i18n["heure_de_naissance_optionnelle_mais_recommandee"]}<input
+            type="time"
+            value={
+              birthTime
+            }
+            onChange={(
+              event
+            ) =>
+              setBirthTime(
+                event.target
+                  .value
+              )
+            }
+            autoComplete="off"
+          />
+        </label>
+
+        <label>
+          {__i18n["ville_de_naissance"]}<input
+            type="text"
+            value={
+              birthCity
+            }
+            onChange={(
+              event
+            ) =>
+              setBirthCity(
+                event.target
+                  .value
+              )
+            }
+            placeholder={__i18n["ville_de_naissance_2"]}
+            autoComplete="off"
+            required
+          />
+        </label>
+
+        <button
+          type="submit"
+          className="btn btn-small btn-primary"
+          disabled={
+            loading
           }
-        </span>
+        >
+          {loading
+            ? texts.calculating
+            : texts.createChart}
+        </button>
 
-        <h3>
-          {title}
-        </h3>
+        {error && (
+          <p
+            className="natal-error"
+            role="alert"
+          >
+            {error}
+          </p>
+        )}
+      </form>
 
-        <p className="natal-premium-intro">
-          {
-            dictionary[
-              "votre_carte_du_ciel_est_maintenant_prete_choisissez_le_nivea"
-            ]
-          }
-        </p>
-      </div>
+      {result && (
+        <>
+          <div className="natal-result">
+            <h3>
+              {chartTitle}
+            </h3>
 
-      <div className="natal-offers">
-        {offers.map(
-          (offer) => {
-            const isLoading =
-              selectedPlan ===
-              offer.key;
+            <NatalChartWheel
+              planets={
+                planets
+              }
+              houses={
+                result?.houses
+              }
+              ascendantLongitude={
+                angles
+                  ?.ascendant
+                  ?.longitude
+              }
+              midheavenLongitude={
+                angles
+                  ?.midheaven
+                  ?.longitude
+              }
+              ascendantFormatted={translateFormatted(
+                angles
+                  ?.ascendant
+                  ?.formatted ||
+                  "",
+                locale
+              )}
+              midheavenFormatted={translateFormatted(
+                angles
+                  ?.midheaven
+                  ?.formatted ||
+                  "",
+                locale
+              )}
+              size={460}
+            />
 
-            const isDisabled =
-              selectedPlan !==
-              null;
+            <div className="natal-angles">
+              {angles?.ascendant && (
+                <div className="natal-angle-item">
+                  <span className="natal-label">
+                    {texts.ascendant}
+                  </span>
 
-            const cardClassName =
-              [
-                "natal-offer-card",
+                  <span className="natal-value">
+                    {translateFormatted(
+                      angles
+                        .ascendant
+                        .formatted ||
+                        "",
+                      locale
+                    )}
+                  </span>
+                </div>
+              )}
 
-                offer.featured
-                  ? "natal-offer-card--featured"
-                  : "",
-              ]
-                .filter(Boolean)
-                .join(" ");
+              {angles?.midheaven && (
+                <div className="natal-angle-item">
+                  <span className="natal-label">
+                    {__i18n["milieu_du_ciel"]}</span>
 
-            const buttonClassName =
-              [
-                "natal-premium-btn",
+                  <span className="natal-value">
+                    {translateFormatted(
+                      angles
+                        .midheaven
+                        .formatted ||
+                        "",
+                      locale
+                    )}
+                  </span>
+                </div>
+              )}
+            </div>
 
-                offer.featured
-                  ? "natal-premium-btn--featured"
-                  : "",
-              ]
-                .filter(Boolean)
-                .join(" ");
-
-            return (
-              <article
-                key={
-                  offer.key
+            <div className="natal-result-actions">
+              <button
+                type="button"
+                className="natal-download-btn"
+                onClick={
+                  handleDownload
                 }
-                className={
-                  cardClassName
+                disabled={
+                  downloading
                 }
               >
-                {offer.featured ? (
-                  <div className="natal-featured-label">
-                    {
-                      dictionary[
-                        "recommande"
-                      ]
-                    }
-                  </div>
-                ) : null}
+                {downloading
+                  ? texts.preparingImage
+                  : texts.downloadChart}
+              </button>
 
-                <div className="natal-offer-badge">
-                  {offer.badge}
-                </div>
+              <a
+                href="#rapports-astrologiques"
+                className="natal-go-to-reports"
+              >
+                <span
+                  aria-hidden="true"
+                >
+                  ✨
+                </span>
 
-                <h4>
-                  {texts.reportLabel}{" "}
-                  {offer.name}
-                </h4>
+                <span>
+                  {__i18n["voir_les_rapports_essentielle_premium_et_signature"]}</span>
 
-                <div className="natal-premium-price">
-                  {offer.price}
-                </div>
+                <span
+                  aria-hidden="true"
+                >
+                  ↓
+                </span>
+              </a>
+            </div>
 
-                <div className="natal-offer-payment">
-                  {
-                    dictionary[
-                      "paiement_unique"
-                    ]
+            <div className="natal-share-capture-zone">
+              <div
+                ref={
+                  shareRef
+                }
+              >
+                <NatalShareCard
+                  title={
+                    chartTitle
                   }
-                </div>
-
-                <p className="natal-offer-description">
-                  {offer.description}
-                </p>
-
-                <ul className="natal-offer-features">
-                  {offer.features.map(
-                    (
-                      feature
-                    ) => (
-                      <li
-                        key={
-                          feature
-                        }
-                      >
-                        <span
-                          className="natal-feature-check"
-                          aria-hidden="true"
-                        >
-                          ✓
-                        </span>
-
-                        <span>
-                          {feature}
-                        </span>
-                      </li>
-                    )
+                  birthDate={formatDateFR(
+                    birthDate
                   )}
-                </ul>
+                  birthTime={
+                    birthTime ||
+                    "12:00"
+                  }
+                  birthCity={birthCity.trim()}
+                  planets={
+                    planets
+                  }
+                  houses={
+                    result?.houses
+                  }
+                  angles={
+                    angles
+                  }
+                />
+              </div>
+            </div>
 
-                <button
-                  type="button"
-                  className={
-                    buttonClassName
-                  }
-                  onClick={
-                    () =>
-                      handleCheckout(
-                        offer.key
-                      )
-                  }
-                  disabled={
-                    isDisabled
-                  }
-                  aria-busy={
-                    isLoading
-                  }
-                >
-                  {isLoading
-                    ? texts.preparingReport
-                    : offer.button}
-                </button>
+            <div
+              aria-hidden="true"
+              style={{
+                position:
+                  "fixed",
 
-                <a
-                  href={
-                    offer.previewHref
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="natal-report-preview-link"
-                >
-                  {
-                    dictionary[
-                      "voir_un_apercu_reel_du_rapport_pdf"
-                    ]
-                  }
-                </a>
-              </article>
-            );
-          }
-        )}
-      </div>
+                left:
+                  "-10000px",
 
-      <div className="natal-premium-note">
-        <p>
-          {
-            dictionary[
-              "paiement_unique_aucun_abonnement_rapport_pdf_personnalise_et"
-            ]
-          }
-        </p>
-      </div>
-    </section>
+                top:
+                  0,
+
+                width:
+                  900,
+
+                height:
+                  900,
+
+                pointerEvents:
+                  "none",
+
+                opacity:
+                  1,
+              }}
+            >
+              <div
+                ref={
+                  pdfWheelRef
+                }
+                style={{
+                  width:
+                    820,
+
+                  height:
+                    820,
+
+                  display:
+                    "flex",
+
+                  alignItems:
+                    "center",
+
+                  justifyContent:
+                    "center",
+
+                  background:
+                    "#0b1124",
+
+                  color:
+                    "#fff8e7",
+                }}
+              >
+                <NatalChartWheel
+                  planets={
+                    planets
+                  }
+                  houses={
+                    result?.houses
+                  }
+                  ascendantLongitude={
+                    angles
+                      ?.ascendant
+                      ?.longitude
+                  }
+                  midheavenLongitude={
+                    angles
+                      ?.midheaven
+                      ?.longitude
+                  }
+                  size={
+                    760
+                  }
+                  showLegend={
+                    false
+                  }
+                />
+              </div>
+            </div>
+
+            <NatalFreeSummary
+              planets={
+                planets
+              }
+              angles={
+                angles
+              }
+            />
+          </div>
+
+          <div className="natal-premium-wide">
+            <NatalPremiumOffer
+              firstName={firstName.trim()}
+              birthDate={
+                birthDate
+              }
+              birthTime={
+                birthTime ||
+                "12:00"
+              }
+              birthCity={birthCity.trim()}
+              latitude={
+                latitude
+              }
+              longitude={
+                longitude
+              }
+              getWheelImage={
+                createPdfWheelImage
+              }
+            />
+          </div>
+
+          <div className="natal-result">
+            <NatalPlanetDetails
+              planets={
+                planets
+              }
+              translateFormatted={(
+                value: string
+              ) =>
+                translateFormatted(
+                  value,
+                  locale
+                )
+              }
+              translatePlanetName={(
+                name: string
+              ) =>
+                translatePlanetName(
+                  name,
+                  locale
+                )
+              }
+              getPlanetGlyph={
+                getPlanetGlyph
+              }
+              getSignGlyph={
+                getSignGlyph
+              }
+              getSignName={(
+                signName?: string
+              ) =>
+                getSignName(
+                  signName,
+                  locale
+                )
+              }
+            />
+          </div>
+        </>
+      )}
+    </div>
   );
 }
