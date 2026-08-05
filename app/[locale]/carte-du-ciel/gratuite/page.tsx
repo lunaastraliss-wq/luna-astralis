@@ -15,13 +15,111 @@ import SiteHeader from "@/components/SiteHeader";
 import {
   isLocale,
   locales,
+  type Locale,
 } from "@/i18n/config";
+
+import "@/app/carte-du-ciel/page.css";
+
+/*
+|--------------------------------------------------------------------------
+| Types
+|--------------------------------------------------------------------------
+*/
 
 type Props = {
   params: {
     locale: string;
   };
 };
+
+type PageText = {
+  badge: string;
+  title: string;
+  description: string;
+};
+
+/*
+|--------------------------------------------------------------------------
+| Textes
+|--------------------------------------------------------------------------
+*/
+
+const PAGE_TEXTS: Record<
+  Locale,
+  PageText
+> = {
+  fr: {
+    badge:
+      "Carte du ciel gratuite",
+
+    title:
+      "Créez votre carte du ciel",
+
+    description:
+      "Découvrez votre Soleil, votre Lune, votre Ascendant et vos principales positions astrologiques.",
+  },
+
+  en: {
+    badge:
+      "Free birth chart",
+
+    title:
+      "Create your birth chart",
+
+    description:
+      "Discover your Sun, Moon, Ascendant and main astrological placements.",
+  },
+
+  es: {
+    badge:
+      "Carta natal gratis",
+
+    title:
+      "Crea tu carta natal",
+
+    description:
+      "Descubre tu Sol, tu Luna, tu Ascendente y tus principales posiciones astrológicas.",
+  },
+
+  de: {
+    badge:
+      "Kostenloses Geburtshoroskop",
+
+    title:
+      "Erstellen Sie Ihr Geburtshoroskop",
+
+    description:
+      "Entdecken Sie Sonne, Mond, Aszendent und Ihre wichtigsten astrologischen Positionen.",
+  },
+
+  it: {
+    badge:
+      "Tema natale gratuito",
+
+    title:
+      "Crea il tuo tema natale",
+
+    description:
+      "Scopri Sole, Luna, Ascendente e le principali posizioni astrologiche.",
+  },
+
+  pt: {
+    badge:
+      "Mapa astral grátis",
+
+    title:
+      "Crie seu mapa astral",
+
+    description:
+      "Descubra seu Sol, sua Lua, seu Ascendente e suas principais posições astrológicas.",
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Routes statiques
+|--------------------------------------------------------------------------
+*/
 
 export function generateStaticParams() {
   return locales.map(
@@ -30,6 +128,12 @@ export function generateStaticParams() {
     })
   );
 }
+
+/*
+|--------------------------------------------------------------------------
+| Métadonnées
+|--------------------------------------------------------------------------
+*/
 
 export function generateMetadata({
   params,
@@ -42,34 +146,24 @@ export function generateMetadata({
     return {};
   }
 
-  const titles = {
-    fr: "Carte du ciel gratuite | Luna Astralis",
-    en: "Free Birth Chart | Luna Astralis",
-    es: "Carta natal gratis | Luna Astralis",
-    de: "Kostenloses Geburtshoroskop | Luna Astralis",
-    it: "Tema natale gratuito | Luna Astralis",
-    pt: "Mapa astral grátis | Luna Astralis",
-  };
+  const text =
+    PAGE_TEXTS[
+      locale
+    ];
 
-  const descriptions = {
-    fr: "Créez gratuitement votre carte du ciel et découvrez votre Soleil, votre Lune, votre Ascendant et vos principales positions astrologiques.",
-    en: "Create your free birth chart and discover your Sun, Moon, Ascendant and main astrological placements.",
-    es: "Crea gratis tu carta natal y descubre tu Sol, tu Luna, tu Ascendente y tus principales posiciones astrológicas.",
-    de: "Erstellen Sie kostenlos Ihr Geburtshoroskop und entdecken Sie Sonne, Mond, Aszendent und Ihre wichtigsten astrologischen Positionen.",
-    it: "Crea gratuitamente il tuo tema natale e scopri Sole, Luna, Ascendente e le principali posizioni astrologiche.",
-    pt: "Crie gratuitamente seu mapa astral e descubra seu Sol, sua Lua, seu Ascendente e suas principais posições astrológicas.",
-  };
+  const pageUrl =
+    `https://luna-astralis.app/${locale}/carte-du-ciel/gratuite`;
 
   return {
     title:
-      titles[locale],
+      `${text.badge} | Luna Astralis`,
 
     description:
-      descriptions[locale],
+      text.description,
 
     alternates: {
       canonical:
-        `https://luna-astralis.app/${locale}/carte-du-ciel/gratuite`,
+        pageUrl,
 
       languages: {
         fr:
@@ -94,8 +188,22 @@ export function generateMetadata({
           "https://luna-astralis.app/fr/carte-du-ciel/gratuite",
       },
     },
+
+    robots: {
+      index:
+        true,
+
+      follow:
+        true,
+    },
   };
 }
+
+/*
+|--------------------------------------------------------------------------
+| Page
+|--------------------------------------------------------------------------
+*/
 
 export default function FreeBirthChartPage({
   params,
@@ -108,11 +216,30 @@ export default function FreeBirthChartPage({
     notFound();
   }
 
+  const text =
+    PAGE_TEXTS[
+      locale
+    ];
+
   return (
     <AuthProvider>
       <SiteHeader />
 
-      <main>
+      <main className="astro-chart-page">
+        <section className="astro-hero">
+          <span className="astro-badge">
+            {text.badge}
+          </span>
+
+          <h1>
+            {text.title}
+          </h1>
+
+          <p className="section-sub">
+            {text.description}
+          </p>
+        </section>
+
         <NatalChartForm
           locale={locale}
         />
