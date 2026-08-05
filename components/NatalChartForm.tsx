@@ -24,6 +24,7 @@ import NatalShareCard from "./NatalShareCard";
 import NatalFreeSummary from "./NatalFreeSummary";
 import NatalPlanetDetails from "./NatalPlanetDetails";
 import NatalPremiumOffer from "./NatalPremiumOffer";
+import "@/app/carte-du-ciel/page.css";
 
 /*
 |--------------------------------------------------------------------------
