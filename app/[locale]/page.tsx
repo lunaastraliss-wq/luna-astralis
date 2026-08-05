@@ -1,14 +1,14 @@
 // app/[locale]/page.tsx
 
-import {
-  notFound,
-} from "next/navigation";
-
 import HomePage from "../page";
 
 import {
   isLocale,
 } from "@/i18n/config";
+
+import {
+  notFound,
+} from "next/navigation";
 
 type LocalizedHomePageProps = {
   params: {
@@ -19,17 +19,9 @@ type LocalizedHomePageProps = {
 export default function LocalizedHomePage({
   params,
 }: LocalizedHomePageProps) {
-  const {
-    locale,
-  } = params;
-
-  if (!isLocale(locale)) {
+  if (!isLocale(params.locale)) {
     notFound();
   }
 
-  return (
-    <HomePage
-      locale={locale}
-    />
-  );
+  return <HomePage />;
 }
