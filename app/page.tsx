@@ -1793,15 +1793,11 @@ export default function HomePage() {
                     </ul>
 
                     <Link
-                      href={localizedHref("/carte-du-ciel")}
-                      className="hero-free-btn"
-                    >
-                      {
-                        text.birthChartButton
-                      }
-                    </Link>
-                  </article>
-                </div>
+  href={localizedHref("/carte-du-ciel/gratuite")}
+  className="hero-free-btn"
+>
+  {text.birthChartButton}
+</Link>
 
                 <article className="hero-tool-card hero-tool-card--compatibility">
                   <div
