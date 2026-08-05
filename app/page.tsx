@@ -1830,13 +1830,15 @@ export default function HomePage() {
                     </ul>
 
                     <Link
-                      href="/compatibilite"
-                      className="hero-free-btn"
-                    >
-                      {
-                        text.compatibilityButton
-                      }
-                    </Link>
+  href={
+    locale === "fr"
+      ? "/compatibilite"
+      : `/${locale}/compatibilite`
+  }
+  className="hero-free-btn"
+>
+  {text.compatibilityButton}
+</Link>
                   </div>
                 </article>
               </section>
