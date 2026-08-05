@@ -1611,6 +1611,7 @@ export default function NatalChartForm({
             </div>
 
             <NatalFreeSummary
+               locale={locale}
               planets={
                 planets
               }
@@ -1622,6 +1623,7 @@ export default function NatalChartForm({
 
           <div className="natal-premium-wide">
             <NatalPremiumOffer
+              locale={locale}
               firstName={firstName.trim()}
               birthDate={
                 birthDate
