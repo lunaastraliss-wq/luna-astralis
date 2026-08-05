@@ -120,6 +120,7 @@ type CheckoutTexts = {
   firstName: string;
   firstNamePlaceholder: string;
   birthDate: string;
+  datePlaceholder: string;
   birthTime: string;
   birthTimeHelp: string;
   birthCity: string;
@@ -187,6 +188,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
     firstName: "Prénom",
     firstNamePlaceholder: "Votre prénom",
     birthDate: "Date de naissance",
+    datePlaceholder: "JJ/MM/AAAA",
     birthTime: "Heure de naissance",
     birthTimeHelp: "Sans heure précise, 12:00 sera utilisé.",
     birthCity: "Ville de naissance",
@@ -219,6 +221,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
     firstName: "First name",
     firstNamePlaceholder: "Your first name",
     birthDate: "Birth date",
+    datePlaceholder: "DD/MM/YYYY",
     birthTime: "Birth time",
     birthTimeHelp: "If the exact time is unknown, 12:00 will be used.",
     birthCity: "Birth city",
@@ -247,7 +250,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
   es: {
     secureOrder: "Pedido seguro", orderReport: "Pedir el informe",
     intro: "Introduce tus datos de nacimiento. Tu carta natal se calculará antes de redirigirte al pago seguro de Stripe.",
-    firstName: "Nombre", firstNamePlaceholder: "Tu nombre", birthDate: "Fecha de nacimiento",
+    firstName: "Nombre", firstNamePlaceholder: "Tu nombre", birthDate: "Fecha de nacimiento", datePlaceholder: "DD/MM/AAAA",
     birthTime: "Hora de nacimiento", birthTimeHelp: "Si no conoces la hora exacta, se utilizarán las 12:00.",
     birthCity: "Ciudad de nacimiento", birthCityPlaceholder: "Ejemplo: Madrid",
     importantLabel: "Importante:", downloadNotice: "Descarga tu informe en cuanto se genere y guárdalo en un lugar seguro. Luna Astralis no conserva ninguna copia de tu PDF.",
@@ -264,7 +267,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
   de: {
     secureOrder: "Sichere Bestellung", orderReport: "Bericht bestellen",
     intro: "Geben Sie Ihre Geburtsdaten ein. Ihr Geburtshoroskop wird berechnet, bevor Sie zur sicheren Stripe-Zahlung weitergeleitet werden.",
-    firstName: "Vorname", firstNamePlaceholder: "Ihr Vorname", birthDate: "Geburtsdatum",
+    firstName: "Vorname", firstNamePlaceholder: "Ihr Vorname", birthDate: "Geburtsdatum", datePlaceholder: "TT/MM/JJJJ",
     birthTime: "Geburtszeit", birthTimeHelp: "Wenn die genaue Zeit unbekannt ist, wird 12:00 verwendet.",
     birthCity: "Geburtsort", birthCityPlaceholder: "Beispiel: Berlin",
     importantLabel: "Wichtig:", downloadNotice: "Laden Sie Ihren Bericht direkt nach der Erstellung herunter und bewahren Sie ihn sicher auf. Luna Astralis speichert keine Kopie Ihrer PDF-Datei.",
@@ -281,7 +284,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
   it: {
     secureOrder: "Ordine sicuro", orderReport: "Ordina il rapporto",
     intro: "Inserisci i tuoi dati di nascita. Il tuo tema natale verrà calcolato prima del reindirizzamento al pagamento sicuro Stripe.",
-    firstName: "Nome", firstNamePlaceholder: "Il tuo nome", birthDate: "Data di nascita",
+    firstName: "Nome", firstNamePlaceholder: "Il tuo nome", birthDate: "Data di nascita", datePlaceholder: "GG/MM/AAAA",
     birthTime: "Ora di nascita", birthTimeHelp: "Se l’ora esatta non è nota, verranno utilizzate le 12:00.",
     birthCity: "Città di nascita", birthCityPlaceholder: "Esempio: Roma",
     importantLabel: "Importante:", downloadNotice: "Scarica il rapporto non appena viene generato e conservalo in un luogo sicuro. Luna Astralis non conserva alcuna copia del PDF.",
@@ -298,7 +301,7 @@ const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
   pt: {
     secureOrder: "Pedido seguro", orderReport: "Pedir o relatório",
     intro: "Digite seus dados de nascimento. Seu mapa astral será calculado antes de você ser redirecionado para o pagamento seguro da Stripe.",
-    firstName: "Nome", firstNamePlaceholder: "Seu nome", birthDate: "Data de nascimento",
+    firstName: "Nome", firstNamePlaceholder: "Seu nome", birthDate: "Data de nascimento", datePlaceholder: "DD/MM/AAAA",
     birthTime: "Hora de nascimento", birthTimeHelp: "Se a hora exata não for conhecida, será usado 12:00.",
     birthCity: "Cidade de nascimento", birthCityPlaceholder: "Exemplo: São Paulo",
     importantLabel: "Importante:", downloadNotice: "Baixe seu relatório assim que ele for gerado e guarde-o em um local seguro. A Luna Astralis não mantém nenhuma cópia do seu PDF.",
@@ -1297,7 +1300,7 @@ export default function ReportCheckoutForm({
                   value
                 );
               }}
-              placeholder="JJ/MM/AAAA"
+              placeholder={texts.datePlaceholder}
               maxLength={
                 10
               }
