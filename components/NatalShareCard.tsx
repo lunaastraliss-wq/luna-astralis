@@ -1,13 +1,21 @@
 "use client";
 
+import fr from "../i18n/migrated/fr/components/natalsharecard.json";
+import en from "../i18n/migrated/en/components/natalsharecard.json";
+import es from "../i18n/migrated/es/components/natalsharecard.json";
+import de from "../i18n/migrated/de/components/natalsharecard.json";
+import it from "../i18n/migrated/it/components/natalsharecard.json";
+import pt from "../i18n/migrated/pt/components/natalsharecard.json";
 
+import type { Locale } from "@/i18n/config";
 
-
-
-import __i18n from "../i18n/migrated/fr/components/natalsharecard.json";
 import NatalChartWheel from "./NatalChartWheel";
 
+type Dictionary =
+  Record<string, string>;
+
 type Props = {
+  locale: Locale;
   title: string;
   birthDate: string;
   birthTime: string;
@@ -17,19 +25,63 @@ type Props = {
   angles: any;
 };
 
-function formatDateFR(date: string): string {
-  if (!date) return "";
+const DICTIONARIES: Record<
+  Locale,
+  Dictionary
+> = {
+  fr,
+  en,
+  es,
+  de,
+  it,
+  pt,
+};
 
-  if (date.includes("/")) return date;
+function formatBirthDate(
+  date: string,
+  locale: Locale
+): string {
+  if (!date) {
+    return "";
+  }
 
-  const [year, month, day] = date.split("-");
+  if (
+    date.includes("/")
+  ) {
+    return date;
+  }
 
-  if (!year || !month || !day) return date;
+  const [
+    year,
+    month,
+    day,
+  ] =
+    date.split("-");
+
+  if (
+    !year ||
+    !month ||
+    !day
+  ) {
+    return date;
+  }
+
+  /*
+   * Le formulaire utilise toujours le format
+   * jour/mois/année. On conserve donc ce format
+   * visuel pour les six langues.
+   */
+  if (
+    locale === "de"
+  ) {
+    return `${day}.${month}.${year}`;
+  }
 
   return `${day}/${month}/${year}`;
 }
 
 export default function NatalShareCard({
+  locale,
   title,
   birthDate,
   birthTime,
@@ -38,37 +90,98 @@ export default function NatalShareCard({
   houses,
   angles,
 }: Props) {
+  const dictionary =
+    DICTIONARIES[
+      locale
+    ];
+
+  const formattedDate =
+    formatBirthDate(
+      birthDate,
+      locale
+    );
+
+  const details =
+    [
+      formattedDate,
+      birthTime,
+      birthCity,
+    ]
+      .filter(Boolean)
+      .join(" • ");
+
   return (
     <div className="natal-share-card">
       <div className="natal-share-stars" />
 
       <div className="natal-share-header">
-        <div className="natal-share-brand">{__i18n["luna_astralis"]}</div>
+        <div className="natal-share-brand">
+          {
+            dictionary[
+              "luna_astralis"
+            ]
+          }
+        </div>
 
-        <h2>{title}</h2>
+        <h2>
+          {title}
+        </h2>
 
-        <p>
-          {formatDateFR(birthDate)}
-          {birthTime ? ` • ${birthTime}` : ""} • {birthCity}
-        </p>
+        {details ? (
+          <p>
+            {details}
+          </p>
+        ) : null}
       </div>
 
       <div className="natal-share-wheel">
         <NatalChartWheel
-          planets={planets}
-          houses={houses}
-          ascendantLongitude={angles?.ascendant?.longitude}
-          midheavenLongitude={angles?.midheaven?.longitude}
-          size={700}
+          locale={
+            locale
+          }
+          planets={
+            planets
+          }
+          houses={
+            houses
+          }
+          ascendantLongitude={
+            angles
+              ?.ascendant
+              ?.longitude
+          }
+          midheavenLongitude={
+            angles
+              ?.midheaven
+              ?.longitude
+          }
+          size={
+            700
+          }
         />
       </div>
 
       <div className="natal-share-footer">
-        <strong>{__i18n["votre_theme_astral_est_unique"]}</strong>
-        <span>{__i18n["explorez_en_toute_la_richesse_sur_luna_astralis"]}</span>
+        <strong>
+          {
+            dictionary[
+              "votre_theme_astral_est_unique"
+            ]
+          }
+        </strong>
+
+        <span>
+          {
+            dictionary[
+              "explorez_en_toute_la_richesse_sur_luna_astralis"
+            ]
+          }
+        </span>
       </div>
 
-      <div className="natal-share-site">www.luna-astralis.app</div>
+      <div className="natal-share-site">
+        www.luna-astralis.app
+      </div>
     </div>
   );
 }
