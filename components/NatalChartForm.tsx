@@ -1506,6 +1506,7 @@ export default function NatalChartForm({
                 }
               >
                 <NatalShareCard
+                  locale={locale}
                   title={
                     chartTitle
                   }
