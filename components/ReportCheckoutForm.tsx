@@ -12,6 +12,7 @@ import {
 } from "@supabase/supabase-js";
 
 import NatalChartWheel from "@/components/NatalChartWheel";
+import type { Locale } from "@/i18n/config";
 
 import "./report-checkout-form.css";
 
@@ -28,6 +29,7 @@ type ReportType =
 
 type Props = {
   reportType: ReportType;
+  locale: Locale;
 };
 
 type SignedUploadResponse = {
@@ -105,45 +107,210 @@ const supabase =
 |--------------------------------------------------------------------------
 */
 
-const REPORT_INFO: Record<
-  ReportType,
-  {
-    name: string;
-    price: string;
-    button: string;
-  }
-> = {
-  essential: {
-    name:
-      "Essentielle",
+type ReportInfo = {
+  name: string;
+  price: string;
+  button: string;
+};
 
-    price:
-      "24,99 $ US",
+type CheckoutTexts = {
+  secureOrder: string;
+  orderReport: string;
+  intro: string;
+  firstName: string;
+  firstNamePlaceholder: string;
+  birthDate: string;
+  birthTime: string;
+  birthTimeHelp: string;
+  birthCity: string;
+  birthCityPlaceholder: string;
+  importantLabel: string;
+  downloadNotice: string;
+  preparingChart: string;
+  securePayment: string;
+  requiredDateAndCity: string;
+  dateFormat: string;
+  invalidDate: string;
+  invalidTime: string;
+  cityNotFound: string;
+  invalidCoordinates: string;
+  chartCalculationError: string;
+  invalidImageFormat: string;
+  invalidImageType: string;
+  wheelNotReady: string;
+  wheelImageFailed: string;
+  missingSupabase: string;
+  wheelUploadPreparationFailed: string;
+  wheelUploadFailed: string;
+  paymentError: (status: number) => string;
+  paymentPreparationFailed: string;
+};
 
-    button:
-      "Commander le rapport Essentielle",
+const REPORT_INFO: Record<Locale, Record<ReportType, ReportInfo>> = {
+  fr: {
+    essential: { name: "Essentielle", price: "24,99 $ US", button: "Commander le rapport Essentielle" },
+    premium: { name: "Premium", price: "49,99 $ US", button: "Commander le rapport Premium" },
+    signature: { name: "Signature", price: "79,99 $ US", button: "Commander le rapport Signature" },
   },
-
-  premium: {
-    name:
-      "Premium",
-
-    price:
-      "49,99 $ US",
-
-    button:
-      "Commander le rapport Premium",
+  en: {
+    essential: { name: "Essential", price: "US$24.99", button: "Order the Essential Report" },
+    premium: { name: "Premium", price: "US$49.99", button: "Order the Premium Report" },
+    signature: { name: "Signature", price: "US$79.99", button: "Order the Signature Report" },
   },
+  es: {
+    essential: { name: "Esencial", price: "24,99 US$", button: "Pedir el Informe Esencial" },
+    premium: { name: "Premium", price: "49,99 US$", button: "Pedir el Informe Premium" },
+    signature: { name: "Signature", price: "79,99 US$", button: "Pedir el Informe Signature" },
+  },
+  de: {
+    essential: { name: "Essential", price: "24,99 US$", button: "Essential-Bericht bestellen" },
+    premium: { name: "Premium", price: "49,99 US$", button: "Premium-Bericht bestellen" },
+    signature: { name: "Signature", price: "79,99 US$", button: "Signature-Bericht bestellen" },
+  },
+  it: {
+    essential: { name: "Essenziale", price: "24,99 USD", button: "Ordina il rapporto Essenziale" },
+    premium: { name: "Premium", price: "49,99 USD", button: "Ordina il rapporto Premium" },
+    signature: { name: "Signature", price: "79,99 USD", button: "Ordina il rapporto Signature" },
+  },
+  pt: {
+    essential: { name: "Essencial", price: "US$ 24,99", button: "Pedir o Relatório Essencial" },
+    premium: { name: "Premium", price: "US$ 49,99", button: "Pedir o Relatório Premium" },
+    signature: { name: "Signature", price: "US$ 79,99", button: "Pedir o Relatório Signature" },
+  },
+};
 
-  signature: {
-    name:
-      "Signature",
-
-    price:
-      "79,99 $ US",
-
-    button:
-      "Commander le rapport Signature",
+const CHECKOUT_TEXTS: Record<Locale, CheckoutTexts> = {
+  fr: {
+    secureOrder: "Commande sécurisée",
+    orderReport: "Commander le rapport",
+    intro: "Entrez vos informations de naissance. Votre thème astral sera calculé avant de vous rediriger vers le paiement sécurisé Stripe.",
+    firstName: "Prénom",
+    firstNamePlaceholder: "Votre prénom",
+    birthDate: "Date de naissance",
+    birthTime: "Heure de naissance",
+    birthTimeHelp: "Sans heure précise, 12:00 sera utilisé.",
+    birthCity: "Ville de naissance",
+    birthCityPlaceholder: "Exemple : Québec",
+    importantLabel: "Important :",
+    downloadNotice: "Téléchargez votre rapport dès qu’il est généré et conservez-le dans un endroit sécuritaire. Luna Astralis ne conserve aucune copie de votre PDF.",
+    preparingChart: "Préparation de votre thème astral...",
+    securePayment: "Paiement unique • Aucun abonnement • Paiement sécurisé par Stripe",
+    requiredDateAndCity: "La date et la ville de naissance sont obligatoires.",
+    dateFormat: "Entre la date au format JJ/MM/AAAA.",
+    invalidDate: "La date de naissance est invalide.",
+    invalidTime: "L’heure de naissance est invalide.",
+    cityNotFound: "Ville introuvable. Entre seulement le nom de la ville.",
+    invalidCoordinates: "Les coordonnées reçues pour cette ville sont invalides.",
+    chartCalculationError: "Erreur lors du calcul de la carte du ciel.",
+    invalidImageFormat: "Le format de l’image astrologique est invalide.",
+    invalidImageType: "Le type de l’image astrologique est invalide.",
+    wheelNotReady: "La roue astrologique n’est pas encore prête.",
+    wheelImageFailed: "La roue astrologique n’a pas pu être transformée en image.",
+    missingSupabase: "La configuration publique de Supabase est absente.",
+    wheelUploadPreparationFailed: "Impossible de préparer l’envoi de la roue astrologique.",
+    wheelUploadFailed: "Impossible d’enregistrer la roue astrologique.",
+    paymentError: (status) => `Erreur de paiement (${status}).`,
+    paymentPreparationFailed: "Impossible de préparer le paiement. Réessaie.",
+  },
+  en: {
+    secureOrder: "Secure order",
+    orderReport: "Order the report",
+    intro: "Enter your birth information. Your birth chart will be calculated before you are redirected to secure Stripe payment.",
+    firstName: "First name",
+    firstNamePlaceholder: "Your first name",
+    birthDate: "Birth date",
+    birthTime: "Birth time",
+    birthTimeHelp: "If the exact time is unknown, 12:00 will be used.",
+    birthCity: "Birth city",
+    birthCityPlaceholder: "Example: Toronto",
+    importantLabel: "Important:",
+    downloadNotice: "Download your report as soon as it is generated and keep it in a safe place. Luna Astralis does not retain a copy of your PDF.",
+    preparingChart: "Preparing your birth chart...",
+    securePayment: "One-time payment • No subscription • Secure Stripe payment",
+    requiredDateAndCity: "Birth date and birth city are required.",
+    dateFormat: "Enter the date in DD/MM/YYYY format.",
+    invalidDate: "The birth date is invalid.",
+    invalidTime: "The birth time is invalid.",
+    cityNotFound: "City not found. Enter only the city name.",
+    invalidCoordinates: "The coordinates received for this city are invalid.",
+    chartCalculationError: "An error occurred while calculating the birth chart.",
+    invalidImageFormat: "The astrology image format is invalid.",
+    invalidImageType: "The astrology image type is invalid.",
+    wheelNotReady: "The astrology wheel is not ready yet.",
+    wheelImageFailed: "The astrology wheel could not be converted into an image.",
+    missingSupabase: "The public Supabase configuration is missing.",
+    wheelUploadPreparationFailed: "Unable to prepare the astrology wheel upload.",
+    wheelUploadFailed: "Unable to save the astrology wheel.",
+    paymentError: (status) => `Payment error (${status}).`,
+    paymentPreparationFailed: "Unable to prepare the payment. Try again.",
+  },
+  es: {
+    secureOrder: "Pedido seguro", orderReport: "Pedir el informe",
+    intro: "Introduce tus datos de nacimiento. Tu carta natal se calculará antes de redirigirte al pago seguro de Stripe.",
+    firstName: "Nombre", firstNamePlaceholder: "Tu nombre", birthDate: "Fecha de nacimiento",
+    birthTime: "Hora de nacimiento", birthTimeHelp: "Si no conoces la hora exacta, se utilizarán las 12:00.",
+    birthCity: "Ciudad de nacimiento", birthCityPlaceholder: "Ejemplo: Madrid",
+    importantLabel: "Importante:", downloadNotice: "Descarga tu informe en cuanto se genere y guárdalo en un lugar seguro. Luna Astralis no conserva ninguna copia de tu PDF.",
+    preparingChart: "Preparando tu carta natal...", securePayment: "Pago único • Sin suscripción • Pago seguro con Stripe",
+    requiredDateAndCity: "La fecha y la ciudad de nacimiento son obligatorias.", dateFormat: "Introduce la fecha en formato DD/MM/AAAA.",
+    invalidDate: "La fecha de nacimiento no es válida.", invalidTime: "La hora de nacimiento no es válida.",
+    cityNotFound: "Ciudad no encontrada. Introduce solo el nombre de la ciudad.", invalidCoordinates: "Las coordenadas recibidas para esta ciudad no son válidas.",
+    chartCalculationError: "Error al calcular la carta natal.", invalidImageFormat: "El formato de la imagen astrológica no es válido.",
+    invalidImageType: "El tipo de imagen astrológica no es válido.", wheelNotReady: "La rueda astrológica aún no está lista.",
+    wheelImageFailed: "No se pudo convertir la rueda astrológica en una imagen.", missingSupabase: "Falta la configuración pública de Supabase.",
+    wheelUploadPreparationFailed: "No se pudo preparar el envío de la rueda astrológica.", wheelUploadFailed: "No se pudo guardar la rueda astrológica.",
+    paymentError: (status) => `Error de pago (${status}).`, paymentPreparationFailed: "No se pudo preparar el pago. Inténtalo de nuevo.",
+  },
+  de: {
+    secureOrder: "Sichere Bestellung", orderReport: "Bericht bestellen",
+    intro: "Geben Sie Ihre Geburtsdaten ein. Ihr Geburtshoroskop wird berechnet, bevor Sie zur sicheren Stripe-Zahlung weitergeleitet werden.",
+    firstName: "Vorname", firstNamePlaceholder: "Ihr Vorname", birthDate: "Geburtsdatum",
+    birthTime: "Geburtszeit", birthTimeHelp: "Wenn die genaue Zeit unbekannt ist, wird 12:00 verwendet.",
+    birthCity: "Geburtsort", birthCityPlaceholder: "Beispiel: Berlin",
+    importantLabel: "Wichtig:", downloadNotice: "Laden Sie Ihren Bericht direkt nach der Erstellung herunter und bewahren Sie ihn sicher auf. Luna Astralis speichert keine Kopie Ihrer PDF-Datei.",
+    preparingChart: "Ihr Geburtshoroskop wird vorbereitet...", securePayment: "Einmalige Zahlung • Kein Abonnement • Sichere Stripe-Zahlung",
+    requiredDateAndCity: "Geburtsdatum und Geburtsort sind erforderlich.", dateFormat: "Geben Sie das Datum im Format TT/MM/JJJJ ein.",
+    invalidDate: "Das Geburtsdatum ist ungültig.", invalidTime: "Die Geburtszeit ist ungültig.",
+    cityNotFound: "Stadt nicht gefunden. Geben Sie nur den Städtenamen ein.", invalidCoordinates: "Die Koordinaten für diese Stadt sind ungültig.",
+    chartCalculationError: "Fehler bei der Berechnung des Geburtshoroskops.", invalidImageFormat: "Das Format des astrologischen Bildes ist ungültig.",
+    invalidImageType: "Der Typ des astrologischen Bildes ist ungültig.", wheelNotReady: "Das astrologische Rad ist noch nicht bereit.",
+    wheelImageFailed: "Das astrologische Rad konnte nicht in ein Bild umgewandelt werden.", missingSupabase: "Die öffentliche Supabase-Konfiguration fehlt.",
+    wheelUploadPreparationFailed: "Der Upload des astrologischen Rads konnte nicht vorbereitet werden.", wheelUploadFailed: "Das astrologische Rad konnte nicht gespeichert werden.",
+    paymentError: (status) => `Zahlungsfehler (${status}).`, paymentPreparationFailed: "Die Zahlung konnte nicht vorbereitet werden. Versuchen Sie es erneut.",
+  },
+  it: {
+    secureOrder: "Ordine sicuro", orderReport: "Ordina il rapporto",
+    intro: "Inserisci i tuoi dati di nascita. Il tuo tema natale verrà calcolato prima del reindirizzamento al pagamento sicuro Stripe.",
+    firstName: "Nome", firstNamePlaceholder: "Il tuo nome", birthDate: "Data di nascita",
+    birthTime: "Ora di nascita", birthTimeHelp: "Se l’ora esatta non è nota, verranno utilizzate le 12:00.",
+    birthCity: "Città di nascita", birthCityPlaceholder: "Esempio: Roma",
+    importantLabel: "Importante:", downloadNotice: "Scarica il rapporto non appena viene generato e conservalo in un luogo sicuro. Luna Astralis non conserva alcuna copia del PDF.",
+    preparingChart: "Preparazione del tuo tema natale...", securePayment: "Pagamento unico • Nessun abbonamento • Pagamento sicuro con Stripe",
+    requiredDateAndCity: "La data e la città di nascita sono obbligatorie.", dateFormat: "Inserisci la data nel formato GG/MM/AAAA.",
+    invalidDate: "La data di nascita non è valida.", invalidTime: "L’ora di nascita non è valida.",
+    cityNotFound: "Città non trovata. Inserisci solo il nome della città.", invalidCoordinates: "Le coordinate ricevute per questa città non sono valide.",
+    chartCalculationError: "Errore durante il calcolo del tema natale.", invalidImageFormat: "Il formato dell’immagine astrologica non è valido.",
+    invalidImageType: "Il tipo dell’immagine astrologica non è valido.", wheelNotReady: "La ruota astrologica non è ancora pronta.",
+    wheelImageFailed: "Non è stato possibile convertire la ruota astrologica in un’immagine.", missingSupabase: "Manca la configurazione pubblica di Supabase.",
+    wheelUploadPreparationFailed: "Impossibile preparare l’invio della ruota astrologica.", wheelUploadFailed: "Impossibile salvare la ruota astrologica.",
+    paymentError: (status) => `Errore di pagamento (${status}).`, paymentPreparationFailed: "Impossibile preparare il pagamento. Riprova.",
+  },
+  pt: {
+    secureOrder: "Pedido seguro", orderReport: "Pedir o relatório",
+    intro: "Digite seus dados de nascimento. Seu mapa astral será calculado antes de você ser redirecionado para o pagamento seguro da Stripe.",
+    firstName: "Nome", firstNamePlaceholder: "Seu nome", birthDate: "Data de nascimento",
+    birthTime: "Hora de nascimento", birthTimeHelp: "Se a hora exata não for conhecida, será usado 12:00.",
+    birthCity: "Cidade de nascimento", birthCityPlaceholder: "Exemplo: São Paulo",
+    importantLabel: "Importante:", downloadNotice: "Baixe seu relatório assim que ele for gerado e guarde-o em um local seguro. A Luna Astralis não mantém nenhuma cópia do seu PDF.",
+    preparingChart: "Preparando seu mapa astral...", securePayment: "Pagamento único • Sem assinatura • Pagamento seguro pela Stripe",
+    requiredDateAndCity: "A data e a cidade de nascimento são obrigatórias.", dateFormat: "Digite a data no formato DD/MM/AAAA.",
+    invalidDate: "A data de nascimento é inválida.", invalidTime: "A hora de nascimento é inválida.",
+    cityNotFound: "Cidade não encontrada. Digite apenas o nome da cidade.", invalidCoordinates: "As coordenadas recebidas para esta cidade são inválidas.",
+    chartCalculationError: "Erro ao calcular o mapa astral.", invalidImageFormat: "O formato da imagem astrológica é inválido.",
+    invalidImageType: "O tipo da imagem astrológica é inválido.", wheelNotReady: "A roda astrológica ainda não está pronta.",
+    wheelImageFailed: "Não foi possível converter a roda astrológica em uma imagem.", missingSupabase: "A configuração pública do Supabase está ausente.",
+    wheelUploadPreparationFailed: "Não foi possível preparar o envio da roda astrológica.", wheelUploadFailed: "Não foi possível salvar a roda astrológica.",
+    paymentError: (status) => `Erro de pagamento (${status}).`, paymentPreparationFailed: "Não foi possível preparar o pagamento. Tente novamente.",
   },
 };
 
@@ -274,7 +441,8 @@ function isValidTime(
 */
 
 function dataUrlToBlob(
-  dataUrl: string
+  dataUrl: string,
+  texts: CheckoutTexts
 ): Blob {
   const parts =
     dataUrl.split(",");
@@ -283,7 +451,7 @@ function dataUrlToBlob(
     parts.length !== 2
   ) {
     throw new Error(
-      "Le format de l’image astrologique est invalide."
+      texts.invalidImageFormat
     );
   }
 
@@ -300,7 +468,7 @@ function dataUrlToBlob(
 
   if (!mimeMatch) {
     throw new Error(
-      "Le type de l’image astrologique est invalide."
+      texts.invalidImageType
     );
   }
 
@@ -368,10 +536,18 @@ function waitForNextPaint(): Promise<void> {
 
 export default function ReportCheckoutForm({
   reportType,
+  locale,
 }: Props) {
   const report =
     REPORT_INFO[
+      locale
+    ][
       reportType
+    ];
+
+  const texts =
+    CHECKOUT_TEXTS[
+      locale
     ];
 
   const wheelRef =
@@ -462,7 +638,7 @@ export default function ReportCheckoutForm({
       !wheelRef.current
     ) {
       throw new Error(
-        "La roue astrologique n’est pas encore prête."
+        texts.wheelNotReady
       );
     }
 
@@ -496,7 +672,7 @@ export default function ReportCheckoutForm({
       )
     ) {
       throw new Error(
-        "La roue astrologique n’a pas pu être transformée en image."
+        texts.wheelImageFailed
       );
     }
 
@@ -512,7 +688,7 @@ export default function ReportCheckoutForm({
   async function uploadWheelImage(): Promise<string> {
     if (!supabase) {
       throw new Error(
-        "La configuration publique de Supabase est absente."
+        texts.missingSupabase
       );
     }
 
@@ -521,7 +697,8 @@ export default function ReportCheckoutForm({
 
     const wheelBlob =
       dataUrlToBlob(
-        wheelImage
+        wheelImage,
+        texts
       );
 
     const signedResponse =
@@ -551,7 +728,7 @@ export default function ReportCheckoutForm({
       throw new Error(
         signedData?.detail ||
           signedData?.error ||
-          "Impossible de préparer l’envoi de la roue astrologique."
+          texts.wheelUploadPreparationFailed
       );
     }
 
@@ -581,7 +758,7 @@ export default function ReportCheckoutForm({
     ) {
       throw new Error(
         uploadError.message ||
-          "Impossible d’enregistrer la roue astrologique."
+          texts.wheelUploadFailed
       );
     }
 
@@ -622,7 +799,7 @@ export default function ReportCheckoutForm({
       !cleanCity
     ) {
       setError(
-        "La date et la ville de naissance sont obligatoires."
+        texts.requiredDateAndCity
       );
 
       return;
@@ -638,7 +815,7 @@ export default function ReportCheckoutForm({
       3
     ) {
       setError(
-        "Entre la date au format JJ/MM/AAAA."
+        texts.dateFormat
       );
 
       return;
@@ -677,7 +854,7 @@ export default function ReportCheckoutForm({
       )
     ) {
       setError(
-        "La date de naissance est invalide."
+        texts.invalidDate
       );
 
       return;
@@ -714,7 +891,7 @@ export default function ReportCheckoutForm({
       )
     ) {
       setError(
-        "L’heure de naissance est invalide."
+        texts.invalidTime
       );
 
       return;
@@ -758,7 +935,7 @@ export default function ReportCheckoutForm({
         throw new Error(
           geoData?.detail ||
             geoData?.error ||
-            "Ville introuvable. Entre seulement le nom de la ville."
+            texts.cityNotFound
         );
       }
 
@@ -783,7 +960,7 @@ export default function ReportCheckoutForm({
         )
       ) {
         throw new Error(
-          "Les coordonnées reçues pour cette ville sont invalides."
+          texts.invalidCoordinates
         );
       }
 
@@ -868,7 +1045,7 @@ export default function ReportCheckoutForm({
         throw new Error(
           chartData?.detail ||
             chartData?.error ||
-            "Erreur lors du calcul de la carte du ciel."
+            texts.chartCalculationError
         );
       }
 
@@ -912,6 +1089,7 @@ export default function ReportCheckoutForm({
             body:
               JSON.stringify({
                 reportType,
+                locale,
 
                 firstName:
                   cleanFirstName,
@@ -953,7 +1131,9 @@ export default function ReportCheckoutForm({
         throw new Error(
           checkoutData?.detail ||
             checkoutData?.error ||
-            `Erreur de paiement (${checkoutResponse.status}).`
+            texts.paymentError(
+              checkoutResponse.status
+            )
         );
       }
 
@@ -971,7 +1151,7 @@ export default function ReportCheckoutForm({
         checkoutError instanceof
           Error
           ? checkoutError.message
-          : "Impossible de préparer le paiement. Réessaie."
+          : texts.paymentPreparationFailed
       );
     } finally {
       setLoading(
@@ -1016,13 +1196,13 @@ export default function ReportCheckoutForm({
     >
       <div className="report-checkout__header">
         <span className="report-checkout__badge">
-          Commande sécurisée
+          {texts.secureOrder}
         </span>
 
         <h2
           id={`report-checkout-${reportType}`}
         >
-          Commander le rapport{" "}
+          {texts.orderReport}{" "}
           {report.name}
         </h2>
 
@@ -1031,10 +1211,7 @@ export default function ReportCheckoutForm({
         </p>
 
         <p className="report-checkout__intro">
-          Entrez vos informations de naissance.
-          Votre thème astral sera calculé avant
-          de vous rediriger vers le paiement
-          sécurisé Stripe.
+          {texts.intro}
         </p>
       </div>
 
@@ -1047,7 +1224,7 @@ export default function ReportCheckoutForm({
       >
         <div className="report-checkout__grid">
           <label>
-            Prénom
+            {texts.firstName}
 
             <input
               type="text"
@@ -1061,13 +1238,13 @@ export default function ReportCheckoutForm({
                   event.target.value
                 )
               }
-              placeholder="Votre prénom"
+              placeholder={texts.firstNamePlaceholder}
               autoComplete="given-name"
             />
           </label>
 
           <label>
-            Date de naissance
+            {texts.birthDate}
 
             <input
               type="text"
@@ -1130,7 +1307,7 @@ export default function ReportCheckoutForm({
           </label>
 
           <label>
-            Heure de naissance
+            {texts.birthTime}
 
             <input
               type="time"
@@ -1148,12 +1325,12 @@ export default function ReportCheckoutForm({
             />
 
             <span className="report-checkout__help">
-              Sans heure précise, 12:00 sera utilisé.
+              {texts.birthTimeHelp}
             </span>
           </label>
 
           <label className="report-checkout__full">
-            Ville de naissance
+            {texts.birthCity}
 
             <input
               type="text"
@@ -1167,7 +1344,7 @@ export default function ReportCheckoutForm({
                   event.target.value
                 )
               }
-              placeholder="Exemple : Québec"
+              placeholder={texts.birthCityPlaceholder}
               autoComplete="off"
               required
             />
@@ -1189,10 +1366,8 @@ export default function ReportCheckoutForm({
           </span>
 
           <p>
-            <strong>Important :</strong> téléchargez votre rapport
-            dès qu’il est généré et conservez-le dans un endroit
-            sécuritaire. Luna Astralis ne conserve aucune copie
-            de votre PDF.
+            <strong>{texts.importantLabel}</strong>{" "}
+            {texts.downloadNotice}
           </p>
         </div>
 
@@ -1204,12 +1379,12 @@ export default function ReportCheckoutForm({
 >
   <span className="report-checkout__button-text">
     {loading
-      ? "Préparation de votre thème astral..."
+      ? texts.preparingChart
       : report.button}
   </span>
 </button>
         <p className="report-checkout__secure">
-          Paiement unique • Aucun abonnement • Paiement sécurisé par Stripe
+          {texts.securePayment}
         </p>
       </form>
 
