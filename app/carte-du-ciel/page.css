@@ -2120,3 +2120,210 @@
     min-height: 390px;
   }
 }
+/* ======================================== */
+/* CARTE DU CIEL GRATUITE                   */
+/* ======================================== */
+
+.astro-chart-page {
+  width: 100%;
+  padding: 48px 16px 80px;
+}
+
+.astro-hero {
+  width: min(100%, 760px);
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.astro-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  padding: 7px 14px;
+  border: 1px solid rgba(244, 201, 93, 0.35);
+  border-radius: 999px;
+  background: rgba(244, 201, 93, 0.14);
+  color: #f4c95d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.astro-hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.05;
+}
+
+.astro-hero .section-sub {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.65;
+  opacity: 0.88;
+}
+
+.natal-form-wrap {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.natal-form,
+.natal-result {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.natal-form {
+  display: grid;
+  gap: 18px;
+  padding: 26px;
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.26);
+}
+
+.natal-form label {
+  display: grid;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.natal-form input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  border-radius: 14px;
+  background: rgba(6, 8, 20, 0.78);
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+}
+
+.natal-form input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.natal-form input:focus {
+  border-color: rgba(244, 201, 93, 0.7);
+  background: rgba(6, 8, 20, 0.94);
+  box-shadow: 0 0 0 4px rgba(244, 201, 93, 0.12);
+}
+
+.natal-form button {
+  width: 100%;
+  min-height: 52px;
+}
+
+.natal-error {
+  margin: 0;
+  color: #ffb4b4;
+  font-weight: 700;
+  text-align: center;
+}
+
+.natal-result {
+  margin-top: 32px;
+  padding: 26px;
+  border: 1px solid rgba(244, 201, 93, 0.22);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.natal-result h3 {
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.natal-angles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.natal-angle-item {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid rgba(244, 201, 93, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.natal-label {
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.natal-value {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.natal-result-actions {
+  display: grid;
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.natal-download-btn,
+.natal-go-to-reports {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.natal-download-btn {
+  border: 0;
+  background: linear-gradient(135deg, #f4c95d, #d8a942);
+  color: #1c1622;
+  cursor: pointer;
+}
+
+.natal-go-to-reports {
+  border: 1px solid rgba(244, 201, 93, 0.28);
+  color: #f4c95d;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.natal-premium-wide {
+  width: min(100%, 1200px);
+  margin: 40px auto 0;
+}
+
+.natal-share-capture-zone {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .astro-chart-page {
+    padding: 32px 12px 56px;
+  }
+
+  .natal-form,
+  .natal-result {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .natal-angles {
+    grid-template-columns: 1fr;
+  }
+}
