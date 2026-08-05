@@ -842,6 +842,7 @@ export default function EssentiellePage({
               <div className="essential-order-form">
                 <ReportCheckoutForm
                   reportType="essential"
+                  locale={locale}
                 />
               </div>
 
