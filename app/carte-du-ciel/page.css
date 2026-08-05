@@ -2327,3 +2327,18 @@
     grid-template-columns: 1fr;
   }
 }
+.natal-form label {
+  display: grid;
+  gap: 8px;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.natal-form input {
+  color: #ffffff !important;
+}
+
+.natal-form input::placeholder {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
