@@ -1774,6 +1774,7 @@ function wrapPremiumTextExpressions(
             }
             return ts.factory.updateJsxExpression(
               child,
+              child.dotDotDotToken,
               ts.factory.createCallExpression(
                 ts.factory.createIdentifier("__premiumDisplay"),
                 undefined,
