@@ -37,8 +37,14 @@ const SITE_URL =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-horoscope-jour.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-horoscope-jour.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-horoscope-jour.png",
+  en: "/reports/premium-daily-horoscope-cover.png",
+  es: "/reports/portada-horoscopo-premium-diario.png",
+  de: "/reports/premium-taegliches-horoskop-titelblatt.png",
+  it: "/reports/copertina-oroscopo-premium-quotidiano.png",
+  pt: "/reports/capa-horoscopo-premium-diario.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +93,9 @@ export function generateMetadata({
     HOROSCOPE_DAILY_TRANSLATIONS[
       locale
     ];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/jour`;
@@ -148,7 +157,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -173,7 +182,7 @@ export function generateMetadata({
         text.metadata.twitterDescription,
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -209,6 +218,9 @@ export default function HoroscopePremiumJourPage({
       locale
     ];
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/jour`;
 
@@ -238,7 +250,7 @@ export default function HoroscopePremiumJourPage({
       text.metadata.description,
 
     image:
-      `${SITE_URL}${REPORT_COVER_URL}`,
+      `${SITE_URL}${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -369,7 +381,7 @@ export default function HoroscopePremiumJourPage({
           <aside className="horoscope-daily-offer">
             <div className="horoscope-daily-cover">
               <Image
-                src={REPORT_COVER_URL}
+                src={reportCoverUrl}
                 alt={text.hero.coverAlt}
                 width={566}
                 height={800}
