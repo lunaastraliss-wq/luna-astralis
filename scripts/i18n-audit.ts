@@ -113,6 +113,37 @@ function normalizePath(
   return value.replace(/\\/g, "/");
 }
 
+
+function isPremiumPdfFile(
+  filePath: string,
+): boolean {
+  const relativeFile = normalizePath(
+    path.relative(
+      PROJECT_ROOT,
+      filePath,
+    ),
+  );
+
+  return relativeFile.startsWith(
+    "components/PremiumPdf/",
+  );
+}
+
+function templateToPlaceholderText(
+  node: ts.TemplateExpression,
+): string {
+  let output = node.head.text;
+
+  node.templateSpans.forEach(
+    (span, index) => {
+      output += `{${index}}`;
+      output += span.literal.text;
+    },
+  );
+
+  return output;
+}
+
 function shouldIgnoreFile(
   filePath: string,
 ): boolean {
@@ -1199,6 +1230,36 @@ function scanFile(
         node.expression,
         "string",
         node.expression.text,
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Templates dynamiques Premium
+    |--------------------------------------------------------------------------
+    |
+    | Les interpolations sont remplacées par des placeholders stables
+    | {0}, {1}, etc. Le traducteur peut ainsi traduire la phrase complète
+    | sans modifier les expressions TypeScript. Cette détection est limitée
+    | à components/PremiumPdf afin de préserver les calculs des autres PDF.
+    |
+    */
+
+    if (
+      isPremiumPdfFile(filePath) &&
+      ts.isTemplateExpression(node) &&
+      !isInsideJsxStyleAttribute(
+        node,
+        sourceFile,
+      )
+    ) {
+      addEntry(
+        results,
+        sourceFile,
+        filePath,
+        node,
+        "template",
+        templateToPlaceholderText(node),
       );
     }
 
