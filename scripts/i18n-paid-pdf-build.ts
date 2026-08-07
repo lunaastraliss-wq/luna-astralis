@@ -2009,6 +2009,157 @@ function rewriteCopiedCodeFiles(
   }
 }
 
+
+function localizePaidPdfDisplayLiterals(
+  locale: PaidPdfLocale,
+): void {
+  const base = path.join(
+    OUTPUT_ROOT,
+    locale,
+  );
+
+  if (!fs.existsSync(base)) {
+    return;
+  }
+
+  const words: Record<
+    PaidPdfLocale,
+    {
+      house: string;
+      houseUnspecified: string;
+      retrograde: string;
+      premiumReport: string;
+      connector: string;
+    }
+  > = {
+    fr: {
+      house: "Maison",
+      houseUnspecified: "Maison non précisée",
+      retrograde: "Rétrograde",
+      premiumReport: "Rapport Premium",
+      connector: "en",
+    },
+    en: {
+      house: "House",
+      houseUnspecified: "House unspecified",
+      retrograde: "Retrograde",
+      premiumReport: "Premium Report",
+      connector: "in",
+    },
+    es: {
+      house: "Casa",
+      houseUnspecified: "Casa no especificada",
+      retrograde: "Retrógrado",
+      premiumReport: "Informe Premium",
+      connector: "en",
+    },
+    de: {
+      house: "Haus",
+      houseUnspecified: "Haus nicht angegeben",
+      retrograde: "Rückläufig",
+      premiumReport: "Premium-Bericht",
+      connector: "im",
+    },
+    it: {
+      house: "Casa",
+      houseUnspecified: "Casa non specificata",
+      retrograde: "Retrogrado",
+      premiumReport: "Rapporto Premium",
+      connector: "in",
+    },
+    pt: {
+      house: "Casa",
+      houseUnspecified: "Casa não especificada",
+      retrograde: "Retrógrado",
+      premiumReport: "Relatório Premium",
+      connector: "em",
+    },
+  };
+
+  const localized = words[locale];
+
+  const visit = (directory: string): void => {
+    for (
+      const entry of fs.readdirSync(
+        directory,
+        { withFileTypes: true },
+      )
+    ) {
+      const absolute = path.join(
+        directory,
+        entry.name,
+      );
+
+      if (entry.isDirectory()) {
+        visit(absolute);
+        continue;
+      }
+
+      if (
+        !/\.(ts|tsx|js|jsx)$/.test(
+          entry.name,
+        )
+      ) {
+        continue;
+      }
+
+      let source = fs.readFileSync(
+        absolute,
+        "utf8",
+      );
+
+      /*
+       * Littéraux simples.
+       */
+      source = source
+        .replace(
+          /(["'`])Maison non précisée\1/g,
+          (_full, quote: string) =>
+            `${quote}${localized.houseUnspecified}${quote}`,
+        )
+        .replace(
+          /(["'`])Rétrograde\1/g,
+          (_full, quote: string) =>
+            `${quote}${localized.retrograde}${quote}`,
+        )
+        .replace(
+          /(["'`])Rapport Premium\1/g,
+          (_full, quote: string) =>
+            `${quote}${localized.premiumReport}${quote}`,
+        );
+
+      /*
+       * Template dynamique exact utilisé par getHouseDisplayName :
+       * `Maison ${romanNumeral}` -> `House ${romanNumeral}`, etc.
+       */
+      source = source.replace(
+        /`Maison \$\{romanNumeral\}`/g,
+        `\`${localized.house} \${romanNumeral}\``,
+      );
+
+      /*
+       * Connecteur exact des titres de PdfPlanet :
+       * {planetName} en{" "}{translatedSign}
+       *
+       * On cible uniquement cette construction précise afin de ne pas
+       * remplacer tous les mots "en" présents dans les textes.
+       */
+      source = source.replace(
+        /(\{planetName\})\s*en\s*(\{\s*["']\s["']\s*\})\s*(\{translatedSign\})/g,
+        `$1 ${localized.connector}$2$3`,
+      );
+
+      fs.writeFileSync(
+        absolute,
+        source,
+        "utf8",
+      );
+    }
+  };
+
+  visit(base);
+}
+
 function findDocumentFiles(
   locale: PaidPdfLocale,
 ): string[] {
@@ -2332,7 +2483,16 @@ function main(): void {
   }
 
   /*
-   * 4) Génère automatiquement les wrappers pour les fichiers
+   * 4) Corrige les petits libellés des PDF payants construits dynamiquement
+   * qui ne peuvent pas être pris par le plan i18n (templates ignorés).
+   * Cette passe agit uniquement sur les copies générées.
+   */
+  for (const locale of LOCALES) {
+    localizePaidPdfDisplayLiterals(locale);
+  }
+
+  /*
+   * 5) Génère automatiquement les wrappers pour les fichiers
    * *PdfDocument.tsx trouvés.
    */
   generateWrappers();
