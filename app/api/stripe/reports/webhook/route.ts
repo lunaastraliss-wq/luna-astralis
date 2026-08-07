@@ -48,6 +48,42 @@ function normalize(
     .replace(/\s+/g, "_");
 }
 
+type ReportLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+const REPORT_LOCALES =
+  new Set<ReportLocale>([
+    "fr",
+    "en",
+    "es",
+    "de",
+    "it",
+    "pt",
+  ]);
+
+function normalizeReportLocale(
+  value: unknown,
+): ReportLocale {
+  const raw =
+    clean(value)
+      .toLowerCase()
+      .replace("_", "-");
+
+  const base =
+    raw.split("-")[0];
+
+  return REPORT_LOCALES.has(
+    base as ReportLocale,
+  )
+    ? (base as ReportLocale)
+    : "fr";
+}
+
 function parseJsonMetadata(
   value:
     | string
@@ -342,6 +378,13 @@ export async function POST(
         metadata.report_type,
       );
 
+    const locale =
+      normalizeReportLocale(
+        metadata.locale ||
+        metadata.language ||
+        metadata.lang,
+      );
+
     /*
     |--------------------------------------------------------------------------
     | Détection du type de produit
@@ -600,6 +643,11 @@ export async function POST(
       }
     }
 
+    birthData = {
+      ...birthData,
+      locale,
+    };
+
     /*
     |--------------------------------------------------------------------------
     | Courriel du client
@@ -638,6 +686,8 @@ export async function POST(
 
             product_type:
               storedProductType,
+
+            locale,
 
             status:
               "paid",
@@ -702,6 +752,8 @@ export async function POST(
 
       original_report_type:
         reportType,
+
+      locale,
 
       product,
 
