@@ -35,8 +35,14 @@ const SITE_URL =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-carte-du-ciel-essentielle.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-carte-du-ciel-essentielle.png",
+  en: "/reports/birth-chart-essential-cover.png",
+  es: "/reports/portada-carta-natal-esencial.png",
+  de: "/reports/titelblatt-essenz-geburtskarte.png",
+  it: "/reports/copertina-tema-natale-essenziale.png",
+  pt: "/reports/capa-mapa-astral-essencial.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +83,11 @@ export function generateMetadata({
 
   const text =
     ESSENTIAL_TRANSLATIONS[
+      locale
+    ];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[
       locale
     ];
 
@@ -140,7 +151,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -165,7 +176,7 @@ export function generateMetadata({
         text.metadata.twitterDescription,
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -201,6 +212,11 @@ export default function EssentiellePage({
       locale
     ];
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[
+      locale
+    ];
+
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/essentielle`;
 
@@ -227,7 +243,7 @@ export default function EssentiellePage({
       text.jsonLd.description,
 
     image:
-      `${SITE_URL}${REPORT_COVER_URL}`,
+      `${SITE_URL}${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -392,7 +408,7 @@ export default function EssentiellePage({
 
               <div className="essential-cover-frame">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.hero.coverAlt}
                   width={707}
                   height={1000}
@@ -530,7 +546,7 @@ export default function EssentiellePage({
             <div className="essential-report-visual">
               <div className="essential-report-cover-wrapper">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.showcase.coverAlt}
                   width={566}
                   height={800}
