@@ -35,8 +35,14 @@ const SITE_URL =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-carte-du-ciel-premium.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-carte-du-ciel-premium.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-carte-du-ciel-premium.png",
+  en: "/reports/cover-premium-birth-chart.png",
+  es: "/reports/portada-carta-natal-premium.png",
+  de: "/reports/titelseite-premium-geburtshoroskop.png",
+  it: "/reports/copertina-tema-natale-premium.png",
+  pt: "/reports/capa-mapa-astral-premium.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +85,9 @@ export function generateMetadata({
     PREMIUM_TRANSLATIONS[
       locale
     ];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/premium`;
@@ -140,7 +149,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -165,7 +174,7 @@ export function generateMetadata({
         text.metadata.twitterDescription,
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -201,6 +210,9 @@ export default function PremiumPage({
       locale
     ];
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/premium`;
 
@@ -227,7 +239,7 @@ export default function PremiumPage({
       text.jsonLd.description,
 
     image:
-      `${SITE_URL}${REPORT_COVER_URL}`,
+      `${SITE_URL}${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -392,7 +404,7 @@ export default function PremiumPage({
 
               <div className="premium-cover-frame">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.hero.coverAlt}
                   width={707}
                   height={1000}
@@ -530,7 +542,7 @@ export default function PremiumPage({
             <div className="premium-report-visual">
               <div className="premium-report-cover-wrapper">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.showcase.coverAlt}
                   width={566}
                   height={800}
