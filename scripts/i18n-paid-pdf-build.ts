@@ -280,21 +280,6 @@ function entryMatchesNode(
   );
 }
 
-function templateToPlaceholderText(
-  node: ts.TemplateExpression,
-): string {
-  let output = node.head.text;
-
-  node.templateSpans.forEach(
-    (span, index) => {
-      output += `{${index}}`;
-      output += span.literal.text;
-    },
-  );
-
-  return output;
-}
-
 function escapeKey(
   key: string,
 ): string {
@@ -338,7 +323,6 @@ const TECHNICAL_PROPERTY_NAMES =
     "firstPlanet",
     "secondPlanet",
     "sign",
-    "name",
     "type",
     "id",
     "key",
@@ -385,72 +369,6 @@ const DISPLAY_PROPERTY_NAMES =
     "preparedFor",
     "nameLabel",
     "dateLabel",
-
-    // Contenu éditorial des PDF astrologiques
-    "energy",
-    "strengths",
-    "challenges",
-    "evolution",
-    "nature",
-    "strength",
-    "balance",
-    "premium",
-  ]);
-
-/*
-|--------------------------------------------------------------------------
-| Constantes explicitement destinées à l'affichage
-|--------------------------------------------------------------------------
-|
-| Ces objets contiennent des valeurs visibles dans le PDF.
-| Leurs clés restent intactes; seules les valeurs peuvent être localisées.
-|
-| IMPORTANT :
-| SIGN_KEYS et SIGNS_FROM_LONGITUDE ne sont volontairement PAS inclus ici,
-| car ils servent à la logique et aux correspondances astrologiques.
-|
-*/
-
-const DISPLAY_VARIABLE_NAMES =
-  new Set([
-    "PLANET_FR",
-    "PLANET_MEANINGS",
-    "SIGN_NAMES_FR",
-  ]);
-
-const PREMIUM_DISPLAY_VARIABLE_NAMES =
-  new Set([
-    "PLANET_NAMES",
-    "PLANET_NAMES_FR",
-    "PLANET_MEANINGS",
-    "SIGN_NAMES_FR",
-    "ELEMENT_WORDS",
-    "ELEMENT_DESCRIPTIONS",
-    "ELEMENT_INSIGHTS",
-    "MODALITY_WORDS",
-    "MODALITY_DESCRIPTIONS",
-    "MODALITY_INSIGHTS",
-    "HOUSE_TITLES",
-    "HOUSE_KEYWORDS",
-    "HOUSE_DESCRIPTIONS",
-    "HOUSE_PREMIUM_INSIGHTS",
-    "PLANET_ENERGIES",
-    "PLANET_MANIFESTATIONS",
-  ]);
-
-/*
- * Variables Premium qui servent réellement aux calculs / correspondances.
- * Même dans PremiumPdf, leur contenu ne doit jamais être localisé directement.
- */
-const PREMIUM_TECHNICAL_VARIABLE_NAMES =
-  new Set([
-    "MAIN_PLANETS",
-    "SIGNS_FROM_LONGITUDE",
-    "SIGN_KEYS",
-    "SIGN_NAMES_EN",
-    "ELEMENTS",
-    "MODALITIES",
-    "HOUSE_NUMBERS",
   ]);
 
 const TECHNICAL_TYPE_PATTERN =
@@ -502,43 +420,6 @@ function getNearestVariableDeclaration(
   }
 
   return null;
-}
-
-function isInsideDisplayVariable(
-  node: ts.Node,
-  sourceFile: ts.SourceFile,
-): boolean {
-  const declaration =
-    getNearestVariableDeclaration(
-      node,
-    );
-
-  if (
-    !declaration ||
-    !ts.isIdentifier(
-      declaration.name,
-    )
-  ) {
-    return false;
-  }
-
-  const variableName =
-    declaration.name.text;
-
-  if (
-    DISPLAY_VARIABLE_NAMES.has(
-      variableName,
-    )
-  ) {
-    return true;
-  }
-
-  return (
-    isPremiumPdfSource(sourceFile) &&
-    PREMIUM_DISPLAY_VARIABLE_NAMES.has(
-      variableName,
-    )
-  );
 }
 
 function getNearestPropertyAssignment(
@@ -615,73 +496,6 @@ function isInsideNewSetOrMap(
   }
 
   return false;
-}
-
-function isInsideTypeSyntax(
-  node: ts.Node,
-): boolean {
-  let current: ts.Node | undefined = node.parent;
-
-  while (current) {
-    if (
-      ts.isTypeAliasDeclaration(current) ||
-      ts.isInterfaceDeclaration(current) ||
-      ts.isTypeLiteralNode(current) ||
-      ts.isLiteralTypeNode(current) ||
-      ts.isUnionTypeNode(current) ||
-      ts.isIntersectionTypeNode(current)
-    ) {
-      return true;
-    }
-
-    if (
-      ts.isFunctionLike(current) ||
-      ts.isSourceFile(current)
-    ) {
-      break;
-    }
-
-    current = current.parent;
-  }
-
-  return false;
-}
-
-function isInsidePremiumTechnicalVariable(
-  node: ts.Node,
-): boolean {
-  const declaration =
-    getNearestVariableDeclaration(node);
-
-  if (
-    !declaration ||
-    !ts.isIdentifier(declaration.name)
-  ) {
-    return false;
-  }
-
-  return PREMIUM_TECHNICAL_VARIABLE_NAMES.has(
-    declaration.name.text,
-  );
-}
-
-function isPremiumPdfSource(
-  sourceFile: ts.SourceFile,
-): boolean {
-  return normalizePath(sourceFile.fileName).includes(
-    "/components/PremiumPdf/",
-  );
-}
-
-function isHoroscopeCalculationSource(
-  sourceFile: ts.SourceFile,
-): boolean {
-  const normalized = normalizePath(sourceFile.fileName);
-
-  return (
-    normalized.includes("/components/HoroscopePdf/") &&
-    normalized.includes("/calculations/")
-  );
 }
 
 function isInsideTechnicalTypedVariable(
@@ -808,15 +622,6 @@ function isSafeTranslatableStringNode(
   sourceFile: ts.SourceFile,
 ): boolean {
   /*
-   * Les fichiers de calcul Horoscope contiennent des valeurs fortement typées
-   * (MonthlyPlanetName, MonthlyAspectType, etc.). Elles ne doivent jamais être
-   * remplacées par des traductions, sinon TypeScript et les calculs cassent.
-   */
-  if (isHoroscopeCalculationSource(sourceFile)) {
-    return false;
-  }
-
-  /*
    * Imports, exports et noms de propriétés ne sont jamais du texte client.
    */
   let current:
@@ -857,13 +662,6 @@ function isSafeTranslatableStringNode(
     isPropertyNameNode(
       node,
     )
-  ) {
-    return false;
-  }
-
-  if (
-    isInsideTypeSyntax(node) ||
-    isInsidePremiumTechnicalVariable(node)
   ) {
     return false;
   }
@@ -979,37 +777,8 @@ function isSafeTranslatableStringNode(
   }
 
   /*
-   * Dictionnaires explicitement destinés à l'affichage.
-   *
-   * Exemples :
-   * PLANET_FR
-   * PLANET_MEANINGS
-   * SIGN_NAMES_FR
-   *
-   * Les clés techniques ne sont jamais modifiées; seules les valeurs
-   * trouvées dans le plan i18n peuvent être remplacées par __i18n[...].
-   */
-  if (
-    isInsideDisplayVariable(
-      node,
-      sourceFile,
-    )
-  ) {
-    return true;
-  }
-
-  /*
-   * Premium contient beaucoup de textes éditoriaux stockés dans des constantes,
-   * retours de fonctions et branches conditionnelles. Après les protections
-   * ci-dessus (types, comparaisons, Map/Set, propriétés et variables techniques),
-   * les chaînes restantes du dossier PremiumPdf sont du texte d'affichage.
-   */
-  if (isPremiumPdfSource(sourceFile)) {
-    return true;
-  }
-
-  /*
-   * Pour les autres PDF, on conserve le comportement historique prudent.
+   * Par sécurité, une chaîne "string" inconnue n'est PAS traduite.
+   * Les textes JSX et attributs JSX restent, eux, traités normalement.
    */
   return false;
 }
@@ -1084,43 +853,6 @@ function buildReplacement(
         node.getEnd(),
       value:
         access,
-      key:
-        entry.key,
-      original:
-        entry.text,
-      kind:
-        entry.kind,
-      line:
-        entry.line,
-    };
-  }
-
-  if (
-    entry.kind === "template" &&
-    ts.isTemplateExpression(node)
-  ) {
-    let value =
-      `String(${access})`;
-
-    node.templateSpans.forEach(
-      (span, index) => {
-        const expression =
-          span.expression.getText(
-            sourceFile,
-          );
-
-        value +=
-          `.split(${JSON.stringify(`{${index}}`)})` +
-          `.join(String(${expression}))`;
-      },
-    );
-
-    return {
-      start:
-        node.getStart(sourceFile),
-      end:
-        node.getEnd(),
-      value,
       key:
         entry.key,
       original:
@@ -1216,25 +948,6 @@ function findReplacement(
         return;
       }
 
-      found =
-        buildReplacement(
-          entry,
-          sourceFile,
-          node,
-        );
-      return;
-    }
-
-    if (
-      entry.kind === "template" &&
-      ts.isTemplateExpression(node) &&
-      entryMatchesNode(
-        entry,
-        sourceFile,
-        node,
-        templateToPlaceholderText(node),
-      )
-    ) {
       found =
         buildReplacement(
           entry,
@@ -1680,225 +1393,6 @@ function copyDirectoryRecursive(
   }
 }
 
-/*
-|--------------------------------------------------------------------------
-| Localisation dynamique Premium
-|--------------------------------------------------------------------------
-|
-| Les identifiants astrologiques restent inchangés pour les calculs.
-| Seul le texte effectivement rendu dans <Text> est localisé.
-|
-*/
-
-const PREMIUM_TOKEN_TRANSLATIONS: Record<
-  PaidPdfLocale,
-  Record<string, string>
-> = {
-  fr: {},
-  en: {
-    Soleil: "Sun", Lune: "Moon", Mercure: "Mercury", Vénus: "Venus", Saturne: "Saturn", Pluton: "Pluto",
-    Bélier: "Aries", Taureau: "Taurus", Gémeaux: "Gemini", Lion: "Leo", Vierge: "Virgo", Balance: "Libra", Scorpion: "Scorpio", Sagittaire: "Sagittarius", Capricorne: "Capricorn", Verseau: "Aquarius", Poissons: "Pisces",
-    Feu: "Fire", Terre: "Earth", Eau: "Water", Fixe: "Fixed",
-    Conjonction: "Conjunction", Carré: "Square", Trigone: "Trine",
-    harmonieux: "harmonious", dynamique: "dynamic",
-    "Très puissant": "Very powerful", Puissant: "Powerful", Modéré: "Moderate", Subtil: "Subtle",
-    "Non précisé": "Not specified", "Non déterminée": "Undetermined", "Rapport Premium": "Premium Report", Rétrograde: "Retrograde",
-  },
-  es: {
-    Soleil: "Sol", Lune: "Luna", Mercure: "Mercurio", Vénus: "Venus", Saturne: "Saturno", Pluton: "Plutón",
-    Bélier: "Aries", Taureau: "Tauro", Gémeaux: "Géminis", Lion: "Leo", Vierge: "Virgo", Balance: "Libra", Scorpion: "Escorpio", Sagittaire: "Sagitario", Capricorne: "Capricornio", Verseau: "Acuario", Poissons: "Piscis",
-    Feu: "Fuego", Terre: "Tierra", Air: "Aire", Eau: "Agua", Cardinal: "Cardinal", Fixe: "Fija", Mutable: "Mutable",
-    Conjonction: "Conjunción", Sextile: "Sextil", Carré: "Cuadratura", Trigone: "Trígono", Opposition: "Oposición",
-    harmonieux: "armonioso", dynamique: "dinámico", intense: "intenso",
-    "Très puissant": "Muy potente", Puissant: "Potente", Modéré: "Moderado", Subtil: "Sutil",
-    "Non précisé": "No especificado", "Non déterminée": "No determinada",
-  },
-  de: {
-    Soleil: "Sonne", Lune: "Mond", Mercure: "Merkur", Vénus: "Venus", Saturne: "Saturn", Pluton: "Pluto",
-    Bélier: "Widder", Taureau: "Stier", Gémeaux: "Zwillinge", Cancer: "Krebs", Lion: "Löwe", Vierge: "Jungfrau", Balance: "Waage", Scorpion: "Skorpion", Sagittaire: "Schütze", Capricorne: "Steinbock", Verseau: "Wassermann", Poissons: "Fische",
-    Feu: "Feuer", Terre: "Erde", Air: "Luft", Eau: "Wasser", Cardinal: "Kardinal", Fixe: "Fix", Mutable: "Veränderlich",
-    Conjonction: "Konjunktion", Sextile: "Sextil", Carré: "Quadrat", Trigone: "Trigon", Opposition: "Opposition",
-    harmonieux: "harmonisch", dynamique: "dynamisch", intense: "intensiv",
-    "Très puissant": "Sehr stark", Puissant: "Stark", Modéré: "Mäßig", Subtil: "Subtil",
-    "Non précisé": "Nicht angegeben", "Non déterminée": "Nicht bestimmt",
-  },
-  it: {
-    Soleil: "Sole", Lune: "Luna", Mercure: "Mercurio", Vénus: "Venere", Saturne: "Saturno", Pluton: "Plutone",
-    Bélier: "Ariete", Taureau: "Toro", Gémeaux: "Gemelli", Lion: "Leone", Vierge: "Vergine", Balance: "Bilancia", Scorpion: "Scorpione", Sagittaire: "Sagittario", Capricorne: "Capricorno", Verseau: "Acquario", Poissons: "Pesci",
-    Feu: "Fuoco", Terre: "Terra", Air: "Aria", Eau: "Acqua", Cardinal: "Cardinale", Fixe: "Fissa", Mutable: "Mutevole",
-    Conjonction: "Congiunzione", Sextile: "Sestile", Carré: "Quadratura", Trigone: "Trigono", Opposition: "Opposizione",
-    harmonieux: "armonioso", dynamique: "dinamico", intense: "intenso",
-    "Très puissant": "Molto potente", Puissant: "Potente", Modéré: "Moderato", Subtil: "Sottile",
-    "Non précisé": "Non specificato", "Non déterminée": "Non determinata",
-  },
-  pt: {
-    Soleil: "Sol", Lune: "Lua", Mercure: "Mercúrio", Vénus: "Vênus", Saturne: "Saturno", Pluton: "Plutão",
-    Bélier: "Áries", Taureau: "Touro", Gémeaux: "Gêmeos", Lion: "Leão", Vierge: "Virgem", Balance: "Libra", Scorpion: "Escorpião", Sagittaire: "Sagitário", Capricorne: "Capricórnio", Verseau: "Aquário", Poissons: "Peixes",
-    Feu: "Fogo", Terre: "Terra", Air: "Ar", Eau: "Água", Cardinal: "Cardinal", Fixe: "Fixa", Mutable: "Mutável",
-    Conjonction: "Conjunção", Sextile: "Sextil", Carré: "Quadratura", Trigone: "Trígono", Opposition: "Oposição",
-    harmonieux: "harmonioso", dynamique: "dinâmico", intense: "intenso",
-    "Très puissant": "Muito forte", Puissant: "Forte", Modéré: "Moderado", Subtil: "Sutil",
-    "Non précisé": "Não especificado", "Non déterminée": "Não determinada",
-  },
-};
-
-const PREMIUM_WORD_TRANSLATIONS: Record<
-  PaidPdfLocale,
-  Record<string, string>
-> = {
-  fr: {},
-  en: { Maison: "House", maisons: "houses", planète: "planet", planètes: "planets", Partie: "Part", sur: "of", Orbe: "Orb" },
-  es: { Maison: "Casa", maisons: "casas", planète: "planeta", planètes: "planetas", Partie: "Parte", sur: "de", Orbe: "Orbe" },
-  de: { Maison: "Haus", maisons: "Häuser", planète: "Planet", planètes: "Planeten", Partie: "Teil", sur: "von", Orbe: "Orb" },
-  it: { Maison: "Casa", maisons: "case", planète: "pianeta", planètes: "pianeti", Partie: "Parte", sur: "di", Orbe: "Orbe" },
-  pt: { Maison: "Casa", maisons: "casas", planète: "planeta", planètes: "planetas", Partie: "Parte", sur: "de", Orbe: "Orbe" },
-};
-
-function buildPremiumPhrasePairs(
-  frenchDictionaryFile: string,
-  localizedDictionaryFile: string,
-): Array<[string, string]> {
-  if (
-    !fs.existsSync(frenchDictionaryFile) ||
-    !fs.existsSync(localizedDictionaryFile)
-  ) {
-    return [];
-  }
-
-  const french = readJson<Record<string, string>>(
-    frenchDictionaryFile,
-  );
-  const localized = readJson<Record<string, string>>(
-    localizedDictionaryFile,
-  );
-
-  return Object.keys(french)
-    .map((key) => [french[key], localized[key]] as [string, string])
-    .filter(([source, target]) =>
-      typeof source === "string" &&
-      typeof target === "string" &&
-      source.trim().length >= 4 &&
-      target.trim().length > 0 &&
-      source !== target
-    )
-    .sort((a, b) => b[0].length - a[0].length);
-}
-
-function injectPremiumDisplayHelper(
-  sourceText: string,
-  locale: PaidPdfLocale,
-  phrasePairs: Array<[string, string]>,
-): string {
-  if (locale === "fr") {
-    return sourceText;
-  }
-
-  const helper = `\nconst __PREMIUM_TOKEN_MAP: Record<string, string> = ${JSON.stringify(PREMIUM_TOKEN_TRANSLATIONS[locale], null, 2)};\nconst __PREMIUM_WORD_MAP: Record<string, string> = ${JSON.stringify(PREMIUM_WORD_TRANSLATIONS[locale], null, 2)};\nconst __PREMIUM_PHRASES: Array<[string, string]> = ${JSON.stringify(phrasePairs, null, 2)};\n\nfunction __premiumDisplay(value: any): any {\n  if (typeof value !== "string" || !value) return value;\n  let text = value;\n  for (const [source, target] of __PREMIUM_PHRASES) {\n    if (source && text.includes(source)) text = text.split(source).join(target);\n  }\n  if (__PREMIUM_TOKEN_MAP[text]) return __PREMIUM_TOKEN_MAP[text];\n  for (const [source, target] of Object.entries(__PREMIUM_TOKEN_MAP)) {\n    text = text.split(source).join(target);\n  }\n  for (const [source, target] of Object.entries(__PREMIUM_WORD_MAP)) {\n    const escaped = source.replace(/[-/\\^$*+?.()|[\\]{}]/g, "\\\\$&");\n    text = text.replace(new RegExp("\\\\b" + escaped + "\\\\b", "g"), target);\n  }\n  return text;\n}\n`;
-
-  const sourceFile = ts.createSourceFile(
-    "premium-helper.tsx",
-    sourceText,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TSX,
-  );
-
-  let position = 0;
-  for (const statement of sourceFile.statements) {
-    if (ts.isImportDeclaration(statement) || ts.isImportEqualsDeclaration(statement)) {
-      position = statement.getEnd();
-    } else if (position > 0) {
-      break;
-    }
-  }
-
-  return sourceText.slice(0, position) + helper + sourceText.slice(position);
-}
-
-function wrapPremiumTextExpressions(
-  sourceText: string,
-  fileName: string,
-): string {
-  const sourceFile = ts.createSourceFile(
-    fileName,
-    sourceText,
-    ts.ScriptTarget.Latest,
-    true,
-    getScriptKind(fileName),
-  );
-
-  const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
-    const visit: ts.Visitor = (node) => {
-      if (
-        ts.isJsxElement(node) &&
-        node.openingElement.tagName.getText(sourceFile) === "Text"
-      ) {
-        const children = node.children.map((child) => {
-          if (ts.isJsxExpression(child) && child.expression) {
-            const expression = child.expression;
-            if (
-              ts.isCallExpression(expression) &&
-              ts.isIdentifier(expression.expression) &&
-              expression.expression.text === "__premiumDisplay"
-            ) {
-              return child;
-            }
-            return ts.factory.updateJsxExpression(
-              child,
-              ts.factory.createCallExpression(
-                ts.factory.createIdentifier("__premiumDisplay"),
-                undefined,
-                [expression],
-              ),
-            );
-          }
-          return child;
-        });
-
-        return ts.factory.updateJsxElement(
-          node,
-          node.openingElement,
-          children,
-          node.closingElement,
-        );
-      }
-      return ts.visitEachChild(node, visit, context);
-    };
-
-    return (node) => ts.visitNode(node, visit) as ts.SourceFile;
-  };
-
-  const result = ts.transform(sourceFile, [transformer]);
-  const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
-  const output = printer.printFile(result.transformed[0] as ts.SourceFile);
-  result.dispose();
-  return output;
-}
-
-function localizePremiumDynamicDisplay(
-  sourceText: string,
-  sourceFileName: string,
-  locale: PaidPdfLocale,
-  frenchDictionaryAbsolute: string,
-  localizedDictionaryAbsolute: string,
-): string {
-  if (
-    locale === "fr" ||
-    !normalizePath(sourceFileName).includes("/PremiumPdf/")
-  ) {
-    return sourceText;
-  }
-
-  const phrasePairs = buildPremiumPhrasePairs(
-    frenchDictionaryAbsolute,
-    localizedDictionaryAbsolute,
-  );
-
-  let output = wrapPremiumTextExpressions(sourceText, sourceFileName);
-  output = injectPremiumDisplayHelper(output, locale, phrasePairs);
-  return output;
-}
-
 function generateLocalizedFile(
   group: FileGroup,
   locale: PaidPdfLocale,
@@ -2001,6 +1495,16 @@ function generateLocalizedFile(
     const entry of
       group.entries
   ) {
+    if (
+      entry.kind ===
+        "template"
+    ) {
+      reasons.push(
+        `Template ignoré à la ligne ${entry.line}.`,
+      );
+      continue;
+    }
+
     const replacement =
       findReplacement(
         entry,
@@ -2045,18 +1549,6 @@ function generateLocalizedFile(
       output,
       group.sourceFile,
       locale,
-    );
-
-  output =
-    localizePremiumDynamicDisplay(
-      output,
-      outputAbsolute,
-      locale,
-      path.join(
-        PROJECT_ROOT,
-        group.outputFile,
-      ),
-      dictionaryAbsolute,
     );
 
   const needsDictionary =
