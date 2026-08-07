@@ -17,6 +17,10 @@ import {
 
 import type { SignaturePdfProps } from "./SignaturePdfTypes";
 
+import {
+  getSignatureCoverDictionary,
+} from "./SignaturePdfI18n";
+
 /*
  * Couleurs principales du rapport Premium
  */
@@ -573,14 +577,15 @@ const styles = StyleSheet.create({
 });
 
 function displayValue(
-  value?: string
+  value: string | undefined,
+  fallback: string
 ): string {
   const cleanValue =
     typeof value === "string"
       ? value.trim()
       : "";
 
-  return cleanValue || "Non précisé";
+  return cleanValue || fallback;
 }
 
 /*
@@ -846,20 +851,26 @@ function CornerAstrologicalWheel({
 }
 
 export default function PdfSignatureCover({
+  locale = "fr",
   firstName,
   birthDate,
   birthTime,
   birthCity,
 }: SignaturePdfProps) {
+  const t =
+    getSignatureCoverDictionary(
+      locale
+    );
+
+  const missingValue =
+    t["non_precise"] ||
+    "Non précisé";
+
   return (
     <Page
       size="A4"
       style={styles.page}
     >
-      {/*
-       * Décoration de fond
-       */}
-
       <View
         style={styles.topAccent}
         fixed
@@ -875,10 +886,6 @@ export default function PdfSignatureCover({
         fixed
       />
 
-      {/*
-       * Roue décorative gauche
-       */}
-
       <View
         style={styles.cornerWheelLeft}
         fixed
@@ -888,10 +895,6 @@ export default function PdfSignatureCover({
         />
       </View>
 
-      {/*
-       * Roue décorative droite
-       */}
-
       <View
         style={styles.cornerWheelRight}
         fixed
@@ -900,10 +903,6 @@ export default function PdfSignatureCover({
           size={94}
         />
       </View>
-
-      {/*
-       * Contenu principal
-       */}
 
       <View style={styles.content}>
         <View
@@ -929,7 +928,11 @@ export default function PdfSignatureCover({
               styles.premiumBadgeText
             }
           >
-            Édition Signature
+            {
+              t[
+                "edition_signature"
+              ]
+            }
           </Text>
         </View>
 
@@ -938,21 +941,33 @@ export default function PdfSignatureCover({
           wrap={false}
         >
           <Text style={styles.eyebrow}>
-            Rapport astrologique personnalisé
+            {
+              t[
+                "rapport_astrologique_personnalise"
+              ]
+            }
           </Text>
 
           <Text style={styles.title}>
-            Votre carte du ciel
+            {
+              t[
+                "votre_carte_du_ciel"
+              ]
+            }
           </Text>
 
-          <Text style={styles.titleAccent}>
+          <Text
+            style={styles.titleAccent}
+          >
             Signature
           </Text>
 
           <Text style={styles.subtitle}>
-            L’analyse la plus complète de votre thème natal, révélant les
-  interactions entre les planètes, les maisons, les aspects et les
-  grandes dynamiques qui façonnent votre évolution.
+            {
+              t[
+                "l_analyse_la_plus_complete_de_votre_theme_natal_revelant_les"
+              ]
+            }
           </Text>
         </View>
 
@@ -975,11 +990,18 @@ export default function PdfSignatureCover({
           <Text
             style={styles.preparedLabel}
           >
-            Préparé exclusivement pour
+            {
+              t[
+                "prepare_exclusivement_pour"
+              ]
+            }
           </Text>
 
           <Text style={styles.name}>
-            {displayValue(firstName)}
+            {displayValue(
+              firstName,
+              missingValue
+            )}
           </Text>
 
           <View style={styles.infoRow}>
@@ -989,14 +1011,19 @@ export default function PdfSignatureCover({
               <Text
                 style={styles.infoLabel}
               >
-                Date de naissance
+                {
+                  t[
+                    "date_de_naissance"
+                  ]
+                }
               </Text>
 
               <Text
                 style={styles.infoValue}
               >
                 {displayValue(
-                  birthDate
+                  birthDate,
+                  missingValue
                 )}
               </Text>
             </View>
@@ -1007,14 +1034,19 @@ export default function PdfSignatureCover({
               <Text
                 style={styles.infoLabel}
               >
-                Heure de naissance
+                {
+                  t[
+                    "heure_de_naissance"
+                  ]
+                }
               </Text>
 
               <Text
                 style={styles.infoValue}
               >
                 {displayValue(
-                  birthTime
+                  birthTime,
+                  missingValue
                 )}
               </Text>
             </View>
@@ -1025,14 +1057,19 @@ export default function PdfSignatureCover({
               <Text
                 style={styles.infoLabel}
               >
-                Lieu de naissance
+                {
+                  t[
+                    "lieu_de_naissance"
+                  ]
+                }
               </Text>
 
               <Text
                 style={styles.infoValue}
               >
                 {displayValue(
-                  birthCity
+                  birthCity,
+                  missingValue
                 )}
               </Text>
             </View>
@@ -1044,12 +1081,21 @@ export default function PdfSignatureCover({
           wrap={false}
         >
           <Text style={styles.quote}>
-            Votre thème natal ne révèle pas seulement qui vous êtes,
-            mais aussi tout ce que vous pouvez devenir.
+            {
+              t[
+                "votre_theme_natal_ne_revele_pas_seulement_qui_vous_etes_mais"
+              ]
+            }
           </Text>
 
-          <Text style={styles.signature}>
-            Luna Astralis
+          <Text
+            style={styles.signature}
+          >
+            {
+              t[
+                "luna_astralis"
+              ]
+            }
           </Text>
         </View>
 
@@ -1062,15 +1108,19 @@ export default function PdfSignatureCover({
               style={styles.iconCircle}
             >
               <Image
-                src={PLANET_ICONS.Sun}
+                src={
+                  PLANET_ICONS.Sun
+                }
                 style={styles.icon}
               />
             </View>
 
             <Text
-              style={styles.pillarTitle}
+              style={
+                styles.pillarTitle
+              }
             >
-              Soleil
+              {t["soleil"]}
             </Text>
 
             <Text
@@ -1078,7 +1128,11 @@ export default function PdfSignatureCover({
                 styles.pillarDescription
               }
             >
-              Votre identité profonde
+              {
+                t[
+                  "votre_identite_profonde"
+                ]
+              }
             </Text>
           </View>
 
@@ -1087,15 +1141,19 @@ export default function PdfSignatureCover({
               style={styles.iconCircle}
             >
               <Image
-                src={PLANET_ICONS.Moon}
+                src={
+                  PLANET_ICONS.Moon
+                }
                 style={styles.icon}
               />
             </View>
 
             <Text
-              style={styles.pillarTitle}
+              style={
+                styles.pillarTitle
+              }
             >
-              Lune
+              {t["lune"]}
             </Text>
 
             <Text
@@ -1103,7 +1161,11 @@ export default function PdfSignatureCover({
                 styles.pillarDescription
               }
             >
-              Votre monde émotionnel
+              {
+                t[
+                  "votre_monde_emotionnel"
+                ]
+              }
             </Text>
           </View>
 
@@ -1118,9 +1180,11 @@ export default function PdfSignatureCover({
             </View>
 
             <Text
-              style={styles.pillarTitle}
+              style={
+                styles.pillarTitle
+              }
             >
-              Ascendant
+              {t["ascendant"]}
             </Text>
 
             <Text
@@ -1128,7 +1192,11 @@ export default function PdfSignatureCover({
                 styles.pillarDescription
               }
             >
-              Votre présence naturelle
+              {
+                t[
+                  "votre_presence_naturelle"
+                ]
+              }
             </Text>
           </View>
         </View>
@@ -1138,7 +1206,9 @@ export default function PdfSignatureCover({
           wrap={false}
         >
           <View
-            style={styles.introAccentTop}
+            style={
+              styles.introAccentTop
+            }
           />
 
           <View
@@ -1147,33 +1217,53 @@ export default function PdfSignatureCover({
             }
           />
 
-          <View style={styles.introHeader}>
+          <View
+            style={styles.introHeader}
+          >
             <Text
               style={styles.introKicker}
             >
-              Votre exploration Signature
+              {
+                t[
+                  "votre_exploration_signature"
+                ]
+              }
             </Text>
 
             <Text
               style={styles.introTitle}
             >
-              L’analyse la plus complète de votre thème natal
+              {
+                t[
+                  "l_analyse_la_plus_complete_de_votre_theme_natal"
+                ]
+              }
             </Text>
 
             <View
-              style={styles.introOrnament}
+              style={
+                styles.introOrnament
+              }
             >
               <View
-                style={styles.ornamentLine}
+                style={
+                  styles.ornamentLine
+                }
               />
 
               <Image
-                src={PLANET_ICONS.Moon}
-                style={styles.dividerMoon}
+                src={
+                  PLANET_ICONS.Moon
+                }
+                style={
+                  styles.dividerMoon
+                }
               />
 
               <View
-                style={styles.ornamentLine}
+                style={
+                  styles.ornamentLine
+                }
               />
             </View>
           </View>
@@ -1183,41 +1273,54 @@ export default function PdfSignatureCover({
           />
 
           <Text
-            style={styles.introParagraph}
+            style={
+              styles.introParagraph
+            }
           >
-            Chaque être humain naît sous un ciel unique. Les positions
-            des planètes, des angles et des maisons au moment précis de
-            votre naissance forment une signature céleste qui vous
-            appartient.
+            {
+              t[
+                "chaque_etre_humain_nait_sous_un_ciel_unique_les_positions_de"
+              ]
+            }
           </Text>
-<Text
-  style={styles.introParagraph}
->
-  Ce rapport Signature vous propose la lecture la plus complète
-  de votre thème natal. Il explore les liens entre vos planètes,
-  vos maisons, vos aspects et les grandes dynamiques qui
-  accompagnent votre évolution.
-</Text>
 
-<Text
-  style={styles.introParagraph}
->
-  Vous découvrirez également comment les différentes
-  composantes de votre thème dialoguent entre elles. Les
-  planètes ne fonctionnent jamais seules : leurs signes,
-  leurs maisons et leurs aspects construisent ensemble une
-  histoire personnelle beaucoup plus nuancée.
-</Text>
           <Text
-            style={styles.introConclusion}
+            style={
+              styles.introParagraph
+            }
           >
-            Parcourez les pages suivantes avec ouverture et curiosité :
-            elles constituent une invitation à mieux comprendre votre
-            nature et à reconnaître pleinement votre potentiel.
+            {
+              t[
+                "ce_rapport_signature_vous_propose_la_lecture_la_plus_complet"
+              ]
+            }
+          </Text>
+
+          <Text
+            style={
+              styles.introParagraph
+            }
+          >
+            {
+              t[
+                "vous_decouvrirez_egalement_comment_les_differentes_composant"
+              ]
+            }
+          </Text>
+
+          <Text
+            style={
+              styles.introConclusion
+            }
+          >
+            {
+              t[
+                "parcourez_les_pages_suivantes_avec_ouverture_et_curiosite_el"
+              ]
+            }
           </Text>
         </View>
       </View>
-
-          </Page>
+    </Page>
   );
 }
