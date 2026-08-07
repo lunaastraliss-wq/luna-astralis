@@ -37,8 +37,14 @@ const SITE_URL =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-horoscope-annee.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-horoscope-annee.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-horoscope-annee.png",
+  en: "/reports/cover-yearly-horoscope.png",
+  es: "/reports/portada-horoscopo-anual.png",
+  de: "/reports/titelseite-jahreshoroskop.png",
+  it: "/reports/copertina-oroscopo-annuale.png",
+  pt: "/reports/capa-horoscopo-anual.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,6 +93,9 @@ export function generateMetadata({
     HOROSCOPE_YEARLY_TRANSLATIONS[
       locale
     ];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/annee`;
@@ -148,7 +157,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -173,7 +182,7 @@ export function generateMetadata({
         text.metadata.twitterDescription,
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -209,6 +218,9 @@ export default function HoroscopePremiumAnneePage({
       locale
     ];
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/annee`;
 
@@ -238,7 +250,7 @@ export default function HoroscopePremiumAnneePage({
       text.metadata.description,
 
     image:
-      `${SITE_URL}${REPORT_COVER_URL}`,
+      `${SITE_URL}${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -357,7 +369,7 @@ export default function HoroscopePremiumAnneePage({
           <aside className="horoscope-daily-offer">
             <div className="horoscope-daily-cover">
               <Image
-                src={REPORT_COVER_URL}
+                src={reportCoverUrl}
                 alt={text.hero.coverAlt}
                 width={566}
                 height={800}
