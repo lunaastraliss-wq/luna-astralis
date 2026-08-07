@@ -377,6 +377,27 @@ const DISPLAY_PROPERTY_NAMES =
     "evolution",
   ]);
 
+/*
+|--------------------------------------------------------------------------
+| Constantes explicitement destinées à l'affichage
+|--------------------------------------------------------------------------
+|
+| Ces objets contiennent des valeurs visibles dans le PDF.
+| Leurs clés restent intactes; seules les valeurs peuvent être localisées.
+|
+| IMPORTANT :
+| SIGN_KEYS et SIGNS_FROM_LONGITUDE ne sont volontairement PAS inclus ici,
+| car ils servent à la logique et aux correspondances astrologiques.
+|
+*/
+
+const DISPLAY_VARIABLE_NAMES =
+  new Set([
+    "PLANET_FR",
+    "PLANET_MEANINGS",
+    "SIGN_NAMES_FR",
+  ]);
+
 const TECHNICAL_TYPE_PATTERN =
   /\b(?:PlanetName|ZodiacSign|AspectType|PeriodCategory|Locale|Tone|Status|Kind|Mode|Id|Key|Code)\b/i;
 
@@ -426,6 +447,28 @@ function getNearestVariableDeclaration(
   }
 
   return null;
+}
+
+function isInsideDisplayVariable(
+  node: ts.Node,
+): boolean {
+  const declaration =
+    getNearestVariableDeclaration(
+      node,
+    );
+
+  if (
+    !declaration ||
+    !ts.isIdentifier(
+      declaration.name,
+    )
+  ) {
+    return false;
+  }
+
+  return DISPLAY_VARIABLE_NAMES.has(
+    declaration.name.text,
+  );
 }
 
 function getNearestPropertyAssignment(
@@ -779,6 +822,25 @@ function isSafeTranslatableStringNode(
       return false;
     }
 
+    return true;
+  }
+
+  /*
+   * Dictionnaires explicitement destinés à l'affichage.
+   *
+   * Exemples :
+   * PLANET_FR
+   * PLANET_MEANINGS
+   * SIGN_NAMES_FR
+   *
+   * Les clés techniques ne sont jamais modifiées; seules les valeurs
+   * trouvées dans le plan i18n peuvent être remplacées par __i18n[...].
+   */
+  if (
+    isInsideDisplayVariable(
+      node,
+    )
+  ) {
     return true;
   }
 
