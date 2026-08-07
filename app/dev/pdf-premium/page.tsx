@@ -6,6 +6,7 @@ const PdfPremiumViewer = dynamic(
   () => import("./PdfPremiumViewer"),
   {
     ssr: false,
+
     loading: () => (
       <main
         style={{
@@ -22,7 +23,7 @@ const PdfPremiumViewer = dynamic(
         Génération du rapport Premium...
       </main>
     ),
-  }
+  },
 );
 
 export default function PdfPremiumDevPage() {
