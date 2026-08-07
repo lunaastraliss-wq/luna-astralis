@@ -7,7 +7,14 @@ import {
 } from "@react-pdf/renderer";
 
 import { pdfStyles } from "./SignaturePdfStyles";
-import type { SignaturePdfProps } from "./SignaturePdfTypes";
+
+import type {
+  SignaturePdfProps,
+} from "./SignaturePdfTypes";
+
+import {
+  getSignatureWheelDictionary,
+} from "./SignaturePdfI18n";
 
 import PdfSignatureBrandHeader from "./PdfSignatureBrandHeader";
 
@@ -240,7 +247,7 @@ const styles = StyleSheet.create({
 
 function displayValue(
   value: string | undefined,
-  fallback = "Non précisé"
+  fallback: string
 ): string {
   const cleanValue =
     typeof value === "string"
@@ -251,12 +258,26 @@ function displayValue(
 }
 
 export default function PdfSignatureWheel({
+  locale = "fr",
   firstName,
   birthDate,
   birthTime,
   birthCity,
   wheelImage,
 }: SignaturePdfProps) {
+  const t =
+    getSignatureWheelDictionary(
+      locale
+    );
+
+  const missingValue =
+    t["non_precise"] ||
+    "Non précisé";
+
+  const defaultName =
+    t["votre_nom"] ||
+    "Votre nom";
+
   const safeWheelImage =
     typeof wheelImage === "string" &&
     wheelImage.trim().length > 0
@@ -267,39 +288,74 @@ export default function PdfSignatureWheel({
     <Page
       size="A4"
       style={pdfStyles.page}
-      wrap={false}
     >
       <PdfSignatureBrandHeader />
 
       <View style={styles.pageContent}>
         <View style={styles.titleSection}>
-          <View style={styles.signatureBadge}>
-            <Text style={styles.signatureBadgeText}>
-              Lecture Signature
+          <View
+            style={styles.signatureBadge}
+          >
+            <Text
+              style={
+                styles.signatureBadgeText
+              }
+            >
+              {
+                t[
+                  "lecture_signature"
+                ]
+              }
             </Text>
           </View>
 
           <Text style={styles.eyebrow}>
-            La structure de votre thème natal
+            {
+              t[
+                "la_structure_de_votre_theme_natal"
+              ]
+            }
           </Text>
 
           <Text style={styles.title}>
-            Votre roue astrologique
+            {
+              t[
+                "votre_roue_astrologique"
+              ]
+            }
           </Text>
 
-          <View style={styles.titleLine} />
+          <View
+            style={styles.titleLine}
+          />
 
           <Text style={styles.intro}>
-            La configuration du ciel au moment précis de votre naissance :
-            planètes, signes, maisons, angles et principaux aspects qui
-            serviront de fondement à votre analyse Signature.
+            {
+              t[
+                "la_configuration_du_ciel_au_moment_precis_de_votre_naissance"
+              ]
+            }
           </Text>
         </View>
 
         <View style={styles.wheelFrame}>
-          <View style={styles.wheelFrameInner} />
-          <View style={styles.wheelAccentTop} />
-          <View style={styles.wheelAccentBottom} />
+          <View
+            style={
+              styles.wheelFrameInner
+            }
+          />
+
+          <View
+            style={
+              styles.wheelAccentTop
+            }
+          />
+
+          <View
+            style={
+              styles.wheelAccentBottom
+            }
+          />
 
           {safeWheelImage ? (
             <Image
@@ -307,75 +363,154 @@ export default function PdfSignatureWheel({
               style={styles.wheelImage}
             />
           ) : (
-            <View style={styles.wheelMissing}>
-              <Text style={styles.wheelMissingSymbol}>
+            <View
+              style={styles.wheelMissing}
+            >
+              <Text
+                style={
+                  styles.wheelMissingSymbol
+                }
+              >
                 ✦
               </Text>
 
-              <Text style={styles.wheelMissingTitle}>
-                Roue astrologique indisponible
+              <Text
+                style={
+                  styles.wheelMissingTitle
+                }
+              >
+                {
+                  t[
+                    "roue_astrologique_indisponible"
+                  ]
+                }
               </Text>
 
-              <Text style={styles.wheelMissingText}>
-                L’image de la roue n’a pas été transmise au document.
-                Les interprétations Signature demeurent disponibles dans
-                les pages suivantes.
+              <Text
+                style={
+                  styles.wheelMissingText
+                }
+              >
+                {
+                  t[
+                    "l_image_de_la_roue_n_a_pas_ete_transmise_au_document_les_int"
+                  ]
+                }
               </Text>
             </View>
           )}
         </View>
 
-        <View style={styles.identityCard}>
-          <View style={styles.identityAccentLeft} />
-          <View style={styles.identityAccentRight} />
+        <View
+          style={styles.identityCard}
+        >
+          <View
+            style={
+              styles.identityAccentLeft
+            }
+          />
 
-          <Text style={styles.preparedFor}>
-            Carte du ciel Signature préparée pour
+          <View
+            style={
+              styles.identityAccentRight
+            }
+          />
+
+          <Text
+            style={styles.preparedFor}
+          >
+            {
+              t[
+                "carte_du_ciel_signature_preparee_pour"
+              ]
+            }
           </Text>
 
-          <Text style={styles.clientName}>
+          <Text
+            style={styles.clientName}
+          >
             {displayValue(
               firstName,
-              "Votre nom"
+              defaultName
             )}
           </Text>
 
-          <View style={styles.infoDivider} />
+          <View
+            style={styles.infoDivider}
+          />
 
           <View style={styles.infoRow}>
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Date de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {
+                  t[
+                    "date_de_naissance"
+                  ]
+                }
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthDate)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthDate,
+                  missingValue
+                )}
               </Text>
             </View>
 
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Heure de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {
+                  t[
+                    "heure_de_naissance"
+                  ]
+                }
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthTime)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthTime,
+                  missingValue
+                )}
               </Text>
             </View>
 
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Lieu de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {
+                  t[
+                    "lieu_de_naissance"
+                  ]
+                }
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthCity)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthCity,
+                  missingValue
+                )}
               </Text>
             </View>
           </View>
         </View>
       </View>
-
-          </Page>
+    </Page>
   );
 }
