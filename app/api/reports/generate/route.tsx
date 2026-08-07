@@ -21,54 +21,207 @@ import tzlookup from "tz-lookup";
 
 /*
 |--------------------------------------------------------------------------
-| Documents PDF — cartes du ciel
+| PDF payants localisés — générés automatiquement avant next build
 |--------------------------------------------------------------------------
 */
 
-import EssentialPdfDocument
-  from "@/components/EssentialPdf/EssentialPdfDocument";
+import EssentialPdfDocumentFr
+  from "@/paid-pdf-generated/fr/EssentialPdf/EssentialPdfDocument";
 
-import PremiumPdfDocument
-  from "@/components/PremiumPdf/PremiumPdfDocument";
+import PremiumPdfDocumentFr
+  from "@/paid-pdf-generated/fr/PremiumPdf/PremiumPdfDocument";
 
-import SignaturePdfDocument
-  from "@/components/SignaturePdf/SignaturePdfDocument";
+import SignaturePdfDocumentFr
+  from "@/paid-pdf-generated/fr/SignaturePdf/SignaturePdfDocument";
 
-import CompatibilityPdfDocument
-  from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
+import CompatibilityPdfDocumentFr
+  from "@/paid-pdf-generated/fr/CompatibilityPdf/CompatibilityPdfDocument";
 
-/*
-|--------------------------------------------------------------------------
-| Documents PDF — horoscopes
-|--------------------------------------------------------------------------
-*/
+import HoroscopePdfDocumentFr
+  from "@/paid-pdf-generated/fr/HoroscopePdf/HoroscopePdf";
 
-import HoroscopePdfDocument
-  from "@/components/HoroscopePdf/HoroscopePdf";
+import HoroscopeMonthPdfFr
+  from "@/paid-pdf-generated/fr/HoroscopePdf/HoroscopeMonthPdf";
 
-import HoroscopeMonthPdf
-  from "@/components/HoroscopePdf/HoroscopeMonthPdf";
-
-import HoroscopeYearPdf
-  from "@/components/HoroscopePdf/HoroscopeYearPdf";
-
-/*
-|--------------------------------------------------------------------------
-| Générateurs — horoscopes
-|--------------------------------------------------------------------------
-*/
+import HoroscopeYearPdfFr
+  from "@/paid-pdf-generated/fr/HoroscopePdf/HoroscopeYearPdf";
 
 import {
-  buildPremiumDailyHoroscope,
-} from "@/components/HoroscopePdf/buildPremiumDailyHoroscope";
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopeFr,
+} from "@/paid-pdf-generated/fr/HoroscopePdf/buildPremiumDailyHoroscope";
 
 import {
-  buildMonthlyHoroscope,
-} from "@/components/HoroscopePdf/buildMonthlyHoroscope";
+  buildMonthlyHoroscope as buildMonthlyHoroscopeFr,
+} from "@/paid-pdf-generated/fr/HoroscopePdf/buildMonthlyHoroscope";
 
 import {
-  buildYearlyHoroscope,
-} from "@/components/HoroscopePdf/buildYearlyHoroscope";
+  buildYearlyHoroscope as buildYearlyHoroscopeFr,
+} from "@/paid-pdf-generated/fr/HoroscopePdf/buildYearlyHoroscope";
+
+import EssentialPdfDocumentEn
+  from "@/paid-pdf-generated/en/EssentialPdf/EssentialPdfDocument";
+
+import PremiumPdfDocumentEn
+  from "@/paid-pdf-generated/en/PremiumPdf/PremiumPdfDocument";
+
+import SignaturePdfDocumentEn
+  from "@/paid-pdf-generated/en/SignaturePdf/SignaturePdfDocument";
+
+import CompatibilityPdfDocumentEn
+  from "@/paid-pdf-generated/en/CompatibilityPdf/CompatibilityPdfDocument";
+
+import HoroscopePdfDocumentEn
+  from "@/paid-pdf-generated/en/HoroscopePdf/HoroscopePdf";
+
+import HoroscopeMonthPdfEn
+  from "@/paid-pdf-generated/en/HoroscopePdf/HoroscopeMonthPdf";
+
+import HoroscopeYearPdfEn
+  from "@/paid-pdf-generated/en/HoroscopePdf/HoroscopeYearPdf";
+
+import {
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopeEn,
+} from "@/paid-pdf-generated/en/HoroscopePdf/buildPremiumDailyHoroscope";
+
+import {
+  buildMonthlyHoroscope as buildMonthlyHoroscopeEn,
+} from "@/paid-pdf-generated/en/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope as buildYearlyHoroscopeEn,
+} from "@/paid-pdf-generated/en/HoroscopePdf/buildYearlyHoroscope";
+
+import EssentialPdfDocumentEs
+  from "@/paid-pdf-generated/es/EssentialPdf/EssentialPdfDocument";
+
+import PremiumPdfDocumentEs
+  from "@/paid-pdf-generated/es/PremiumPdf/PremiumPdfDocument";
+
+import SignaturePdfDocumentEs
+  from "@/paid-pdf-generated/es/SignaturePdf/SignaturePdfDocument";
+
+import CompatibilityPdfDocumentEs
+  from "@/paid-pdf-generated/es/CompatibilityPdf/CompatibilityPdfDocument";
+
+import HoroscopePdfDocumentEs
+  from "@/paid-pdf-generated/es/HoroscopePdf/HoroscopePdf";
+
+import HoroscopeMonthPdfEs
+  from "@/paid-pdf-generated/es/HoroscopePdf/HoroscopeMonthPdf";
+
+import HoroscopeYearPdfEs
+  from "@/paid-pdf-generated/es/HoroscopePdf/HoroscopeYearPdf";
+
+import {
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopeEs,
+} from "@/paid-pdf-generated/es/HoroscopePdf/buildPremiumDailyHoroscope";
+
+import {
+  buildMonthlyHoroscope as buildMonthlyHoroscopeEs,
+} from "@/paid-pdf-generated/es/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope as buildYearlyHoroscopeEs,
+} from "@/paid-pdf-generated/es/HoroscopePdf/buildYearlyHoroscope";
+
+import EssentialPdfDocumentDe
+  from "@/paid-pdf-generated/de/EssentialPdf/EssentialPdfDocument";
+
+import PremiumPdfDocumentDe
+  from "@/paid-pdf-generated/de/PremiumPdf/PremiumPdfDocument";
+
+import SignaturePdfDocumentDe
+  from "@/paid-pdf-generated/de/SignaturePdf/SignaturePdfDocument";
+
+import CompatibilityPdfDocumentDe
+  from "@/paid-pdf-generated/de/CompatibilityPdf/CompatibilityPdfDocument";
+
+import HoroscopePdfDocumentDe
+  from "@/paid-pdf-generated/de/HoroscopePdf/HoroscopePdf";
+
+import HoroscopeMonthPdfDe
+  from "@/paid-pdf-generated/de/HoroscopePdf/HoroscopeMonthPdf";
+
+import HoroscopeYearPdfDe
+  from "@/paid-pdf-generated/de/HoroscopePdf/HoroscopeYearPdf";
+
+import {
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopeDe,
+} from "@/paid-pdf-generated/de/HoroscopePdf/buildPremiumDailyHoroscope";
+
+import {
+  buildMonthlyHoroscope as buildMonthlyHoroscopeDe,
+} from "@/paid-pdf-generated/de/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope as buildYearlyHoroscopeDe,
+} from "@/paid-pdf-generated/de/HoroscopePdf/buildYearlyHoroscope";
+
+import EssentialPdfDocumentIt
+  from "@/paid-pdf-generated/it/EssentialPdf/EssentialPdfDocument";
+
+import PremiumPdfDocumentIt
+  from "@/paid-pdf-generated/it/PremiumPdf/PremiumPdfDocument";
+
+import SignaturePdfDocumentIt
+  from "@/paid-pdf-generated/it/SignaturePdf/SignaturePdfDocument";
+
+import CompatibilityPdfDocumentIt
+  from "@/paid-pdf-generated/it/CompatibilityPdf/CompatibilityPdfDocument";
+
+import HoroscopePdfDocumentIt
+  from "@/paid-pdf-generated/it/HoroscopePdf/HoroscopePdf";
+
+import HoroscopeMonthPdfIt
+  from "@/paid-pdf-generated/it/HoroscopePdf/HoroscopeMonthPdf";
+
+import HoroscopeYearPdfIt
+  from "@/paid-pdf-generated/it/HoroscopePdf/HoroscopeYearPdf";
+
+import {
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopeIt,
+} from "@/paid-pdf-generated/it/HoroscopePdf/buildPremiumDailyHoroscope";
+
+import {
+  buildMonthlyHoroscope as buildMonthlyHoroscopeIt,
+} from "@/paid-pdf-generated/it/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope as buildYearlyHoroscopeIt,
+} from "@/paid-pdf-generated/it/HoroscopePdf/buildYearlyHoroscope";
+
+import EssentialPdfDocumentPt
+  from "@/paid-pdf-generated/pt/EssentialPdf/EssentialPdfDocument";
+
+import PremiumPdfDocumentPt
+  from "@/paid-pdf-generated/pt/PremiumPdf/PremiumPdfDocument";
+
+import SignaturePdfDocumentPt
+  from "@/paid-pdf-generated/pt/SignaturePdf/SignaturePdfDocument";
+
+import CompatibilityPdfDocumentPt
+  from "@/paid-pdf-generated/pt/CompatibilityPdf/CompatibilityPdfDocument";
+
+import HoroscopePdfDocumentPt
+  from "@/paid-pdf-generated/pt/HoroscopePdf/HoroscopePdf";
+
+import HoroscopeMonthPdfPt
+  from "@/paid-pdf-generated/pt/HoroscopePdf/HoroscopeMonthPdf";
+
+import HoroscopeYearPdfPt
+  from "@/paid-pdf-generated/pt/HoroscopePdf/HoroscopeYearPdf";
+
+import {
+  buildPremiumDailyHoroscope as buildPremiumDailyHoroscopePt,
+} from "@/paid-pdf-generated/pt/HoroscopePdf/buildPremiumDailyHoroscope";
+
+import {
+  buildMonthlyHoroscope as buildMonthlyHoroscopePt,
+} from "@/paid-pdf-generated/pt/HoroscopePdf/buildMonthlyHoroscope";
+
+import {
+  buildYearlyHoroscope as buildYearlyHoroscopePt,
+} from "@/paid-pdf-generated/pt/HoroscopePdf/buildYearlyHoroscope";
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +250,315 @@ import {
 import type {
   CompatibilityPerson,
 } from "@/components/CompatibilityPdf/CompatibilityPdfTypes";
+
+
+/*
+|--------------------------------------------------------------------------
+| Langue du rapport
+|--------------------------------------------------------------------------
+*/
+
+type ReportLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+const REPORT_LOCALES =
+  new Set<ReportLocale>([
+    "fr",
+    "en",
+    "es",
+    "de",
+    "it",
+    "pt",
+  ]);
+
+function normalizeReportLocale(
+  value: unknown,
+): ReportLocale | null {
+  const raw =
+    value == null
+      ? ""
+      : String(value)
+          .trim()
+          .toLowerCase()
+          .replace("_", "-");
+
+  if (!raw) {
+    return null;
+  }
+
+  const base =
+    raw.split("-")[0];
+
+  if (
+    REPORT_LOCALES.has(
+      base as ReportLocale,
+    )
+  ) {
+    return base as ReportLocale;
+  }
+
+  return null;
+}
+
+function resolveReportLocale(
+  order: any,
+  birthData: any,
+  body: any,
+): ReportLocale {
+  const candidates = [
+    order?.locale,
+    order?.language,
+    order?.lang,
+    order?.report_locale,
+    order?.report_language,
+
+    birthData?.locale,
+    birthData?.language,
+    birthData?.lang,
+    birthData?.reportLocale,
+    birthData?.report_locale,
+
+    body?.locale,
+    body?.language,
+    body?.lang,
+  ];
+
+  for (
+    const candidate of candidates
+  ) {
+    const locale =
+      normalizeReportLocale(
+        candidate,
+      );
+
+    if (locale) {
+      return locale;
+    }
+  }
+
+  return "fr";
+}
+
+type PdfComponent =
+  React.ComponentType<any>;
+
+type DailyBuilder =
+  (options: any) => any;
+
+type MonthlyBuilder =
+  (options: any) => any;
+
+type YearlyBuilder =
+  (options: any) => any;
+
+const ESSENTIAL_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: EssentialPdfDocumentFr,
+    en: EssentialPdfDocumentEn,
+    es: EssentialPdfDocumentEs,
+    de: EssentialPdfDocumentDe,
+    it: EssentialPdfDocumentIt,
+    pt: EssentialPdfDocumentPt,
+  };
+
+const PREMIUM_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: PremiumPdfDocumentFr,
+    en: PremiumPdfDocumentEn,
+    es: PremiumPdfDocumentEs,
+    de: PremiumPdfDocumentDe,
+    it: PremiumPdfDocumentIt,
+    pt: PremiumPdfDocumentPt,
+  };
+
+const SIGNATURE_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: SignaturePdfDocumentFr,
+    en: SignaturePdfDocumentEn,
+    es: SignaturePdfDocumentEs,
+    de: SignaturePdfDocumentDe,
+    it: SignaturePdfDocumentIt,
+    pt: SignaturePdfDocumentPt,
+  };
+
+const COMPATIBILITY_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: CompatibilityPdfDocumentFr,
+    en: CompatibilityPdfDocumentEn,
+    es: CompatibilityPdfDocumentEs,
+    de: CompatibilityPdfDocumentDe,
+    it: CompatibilityPdfDocumentIt,
+    pt: CompatibilityPdfDocumentPt,
+  };
+
+const DAILY_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: HoroscopePdfDocumentFr,
+    en: HoroscopePdfDocumentEn,
+    es: HoroscopePdfDocumentEs,
+    de: HoroscopePdfDocumentDe,
+    it: HoroscopePdfDocumentIt,
+    pt: HoroscopePdfDocumentPt,
+  };
+
+const MONTHLY_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: HoroscopeMonthPdfFr,
+    en: HoroscopeMonthPdfEn,
+    es: HoroscopeMonthPdfEs,
+    de: HoroscopeMonthPdfDe,
+    it: HoroscopeMonthPdfIt,
+    pt: HoroscopeMonthPdfPt,
+  };
+
+const YEARLY_PDF_DOCUMENTS:
+  Record<ReportLocale, PdfComponent> = {
+    fr: HoroscopeYearPdfFr,
+    en: HoroscopeYearPdfEn,
+    es: HoroscopeYearPdfEs,
+    de: HoroscopeYearPdfDe,
+    it: HoroscopeYearPdfIt,
+    pt: HoroscopeYearPdfPt,
+  };
+
+const DAILY_BUILDERS:
+  Record<ReportLocale, DailyBuilder> = {
+    fr: buildPremiumDailyHoroscopeFr,
+    en: buildPremiumDailyHoroscopeEn,
+    es: buildPremiumDailyHoroscopeEs,
+    de: buildPremiumDailyHoroscopeDe,
+    it: buildPremiumDailyHoroscopeIt,
+    pt: buildPremiumDailyHoroscopePt,
+  };
+
+const MONTHLY_BUILDERS:
+  Record<ReportLocale, MonthlyBuilder> = {
+    fr: buildMonthlyHoroscopeFr,
+    en: buildMonthlyHoroscopeEn,
+    es: buildMonthlyHoroscopeEs,
+    de: buildMonthlyHoroscopeDe,
+    it: buildMonthlyHoroscopeIt,
+    pt: buildMonthlyHoroscopePt,
+  };
+
+const YEARLY_BUILDERS:
+  Record<ReportLocale, YearlyBuilder> = {
+    fr: buildYearlyHoroscopeFr,
+    en: buildYearlyHoroscopeEn,
+    es: buildYearlyHoroscopeEs,
+    de: buildYearlyHoroscopeDe,
+    it: buildYearlyHoroscopeIt,
+    pt: buildYearlyHoroscopePt,
+  };
+
+const ZODIAC_LABELS:
+  Record<
+    ReportLocale,
+    Record<
+      HoroscopeZodiacSign,
+      string
+    >
+  > = {
+    fr: {
+      belier: "Bélier",
+      taureau: "Taureau",
+      gemeaux: "Gémeaux",
+      cancer: "Cancer",
+      lion: "Lion",
+      vierge: "Vierge",
+      balance: "Balance",
+      scorpion: "Scorpion",
+      sagittaire: "Sagittaire",
+      capricorne: "Capricorne",
+      verseau: "Verseau",
+      poissons: "Poissons",
+    },
+    en: {
+      belier: "Aries",
+      taureau: "Taurus",
+      gemeaux: "Gemini",
+      cancer: "Cancer",
+      lion: "Leo",
+      vierge: "Virgo",
+      balance: "Libra",
+      scorpion: "Scorpio",
+      sagittaire: "Sagittarius",
+      capricorne: "Capricorn",
+      verseau: "Aquarius",
+      poissons: "Pisces",
+    },
+    es: {
+      belier: "Aries",
+      taureau: "Tauro",
+      gemeaux: "Géminis",
+      cancer: "Cáncer",
+      lion: "Leo",
+      vierge: "Virgo",
+      balance: "Libra",
+      scorpion: "Escorpio",
+      sagittaire: "Sagitario",
+      capricorne: "Capricornio",
+      verseau: "Acuario",
+      poissons: "Piscis",
+    },
+    de: {
+      belier: "Widder",
+      taureau: "Stier",
+      gemeaux: "Zwillinge",
+      cancer: "Krebs",
+      lion: "Löwe",
+      vierge: "Jungfrau",
+      balance: "Waage",
+      scorpion: "Skorpion",
+      sagittaire: "Schütze",
+      capricorne: "Steinbock",
+      verseau: "Wassermann",
+      poissons: "Fische",
+    },
+    it: {
+      belier: "Ariete",
+      taureau: "Toro",
+      gemeaux: "Gemelli",
+      cancer: "Cancro",
+      lion: "Leone",
+      vierge: "Vergine",
+      balance: "Bilancia",
+      scorpion: "Scorpione",
+      sagittaire: "Sagittario",
+      capricorne: "Capricorno",
+      verseau: "Acquario",
+      poissons: "Pesci",
+    },
+    pt: {
+      belier: "Áries",
+      taureau: "Touro",
+      gemeaux: "Gêmeos",
+      cancer: "Câncer",
+      lion: "Leão",
+      vierge: "Virgem",
+      balance: "Libra",
+      scorpion: "Escorpião",
+      sagittaire: "Sagitário",
+      capricorne: "Capricórnio",
+      verseau: "Aquário",
+      poissons: "Peixes",
+    },
+  };
+
+function getLocalizedZodiacLabel(
+  sign: HoroscopeZodiacSign,
+  locale: ReportLocale,
+): string {
+  return (
+    ZODIAC_LABELS[locale][sign] ||
+    ZODIAC_LABELS.fr[sign]
+  );
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -275,6 +737,7 @@ function resolveZodiacSign(
   planets: any[],
   birthData: any,
   order: any,
+  locale: ReportLocale,
 ): NormalizedZodiac {
   const sunPlanet =
     Array.isArray(planets)
@@ -348,7 +811,16 @@ function resolveZodiacSign(
       ];
 
     if (zodiac) {
-      return zodiac;
+      return {
+        key:
+          zodiac.key,
+
+        label:
+          getLocalizedZodiacLabel(
+            zodiac.key,
+            locale,
+          ),
+      };
     }
   }
 
@@ -363,9 +835,10 @@ function resolveZodiacSign(
         zodiacFromLongitude,
 
       label:
-        ZODIAC_SIGNS[
-          zodiacFromLongitude
-        ].label,
+        getLocalizedZodiacLabel(
+          zodiacFromLongitude,
+          locale,
+        ),
     };
   }
 
@@ -1407,6 +1880,13 @@ export async function POST(
           "essential",
       ).toLowerCase();
 
+    const locale =
+      resolveReportLocale(
+        order,
+        birthData,
+        body,
+      );
+
     let pdfDocument:
       React.ReactElement;
 
@@ -1575,12 +2055,18 @@ export async function POST(
         },
       );
 
+      const CompatibilityDocument =
+        COMPATIBILITY_PDF_DOCUMENTS[
+          locale
+        ];
+
       pdfDocument =
         React.createElement(
-          CompatibilityPdfDocument,
+          CompatibilityDocument,
           {
             person1,
             person2,
+            locale,
           },
         );
     } else {
@@ -1602,6 +2088,8 @@ export async function POST(
         );
 
       const commonProps = {
+        locale,
+
         firstName:
           chart.firstName,
 
@@ -1676,13 +2164,24 @@ export async function POST(
       ) {
         const zodiac =
           resolveZodiacSign(
-            chart.planets,
-            birthData,
-            order,
-          );
+              chart.planets,
+              birthData,
+              order,
+              locale,
+            );
+
+        const buildDailyHoroscope =
+          DAILY_BUILDERS[
+            locale
+          ];
+
+        const DailyPdfDocument =
+          DAILY_PDF_DOCUMENTS[
+            locale
+          ];
 
         const horoscopeData =
-          buildPremiumDailyHoroscope({
+          buildDailyHoroscope({
             firstName:
               chart.firstName,
 
@@ -1747,9 +2246,11 @@ export async function POST(
 
         pdfDocument =
           React.createElement(
-            HoroscopePdfDocument,
+            DailyPdfDocument,
             {
               ...horoscopeData,
+
+              locale,
 
               logoUrl:
                 HOROSCOPE_LOGO_URL,
@@ -1769,10 +2270,11 @@ export async function POST(
       ) {
         const zodiac =
           resolveZodiacSign(
-            chart.planets,
-            birthData,
-            order,
-          );
+              chart.planets,
+              birthData,
+              order,
+              locale,
+            );
 
         const isoMonth =
           getMonthlyReportIsoMonth(
@@ -1780,8 +2282,18 @@ export async function POST(
             birthData,
           );
 
+        const buildMonthHoroscope =
+          MONTHLY_BUILDERS[
+            locale
+          ];
+
+        const MonthPdfDocument =
+          MONTHLY_PDF_DOCUMENTS[
+            locale
+          ];
+
         const horoscopeData =
-          buildMonthlyHoroscope({
+          buildMonthHoroscope({
             firstName:
               chart.firstName,
 
@@ -1849,9 +2361,11 @@ export async function POST(
 
         pdfDocument =
           React.createElement(
-            HoroscopeMonthPdf,
+            MonthPdfDocument,
             {
               ...horoscopeData,
+
+              locale,
 
               logoUrl:
                 HOROSCOPE_LOGO_URL,
@@ -1871,10 +2385,11 @@ export async function POST(
       ) {
         const zodiac =
           resolveZodiacSign(
-            chart.planets,
-            birthData,
-            order,
-          );
+              chart.planets,
+              birthData,
+              order,
+              locale,
+            );
 
         const reportYear =
           getYearlyReportYear(
@@ -1882,8 +2397,18 @@ export async function POST(
             birthData,
           );
 
+        const buildYearHoroscope =
+          YEARLY_BUILDERS[
+            locale
+          ];
+
+        const YearPdfDocument =
+          YEARLY_PDF_DOCUMENTS[
+            locale
+          ];
+
         const horoscopeData =
-          buildYearlyHoroscope({
+          buildYearHoroscope({
             firstName:
               chart.firstName,
 
@@ -1933,9 +2458,11 @@ export async function POST(
 
         pdfDocument =
           React.createElement(
-            HoroscopeYearPdf,
+            YearPdfDocument,
             {
               ...horoscopeData,
+
+              locale,
             },
           );
       }
@@ -1950,9 +2477,14 @@ export async function POST(
         productType ===
         "signature"
       ) {
+        const SignatureDocument =
+          SIGNATURE_PDF_DOCUMENTS[
+            locale
+          ];
+
         pdfDocument =
           React.createElement(
-            SignaturePdfDocument,
+            SignatureDocument,
             commonProps,
           );
       }
@@ -1967,9 +2499,14 @@ export async function POST(
         productType ===
         "premium"
       ) {
+        const PremiumDocument =
+          PREMIUM_PDF_DOCUMENTS[
+            locale
+          ];
+
         pdfDocument =
           React.createElement(
-            PremiumPdfDocument,
+            PremiumDocument,
             commonProps,
           );
       }
@@ -1984,9 +2521,14 @@ export async function POST(
         productType ===
         "essential"
       ) {
+        const EssentialDocument =
+          ESSENTIAL_PDF_DOCUMENTS[
+            locale
+          ];
+
         pdfDocument =
           React.createElement(
-            EssentialPdfDocument,
+            EssentialDocument,
             commonProps,
           );
       }
@@ -2029,6 +2571,8 @@ export async function POST(
 
       product_type:
         productType,
+
+      locale,
 
       pdf_path:
         filePath,
