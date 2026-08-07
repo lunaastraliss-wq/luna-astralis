@@ -4,24 +4,31 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run i18n:prepare && npm run i18n:paid-pdf && next build",
     "start": "next start",
+
     "i18n:audit": "tsx scripts/i18n-audit.ts",
     "i18n:generate": "tsx scripts/i18n-generate.ts",
     "i18n:prepare": "npm run i18n:audit && npm run i18n:generate",
+
     "i18n:migrate": "tsx scripts/i18n-migrate.ts",
     "i18n:migrate:write": "tsx scripts/i18n-migrate.ts --write",
+
     "i18n:translate": "tsx scripts/i18n-translate.ts",
     "i18n:translate:force": "tsx scripts/i18n-translate.ts --force",
+
     "i18n:translate:en": "tsx scripts/i18n-translate.ts --locale=en",
     "i18n:translate:es": "tsx scripts/i18n-translate.ts --locale=es",
     "i18n:translate:de": "tsx scripts/i18n-translate.ts --locale=de",
     "i18n:translate:it": "tsx scripts/i18n-translate.ts --locale=it",
     "i18n:translate:pt": "tsx scripts/i18n-translate.ts --locale=pt",
+
     "i18n:translate:lib": "tsx scripts/i18n-translate.ts --category=lib",
     "i18n:translate:component": "tsx scripts/i18n-translate.ts --category=component",
     "i18n:translate:pdf": "tsx scripts/i18n-translate.ts --category=pdf",
-    "i18n:translate:app": "tsx scripts/i18n-translate.ts --category=app"
+    "i18n:translate:app": "tsx scripts/i18n-translate.ts --category=app",
+
+    "i18n:paid-pdf": "tsx scripts/i18n-paid-pdf-build.ts"
   },
   "dependencies": {
     "@react-pdf/renderer": "^3.4.5",
