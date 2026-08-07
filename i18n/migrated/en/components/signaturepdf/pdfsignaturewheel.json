@@ -8,5 +8,7 @@
   "carte_du_ciel_signature_preparee_pour": "Birth chart Signature prepared for",
   "date_de_naissance": "Date of birth",
   "heure_de_naissance": "Time of Birth",
-  "lieu_de_naissance": "Place of birth"
+  "lieu_de_naissance": "Place of birth",
+  "votre_nom": "Your name",
+  "non_precise": "Not specified"
 }
