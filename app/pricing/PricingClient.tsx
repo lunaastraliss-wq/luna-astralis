@@ -179,12 +179,12 @@ export default function PricingClient({
       unlimited: "Accès illimité 24h/7",
       chooseYearly: "Choisir l’annuel",
       yearlyUnlimited: "Accès illimité annuel",
-      canceled: ui.canceled,
-      paid: ui.paid,
-      checking: ui.checking,
-      openingStripe: ui.openingStripe,
-      checkoutError: ui.checkoutError,
-      missingStripeUrl: ui.missingStripeUrl,
+      canceled: "Paiement annulé. Tu peux réessayer quand tu veux.",
+      paid: "Paiement reçu. Merci ✨ Tu peux retourner au chat.",
+      checking: "Vérification…",
+      openingStripe: "Ouverture de Stripe…",
+      checkoutError: "Erreur checkout.",
+      missingStripeUrl: "URL Stripe manquante.",
       errorPrefix: "Erreur: ",
     },
     en: {
@@ -317,12 +317,12 @@ export default function PricingClient({
     unlimited: "Accès illimité 24h/7",
     chooseYearly: "Choisir l’annuel",
     yearlyUnlimited: "Accès illimité annuel",
-    canceled: ui.canceled,
-    paid: ui.paid,
-    checking: ui.checking,
-    openingStripe: ui.openingStripe,
-    checkoutError: ui.checkoutError,
-    missingStripeUrl: ui.missingStripeUrl,
+    canceled: "Paiement annulé. Tu peux réessayer quand tu veux.",
+    paid: "Paiement reçu. Merci ✨ Tu peux retourner au chat.",
+    checking: "Vérification…",
+    openingStripe: "Ouverture de Stripe…",
+    checkoutError: "Erreur checkout.",
+    missingStripeUrl: "URL Stripe manquante.",
     errorPrefix: "Erreur: ",
   };
 
@@ -344,12 +344,12 @@ export default function PricingClient({
         </Link>
 
         <nav className="nav" aria-label={__i18n["navigation_principale"]}>
-          <Link href="/">{ui.home}</Link>
+          <Link href={`/${locale}`}>{ui.home}</Link>
           <Link className="active" href={`/${locale}/pricing?next=${nextEnc}`}>
-            Tarifs
+            {ui.pricing}
           </Link>
           <Link className="btn btn-small btn-ghost" href={nextUrl || `/${locale}/chat`}>
-            Retour
+            {ui.back}
           </Link>
         </nav>
       </header>
