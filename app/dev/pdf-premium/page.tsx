@@ -1,12 +1,5 @@
 "use client";
 
-
-
-
-
-
-
-import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-premium/page.json";
 import dynamic from "next/dynamic";
 
 const PdfPremiumViewer = dynamic(
@@ -22,11 +15,12 @@ const PdfPremiumViewer = dynamic(
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: "#081020",
-          color: __i18n["fff8e7"],
+          color: "#fff8e7",
           fontFamily: "Arial, sans-serif",
         }}
       >
-        {__i18n["generation_du_rapport"]}</main>
+        Génération du rapport Premium...
+      </main>
     ),
   }
 );
