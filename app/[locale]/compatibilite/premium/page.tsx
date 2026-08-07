@@ -62,8 +62,14 @@ const REPORT_PAGES =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-compatibilite-premium.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-compatibilite-premium.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-compatibilite-premium.png",
+  en: "/reports/premium-compatibility-cover.png",
+  es: "/reports/portada-compatibilidad-premium.png",
+  de: "/reports/titelbild-premium-kompatibilitaet.png",
+  it: "/reports/copertina-compatibilita-premium.png",
+  pt: "/reports/capa-compatibilidade-premium.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +88,9 @@ export function generateMetadata({
 
   const __i18n =
     DICTIONARIES[locale];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const pageUrl =
     getPageUrl(locale);
@@ -139,7 +148,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -164,7 +173,7 @@ export function generateMetadata({
         __i18n["une_analyse_approfondie_de_la_rencontre_entre_deux_themes_as"],
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -387,6 +396,9 @@ function getJsonLd(
   const pageUrl =
     getPageUrl(locale);
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
+
   return {
     "@context":
       "https://schema.org",
@@ -402,7 +414,7 @@ function getJsonLd(
       __i18n["rapport_pdf_personnalise_comparant_deux_themes_astraux_compl"],
 
     image:
-      `https://luna-astralis.app${REPORT_COVER_URL}`,
+      `https://luna-astralis.app${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -451,6 +463,9 @@ export default function CompatibilityPremiumPage({
 
   const __i18n =
     DICTIONARIES[locale];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const reportFeatures =
     getReportFeatures(__i18n);
@@ -574,7 +589,7 @@ export default function CompatibilityPremiumPage({
 
               <div className="compat-premium-cover-frame">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={__i18n["couverture_du_rapport_compatibilite_premium_2"]}
                   width={707}
                   height={1000}
@@ -668,7 +683,7 @@ export default function CompatibilityPremiumPage({
             <div className="compat-premium-report-visual">
               <div className="compat-premium-report-cover-wrapper">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={__i18n["apercu_de_la_couverture_du_rapport_compatibilite_premium"]}
                   width={566}
                   height={800}
