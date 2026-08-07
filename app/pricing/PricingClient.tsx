@@ -11,6 +11,7 @@ import React, { useEffect, useMemo, useState, useCallback, useRef } from "react"
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import "../../css/pricing.css";
 
 type PricingDictionary = Record<string, string>;
 
