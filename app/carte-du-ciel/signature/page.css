@@ -2029,3 +2029,19 @@
 .signature-report-actions .signature-button-primary span {
   color: #ffffff !important;
 }
+
+/* --------------------------------------------------------------------------
+   Correction contraste — bouton principal Signature
+   -------------------------------------------------------------------------- */
+.signature-button-primary,
+.signature-button-primary:link,
+.signature-button-primary:visited,
+.signature-button-primary:hover,
+.signature-button-primary:focus,
+.signature-button-primary:active {
+  color: #ffffff !important;
+}
+
+.signature-button-primary span {
+  color: #ffffff !important;
+}
