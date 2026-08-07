@@ -35,8 +35,14 @@ const SITE_URL =
 const REPORT_PREVIEW_URL =
   "/reports/apercu-rapport-carte-du-ciel-signature.pdf";
 
-const REPORT_COVER_URL =
-  "/reports/couverture-carte-du-ciel-signature.png";
+const REPORT_COVER_URLS = {
+  fr: "/reports/couverture-carte-du-ciel-signature.png",
+  en: "/reports/cover-signature-birth-chart.png",
+  es: "/reports/portada-carta-natal-signature.png",
+  de: "/reports/titelseite-signature-geburtshoroskop.png",
+  it: "/reports/copertina-tema-natale-signature.png",
+  pt: "/reports/capa-mapa-astral-signature.png",
+} as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +85,9 @@ export function generateMetadata({
     SIGNATURE_TRANSLATIONS[
       locale
     ];
+
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/signature`;
@@ -140,7 +149,7 @@ export function generateMetadata({
       images: [
         {
           url:
-            REPORT_COVER_URL,
+            reportCoverUrl,
 
           width:
             1414,
@@ -165,7 +174,7 @@ export function generateMetadata({
         text.metadata.twitterDescription,
 
       images: [
-        REPORT_COVER_URL,
+        reportCoverUrl,
       ],
     },
 
@@ -201,6 +210,9 @@ export default function SignaturePage({
       locale
     ];
 
+  const reportCoverUrl =
+    REPORT_COVER_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/signature`;
 
@@ -227,7 +239,7 @@ export default function SignaturePage({
       text.jsonLd.description,
 
     image:
-      `${SITE_URL}${REPORT_COVER_URL}`,
+      `${SITE_URL}${reportCoverUrl}`,
 
     brand: {
       "@type":
@@ -392,7 +404,7 @@ export default function SignaturePage({
 
               <div className="signature-cover-frame">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.hero.coverAlt}
                   width={707}
                   height={1000}
@@ -530,7 +542,7 @@ export default function SignaturePage({
             <div className="signature-report-visual">
               <div className="signature-report-cover-wrapper">
                 <Image
-                  src={REPORT_COVER_URL}
+                  src={reportCoverUrl}
                   alt={text.showcase.coverAlt}
                   width={566}
                   height={800}
