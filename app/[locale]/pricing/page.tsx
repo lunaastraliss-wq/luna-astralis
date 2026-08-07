@@ -1,5 +1,6 @@
 // app/[locale]/pricing/page.tsx
 
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import {
@@ -23,10 +24,7 @@ const DICTIONARIES = {
   de,
   it,
   pt,
-} satisfies Record<
-  Locale,
-  Record<string, string>
->;
+} satisfies Record<Locale, Record<string, string>>;
 
 type Props = {
   params: {
@@ -37,20 +35,18 @@ type Props = {
 export default function PricingPage({
   params,
 }: Props) {
-  const {
-    locale,
-  } = params;
+  const { locale } = params;
 
   if (!isLocale(locale)) {
     notFound();
   }
 
   return (
-    <PricingClient
-      locale={locale}
-      dictionary={
-        DICTIONARIES[locale]
-      }
-    />
+    <Suspense fallback={null}>
+      <PricingClient
+        locale={locale}
+        dictionary={DICTIONARIES[locale]}
+      />
+    </Suspense>
   );
 }
