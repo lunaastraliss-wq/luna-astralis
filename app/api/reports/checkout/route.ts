@@ -56,6 +56,16 @@ type CheckoutRequestBody = {
 
   /*
   |--------------------------------------------------------------------------
+  | Langue du rapport
+  |--------------------------------------------------------------------------
+  */
+
+  locale?: unknown;
+  language?: unknown;
+  lang?: unknown;
+
+  /*
+  |--------------------------------------------------------------------------
   | Carte du ciel et horoscopes
   |--------------------------------------------------------------------------
   */
@@ -145,6 +155,105 @@ function isReportType(
     value === "horoscope-daily" ||
     value === "horoscope-month" ||
     value === "horoscope-year"
+  );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Langue du rapport
+|--------------------------------------------------------------------------
+*/
+
+type ReportLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+const REPORT_LOCALES =
+  new Set<ReportLocale>([
+    "fr",
+    "en",
+    "es",
+    "de",
+    "it",
+    "pt",
+  ]);
+
+function normalizeReportLocale(
+  value: unknown,
+): ReportLocale | null {
+  const raw =
+    s(value)
+      .toLowerCase()
+      .replace("_", "-");
+
+  if (!raw) {
+    return null;
+  }
+
+  const base =
+    raw.split("-")[0];
+
+  return REPORT_LOCALES.has(
+    base as ReportLocale,
+  )
+    ? base as ReportLocale
+    : null;
+}
+
+function inferLocaleFromReferer(
+  req: Request,
+): ReportLocale | null {
+  const referer =
+    s(
+      req.headers.get(
+        "referer",
+      ),
+    );
+
+  if (!referer) {
+    return null;
+  }
+
+  try {
+    const url =
+      new URL(referer);
+
+    const firstSegment =
+      url.pathname
+        .split("/")
+        .filter(Boolean)[0];
+
+    return normalizeReportLocale(
+      firstSegment,
+    );
+  } catch {
+    return null;
+  }
+}
+
+function resolveReportLocale(
+  req: Request,
+  body: CheckoutRequestBody,
+): ReportLocale {
+  return (
+    normalizeReportLocale(
+      body.locale,
+    ) ||
+    normalizeReportLocale(
+      body.language,
+    ) ||
+    normalizeReportLocale(
+      body.lang,
+    ) ||
+    inferLocaleFromReferer(
+      req,
+    ) ||
+    "fr"
   );
 }
 
@@ -515,6 +624,12 @@ export async function POST(
         body.email,
       );
 
+    const locale =
+      resolveReportLocale(
+        req,
+        body,
+      );
+
     /*
     |--------------------------------------------------------------------------
     | Rapport de compatibilité
@@ -629,6 +744,8 @@ export async function POST(
               report_type:
                 "compatibility",
 
+              locale,
+
               person_1_data:
                 serializedPerson1,
 
@@ -662,6 +779,8 @@ export async function POST(
 
           report_type:
             "compatibility",
+
+          locale,
 
           person_1_wheel_image_path:
             person1
@@ -784,6 +903,8 @@ export async function POST(
               report_type:
                 "horoscope-daily",
 
+              locale,
+
               birth_data:
                 serializedBirthData,
             },
@@ -814,6 +935,8 @@ export async function POST(
 
           report_type:
             "horoscope-daily",
+
+          locale,
         },
       );
     }
@@ -956,6 +1079,8 @@ export async function POST(
               report_type:
                 "horoscope-month",
 
+              locale,
+
               birth_data:
                 serializedBirthData,
 
@@ -992,6 +1117,8 @@ export async function POST(
 
           report_type:
             "horoscope-month",
+
+          locale,
 
           report_month:
             month,
@@ -1133,6 +1260,8 @@ export async function POST(
               report_type:
                 "horoscope-year",
 
+              locale,
+
               birth_data:
                 serializedBirthData,
 
@@ -1166,6 +1295,8 @@ export async function POST(
 
           report_type:
             "horoscope-year",
+
+          locale,
 
           report_year:
             year,
@@ -1292,6 +1423,8 @@ export async function POST(
             report_type:
               reportType,
 
+            locale,
+
             birth_data:
               serializedBirthData,
           },
@@ -1319,6 +1452,11 @@ export async function POST(
 
         session_id:
           session.id,
+
+        report_type:
+          reportType,
+
+        locale,
 
         wheel_image_path:
           birthPerson
