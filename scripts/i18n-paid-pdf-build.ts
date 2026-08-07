@@ -292,6 +292,497 @@ function dictionaryAccess(
   return `__i18n[${escapeKey(key)}]`;
 }
 
+
+/*
+|--------------------------------------------------------------------------
+| Protection des chaînes techniques
+|--------------------------------------------------------------------------
+|
+| IMPORTANT :
+| Le plan i18n contient aussi des chaînes qui servent d'identifiants
+| internes aux calculs astrologiques. Elles ne doivent jamais être
+| remplacées par __i18n[...] :
+|
+| - MonthlyPlanetName
+| - HoroscopeZodiacSign
+| - MonthlyAspectType
+| - catégories / tons / statuts
+| - clés de Map / Set
+| - valeurs utilisées dans switch / comparaisons
+|
+| Le but est de traduire le texte visible par le client sans modifier
+| les valeurs qui font partie du contrat TypeScript ou de la logique.
+|
+*/
+
+const TECHNICAL_PROPERTY_NAMES =
+  new Set([
+    "planet",
+    "planet1",
+    "planet2",
+    "firstPlanet",
+    "secondPlanet",
+    "sign",
+    "type",
+    "id",
+    "key",
+    "code",
+    "slug",
+    "locale",
+    "mode",
+    "status",
+    "kind",
+    "tone",
+    "category",
+    "icon",
+    "iconKey",
+    "image",
+    "imageUrl",
+    "url",
+    "aspect",
+    "aspectType",
+  ]);
+
+const DISPLAY_PROPERTY_NAMES =
+  new Set([
+    "title",
+    "subtitle",
+    "heading",
+    "eyebrow",
+    "label",
+    "description",
+    "text",
+    "intro",
+    "introduction",
+    "message",
+    "quote",
+    "advice",
+    "conclusion",
+    "summary",
+    "theme",
+    "influence",
+    "opportunity",
+    "vigilance",
+    "mantra",
+    "content",
+    "caption",
+    "preparedFor",
+    "nameLabel",
+    "dateLabel",
+  ]);
+
+const TECHNICAL_TYPE_PATTERN =
+  /\b(?:PlanetName|ZodiacSign|AspectType|PeriodCategory|Locale|Tone|Status|Kind|Mode|Id|Key|Code)\b/i;
+
+function getPropertyNameText(
+  name: ts.PropertyName,
+): string | null {
+  if (
+    ts.isIdentifier(name) ||
+    ts.isStringLiteral(name) ||
+    ts.isNumericLiteral(name)
+  ) {
+    return name.text;
+  }
+
+  return null;
+}
+
+function getNearestVariableDeclaration(
+  node: ts.Node,
+): ts.VariableDeclaration | null {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isVariableDeclaration(
+        current,
+      )
+    ) {
+      return current;
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return null;
+}
+
+function getNearestPropertyAssignment(
+  node: ts.Node,
+): ts.PropertyAssignment | null {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isPropertyAssignment(
+        current,
+      )
+    ) {
+      return current;
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return null;
+}
+
+function isInsideNewSetOrMap(
+  node: ts.Node,
+): boolean {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isNewExpression(
+        current,
+      )
+    ) {
+      const expressionText =
+        current.expression.getText();
+
+      if (
+        expressionText === "Set" ||
+        expressionText === "Map"
+      ) {
+        return true;
+      }
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return false;
+}
+
+function isInsideTechnicalTypedVariable(
+  node: ts.Node,
+  sourceFile: ts.SourceFile,
+): boolean {
+  const declaration =
+    getNearestVariableDeclaration(
+      node,
+    );
+
+  if (!declaration) {
+    return false;
+  }
+
+  const typeText =
+    declaration.type
+      ? declaration.type.getText(
+          sourceFile,
+        )
+      : "";
+
+  if (
+    typeText &&
+    TECHNICAL_TYPE_PATTERN.test(
+      typeText,
+    )
+  ) {
+    return true;
+  }
+
+  /*
+   * Les grosses constantes de configuration en MAJUSCULES contiennent
+   * souvent des identifiants de calcul. On ne les bloque pas toutes :
+   * uniquement lorsqu'elles sont aussi typées avec un nom technique.
+   */
+  const variableName =
+    ts.isIdentifier(
+      declaration.name,
+    )
+      ? declaration.name.text
+      : "";
+
+  return Boolean(
+    variableName &&
+    /^[A-Z0-9_]+$/.test(
+      variableName,
+    ) &&
+    typeText &&
+    /\b(?:Record|Set|Map|Partial|Readonly)\b/.test(
+      typeText,
+    ) &&
+    TECHNICAL_TYPE_PATTERN.test(
+      typeText,
+    ),
+  );
+}
+
+function isUsedAsTechnicalComparison(
+  node: ts.Node,
+): boolean {
+  const parent =
+    node.parent;
+
+  if (
+    ts.isCaseClause(parent) &&
+    parent.expression === node
+  ) {
+    return true;
+  }
+
+  if (
+    ts.isBinaryExpression(
+      parent,
+    )
+  ) {
+    const operator =
+      parent.operatorToken.kind;
+
+    if (
+      operator ===
+        ts.SyntaxKind.EqualsEqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.ExclamationEqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.EqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.ExclamationEqualsToken
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isPropertyNameNode(
+  node: ts.Node,
+): boolean {
+  const parent =
+    node.parent;
+
+  return Boolean(
+    (
+      ts.isPropertyAssignment(
+        parent,
+      ) ||
+      ts.isPropertySignature(
+        parent,
+      ) ||
+      ts.isMethodDeclaration(
+        parent,
+      ) ||
+      ts.isMethodSignature(
+        parent,
+      )
+    ) &&
+    parent.name === node,
+  );
+}
+
+function isSafeTranslatableStringNode(
+  node: ts.StringLiteralLike,
+  sourceFile: ts.SourceFile,
+): boolean {
+  /*
+   * Imports, exports et noms de propriétés ne sont jamais du texte client.
+   */
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isImportDeclaration(
+        current,
+      ) ||
+      ts.isExportDeclaration(
+        current,
+      ) ||
+      ts.isImportEqualsDeclaration(
+        current,
+      )
+    ) {
+      return false;
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  if (
+    isPropertyNameNode(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isUsedAsTechnicalComparison(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isInsideNewSetOrMap(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isInsideTechnicalTypedVariable(
+      node,
+      sourceFile,
+    )
+  ) {
+    return false;
+  }
+
+  /*
+   * Valeurs d'objets :
+   * - propriétés techniques => jamais traduites
+   * - propriétés clairement éditoriales => autorisées
+   */
+  const property =
+    getNearestPropertyAssignment(
+      node,
+    );
+
+  if (property) {
+    const propertyName =
+      getPropertyNameText(
+        property.name,
+      );
+
+    if (propertyName) {
+      if (
+        TECHNICAL_PROPERTY_NAMES.has(
+          propertyName,
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        DISPLAY_PROPERTY_NAMES.has(
+          propertyName,
+        )
+      ) {
+        return true;
+      }
+    }
+  }
+
+  /*
+   * Les chaînes directement retournées par une fonction sont souvent
+   * des libellés destinés au rapport ("Influence principale", etc.).
+   */
+  if (
+    ts.isReturnStatement(
+      node.parent,
+    )
+  ) {
+    return true;
+  }
+
+  /*
+   * Chaînes dans un opérateur conditionnel :
+   * autorisées sauf si la variable englobante est technique (filtrée plus haut).
+   */
+  if (
+    ts.isConditionalExpression(
+      node.parent,
+    )
+  ) {
+    return true;
+  }
+
+  /*
+   * Les appels de formatage / construction de texte peuvent contenir
+   * des chaînes visibles. On autorise les arguments sauf pour quelques
+   * API clairement structurelles.
+   */
+  if (
+    ts.isCallExpression(
+      node.parent,
+    )
+  ) {
+    const callee =
+      node.parent.expression.getText(
+        sourceFile,
+      );
+
+    if (
+      /^(?:Object\.(?:keys|values|entries)|JSON\.(?:parse|stringify)|path\.|fs\.)/.test(
+        callee,
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /*
+   * Par sécurité, une chaîne "string" inconnue n'est PAS traduite.
+   * Les textes JSX et attributs JSX restent, eux, traités normalement.
+   */
+  return false;
+}
+
 function buildReplacement(
   entry: GeneratedEntry,
   sourceFile: ts.SourceFile,
@@ -448,6 +939,15 @@ function findReplacement(
         node.text,
       )
     ) {
+      if (
+        !isSafeTranslatableStringNode(
+          node,
+          sourceFile,
+        )
+      ) {
+        return;
+      }
+
       found =
         buildReplacement(
           entry,
@@ -1019,10 +1519,15 @@ function generateLocalizedFile(
       );
     } else {
       reasons.push(
-        `Texte non retrouvé à la ligne ${entry.line}: ${entry.text.slice(
-          0,
-          100,
-        )}`,
+        entry.kind === "string"
+          ? `Chaîne ignorée par sécurité ou non retrouvée à la ligne ${entry.line}: ${entry.text.slice(
+              0,
+              100,
+            )}`
+          : `Texte non retrouvé à la ligne ${entry.line}: ${entry.text.slice(
+              0,
+              100,
+            )}`,
       );
     }
   }
