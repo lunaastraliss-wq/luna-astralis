@@ -280,6 +280,21 @@ function entryMatchesNode(
   );
 }
 
+function templateToPlaceholderText(
+  node: ts.TemplateExpression,
+): string {
+  let output = node.head.text;
+
+  node.templateSpans.forEach(
+    (span, index) => {
+      output += `{${index}}`;
+      output += span.literal.text;
+    },
+  );
+
+  return output;
+}
+
 function escapeKey(
   key: string,
 ): string {
@@ -1080,6 +1095,43 @@ function buildReplacement(
     };
   }
 
+  if (
+    entry.kind === "template" &&
+    ts.isTemplateExpression(node)
+  ) {
+    let value =
+      `String(${access})`;
+
+    node.templateSpans.forEach(
+      (span, index) => {
+        const expression =
+          span.expression.getText(
+            sourceFile,
+          );
+
+        value +=
+          `.split(${JSON.stringify(`{${index}}`)})` +
+          `.join(String(${expression}))`;
+      },
+    );
+
+    return {
+      start:
+        node.getStart(sourceFile),
+      end:
+        node.getEnd(),
+      value,
+      key:
+        entry.key,
+      original:
+        entry.text,
+      kind:
+        entry.kind,
+      line:
+        entry.line,
+    };
+  }
+
   return null;
 }
 
@@ -1164,6 +1216,25 @@ function findReplacement(
         return;
       }
 
+      found =
+        buildReplacement(
+          entry,
+          sourceFile,
+          node,
+        );
+      return;
+    }
+
+    if (
+      entry.kind === "template" &&
+      ts.isTemplateExpression(node) &&
+      entryMatchesNode(
+        entry,
+        sourceFile,
+        node,
+        templateToPlaceholderText(node),
+      )
+    ) {
       found =
         buildReplacement(
           entry,
@@ -1631,7 +1702,7 @@ const PREMIUM_TOKEN_TRANSLATIONS: Record<
     Conjonction: "Conjunction", Carré: "Square", Trigone: "Trine",
     harmonieux: "harmonious", dynamique: "dynamic",
     "Très puissant": "Very powerful", Puissant: "Powerful", Modéré: "Moderate", Subtil: "Subtle",
-    "Non précisé": "Not specified", "Non déterminée": "Undetermined",
+    "Non précisé": "Not specified", "Non déterminée": "Undetermined", "Rapport Premium": "Premium Report", Rétrograde: "Retrograde",
   },
   es: {
     Soleil: "Sol", Lune: "Luna", Mercure: "Mercurio", Vénus: "Venus", Saturne: "Saturno", Pluton: "Plutón",
@@ -1930,16 +2001,6 @@ function generateLocalizedFile(
     const entry of
       group.entries
   ) {
-    if (
-      entry.kind ===
-        "template"
-    ) {
-      reasons.push(
-        `Template ignoré à la ligne ${entry.line}.`,
-      );
-      continue;
-    }
-
     const replacement =
       findReplacement(
         entry,
