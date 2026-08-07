@@ -1772,16 +1772,14 @@ function wrapPremiumTextExpressions(
             ) {
               return child;
             }
-            return ts.factory.updateJsxExpression(
-              child,
-              child.dotDotDotToken,
-              ts.factory.createCallExpression(
-                ts.factory.createIdentifier("__premiumDisplay"),
-                undefined,
-                [expression],
-              ),
-            );
-          }
+           return ts.factory.updateJsxExpression(
+  child,
+  ts.factory.createCallExpression(
+    ts.factory.createIdentifier("__premiumDisplay"),
+    undefined,
+    [expression],
+  ),
+);
           return child;
         });
 
