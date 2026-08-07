@@ -323,6 +323,7 @@ const TECHNICAL_PROPERTY_NAMES =
     "firstPlanet",
     "secondPlanet",
     "sign",
+    "name",
     "type",
     "id",
     "key",
@@ -375,6 +376,10 @@ const DISPLAY_PROPERTY_NAMES =
     "strengths",
     "challenges",
     "evolution",
+    "nature",
+    "strength",
+    "balance",
+    "premium",
   ]);
 
 /*
@@ -394,8 +399,39 @@ const DISPLAY_PROPERTY_NAMES =
 const DISPLAY_VARIABLE_NAMES =
   new Set([
     "PLANET_FR",
+    "PLANET_NAMES",
+    "PLANET_NAMES_FR",
     "PLANET_MEANINGS",
     "SIGN_NAMES_FR",
+
+    // Premium : contenu visible, jamais utilisé comme identifiant de calcul.
+    "ELEMENT_WORDS",
+    "ELEMENT_DESCRIPTIONS",
+    "ELEMENT_INSIGHTS",
+    "MODALITY_WORDS",
+    "MODALITY_DESCRIPTIONS",
+    "MODALITY_INSIGHTS",
+    "HOUSE_TITLES",
+    "HOUSE_KEYWORDS",
+    "HOUSE_DESCRIPTIONS",
+    "HOUSE_PREMIUM_INSIGHTS",
+    "PLANET_ENERGIES",
+    "PLANET_MANIFESTATIONS",
+  ]);
+
+/*
+ * Variables Premium qui servent réellement aux calculs / correspondances.
+ * Même dans PremiumPdf, leur contenu ne doit jamais être localisé directement.
+ */
+const PREMIUM_TECHNICAL_VARIABLE_NAMES =
+  new Set([
+    "MAIN_PLANETS",
+    "SIGNS_FROM_LONGITUDE",
+    "SIGN_KEYS",
+    "SIGN_NAMES_EN",
+    "ELEMENTS",
+    "MODALITIES",
+    "HOUSE_NUMBERS",
   ]);
 
 const TECHNICAL_TYPE_PATTERN =
@@ -547,6 +583,73 @@ function isInsideNewSetOrMap(
   return false;
 }
 
+function isInsideTypeSyntax(
+  node: ts.Node,
+): boolean {
+  let current: ts.Node | undefined = node.parent;
+
+  while (current) {
+    if (
+      ts.isTypeAliasDeclaration(current) ||
+      ts.isInterfaceDeclaration(current) ||
+      ts.isTypeLiteralNode(current) ||
+      ts.isLiteralTypeNode(current) ||
+      ts.isUnionTypeNode(current) ||
+      ts.isIntersectionTypeNode(current)
+    ) {
+      return true;
+    }
+
+    if (
+      ts.isFunctionLike(current) ||
+      ts.isSourceFile(current)
+    ) {
+      break;
+    }
+
+    current = current.parent;
+  }
+
+  return false;
+}
+
+function isInsidePremiumTechnicalVariable(
+  node: ts.Node,
+): boolean {
+  const declaration =
+    getNearestVariableDeclaration(node);
+
+  if (
+    !declaration ||
+    !ts.isIdentifier(declaration.name)
+  ) {
+    return false;
+  }
+
+  return PREMIUM_TECHNICAL_VARIABLE_NAMES.has(
+    declaration.name.text,
+  );
+}
+
+function isPremiumPdfSource(
+  sourceFile: ts.SourceFile,
+): boolean {
+  return normalizePath(sourceFile.fileName).includes(
+    "/components/PremiumPdf/",
+  );
+}
+
+function isHoroscopeCalculationSource(
+  sourceFile: ts.SourceFile,
+): boolean {
+  const normalized = normalizePath(sourceFile.fileName);
+
+  return (
+    normalized.includes("/components/HoroscopePdf/") &&
+    normalized.includes("/calculations/")
+  );
+}
+
 function isInsideTechnicalTypedVariable(
   node: ts.Node,
   sourceFile: ts.SourceFile,
@@ -671,6 +774,15 @@ function isSafeTranslatableStringNode(
   sourceFile: ts.SourceFile,
 ): boolean {
   /*
+   * Les fichiers de calcul Horoscope contiennent des valeurs fortement typées
+   * (MonthlyPlanetName, MonthlyAspectType, etc.). Elles ne doivent jamais être
+   * remplacées par des traductions, sinon TypeScript et les calculs cassent.
+   */
+  if (isHoroscopeCalculationSource(sourceFile)) {
+    return false;
+  }
+
+  /*
    * Imports, exports et noms de propriétés ne sont jamais du texte client.
    */
   let current:
@@ -711,6 +823,13 @@ function isSafeTranslatableStringNode(
     isPropertyNameNode(
       node,
     )
+  ) {
+    return false;
+  }
+
+  if (
+    isInsideTypeSyntax(node) ||
+    isInsidePremiumTechnicalVariable(node)
   ) {
     return false;
   }
@@ -845,8 +964,17 @@ function isSafeTranslatableStringNode(
   }
 
   /*
-   * Par sécurité, une chaîne "string" inconnue n'est PAS traduite.
-   * Les textes JSX et attributs JSX restent, eux, traités normalement.
+   * Premium contient beaucoup de textes éditoriaux stockés dans des constantes,
+   * retours de fonctions et branches conditionnelles. Après les protections
+   * ci-dessus (types, comparaisons, Map/Set, propriétés et variables techniques),
+   * les chaînes restantes du dossier PremiumPdf sont du texte d'affichage.
+   */
+  if (isPremiumPdfSource(sourceFile)) {
+    return true;
+  }
+
+  /*
+   * Pour les autres PDF, on conserve le comportement historique prudent.
    */
   return false;
 }
