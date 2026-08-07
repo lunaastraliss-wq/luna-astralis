@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "build": "npm run i18n:prepare && npm run i18n:paid-pdf && next build",
+    "build": "next build",
     "start": "next start",
 
     "i18n:audit": "tsx scripts/i18n-audit.ts",
