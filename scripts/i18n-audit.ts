@@ -1,10 +1,10 @@
 /*
 |--------------------------------------------------------------------------
-| i18n-audit V5
+| i18n-audit V6
 |--------------------------------------------------------------------------
 |
 | Audit intelligent pour Luna Astralis.
-| Ignore les valeurs techniques, le CSS inline et les blocs <style>.
+| Ignore les valeurs techniques, les identifiants astrologiques, le CSS inline et les blocs <style>.
 |
 */
 
@@ -317,6 +317,28 @@ const IGNORED_PROPERTY_NAMES = new Set([
   "format",
   "variant",
 
+  // Identifiants et valeurs techniques des calculs astrologiques.
+  "planet",
+  "planet1",
+  "planet2",
+  "firstPlanet",
+  "secondPlanet",
+  "sign",
+  "aspect",
+  "aspectType",
+  "tone",
+  "category",
+  "status",
+  "mode",
+  "kind",
+  "code",
+  "slug",
+  "locale",
+  "icon",
+  "iconKey",
+  "image",
+  "imageUrl",
+
   // Propriétés CSS et valeurs de mise en page.
   "display",
   "position",
@@ -433,6 +455,254 @@ function getPropertyName(
   return node.name
     .getText(sourceFile)
     .replace(/^["']|["']$/g, "");
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Protection AST des valeurs techniques
+|--------------------------------------------------------------------------
+|
+| Une chaîne peut contenir du français sans être du texte destiné au client.
+| Exemples : "Mercure", "Vénus", "square", "general", etc.
+| Ces valeurs peuvent être des identifiants utilisés dans les calculs.
+|
+*/
+
+const TECHNICAL_TYPE_PATTERN =
+  /\b(?:PlanetName|Planet|ZodiacSign|AspectType|Aspect|PeriodCategory|Locale|Tone|Status|Kind|Mode|Id|Key|Code)\b/i;
+
+function getNearestVariableDeclaration(
+  node: ts.Node,
+): ts.VariableDeclaration | null {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isVariableDeclaration(
+        current,
+      )
+    ) {
+      return current;
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return null;
+}
+
+function isInsideNewSetOrMap(
+  node: ts.Node,
+): boolean {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isNewExpression(
+        current,
+      )
+    ) {
+      const expressionText =
+        current.expression.getText();
+
+      if (
+        expressionText === "Set" ||
+        expressionText === "Map"
+      ) {
+        return true;
+      }
+    }
+
+    if (
+      ts.isFunctionLike(
+        current,
+      ) ||
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return false;
+}
+
+function isInsideTechnicalTypedVariable(
+  node: ts.Node,
+  sourceFile: ts.SourceFile,
+): boolean {
+  const declaration =
+    getNearestVariableDeclaration(
+      node,
+    );
+
+  if (!declaration?.type) {
+    return false;
+  }
+
+  const typeText =
+    declaration.type.getText(
+      sourceFile,
+    );
+
+  return TECHNICAL_TYPE_PATTERN.test(
+    typeText,
+  );
+}
+
+function isUsedAsTechnicalComparison(
+  node: ts.Node,
+): boolean {
+  const parent =
+    node.parent;
+
+  if (
+    ts.isCaseClause(parent) &&
+    parent.expression === node
+  ) {
+    return true;
+  }
+
+  if (
+    ts.isBinaryExpression(
+      parent,
+    )
+  ) {
+    const operator =
+      parent.operatorToken.kind;
+
+    return (
+      operator ===
+        ts.SyntaxKind.EqualsEqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.ExclamationEqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.EqualsEqualsToken ||
+      operator ===
+        ts.SyntaxKind.ExclamationEqualsToken
+    );
+  }
+
+  return false;
+}
+
+function isInsideImportOrExport(
+  node: ts.Node,
+): boolean {
+  let current:
+    ts.Node | undefined =
+      node.parent;
+
+  while (current) {
+    if (
+      ts.isImportDeclaration(
+        current,
+      ) ||
+      ts.isExportDeclaration(
+        current,
+      ) ||
+      ts.isImportEqualsDeclaration(
+        current,
+      )
+    ) {
+      return true;
+    }
+
+    if (
+      ts.isSourceFile(
+        current,
+      )
+    ) {
+      break;
+    }
+
+    current =
+      current.parent;
+  }
+
+  return false;
+}
+
+function isSafeAuditableStringNode(
+  node: ts.StringLiteralLike,
+  sourceFile: ts.SourceFile,
+): boolean {
+  if (
+    isInsideImportOrExport(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isUsedAsTechnicalComparison(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isInsideNewSetOrMap(
+      node,
+    )
+  ) {
+    return false;
+  }
+
+  if (
+    isInsideTechnicalTypedVariable(
+      node,
+      sourceFile,
+    )
+  ) {
+    return false;
+  }
+
+  /*
+   * Une chaîne utilisée comme nom de propriété n'est jamais du texte client.
+   */
+  const parent =
+    node.parent;
+
+  if (
+    (
+      ts.isPropertyAssignment(
+        parent,
+      ) ||
+      ts.isPropertySignature(
+        parent,
+      )
+    ) &&
+    parent.name === node
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 
@@ -843,6 +1113,10 @@ function scanFile(
         !isInsideJsxStyleAttribute(
           node,
           sourceFile,
+        ) &&
+        isSafeAuditableStringNode(
+          node.initializer,
+          sourceFile,
         )
       ) {
         addEntry(
@@ -869,9 +1143,15 @@ function scanFile(
         const element of node.elements
       ) {
         if (
-          ts.isStringLiteral(element) ||
-          ts.isNoSubstitutionTemplateLiteral(
+          (
+            ts.isStringLiteral(element) ||
+            ts.isNoSubstitutionTemplateLiteral(
+              element,
+            )
+          ) &&
+          isSafeAuditableStringNode(
             element,
+            sourceFile,
           )
         ) {
           addEntry(
@@ -906,6 +1186,10 @@ function scanFile(
         ts.isNoSubstitutionTemplateLiteral(
           node.expression,
         )
+      ) &&
+      isSafeAuditableStringNode(
+        node.expression,
+        sourceFile,
       )
     ) {
       addEntry(
