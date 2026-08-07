@@ -369,6 +369,12 @@ const DISPLAY_PROPERTY_NAMES =
     "preparedFor",
     "nameLabel",
     "dateLabel",
+
+    // Contenu éditorial des PDF astrologiques
+    "energy",
+    "strengths",
+    "challenges",
+    "evolution",
   ]);
 
 const TECHNICAL_TYPE_PATTERN =
