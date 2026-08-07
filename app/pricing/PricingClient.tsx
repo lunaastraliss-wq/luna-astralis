@@ -6,18 +6,25 @@
 
 
 
-import __i18n from "../../i18n/migrated/fr/app/pricing/pricingclient.json";
+
 import React, { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
+type PricingDictionary = Record<string, string>;
+
+type PricingClientProps = {
+  locale: string;
+  dictionary: PricingDictionary;
+};
+
 type MsgType = "ok" | "err" | "info";
 const LS_SIGN_KEY = "la_sign";
 
-function safeNext(v: string | null) {
+function safeNext(v: string | null, locale: string) {
   const s = (v || "").trim();
-  const fallback = "/chat";
+  const fallback = `/${locale}/chat`;
   if (!s) return fallback;
 
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
@@ -37,7 +44,11 @@ function getStoredSign(): string {
   }
 }
 
-export default function PricingClient() {
+export default function PricingClient({
+  locale,
+  dictionary,
+}: PricingClientProps) {
+  const __i18n = dictionary;
   const router = useRouter();
   const sp = useSearchParams();
   const supabase = useMemo(() => createClientComponentClient(), []);
@@ -49,7 +60,7 @@ export default function PricingClient() {
   const y = useMemo(() => new Date().getFullYear(), []);
 
   const nextRaw = sp.get("next");
-  const nextUrl = useMemo(() => safeNext(nextRaw), [nextRaw]);
+  const nextUrl = useMemo(() => safeNext(nextRaw, locale), [nextRaw, locale]);
   const nextEnc = useMemo(() => encodeURIComponent(nextUrl), [nextUrl]);
 
   const showMsg = useCallback((text: string, type: MsgType = "info") => {
@@ -62,9 +73,9 @@ export default function PricingClient() {
     const paid = sp.get("paid");
 
     if (canceled === "1") {
-      showMsg("Paiement annulé. Tu peux réessayer quand tu veux.", "info");
+      showMsg(ui.canceled, "info");
     } else if (paid === "1") {
-      showMsg("Paiement reçu. Merci ✨ Tu peux retourner au chat.", "ok");
+      showMsg(ui.paid, "ok");
     } else {
       setMsg(null);
     }
@@ -73,18 +84,18 @@ export default function PricingClient() {
   async function startCheckout(plan: string) {
     try {
       setBusyPlan(plan);
-      showMsg("Vérification…", "info");
+      showMsg(ui.checking, "info");
 
       const { data } = await supabase.auth.getSession();
       const authed = !!data?.session?.user?.id;
 
       // URL de retour (après login/onboarding) = pricing + plan + next
-      const back = `/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
+      const back = `/${locale}/pricing?plan=${encodeURIComponent(plan)}&next=${encodeURIComponent(nextUrl)}`;
 
       // ✅ pas connecté -> LOGIN, puis ONBOARDING, puis retour pricing (plan)
       if (!authed) {
-        const afterLogin = `/onboarding/sign?next=${encodeURIComponent(back)}`;
-        router.push(`/login?next=${encodeURIComponent(afterLogin)}`);
+        const afterLogin = `/${locale}/onboarding/sign?next=${encodeURIComponent(back)}`;
+        router.push(`/${locale}/login?next=${encodeURIComponent(afterLogin)}`);
         setBusyPlan(null);
         return;
       }
@@ -92,13 +103,13 @@ export default function PricingClient() {
       // ✅ connecté mais pas de signe -> onboarding puis retour pricing (plan)
       const s = getStoredSign();
       if (!s) {
-        router.push(`/onboarding/sign?next=${encodeURIComponent(back)}`);
+        router.push(`/${locale}/onboarding/sign?next=${encodeURIComponent(back)}`);
         setBusyPlan(null);
         return;
       }
 
       // ✅ connecté + signe ok -> checkout
-      showMsg("Ouverture de Stripe…", "info");
+      showMsg(ui.openingStripe, "info");
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -107,18 +118,18 @@ export default function PricingClient() {
       });
 
       const out = (await res.json().catch(() => ({}))) as any;
-      if (!res.ok) throw new Error(out?.error || "Erreur checkout.");
-      if (!out?.url) throw new Error("URL Stripe manquante.");
+      if (!res.ok) throw new Error(out?.error || ui.checkoutError);
+      if (!out?.url) throw new Error(ui.missingStripeUrl);
 
       // (optionnel) enlève ?plan=... pour éviter de relancer si l’utilisateur revient en arrière
       try {
-        router.replace(`/pricing?next=${nextEnc}`);
+        router.replace(`/${locale}/pricing?next=${nextEnc}`);
       } catch {}
 
       window.location.href = out.url;
     } catch (err: any) {
       setBusyPlan(null);
-      showMsg("Erreur: " + (err?.message || String(err)), "err");
+      showMsg(ui.errorPrefix + (err?.message || String(err)), "err");
     }
   }
 
@@ -152,13 +163,176 @@ export default function PricingClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sp, supabase]);
 
+  const ui = {
+    fr: {
+      home: "Accueil",
+      pricing: "Tarifs",
+      back: "Retour",
+      title: "TARIFS",
+      info: "Informations",
+      trust: "Confiance",
+      plans: "Formules",
+      month: "/ mois",
+      year: "/ an",
+      redirect: "Redirection…",
+      unlock: "Débloquer la réponse",
+      unlimited: "Accès illimité 24h/7",
+      chooseYearly: "Choisir l’annuel",
+      yearlyUnlimited: "Accès illimité annuel",
+      canceled: ui.canceled,
+      paid: ui.paid,
+      checking: ui.checking,
+      openingStripe: ui.openingStripe,
+      checkoutError: ui.checkoutError,
+      missingStripeUrl: ui.missingStripeUrl,
+      errorPrefix: "Erreur: ",
+    },
+    en: {
+      home: "Home",
+      pricing: "Pricing",
+      back: "Back",
+      title: "PRICING",
+      info: "Information",
+      trust: "Trust",
+      plans: "Plans",
+      month: "/ month",
+      year: "/ year",
+      redirect: "Redirecting…",
+      unlock: "Unlock the answer",
+      unlimited: "Unlimited access 24/7",
+      chooseYearly: "Choose annual",
+      yearlyUnlimited: "Annual unlimited access",
+      canceled: "Payment canceled. You can try again anytime.",
+      paid: "Payment received. Thank you ✨ You can return to the chat.",
+      checking: "Checking…",
+      openingStripe: "Opening Stripe…",
+      checkoutError: "Checkout error.",
+      missingStripeUrl: "Missing Stripe URL.",
+      errorPrefix: "Error: ",
+    },
+    es: {
+      home: "Inicio",
+      pricing: "Precios",
+      back: "Volver",
+      title: "PRECIOS",
+      info: "Información",
+      trust: "Confianza",
+      plans: "Planes",
+      month: "/ mes",
+      year: "/ año",
+      redirect: "Redirigiendo…",
+      unlock: "Desbloquear la respuesta",
+      unlimited: "Acceso ilimitado 24/7",
+      chooseYearly: "Elegir anual",
+      yearlyUnlimited: "Acceso ilimitado anual",
+      canceled: "Pago cancelado. Puedes intentarlo de nuevo cuando quieras.",
+      paid: "Pago recibido. Gracias ✨ Puedes volver al chat.",
+      checking: "Verificando…",
+      openingStripe: "Abriendo Stripe…",
+      checkoutError: "Error de pago.",
+      missingStripeUrl: "Falta la URL de Stripe.",
+      errorPrefix: "Error: ",
+    },
+    de: {
+      home: "Startseite",
+      pricing: "Preise",
+      back: "Zurück",
+      title: "PREISE",
+      info: "Informationen",
+      trust: "Vertrauen",
+      plans: "Tarife",
+      month: "/ Monat",
+      year: "/ Jahr",
+      redirect: "Weiterleitung…",
+      unlock: "Antwort freischalten",
+      unlimited: "Unbegrenzter Zugang 24/7",
+      chooseYearly: "Jahresplan wählen",
+      yearlyUnlimited: "Unbegrenzter Jahreszugang",
+      canceled: "Zahlung abgebrochen. Du kannst es jederzeit erneut versuchen.",
+      paid: "Zahlung erhalten. Danke ✨ Du kannst zum Chat zurückkehren.",
+      checking: "Überprüfung…",
+      openingStripe: "Stripe wird geöffnet…",
+      checkoutError: "Checkout-Fehler.",
+      missingStripeUrl: "Stripe-URL fehlt.",
+      errorPrefix: "Fehler: ",
+    },
+    it: {
+      home: "Home",
+      pricing: "Prezzi",
+      back: "Indietro",
+      title: "PREZZI",
+      info: "Informazioni",
+      trust: "Fiducia",
+      plans: "Piani",
+      month: "/ mese",
+      year: "/ anno",
+      redirect: "Reindirizzamento…",
+      unlock: "Sblocca la risposta",
+      unlimited: "Accesso illimitato 24/7",
+      chooseYearly: "Scegli annuale",
+      yearlyUnlimited: "Accesso illimitato annuale",
+      canceled: "Pagamento annullato. Puoi riprovare quando vuoi.",
+      paid: "Pagamento ricevuto. Grazie ✨ Puoi tornare alla chat.",
+      checking: "Verifica…",
+      openingStripe: "Apertura di Stripe…",
+      checkoutError: "Errore di checkout.",
+      missingStripeUrl: "URL Stripe mancante.",
+      errorPrefix: "Errore: ",
+    },
+    pt: {
+      home: "Início",
+      pricing: "Preços",
+      back: "Voltar",
+      title: "PREÇOS",
+      info: "Informações",
+      trust: "Confiança",
+      plans: "Planos",
+      month: "/ mês",
+      year: "/ ano",
+      redirect: "Redirecionando…",
+      unlock: "Desbloquear a resposta",
+      unlimited: "Acesso ilimitado 24/7",
+      chooseYearly: "Escolher anual",
+      yearlyUnlimited: "Acesso ilimitado anual",
+      canceled: "Pagamento cancelado. Você pode tentar novamente quando quiser.",
+      paid: "Pagamento recebido. Obrigado ✨ Você pode voltar ao chat.",
+      checking: "Verificando…",
+      openingStripe: "Abrindo Stripe…",
+      checkoutError: "Erro no checkout.",
+      missingStripeUrl: "URL do Stripe ausente.",
+      errorPrefix: "Erro: ",
+    },
+  }[locale as "fr" | "en" | "es" | "de" | "it" | "pt"] ?? {
+    home: "Accueil",
+    pricing: "Tarifs",
+    back: "Retour",
+    title: "TARIFS",
+    info: "Informations",
+    trust: "Confiance",
+    plans: "Formules",
+    month: "/ mois",
+    year: "/ an",
+    redirect: "Redirection…",
+    unlock: "Débloquer la réponse",
+    unlimited: "Accès illimité 24h/7",
+    chooseYearly: "Choisir l’annuel",
+    yearlyUnlimited: "Accès illimité annuel",
+    canceled: ui.canceled,
+    paid: ui.paid,
+    checking: ui.checking,
+    openingStripe: ui.openingStripe,
+    checkoutError: ui.checkoutError,
+    missingStripeUrl: ui.missingStripeUrl,
+    errorPrefix: "Erreur: ",
+  };
+
   const msgClass =
     msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
 
   return (
     <div className="pricing-body pricing-page">
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label={__i18n["accueil_luna_astralis"]}>
+        <Link className="brand" href={`/${locale}`} aria-label={__i18n["accueil_luna_astralis"]}>
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
@@ -170,11 +344,11 @@ export default function PricingClient() {
         </Link>
 
         <nav className="nav" aria-label={__i18n["navigation_principale"]}>
-          <Link href="/">Accueil</Link>
-          <Link className="active" href={`/pricing?next=${nextEnc}`}>
+          <Link href="/">{ui.home}</Link>
+          <Link className="active" href={`/${locale}/pricing?next=${nextEnc}`}>
             Tarifs
           </Link>
-          <Link className="btn btn-small btn-ghost" href={nextUrl || "/chat"}>
+          <Link className="btn btn-small btn-ghost" href={nextUrl || `/${locale}/chat`}>
             Retour
           </Link>
         </nav>
@@ -187,13 +361,13 @@ export default function PricingClient() {
         <section className="pricing-hero" aria-label={__i18n["presentation_des_tarifs"]}>
           <div className="pricing-hero-inner">
             <div className="pricing-kicker">{__i18n["acces_24h_7"]}</div>
-            <div className="pricing-kicker pricing-kicker-alt">TARIFS</div>
+            <div className="pricing-kicker pricing-kicker-alt">{ui.title}</div>
 
             <h1 className="pricing-title">{__i18n["debloque_une_direction_claire_quand_tu_es_dans_le_flou"]}</h1>
 
             <p className="pricing-subtitle">{__i18n["paiement_securise_acces_immediat_annule_quand_tu_veux"]}</p>
 
-            <div className="pricing-chips" aria-label="Informations">
+            <div className="pricing-chips" aria-label={ui.info}>
               <span className="chip">{__i18n["prix_en_dollars_us_usd"]}</span>
               <span className="chip">{__i18n["change_ou_annule_en_tout_temps"]}</span>
               <span className="chip">{__i18n["reponse_claire_en_quelques_minutes"]}</span>
@@ -210,7 +384,7 @@ export default function PricingClient() {
         {/* ===========================
             TRUST
         =========================== */}
-        <section className="section" aria-label="Confiance">
+        <section className="section" aria-label={ui.trust}>
           <div className="pricing-trust">
             <div className="trust-line">{__i18n["une_guidance_douce_et_directe_pour_comprendre_ce_qui_se_joue"]}</div>
             <div className="trust-sub">{__i18n["paiement_securise_annulation_simple_aucun_frais_cache"]}</div>
@@ -220,7 +394,7 @@ export default function PricingClient() {
         {/* ===========================
             PLANS
         =========================== */}
-        <section className="section" aria-label="Formules">
+        <section className="section" aria-label={ui.plans}>
           <div className="pricing-grid">
             {/* Mensuel — Essentiel */}
             <article className="price-card" aria-label={__i18n["mensuel_debloquer_la_reponse"]}>
@@ -228,7 +402,7 @@ export default function PricingClient() {
                 <div className="price-name">{__i18n["debloquer_la_reponse"]}</div>
                 <div className="price-value">
                   <span className="price-now">{__i18n["4_99_nbsp"]}</span>
-                  <span className="price-period">/ mois</span>
+                  <span className="price-period">{ui.month}</span>
                 </div>
                 <div className="price-mini">{__i18n["quand_tu_veux_une_direction_claire_tout_de_suite"]}</div>
               </div>
@@ -247,7 +421,7 @@ export default function PricingClient() {
                 onClick={() => startCheckout("monthly_essential")}
                 disabled={!!busyPlan}
               >
-                {busyPlan === "monthly_essential" ? "Redirection…" : "Débloquer la réponse"}
+                {busyPlan === "monthly_essential" ? ui.redirect : ui.unlock}
               </button>
             </article>
 
@@ -260,7 +434,7 @@ export default function PricingClient() {
                   <div className="price-name">{__i18n["aller_au_fond_des_choses"]}</div>
                   <div className="price-value">
                     <span className="price-now">{__i18n["9_99_nbsp"]}</span>
-                    <span className="price-period">/ mois</span>
+                    <span className="price-period">{ui.month}</span>
                   </div>
                   <div className="price-mini">{__i18n["pour_avancer_avec_un_vrai_fil_conducteur"]}</div>
                 </div>
@@ -279,7 +453,7 @@ export default function PricingClient() {
                   onClick={() => startCheckout("monthly_unlimited")}
                   disabled={!!busyPlan}
                 >
-                  {busyPlan === "monthly_unlimited" ? "Redirection…" : "Accès illimité 24h/7"}
+                  {busyPlan === "monthly_unlimited" ? ui.redirect : ui.unlimited}
                 </button>
               </article>
             </div>
@@ -294,7 +468,7 @@ export default function PricingClient() {
                     <s>{__i18n["59_99_nbsp"]}</s>
                   </span>
                   <span className="price-now">{__i18n["49_99_nbsp"]}</span>
-                  <span className="price-period">/ an</span>
+                  <span className="price-period">{ui.year}</span>
                 </div>
                 <div className="price-mini">{__i18n["le_plus_economique_si_tu_utilises_luna_regulierement"]}</div>
               </div>
@@ -313,7 +487,7 @@ export default function PricingClient() {
                 onClick={() => startCheckout("yearly_essential")}
                 disabled={!!busyPlan}
               >
-                {busyPlan === "yearly_essential" ? "Redirection…" : "Choisir l’annuel"}
+                {busyPlan === "yearly_essential" ? ui.redirect : ui.chooseYearly}
               </button>
             </article>
 
@@ -327,7 +501,7 @@ export default function PricingClient() {
                     <s>{__i18n["119_99_nbsp"]}</s>
                   </span>
                   <span className="price-now">{__i18n["99_99_nbsp"]}</span>
-                  <span className="price-period">/ an</span>
+                  <span className="price-period">{ui.year}</span>
                 </div>
                 <div className="price-mini">{__i18n["si_tu_veux_un_espace_stable_pour_te_comprendre_en_profondeur"]}</div>
               </div>
@@ -346,7 +520,7 @@ export default function PricingClient() {
                 onClick={() => startCheckout("yearly_unlimited")}
                 disabled={!!busyPlan}
               >
-                {busyPlan === "yearly_unlimited" ? "Redirection…" : "Accès illimité annuel"}
+                {busyPlan === "yearly_unlimited" ? ui.redirect : ui.yearlyUnlimited}
               </button>
             </article>
           </div>
