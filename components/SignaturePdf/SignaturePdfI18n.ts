@@ -2,12 +2,31 @@ import type {
   SignatureLocale,
 } from "./SignaturePdfTypes";
 
+/*
+|--------------------------------------------------------------------------
+| Cover
+|--------------------------------------------------------------------------
+*/
+
 import frCover from "../../i18n/migrated/fr/components/signaturepdf/pdfsignaturecover.json";
 import enCover from "../../i18n/migrated/en/components/signaturepdf/pdfsignaturecover.json";
 import esCover from "../../i18n/migrated/es/components/signaturepdf/pdfsignaturecover.json";
 import deCover from "../../i18n/migrated/de/components/signaturepdf/pdfsignaturecover.json";
 import itCover from "../../i18n/migrated/it/components/signaturepdf/pdfsignaturecover.json";
 import ptCover from "../../i18n/migrated/pt/components/signaturepdf/pdfsignaturecover.json";
+
+/*
+|--------------------------------------------------------------------------
+| Wheel
+|--------------------------------------------------------------------------
+*/
+
+import frWheel from "../../i18n/migrated/fr/components/signaturepdf/pdfsignaturewheel.json";
+import enWheel from "../../i18n/migrated/en/components/signaturepdf/pdfsignaturewheel.json";
+import esWheel from "../../i18n/migrated/es/components/signaturepdf/pdfsignaturewheel.json";
+import deWheel from "../../i18n/migrated/de/components/signaturepdf/pdfsignaturewheel.json";
+import itWheel from "../../i18n/migrated/it/components/signaturepdf/pdfsignaturewheel.json";
+import ptWheel from "../../i18n/migrated/pt/components/signaturepdf/pdfsignaturewheel.json";
 
 /*
 |--------------------------------------------------------------------------
@@ -95,12 +114,35 @@ export function getSignatureCoverDictionary(
 
 /*
 |--------------------------------------------------------------------------
+| Roue astrologique Signature
+|--------------------------------------------------------------------------
+*/
+
+const SIGNATURE_WHEEL_DICTIONARIES:
+  SignatureDictionaryGroup = {
+    fr: frWheel,
+    en: enWheel,
+    es: esWheel,
+    de: deWheel,
+    it: itWheel,
+    pt: ptWheel,
+  };
+
+export function getSignatureWheelDictionary(
+  locale: SignatureLocale = "fr",
+): SignaturePdfDictionary {
+  return (
+    SIGNATURE_WHEEL_DICTIONARIES[
+      normalizeSignaturePdfLocale(locale)
+    ] ||
+    SIGNATURE_WHEEL_DICTIONARIES.fr
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
 | Lecture sécurisée
 |--------------------------------------------------------------------------
-|
-| Permet de conserver le français comme secours si jamais une traduction
-| manque accidentellement dans une autre langue.
-|
 */
 
 export function signatureText(
@@ -116,18 +158,6 @@ export function signatureText(
     translated.trim()
   ) {
     return translated;
-  }
-
-  const french =
-    SIGNATURE_COVER_DICTIONARIES.fr[
-      key
-    ];
-
-  if (
-    typeof french === "string" &&
-    french.trim()
-  ) {
-    return french;
   }
 
   return fallback;
