@@ -125,39 +125,13 @@
 
 .hero-showcase {
   display: grid;
-  grid-template-columns: minmax(250px, 0.92fr) minmax(380px, 1.2fr) minmax(250px, 0.92fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
   align-items: stretch;
   margin-top: 38px;
 }
 
-.hero-tool-card,
-.hero-video-card {
-  border-radius: 30px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(13, 19, 38, 0.82) 0%,
-      rgba(8, 12, 26, 0.72) 100%
-    );
-  border: 1px solid rgba(244, 201, 93, 0.32);
-
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-
-  box-shadow:
-    0 26px 70px rgba(0, 0, 0, 0.42),
-    0 0 45px rgba(244, 201, 93, 0.10),
-    0 0 70px rgba(110, 130, 255, 0.08),
-    inset 0 1px 0 rgba(255,255,255,.08);
-
-  transition:
-    transform .35s ease,
-    box-shadow .35s ease,
-    border-color .35s ease;
-}
-.hero-tool-card,
-.hero-video-card {
+.hero-tool-card {
   border-radius: 30px;
   background:
     linear-gradient(
@@ -184,8 +158,7 @@
 
 /* Effet au survol */
 
-.hero-tool-card:hover,
-.hero-video-card:hover {
+.hero-tool-card:hover {
   transform: translateY(-8px);
 
   border-color: rgba(244, 201, 93, 0.55);
@@ -250,21 +223,6 @@
 .hero-tool-card .hero-free-btn {
   margin-top: auto;
   width: 100%;
-}
-
-.hero-video-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 22px;
-  min-height: 100%;
-  transform: scale(1.04);
-  transform-origin: center;
-}
-.hero-video-card video,
-.hero-video-card iframe,
-.hero-video-card > * {
-  max-width: 100%;
 }
 
 /* ======================================== */
@@ -528,10 +486,6 @@
     margin-right: auto;
   }
 
-  .hero-video-card {
-    order: -1;
-  }
-
   .hero-tool-card {
     text-align: center;
   }
@@ -568,8 +522,7 @@
     margin-top: 26px;
   }
 
-  .hero-tool-card,
-  .hero-video-card {
+  .hero-tool-card {
     border-radius: 22px;
   }
 
@@ -1001,13 +954,6 @@
 /* HOROSCOPE + NOUVEAU HERO                 */
 /* ======================================== */
 
-.hero-showcase {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 1fr));
-  gap: 28px;
-  align-items: stretch;
-}
-
 .hero-bottom-card {
   grid-column: 1 / -1;
   margin-top: 28px;
@@ -1062,20 +1008,6 @@
     margin-top: 0;
   }
 
-}
-.hero-showcase + .hero-showcase .hero-tool-card {
-  grid-column: 1 / -1;
-  width: 100%;
-}
-
-.hero-showcase + .hero-showcase .hero-tool-card > * {
-  max-width: 820px;
-}
-
-.hero-showcase + .hero-showcase .hero-tool-card p,
-.hero-showcase + .hero-showcase .hero-tool-card ul,
-.hero-showcase + .hero-showcase .hero-tool-card .hero-free-btn {
-  width: 100%;
 }
 /* =========================================================
    POURQUOI CHOISIR LUNA ASTRALIS
