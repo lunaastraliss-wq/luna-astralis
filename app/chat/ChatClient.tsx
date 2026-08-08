@@ -6,9 +6,14 @@
 
 
 
-import __i18n from "../../i18n/migrated/fr/app/chat/chatclient.json";
+import frI18n from "../../i18n/migrated/fr/app/chat/chatclient.json";
+import enI18n from "../../i18n/migrated/en/app/chat/chatclient.json";
+import esI18n from "../../i18n/migrated/es/app/chat/chatclient.json";
+import deI18n from "../../i18n/migrated/de/app/chat/chatclient.json";
+import itI18n from "../../i18n/migrated/it/app/chat/chatclient.json";
+import ptI18n from "../../i18n/migrated/pt/app/chat/chatclient.json";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import ChatSidebar from "./ChatSidebar";
@@ -26,61 +31,113 @@ const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 const SIGN_QUERY_PARAM = "sign";
 
-const SIGNS: Record<string, string> = {
-  belier: __i18n["belier"],
-  taureau: __i18n["taureau"],
-  gemeaux: __i18n["gemeaux"],
-  cancer: __i18n["cancer"],
-  lion: __i18n["lion"],
-  vierge: __i18n["vierge"],
-  balance: __i18n["balance"],
-  scorpion: __i18n["scorpion"],
-  sagittaire: __i18n["sagittaire"],
-  capricorne: __i18n["capricorne"],
-  verseau: __i18n["verseau"],
-  poissons: __i18n["poissons"],
+type Lang = "fr" | "en" | "es" | "de" | "it" | "pt";
+
+const SUPPORTED_LANGS: Lang[] = ["fr", "en", "es", "de", "it", "pt"];
+
+const I18N_BY_LANG: Record<Lang, Record<string, string>> = {
+  fr: frI18n,
+  en: enI18n,
+  es: esI18n,
+  de: deI18n,
+  it: itI18n,
+  pt: ptI18n,
 };
 
-const SIGN_DESC: Record<string, string> = {
-  belier:
-    __i18n["energie_d_action_et_d_elan_on_explore_ton_impulsion_ta_coler"],
-  taureau:
-    __i18n["besoin_de_stabilite_et_de_concret_on_explore_l_attachement_l"],
-  gemeaux:
-    __i18n["mental_rapide_et_curiosite_on_explore_tes_pensees_en_boucle"],
-  cancer:
-    __i18n["hyper_sensibilite_et_protection_on_explore_tes_besoins_affec"],
-  lion:
-    __i18n["rayonnement_et_fierte_du_c_ur_on_explore_l_estime_de_soi_la"],
-  vierge:
-    __i18n["lucidite_et_exigence_on_explore_le_controle_la_charge_mental"],
-  balance:
-    __i18n["equilibre_et_relation_on_explore_la_peur_du_conflit_le_besoi"],
-  scorpion:
-    __i18n["intensite_et_transformation_on_explore_la_confiance_la_jalou"],
-  sagittaire:
-    __i18n["sens_et_liberte_on_explore_l_ennui_l_envie_d_ailleurs_et_com"],
-  capricorne:
-    __i18n["structure_et_responsabilite_on_explore_la_pression_la_perfor"],
-  verseau:
-    __i18n["independance_et_vision_on_explore_la_distance_emotionnelle_t"],
-  poissons:
-    __i18n["intuition_et_empathie_on_explore_l_hypersensibilite_la_fatig"],
-};
-// --- DESC COURTE (mobile) ---
-const SIGN_DESC_MOBILE: Record<string, string> = {
-  belier: __i18n["action_elan"],
-  taureau: __i18n["stabilite_securite"],
-  gemeaux: __i18n["mental_dualite"],
-  cancer: __i18n["emotions_protection"],
-  lion: __i18n["confiance_c_ur"],
-  vierge: __i18n["clarte_controle"],
-  balance: __i18n["relation_equilibre"],
-  scorpion: __i18n["intensite_confiance"],
-  sagittaire: __i18n["liberte_sens"],
-  capricorne: __i18n["pression_maitrise"],
-  verseau: __i18n["independance"],
-  poissons: __i18n["intuition_empathie"],
+const CHAT_UI: Record<
+  Lang,
+  {
+    desktopFallback: string;
+    mobileFallback: string;
+    hello: string;
+    unknownError: string;
+    emptyReply: string;
+    technicalError: string;
+    deepen: string;
+    freeRemaining: (n: number) => string;
+    freeLimitReached: string;
+    plans: string;
+    history: string;
+  }
+> = {
+  fr: {
+    desktopFallback: "Exploration douce : émotions, relations, stress, schémas, besoins, limites.",
+    mobileFallback: "Exploration émotionnelle.",
+    hello: "Bonjour ✨ Je suis Luna. Je suis là pour t'aider à mieux comprendre tes émotions, tes défis et tes forces. Que souhaites-tu explorer aujourd'hui ?",
+    unknownError: "Erreur inconnue",
+    emptyReply: "Réponse vide.",
+    technicalError: "Erreur. Vérifie /api/chat sur Vercel.",
+    deepen: "Approfondir",
+    freeRemaining: (n) => `Il te reste ${n} message(s) gratuit(s).`,
+    freeLimitReached: "Limite gratuite atteinte.",
+    plans: "Forfaits",
+    history: "Historique",
+  },
+  en: {
+    desktopFallback: "A gentle exploration of emotions, relationships, stress, patterns, needs and boundaries.",
+    mobileFallback: "Emotional exploration.",
+    hello: "Hello ✨ I'm Luna. I'm here to help you better understand your emotions, challenges and strengths. What would you like to explore today?",
+    unknownError: "Unknown error",
+    emptyReply: "Empty response.",
+    technicalError: "Error. Check /api/chat on Vercel.",
+    deepen: "Explore",
+    freeRemaining: (n) => `You have ${n} free message(s) left.`,
+    freeLimitReached: "Free limit reached.",
+    plans: "Plans",
+    history: "History",
+  },
+  es: {
+    desktopFallback: "Exploración suave: emociones, relaciones, estrés, patrones, necesidades y límites.",
+    mobileFallback: "Exploración emocional.",
+    hello: "Hola ✨ Soy Luna. Estoy aquí para ayudarte a comprender mejor tus emociones, tus desafíos y tus fortalezas. ¿Qué te gustaría explorar hoy?",
+    unknownError: "Error desconocido",
+    emptyReply: "Respuesta vacía.",
+    technicalError: "Error. Revisa /api/chat en Vercel.",
+    deepen: "Profundizar",
+    freeRemaining: (n) => `Te quedan ${n} mensaje(s) gratis.`,
+    freeLimitReached: "Has alcanzado el límite gratuito.",
+    plans: "Planes",
+    history: "Historial",
+  },
+  de: {
+    desktopFallback: "Sanfte Erkundung von Emotionen, Beziehungen, Stress, Mustern, Bedürfnissen und Grenzen.",
+    mobileFallback: "Emotionale Erkundung.",
+    hello: "Hallo ✨ Ich bin Luna. Ich helfe dir, deine Gefühle, Herausforderungen und Stärken besser zu verstehen. Was möchtest du heute erkunden?",
+    unknownError: "Unbekannter Fehler",
+    emptyReply: "Leere Antwort.",
+    technicalError: "Fehler. Prüfe /api/chat auf Vercel.",
+    deepen: "Vertiefen",
+    freeRemaining: (n) => `Du hast noch ${n} kostenlose Nachricht(en).`,
+    freeLimitReached: "Kostenloses Limit erreicht.",
+    plans: "Tarife",
+    history: "Verlauf",
+  },
+  it: {
+    desktopFallback: "Esplorazione delicata: emozioni, relazioni, stress, schemi, bisogni e limiti.",
+    mobileFallback: "Esplorazione emotiva.",
+    hello: "Ciao ✨ Sono Luna. Sono qui per aiutarti a comprendere meglio le tue emozioni, le tue sfide e i tuoi punti di forza. Cosa vorresti esplorare oggi?",
+    unknownError: "Errore sconosciuto",
+    emptyReply: "Risposta vuota.",
+    technicalError: "Errore. Controlla /api/chat su Vercel.",
+    deepen: "Approfondisci",
+    freeRemaining: (n) => `Ti restano ${n} messaggio/i gratuito/i.`,
+    freeLimitReached: "Limite gratuito raggiunto.",
+    plans: "Piani",
+    history: "Cronologia",
+  },
+  pt: {
+    desktopFallback: "Exploração suave: emoções, relacionamentos, estresse, padrões, necessidades e limites.",
+    mobileFallback: "Exploração emocional.",
+    hello: "Olá ✨ Eu sou Luna. Estou aqui para ajudar você a compreender melhor suas emoções, seus desafios e seus pontos fortes. O que você gostaria de explorar hoje?",
+    unknownError: "Erro desconhecido",
+    emptyReply: "Resposta vazia.",
+    technicalError: "Erro. Verifique /api/chat na Vercel.",
+    deepen: "Aprofundar",
+    freeRemaining: (n) => `Você ainda tem ${n} mensagem(ns) gratuita(s).`,
+    freeLimitReached: "Limite gratuito atingido.",
+    plans: "Planos",
+    history: "Histórico",
+  },
 };
 
 const SIGN_BOOKS: Record<string, string> = {
@@ -168,7 +225,85 @@ function makeGuestIdLocal(): string {
 
 export default function ChatClient() {
   const router = useRouter();
+  const pathname = usePathname();
   const sp = useSearchParams();
+
+  const lang = useMemo<Lang>(() => {
+    const first = (pathname || "").split("/").filter(Boolean)[0]?.toLowerCase();
+    if (SUPPORTED_LANGS.includes(first as Lang)) return first as Lang;
+
+    const queryLang = (sp.get("lang") || "").toLowerCase();
+    if (SUPPORTED_LANGS.includes(queryLang as Lang)) return queryLang as Lang;
+
+    return "fr";
+  }, [pathname, sp]);
+
+  const localePrefix = useMemo(() => {
+    const first = (pathname || "").split("/").filter(Boolean)[0]?.toLowerCase();
+    return SUPPORTED_LANGS.includes(first as Lang) ? `/${first}` : "";
+  }, [pathname]);
+
+  const localizePath = useCallback(
+    (path: string) => `${localePrefix}${path.startsWith("/") ? path : `/${path}`}`,
+    [localePrefix]
+  );
+
+  const __i18n = I18N_BY_LANG[lang];
+  const ui = CHAT_UI[lang];
+
+  const SIGNS = useMemo<Record<string, string>>(
+    () => ({
+      belier: __i18n["belier"],
+      taureau: __i18n["taureau"],
+      gemeaux: __i18n["gemeaux"],
+      cancer: __i18n["cancer"],
+      lion: __i18n["lion"],
+      vierge: __i18n["vierge"],
+      balance: __i18n["balance"],
+      scorpion: __i18n["scorpion"],
+      sagittaire: __i18n["sagittaire"],
+      capricorne: __i18n["capricorne"],
+      verseau: __i18n["verseau"],
+      poissons: __i18n["poissons"],
+    }),
+    [__i18n]
+  );
+
+  const SIGN_DESC = useMemo<Record<string, string>>(
+    () => ({
+      belier: __i18n["energie_d_action_et_d_elan_on_explore_ton_impulsion_ta_coler"],
+      taureau: __i18n["besoin_de_stabilite_et_de_concret_on_explore_l_attachement_l"],
+      gemeaux: __i18n["mental_rapide_et_curiosite_on_explore_tes_pensees_en_boucle"],
+      cancer: __i18n["hyper_sensibilite_et_protection_on_explore_tes_besoins_affec"],
+      lion: __i18n["rayonnement_et_fierte_du_c_ur_on_explore_l_estime_de_soi_la"],
+      vierge: __i18n["lucidite_et_exigence_on_explore_le_controle_la_charge_mental"],
+      balance: __i18n["equilibre_et_relation_on_explore_la_peur_du_conflit_le_besoi"],
+      scorpion: __i18n["intensite_et_transformation_on_explore_la_confiance_la_jalou"],
+      sagittaire: __i18n["sens_et_liberte_on_explore_l_ennui_l_envie_d_ailleurs_et_com"],
+      capricorne: __i18n["structure_et_responsabilite_on_explore_la_pression_la_perfor"],
+      verseau: __i18n["independance_et_vision_on_explore_la_distance_emotionnelle_t"],
+      poissons: __i18n["intuition_et_empathie_on_explore_l_hypersensibilite_la_fatig"],
+    }),
+    [__i18n]
+  );
+
+  const SIGN_DESC_MOBILE = useMemo<Record<string, string>>(
+    () => ({
+      belier: __i18n["action_elan"],
+      taureau: __i18n["stabilite_securite"],
+      gemeaux: __i18n["mental_dualite"],
+      cancer: __i18n["emotions_protection"],
+      lion: __i18n["confiance_c_ur"],
+      vierge: __i18n["clarte_controle"],
+      balance: __i18n["relation_equilibre"],
+      scorpion: __i18n["intensite_confiance"],
+      sagittaire: __i18n["liberte_sens"],
+      capricorne: __i18n["pression_maitrise"],
+      verseau: __i18n["independance"],
+      poissons: __i18n["intuition_empathie"],
+    }),
+    [__i18n]
+  );
 
   const supabase = useMemo(() => createClientComponentClient(), []);
 
@@ -208,13 +343,13 @@ export default function ChatClient() {
   }, [userId]);
 
   const KEY_THREAD_LOCAL = useMemo(
-    () => (signKey ? `${STORAGE_PREFIX}thread_${signKey}` : ""),
-    [signKey]
+    () => (signKey ? `${STORAGE_PREFIX}thread_${lang}_${signKey}` : ""),
+    [lang, signKey]
   );
 
   const KEY_SERVER_THREAD_ID = useMemo(
-    () => (signKey ? `${STORAGE_PREFIX}server_thread_id_${signKey}` : ""),
-    [signKey]
+    () => (signKey ? `${STORAGE_PREFIX}server_thread_id_${lang}_${signKey}` : ""),
+    [lang, signKey]
   );
 
 // --- Détection mobile ---
@@ -247,18 +382,17 @@ const signName = useMemo(() => {
 
 // --- Desc desktop ---
 const signDescDesktop = useMemo(() => {
-  const fallback =
-    "Exploration douce : émotions, relations, stress, schémas, besoins, limites.";
+  const fallback = ui.desktopFallback;
   if (!signKey) return fallback;
   return SIGN_DESC[signKey] || fallback;
-}, [signKey]);
+}, [signKey, SIGN_DESC, ui.desktopFallback]);
 
 // --- Desc mobile ---
 const signDescMobile = useMemo(() => {
-  const fallback = "Exploration émotionnelle.";
+  const fallback = ui.mobileFallback;
   if (!signKey) return fallback;
   return SIGN_DESC_MOBILE[signKey] || fallback;
-}, [signKey]);
+}, [signKey, SIGN_DESC_MOBILE, ui.mobileFallback]);
 
 // ✅ Desc finale utilisée partout
 const signDesc = useMemo(() => {
@@ -344,14 +478,13 @@ const bookUrl = useMemo(() => {
   (existing: ThreadMsg[]) => {
     if (existing.length) return existing;
 
-const hello =
-  "Bonjour ✨ Je suis Luna. Je suis là pour t'aider à mieux comprendre tes émotions, tes défis et tes forces. Que souhaites-tu explorer aujourd'hui ?";
+const hello = ui.hello;
 
 const t: ThreadMsg[] = [{ role: "ai", text: hello }];
 saveThreadLocal(t);
 return t;
 },
-[saveThreadLocal]
+[saveThreadLocal, ui.hello]
 );
 
 const scrollToBottom = useCallback((force = false) => {
@@ -431,18 +564,18 @@ setSavedRemaining(safe);
   }, [setSavedRemaining]);
 
   const changeSignUrl = useMemo(() => {
-    const next = encodeURIComponent("/chat");
-    return `/onboarding/sign?change=1&next=${next}`;
-  }, []);
+    const next = encodeURIComponent(localizePath("/chat"));
+    return `${localizePath("/onboarding/sign")}?change=1&next=${next}`;
+  }, [localizePath]);
 
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
       router.push(
-        `/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`
+        `${localizePath("/pricing/plans")}?reason=${encodeURIComponent(reason)}&next=${next}`
       );
     },
-    [router, currentPathWithQuery]
+    [router, currentPathWithQuery, localizePath]
   );
 
   const openPaywallGuest = useCallback(() => {
@@ -507,11 +640,11 @@ setSavedRemaining(safe);
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already)
             router.replace(
-              `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
+              `${localizePath("/chat")}?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
             );
         }
       } else {
-        router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
+        router.replace(`${localizePath("/onboarding/sign")}?next=${encodeURIComponent(localizePath("/chat"))}`);
       }
 
       setBooted(true);
@@ -576,7 +709,7 @@ setSavedRemaining(safe);
       if (!signKey) throw new Error("SIGN_NOT_READY");
 
       const payload: any = {
-        lang: "fr",
+        lang,
         signKey,
         signName,
         message: userText,
@@ -602,7 +735,7 @@ if (!res.ok) {
   if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
     storeSign(signKey);
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?next=${next}`);
+    router.push(`${localizePath("/login")}?next=${next}`);
     throw new Error("AUTH_REQUIRED");
   }
 
@@ -619,7 +752,7 @@ if (!res.ok) {
     throw new Error("PREMIUM_REQUIRED");
   }
 
-  const msg = data?.message || data?.detail || data?.error || "Erreur inconnue";
+  const msg = data?.message || data?.detail || data?.error || ui.unknownError;
   throw new Error(msg);
 }
 
@@ -641,11 +774,12 @@ if (typeof data?.remaining === "number") {
       }
 
       const reply = data?.reply ?? data?.message;
-      if (!reply) throw new Error("Réponse vide.");
+      if (!reply) throw new Error(ui.emptyReply);
       return String(reply);
     },
     [
       getSessionSafe,
+      lang,
       signKey,
       signName,
       getGuestId,
@@ -657,6 +791,8 @@ if (typeof data?.remaining === "number") {
       setSavedRemaining,
       currentPathWithQuery,
       router,
+      ui.emptyReply,
+      ui.unknownError,
     ]
   );
 
@@ -671,7 +807,7 @@ if (typeof data?.remaining === "number") {
       await logEvent("send_message");
 
       if (!signKey) {
-        router.push("/onboarding/sign?next=/chat");
+        router.push(`${localizePath("/onboarding/sign")}?next=${encodeURIComponent(localizePath("/chat"))}`);
         return;
       }
 
@@ -708,8 +844,8 @@ if (typeof data?.remaining === "number") {
         }
 
         const msg =
-          "Erreur. Vérifie /api/chat sur Vercel. " +
-          (err?.message ? `(${err.message})` : "");
+          ui.technicalError +
+          (err?.message ? ` (${err.message})` : "");
 
         const t2: ThreadMsg[] = [...t1, { role: "ai", text: msg }];
         saveThreadLocal(t2);
@@ -725,9 +861,11 @@ if (typeof data?.remaining === "number") {
       openPaywallGuest,
       saveThreadLocal,
       router,
+      localizePath,
       signKey,
       plan,
       logEvent,
+      ui.technicalError,
     ]
   );
 
@@ -750,10 +888,10 @@ if (typeof data?.remaining === "number") {
       setUserId("");
       setPlan("guest");
 
-      router.replace("/");
+      router.replace(localizePath("/"));
       router.refresh();
     },
-    [supabase, closePaywall, router]
+    [supabase, closePaywall, router, localizePath]
   );
 
   /* ---------------- actions ---------------- */
@@ -780,8 +918,8 @@ if (typeof data?.remaining === "number") {
 
   const onLogin = useCallback(() => {
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?next=${next}`);
-  }, [router, currentPathWithQuery]);
+    router.push(`${localizePath("/login")}?next=${next}`);
+  }, [router, currentPathWithQuery, localizePath]);
 
   /* ---------------- render ---------------- */
 
@@ -834,13 +972,13 @@ if (typeof data?.remaining === "number") {
       target="_blank"
       rel="noreferrer"
     >
-      Approfondir {signName} →
+      {ui.deepen} {signName} →
     </a>
   ) : null}
 </div>
             {plan === "free" && typeof freeLeft === "number" ? (
               <div className="msc-quota">
-                {freeLeft > 0 ? `Il te reste ${freeLeft} message(s) gratuit(s).` : "Limite gratuite atteinte."}
+                {freeLeft > 0 ? ui.freeRemaining(freeLeft) : ui.freeLimitReached}
               </div>
             ) : null}
           </div>
@@ -864,11 +1002,11 @@ if (typeof data?.remaining === "number") {
                 className={`btn btn-small ${plan !== "premium" ? "btn-primary" : "btn-ghost"}`}
                 onClick={onOpenPlans}
               >
-                Forfaits
+                {ui.plans}
               </button>
 
               <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
-                Historique
+                {ui.history}
               </button>
             </div>
           </div>
