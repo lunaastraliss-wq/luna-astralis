@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import fr from "../../i18n/migrated/fr/app/chat/chatpanel.json";
 import en from "../../i18n/migrated/en/app/chat/chatpanel.json";
@@ -127,6 +127,17 @@ const UI_TEXT: Record<
   },
 };
 
+function isLang(value: string | null | undefined): value is Lang {
+  return (
+    value === "fr" ||
+    value === "en" ||
+    value === "es" ||
+    value === "de" ||
+    value === "it" ||
+    value === "pt"
+  );
+}
+
 function getLangFromPath(pathname: string | null): Lang {
   if (pathname) {
     const firstSegment = pathname
@@ -134,14 +145,7 @@ function getLangFromPath(pathname: string | null): Lang {
       .filter(Boolean)[0]
       ?.toLowerCase();
 
-    if (
-      firstSegment === "fr" ||
-      firstSegment === "en" ||
-      firstSegment === "es" ||
-      firstSegment === "de" ||
-      firstSegment === "it" ||
-      firstSegment === "pt"
-    ) {
+    if (isLang(firstSegment)) {
       return firstSegment;
     }
   }
@@ -151,14 +155,7 @@ function getLangFromPath(pathname: string | null): Lang {
       ?.toLowerCase()
       .split("-")[0];
 
-    if (
-      htmlLang === "fr" ||
-      htmlLang === "en" ||
-      htmlLang === "es" ||
-      htmlLang === "de" ||
-      htmlLang === "it" ||
-      htmlLang === "pt"
-    ) {
+    if (isLang(htmlLang)) {
       return htmlLang;
     }
   }
@@ -168,10 +165,34 @@ function getLangFromPath(pathname: string | null): Lang {
 
 function useChatLanguage() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const lang = useMemo(() => {
+    /*
+     * IMPORTANT :
+     * Les pages du chat utilisent des URLs comme :
+     *
+     * /chat?lang=en&sign=scorpion
+     *
+     * La langue est donc dans ?lang=...
+     *
+     * On donne priorité au paramètre ?lang=.
+     */
+
+    const queryLang = searchParams.get("lang")?.toLowerCase();
+
+    if (isLang(queryLang)) {
+      return queryLang;
+    }
+
+    /*
+     * Si ?lang= n'existe pas, on conserve
+     * le fonctionnement précédent avec /fr/chat,
+     * /en/chat, etc.
+     */
+
     return getLangFromPath(pathname);
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   const dict = DICTS[lang];
   const ui = UI_TEXT[lang];
@@ -202,9 +223,13 @@ export function TopBar({
 }) {
   const { lang, ui, t, pathname } = useChatLanguage();
 
-  const currentPath = pathname || `/${lang}/chat`;
+  const currentPath =
+    pathname ||
+    `/chat?lang=${encodeURIComponent(lang)}`;
 
-  const loginHref = `/login?next=${encodeURIComponent(currentPath)}`;
+  const loginHref = `/login?next=${encodeURIComponent(
+    currentPath
+  )}`;
 
   const homeHref = `/${lang}`;
 
@@ -213,21 +238,33 @@ export function TopBar({
       <a
         className="chat-brand"
         href={homeHref}
-        aria-label={t("retour_a_l_accueil", ui.home)}
+        aria-label={t(
+          "retour_a_l_accueil",
+          ui.home
+        )}
       >
         <img
           className="chat-logo"
           src="/logo-luna-astralis-transparent.png"
-          alt={t("luna_astralis", ui.lunaAstralis)}
+          alt={t(
+            "luna_astralis",
+            ui.lunaAstralis
+          )}
         />
 
         <div className="chat-brand-text">
           <div className="chat-brand-name">
-            {t("luna_astralis_2", ui.lunaAstralis)}
+            {t(
+              "luna_astralis_2",
+              ui.lunaAstralis
+            )}
           </div>
 
           <div className="chat-brand-sub">
-            {t("astro_psycho", ui.astroPsycho)}
+            {t(
+              "astro_psycho",
+              ui.astroPsycho
+            )}
           </div>
         </div>
       </a>
@@ -238,10 +275,16 @@ export function TopBar({
             className="chat-logout"
             href="#"
             onClick={onLogout}
-            aria-label={t("deconnexion", ui.logoutDesktop)}
+            aria-label={t(
+              "deconnexion",
+              ui.logoutDesktop
+            )}
           >
             <span className="hide-mobile">
-              {t("deconnexion_2", ui.logoutDesktop)}
+              {t(
+                "deconnexion_2",
+                ui.logoutDesktop
+              )}
             </span>
 
             <span className="show-mobile">
@@ -252,10 +295,16 @@ export function TopBar({
           <a
             className="chat-login"
             href={loginHref}
-            aria-label={t("se_connecter", ui.loginDesktop)}
+            aria-label={t(
+              "se_connecter",
+              ui.loginDesktop
+            )}
           >
             <span className="hide-mobile">
-              {t("se_connecter_2", ui.loginDesktop)}
+              {t(
+                "se_connecter_2",
+                ui.loginDesktop
+              )}
             </span>
 
             <span className="show-mobile">
@@ -337,7 +386,10 @@ export default function ChatPanel(props: {
               <img
                 className="msg-avatar"
                 src="/ia-luna-astralis.png"
-                alt={t("luna_ia", ui.lunaAI)}
+                alt={t(
+                  "luna_ia",
+                  ui.lunaAI
+                )}
               />
             ) : (
               <div className="msg-avatar-spacer" />
