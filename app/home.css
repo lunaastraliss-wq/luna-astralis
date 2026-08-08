@@ -225,6 +225,15 @@
   width: 100%;
 }
 
+.hero-compatibility-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hero-compatibility-content .hero-free-btn {
+  margin-top: auto;
+}
 /* ======================================== */
 /* BOUTONS                                  */
 /* ======================================== */
