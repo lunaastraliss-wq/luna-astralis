@@ -129,7 +129,10 @@ const UI_TEXT: Record<
 
 function getLangFromPath(pathname: string | null): Lang {
   if (pathname) {
-    const firstSegment = pathname.split("/").filter(Boolean)[0]?.toLowerCase();
+    const firstSegment = pathname
+      .split("/")
+      .filter(Boolean)[0]
+      ?.toLowerCase();
 
     if (
       firstSegment === "fr" ||
@@ -199,11 +202,9 @@ export function TopBar({
 }) {
   const { lang, ui, t, pathname } = useChatLanguage();
 
-  const currentPath =
-    pathname || `/${lang}/chat`;
+  const currentPath = pathname || `/${lang}/chat`;
 
-  const loginHref =
-    `/login?next=${encodeURIComponent(currentPath)}`;
+  const loginHref = `/login?next=${encodeURIComponent(currentPath)}`;
 
   const homeHref = `/${lang}`;
 
@@ -293,10 +294,10 @@ export default function ChatPanel(props: {
   const { ui, t } = useChatLanguage();
 
   return (
-    <section className="chat-main">
+    <section className="chat-panel-inner">
       <div className="chat-header">
         <div className="chat-header-left">
-          <div className="chat-header-title">
+          <div className="chat-title">
             {ui.discussion} {signName}
           </div>
         </div>
@@ -382,6 +383,52 @@ export default function ChatPanel(props: {
           </span>
         </button>
       </form>
+
+      <style jsx>{`
+        .chat-panel-inner {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          height: 100%;
+          min-height: 0;
+          overflow: hidden;
+        }
+
+        .chat-header {
+          flex: 0 0 auto;
+        }
+
+        .chat-messages {
+          flex: 1 1 auto;
+          min-height: 0;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+
+        .chat-inputbar {
+          flex: 0 0 auto;
+          position: relative;
+          z-index: 30;
+          width: 100%;
+        }
+
+        .chat-input {
+          min-width: 0;
+        }
+
+        @media (max-width: 768px) {
+          .chat-panel-inner {
+            height: 100%;
+            min-height: 0;
+          }
+
+          .chat-inputbar {
+            position: sticky;
+            bottom: 0;
+            z-index: 50;
+          }
+        }
+      `}</style>
     </section>
   );
 }
