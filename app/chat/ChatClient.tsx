@@ -247,16 +247,6 @@ export default function ChatClient() {
     return `${STORAGE_PREFIX}server_remaining_user_${userId}`;
   }, [userId]);
 
-  const KEY_THREAD_LOCAL = useMemo(
-    () => (signKey ? `${STORAGE_PREFIX}thread_${signKey}` : ""),
-    [signKey]
-  );
-
-  const KEY_SERVER_THREAD_ID = useMemo(
-    () => (signKey ? `${STORAGE_PREFIX}server_thread_id_${signKey}` : ""),
-    [signKey]
-  );
-
 // --- Détection mobile ---
 const [isMobile, setIsMobile] = useState(false);
 
@@ -375,6 +365,31 @@ const bookUrl = useMemo(() => {
       return makeGuestIdLocal();
     }
   }, [KEY_GUEST_ID]);
+
+  // Chaque compte possède maintenant son propre historique local.
+  // Un invité utilise son guest_id; un utilisateur connecté utilise son user.id Supabase.
+  const THREAD_OWNER_KEY = useMemo(() => {
+    if (userId) return `user_${userId}`;
+
+    const guestId = getGuestId();
+    return guestId ? `guest_${guestId}` : "guest";
+  }, [userId, getGuestId]);
+
+  const KEY_THREAD_LOCAL = useMemo(
+    () =>
+      signKey
+        ? `${STORAGE_PREFIX}thread_${THREAD_OWNER_KEY}_${signKey}`
+        : "",
+    [THREAD_OWNER_KEY, signKey]
+  );
+
+  const KEY_SERVER_THREAD_ID = useMemo(
+    () =>
+      signKey
+        ? `${STORAGE_PREFIX}server_thread_id_${THREAD_OWNER_KEY}_${signKey}`
+        : "",
+    [THREAD_OWNER_KEY, signKey]
+  );
 
   const getServerThreadId = useCallback(() => {
     if (typeof window === "undefined") return 0;
@@ -619,21 +634,21 @@ setSavedRemaining(safe);
       const uid = session?.user?.id || "";
       const email = session?.user?.email || "";
 
+      // Important : vider immédiatement l'affichage quand le compte change.
+      // Le useEffect lié à KEY_THREAD_LOCAL rechargera ensuite uniquement
+      // l'historique appartenant au nouveau compte.
+      setThread([]);
+
       setIsAuth(authed);
       setUserId(uid);
       setSessionEmail(email);
 
       await refreshQuotaFromServer();
       setQuotaReady(true);
-
-      if (signKey) {
-        const t0 = ensureHello(loadThreadLocal());
-        setThread(t0);
-      }
     });
 
     return () => data.subscription.unsubscribe();
-  }, [supabase, ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
+  }, [supabase, refreshQuotaFromServer]);
 
   useEffect(() => {
     if (!signKey) return;
