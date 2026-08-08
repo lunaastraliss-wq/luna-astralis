@@ -194,9 +194,12 @@ async function getActivePremiumSubscription(
  */
 async function getUsedLifetime(
   user_id: string
-) {
+): Promise<{ used: number; limit: number }> {
   if (!supabaseAdmin) {
-    return 0;
+    return {
+      used: 0,
+      limit: FREE_LIMIT,
+    };
   }
 
   const {
