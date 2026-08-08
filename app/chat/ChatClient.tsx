@@ -687,7 +687,10 @@ setSavedRemaining(safe);
   }, []);
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      // IMPORTANT:
+      // ne pas lancer /api/chat/quota depuis ce callback.
+      // Le quota est déjà chargé au boot et mis à jour après les messages.
       setPaywallOpen(false);
 
       const authed = !!session?.user?.id;
@@ -697,18 +700,10 @@ setSavedRemaining(safe);
       setIsAuth(authed);
       setUserId(uid);
       setSessionEmail(email);
-
-      await refreshQuotaFromServer();
-      setQuotaReady(true);
-
-      if (signKey) {
-        const t0 = ensureHello(loadThreadLocal());
-        setThread(t0);
-      }
     });
 
     return () => data.subscription.unsubscribe();
-  }, [supabase, ensureHello, loadThreadLocal, refreshQuotaFromServer, signKey]);
+  }, [supabase]);
 
   useEffect(() => {
     if (!signKey) return;
