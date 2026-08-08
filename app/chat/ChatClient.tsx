@@ -408,7 +408,7 @@ useEffect(() => {
 // --- Nom du signe ---
 const signName = useMemo(() => {
   return signKey ? SIGNS[signKey] || "—" : "—";
-}, [signKey]);
+}, [signKey, SIGNS]);
 
 // --- Desc desktop ---
 const signDescDesktop = useMemo(() => {
@@ -662,17 +662,11 @@ setSavedRemaining(safe);
       const chosen = urlSign || storedOk;
 
       if (chosen) {
+        // Le signe est déjà fourni par SignGrid ou le stockage local.
+        // IMPORTANT : ne pas réécrire l'URL ici.
+        // Cela évite un remontage du ChatClient et les appels quota répétés.
         setSignKey(chosen);
         storeSign(chosen);
-
-        // keep URL synced (normalize to ?sign=...)
-        if (typeof window !== "undefined") {
-          const already = sp.get(SIGN_QUERY_PARAM) === chosen;
-          if (!already)
-            router.replace(
-              `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
-            );
-        }
       } else {
         router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
       }
@@ -760,7 +754,7 @@ if (!res.ok) {
   if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
     storeSign(signKey);
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?next=${next}`);
+    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
     throw new Error("AUTH_REQUIRED");
   }
 
@@ -942,7 +936,7 @@ if (typeof data?.remaining === "number") {
 
   const onLogin = useCallback(() => {
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?next=${next}`);
+    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
   }, [router, currentPathWithQuery, lang]);
 
   /* ---------------- render ---------------- */
