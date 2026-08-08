@@ -9,10 +9,12 @@ import Link from "next/link";
 import {
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 import { useAuth } from "./AuthProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -82,6 +84,7 @@ type HeaderText = {
   lunaAI: string;
   account: string;
   login: string;
+  logout: string;
   openMenu: string;
   closeMenu: string;
   mainNavigation: string;
@@ -146,6 +149,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ia"],
     account: __i18n["mon_compte"],
     login: __i18n["se_connecter"],
+    logout: "Se déconnecter",
     openMenu: __i18n["ouvrir_le_menu"],
     closeMenu: __i18n["fermer_le_menu"],
     mainNavigation: __i18n["navigation_principale"],
@@ -208,6 +212,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ai"],
     account: __i18n["my_account"],
     login: __i18n["sign_in"],
+    logout: "Sign out",
     openMenu: __i18n["open_menu"],
     closeMenu: __i18n["close_menu"],
     mainNavigation: __i18n["main_navigation"],
@@ -270,6 +275,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ia_2"],
     account: __i18n["mi_cuenta"],
     login: __i18n["iniciar_sesion"],
+    logout: "Cerrar sesión",
     openMenu: __i18n["abrir_menu"],
     closeMenu: __i18n["cerrar_menu"],
     mainNavigation: __i18n["navegacion_principal"],
@@ -332,6 +338,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ki"],
     account: __i18n["mein_konto"],
     login: "Anmelden",
+    logout: "Abmelden",
     openMenu: __i18n["menu_offnen"],
     closeMenu: __i18n["menu_schlie_en"],
     mainNavigation: "Hauptnavigation",
@@ -394,6 +401,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ia_3"],
     account: __i18n["il_mio_account"],
     login: "Accedi",
+    logout: "Disconnetti",
     openMenu: __i18n["apri_menu"],
     closeMenu: __i18n["chiudi_menu"],
     mainNavigation: __i18n["navigazione_principale"],
@@ -456,6 +464,7 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lunaAI: __i18n["luna_ia_4"],
     account: __i18n["minha_conta"],
     login: "Entrar",
+    logout: "Sair",
     openMenu: __i18n["abrir_menu_2"],
     closeMenu: __i18n["fechar_menu"],
     mainNavigation: __i18n["navegacao_principal"],
@@ -473,6 +482,8 @@ function getLocaleFromPathname(pathname: string): Locale {
 export default function SiteHeader() {
   const { isAuth } = useAuth();
   const pathname = usePathname();
+  const router = useRouter();
+  const supabase = useMemo(() => createClientComponentClient(), []);
   const locale = getLocaleFromPathname(pathname);
   const text = HEADER_TRANSLATIONS[locale];
 
@@ -648,6 +659,20 @@ export default function SiteHeader() {
     setChartOpen(false);
     setCompatibilityOpen(false);
   };
+
+  const handleLogout = useCallback(async () => {
+    closeMenu();
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      console.error("Supabase signOut error:", error.message);
+      return;
+    }
+
+    router.replace(`/${locale}`);
+    router.refresh();
+  }, [closeMenu, locale, router, supabase]);
 
   return (
     <header className="premium-site-header" role="banner">
@@ -984,13 +1009,23 @@ export default function SiteHeader() {
             {text.lunaAI}
           </Link>
 
-          <Link
-            href={localize("/login")}
-            className="premium-account-button"
-            onClick={closeMenu}
-          >
-            {isAuth ? text.account : text.login}
-          </Link>
+          {isAuth ? (
+            <button
+              type="button"
+              className="premium-account-button"
+              onClick={handleLogout}
+            >
+              {text.logout}
+            </button>
+          ) : (
+            <Link
+              href={localize("/login")}
+              className="premium-account-button"
+              onClick={closeMenu}
+            >
+              {text.login}
+            </Link>
+          )}
 
           <LanguageSwitcher />
         </div>
@@ -1199,14 +1234,25 @@ export default function SiteHeader() {
             onClick={closeMenu}
           />
 
-          <Link
-            href={localize("/login")}
-            className="premium-mobile-account"
-            onClick={closeMenu}
-          >
-            <span>♙</span>
-            {isAuth ? text.account : text.login}
-          </Link>
+          {isAuth ? (
+            <button
+              type="button"
+              className="premium-mobile-account"
+              onClick={handleLogout}
+            >
+              <span>↪</span>
+              {text.logout}
+            </button>
+          ) : (
+            <Link
+              href={localize("/login")}
+              className="premium-mobile-account"
+              onClick={closeMenu}
+            >
+              <span>♙</span>
+              {text.login}
+            </Link>
+          )}
 
           <LanguageSwitcher />
         </div>
