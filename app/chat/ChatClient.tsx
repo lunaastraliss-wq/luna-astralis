@@ -428,19 +428,25 @@ const bookUrl = useMemo(() => {
   );
 
   const ensureHello = useCallback(
-  (existing: ThreadMsg[]) => {
-    if (existing.length) return existing;
+    (existing: ThreadMsg[]) => {
+      if (existing.length) return existing;
 
-const hello =
-  __i18n["bonjour_je_suis_luna_je_suis_la_pour_t_aider_a_mieux_comprendre"] ||
-  "Bonjour ✨ Je suis Luna. Je suis là pour t'aider à mieux comprendre tes émotions, tes défis et tes forces. Que souhaites-tu explorer aujourd'hui ?";
+      const hello =
+        {
+          fr: `Bonjour ✨ Je suis Luna. Je vois que tu as choisi ${signName}. Qu’aimerais-tu explorer aujourd’hui ? Tu peux me parler de tes émotions, de tes relations, de tes forces ou simplement me poser une question.`,
+          en: `Hello ✨ I’m Luna. I see that you chose ${signName}. What would you like to explore today? You can talk to me about your emotions, relationships, strengths, or simply ask me a question.`,
+          es: `Hola ✨ Soy Luna. Veo que elegiste ${signName}. ¿Qué te gustaría explorar hoy? Puedes hablarme de tus emociones, tus relaciones, tus fortalezas o simplemente hacerme una pregunta.`,
+          de: `Hallo ✨ Ich bin Luna. Ich sehe, dass du ${signName} gewählt hast. Was möchtest du heute erkunden? Du kannst mit mir über deine Gefühle, Beziehungen und Stärken sprechen oder mir einfach eine Frage stellen.`,
+          it: `Ciao ✨ Sono Luna. Vedo che hai scelto ${signName}. Cosa ti piacerebbe esplorare oggi? Puoi parlarmi delle tue emozioni, delle tue relazioni, dei tuoi punti di forza oppure farmi semplicemente una domanda.`,
+          pt: `Olá ✨ Eu sou Luna. Vejo que você escolheu ${signName}. O que gostaria de explorar hoje? Você pode falar comigo sobre suas emoções, seus relacionamentos, seus pontos fortes ou simplesmente fazer uma pergunta.`,
+        }[lang];
 
-const t: ThreadMsg[] = [{ role: "ai", text: hello }];
-saveThreadLocal(t);
-return t;
-},
-[saveThreadLocal, __i18n]
-);
+      const t: ThreadMsg[] = [{ role: "ai", text: hello }];
+      saveThreadLocal(t);
+      return t;
+    },
+    [saveThreadLocal, signName, lang]
+  );
 
 const scrollToBottom = useCallback((force = false) => {
   const el = messagesRef.current;
