@@ -818,7 +818,7 @@ export default function SiteHeader() {
 
               <div className="premium-dropdown-grid">
                 <HeaderMenuLink
-                  href={localize("/carte-du-ciel")}
+                  href={localize("/carte-du-ciel/gratuite")}
                   icon="🆓"
                   title={text.freeBirthChart}
                   subtitle={text.createBirthChart}
@@ -1119,7 +1119,7 @@ export default function SiteHeader() {
 
           <MobileSubmenu open={mobileChartOpen}>
             <MobileSubmenuLink
-              href={localize("/carte-du-ciel")}
+              href={localize("/carte-du-ciel/gratuite")}
               label={`🆓 ${text.freeBirthChart}`}
               onClick={closeMenu}
             />
