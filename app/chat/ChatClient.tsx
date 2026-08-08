@@ -238,16 +238,6 @@ export default function ChatClient() {
     return "fr";
   }, [pathname, sp]);
 
-  const localePrefix = useMemo(() => {
-    const first = (pathname || "").split("/").filter(Boolean)[0]?.toLowerCase();
-    return SUPPORTED_LANGS.includes(first as Lang) ? `/${first}` : "";
-  }, [pathname]);
-
-  const localizePath = useCallback(
-    (path: string) => `${localePrefix}${path.startsWith("/") ? path : `/${path}`}`,
-    [localePrefix]
-  );
-
   const __i18n = I18N_BY_LANG[lang];
   const ui = CHAT_UI[lang];
 
@@ -564,18 +554,18 @@ setSavedRemaining(safe);
   }, [setSavedRemaining]);
 
   const changeSignUrl = useMemo(() => {
-    const next = encodeURIComponent(localizePath("/chat"));
-    return `${localizePath("/onboarding/sign")}?change=1&next=${next}`;
-  }, [localizePath]);
+    const next = encodeURIComponent(`/chat?lang=${lang}`);
+    return `/onboarding/sign?change=1&lang=${encodeURIComponent(lang)}&next=${next}`;
+  }, [lang]);
 
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
       router.push(
-        `${localizePath("/pricing/plans")}?reason=${encodeURIComponent(reason)}&next=${next}`
+        `/pricing/plans?lang=${encodeURIComponent(lang)}&reason=${encodeURIComponent(reason)}&next=${next}`
       );
     },
-    [router, currentPathWithQuery, localizePath]
+    [router, currentPathWithQuery, lang]
   );
 
   const openPaywallGuest = useCallback(() => {
@@ -640,11 +630,15 @@ setSavedRemaining(safe);
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already)
             router.replace(
-              `${localizePath("/chat")}?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
+              `/chat?lang=${encodeURIComponent(lang)}&${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
             );
         }
       } else {
-        router.replace(`${localizePath("/onboarding/sign")}?next=${encodeURIComponent(localizePath("/chat"))}`);
+        router.replace(
+          `/onboarding/sign?lang=${encodeURIComponent(lang)}&next=${encodeURIComponent(
+            `/chat?lang=${lang}`
+          )}`
+        );
       }
 
       setBooted(true);
@@ -724,7 +718,7 @@ setSavedRemaining(safe);
 
       const res = await fetch("/api/chat", {
         method: "POST",
-        headers: { "Content-Type": __i18n["application_json"] },
+        headers: { "Content-Type": "application/json" },
         cache: "no-store",
         body: JSON.stringify(payload),
       });
@@ -735,7 +729,7 @@ if (!res.ok) {
   if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
     storeSign(signKey);
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`${localizePath("/login")}?next=${next}`);
+    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
     throw new Error("AUTH_REQUIRED");
   }
 
@@ -807,7 +801,11 @@ if (typeof data?.remaining === "number") {
       await logEvent("send_message");
 
       if (!signKey) {
-        router.push(`${localizePath("/onboarding/sign")}?next=${encodeURIComponent(localizePath("/chat"))}`);
+        router.push(
+          `/onboarding/sign?lang=${encodeURIComponent(lang)}&next=${encodeURIComponent(
+            `/chat?lang=${lang}`
+          )}`
+        );
         return;
       }
 
@@ -861,7 +859,7 @@ if (typeof data?.remaining === "number") {
       openPaywallGuest,
       saveThreadLocal,
       router,
-      localizePath,
+      lang,
       signKey,
       plan,
       logEvent,
@@ -888,10 +886,10 @@ if (typeof data?.remaining === "number") {
       setUserId("");
       setPlan("guest");
 
-      router.replace(localizePath("/"));
+      router.replace(lang === "fr" ? "/" : `/${lang}`);
       router.refresh();
     },
-    [supabase, closePaywall, router, localizePath]
+    [supabase, closePaywall, router, lang]
   );
 
   /* ---------------- actions ---------------- */
@@ -918,8 +916,8 @@ if (typeof data?.remaining === "number") {
 
   const onLogin = useCallback(() => {
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`${localizePath("/login")}?next=${next}`);
-  }, [router, currentPathWithQuery, localizePath]);
+    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
+  }, [router, currentPathWithQuery, lang]);
 
   /* ---------------- render ---------------- */
 
