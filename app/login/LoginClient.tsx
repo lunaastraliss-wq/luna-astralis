@@ -16,6 +16,7 @@ type MsgType = "ok" | "err" | "info";
 type Lang = "fr" | "en" | "es" | "de" | "it" | "pt";
 
 const LS_SIGN_KEY = "la_sign";
+const LS_LANG_KEY = "la_lang";
 const CANON_ORIGIN = "https://luna-astralis.app";
 
 const DICTS: Record<Lang, Record<string, string>> = {
@@ -298,34 +299,74 @@ const UI: Record<
   },
 };
 
-function getLangFromPath(pathname: string | null): Lang {
+function normalizeLang(v: unknown): Lang | null {
+  const s = String(v ?? "").trim().toLowerCase().split("-")[0];
+  if (s === "fr" || s === "en" || s === "es" || s === "de" || s === "it" || s === "pt") {
+    return s;
+  }
+  return null;
+}
+
+function getLang(pathname: string | null, queryLang: string | null): Lang {
+  const fromQuery = normalizeLang(queryLang);
+  if (fromQuery) {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(LS_LANG_KEY, fromQuery);
+      } catch {}
+    }
+    return fromQuery;
+  }
+
   const seg = pathname?.split("/").filter(Boolean)[0]?.toLowerCase();
-  if (seg === "fr" || seg === "en" || seg === "es" || seg === "de" || seg === "it" || seg === "pt") {
-    return seg;
+  const fromPath = normalizeLang(seg);
+  if (fromPath) {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem(LS_LANG_KEY, fromPath);
+      } catch {}
+    }
+    return fromPath;
   }
 
   if (typeof document !== "undefined") {
-    const htmlLang = document.documentElement.lang?.toLowerCase().split("-")[0];
-    if (htmlLang === "fr" || htmlLang === "en" || htmlLang === "es" || htmlLang === "de" || htmlLang === "it" || htmlLang === "pt") {
-      return htmlLang;
+    const fromHtml = normalizeLang(document.documentElement.lang);
+    if (fromHtml) {
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(LS_LANG_KEY, fromHtml);
+        } catch {}
+      }
+      return fromHtml;
     }
+  }
+
+  if (typeof window !== "undefined") {
+    try {
+      const stored = normalizeLang(localStorage.getItem(LS_LANG_KEY));
+      if (stored) return stored;
+    } catch {}
   }
 
   return "fr";
 }
 
-function withLang(path: string, lang: Lang) {
+function stripLocalePrefix(path: string) {
   const clean = path.startsWith("/") ? path : `/${path}`;
+  return clean.replace(/^\/(fr|en|es|de|it|pt)(?=\/|$)/, "") || "/";
+}
 
-  if (
-    clean === `/${lang}` ||
-    clean.startsWith(`/${lang}/`)
-  ) {
-    return clean;
+function addLangParam(path: string, lang: Lang) {
+  const clean = stripLocalePrefix(path);
+
+  try {
+    const u = new URL(clean, "http://dummy.local");
+    u.searchParams.set("lang", lang);
+    return u.pathname + (u.search ? u.search : "");
+  } catch {
+    const sep = clean.includes("?") ? "&" : "?";
+    return `${clean}${sep}lang=${encodeURIComponent(lang)}`;
   }
-
-  const withoutLocale = clean.replace(/^\/(fr|en|es|de|it|pt)(?=\/|$)/, "");
-  return `/${lang}${withoutLocale || ""}`;
 }
 
 function getStoredSign(): string {
@@ -353,44 +394,42 @@ function looksLikeInvalidLogin(message: string) {
 }
 
 function safeNext(raw: string | null, lang: Lang) {
-  const fallback = withLang("/chat?sign=belier", lang);
+  const fallback = `/chat?lang=${encodeURIComponent(lang)}&sign=belier`;
   const s = (raw || "").trim();
   if (!s) return fallback;
 
   if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
 
-  const path = s.startsWith("/") ? s : `/${s}`;
+  const path = stripLocalePrefix(s.startsWith("/") ? s : `/${s}`);
 
   if (
     path.startsWith("/auth") ||
     path.startsWith("/login") ||
-    path.startsWith("/signup") ||
-    path.startsWith(`/${lang}/auth`) ||
-    path.startsWith(`/${lang}/login`) ||
-    path.startsWith(`/${lang}/signup`)
+    path.startsWith("/signup")
   ) {
     return fallback;
   }
 
-  const normalized = withLang(path, lang);
-
   const allowed =
-    normalized.startsWith(`/${lang}/chat`) ||
-    normalized.startsWith(`/${lang}/pricing`) ||
-    normalized.startsWith(`/${lang}/onboarding`) ||
-    normalized.startsWith(`/${lang}/checkout/success`) ||
-    normalized === `/${lang}` ||
-    normalized === `/${lang}/`;
+    path.startsWith("/chat") ||
+    path.startsWith("/pricing") ||
+    path.startsWith("/onboarding") ||
+    path.startsWith("/checkout/success") ||
+    path === "/";
 
-  return allowed ? normalized : fallback;
+  return allowed ? addLangParam(path, lang) : fallback;
 }
 
 function normalizeChatNext(nextUrl: string, lang: Lang) {
-  const localized = withLang(nextUrl, lang);
-  if (!localized.startsWith(`/${lang}/chat`)) return localized;
+  const clean = addLangParam(nextUrl, lang);
 
   try {
-    const u = new URL(localized, "http://dummy.local");
+    const u = new URL(clean, "http://dummy.local");
+
+    if (u.pathname !== "/chat") {
+      return clean;
+    }
+
     const signFromNext = (
       u.searchParams.get("sign") ||
       u.searchParams.get("signe") ||
@@ -400,6 +439,7 @@ function normalizeChatNext(nextUrl: string, lang: Lang) {
     if (signFromNext) {
       u.searchParams.set("sign", signFromNext);
       u.searchParams.delete("signe");
+      u.searchParams.set("lang", lang);
       return u.pathname + "?" + u.searchParams.toString();
     }
 
@@ -407,28 +447,33 @@ function normalizeChatNext(nextUrl: string, lang: Lang) {
     if (s) {
       u.searchParams.set("sign", s);
       u.searchParams.delete("signe");
+      u.searchParams.set("lang", lang);
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    return withLang("/chat?sign=belier", lang);
+    return `/chat?lang=${encodeURIComponent(lang)}&sign=belier`;
   } catch {
-    return withLang("/chat?sign=belier", lang);
+    return `/chat?lang=${encodeURIComponent(lang)}&sign=belier`;
   }
 }
 
 function computePostLoginTarget(nextUrl: string, lang: Lang) {
-  const localized = withLang(nextUrl, lang);
+  const clean = addLangParam(nextUrl, lang);
 
-  if (localized === `/${lang}/pricing`) return localized;
+  if (clean.startsWith("/pricing")) return clean;
 
-  if (localized.startsWith(`/${lang}/chat`)) {
-    return normalizeChatNext(localized, lang);
+  if (clean.startsWith("/chat")) {
+    return normalizeChatNext(clean, lang);
   }
 
   const s = getStoredSign();
-  if (s) return withLang(`/chat?sign=${encodeURIComponent(s)}`, lang);
+  if (s) {
+    return `/chat?lang=${encodeURIComponent(lang)}&sign=${encodeURIComponent(s)}`;
+  }
 
-  return withLang(`/onboarding/sign?next=${encodeURIComponent(withLang("/chat", lang))}`, lang);
+  return `/onboarding/sign?lang=${encodeURIComponent(lang)}&next=${encodeURIComponent(
+    `/chat?lang=${lang}`
+  )}`;
 }
 
 function trackLoginConversionOnce() {
@@ -453,7 +498,7 @@ export default function LoginClient() {
   const pathname = usePathname();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
-  const lang = useMemo(() => getLangFromPath(pathname), [pathname]);
+  const lang = useMemo(() => getLang(pathname, sp.get("lang")), [pathname, sp]);
   const dict = DICTS[lang];
   const ui = UI[lang];
 
@@ -464,7 +509,7 @@ export default function LoginClient() {
 
   const nextUrl = useMemo(() => {
     const safe = safeNext(sp.get("next"), lang);
-    return safe.startsWith(`/${lang}/chat`)
+    return safe.startsWith("/chat")
       ? normalizeChatNext(safe, lang)
       : safe;
   }, [sp, lang]);
@@ -582,9 +627,9 @@ export default function LoginClient() {
           email: em,
           password,
           options: {
-            emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(
-              postLoginTarget
-            )}`,
+            emailRedirectTo:
+              `${CANON_ORIGIN}/auth/callback?lang=${encodeURIComponent(lang)}` +
+              `&next=${encodeURIComponent(postLoginTarget)}`,
           },
         });
 
@@ -619,9 +664,9 @@ export default function LoginClient() {
     setBusy(true);
     showMsg(ui.openingGoogle, "info");
 
-    const redirectTo = `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(
-      postLoginTarget
-    )}`;
+    const redirectTo =
+      `${CANON_ORIGIN}/auth/callback?lang=${encodeURIComponent(lang)}` +
+      `&next=${encodeURIComponent(postLoginTarget)}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
