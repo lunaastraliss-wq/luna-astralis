@@ -1,45 +1,331 @@
 "use client";
 
-
-
-
-
-
-import __i18n from "../../i18n/migrated/fr/app/login/loginclient.json";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
+import fr from "../../i18n/migrated/fr/app/login/loginclient.json";
+import en from "../../i18n/migrated/en/app/login/loginclient.json";
+import es from "../../i18n/migrated/es/app/login/loginclient.json";
+import de from "../../i18n/migrated/de/app/login/loginclient.json";
+import it from "../../i18n/migrated/it/app/login/loginclient.json";
+import pt from "../../i18n/migrated/pt/app/login/loginclient.json";
+
 type MsgType = "ok" | "err" | "info";
+type Lang = "fr" | "en" | "es" | "de" | "it" | "pt";
 
 const LS_SIGN_KEY = "la_sign";
-const FALLBACK_NEXT = "/chat?sign=belier";
-
-// ✅ ton domaine canon (un seul, sans www si c’est celui que tu forces)
 const CANON_ORIGIN = "https://luna-astralis.app";
 
-function safeNext(raw: string | null) {
-  const s = (raw || "").trim();
-  if (!s) return FALLBACK_NEXT;
+const DICTS: Record<Lang, Record<string, string>> = {
+  fr: fr as Record<string, string>,
+  en: en as Record<string, string>,
+  es: es as Record<string, string>,
+  de: de as Record<string, string>,
+  it: it as Record<string, string>,
+  pt: pt as Record<string, string>,
+};
 
-  // block absolute / protocol-relative
-  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return FALLBACK_NEXT;
+const UI: Record<
+  Lang,
+  {
+    sessionError: string;
+    genericError: string;
+    validEmail: string;
+    passwordMin: string;
+    connecting: string;
+    creatingAccount: string;
+    accountCreated: string;
+    loginFailed: string;
+    openingGoogle: string;
+    forgotEmailHint: string;
+    sendingLink: string;
+    emailSent: string;
+    loggingOut: string;
+    loggedOut: string;
+    home: string;
+    pricing: string;
+    login: string;
+    loginRequired: string;
+    continue: string;
+    logout: string;
+    or: string;
+    email: string;
+    password: string;
+    hidePassword: string;
+    showPassword: string;
+    hide: string;
+    show: string;
+    continueGoogle: string;
+    forgotPassword: string;
+    noAccountPrefix: string;
+    noAccountAction: string;
+    noAccountSuffix: string;
+    astroPsycho: string;
+    lunaAstralis: string;
+    emailPlaceholder: string;
+    passwordPlaceholder: string;
+  }
+> = {
+  fr: {
+    sessionError: "Erreur de session. Réessaie.",
+    genericError: "Erreur. Réessaie.",
+    validEmail: "Entre un email valide.",
+    passwordMin: "Mot de passe : 6 caractères minimum.",
+    connecting: "Connexion…",
+    creatingAccount: "Création du compte…",
+    accountCreated: "Compte créé. Confirme l’email reçu, puis reconnecte-toi.",
+    loginFailed: "Connexion impossible. Réessaie.",
+    openingGoogle: "Ouverture de Google…",
+    forgotEmailHint: "Entre ton email, puis clique « Mot de passe oublié ? ».",
+    sendingLink: "Envoi du lien…",
+    emailSent: "Email envoyé. Vérifie la boîte de réception et les indésirables.",
+    loggingOut: "Déconnexion…",
+    loggedOut: "Déconnectée.",
+    home: "Accueil Luna Astralis",
+    pricing: "Tarifs",
+    login: "Se connecter",
+    loginRequired: "Connexion requise pour continuer.",
+    continue: "Continuer",
+    logout: "Se déconnecter",
+    or: "ou",
+    email: "Email",
+    password: "Mot de passe",
+    hidePassword: "Masquer le mot de passe",
+    showPassword: "Afficher le mot de passe",
+    hide: "Masquer",
+    show: "Afficher",
+    continueGoogle: "Continuer avec Google",
+    forgotPassword: "Mot de passe oublié ?",
+    noAccountPrefix: "Aucun compte ? Entre un email et un mot de passe puis clique sur",
+    noAccountAction: "Se connecter",
+    noAccountSuffix: "pour créer le compte.",
+    astroPsycho: "Astro-psycho",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "ex. toi@email.com",
+    passwordPlaceholder: "6 caractères min.",
+  },
+  en: {
+    sessionError: "Session error. Please try again.",
+    genericError: "Something went wrong. Please try again.",
+    validEmail: "Enter a valid email address.",
+    passwordMin: "Password must be at least 6 characters.",
+    connecting: "Signing in…",
+    creatingAccount: "Creating account…",
+    accountCreated: "Account created. Confirm the email you received, then sign in again.",
+    loginFailed: "Unable to sign in. Please try again.",
+    openingGoogle: "Opening Google…",
+    forgotEmailHint: "Enter your email, then click “Forgot password?”.",
+    sendingLink: "Sending link…",
+    emailSent: "Email sent. Check your inbox and spam folder.",
+    loggingOut: "Signing out…",
+    loggedOut: "Signed out.",
+    home: "Luna Astralis home",
+    pricing: "Plans",
+    login: "Sign in",
+    loginRequired: "Sign in is required to continue.",
+    continue: "Continue",
+    logout: "Sign out",
+    or: "or",
+    email: "Email",
+    password: "Password",
+    hidePassword: "Hide password",
+    showPassword: "Show password",
+    hide: "Hide",
+    show: "Show",
+    continueGoogle: "Continue with Google",
+    forgotPassword: "Forgot password?",
+    noAccountPrefix: "No account? Enter an email and password, then click",
+    noAccountAction: "Sign in",
+    noAccountSuffix: "to create the account.",
+    astroPsycho: "Astro-psychology",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "e.g. you@email.com",
+    passwordPlaceholder: "6 characters min.",
+  },
+  es: {
+    sessionError: "Error de sesión. Inténtalo de nuevo.",
+    genericError: "Error. Inténtalo de nuevo.",
+    validEmail: "Introduce un correo electrónico válido.",
+    passwordMin: "La contraseña debe tener al menos 6 caracteres.",
+    connecting: "Iniciando sesión…",
+    creatingAccount: "Creando cuenta…",
+    accountCreated: "Cuenta creada. Confirma el correo recibido y vuelve a iniciar sesión.",
+    loginFailed: "No se pudo iniciar sesión. Inténtalo de nuevo.",
+    openingGoogle: "Abriendo Google…",
+    forgotEmailHint: "Introduce tu correo y luego pulsa «¿Olvidaste tu contraseña?».",
+    sendingLink: "Enviando enlace…",
+    emailSent: "Correo enviado. Revisa la bandeja de entrada y el spam.",
+    loggingOut: "Cerrando sesión…",
+    loggedOut: "Sesión cerrada.",
+    home: "Inicio de Luna Astralis",
+    pricing: "Planes",
+    login: "Iniciar sesión",
+    loginRequired: "Debes iniciar sesión para continuar.",
+    continue: "Continuar",
+    logout: "Cerrar sesión",
+    or: "o",
+    email: "Correo electrónico",
+    password: "Contraseña",
+    hidePassword: "Ocultar contraseña",
+    showPassword: "Mostrar contraseña",
+    hide: "Ocultar",
+    show: "Mostrar",
+    continueGoogle: "Continuar con Google",
+    forgotPassword: "¿Olvidaste tu contraseña?",
+    noAccountPrefix: "¿No tienes cuenta? Introduce un correo y una contraseña y pulsa",
+    noAccountAction: "Iniciar sesión",
+    noAccountSuffix: "para crear la cuenta.",
+    astroPsycho: "Astropsicología",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "ej. tu@email.com",
+    passwordPlaceholder: "6 caracteres mín.",
+  },
+  de: {
+    sessionError: "Sitzungsfehler. Bitte versuche es erneut.",
+    genericError: "Fehler. Bitte versuche es erneut.",
+    validEmail: "Gib eine gültige E-Mail-Adresse ein.",
+    passwordMin: "Das Passwort muss mindestens 6 Zeichen haben.",
+    connecting: "Anmeldung…",
+    creatingAccount: "Konto wird erstellt…",
+    accountCreated: "Konto erstellt. Bestätige die erhaltene E-Mail und melde dich danach erneut an.",
+    loginFailed: "Anmeldung nicht möglich. Bitte versuche es erneut.",
+    openingGoogle: "Google wird geöffnet…",
+    forgotEmailHint: "Gib deine E-Mail ein und klicke dann auf „Passwort vergessen?“.",
+    sendingLink: "Link wird gesendet…",
+    emailSent: "E-Mail gesendet. Prüfe deinen Posteingang und Spam-Ordner.",
+    loggingOut: "Abmeldung…",
+    loggedOut: "Abgemeldet.",
+    home: "Luna Astralis Startseite",
+    pricing: "Tarife",
+    login: "Anmelden",
+    loginRequired: "Du musst angemeldet sein, um fortzufahren.",
+    continue: "Weiter",
+    logout: "Abmelden",
+    or: "oder",
+    email: "E-Mail",
+    password: "Passwort",
+    hidePassword: "Passwort ausblenden",
+    showPassword: "Passwort anzeigen",
+    hide: "Ausblenden",
+    show: "Anzeigen",
+    continueGoogle: "Mit Google fortfahren",
+    forgotPassword: "Passwort vergessen?",
+    noAccountPrefix: "Noch kein Konto? Gib E-Mail und Passwort ein und klicke auf",
+    noAccountAction: "Anmelden",
+    noAccountSuffix: "um ein Konto zu erstellen.",
+    astroPsycho: "Astro-Psychologie",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "z. B. du@email.com",
+    passwordPlaceholder: "mind. 6 Zeichen",
+  },
+  it: {
+    sessionError: "Errore di sessione. Riprova.",
+    genericError: "Errore. Riprova.",
+    validEmail: "Inserisci un indirizzo email valido.",
+    passwordMin: "La password deve contenere almeno 6 caratteri.",
+    connecting: "Accesso in corso…",
+    creatingAccount: "Creazione account…",
+    accountCreated: "Account creato. Conferma l’email ricevuta, poi accedi di nuovo.",
+    loginFailed: "Accesso non riuscito. Riprova.",
+    openingGoogle: "Apertura di Google…",
+    forgotEmailHint: "Inserisci la tua email, poi clicca su «Password dimenticata?».",
+    sendingLink: "Invio del link…",
+    emailSent: "Email inviata. Controlla la posta in arrivo e lo spam.",
+    loggingOut: "Disconnessione…",
+    loggedOut: "Disconnesso.",
+    home: "Home di Luna Astralis",
+    pricing: "Piani",
+    login: "Accedi",
+    loginRequired: "Devi accedere per continuare.",
+    continue: "Continua",
+    logout: "Disconnetti",
+    or: "oppure",
+    email: "Email",
+    password: "Password",
+    hidePassword: "Nascondi password",
+    showPassword: "Mostra password",
+    hide: "Nascondi",
+    show: "Mostra",
+    continueGoogle: "Continua con Google",
+    forgotPassword: "Password dimenticata?",
+    noAccountPrefix: "Non hai un account? Inserisci email e password e clicca su",
+    noAccountAction: "Accedi",
+    noAccountSuffix: "per creare l’account.",
+    astroPsycho: "Astropsicologia",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "es. tu@email.com",
+    passwordPlaceholder: "min. 6 caratteri",
+  },
+  pt: {
+    sessionError: "Erro de sessão. Tente novamente.",
+    genericError: "Erro. Tente novamente.",
+    validEmail: "Digite um email válido.",
+    passwordMin: "A senha deve ter pelo menos 6 caracteres.",
+    connecting: "Entrando…",
+    creatingAccount: "Criando conta…",
+    accountCreated: "Conta criada. Confirme o email recebido e depois entre novamente.",
+    loginFailed: "Não foi possível entrar. Tente novamente.",
+    openingGoogle: "Abrindo o Google…",
+    forgotEmailHint: "Digite seu email e depois clique em “Esqueceu a senha?”.",
+    sendingLink: "Enviando link…",
+    emailSent: "Email enviado. Verifique a caixa de entrada e o spam.",
+    loggingOut: "Saindo…",
+    loggedOut: "Sessão encerrada.",
+    home: "Início Luna Astralis",
+    pricing: "Planos",
+    login: "Entrar",
+    loginRequired: "É preciso entrar para continuar.",
+    continue: "Continuar",
+    logout: "Sair",
+    or: "ou",
+    email: "Email",
+    password: "Senha",
+    hidePassword: "Ocultar senha",
+    showPassword: "Mostrar senha",
+    hide: "Ocultar",
+    show: "Mostrar",
+    continueGoogle: "Continuar com Google",
+    forgotPassword: "Esqueceu a senha?",
+    noAccountPrefix: "Ainda não tem conta? Digite um email e uma senha e clique em",
+    noAccountAction: "Entrar",
+    noAccountSuffix: "para criar a conta.",
+    astroPsycho: "Astropsicologia",
+    lunaAstralis: "Luna Astralis",
+    emailPlaceholder: "ex. voce@email.com",
+    passwordPlaceholder: "mín. 6 caracteres",
+  },
+};
 
-  const path = s.startsWith("/") ? s : `/${s}`;
+function getLangFromPath(pathname: string | null): Lang {
+  const seg = pathname?.split("/").filter(Boolean)[0]?.toLowerCase();
+  if (seg === "fr" || seg === "en" || seg === "es" || seg === "de" || seg === "it" || seg === "pt") {
+    return seg;
+  }
 
-  // éviter loops
-  if (path.startsWith("/auth") || path.startsWith("/login") || path.startsWith("/signup")) return FALLBACK_NEXT;
+  if (typeof document !== "undefined") {
+    const htmlLang = document.documentElement.lang?.toLowerCase().split("-")[0];
+    if (htmlLang === "fr" || htmlLang === "en" || htmlLang === "es" || htmlLang === "de" || htmlLang === "it" || htmlLang === "pt") {
+      return htmlLang;
+    }
+  }
 
-  // autoriser zones utiles
-  const allowed =
-    path.startsWith("/chat") ||
-    path.startsWith("/pricing") ||
-    path.startsWith("/onboarding") ||
-    path.startsWith("/checkout/success") ||
-    path === "/";
+  return "fr";
+}
 
-  return allowed ? path : FALLBACK_NEXT;
+function withLang(path: string, lang: Lang) {
+  const clean = path.startsWith("/") ? path : `/${path}`;
+
+  if (
+    clean === `/${lang}` ||
+    clean.startsWith(`/${lang}/`)
+  ) {
+    return clean;
+  }
+
+  const withoutLocale = clean.replace(/^\/(fr|en|es|de|it|pt)(?=\/|$)/, "");
+  return `/${lang}${withoutLocale || ""}`;
 }
 
 function getStoredSign(): string {
@@ -66,15 +352,50 @@ function looksLikeInvalidLogin(message: string) {
   );
 }
 
-/**
- * Normalise le "next" pour que le chat reçoive toujours ?sign=
- */
-function normalizeChatNext(nextUrl: string) {
-  if (!nextUrl.startsWith("/chat")) return nextUrl;
+function safeNext(raw: string | null, lang: Lang) {
+  const fallback = withLang("/chat?sign=belier", lang);
+  const s = (raw || "").trim();
+  if (!s) return fallback;
+
+  if (/^https?:\/\//i.test(s) || s.startsWith("//")) return fallback;
+
+  const path = s.startsWith("/") ? s : `/${s}`;
+
+  if (
+    path.startsWith("/auth") ||
+    path.startsWith("/login") ||
+    path.startsWith("/signup") ||
+    path.startsWith(`/${lang}/auth`) ||
+    path.startsWith(`/${lang}/login`) ||
+    path.startsWith(`/${lang}/signup`)
+  ) {
+    return fallback;
+  }
+
+  const normalized = withLang(path, lang);
+
+  const allowed =
+    normalized.startsWith(`/${lang}/chat`) ||
+    normalized.startsWith(`/${lang}/pricing`) ||
+    normalized.startsWith(`/${lang}/onboarding`) ||
+    normalized.startsWith(`/${lang}/checkout/success`) ||
+    normalized === `/${lang}` ||
+    normalized === `/${lang}/`;
+
+  return allowed ? normalized : fallback;
+}
+
+function normalizeChatNext(nextUrl: string, lang: Lang) {
+  const localized = withLang(nextUrl, lang);
+  if (!localized.startsWith(`/${lang}/chat`)) return localized;
 
   try {
-    const u = new URL(nextUrl, "http://dummy.local");
-    const signFromNext = (u.searchParams.get("sign") || u.searchParams.get("signe") || "").trim();
+    const u = new URL(localized, "http://dummy.local");
+    const signFromNext = (
+      u.searchParams.get("sign") ||
+      u.searchParams.get("signe") ||
+      ""
+    ).trim();
 
     if (signFromNext) {
       u.searchParams.set("sign", signFromNext);
@@ -89,24 +410,25 @@ function normalizeChatNext(nextUrl: string) {
       return u.pathname + "?" + u.searchParams.toString();
     }
 
-    return FALLBACK_NEXT;
+    return withLang("/chat?sign=belier", lang);
   } catch {
-    return FALLBACK_NEXT;
+    return withLang("/chat?sign=belier", lang);
   }
 }
 
-/**
- * Post-login target
- */
-function computePostLoginTarget(nextUrl: string) {
-  if (nextUrl === "/pricing") return "/pricing";
+function computePostLoginTarget(nextUrl: string, lang: Lang) {
+  const localized = withLang(nextUrl, lang);
 
-  if (nextUrl.startsWith("/chat")) return normalizeChatNext(nextUrl);
+  if (localized === `/${lang}/pricing`) return localized;
+
+  if (localized.startsWith(`/${lang}/chat`)) {
+    return normalizeChatNext(localized, lang);
+  }
 
   const s = getStoredSign();
-  if (s) return `/chat?sign=${encodeURIComponent(s)}`;
+  if (s) return withLang(`/chat?sign=${encodeURIComponent(s)}`, lang);
 
-  return `/onboarding/sign?next=${encodeURIComponent("/chat")}`;
+  return withLang(`/onboarding/sign?next=${encodeURIComponent(withLang("/chat", lang))}`, lang);
 }
 
 function trackLoginConversionOnce() {
@@ -119,7 +441,7 @@ function trackLoginConversionOnce() {
   sessionStorage.setItem("la_login_conv", "1");
 
   g("event", "conversion", {
-    send_to: __i18n["aw_17878472225_f8fmcmdpdy_gbekgs181c"],
+    send_to: "AW-17878472225/f8fMCmDpDY_GBEkgs181C",
     value: 1.0,
     currency: "CAD",
   });
@@ -128,14 +450,29 @@ function trackLoginConversionOnce() {
 export default function LoginClient() {
   const router = useRouter();
   const sp = useSearchParams();
+  const pathname = usePathname();
   const supabase = useMemo(() => createClientComponentClient(), []);
 
-  const nextUrl = useMemo(() => {
-    const safe = safeNext(sp.get("next"));
-    return safe.startsWith("/chat") ? normalizeChatNext(safe) : safe;
-  }, [sp]);
+  const lang = useMemo(() => getLangFromPath(pathname), [pathname]);
+  const dict = DICTS[lang];
+  const ui = UI[lang];
 
-  const postLoginTarget = useMemo(() => computePostLoginTarget(nextUrl), [nextUrl]);
+  const t = useCallback(
+    (key: string, fallback: string) => dict?.[key] || fallback,
+    [dict]
+  );
+
+  const nextUrl = useMemo(() => {
+    const safe = safeNext(sp.get("next"), lang);
+    return safe.startsWith(`/${lang}/chat`)
+      ? normalizeChatNext(safe, lang)
+      : safe;
+  }, [sp, lang]);
+
+  const postLoginTarget = useMemo(
+    () => computePostLoginTarget(nextUrl, lang),
+    [nextUrl, lang]
+  );
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -145,7 +482,11 @@ export default function LoginClient() {
   const [alreadyConnected, setAlreadyConnected] = useState(false);
   const [msg, setMsg] = useState<{ text: string; type: MsgType } | null>(null);
 
-  const showMsg = useCallback((text: string, type: MsgType = "info") => setMsg({ text, type }), []);
+  const showMsg = useCallback(
+    (text: string, type: MsgType = "info") => setMsg({ text, type }),
+    []
+  );
+
   const clearMsg = useCallback(() => setMsg(null), []);
 
   const pingSeen = useCallback(async () => {
@@ -163,7 +504,7 @@ export default function LoginClient() {
         if (!mounted) return;
 
         if (error) {
-          showMsg("Erreur de session. Réessaie.", "err");
+          showMsg(ui.sessionError, "err");
           return;
         }
 
@@ -177,45 +518,54 @@ export default function LoginClient() {
         }
       } catch {
         if (!mounted) return;
-        showMsg("Erreur. Réessaie.", "err");
+        showMsg(ui.genericError, "err");
       }
     })();
 
-    const { data: sub } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!mounted) return;
+    const { data: sub } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        if (!mounted) return;
 
-      const has = !!session;
-      setAlreadyConnected(has);
+        const has = !!session;
+        setAlreadyConnected(has);
 
-      if (has) {
-        setBusy(false);
-        trackLoginConversionOnce();
-        await pingSeen();
-        router.replace(postLoginTarget);
+        if (has) {
+          setBusy(false);
+          trackLoginConversionOnce();
+          await pingSeen();
+          router.replace(postLoginTarget);
+        }
       }
-    });
+    );
 
     return () => {
       mounted = false;
       sub.subscription?.unsubscribe();
     };
-  }, [supabase, router, postLoginTarget, showMsg, pingSeen]);
+  }, [supabase, router, postLoginTarget, showMsg, pingSeen, ui.sessionError, ui.genericError]);
 
   async function onEmailPassword(e: React.FormEvent) {
     e.preventDefault();
     clearMsg();
 
     const em = email.trim();
-    if (!isValidEmail(em)) return showMsg("Entre un email valide.", "err");
-    if (!password || password.length < 6) return showMsg("Mot de passe : 6 caractères minimum.", "err");
+
+    if (!isValidEmail(em)) {
+      return showMsg(ui.validEmail, "err");
+    }
+
+    if (!password || password.length < 6) {
+      return showMsg(ui.passwordMin, "err");
+    }
 
     setBusy(true);
-    showMsg("Connexion…", "info");
+    showMsg(ui.connecting, "info");
 
-    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-      email: em,
-      password,
-    });
+    const { data: signInData, error: signInError } =
+      await supabase.auth.signInWithPassword({
+        email: em,
+        password,
+      });
 
     if (signInData?.session) {
       trackLoginConversionOnce();
@@ -224,17 +574,19 @@ export default function LoginClient() {
       return;
     }
 
-    // si mauvais login => on tente signup
     if (signInError && looksLikeInvalidLogin(signInError.message)) {
-      showMsg("Création du compte…", "info");
+      showMsg(ui.creatingAccount, "info");
 
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: em,
-        password,
-        options: {
-          emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`,
-        },
-      });
+      const { data: signUpData, error: signUpError } =
+        await supabase.auth.signUp({
+          email: em,
+          password,
+          options: {
+            emailRedirectTo: `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(
+              postLoginTarget
+            )}`,
+          },
+        });
 
       if (signUpError) {
         setBusy(false);
@@ -249,22 +601,27 @@ export default function LoginClient() {
       }
 
       setBusy(false);
-      showMsg("Compte créé. Confirme l’email reçu, puis reconnecte-toi.", "ok");
+      showMsg(ui.accountCreated, "ok");
       return;
     }
 
     setBusy(false);
-    if (signInError) return showMsg(signInError.message, "err");
-    showMsg("Connexion impossible. Réessaie.", "err");
+
+    if (signInError) {
+      return showMsg(signInError.message, "err");
+    }
+
+    showMsg(ui.loginFailed, "err");
   }
 
   async function onGoogle() {
     clearMsg();
     setBusy(true);
-    showMsg("Ouverture de Google…", "info");
+    showMsg(ui.openingGoogle, "info");
 
-    // ✅ canon
-    const redirectTo = `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(postLoginTarget)}`;
+    const redirectTo = `${CANON_ORIGIN}/auth/callback?next=${encodeURIComponent(
+      postLoginTarget
+    )}`;
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -274,7 +631,6 @@ export default function LoginClient() {
     if (error) {
       setBusy(false);
       showMsg(error.message, "err");
-      return;
     }
   }
 
@@ -282,80 +638,129 @@ export default function LoginClient() {
     clearMsg();
 
     const em = email.trim();
-    if (!isValidEmail(em)) return showMsg("Entre ton email, puis clique “Mot de passe oublié ?”.", "err");
+
+    if (!isValidEmail(em)) {
+      return showMsg(ui.forgotEmailHint, "err");
+    }
 
     setBusy(true);
-    showMsg("Envoi du lien…", "info");
+    showMsg(ui.sendingLink, "info");
 
     const { error } = await supabase.auth.resetPasswordForEmail(em, {
-      // ✅ canon
-      redirectTo: `${CANON_ORIGIN}/reset-password`,
+      redirectTo: `${CANON_ORIGIN}/${lang}/reset-password`,
     });
 
     setBusy(false);
-    if (error) return showMsg(error.message, "err");
-    showMsg("Email envoyé. Vérifie la boîte de réception (et indésirables).", "ok");
+
+    if (error) {
+      return showMsg(error.message, "err");
+    }
+
+    showMsg(ui.emailSent, "ok");
   }
 
   async function onLogout() {
     clearMsg();
     setBusy(true);
-    showMsg("Déconnexion…", "info");
+    showMsg(ui.loggingOut, "info");
 
     const { error } = await supabase.auth.signOut();
     setBusy(false);
 
-    if (error) return showMsg(error.message, "err");
+    if (error) {
+      return showMsg(error.message, "err");
+    }
+
     setAlreadyConnected(false);
 
     try {
       sessionStorage.removeItem("la_login_conv");
     } catch {}
 
-    showMsg("Déconnectée.", "ok");
+    showMsg(ui.loggedOut, "ok");
   }
 
   const msgClass =
-    msg?.type === "ok" ? "is-ok" : msg?.type === "err" ? "is-err" : msg?.type === "info" ? "is-info" : "";
+    msg?.type === "ok"
+      ? "is-ok"
+      : msg?.type === "err"
+      ? "is-err"
+      : msg?.type === "info"
+      ? "is-info"
+      : "";
 
   return (
     <div className="auth-body">
       <header className="top" role="banner">
-        <Link className="brand" href="/" aria-label={__i18n["accueil_luna_astralis"]}>
+        <Link
+          className="brand"
+          href={`/${lang}`}
+          aria-label={t("accueil_luna_astralis", ui.home)}
+        >
           <div className="logo" aria-hidden="true">
             <img src="/logo-luna-astralis-transparent.png" alt="" />
           </div>
 
           <div className="brand-text">
-            <div className="brand-name">{__i18n["luna_astralis"]}</div>
-            <div className="brand-sub">{__i18n["astro_psycho"]}</div>
+            <div className="brand-name">
+              {t("luna_astralis", ui.lunaAstralis)}
+            </div>
+
+            <div className="brand-sub">
+              {t("astro_psycho", ui.astroPsycho)}
+            </div>
           </div>
         </Link>
 
         <nav className="nav" aria-label="Navigation">
-          <Link className="btn btn-small btn-ghost" href="/pricing">
-            Tarifs
+          <Link
+            className="btn btn-small btn-ghost"
+            href={`/${lang}/pricing`}
+          >
+            {ui.pricing}
           </Link>
         </nav>
       </header>
 
       <main className="wrap auth-wrap" role="main">
-        <section className="auth-card" aria-label="Connexion">
-          <h1 className="auth-title">{__i18n["se_connecter"]}</h1>
-          <p className="auth-sub">{__i18n["connexion_requise_pour_continuer"]}</p>
+        <section
+          className="auth-card"
+          aria-label={ui.login}
+        >
+          <h1 className="auth-title">
+            {t("se_connecter", ui.login)}
+          </h1>
+
+          <p className="auth-sub">
+            {t("connexion_requise_pour_continuer", ui.loginRequired)}
+          </p>
 
           {msg ? (
-            <div className={`auth-msg ${msgClass}`} role="status" aria-live="polite">
+            <div
+              className={`auth-msg ${msgClass}`}
+              role="status"
+              aria-live="polite"
+            >
               {msg.text}
             </div>
           ) : null}
 
           {alreadyConnected ? (
             <div style={{ marginTop: 12 }}>
-              <p className="auth-sub" style={{ margin: __i18n["0_0_10px_0"] }}>
-                {__i18n["connexion_active"]}</p>
+              <p
+                className="auth-sub"
+                style={{ margin: "0 0 10px 0" }}
+              >
+                {t("connexion_active", ui.loginRequired)}
+              </p>
 
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  flexWrap: "wrap",
+                }}
+              >
                 <button
                   type="button"
                   className="btn"
@@ -366,15 +771,25 @@ export default function LoginClient() {
                   }}
                   disabled={busy}
                 >
-                  Continuer
+                  {ui.continue}
                 </button>
 
-                <button type="button" className="btn btn-ghost" onClick={onLogout} disabled={busy}>
-                  {__i18n["se_deconnecter"]}</button>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={onLogout}
+                  disabled={busy}
+                >
+                  {t("se_deconnecter", ui.logout)}
+                </button>
               </div>
 
-              <div className="auth-sep" aria-hidden="true" style={{ marginTop: 14 }}>
-                <span>ou</span>
+              <div
+                className="auth-sep"
+                aria-hidden="true"
+                style={{ marginTop: 14 }}
+              >
+                <span>{ui.or}</span>
               </div>
             </div>
           ) : null}
@@ -386,23 +801,38 @@ export default function LoginClient() {
             disabled={busy}
             style={{ opacity: busy ? 0.7 : 1 }}
           >
-            <img src="/google-g.png" alt="" className="google-icon" aria-hidden="true" />
-            {__i18n["continuer_avec_google"]}</button>
+            <img
+              src="/google-g.png"
+              alt=""
+              className="google-icon"
+              aria-hidden="true"
+            />
+            {t("continuer_avec_google", ui.continueGoogle)}
+          </button>
 
           <div className="auth-sep" aria-hidden="true">
-            <span>ou</span>
+            <span>{ui.or}</span>
           </div>
 
-          <form className="auth-form" autoComplete="on" noValidate onSubmit={onEmailPassword}>
-            <label className="auth-label" htmlFor="email">
-              Email
+          <form
+            className="auth-form"
+            autoComplete="on"
+            noValidate
+            onSubmit={onEmailPassword}
+          >
+            <label
+              className="auth-label"
+              htmlFor="email"
+            >
+              {ui.email}
             </label>
+
             <input
               className="auth-input"
               id="email"
               name="email"
               type="email"
-              placeholder={__i18n["ex_toi_email_com"]}
+              placeholder={t("ex_toi_email_com", ui.emailPlaceholder)}
               required
               autoComplete="email"
               inputMode="email"
@@ -411,8 +841,12 @@ export default function LoginClient() {
               disabled={busy}
             />
 
-            <label className="auth-label" htmlFor="password">
-              {__i18n["mot_de_passe"]}</label>
+            <label
+              className="auth-label"
+              htmlFor="password"
+            >
+              {t("mot_de_passe", ui.password)}
+            </label>
 
             <div className="pwd-wrap">
               <input
@@ -420,7 +854,7 @@ export default function LoginClient() {
                 id="password"
                 name="password"
                 type={showPwd ? "text" : "password"}
-                placeholder={__i18n["6_caracteres_min"]}
+                placeholder={t("6_caracteres_min", ui.passwordPlaceholder)}
                 required
                 autoComplete="current-password"
                 value={password}
@@ -433,26 +867,92 @@ export default function LoginClient() {
                 className="pwd-eye"
                 onClick={() => setShowPwd((v) => !v)}
                 disabled={busy}
-                aria-label={showPwd ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                title={showPwd ? "Masquer" : "Afficher"}
+                aria-label={
+                  showPwd
+                    ? ui.hidePassword
+                    : ui.showPassword
+                }
+                title={
+                  showPwd
+                    ? ui.hide
+                    : ui.show
+                }
               >
                 {showPwd ? "🙈" : "👁️"}
               </button>
             </div>
 
-            <button className="btn auth-submit" type="submit" disabled={busy} style={{ opacity: busy ? 0.7 : 1 }}>
-              {__i18n["se_connecter_2"]}</button>
+            <button
+              className="btn auth-submit"
+              type="submit"
+              disabled={busy}
+              style={{ opacity: busy ? 0.7 : 1 }}
+            >
+              {t("se_connecter_2", ui.login)}
+            </button>
 
-            <button type="button" className="auth-forgot" onClick={onForgot} disabled={busy}>
-              {__i18n["mot_de_passe_oublie"]}</button>
+            <button
+              type="button"
+              className="auth-forgot"
+              onClick={onForgot}
+              disabled={busy}
+            >
+              {t("mot_de_passe_oublie", ui.forgotPassword)}
+            </button>
 
             <p className="auth-switch">
-              {__i18n["aucun_compte_entre_un_email_un_mot_de_passe_puis_clique"]}<b>{__i18n["se_connecter_3"]}</b> {__i18n["pour_creer_le_compte"]}</p>
+              {t("aucun_compte_entre_un_email_un_mot_de_passe_puis_clique", ui.noAccountPrefix)}{" "}
+              <b>{t("se_connecter_3", ui.noAccountAction)}</b>{" "}
+              {t("pour_creer_le_compte", ui.noAccountSuffix)}
+            </p>
           </form>
 
           <style jsx>{`
-.pwd-wrap { position: relative; width: 100%; } .pwd-wrap :global(.auth-input) { padding-right: 46px; } .pwd-eye { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.16); background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.92); cursor: pointer; display: grid; place-items: center; } .pwd-eye:disabled { opacity: 0.6; cursor: default; } .auth-msg.is-ok { background: rgba(120, 255, 190, 0.1); border-color: rgba(120, 255, 190, 0.22); } .auth-msg.is-err { background: rgba(255, 90, 90, 0.1); border-color: rgba(255, 90, 90, 0.22); } .auth-msg.is-info { background: rgba(159, 211, 255, 0.1); border-color: rgba(159, 211, 255, 0.22); }
-`}</style>
+            .pwd-wrap {
+              position: relative;
+              width: 100%;
+            }
+
+            .pwd-wrap :global(.auth-input) {
+              padding-right: 46px;
+            }
+
+            .pwd-eye {
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 34px;
+              height: 34px;
+              border-radius: 12px;
+              border: 1px solid rgba(255, 255, 255, 0.16);
+              background: rgba(255, 255, 255, 0.06);
+              color: rgba(255, 255, 255, 0.92);
+              cursor: pointer;
+              display: grid;
+              place-items: center;
+            }
+
+            .pwd-eye:disabled {
+              opacity: 0.6;
+              cursor: default;
+            }
+
+            .auth-msg.is-ok {
+              background: rgba(120, 255, 190, 0.1);
+              border-color: rgba(120, 255, 190, 0.22);
+            }
+
+            .auth-msg.is-err {
+              background: rgba(255, 90, 90, 0.1);
+              border-color: rgba(255, 90, 90, 0.22);
+            }
+
+            .auth-msg.is-info {
+              background: rgba(159, 211, 255, 0.1);
+              border-color: rgba(159, 211, 255, 0.22);
+            }
+          `}</style>
         </section>
       </main>
     </div>
