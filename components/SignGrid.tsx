@@ -471,33 +471,29 @@ export default function SignGrid() {
 
         /*
         |--------------------------------------------------------------------------
-        | Les routes /chat et /login restent sans préfixe pendant la migration
+        | Les vraies routes restent /chat et /login.
+        | On transporte la langue avec ?lang=...
         |--------------------------------------------------------------------------
         */
 
         const next =
-          `/chat?${SIGN_PARAM}=` +
-          encodeURIComponent(
-            signKey
-          );
+          `/chat?lang=${encodeURIComponent(locale)}` +
+          `&${SIGN_PARAM}=${encodeURIComponent(signKey)}`;
 
         if (isAuth) {
-          router.push(
-            next
-          );
-
+          router.push(next);
           return;
         }
 
         router.push(
-          `/login?next=${encodeURIComponent(
-            next
-          )}`
+          `/login?lang=${encodeURIComponent(locale)}` +
+          `&next=${encodeURIComponent(next)}`
         );
       },
       [
         router,
         isAuth,
+        locale,
       ]
     );
 
@@ -594,7 +590,7 @@ export default function SignGrid() {
       >
         <Link
           className="btn btn-small"
-          href="/login"
+          href={`/login?lang=${encodeURIComponent(locale)}`}
         >
           {isAuth
             ? text.account
