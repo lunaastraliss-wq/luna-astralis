@@ -1,4 +1,3 @@
-import __i18n from "../../../i18n/migrated/fr/app/api/chat/route.json";
 // app/api/chat/route.ts
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -11,8 +10,6 @@ export const dynamic = "force-dynamic";
 
 const FREE_LIMIT = 15;
 const UPSELL_WHEN_REMAINING_LTE = 5;
-const UPSELL_TEXT_FR =
-  " Pour aller plus loin avec Luna: accès complet.";
 
 const CHAT_USAGE_TABLE = "chat_usage";
 
@@ -29,7 +26,7 @@ const SUPABASE_URL =
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 
 const supabaseAdmin =
@@ -39,8 +36,199 @@ const supabaseAdmin =
       })
     : null;
 
+type Lang = "fr" | "en" | "es" | "de" | "it" | "pt";
+
+const LANG_LABEL: Record<Lang, string> = {
+  fr: "français",
+  en: "English",
+  es: "español",
+  de: "Deutsch",
+  it: "italiano",
+  pt: "português do Brasil",
+};
+
+const UPSELL_TEXT: Record<Lang, string> = {
+  fr: " Pour aller plus loin avec Luna : accès complet.",
+  en: " To go further with Luna: unlock full access.",
+  es: " Para profundizar con Luna: desbloquea el acceso completo.",
+  de: " Für mehr mit Luna: vollständigen Zugang freischalten.",
+  it: " Per approfondire con Luna: sblocca l’accesso completo.",
+  pt: " Para ir além com a Luna: libere o acesso completo.",
+};
+
+const S1_VARIANTS: Record<Lang, string[]> = {
+  fr: [
+    "Je te lis.",
+    "Je suis là.",
+    "D’accord, je comprends.",
+    "Merci de me le dire.",
+    "OK, je t’écoute.",
+  ],
+  en: [
+    "I hear you.",
+    "I’m here.",
+    "I understand.",
+    "Thank you for telling me.",
+    "I’m listening.",
+  ],
+  es: [
+    "Te leo.",
+    "Estoy aquí.",
+    "Entiendo.",
+    "Gracias por contármelo.",
+    "Te escucho.",
+  ],
+  de: [
+    "Ich höre dir zu.",
+    "Ich bin da.",
+    "Ich verstehe.",
+    "Danke, dass du mir das sagst.",
+    "Ich höre zu.",
+  ],
+  it: [
+    "Ti ascolto.",
+    "Sono qui.",
+    "Capisco.",
+    "Grazie per avermelo detto.",
+    "Ti sto ascoltando.",
+  ],
+  pt: [
+    "Estou te ouvindo.",
+    "Estou aqui.",
+    "Entendo.",
+    "Obrigado por me contar.",
+    "Estou ouvindo você.",
+  ],
+};
+
+const S2_VARIANTS: Record<Lang, string[]> = {
+  fr: [
+    "Il semble y avoir une émotion importante derrière ce que tu vis.",
+    "On dirait que quelque chose demande à être clarifié en toi.",
+    "Je sens une tension entre ce que tu ressens et ce que tu veux.",
+    "Cette situation semble toucher une limite ou un besoin profond.",
+    "Il y a peut-être un choix intérieur qui cherche à se préciser.",
+    "Ton signe peut aider à mettre des mots sur ce que tu traverses.",
+  ],
+  en: [
+    "There seems to be an important emotion behind what you’re going through.",
+    "It sounds like something inside you needs more clarity.",
+    "There may be tension between what you feel and what you want.",
+    "This situation may be touching a deeper need or boundary.",
+    "An inner choice may be trying to become clearer.",
+    "Your sign can help put words to what you’re experiencing.",
+  ],
+  es: [
+    "Parece haber una emoción importante detrás de lo que estás viviendo.",
+    "Da la impresión de que algo dentro de ti necesita más claridad.",
+    "Puede haber una tensión entre lo que sientes y lo que quieres.",
+    "Esta situación puede estar tocando una necesidad o un límite profundo.",
+    "Tal vez una elección interior esté intentando definirse.",
+    "Tu signo puede ayudarte a poner palabras a lo que estás viviendo.",
+  ],
+  de: [
+    "Hinter dem, was du gerade erlebst, scheint eine wichtige Emotion zu stehen.",
+    "Es wirkt, als brauche etwas in dir mehr Klarheit.",
+    "Vielleicht gibt es eine Spannung zwischen dem, was du fühlst, und dem, was du willst.",
+    "Diese Situation berührt möglicherweise ein tieferes Bedürfnis oder eine Grenze.",
+    "Vielleicht möchte sich eine innere Entscheidung klarer zeigen.",
+    "Dein Sternzeichen kann helfen, Worte für das zu finden, was du erlebst.",
+  ],
+  it: [
+    "Sembra esserci un’emozione importante dietro ciò che stai vivendo.",
+    "Sembra che qualcosa dentro di te abbia bisogno di maggiore chiarezza.",
+    "Potrebbe esserci una tensione tra ciò che senti e ciò che vuoi.",
+    "Questa situazione può toccare un bisogno o un limite profondo.",
+    "Forse una scelta interiore sta cercando di definirsi meglio.",
+    "Il tuo segno può aiutarti a dare un nome a ciò che stai vivendo.",
+  ],
+  pt: [
+    "Parece haver uma emoção importante por trás do que você está vivendo.",
+    "Parece que algo dentro de você precisa de mais clareza.",
+    "Pode existir uma tensão entre o que você sente e o que você quer.",
+    "Essa situação pode estar tocando uma necessidade ou um limite mais profundo.",
+    "Talvez uma escolha interior esteja tentando se definir.",
+    "Seu signo pode ajudar a colocar em palavras o que você está vivendo.",
+  ],
+};
+
+const Q_VARIANTS: Record<Lang, string[]> = {
+  fr: [
+    "Qu’est-ce qui pèse le plus en ce moment ?",
+    "Qu’aimerais-tu mieux comprendre dans cette situation ?",
+    "Quelle émotion revient le plus souvent ?",
+    "Qu’est-ce que tu aimerais changer concrètement ?",
+    "De quoi aurais-tu besoin pour te sentir plus aligné(e) ?",
+    "Qu’est-ce que ton intuition te dit déjà ?",
+    "Par quoi veux-tu commencer ?",
+  ],
+  en: [
+    "What feels heaviest right now?",
+    "What would you like to understand better in this situation?",
+    "Which emotion keeps coming back?",
+    "What would you like to change concretely?",
+    "What would help you feel more aligned?",
+    "What is your intuition already telling you?",
+    "Where would you like to start?",
+  ],
+  es: [
+    "¿Qué es lo que más pesa en este momento?",
+    "¿Qué te gustaría comprender mejor de esta situación?",
+    "¿Qué emoción aparece con más frecuencia?",
+    "¿Qué te gustaría cambiar de forma concreta?",
+    "¿Qué necesitarías para sentirte más alineado/a?",
+    "¿Qué te dice ya tu intuición?",
+    "¿Por dónde quieres empezar?",
+  ],
+  de: [
+    "Was belastet dich im Moment am meisten?",
+    "Was möchtest du in dieser Situation besser verstehen?",
+    "Welche Emotion kehrt am häufigsten zurück?",
+    "Was möchtest du konkret verändern?",
+    "Was würde dir helfen, dich mehr im Einklang mit dir selbst zu fühlen?",
+    "Was sagt dir deine Intuition bereits?",
+    "Womit möchtest du anfangen?",
+  ],
+  it: [
+    "Che cosa pesa di più in questo momento?",
+    "Che cosa vorresti capire meglio di questa situazione?",
+    "Quale emozione torna più spesso?",
+    "Che cosa vorresti cambiare concretamente?",
+    "Di che cosa avresti bisogno per sentirti più in sintonia con te stesso/a?",
+    "Che cosa ti sta già dicendo la tua intuizione?",
+    "Da dove vuoi iniziare?",
+  ],
+  pt: [
+    "O que está pesando mais neste momento?",
+    "O que você gostaria de entender melhor nessa situação?",
+    "Qual emoção aparece com mais frequência?",
+    "O que você gostaria de mudar de forma concreta?",
+    "Do que você precisa para se sentir mais alinhado(a)?",
+    "O que a sua intuição já está dizendo?",
+    "Por onde você quer começar?",
+  ],
+};
+
 function cleanStr(v: unknown) {
   return (v == null ? "" : String(v)).trim();
+}
+
+function normalizeLang(v: unknown): Lang {
+  const raw = cleanStr(v).toLowerCase().replace("_", "-");
+  const base = raw.split("-")[0];
+
+  if (
+    base === "fr" ||
+    base === "en" ||
+    base === "es" ||
+    base === "de" ||
+    base === "it" ||
+    base === "pt"
+  ) {
+    return base;
+  }
+
+  return "fr";
 }
 
 function jsonError(code: string, status = 400, extra: Record<string, any> = {}) {
@@ -113,38 +301,11 @@ function pickLastNMessages(
     .filter((m) => m.content);
 }
 
-const S1_VARIANTS_FR = [
-  __i18n["je_te_lis"],
-  __i18n["je_suis_la"],
-  __i18n["d_accord_je_comprends"],
-  __i18n["merci_de_me_le_dire"],
-  __i18n["ok_je_t_ecoute"],
-];
-
-const S2_VARIANTS_FR = [
-  __i18n["il_semble_y_avoir_une_emotion_importante_derriere_ce_que_tu"],
-  __i18n["on_dirait_que_quelque_chose_demande_a_etre_clarifie_en_toi"],
-  __i18n["je_sens_une_tension_entre_ce_que_tu_ressens_et_ce_que_tu_veu"],
-  __i18n["cette_situation_semble_toucher_une_limite_ou_un_besoin_profo"],
-  __i18n["il_y_a_peut_etre_un_choix_interieur_qui_cherche_a_se_precise"],
-  __i18n["ton_signe_peut_aider_a_mettre_des_mots_sur_ce_que_tu_travers"],
-];
-
-const Q_VARIANTS_FR = [
-  __i18n["qu_est_ce_qui_pese_le_plus_en_ce_moment"],
-  __i18n["qu_aimerais_tu_mieux_comprendre_dans_cette_situation"],
-  __i18n["quelle_emotion_revient_le_plus_souvent"],
-  __i18n["qu_est_ce_que_tu_aimerais_changer_concretement"],
-  __i18n["de_quoi_aurais_tu_besoin_pour_te_sentir_plus_aligne_e"],
-  __i18n["qu_est_ce_que_ton_intuition_te_dit_deja"],
-  __i18n["par_quoi_veux_tu_commencer"],
-];
-
-function enforceShortFormatFR(input: string, lastS2?: string) {
+function enforceShortFormat(input: string, lang: Lang, lastS2?: string) {
   const text = cleanStr(input).replace(/\s+/g, " ");
 
   const parts = text
-    .split(/(?<=[.!?])\s+/)
+    .split(/(?<=[.!?¡¿])\s+/)
     .map((p) => p.trim())
     .filter(Boolean);
 
@@ -156,40 +317,42 @@ function enforceShortFormatFR(input: string, lastS2?: string) {
   let s2 = nonQ[1] ?? "";
   let q = qSentence;
 
-  if (!s1) s1 = pickOne(S1_VARIANTS_FR);
+  if (!s1) s1 = pickOne(S1_VARIANTS[lang]);
 
   if (!s2) {
     const pool = lastS2
-      ? S2_VARIANTS_FR.filter((x) => x !== lastS2)
-      : S2_VARIANTS_FR;
+      ? S2_VARIANTS[lang].filter((x) => x !== lastS2)
+      : S2_VARIANTS[lang];
 
-    s2 = pickOne(pool.length ? pool : S2_VARIANTS_FR);
+    s2 = pickOne(pool.length ? pool : S2_VARIANTS[lang]);
   }
 
-  if (!q) q = pickOne(Q_VARIANTS_FR);
+  if (!q) q = pickOne(Q_VARIANTS[lang]);
 
-  if (!/[?]\s*$/.test(q)) q = q.replace(/[.!…]\s*$/, "").trimEnd() + " ?";
+  if (!/[?]\s*$/.test(q)) {
+    q = q.replace(/[.!…]\s*$/, "").trimEnd() + "?";
+  }
+
   if (s1 && !/[.!?…]\s*$/.test(s1)) s1 += ".";
   if (s2 && !/[.!?…]\s*$/.test(s2)) s2 += ".";
 
   let out = `${s1} ${s2} ${q}`.replace(/\s+/g, " ").trim();
 
   if (out.length > 240) {
-    out = out.slice(0, 239).trimEnd();
+    const fallback = `${s1} ${q}`.replace(/\s+/g, " ").trim();
+    out = fallback.length <= 240 ? fallback : fallback.slice(0, 239).trimEnd();
 
     if (!/[?]\s*$/.test(out)) {
       out = out.replace(/[.!…]\s*$/g, "").trimEnd();
-
       if (out.length > 238) out = out.slice(0, 238).trimEnd();
-
-      out += " ?";
+      out += "?";
     }
   }
 
   return out;
 }
 
-function extractSecondSentenceFR(text: string) {
+function extractSecondSentence(text: string) {
   const t = cleanStr(text).replace(/\s+/g, " ");
 
   const parts = t
@@ -310,136 +473,151 @@ async function incrementUsage(params: {
 }
 
 function buildPremiumSystemPrompt(params: {
-  lang: string;
+  lang: Lang;
   signName: string;
   signKey: string;
 }) {
   const { lang, signName, signKey } = params;
 
   return `
-Tu es Luna, la guide astrologique officielle de Luna Astralis.
+You are Luna, the official astrology guide of Luna Astralis.
 
-Tu utilises l’astrologie comme un outil de réflexion, d’introspection et de développement personnel.
+Use astrology as a tool for reflection, introspection and personal development.
 
-Tu aides l’utilisateur à mieux comprendre :
-- ses émotions;
-- ses forces;
-- ses défis;
-- ses habitudes;
-- son stress;
-- sa confiance en lui/elle;
-- ses objectifs;
-- ses choix;
-- sa carrière;
-- sa famille;
-- ses relations;
-- son évolution personnelle.
+Help the user better understand:
+- emotions;
+- strengths;
+- challenges;
+- habits;
+- stress;
+- self-confidence;
+- goals;
+- choices;
+- career;
+- family;
+- relationships;
+- personal growth.
 
-Tu ne ramènes jamais spontanément la conversation à l’amour ou à la compatibilité amoureuse.
-Tu abordes l’amour uniquement si l’utilisateur en parle lui-même.
+Never bring the conversation back to love or romantic compatibility unless the user brings it up.
 
-Style :
-- chaleureux;
-- profond;
-- clair;
-- concret;
-- bienveillant;
-- sans dramatiser.
+Style:
+- warm;
+- insightful;
+- clear;
+- concrete;
+- supportive;
+- never dramatic.
 
-IMPORTANT :
-- Tu ne prétends jamais être médecin, psychologue, avocat ou voyant.
-- Tu ne poses pas de diagnostic.
-- Tu ne prédis jamais l’avenir comme une certitude.
-- Tu proposes des pistes de réflexion inspirées de l’astrologie.
-- Tu adaptes subtilement ta réponse au signe astrologique fourni.
-- Tu évites les généralités vides.
-- Tu donnes une réponse utile, humaine et actionnable.
+IMPORTANT:
+- Never claim to be a doctor, psychologist, lawyer or fortune teller.
+- Never diagnose.
+- Never predict the future as a certainty.
+- Offer reflection inspired by astrology.
+- Adapt subtly to the provided zodiac sign.
+- Avoid empty generalities.
+- Give useful, human and actionable responses.
 
-Structure de réponse :
-1) Ce que la situation révèle
-2) Ce que ton signe peut éclairer
-3) Une direction concrète
-4) Une petite action à poser maintenant
+Response structure:
+1) What the situation may reveal
+2) What the user's sign may illuminate
+3) One concrete direction
+4) One small action to take now
 
-Langue: ${lang}.
-Signe: ${signName || signKey || "—"}.
-`.trim();
+LANGUAGE RULE:
+Reply only in ${LANG_LABEL[lang]}.
+Do not switch language unless the user explicitly asks you to.
+
+Zodiac sign: ${signName || signKey || "—"}.
+  `.trim();
 }
 
 function buildFreeSystemPrompt(params: {
+  lang: Lang;
   signName: string;
   signKey: string;
 }) {
-  const { signName, signKey } = params;
+  const { lang, signName, signKey } = params;
 
   return `
-Tu es Luna, la guide astrologique officielle de Luna Astralis.
+You are Luna, the official astrology guide of Luna Astralis.
 
-Tu utilises l’astrologie comme un outil de réflexion et de développement personnel.
+Use astrology as a tool for reflection and personal development.
 
-Tu aides l’utilisateur à mieux comprendre :
-- ses émotions;
-- ses défis;
-- ses forces;
-- son stress;
-- ses choix;
-- ses besoins;
-- ses limites;
-- ses relations seulement si l’utilisateur en parle.
+Help the user better understand:
+- emotions;
+- challenges;
+- strengths;
+- stress;
+- choices;
+- needs;
+- boundaries;
+- relationships only if the user brings them up.
 
-Tu ne ramènes jamais spontanément la conversation à l’amour.
-Tu parles d’amour ou de compatibilité seulement si l’utilisateur le demande clairement.
+Never bring the conversation back to love on your own.
+Only discuss love or compatibility if the user clearly asks about it.
 
-RÈGLES version gratuite :
-- Tu aides l’utilisateur à clarifier ce qu’il vit.
-- Tu identifies l’émotion, le blocage ou le besoin principal.
-- Tu proposes une mini-piste de réflexion inspirée de son signe.
-- Tu ne fais pas une longue analyse.
-- Tu termines toujours par 1 question courte et ouverte.
+FREE VERSION RULES:
+- Help the user clarify what they are experiencing.
+- Identify the main emotion, blockage or need.
+- Offer one short reflection inspired by the user's sign.
+- Do not give a long analysis.
+- Always end with one short open question.
 
-Réponse très courte :
-2 phrases + 1 question.
-Maximum 240 caractères.
+VERY SHORT RESPONSE:
+2 short sentences + 1 question.
+Maximum 240 characters.
 
-Style :
-chaleureux, calme, direct, humain, sans dramatiser.
+STYLE:
+Warm, calm, direct, human, non-dramatic.
 
-Langue: fr.
-Signe: ${signName || signKey || "—"}.
-`.trim();
+LANGUAGE RULE:
+Reply only in ${LANG_LABEL[lang]}.
+Do not switch language unless the user explicitly asks you to.
+
+Zodiac sign: ${signName || signKey || "—"}.
+  `.trim();
 }
 
 export async function GET() {
-  const key = process.env.OPENAI_API_KEY || "";
-
   return NextResponse.json({
     ok: true,
-    hasOpenAIKey: !!key,
-    keyLength: key.length,
-    keyStart: key.slice(0, 12),
-    keyEnd: key.slice(-12),
+    hasOpenAIKey: !!OPENAI_API_KEY,
     hasSupabaseAdmin: !!supabaseAdmin,
   });
 }
 
 export async function POST(req: Request) {
   try {
-    if (!OPENAI_API_KEY) return jsonError("OPENAI_API_KEY_MISSING", 500);
-    if (!supabaseAdmin) return jsonError("SUPABASE_ADMIN_MISSING", 500);
+    if (!OPENAI_API_KEY) {
+      return jsonError("OPENAI_API_KEY_MISSING", 500);
+    }
+
+    if (!supabaseAdmin) {
+      return jsonError("SUPABASE_ADMIN_MISSING", 500);
+    }
 
     const body = await req.json().catch(() => null);
-    if (!body) return jsonError("INVALID_JSON", 400);
 
-    const lang = cleanStr(body.lang || "fr") || "fr";
+    if (!body) {
+      return jsonError("INVALID_JSON", 400);
+    }
+
+    const lang = normalizeLang(body.lang);
     const signName = cleanStr(body.signName || "");
     const signKey = cleanStr(body.signKey || "");
     const guestId = cleanStr(body.guestId || "");
 
     const userMessages = buildChatMessages(body);
-    if (!userMessages.length) return jsonError("NO_MESSAGES", 400);
+
+    if (!userMessages.length) {
+      return jsonError("NO_MESSAGES", 400);
+    }
 
     const lastUserText = getLastUserMessage(userMessages);
-    if (!lastUserText) return jsonError("NO_USER_MESSAGE", 400);
+
+    if (!lastUserText) {
+      return jsonError("NO_USER_MESSAGE", 400);
+    }
 
     const supabaseAuth = createRouteHandlerClient({
       cookies: () => cookies(),
@@ -450,11 +628,23 @@ export async function POST(req: Request) {
 
     const avatarSrc = "/ia-luna-astralis.png";
 
+    /*
+      ========================================================
+      UTILISATEUR CONNECTÉ
+      ========================================================
+    */
+
     if (user_id) {
       const premium = await isPremiumActive(user_id);
 
+      /*
+        ---------------- PREMIUM ----------------
+      */
       if (premium) {
-        await incrementUsage({ user_id, guest_id: null }).catch(() => {});
+        await incrementUsage({
+          user_id,
+          guest_id: null,
+        }).catch(() => {});
 
         const system = buildPremiumSystemPrompt({
           lang,
@@ -465,26 +655,44 @@ export async function POST(req: Request) {
         const completion = await openai.responses.create({
           model: "gpt-4o",
           input: [
-            { role: "system", content: system },
+            {
+              role: "system",
+              content: system,
+            },
             ...userMessages,
           ] as any,
         });
 
-        const answer = cleanStr(completion.output_text || "");
+        const answer = cleanStr(
+          completion.output_text || ""
+        );
 
         return NextResponse.json(
           {
             message: answer,
             reply: answer,
             mode: "auth_premium",
+            lang,
             avatarSrc,
           },
-          { status: 200 }
+          {
+            status: 200,
+          }
         );
       }
 
-      const usage0 = await getOrCreateUsage({ user_id, guest_id: null });
-      const used0 = Number(usage0.messages_count || 0);
+      /*
+        ---------------- GRATUIT CONNECTÉ ----------------
+      */
+
+      const usage0 = await getOrCreateUsage({
+        user_id,
+        guest_id: null,
+      });
+
+      const used0 = Number(
+        usage0.messages_count || 0
+      );
 
       if (used0 >= FREE_LIMIT) {
         return NextResponse.json(
@@ -495,48 +703,93 @@ export async function POST(req: Request) {
             used: used0,
             remaining: 0,
             mode: "auth_free",
+            lang,
           },
-          { status: 402 }
+          {
+            status: 402,
+          }
         );
       }
 
-      const context = pickLastNMessages(userMessages, 10);
+      const context = pickLastNMessages(
+        userMessages,
+        10
+      );
 
       const lastAssistant = [...context]
         .reverse()
-        .find((m) => m.role === "assistant" && cleanStr(m.content));
+        .find(
+          (m) =>
+            m.role === "assistant" &&
+            cleanStr(m.content)
+        );
 
       const lastS2 = lastAssistant
-        ? extractSecondSentenceFR(lastAssistant.content)
+        ? extractSecondSentence(
+            lastAssistant.content
+          )
         : "";
 
       const system = buildFreeSystemPrompt({
+        lang,
         signName,
         signKey,
       });
 
-      const completion = await openai.responses.create({
-        model: "gpt-4o-mini",
-        input: [
-          { role: "system", content: system },
-          ...context,
-        ] as any,
+      const completion =
+        await openai.responses.create({
+          model: "gpt-4o-mini",
+          input: [
+            {
+              role: "system",
+              content: system,
+            },
+            ...context,
+          ] as any,
+        });
+
+      const raw = cleanStr(
+        completion.output_text || ""
+      );
+
+      let short = enforceShortFormat(
+        raw,
+        lang,
+        lastS2 || undefined
+      );
+
+      const updated = await incrementUsage({
+        user_id,
+        guest_id: null,
       });
 
-      const raw = cleanStr(completion.output_text || "");
-      let short = enforceShortFormatFR(raw, lastS2 || undefined);
+      const used = Number(
+        updated.messages_count || 0
+      );
 
-      const updated = await incrementUsage({ user_id, guest_id: null });
-      const used = Number(updated.messages_count || 0);
-      const remaining = Math.max(0, FREE_LIMIT - used);
+      const remaining = Math.max(
+        0,
+        FREE_LIMIT - used
+      );
 
-      if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
-        const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+      if (
+        remaining <=
+        UPSELL_WHEN_REMAINING_LTE
+      ) {
+        const candidate = (
+          short + UPSELL_TEXT[lang]
+        )
+          .replace(/\s+/g, " ")
+          .trim();
 
         short =
           candidate.length <= 240
             ? candidate
-            : enforceShortFormatFR(candidate, lastS2 || undefined);
+            : enforceShortFormat(
+                candidate,
+                lang,
+                lastS2 || undefined
+              );
       }
 
       return NextResponse.json(
@@ -547,19 +800,41 @@ export async function POST(req: Request) {
           used,
           remaining,
           free_limit: FREE_LIMIT,
+          lang,
           avatarSrc,
         },
-        { status: 200 }
+        {
+          status: 200,
+        }
       );
     }
+
+    /*
+      ========================================================
+      INVITÉ
+      ========================================================
+    */
 
     if (!guestId) {
       return NextResponse.json(
         {
           error: "GUEST_ID_MISSING",
-          detail: __i18n["guestid_requis_pour_le_mode_invite"],
+          detail:
+            lang === "fr"
+              ? "guestId requis pour le mode invité."
+              : lang === "en"
+              ? "guestId is required for guest mode."
+              : lang === "es"
+              ? "guestId es obligatorio para el modo invitado."
+              : lang === "de"
+              ? "guestId ist für den Gastmodus erforderlich."
+              : lang === "it"
+              ? "guestId è obbligatorio per la modalità ospite."
+              : "guestId é obrigatório para o modo visitante.",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
 
@@ -568,7 +843,9 @@ export async function POST(req: Request) {
       guest_id: guestId,
     });
 
-    const used0 = Number(usage0.messages_count || 0);
+    const used0 = Number(
+      usage0.messages_count || 0
+    );
 
     if (used0 >= FREE_LIMIT) {
       return NextResponse.json(
@@ -579,52 +856,93 @@ export async function POST(req: Request) {
           used: used0,
           remaining: 0,
           mode: "guest_free",
+          lang,
         },
-        { status: 402 }
+        {
+          status: 402,
+        }
       );
     }
 
-    const context = pickLastNMessages(userMessages, 10);
+    const context = pickLastNMessages(
+      userMessages,
+      10
+    );
 
     const lastAssistant = [...context]
       .reverse()
-      .find((m) => m.role === "assistant" && cleanStr(m.content));
+      .find(
+        (m) =>
+          m.role === "assistant" &&
+          cleanStr(m.content)
+      );
 
     const lastS2 = lastAssistant
-      ? extractSecondSentenceFR(lastAssistant.content)
+      ? extractSecondSentence(
+          lastAssistant.content
+        )
       : "";
 
     const system = buildFreeSystemPrompt({
+      lang,
       signName,
       signKey,
     });
 
-    const completion = await openai.responses.create({
-      model: "gpt-4o-mini",
-      input: [
-        { role: "system", content: system },
-        ...context,
-      ] as any,
-    });
+    const completion =
+      await openai.responses.create({
+        model: "gpt-4o-mini",
+        input: [
+          {
+            role: "system",
+            content: system,
+          },
+          ...context,
+        ] as any,
+      });
 
-    const raw = cleanStr(completion.output_text || "");
-    let short = enforceShortFormatFR(raw, lastS2 || undefined);
+    const raw = cleanStr(
+      completion.output_text || ""
+    );
+
+    let short = enforceShortFormat(
+      raw,
+      lang,
+      lastS2 || undefined
+    );
 
     const updated = await incrementUsage({
       user_id: null,
       guest_id: guestId,
     });
 
-    const used = Number(updated.messages_count || 0);
-    const remaining = Math.max(0, FREE_LIMIT - used);
+    const used = Number(
+      updated.messages_count || 0
+    );
 
-    if (remaining <= UPSELL_WHEN_REMAINING_LTE) {
-      const candidate = (short + UPSELL_TEXT_FR).replace(/\s+/g, " ").trim();
+    const remaining = Math.max(
+      0,
+      FREE_LIMIT - used
+    );
+
+    if (
+      remaining <=
+      UPSELL_WHEN_REMAINING_LTE
+    ) {
+      const candidate = (
+        short + UPSELL_TEXT[lang]
+      )
+        .replace(/\s+/g, " ")
+        .trim();
 
       short =
         candidate.length <= 240
           ? candidate
-          : enforceShortFormatFR(candidate, lastS2 || undefined);
+          : enforceShortFormat(
+              candidate,
+              lang,
+              lastS2 || undefined
+            );
     }
 
     return NextResponse.json(
@@ -635,9 +953,12 @@ export async function POST(req: Request) {
         used,
         remaining,
         free_limit: FREE_LIMIT,
+        lang,
         avatarSrc,
       },
-      { status: 200 }
+      {
+        status: 200,
+      }
     );
   } catch (e: any) {
     return NextResponse.json(
@@ -649,7 +970,9 @@ export async function POST(req: Request) {
         type: e?.type || null,
         param: e?.param || null,
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }
