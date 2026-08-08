@@ -636,7 +636,11 @@ export default function PricingClient({
     (key: string) => {
       const fromDictionary = dictionary?.[key];
       if (typeof fromDictionary === "string" && fromDictionary.trim()) {
-        return fromDictionary;
+        // Les dictionnaires peuvent contenir l'entité HTML "&nbsp;".
+        // React l'affiche littéralement dans une chaîne, donc on la convertit ici.
+        return fromDictionary
+          .replace(/&nbsp;/gi, "\u00A0")
+          .replace(/&#160;/gi, "\u00A0");
       }
 
       return FALLBACK[currentLocale]?.[key] || FALLBACK.fr[key] || "";
