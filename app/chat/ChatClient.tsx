@@ -957,27 +957,11 @@ if (typeof data?.remaining === "number") {
                 className={`btn btn-small ${plan !== "premium" ? "btn-primary" : "btn-ghost"}`}
                 onClick={onOpenPlans}
               >
-                {__i18n["forfaits"] ||
-  {
-    fr: "Forfaits",
-    en: "Plans",
-    es: "Planes",
-    de: "Tarife",
-    it: "Piani",
-    pt: "Planos",
-  }[lang]}
+                {__i18n["forfaits"] || "Forfaits"}
               </button>
 
               <button type="button" className="btn btn-small btn-ghost" onClick={() => setHistoryOpen(true)}>
-                {__i18n["historique"] ||
-  {
-    fr: "Historique",
-    en: "History",
-    es: "Historial",
-    de: "Verlauf",
-    it: "Cronologia",
-    pt: "Histórico",
-  }[lang]}
+                {__i18n["historique"] || "Historique"}
               </button>
             </div>
           </div>
