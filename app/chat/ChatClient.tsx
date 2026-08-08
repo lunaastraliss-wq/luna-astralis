@@ -30,6 +30,7 @@ const MAX_VISIBLE = 14;
 const LS_SIGN_KEY = "la_sign";
 const COOKIE_SIGN_KEY = "la_sign";
 const SIGN_QUERY_PARAM = "sign";
+const LS_LANG_KEY = "la_lang";
 
 type Lang = "fr" | "en" | "es" | "de" | "it" | "pt";
 
@@ -230,16 +231,55 @@ export default function ChatClient() {
 
   const lang = useMemo<Lang>(() => {
     const first = (pathname || "").split("/").filter(Boolean)[0]?.toLowerCase();
-    if (SUPPORTED_LANGS.includes(first as Lang)) return first as Lang;
+    if (SUPPORTED_LANGS.includes(first as Lang)) {
+      if (typeof window !== "undefined") {
+        try { localStorage.setItem(LS_LANG_KEY, first); } catch {}
+      }
+      return first as Lang;
+    }
 
     const queryLang = (sp.get("lang") || "").toLowerCase();
-    if (SUPPORTED_LANGS.includes(queryLang as Lang)) return queryLang as Lang;
+    if (SUPPORTED_LANGS.includes(queryLang as Lang)) {
+      if (typeof window !== "undefined") {
+        try { localStorage.setItem(LS_LANG_KEY, queryLang); } catch {}
+      }
+      return queryLang as Lang;
+    }
+
+    if (typeof document !== "undefined") {
+      const htmlLang = (document.documentElement.lang || "")
+        .toLowerCase()
+        .split("-")[0];
+
+      if (SUPPORTED_LANGS.includes(htmlLang as Lang)) {
+        if (typeof window !== "undefined") {
+          try { localStorage.setItem(LS_LANG_KEY, htmlLang); } catch {}
+        }
+        return htmlLang as Lang;
+      }
+    }
+
+    if (typeof window !== "undefined") {
+      try {
+        const storedLang = (localStorage.getItem(LS_LANG_KEY) || "").toLowerCase();
+        if (SUPPORTED_LANGS.includes(storedLang as Lang)) {
+          return storedLang as Lang;
+        }
+      } catch {}
+    }
 
     return "fr";
   }, [pathname, sp]);
 
   const __i18n = I18N_BY_LANG[lang];
   const ui = CHAT_UI[lang];
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(LS_LANG_KEY, lang);
+    } catch {}
+  }, [lang]);
 
   const SIGNS = useMemo<Record<string, string>>(
     () => ({
@@ -554,18 +594,18 @@ setSavedRemaining(safe);
   }, [setSavedRemaining]);
 
   const changeSignUrl = useMemo(() => {
-    const next = encodeURIComponent(`/chat?lang=${lang}`);
-    return `/onboarding/sign?change=1&lang=${encodeURIComponent(lang)}&next=${next}`;
-  }, [lang]);
+    const next = encodeURIComponent("/chat");
+    return `/onboarding/sign?change=1&next=${next}`;
+  }, []);
 
   const goPlans = useCallback(
     (reason: "free" | "premium" | "nav" = "nav") => {
       const next = encodeURIComponent(currentPathWithQuery());
       router.push(
-        `/pricing/plans?lang=${encodeURIComponent(lang)}&reason=${encodeURIComponent(reason)}&next=${next}`
+        `/pricing/plans?reason=${encodeURIComponent(reason)}&next=${next}`
       );
     },
-    [router, currentPathWithQuery, lang]
+    [router, currentPathWithQuery]
   );
 
   const openPaywallGuest = useCallback(() => {
@@ -630,15 +670,11 @@ setSavedRemaining(safe);
           const already = sp.get(SIGN_QUERY_PARAM) === chosen;
           if (!already)
             router.replace(
-              `/chat?lang=${encodeURIComponent(lang)}&${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
+              `/chat?${SIGN_QUERY_PARAM}=${encodeURIComponent(chosen)}`
             );
         }
       } else {
-        router.replace(
-          `/onboarding/sign?lang=${encodeURIComponent(lang)}&next=${encodeURIComponent(
-            `/chat?lang=${lang}`
-          )}`
-        );
+        router.replace(`/onboarding/sign?next=${encodeURIComponent("/chat")}`);
       }
 
       setBooted(true);
@@ -729,7 +765,7 @@ if (!res.ok) {
   if (res.status === 401 || data?.error === "AUTH_REQUIRED") {
     storeSign(signKey);
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
+    router.push(`/login?next=${next}`);
     throw new Error("AUTH_REQUIRED");
   }
 
@@ -801,11 +837,7 @@ if (typeof data?.remaining === "number") {
       await logEvent("send_message");
 
       if (!signKey) {
-        router.push(
-          `/onboarding/sign?lang=${encodeURIComponent(lang)}&next=${encodeURIComponent(
-            `/chat?lang=${lang}`
-          )}`
-        );
+        router.push("/onboarding/sign?next=/chat");
         return;
       }
 
@@ -859,7 +891,6 @@ if (typeof data?.remaining === "number") {
       openPaywallGuest,
       saveThreadLocal,
       router,
-      lang,
       signKey,
       plan,
       logEvent,
@@ -886,10 +917,10 @@ if (typeof data?.remaining === "number") {
       setUserId("");
       setPlan("guest");
 
-      router.replace(lang === "fr" ? "/" : `/${lang}`);
+      router.replace("/");
       router.refresh();
     },
-    [supabase, closePaywall, router, lang]
+    [supabase, closePaywall, router]
   );
 
   /* ---------------- actions ---------------- */
@@ -916,7 +947,7 @@ if (typeof data?.remaining === "number") {
 
   const onLogin = useCallback(() => {
     const next = encodeURIComponent(currentPathWithQuery());
-    router.push(`/login?lang=${encodeURIComponent(lang)}&next=${next}`);
+    router.push(`/login?next=${next}`);
   }, [router, currentPathWithQuery, lang]);
 
   /* ---------------- render ---------------- */
