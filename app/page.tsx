@@ -14,7 +14,6 @@ import { usePathname } from "next/navigation";
 import AuthProvider from "@/components/AuthProvider";
 import SignGrid from "@/components/SignGrid";
 import SiteHeader from "@/components/SiteHeader";
-import WelcomeVideo from "@/components/WelcomeVideo";
 
 import {
   defaultLocale,
@@ -1730,39 +1729,23 @@ export default function HomePage() {
                       {text.dailyUpdated}
                     </div>
 
-                    <h2>
-                      {text.horoscopeTitle}
-                    </h2>
+                    <h2>{text.horoscopeTitle}</h2>
 
-                    <p>
-                      {
-                        text.horoscopeDescription
-                      }
-                    </p>
+                    <p>{text.horoscopeDescription}</p>
 
                     <ul>
-                      {text.horoscopeItems.map(
-                        (item) => (
-                          <li key={item}>
-                            {item}
-                          </li>
-                        )
-                      )}
+                      {text.horoscopeItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
                     </ul>
 
                     <Link
                       href={localizedHref("/horoscope")}
                       className="hero-free-btn hero-free-btn--pulse"
                     >
-                      {
-                        text.horoscopeButton
-                      }
+                      {text.horoscopeButton}
                     </Link>
                   </article>
-
-                  <div className="hero-video-card">
-                    <WelcomeVideo />
-                  </div>
 
                   <article className="hero-tool-card">
                     <div
@@ -1772,82 +1755,58 @@ export default function HomePage() {
                       🌌
                     </div>
 
-                    <h2>
-                      {text.birthChartTitle}
-                    </h2>
+                    <h2>{text.birthChartTitle}</h2>
 
-                    <p>
-                      {
-                        text.birthChartDescription
-                      }
-                    </p>
+                    <p>{text.birthChartDescription}</p>
 
                     <ul>
-                      {text.birthChartItems.map(
-                        (item) => (
-                          <li key={item}>
-                            {item}
-                          </li>
-                        )
-                      )}
+                      {text.birthChartItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
                     </ul>
 
-                                        <Link
-                      href={localizedHref(
-                        "/carte-du-ciel/gratuite"
-                      )}
+                    <Link
+                      href={localizedHref("/carte-du-ciel/gratuite")}
                       className="hero-free-btn"
                     >
                       {text.birthChartButton}
                     </Link>
                   </article>
-                </div>
 
-                <article className="hero-tool-card hero-tool-card--compatibility">
-                  <div
-                    className="hero-tool-icon"
-                    aria-hidden="true"
-                  >
-                    💕
-                  </div>
-
-                  <div className="hero-compatibility-content">
-                    <div>
-                      <h2>
-                        {
-                          text.compatibilityTitle
-                        }
-                      </h2>
-
-                      <p>
-                        {
-                          text.compatibilityDescription
-                        }
-                      </p>
+                  <article className="hero-tool-card hero-tool-card--compatibility">
+                    <div
+                      className="hero-tool-icon"
+                      aria-hidden="true"
+                    >
+                      💕
                     </div>
 
-                    <ul>
-                      {text.compatibilityItems.map(
-                        (item) => (
-                          <li key={item}>
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
+                    <div className="hero-compatibility-content">
+                      <div>
+                        <h2>{text.compatibilityTitle}</h2>
 
-                    <Link
-  href={
-    locale === "fr"
-      ? "/compatibilite"
-      : `/${locale}/compatibilite`
-  }
-  className="hero-free-btn"
->
-  {text.compatibilityButton}
-</Link>
-                  </div>
-                </article>
+                        <p>{text.compatibilityDescription}</p>
+                      </div>
+
+                      <ul>
+                        {text.compatibilityItems.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+
+                      <Link
+                        href={
+                          locale === "fr"
+                            ? "/compatibilite"
+                            : `/${locale}/compatibilite`
+                        }
+                        className="hero-free-btn"
+                      >
+                        {text.compatibilityButton}
+                      </Link>
+                    </div>
+                  </article>
+                </div>
               </section>
 
               <section
