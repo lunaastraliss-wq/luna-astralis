@@ -414,6 +414,7 @@ function safeNext(raw: string | null, lang: Lang) {
     path.startsWith("/chat") ||
     path.startsWith("/pricing") ||
     path.startsWith("/onboarding") ||
+    path.startsWith("/checkout/sign") ||
     path.startsWith("/checkout/success") ||
     path === "/";
 
@@ -467,6 +468,10 @@ function computePostLoginTarget(nextUrl: string, lang: Lang) {
   }
 
   if (clean.startsWith("/pricing")) {
+    return clean;
+  }
+
+  if (clean.startsWith("/checkout/sign")) {
     return clean;
   }
 
