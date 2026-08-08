@@ -691,14 +691,11 @@ export default function PricingClient({
         const { data } = await supabase.auth.getSession();
         const authed = !!data?.session?.user?.id;
 
-        const back =
-          `/${currentLocale}/pricing?plan=${encodeURIComponent(plan)}` +
-          `&next=${encodeURIComponent(nextUrl)}`;
-
         if (!authed) {
           const afterLogin =
-            `/onboarding/sign?lang=${encodeURIComponent(currentLocale)}` +
-            `&next=${encodeURIComponent(back)}`;
+            `/checkout/sign?lang=${encodeURIComponent(currentLocale)}` +
+            `&plan=${encodeURIComponent(plan)}` +
+            `&next=${encodeURIComponent(nextUrl)}`;
 
           router.push(
             `/login?lang=${encodeURIComponent(currentLocale)}` +
@@ -713,8 +710,9 @@ export default function PricingClient({
 
         if (!sign) {
           router.push(
-            `/onboarding/sign?lang=${encodeURIComponent(currentLocale)}` +
-            `&next=${encodeURIComponent(back)}`
+            `/checkout/sign?lang=${encodeURIComponent(currentLocale)}` +
+            `&plan=${encodeURIComponent(plan)}` +
+            `&next=${encodeURIComponent(nextUrl)}`
           );
 
           setBusyPlan(null);
