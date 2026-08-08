@@ -1,13 +1,10 @@
-import type {
-  MetadataRoute,
-} from "next";
+import type { MetadataRoute } from "next";
 
-import {
-  COMPATIBILITY_PAGES,
-} from "@/lib/compatibility-pages";
+import { COMPATIBILITY_PAGES } from "@/lib/compatibility-pages";
 
-const BASE_URL =
-  "https://luna-astralis.app";
+const BASE_URL = "https://luna-astralis.app";
+
+const LOCALES = ["fr", "en", "es", "de", "it", "pt"] as const;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,17 +53,20 @@ const ASPECTS = [
 
 /*
 |--------------------------------------------------------------------------
-| Création d’une entrée
+| Types
 |--------------------------------------------------------------------------
 */
 
 type SitemapEntryOptions = {
-  changeFrequency:
-    MetadataRoute.Sitemap[number]["changeFrequency"];
-
-  priority:
-    number;
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
+  priority: number;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Création d’une entrée
+|--------------------------------------------------------------------------
+*/
 
 function createEntry(
   path: string,
@@ -76,14 +76,30 @@ function createEntry(
   }: SitemapEntryOptions,
 ): MetadataRoute.Sitemap[number] {
   return {
-    url:
-      path === "/"
-        ? BASE_URL
-        : `${BASE_URL}${path}`,
-
+    url: path === "/" ? BASE_URL : `${BASE_URL}${path}`,
     changeFrequency,
     priority,
   };
+}
+
+/*
+|--------------------------------------------------------------------------
+| Création des routes localisées
+|--------------------------------------------------------------------------
+*/
+
+function createLocalizedEntries(
+  path: string,
+  options: SitemapEntryOptions,
+): MetadataRoute.Sitemap {
+  return LOCALES.map((locale) =>
+    createEntry(
+      path === "/"
+        ? `/${locale}`
+        : `/${locale}${path}`,
+      options,
+    ),
+  );
 }
 
 /*
@@ -92,141 +108,99 @@ function createEntry(
 |--------------------------------------------------------------------------
 */
 
-export default function sitemap():
-  MetadataRoute.Sitemap {
+export default function sitemap(): MetadataRoute.Sitemap {
   return [
+    /*
+    |--------------------------------------------------------------------------
+    | Accueil dans les 6 langues
+    |--------------------------------------------------------------------------
+    */
+
+    ...createLocalizedEntries("/", {
+      changeFrequency: "weekly",
+      priority: 1,
+    }),
+
     /*
     |--------------------------------------------------------------------------
     | Pages principales
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/",
-      {
-        changeFrequency:
-          "weekly",
+    ...createLocalizedEntries("/astrologie", {
+      changeFrequency: "weekly",
+      priority: 0.95,
+    }),
 
-        priority:
-          1,
-      },
-    ),
+    ...createLocalizedEntries("/horoscope", {
+      changeFrequency: "daily",
+      priority: 0.95,
+    }),
 
-    createEntry(
-      "/astrologie",
-      {
-        changeFrequency:
-          "weekly",
+    ...createLocalizedEntries("/carte-du-ciel", {
+      changeFrequency: "weekly",
+      priority: 0.95,
+    }),
 
-        priority:
-          0.95,
-      },
-    ),
-
-    createEntry(
-      "/horoscope",
-      {
-        changeFrequency:
-          "daily",
-
-        priority:
-          0.95,
-      },
-    ),
-
-    createEntry(
-      "/carte-du-ciel",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.95,
-      },
-    ),
-
-    createEntry(
-      "/compatibilite",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.95,
-      },
-    ),
+    ...createLocalizedEntries("/compatibilite", {
+      changeFrequency: "weekly",
+      priority: 0.95,
+    }),
 
     /*
     |--------------------------------------------------------------------------
-    | Horoscopes gratuits par signe
+    | Horoscope gratuit par signe
     |--------------------------------------------------------------------------
     */
 
-    ...SIGNES.map(
-      (
-        signe,
-      ) =>
+    ...LOCALES.flatMap((locale) =>
+      SIGNES.map((signe) =>
         createEntry(
-          `/horoscope/${signe}`,
+          `/${locale}/horoscope/${signe}`,
           {
-            changeFrequency:
-              "daily",
-
-            priority:
-              0.9,
+            changeFrequency: "daily",
+            priority: 0.9,
           },
         ),
+      ),
     ),
 
     /*
     |--------------------------------------------------------------------------
-    | Horoscopes Premium
+    | Horoscope Premium
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/horoscope/premium",
-      {
-        changeFrequency:
-          "weekly",
+    ...createLocalizedEntries("/horoscope/premium", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/horoscope/premium/jour", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-    createEntry(
-      "/horoscope/premium/jour",
-      {
-        changeFrequency:
-          "weekly",
+    ...createLocalizedEntries("/horoscope/premium/mois", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/horoscope/premium/annee", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-    createEntry(
-      "/horoscope/premium/mois",
-      {
-        changeFrequency:
-          "weekly",
+    /*
+    |--------------------------------------------------------------------------
+    | Carte du ciel gratuite
+    |--------------------------------------------------------------------------
+    */
 
-        priority:
-          0.9,
-      },
-    ),
-
-    createEntry(
-      "/horoscope/premium/annee",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/carte-du-ciel/gratuite", {
+      changeFrequency: "weekly",
+      priority: 0.95,
+    }),
 
     /*
     |--------------------------------------------------------------------------
@@ -234,38 +208,20 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/carte-du-ciel/essentielle",
-      {
-        changeFrequency:
-          "weekly",
+    ...createLocalizedEntries("/carte-du-ciel/essentielle", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/carte-du-ciel/premium", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
-    createEntry(
-      "/carte-du-ciel/premium",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.9,
-      },
-    ),
-
-    createEntry(
-      "/carte-du-ciel/signature",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/carte-du-ciel/signature", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
     /*
     |--------------------------------------------------------------------------
@@ -273,16 +229,10 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/compatibilite/premium",
-      {
-        changeFrequency:
-          "weekly",
-
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/compatibilite/premium", {
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }),
 
     /*
     |--------------------------------------------------------------------------
@@ -290,20 +240,16 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    ...COMPATIBILITY_PAGES.map(
-      (
-        compatibility,
-      ) =>
+    ...LOCALES.flatMap((locale) =>
+      COMPATIBILITY_PAGES.map((compatibility) =>
         createEntry(
-          `/compatibilite/${compatibility.signA}/${compatibility.signB}`,
+          `/${locale}/compatibilite/${compatibility.signA}/${compatibility.signB}`,
           {
-            changeFrequency:
-              "monthly",
-
-            priority:
-              0.85,
+            changeFrequency: "monthly",
+            priority: 0.85,
           },
         ),
+      ),
     ),
 
     /*
@@ -312,60 +258,30 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/astrologie/signes",
-      {
-        changeFrequency:
-          "monthly",
+    ...createLocalizedEntries("/astrologie/signes", {
+      changeFrequency: "monthly",
+      priority: 0.9,
+    }),
 
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/astrologie/planetes", {
+      changeFrequency: "monthly",
+      priority: 0.9,
+    }),
 
-    createEntry(
-      "/astrologie/planetes",
-      {
-        changeFrequency:
-          "monthly",
+    ...createLocalizedEntries("/astrologie/maisons", {
+      changeFrequency: "monthly",
+      priority: 0.9,
+    }),
 
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/astrologie/aspects", {
+      changeFrequency: "monthly",
+      priority: 0.9,
+    }),
 
-    createEntry(
-      "/astrologie/maisons",
-      {
-        changeFrequency:
-          "monthly",
-
-        priority:
-          0.9,
-      },
-    ),
-
-    createEntry(
-      "/astrologie/aspects",
-      {
-        changeFrequency:
-          "monthly",
-
-        priority:
-          0.9,
-      },
-    ),
-
-    createEntry(
-      "/astrologie/ascendant",
-      {
-        changeFrequency:
-          "monthly",
-
-        priority:
-          0.9,
-      },
-    ),
+    ...createLocalizedEntries("/astrologie/ascendant", {
+      changeFrequency: "monthly",
+      priority: 0.9,
+    }),
 
     /*
     |--------------------------------------------------------------------------
@@ -373,20 +289,16 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    ...SIGNES.map(
-      (
-        signe,
-      ) =>
+    ...LOCALES.flatMap((locale) =>
+      SIGNES.map((signe) =>
         createEntry(
-          `/astrologie/${signe}`,
+          `/${locale}/astrologie/${signe}`,
           {
-            changeFrequency:
-              "monthly",
-
-            priority:
-              0.85,
+            changeFrequency: "monthly",
+            priority: 0.85,
           },
         ),
+      ),
     ),
 
     /*
@@ -395,25 +307,20 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    ...Array.from(
-      {
-        length:
-          12,
-      },
-      (
-        _,
-        index,
-      ) =>
-        createEntry(
-          `/astrologie/maison-${index + 1}`,
-          {
-            changeFrequency:
-              "monthly",
-
-            priority:
-              0.85,
-          },
-        ),
+    ...LOCALES.flatMap((locale) =>
+      Array.from(
+        {
+          length: 12,
+        },
+        (_, index) =>
+          createEntry(
+            `/${locale}/astrologie/maison-${index + 1}`,
+            {
+              changeFrequency: "monthly",
+              priority: 0.85,
+            },
+          ),
+      ),
     ),
 
     /*
@@ -422,20 +329,16 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    ...PLANETES.map(
-      (
-        planete,
-      ) =>
+    ...LOCALES.flatMap((locale) =>
+      PLANETES.map((planete) =>
         createEntry(
-          `/astrologie/${planete}`,
+          `/${locale}/astrologie/${planete}`,
           {
-            changeFrequency:
-              "monthly",
-
-            priority:
-              0.85,
+            changeFrequency: "monthly",
+            priority: 0.85,
           },
         ),
+      ),
     ),
 
     /*
@@ -444,20 +347,16 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    ...ASPECTS.map(
-      (
-        aspect,
-      ) =>
+    ...LOCALES.flatMap((locale) =>
+      ASPECTS.map((aspect) =>
         createEntry(
-          `/astrologie/${aspect}`,
+          `/${locale}/astrologie/${aspect}`,
           {
-            changeFrequency:
-              "monthly",
-
-            priority:
-              0.85,
+            changeFrequency: "monthly",
+            priority: 0.85,
           },
         ),
+      ),
     ),
 
     /*
@@ -466,16 +365,10 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/pricing",
-      {
-        changeFrequency:
-          "monthly",
-
-        priority:
-          0.8,
-      },
-    ),
+    ...createLocalizedEntries("/pricing", {
+      changeFrequency: "monthly",
+      priority: 0.8,
+    }),
 
     /*
     |--------------------------------------------------------------------------
@@ -483,37 +376,19 @@ export default function sitemap():
     |--------------------------------------------------------------------------
     */
 
-    createEntry(
-      "/conditions",
-      {
-        changeFrequency:
-          "yearly",
+    ...createLocalizedEntries("/conditions", {
+      changeFrequency: "yearly",
+      priority: 0.2,
+    }),
 
-        priority:
-          0.2,
-      },
-    ),
+    ...createLocalizedEntries("/confidentialite", {
+      changeFrequency: "yearly",
+      priority: 0.2,
+    }),
 
-    createEntry(
-      "/confidentialite",
-      {
-        changeFrequency:
-          "yearly",
-
-        priority:
-          0.2,
-      },
-    ),
-
-    createEntry(
-      "/mentions-legales",
-      {
-        changeFrequency:
-          "yearly",
-
-        priority:
-          0.2,
-      },
-    ),
+    ...createLocalizedEntries("/mentions-legales", {
+      changeFrequency: "yearly",
+      priority: 0.2,
+    }),
   ];
 }
