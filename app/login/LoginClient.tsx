@@ -460,13 +460,22 @@ function normalizeChatNext(nextUrl: string, lang: Lang) {
 function computePostLoginTarget(nextUrl: string, lang: Lang) {
   const clean = addLangParam(nextUrl, lang);
 
-  if (clean.startsWith("/pricing")) return clean;
+  // Si une destination onboarding est explicitement demandée,
+  // on la respecte avant toute autre logique.
+  if (clean.startsWith("/onboarding")) {
+    return clean;
+  }
+
+  if (clean.startsWith("/pricing")) {
+    return clean;
+  }
 
   if (clean.startsWith("/chat")) {
     return normalizeChatNext(clean, lang);
   }
 
   const s = getStoredSign();
+
   if (s) {
     return `/chat?lang=${encodeURIComponent(lang)}&sign=${encodeURIComponent(s)}`;
   }
