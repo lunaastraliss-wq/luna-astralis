@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo, useCallback } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase/client";
 
 import fr from "../../i18n/migrated/fr/app/chat/chatsidebar.json";
@@ -262,21 +262,29 @@ const UI_TEXT: Record<
   },
 };
 
-function getLangFromPath(pathname: string | null): Lang {
+function isLang(
+  value: string | null | undefined
+): value is Lang {
+  return (
+    value === "fr" ||
+    value === "en" ||
+    value === "es" ||
+    value === "de" ||
+    value === "it" ||
+    value === "pt"
+  );
+}
+
+function getLangFromPath(
+  pathname: string | null
+): Lang {
   if (pathname) {
     const firstSegment = pathname
       .split("/")
       .filter(Boolean)[0]
       ?.toLowerCase();
 
-    if (
-      firstSegment === "fr" ||
-      firstSegment === "en" ||
-      firstSegment === "es" ||
-      firstSegment === "de" ||
-      firstSegment === "it" ||
-      firstSegment === "pt"
-    ) {
+    if (isLang(firstSegment)) {
       return firstSegment;
     }
   }
@@ -286,14 +294,7 @@ function getLangFromPath(pathname: string | null): Lang {
       ?.toLowerCase()
       .split("-")[0];
 
-    if (
-      htmlLang === "fr" ||
-      htmlLang === "en" ||
-      htmlLang === "es" ||
-      htmlLang === "de" ||
-      htmlLang === "it" ||
-      htmlLang === "pt"
-    ) {
+    if (isLang(htmlLang)) {
       return htmlLang;
     }
   }
@@ -301,7 +302,9 @@ function getLangFromPath(pathname: string | null): Lang {
   return "fr";
 }
 
-function normalizeFreeLeft(v: number | null): number | null {
+function normalizeFreeLeft(
+  v: number | null
+): number | null {
   if (typeof v !== "number") return null;
   if (!Number.isFinite(v)) return null;
 
@@ -352,17 +355,49 @@ export default function ChatSidebar({
   bookUrl,
 }: Props) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const lang = useMemo(
-    () => getLangFromPath(pathname),
-    [pathname]
-  );
+  /*
+   * IMPORTANT :
+   *
+   * Le chat utilise des URLs comme :
+   *
+   * /chat?lang=en&sign=scorpion
+   *
+   * La langue est donc dans ?lang=.
+   *
+   * On donne priorité à ?lang=.
+   *
+   * Si ?lang= n'existe pas, on utilise ensuite
+   * la langue présente dans le pathname :
+   *
+   * /fr/chat
+   * /en/chat
+   * /es/chat
+   * /de/chat
+   * /it/chat
+   * /pt/chat
+   */
+  const lang = useMemo(() => {
+    const queryLang = searchParams
+      .get("lang")
+      ?.toLowerCase();
+
+    if (isLang(queryLang)) {
+      return queryLang;
+    }
+
+    return getLangFromPath(pathname);
+  }, [pathname, searchParams]);
 
   const dict = DICTS[lang];
   const ui = UI_TEXT[lang];
 
   const t = useCallback(
-    (key: string, fallback: string) => {
+    (
+      key: string,
+      fallback: string
+    ) => {
       return dict?.[key] || fallback;
     },
     [dict]
@@ -374,11 +409,12 @@ export default function ChatSidebar({
   );
 
   /*
-    Compteur seulement si plan === "free"
-    ET freeLeft est un nombre valide.
-  */
+   * Compteur seulement si plan === "free"
+   * ET freeLeft est un nombre valide.
+   */
   const showFreeCounter =
-    plan === "free" && freeLeftNorm !== null;
+    plan === "free" &&
+    freeLeftNorm !== null;
 
   const counterText = useMemo(() => {
     if (!showFreeCounter) return "";
@@ -390,7 +426,9 @@ export default function ChatSidebar({
     const count = freeLeftNorm ?? 0;
 
     return `${count} ${
-      count === 1 ? ui.message : ui.messages
+      count === 1
+        ? ui.message
+        : ui.messages
     }`;
   }, [
     showFreeCounter,
@@ -409,7 +447,9 @@ export default function ChatSidebar({
   }, [sessionEmail]);
 
   const resetApp = useCallback(async () => {
-    const ok = confirm(ui.resetConfirm);
+    const ok = confirm(
+      ui.resetConfirm
+    );
 
     if (!ok) return;
 
@@ -422,14 +462,18 @@ export default function ChatSidebar({
     } catch {}
 
     try {
-      document.cookie.split(";").forEach((c) => {
-        const name = c.split("=")[0]?.trim();
+      document.cookie
+        .split(";")
+        .forEach((c) => {
+          const name = c
+            .split("=")[0]
+            ?.trim();
 
-        if (!name) return;
+          if (!name) return;
 
-        document.cookie =
-          `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
-      });
+          document.cookie =
+            `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+        });
     } catch {}
 
     try {
@@ -443,7 +487,12 @@ export default function ChatSidebar({
     isAuth && !!sessionEmail;
 
   const planLabel = useMemo(
-    () => labelFromPlan(plan, planSlug, lang),
+    () =>
+      labelFromPlan(
+        plan,
+        planSlug,
+        lang
+      ),
     [plan, planSlug, lang]
   );
 
@@ -453,7 +502,10 @@ export default function ChatSidebar({
   return (
     <aside
       className="chat-side"
-      aria-label={t("profil_ia", ui.profile)}
+      aria-label={t(
+        "profil_ia",
+        ui.profile
+      )}
     >
       <div className="chat-side-inner">
         {/* Image : desktop seulement */}
@@ -468,7 +520,10 @@ export default function ChatSidebar({
         <div className="chat-side-center">
           <p className="chat-side-p">
             <strong>
-              {t("signe", ui.sign)}
+              {t(
+                "signe",
+                ui.sign
+              )}
             </strong>{" "}
             {signName}
           </p>
@@ -486,7 +541,10 @@ export default function ChatSidebar({
               aria-label={`${ui.deepen} ${signName}`}
               title={`${ui.deepen} ${signName}`}
             >
-              {t("livre", ui.book)}
+              {t(
+                "livre",
+                ui.book
+              )}
             </a>
           )}
 
