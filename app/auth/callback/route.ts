@@ -37,6 +37,7 @@ function safeNext(raw: string | null): string {
     path.startsWith("/chat") ||
     path.startsWith("/pricing") ||
     path.startsWith("/onboarding") ||
+    path.startsWith("/checkout/sign") ||
     path.startsWith("/checkout/success") ||
     path === "/";
 
