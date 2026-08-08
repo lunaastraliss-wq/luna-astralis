@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import fr from "../../i18n/migrated/fr/app/chat/chatmodals.json";
 import en from "../../i18n/migrated/en/app/chat/chatmodals.json";
@@ -35,10 +35,8 @@ const UI_TEXT: Record<
     seeOffers: string;
     close: string;
     guestFootnote: string;
-
     premiumRequiredText: string;
     premiumFootnote: string;
-
     history: string;
     lunaAI: string;
     goBottom: string;
@@ -172,21 +170,29 @@ const UI_TEXT: Record<
   },
 };
 
-function getLangFromPath(pathname: string | null): Lang {
+function isLang(
+  value: string | null | undefined
+): value is Lang {
+  return (
+    value === "fr" ||
+    value === "en" ||
+    value === "es" ||
+    value === "de" ||
+    value === "it" ||
+    value === "pt"
+  );
+}
+
+function getLangFromPath(
+  pathname: string | null
+): Lang {
   if (pathname) {
     const firstSegment = pathname
       .split("/")
       .filter(Boolean)[0]
       ?.toLowerCase();
 
-    if (
-      firstSegment === "fr" ||
-      firstSegment === "en" ||
-      firstSegment === "es" ||
-      firstSegment === "de" ||
-      firstSegment === "it" ||
-      firstSegment === "pt"
-    ) {
+    if (isLang(firstSegment)) {
       return firstSegment;
     }
   }
@@ -196,14 +202,7 @@ function getLangFromPath(pathname: string | null): Lang {
       ?.toLowerCase()
       .split("-")[0];
 
-    if (
-      htmlLang === "fr" ||
-      htmlLang === "en" ||
-      htmlLang === "es" ||
-      htmlLang === "de" ||
-      htmlLang === "it" ||
-      htmlLang === "pt"
-    ) {
+    if (isLang(htmlLang)) {
       return htmlLang;
     }
   }
@@ -215,8 +214,14 @@ function enc(nextUrl: string) {
   return encodeURIComponent(nextUrl || "/chat");
 }
 
-function localizePath(path: string, lang: Lang) {
-  const clean = path.startsWith("/") ? path : `/${path}`;
+function localizePath(
+  path: string,
+  lang: Lang
+) {
+  const clean = path.startsWith("/")
+    ? path
+    : `/${path}`;
+
   return `/${lang}${clean}`;
 }
 
@@ -242,33 +247,74 @@ export default function ChatModals(props: {
   } = props;
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const lang = useMemo(
-    () => getLangFromPath(pathname),
-    [pathname]
-  );
+  /*
+   * IMPORTANT :
+   *
+   * Le chat utilise des URLs comme :
+   *
+   * /chat?lang=en&sign=scorpion
+   *
+   * La langue se trouve donc dans ?lang=.
+   *
+   * On donne priorité à ?lang=.
+   *
+   * Si ?lang= n'existe pas, on utilise ensuite
+   * la langue présente dans le pathname :
+   *
+   * /fr/chat
+   * /en/chat
+   * /es/chat
+   * /de/chat
+   * /it/chat
+   * /pt/chat
+   */
+
+  const lang = useMemo(() => {
+    const queryLang = searchParams
+      .get("lang")
+      ?.toLowerCase();
+
+    if (isLang(queryLang)) {
+      return queryLang;
+    }
+
+    return getLangFromPath(pathname);
+  }, [pathname, searchParams]);
 
   const dict = DICTS[lang];
   const ui = UI_TEXT[lang];
 
   const t = useCallback(
-    (key: string, fallback: string) => {
+    (
+      key: string,
+      fallback: string
+    ) => {
       return dict?.[key] || fallback;
     },
     [dict]
   );
 
   const loginHref =
-    `${localizePath("/login", lang)}?next=${enc(nextUrl)}`;
+    `${localizePath("/login", lang)}` +
+    `?next=${enc(nextUrl)}`;
 
   const pricingHref =
-    `${localizePath("/pricing", lang)}?next=${enc(nextUrl)}`;
+    `${localizePath("/pricing", lang)}` +
+    `?next=${enc(nextUrl)}`;
 
   return (
     <>
-      {/* PAYWALL */}
+      {/* =====================================================
+          PAYWALL
+      ===================================================== */}
+
       <div
-        className={"paywall " + (paywallOpen ? "is-open" : "")}
+        className={
+          "paywall " +
+          (paywallOpen ? "is-open" : "")
+        }
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onClosePaywall();
@@ -377,9 +423,15 @@ export default function ChatModals(props: {
         </div>
       </div>
 
-      {/* HISTORIQUE */}
+      {/* =====================================================
+          HISTORIQUE
+      ===================================================== */}
+
       <div
-        className={"history " + (historyOpen ? "is-open" : "")}
+        className={
+          "history " +
+          (historyOpen ? "is-open" : "")
+        }
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             onCloseHistory();
@@ -412,14 +464,19 @@ export default function ChatModals(props: {
                 key={idx}
                 className={
                   "history-item " +
-                  (m.role === "user" ? "user" : "ai")
+                  (m.role === "user"
+                    ? "user"
+                    : "ai")
                 }
               >
                 {m.role !== "user" ? (
                   <img
                     className="history-avatar"
                     src="/ia-luna-astralis.png"
-                    alt={t("luna_ia", ui.lunaAI)}
+                    alt={t(
+                      "luna_ia",
+                      ui.lunaAI
+                    )}
                   />
                 ) : (
                   <div
@@ -442,12 +499,14 @@ export default function ChatModals(props: {
               className="paywall-btn"
               type="button"
               onClick={() => {
-                const el = document.querySelector(
-                  ".history-body"
-                ) as HTMLDivElement | null;
+                const el =
+                  document.querySelector(
+                    ".history-body"
+                  ) as HTMLDivElement | null;
 
                 if (el) {
-                  el.scrollTop = el.scrollHeight;
+                  el.scrollTop =
+                    el.scrollHeight;
                 }
               }}
             >
@@ -460,7 +519,9 @@ export default function ChatModals(props: {
             <button
               className="paywall-btn"
               type="button"
-              onClick={onClearHistoryLocal}
+              onClick={
+                onClearHistoryLocal
+              }
             >
               {t(
                 "effacer_local",
