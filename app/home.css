@@ -1185,3 +1185,119 @@
     font-size: 1.55rem;
   }
 }
+/* ======================================== */
+/* CORRECTION MOBILE HOME                   */
+/* ======================================== */
+
+@media (max-width: 768px) {
+  .hero-astro {
+    min-height: auto;
+    padding: 24px 12px 40px;
+  }
+
+  .hero-inner {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-top {
+    margin-bottom: 22px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.9rem, 9vw, 2.7rem);
+    line-height: 1.08;
+  }
+
+  .hero-sub,
+  .lead {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .hero-showcase {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    width: 100%;
+    margin-top: 22px;
+  }
+
+  .hero-tool-card {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    padding: 22px 18px;
+    border-radius: 22px;
+    text-align: center;
+  }
+
+  .hero-tool-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 14px;
+    font-size: 26px;
+  }
+
+  .hero-tool-label {
+    margin: 0 auto 12px;
+  }
+
+  .hero-tool-card h2 {
+    display: block;
+    margin: 0 0 10px;
+    color: #ffffff !important;
+    font-size: 1.35rem;
+    line-height: 1.25;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-tool-card p {
+    display: block;
+    margin: 0 0 14px;
+    color: #d5defc !important;
+    font-size: 14px;
+    line-height: 1.55;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-tool-card ul {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 0;
+    color: #eef2ff !important;
+    font-size: 14px;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-tool-card li {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    color: #eef2ff !important;
+    line-height: 1.4;
+  }
+
+  .hero-tool-card .hero-free-btn {
+    display: flex !important;
+    width: 100%;
+    max-width: none;
+    min-height: 50px;
+    margin: 0;
+    padding: 13px 16px;
+    color: #171717 !important;
+    font-size: 14px;
+    font-weight: 900;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .hero-compatibility-content {
+    width: 100%;
+  }
+}
