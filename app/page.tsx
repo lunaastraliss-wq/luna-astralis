@@ -149,6 +149,7 @@ type HomeText = {
 const BOOKS = [
   {
     image: "ASTRO 101.jpg",
+    localizedImage: "astro-101",
     title: __i18n["astro_101"],
     localizedTitle: {
       fr: "Astro 101",
@@ -162,6 +163,7 @@ const BOOKS = [
   },
   {
     image: "ASTROLOGIE ET CHIROMANCIE.png",
+    localizedImage: "astrologie-chiromancie",
     title: __i18n["astrologie_et_chiromancie"],
     localizedTitle: {
       fr: "Astrologie et chiromancie",
@@ -175,6 +177,7 @@ const BOOKS = [
   },
   {
     image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
+    localizedImage: "astrologie-developpement-personnel",
     title: __i18n["developpement_personnel"],
     localizedTitle: {
       fr: "Astrologie et développement personnel",
@@ -188,6 +191,7 @@ const BOOKS = [
   },
   {
     image: "Astrologie et transformation personnelle (1).jpg",
+    localizedImage: "astrologie-transformation-personnelle",
     title: __i18n["transformation_personnelle"],
     localizedTitle: {
       fr: "Astrologie et transformation personnelle",
@@ -201,6 +205,7 @@ const BOOKS = [
   },
   {
     image: "guide-de-compatibilite-astrologique.jpg",
+    localizedImage: "guide-compatibilite-astrologique",
     title: __i18n["guide_de_compatibilite_astrologique"],
     localizedTitle: {
       fr: "Guide de compatibilité astrologique",
@@ -211,6 +216,22 @@ const BOOKS = [
       pt: "Guia de compatibilidade astrológica",
     },
     amazon: "https://a.co/d/00V8gKyx",
+  },
+
+  {
+    image: "144-unions-amoureuses.fr.png",
+    localizedImage: "144-unions-amoureuses",
+    title: "144 unions amoureuses",
+    localizedTitle: {
+      fr: "144 unions amoureuses",
+      en: "144 Romantic Unions",
+      es: "144 uniones amorosas",
+      de: "144 Liebesverbindungen",
+      it: "144 unioni amorose",
+      pt: "144 uniões amorosas",
+    },
+    // Lien temporaire vers la boutique auteur, faute de lien Amazon spécifique fourni.
+    amazon: "https://a.co/d/011iDlLR",
   },
 
   // 12 signes du zodiaque :
