@@ -151,70 +151,30 @@ const BOOKS = [
     image: "ASTRO 101.jpg",
     localizedImage: "astro-101",
     title: __i18n["astro_101"],
-    localizedTitle: {
-      fr: "Astro 101",
-      en: "Astro 101",
-      es: "Astro 101",
-      de: "Astro 101",
-      it: "Astro 101",
-      pt: "Astro 101",
-    },
     amazon: "https://a.co/d/05rwtdhp",
   },
   {
     image: "ASTROLOGIE ET CHIROMANCIE.png",
     localizedImage: "astrologie-chiromancie",
     title: __i18n["astrologie_et_chiromancie"],
-    localizedTitle: {
-      fr: "Astrologie et chiromancie",
-      en: "Astrology and Palmistry",
-      es: "Astrología y quiromancia",
-      de: "Astrologie und Handlesen",
-      it: "Astrologia e chiromanzia",
-      pt: "Astrologia e quiromancia",
-    },
     amazon: "https://a.co/d/03osw44E",
   },
   {
     image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
     localizedImage: "astrologie-developpement-personnel",
     title: __i18n["developpement_personnel"],
-    localizedTitle: {
-      fr: "Astrologie et développement personnel",
-      en: "Astrology and Personal Development",
-      es: "Astrología y desarrollo personal",
-      de: "Astrologie und persönliche Entwicklung",
-      it: "Astrologia e sviluppo personale",
-      pt: "Astrologia e desenvolvimento pessoal",
-    },
     amazon: "https://a.co/d/05mlDRXi",
   },
   {
     image: "Astrologie et transformation personnelle (1).jpg",
     localizedImage: "astrologie-transformation-personnelle",
     title: __i18n["transformation_personnelle"],
-    localizedTitle: {
-      fr: "Astrologie et transformation personnelle",
-      en: "Astrology and Personal Transformation",
-      es: "Astrología y transformación personal",
-      de: "Astrologie und persönliche Transformation",
-      it: "Astrologia e trasformazione personale",
-      pt: "Astrologia e transformação pessoal",
-    },
     amazon: "https://a.co/d/08qzDp1D",
   },
   {
     image: "guide-de-compatibilite-astrologique.jpg",
     localizedImage: "guide-compatibilite-astrologique",
     title: __i18n["guide_de_compatibilite_astrologique"],
-    localizedTitle: {
-      fr: "Guide de compatibilité astrologique",
-      en: "Astrological Compatibility Guide",
-      es: "Guía de compatibilidad astrológica",
-      de: "Astrologischer Kompatibilitätsratgeber",
-      it: "Guida alla compatibilità astrologica",
-      pt: "Guia de compatibilidade astrológica",
-    },
     amazon: "https://a.co/d/00V8gKyx",
   },
 
@@ -222,15 +182,6 @@ const BOOKS = [
     image: "144-unions-amoureuses.fr.png",
     localizedImage: "144-unions-amoureuses",
     title: "144 unions amoureuses",
-    localizedTitle: {
-      fr: "144 unions amoureuses",
-      en: "144 Romantic Unions",
-      es: "144 uniones amorosas",
-      de: "144 Liebesverbindungen",
-      it: "144 unioni amorose",
-      pt: "144 uniões amorosas",
-    },
-    // Lien temporaire vers la boutique auteur, faute de lien Amazon spécifique fourni.
     amazon: "https://a.co/d/011iDlLR",
   },
 
@@ -241,168 +192,72 @@ const BOOKS = [
     image: "Bélier.jpg",
     localizedImage: "belier",
     title: __i18n["belier"],
-    localizedTitle: {
-      fr: "Bélier",
-      en: "Aries",
-      es: "Aries",
-      de: "Widder",
-      it: "Ariete",
-      pt: "Áries",
-    },
     amazon: "https://a.co/d/0h9C8bSp",
   },
   {
     image: "Taureau.jpg",
     localizedImage: "taureau",
     title: "Taureau",
-    localizedTitle: {
-      fr: "Taureau",
-      en: "Taurus",
-      es: "Tauro",
-      de: "Stier",
-      it: "Toro",
-      pt: "Touro",
-    },
     amazon: "https://a.co/d/06iXVhrd",
   },
   {
     image: "Gémeaux.jpg",
     localizedImage: "gemeaux",
     title: __i18n["gemeaux"],
-    localizedTitle: {
-      fr: "Gémeaux",
-      en: "Gemini",
-      es: "Géminis",
-      de: "Zwillinge",
-      it: "Gemelli",
-      pt: "Gêmeos",
-    },
     amazon: "https://a.co/d/02MIWm2d",
   },
   {
     image: "Cancer.jpg",
     localizedImage: "cancer",
     title: "Cancer",
-    localizedTitle: {
-      fr: "Cancer",
-      en: "Cancer",
-      es: "Cáncer",
-      de: "Krebs",
-      it: "Cancro",
-      pt: "Câncer",
-    },
     amazon: "https://a.co/d/0bfnfFhD",
   },
   {
     image: "Lion.png",
     localizedImage: "lion",
     title: "Lion",
-    localizedTitle: {
-      fr: "Lion",
-      en: "Leo",
-      es: "Leo",
-      de: "Löwe",
-      it: "Leone",
-      pt: "Leão",
-    },
     amazon: "https://a.co/d/0cFooiSG",
   },
   {
     image: "Vierge.jpg",
     localizedImage: "vierge",
     title: "Vierge",
-    localizedTitle: {
-      fr: "Vierge",
-      en: "Virgo",
-      es: "Virgo",
-      de: "Jungfrau",
-      it: "Vergine",
-      pt: "Virgem",
-    },
     amazon: "https://a.co/d/0aQhmhkB",
   },
   {
     image: "Balance.jpg",
     localizedImage: "balance",
     title: "Balance",
-    localizedTitle: {
-      fr: "Balance",
-      en: "Libra",
-      es: "Libra",
-      de: "Waage",
-      it: "Bilancia",
-      pt: "Libra",
-    },
     amazon: "https://a.co/d/0gnJSdeE",
   },
   {
     image: "Scorpion.jpg",
     localizedImage: "scorpion",
     title: "Scorpion",
-    localizedTitle: {
-      fr: "Scorpion",
-      en: "Scorpio",
-      es: "Escorpio",
-      de: "Skorpion",
-      it: "Scorpione",
-      pt: "Escorpião",
-    },
     amazon: "https://a.co/d/07JHWrTe",
   },
   {
     image: "Sagittaire.jpg",
     localizedImage: "sagittaire",
     title: "Sagittaire",
-    localizedTitle: {
-      fr: "Sagittaire",
-      en: "Sagittarius",
-      es: "Sagitario",
-      de: "Schütze",
-      it: "Sagittario",
-      pt: "Sagitário",
-    },
     amazon: "https://a.co/d/05jeVtb0",
   },
   {
     image: "Capricorne.jpg",
     localizedImage: "capricorne",
     title: "Capricorne",
-    localizedTitle: {
-      fr: "Capricorne",
-      en: "Capricorn",
-      es: "Capricornio",
-      de: "Steinbock",
-      it: "Capricorno",
-      pt: "Capricórnio",
-    },
     amazon: "https://a.co/d/0cwFnIuC",
   },
   {
     image: "Verseau.jpg",
     localizedImage: "verseau",
     title: "Verseau",
-    localizedTitle: {
-      fr: "Verseau",
-      en: "Aquarius",
-      es: "Acuario",
-      de: "Wassermann",
-      it: "Acquario",
-      pt: "Aquário",
-    },
     amazon: "https://a.co/d/07MPr0lj",
   },
   {
     image: "Poisson.jpg",
     localizedImage: "poissons",
     title: "Poissons",
-    localizedTitle: {
-      fr: "Poissons",
-      en: "Pisces",
-      es: "Piscis",
-      de: "Fische",
-      it: "Pesci",
-      pt: "Peixes",
-    },
     amazon: "https://a.co/d/04E0atUr",
   },
 ];
@@ -2289,25 +2144,19 @@ export default function HomePage() {
                     ? `${book.localizedImage}.${locale}.png`
                     : book.image;
 
-                const bookTitle =
-                  "localizedTitle" in book &&
-                  book.localizedTitle
-                    ? book.localizedTitle[locale]
-                    : book.title;
-
                 return (
                   <article
                     className="book-card"
-                    key={`${book.image}-${locale}`}
+                    key={book.title}
                   >
                     <img
                       src={`/books/${bookImage}`}
-                      alt={`${text.bookCoverAlt} ${bookTitle}`}
+                      alt={`${text.bookCoverAlt} ${book.title}`}
                       loading="lazy"
                     />
 
                     <h3>
-                      {bookTitle}
+                      {book.title}
                     </h3>
 
                     <a
