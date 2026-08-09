@@ -163,8 +163,7 @@ const BOOKS = [
     amazon: "https://a.co/d/05mlDRXi",
   },
   {
-    image:
-      "Astrologie et transformation personnelle (1).jpg",
+    image: "Astrologie et transformation personnelle (1).jpg",
     title: __i18n["transformation_personnelle"],
     amazon: "https://a.co/d/08qzDp1D",
   },
@@ -173,63 +172,79 @@ const BOOKS = [
     title: __i18n["guide_de_compatibilite_astrologique"],
     amazon: "https://a.co/d/00V8gKyx",
   },
+
+  // 12 signes du zodiaque :
+  // français = couverture actuelle
+  // en / es / de / it / pt = fichiers PNG localisés
   {
     image: "Bélier.jpg",
+    localizedImage: "belier",
     title: __i18n["belier"],
     amazon: "https://a.co/d/0h9C8bSp",
   },
   {
     image: "Taureau.jpg",
+    localizedImage: "taureau",
     title: "Taureau",
     amazon: "https://a.co/d/06iXVhrd",
   },
   {
     image: "Gémeaux.jpg",
+    localizedImage: "gemeaux",
     title: __i18n["gemeaux"],
     amazon: "https://a.co/d/02MIWm2d",
   },
   {
     image: "Cancer.jpg",
+    localizedImage: "cancer",
     title: "Cancer",
     amazon: "https://a.co/d/0bfnfFhD",
   },
   {
     image: "Lion.png",
+    localizedImage: "lion",
     title: "Lion",
     amazon: "https://a.co/d/0cFooiSG",
   },
   {
     image: "Vierge.jpg",
+    localizedImage: "vierge",
     title: "Vierge",
     amazon: "https://a.co/d/0aQhmhkB",
   },
   {
     image: "Balance.jpg",
+    localizedImage: "balance",
     title: "Balance",
     amazon: "https://a.co/d/0gnJSdeE",
   },
   {
     image: "Scorpion.jpg",
+    localizedImage: "scorpion",
     title: "Scorpion",
     amazon: "https://a.co/d/07JHWrTe",
   },
   {
     image: "Sagittaire.jpg",
+    localizedImage: "sagittaire",
     title: "Sagittaire",
     amazon: "https://a.co/d/05jeVtb0",
   },
   {
     image: "Capricorne.jpg",
+    localizedImage: "capricorne",
     title: "Capricorne",
     amazon: "https://a.co/d/0cwFnIuC",
   },
   {
     image: "Verseau.jpg",
+    localizedImage: "verseau",
     title: "Verseau",
     amazon: "https://a.co/d/07MPr0lj",
   },
   {
     image: "Poisson.jpg",
+    localizedImage: "poissons",
     title: "Poissons",
     amazon: "https://a.co/d/04E0atUr",
   },
@@ -2109,31 +2124,40 @@ export default function HomePage() {
             </div>
 
             <div className="books-grid">
-              {BOOKS.map((book) => (
-                <article
-                  className="book-card"
-                  key={book.title}
-                >
-                  <img
-                    src={`/books/${book.image}`}
-                    alt={`${text.bookCoverAlt} ${book.title}`}
-                    loading="lazy"
-                  />
+              {BOOKS.map((book) => {
+                const bookImage =
+                  "localizedImage" in book &&
+                  book.localizedImage &&
+                  locale !== "fr"
+                    ? `${book.localizedImage}.${locale}.png`
+                    : book.image;
 
-                  <h3>
-                    {book.title}
-                  </h3>
-
-                  <a
-                    href={book.amazon}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hero-free-btn"
+                return (
+                  <article
+                    className="book-card"
+                    key={book.title}
                   >
-                    {text.viewAmazon}
-                  </a>
-                </article>
-              ))}
+                    <img
+                      src={`/books/${bookImage}`}
+                      alt={`${text.bookCoverAlt} ${book.title}`}
+                      loading="lazy"
+                    />
+
+                    <h3>
+                      {book.title}
+                    </h3>
+
+                    <a
+                      href={book.amazon}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hero-free-btn"
+                    >
+                      {text.viewAmazon}
+                    </a>
+                  </article>
+                );
+              })}
             </div>
 
             <div className="book-final-cta">
