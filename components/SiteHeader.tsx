@@ -74,6 +74,8 @@ type HeaderText = {
   lifeAreas: string;
   aspects: string;
   planetaryConnections: string;
+  lunarNodes: string;
+  lunarNodesSubtitle: string;
   sun: string;
   identityVitality: string;
   moon: string;
@@ -139,6 +141,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: __i18n["les_domaines_de_vie"],
     aspects: __i18n["les_aspects"],
     planetaryConnections: __i18n["les_liens_planetaires"],
+    lunarNodes: "Nœuds lunaires",
+    lunarNodesSubtitle: "Nœud Nord et Nœud Sud",
     sun: __i18n["le_soleil"],
     identityVitality: __i18n["identite_et_vitalite"],
     moon: __i18n["la_lune"],
@@ -202,6 +206,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: __i18n["areas_of_life"],
     aspects: "Aspects",
     planetaryConnections: __i18n["planetary_connections"],
+    lunarNodes: "Lunar Nodes",
+    lunarNodesSubtitle: "North Node and South Node",
     sun: __i18n["the_sun"],
     identityVitality: __i18n["identity_and_vitality"],
     moon: __i18n["the_moon"],
@@ -265,6 +271,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: __i18n["las_areas_de_la_vida"],
     aspects: __i18n["los_aspectos"],
     planetaryConnections: __i18n["las_conexiones_planetarias"],
+    lunarNodes: "Nodos lunares",
+    lunarNodesSubtitle: "Nodo Norte y Nodo Sur",
     sun: __i18n["el_sol"],
     identityVitality: __i18n["identidad_y_vitalidad"],
     moon: __i18n["la_luna"],
@@ -328,6 +336,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: "Lebensbereiche",
     aspects: __i18n["die_aspekte"],
     planetaryConnections: __i18n["planetare_verbindungen"],
+    lunarNodes: "Mondknoten",
+    lunarNodesSubtitle: "Nordknoten und Südknoten",
     sun: __i18n["die_sonne"],
     identityVitality: __i18n["identitat_und_vitalitat"],
     moon: __i18n["der_mond"],
@@ -391,6 +401,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: __i18n["gli_ambiti_della_vita"],
     aspects: __i18n["gli_aspetti"],
     planetaryConnections: __i18n["i_legami_planetari"],
+    lunarNodes: "Nodi lunari",
+    lunarNodesSubtitle: "Nodo Nord e Nodo Sud",
     sun: __i18n["il_sole"],
     identityVitality: __i18n["identita_e_vitalita"],
     moon: __i18n["la_luna_2"],
@@ -454,6 +466,8 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     lifeAreas: __i18n["as_areas_da_vida"],
     aspects: __i18n["os_aspectos"],
     planetaryConnections: __i18n["as_conexoes_planetarias"],
+    lunarNodes: "Nodos lunares",
+    lunarNodesSubtitle: "Nodo Norte e Nodo Sul",
     sun: __i18n["o_sol"],
     identityVitality: __i18n["identidade_e_vitalidade"],
     moon: __i18n["a_lua"],
@@ -969,6 +983,13 @@ export default function SiteHeader() {
                   onClick={closeMenu}
                 />
                 <HeaderMenuLink
+                  href={localize("/astrologie/noeuds-lunaires")}
+                  icon="☊"
+                  title={text.lunarNodes}
+                  subtitle={text.lunarNodesSubtitle}
+                  onClick={closeMenu}
+                />
+                <HeaderMenuLink
                   href={localize("/astrologie/soleil")}
                   icon="☀"
                   title={text.sun}
@@ -1201,6 +1222,11 @@ export default function SiteHeader() {
             <MobileSubmenuLink
               href={localize("/astrologie/aspects")}
               label={text.aspects}
+              onClick={closeMenu}
+            />
+            <MobileSubmenuLink
+              href={localize("/astrologie/noeuds-lunaires")}
+              label={`☊ ${text.lunarNodes}`}
               onClick={closeMenu}
             />
             <MobileSubmenuLink
