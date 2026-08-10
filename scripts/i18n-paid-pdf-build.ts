@@ -634,8 +634,34 @@ function isInsidePremiumTechnicalVariable(
 function isPremiumPdfSource(
   sourceFile: ts.SourceFile,
 ): boolean {
-  return normalizePath(sourceFile.fileName).includes(
-    "/components/PremiumPdf/",
+  const normalized =
+    normalizePath(
+      sourceFile.fileName,
+    );
+
+  return PAID_ROOTS.some(
+    (root) =>
+      normalized.includes(
+        `/components/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/fr/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/en/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/es/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/de/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/it/${root}/`,
+      ) ||
+      normalized.includes(
+        `/paid-pdf-generated/pt/${root}/`,
+      ),
   );
 }
 
@@ -2010,6 +2036,311 @@ function rewriteCopiedCodeFiles(
 }
 
 
+function collectLocalizedStringPairs(
+  locale: PaidPdfLocale,
+): Map<string, string> {
+  const translations =
+    new Map<string, string>();
+
+  if (locale === "fr") {
+    return translations;
+  }
+
+  const frenchRoot = path.join(
+    PROJECT_ROOT,
+    "i18n",
+    "migrated",
+    "fr",
+  );
+
+  const localizedRoot = path.join(
+    PROJECT_ROOT,
+    "i18n",
+    "migrated",
+    locale,
+  );
+
+  if (
+    !fs.existsSync(frenchRoot) ||
+    !fs.existsSync(localizedRoot)
+  ) {
+    return translations;
+  }
+
+  const ambiguous =
+    new Set<string>();
+
+  const collectFromObjects = (
+    frenchValue: unknown,
+    localizedValue: unknown,
+  ): void => {
+    if (
+      typeof frenchValue === "string" &&
+      typeof localizedValue === "string"
+    ) {
+      const frenchText =
+        frenchValue.trim();
+
+      const localizedText =
+        localizedValue.trim();
+
+      if (
+        !frenchText ||
+        !localizedText ||
+        frenchText === localizedText
+      ) {
+        return;
+      }
+
+      const existing =
+        translations.get(
+          frenchText,
+        );
+
+      if (
+        existing &&
+        existing !== localizedText
+      ) {
+        translations.delete(
+          frenchText,
+        );
+
+        ambiguous.add(
+          frenchText,
+        );
+
+        return;
+      }
+
+      if (
+        !ambiguous.has(
+          frenchText,
+        )
+      ) {
+        translations.set(
+          frenchText,
+          localizedText,
+        );
+      }
+
+      return;
+    }
+
+    if (
+      !frenchValue ||
+      !localizedValue ||
+      typeof frenchValue !== "object" ||
+      typeof localizedValue !== "object" ||
+      Array.isArray(frenchValue) ||
+      Array.isArray(localizedValue)
+    ) {
+      return;
+    }
+
+    const frenchRecord =
+      frenchValue as Record<
+        string,
+        unknown
+      >;
+
+    const localizedRecord =
+      localizedValue as Record<
+        string,
+        unknown
+      >;
+
+    for (
+      const key of
+      Object.keys(frenchRecord)
+    ) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          localizedRecord,
+          key,
+        )
+      ) {
+        collectFromObjects(
+          frenchRecord[key],
+          localizedRecord[key],
+        );
+      }
+    }
+  };
+
+  const visit = (
+    frenchDirectory: string,
+  ): void => {
+    for (
+      const entry of fs.readdirSync(
+        frenchDirectory,
+        {
+          withFileTypes: true,
+        },
+      )
+    ) {
+      const frenchPath =
+        path.join(
+          frenchDirectory,
+          entry.name,
+        );
+
+      if (
+        entry.isDirectory()
+      ) {
+        visit(frenchPath);
+        continue;
+      }
+
+      if (
+        !entry.name.endsWith(
+          ".json",
+        )
+      ) {
+        continue;
+      }
+
+      const relative =
+        path.relative(
+          frenchRoot,
+          frenchPath,
+        );
+
+      const localizedPath =
+        path.join(
+          localizedRoot,
+          relative,
+        );
+
+      if (
+        !fs.existsSync(
+          localizedPath,
+        )
+      ) {
+        continue;
+      }
+
+      try {
+        const frenchDictionary =
+          readJson<unknown>(
+            frenchPath,
+          );
+
+        const localizedDictionary =
+          readJson<unknown>(
+            localizedPath,
+          );
+
+        collectFromObjects(
+          frenchDictionary,
+          localizedDictionary,
+        );
+      } catch {
+        /*
+         * Un dictionnaire invalide ne doit pas
+         * faire échouer toute la génération.
+         */
+      }
+    }
+  };
+
+  visit(frenchRoot);
+
+  return translations;
+}
+
+function localizeRemainingDisplayStrings(
+  filePath: string,
+  sourceText: string,
+  translations: Map<
+    string,
+    string
+  >,
+): string {
+  if (
+    translations.size === 0
+  ) {
+    return sourceText;
+  }
+
+  const sourceFile =
+    ts.createSourceFile(
+      filePath,
+      sourceText,
+      ts.ScriptTarget.Latest,
+      true,
+      getScriptKind(filePath),
+    );
+
+  const replacements:
+    Replacement[] = [];
+
+  const visit = (
+    node: ts.Node,
+  ): void => {
+    if (
+      (
+        ts.isStringLiteral(node) ||
+        ts.isNoSubstitutionTemplateLiteral(
+          node,
+        )
+      ) &&
+      isSafeTranslatableStringNode(
+        node,
+        sourceFile,
+      )
+    ) {
+      const original =
+        node.text.trim();
+
+      const translated =
+        translations.get(
+          original,
+        );
+
+      if (
+        translated &&
+        translated !== original
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(
+              translated,
+            ),
+          key:
+            "__post_localize__",
+          original,
+          kind:
+            "string",
+          line:
+            getNodeLine(
+              sourceFile,
+              node,
+            ),
+        });
+      }
+    }
+
+    ts.forEachChild(
+      node,
+      visit,
+    );
+  };
+
+  visit(sourceFile);
+
+  return applyReplacements(
+    sourceText,
+    replacements,
+  );
+}
+
+
 function localizePaidPdfDisplayLiterals(
   locale: PaidPdfLocale,
 ): void {
@@ -2078,6 +2409,11 @@ function localizePaidPdfDisplayLiterals(
 
   const localized = words[locale];
 
+  const stringTranslations =
+    collectLocalizedStringPairs(
+      locale,
+    );
+
   const visit = (directory: string): void => {
     for (
       const entry of fs.readdirSync(
@@ -2107,6 +2443,13 @@ function localizePaidPdfDisplayLiterals(
         absolute,
         "utf8",
       );
+
+      source =
+        localizeRemainingDisplayStrings(
+          absolute,
+          source,
+          stringTranslations,
+        );
 
       /*
        * Littéraux simples.
