@@ -609,7 +609,7 @@ function getLocalizedHousePlanetCount(
 function getLocalizedHouseLabel(
   house: HouseNumber,
 ): string {
-  return `\${PREMIUM_HOUSES_LOCALIZATION.labels.house} \${house}`;
+  return PREMIUM_HOUSES_LOCALIZATION.labels.house + " " + house;
 }
 
 function getLocalizedDominantHouseTitle(
@@ -620,7 +620,13 @@ function getLocalizedDominantHouseTitle(
       .labels.notDetermined;
   }
 
-  return `\${PREMIUM_HOUSES_LOCALIZATION.labels.house} \${house} — \${getLocalizedHouseTitle(house)}`;
+  return (
+    PREMIUM_HOUSES_LOCALIZATION.labels.house +
+    " " +
+    house +
+    " — " +
+    getLocalizedHouseTitle(house)
+  );
 }
 
 `;
