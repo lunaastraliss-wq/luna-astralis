@@ -26,6 +26,10 @@ import {
   localizePremiumCareer,
 } from "./premium-career-localization";
 
+import {
+  localizePremiumRelationships,
+} from "./premium-relationships-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -155,10 +159,21 @@ export function localizePremiumFile({
   }
 
   /*
+   * Pages relations Premium.
+   */
+  if (
+    fileName === "PdfRelationships.tsx"
+  ) {
+    return localizePremiumRelationships(
+      source,
+      locale,
+    );
+  }
+
+  /*
    * Les autres sections Premium
    * seront ajoutées ici progressivement :
    *
-   * PdfRelationships.tsx
    * PdfPremiumSynthesis.tsx
    */
 
