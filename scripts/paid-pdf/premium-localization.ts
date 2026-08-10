@@ -42,6 +42,10 @@ import {
   localizePremiumWheelGuide,
 } from "./premium-wheel-guide-localization";
 
+import {
+  localizePremiumPageFooter,
+} from "./premium-page-footer-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -105,6 +109,18 @@ export function localizePremiumFile({
     fileName === "PdfWheelGuide.tsx"
   ) {
     return localizePremiumWheelGuide(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Pied de page Premium.
+   */
+  if (
+    fileName === "PdfPageFooter.tsx"
+  ) {
+    return localizePremiumPageFooter(
       source,
       locale,
     );
