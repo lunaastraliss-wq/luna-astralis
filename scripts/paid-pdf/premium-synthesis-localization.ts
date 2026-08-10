@@ -307,6 +307,12 @@ export function localizePremiumSynthesis(
 
   const signObject = JSON.stringify(signMap);
 
+  out = replaceAll(
+  out,
+  `{ascendantSign || ${JSON.stringify(l.unspecified)}}`,
+  `{(${signObject} as Record<string, string>)[ascendantSign || ""] || ascendantSign || ${JSON.stringify(l.unspecified)}}`,
+);
+
   out = replaceFunction(out, "createCoreIdentityText", "createDominantText", `
 function createCoreIdentityText(
   sun: PremiumPlanet | null,
