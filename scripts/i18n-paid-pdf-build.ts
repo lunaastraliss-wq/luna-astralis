@@ -639,32 +639,30 @@ function isPremiumPdfSource(
       sourceFile.fileName,
     );
 
-  return PAID_ROOTS.some(
-    (root) =>
-      normalized.includes(
-        `/components/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/fr/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/en/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/es/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/de/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/it/${root}/`,
-      ) ||
-      normalized.includes(
-        `/paid-pdf-generated/pt/${root}/`,
-      ),
+  return (
+    normalized.includes(
+      "/components/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/fr/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/en/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/es/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/de/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/it/PremiumPdf/",
+    ) ||
+    normalized.includes(
+      "/paid-pdf-generated/pt/PremiumPdf/",
+    )
   );
 }
-
 function isHoroscopeCalculationSource(
   sourceFile: ts.SourceFile,
 ): boolean {
