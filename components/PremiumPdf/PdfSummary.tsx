@@ -950,13 +950,13 @@ export default function PdfSummary({
           </Text>
 
           <Text
-            style={
-              styles.synthesisTitle
-            }
-          >
-            Soleil en {sunSign}, Lune en {moonSign} et
-            Ascendant {ascendantSign}
-          </Text>
+  style={
+    styles.synthesisTitle
+  }
+>
+  Soleil en{" "}{sunSign}, Lune en{" "}{moonSign} et
+  Ascendant{" "}{ascendantSign}
+</Text>
 
           <Text
             style={styles.synthesisText}
