@@ -34,6 +34,10 @@ import {
   localizePremiumSynthesis,
 } from "./premium-synthesis-localization";
 
+import {
+  localizePremiumStrengthsChallenges,
+} from "./premium-strengths-challenges-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -145,6 +149,18 @@ export function localizePremiumFile({
     fileName === "PdfHouses.tsx"
   ) {
     return localizePremiumHouses(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Pages forces et défis Premium.
+   */
+  if (
+    fileName === "PdfStrengthsChallenges.tsx"
+  ) {
+    return localizePremiumStrengthsChallenges(
       source,
       locale,
     );
