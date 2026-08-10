@@ -349,6 +349,3 @@ out = replaceAll(
     + `.replace("{moon}", moonSign)`
     + `.replace("{asc}", ascendantSign)}`,
 );
-
-return out;
-}
