@@ -143,134 +143,100 @@ aux couvertures et aux fiches Amazon existantes.
 
 */
 
-type BookDefinition = {
-  imageFr: string;
-  imageBase: string;
-  title: string;
-  amazon: string;
-};
-
-const BOOKS: BookDefinition[] = [
-  {
-    imageFr: "ASTRO 101.jpg",
-    imageBase: "astro-101",
-    title: "ASTRO 101",
-    amazon: "https://a.co/d/05rwtdhp",
-  },
-  {
-    imageFr: "ASTROLOGIE ET CHIROMANCIE.png",
-    imageBase: "astrologie-chiromancie",
-    title: "Astrologie et chiromancie",
-    amazon: "https://a.co/d/03osw44E",
-  },
-  {
-    imageFr: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
-    imageBase: "astrologie-developpement-personnel",
-    title: "Astrologie et développement personnel",
-    amazon: "https://a.co/d/05mlDRXi",
-  },
-  {
-    imageFr: "Astrologie et transformation personnelle (1).jpg",
-    imageBase: "astrologie-transformation-personnelle",
-    title: "Astrologie et transformation personnelle",
-    amazon: "https://a.co/d/08qzDp1D",
-  },
-  {
-    imageFr: "guide-de-compatibilite-astrologique.jpg",
-    imageBase: "guide-compatibilite-astrologique",
-    title: "Guide de compatibilité astrologique",
-    amazon: "https://a.co/d/00V8gKyx",
-  },
-  {
-    imageFr: "144-unions-amoureuses.fr.png",
-    imageBase: "144-unions-amoureuses",
-    title: "144 unions amoureuses",
-    amazon: "https://a.co/d/0a9mi5Su",
-  },
-  {
-    imageFr: "Bélier.jpg",
-    imageBase: "belier",
-    title: "Bélier",
-    amazon: "https://a.co/d/0h9C8bSp",
-  },
-  {
-    imageFr: "Taureau.jpg",
-    imageBase: "taureau",
-    title: "Taureau",
-    amazon: "https://a.co/d/06iXVhrd",
-  },
-  {
-    imageFr: "Gémeaux.jpg",
-    imageBase: "gemeaux",
-    title: "Gémeaux",
-    amazon: "https://a.co/d/02MIWm2d",
-  },
-  {
-    imageFr: "Cancer.jpg",
-    imageBase: "cancer",
-    title: "Cancer",
-    amazon: "https://a.co/d/0bfnfFhD",
-  },
-  {
-    imageFr: "Lion.png",
-    imageBase: "lion",
-    title: "Lion",
-    amazon: "https://a.co/d/0cFooiSG",
-  },
-  {
-    imageFr: "Vierge.jpg",
-    imageBase: "vierge",
-    title: "Vierge",
-    amazon: "https://a.co/d/0aQhmhkB",
-  },
-  {
-    imageFr: "Balance.jpg",
-    imageBase: "balance",
-    title: "Balance",
-    amazon: "https://a.co/d/0gnJSdeE",
-  },
-  {
-    imageFr: "Scorpion.jpg",
-    imageBase: "scorpion",
-    title: "Scorpion",
-    amazon: "https://a.co/d/07JHWrTe",
-  },
-  {
-    imageFr: "Sagittaire.jpg",
-    imageBase: "sagittaire",
-    title: "Sagittaire",
-    amazon: "https://a.co/d/05jeVtb0",
-  },
-  {
-    imageFr: "Capricorne.jpg",
-    imageBase: "capricorne",
-    title: "Capricorne",
-    amazon: "https://a.co/d/0cwFnIuC",
-  },
-  {
-    imageFr: "Verseau.jpg",
-    imageBase: "verseau",
-    title: "Verseau",
-    amazon: "https://a.co/d/07MPr0lj",
-  },
-  {
-    imageFr: "Poisson.jpg",
-    imageBase: "poissons",
-    title: "Poissons",
-    amazon: "https://a.co/d/04E0atUr",
-  },
+const BOOKS = [
+{
+image: "ASTRO 101.jpg",
+title: __i18n["astro_101"],
+amazon: "https://a.co/d/05rwtdhp",
+},
+{
+image: "ASTROLOGIE ET CHIROMANCIE.png",
+title: __i18n["astrologie_et_chiromancie"],
+amazon: "https://a.co/d/03osw44E",
+},
+{
+image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
+title: __i18n["developpement_personnel"],
+amazon: "https://a.co/d/05mlDRXi",
+},
+{
+image:
+"Astrologie et transformation personnelle (1).jpg",
+title: __i18n["transformation_personnelle"],
+amazon: "https://a.co/d/08qzDp1D",
+},
+{
+image: "guide-de-compatibilite-astrologique.jpg",
+title: __i18n["guide_de_compatibilite_astrologique"],
+amazon: "https://a.co/d/00V8gKyx",
+},
+{
+image: "144-unions-amoureuses.fr.png",
+title: "144 unions amoureuses",
+amazon: "https://a.co/d/0a9mi5Su",
+},
+{
+image: "Bélier.jpg",
+title: __i18n["belier"],
+amazon: "https://a.co/d/0h9C8bSp",
+},
+{
+image: "Taureau.jpg",
+title: "Taureau",
+amazon: "https://a.co/d/06iXVhrd",
+},
+{
+image: "Gémeaux.jpg",
+title: __i18n["gemeaux"],
+amazon: "https://a.co/d/02MIWm2d",
+},
+{
+image: "Cancer.jpg",
+title: "Cancer",
+amazon: "https://a.co/d/0bfnfFhD",
+},
+{
+image: "Lion.png",
+title: "Lion",
+amazon: "https://a.co/d/0cFooiSG",
+},
+{
+image: "Vierge.jpg",
+title: "Vierge",
+amazon: "https://a.co/d/0aQhmhkB",
+},
+{
+image: "Balance.jpg",
+title: "Balance",
+amazon: "https://a.co/d/0gnJSdeE",
+},
+{
+image: "Scorpion.jpg",
+title: "Scorpion",
+amazon: "https://a.co/d/07JHWrTe",
+},
+{
+image: "Sagittaire.jpg",
+title: "Sagittaire",
+amazon: "https://a.co/d/05jeVtb0",
+},
+{
+image: "Capricorne.jpg",
+title: "Capricorne",
+amazon: "https://a.co/d/0cwFnIuC",
+},
+{
+image: "Verseau.jpg",
+title: "Verseau",
+amazon: "https://a.co/d/07MPr0lj",
+},
+{
+image: "Poisson.jpg",
+title: "Poissons",
+amazon: "https://a.co/d/04E0atUr",
+},
 ];
 
-function getBooks(locale: Locale) {
-  return BOOKS.map((book) => ({
-    image:
-      locale === "fr"
-        ? book.imageFr
-        : `${book.imageBase}.${locale}.png`,
-    title: book.title,
-    amazon: book.amazon,
-  }));
-}
 /*
 --------------------------------------------------------------------------
 Traductions
@@ -1710,9 +1676,6 @@ HOME_TRANSLATIONS[
 locale
 ];
 
-const books =
-getBooks(locale);
-
 const year =
 new Date().getFullYear();
 
@@ -2154,7 +2117,7 @@ return (
         </div>
 
         <div className="books-grid">
-          {books.map((book) => (
+          {BOOKS.map((book) => (
             <article
               className="book-card"
               key={book.title}
