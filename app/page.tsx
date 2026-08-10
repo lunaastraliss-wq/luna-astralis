@@ -171,11 +171,6 @@ title: __i18n["guide_de_compatibilite_astrologique"],
 amazon: "https://a.co/d/00V8gKyx",
 },
 {
-image: "144-unions-amoureuses.fr.png",
-title: "144 unions amoureuses",
-amazon: "https://a.co/d/0a9mi5Su",
-},
-{
 image: "Bélier.jpg",
 title: __i18n["belier"],
 amazon: "https://a.co/d/0h9C8bSp",
