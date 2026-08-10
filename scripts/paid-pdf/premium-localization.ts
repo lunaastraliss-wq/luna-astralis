@@ -6,6 +6,10 @@ import {
   localizePremiumCover,
 } from "./premium-cover-localization";
 
+import {
+  localizePremiumDominants,
+} from "./premium-dominants-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -75,13 +79,24 @@ export function localizePremiumFile({
   }
 
   /*
+   * Pages des dominantes Premium.
+   */
+  if (
+    fileName === "PdfDominants.tsx"
+  ) {
+    return localizePremiumDominants(
+      source,
+      locale,
+    );
+  }
+
+  /*
    * Les autres sections Premium
    * seront ajoutées ici progressivement :
    *
    * PdfElements.tsx
    * PdfModalities.tsx
    * PdfHouses.tsx
-   * PdfDominants.tsx
    * PdfRelationships.tsx
    * PdfCareer.tsx
    * PdfPremiumSynthesis.tsx
