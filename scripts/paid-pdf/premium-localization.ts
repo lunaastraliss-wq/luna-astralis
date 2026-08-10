@@ -30,6 +30,10 @@ import {
   localizePremiumRelationships,
 } from "./premium-relationships-localization";
 
+import {
+  localizePremiumSynthesis,
+} from "./premium-synthesis-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -171,11 +175,16 @@ export function localizePremiumFile({
   }
 
   /*
-   * Les autres sections Premium
-   * seront ajoutées ici progressivement :
-   *
-   * PdfPremiumSynthesis.tsx
+   * Pages synthèse Premium.
    */
+  if (
+    fileName === "PdfPremiumSynthesis.tsx"
+  ) {
+    return localizePremiumSynthesis(
+      source,
+      locale,
+    );
+  }
 
   return source;
 }
