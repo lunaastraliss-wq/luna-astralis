@@ -22,6 +22,10 @@ import {
   localizePremiumHouses,
 } from "./premium-houses-localization";
 
+import {
+  localizePremiumCareer,
+} from "./premium-career-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -139,11 +143,22 @@ export function localizePremiumFile({
   }
 
   /*
+   * Pages carrière Premium.
+   */
+  if (
+    fileName === "PdfCareer.tsx"
+  ) {
+    return localizePremiumCareer(
+      source,
+      locale,
+    );
+  }
+
+  /*
    * Les autres sections Premium
    * seront ajoutées ici progressivement :
    *
    * PdfRelationships.tsx
-   * PdfCareer.tsx
    * PdfPremiumSynthesis.tsx
    */
 
