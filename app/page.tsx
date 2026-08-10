@@ -4,7 +4,7 @@
 
 
 
-import \_\_i18n from "../i18n/migrated/fr/app/page.json";
+import __i18n from "../i18n/migrated/fr/app/page.json";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -20,14 +20,14 @@ type Locale,
 
 import "./home.css";
 
-const AMAZON\_AUTHOR\_LINK =
-"[https://www.amazon.com/stores/author/B0DLVLC7QF](https://www.amazon.com/stores/author/B0DLVLC7QF)";
+const AMAZON_AUTHOR_LINK =
+"https://www.amazon.com/stores/author/B0DLVLC7QF";
 
-| /\*                                                                        |
-| -------------------------------------------------------------------------- |
-| Types                                                                      |
-| -------------------------------------------------------------------------- |
-| \*/                                                                        |
+/\*
+--------------------------------------------------------------------------
+Types
+--------------------------------------------------------------------------
+\*/
 
 type Review = {
 sign: string;
@@ -133,120 +133,119 @@ terms: string;
 footerNote: string;
 };
 
-| /\*                                                                        |
-| -------------------------------------------------------------------------- |
-| Livres                                                                     |
-| -------------------------------------------------------------------------- |
-|                                                                            |
-| Les titres restent dans leur langue de publication, car ils correspondent  |
-| aux couvertures et aux fiches Amazon existantes.                           |
-|                                                                            |
-| \*/                                                                        |
+/\*
+--------------------------------------------------------------------------
+Livres
+--------------------------------------------------------------------------
+
+Les titres restent dans leur langue de publication, car ils correspondent
+aux couvertures et aux fiches Amazon existantes.
+
+\*/
 
 const BOOKS = [
 {
 image: "ASTRO 101.jpg",
-title: \_\_i18n["astro\_101"],
-amazon: "[https://a.co/d/05rwtdhp](https://a.co/d/05rwtdhp)",
+title: __i18n["astro_101"],
+amazon: "https://a.co/d/05rwtdhp",
 },
 {
 image: "ASTROLOGIE ET CHIROMANCIE.png",
-title: \_\_i18n["astrologie\_et\_chiromancie"],
-amazon: "[https://a.co/d/03osw44E](https://a.co/d/03osw44E)",
+title: __i18n["astrologie_et_chiromancie"],
+amazon: "https://a.co/d/03osw44E",
 },
 {
 image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
-title: \_\_i18n["developpement\_personnel"],
-amazon: "[https://a.co/d/05mlDRXi](https://a.co/d/05mlDRXi)",
+title: __i18n["developpement_personnel"],
+amazon: "https://a.co/d/05mlDRXi",
 },
 {
 image:
 "Astrologie et transformation personnelle (1).jpg",
-title: \_\_i18n["transformation\_personnelle"],
-amazon: "[https://a.co/d/08qzDp1D](https://a.co/d/08qzDp1D)",
+title: __i18n["transformation_personnelle"],
+amazon: "https://a.co/d/08qzDp1D",
 },
 {
 image: "guide-de-compatibilite-astrologique.jpg",
-title: \_\_i18n["guide\_de\_compatibilite\_astrologique"],
-amazon: "[https://a.co/d/00V8gKyx](https://a.co/d/00V8gKyx)",
+title: __i18n["guide_de_compatibilite_astrologique"],
+amazon: "https://a.co/d/00V8gKyx",
 },
 {
 image: "Bélier.jpg",
-title: \_\_i18n["belier"],
-amazon: "[https://a.co/d/0h9C8bSp](https://a.co/d/0h9C8bSp)",
+title: __i18n["belier"],
+amazon: "https://a.co/d/0h9C8bSp",
 },
 {
 image: "Taureau.jpg",
 title: "Taureau",
-amazon: "[https://a.co/d/06iXVhrd](https://a.co/d/06iXVhrd)",
+amazon: "https://a.co/d/06iXVhrd",
 },
 {
 image: "Gémeaux.jpg",
-title: \_\_i18n["gemeaux"],
-amazon: "[https://a.co/d/02MIWm2d](https://a.co/d/02MIWm2d)",
+title: __i18n["gemeaux"],
+amazon: "https://a.co/d/02MIWm2d",
 },
 {
 image: "Cancer.jpg",
 title: "Cancer",
-amazon: "[https://a.co/d/0bfnfFhD](https://a.co/d/0bfnfFhD)",
+amazon: "https://a.co/d/0bfnfFhD",
 },
 {
 image: "Lion.png",
 title: "Lion",
-amazon: "[https://a.co/d/0cFooiSG](https://a.co/d/0cFooiSG)",
+amazon: "https://a.co/d/0cFooiSG",
 },
 {
 image: "Vierge.jpg",
 title: "Vierge",
-amazon: "[https://a.co/d/0aQhmhkB](https://a.co/d/0aQhmhkB)",
+amazon: "https://a.co/d/0aQhmhkB",
 },
 {
 image: "Balance.jpg",
 title: "Balance",
-amazon: "[https://a.co/d/0gnJSdeE](https://a.co/d/0gnJSdeE)",
+amazon: "https://a.co/d/0gnJSdeE",
 },
 {
 image: "Scorpion.jpg",
 title: "Scorpion",
-amazon: "[https://a.co/d/07JHWrTe](https://a.co/d/07JHWrTe)",
+amazon: "https://a.co/d/07JHWrTe",
 },
 {
 image: "Sagittaire.jpg",
 title: "Sagittaire",
-amazon: "[https://a.co/d/05jeVtb0](https://a.co/d/05jeVtb0)",
+amazon: "https://a.co/d/05jeVtb0",
 },
 {
 image: "Capricorne.jpg",
 title: "Capricorne",
-amazon: "[https://a.co/d/0cwFnIuC](https://a.co/d/0cwFnIuC)",
+amazon: "https://a.co/d/0cwFnIuC",
 },
 {
 image: "Verseau.jpg",
 title: "Verseau",
-amazon: "[https://a.co/d/07MPr0lj](https://a.co/d/07MPr0lj)",
+amazon: "https://a.co/d/07MPr0lj",
 },
 {
 image: "Poisson.jpg",
 title: "Poissons",
-amazon: "[https://a.co/d/04E0atUr](https://a.co/d/04E0atUr)",
+amazon: "https://a.co/d/04E0atUr",
 },
 ];
 
-| /\*                                                                        |
-| -------------------------------------------------------------------------- |
-| Traductions                                                                |
-| -------------------------------------------------------------------------- |
-| \*/                                                                        |
+/\*
+--------------------------------------------------------------------------
+Traductions
+--------------------------------------------------------------------------
+\*/
 
-const HOME\_TRANSLATIONS: Record\<Locale, HomeText> = {
+const HOME_TRANSLATIONS: Record<Locale, HomeText> = {
 fr: {
-heroAria: \_\_i18n["presentation\_de\_luna\_astralis"],
-toolsAria: \_\_i18n["outils\_astrologiques\_gratuits"],
-reviewsAria: \_\_i18n["avis\_des\_utilisateurs"],
-fiveStarsAria: \_\_i18n["cinq\_etoiles\_sur\_cinq"],
-legalLinksAria: \_\_i18n["liens\_legaux"],
+heroAria: __i18n["presentation_de_luna_astralis"],
+toolsAria: __i18n["outils_astrologiques_gratuits"],
+reviewsAria: __i18n["avis_des_utilisateurs"],
+fiveStarsAria: __i18n["cinq_etoiles_sur_cinq"],
+legalLinksAria: __i18n["liens_legaux"],
 
-```
 heroBadge: __i18n["carte_du_ciel_horoscope_compatibilite"],
 heroTitle: __i18n["carte_du_ciel_gratuite_et_compatibilite_amoureuse"],
 heroSubtitle:
@@ -468,18 +467,16 @@ privacy: __i18n["confidentialite"],
 terms: "Conditions",
 footerNote:
   __i18n["exploration_personnelle_non_therapeutique_reserve_aux_person"],
-```
 
 },
 
 en: {
-heroAria: \_\_i18n["introduction\_to\_luna\_astralis"],
-toolsAria: \_\_i18n["free\_astrology\_tools"],
-reviewsAria: \_\_i18n["user\_reviews"],
-fiveStarsAria: \_\_i18n["five\_stars\_out\_of\_five"],
-legalLinksAria: \_\_i18n["legal\_links"],
+heroAria: __i18n["introduction_to_luna_astralis"],
+toolsAria: __i18n["free_astrology_tools"],
+reviewsAria: __i18n["user_reviews"],
+fiveStarsAria: __i18n["five_stars_out_of_five"],
+legalLinksAria: __i18n["legal_links"],
 
-```
 heroBadge: __i18n["birth_chart_horoscope_compatibility"],
 heroTitle: __i18n["free_birth_chart_and_love_compatibility"],
 heroSubtitle:
@@ -701,18 +698,16 @@ privacy: "Privacy",
 terms: "Terms",
 footerNote:
   __i18n["personal_exploration_not_therapy_for_adults_aged_18_and_over"],
-```
 
 },
 
 es: {
-heroAria: \_\_i18n["presentacion\_de\_luna\_astralis"],
-toolsAria: \_\_i18n["herramientas\_astrologicas\_gratuitas"],
-reviewsAria: \_\_i18n["opiniones\_de\_usuarios"],
-fiveStarsAria: \_\_i18n["cinco\_estrellas\_de\_cinco"],
-legalLinksAria: \_\_i18n["enlaces\_legales"],
+heroAria: __i18n["presentacion_de_luna_astralis"],
+toolsAria: __i18n["herramientas_astrologicas_gratuitas"],
+reviewsAria: __i18n["opiniones_de_usuarios"],
+fiveStarsAria: __i18n["cinco_estrellas_de_cinco"],
+legalLinksAria: __i18n["enlaces_legales"],
 
-```
 heroBadge: __i18n["carta_natal_horoscopo_compatibilidad"],
 heroTitle: __i18n["carta_natal_gratis_y_compatibilidad_amorosa"],
 heroSubtitle:
@@ -934,18 +929,16 @@ privacy: "Privacidad",
 terms: "Condiciones",
 footerNote:
   __i18n["exploracion_personal_no_terapeutica_reservado_para_mayores_d"],
-```
 
 },
 
 de: {
-heroAria: \_\_i18n["vorstellung\_von\_luna\_astralis"],
-toolsAria: \_\_i18n["kostenlose\_astrologie\_tools"],
+heroAria: __i18n["vorstellung_von_luna_astralis"],
+toolsAria: __i18n["kostenlose_astrologie_tools"],
 reviewsAria: "Nutzerbewertungen",
-fiveStarsAria: \_\_i18n["funf\_von\_funf\_sternen"],
-legalLinksAria: \_\_i18n["rechtliche\_links"],
+fiveStarsAria: __i18n["funf_von_funf_sternen"],
+legalLinksAria: __i18n["rechtliche_links"],
 
-```
 heroBadge: __i18n["geburtshoroskop_horoskop_kompatibilitat"],
 heroTitle: __i18n["kostenloses_geburtshoroskop_und_liebeskompatibilitat"],
 heroSubtitle:
@@ -1167,18 +1160,16 @@ privacy: "Datenschutz",
 terms: "Bedingungen",
 footerNote:
   __i18n["personliche_erkundung_keine_therapie_nur_fur_personen_ab_18"],
-```
 
 },
 
 it: {
-heroAria: \_\_i18n["presentazione\_di\_luna\_astralis"],
-toolsAria: \_\_i18n["strumenti\_astrologici\_gratuiti"],
-reviewsAria: \_\_i18n["recensioni\_degli\_utenti"],
-fiveStarsAria: \_\_i18n["cinque\_stelle\_su\_cinque"],
-legalLinksAria: \_\_i18n["link\_legali"],
+heroAria: __i18n["presentazione_di_luna_astralis"],
+toolsAria: __i18n["strumenti_astrologici_gratuiti"],
+reviewsAria: __i18n["recensioni_degli_utenti"],
+fiveStarsAria: __i18n["cinque_stelle_su_cinque"],
+legalLinksAria: __i18n["link_legali"],
 
-```
 heroBadge: __i18n["tema_natale_oroscopo_compatibilita"],
 heroTitle: __i18n["tema_natale_gratuito_e_compatibilita_amorosa"],
 heroSubtitle:
@@ -1400,18 +1391,16 @@ privacy: "Privacy",
 terms: "Condizioni",
 footerNote:
   __i18n["esplorazione_personale_non_terapeutica_riservato_ai_maggiori"],
-```
 
 },
 
 pt: {
-heroAria: \_\_i18n["apresentacao\_da\_luna\_astralis"],
-toolsAria: \_\_i18n["ferramentas\_astrologicas\_gratuitas"],
-reviewsAria: \_\_i18n["avaliacoes\_dos\_usuarios"],
-fiveStarsAria: \_\_i18n["cinco\_estrelas\_de\_cinco"],
-legalLinksAria: \_\_i18n["links\_legais"],
+heroAria: __i18n["apresentacao_da_luna_astralis"],
+toolsAria: __i18n["ferramentas_astrologicas_gratuitas"],
+reviewsAria: __i18n["avaliacoes_dos_usuarios"],
+fiveStarsAria: __i18n["cinco_estrelas_de_cinco"],
+legalLinksAria: __i18n["links_legais"],
 
-```
 heroBadge: __i18n["mapa_astral_horoscopo_compatibilidade"],
 heroTitle: __i18n["mapa_astral_gratis_e_compatibilidade_amorosa"],
 heroSubtitle:
@@ -1633,16 +1622,15 @@ privacy: "Privacidade",
 terms: __i18n["condicoes"],
 footerNote:
   __i18n["exploracao_pessoal_nao_terapeutica_reservado_para_maiores_de"],
-```
 
 },
 };
 
-| /\*                                                                        |
-| -------------------------------------------------------------------------- |
-| Langue de la page                                                          |
-| -------------------------------------------------------------------------- |
-| \*/                                                                        |
+/\*
+--------------------------------------------------------------------------
+Langue de la page
+--------------------------------------------------------------------------
+\*/
 
 function getLocaleFromPathname(
 pathname: string
@@ -1656,11 +1644,11 @@ isLocale(firstSegment)
 : defaultLocale;
 }
 
-| /\*                                                                        |
-| -------------------------------------------------------------------------- |
-| Page principale                                                            |
-| -------------------------------------------------------------------------- |
-| \*/                                                                        |
+/\*
+--------------------------------------------------------------------------
+Page principale
+--------------------------------------------------------------------------
+\*/
 
 export default function HomePage() {
 const pathname =
@@ -1679,7 +1667,7 @@ locale === "fr"
 : `/${locale}${path}`;
 
 const text =
-HOME\_TRANSLATIONS[
+HOME_TRANSLATIONS[
 locale
 ];
 
@@ -1687,11 +1675,10 @@ const year =
 new Date().getFullYear();
 
 return (
-\<div className="page-astro">
-\<AuthProvider>
-\<SiteHeader />
+<div className="page-astro">
+<AuthProvider>
+<SiteHeader />
 
-```
     <main
       className="wrap"
       role="main"
