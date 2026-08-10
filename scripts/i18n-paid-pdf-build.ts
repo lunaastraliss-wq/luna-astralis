@@ -663,6 +663,7 @@ function isPremiumPdfSource(
     )
   );
 }
+
 function isHoroscopeCalculationSource(
   sourceFile: ts.SourceFile,
 ): boolean {
@@ -2466,6 +2467,156 @@ function localizePaidPdfDisplayLiterals(
         absolute,
         "utf8",
       );
+
+      /*
+       * PremiumPdf — noms visibles des planètes et des signes.
+       * Cette correction reste limitée à PlanetConstants.ts et PlanetUtils.ts
+       * dans les copies Premium générées. Les valeurs de calcul ne sont pas touchées.
+       */
+      if (
+        normalizePath(absolute).includes(
+          "/PremiumPdf/",
+        ) &&
+        (
+          entry.name === "PlanetConstants.ts" ||
+          entry.name === "PlanetUtils.ts"
+        )
+      ) {
+        const premiumNames: Record<
+          PaidPdfLocale,
+          Record<string, string>
+        > = {
+          fr: {},
+          en: {
+            Soleil: "Sun",
+            Lune: "Moon",
+            Mercure: "Mercury",
+            Vénus: "Venus",
+            Saturne: "Saturn",
+            Pluton: "Pluto",
+            Bélier: "Aries",
+            Taureau: "Taurus",
+            Gémeaux: "Gemini",
+            Lion: "Leo",
+            Vierge: "Virgo",
+            Balance: "Libra",
+            Scorpion: "Scorpio",
+            Sagittaire: "Sagittarius",
+            Capricorne: "Capricorn",
+            Verseau: "Aquarius",
+            Poissons: "Pisces",
+          },
+          es: {
+            Soleil: "Sol",
+            Lune: "Luna",
+            Mercure: "Mercurio",
+            Vénus: "Venus",
+            Saturne: "Saturno",
+            Pluton: "Plutón",
+            Bélier: "Aries",
+            Taureau: "Tauro",
+            Gémeaux: "Géminis",
+            Lion: "Leo",
+            Vierge: "Virgo",
+            Balance: "Libra",
+            Scorpion: "Escorpio",
+            Sagittaire: "Sagitario",
+            Capricorne: "Capricornio",
+            Verseau: "Acuario",
+            Poissons: "Piscis",
+          },
+          de: {
+            Soleil: "Sonne",
+            Lune: "Mond",
+            Mercure: "Merkur",
+            Vénus: "Venus",
+            Saturne: "Saturn",
+            Pluton: "Pluto",
+            Bélier: "Widder",
+            Taureau: "Stier",
+            Gémeaux: "Zwillinge",
+            Lion: "Löwe",
+            Vierge: "Jungfrau",
+            Balance: "Waage",
+            Scorpion: "Skorpion",
+            Sagittaire: "Schütze",
+            Capricorne: "Steinbock",
+            Verseau: "Wassermann",
+            Poissons: "Fische",
+          },
+          it: {
+            Soleil: "Sole",
+            Lune: "Luna",
+            Mercure: "Mercurio",
+            Vénus: "Venere",
+            Saturne: "Saturno",
+            Pluton: "Plutone",
+            Bélier: "Ariete",
+            Taureau: "Toro",
+            Gémeaux: "Gemelli",
+            Lion: "Leone",
+            Vierge: "Vergine",
+            Balance: "Bilancia",
+            Scorpion: "Scorpione",
+            Sagittaire: "Sagittario",
+            Capricorne: "Capricorno",
+            Verseau: "Acquario",
+            Poissons: "Pesci",
+          },
+          pt: {
+            Soleil: "Sol",
+            Lune: "Lua",
+            Mercure: "Mercúrio",
+            Vénus: "Vênus",
+            Saturne: "Saturno",
+            Pluton: "Plutão",
+            Bélier: "Áries",
+            Taureau: "Touro",
+            Gémeaux: "Gêmeos",
+            Lion: "Leão",
+            Vierge: "Virgem",
+            Balance: "Libra",
+            Scorpion: "Escorpião",
+            Sagittaire: "Sagitário",
+            Capricorne: "Capricórnio",
+            Verseau: "Aquário",
+            Poissons: "Peixes",
+          },
+        };
+
+        for (
+          const [french, translated] of
+          Object.entries(
+            premiumNames[locale],
+          )
+        ) {
+          source = source.replace(
+            new RegExp(
+              `(["'])${french}\\1`,
+              "g",
+            ),
+            (_full, quote: string) =>
+              `${quote}${translated}${quote}`,
+          );
+        }
+      }
+
+      /*
+       * PdfPlanet.tsx — connecteur visible entre la planète et le signe.
+       * Exemple anglais : Sun in Scorpio.
+       * On cible uniquement le composant Premium PdfPlanet généré.
+       */
+      if (
+        normalizePath(absolute).includes(
+          "/PremiumPdf/",
+        ) &&
+        entry.name === "PdfPlanet.tsx"
+      ) {
+        source = source.replace(
+          /(\{planetName\})\s*en(?=\{\s*["']\s*["']\s*\})/g,
+          `$1 ${localized.connector}`,
+        );
+      }
 
       source =
         localizeRemainingDisplayStrings(
