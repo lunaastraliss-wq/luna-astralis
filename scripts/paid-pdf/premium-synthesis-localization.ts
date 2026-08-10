@@ -231,6 +231,37 @@ function replaceFunction(
   return source.slice(0, start) + replacement.trim() + "\n\n" + source.slice(end);
 }
 
+function replaceFunctionBeforeExport(
+  source: string,
+  name: string,
+  exportMarker: string,
+  replacement: string,
+): string {
+  const start = source.indexOf(
+    "function " + name + "(",
+  );
+
+  if (start < 0) {
+    return source;
+  }
+
+  const end = source.indexOf(
+    exportMarker,
+    start,
+  );
+
+  if (end < 0) {
+    return source;
+  }
+
+  return (
+    source.slice(0, start) +
+    replacement.trim() +
+    "\n\n" +
+    source.slice(end)
+  );
+}
+
 export function localizePremiumSynthesis(
   source: string,
   locale: PaidPdfLocale,
@@ -356,7 +387,11 @@ function createLifeDirectionText(
 }
 `);
 
-  out = replaceFunction(out, "createFinalSynthesis", "PdfPremiumSynthesis", `
+  out = replaceFunctionBeforeExport(
+    out,
+    "createFinalSynthesis",
+    "export default function PdfPremiumSynthesis(",
+    `
 function createFinalSynthesis(
   sun: PremiumPlanet | null,
   moon: PremiumPlanet | null,
@@ -382,8 +417,8 @@ function createFinalSynthesis(
     .replace("{element}", elements[element] || element)
     .replace("{modality}", modalities[modality] || modality);
 }
-
-export default function PdfPremiumSynthesis`);
+`,
+  );
 
   // Remaining long static sections on page 2.
   out = replaceAll(out, "• Votre thème révèle une personnalité qui progresse en conciliant\n    profondeur, intuition et détermination. Ces qualités deviennent vos\n    plus grandes forces lorsqu'elles s'expriment avec confiance.\n\n    {\"\\n\\n\"}\n\n    • Les défis rencontrés au cours de votre vie ne constituent pas des\n    limites, mais des occasions de mieux comprendre vos besoins et\n    d'affirmer votre véritable identité.\n\n    {\"\\n\\n\"}\n\n    • Votre équilibre se construit lorsque vos émotions, votre réflexion\n    et vos décisions avancent dans une même direction, sans qu'aucune de\n    ces dimensions ne prenne systématiquement le dessus.\n\n    {\"\\n\\n\"}\n\n    • Votre carte du ciel met en lumière un potentiel d'évolution durable.\n    En restant fidèle à vos valeurs tout en accueillant les changements,\n    vous développez progressivement la version la plus accomplie de\n    vous-même.", ({"en": "• Your chart reveals a personality that grows by reconciling depth, intuition, and determination. These qualities become your greatest strengths when expressed with confidence.\\n\\n• The challenges encountered throughout your life are not limits, but opportunities to better understand your needs and affirm your true identity.\\n\\n• Your balance develops when your emotions, thoughts, and decisions move in the same direction without any one dimension consistently taking over.\\n\\n• Your birth chart highlights a potential for lasting growth. By remaining true to your values while welcoming change, you gradually develop the most fulfilled version of yourself.", "es": "• Tu carta revela una personalidad que progresa conciliando profundidad, intuición y determinación. Estas cualidades se convierten en tus mayores fortalezas cuando se expresan con confianza.\\n\\n• Los desafíos de tu vida no son límites, sino oportunidades para comprender mejor tus necesidades y afirmar tu verdadera identidad.\\n\\n• Tu equilibrio se construye cuando tus emociones, tu reflexión y tus decisiones avanzan en una misma dirección.\\n\\n• Tu carta natal destaca un potencial de evolución duradera. Al permanecer fiel a tus valores y aceptar los cambios, desarrollas progresivamente la versión más plena de ti misma.", "de": "• Ihr Horoskop zeigt eine Persönlichkeit, die wächst, indem sie Tiefe, Intuition und Entschlossenheit miteinander verbindet. Diese Qualitäten werden zu Ihren größten Stärken, wenn Sie sie selbstbewusst ausdrücken.\\n\\n• Herausforderungen sind keine Grenzen, sondern Gelegenheiten, Ihre Bedürfnisse besser zu verstehen und Ihre wahre Identität zu stärken.\\n\\n• Ihr Gleichgewicht entsteht, wenn Gefühle, Gedanken und Entscheidungen in dieselbe Richtung gehen.\\n\\n• Ihr Geburtshoroskop zeigt ein Potenzial für nachhaltige Entwicklung. Wenn Sie Ihren Werten treu bleiben und Veränderungen annehmen, entfalten Sie nach und nach Ihre erfüllteste Version.", "it": "• Il tuo tema rivela una personalità che cresce conciliando profondità, intuizione e determinazione. Queste qualità diventano i tuoi maggiori punti di forza quando si esprimono con fiducia.\\n\\n• Le sfide incontrate nella vita non sono limiti, ma occasioni per comprendere meglio i tuoi bisogni e affermare la tua vera identità.\\n\\n• Il tuo equilibrio si costruisce quando emozioni, riflessione e decisioni avanzano nella stessa direzione.\\n\\n• Il tuo tema natale mette in luce un potenziale di evoluzione duratura. Restando fedele ai tuoi valori e accogliendo i cambiamenti, sviluppi progressivamente la versione più realizzata di te stessa.", "pt": "• Seu mapa revela uma personalidade que evolui conciliando profundidade, intuição e determinação. Essas qualidades se tornam suas maiores forças quando são expressas com confiança.\\n\\n• Os desafios encontrados ao longo da vida não são limites, mas oportunidades para compreender melhor suas necessidades e afirmar sua verdadeira identidade.\\n\\n• Seu equilíbrio se constrói quando suas emoções, sua reflexão e suas decisões avançam na mesma direção.\\n\\n• Seu mapa natal destaca um potencial de evolução duradoura. Ao permanecer fiel aos seus valores e acolher as mudanças, você desenvolve gradualmente a versão mais realizada de si mesma."}[lang]));
