@@ -2,6 +2,10 @@ import {
   localizePremiumAspects,
 } from "./premium-aspects-localization";
 
+import {
+  localizePremiumCover,
+} from "./premium-cover-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -44,6 +48,18 @@ export function localizePremiumFile({
    */
   if (locale === "fr") {
     return source;
+  }
+
+  /*
+   * Couverture Premium.
+   */
+  if (
+    fileName === "PdfCover.tsx"
+  ) {
+    return localizePremiumCover(
+      source,
+      locale,
+    );
   }
 
   /*
