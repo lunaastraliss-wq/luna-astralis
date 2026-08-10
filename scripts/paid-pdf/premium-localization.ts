@@ -38,6 +38,10 @@ import {
   localizePremiumStrengthsChallenges,
 } from "./premium-strengths-challenges-localization";
 
+import {
+  localizePremiumWheelGuide,
+} from "./premium-wheel-guide-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -89,6 +93,18 @@ export function localizePremiumFile({
     fileName === "PdfCover.tsx"
   ) {
     return localizePremiumCover(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Guide de lecture Premium.
+   */
+  if (
+    fileName === "PdfWheelGuide.tsx"
+  ) {
+    return localizePremiumWheelGuide(
       source,
       locale,
     );
