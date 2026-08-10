@@ -2,6 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 
+import {
+  localizePremiumFile,
+} from "./paid-pdf/premium-localization";
+
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2467,6 +2471,13 @@ function localizePaidPdfDisplayLiterals(
         absolute,
         "utf8",
       );
+
+      source = localizePremiumFile({
+        source,
+        locale,
+        filePath: absolute,
+        fileName: entry.name,
+      });
 
       /*
        * PremiumPdf — noms visibles des planètes et des signes.
