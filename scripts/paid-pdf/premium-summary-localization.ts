@@ -341,18 +341,13 @@ function getSignFromLongitude(
 
   out = replaceAll(out, '"Non précisé"', JSON.stringify(l.unspecified));
 
- out = replaceAll(
+out = replaceAll(
   out,
   "Soleil en {sunSign}, Lune en {moonSign} et\n            Ascendant {ascendantSign}",
-  `{${JSON.stringify(
-    l.summaryTitle
-      .replace("{sun}", "__SUN__")
-      .replace("{moon}", "__MOON__")
-      .replace("{asc}", "__ASC__")
-  )}`
-    + `.replace("__SUN__", sunSign)`
-    + `.replace("__MOON__", moonSign)`
-    + `.replace("__ASC__", ascendantSign)}`,
+  `{${JSON.stringify(l.summaryTitle)}`
+    + `.replace("{sun}", sunSign)`
+    + `.replace("{moon}", moonSign)`
+    + `.replace("{asc}", ascendantSign)}`,
 );
 
 return out;
