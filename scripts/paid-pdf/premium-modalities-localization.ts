@@ -332,7 +332,15 @@ function getLocalizedModalityInsights(modality: ModalityName | null) {
   return { strength: x[0], balance: x[1], premium: x[2] };
 }
 function getLocalizedModalityPlanetCount(value: number): string {
-  return \`${value} ${value === 1 ? PREMIUM_MODALITIES_LOCALIZATION.labels[9] : PREMIUM_MODALITIES_LOCALIZATION.labels[10]}\`;
+  return (
+    String(value) +
+    " " +
+    (
+      value === 1
+        ? PREMIUM_MODALITIES_LOCALIZATION.labels[9]
+        : PREMIUM_MODALITIES_LOCALIZATION.labels[10]
+    )
+  );
 }
 `;
   const marker = "const styles = StyleSheet.create({";
