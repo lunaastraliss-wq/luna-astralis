@@ -23,11 +23,11 @@ import "./home.css";
 const AMAZON_AUTHOR_LINK =
 "https://www.amazon.com/stores/author/B0DLVLC7QF";
 
-/\*
+/*
 --------------------------------------------------------------------------
 Types
 --------------------------------------------------------------------------
-\*/
+*/
 
 type Review = {
 sign: string;
@@ -133,7 +133,7 @@ terms: string;
 footerNote: string;
 };
 
-/\*
+/*
 --------------------------------------------------------------------------
 Livres
 --------------------------------------------------------------------------
@@ -141,7 +141,7 @@ Livres
 Les titres restent dans leur langue de publication, car ils correspondent
 aux couvertures et aux fiches Amazon existantes.
 
-\*/
+*/
 
 const BOOKS = [
 {
@@ -232,11 +232,11 @@ amazon: "https://a.co/d/04E0atUr",
 },
 ];
 
-/\*
+/*
 --------------------------------------------------------------------------
 Traductions
 --------------------------------------------------------------------------
-\*/
+*/
 
 const HOME_TRANSLATIONS: Record<Locale, HomeText> = {
 fr: {
@@ -1626,11 +1626,11 @@ footerNote:
 },
 };
 
-/\*
+/*
 --------------------------------------------------------------------------
 Langue de la page
 --------------------------------------------------------------------------
-\*/
+*/
 
 function getLocaleFromPathname(
 pathname: string
@@ -1644,11 +1644,11 @@ isLocale(firstSegment)
 : defaultLocale;
 }
 
-/\*
+/*
 --------------------------------------------------------------------------
 Page principale
 --------------------------------------------------------------------------
-\*/
+*/
 
 export default function HomePage() {
 const pathname =
