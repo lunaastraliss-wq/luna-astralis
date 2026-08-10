@@ -46,6 +46,10 @@ import {
   localizePremiumPageFooter,
 } from "./premium-page-footer-localization";
 
+import {
+  localizePremiumSummary,
+} from "./premium-summary-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -121,6 +125,18 @@ export function localizePremiumFile({
     fileName === "PdfPageFooter.tsx"
   ) {
     return localizePremiumPageFooter(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Synthèse des trois grands piliers Premium.
+   */
+  if (
+    fileName === "PdfSummary.tsx"
+  ) {
+    return localizePremiumSummary(
       source,
       locale,
     );
@@ -223,7 +239,7 @@ export function localizePremiumFile({
   }
 
   /*
-   * Pages synthèse Premium.
+   * Pages synthèse Premium finales.
    */
   if (
     fileName === "PdfPremiumSynthesis.tsx"
