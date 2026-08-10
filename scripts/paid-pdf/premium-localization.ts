@@ -18,6 +18,10 @@ import {
   localizePremiumModalities,
 } from "./premium-modalities-localization";
 
+import {
+  localizePremiumHouses,
+} from "./premium-houses-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -123,10 +127,21 @@ export function localizePremiumFile({
   }
 
   /*
+   * Page des maisons Premium.
+   */
+  if (
+    fileName === "PdfHouses.tsx"
+  ) {
+    return localizePremiumHouses(
+      source,
+      locale,
+    );
+  }
+
+  /*
    * Les autres sections Premium
    * seront ajoutées ici progressivement :
    *
-   * PdfHouses.tsx
    * PdfRelationships.tsx
    * PdfCareer.tsx
    * PdfPremiumSynthesis.tsx
