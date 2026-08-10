@@ -342,11 +342,44 @@ function fillPremiumAspectTemplate(
   );
 }
 
+const PREMIUM_ASPECT_PLANET_KEYS: Record<string, string> = {
+  Sun: "Sun",
+  Soleil: "Sun",
+
+  Moon: "Moon",
+  Lune: "Moon",
+
+  Mercury: "Mercury",
+  Mercure: "Mercury",
+
+  Venus: "Venus",
+  Vénus: "Venus",
+
+  Mars: "Mars",
+
+  Jupiter: "Jupiter",
+
+  Saturn: "Saturn",
+  Saturne: "Saturn",
+
+  Uranus: "Uranus",
+
+  Neptune: "Neptune",
+
+  Pluto: "Pluto",
+  Pluton: "Pluto",
+};
+
 function getLocalizedPlanetName(
   value: string,
 ): string {
+  const canonicalKey =
+    PREMIUM_ASPECT_PLANET_KEYS[value] ||
+    value;
+
   return (
-    PREMIUM_ASPECT_LOCALIZATION.planetNames[value] ||
+    PREMIUM_ASPECT_LOCALIZATION
+      .planetNames[canonicalKey] ||
     value
   );
 }
