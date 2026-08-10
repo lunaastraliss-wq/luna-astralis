@@ -14,6 +14,10 @@ import {
   localizePremiumElements,
 } from "./premium-elements-localization";
 
+import {
+  localizePremiumModalities,
+} from "./premium-modalities-localization";
+
 export type PaidPdfLocale =
   | "fr"
   | "en"
@@ -107,10 +111,21 @@ export function localizePremiumFile({
   }
 
   /*
+   * Page des modalités Premium.
+   */
+  if (
+    fileName === "PdfModalities.tsx"
+  ) {
+    return localizePremiumModalities(
+      source,
+      locale,
+    );
+  }
+
+  /*
    * Les autres sections Premium
    * seront ajoutées ici progressivement :
    *
-   * PdfModalities.tsx
    * PdfHouses.tsx
    * PdfRelationships.tsx
    * PdfCareer.tsx
