@@ -668,11 +668,36 @@ function isPremiumPdfSource(
 function isHoroscopeCalculationSource(
   sourceFile: ts.SourceFile,
 ): boolean {
-  const normalized = normalizePath(sourceFile.fileName);
+  const normalized =
+    normalizePath(sourceFile.fileName);
 
   return (
-    normalized.includes("/components/HoroscopePdf/") &&
-    normalized.includes("/calculations/")
+    (
+      normalized.includes(
+        "/components/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/fr/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/en/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/es/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/de/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/it/HoroscopePdf/",
+      ) ||
+      normalized.includes(
+        "/paid-pdf-generated/pt/HoroscopePdf/",
+      )
+    ) &&
+    normalized.includes(
+      "/calculations/",
+    )
   );
 }
 
