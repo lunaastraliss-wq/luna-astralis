@@ -35,6 +35,13 @@ type SignatureHousePlanet = {
 
 type PdfSignatureHousesProps = {
   planets?: SignatureHousePlanet[];
+  locale?:
+    | "fr"
+    | "en"
+    | "es"
+    | "de"
+    | "it"
+    | "pt";
 };
 
 const MAIN_PLANETS = [
@@ -707,6 +714,7 @@ function getPlanetNames(
 
 export default function PdfSignatureHouses({
   planets,
+  locale: _locale,
 }: PdfSignatureHousesProps) {
   const safePlanets =
     Array.isArray(planets)
