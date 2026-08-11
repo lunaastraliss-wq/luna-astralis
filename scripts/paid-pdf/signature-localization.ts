@@ -42,6 +42,10 @@ import {
   localizeSignatureCareer,
 } from "./signature-career-localization";
 
+import {
+  localizeSignatureLifePurpose,
+} from "./signature-life-purpose-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -361,7 +365,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureLifePurpose.tsx"
   ) {
-    return source;
+    return localizeSignatureLifePurpose(
+      source,
+      locale,
+    );
   }
 
   /*
