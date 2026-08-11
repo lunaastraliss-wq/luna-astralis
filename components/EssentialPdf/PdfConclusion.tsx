@@ -7,12 +7,52 @@ import {
 } from "@react-pdf/renderer";
 
 import { pdfStyles } from "./EssentialPdfStyles";
+
 import {
   ASCENDANT_ICON,
   PLANET_ICONS,
 } from "./EssentialPdfAssets";
+
+import type {
+  PdfLocale,
+} from "./EssentialPdfTypes";
+
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
+
+/*
+|--------------------------------------------------------------------------
+| i18n
+|--------------------------------------------------------------------------
+*/
+
+import pdfConclusionFr from "../../i18n/migrated/fr/components/essentialpdf/pdfconclusion.json";
+import pdfConclusionEn from "../../i18n/migrated/en/components/essentialpdf/pdfconclusion.json";
+import pdfConclusionEs from "../../i18n/migrated/es/components/essentialpdf/pdfconclusion.json";
+import pdfConclusionDe from "../../i18n/migrated/de/components/essentialpdf/pdfconclusion.json";
+import pdfConclusionIt from "../../i18n/migrated/it/components/essentialpdf/pdfconclusion.json";
+import pdfConclusionPt from "../../i18n/migrated/pt/components/essentialpdf/pdfconclusion.json";
+
+type Dictionary =
+  Record<string, string>;
+
+const PDF_CONCLUSION_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: pdfConclusionFr,
+  en: pdfConclusionEn,
+  es: pdfConclusionEs,
+  de: pdfConclusionDe,
+  it: pdfConclusionIt,
+  pt: pdfConclusionPt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   content: {
@@ -86,9 +126,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  /*
-   * Ce groupe est poussé vers le bas de la page.
-   */
   bottomGroup: {
     marginTop: "auto",
     paddingTop: 22,
@@ -141,7 +178,46 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PdfConclusion() {
+type PdfConclusionProps = {
+  locale?: PdfLocale;
+};
+
+function getConclusionLabel(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Conclusion";
+
+    case "es":
+      return "Conclusión";
+
+    case "de":
+      return "Fazit";
+
+    case "it":
+      return "Conclusione";
+
+    case "pt":
+      return "Conclusão";
+
+    default:
+      return "Conclusion";
+  }
+}
+
+export default function PdfConclusion({
+  locale = "fr",
+}: PdfConclusionProps) {
+  const safeLocale: PdfLocale =
+    locale || "fr";
+
+  const t =
+    PDF_CONCLUSION_BY_LOCALE[
+      safeLocale
+    ] ||
+    PDF_CONCLUSION_BY_LOCALE.fr;
+
   return (
     <Page
       size="A4"
@@ -151,29 +227,50 @@ export default function PdfConclusion() {
       <PdfBrandHeader />
 
       <View style={styles.content}>
-        <View style={pdfStyles.centeredHeader}>
-          <Text style={pdfStyles.pageKicker}>
-            Conclusion
+        <View
+          style={pdfStyles.centeredHeader}
+        >
+          <Text
+            style={pdfStyles.pageKicker}
+          >
+            {getConclusionLabel(
+              safeLocale
+            )}
           </Text>
 
-          <Text style={pdfStyles.largePageTitle}>
-            Votre ciel intérieur
+          <Text
+            style={
+              pdfStyles.largePageTitle
+            }
+          >
+            {t.votre_ciel_interieur}
           </Text>
 
-          <View style={pdfStyles.decorativeDivider}>
-            <View style={pdfStyles.dividerLine} />
+          <View
+            style={
+              pdfStyles.decorativeDivider
+            }
+          >
+            <View
+              style={pdfStyles.dividerLine}
+            />
 
             <Image
               src={PLANET_ICONS.Sun}
               style={styles.dividerIcon}
             />
 
-            <View style={pdfStyles.dividerLine} />
+            <View
+              style={pdfStyles.dividerLine}
+            />
           </View>
 
-          <Text style={pdfStyles.pageLead}>
-            Chaque thème astral raconte une histoire unique.
-            Le vôtre ne fait que commencer à se dévoiler.
+          <Text
+            style={pdfStyles.pageLead}
+          >
+            {
+              t.chaque_theme_astral_raconte_une_histoire_unique_le_votre_ne
+            }
           </Text>
         </View>
 
@@ -186,26 +283,28 @@ export default function PdfConclusion() {
             style={styles.watermark}
           />
 
-          <Text style={styles.paragraph}>
-            Ce rapport Essentiel vous a permis de découvrir les
-            fondations de votre thème natal : vos trois grands piliers
-            astrologiques, le rôle de vos principales planètes,
-            l’équilibre de vos éléments et la dynamique dominante
-            de votre personnalité.
+          <Text
+            style={styles.paragraph}
+          >
+            {
+              t.ce_rapport_essentiel_vous_a_permis_de_decouvrir_les_fondatio
+            }
           </Text>
 
-          <Text style={styles.paragraph}>
-            Votre carte du ciel n’est pas un destin gravé dans le
-            marbre. Elle met plutôt en lumière vos forces, vos
-            sensibilités, vos défis et les potentiels qui vous
-            accompagnent tout au long de votre parcours.
+          <Text
+            style={styles.paragraph}
+          >
+            {
+              t.votre_carte_du_ciel_n_est_pas_un_destin_grave_dans_le_marbre
+            }
           </Text>
 
-          <Text style={styles.paragraphLast}>
-            Elle peut devenir un outil de compréhension personnelle,
-            une invitation à mieux reconnaître ce qui vous anime
-            profondément et à avancer avec davantage de conscience
-            et de confiance.
+          <Text
+            style={styles.paragraphLast}
+          >
+            {
+              t.elle_peut_devenir_un_outil_de_comprehension_personnelle_une
+            }
           </Text>
         </View>
 
@@ -215,17 +314,23 @@ export default function PdfConclusion() {
         >
           <Image
             src={ASCENDANT_ICON}
-            style={styles.signatureIcon}
+            style={
+              styles.signatureIcon
+            }
           />
 
           <Text style={styles.brand}>
-            Luna Astralis
+            {t.luna_astralis}
           </Text>
 
           <Text style={styles.slogan}>
-            Votre signe n’est pas une limite.
+            {
+              t.votre_signe_n_est_pas_une_limite
+            }
             {"\n"}
-            C’est une force à découvrir.
+            {
+              t.c_est_une_force_a_decouvrir
+            }
           </Text>
         </View>
 
@@ -233,34 +338,67 @@ export default function PdfConclusion() {
           style={styles.bottomGroup}
           wrap={false}
         >
-          <Text style={styles.closingText}>
-            Merci d’avoir choisi Luna Astralis pour découvrir
-            les premières clés de votre univers intérieur.
+          <Text
+            style={
+              styles.closingText
+            }
+          >
+            {
+              t.merci_d_avoir_choisi_luna_astralis_pour_decouvrir_les_premie
+            }
           </Text>
 
-          <View style={styles.iconsRow}>
-            <View style={styles.iconWrapper}>
+          <View
+            style={styles.iconsRow}
+          >
+            <View
+              style={
+                styles.iconWrapper
+              }
+            >
               <Image
                 src={PLANET_ICONS.Sun}
-                style={styles.bottomIcon}
+                style={
+                  styles.bottomIcon
+                }
               />
             </View>
 
-            <View style={styles.smallDivider} />
+            <View
+              style={
+                styles.smallDivider
+              }
+            />
 
-            <View style={styles.iconWrapper}>
+            <View
+              style={
+                styles.iconWrapper
+              }
+            >
               <Image
                 src={PLANET_ICONS.Moon}
-                style={styles.bottomIcon}
+                style={
+                  styles.bottomIcon
+                }
               />
             </View>
 
-            <View style={styles.smallDivider} />
+            <View
+              style={
+                styles.smallDivider
+              }
+            />
 
-            <View style={styles.iconWrapper}>
+            <View
+              style={
+                styles.iconWrapper
+              }
+            >
               <Image
                 src={ASCENDANT_ICON}
-                style={styles.bottomIcon}
+                style={
+                  styles.bottomIcon
+                }
               />
             </View>
           </View>
