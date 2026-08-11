@@ -12,18 +12,55 @@ import {
 } from "./EssentialPdfAssets";
 
 import { pdfStyles } from "./EssentialPdfStyles";
-import type { SummaryProps } from "./EssentialPdfTypes";
+
+import type {
+  PdfLocale,
+  SummaryProps,
+} from "./EssentialPdfTypes";
 
 import {
   getAscendantSign,
+  getLocalizedSignName,
   getPlanet,
   getPlanetSignName,
-  signFr,
-  translateSigns,
 } from "./EssentialPdfUtils";
 
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
+
+/*
+|--------------------------------------------------------------------------
+| i18n
+|--------------------------------------------------------------------------
+*/
+
+import pdfSummaryFr from "../../i18n/migrated/fr/components/essentialpdf/pdfsummary.json";
+import pdfSummaryEn from "../../i18n/migrated/en/components/essentialpdf/pdfsummary.json";
+import pdfSummaryEs from "../../i18n/migrated/es/components/essentialpdf/pdfsummary.json";
+import pdfSummaryDe from "../../i18n/migrated/de/components/essentialpdf/pdfsummary.json";
+import pdfSummaryIt from "../../i18n/migrated/it/components/essentialpdf/pdfsummary.json";
+import pdfSummaryPt from "../../i18n/migrated/pt/components/essentialpdf/pdfsummary.json";
+
+type Dictionary =
+  Record<string, string>;
+
+const PDF_SUMMARY_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: pdfSummaryFr,
+  en: pdfSummaryEn,
+  es: pdfSummaryEs,
+  de: pdfSummaryDe,
+  it: pdfSummaryIt,
+  pt: pdfSummaryPt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   header: {
@@ -301,56 +338,121 @@ const styles = StyleSheet.create({
   },
 });
 
-function safeSign(value: string): string {
-  const translated = signFr(value);
+/*
+|--------------------------------------------------------------------------
+| Valeurs sécurisées
+|--------------------------------------------------------------------------
+*/
 
-  return translated &&
-    translated.trim().length > 0
-    ? translated
-    : "Non précisé";
+function getMissingValue(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Not specified";
+
+    case "es":
+      return "No especificado";
+
+    case "de":
+      return "Nicht angegeben";
+
+    case "it":
+      return "Non specificato";
+
+    case "pt":
+      return "Não especificado";
+
+    default:
+      return "Non précisé";
+  }
 }
 
-function safeAscendant(value: string): string {
-  const translated = translateSigns(value);
+function safeSign(
+  value: string,
+  locale: PdfLocale
+): string {
+  const translated =
+    getLocalizedSignName(
+      value,
+      locale
+    );
 
-  return translated &&
-    translated.trim().length > 0
+  return (
+    translated &&
+    translated.trim().length > 0 &&
+    translated !== "—"
+  )
     ? translated
-    : "Non précisé";
+    : getMissingValue(locale);
 }
+
+/*
+|--------------------------------------------------------------------------
+| PdfSummary
+|--------------------------------------------------------------------------
+*/
 
 export default function PdfSummary({
   planets,
   angles,
+  locale = "fr",
 }: SummaryProps) {
-  const safePlanets = Array.isArray(planets)
-    ? planets
-    : [];
+  const safeLocale: PdfLocale =
+    locale || "fr";
 
-  const sun = getPlanet(
-    safePlanets,
-    "Sun"
-  );
+  const t =
+    PDF_SUMMARY_BY_LOCALE[
+      safeLocale
+    ] ||
+    PDF_SUMMARY_BY_LOCALE.fr;
 
-  const moon = getPlanet(
-    safePlanets,
-    "Moon"
-  );
+  const safePlanets =
+    Array.isArray(planets)
+      ? planets
+      : [];
 
-  const sunSign = safeSign(
-    getPlanetSignName(sun)
-  );
+  const sun =
+    getPlanet(
+      safePlanets,
+      "Sun"
+    );
 
-  const moonSign = safeSign(
-    getPlanetSignName(moon)
-  );
+  const moon =
+    getPlanet(
+      safePlanets,
+      "Moon"
+    );
 
-  const ascendantSign = safeAscendant(
-    getAscendantSign(angles)
-  );
+  const sunSign =
+    safeSign(
+      getPlanetSignName(
+        sun
+      ),
+      safeLocale
+    );
 
-  const sunIcon = PLANET_ICONS.Sun;
-  const moonIcon = PLANET_ICONS.Moon;
+  const moonSign =
+    safeSign(
+      getPlanetSignName(
+        moon
+      ),
+      safeLocale
+    );
+
+  const ascendantSign =
+    safeSign(
+      getAscendantSign(
+        angles
+      ),
+      safeLocale
+    );
+
+  const sunIcon =
+    PLANET_ICONS.Sun;
+
+  const moonIcon =
+    PLANET_ICONS.Moon;
 
   return (
     <Page
@@ -362,27 +464,32 @@ export default function PdfSummary({
 
       <View style={styles.header}>
         <Text style={styles.kicker}>
-          Portrait astrologique
+          {t.portrait_astrologique}
         </Text>
 
         <Text style={styles.title}>
-          Vos trois grands piliers
+          {t.vos_trois_grands_piliers}
         </Text>
 
         <View style={styles.divider}>
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
 
           <Image
             src={sunIcon}
             style={styles.dividerIcon}
           />
 
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
         </View>
 
         <Text style={styles.lead}>
-          Trois énergies fondamentales qui dessinent
-          ensemble les grandes lignes de votre personnalité.
+          {
+            t.trois_energies_fondamentales_qui_dessinent_ensemble_les_gran
+          }
         </Text>
       </View>
 
@@ -393,30 +500,45 @@ export default function PdfSummary({
             styles.cardSpacing,
           ]}
         >
-          <View style={styles.iconCircle}>
+          <View
+            style={styles.iconCircle}
+          >
             <Image
               src={sunIcon}
               style={styles.icon}
             />
           </View>
 
-          <Text style={styles.cardLabel}>
-            Votre Soleil
+          <Text
+            style={styles.cardLabel}
+          >
+            {t.votre_soleil}
           </Text>
 
-          <Text style={styles.cardValue}>
+          <Text
+            style={styles.cardValue}
+          >
             {sunSign}
           </Text>
 
-          <View style={styles.cardDivider} />
+          <View
+            style={styles.cardDivider}
+          />
 
-          <Text style={styles.cardMeaning}>
-            Votre identité profonde
+          <Text
+            style={styles.cardMeaning}
+          >
+            {t.votre_identite_profonde}
           </Text>
 
-          <Text style={styles.cardDescription}>
-            Ce qui vous anime, vous guide et cherche
-            naturellement à s’accomplir en vous.
+          <Text
+            style={
+              styles.cardDescription
+            }
+          >
+            {
+              t.ce_qui_vous_anime_vous_guide_et_cherche_naturellement_a_s_ac
+            }
           </Text>
         </View>
 
@@ -426,64 +548,98 @@ export default function PdfSummary({
             styles.cardSpacing,
           ]}
         >
-          <View style={styles.iconCircle}>
+          <View
+            style={styles.iconCircle}
+          >
             <Image
               src={moonIcon}
               style={styles.icon}
             />
           </View>
 
-          <Text style={styles.cardLabel}>
-            Votre Lune
+          <Text
+            style={styles.cardLabel}
+          >
+            {t.votre_lune}
           </Text>
 
-          <Text style={styles.cardValue}>
+          <Text
+            style={styles.cardValue}
+          >
             {moonSign}
           </Text>
 
-          <View style={styles.cardDivider} />
+          <View
+            style={styles.cardDivider}
+          />
 
-          <Text style={styles.cardMeaning}>
-            Votre monde émotionnel
+          <Text
+            style={styles.cardMeaning}
+          >
+            {t.votre_monde_emotionnel}
           </Text>
 
-          <Text style={styles.cardDescription}>
-            Vos besoins affectifs, votre sensibilité et
-            votre manière de retrouver un sentiment de sécurité.
+          <Text
+            style={
+              styles.cardDescription
+            }
+          >
+            {
+              t.vos_besoins_affectifs_votre_sensibilite_et_votre_maniere_de
+            }
           </Text>
         </View>
 
         <View style={styles.card}>
-          <View style={styles.iconCircle}>
+          <View
+            style={styles.iconCircle}
+          >
             <Image
               src={ASCENDANT_ICON}
               style={styles.icon}
             />
           </View>
 
-          <Text style={styles.cardLabel}>
-            Votre Ascendant
+          <Text
+            style={styles.cardLabel}
+          >
+            {t.votre_ascendant}
           </Text>
 
-          <Text style={styles.cardValue}>
+          <Text
+            style={styles.cardValue}
+          >
             {ascendantSign}
           </Text>
 
-          <View style={styles.cardDivider} />
+          <View
+            style={styles.cardDivider}
+          />
 
-          <Text style={styles.cardMeaning}>
-            Votre présence spontanée
+          <Text
+            style={styles.cardMeaning}
+          >
+            {t.votre_presence_spontanee}
           </Text>
 
-          <Text style={styles.cardDescription}>
-            Votre première impulsion face à la vie et
-            l’énergie que les autres perçoivent d’abord.
+          <Text
+            style={
+              styles.cardDescription
+            }
+          >
+            {
+              t.votre_premiere_impulsion_face_a_la_vie_et_l_energie_que_les
+            }
           </Text>
         </View>
       </View>
 
       <View style={styles.synthesis}>
-        <View style={styles.synthesisIconCircle}>
+        <View
+          style={
+            styles.synthesisIconCircle
+          }
+        >
           <Image
             src={ASCENDANT_ICON}
             style={styles.synthesisIcon}
@@ -492,78 +648,138 @@ export default function PdfSummary({
 
         <Image
           src={ASCENDANT_ICON}
-          style={styles.synthesisWatermark}
+          style={
+            styles.synthesisWatermark
+          }
         />
 
-        <View style={styles.synthesisContent}>
-          <Text style={styles.synthesisKicker}>
-            La rencontre de vos trois énergies
+        <View
+          style={
+            styles.synthesisContent
+          }
+        >
+          <Text
+            style={
+              styles.synthesisKicker
+            }
+          >
+            {
+              t.la_rencontre_de_vos_trois_energies
+            }
           </Text>
 
-          <Text style={styles.synthesisTitle}>
-            Soleil en {sunSign}, Lune en {moonSign} et
-            Ascendant {ascendantSign}
+          <Text
+            style={
+              styles.synthesisTitle
+            }
+          >
+            {t.soleil_en}{" "}
+            {sunSign}
+            {t.lune_en}{" "}
+            {moonSign}{" "}
+            {t.et_ascendant}{" "}
+            {ascendantSign}
           </Text>
 
-          <Text style={styles.synthesisText}>
-            Le Soleil représente la personne que vous cherchez
-            pleinement à devenir. La Lune révèle ce dont vous avez
-            besoin pour vous sentir intérieurement en sécurité.
-            L’Ascendant décrit votre manière instinctive d’aborder
-            le monde et de commencer chaque nouvelle expérience.
+          <Text
+            style={
+              styles.synthesisText
+            }
+          >
+            {
+              t.le_soleil_represente_la_personne_que_vous_cherchez_pleinemen
+            }
           </Text>
 
-          <Text style={styles.synthesisTextLast}>
-            L’équilibre entre ces trois énergies constitue la
-            signature centrale de votre personnalité. Certaines
-            se soutiennent naturellement, tandis que d’autres
-            expriment des besoins différents. Cette diversité
-            révèle la richesse de votre thème natal.
+          <Text
+            style={
+              styles.synthesisTextLast
+            }
+          >
+            {
+              t.l_equilibre_entre_ces_trois_energies_constitue_la_signature
+            }
           </Text>
         </View>
       </View>
 
-      <View style={styles.insightRow}>
+      <View
+        style={styles.insightRow}
+      >
         <View
           style={[
             styles.insightBox,
             styles.insightBoxLeft,
           ]}
         >
-          <View style={styles.insightHeader}>
+          <View
+            style={
+              styles.insightHeader
+            }
+          >
             <Image
               src={sunIcon}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
-            <Text style={styles.insightTitle}>
-              Votre direction intérieure
+            <Text
+              style={
+                styles.insightTitle
+              }
+            >
+              {
+                t.votre_direction_interieure
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            Votre Soleil indique ce que vous cherchez à
-            construire et à exprimer avec davantage de
-            confiance au fil de votre évolution.
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {
+              t.votre_soleil_indique_ce_que_vous_cherchez_a_construire_et_a
+            }
           </Text>
         </View>
 
-        <View style={styles.insightBox}>
-          <View style={styles.insightHeader}>
+        <View
+          style={styles.insightBox}
+        >
+          <View
+            style={
+              styles.insightHeader
+            }
+          >
             <Image
               src={moonIcon}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
-            <Text style={styles.insightTitle}>
-              Votre clé d’équilibre
+            <Text
+              style={
+                styles.insightTitle
+              }
+            >
+              {
+                t.votre_cle_d_equilibre
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            Écouter vos besoins émotionnels tout en assumant
-            votre identité permet à votre Ascendant de devenir
-            une expression plus juste de qui vous êtes.
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {
+              t.ecouter_vos_besoins_emotionnels_tout_en_assumant_votre_ident
+            }
           </Text>
         </View>
       </View>
@@ -574,14 +790,16 @@ export default function PdfSummary({
           style={styles.noteIcon}
         />
 
-        <Text style={styles.noteText}>
-          Les prochaines pages approfondissent chacune de vos
-          planètes afin de révéler les nuances uniques de votre
-          carte du ciel.
+        <Text
+          style={styles.noteText}
+        >
+          {
+            t.les_prochaines_pages_approfondissent_chacune_de_vos_planetes
+          }
         </Text>
       </View>
 
       <PdfPageFooter />
     </Page>
   );
-    }
+}
