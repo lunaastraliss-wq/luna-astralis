@@ -7,8 +7,47 @@ import {
 } from "@react-pdf/renderer";
 
 import { pdfStyles } from "./EssentialPdfStyles";
-import type { EssentialPdfProps } from "./EssentialPdfTypes";
+
+import type {
+  EssentialPdfProps,
+  PdfLocale,
+} from "./EssentialPdfTypes";
+
 import PdfBrandHeader from "./PdfBrandHeader";
+
+/*
+|--------------------------------------------------------------------------
+| i18n
+|--------------------------------------------------------------------------
+*/
+
+import pdfWheelFr from "../../i18n/migrated/fr/components/essentialpdf/pdfwheel.json";
+import pdfWheelEn from "../../i18n/migrated/en/components/essentialpdf/pdfwheel.json";
+import pdfWheelEs from "../../i18n/migrated/es/components/essentialpdf/pdfwheel.json";
+import pdfWheelDe from "../../i18n/migrated/de/components/essentialpdf/pdfwheel.json";
+import pdfWheelIt from "../../i18n/migrated/it/components/essentialpdf/pdfwheel.json";
+import pdfWheelPt from "../../i18n/migrated/pt/components/essentialpdf/pdfwheel.json";
+
+type Dictionary =
+  Record<string, string>;
+
+const PDF_WHEEL_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: pdfWheelFr,
+  en: pdfWheelEn,
+  es: pdfWheelEs,
+  de: pdfWheelDe,
+  it: pdfWheelIt,
+  pt: pdfWheelPt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Couleurs
+|--------------------------------------------------------------------------
+*/
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#f4c95d";
@@ -18,6 +57,12 @@ const PAGE_BACKGROUND = "#06101f";
 const CARD_BACKGROUND = "#081426";
 const CREAM = "#fff8e7";
 const MUTED = "#d8d0c2";
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   pageContent: {
@@ -245,32 +290,32 @@ const styles = StyleSheet.create({
   },
 
   explanationBox: {
-  marginTop: 12,
+    marginTop: 12,
 
-  borderWidth: 0.6,
-  borderColor: "#6f5935",
+    borderWidth: 0.6,
+    borderColor: "#6f5935",
 
-  backgroundColor: CARD_BACKGROUND,
+    backgroundColor: CARD_BACKGROUND,
 
-  paddingTop: 10,
-  paddingBottom: 10,
-  paddingHorizontal: 16,
-},
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingHorizontal: 16,
+  },
 
-explanationTitle: {
-  fontSize: 10,
-  color: BRIGHT_GOLD,
-  textAlign: "center",
-  marginBottom: 6,
-},
+  explanationTitle: {
+    fontSize: 10,
+    color: BRIGHT_GOLD,
+    textAlign: "center",
+    marginBottom: 6,
+  },
 
-explanationText: {
-  fontSize: 7.4,
-  lineHeight: 1.45,
-  color: MUTED,
-  textAlign: "center",
-  marginBottom: 5,
-},
+  explanationText: {
+    fontSize: 7.4,
+    lineHeight: 1.45,
+    color: MUTED,
+    textAlign: "center",
+    marginBottom: 5,
+  },
 
   note: {
     fontSize: 6.8,
@@ -282,14 +327,78 @@ explanationText: {
   },
 });
 
+/*
+|--------------------------------------------------------------------------
+| Valeurs
+|--------------------------------------------------------------------------
+*/
+
 function displayValue(
   value: string | undefined,
-  fallback = "Non précisé"
+  fallback: string
 ): string {
-  const cleanValue = value?.trim();
+  const cleanValue =
+    value?.trim();
 
-  return cleanValue || fallback;
+  return (
+    cleanValue ||
+    fallback
+  );
 }
+
+function getFallbackName(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Your name";
+
+    case "es":
+      return "Tu nombre";
+
+    case "de":
+      return "Ihr Name";
+
+    case "it":
+      return "Il tuo nome";
+
+    case "pt":
+      return "Seu nome";
+
+    default:
+      return "Votre nom";
+  }
+}
+
+function getFallbackValue(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Not specified";
+
+    case "es":
+      return "No especificado";
+
+    case "de":
+      return "Nicht angegeben";
+
+    case "it":
+      return "Non specificato";
+
+    case "pt":
+      return "Não especificado";
+
+    default:
+      return "Non précisé";
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| PdfWheel
+|--------------------------------------------------------------------------
+*/
 
 export default function PdfWheel({
   firstName,
@@ -297,40 +406,77 @@ export default function PdfWheel({
   birthTime,
   birthCity,
   wheelImage,
+  locale = "fr",
 }: EssentialPdfProps) {
+  const safeLocale: PdfLocale =
+    locale || "fr";
+
+  const t =
+    PDF_WHEEL_BY_LOCALE[
+      safeLocale
+    ] ||
+    PDF_WHEEL_BY_LOCALE.fr;
+
   const safeWheelImage =
     typeof wheelImage === "string" &&
     wheelImage.trim().length > 0
       ? wheelImage.trim()
       : "";
 
+  const fallbackValue =
+    getFallbackValue(
+      safeLocale
+    );
+
+  const fallbackName =
+    getFallbackName(
+      safeLocale
+    );
+
   return (
-    <Page size="A4" style={pdfStyles.page}>
+    <Page
+      size="A4"
+      style={pdfStyles.page}
+    >
       <PdfBrandHeader />
 
       <View style={styles.pageContent}>
-        <View style={styles.titleSection} wrap={false}>
+        <View
+          style={styles.titleSection}
+          wrap={false}
+        >
           <Text style={styles.eyebrow}>
-            Votre thème natal
+            {t.votre_theme_natal}
           </Text>
 
           <Text style={styles.title}>
-            Votre roue astrologique
+            {t.votre_roue_astrologique}
           </Text>
 
           <View style={styles.titleLine} />
 
           <Text style={styles.intro}>
-            Cette roue représente la position des planètes, des signes,
-            des maisons et des principaux angles au moment précis de
-            votre naissance.
+            {
+              t.cette_roue_represente_la_position_des_planetes_des_signes_de
+            }
           </Text>
         </View>
 
-        <View style={styles.wheelFrame} wrap={false}>
-          <View style={styles.wheelFrameInner} />
-          <View style={styles.wheelAccentTop} />
-          <View style={styles.wheelAccentBottom} />
+        <View
+          style={styles.wheelFrame}
+          wrap={false}
+        >
+          <View
+            style={styles.wheelFrameInner}
+          />
+
+          <View
+            style={styles.wheelAccentTop}
+          />
+
+          <View
+            style={styles.wheelAccentBottom}
+          />
 
           {safeWheelImage ? (
             <Image
@@ -338,100 +484,176 @@ export default function PdfWheel({
               style={styles.wheelImage}
             />
           ) : (
-            <View style={styles.wheelMissing}>
-              <Text style={styles.wheelMissingSymbol}>
+            <View
+              style={styles.wheelMissing}
+            >
+              <Text
+                style={
+                  styles.wheelMissingSymbol
+                }
+              >
                 ✦
               </Text>
 
-              <Text style={styles.wheelMissingTitle}>
-                Roue astrologique indisponible
+              <Text
+                style={
+                  styles.wheelMissingTitle
+                }
+              >
+                {
+                  t.roue_astrologique_indisponible
+                }
               </Text>
 
-              <Text style={styles.wheelMissingText}>
-                L’image de la roue n’a pas été transmise au document.
-                Les données astrologiques et les interprétations du
-                rapport demeurent néanmoins disponibles dans les pages
-                suivantes.
+              <Text
+                style={
+                  styles.wheelMissingText
+                }
+              >
+                {
+                  t.l_image_de_la_roue_n_a_pas_ete_transmise_au_document_les_don
+                }
               </Text>
             </View>
           )}
         </View>
 
-        <View style={styles.identityCard} wrap={false}>
-          <View style={styles.identityAccentLeft} />
-          <View style={styles.identityAccentRight} />
+        <View
+          style={styles.identityCard}
+          wrap={false}
+        >
+          <View
+            style={
+              styles.identityAccentLeft
+            }
+          />
 
-          <Text style={styles.preparedFor}>
-            Carte du ciel préparée pour
+          <View
+            style={
+              styles.identityAccentRight
+            }
+          />
+
+          <Text
+            style={styles.preparedFor}
+          >
+            {t.carte_du_ciel_preparee_pour}
           </Text>
 
-          <Text style={styles.clientName}>
-            {displayValue(firstName, "Votre nom")}
+          <Text
+            style={styles.clientName}
+          >
+            {displayValue(
+              firstName,
+              fallbackName
+            )}
           </Text>
 
-          <View style={styles.infoDivider} />
+          <View
+            style={styles.infoDivider}
+          />
 
           <View style={styles.infoRow}>
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Date de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {t.date_de_naissance}
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthDate)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthDate,
+                  fallbackValue
+                )}
               </Text>
             </View>
 
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Heure de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {t.heure_de_naissance}
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthTime)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthTime,
+                  fallbackValue
+                )}
               </Text>
             </View>
 
-            <View style={styles.infoColumn}>
-              <Text style={styles.infoLabel}>
-                Lieu de naissance
+            <View
+              style={styles.infoColumn}
+            >
+              <Text
+                style={styles.infoLabel}
+              >
+                {t.lieu_de_naissance}
               </Text>
 
-              <Text style={styles.infoValue}>
-                {displayValue(birthCity)}
+              <Text
+                style={styles.infoValue}
+              >
+                {displayValue(
+                  birthCity,
+                  fallbackValue
+                )}
               </Text>
             </View>
           </View>
         </View>
 
-         <View style={styles.explanationBox} wrap={false}>
-          <Text style={styles.explanationTitle}>
-            Comment interpréter votre roue astrologique
+        <View
+          style={styles.explanationBox}
+          wrap={false}
+        >
+          <Text
+            style={
+              styles.explanationTitle
+            }
+          >
+            {
+              t.comment_interpreter_votre_roue_astrologique
+            }
           </Text>
 
-          <Text style={styles.explanationText}>
-            Cette roue est une représentation complète du ciel au moment
-            précis de votre naissance. L’anneau extérieur présente les
-            douze signes du zodiaque, tandis que les maisons divisent les
-            différents domaines de votre vie. Les symboles des planètes
-            indiquent leurs positions natales et les lignes au centre
-            révèlent les principaux aspects astrologiques, c’est-à-dire
-            les relations entre ces différentes énergies.
+          <Text
+            style={
+              styles.explanationText
+            }
+          >
+            {
+              t.cette_roue_est_une_representation_complete_du_ciel_au_moment
+            }
           </Text>
 
-          <Text style={styles.explanationText}>
-            Les prochaines pages analyseront chacun de ces éléments afin
-            de vous offrir une compréhension claire, progressive et
-            personnalisée de votre thème natal.
+          <Text
+            style={
+              styles.explanationText
+            }
+          >
+            {
+              t.les_prochaines_pages_analyseront_chacun_de_ces_elements_afin
+            }
           </Text>
         </View>
 
         <Text style={styles.note}>
-          Votre roue astrologique constitue la base de toutes les
-          interprétations présentées dans ce rapport.
+          {
+            t.votre_roue_astrologique_constitue_la_base_de_toutes_les_inte
+          }
         </Text>
       </View>
-
-          </Page>
+    </Page>
   );
 }
