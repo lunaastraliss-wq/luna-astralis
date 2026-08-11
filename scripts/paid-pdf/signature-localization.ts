@@ -26,6 +26,10 @@ import {
   localizeSignatureDominants,
 } from "./signature-dominants-localization";
 
+import {
+  localizeSignatureStrengths,
+} from "./signature-strengths-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -281,7 +285,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureStrengths.tsx"
   ) {
-    return source;
+    return localizeSignatureStrengths(
+      source,
+      locale,
+    );
   }
 
   /*
