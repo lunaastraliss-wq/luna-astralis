@@ -1192,6 +1192,29 @@ export function localizeSignatureCareer(
 
   /*
   |--------------------------------------------------------------------------
+  | Signes calculés du Milieu du Ciel
+  |--------------------------------------------------------------------------
+  |
+  | longitudeToSign() retourne encore les noms français dans le composant
+  | source. Il faut donc aussi remplacer ce tableau, sinon midheaven.sign
+  | reste par exemple "Bélier" même si les tables visibles sont traduites.
+  |--------------------------------------------------------------------------
+  */
+
+  const localizedLongitudeSigns =
+    JSON.stringify(
+      displaySigns,
+      null,
+      2,
+    );
+
+  out = out.replace(
+    /const signs = \[\s*"Bélier",\s*"Taureau",\s*"Gémeaux",\s*"Cancer",\s*"Lion",\s*"Vierge",\s*"Balance",\s*"Scorpion",\s*"Sagittaire",\s*"Capricorne",\s*"Verseau",\s*"Poissons",?\s*\];/,
+    `const signs = ${localizedLongitudeSigns};`,
+  );
+
+  /*
+  |--------------------------------------------------------------------------
   | Textes du Milieu du Ciel
   |--------------------------------------------------------------------------
   */
