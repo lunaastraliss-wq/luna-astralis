@@ -2,6 +2,10 @@ import type {
   PaidPdfLocale,
 } from "./premium-localization";
 
+import {
+  localizeSignaturePlanet,
+} from "./signature-planet-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -15,9 +19,6 @@ type LocalizeSignatureFileOptions = {
 |--------------------------------------------------------------------------
 |
 | Routeur principal pour les fichiers Signature.
-|
-| Pour l’instant, il ne modifie aucun fichier tant que les sous-modules
-| Signature spécialisés ne sont pas encore créés.
 |
 | L’objectif est de reproduire la même architecture que Premium :
 |
@@ -91,8 +92,7 @@ export function localizeSignatureFile({
   | Couverture Signature
   |--------------------------------------------------------------------------
   |
-  | Déjà gérée directement par les dictionnaires i18n
-  | dans le composant source.
+  | Déjà gérée directement par les dictionnaires i18n.
   |
   |--------------------------------------------------------------------------
   */
@@ -109,8 +109,7 @@ export function localizeSignatureFile({
   | Roue astrologique Signature
   |--------------------------------------------------------------------------
   |
-  | Déjà gérée directement par les dictionnaires i18n
-  | dans le composant source.
+  | Déjà gérée directement par les dictionnaires i18n.
   |
   |--------------------------------------------------------------------------
   */
@@ -160,18 +159,16 @@ export function localizeSignatureFile({
   |--------------------------------------------------------------------------
   | Pages des planètes
   |--------------------------------------------------------------------------
-  |
-  | À brancher ensuite sur :
-  | signature-planet-localization.ts
-  |
-  |--------------------------------------------------------------------------
   */
 
   if (
     fileName ===
     "PdfSignaturePlanet.tsx"
   ) {
-    return source;
+    return localizeSignaturePlanet(
+      source,
+      locale,
+    );
   }
 
   /*
