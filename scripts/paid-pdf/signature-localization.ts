@@ -54,6 +54,10 @@ import {
   localizeSignatureInnerWorld,
 } from "./signature-inner-world-localization";
 
+import {
+  localizeSignatureLifeBlocks,
+} from "./signature-life-blocks-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -421,7 +425,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureLifeBlocks.tsx"
   ) {
-    return source;
+    return localizeSignatureLifeBlocks(
+      source,
+      locale,
+    );
   }
 
   /*
