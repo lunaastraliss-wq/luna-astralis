@@ -131,7 +131,7 @@ type PlanetDictionaryMap =
 
 /*
 |--------------------------------------------------------------------------
-| Texte français source
+| Textes français source
 |--------------------------------------------------------------------------
 */
 
@@ -259,13 +259,12 @@ function findTranslationKey(
   frenchDictionary: Dictionary,
   frenchText: string
 ): string | null {
-  const entry =
-    Object.entries(
-      frenchDictionary
-    ).find(
-      ([, value]) =>
-        value === frenchText
-    );
+  const entry = Object.entries(
+    frenchDictionary
+  ).find(
+    ([, value]) =>
+      value === frenchText
+  );
 
   return entry?.[0] ?? null;
 }
@@ -331,20 +330,24 @@ export function getLocalizedPlanetInterpretation(
     return frenchText;
   }
 
-  const key =
+  const translationKey =
     findTranslationKey(
       frenchDictionary,
       frenchText
     );
 
-  if (!key) {
+  if (!translationKey) {
     return frenchText;
   }
 
-  return (
+  const localizedText =
     localizedDictionary[
-      key
-    ] ||
-    frenchText
-  );
+      translationKey
+    ];
+
+  if (!localizedText) {
+    return frenchText;
+  }
+
+  return localizedText;
 }
