@@ -6,6 +6,10 @@ import {
   localizeSignaturePlanet,
 } from "./signature-planet-localization";
 
+import {
+  localizeSignatureElements,
+} from "./signature-elements-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -181,7 +185,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureElements.tsx"
   ) {
-    return source;
+    return localizeSignatureElements(
+      source,
+      locale,
+    );
   }
 
   /*
