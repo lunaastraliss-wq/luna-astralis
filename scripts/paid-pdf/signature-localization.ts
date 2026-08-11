@@ -62,6 +62,10 @@ import {
   localizeSignatureHiddenTalents,
 } from "./signature-hidden-talents-localization";
 
+import {
+  localizeSignatureIntegrationGuide,
+} from "./signature-integration-guide-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -461,7 +465,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureIntegrationGuide.tsx"
   ) {
-    return source;
+    return localizeSignatureIntegrationGuide(
+      source,
+      locale,
+    );
   }
 
   /*
