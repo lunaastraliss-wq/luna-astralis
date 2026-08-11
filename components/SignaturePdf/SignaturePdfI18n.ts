@@ -30,6 +30,19 @@ import ptWheel from "../../i18n/migrated/pt/components/signaturepdf/pdfsignature
 
 /*
 |--------------------------------------------------------------------------
+| Welcome
+|--------------------------------------------------------------------------
+*/
+
+import frWelcome from "../../i18n/migrated/fr/components/signaturepdf/pdfsignaturewelcome.json";
+import enWelcome from "../../i18n/migrated/en/components/signaturepdf/pdfsignaturewelcome.json";
+import esWelcome from "../../i18n/migrated/es/components/signaturepdf/pdfsignaturewelcome.json";
+import deWelcome from "../../i18n/migrated/de/components/signaturepdf/pdfsignaturewelcome.json";
+import itWelcome from "../../i18n/migrated/it/components/signaturepdf/pdfsignaturewelcome.json";
+import ptWelcome from "../../i18n/migrated/pt/components/signaturepdf/pdfsignaturewelcome.json";
+
+/*
+|--------------------------------------------------------------------------
 | Types
 |--------------------------------------------------------------------------
 */
@@ -37,10 +50,11 @@ import ptWheel from "../../i18n/migrated/pt/components/signaturepdf/pdfsignature
 export type SignaturePdfDictionary =
   Record<string, string>;
 
-type SignatureDictionaryGroup = Record<
-  SignatureLocale,
-  SignaturePdfDictionary
->;
+type SignatureDictionaryGroup =
+  Record<
+    SignatureLocale,
+    SignaturePdfDictionary
+  >;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,14 +63,14 @@ type SignatureDictionaryGroup = Record<
 */
 
 export const SIGNATURE_PDF_LOCALES:
-  SignatureLocale[] = [
-    "fr",
-    "en",
-    "es",
-    "de",
-    "it",
-    "pt",
-  ];
+SignatureLocale[] = [
+  "fr",
+  "en",
+  "es",
+  "de",
+  "it",
+  "pt",
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -80,7 +94,9 @@ export function isSignaturePdfLocale(
 export function normalizeSignaturePdfLocale(
   value: unknown,
 ): SignatureLocale {
-  return isSignaturePdfLocale(value)
+  return isSignaturePdfLocale(
+    value,
+  )
     ? value
     : "fr";
 }
@@ -92,21 +108,23 @@ export function normalizeSignaturePdfLocale(
 */
 
 const SIGNATURE_COVER_DICTIONARIES:
-  SignatureDictionaryGroup = {
-    fr: frCover,
-    en: enCover,
-    es: esCover,
-    de: deCover,
-    it: itCover,
-    pt: ptCover,
-  };
+SignatureDictionaryGroup = {
+  fr: frCover,
+  en: enCover,
+  es: esCover,
+  de: deCover,
+  it: itCover,
+  pt: ptCover,
+};
 
 export function getSignatureCoverDictionary(
   locale: SignatureLocale = "fr",
 ): SignaturePdfDictionary {
   return (
     SIGNATURE_COVER_DICTIONARIES[
-      normalizeSignaturePdfLocale(locale)
+      normalizeSignaturePdfLocale(
+        locale,
+      )
     ] ||
     SIGNATURE_COVER_DICTIONARIES.fr
   );
@@ -119,23 +137,54 @@ export function getSignatureCoverDictionary(
 */
 
 const SIGNATURE_WHEEL_DICTIONARIES:
-  SignatureDictionaryGroup = {
-    fr: frWheel,
-    en: enWheel,
-    es: esWheel,
-    de: deWheel,
-    it: itWheel,
-    pt: ptWheel,
-  };
+SignatureDictionaryGroup = {
+  fr: frWheel,
+  en: enWheel,
+  es: esWheel,
+  de: deWheel,
+  it: itWheel,
+  pt: ptWheel,
+};
 
 export function getSignatureWheelDictionary(
   locale: SignatureLocale = "fr",
 ): SignaturePdfDictionary {
   return (
     SIGNATURE_WHEEL_DICTIONARIES[
-      normalizeSignaturePdfLocale(locale)
+      normalizeSignaturePdfLocale(
+        locale,
+      )
     ] ||
     SIGNATURE_WHEEL_DICTIONARIES.fr
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Introduction Signature
+|--------------------------------------------------------------------------
+*/
+
+const SIGNATURE_WELCOME_DICTIONARIES:
+SignatureDictionaryGroup = {
+  fr: frWelcome,
+  en: enWelcome,
+  es: esWelcome,
+  de: deWelcome,
+  it: itWelcome,
+  pt: ptWelcome,
+};
+
+export function getSignatureWelcomeDictionary(
+  locale: SignatureLocale = "fr",
+): SignaturePdfDictionary {
+  return (
+    SIGNATURE_WELCOME_DICTIONARIES[
+      normalizeSignaturePdfLocale(
+        locale,
+      )
+    ] ||
+    SIGNATURE_WELCOME_DICTIONARIES.fr
   );
 }
 
@@ -154,7 +203,8 @@ export function signatureText(
     dictionary[key];
 
   if (
-    typeof translated === "string" &&
+    typeof translated ===
+      "string" &&
     translated.trim()
   ) {
     return translated;
