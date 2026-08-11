@@ -7,7 +7,6 @@ import {
 } from "@react-pdf/renderer";
 
 import {
-  MODALITY_TEXT,
   SIGN_MODALITY,
 } from "@/lib/astrology";
 
@@ -17,7 +16,11 @@ import {
 } from "./EssentialPdfAssets";
 
 import { pdfStyles } from "./EssentialPdfStyles";
-import type { PlanetsProps } from "./EssentialPdfTypes";
+
+import type {
+  PdfLocale,
+  PlanetsProps,
+} from "./EssentialPdfTypes";
 
 import {
   getPlanet,
@@ -28,54 +31,188 @@ import {
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
 
+/*
+|--------------------------------------------------------------------------
+| i18n — PdfModalities
+|--------------------------------------------------------------------------
+*/
+
+import pdfModalitiesFr from "../../i18n/migrated/fr/components/essentialpdf/pdfmodalities.json";
+import pdfModalitiesEn from "../../i18n/migrated/en/components/essentialpdf/pdfmodalities.json";
+import pdfModalitiesEs from "../../i18n/migrated/es/components/essentialpdf/pdfmodalities.json";
+import pdfModalitiesDe from "../../i18n/migrated/de/components/essentialpdf/pdfmodalities.json";
+import pdfModalitiesIt from "../../i18n/migrated/it/components/essentialpdf/pdfmodalities.json";
+import pdfModalitiesPt from "../../i18n/migrated/pt/components/essentialpdf/pdfmodalities.json";
+
+/*
+|--------------------------------------------------------------------------
+| i18n — EssentialPdfUtils
+|--------------------------------------------------------------------------
+*/
+
+import utilsFr from "../../i18n/migrated/fr/components/essentialpdf/essentialpdfutils.json";
+import utilsEn from "../../i18n/migrated/en/components/essentialpdf/essentialpdfutils.json";
+import utilsEs from "../../i18n/migrated/es/components/essentialpdf/essentialpdfutils.json";
+import utilsDe from "../../i18n/migrated/de/components/essentialpdf/essentialpdfutils.json";
+import utilsIt from "../../i18n/migrated/it/components/essentialpdf/essentialpdfutils.json";
+import utilsPt from "../../i18n/migrated/pt/components/essentialpdf/essentialpdfutils.json";
+
+type Dictionary =
+  Record<string, string>;
+
+const PDF_MODALITIES_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: pdfModalitiesFr,
+  en: pdfModalitiesEn,
+  es: pdfModalitiesEs,
+  de: pdfModalitiesDe,
+  it: pdfModalitiesIt,
+  pt: pdfModalitiesPt,
+};
+
+const UTILS_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: utilsFr,
+  en: utilsEn,
+  es: utilsEs,
+  de: utilsDe,
+  it: utilsIt,
+  pt: utilsPt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Modalités internes
+|--------------------------------------------------------------------------
+*/
+
 const MODALITIES = [
   "Cardinal",
   "Fixe",
   "Mutable",
-];
+] as const;
 
-const MODALITY_WORDS: Record<string, string> = {
+type ModalityKey =
+  (typeof MODALITIES)[number];
+
+/*
+|--------------------------------------------------------------------------
+| Libellés affichés
+|--------------------------------------------------------------------------
+*/
+
+const MODALITY_LABELS: Record<
+  PdfLocale,
+  Record<ModalityKey, string>
+> = {
+  fr: {
+    Cardinal: "Cardinal",
+    Fixe: "Fixe",
+    Mutable: "Mutable",
+  },
+
+  en: {
+    Cardinal: "Cardinal",
+    Fixe: "Fixed",
+    Mutable: "Mutable",
+  },
+
+  es: {
+    Cardinal: "Cardinal",
+    Fixe: "Fija",
+    Mutable: "Mutable",
+  },
+
+  de: {
+    Cardinal: "Kardinal",
+    Fixe: "Fix",
+    Mutable: "Veränderlich",
+  },
+
+  it: {
+    Cardinal: "Cardinale",
+    Fixe: "Fissa",
+    Mutable: "Mutevole",
+  },
+
+  pt: {
+    Cardinal: "Cardinal",
+    Fixe: "Fixa",
+    Mutable: "Mutável",
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Clés i18n
+|--------------------------------------------------------------------------
+*/
+
+const MODALITY_WORD_KEYS: Record<
+  ModalityKey,
+  string
+> = {
   Cardinal:
-    "Initiative • Impulsion • Leadership",
+    "initiative_impulsion_leadership",
 
   Fixe:
-    "Persévérance • Stabilité • Détermination",
+    "perseverance_stabilite_determination",
 
   Mutable:
-    "Adaptation • Évolution • Souplesse",
+    "adaptation_evolution_souplesse",
 };
 
-const MODALITY_INSIGHTS: Record<
-  string,
-  {
-    strength: string;
-    balance: string;
-  }
+const MODALITY_STRENGTH_KEYS: Record<
+  ModalityKey,
+  string
 > = {
-  Cardinal: {
-    strength:
-      "Votre force réside dans votre capacité à démarrer, à prendre les devants et à insuffler un nouvel élan. Vous avancez plus facilement lorsqu’un objectif vous stimule.",
+  Cardinal:
+    "votre_force_reside_dans_votre_capacite_a_demarrer_a_prendre",
 
-    balance:
-      "Accordez davantage d’attention à la continuité. Commencer est une force, mais consolider vos efforts vous permet de transformer votre impulsion en réussite durable.",
-  },
+  Fixe:
+    "votre_force_reside_dans_votre_perseverance_votre_fidelite_et",
 
-  Fixe: {
-    strength:
-      "Votre force réside dans votre persévérance, votre fidélité et votre capacité à maintenir le cap malgré les obstacles. Vous construisez avec constance.",
-
-    balance:
-      "Laissez une place au changement et à l’imprévu. Votre stabilité devient encore plus puissante lorsqu’elle s’accompagne de souplesse.",
-  },
-
-  Mutable: {
-    strength:
-      "Votre force réside dans votre adaptabilité, votre intelligence du mouvement et votre capacité à évoluer lorsque les circonstances changent.",
-
-    balance:
-      "Veillez à ne pas disperser votre énergie. Choisir une direction claire vous aide à transformer votre souplesse en progression concrète.",
-  },
+  Mutable:
+    "votre_force_reside_dans_votre_adaptabilite_votre_intelligenc",
 };
+
+const MODALITY_BALANCE_KEYS: Record<
+  ModalityKey,
+  string
+> = {
+  Cardinal:
+    "accordez_davantage_d_attention_a_la_continuite_commencer_est",
+
+  Fixe:
+    "laissez_une_place_au_changement_et_a_l_imprevu_votre_stabili",
+
+  Mutable:
+    "veillez_a_ne_pas_disperser_votre_energie_choisir_une_directi",
+};
+
+const MODALITY_SUMMARY_KEYS: Record<
+  ModalityKey,
+  string
+> = {
+  Cardinal:
+    "la_modalite_cardinale_vous_pousse_a_entreprendre_a_initier_l",
+
+  Fixe:
+    "la_modalite_fixe_vous_apporte_de_la_loyaute_de_l_endurance_e",
+
+  Mutable:
+    "la_modalite_mutable_vous_permet_de_vous_adapter_d_evoluer_et",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   header: {
@@ -333,6 +470,12 @@ const styles = StyleSheet.create({
   },
 });
 
+/*
+|--------------------------------------------------------------------------
+| Icônes
+|--------------------------------------------------------------------------
+*/
+
 function getModalityIcon(
   modality: string
 ) {
@@ -351,72 +494,202 @@ function getModalityIcon(
   }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Nombre de planètes
+|--------------------------------------------------------------------------
+*/
+
+function getPlanetCountLabel(
+  value: number,
+  locale: PdfLocale
+): string {
+  if (locale === "en") {
+    return value === 1
+      ? "1 planet"
+      : `${value} planets`;
+  }
+
+  if (locale === "es") {
+    return value === 1
+      ? "1 planeta"
+      : `${value} planetas`;
+  }
+
+  if (locale === "de") {
+    return value === 1
+      ? "1 Planet"
+      : `${value} Planeten`;
+  }
+
+  if (locale === "it") {
+    return value === 1
+      ? "1 pianeta"
+      : `${value} pianeti`;
+  }
+
+  if (locale === "pt") {
+    return value === 1
+      ? "1 planeta"
+      : `${value} planetas`;
+  }
+
+  return value === 1
+    ? "1 planète"
+    : `${value} planètes`;
+}
+
+function getUndeterminedLabel(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Undetermined";
+
+    case "es":
+      return "No determinada";
+
+    case "de":
+      return "Nicht bestimmt";
+
+    case "it":
+      return "Non determinata";
+
+    case "pt":
+      return "Não determinada";
+
+    default:
+      return "Non déterminée";
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| PdfModalities
+|--------------------------------------------------------------------------
+*/
+
 export default function PdfModalities({
   planets,
+  locale = "fr",
 }: PlanetsProps) {
-  const safePlanets = Array.isArray(planets)
-    ? planets
-    : [];
+  const safeLocale: PdfLocale =
+    locale || "fr";
 
-  const counts: Record<string, number> = {
+  const t =
+    PDF_MODALITIES_BY_LOCALE[
+      safeLocale
+    ] ||
+    PDF_MODALITIES_BY_LOCALE.fr;
+
+  const utils =
+    UTILS_BY_LOCALE[
+      safeLocale
+    ] ||
+    UTILS_BY_LOCALE.fr;
+
+  const safePlanets =
+    Array.isArray(planets)
+      ? planets
+      : [];
+
+  const counts: Record<
+    ModalityKey,
+    number
+  > = {
     Cardinal: 0,
     Fixe: 0,
     Mutable: 0,
   };
 
-  MAIN_PLANETS.forEach((planetName) => {
-    const planet = getPlanet(
-      safePlanets,
-      planetName
-    );
+  MAIN_PLANETS.forEach(
+    (planetName) => {
+      const planet =
+        getPlanet(
+          safePlanets,
+          planetName
+        );
 
-    const signName =
-      getPlanetSignName(planet);
+      const signName =
+        getPlanetSignName(
+          planet
+        );
 
-    if (!signName) {
-      return;
+      if (!signName) {
+        return;
+      }
+
+      const modality =
+        SIGN_MODALITY[
+          signName
+        ] as ModalityKey | undefined;
+
+      if (
+        modality &&
+        counts[modality] !== undefined
+      ) {
+        counts[modality] += 1;
+      }
     }
-
-    const modality =
-      SIGN_MODALITY[signName];
-
-    if (
-      modality &&
-      counts[modality] !== undefined
-    ) {
-      counts[modality] += 1;
-    }
-  });
+  );
 
   const dominantModality =
-    Object.entries(counts).sort(
-      (a, b) => b[1] - a[1]
-    )[0]?.[0] || "";
+    (
+      Object.entries(
+        counts
+      ) as [
+        ModalityKey,
+        number
+      ][]
+    ).sort(
+      (a, b) =>
+        b[1] - a[1]
+    )[0]?.[0];
 
   const hasDominantModality =
     Boolean(
       dominantModality &&
-        counts[dominantModality] > 0
+      counts[
+        dominantModality
+      ] > 0
+    );
+
+  const dominantIcon =
+    getModalityIcon(
+      dominantModality || ""
     );
 
   const dominantText =
-    hasDominantModality
-      ? MODALITY_TEXT[dominantModality]
-      : "Aucune modalité dominante n’a pu être déterminée avec les données disponibles.";
+    hasDominantModality &&
+    dominantModality
+      ? utils[
+          MODALITY_SUMMARY_KEYS[
+            dominantModality
+          ]
+        ] || ""
+      : "";
 
-  const dominantIcon =
-    getModalityIcon(dominantModality);
+  const strengthText =
+    hasDominantModality &&
+    dominantModality
+      ? t[
+          MODALITY_STRENGTH_KEYS[
+            dominantModality
+          ]
+        ] || ""
+      : t.votre_theme_combine_plusieurs_manieres_d_agir_de_poursuivre ||
+        "";
 
-  const insights =
-    MODALITY_INSIGHTS[
-      dominantModality
-    ] || {
-      strength:
-        "Votre thème combine plusieurs manières d’agir, de poursuivre vos efforts et de vous adapter aux circonstances.",
-
-      balance:
-        "Observez les moments où vous initiez facilement, ceux où vous persévérez et ceux où vous préférez ajuster votre direction.",
-    };
+  const balanceText =
+    hasDominantModality &&
+    dominantModality
+      ? t[
+          MODALITY_BALANCE_KEYS[
+            dominantModality
+          ]
+        ] || ""
+      : t.observez_les_moments_ou_vous_initiez_facilement_ceux_ou_vous ||
+        "";
 
   return (
     <Page
@@ -427,40 +700,71 @@ export default function PdfModalities({
       <PdfBrandHeader />
 
       <View style={styles.header}>
-        <Text style={styles.headerKicker}>
-          Rythme intérieur
+        <Text
+          style={
+            styles.headerKicker
+          }
+        >
+          {t.rythme_interieur}
         </Text>
 
-        <Text style={styles.headerTitle}>
-          Les modalités astrologiques
+        <Text
+          style={
+            styles.headerTitle
+          }
+        >
+          {
+            t.les_modalites_astrologiques
+          }
         </Text>
 
-        <View style={styles.divider}>
-          <View style={styles.dividerLine} />
+        <View
+          style={styles.divider}
+        >
+          <View
+            style={
+              styles.dividerLine
+            }
+          />
 
           <Image
             src={ASCENDANT_ICON}
-            style={styles.dividerIcon}
+            style={
+              styles.dividerIcon
+            }
           />
 
-          <View style={styles.dividerLine} />
+          <View
+            style={
+              styles.dividerLine
+            }
+          />
         </View>
 
-        <Text style={styles.headerLead}>
-          Les modalités montrent comment vous commencez,
-          stabilisez ou adaptez votre énergie au fil de
-          vos expériences.
+        <Text
+          style={
+            styles.headerLead
+          }
+        >
+          {
+            t.les_modalites_montrent_comment_vous_commencez_stabilisez_ou
+          }
         </Text>
       </View>
 
       <View style={styles.grid}>
         {MODALITIES.map(
-          (modality, index) => {
+          (
+            modality,
+            index
+          ) => {
             const value =
               counts[modality];
 
             const modalityIcon =
-              getModalityIcon(modality);
+              getModalityIcon(
+                modality
+              );
 
             const cardStyle =
               index <
@@ -478,7 +782,9 @@ export default function PdfModalities({
                 style={cardStyle}
               >
                 <View
-                  style={styles.iconCircle}
+                  style={
+                    styles.iconCircle
+                  }
                 >
                   <Image
                     src={modalityIcon}
@@ -488,24 +794,41 @@ export default function PdfModalities({
                   />
                 </View>
 
-                <Text style={styles.name}>
-                  {modality}
+                <Text
+                  style={styles.name}
+                >
+                  {
+                    MODALITY_LABELS[
+                      safeLocale
+                    ][
+                      modality
+                    ]
+                  }
                 </Text>
 
-                <Text style={styles.value}>
+                <Text
+                  style={styles.value}
+                >
                   {value}
                 </Text>
 
-                <Text style={styles.count}>
-                  {value === 1
-                    ? "1 planète"
-                    : `${value} planètes`}
+                <Text
+                  style={styles.count}
+                >
+                  {getPlanetCountLabel(
+                    value,
+                    safeLocale
+                  )}
                 </Text>
 
-                <Text style={styles.words}>
+                <Text
+                  style={styles.words}
+                >
                   {
-                    MODALITY_WORDS[
-                      modality
+                    t[
+                      MODALITY_WORD_KEYS[
+                        modality
+                      ]
                     ]
                   }
                 </Text>
@@ -516,15 +839,21 @@ export default function PdfModalities({
       </View>
 
       <View
-        style={styles.dominantBox}
+        style={
+          styles.dominantBox
+        }
         wrap={false}
       >
         <View
-          style={styles.dominantBadge}
+          style={
+            styles.dominantBadge
+          }
         >
           <Image
             src={dominantIcon}
-            style={styles.dominantIcon}
+            style={
+              styles.dominantIcon
+            }
           />
         </View>
 
@@ -536,29 +865,48 @@ export default function PdfModalities({
         />
 
         <View
-          style={styles.dominantContent}
+          style={
+            styles.dominantContent
+          }
         >
-          <Text style={styles.kicker}>
-            Votre dynamique dominante
-          </Text>
-
           <Text
-            style={styles.dominantTitle}
+            style={styles.kicker}
           >
-            {hasDominantModality
-              ? dominantModality
-              : "Non déterminée"}
+            {
+              t.votre_dynamique_dominante
+            }
           </Text>
 
           <Text
-            style={styles.dominantText}
+            style={
+              styles.dominantTitle
+            }
+          >
+            {hasDominantModality &&
+            dominantModality
+              ? MODALITY_LABELS[
+                  safeLocale
+                ][
+                  dominantModality
+                ]
+              : getUndeterminedLabel(
+                  safeLocale
+                )}
+          </Text>
+
+          <Text
+            style={
+              styles.dominantText
+            }
           >
             {dominantText}
           </Text>
         </View>
       </View>
 
-      <View style={styles.insightRow}>
+      <View
+        style={styles.insightRow}
+      >
         <View
           style={[
             styles.insightBox,
@@ -567,22 +915,34 @@ export default function PdfModalities({
           wrap={false}
         >
           <View
-            style={styles.insightHeader}
+            style={
+              styles.insightHeader
+            }
           >
             <Image
               src={dominantIcon}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
             <Text
-              style={styles.insightTitle}
+              style={
+                styles.insightTitle
+              }
             >
-              Votre force naturelle
+              {
+                t.votre_force_naturelle
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            {insights.strength}
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {strengthText}
           </Text>
         </View>
 
@@ -591,22 +951,34 @@ export default function PdfModalities({
           wrap={false}
         >
           <View
-            style={styles.insightHeader}
+            style={
+              styles.insightHeader
+            }
           >
             <Image
               src={ASCENDANT_ICON}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
             <Text
-              style={styles.insightTitle}
+              style={
+                styles.insightTitle
+              }
             >
-              Votre équilibre à développer
+              {
+                t.votre_equilibre_a_developper
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            {insights.balance}
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {balanceText}
           </Text>
         </View>
       </View>
@@ -620,11 +992,12 @@ export default function PdfModalities({
           style={styles.noteIcon}
         />
 
-        <Text style={styles.noteText}>
-          Aucune modalité n’est meilleure qu’une autre.
-          Leur répartition révèle votre manière naturelle
-          d’initier une action, de maintenir vos efforts
-          ou de vous adapter aux changements.
+        <Text
+          style={styles.noteText}
+        >
+          {
+            t.aucune_modalite_n_est_meilleure_qu_une_autre_leur_repartitio
+          }
         </Text>
       </View>
 
