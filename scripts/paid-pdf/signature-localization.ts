@@ -38,6 +38,10 @@ import {
   localizeSignatureRelationships,
 } from "./signature-relationships-localization";
 
+import {
+  localizeSignatureCareer,
+} from "./signature-career-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -341,7 +345,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureCareer.tsx"
   ) {
-    return source;
+    return localizeSignatureCareer(
+      source,
+      locale,
+    );
   }
 
   /*
