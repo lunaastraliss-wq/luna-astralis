@@ -9,6 +9,14 @@ import { pdfStyles } from "./SignaturePdfStyles";
 import PdfBrandHeader from "./PdfSignatureBrandHeader";
 import PdfPageFooter from "./PdfSignaturePageFooter";
 
+import type {
+  SignatureLocale,
+} from "./SignaturePdfTypes";
+
+import {
+  getSignatureWelcomeDictionary,
+} from "./SignaturePdfI18n";
+
 /*
 |--------------------------------------------------------------------------
 | Props
@@ -17,6 +25,7 @@ import PdfPageFooter from "./PdfSignaturePageFooter";
 
 type PdfSignatureWelcomeProps = {
   firstName: string;
+  locale?: SignatureLocale;
 };
 
 type DiscoveryItemProps = {
@@ -33,11 +42,6 @@ type DiscoveryItemProps = {
 const styles = StyleSheet.create({
   pageContent: {
     flexGrow: 1,
-
-    /*
-     * Réserve de sécurité afin d’empêcher
-     * le dernier bloc de toucher le pied de page.
-     */
     paddingBottom: 32,
   },
 
@@ -272,15 +276,30 @@ function DiscoveryItem({
 
 export default function PdfSignatureWelcome({
   firstName,
+  locale = "fr",
 }: PdfSignatureWelcomeProps) {
+  const t =
+    getSignatureWelcomeDictionary(
+      locale
+    );
+
   const safeFirstName =
     typeof firstName === "string"
       ? firstName.trim()
       : "";
 
-  const personalizedLead = safeFirstName
-    ? `${safeFirstName}, cette lecture complète de votre thème natal a été conçue pour révéler les liens profonds entre vos différentes énergies et mettre en lumière votre potentiel d’évolution.`
-    : "Une lecture complète de votre thème natal, conçue pour révéler les liens profonds entre vos différentes énergies et mettre en lumière votre potentiel d’évolution.";
+  const personalizedLead =
+    safeFirstName
+      ? `${safeFirstName}, ${
+          t[
+            "cette_lecture_complete_de_votre_theme_natal_a_ete_concue_pour"
+          ] || ""
+        }`
+      : (
+          t[
+            "une_lecture_complete_de_votre_theme_natal_concue_pour_reveler"
+          ] || ""
+        );
 
   return (
     <Page
@@ -293,23 +312,47 @@ export default function PdfSignatureWelcome({
       <View style={styles.pageContent}>
         <View style={styles.header}>
           <Text style={styles.kicker}>
-            Introduction Signature
+            {
+              t[
+                "introduction_signature"
+              ]
+            }
           </Text>
 
           <Text style={styles.title}>
-            Bienvenue dans votre analyse Signature
+            {
+              t[
+                "bienvenue_dans_votre_analyse_signature"
+              ]
+            }
           </Text>
 
           <View style={styles.divider}>
-            <View style={styles.dividerLine} />
+            <View
+              style={
+                styles.dividerLine
+              }
+            />
 
-            <View style={styles.dividerSymbolCircle}>
-              <Text style={styles.dividerSymbol}>
+            <View
+              style={
+                styles.dividerSymbolCircle
+              }
+            >
+              <Text
+                style={
+                  styles.dividerSymbol
+                }
+              >
                 •
               </Text>
             </View>
 
-            <View style={styles.dividerLine} />
+            <View
+              style={
+                styles.dividerLine
+              }
+            />
           </View>
 
           <Text style={styles.lead}>
@@ -322,58 +365,55 @@ export default function PdfSignatureWelcome({
           wrap={false}
         >
           <Text style={styles.paragraph}>
-            Votre naissance correspond à un instant qui ne se
-            reproduira jamais exactement de la même manière. À ce
-            moment précis, les planètes, les angles et les maisons
-            formaient une configuration unique : votre thème natal.
-            Cette empreinte symbolique révèle les forces, les besoins,
-            les réflexes et les possibilités qui composent votre
-            paysage intérieur.
+            {
+              t[
+                "votre_naissance_correspond_a_un_instant_qui_ne_se_reproduira"
+              ]
+            }
           </Text>
 
           <Text style={styles.paragraph}>
-            Ce rapport Signature représente le niveau d’analyse le
-            plus complet proposé par Luna Astralis. Il ne se limite
-            pas à interpréter chaque élément séparément : il révèle
-            les interactions entre vos planètes, vos maisons, vos
-            aspects et les grandes dynamiques qui structurent votre
-            thème natal.
+            {
+              t[
+                "ce_rapport_signature_represente_le_niveau_d_analyse_le_plus"
+              ]
+            }
           </Text>
 
           <Text style={styles.paragraph}>
-            Chaque élément apporte une information différente. La
-            planète représente une fonction intérieure. Le signe
-            décrit la manière dont cette énergie cherche à
-            s’exprimer. La maison indique le domaine de vie dans
-            lequel elle agit. Les aspects montrent les accords, les
-            tensions et les interactions qui donnent à votre thème sa
-            profondeur particulière.
+            {
+              t[
+                "chaque_element_apporte_une_information_differente_la_planete"
+              ]
+            }
           </Text>
 
           <Text style={styles.paragraph}>
-            Vous découvrirez ainsi non seulement certaines qualités
-            naturelles, mais également des contradictions, des
-            besoins parfois difficiles à concilier et des ressources
-            qui peuvent se développer avec le temps. Ces nuances ne
-            constituent pas des défauts : elles participent à la
-            richesse de votre personnalité.
+            {
+              t[
+                "vous_decouvrirez_ainsi_non_seulement_certaines_qualites_natu"
+              ]
+            }
           </Text>
 
           <Text style={styles.paragraph}>
-            L’astrologie ne détermine pas vos décisions et ne décrit
-            pas un destin immuable. Elle propose un langage
-            symbolique qui peut vous aider à mieux reconnaître vos
-            réactions, vos motivations, vos zones de sensibilité et
-            les choix qui vous permettent d’avancer avec davantage de
-            conscience.
+            {
+              t[
+                "l_astrologie_ne_determine_pas_vos_decisions_et_ne_decrit_pas"
+              ]
+            }
           </Text>
 
-          <Text style={styles.paragraphLast}>
-            Certaines pages vous sembleront immédiatement familières.
-            D’autres prendront leur sens progressivement. Avancez à
-            votre rythme et revenez aux passages qui vous
-            interpellent : votre thème natal n’est pas une définition
-            figée, mais une carte vivante de vos possibilités.
+          <Text
+            style={
+              styles.paragraphLast
+            }
+          >
+            {
+              t[
+                "certaines_pages_vous_sembleront_immediatement_familieres_d_a"
+              ]
+            }
           </Text>
         </View>
 
@@ -381,34 +421,74 @@ export default function PdfSignatureWelcome({
           style={styles.quoteCard}
           wrap={false}
         >
-          <View style={styles.quoteMarkBox}>
-            <Text style={styles.quoteMark}>
+          <View
+            style={
+              styles.quoteMarkBox
+            }
+          >
+            <Text
+              style={
+                styles.quoteMark
+              }
+            >
               “
             </Text>
           </View>
 
-          <View style={styles.quoteContent}>
-            <Text style={styles.quoteText}>
-              Votre thème natal est une œuvre vivante. Plus vous en
-              comprenez les liens profonds, plus vous découvrez les
-              ressources qui vous permettent d’évoluer pleinement.
+          <View
+            style={
+              styles.quoteContent
+            }
+          >
+            <Text
+              style={
+                styles.quoteText
+              }
+            >
+              {
+                t[
+                  "votre_theme_natal_est_une_uvre_vivante_plus_vous_en_comprene"
+                ]
+              }
             </Text>
 
-            <Text style={styles.quoteSignature}>
-              Luna Astralis
+            <Text
+              style={
+                styles.quoteSignature
+              }
+            >
+              {
+                t[
+                  "luna_astralis"
+                ]
+              }
             </Text>
           </View>
         </View>
 
         <View
-          style={styles.nextSectionCard}
+          style={
+            styles.nextSectionCard
+          }
           wrap={false}
         >
-          <Text style={styles.nextSectionTitle}>
-            Ce que révèle votre rapport Signature
+          <Text
+            style={
+              styles.nextSectionTitle
+            }
+          >
+            {
+              t[
+                "ce_que_revele_votre_rapport_signature"
+              ]
+            }
           </Text>
 
-          <View style={styles.columns}>
+          <View
+            style={
+              styles.columns
+            }
+          >
             <View
               style={[
                 styles.column,
@@ -416,44 +496,73 @@ export default function PdfSignatureWelcome({
               ]}
             >
               <DiscoveryItem>
-                Vos trois grands piliers : le Soleil, la Lune et
-                l’Ascendant.
+                {
+                  t[
+                    "vos_trois_grands_piliers_le_soleil_la_lune_et_l_ascendant"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem>
-                L’expression de vos dix principales planètes dans
-                leurs signes.
+                {
+                  t[
+                    "l_expression_de_vos_dix_principales_planetes_dans_leurs_sign"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem>
-                Les domaines de vie activés par vos maisons
-                astrologiques.
+                {
+                  t[
+                    "les_domaines_de_vie_actives_par_vos_maisons_astrologiques"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem last>
-                Les aspects majeurs et les dialogues entre vos
-                différentes énergies.
+                {
+                  t[
+                    "les_aspects_majeurs_et_les_dialogues_entre_vos_differentes_e"
+                  ]
+                }
               </DiscoveryItem>
             </View>
 
-            <View style={styles.column}>
+            <View
+              style={
+                styles.column
+              }
+            >
               <DiscoveryItem>
-                La répartition de vos éléments : Feu, Terre, Air et
-                Eau.
+                {
+                  t[
+                    "la_repartition_de_vos_elements_feu_terre_air_et_eau"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem>
-                Vos modalités dominantes et votre manière naturelle
-                d’agir.
+                {
+                  t[
+                    "vos_modalites_dominantes_et_votre_maniere_naturelle_d_agir"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem>
-                Vos forces, vos défis et les ressources à développer.
+                {
+                  t[
+                    "vos_forces_vos_defis_et_les_ressources_a_developper"
+                  ]
+                }
               </DiscoveryItem>
 
               <DiscoveryItem last>
-                Vos dynamiques relationnelles, professionnelles et
-                vos principaux axes d’évolution.
+                {
+                  t[
+                    "vos_dynamiques_relationnelles_professionnelles_et_vos_princi"
+                  ]
+                }
               </DiscoveryItem>
             </View>
           </View>
