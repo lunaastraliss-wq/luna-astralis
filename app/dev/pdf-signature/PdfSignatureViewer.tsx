@@ -10,16 +10,77 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 
+import {
+  useSearchParams,
+} from "next/navigation";
+
+import Link from "next/link";
 import html2canvas from "html2canvas";
 
 import NatalChartWheel from "@/components/NatalChartWheel";
 
-import SignaturePdfDocument from "@/components/SignaturePdf/SignaturePdfDocument";
+import SignaturePdfDocumentFr
+  from "@/paid-pdf-generated/fr/SignaturePdf/SignaturePdfDocument";
+
+import SignaturePdfDocumentEn
+  from "@/paid-pdf-generated/en/SignaturePdf/SignaturePdfDocument";
+
+import SignaturePdfDocumentEs
+  from "@/paid-pdf-generated/es/SignaturePdf/SignaturePdfDocument";
+
+import SignaturePdfDocumentDe
+  from "@/paid-pdf-generated/de/SignaturePdf/SignaturePdfDocument";
+
+import SignaturePdfDocumentIt
+  from "@/paid-pdf-generated/it/SignaturePdf/SignaturePdfDocument";
+
+import SignaturePdfDocumentPt
+  from "@/paid-pdf-generated/pt/SignaturePdf/SignaturePdfDocument";
+
+type SignatureLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
 
 type ChartData = {
   planets: any[];
   houses: any;
   angles: any;
+};
+
+const SUPPORTED_LOCALES:
+SignatureLocale[] = [
+  "fr",
+  "en",
+  "es",
+  "de",
+  "it",
+  "pt",
+];
+
+const LANGUAGE_LABELS:
+Record<
+  SignatureLocale,
+  string
+> = {
+  fr: "FR",
+  en: "EN",
+  es: "ES",
+  de: "DE",
+  it: "IT",
+  pt: "PT",
+};
+
+const PDF_DOCUMENTS = {
+  fr: SignaturePdfDocumentFr,
+  en: SignaturePdfDocumentEn,
+  es: SignaturePdfDocumentEs,
+  de: SignaturePdfDocumentDe,
+  it: SignaturePdfDocumentIt,
+  pt: SignaturePdfDocumentPt,
 };
 
 const MAIN_PLANETS = [
@@ -35,8 +96,25 @@ const MAIN_PLANETS = [
   "Pluto",
 ];
 
+function normalizeLocale(
+  value:
+    | string
+    | null,
+): SignatureLocale {
+  if (
+    value &&
+    SUPPORTED_LOCALES.includes(
+      value as SignatureLocale,
+    )
+  ) {
+    return value as SignatureLocale;
+  }
+
+  return "fr";
+}
+
 function getAngleLongitude(
-  angle: any
+  angle: any,
 ): number | null {
   if (
     typeof angle === "number" &&
@@ -47,20 +125,35 @@ function getAngleLongitude(
 
   const longitude =
     Number(
-      angle?.longitude
+      angle?.longitude,
     );
 
   return Number.isFinite(
-    longitude
+    longitude,
   )
     ? longitude
     : null;
 }
 
 export default function PdfSignatureViewer() {
+  const searchParams =
+    useSearchParams();
+
+  const locale =
+    normalizeLocale(
+      searchParams.get(
+        "locale",
+      ),
+    );
+
+  const SignatureDocument =
+    PDF_DOCUMENTS[
+      locale
+    ];
+
   const pdfWheelRef =
     useRef<HTMLDivElement | null>(
-      null
+      null,
     );
 
   const [
@@ -68,7 +161,7 @@ export default function PdfSignatureViewer() {
     setChart,
   ] =
     useState<ChartData | null>(
-      null
+      null,
     );
 
   const [
@@ -96,12 +189,18 @@ export default function PdfSignatureViewer() {
   */
 
   useEffect(() => {
-    let cancelled = false;
+    let cancelled =
+      false;
 
     async function loadChart() {
       try {
-        setLoading(true);
-        setError("");
+        setLoading(
+          true,
+        );
+
+        setError(
+          "",
+        );
 
         /*
         |--------------------------------------------------------------------------
@@ -112,12 +211,15 @@ export default function PdfSignatureViewer() {
         const geoResponse =
           await fetch(
             `/api/geocode?city=${encodeURIComponent(
-              "Québec"
+              "Québec",
             )}`,
             {
-              method: "GET",
-              cache: "no-store",
-            }
+              method:
+                "GET",
+
+              cache:
+                "no-store",
+            },
           );
 
         const geoData =
@@ -130,30 +232,32 @@ export default function PdfSignatureViewer() {
         ) {
           throw new Error(
             geoData?.error ||
-              "Géocodage impossible"
+              "Géocodage impossible",
           );
         }
 
         const latitude =
           Number(
-            geoData.result.latitude
+            geoData.result
+              .latitude,
           );
 
         const longitude =
           Number(
-            geoData.result.longitude
+            geoData.result
+              .longitude,
           );
 
         if (
           !Number.isFinite(
-            latitude
+            latitude,
           ) ||
           !Number.isFinite(
-            longitude
+            longitude,
           )
         ) {
           throw new Error(
-            "Coordonnées invalides"
+            "Coordonnées invalides",
           );
         }
 
@@ -167,26 +271,39 @@ export default function PdfSignatureViewer() {
           await fetch(
             "/api/natal-chart",
             {
-              method: "POST",
+              method:
+                "POST",
 
               headers: {
                 "Content-Type":
                   "application/json",
               },
 
-              cache: "no-store",
+              cache:
+                "no-store",
 
               body:
                 JSON.stringify({
-                  year: 1970,
-                  month: 11,
-                  day: 17,
-                  hour: 21,
-                  minute: 36,
+                  year:
+                    1970,
+
+                  month:
+                    11,
+
+                  day:
+                    17,
+
+                  hour:
+                    21,
+
+                  minute:
+                    36,
+
                   latitude,
+
                   longitude,
                 }),
-            }
+            },
           );
 
         const chartData =
@@ -199,11 +316,13 @@ export default function PdfSignatureViewer() {
         ) {
           throw new Error(
             chartData?.error ||
-              "Calcul astrologique impossible"
+              "Calcul astrologique impossible",
           );
         }
 
-        if (cancelled) {
+        if (
+          cancelled
+        ) {
           return;
         }
 
@@ -212,26 +331,29 @@ export default function PdfSignatureViewer() {
 
         const planets =
           (
-            calculatedChart?.planets ||
+            calculatedChart
+              ?.planets ||
             []
           ).filter(
             (
-              planet: any
+              planet: any,
             ) =>
               MAIN_PLANETS.includes(
-                planet?.name
-              )
+                planet?.name,
+              ),
           );
 
         setChart({
           planets,
 
           houses:
-            calculatedChart?.houses ||
+            calculatedChart
+              ?.houses ||
             [],
 
           angles:
-            calculatedChart?.angles ||
+            calculatedChart
+              ?.angles ||
             {},
         });
       } catch (
@@ -239,17 +361,22 @@ export default function PdfSignatureViewer() {
       ) {
         console.error(
           "Erreur DEV Signature:",
-          loadError
+          loadError,
         );
 
-        if (!cancelled) {
+        if (
+          !cancelled
+        ) {
           setError(
-            loadError instanceof Error
+            loadError instanceof
+            Error
               ? loadError.message
-              : "Erreur de calcul"
+              : "Erreur de calcul",
           );
 
-          setLoading(false);
+          setLoading(
+            false,
+          );
         }
       }
     }
@@ -257,22 +384,26 @@ export default function PdfSignatureViewer() {
     loadChart();
 
     return () => {
-      cancelled = true;
+      cancelled =
+        true;
     };
   }, []);
 
   /*
   |--------------------------------------------------------------------------
-  | 2. Capture de la vraie roue
+  | 2. Capture de la vraie roue en PNG
   |--------------------------------------------------------------------------
   */
 
   useEffect(() => {
-    if (!chart) {
+    if (
+      !chart
+    ) {
       return;
     }
 
-    let cancelled = false;
+    let cancelled =
+      false;
 
     async function createWheelImage() {
       try {
@@ -280,15 +411,15 @@ export default function PdfSignatureViewer() {
           (resolve) =>
             setTimeout(
               resolve,
-              350
-            )
+              350,
+            ),
         );
 
         if (
           !pdfWheelRef.current
         ) {
           throw new Error(
-            "Roue PDF introuvable"
+            "Roue PDF introuvable",
           );
         }
 
@@ -299,58 +430,66 @@ export default function PdfSignatureViewer() {
               backgroundColor:
                 "#0b1124",
 
-              scale: 3,
+              scale:
+                3,
 
-              useCORS: true,
+              useCORS:
+                true,
 
-              logging: false,
-            }
+              logging:
+                false,
+            },
           );
 
         const image =
           canvas.toDataURL(
-            "image/png"
+            "image/png",
           );
 
         if (
           !image ||
           !image.startsWith(
-            "data:image/png;base64,"
+            "data:image/png;base64,",
           )
         ) {
           throw new Error(
-            "La roue PNG n’a pas pu être créée"
+            "La roue PNG n’a pas pu être créée",
           );
         }
 
-        if (cancelled) {
+        if (
+          cancelled
+        ) {
           return;
         }
 
         setWheelImage(
-          image
+          image,
         );
 
         setLoading(
-          false
+          false,
         );
       } catch (
         wheelError
       ) {
         console.error(
           "Erreur génération roue Signature DEV:",
-          wheelError
+          wheelError,
         );
 
-        if (!cancelled) {
+        if (
+          !cancelled
+        ) {
           setError(
-            wheelError instanceof Error
+            wheelError instanceof
+            Error
               ? wheelError.message
-              : "Erreur de génération de la roue"
+              : "Erreur de génération de la roue",
           );
 
           setLoading(
-            false
+            false,
           );
         }
       }
@@ -359,7 +498,8 @@ export default function PdfSignatureViewer() {
     createWheelImage();
 
     return () => {
-      cancelled = true;
+      cancelled =
+        true;
     };
   }, [
     chart,
@@ -367,64 +507,172 @@ export default function PdfSignatureViewer() {
 
   /*
   |--------------------------------------------------------------------------
-  | 3. Angles pour la roue
+  | 3. Angles utilisés par la roue
   |--------------------------------------------------------------------------
   */
 
   const ascendantLongitude =
     getAngleLongitude(
       chart?.angles
-        ?.ascendant
+        ?.ascendant,
     );
 
   const midheavenLongitude =
     getAngleLongitude(
       chart?.angles
-        ?.midheaven
+        ?.midheaven,
     );
 
   /*
   |--------------------------------------------------------------------------
-  | Angles complets pour SignaturePdfDocument
+  | 4. Angles complets envoyés au PDF
   |--------------------------------------------------------------------------
   */
 
   const pdfAngles = {
     ascendant:
-      chart?.angles?.ascendant ||
+      chart?.angles
+        ?.ascendant ||
       null,
 
     midheaven:
-      chart?.angles?.midheaven ||
+      chart?.angles
+        ?.midheaven ||
       null,
 
     descendant:
-      chart?.angles?.descendant ||
+      chart?.angles
+        ?.descendant ||
       null,
 
     imumCoeli:
-      chart?.angles?.imumCoeli ||
+      chart?.angles
+        ?.imumCoeli ||
       null,
   };
 
   return (
     <main
       style={{
-        width: "100vw",
-        height: "100vh",
-        margin: 0,
-        padding: 0,
+        width:
+          "100vw",
+
+        height:
+          "100vh",
+
+        margin:
+          0,
+
+        padding:
+          0,
+
         backgroundColor:
           "#081020",
+
         overflow:
           "hidden",
+
         position:
           "relative",
       }}
     >
       {/*
       |--------------------------------------------------------------------------
-      | Roue cachée
+      | Sélecteur des 6 langues
+      |--------------------------------------------------------------------------
+      */}
+
+      <div
+        style={{
+          position:
+            "absolute",
+
+          top:
+            12,
+
+          left:
+            12,
+
+          zIndex:
+            20,
+
+          display:
+            "flex",
+
+          gap:
+            6,
+
+          padding:
+            7,
+
+          backgroundColor:
+            "rgba(6,16,31,0.92)",
+
+          border:
+            "1px solid #8f6e35",
+
+          borderRadius:
+            8,
+        }}
+      >
+        {SUPPORTED_LOCALES.map(
+          (
+            language,
+          ) => (
+            <Link
+              key={
+                language
+              }
+
+              href={
+                `/dev/pdf-signature?locale=${language}`
+              }
+
+              style={{
+                padding:
+                  "6px 9px",
+
+                borderRadius:
+                  5,
+
+                textDecoration:
+                  "none",
+
+                fontFamily:
+                  "Arial, sans-serif",
+
+                fontSize:
+                  12,
+
+                fontWeight:
+                  700,
+
+                color:
+                  locale ===
+                  language
+                    ? "#081020"
+                    : "#fff8e7",
+
+                backgroundColor:
+                  locale ===
+                  language
+                    ? "#f4c95d"
+                    : "#152033",
+              }}
+            >
+              {
+                LANGUAGE_LABELS[
+                  language
+                ]
+              }
+            </Link>
+          ),
+        )}
+      </div>
+
+      {/*
+      |--------------------------------------------------------------------------
+      | Roue cachée identique aux autres PDF
       |--------------------------------------------------------------------------
       */}
 
@@ -484,6 +732,10 @@ export default function PdfSignatureViewer() {
             }}
           >
             <NatalChartWheel
+              locale={
+                locale
+              }
+
               planets={
                 chart.planets
               }
@@ -516,7 +768,7 @@ export default function PdfSignatureViewer() {
 
       {/*
       |--------------------------------------------------------------------------
-      | Chargement / erreur / PDF
+      | Chargement
       |--------------------------------------------------------------------------
       */}
 
@@ -587,7 +839,7 @@ export default function PdfSignatureViewer() {
         wheelImage ? (
         <PDFViewer
           key={
-            wheelImage.length
+            `${locale}-${wheelImage.length}`
           }
 
           width="100%"
@@ -601,7 +853,7 @@ export default function PdfSignatureViewer() {
 
           showToolbar
         >
-          <SignaturePdfDocument
+          <SignatureDocument
             firstName="Martine"
 
             birthDate="17/11/1970"
@@ -620,6 +872,10 @@ export default function PdfSignatureViewer() {
 
             wheelImage={
               wheelImage
+            }
+
+            locale={
+              locale
             }
           />
         </PDFViewer>
