@@ -15,7 +15,35 @@ import {
   PLANET_ICONS,
 } from "./EssentialPdfAssets";
 
-import type { EssentialPdfProps } from "./EssentialPdfTypes";
+import type {
+  EssentialPdfProps,
+  PdfLocale,
+} from "./EssentialPdfTypes";
+
+import {
+  getLocalizedPlanetName,
+} from "./EssentialPdfUtils";
+
+import pdfCoverFr from "../../i18n/migrated/fr/components/essentialpdf/pdfcover.json";
+import pdfCoverEn from "../../i18n/migrated/en/components/essentialpdf/pdfcover.json";
+import pdfCoverEs from "../../i18n/migrated/es/components/essentialpdf/pdfcover.json";
+import pdfCoverDe from "../../i18n/migrated/de/components/essentialpdf/pdfcover.json";
+import pdfCoverIt from "../../i18n/migrated/it/components/essentialpdf/pdfcover.json";
+import pdfCoverPt from "../../i18n/migrated/pt/components/essentialpdf/pdfcover.json";
+
+type Dictionary = Record<string, string>;
+
+const PDF_COVER_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: pdfCoverFr,
+  en: pdfCoverEn,
+  es: pdfCoverEs,
+  de: pdfCoverDe,
+  it: pdfCoverIt,
+  pt: pdfCoverPt,
+};
 
 /*
  * Couleurs
@@ -822,7 +850,15 @@ export default function PdfCover({
   birthDate,
   birthTime,
   birthCity,
+  locale = "fr",
 }: EssentialPdfProps) {
+  const safeLocale: PdfLocale =
+    locale || "fr";
+
+  const t =
+    PDF_COVER_BY_LOCALE[safeLocale] ||
+    PDF_COVER_BY_LOCALE.fr;
+
   return (
     <Page size="A4" style={styles.page}>
       {/*
@@ -879,20 +915,21 @@ export default function PdfCover({
           wrap={false}
         >
           <Text style={styles.eyebrow}>
-            Rapport astrologique personnalisé
+            {t.rapport_astrologique_personnalise}
           </Text>
 
           <Text style={styles.title}>
-            Votre carte du ciel
+            {t.votre_carte_du_ciel}
           </Text>
 
           <Text style={styles.titleAccent}>
-            essentielle
+            {t.essentielle}
           </Text>
 
           <Text style={styles.subtitle}>
-            Une première lecture claire et personnelle des grandes
-            forces qui composent votre thème natal.
+            {
+              t.une_premiere_lecture_claire_et_personnelle_des_grandes_force
+            }
           </Text>
         </View>
 
@@ -909,7 +946,7 @@ export default function PdfCover({
           />
 
           <Text style={styles.preparedLabel}>
-            Préparé exclusivement pour
+            {t.prepare_exclusivement_pour}
           </Text>
 
           <Text style={styles.name}>
@@ -919,7 +956,7 @@ export default function PdfCover({
           <View style={styles.infoRow}>
             <View style={styles.infoColumn}>
               <Text style={styles.infoLabel}>
-                Date de naissance
+                {t.date_de_naissance}
               </Text>
 
               <Text style={styles.infoValue}>
@@ -929,7 +966,7 @@ export default function PdfCover({
 
             <View style={styles.infoColumn}>
               <Text style={styles.infoLabel}>
-                Heure de naissance
+                {t.heure_de_naissance}
               </Text>
 
               <Text style={styles.infoValue}>
@@ -939,7 +976,7 @@ export default function PdfCover({
 
             <View style={styles.infoColumn}>
               <Text style={styles.infoLabel}>
-                Lieu de naissance
+                {t.lieu_de_naissance}
               </Text>
 
               <Text style={styles.infoValue}>
@@ -954,11 +991,13 @@ export default function PdfCover({
           wrap={false}
         >
           <Text style={styles.quote}>
-            Chaque naissance possède une signature céleste unique.
+            {
+              t.chaque_naissance_possede_une_signature_celeste_unique
+            }
           </Text>
 
           <Text style={styles.signature}>
-            Luna Astralis
+            {t.luna_astralis}
           </Text>
         </View>
 
@@ -975,11 +1014,14 @@ export default function PdfCover({
             </View>
 
             <Text style={styles.pillarTitle}>
-              Soleil
+              {getLocalizedPlanetName(
+                "Sun",
+                safeLocale
+              )}
             </Text>
 
             <Text style={styles.pillarDescription}>
-              Votre identité profonde
+              {t.votre_identite_profonde}
             </Text>
           </View>
 
@@ -992,11 +1034,14 @@ export default function PdfCover({
             </View>
 
             <Text style={styles.pillarTitle}>
-              Lune
+              {getLocalizedPlanetName(
+                "Moon",
+                safeLocale
+              )}
             </Text>
 
             <Text style={styles.pillarDescription}>
-              Votre monde émotionnel
+              {t.votre_monde_emotionnel}
             </Text>
           </View>
 
@@ -1009,11 +1054,11 @@ export default function PdfCover({
             </View>
 
             <Text style={styles.pillarTitle}>
-              Ascendant
+              {t.ascendant}
             </Text>
 
             <Text style={styles.pillarDescription}>
-              Votre présence naturelle
+              {t.votre_presence_naturelle}
             </Text>
           </View>
         </View>
@@ -1026,11 +1071,11 @@ export default function PdfCover({
 
           <View style={styles.introHeader}>
             <Text style={styles.introKicker}>
-              Votre voyage astrologique
+              {t.votre_voyage_astrologique}
             </Text>
 
             <Text style={styles.introTitle}>
-              Avant de commencer
+              {t.avant_de_commencer}
             </Text>
 
             <View style={styles.introOrnament}>
@@ -1048,31 +1093,30 @@ export default function PdfCover({
           <View style={styles.introDivider} />
 
           <Text style={styles.introParagraph}>
-            Chaque être humain naît sous un ciel unique. Les positions
-            des planètes au moment précis de votre naissance forment
-            une empreinte céleste qui vous est propre.
+            {
+              t.chaque_etre_humain_nait_sous_un_ciel_unique_les_positions_de
+            }
           </Text>
 
           <Text style={styles.introParagraph}>
-            Ce rapport vous accompagne dans la découverte de vos
-            principales énergies, de vos forces naturelles et des
-            grands thèmes qui façonnent votre personnalité.
+            {
+              t.ce_rapport_vous_accompagne_dans_la_decouverte_de_vos_princip
+            }
           </Text>
 
           <Text style={styles.introParagraph}>
-            L’astrologie ne présente pas un destin figé. Elle offre
-            plutôt un langage symbolique qui permet de mieux
-            comprendre votre potentiel, vos besoins et votre manière
-            d’évoluer.
+            {
+              t.l_astrologie_ne_presente_pas_un_destin_fige_elle_offre_pluto
+            }
           </Text>
 
           <Text style={styles.introConclusion}>
-            Prenez le temps de parcourir les pages suivantes avec
-            curiosité : votre voyage commence maintenant.
+            {
+              t.prenez_le_temps_de_parcourir_les_pages_suivantes_avec_curios
+            }
           </Text>
         </View>
       </View>
-
-          </Page>
+    </Page>
   );
-    }
+}
