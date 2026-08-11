@@ -14,13 +14,21 @@ import {
 import { pdfStyles } from "./SignaturePdfStyles";
 
 import type {
+  SignatureAngles,
+  SignatureLocale,
   SignaturePdfSummaryProps,
   SignaturePlanet,
-  SignatureAngles,
 } from "./SignaturePdfTypes";
 
 import PdfBrandHeader from "./PdfSignatureBrandHeader";
 import PdfPageFooter from "./PdfSignaturePageFooter";
+
+import frSummary from "../../i18n/migrated/fr/components/signaturepdf/pdfsignaturesummary.json";
+import enSummary from "../../i18n/migrated/en/components/signaturepdf/pdfsignaturesummary.json";
+import esSummary from "../../i18n/migrated/es/components/signaturepdf/pdfsignaturesummary.json";
+import deSummary from "../../i18n/migrated/de/components/signaturepdf/pdfsignaturesummary.json";
+import itSummary from "../../i18n/migrated/it/components/signaturepdf/pdfsignaturesummary.json";
+import ptSummary from "../../i18n/migrated/pt/components/signaturepdf/pdfsignaturesummary.json";
 
 const GOLD = "#f4c95d";
 const SOFT_GOLD = "#8f793c";
@@ -379,121 +387,453 @@ const styles = StyleSheet.create({
   },
 });
 
-const SIGN_NAMES_FR: Record<string, string> = {
-  Aries: "Bélier",
-  Taurus: "Taureau",
-  Gemini: "Gémeaux",
-  Cancer: "Cancer",
-  Leo: "Lion",
-  Virgo: "Vierge",
-  Libra: "Balance",
-  Scorpio: "Scorpion",
-  Sagittarius: "Sagittaire",
-  Capricorn: "Capricorne",
-  Aquarius: "Verseau",
-  Pisces: "Poissons",
+/*
+|--------------------------------------------------------------------------
+| Dictionnaires Summary
+|--------------------------------------------------------------------------
+*/
 
-  Bélier: "Bélier",
-  Taureau: "Taureau",
-  Gémeaux: "Gémeaux",
-  Lion: "Lion",
-  Vierge: "Vierge",
-  Balance: "Balance",
-  Scorpion: "Scorpion",
-  Sagittaire: "Sagittaire",
-  Capricorne: "Capricorne",
-  Verseau: "Verseau",
-  Poissons: "Poissons",
+type SummaryDictionary =
+  Record<string, string>;
+
+const SUMMARY_DICTIONARIES:
+Record<
+  SignatureLocale,
+  SummaryDictionary
+> = {
+  fr: frSummary,
+  en: enSummary,
+  es: esSummary,
+  de: deSummary,
+  it: itSummary,
+  pt: ptSummary,
 };
 
-const SIGNS_BY_LONGITUDE = [
-  "Bélier",
-  "Taureau",
-  "Gémeaux",
-  "Cancer",
-  "Lion",
-  "Vierge",
-  "Balance",
-  "Scorpion",
-  "Sagittaire",
-  "Capricorne",
-  "Verseau",
-  "Poissons",
-];
+function getDictionary(
+  locale: SignatureLocale
+): SummaryDictionary {
+  return (
+    SUMMARY_DICTIONARIES[
+      locale
+    ] ||
+    SUMMARY_DICTIONARIES.fr
+  );
+}
 
-function translateSign(
-  value: unknown
+function text(
+  dictionary: SummaryDictionary,
+  key: string,
+  fallback = ""
 ): string {
-  if (
-    typeof value !== "string" ||
-    value.trim().length === 0
-  ) {
-    return "Non précisé";
-  }
-
-  const cleanValue = value.trim();
+  const value =
+    dictionary[key];
 
   return (
-    SIGN_NAMES_FR[cleanValue] ||
-    cleanValue
+    typeof value === "string" &&
+    value.trim().length > 0
+      ? value
+      : fallback
+  );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Signes astrologiques
+|--------------------------------------------------------------------------
+*/
+
+type SignKey =
+  | "aries"
+  | "taurus"
+  | "gemini"
+  | "cancer"
+  | "leo"
+  | "virgo"
+  | "libra"
+  | "scorpio"
+  | "sagittarius"
+  | "capricorn"
+  | "aquarius"
+  | "pisces";
+
+const SIGNS_BY_LONGITUDE:
+SignKey[] = [
+  "aries",
+  "taurus",
+  "gemini",
+  "cancer",
+  "leo",
+  "virgo",
+  "libra",
+  "scorpio",
+  "sagittarius",
+  "capricorn",
+  "aquarius",
+  "pisces",
+];
+
+const SIGN_ALIASES:
+Record<string, SignKey> = {
+  aries: "aries",
+  bélier: "aries",
+  belier: "aries",
+
+  taurus: "taurus",
+  taureau: "taurus",
+
+  gemini: "gemini",
+  gémeaux: "gemini",
+  gemeaux: "gemini",
+
+  cancer: "cancer",
+
+  leo: "leo",
+  lion: "leo",
+
+  virgo: "virgo",
+  vierge: "virgo",
+
+  libra: "libra",
+  balance: "libra",
+
+  scorpio: "scorpio",
+  scorpion: "scorpio",
+
+  sagittarius:
+    "sagittarius",
+  sagittaire:
+    "sagittarius",
+
+  capricorn:
+    "capricorn",
+  capricorne:
+    "capricorn",
+
+  aquarius:
+    "aquarius",
+  verseau:
+    "aquarius",
+
+  pisces:
+    "pisces",
+  poissons:
+    "pisces",
+};
+
+const LOCALIZED_SIGNS:
+Record<
+  SignatureLocale,
+  Record<SignKey, string>
+> = {
+  fr: {
+    aries: "Bélier",
+    taurus: "Taureau",
+    gemini: "Gémeaux",
+    cancer: "Cancer",
+    leo: "Lion",
+    virgo: "Vierge",
+    libra: "Balance",
+    scorpio: "Scorpion",
+    sagittarius:
+      "Sagittaire",
+    capricorn:
+      "Capricorne",
+    aquarius:
+      "Verseau",
+    pisces:
+      "Poissons",
+  },
+
+  en: {
+    aries: "Aries",
+    taurus: "Taurus",
+    gemini: "Gemini",
+    cancer: "Cancer",
+    leo: "Leo",
+    virgo: "Virgo",
+    libra: "Libra",
+    scorpio: "Scorpio",
+    sagittarius:
+      "Sagittarius",
+    capricorn:
+      "Capricorn",
+    aquarius:
+      "Aquarius",
+    pisces:
+      "Pisces",
+  },
+
+  es: {
+    aries: "Aries",
+    taurus: "Tauro",
+    gemini: "Géminis",
+    cancer: "Cáncer",
+    leo: "Leo",
+    virgo: "Virgo",
+    libra: "Libra",
+    scorpio: "Escorpio",
+    sagittarius:
+      "Sagitario",
+    capricorn:
+      "Capricornio",
+    aquarius:
+      "Acuario",
+    pisces:
+      "Piscis",
+  },
+
+  de: {
+    aries: "Widder",
+    taurus: "Stier",
+    gemini:
+      "Zwillinge",
+    cancer: "Krebs",
+    leo: "Löwe",
+    virgo:
+      "Jungfrau",
+    libra: "Waage",
+    scorpio:
+      "Skorpion",
+    sagittarius:
+      "Schütze",
+    capricorn:
+      "Steinbock",
+    aquarius:
+      "Wassermann",
+    pisces:
+      "Fische",
+  },
+
+  it: {
+    aries: "Ariete",
+    taurus: "Toro",
+    gemini: "Gemelli",
+    cancer: "Cancro",
+    leo: "Leone",
+    virgo: "Vergine",
+    libra: "Bilancia",
+    scorpio:
+      "Scorpione",
+    sagittarius:
+      "Sagittario",
+    capricorn:
+      "Capricorno",
+    aquarius:
+      "Acquario",
+    pisces:
+      "Pesci",
+  },
+
+  pt: {
+    aries: "Áries",
+    taurus: "Touro",
+    gemini: "Gêmeos",
+    cancer: "Câncer",
+    leo: "Leão",
+    virgo: "Virgem",
+    libra: "Libra",
+    scorpio:
+      "Escorpião",
+    sagittarius:
+      "Sagitário",
+    capricorn:
+      "Capricórnio",
+    aquarius:
+      "Aquário",
+    pisces:
+      "Peixes",
+  },
+};
+
+const MISSING_VALUE:
+Record<
+  SignatureLocale,
+  string
+> = {
+  fr: "Non précisé",
+  en: "Not specified",
+  es: "No especificado",
+  de: "Nicht angegeben",
+  it: "Non specificato",
+  pt: "Não especificado",
+};
+
+function getCanonicalSign(
+  value: unknown
+): SignKey | null {
+  if (
+    typeof value !== "string"
+  ) {
+    return null;
+  }
+
+  const cleanValue =
+    value
+      .trim()
+      .toLowerCase();
+
+  if (
+    cleanValue.length === 0
+  ) {
+    return null;
+  }
+
+  return (
+    SIGN_ALIASES[
+      cleanValue
+    ] || null
+  );
+}
+
+function getLocalizedSign(
+  value: unknown,
+  locale: SignatureLocale
+): string {
+  const sign =
+    getCanonicalSign(
+      value
+    );
+
+  if (!sign) {
+    return MISSING_VALUE[
+      locale
+    ];
+  }
+
+  return (
+    LOCALIZED_SIGNS[
+      locale
+    ][sign]
   );
 }
 
 function getSignFromLongitude(
-  value: number
+  value: number,
+  locale: SignatureLocale
 ): string {
-  if (!Number.isFinite(value)) {
-    return "Non précisé";
+  if (
+    !Number.isFinite(
+      value
+    )
+  ) {
+    return MISSING_VALUE[
+      locale
+    ];
   }
 
   const normalized =
-    ((value % 360) + 360) % 360;
+    ((value % 360) +
+      360) %
+    360;
 
   const index =
-    Math.floor(normalized / 30);
+    Math.floor(
+      normalized / 30
+    );
+
+  const sign =
+    SIGNS_BY_LONGITUDE[
+      index
+    ];
+
+  if (!sign) {
+    return MISSING_VALUE[
+      locale
+    ];
+  }
 
   return (
-    SIGNS_BY_LONGITUDE[index] ||
-    "Non précisé"
+    LOCALIZED_SIGNS[
+      locale
+    ][sign]
   );
 }
 
+/*
+|--------------------------------------------------------------------------
+| Planètes
+|--------------------------------------------------------------------------
+*/
+
 function getPlanet(
-  planets: SignaturePlanet[],
+  planets:
+    SignaturePlanet[],
   planetName: string
 ): SignaturePlanet | null {
   return (
-    planets.find((planet) => {
-      return (
-        typeof planet?.name === "string" &&
+    planets.find(
+      (planet) =>
+        typeof planet?.name ===
+          "string" &&
         planet.name.toLowerCase() ===
           planetName.toLowerCase()
-      );
-    }) || null
+    ) || null
   );
 }
 
 function getPlanetSign(
-  planet: SignaturePlanet | null
+  planet:
+    | SignaturePlanet
+    | null,
+  locale: SignatureLocale
 ): string {
   if (!planet) {
-    return "";
+    return MISSING_VALUE[
+      locale
+    ];
   }
 
-  return translateSign(
+  if (
+    typeof planet.sign ===
+      "string" &&
     planet.sign
-  ) === "Non précisé"
-    ? ""
-    : translateSign(planet.sign);
+      .trim()
+      .length >
+      0
+  ) {
+    return getLocalizedSign(
+      planet.sign,
+      locale
+    );
+  }
+
+  if (
+    typeof planet.longitude ===
+      "number" &&
+    Number.isFinite(
+      planet.longitude
+    )
+  ) {
+    return getSignFromLongitude(
+      planet.longitude,
+      locale
+    );
+  }
+
+  return MISSING_VALUE[
+    locale
+  ];
 }
+
+/*
+|--------------------------------------------------------------------------
+| Ascendant
+|--------------------------------------------------------------------------
+*/
 
 function asRecord(
   value: unknown
-): Record<string, unknown> | null {
+): Record<
+  string,
+  unknown
+> | null {
   if (
     !value ||
-    typeof value !== "object" ||
-    Array.isArray(value)
+    typeof value !==
+      "object" ||
+    Array.isArray(
+      value
+    )
   ) {
     return null;
   }
@@ -505,37 +845,69 @@ function asRecord(
 }
 
 function extractSignFromValue(
-  value: unknown
+  value: unknown,
+  locale: SignatureLocale
 ): string {
   if (
-    typeof value === "number" &&
-    Number.isFinite(value)
+    typeof value ===
+      "number" &&
+    Number.isFinite(
+      value
+    )
   ) {
     return getSignFromLongitude(
-      value
+      value,
+      locale
     );
   }
 
-  if (typeof value === "string") {
-    const numericValue =
-      Number(value);
+  if (
+    typeof value ===
+    "string"
+  ) {
+    const cleanValue =
+      value.trim();
 
     if (
-      value.trim().length > 0 &&
-      Number.isFinite(numericValue)
+      cleanValue.length ===
+      0
+    ) {
+      return MISSING_VALUE[
+        locale
+      ];
+    }
+
+    const numericValue =
+      Number(
+        cleanValue
+      );
+
+    if (
+      Number.isFinite(
+        numericValue
+      )
     ) {
       return getSignFromLongitude(
-        numericValue
+        numericValue,
+        locale
       );
     }
 
-    return translateSign(value);
+    return getLocalizedSign(
+      cleanValue,
+      locale
+    );
   }
 
-  const record = asRecord(value);
+  const record =
+    asRecord(
+      value
+    );
 
   if (!record) {
-    return "Non précisé";
+    return MISSING_VALUE[
+      locale
+    ];
   }
 
   const signKeys = [
@@ -545,16 +917,23 @@ function extractSignFromValue(
     "name",
   ];
 
-  for (const key of signKeys) {
+  for (
+    const key of signKeys
+  ) {
     const possibleValue =
       record[key];
 
     if (
-      typeof possibleValue === "string" &&
-      possibleValue.trim().length > 0
+      typeof possibleValue ===
+        "string" &&
+      possibleValue
+        .trim()
+        .length >
+        0
     ) {
-      return translateSign(
-        possibleValue
+      return getLocalizedSign(
+        possibleValue,
+        locale
       );
     }
   }
@@ -566,46 +945,72 @@ function extractSignFromValue(
     "value",
   ];
 
-  for (const key of longitudeKeys) {
+  for (
+    const key of
+    longitudeKeys
+  ) {
     const possibleValue =
       record[key];
 
     if (
-      typeof possibleValue === "number" &&
-      Number.isFinite(possibleValue)
+      typeof possibleValue ===
+        "number" &&
+      Number.isFinite(
+        possibleValue
+      )
     ) {
       return getSignFromLongitude(
-        possibleValue
+        possibleValue,
+        locale
       );
     }
 
     if (
-      typeof possibleValue === "string"
+      typeof possibleValue ===
+      "string"
     ) {
+      const cleanValue =
+        possibleValue.trim();
+
       const numericValue =
-        Number(possibleValue);
+        Number(
+          cleanValue
+        );
 
       if (
-        possibleValue.trim().length > 0 &&
-        Number.isFinite(numericValue)
+        cleanValue.length >
+          0 &&
+        Number.isFinite(
+          numericValue
+        )
       ) {
         return getSignFromLongitude(
-          numericValue
+          numericValue,
+          locale
         );
       }
     }
   }
 
-  return "Non précisé";
+  return MISSING_VALUE[
+    locale
+  ];
 }
 
 function getAscendantSign(
-  angles: SignatureAngles
+  angles:
+    SignatureAngles,
+  locale: SignatureLocale
 ): string {
-  const record = asRecord(angles);
+  const record =
+    asRecord(
+      angles
+    );
 
   if (!record) {
-    return "Non précisé";
+    return MISSING_VALUE[
+      locale
+    ];
   }
 
   const directSignKeys = [
@@ -615,15 +1020,24 @@ function getAscendantSign(
     "rising_sign",
   ];
 
-  for (const key of directSignKeys) {
-    const value = record[key];
+  for (
+    const key of
+    directSignKeys
+  ) {
+    const value =
+      record[key];
 
     if (
-      typeof value === "string" &&
-      value.trim().length > 0
+      typeof value ===
+        "string" &&
+      value
+        .trim()
+        .length >
+        0
     ) {
-      return translateSign(
-        value
+      return getLocalizedSign(
+        value,
+        locale
       );
     }
   }
@@ -636,57 +1050,93 @@ function getAscendantSign(
     "rising",
   ];
 
-  for (const key of ascendantKeys) {
-    const translated =
+  for (
+    const key of
+    ascendantKeys
+  ) {
+    const sign =
       extractSignFromValue(
-        record[key]
+        record[key],
+        locale
       );
 
     if (
-      translated !== "Non précisé"
+      sign !==
+      MISSING_VALUE[
+        locale
+      ]
     ) {
-      return translated;
+      return sign;
     }
   }
 
-  return "Non précisé";
+  return MISSING_VALUE[
+    locale
+  ];
 }
+
+/*
+|--------------------------------------------------------------------------
+| Page Summary
+|--------------------------------------------------------------------------
+*/
 
 export default function PdfSignatureSummary({
   planets,
   angles,
+  locale = "fr",
 }: SignaturePdfSummaryProps) {
+  const t =
+    getDictionary(
+      locale
+    );
+
   const safePlanets =
-    Array.isArray(planets)
+    Array.isArray(
+      planets
+    )
       ? planets
       : [];
 
-  const safeAngles =
+  const safeAngles:
+    SignatureAngles =
     angles &&
-    typeof angles === "object" &&
-    !Array.isArray(angles)
+    typeof angles ===
+      "object" &&
+    !Array.isArray(
+      angles
+    )
       ? angles
       : {};
 
-  const sun = getPlanet(
-    safePlanets,
-    "Sun"
-  );
+  const sun =
+    getPlanet(
+      safePlanets,
+      "Sun"
+    );
 
-  const moon = getPlanet(
-    safePlanets,
-    "Moon"
-  );
+  const moon =
+    getPlanet(
+      safePlanets,
+      "Moon"
+    );
 
   const sunSign =
-    getPlanetSign(sun);
+    getPlanetSign(
+      sun,
+      locale
+    );
 
   const moonSign =
-    getPlanetSign(moon);
+    getPlanetSign(
+      moon,
+      locale
+    );
 
   const ascendantSign =
     getAscendantSign(
-      safeAngles
+      safeAngles,
+      locale
     );
 
   const sunIcon =
@@ -694,6 +1144,21 @@ export default function PdfSignatureSummary({
 
   const moonIcon =
     PLANET_ICONS.Moon;
+
+  const synthesisTitle =
+    `${text(
+      t,
+      "soleil_en",
+      "Soleil en"
+    )} ${sunSign}${text(
+      t,
+      "lune_en",
+      ", Lune en"
+    )} ${moonSign} ${text(
+      t,
+      "et_ascendant",
+      "et Ascendant"
+    )} ${ascendantSign}`;
 
   return (
     <Page
@@ -705,50 +1170,89 @@ export default function PdfSignatureSummary({
 
       <View style={styles.header}>
         <View
-          style={styles.premiumBadge}
+          style={
+            styles.premiumBadge
+          }
         >
           <Text
             style={
               styles.premiumBadgeText
             }
           >
-            Synthèse Premium
+            {text(
+              t,
+              "synthese_premium",
+              "Synthèse Premium"
+            )}
           </Text>
         </View>
 
-        <Text style={styles.kicker}>
-          Portrait astrologique
+        <Text
+          style={
+            styles.kicker
+          }
+        >
+          {text(
+            t,
+            "portrait_astrologique",
+            "Portrait astrologique"
+          )}
         </Text>
 
-        <Text style={styles.title}>
-          Vos trois grands piliers
+        <Text
+          style={
+            styles.title
+          }
+        >
+          {text(
+            t,
+            "vos_trois_grands_piliers",
+            "Vos trois grands piliers"
+          )}
         </Text>
 
-        <View style={styles.divider}>
+        <View
+          style={
+            styles.divider
+          }
+        >
           <View
-            style={styles.dividerLine}
+            style={
+              styles.dividerLine
+            }
           />
 
           <Image
             src={sunIcon}
-            style={styles.dividerIcon}
+            style={
+              styles.dividerIcon
+            }
           />
 
           <View
-            style={styles.dividerLine}
+            style={
+              styles.dividerLine
+            }
           />
         </View>
 
-        <Text style={styles.lead}>
-          Le Soleil, la Lune et l’Ascendant forment le noyau
-          central de votre personnalité. Leur interaction révèle
-          votre identité consciente, vos besoins émotionnels et
-          votre manière spontanée d’entrer en relation avec le
-          monde.
+        <Text
+          style={
+            styles.lead
+          }
+        >
+          {text(
+            t,
+            "le_soleil_la_lune_et_l_ascendant_forment_le_noyau_central_de"
+          )}
         </Text>
       </View>
 
-      <View style={styles.cardsRow}>
+      <View
+        style={
+          styles.cardsRow
+        }
+      >
         <View
           style={[
             styles.card,
@@ -756,38 +1260,60 @@ export default function PdfSignatureSummary({
           ]}
         >
           <View
-            style={styles.cardAccent}
+            style={
+              styles.cardAccent
+            }
           />
 
           <View
-            style={styles.iconCircle}
+            style={
+              styles.iconCircle
+            }
           >
             <Image
               src={sunIcon}
-              style={styles.icon}
+              style={
+                styles.icon
+              }
             />
           </View>
 
           <Text
-            style={styles.cardLabel}
+            style={
+              styles.cardLabel
+            }
           >
-            Votre Soleil
+            {text(
+              t,
+              "votre_soleil",
+              "Votre Soleil"
+            )}
           </Text>
 
           <Text
-            style={styles.cardValue}
+            style={
+              styles.cardValue
+            }
           >
             {sunSign}
           </Text>
 
           <View
-            style={styles.cardDivider}
+            style={
+              styles.cardDivider
+            }
           />
 
           <Text
-            style={styles.cardMeaning}
+            style={
+              styles.cardMeaning
+            }
           >
-            Votre identité profonde
+            {text(
+              t,
+              "votre_identite_profonde",
+              "Votre identité profonde"
+            )}
           </Text>
 
           <Text
@@ -795,10 +1321,10 @@ export default function PdfSignatureSummary({
               styles.cardDescription
             }
           >
-            Le Soleil représente votre centre, votre volonté,
-            votre direction intérieure et les qualités que vous
-            cherchez progressivement à exprimer avec davantage
-            de confiance.
+            {text(
+              t,
+              "le_soleil_represente_votre_centre_votre_volonte_votre_direct"
+            )}
           </Text>
         </View>
 
@@ -809,38 +1335,60 @@ export default function PdfSignatureSummary({
           ]}
         >
           <View
-            style={styles.cardAccent}
+            style={
+              styles.cardAccent
+            }
           />
 
           <View
-            style={styles.iconCircle}
+            style={
+              styles.iconCircle
+            }
           >
             <Image
               src={moonIcon}
-              style={styles.icon}
+              style={
+                styles.icon
+              }
             />
           </View>
 
           <Text
-            style={styles.cardLabel}
+            style={
+              styles.cardLabel
+            }
           >
-            Votre Lune
+            {text(
+              t,
+              "votre_lune",
+              "Votre Lune"
+            )}
           </Text>
 
           <Text
-            style={styles.cardValue}
+            style={
+              styles.cardValue
+            }
           >
             {moonSign}
           </Text>
 
           <View
-            style={styles.cardDivider}
+            style={
+              styles.cardDivider
+            }
           />
 
           <Text
-            style={styles.cardMeaning}
+            style={
+              styles.cardMeaning
+            }
           >
-            Votre monde émotionnel
+            {text(
+              t,
+              "votre_monde_emotionnel",
+              "Votre monde émotionnel"
+            )}
           </Text>
 
           <Text
@@ -848,47 +1396,75 @@ export default function PdfSignatureSummary({
               styles.cardDescription
             }
           >
-            La Lune révèle votre sensibilité, vos réactions
-            instinctives, vos besoins affectifs et les conditions
-            qui vous permettent de retrouver un sentiment de
-            sécurité intérieure.
+            {text(
+              t,
+              "la_lune_revele_votre_sensibilite_vos_reactions_instinctives"
+            )}
           </Text>
         </View>
 
-        <View style={styles.card}>
+        <View
+          style={
+            styles.card
+          }
+        >
           <View
-            style={styles.cardAccent}
+            style={
+              styles.cardAccent
+            }
           />
 
           <View
-            style={styles.iconCircle}
+            style={
+              styles.iconCircle
+            }
           >
             <Image
-              src={ASCENDANT_ICON}
-              style={styles.icon}
+              src={
+                ASCENDANT_ICON
+              }
+              style={
+                styles.icon
+              }
             />
           </View>
 
           <Text
-            style={styles.cardLabel}
+            style={
+              styles.cardLabel
+            }
           >
-            Votre Ascendant
+            {text(
+              t,
+              "votre_ascendant",
+              "Votre Ascendant"
+            )}
           </Text>
 
           <Text
-            style={styles.cardValue}
+            style={
+              styles.cardValue
+            }
           >
             {ascendantSign}
           </Text>
 
           <View
-            style={styles.cardDivider}
+            style={
+              styles.cardDivider
+            }
           />
 
           <Text
-            style={styles.cardMeaning}
+            style={
+              styles.cardMeaning
+            }
           >
-            Votre présence spontanée
+            {text(
+              t,
+              "votre_presence_spontanee",
+              "Votre présence spontanée"
+            )}
           </Text>
 
           <Text
@@ -896,15 +1472,19 @@ export default function PdfSignatureSummary({
               styles.cardDescription
             }
           >
-            L’Ascendant décrit votre première impulsion face à
-            l’existence, votre manière de commencer les choses
-            et l’énergie que les autres perçoivent souvent dès
-            les premiers contacts.
+            {text(
+              t,
+              "l_ascendant_decrit_votre_premiere_impulsion_face_a_l_existen"
+            )}
           </Text>
         </View>
       </View>
 
-      <View style={styles.synthesis}>
+      <View
+        style={
+          styles.synthesis
+        }
+      >
         <View
           style={
             styles.synthesisAccentTop
@@ -923,7 +1503,9 @@ export default function PdfSignatureSummary({
           }
         >
           <Image
-            src={ASCENDANT_ICON}
+            src={
+              ASCENDANT_ICON
+            }
             style={
               styles.synthesisIcon
             }
@@ -931,7 +1513,9 @@ export default function PdfSignatureSummary({
         </View>
 
         <Image
-          src={ASCENDANT_ICON}
+          src={
+            ASCENDANT_ICON
+          }
           style={
             styles.synthesisWatermark
           }
@@ -947,7 +1531,11 @@ export default function PdfSignatureSummary({
               styles.synthesisKicker
             }
           >
-            La rencontre de vos trois énergies
+            {text(
+              t,
+              "la_rencontre_de_vos_trois_energies",
+              "La rencontre de vos trois énergies"
+            )}
           </Text>
 
           <Text
@@ -955,19 +1543,18 @@ export default function PdfSignatureSummary({
               styles.synthesisTitle
             }
           >
-            Soleil en {sunSign}, Lune en {moonSign} et
-            Ascendant {ascendantSign}
+            {synthesisTitle}
           </Text>
 
           <Text
-            style={styles.synthesisText}
+            style={
+              styles.synthesisText
+            }
           >
-            Votre Soleil représente la personne que vous cherchez
-            consciemment à devenir. Votre Lune révèle ce dont
-            vous avez besoin pour vous sentir émotionnellement
-            nourri et protégé. Votre Ascendant décrit votre façon
-            instinctive d’aborder la vie et d’ouvrir chaque
-            nouvelle expérience.
+            {text(
+              t,
+              "votre_soleil_represente_la_personne_que_vous_cherchez_consci"
+            )}
           </Text>
 
           <Text
@@ -975,18 +1562,19 @@ export default function PdfSignatureSummary({
               styles.synthesisTextLast
             }
           >
-            L’équilibre entre ces trois dimensions constitue la
-            signature centrale de votre personnalité. Certaines
-            énergies peuvent se soutenir naturellement, tandis
-            que d’autres expriment des besoins différents. Ces
-            contrastes ne sont pas des défauts : ils révèlent la
-            richesse, la profondeur et le potentiel d’évolution
-            de votre thème natal.
+            {text(
+              t,
+              "l_equilibre_entre_ces_trois_dimensions_constitue_la_signatur"
+            )}
           </Text>
         </View>
       </View>
 
-      <View style={styles.insightRow}>
+      <View
+        style={
+          styles.insightRow
+        }
+      >
         <View
           style={[
             styles.insightBox,
@@ -1000,7 +1588,9 @@ export default function PdfSignatureSummary({
           />
 
           <View
-            style={styles.insightHeader}
+            style={
+              styles.insightHeader
+            }
           >
             <Image
               src={sunIcon}
@@ -1014,22 +1604,30 @@ export default function PdfSignatureSummary({
                 styles.insightTitle
               }
             >
-              Votre direction intérieure
+              {text(
+                t,
+                "votre_direction_interieure",
+                "Votre direction intérieure"
+              )}
             </Text>
           </View>
 
           <Text
-            style={styles.insightText}
+            style={
+              styles.insightText
+            }
           >
-            Votre Soleil indique les qualités que vous êtes
-            appelé à développer et à assumer. Plus vous exprimez
-            cette énergie consciemment, plus vous pouvez avancer
-            avec cohérence, confiance et sentiment de direction.
+            {text(
+              t,
+              "votre_soleil_indique_les_qualites_que_vous_etes_appele_a_dev"
+            )}
           </Text>
         </View>
 
         <View
-          style={styles.insightBox}
+          style={
+            styles.insightBox
+          }
         >
           <View
             style={
@@ -1038,7 +1636,9 @@ export default function PdfSignatureSummary({
           />
 
           <View
-            style={styles.insightHeader}
+            style={
+              styles.insightHeader
+            }
           >
             <Image
               src={moonIcon}
@@ -1052,36 +1652,54 @@ export default function PdfSignatureSummary({
                 styles.insightTitle
               }
             >
-              Votre clé d’équilibre
+              {text(
+                t,
+                "votre_cle_d_equilibre",
+                "Votre clé d’équilibre"
+              )}
             </Text>
           </View>
 
           <Text
-            style={styles.insightText}
+            style={
+              styles.insightText
+            }
           >
-            Reconnaître vos besoins lunaires permet à votre
-            Ascendant de s’exprimer avec plus de justesse. Lorsque
-            votre sécurité intérieure soutient votre identité,
-            votre présence devient plus naturelle et authentique.
+            {text(
+              t,
+              "reconnaitre_vos_besoins_lunaires_permet_a_votre_ascendant_de"
+            )}
           </Text>
         </View>
       </View>
 
-      <View style={styles.note}>
+      <View
+        style={
+          styles.note
+        }
+      >
         <View
-          style={styles.noteAccent}
+          style={
+            styles.noteAccent
+          }
         />
 
         <Image
           src={moonIcon}
-          style={styles.noteIcon}
+          style={
+            styles.noteIcon
+          }
         />
 
-        <Text style={styles.noteText}>
-          Les prochaines pages approfondissent vos dix principales
-          planètes. Le rapport Premium analysera ensuite les maisons,
-          les aspects et les grandes dominantes qui rendent votre
-          carte du ciel entièrement unique.
+        <Text
+          style={
+            styles.noteText
+          }
+        >
+          {text(
+            t,
+            "les_prochaines_pages_approfondissent_vos_dix_principales_pla"
+          )}
         </Text>
       </View>
 
