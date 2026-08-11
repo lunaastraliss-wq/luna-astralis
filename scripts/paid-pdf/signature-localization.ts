@@ -46,6 +46,10 @@ import {
   localizeSignatureLifePurpose,
 } from "./signature-life-purpose-localization";
 
+import {
+  localizeSignatureSoulPath,
+} from "./signature-soul-path-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -381,7 +385,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureSoulPath.tsx"
   ) {
-    return source;
+    return localizeSignatureSoulPath(
+      source,
+      locale,
+    );
   }
 
   /*
