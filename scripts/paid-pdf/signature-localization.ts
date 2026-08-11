@@ -50,6 +50,10 @@ import {
   localizeSignatureSoulPath,
 } from "./signature-soul-path-localization";
 
+import {
+  localizeSignatureInnerWorld,
+} from "./signature-inner-world-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -401,7 +405,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureInnerWorld.tsx"
   ) {
-    return source;
+    return localizeSignatureInnerWorld(
+      source,
+      locale,
+    );
   }
 
   /*
