@@ -6,6 +6,10 @@ import {
   localizePremiumFile,
 } from "./paid-pdf/premium-localization";
 
+import {
+  localizeSignatureFile,
+} from "./paid-pdf/signature-localization";
+
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2479,6 +2483,12 @@ function localizePaidPdfDisplayLiterals(
         fileName: entry.name,
       });
 
+      source = localizeSignatureFile({
+  source,
+  locale,
+  filePath: absolute,
+  fileName: entry.name,
+});
       /*
        * PremiumPdf — noms visibles des planètes et des signes.
        * Cette correction reste limitée à PlanetConstants.ts et PlanetUtils.ts
