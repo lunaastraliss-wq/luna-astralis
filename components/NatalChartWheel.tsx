@@ -688,7 +688,7 @@ export default function NatalChartWheel({
               fill="#f4c95d"
               fontWeight={900}
             >
-              AC
+              ASC
             </text>
             <text
               x={ascendantPoint.x}
@@ -714,7 +714,7 @@ export default function NatalChartWheel({
               fill="#f4c95d"
               fontWeight={900}
             >
-              DC
+              DSC
             </text>
             <text
               x={descendantPoint.x}
@@ -790,7 +790,7 @@ export default function NatalChartWheel({
                     fill="#f4c95d"
                     fontWeight={900}
                   >
-                    FC
+                    IC
                   </text>
                   <text
                     x={fcPoint.x}
