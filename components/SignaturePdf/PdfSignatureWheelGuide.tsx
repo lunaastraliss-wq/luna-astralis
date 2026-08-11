@@ -282,7 +282,19 @@ function GuideCard({
   );
 }
 
-export default function PdfSignatureWheelGuide() {
+type PdfSignatureWheelGuideProps = {
+  locale:
+    | "fr"
+    | "en"
+    | "es"
+    | "de"
+    | "it"
+    | "pt";
+};
+
+export default function PdfSignatureWheelGuide({
+  locale: _locale,
+}: PdfSignatureWheelGuideProps) {
   return (
     <Page
       size="A4"
