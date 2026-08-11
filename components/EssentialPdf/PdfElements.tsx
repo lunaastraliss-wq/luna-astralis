@@ -7,7 +7,6 @@ import {
 } from "@react-pdf/renderer";
 
 import {
-  ELEMENT_TEXT,
   SIGN_ELEMENT,
 } from "@/lib/astrology";
 
@@ -17,7 +16,11 @@ import {
 } from "./EssentialPdfAssets";
 
 import { pdfStyles } from "./EssentialPdfStyles";
-import type { PlanetsProps } from "./EssentialPdfTypes";
+
+import type {
+  PdfLocale,
+  PlanetsProps,
+} from "./EssentialPdfTypes";
 
 import {
   getPlanet,
@@ -28,50 +31,234 @@ import {
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
 
-const ELEMENTS = ["Feu", "Terre", "Air", "Eau"];
+/*
+|--------------------------------------------------------------------------
+| i18n — PdfElements
+|--------------------------------------------------------------------------
+*/
 
-const ELEMENT_WORDS: Record<string, string> = {
-  Feu: "Action • Courage • Inspiration",
-  Terre: "Stabilité • Réalisme • Construction",
-  Air: "Communication • Curiosité • Idées",
-  Eau: "Émotions • Intuition • Sensibilité",
-};
+import pdfElementsFr from "../../i18n/migrated/fr/components/essentialpdf/pdfelements.json";
+import pdfElementsEn from "../../i18n/migrated/en/components/essentialpdf/pdfelements.json";
+import pdfElementsEs from "../../i18n/migrated/es/components/essentialpdf/pdfelements.json";
+import pdfElementsDe from "../../i18n/migrated/de/components/essentialpdf/pdfelements.json";
+import pdfElementsIt from "../../i18n/migrated/it/components/essentialpdf/pdfelements.json";
+import pdfElementsPt from "../../i18n/migrated/pt/components/essentialpdf/pdfelements.json";
 
-const ELEMENT_INSIGHTS: Record<
-  string,
-  {
-    strength: string;
-    balance: string;
-  }
+/*
+|--------------------------------------------------------------------------
+| i18n — EssentialPdfUtils
+|--------------------------------------------------------------------------
+|
+| Ces dictionnaires contiennent déjà les textes de dominante
+| Feu / Terre / Air / Eau.
+|
+*/
+
+import utilsFr from "../../i18n/migrated/fr/components/essentialpdf/essentialpdfutils.json";
+import utilsEn from "../../i18n/migrated/en/components/essentialpdf/essentialpdfutils.json";
+import utilsEs from "../../i18n/migrated/es/components/essentialpdf/essentialpdfutils.json";
+import utilsDe from "../../i18n/migrated/de/components/essentialpdf/essentialpdfutils.json";
+import utilsIt from "../../i18n/migrated/it/components/essentialpdf/essentialpdfutils.json";
+import utilsPt from "../../i18n/migrated/pt/components/essentialpdf/essentialpdfutils.json";
+
+type Dictionary =
+  Record<string, string>;
+
+const PDF_ELEMENTS_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
 > = {
-  Feu: {
-    strength:
-      "Votre force réside dans votre capacité à initier, à agir et à avancer avec courage. Votre énergie se nourrit du mouvement, de l’enthousiasme et du désir de créer.",
-    balance:
-      "Prenez le temps de ralentir, d’écouter et de consolider vos projets. La patience permet à votre inspiration de produire des résultats durables.",
+  fr: pdfElementsFr,
+  en: pdfElementsEn,
+  es: pdfElementsEs,
+  de: pdfElementsDe,
+  it: pdfElementsIt,
+  pt: pdfElementsPt,
+};
+
+const UTILS_BY_LOCALE: Record<
+  PdfLocale,
+  Dictionary
+> = {
+  fr: utilsFr,
+  en: utilsEn,
+  es: utilsEs,
+  de: utilsDe,
+  it: utilsIt,
+  pt: utilsPt,
+};
+
+/*
+|--------------------------------------------------------------------------
+| Éléments
+|--------------------------------------------------------------------------
+|
+| IMPORTANT :
+| Ces clés restent en français parce que SIGN_ELEMENT utilise
+| déjà Feu / Terre / Air / Eau.
+|
+*/
+
+const ELEMENTS = [
+  "Feu",
+  "Terre",
+  "Air",
+  "Eau",
+] as const;
+
+type ElementKey =
+  (typeof ELEMENTS)[number];
+
+/*
+|--------------------------------------------------------------------------
+| Noms affichés selon la langue
+|--------------------------------------------------------------------------
+*/
+
+const ELEMENT_LABELS: Record<
+  PdfLocale,
+  Record<ElementKey, string>
+> = {
+  fr: {
+    Feu: "Feu",
+    Terre: "Terre",
+    Air: "Air",
+    Eau: "Eau",
   },
 
-  Terre: {
-    strength:
-      "Votre force réside dans votre stabilité, votre sens pratique et votre capacité à transformer une idée en réalité concrète.",
-    balance:
-      "Laissez davantage de place à la spontanéité, à l’intuition et au changement. Tout ne doit pas être parfaitement contrôlé avant d’avancer.",
+  en: {
+    Feu: "Fire",
+    Terre: "Earth",
+    Air: "Air",
+    Eau: "Water",
   },
 
-  Air: {
-    strength:
-      "Votre force réside dans votre curiosité, votre intelligence relationnelle et votre capacité à comprendre plusieurs points de vue.",
-    balance:
-      "Revenez régulièrement à vos émotions et à vos sensations. Une idée devient plus puissante lorsqu’elle est aussi ressentie et incarnée.",
+  es: {
+    Feu: "Fuego",
+    Terre: "Tierra",
+    Air: "Aire",
+    Eau: "Agua",
   },
 
-  Eau: {
-    strength:
-      "Votre force réside dans votre intuition, votre profondeur émotionnelle et votre capacité à percevoir ce qui n’est pas toujours exprimé.",
-    balance:
-      "Protégez votre sensibilité sans vous isoler. Des limites claires vous permettent de rester disponible aux autres sans absorber leurs émotions.",
+  de: {
+    Feu: "Feuer",
+    Terre: "Erde",
+    Air: "Luft",
+    Eau: "Wasser",
+  },
+
+  it: {
+    Feu: "Fuoco",
+    Terre: "Terra",
+    Air: "Aria",
+    Eau: "Acqua",
+  },
+
+  pt: {
+    Feu: "Fogo",
+    Terre: "Terra",
+    Air: "Ar",
+    Eau: "Água",
   },
 };
+
+/*
+|--------------------------------------------------------------------------
+| Clés i18n — mots-clés
+|--------------------------------------------------------------------------
+*/
+
+const ELEMENT_WORD_KEYS: Record<
+  ElementKey,
+  string
+> = {
+  Feu:
+    "action_courage_inspiration",
+
+  Terre:
+    "stabilite_realisme_construction",
+
+  Air:
+    "communication_curiosite_idees",
+
+  Eau:
+    "emotions_intuition_sensibilite",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Clés i18n — forces
+|--------------------------------------------------------------------------
+*/
+
+const ELEMENT_STRENGTH_KEYS: Record<
+  ElementKey,
+  string
+> = {
+  Feu:
+    "votre_force_reside_dans_votre_capacite_a_initier_a_agir_et_a",
+
+  Terre:
+    "votre_force_reside_dans_votre_stabilite_votre_sens_pratique",
+
+  Air:
+    "votre_force_reside_dans_votre_curiosite_votre_intelligence_r",
+
+  Eau:
+    "votre_force_reside_dans_votre_intuition_votre_profondeur_emo",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Clés i18n — équilibre
+|--------------------------------------------------------------------------
+*/
+
+const ELEMENT_BALANCE_KEYS: Record<
+  ElementKey,
+  string
+> = {
+  Feu:
+    "prenez_le_temps_de_ralentir_d_ecouter_et_de_consolider_vos_p",
+
+  Terre:
+    "laissez_davantage_de_place_a_la_spontaneite_a_l_intuition_et",
+
+  Air:
+    "revenez_regulierement_a_vos_emotions_et_a_vos_sensations_une",
+
+  Eau:
+    "protegez_votre_sensibilite_sans_vous_isoler_des_limites_clai",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Clés i18n — texte de dominante
+|--------------------------------------------------------------------------
+*/
+
+const ELEMENT_SUMMARY_KEYS: Record<
+  ElementKey,
+  string
+> = {
+  Feu:
+    "votre_dominante_de_feu_vous_pousse_a_agir_avec_passion_spont",
+
+  Terre:
+    "votre_dominante_de_terre_vous_donne_un_grand_sens_pratique_d",
+
+  Air:
+    "votre_dominante_d_air_favorise_la_reflexion_les_echanges_et",
+
+  Eau:
+    "votre_dominante_d_eau_vous_rend_particulierement_intuitive_r",
+};
+
+/*
+|--------------------------------------------------------------------------
+| Styles
+|--------------------------------------------------------------------------
+*/
 
 const styles = StyleSheet.create({
   header: {
@@ -329,7 +516,15 @@ const styles = StyleSheet.create({
   },
 });
 
-function getElementIcon(element: string) {
+/*
+|--------------------------------------------------------------------------
+| Icône d’un élément
+|--------------------------------------------------------------------------
+*/
+
+function getElementIcon(
+  element: string
+) {
   switch (element) {
     case "Feu":
       return PLANET_ICONS.Sun;
@@ -348,70 +543,209 @@ function getElementIcon(element: string) {
   }
 }
 
+/*
+|--------------------------------------------------------------------------
+| Nombre de planètes
+|--------------------------------------------------------------------------
+*/
+
+function getPlanetCountLabel(
+  value: number,
+  locale: PdfLocale
+): string {
+  if (locale === "en") {
+    return value === 1
+      ? "1 planet"
+      : `${value} planets`;
+  }
+
+  if (locale === "es") {
+    return value === 1
+      ? "1 planeta"
+      : `${value} planetas`;
+  }
+
+  if (locale === "de") {
+    return value === 1
+      ? "1 Planet"
+      : `${value} Planeten`;
+  }
+
+  if (locale === "it") {
+    return value === 1
+      ? "1 pianeta"
+      : `${value} pianeti`;
+  }
+
+  if (locale === "pt") {
+    return value === 1
+      ? "1 planeta"
+      : `${value} planetas`;
+  }
+
+  return value === 1
+    ? "1 planète"
+    : `${value} planètes`;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Valeur non déterminée
+|--------------------------------------------------------------------------
+*/
+
+function getUndeterminedLabel(
+  locale: PdfLocale
+): string {
+  switch (locale) {
+    case "en":
+      return "Undetermined";
+
+    case "es":
+      return "No determinado";
+
+    case "de":
+      return "Nicht bestimmt";
+
+    case "it":
+      return "Non determinato";
+
+    case "pt":
+      return "Não determinado";
+
+    default:
+      return "Non déterminée";
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| PdfElements
+|--------------------------------------------------------------------------
+*/
+
 export default function PdfElements({
   planets,
+  locale = "fr",
 }: PlanetsProps) {
-  const safePlanets = Array.isArray(planets)
-    ? planets
-    : [];
+  const safeLocale: PdfLocale =
+    locale || "fr";
 
-  const counts: Record<string, number> = {
+  const t =
+    PDF_ELEMENTS_BY_LOCALE[
+      safeLocale
+    ] ||
+    PDF_ELEMENTS_BY_LOCALE.fr;
+
+  const utils =
+    UTILS_BY_LOCALE[
+      safeLocale
+    ] ||
+    UTILS_BY_LOCALE.fr;
+
+  const safePlanets =
+    Array.isArray(planets)
+      ? planets
+      : [];
+
+  const counts: Record<
+    ElementKey,
+    number
+  > = {
     Feu: 0,
     Terre: 0,
     Air: 0,
     Eau: 0,
   };
 
-  MAIN_PLANETS.forEach((planetName) => {
-    const planet = getPlanet(
-      safePlanets,
-      planetName
-    );
+  MAIN_PLANETS.forEach(
+    (planetName) => {
+      const planet =
+        getPlanet(
+          safePlanets,
+          planetName
+        );
 
-    const signName =
-      getPlanetSignName(planet);
+      const signName =
+        getPlanetSignName(
+          planet
+        );
 
-    if (!signName) {
-      return;
+      if (!signName) {
+        return;
+      }
+
+      const element =
+        SIGN_ELEMENT[
+          signName
+        ] as ElementKey | undefined;
+
+      if (
+        element &&
+        counts[element] !== undefined
+      ) {
+        counts[element] += 1;
+      }
     }
-
-    const element =
-      SIGN_ELEMENT[signName];
-
-    if (
-      element &&
-      counts[element] !== undefined
-    ) {
-      counts[element] += 1;
-    }
-  });
+  );
 
   const dominantElement =
-    Object.entries(counts).sort(
-      (a, b) => b[1] - a[1]
-    )[0]?.[0] || "";
+    (
+      Object.entries(
+        counts
+      ) as [
+        ElementKey,
+        number
+      ][]
+    ).sort(
+      (a, b) =>
+        b[1] - a[1]
+    )[0]?.[0];
 
   const hasDominantElement =
     Boolean(
       dominantElement &&
-        counts[dominantElement] > 0
+      counts[
+        dominantElement
+      ] > 0
+    );
+
+  const dominantIcon =
+    getElementIcon(
+      dominantElement || ""
     );
 
   const dominantText =
-    hasDominantElement
-      ? ELEMENT_TEXT[dominantElement]
-      : "Aucun élément dominant n’a pu être déterminé avec les données disponibles.";
+    hasDominantElement &&
+    dominantElement
+      ? utils[
+          ELEMENT_SUMMARY_KEYS[
+            dominantElement
+          ]
+        ] || ""
+      : "";
 
-  const dominantIcon =
-    getElementIcon(dominantElement);
+  const strengthText =
+    hasDominantElement &&
+    dominantElement
+      ? t[
+          ELEMENT_STRENGTH_KEYS[
+            dominantElement
+          ]
+        ] || ""
+      : t.votre_theme_reunit_plusieurs_formes_d_energie_qui_peuvent_se ||
+        "";
 
-  const insights =
-    ELEMENT_INSIGHTS[dominantElement] || {
-      strength:
-        "Votre thème réunit plusieurs formes d’énergie qui peuvent se compléter selon les situations.",
-      balance:
-        "Observez les qualités que vous utilisez spontanément et celles que vous développez avec davantage d’effort.",
-    };
+  const balanceText =
+    hasDominantElement &&
+    dominantElement
+      ? t[
+          ELEMENT_BALANCE_KEYS[
+            dominantElement
+          ]
+        ] || ""
+      : t.observez_les_qualites_que_vous_utilisez_spontanement_et_cell ||
+        "";
 
   return (
     <Page
@@ -422,116 +756,191 @@ export default function PdfElements({
       <PdfBrandHeader />
 
       <View style={styles.header}>
-        <Text style={styles.headerKicker}>
-          Équilibre du thème
+        <Text
+          style={styles.headerKicker}
+        >
+          {t.equilibre_du_theme}
         </Text>
 
-        <Text style={styles.headerTitle}>
-          Les quatre éléments
+        <Text
+          style={styles.headerTitle}
+        >
+          {t.les_quatre_elements}
         </Text>
 
         <View style={styles.divider}>
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
 
           <Image
             src={PLANET_ICONS.Sun}
             style={styles.dividerIcon}
           />
 
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
         </View>
 
-        <Text style={styles.headerLead}>
-          Les éléments montrent comment votre énergie circule
-          naturellement et quelles qualités dominent votre
-          personnalité.
+        <Text
+          style={styles.headerLead}
+        >
+          {
+            t.les_elements_montrent_comment_votre_energie_circule_naturell
+          }
         </Text>
       </View>
 
       <View style={styles.grid}>
-        {ELEMENTS.map((element, index) => {
-          const value = counts[element];
+        {ELEMENTS.map(
+          (
+            element,
+            index
+          ) => {
+            const value =
+              counts[element];
 
-          const elementIcon =
-            getElementIcon(element);
+            const elementIcon =
+              getElementIcon(
+                element
+              );
 
-          const cardStyle =
-            index < ELEMENTS.length - 1
-              ? [
-                  styles.card,
-                  styles.cardSpacing,
-                ]
-              : styles.card;
+            const cardStyle =
+              index <
+              ELEMENTS.length - 1
+                ? [
+                    styles.card,
+                    styles.cardSpacing,
+                  ]
+                : styles.card;
 
-          return (
-            <View
-              key={element}
-              wrap={false}
-              style={cardStyle}
-            >
-              <View style={styles.iconCircle}>
-                <Image
-                  src={elementIcon}
-                  style={styles.elementIcon}
-                />
+            return (
+              <View
+                key={element}
+                wrap={false}
+                style={cardStyle}
+              >
+                <View
+                  style={
+                    styles.iconCircle
+                  }
+                >
+                  <Image
+                    src={elementIcon}
+                    style={
+                      styles.elementIcon
+                    }
+                  />
+                </View>
+
+                <Text
+                  style={styles.name}
+                >
+                  {
+                    ELEMENT_LABELS[
+                      safeLocale
+                    ][element]
+                  }
+                </Text>
+
+                <Text
+                  style={styles.value}
+                >
+                  {value}
+                </Text>
+
+                <Text
+                  style={styles.count}
+                >
+                  {getPlanetCountLabel(
+                    value,
+                    safeLocale
+                  )}
+                </Text>
+
+                <Text
+                  style={styles.words}
+                >
+                  {
+                    t[
+                      ELEMENT_WORD_KEYS[
+                        element
+                      ]
+                    ]
+                  }
+                </Text>
               </View>
-
-              <Text style={styles.name}>
-                {element}
-              </Text>
-
-              <Text style={styles.value}>
-                {value}
-              </Text>
-
-              <Text style={styles.count}>
-                {value === 1
-                  ? "1 planète"
-                  : `${value} planètes`}
-              </Text>
-
-              <Text style={styles.words}>
-                {ELEMENT_WORDS[element]}
-              </Text>
-            </View>
-          );
-        })}
+            );
+          }
+        )}
       </View>
 
       <View
         style={styles.dominantBox}
         wrap={false}
       >
-        <View style={styles.dominantBadge}>
+        <View
+          style={styles.dominantBadge}
+        >
           <Image
             src={dominantIcon}
-            style={styles.dominantIcon}
+            style={
+              styles.dominantIcon
+            }
           />
         </View>
 
         <Image
           src={dominantIcon}
-          style={styles.dominantWatermark}
+          style={
+            styles.dominantWatermark
+          }
         />
 
-        <View style={styles.dominantContent}>
-          <Text style={styles.kicker}>
-            Votre énergie dominante
+        <View
+          style={
+            styles.dominantContent
+          }
+        >
+          <Text
+            style={styles.kicker}
+          >
+            {
+              t.votre_energie_dominante
+            }
           </Text>
 
-          <Text style={styles.dominantTitle}>
-            {hasDominantElement
-              ? dominantElement
-              : "Non déterminée"}
+          <Text
+            style={
+              styles.dominantTitle
+            }
+          >
+            {hasDominantElement &&
+            dominantElement
+              ? ELEMENT_LABELS[
+                  safeLocale
+                ][
+                  dominantElement
+                ]
+              : getUndeterminedLabel(
+                  safeLocale
+                )}
           </Text>
 
-          <Text style={styles.dominantText}>
+          <Text
+            style={
+              styles.dominantText
+            }
+          >
             {dominantText}
           </Text>
         </View>
       </View>
 
-      <View style={styles.insightRow}>
+      <View
+        style={styles.insightRow}
+      >
         <View
           style={[
             styles.insightBox,
@@ -539,19 +948,35 @@ export default function PdfElements({
           ]}
           wrap={false}
         >
-          <View style={styles.insightHeader}>
+          <View
+            style={
+              styles.insightHeader
+            }
+          >
             <Image
               src={dominantIcon}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
-            <Text style={styles.insightTitle}>
-              Votre force naturelle
+            <Text
+              style={
+                styles.insightTitle
+              }
+            >
+              {
+                t.votre_force_naturelle
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            {insights.strength}
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {strengthText}
           </Text>
         </View>
 
@@ -559,19 +984,35 @@ export default function PdfElements({
           style={styles.insightBox}
           wrap={false}
         >
-          <View style={styles.insightHeader}>
+          <View
+            style={
+              styles.insightHeader
+            }
+          >
             <Image
               src={ASCENDANT_ICON}
-              style={styles.insightIcon}
+              style={
+                styles.insightIcon
+              }
             />
 
-            <Text style={styles.insightTitle}>
-              Votre équilibre à développer
+            <Text
+              style={
+                styles.insightTitle
+              }
+            >
+              {
+                t.votre_equilibre_a_developper
+              }
             </Text>
           </View>
 
-          <Text style={styles.insightText}>
-            {insights.balance}
+          <Text
+            style={
+              styles.insightText
+            }
+          >
+            {balanceText}
           </Text>
         </View>
       </View>
@@ -585,11 +1026,12 @@ export default function PdfElements({
           style={styles.noteIcon}
         />
 
-        <Text style={styles.noteText}>
-          Un élément très présent représente une énergie que
-          vous exprimez spontanément. Un élément moins représenté
-          n’est pas une faiblesse : il correspond souvent à une
-          qualité que vous apprenez à développer avec le temps.
+        <Text
+          style={styles.noteText}
+        >
+          {
+            t.un_element_tres_present_represente_une_energie_que_vous_expr
+          }
         </Text>
       </View>
 
