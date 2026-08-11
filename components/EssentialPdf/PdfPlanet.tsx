@@ -8,84 +8,24 @@ import {
 
 import { PLANET_ICONS } from "./EssentialPdfAssets";
 import { pdfStyles } from "./EssentialPdfStyles";
-import type { PlanetPageProps } from "./EssentialPdfTypes";
+import type {
+  PdfLocale,
+  PlanetPageProps,
+} from "./EssentialPdfTypes";
 
 import {
   getPlanet,
   getPlanetDegree,
   getPlanetInterpretation,
   getPlanetSignName,
-  PLANET_FR,
-  PLANET_MEANINGS,
-  signFr,
+  getLocalizedPlanetName,
+  getLocalizedPlanetMeaning,
+  getLocalizedSignName,
+  getPdfPlanetTranslations,
 } from "./EssentialPdfUtils";
 
 import PdfBrandHeader from "./PdfBrandHeader";
 import PdfPageFooter from "./PdfPageFooter";
-
-const PLANET_QUESTIONS: Record<string, string> = {
-  Sun:
-    "Qu’est-ce qui vous permet de rayonner pleinement ?",
-
-  Moon:
-    "De quoi avez-vous besoin pour vous sentir intérieurement en sécurité ?",
-
-  Mercury:
-    "Comment votre esprit comprend-il et transmet-il les idées ?",
-
-  Venus:
-    "Qu’est-ce qui nourrit votre manière d’aimer et de créer du lien ?",
-
-  Mars:
-    "Comment votre énergie se mobilise-t-elle lorsque vous passez à l’action ?",
-
-  Jupiter:
-    "Où trouvez-vous confiance, croissance et ouverture ?",
-
-  Saturn:
-    "Quelles expériences vous invitent à développer votre maturité ?",
-
-  Uranus:
-    "Comment exprimez-vous votre liberté et votre originalité ?",
-
-  Neptune:
-    "Comment votre intuition et votre imaginaire influencent-ils votre vie ?",
-
-  Pluto:
-    "Quelles transformations révèlent votre puissance intérieure ?",
-};
-
-const PLANET_GUIDANCE: Record<string, string> = {
-  Sun:
-    "Votre Soleil représente le centre de votre identité. Plus vous assumez ses qualités, plus vous développez une présence cohérente et une direction personnelle claire.",
-
-  Moon:
-    "Votre Lune décrit votre univers émotionnel. Comprendre ses besoins vous aide à créer davantage de stabilité, de douceur et de sécurité intérieure.",
-
-  Mercury:
-    "Mercure décrit votre manière de réfléchir, d’apprendre et de communiquer. Cette énergie influence votre façon d’organiser vos idées et de vous faire comprendre.",
-
-  Venus:
-    "Vénus révèle votre sensibilité relationnelle, vos valeurs et ce qui vous attire. Elle montre aussi la manière dont vous donnez et recevez de l’affection.",
-
-  Mars:
-    "Mars représente votre force d’action, votre courage et votre manière de défendre vos désirs. Bien utilisée, cette énergie devient un moteur puissant.",
-
-  Jupiter:
-    "Jupiter montre les expériences qui favorisent votre confiance et votre développement. Il indique comment vous pouvez élargir votre vision de la vie.",
-
-  Saturn:
-    "Saturne révèle les domaines où la patience, la discipline et la persévérance sont nécessaires. Ses défis deviennent souvent de véritables forces avec le temps.",
-
-  Uranus:
-    "Uranus représente votre besoin de liberté, de renouvellement et d’authenticité. Il vous encourage à sortir des modèles qui ne vous correspondent plus.",
-
-  Neptune:
-    "Neptune révèle votre imagination, votre intuition et votre sensibilité à l’invisible. Cette énergie demande de concilier inspiration et discernement.",
-
-  Pluto:
-    "Pluton représente votre capacité de transformation profonde. Il montre où vous pouvez abandonner d’anciens mécanismes afin de retrouver votre pouvoir intérieur.",
-};
 
 const styles = StyleSheet.create({
   /*
@@ -370,7 +310,14 @@ const styles = StyleSheet.create({
 export default function PdfPlanet({
   planets,
   planet,
+  locale = "fr",
 }: PlanetPageProps) {
+  const safeLocale: PdfLocale = locale || "fr";
+
+  const t = getPdfPlanetTranslations(
+    safeLocale
+  );
+
   const safePlanets = Array.isArray(planets)
     ? planets
     : [];
@@ -381,35 +328,43 @@ export default function PdfPlanet({
   );
 
   const planetName =
-    PLANET_FR[planet] || planet;
+    getLocalizedPlanetName(
+      planet,
+      safeLocale
+    );
 
   const signName =
     getPlanetSignName(planetData);
 
   const translatedSign =
-    signFr(signName) || "Signe non précisé";
+    getLocalizedSignName(
+      signName,
+      safeLocale
+    );
 
   const degree =
     getPlanetDegree(planetData);
 
   const meaning =
-    PLANET_MEANINGS[planet] ||
-    "Une dimension importante de votre personnalité";
+    getLocalizedPlanetMeaning(
+      planet,
+      safeLocale
+    );
 
   const interpretation =
     getPlanetInterpretation(
       planet,
-      signName
-    ) ||
-    `${planetName} en ${translatedSign} représente une énergie importante de votre personnalité.`;
+      signName,
+      safeLocale
+    );
 
   const question =
-    PLANET_QUESTIONS[planet] ||
-    "Comment cette énergie s’exprime-t-elle dans votre vie ?";
+    t.questions[planet] ||
+    t.defaultQuestion;
 
   const guidance =
-    PLANET_GUIDANCE[planet] ||
-    "Cette position révèle une énergie naturelle que vous pouvez apprendre à reconnaître, à comprendre et à exprimer avec davantage de conscience.";
+    t.guidance[planet] ||
+    t.defaultGuidance;
 
   const icon =
     PLANET_ICONS[planet];
@@ -424,15 +379,18 @@ export default function PdfPlanet({
 
       <View style={styles.header}>
         <Text style={styles.kicker}>
-          Planète natale
+          {t.natalPlanet}
         </Text>
 
         <Text style={styles.title}>
-          {planetName} en {translatedSign}
+          {planetName} {t.inWord}{" "}
+          {translatedSign}
         </Text>
 
         <View style={styles.divider}>
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
 
           {icon ? (
             <Image
@@ -441,12 +399,13 @@ export default function PdfPlanet({
             />
           ) : null}
 
-          <View style={styles.dividerLine} />
+          <View
+            style={styles.dividerLine}
+          />
         </View>
 
         <Text style={styles.subtitle}>
-          Une dimension essentielle de votre personnalité
-          révélée par votre ciel de naissance.
+          {t.subtitle}
         </Text>
       </View>
 
@@ -456,7 +415,9 @@ export default function PdfPlanet({
       >
         {icon ? (
           <>
-            <View style={styles.iconCircle}>
+            <View
+              style={styles.iconCircle}
+            >
               <Image
                 src={icon}
                 style={styles.icon}
@@ -472,7 +433,7 @@ export default function PdfPlanet({
 
         <View style={styles.heroContent}>
           <Text style={styles.heroKicker}>
-            Dans votre thème natal
+            {t.inNatalChart}
           </Text>
 
           <Text style={styles.heroName}>
@@ -480,12 +441,13 @@ export default function PdfPlanet({
           </Text>
 
           <Text style={styles.heroSign}>
-            en {translatedSign}
+            {t.inWord} {translatedSign}
           </Text>
 
           {degree ? (
             <Text style={styles.heroDegree}>
-              Position astrologique : {degree}
+              {t.astrologicalPosition}{" "}
+              {degree}
             </Text>
           ) : null}
         </View>
@@ -503,7 +465,9 @@ export default function PdfPlanet({
           {question}
         </Text>
 
-        <Text style={styles.interpretation}>
+        <Text
+          style={styles.interpretation}
+        >
           {interpretation}
         </Text>
       </View>
@@ -512,11 +476,15 @@ export default function PdfPlanet({
         style={styles.guidanceCard}
         wrap={false}
       >
-        <Text style={styles.guidanceTitle}>
-          Ce que cette position vous enseigne
+        <Text
+          style={styles.guidanceTitle}
+        >
+          {t.whatPositionTeaches}
         </Text>
 
-        <Text style={styles.guidanceText}>
+        <Text
+          style={styles.guidanceText}
+        >
           {guidance}
         </Text>
       </View>
@@ -531,42 +499,61 @@ export default function PdfPlanet({
             styles.keyBoxLeft,
           ]}
         >
-          <View style={styles.keyHeader}>
-            <View style={styles.keyNumber}>
-              <Text style={styles.keyNumberText}>
+          <View
+            style={styles.keyHeader}
+          >
+            <View
+              style={styles.keyNumber}
+            >
+              <Text
+                style={
+                  styles.keyNumberText
+                }
+              >
                 01
               </Text>
             </View>
 
-            <Text style={styles.keyTitle}>
-              L’influence du signe
+            <Text
+              style={styles.keyTitle}
+            >
+              {t.signInfluence}
             </Text>
           </View>
 
           <Text style={styles.keyText}>
-            Placé en {translatedSign}, {planetName} exprime
-            ses fonctions à travers les qualités, les besoins
-            et les réflexes propres à ce signe.
+            {t.placedIn}{" "}
+            {translatedSign},{" "}
+            {planetName}{" "}
+            {t.signInfluenceText}
           </Text>
         </View>
 
         <View style={styles.keyBox}>
-          <View style={styles.keyHeader}>
-            <View style={styles.keyNumber}>
-              <Text style={styles.keyNumberText}>
+          <View
+            style={styles.keyHeader}
+          >
+            <View
+              style={styles.keyNumber}
+            >
+              <Text
+                style={
+                  styles.keyNumberText
+                }
+              >
                 02
               </Text>
             </View>
 
-            <Text style={styles.keyTitle}>
-              Une énergie à développer
+            <Text
+              style={styles.keyTitle}
+            >
+              {t.energyToDevelop}
             </Text>
           </View>
 
           <Text style={styles.keyText}>
-            Cette position ne vous enferme pas. Elle révèle
-            une tendance naturelle que vous pouvez exprimer
-            avec plus de conscience et de maturité.
+            {t.energyToDevelopText}
           </Text>
         </View>
       </View>
@@ -583,9 +570,7 @@ export default function PdfPlanet({
         ) : null}
 
         <Text style={styles.noteText}>
-          Cette position prend tout son sens lorsqu’elle est
-          observée avec vos autres planètes, votre Soleil,
-          votre Lune et votre Ascendant.
+          {t.finalNote}
         </Text>
       </View>
 
