@@ -1,6 +1,10 @@
 import { Document } from "@react-pdf/renderer";
 
-import type { EssentialPdfProps } from "./EssentialPdfTypes";
+import type {
+  EssentialPdfProps,
+  PdfLocale,
+} from "./EssentialPdfTypes";
+
 import { MAIN_PLANETS } from "./EssentialPdfUtils";
 
 import PdfCover from "./PdfCover";
@@ -20,7 +24,11 @@ export default function EssentialPdfDocument({
   planets,
   angles,
   wheelImage,
+  locale = "fr",
 }: EssentialPdfProps) {
+  const safeLocale: PdfLocale =
+    locale || "fr";
+
   const safePlanets = Array.isArray(planets)
     ? planets
     : [];
@@ -47,6 +55,7 @@ export default function EssentialPdfDocument({
         planets={safePlanets}
         angles={safeAngles}
         wheelImage={wheelImage}
+        locale={safeLocale}
       />
 
       <PdfWheel
@@ -57,32 +66,43 @@ export default function EssentialPdfDocument({
         planets={safePlanets}
         angles={safeAngles}
         wheelImage={wheelImage}
+        locale={safeLocale}
       />
 
-      <PdfWelcome />
+      <PdfWelcome
+        locale={safeLocale}
+      />
 
       <PdfSummary
         planets={safePlanets}
         angles={safeAngles}
+        locale={safeLocale}
       />
 
-      {MAIN_PLANETS.map((planet) => (
-        <PdfPlanet
-          key={planet}
-          planets={safePlanets}
-          planet={planet}
-        />
-      ))}
+      {MAIN_PLANETS.map(
+        (planet) => (
+          <PdfPlanet
+            key={planet}
+            planets={safePlanets}
+            planet={planet}
+            locale={safeLocale}
+          />
+        )
+      )}
 
       <PdfElements
         planets={safePlanets}
+        locale={safeLocale}
       />
 
       <PdfModalities
         planets={safePlanets}
+        locale={safeLocale}
       />
 
-      <PdfConclusion />
+      <PdfConclusion
+        locale={safeLocale}
+      />
     </Document>
   );
 }
