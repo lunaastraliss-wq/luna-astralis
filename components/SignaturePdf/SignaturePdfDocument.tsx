@@ -767,9 +767,6 @@ export default function SignaturePdfDocument({
             planets={
               safePlanets
             }
-            locale={
-              safeLocale
-            }
           />
         ),
       )}
@@ -778,17 +775,11 @@ export default function SignaturePdfDocument({
         planets={
           safePlanets
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureModalities
         planets={
           safePlanets
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -805,9 +796,6 @@ export default function SignaturePdfDocument({
         planets={
           safePlanets
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureDominants
@@ -816,9 +804,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -829,9 +814,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureChallenges
@@ -840,9 +822,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -853,9 +832,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureCareer
@@ -864,9 +840,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -880,9 +853,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureSoulPath
@@ -894,9 +864,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -910,9 +877,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureLifeBlocks
@@ -924,9 +888,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -940,9 +901,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureIntegrationGuide
@@ -954,9 +912,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
 
@@ -970,9 +925,6 @@ export default function SignaturePdfDocument({
         angles={
           safeAngles
         }
-        locale={
-          safeLocale
-        }
       />
 
       <PdfSignatureConclusion
@@ -984,9 +936,6 @@ export default function SignaturePdfDocument({
         }
         angles={
           safeAngles
-        }
-        locale={
-          safeLocale
         }
       />
     </Document>
