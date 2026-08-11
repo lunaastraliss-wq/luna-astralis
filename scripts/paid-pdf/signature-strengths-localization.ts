@@ -460,7 +460,6 @@ export function localizeSignatureStrengths(
     Bélier: labels.aries,
     Taureau: labels.taurus,
     Gémeaux: labels.gemini,
-    Cancer: labels.cancer,
     Lion: labels.leo,
     Vierge: labels.virgo,
     Balance: labels.libra,
