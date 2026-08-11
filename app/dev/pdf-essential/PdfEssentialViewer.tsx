@@ -472,19 +472,19 @@ export default function PdfEssentialViewer() {
         ?.imumCoeli
     );
 
-  const pdfAngles = {
-    ascendant:
-      ascendantLongitude,
+ const pdfAngles = {
+  ascendant:
+    chart?.angles?.ascendant || null,
 
-    midheaven:
-      midheavenLongitude,
+  midheaven:
+    chart?.angles?.midheaven || null,
 
-    descendant:
-      descendantLongitude,
+  descendant:
+    chart?.angles?.descendant || null,
 
-    imumCoeli:
-      imumCoeliLongitude,
-  };
+  imumCoeli:
+    chart?.angles?.imumCoeli || null,
+};
 
   return (
     <main
