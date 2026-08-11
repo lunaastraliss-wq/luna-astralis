@@ -1,3 +1,7 @@
+import type {
+  PdfLocale,
+} from "../EssentialPdf/EssentialPdfTypes";
+
 import {
   SUN,
   MOON,
@@ -11,48 +15,127 @@ import {
   PLUTO,
 } from "@/lib/astrology";
 
-export const SIGN_FR: Record<string, string> = {
-  Aries: "Bélier",
-  Taurus: "Taureau",
-  Gemini: "Gémeaux",
-  Cancer: "Cancer",
-  Leo: "Lion",
-  Virgo: "Vierge",
-  Libra: "Balance",
-  Scorpio: "Scorpion",
-  Sagittarius: "Sagittaire",
-  Capricorn: "Capricorne",
-  Aquarius: "Verseau",
-  Pisces: "Poissons",
-};
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — FR
+|--------------------------------------------------------------------------
+*/
 
-export const PLANET_FR: Record<string, string> = {
-  Sun: "Soleil",
-  Moon: "Lune",
-  Mercury: "Mercure",
-  Venus: "Vénus",
-  Mars: "Mars",
-  Jupiter: "Jupiter",
-  Saturn: "Saturne",
-  Uranus: "Uranus",
-  Neptune: "Neptune",
-  Pluto: "Pluton",
-};
+import sunFr from "../../i18n/migrated/fr/lib/astrology/sun.json";
+import moonFr from "../../i18n/migrated/fr/lib/astrology/moon.json";
+import mercuryFr from "../../i18n/migrated/fr/lib/astrology/mercury.json";
+import venusFr from "../../i18n/migrated/fr/lib/astrology/venus.json";
+import marsFr from "../../i18n/migrated/fr/lib/astrology/mars.json";
+import jupiterFr from "../../i18n/migrated/fr/lib/astrology/jupiter.json";
+import saturnFr from "../../i18n/migrated/fr/lib/astrology/saturn.json";
+import uranusFr from "../../i18n/migrated/fr/lib/astrology/uranus.json";
+import neptuneFr from "../../i18n/migrated/fr/lib/astrology/neptune.json";
+import plutoFr from "../../i18n/migrated/fr/lib/astrology/pluto.json";
 
-export const PLANET_MEANINGS: Record<string, string> = {
-  Sun: "Identité et volonté",
-  Moon: "Émotions et besoins",
-  Mercury: "Pensée et communication",
-  Venus: "Amour et valeurs",
-  Mars: "Action et désir",
-  Jupiter: "Expansion et confiance",
-  Saturn: "Structure et apprentissage",
-  Uranus: "Liberté et changement",
-  Neptune: "Intuition et idéal",
-  Pluto: "Transformation et puissance",
-};
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — EN
+|--------------------------------------------------------------------------
+*/
 
-export const PLANET_TEXTS: Record<
+import sunEn from "../../i18n/migrated/en/lib/astrology/sun.json";
+import moonEn from "../../i18n/migrated/en/lib/astrology/moon.json";
+import mercuryEn from "../../i18n/migrated/en/lib/astrology/mercury.json";
+import venusEn from "../../i18n/migrated/en/lib/astrology/venus.json";
+import marsEn from "../../i18n/migrated/en/lib/astrology/mars.json";
+import jupiterEn from "../../i18n/migrated/en/lib/astrology/jupiter.json";
+import saturnEn from "../../i18n/migrated/en/lib/astrology/saturn.json";
+import uranusEn from "../../i18n/migrated/en/lib/astrology/uranus.json";
+import neptuneEn from "../../i18n/migrated/en/lib/astrology/neptune.json";
+import plutoEn from "../../i18n/migrated/en/lib/astrology/pluto.json";
+
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — ES
+|--------------------------------------------------------------------------
+*/
+
+import sunEs from "../../i18n/migrated/es/lib/astrology/sun.json";
+import moonEs from "../../i18n/migrated/es/lib/astrology/moon.json";
+import mercuryEs from "../../i18n/migrated/es/lib/astrology/mercury.json";
+import venusEs from "../../i18n/migrated/es/lib/astrology/venus.json";
+import marsEs from "../../i18n/migrated/es/lib/astrology/mars.json";
+import jupiterEs from "../../i18n/migrated/es/lib/astrology/jupiter.json";
+import saturnEs from "../../i18n/migrated/es/lib/astrology/saturn.json";
+import uranusEs from "../../i18n/migrated/es/lib/astrology/uranus.json";
+import neptuneEs from "../../i18n/migrated/es/lib/astrology/neptune.json";
+import plutoEs from "../../i18n/migrated/es/lib/astrology/pluto.json";
+
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — DE
+|--------------------------------------------------------------------------
+*/
+
+import sunDe from "../../i18n/migrated/de/lib/astrology/sun.json";
+import moonDe from "../../i18n/migrated/de/lib/astrology/moon.json";
+import mercuryDe from "../../i18n/migrated/de/lib/astrology/mercury.json";
+import venusDe from "../../i18n/migrated/de/lib/astrology/venus.json";
+import marsDe from "../../i18n/migrated/de/lib/astrology/mars.json";
+import jupiterDe from "../../i18n/migrated/de/lib/astrology/jupiter.json";
+import saturnDe from "../../i18n/migrated/de/lib/astrology/saturn.json";
+import uranusDe from "../../i18n/migrated/de/lib/astrology/uranus.json";
+import neptuneDe from "../../i18n/migrated/de/lib/astrology/neptune.json";
+import plutoDe from "../../i18n/migrated/de/lib/astrology/pluto.json";
+
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — IT
+|--------------------------------------------------------------------------
+*/
+
+import sunIt from "../../i18n/migrated/it/lib/astrology/sun.json";
+import moonIt from "../../i18n/migrated/it/lib/astrology/moon.json";
+import mercuryIt from "../../i18n/migrated/it/lib/astrology/mercury.json";
+import venusIt from "../../i18n/migrated/it/lib/astrology/venus.json";
+import marsIt from "../../i18n/migrated/it/lib/astrology/mars.json";
+import jupiterIt from "../../i18n/migrated/it/lib/astrology/jupiter.json";
+import saturnIt from "../../i18n/migrated/it/lib/astrology/saturn.json";
+import uranusIt from "../../i18n/migrated/it/lib/astrology/uranus.json";
+import neptuneIt from "../../i18n/migrated/it/lib/astrology/neptune.json";
+import plutoIt from "../../i18n/migrated/it/lib/astrology/pluto.json";
+
+/*
+|--------------------------------------------------------------------------
+| JSON astrologiques — PT
+|--------------------------------------------------------------------------
+*/
+
+import sunPt from "../../i18n/migrated/pt/lib/astrology/sun.json";
+import moonPt from "../../i18n/migrated/pt/lib/astrology/moon.json";
+import mercuryPt from "../../i18n/migrated/pt/lib/astrology/mercury.json";
+import venusPt from "../../i18n/migrated/pt/lib/astrology/venus.json";
+import marsPt from "../../i18n/migrated/pt/lib/astrology/mars.json";
+import jupiterPt from "../../i18n/migrated/pt/lib/astrology/jupiter.json";
+import saturnPt from "../../i18n/migrated/pt/lib/astrology/saturn.json";
+import uranusPt from "../../i18n/migrated/pt/lib/astrology/uranus.json";
+import neptunePt from "../../i18n/migrated/pt/lib/astrology/neptune.json";
+import plutoPt from "../../i18n/migrated/pt/lib/astrology/pluto.json";
+
+type Dictionary =
+  Record<string, string>;
+
+type PlanetDictionaryMap =
+  Record<
+    string,
+    Record<
+      PdfLocale,
+      Dictionary
+    >
+  >;
+
+/*
+|--------------------------------------------------------------------------
+| Textes français source
+|--------------------------------------------------------------------------
+*/
+
+const FRENCH_PLANET_TEXTS: Record<
   string,
   Record<string, string>
 > = {
@@ -68,311 +151,203 @@ export const PLANET_TEXTS: Record<
   Pluto: PLUTO,
 };
 
-export const MAIN_PLANETS = [
-  "Sun",
-  "Moon",
-  "Mercury",
-  "Venus",
-  "Mars",
-  "Jupiter",
-  "Saturn",
-  "Uranus",
-  "Neptune",
-  "Pluto",
-];
+/*
+|--------------------------------------------------------------------------
+| Dictionnaires par planète et langue
+|--------------------------------------------------------------------------
+*/
 
-export const ELEMENT_PROFILES: Record<
-  string,
-  {
-    qualities: string[];
-    challenges: string[];
-    summary: string;
-  }
-> = {
-  Feu: {
-    qualities: [
-      "Enthousiasme",
-      "Courage",
-      "Créativité",
-    ],
-    challenges: [
-      "Impatience",
-      "Impulsivité",
-    ],
-    summary:
-      "Votre dominante de Feu vous pousse à agir avec passion, spontanéité et confiance. Vous avancez grâce à votre enthousiasme et à votre désir de créer.",
+const PLANET_DICTIONARIES: PlanetDictionaryMap = {
+  Sun: {
+    fr: sunFr,
+    en: sunEn,
+    es: sunEs,
+    de: sunDe,
+    it: sunIt,
+    pt: sunPt,
   },
 
-  Terre: {
-    qualities: [
-      "Stabilité",
-      "Réalisme",
-      "Persévérance",
-    ],
-    challenges: [
-      "Rigidité",
-      "Besoin de contrôle",
-    ],
-    summary:
-      "Votre dominante de Terre vous donne un grand sens pratique, de la constance et le désir de construire quelque chose de durable.",
+  Moon: {
+    fr: moonFr,
+    en: moonEn,
+    es: moonEs,
+    de: moonDe,
+    it: moonIt,
+    pt: moonPt,
   },
 
-  Air: {
-    qualities: [
-      "Curiosité",
-      "Communication",
-      "Ouverture",
-    ],
-    challenges: [
-      "Dispersion",
-      "Détachement émotionnel",
-    ],
-    summary:
-      "Votre dominante d’Air favorise la réflexion, les échanges et l’ouverture aux idées nouvelles. Vous avez besoin de comprendre et de communiquer.",
+  Mercury: {
+    fr: mercuryFr,
+    en: mercuryEn,
+    es: mercuryEs,
+    de: mercuryDe,
+    it: mercuryIt,
+    pt: mercuryPt,
   },
 
-  Eau: {
-    qualities: [
-      "Intuition",
-      "Empathie",
-      "Profondeur",
-    ],
-    challenges: [
-      "Hypersensibilité",
-      "Difficulté à lâcher prise",
-    ],
-    summary:
-      "Votre dominante d’Eau vous rend particulièrement intuitive, réceptive et sensible aux ambiances. Vous comprenez souvent ce qui n’est pas exprimé.",
-  },
-};
-
-export const MODALITY_PROFILES: Record<
-  string,
-  {
-    quality: string;
-    challenge: string;
-    summary: string;
-  }
-> = {
-  Cardinal: {
-    quality: "Initiative",
-    challenge:
-      "Aller au bout de chaque projet",
-    summary:
-      "La modalité Cardinale vous pousse à entreprendre, à initier les changements et à ouvrir de nouvelles voies.",
+  Venus: {
+    fr: venusFr,
+    en: venusEn,
+    es: venusEs,
+    de: venusDe,
+    it: venusIt,
+    pt: venusPt,
   },
 
-  Fixe: {
-    quality: "Persévérance",
-    challenge:
-      "Accepter plus facilement le changement",
-    summary:
-      "La modalité Fixe vous apporte de la loyauté, de l’endurance et une remarquable capacité à maintenir vos efforts dans le temps.",
+  Mars: {
+    fr: marsFr,
+    en: marsEn,
+    es: marsEs,
+    de: marsDe,
+    it: marsIt,
+    pt: marsPt,
   },
 
-  Mutable: {
-    quality: "Adaptabilité",
-    challenge:
-      "Maintenir une direction stable",
-    summary:
-      "La modalité Mutable vous permet de vous adapter, d’évoluer et de comprendre rapidement les changements qui vous entourent.",
+  Jupiter: {
+    fr: jupiterFr,
+    en: jupiterEn,
+    es: jupiterEs,
+    de: jupiterDe,
+    it: jupiterIt,
+    pt: jupiterPt,
+  },
+
+  Saturn: {
+    fr: saturnFr,
+    en: saturnEn,
+    es: saturnEs,
+    de: saturnDe,
+    it: saturnIt,
+    pt: saturnPt,
+  },
+
+  Uranus: {
+    fr: uranusFr,
+    en: uranusEn,
+    es: uranusEs,
+    de: uranusDe,
+    it: uranusIt,
+    pt: uranusPt,
+  },
+
+  Neptune: {
+    fr: neptuneFr,
+    en: neptuneEn,
+    es: neptuneEs,
+    de: neptuneDe,
+    it: neptuneIt,
+    pt: neptunePt,
+  },
+
+  Pluto: {
+    fr: plutoFr,
+    en: plutoEn,
+    es: plutoEs,
+    de: plutoDe,
+    it: plutoIt,
+    pt: plutoPt,
   },
 };
 
-export function signFr(
-  sign?: string
-): string {
-  if (!sign) {
-    return "—";
-  }
+/*
+|--------------------------------------------------------------------------
+| Recherche de la clé i18n
+|--------------------------------------------------------------------------
+*/
 
-  return SIGN_FR[sign] || sign;
-}
-
-export function translateSigns(
-  value?: string
-): string {
-  if (!value) {
-    return "—";
-  }
-
-  let translated = value;
-
-  Object.keys(SIGN_FR).forEach(
-    (englishSign) => {
-      translated = translated.replace(
-        new RegExp(englishSign, "g"),
-        SIGN_FR[englishSign]
-      );
-    }
+function findTranslationKey(
+  frenchDictionary: Dictionary,
+  frenchText: string
+): string | null {
+  const entry = Object.entries(
+    frenchDictionary
+  ).find(
+    ([, value]) =>
+      value === frenchText
   );
 
-  return translated;
+  return entry?.[0] ?? null;
 }
 
-export function getPlanet(
-  planets: any[],
-  name: string
-) {
-  return planets.find(
-    (planet) => planet.name === name
-  );
-}
+/*
+|--------------------------------------------------------------------------
+| Interprétation localisée
+|--------------------------------------------------------------------------
+*/
 
-export function getPlanetSignName(
-  planet: any
-): string {
-  if (!planet) {
-    return "";
-  }
-
-  if (
-    typeof planet.signName === "string"
-  ) {
-    return planet.signName;
-  }
-
-  if (
-    typeof planet.sign === "string"
-  ) {
-    return planet.sign;
-  }
-
-  return "";
-}
-
-export function getAscendantSign(
-  angles: any
-): string {
-  const ascendant =
-    angles?.ascendant ||
-    angles?.Ascendant ||
-    angles?.ASC ||
-    null;
-
-  if (!ascendant) {
-    return "";
-  }
-
-  if (
-    typeof ascendant.signName ===
-    "string"
-  ) {
-    return ascendant.signName;
-  }
-
-  if (
-    typeof ascendant.sign === "string"
-  ) {
-    return ascendant.sign;
-  }
-
-  if (
-    typeof ascendant.formatted ===
-    "string"
-  ) {
-    const englishSign =
-      Object.keys(SIGN_FR).find(
-        (sign) =>
-          ascendant.formatted.includes(
-            sign
-          )
-      );
-
-    return (
-      englishSign ||
-      ascendant.formatted
-    );
-  }
-
-  return "";
-}
-
-export function getPlanetInterpretation(
+export function getLocalizedPlanetInterpretation(
   planetName: string,
-  signName?: string
+  signName?: string,
+  locale: PdfLocale = "fr"
 ): string {
   if (!signName) {
-    return "Cette position n’a pas pu être calculée avec les données disponibles.";
+    return "";
   }
 
-  return (
-    PLANET_TEXTS[planetName]?.[
+  const frenchPlanetTexts =
+    FRENCH_PLANET_TEXTS[
+      planetName
+    ];
+
+  if (!frenchPlanetTexts) {
+    return "";
+  }
+
+  const frenchText =
+    frenchPlanetTexts[
       signName
-    ] ||
-    "Cette planète révèle une dimension importante de votre personnalité, de vos besoins et de votre évolution intérieure."
-  );
-}
+    ];
 
-export function formatDegree(
-  value: unknown
-): string {
-  const degree = Number(value);
-
-  if (!Number.isFinite(degree)) {
+  if (!frenchText) {
     return "";
   }
 
-  const normalized =
-    ((degree % 30) + 30) % 30;
-
-  const wholeDegrees =
-    Math.floor(normalized);
-
-  const minutes = Math.round(
-    (normalized - wholeDegrees) * 60
-  );
-
-  if (minutes === 60) {
-    return `${wholeDegrees + 1}°00'`;
+  if (locale === "fr") {
+    return frenchText;
   }
 
-  return `${wholeDegrees}°${String(
-    minutes
-  ).padStart(2, "0")}'`;
-}
+  const planetDictionaries =
+    PLANET_DICTIONARIES[
+      planetName
+    ];
 
-export function getPlanetDegree(
-  planet: any
-): string {
-  if (!planet) {
-    return "";
+  if (!planetDictionaries) {
+    return frenchText;
   }
 
-  const possibleValues = [
-    planet.degreeInSign,
-    planet.signDegree,
-    planet.degree,
-    planet.degrees,
-    planet.positionInSign,
-  ];
+  const frenchDictionary =
+    planetDictionaries.fr;
 
-  for (const value of possibleValues) {
-    if (typeof value === "number") {
-      return formatDegree(value);
-    }
-  }
+  const localizedDictionary =
+    planetDictionaries[
+      locale
+    ];
 
   if (
-    typeof planet.formatted ===
-    "string"
+    !frenchDictionary ||
+    !localizedDictionary
   ) {
-    const match =
-      planet.formatted.match(
-        /(\d{1,2})[°\s]+(\d{1,2})?/
-      );
-
-    if (match) {
-      const degrees = match[1];
-      const minutes =
-        match[2] || "00";
-
-      return `${degrees}°${minutes.padStart(
-        2,
-        "0"
-      )}'`;
-    }
+    return frenchText;
   }
 
-  return "";
+  const translationKey =
+    findTranslationKey(
+      frenchDictionary,
+      frenchText
+    );
+
+  if (!translationKey) {
+    return frenchText;
+  }
+
+  const localizedText =
+    localizedDictionary[
+      translationKey
+    ];
+
+  if (!localizedText) {
+    return frenchText;
+  }
+
+  return localizedText;
 }
