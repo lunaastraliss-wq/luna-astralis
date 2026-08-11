@@ -3,10 +3,7 @@ import type {
 } from "./premium-localization";
 
 type NonFrenchLocale =
-  Exclude<
-    PaidPdfLocale,
-    "fr"
-  >;
+  Exclude<PaidPdfLocale, "fr">;
 
 type PlanetLabels = {
   analysis: string;
@@ -25,33 +22,27 @@ type PlanetLabels = {
   fallbackHouse: string;
 };
 
+type PlanetDisplayCopy = {
+  planets: Record<string, string>;
+  signs: Record<string, string>;
+};
+
 const LABELS: Record<
   NonFrenchLocale,
   PlanetLabels
 > = {
   en: {
-    analysis:
-      "Signature Analysis",
-    natalPlanet:
-      "Natal planet",
-    inNatalChart:
-      "In your natal chart",
-    essentialEnergy:
-      "Your essential energy",
-    houseInfluence:
-      "The influence of the house",
-    strengths:
-      "Your natural strengths",
-    challenges:
-      "Your points of caution",
-    evolution:
-      "Your potential for growth",
-    quote:
-      "Signature Quote",
-    connector:
-      "in",
-    fallbackMeaning:
-      "Personal astrological energy",
+    analysis: "Signature Analysis",
+    natalPlanet: "Natal planet",
+    inNatalChart: "In your natal chart",
+    essentialEnergy: "Your essential energy",
+    houseInfluence: "The influence of the house",
+    strengths: "Your natural strengths",
+    challenges: "Your points of caution",
+    evolution: "Your potential for growth",
+    quote: "Signature Quote",
+    connector: "in",
+    fallbackMeaning: "Personal astrological energy",
     fallbackEnergy:
       "This position reveals an important dimension of your personality and your growth.",
     fallbackHouseUnavailable:
@@ -61,28 +52,17 @@ const LABELS: Record<
   },
 
   es: {
-    analysis:
-      "Análisis Firma",
-    natalPlanet:
-      "Planeta natal",
-    inNatalChart:
-      "En tu carta natal",
-    essentialEnergy:
-      "Tu energía esencial",
-    houseInfluence:
-      "La influencia de la casa",
-    strengths:
-      "Tus fortalezas naturales",
-    challenges:
-      "Tus puntos de atención",
-    evolution:
-      "Tu potencial de evolución",
-    quote:
-      "Cita Firma",
-    connector:
-      "en",
-    fallbackMeaning:
-      "Energía astrológica personal",
+    analysis: "Análisis Firma",
+    natalPlanet: "Planeta natal",
+    inNatalChart: "En tu carta natal",
+    essentialEnergy: "Tu energía esencial",
+    houseInfluence: "La influencia de la casa",
+    strengths: "Tus fortalezas naturales",
+    challenges: "Tus puntos de atención",
+    evolution: "Tu potencial de evolución",
+    quote: "Cita Firma",
+    connector: "en",
+    fallbackMeaning: "Energía astrológica personal",
     fallbackEnergy:
       "Esta posición revela una dimensión importante de tu personalidad y de tu evolución.",
     fallbackHouseUnavailable:
@@ -92,28 +72,17 @@ const LABELS: Record<
   },
 
   de: {
-    analysis:
-      "Signatur-Analyse",
-    natalPlanet:
-      "Geburtsplanet",
-    inNatalChart:
-      "In Ihrem Geburtshoroskop",
-    essentialEnergy:
-      "Ihre wesentliche Energie",
-    houseInfluence:
-      "Der Einfluss des Hauses",
-    strengths:
-      "Ihre natürlichen Stärken",
-    challenges:
-      "Ihre Aufmerksamkeitspunkte",
-    evolution:
-      "Ihr Entwicklungspotenzial",
-    quote:
-      "Signatur-Zitat",
-    connector:
-      "im",
-    fallbackMeaning:
-      "Persönliche astrologische Energie",
+    analysis: "Signatur-Analyse",
+    natalPlanet: "Geburtsplanet",
+    inNatalChart: "In Ihrem Geburtshoroskop",
+    essentialEnergy: "Ihre wesentliche Energie",
+    houseInfluence: "Der Einfluss des Hauses",
+    strengths: "Ihre natürlichen Stärken",
+    challenges: "Ihre Aufmerksamkeitspunkte",
+    evolution: "Ihr Entwicklungspotenzial",
+    quote: "Signatur-Zitat",
+    connector: "im",
+    fallbackMeaning: "Persönliche astrologische Energie",
     fallbackEnergy:
       "Diese Position zeigt eine wichtige Dimension Ihrer Persönlichkeit und Ihrer Entwicklung.",
     fallbackHouseUnavailable:
@@ -123,28 +92,17 @@ const LABELS: Record<
   },
 
   it: {
-    analysis:
-      "Analisi Firma",
-    natalPlanet:
-      "Pianeta natale",
-    inNatalChart:
-      "Nel tuo tema natale",
-    essentialEnergy:
-      "La tua energia essenziale",
-    houseInfluence:
-      "L’influenza della casa",
-    strengths:
-      "I tuoi punti di forza naturali",
-    challenges:
-      "I tuoi punti di attenzione",
-    evolution:
-      "Il tuo potenziale di evoluzione",
-    quote:
-      "Citazione Firma",
-    connector:
-      "in",
-    fallbackMeaning:
-      "Energia astrologica personale",
+    analysis: "Analisi Firma",
+    natalPlanet: "Pianeta natale",
+    inNatalChart: "Nel tuo tema natale",
+    essentialEnergy: "La tua energia essenziale",
+    houseInfluence: "L’influenza della casa",
+    strengths: "I tuoi punti di forza naturali",
+    challenges: "I tuoi punti di attenzione",
+    evolution: "Il tuo potenziale di evoluzione",
+    quote: "Citazione Firma",
+    connector: "in",
+    fallbackMeaning: "Energia astrologica personale",
     fallbackEnergy:
       "Questa posizione rivela una dimensione importante della tua personalità e della tua evoluzione.",
     fallbackHouseUnavailable:
@@ -154,28 +112,17 @@ const LABELS: Record<
   },
 
   pt: {
-    analysis:
-      "Análise Assinatura",
-    natalPlanet:
-      "Planeta natal",
-    inNatalChart:
-      "No seu mapa natal",
-    essentialEnergy:
-      "Sua energia essencial",
-    houseInfluence:
-      "A influência da casa",
-    strengths:
-      "Suas forças naturais",
-    challenges:
-      "Seus pontos de atenção",
-    evolution:
-      "Seu potencial de evolução",
-    quote:
-      "Citação Assinatura",
-    connector:
-      "em",
-    fallbackMeaning:
-      "Energia astrológica pessoal",
+    analysis: "Análise Assinatura",
+    natalPlanet: "Planeta natal",
+    inNatalChart: "No seu mapa natal",
+    essentialEnergy: "Sua energia essencial",
+    houseInfluence: "A influência da casa",
+    strengths: "Suas forças naturais",
+    challenges: "Seus pontos de atenção",
+    evolution: "Seu potencial de evolução",
+    quote: "Citação Assinatura",
+    connector: "em",
+    fallbackMeaning: "Energia astrológica pessoal",
     fallbackEnergy:
       "Esta posição revela uma dimensão importante da sua personalidade e da sua evolução.",
     fallbackHouseUnavailable:
@@ -185,88 +132,181 @@ const LABELS: Record<
   },
 };
 
+const DISPLAY: Record<
+  NonFrenchLocale,
+  PlanetDisplayCopy
+> = {
+  en: {
+    planets: {
+      Sun: "Sun",
+      Moon: "Moon",
+      Mercury: "Mercury",
+      Venus: "Venus",
+      Mars: "Mars",
+      Jupiter: "Jupiter",
+      Saturn: "Saturn",
+      Uranus: "Uranus",
+      Neptune: "Neptune",
+      Pluto: "Pluto",
+    },
+    signs: {
+      Aries: "Aries",
+      Taurus: "Taurus",
+      Gemini: "Gemini",
+      Cancer: "Cancer",
+      Leo: "Leo",
+      Virgo: "Virgo",
+      Libra: "Libra",
+      Scorpio: "Scorpio",
+      Sagittarius: "Sagittarius",
+      Capricorn: "Capricorn",
+      Aquarius: "Aquarius",
+      Pisces: "Pisces",
+    },
+  },
+
+  es: {
+    planets: {
+      Sun: "Sol",
+      Moon: "Luna",
+      Mercury: "Mercurio",
+      Venus: "Venus",
+      Mars: "Marte",
+      Jupiter: "Júpiter",
+      Saturn: "Saturno",
+      Uranus: "Urano",
+      Neptune: "Neptuno",
+      Pluto: "Plutón",
+    },
+    signs: {
+      Aries: "Aries",
+      Taurus: "Tauro",
+      Gemini: "Géminis",
+      Cancer: "Cáncer",
+      Leo: "Leo",
+      Virgo: "Virgo",
+      Libra: "Libra",
+      Scorpio: "Escorpio",
+      Sagittarius: "Sagitario",
+      Capricorn: "Capricornio",
+      Aquarius: "Acuario",
+      Pisces: "Piscis",
+    },
+  },
+
+  de: {
+    planets: {
+      Sun: "Sonne",
+      Moon: "Mond",
+      Mercury: "Merkur",
+      Venus: "Venus",
+      Mars: "Mars",
+      Jupiter: "Jupiter",
+      Saturn: "Saturn",
+      Uranus: "Uranus",
+      Neptune: "Neptun",
+      Pluto: "Pluto",
+    },
+    signs: {
+      Aries: "Widder",
+      Taurus: "Stier",
+      Gemini: "Zwillinge",
+      Cancer: "Krebs",
+      Leo: "Löwe",
+      Virgo: "Jungfrau",
+      Libra: "Waage",
+      Scorpio: "Skorpion",
+      Sagittarius: "Schütze",
+      Capricorn: "Steinbock",
+      Aquarius: "Wassermann",
+      Pisces: "Fische",
+    },
+  },
+
+  it: {
+    planets: {
+      Sun: "Sole",
+      Moon: "Luna",
+      Mercury: "Mercurio",
+      Venus: "Venere",
+      Mars: "Marte",
+      Jupiter: "Giove",
+      Saturn: "Saturno",
+      Uranus: "Urano",
+      Neptune: "Nettuno",
+      Pluto: "Plutone",
+    },
+    signs: {
+      Aries: "Ariete",
+      Taurus: "Toro",
+      Gemini: "Gemelli",
+      Cancer: "Cancro",
+      Leo: "Leone",
+      Virgo: "Vergine",
+      Libra: "Bilancia",
+      Scorpio: "Scorpione",
+      Sagittarius: "Sagittario",
+      Capricorn: "Capricorno",
+      Aquarius: "Acquario",
+      Pisces: "Pesci",
+    },
+  },
+
+  pt: {
+    planets: {
+      Sun: "Sol",
+      Moon: "Lua",
+      Mercury: "Mercúrio",
+      Venus: "Vênus",
+      Mars: "Marte",
+      Jupiter: "Júpiter",
+      Saturn: "Saturno",
+      Uranus: "Urano",
+      Neptune: "Netuno",
+      Pluto: "Plutão",
+    },
+    signs: {
+      Aries: "Áries",
+      Taurus: "Touro",
+      Gemini: "Gêmeos",
+      Cancer: "Câncer",
+      Leo: "Leão",
+      Virgo: "Virgem",
+      Libra: "Libra",
+      Scorpio: "Escorpião",
+      Sagittarius: "Sagitário",
+      Capricorn: "Capricórnio",
+      Aquarius: "Aquário",
+      Pisces: "Peixes",
+    },
+  },
+};
+
 function replaceAll(
   source: string,
   from: string,
   to: string,
 ): string {
-  return source
-    .split(from)
-    .join(to);
+  return source.split(from).join(to);
 }
 
-export function localizeSignaturePlanet(
+function replaceVisibleLabels(
   source: string,
-  locale: PaidPdfLocale,
+  locale: NonFrenchLocale,
 ): string {
-  if (
-    locale === "fr"
-  ) {
-    return source;
-  }
+  const labels = LABELS[locale];
 
-  const lang =
-    locale as NonFrenchLocale;
-
-  const labels =
-    LABELS[lang];
-
-  let out =
-    source.replace(
-      /\r\n/g,
-      "\n",
-    );
-
-  /*
-  |--------------------------------------------------------------------------
-  | Libellés visibles
-  |--------------------------------------------------------------------------
-  */
-
-  const staticPairs:
-  Array<
-    [string, string]
-  > = [
-    [
-      "Analyse Signature",
-      labels.analysis,
-    ],
-    [
-      "Planète natale",
-      labels.natalPlanet,
-    ],
-    [
-      "Dans votre thème natal",
-      labels.inNatalChart,
-    ],
-    [
-      "Votre énergie essentielle",
-      labels.essentialEnergy,
-    ],
-    [
-      "L’influence de la maison",
-      labels.houseInfluence,
-    ],
-    [
-      "Vos forces naturelles",
-      labels.strengths,
-    ],
-    [
-      "Vos points de vigilance",
-      labels.challenges,
-    ],
-    [
-      "Votre potentiel d’évolution",
-      labels.evolution,
-    ],
-    [
-      "Citation Signature",
-      labels.quote,
-    ],
-    [
-      "Énergie astrologique personnelle",
-      labels.fallbackMeaning,
-    ],
+  const pairs: Array<[string, string]> = [
+    ["Analyse Signature", labels.analysis],
+    ["Planète natale", labels.natalPlanet],
+    ["Dans votre thème natal", labels.inNatalChart],
+    ["Votre énergie essentielle", labels.essentialEnergy],
+    ["L’influence de la maison", labels.houseInfluence],
+    ["Vos forces naturelles", labels.strengths],
+    ["Vos points de vigilance", labels.challenges],
+    ["Votre potentiel d’évolution", labels.evolution],
+    ["Citation Signature", labels.quote],
+    ["Énergie astrologique personnelle", labels.fallbackMeaning],
     [
       "Cette position révèle une dimension importante de votre personnalité et de votre évolution.",
       labels.fallbackEnergy,
@@ -277,79 +317,169 @@ export function localizeSignaturePlanet(
     ],
   ];
 
-  for (
-    const [
-      from,
-      to,
-    ] of staticPairs
-  ) {
-    out =
-      replaceAll(
-        out,
-        from,
-        to,
-      );
+  let output = source;
+
+  for (const [from, to] of pairs) {
+    output = replaceAll(output, from, to);
   }
 
+  output = output.replace(
+    /"La maison astrologique de cette planète n’est pas disponible "\s*\+\s*"dans les données du thème\. L’interprétation repose donc "\s*\+\s*"principalement sur la planète et son signe\."/g,
+    JSON.stringify(labels.fallbackHouseUnavailable),
+  );
+
+  return output;
+}
+
+function injectDisplayMaps(
+  source: string,
+  locale: NonFrenchLocale,
+): string {
+  if (
+    source.includes(
+      "const SIGNATURE_PLANET_DISPLAY_NAMES",
+    )
+  ) {
+    return source;
+  }
+
+  const marker =
+    "const styles = StyleSheet.create({";
+
+  if (!source.includes(marker)) {
+    return source;
+  }
+
+  const display = DISPLAY[locale];
+
+  const helper = `
+const SIGNATURE_PLANET_DISPLAY_NAMES: Record<
+  string,
+  string
+> = ${JSON.stringify(
+    display.planets,
+    null,
+    2,
+  )};
+
+const SIGNATURE_PLANET_SIGN_NAMES: Record<
+  string,
+  string
+> = ${JSON.stringify(
+    display.signs,
+    null,
+    2,
+  )};
+
+`;
+
+  return source.replace(
+    marker,
+    `${helper}${marker}`,
+  );
+}
+
+function localizePlanetAndSignValues(
+  source: string,
+): string {
+  let output = source;
+
   /*
   |--------------------------------------------------------------------------
-  | Fallback maison absent
+  | Planet name
   |--------------------------------------------------------------------------
   |
-  | Le texte français est construit avec plusieurs chaînes concaténées
-  | dans getHouseText(). On remplace donc le bloc complet.
+  | Original:
+  | const planetName = PLANET_FR[planet] || planet;
   |
+  | We keep PLANET_FR untouched for internal/source compatibility and only
+  | change the visible value in the generated non-French component.
   |--------------------------------------------------------------------------
   */
 
-  out =
-    out.replace(
-      /"La maison astrologique de cette planète n’est pas disponible "\s*\+\s*"dans les données du thème\. L’interprétation repose donc "\s*\+\s*"principalement sur la planète et son signe\."/g,
-      JSON.stringify(
-        labels.fallbackHouseUnavailable,
-      ),
-    );
+  output = output.replace(
+    /const planetName\s*=\s*PLANET_FR\[planet\]\s*\|\|\s*planet;/g,
+    `const planetName =
+    SIGNATURE_PLANET_DISPLAY_NAMES[planet] ||
+    planet;`,
+  );
 
   /*
   |--------------------------------------------------------------------------
-  | Connecteur planète + signe
+  | Sign name
   |--------------------------------------------------------------------------
   |
-  | Source :
-  |
-  | {planetName} en{" "}
-  | {translatedSign}
-  |
-  | Exemples :
-  | Sun in Scorpio
-  | Sonne im Skorpion
-  | Sol em Escorpião
-  |
+  | signKey is already the English canonical key returned by
+  | getEnglishSignKey(). We use that stable key for visible localization.
+  | This also fixes positionLine because positionLine receives translatedSign.
   |--------------------------------------------------------------------------
   */
 
-  out =
-    out.replace(
-      /(\{planetName\})\s*en\s*(\{\s*["']\s*["']\s*\})\s*(<Text[\s\S]*?>[\s\S]*?\{translatedSign\}[\s\S]*?<\/Text>)/g,
-      `$1 ${labels.connector}$2$3`,
-    );
+  output = output.replace(
+    /const translatedSign\s*=\s*translateSign\(\s*rawSign\s*\);/g,
+    `const translatedSign =
+    SIGNATURE_PLANET_SIGN_NAMES[signKey] ||
+    signKey ||
+    translateSign(rawSign);`,
+  );
 
-  /*
-  |--------------------------------------------------------------------------
-  | Variante plus simple
-  |--------------------------------------------------------------------------
-  |
-  | Permet également de couvrir une version du composant où
-  | translatedSign n’est plus entouré d’un Text imbriqué.
-  |
-  |--------------------------------------------------------------------------
-  */
+  return output;
+}
 
-  out =
-    out.replace(
-      /(\{planetName\})\s*en\s*(\{\s*["']\s*["']\s*\})\s*(\{translatedSign\})/g,
-      `$1 ${labels.connector}$2$3`,
-    );
+function localizePlanetSignConnector(
+  source: string,
+  locale: NonFrenchLocale,
+): string {
+  const connector =
+    LABELS[locale].connector;
 
-  return out;
+  let output = source;
+
+  output = output.replace(
+    /\{planetName\}\s*en\{" "\}/g,
+    `{planetName} ${connector}{" "}`,
+  );
+
+  output = output.replace(
+    /\{planetName\}\s*en\s*\{" "\}/g,
+    `{planetName} ${connector}{" "}`,
+  );
+
+  return output;
+}
+
+export function localizeSignaturePlanet(
+  source: string,
+  locale: PaidPdfLocale,
+): string {
+  if (locale === "fr") {
+    return source;
+  }
+
+  const safeLocale =
+    locale as NonFrenchLocale;
+
+  let output =
+    source.replace(/\r\n/g, "\n");
+
+  output = replaceVisibleLabels(
+    output,
+    safeLocale,
+  );
+
+  output = injectDisplayMaps(
+    output,
+    safeLocale,
+  );
+
+  output = localizePlanetAndSignValues(
+    output,
+  );
+
+  output = localizePlanetSignConnector(
+    output,
+    safeLocale,
+  );
+
+  return output;
 }
