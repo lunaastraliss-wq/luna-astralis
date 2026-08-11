@@ -66,6 +66,10 @@ import {
   localizeSignatureIntegrationGuide,
 } from "./signature-integration-guide-localization";
 
+import {
+  localizeSignatureSynthesis,
+} from "./signature-synthesis-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -481,7 +485,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureSynthesis.tsx"
   ) {
-    return source;
+    return localizeSignatureSynthesis(
+      source,
+      locale,
+    );
   }
 
   /*
