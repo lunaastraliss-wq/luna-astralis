@@ -1,7 +1,10 @@
-import { Document } from "@react-pdf/renderer";
+import {
+  Document,
+} from "@react-pdf/renderer";
 
 import type {
   SignatureAngles,
+  SignatureLocale,
   SignaturePdfProps,
   SignaturePlanet,
 } from "./SignaturePdfTypes";
@@ -51,23 +54,29 @@ const SIGNATURE_PLANETS = [
 
 /*
 |--------------------------------------------------------------------------
-| Signes par longitude
+| Signes internes
+|--------------------------------------------------------------------------
+|
+| Important :
+| On garde les signes internes en anglais.
+| Les composants se chargeront de les afficher dans la bonne langue.
+|
 |--------------------------------------------------------------------------
 */
 
 const SIGNS_BY_LONGITUDE = [
-  "Bélier",
-  "Taureau",
-  "Gémeaux",
+  "Aries",
+  "Taurus",
+  "Gemini",
   "Cancer",
-  "Lion",
-  "Vierge",
-  "Balance",
-  "Scorpion",
-  "Sagittaire",
-  "Capricorne",
-  "Verseau",
-  "Poissons",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
 ] as const;
 
 /*
@@ -77,35 +86,54 @@ const SIGNS_BY_LONGITUDE = [
 */
 
 function normalizeText(
-  value: string | null | undefined
+  value:
+    | string
+    | null
+    | undefined,
 ): string {
-  return typeof value === "string"
+  return typeof value ===
+    "string"
     ? value.trim()
     : "";
 }
 
 function normalizeLongitude(
-  value: unknown
+  value: unknown,
 ): number | undefined {
   if (
-    typeof value === "number" &&
-    Number.isFinite(value)
+    typeof value ===
+      "number" &&
+    Number.isFinite(
+      value,
+    )
   ) {
     return (
-      ((value % 360) + 360) % 360
+      ((value % 360) +
+        360) %
+      360
     );
   }
 
   if (
-    typeof value === "string" &&
-    value.trim().length > 0
+    typeof value ===
+      "string" &&
+    value.trim().length >
+      0
   ) {
     const numericValue =
-      Number(value.trim());
+      Number(
+        value.trim(),
+      );
 
-    if (Number.isFinite(numericValue)) {
+    if (
+      Number.isFinite(
+        numericValue,
+      )
+    ) {
       return (
-        ((numericValue % 360) + 360) %
+        ((numericValue %
+          360) +
+          360) %
         360
       );
     }
@@ -115,10 +143,12 @@ function normalizeLongitude(
 }
 
 function getSignFromLongitude(
-  longitude: unknown
+  longitude: unknown,
 ): string {
   const normalizedLongitude =
-    normalizeLongitude(longitude);
+    normalizeLongitude(
+      longitude,
+    );
 
   if (
     typeof normalizedLongitude !==
@@ -127,13 +157,16 @@ function getSignFromLongitude(
     return "";
   }
 
-  const signIndex = Math.floor(
-    normalizedLongitude / 30
-  );
+  const signIndex =
+    Math.floor(
+      normalizedLongitude /
+        30,
+    );
 
   return (
-    SIGNS_BY_LONGITUDE[signIndex] ||
-    ""
+    SIGNS_BY_LONGITUDE[
+      signIndex
+    ] || ""
   );
 }
 
@@ -141,16 +174,20 @@ function normalizePlanets(
   value:
     | SignaturePlanet[]
     | null
-    | undefined
+    | undefined,
 ): SignaturePlanet[] {
-  if (!Array.isArray(value)) {
+  if (
+    !Array.isArray(
+      value,
+    )
+  ) {
     return [];
   }
 
   return value
     .filter(
       (
-        planet
+        planet,
       ): planet is SignaturePlanet =>
         Boolean(
           planet &&
@@ -158,70 +195,94 @@ function normalizePlanets(
               "object" &&
             typeof planet.name ===
               "string" &&
-            planet.name.trim().length >
-              0
-        )
+            planet.name
+              .trim()
+              .length >
+              0,
+        ),
     )
-    .map((planet) => {
-      const normalizedName =
-        planet.name?.trim() || "";
+    .map(
+      (
+        planet,
+      ) => {
+        const normalizedName =
+          planet.name?.trim() ||
+          "";
 
-      const normalizedSign =
-        typeof planet.sign ===
+        const normalizedSign =
+          typeof planet.sign ===
           "string"
-          ? planet.sign.trim()
-          : "";
+            ? planet.sign.trim()
+            : "";
 
-      const normalizedPlanetLongitude =
-        normalizeLongitude(
-          planet.longitude
-        );
+        const normalizedPlanetLongitude =
+          normalizeLongitude(
+            planet.longitude,
+          );
 
-      const calculatedSign =
-        normalizedSign ||
-        getSignFromLongitude(
-          normalizedPlanetLongitude
-        );
+        const calculatedSign =
+          normalizedSign ||
+          getSignFromLongitude(
+            normalizedPlanetLongitude,
+          );
 
-      const normalizedDegree =
-        typeof planet.degree ===
-          "number" &&
-        Number.isFinite(
-          planet.degree
-        )
-          ? planet.degree
-          : undefined;
+        const normalizedDegree =
+          typeof planet.degree ===
+            "number" &&
+          Number.isFinite(
+            planet.degree,
+          )
+            ? planet.degree
+            : undefined;
 
-      const normalizedHouse =
-        typeof planet.house ===
-          "number" &&
-        Number.isFinite(
-          planet.house
-        )
-          ? planet.house
-          : undefined;
+        const normalizedHouse =
+          typeof planet.house ===
+            "number" &&
+          Number.isFinite(
+            planet.house,
+          )
+            ? planet.house
+            : undefined;
 
-      return {
-        ...planet,
-        name: normalizedName,
-        sign: calculatedSign,
-        longitude:
-          normalizedPlanetLongitude,
-        degree: normalizedDegree,
-        house: normalizedHouse,
-        retrograde:
-          planet.retrograde === true,
-      };
-    });
+        return {
+          ...planet,
+
+          name:
+            normalizedName,
+
+          sign:
+            calculatedSign,
+
+          longitude:
+            normalizedPlanetLongitude,
+
+          degree:
+            normalizedDegree,
+
+          house:
+            normalizedHouse,
+
+          retrograde:
+            planet.retrograde ===
+            true,
+        };
+      },
+    );
 }
 
 function asRecord(
-  value: unknown
-): Record<string, unknown> | null {
+  value: unknown,
+): Record<
+  string,
+  unknown
+> | null {
   if (
     !value ||
-    typeof value !== "object" ||
-    Array.isArray(value)
+    typeof value !==
+      "object" ||
+    Array.isArray(
+      value,
+    )
   ) {
     return null;
   }
@@ -233,25 +294,38 @@ function asRecord(
 }
 
 function readAngle(
-  record: Record<string, unknown>,
-  keys: string[]
+  record: Record<
+    string,
+    unknown
+  >,
+  keys: string[],
 ): number | undefined {
-  for (const key of keys) {
-    const value = record[key];
+  for (
+    const key of keys
+  ) {
+    const value =
+      record[key];
 
     const normalized =
-      normalizeLongitude(value);
+      normalizeLongitude(
+        value,
+      );
 
     if (
-      typeof normalized === "number"
+      typeof normalized ===
+      "number"
     ) {
       return normalized;
     }
 
     const nestedRecord =
-      asRecord(value);
+      asRecord(
+        value,
+      );
 
-    if (!nestedRecord) {
+    if (
+      !nestedRecord
+    ) {
       continue;
     }
 
@@ -262,10 +336,15 @@ function readAngle(
       "value",
     ];
 
-    for (const nestedKey of nestedKeys) {
+    for (
+      const nestedKey of
+      nestedKeys
+    ) {
       const nestedValue =
         normalizeLongitude(
-          nestedRecord[nestedKey]
+          nestedRecord[
+            nestedKey
+          ],
         );
 
       if (
@@ -284,85 +363,116 @@ function normalizeAngles(
   value:
     | SignatureAngles
     | null
-    | undefined
+    | undefined,
 ): SignatureAngles {
-  const record = asRecord(value);
+  const record =
+    asRecord(
+      value,
+    );
 
-  if (!record) {
+  if (
+    !record
+  ) {
     return {};
   }
 
-  const ascendant = readAngle(
-    record,
-    [
-      "ascendant",
-      "Ascendant",
-      "ASC",
-      "asc",
-      "rising",
-    ]
-  );
+  const ascendant =
+    readAngle(
+      record,
+      [
+        "ascendant",
+        "Ascendant",
+        "ASC",
+        "asc",
+        "rising",
+      ],
+    );
 
-  const midheaven = readAngle(
-    record,
-    [
-      "midheaven",
-      "midHeaven",
-      "Midheaven",
-      "MC",
-      "mc",
-    ]
-  );
+  const midheaven =
+    readAngle(
+      record,
+      [
+        "midheaven",
+        "midHeaven",
+        "Midheaven",
+        "MC",
+        "mc",
+      ],
+    );
 
   const descendant =
-    readAngle(record, [
-      "descendant",
-      "Descendant",
-      "DSC",
-      "dsc",
-    ]) ??
-    (typeof ascendant === "number"
-      ? (ascendant + 180) % 360
-      : undefined);
+    readAngle(
+      record,
+      [
+        "descendant",
+        "Descendant",
+        "DSC",
+        "dsc",
+      ],
+    ) ??
+    (
+      typeof ascendant ===
+      "number"
+        ? (
+            ascendant +
+            180
+          ) %
+          360
+        : undefined
+    );
 
   const imumCoeli =
-    readAngle(record, [
-      "imumCoeli",
-      "imum_coeli",
-      "ImumCoeli",
-      "IC",
-      "ic",
-    ]) ??
-    (typeof midheaven === "number"
-      ? (midheaven + 180) % 360
-      : undefined);
+    readAngle(
+      record,
+      [
+        "imumCoeli",
+        "imum_coeli",
+        "ImumCoeli",
+        "IC",
+        "ic",
+      ],
+    ) ??
+    (
+      typeof midheaven ===
+      "number"
+        ? (
+            midheaven +
+            180
+          ) %
+          360
+        : undefined
+    );
 
   const normalizedAngles:
     SignatureAngles = {};
 
   if (
-    typeof ascendant === "number"
+    typeof ascendant ===
+    "number"
   ) {
     normalizedAngles.ascendant =
       ascendant;
   }
 
   if (
-    typeof midheaven === "number"
+    typeof midheaven ===
+    "number"
   ) {
     normalizedAngles.midheaven =
       midheaven;
   }
 
   if (
-    typeof descendant === "number"
+    typeof descendant ===
+    "number"
   ) {
     normalizedAngles.descendant =
       descendant;
   }
 
   if (
-    typeof imumCoeli === "number"
+    typeof imumCoeli ===
+    "number"
   ) {
     normalizedAngles.imumCoeli =
       imumCoeli;
@@ -373,19 +483,126 @@ function normalizeAngles(
 
 /*
 |--------------------------------------------------------------------------
+| Métadonnées du PDF
+|--------------------------------------------------------------------------
+*/
+
+const DOCUMENT_META: Record<
+  SignatureLocale,
+  {
+    title: string;
+    subject: string;
+    language: string;
+    keywords: string;
+  }
+> = {
+  fr: {
+    title:
+      "Carte du ciel Signature",
+
+    subject:
+      "Rapport astrologique Signature personnalisé",
+
+    language:
+      "fr-CA",
+
+    keywords:
+      "astrologie, carte du ciel, thème natal, rapport astrologique, rapport Signature, Luna Astralis",
+  },
+
+  en: {
+    title:
+      "Signature Birth Chart",
+
+    subject:
+      "Personalized Signature astrological report",
+
+    language:
+      "en",
+
+    keywords:
+      "astrology, birth chart, natal chart, astrological report, Signature report, Luna Astralis",
+  },
+
+  es: {
+    title:
+      "Carta natal Signature",
+
+    subject:
+      "Informe astrológico Signature personalizado",
+
+    language:
+      "es",
+
+    keywords:
+      "astrología, carta natal, tema natal, informe astrológico, informe Signature, Luna Astralis",
+  },
+
+  de: {
+    title:
+      "Signature Geburtshoroskop",
+
+    subject:
+      "Personalisierter astrologischer Signature-Bericht",
+
+    language:
+      "de",
+
+    keywords:
+      "Astrologie, Geburtshoroskop, astrologischer Bericht, Signature-Bericht, Luna Astralis",
+  },
+
+  it: {
+    title:
+      "Tema natale Signature",
+
+    subject:
+      "Rapporto astrologico Signature personalizzato",
+
+    language:
+      "it",
+
+    keywords:
+      "astrologia, tema natale, carta natale, rapporto astrologico, rapporto Signature, Luna Astralis",
+  },
+
+  pt: {
+    title:
+      "Mapa astral Signature",
+
+    subject:
+      "Relatório astrológico Signature personalizado",
+
+    language:
+      "pt-BR",
+
+    keywords:
+      "astrologia, mapa astral, mapa natal, relatório astrológico, relatório Signature, Luna Astralis",
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
 | Document Signature
 |--------------------------------------------------------------------------
 */
 
 export default function SignaturePdfDocument({
+  locale = "fr",
+
   firstName,
   birthDate,
   birthTime,
   birthCity,
+
   planets,
   angles,
   wheelImage,
 }: SignaturePdfProps) {
+  const safeLocale:
+    SignatureLocale =
+    locale || "fr";
+
   /*
   |--------------------------------------------------------------------------
   | Données sécurisées
@@ -393,31 +610,51 @@ export default function SignaturePdfDocument({
   */
 
   const safeFirstName =
-    normalizeText(firstName);
+    normalizeText(
+      firstName,
+    );
 
   const safeBirthDate =
-    normalizeText(birthDate);
+    normalizeText(
+      birthDate,
+    );
 
   const safeBirthTime =
-    normalizeText(birthTime);
+    normalizeText(
+      birthTime,
+    );
 
   const safeBirthCity =
-    normalizeText(birthCity);
+    normalizeText(
+      birthCity,
+    );
 
   const safeWheelImage =
-    normalizeText(wheelImage);
+    normalizeText(
+      wheelImage,
+    );
 
   const safePlanets:
     SignaturePlanet[] =
-    normalizePlanets(planets);
+    normalizePlanets(
+      planets,
+    );
 
   const safeAngles:
     SignatureAngles =
-    normalizeAngles(angles);
+    normalizeAngles(
+      angles,
+    );
 
   const documentName =
     safeFirstName ||
     "Luna Astralis";
+
+  const meta =
+    DOCUMENT_META[
+      safeLocale
+    ] ||
+    DOCUMENT_META.fr;
 
   /*
   |--------------------------------------------------------------------------
@@ -427,173 +664,331 @@ export default function SignaturePdfDocument({
 
   return (
     <Document
-      title={`Carte du ciel Signature - ${documentName}`}
+      title={`${meta.title} - ${documentName}`}
       author="Luna Astralis"
-      subject="Rapport astrologique Signature personnalisé"
+      subject={meta.subject}
       creator="Luna Astralis"
       producer="Luna Astralis"
-      language="fr-CA"
-      keywords={[
-        "astrologie",
-        "carte du ciel",
-        "thème natal",
-        "rapport astrologique",
-        "rapport Signature",
-        "Luna Astralis",
-      ].join(", ")}
+      language={meta.language}
+      keywords={meta.keywords}
     >
-      {/* Couverture */}
       <PdfSignatureCover
-        firstName={safeFirstName}
-        birthDate={safeBirthDate}
-        birthTime={safeBirthTime}
-        birthCity={safeBirthCity}
-        planets={safePlanets}
-        angles={safeAngles}
-        wheelImage={safeWheelImage}
+        firstName={
+          safeFirstName
+        }
+        birthDate={
+          safeBirthDate
+        }
+        birthTime={
+          safeBirthTime
+        }
+        birthCity={
+          safeBirthCity
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        wheelImage={
+          safeWheelImage
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Roue astrologique */}
       <PdfSignatureWheel
-        firstName={safeFirstName}
-        birthDate={safeBirthDate}
-        birthTime={safeBirthTime}
-        birthCity={safeBirthCity}
-        planets={safePlanets}
-        angles={safeAngles}
-        wheelImage={safeWheelImage}
+        firstName={
+          safeFirstName
+        }
+        birthDate={
+          safeBirthDate
+        }
+        birthTime={
+          safeBirthTime
+        }
+        birthCity={
+          safeBirthCity
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        wheelImage={
+          safeWheelImage
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Guide de lecture */}
-      <PdfSignatureWheelGuide />
+      <PdfSignatureWheelGuide
+        locale={
+          safeLocale
+        }
+      />
 
-      {/* Introduction */}
       <PdfSignatureWelcome
-        firstName={safeFirstName}
+        firstName={
+          safeFirstName
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Soleil, Lune et Ascendant */}
       <PdfSignatureSummary
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Analyse des dix planètes */}
       {SIGNATURE_PLANETS.map(
-        (planetName) => (
+        (
+          planetName,
+        ) => (
           <PdfSignaturePlanet
-            key={planetName}
-            planet={planetName}
-            planets={safePlanets}
+            key={
+              planetName
+            }
+            planet={
+              planetName
+            }
+            planets={
+              safePlanets
+            }
+            locale={
+              safeLocale
+            }
           />
-        )
+        ),
       )}
 
-      {/* Répartition des éléments */}
       <PdfSignatureElements
-        planets={safePlanets}
+        planets={
+          safePlanets
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Répartition des modalités */}
       <PdfSignatureModalities
-        planets={safePlanets}
+        planets={
+          safePlanets
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Analyse des maisons */}
       <PdfSignatureHouses
-        planets={safePlanets}
+        planets={
+          safePlanets
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Aspects planétaires */}
       <PdfSignatureAspects
-        planets={safePlanets}
+        planets={
+          safePlanets
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Dominantes du thème */}
       <PdfSignatureDominants
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Forces naturelles */}
       <PdfSignatureStrengths
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Défis d’évolution */}
       <PdfSignatureChallenges
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Vie relationnelle */}
       <PdfSignatureRelationships
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Carrière et vocation */}
       <PdfSignatureCareer
-        planets={safePlanets}
-        angles={safeAngles}
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Mission de vie */}
       <PdfSignatureLifePurpose
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Chemin de l’âme */}
       <PdfSignatureSoulPath
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Monde intérieur */}
       <PdfSignatureInnerWorld
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Blocages inconscients */}
       <PdfSignatureLifeBlocks
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Talents cachés */}
       <PdfSignatureHiddenTalents
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Guide d’intégration */}
       <PdfSignatureIntegrationGuide
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Synthèse Signature */}
       <PdfSignatureSynthesis
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
 
-      {/* Conclusion personnalisée */}
       <PdfSignatureConclusion
-        firstName={safeFirstName}
-        planets={safePlanets}
-        angles={safeAngles}
+        firstName={
+          safeFirstName
+        }
+        planets={
+          safePlanets
+        }
+        angles={
+          safeAngles
+        }
+        locale={
+          safeLocale
+        }
       />
     </Document>
   );
-      }
+}
