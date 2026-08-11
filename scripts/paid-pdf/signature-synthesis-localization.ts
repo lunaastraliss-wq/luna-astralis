@@ -3619,7 +3619,7 @@ Record<
         modality,
         description,
       ) =>
-        `Your ${modality.toLowerCase()} energy shows that your evolution moves through ${description}.`,
+        `Your ${modality} energy shows that your evolution moves through ${description}.`
 
     signatureConclusion:
       "Your chart does not ask you to become someone else. It invites you to unite your strengths, understand your contradictions, and choose a way forward that fully respects your nature.",
