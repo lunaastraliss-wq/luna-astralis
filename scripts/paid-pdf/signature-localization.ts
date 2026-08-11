@@ -30,6 +30,10 @@ import {
   localizeSignatureStrengths,
 } from "./signature-strengths-localization";
 
+import {
+  localizeSignatureChallenges,
+} from "./signature-challenges-localization";
+
 type LocalizeSignatureFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -301,7 +305,10 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureChallenges.tsx"
   ) {
-    return source;
+    return localizeSignatureChallenges(
+      source,
+      locale,
+    );
   }
 
   /*
