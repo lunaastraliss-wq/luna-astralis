@@ -415,6 +415,15 @@ function getElementDisplayName(
               : ${JSON.stringify(labels.undetermined)}`,
   );
 
+  // Robust replacement for the exact JSX block used by PdfSignatureElements.
+  // This handles line breaks and indentation around hasDominantElement.
+  out = out.replace(
+    /\{hasDominantElement\s*\?\s*dominantElement\s*:\s*"Non déterminée"\}/g,
+    `{hasDominantElement
+              ? getElementDisplayName(dominantElement as ElementName)
+              : ${JSON.stringify(labels.undetermined)}}`,
+  );
+
   // Planet count.
   out = out.replace(
     /\{value === 1\s*\?\s*"1 planète"\s*:\s*`\$\{value\} planètes`\}/g,
