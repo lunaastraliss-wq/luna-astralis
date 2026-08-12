@@ -81,6 +81,18 @@ type LocalizeSignatureFileOptions = {
   fileName: string;
 };
 
+function normalizeColonSpacing(
+  text: string,
+  locale: PaidPdfLocale,
+): string {
+  if (locale === "fr") {
+    return text;
+  }
+
+  return text.replace(/\s+:/g, ":");
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | Signature PDF localizer
@@ -233,8 +245,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignaturePlanet.tsx"
   ) {
-    return localizeSignaturePlanet(
+    return normalizeColonSpacing(
+      localizeSignaturePlanet(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -249,8 +264,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureElements.tsx"
   ) {
-    return localizeSignatureElements(
+    return normalizeColonSpacing(
+      localizeSignatureElements(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -265,8 +283,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureModalities.tsx"
   ) {
-    return localizeSignatureModalities(
+    return normalizeColonSpacing(
+      localizeSignatureModalities(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -281,8 +302,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureHouses.tsx"
   ) {
-    return localizeSignatureHouses(
+    return normalizeColonSpacing(
+      localizeSignatureHouses(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -297,8 +321,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureAspects.tsx"
   ) {
-    return localizeSignatureAspects(
+    return normalizeColonSpacing(
+      localizeSignatureAspects(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -313,8 +340,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureDominants.tsx"
   ) {
-    return localizeSignatureDominants(
+    return normalizeColonSpacing(
+      localizeSignatureDominants(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -329,8 +359,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureStrengths.tsx"
   ) {
-    return localizeSignatureStrengths(
+    return normalizeColonSpacing(
+      localizeSignatureStrengths(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -345,8 +378,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureChallenges.tsx"
   ) {
-    return localizeSignatureChallenges(
+    return normalizeColonSpacing(
+      localizeSignatureChallenges(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -361,8 +397,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureRelationships.tsx"
   ) {
-    return localizeSignatureRelationships(
+    return normalizeColonSpacing(
+      localizeSignatureRelationships(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -377,8 +416,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureCareer.tsx"
   ) {
-    return localizeSignatureCareer(
+    return normalizeColonSpacing(
+      localizeSignatureCareer(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -393,8 +435,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureLifePurpose.tsx"
   ) {
-    return localizeSignatureLifePurpose(
+    return normalizeColonSpacing(
+      localizeSignatureLifePurpose(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -409,8 +454,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureSoulPath.tsx"
   ) {
-    return localizeSignatureSoulPath(
+    return normalizeColonSpacing(
+      localizeSignatureSoulPath(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -425,8 +473,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureInnerWorld.tsx"
   ) {
-    return localizeSignatureInnerWorld(
+    return normalizeColonSpacing(
+      localizeSignatureInnerWorld(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -441,8 +492,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureLifeBlocks.tsx"
   ) {
-    return localizeSignatureLifeBlocks(
+    return normalizeColonSpacing(
+      localizeSignatureLifeBlocks(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -457,8 +511,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureHiddenTalents.tsx"
   ) {
-    return localizeSignatureHiddenTalents(
+    return normalizeColonSpacing(
+      localizeSignatureHiddenTalents(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -473,8 +530,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureIntegrationGuide.tsx"
   ) {
-    return localizeSignatureIntegrationGuide(
+    return normalizeColonSpacing(
+      localizeSignatureIntegrationGuide(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -489,8 +549,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureSynthesis.tsx"
   ) {
-    return localizeSignatureSynthesis(
+    return normalizeColonSpacing(
+      localizeSignatureSynthesis(
       source,
+      locale,
+      ),
       locale,
     );
   }
@@ -505,8 +568,11 @@ export function localizeSignatureFile({
     fileName ===
     "PdfSignatureConclusion.tsx"
   ) {
-    return localizeSignatureConclusion(
+    return normalizeColonSpacing(
+      localizeSignatureConclusion(
       source,
+      locale,
+      ),
       locale,
     );
   }
