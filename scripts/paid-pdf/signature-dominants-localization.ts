@@ -719,20 +719,24 @@ function getDominantModalityDisplayName(
     "label={getDominantModalityDisplayName(modality)}",
   );
 
-  out = out.replace(
-    /`Maison dominante : maison \$\{dominantHouse\.house\}`/g,
-    `\`${labels.dominantHouse} : ${labels.house} \${dominantHouse.house}\``,
-  );
+out = out.replace(
+  /`Maison dominante : maison \$\{dominantHouse\.house\}`/g,
+  "`" +
+    labels.dominantHouse +
+    ": " +
+    (locale === "en" ? "House" : labels.house) +
+    " ${dominantHouse.house}`",
+);
 
-  out = out.replace(
-    /`\$\{\s*dominantHouse\.count\s*\}\s*planète\$\{\s*dominantHouse\.count\s*>\s*1\s*\?\s*"s"\s*:\s*""\s*\}`/g,
-    `\`\${dominantHouse.count} \${
-      dominantHouse.count > 1
-        ? ${JSON.stringify(labels.planetPlural)}
-        : ${JSON.stringify(labels.planetSingular)}
-    }\``,
-  );
-
+out = out.replace(
+  /`\$\{\s*dominantHouse\.count\s*\}\s*planète\$\{\s*dominantHouse\.count\s*>\s*1\s*\?\s*"s"\s*:\s*""\s*\}`/g,
+  "`" +
+    "${dominantHouse.count} ${dominantHouse.count > 1 ? " +
+    JSON.stringify(labels.planetPlural) +
+    " : " +
+    JSON.stringify(labels.planetSingular) +
+    "}`",
+);
   const houseParagraph =
     labels.houseDominantTemplate2
       .replace(
