@@ -650,10 +650,15 @@ function replaceVisibleLabels(
     labels.orb,
   );
 if (locale === "en") {
-  output = output.replace(
-    /· Aspect\{" "\}\s*\{\s*getLocalizedAspectCategory\(calculatedAspect\.aspect\.category\)\s*\}/g,
-    `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
-  );
+  output = output
+    .replace(
+      /· Aspect\{" "\}\{getLocalizedAspectCategory\(calculatedAspect\.aspect\.category\)\}/g,
+      `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
+    )
+    .replace(
+      /· Aspect\{" "\}\{calculatedAspect\.aspect\.category\}/g,
+      `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
+    );
 } else {
   output = output.replace(
     /· Aspect\{" "\}/g,
