@@ -32,8 +32,14 @@ import "../../../carte-du-ciel/signature/page.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-carte-du-ciel-signature.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-carte-du-ciel-signature.pdf",
+  en: "/reports/Luna-Astralis-Signature-Demo-English.pdf",
+  es: "/reports/Luna-Astralis-Signature-Demo-Espanol.pdf",
+  de: "/reports/Luna-Astralis-Signature-Demo-Deutsch.pdf",
+  it: "/reports/Luna-Astralis-Signature-Demo-Italiano.pdf",
+  pt: "/reports/Luna-Astralis-Signature-Demo-Portugues.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-carte-du-ciel-signature.png",
@@ -88,6 +94,9 @@ export function generateMetadata({
 
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
+
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/signature`;
@@ -347,7 +356,7 @@ export default function SignaturePage({
                 </Link>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="signature-button signature-button-secondary"
@@ -357,7 +366,7 @@ export default function SignaturePage({
               </div>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="signature-hero-preview-link"
@@ -626,7 +635,7 @@ export default function SignaturePage({
 
               <div className="signature-report-actions">
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="signature-button signature-button-primary"
@@ -723,7 +732,7 @@ export default function SignaturePage({
               </p>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="signature-text-link"
@@ -902,7 +911,7 @@ export default function SignaturePage({
                 </div>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="signature-order-preview-link"
