@@ -745,8 +745,20 @@ export function localizeSignatureRelationships(
     return source;
   }
 
+  const lang =
+    locale as NonFrenchLocale;
+
   const labels =
-    LABELS[locale as NonFrenchLocale];
+    LABELS[lang];
+
+  const planetSignConnector:
+    Record<NonFrenchLocale, string> = {
+      en: "in",
+      es: "en",
+      de: "im",
+      it: "in",
+      pt: "em",
+    };
 
   let out =
     source.replace(/\r\n/g, "\n");
@@ -816,6 +828,40 @@ export function localizeSignatureRelationships(
     /const SIGN_NAMES_FR:\s*Record<[\s\S]*?>\s*=\s*\{[\s\S]*?\};/,
     `const SIGN_NAMES_FR: Record<string, string> = ${JSON.stringify(
       signNames,
+      null,
+      2,
+    )};`,
+  );
+
+  /*
+  |--------------------------------------------------------------------------
+  | Signes calculés du Descendant
+  |--------------------------------------------------------------------------
+  |
+  | longitudeToSign() contient aussi un tableau français dans le composant.
+  | On le remplace afin que descendantSign soit déjà localisé.
+  |--------------------------------------------------------------------------
+  */
+
+  const longitudeSigns = [
+    labels.aries,
+    labels.taurus,
+    labels.gemini,
+    labels.cancer,
+    labels.leo,
+    labels.virgo,
+    labels.libra,
+    labels.scorpio,
+    labels.sagittarius,
+    labels.capricorn,
+    labels.aquarius,
+    labels.pisces,
+  ];
+
+  out = out.replace(
+    /const signs = \[\s*"Bélier",\s*"Taureau",\s*"Gémeaux",\s*"Cancer",\s*"Lion",\s*"Vierge",\s*"Balance",\s*"Scorpion",\s*"Sagittaire",\s*"Capricorne",\s*"Verseau",\s*"Poissons",?\s*\];/,
+    `const signs = ${JSON.stringify(
+      longitudeSigns,
       null,
       2,
     )};`,
@@ -1025,6 +1071,17 @@ export function localizeSignatureRelationships(
 
   /*
   |--------------------------------------------------------------------------
+  | Titres dynamiques planète + signe
+  |--------------------------------------------------------------------------
+  */
+
+  out = out.replace(
+    /`\$\{translatedName\} en \$\{frenchSign\}`/g,
+    `\`\${translatedName} ${planetSignConnector[lang]} \${frenchSign}\``,
+  );
+
+  /*
+  |--------------------------------------------------------------------------
   | Phrases dynamiques
   |--------------------------------------------------------------------------
   */
@@ -1062,6 +1119,37 @@ export function localizeSignatureRelationships(
     labels.descendantEnding,
   );
 
+
+  const localizedDescendantFunction = `
+function getDescendantText(
+  sign: string | null
+): string {
+  if (!sign) {
+    return ${JSON.stringify(labels.descendantUnavailable)};
+  }
+
+  const signText =
+    SIGN_RELATIONSHIP_TEXTS[
+      sign
+    ] || "";
+
+  return (
+    ${JSON.stringify(labels.descendantIn)} +
+    " " +
+    sign +
+    ". " +
+    signText +
+    " " +
+    ${JSON.stringify(labels.descendantEnding)}
+  ).trim();
+}
+`;
+
+  out = out.replace(
+    /function getDescendantText\([\s\S]*?\n\}\n\nfunction getRelationshipStrength\(/m,
+    `${localizedDescendantFunction}\nfunction getRelationshipStrength(`,
+  );
+
   /*
   |--------------------------------------------------------------------------
   | Force relationnelle dynamique
@@ -1094,6 +1182,65 @@ export function localizeSignatureRelationships(
     out,
     "Votre défi consiste à accorder le besoin d’harmonie avec l’expression claire de vos désirs, de vos limites et de vos frustrations.",
     "",
+  );
+
+
+  const localizedRelationshipSynthesisFunction = `
+function createRelationshipSynthesis(
+  moon: SignatureRelationshipPlanet | null,
+  venus: SignatureRelationshipPlanet | null,
+  mars: SignatureRelationshipPlanet | null,
+  descendantSign: string | null
+): string {
+  const moonSign =
+    getFrenchSign(
+      moon?.sign
+    );
+
+  const venusSign =
+    getFrenchSign(
+      venus?.sign
+    );
+
+  const marsSign =
+    getFrenchSign(
+      mars?.sign
+    );
+
+  const descendantText =
+    descendantSign
+      ? ${JSON.stringify(labels.synthesisDescendantStart)} +
+        " " +
+        descendantSign +
+        " " +
+        ${JSON.stringify(labels.synthesisDescendantEnd)}
+      : "";
+
+  return (
+    ${JSON.stringify(labels.synthesisStart)} +
+    " " +
+    moonSign +
+    ", " +
+    ${JSON.stringify(labels.synthesisVenus)} +
+    " " +
+    venusSign +
+    " " +
+    ${JSON.stringify(labels.synthesisMars)} +
+    " " +
+    marsSign +
+    ". " +
+    ${JSON.stringify(labels.synthesisCore)} +
+    " " +
+    descendantText +
+    " " +
+    ${JSON.stringify(labels.synthesisEnding)}
+  ).trim();
+}
+`;
+
+  out = out.replace(
+    /function createRelationshipSynthesis\([\s\S]*?\n\}\n\nexport default function PdfSignatureRelationships\(/m,
+    `${localizedRelationshipSynthesisFunction}\nexport default function PdfSignatureRelationships(`,
   );
 
   /*
