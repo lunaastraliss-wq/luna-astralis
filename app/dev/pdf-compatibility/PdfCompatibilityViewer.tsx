@@ -12,8 +12,88 @@ import {
 
 import html2canvas from "html2canvas";
 
+import {
+  useSearchParams,
+} from "next/navigation";
+
+import Link from "next/link";
+
 import NatalChartWheel from "@/components/NatalChartWheel";
-import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentFr
+  from "@/paid-pdf-generated/fr/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentEn
+  from "@/paid-pdf-generated/en/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentEs
+  from "@/paid-pdf-generated/es/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentDe
+  from "@/paid-pdf-generated/de/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentIt
+  from "@/paid-pdf-generated/it/CompatibilityPdf/CompatibilityPdfDocument";
+
+import CompatibilityPdfDocumentPt
+  from "@/paid-pdf-generated/pt/CompatibilityPdf/CompatibilityPdfDocument";
+
+type CompatibilityLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+const SUPPORTED_LOCALES:
+CompatibilityLocale[] = [
+  "fr",
+  "en",
+  "es",
+  "de",
+  "it",
+  "pt",
+];
+
+const LANGUAGE_LABELS:
+Record<
+  CompatibilityLocale,
+  string
+> = {
+  fr: "FR",
+  en: "EN",
+  es: "ES",
+  de: "DE",
+  it: "IT",
+  pt: "PT",
+};
+
+const PDF_DOCUMENTS = {
+  fr: CompatibilityPdfDocumentFr,
+  en: CompatibilityPdfDocumentEn,
+  es: CompatibilityPdfDocumentEs,
+  de: CompatibilityPdfDocumentDe,
+  it: CompatibilityPdfDocumentIt,
+  pt: CompatibilityPdfDocumentPt,
+};
+
+function normalizeLocale(
+  value:
+    | string
+    | null,
+): CompatibilityLocale {
+  if (
+    value &&
+    SUPPORTED_LOCALES.includes(
+      value as CompatibilityLocale,
+    )
+  ) {
+    return value as CompatibilityLocale;
+  }
+
+  return "fr";
+}
 
 type ChartData = {
   planets: any[];
@@ -205,6 +285,21 @@ async function loadNatalChart({
 }
 
 export default function PdfCompatibilityViewer() {
+  const searchParams =
+    useSearchParams();
+
+  const locale =
+    normalizeLocale(
+      searchParams.get(
+        "locale",
+      ),
+    );
+
+  const CompatibilityDocument =
+    PDF_DOCUMENTS[
+      locale
+    ];
+
   const person1WheelRef =
     useRef<HTMLDivElement | null>(
       null,
@@ -384,6 +479,22 @@ export default function PdfCompatibilityViewer() {
 
     async function createWheelImages() {
       try {
+        setLoading(
+          true,
+        );
+
+        setError(
+          "",
+        );
+
+        setPerson1WheelImage(
+          "",
+        );
+
+        setPerson2WheelImage(
+          "",
+        );
+
         /*
          * Laisse le temps aux deux roues cachées
          * de terminer leur rendu dans le DOM.
@@ -521,6 +632,7 @@ export default function PdfCompatibilityViewer() {
   }, [
     person1Chart,
     person2Chart,
+    locale,
   ]);
 
   /*
@@ -692,6 +804,97 @@ export default function PdfCompatibilityViewer() {
     >
       {/*
        * -----------------------------------------------------------------------
+       * Sélecteur des 6 langues
+       * -----------------------------------------------------------------------
+       */}
+      <div
+        style={{
+          position:
+            "absolute",
+
+          top:
+            12,
+
+          left:
+            12,
+
+          zIndex:
+            20,
+
+          display:
+            "flex",
+
+          gap:
+            6,
+
+          padding:
+            7,
+
+          backgroundColor:
+            "rgba(6,16,31,0.92)",
+
+          border:
+            "1px solid #8f6e35",
+
+          borderRadius:
+            8,
+        }}
+      >
+        {SUPPORTED_LOCALES.map(
+          (
+            language,
+          ) => (
+            <Link
+              key={
+                language
+              }
+              href={
+                `/dev/pdf-compatibility?locale=${language}`
+              }
+              style={{
+                padding:
+                  "6px 9px",
+
+                borderRadius:
+                  5,
+
+                textDecoration:
+                  "none",
+
+                fontFamily:
+                  "Arial, sans-serif",
+
+                fontSize:
+                  12,
+
+                fontWeight:
+                  700,
+
+                color:
+                  locale ===
+                  language
+                    ? "#081020"
+                    : "#fff8e7",
+
+                backgroundColor:
+                  locale ===
+                  language
+                    ? "#f4c95d"
+                    : "#152033",
+              }}
+            >
+              {
+                LANGUAGE_LABELS[
+                  language
+                ]
+              }
+            </Link>
+          ),
+        )}
+      </div>
+
+      {/*
+       * -----------------------------------------------------------------------
        * Roue cachée — Martine
        * -----------------------------------------------------------------------
        */}
@@ -749,7 +952,7 @@ export default function PdfCompatibilityViewer() {
             }}
           >
             <NatalChartWheel
-              locale="fr"
+              locale={locale}
               planets={
                 person1Chart.planets
               }
@@ -834,7 +1037,7 @@ export default function PdfCompatibilityViewer() {
             }}
           >
             <NatalChartWheel
-              locale="fr"
+              locale={locale}
               planets={
                 person2Chart.planets
               }
@@ -943,7 +1146,7 @@ export default function PdfCompatibilityViewer() {
         person2WheelImage ? (
         <PDFViewer
           key={
-            `${person1WheelImage.length}-${person2WheelImage.length}`
+            `${locale}-${person1WheelImage.length}-${person2WheelImage.length}`
           }
           width="100%"
           height="100%"
@@ -953,7 +1156,7 @@ export default function PdfCompatibilityViewer() {
           }}
           showToolbar
         >
-          <CompatibilityPdfDocument
+          <CompatibilityDocument
             person1={
               person1
             }
