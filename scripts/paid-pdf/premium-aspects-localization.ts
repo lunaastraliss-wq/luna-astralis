@@ -122,9 +122,9 @@ const COPY: Record<NonFrenchLocale, AspectCopy> = {
       "Polarité et recherche d’équilibre": "Polarity and the search for balance",
     },
     categories: {
-      harmonieux: "harmonious",
-      dynamique: "dynamic",
-      intense: "intense",
+      harmonieux: "Harmonious aspect",
+      dynamique: "Dynamic aspect",
+      intense: "Intense aspect",
     },
     strength: {
       veryPowerful: "Very powerful",
@@ -650,15 +650,10 @@ function replaceVisibleLabels(
     labels.orb,
   );
 if (locale === "en") {
-  output = output
-    .replace(
-      /· Aspect\{" "\}\{getLocalizedAspectCategory\(calculatedAspect\.aspect\.category\)\}/g,
-      `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
-    )
-    .replace(
-      /· Aspect\{" "\}\{calculatedAspect\.aspect\.category\}/g,
-      `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
-    );
+  output = output.replace(
+    /· Aspect\{" "\}/g,
+    "· ",
+  );
 } else {
   output = output.replace(
     /· Aspect\{" "\}/g,
