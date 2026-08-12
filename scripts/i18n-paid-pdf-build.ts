@@ -2623,6 +2623,89 @@ function localizePaidPdfDisplayLiterals(
       }
 
       /*
+       * SignaturePdf — page 3 / guide de lecture.
+       *
+       * PdfSignatureWheelGuide.tsx contient les noms visibles des cinq
+       * planètes directement dans le JSX. Les autres textes de la page
+       * sont déjà localisés, mais ces noms peuvent rester en français.
+       *
+       * On cible UNIQUEMENT ce composant afin de ne jamais modifier
+       * les valeurs techniques utilisées ailleurs dans SignaturePdf.
+       */
+      if (
+        normalizePath(absolute).includes(
+          "/SignaturePdf/",
+        ) &&
+        entry.name ===
+          "PdfSignatureWheelGuide.tsx"
+      ) {
+        const signatureGuidePlanetNames:
+          Record<
+            PaidPdfLocale,
+            Record<string, string>
+          > = {
+          fr: {},
+          en: {
+            Soleil: "Sun",
+            Lune: "Moon",
+            Mercure: "Mercury",
+            Vénus: "Venus",
+            Mars: "Mars",
+          },
+          es: {
+            Soleil: "Sol",
+            Lune: "Luna",
+            Mercure: "Mercurio",
+            Vénus: "Venus",
+            Mars: "Marte",
+          },
+          de: {
+            Soleil: "Sonne",
+            Lune: "Mond",
+            Mercure: "Merkur",
+            Vénus: "Venus",
+            Mars: "Mars",
+          },
+          it: {
+            Soleil: "Sole",
+            Lune: "Luna",
+            Mercure: "Mercurio",
+            Vénus: "Venere",
+            Mars: "Marte",
+          },
+          pt: {
+            Soleil: "Sol",
+            Lune: "Lua",
+            Mercure: "Mercúrio",
+            Vénus: "Vênus",
+            Mars: "Marte",
+          },
+        };
+
+        for (
+          const [french, translated] of
+          Object.entries(
+            signatureGuidePlanetNames[
+              locale
+            ],
+          )
+        ) {
+          /*
+           * Ici les noms sont du JSX texte, pas des chaînes entre guillemets.
+           * On cible le contenu exact situé entre les balises Text afin
+           * d'éviter tout remplacement dans la logique ou les constantes.
+           */
+          source = source.replace(
+            new RegExp(
+              `(>\\s*)${french}(\\s*<)`,
+              "g",
+            ),
+            `$1${translated}$2`,
+          );
+        }
+      }
+
+      /*
        * PdfPlanet.tsx — connecteur visible entre la planète et le signe.
        * Exemple anglais : Sun in Scorpio.
        * On cible uniquement le composant Premium PdfPlanet généré.
