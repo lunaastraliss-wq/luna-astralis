@@ -97,11 +97,6 @@ export function generateMetadata({
       locale
     ];
 
-  const reportPreviewUrl =
-    REPORT_PREVIEW_URLS[
-      locale
-    ];
-
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/essentielle`;
 
@@ -227,6 +222,9 @@ export default function EssentiellePage({
     REPORT_COVER_URLS[
       locale
     ];
+
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/essentielle`;
