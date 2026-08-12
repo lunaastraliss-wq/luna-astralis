@@ -1486,10 +1486,9 @@ export default function PdfSignatureIntegrationGuide({
             >
               Le Soleil donne la direction,
               la Lune protège votre équilibre
-              émotionnel, l’Ascendant décrit
-              votre première réponse au monde,
-              Jupiter ouvre les possibilités et
-              Saturne construit la maîtrise.
+              émotionnel, Jupiter ouvre les
+              possibilités et Saturne construit
+              la maîtrise.
               {"\n\n"}
               {coreIntegration}
             </Text>
