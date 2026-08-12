@@ -32,8 +32,14 @@ import "../../../carte-du-ciel/premium/page.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-carte-du-ciel-premium.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-carte-du-ciel-premium.pdf",
+  en: "/reports/Luna-Astralis-Premium-Demo-English.pdf",
+  es: "/reports/Luna-Astralis-Premium-Preview-Espanol.pdf",
+  de: "/reports/Luna-Astralis-Premium-Demo-Deutsch.pdf",
+  it: "/reports/Luna-Astralis-Premium-Demo-Italiano.pdf",
+  pt: "/reports/Luna-Astralis-Premium-Demo-Portugues-Brasil.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-carte-du-ciel-premium.png",
@@ -88,6 +94,9 @@ export function generateMetadata({
 
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
+
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/premium`;
@@ -347,7 +356,7 @@ export default function PremiumPage({
                 </Link>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="premium-button premium-button-secondary"
@@ -357,7 +366,7 @@ export default function PremiumPage({
               </div>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="premium-hero-preview-link"
@@ -626,7 +635,7 @@ export default function PremiumPage({
 
               <div className="premium-report-actions">
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="premium-button premium-button-primary"
@@ -723,7 +732,7 @@ export default function PremiumPage({
               </p>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="premium-text-link"
@@ -902,7 +911,7 @@ export default function PremiumPage({
                 </div>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="premium-order-preview-link"
