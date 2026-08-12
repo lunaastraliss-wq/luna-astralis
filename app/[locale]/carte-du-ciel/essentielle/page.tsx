@@ -32,8 +32,14 @@ import "../../../carte-du-ciel/essentielle/page.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-carte-du-ciel-essentielle.pdf",
+  en: "/reports/Luna-Astralis-Essential-Sample-English.pdf",
+  es: "/reports/Luna-Astralis-Muestra-Esencial-Espanol.pdf",
+  de: "/reports/Luna-Astralis-Essentiell-Vorschau-Deutsch.pdf",
+  it: "/reports/Luna-Astralis-Anteprima-Essenziale-Italiano.pdf",
+  pt: "/reports/Luna-Astralis-Amostra-Essencial-Portugues-Brasil.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-carte-du-ciel-essentielle.png",
@@ -88,6 +94,11 @@ export function generateMetadata({
 
   const reportCoverUrl =
     REPORT_COVER_URLS[
+      locale
+    ];
+
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[
       locale
     ];
 
@@ -351,7 +362,7 @@ export default function EssentiellePage({
                 </Link>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="essential-button essential-button-secondary"
@@ -361,7 +372,7 @@ export default function EssentiellePage({
               </div>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="essential-hero-preview-link"
@@ -630,7 +641,7 @@ export default function EssentiellePage({
 
               <div className="essential-report-actions">
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="essential-button essential-button-primary"
@@ -727,7 +738,7 @@ export default function EssentiellePage({
               </p>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="essential-text-link"
@@ -906,7 +917,7 @@ export default function EssentiellePage({
                 </div>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="essential-order-preview-link"
