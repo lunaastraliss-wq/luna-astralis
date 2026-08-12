@@ -1109,9 +1109,9 @@ function redirectDominantsDynamicValues(
    * Titre de maison dominante.
    */
   output = output.replace(
-    /\{\s*dominantHouse\.house\s*\?\s*`Maison dominante : maison \$\{dominantHouse\.house\}`\s*:\s*"Maison dominante"\s*\}/g,
-    "{getLocalizedDominantHouseTitle(dominantHouse.house)}",
-  );
+  /\{\s*dominantHouse\.house\s*\?\s*`Maison dominante : maison \$\{dominantHouse\.house\}`\s*:\s*"Maison dominante"\s*\}/g,
+  "{getLocalizedDominantHouseTitle(dominantHouse.house)}",
+);
 
   /*
    * Nombre de planètes dans la maison dominante.
