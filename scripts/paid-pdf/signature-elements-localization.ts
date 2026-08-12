@@ -410,7 +410,7 @@ function getElementDisplayName(
 
   // Visible dominant element name.
   out = out.replace(
-    /\? dominantElement\s*:\s*"Non déterminée"/g,
+    /\? dominantElement\s*:\s*"[^"]*"/g,
     `? getElementDisplayName(dominantElement)
               : ${JSON.stringify(labels.undetermined)}`,
   );
@@ -418,7 +418,7 @@ function getElementDisplayName(
   // Robust replacement for the exact JSX block used by PdfSignatureElements.
   // This handles line breaks and indentation around hasDominantElement.
   out = out.replace(
-    /\{hasDominantElement\s*\?\s*dominantElement\s*:\s*"Non déterminée"\}/g,
+    /\{\s*hasDominantElement\s*\?\s*dominantElement\s*:\s*"[^"]*"\s*\}/g,
     `{hasDominantElement
               ? getElementDisplayName(dominantElement as ElementName)
               : ${JSON.stringify(labels.undetermined)}}`,
@@ -438,10 +438,11 @@ function getElementDisplayName(
     "SIGNATURE_ELEMENT_WORDS[element]",
   );
 
-  // Description shown under the dominant element.
+  // The dominant text is already localized by getElementText().
+  // Remove the second description block so it is not displayed twice.
   out = out.replace(
-    /ELEMENT_DESCRIPTIONS\[\s*dominantElement\s*\]/g,
-    "SIGNATURE_ELEMENT_DESCRIPTIONS[dominantElement]",
+    /\{\s*dominantElement\s*\?\s*\(\s*<Text[\s\S]*?styles\.dominantDescription[\s\S]*?ELEMENT_DESCRIPTIONS\[\s*dominantElement\s*\][\s\S]*?<\/Text>\s*\)\s*:\s*null\s*\}/m,
+    "{null}",
   );
 
   // getElementText() must not return the imported French ELEMENT_TEXT
