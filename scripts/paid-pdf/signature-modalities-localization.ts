@@ -556,7 +556,7 @@ function getModalityDisplayName(
   );
 
   out = out.replace(
-    /\{hasDominantModality\s*\?\s*dominantModality\s*:\s*"Non déterminée"\}/g,
+    /\{\s*hasDominantModality\s*\?\s*dominantModality\s*:\s*"[^"]*"\s*\}/g,
     `{hasDominantModality
               ? getModalityDisplayName(dominantModality as ModalityName)
               : ${JSON.stringify(
@@ -582,7 +582,7 @@ function getModalityDisplayName(
   );
 
   out = out.replace(
-    /\{MODALITY_DESCRIPTIONS\[\s*dominantModality\s*\]\}/g,
+    /\{\s*MODALITY_DESCRIPTIONS\[\s*dominantModality\s*\]\s*\}/g,
     "{null}",
   );
 
