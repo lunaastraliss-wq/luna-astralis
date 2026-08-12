@@ -95,9 +95,6 @@ export function generateMetadata({
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
 
-  const reportPreviewUrl =
-    REPORT_PREVIEW_URLS[locale];
-
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/signature`;
 
@@ -221,6 +218,9 @@ export default function SignaturePage({
 
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
+
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
 
   const pageUrl =
     `${SITE_URL}/${locale}/carte-du-ciel/signature`;
