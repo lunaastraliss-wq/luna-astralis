@@ -197,7 +197,7 @@ Record<
       "Four forces to use together",
 
     fourForcesIntro:
-      "The Sun gives direction, the Moon protects your emotional balance, the Ascendant describes your first response to the world, Jupiter opens possibilities, and Saturn builds mastery.",
+      "The Sun gives direction, the Moon protects your emotional balance, Jupiter opens possibilities, and Saturn builds mastery.",
 
     sun:
       "Sun",
@@ -844,7 +844,7 @@ Record<
       "Cuatro fuerzas para utilizar juntas",
 
     fourForcesIntro:
-      "El Sol da la dirección, la Luna protege tu equilibrio emocional, el Ascendente describe tu primera respuesta al mundo, Júpiter abre las posibilidades y Saturno construye el dominio.",
+      "El Sol da la dirección, la Luna protege tu equilibrio emocional, Júpiter abre las posibilidades y Saturno construye el dominio.",
 
     sun: "Sol",
     moon: "Luna",
@@ -1332,7 +1332,7 @@ Record<
       "Vier Kräfte gemeinsam nutzen",
 
     fourForcesIntro:
-      "Die Sonne gibt die Richtung vor, der Mond schützt Ihr emotionales Gleichgewicht, der Aszendent beschreibt Ihre erste Reaktion auf die Welt, Jupiter öffnet Möglichkeiten und Saturn entwickelt Meisterschaft.",
+      "Die Sonne gibt die Richtung vor, der Mond schützt Ihr emotionales Gleichgewicht, Jupiter öffnet Möglichkeiten und Saturn entwickelt Meisterschaft.",
 
     sun: "Sonne",
     moon: "Mond",
@@ -1826,7 +1826,7 @@ Record<
       "Quattro forze da utilizzare insieme",
 
     fourForcesIntro:
-      "Il Sole dà la direzione, la Luna protegge il tuo equilibrio emotivo, l’Ascendente descrive la tua prima risposta al mondo, Giove apre le possibilità e Saturno costruisce la padronanza.",
+      "Il Sole dà la direzione, la Luna protegge il tuo equilibrio emotivo, Giove apre le possibilità e Saturno costruisce la padronanza.",
 
     sun: "Sole",
     moon: "Luna",
@@ -2328,7 +2328,7 @@ Record<
       "Quatro forças para utilizar juntas",
 
     fourForcesIntro:
-      "O Sol dá a direção, a Lua protege seu equilíbrio emocional, o Ascendente descreve sua primeira resposta ao mundo, Júpiter abre possibilidades e Saturno constrói domínio.",
+      "O Sol dá a direção, a Lua protege seu equilíbrio emocional, Júpiter abre possibilidades e Saturno constrói domínio.",
 
     sun: "Sol",
     moon: "Lua",
@@ -3816,7 +3816,7 @@ export function localizeSignatureIntegrationGuide(
       ],
 
       [
-        "Le Soleil donne la direction, la Lune protège votre équilibre émotionnel, l’Ascendant décrit votre première réponse au monde, Jupiter ouvre les possibilités et Saturne construit la maîtrise.",
+        "Le Soleil donne la direction, la Lune protège votre équilibre émotionnel, Jupiter ouvre les possibilités et Saturne construit la maîtrise.",
         labels.fourForcesIntro,
       ],
 
