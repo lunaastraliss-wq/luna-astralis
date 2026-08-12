@@ -1,246 +1,971 @@
 "use client";
 
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
+import {
+  PDFViewer,
+} from "@react-pdf/renderer";
 
+import html2canvas from "html2canvas";
 
-
-
-
-import __i18n from "../../../i18n/migrated/fr/app/dev/pdf-compatibility/pdfcompatibilityviewer.json";
-import { PDFViewer } from "@react-pdf/renderer";
-
+import NatalChartWheel from "@/components/NatalChartWheel";
 import CompatibilityPdfDocument from "@/components/CompatibilityPdf/CompatibilityPdfDocument";
 
-const person1Planets = [
-  {
-    name: "Sun",
-    sign: "Scorpio",
-    degree: 25,
-    longitude: 235,
-    house: 4,
-    retrograde: false,
-  },
-  {
-    name: "Moon",
-    sign: "Cancer",
-    degree: 23,
-    longitude: 113,
-    house: 12,
-    retrograde: false,
-  },
-  {
-    name: "Mercury",
-    sign: "Sagittarius",
-    degree: 7,
-    longitude: 247,
-    house: 5,
-    retrograde: false,
-  },
-  {
-    name: "Venus",
-    sign: "Scorpio",
-    degree: 13,
-    longitude: 223,
-    house: 4,
-    retrograde: false,
-  },
-  {
-    name: "Mars",
-    sign: "Libra",
-    degree: 18,
-    longitude: 198,
-    house: 3,
-    retrograde: false,
-  },
-  {
-    name: "Jupiter",
-    sign: "Scorpio",
-    degree: 18,
-    longitude: 228,
-    house: 4,
-    retrograde: false,
-  },
-  {
-    name: "Saturn",
-    sign: "Taurus",
-    degree: 18,
-    longitude: 48,
-    house: 10,
-    retrograde: true,
-  },
-  {
-    name: "Uranus",
-    sign: "Libra",
-    degree: 11,
-    longitude: 191,
-    house: 3,
-    retrograde: false,
-  },
-  {
-    name: "Neptune",
-    sign: "Sagittarius",
-    degree: 0,
-    longitude: 240,
-    house: 5,
-    retrograde: false,
-  },
-  {
-    name: "Pluto",
-    sign: "Virgo",
-    degree: 29,
-    longitude: 179,
-    house: 2,
-    retrograde: false,
-  },
-];
-
-const person2Planets = [
-  {
-    name: "Sun",
-    sign: "Taurus",
-    degree: 21,
-    longitude: 51,
-    house: 8,
-    retrograde: false,
-  },
-  {
-    name: "Moon",
-    sign: "Pisces",
-    degree: 19,
-    longitude: 349,
-    house: 6,
-    retrograde: false,
-  },
-  {
-    name: "Mercury",
-    sign: "Gemini",
-    degree: 3,
-    longitude: 63,
-    house: 9,
-    retrograde: false,
-  },
-  {
-    name: "Venus",
-    sign: "Aries",
-    degree: 16,
-    longitude: 16,
-    house: 7,
-    retrograde: false,
-  },
-  {
-    name: "Mars",
-    sign: "Cancer",
-    degree: 20,
-    longitude: 110,
-    house: 10,
-    retrograde: false,
-  },
-  {
-    name: "Jupiter",
-    sign: "Virgo",
-    degree: 17,
-    longitude: 167,
-    house: 12,
-    retrograde: false,
-  },
-  {
-    name: "Saturn",
-    sign: "Capricorn",
-    degree: 24,
-    longitude: 294,
-    house: 4,
-    retrograde: true,
-  },
-  {
-    name: "Uranus",
-    sign: "Capricorn",
-    degree: 9,
-    longitude: 279,
-    house: 4,
-    retrograde: true,
-  },
-  {
-    name: "Neptune",
-    sign: "Capricorn",
-    degree: 14,
-    longitude: 284,
-    house: 4,
-    retrograde: true,
-  },
-  {
-    name: "Pluto",
-    sign: "Scorpio",
-    degree: 16,
-    longitude: 226,
-    house: 2,
-    retrograde: true,
-  },
-];
-
-const person1 = {
-  firstName: "Martine",
-  birthDate: "17/11/1970",
-  birthTime: "21:36",
-  birthCity: __i18n["quebec"],
-  birthCountry: "Canada",
-
-  planets: person1Planets,
-
-  angles: {
-    ascendant: 131,
-    midheaven: 26,
-    descendant: 311,
-    imumCoeli: 206,
-  },
-
-  wheelImage: "",
+type ChartData = {
+  planets: any[];
+  houses: any;
+  angles: any;
 };
 
-const person2 = {
-  firstName: "Alexandre",
-  birthDate: "12/05/1988",
-  birthTime: "10:15",
-  birthCity: __i18n["montreal"],
-  birthCountry: "Canada",
+const MAIN_PLANETS = [
+  "Sun",
+  "Moon",
+  "Mercury",
+  "Venus",
+  "Mars",
+  "Jupiter",
+  "Saturn",
+  "Uranus",
+  "Neptune",
+  "Pluto",
+];
 
-  planets: person2Planets,
+function getAngleLongitude(
+  angle: any,
+): number | null {
+  if (
+    typeof angle === "number" &&
+    Number.isFinite(angle)
+  ) {
+    return angle;
+  }
 
-  angles: {
-    ascendant: 188,
-    midheaven: 102,
-    descendant: 8,
-    imumCoeli: 282,
-  },
+  const longitude =
+    Number(
+      angle?.longitude,
+    );
 
-  wheelImage: "",
-};
+  return Number.isFinite(
+    longitude,
+  )
+    ? longitude
+    : null;
+}
+
+async function loadNatalChart({
+  city,
+  year,
+  month,
+  day,
+  hour,
+  minute,
+}: {
+  city: string;
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+}): Promise<ChartData> {
+  /*
+   * Géocodage de la ville.
+   */
+  const geoResponse =
+    await fetch(
+      `/api/geocode?city=${encodeURIComponent(
+        city,
+      )}`,
+      {
+        method:
+          "GET",
+
+        cache:
+          "no-store",
+      },
+    );
+
+  const geoData =
+    await geoResponse.json();
+
+  if (
+    !geoResponse.ok ||
+    !geoData?.ok ||
+    !geoData?.result
+  ) {
+    throw new Error(
+      geoData?.error ||
+        `Géocodage impossible pour ${city}`,
+    );
+  }
+
+  const latitude =
+    Number(
+      geoData.result
+        .latitude,
+    );
+
+  const longitude =
+    Number(
+      geoData.result
+        .longitude,
+    );
+
+  if (
+    !Number.isFinite(
+      latitude,
+    ) ||
+    !Number.isFinite(
+      longitude,
+    )
+  ) {
+    throw new Error(
+      `Coordonnées invalides pour ${city}`,
+    );
+  }
+
+  /*
+   * Calcul natal réel.
+   */
+  const chartResponse =
+    await fetch(
+      "/api/natal-chart",
+      {
+        method:
+          "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        cache:
+          "no-store",
+
+        body:
+          JSON.stringify({
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            latitude,
+            longitude,
+          }),
+      },
+    );
+
+  const chartData =
+    await chartResponse.json();
+
+  if (
+    !chartResponse.ok ||
+    !chartData?.ok ||
+    !chartData?.chart
+  ) {
+    throw new Error(
+      chartData?.error ||
+        `Calcul astrologique impossible pour ${city}`,
+    );
+  }
+
+  const calculatedChart =
+    chartData.chart;
+
+  const planets =
+    (
+      calculatedChart
+        ?.planets ||
+      []
+    ).filter(
+      (
+        planet: any,
+      ) =>
+        MAIN_PLANETS.includes(
+          planet?.name,
+        ),
+    );
+
+  return {
+    planets,
+
+    houses:
+      calculatedChart
+        ?.houses ||
+      [],
+
+    angles:
+      calculatedChart
+        ?.angles ||
+      {},
+  };
+}
 
 export default function PdfCompatibilityViewer() {
+  const person1WheelRef =
+    useRef<HTMLDivElement | null>(
+      null,
+    );
+
+  const person2WheelRef =
+    useRef<HTMLDivElement | null>(
+      null,
+    );
+
+  const [
+    person1Chart,
+    setPerson1Chart,
+  ] =
+    useState<ChartData | null>(
+      null,
+    );
+
+  const [
+    person2Chart,
+    setPerson2Chart,
+  ] =
+    useState<ChartData | null>(
+      null,
+    );
+
+  const [
+    person1WheelImage,
+    setPerson1WheelImage,
+  ] =
+    useState("");
+
+  const [
+    person2WheelImage,
+    setPerson2WheelImage,
+  ] =
+    useState("");
+
+  const [
+    loading,
+    setLoading,
+  ] =
+    useState(true);
+
+  const [
+    error,
+    setError,
+  ] =
+    useState("");
+
+  /*
+   * --------------------------------------------------------------------------
+   * 1. Calcul réel des deux cartes natales
+   * --------------------------------------------------------------------------
+   */
+  useEffect(() => {
+    let cancelled =
+      false;
+
+    async function loadCharts() {
+      try {
+        setLoading(
+          true,
+        );
+
+        setError(
+          "",
+        );
+
+        const [
+          chart1,
+          chart2,
+        ] =
+          await Promise.all([
+            loadNatalChart({
+              city:
+                "Québec",
+
+              year:
+                1970,
+
+              month:
+                11,
+
+              day:
+                17,
+
+              hour:
+                21,
+
+              minute:
+                36,
+            }),
+
+            loadNatalChart({
+              city:
+                "Montréal",
+
+              year:
+                1988,
+
+              month:
+                5,
+
+              day:
+                12,
+
+              hour:
+                10,
+
+              minute:
+                15,
+            }),
+          ]);
+
+        if (
+          cancelled
+        ) {
+          return;
+        }
+
+        setPerson1Chart(
+          chart1,
+        );
+
+        setPerson2Chart(
+          chart2,
+        );
+      } catch (
+        loadError
+      ) {
+        console.error(
+          "Erreur DEV Compatibilité:",
+          loadError,
+        );
+
+        if (
+          !cancelled
+        ) {
+          setError(
+            loadError instanceof
+            Error
+              ? loadError.message
+              : "Erreur de calcul",
+          );
+
+          setLoading(
+            false,
+          );
+        }
+      }
+    }
+
+    loadCharts();
+
+    return () => {
+      cancelled =
+        true;
+    };
+  }, []);
+
+  /*
+   * --------------------------------------------------------------------------
+   * 2. Capture des deux vraies roues en PNG
+   * --------------------------------------------------------------------------
+   */
+  useEffect(() => {
+    if (
+      !person1Chart ||
+      !person2Chart
+    ) {
+      return;
+    }
+
+    let cancelled =
+      false;
+
+    async function createWheelImages() {
+      try {
+        /*
+         * Laisse le temps aux deux roues cachées
+         * de terminer leur rendu dans le DOM.
+         */
+        await new Promise(
+          (resolve) =>
+            setTimeout(
+              resolve,
+              500,
+            ),
+        );
+
+        if (
+          !person1WheelRef.current ||
+          !person2WheelRef.current
+        ) {
+          throw new Error(
+            "Une des deux roues PDF est introuvable",
+          );
+        }
+
+        const [
+          canvas1,
+          canvas2,
+        ] =
+          await Promise.all([
+            html2canvas(
+              person1WheelRef.current,
+              {
+                backgroundColor:
+                  "#0b1124",
+
+                scale:
+                  3,
+
+                useCORS:
+                  true,
+
+                logging:
+                  false,
+              },
+            ),
+
+            html2canvas(
+              person2WheelRef.current,
+              {
+                backgroundColor:
+                  "#0b1124",
+
+                scale:
+                  3,
+
+                useCORS:
+                  true,
+
+                logging:
+                  false,
+              },
+            ),
+          ]);
+
+        const image1 =
+          canvas1.toDataURL(
+            "image/png",
+          );
+
+        const image2 =
+          canvas2.toDataURL(
+            "image/png",
+          );
+
+        if (
+          !image1 ||
+          !image1.startsWith(
+            "data:image/png;base64,",
+          ) ||
+          !image2 ||
+          !image2.startsWith(
+            "data:image/png;base64,",
+          )
+        ) {
+          throw new Error(
+            "Les deux roues PNG n’ont pas pu être créées",
+          );
+        }
+
+        if (
+          cancelled
+        ) {
+          return;
+        }
+
+        setPerson1WheelImage(
+          image1,
+        );
+
+        setPerson2WheelImage(
+          image2,
+        );
+
+        setLoading(
+          false,
+        );
+      } catch (
+        wheelError
+      ) {
+        console.error(
+          "Erreur génération roues Compatibilité DEV:",
+          wheelError,
+        );
+
+        if (
+          !cancelled
+        ) {
+          setError(
+            wheelError instanceof
+            Error
+              ? wheelError.message
+              : "Erreur de génération des roues",
+          );
+
+          setLoading(
+            false,
+          );
+        }
+      }
+    }
+
+    createWheelImages();
+
+    return () => {
+      cancelled =
+        true;
+    };
+  }, [
+    person1Chart,
+    person2Chart,
+  ]);
+
+  /*
+   * --------------------------------------------------------------------------
+   * 3. Angles utilisés par les deux roues
+   * --------------------------------------------------------------------------
+   */
+  const person1AscendantLongitude =
+    getAngleLongitude(
+      person1Chart
+        ?.angles
+        ?.ascendant,
+    );
+
+  const person1MidheavenLongitude =
+    getAngleLongitude(
+      person1Chart
+        ?.angles
+        ?.midheaven,
+    );
+
+  const person2AscendantLongitude =
+    getAngleLongitude(
+      person2Chart
+        ?.angles
+        ?.ascendant,
+    );
+
+  const person2MidheavenLongitude =
+    getAngleLongitude(
+      person2Chart
+        ?.angles
+        ?.midheaven,
+    );
+
+  /*
+   * --------------------------------------------------------------------------
+   * 4. Personnes envoyées au PDF
+   * --------------------------------------------------------------------------
+   */
+  const person1 =
+    person1Chart
+      ? {
+          firstName:
+            "Martine",
+
+          birthDate:
+            "17/11/1970",
+
+          birthTime:
+            "21:36",
+
+          birthCity:
+            "Québec",
+
+          birthCountry:
+            "Canada",
+
+          planets:
+            person1Chart.planets,
+
+          angles: {
+            ascendant:
+              person1Chart
+                .angles
+                ?.ascendant ??
+              null,
+
+            midheaven:
+              person1Chart
+                .angles
+                ?.midheaven ??
+              null,
+
+            descendant:
+              person1Chart
+                .angles
+                ?.descendant ??
+              null,
+
+            imumCoeli:
+              person1Chart
+                .angles
+                ?.imumCoeli ??
+              null,
+          },
+
+          wheelImage:
+            person1WheelImage,
+        }
+      : null;
+
+  const person2 =
+    person2Chart
+      ? {
+          firstName:
+            "Alexandre",
+
+          birthDate:
+            "12/05/1988",
+
+          birthTime:
+            "10:15",
+
+          birthCity:
+            "Montréal",
+
+          birthCountry:
+            "Canada",
+
+          planets:
+            person2Chart.planets,
+
+          angles: {
+            ascendant:
+              person2Chart
+                .angles
+                ?.ascendant ??
+              null,
+
+            midheaven:
+              person2Chart
+                .angles
+                ?.midheaven ??
+              null,
+
+            descendant:
+              person2Chart
+                .angles
+                ?.descendant ??
+              null,
+
+            imumCoeli:
+              person2Chart
+                .angles
+                ?.imumCoeli ??
+              null,
+          },
+
+          wheelImage:
+            person2WheelImage,
+        }
+      : null;
+
   return (
     <main
       style={{
-        width: "100vw",
-        height: "100vh",
-        margin: 0,
-        padding: 0,
-        backgroundColor: "#081020",
-        overflow: "hidden",
+        width:
+          "100vw",
+
+        height:
+          "100vh",
+
+        margin:
+          0,
+
+        padding:
+          0,
+
+        backgroundColor:
+          "#081020",
+
+        overflow:
+          "hidden",
+
+        position:
+          "relative",
       }}
     >
-      <PDFViewer
-        width="100%"
-        height="100%"
-        style={{
-          border: "none",
-        }}
-        showToolbar
-      >
-        <CompatibilityPdfDocument
-          person1={person1}
-          person2={person2}
-          aspects={[]}
-        />
-      </PDFViewer>
+      {/*
+       * -----------------------------------------------------------------------
+       * Roue cachée — Martine
+       * -----------------------------------------------------------------------
+       */}
+      {person1Chart && (
+        <div
+          aria-hidden="true"
+          style={{
+            position:
+              "fixed",
+
+            left:
+              "-10000px",
+
+            top:
+              0,
+
+            width:
+              900,
+
+            height:
+              900,
+
+            pointerEvents:
+              "none",
+
+            opacity:
+              1,
+          }}
+        >
+          <div
+            ref={
+              person1WheelRef
+            }
+            style={{
+              width:
+                820,
+
+              height:
+                820,
+
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              justifyContent:
+                "center",
+
+              background:
+                "#0b1124",
+
+              color:
+                "#fff8e7",
+            }}
+          >
+            <NatalChartWheel
+              locale="fr"
+              planets={
+                person1Chart.planets
+              }
+              houses={
+                person1Chart.houses
+              }
+              ascendantLongitude={
+                person1AscendantLongitude ??
+                undefined
+              }
+              midheavenLongitude={
+                person1MidheavenLongitude ??
+                undefined
+              }
+              size={
+                760
+              }
+              showLegend={
+                false
+              }
+            />
+          </div>
+        </div>
+      )}
+
+      {/*
+       * -----------------------------------------------------------------------
+       * Roue cachée — Alexandre
+       * -----------------------------------------------------------------------
+       */}
+      {person2Chart && (
+        <div
+          aria-hidden="true"
+          style={{
+            position:
+              "fixed",
+
+            left:
+              "-12000px",
+
+            top:
+              0,
+
+            width:
+              900,
+
+            height:
+              900,
+
+            pointerEvents:
+              "none",
+
+            opacity:
+              1,
+          }}
+        >
+          <div
+            ref={
+              person2WheelRef
+            }
+            style={{
+              width:
+                820,
+
+              height:
+                820,
+
+              display:
+                "flex",
+
+              alignItems:
+                "center",
+
+              justifyContent:
+                "center",
+
+              background:
+                "#0b1124",
+
+              color:
+                "#fff8e7",
+            }}
+          >
+            <NatalChartWheel
+              locale="fr"
+              planets={
+                person2Chart.planets
+              }
+              houses={
+                person2Chart.houses
+              }
+              ascendantLongitude={
+                person2AscendantLongitude ??
+                undefined
+              }
+              midheavenLongitude={
+                person2MidheavenLongitude ??
+                undefined
+              }
+              size={
+                760
+              }
+              showLegend={
+                false
+              }
+            />
+          </div>
+        </div>
+      )}
+
+      {/*
+       * -----------------------------------------------------------------------
+       * Affichage
+       * -----------------------------------------------------------------------
+       */}
+      {loading ? (
+        <div
+          style={{
+            width:
+              "100%",
+
+            height:
+              "100%",
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            color:
+              "#fff8e7",
+
+            fontFamily:
+              "Arial, sans-serif",
+
+            fontSize:
+              16,
+
+            textAlign:
+              "center",
+
+            padding:
+              30,
+          }}
+        >
+          Génération du rapport de compatibilité et des deux roues astrologiques...
+        </div>
+      ) : error ? (
+        <div
+          style={{
+            width:
+              "100%",
+
+            height:
+              "100%",
+
+            display:
+              "flex",
+
+            alignItems:
+              "center",
+
+            justifyContent:
+              "center",
+
+            color:
+              "#fff8e7",
+
+            fontFamily:
+              "Arial, sans-serif",
+
+            fontSize:
+              16,
+
+            padding:
+              30,
+
+            textAlign:
+              "center",
+          }}
+        >
+          {error}
+        </div>
+      ) : person1 &&
+        person2 &&
+        person1WheelImage &&
+        person2WheelImage ? (
+        <PDFViewer
+          key={
+            `${person1WheelImage.length}-${person2WheelImage.length}`
+          }
+          width="100%"
+          height="100%"
+          style={{
+            border:
+              "none",
+          }}
+          showToolbar
+        >
+          <CompatibilityPdfDocument
+            person1={
+              person1
+            }
+            person2={
+              person2
+            }
+            aspects={
+              []
+            }
+          />
+        </PDFViewer>
+      ) : null}
     </main>
   );
 }
