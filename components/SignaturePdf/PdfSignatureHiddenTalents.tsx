@@ -1447,7 +1447,7 @@ export default function PdfSignatureHiddenTalents({
             <Text
               style={styles.closingText}
             >
-              {profile.key} {profile.contribution}
+              {profile.key} {profile.contribution}{" "}
               Plus vous reconnaissez la valeur
               de vos capacités naturelles,
               plus vous pouvez les utiliser
