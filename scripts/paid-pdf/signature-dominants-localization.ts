@@ -650,7 +650,6 @@ function getDominantModalityDisplayName(
       ["Les forces centrales du thème", labels.centralForcesTitle],
       ["Planète dominante :", `${labels.dominantPlanet} :`],
       ["Force centrale", labels.centralForce],
-      ["Maison dominante", labels.dominantHouse],
       ["Votre fonctionnement naturel", labels.naturalFunctioning],
       ["Signature globale", labels.globalSignature],
       ["Synthèse de vos dominantes", labels.synthesisTitle],
