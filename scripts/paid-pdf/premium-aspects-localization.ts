@@ -649,11 +649,17 @@ function replaceVisibleLabels(
     /\bOrbe\b/g,
     labels.orb,
   );
-
+if (locale === "en") {
+  output = output.replace(
+    /· Aspect\{" "\}\s*\{\s*getLocalizedAspectCategory\(calculatedAspect\.aspect\.category\)\s*\}/g,
+    `· {getLocalizedAspectCategory(calculatedAspect.aspect.category).replace(/^./, (c) => c.toUpperCase())}{" "}aspect`,
+  );
+} else {
   output = output.replace(
     /· Aspect\{" "\}/g,
     `· ${labels.aspectWord}{" "}`,
   );
+}
 
   output = output.replace(
     /Signification de\s+l’aspect/g,
