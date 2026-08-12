@@ -1179,7 +1179,7 @@ export default function PdfAspects({
                                   .aspect
                                   .nature
                               }{" "}
-                              · Aspect{" "}
+                              ·{" "}
                               {
                                 calculatedAspect
                                   .aspect
