@@ -872,6 +872,30 @@ function getElement(
   return "Élément non précisé";
 }
 
+function formatMoonPlacement(
+  sign: string,
+): string {
+  return `Lune en ${sign}`;
+}
+
+function formatElementPlacement(
+  element: string,
+): string {
+  return `Élément ${element}`;
+}
+
+function formatNeedsTitle(
+  name: string,
+): string {
+  return `Les besoins de ${name}`;
+}
+
+function formatMoonNeedIntro(
+  sign: string,
+): string {
+  return `Avec une Lune en ${sign}, `;
+}
+
 function getEmotionalNeed(
   sign: string,
 ): string {
@@ -1400,12 +1424,12 @@ function EmotionalNeedCard({
         <Text
           style={localStyles.needTitle}
         >
-          Les besoins de{" "}{name}
+          {formatNeedsTitle(name)}
         </Text>
       </View>
 
       <Text style={localStyles.needText}>
-        Avec une Lune en{" "}{moonSign},{" "}
+        {formatMoonNeedIntro(moonSign)}
         {getEmotionalNeed(moonSign)}
       </Text>
     </View>
@@ -1684,13 +1708,13 @@ export default function CompatibilityEmotional({
               <Text
                 style={localStyles.placementValue}
               >
-                Lune en{" "}{moonSign1}
+                {formatMoonPlacement(moonSign1)}
               </Text>
 
               <Text
                 style={localStyles.placementElement}
               >
-                Élément{" "}{element1}
+                {formatElementPlacement(element1)}
               </Text>
             </View>
 
@@ -1723,13 +1747,13 @@ export default function CompatibilityEmotional({
               <Text
                 style={localStyles.placementValue}
               >
-                Lune en{" "}{moonSign2}
+                {formatMoonPlacement(moonSign2)}
               </Text>
 
               <Text
                 style={localStyles.placementElement}
               >
-                Élément{" "}{element2}
+                {formatElementPlacement(element2)}
               </Text>
             </View>
           </View>
