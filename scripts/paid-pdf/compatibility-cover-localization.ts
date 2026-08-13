@@ -12,34 +12,51 @@ const TRANSLATIONS: Record<
   Record<string, string>
 > = {
   en: {
-    "Non précisé": "Not specified",
+    "Non précisé":
+      "Not specified",
+
     "Carte du ciel personnalisée":
       "Personalized birth chart",
-    "Naissance": "Birth date",
-    "Heure": "Time",
-    "Lieu": "Place",
 
-    "Première personne": "First person",
-    "Deuxième personne": "Second person",
+    "Naissance":
+      "Birth date",
+
+    "Heure":
+      "Time",
+
+    "Lieu":
+      "Place",
+
+    "Première personne":
+      "First person",
+
+    "Deuxième personne":
+      "Second person",
 
     "Compatibilité Premium":
       "Premium Compatibility",
+
     "Rapport astrologique personnalisé":
       "Personalized Astrological Report",
+
     "Votre rapport de":
-      "Your",
+      "Your report of",
+
     "Synastrie":
-      "Synastry Report",
+      "Synastry",
 
     "Une exploration approfondie de la rencontre entre vos deux thèmes natals, de vos affinités naturelles, de vos défis et de votre potentiel d’évolution.":
       "An in-depth exploration of the connection between your two birth charts, your natural affinities, your challenges, and your potential for growth.",
 
     "Lien émotionnel":
       "Emotional Bond",
+
     "Communication":
       "Communication",
+
     "Attirance":
       "Attraction",
+
     "Potentiel durable":
       "Long-Term Potential",
 
@@ -47,43 +64,61 @@ const TRANSLATIONS: Record<
       "Your Astrological Journey",
 
     "Une relation ne se résume jamais à un seul signe":
-      "A relationship can never be reduced to a single sign",
+      "A relationship is never just about one sign",
 
     "Ce rapport explore les interactions entre vos planètes, vos émotions, votre manière de communiquer, vos forces naturelles et les défis qui peuvent transformer votre relation. Chaque section vous aidera à comprendre pourquoi certaines énergies s’harmonisent spontanément, tandis que d’autres invitent à la conscience, à l’adaptation et à l’évolution commune.":
-      "This report explores the interactions between your planets, your emotions, the way you communicate, your natural strengths, and the challenges that can transform your relationship. Each section will help you understand why certain energies harmonize naturally, while others invite greater awareness, adaptation, and mutual growth.",
+      "This report explores the interactions between your planets, your emotions, your way of communicating, your natural strengths, and the challenges that can transform your relationship. Each section will help you understand why certain energies harmonize spontaneously, while others invite awareness, adaptation, and mutual growth.",
 
     "Deux thèmes natals ne racontent jamais deux histoires séparées. Leur rencontre révèle la manière dont deux univers s’attirent, s’influencent et évoluent ensemble.":
-      "Two birth charts never tell two separate stories. Their encounter reveals how two worlds attract, influence, and evolve with one another.",
+      "Two birth charts never tell two separate stories. Their meeting reveals how two universes attract, influence, and evolve together.",
   },
 
   es: {
-    "Non précisé": "No especificado",
+    "Non précisé":
+      "No especificado",
+
     "Carte du ciel personnalisée":
       "Carta natal personalizada",
-    "Naissance": "Nacimiento",
-    "Heure": "Hora",
-    "Lieu": "Lugar",
 
-    "Première personne": "Primera persona",
-    "Deuxième personne": "Segunda persona",
+    "Naissance":
+      "Nacimiento",
+
+    "Heure":
+      "Hora",
+
+    "Lieu":
+      "Lugar",
+
+    "Première personne":
+      "Primera persona",
+
+    "Deuxième personne":
+      "Segunda persona",
 
     "Compatibilité Premium":
       "Compatibilidad Premium",
+
     "Rapport astrologique personnalisé":
       "Informe astrológico personalizado",
+
     "Votre rapport de":
       "Su informe de",
-    "Synastrie": "Sinastría",
+
+    "Synastrie":
+      "Sinastría",
 
     "Une exploration approfondie de la rencontre entre vos deux thèmes natals, de vos affinités naturelles, de vos défis et de votre potentiel d’évolution.":
       "Una exploración profunda del encuentro entre sus dos cartas natales, sus afinidades naturales, sus desafíos y su potencial de evolución.",
 
     "Lien émotionnel":
       "Vínculo emocional",
+
     "Communication":
       "Comunicación",
+
     "Attirance":
       "Atracción",
+
     "Potentiel durable":
       "Potencial duradero",
 
@@ -101,34 +136,51 @@ const TRANSLATIONS: Record<
   },
 
   de: {
-    "Non précisé": "Nicht angegeben",
+    "Non précisé":
+      "Nicht angegeben",
+
     "Carte du ciel personnalisée":
       "Persönliches Geburtshoroskop",
-    "Naissance": "Geburtsdatum",
-    "Heure": "Uhrzeit",
-    "Lieu": "Ort",
 
-    "Première personne": "Erste Person",
-    "Deuxième personne": "Zweite Person",
+    "Naissance":
+      "Geburtsdatum",
+
+    "Heure":
+      "Uhrzeit",
+
+    "Lieu":
+      "Ort",
+
+    "Première personne":
+      "Erste Person",
+
+    "Deuxième personne":
+      "Zweite Person",
 
     "Compatibilité Premium":
       "Premium-Kompatibilität",
+
     "Rapport astrologique personnalisé":
       "Persönlicher astrologischer Bericht",
+
     "Votre rapport de":
-      "Ihr",
+      "Ihr Bericht über",
+
     "Synastrie":
-      "Synastrie-Bericht",
+      "Synastrie",
 
     "Une exploration approfondie de la rencontre entre vos deux thèmes natals, de vos affinités naturelles, de vos défis et de votre potentiel d’évolution.":
       "Eine tiefgehende Erkundung der Verbindung zwischen Ihren beiden Geburtshoroskopen, Ihrer natürlichen Gemeinsamkeiten, Ihrer Herausforderungen und Ihres Entwicklungspotenzials.",
 
     "Lien émotionnel":
       "Emotionale Verbindung",
+
     "Communication":
       "Kommunikation",
+
     "Attirance":
       "Anziehung",
+
     "Potentiel durable":
       "Langfristiges Potenzial",
 
@@ -146,22 +198,36 @@ const TRANSLATIONS: Record<
   },
 
   it: {
-    "Non précisé": "Non specificato",
+    "Non précisé":
+      "Non specificato",
+
     "Carte du ciel personnalisée":
       "Tema natale personalizzato",
-    "Naissance": "Data di nascita",
-    "Heure": "Ora",
-    "Lieu": "Luogo",
 
-    "Première personne": "Prima persona",
-    "Deuxième personne": "Seconda persona",
+    "Naissance":
+      "Data di nascita",
+
+    "Heure":
+      "Ora",
+
+    "Lieu":
+      "Luogo",
+
+    "Première personne":
+      "Prima persona",
+
+    "Deuxième personne":
+      "Seconda persona",
 
     "Compatibilité Premium":
       "Compatibilità Premium",
+
     "Rapport astrologique personnalisé":
       "Rapporto astrologico personalizzato",
+
     "Votre rapport de":
       "Il vostro rapporto di",
+
     "Synastrie":
       "Sinastria",
 
@@ -170,10 +236,13 @@ const TRANSLATIONS: Record<
 
     "Lien émotionnel":
       "Legame emotivo",
+
     "Communication":
       "Comunicazione",
+
     "Attirance":
       "Attrazione",
+
     "Potentiel durable":
       "Potenziale duraturo",
 
@@ -191,22 +260,36 @@ const TRANSLATIONS: Record<
   },
 
   pt: {
-    "Non précisé": "Não especificado",
+    "Non précisé":
+      "Não especificado",
+
     "Carte du ciel personnalisée":
       "Mapa astral personalizado",
-    "Naissance": "Nascimento",
-    "Heure": "Hora",
-    "Lieu": "Local",
 
-    "Première personne": "Primeira pessoa",
-    "Deuxième personne": "Segunda pessoa",
+    "Naissance":
+      "Nascimento",
+
+    "Heure":
+      "Hora",
+
+    "Lieu":
+      "Local",
+
+    "Première personne":
+      "Primeira pessoa",
+
+    "Deuxième personne":
+      "Segunda pessoa",
 
     "Compatibilité Premium":
       "Compatibilidade Premium",
+
     "Rapport astrologique personnalisé":
       "Relatório astrológico personalizado",
+
     "Votre rapport de":
       "Seu relatório de",
+
     "Synastrie":
       "Sinastria",
 
@@ -215,10 +298,13 @@ const TRANSLATIONS: Record<
 
     "Lien émotionnel":
       "Vínculo emocional",
+
     "Communication":
       "Comunicação",
+
     "Attirance":
       "Atração",
+
     "Potentiel durable":
       "Potencial duradouro",
 
@@ -236,18 +322,59 @@ const TRANSLATIONS: Record<
   },
 };
 
-function replaceAllLiteral(
+/*
+ * Échappe les caractères spéciaux
+ * afin qu'une chaîne puisse être utilisée
+ * en sécurité dans une expression régulière.
+ */
+function escapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
+  );
+}
+
+/*
+ * Remplace un texte français même lorsque
+ * le JSX l'a réparti sur plusieurs lignes.
+ *
+ * Exemple :
+ *
+ * "Une exploration approfondie de la
+ *  rencontre entre vos deux thèmes"
+ *
+ * sera reconnu comme :
+ *
+ * "Une exploration approfondie de la rencontre
+ *  entre vos deux thèmes"
+ */
+function replaceFlexibleText(
   source: string,
   from: string,
   to: string,
 ): string {
-  return source.split(from).join(to);
+  const pattern =
+    escapeRegExp(from).replace(
+      /\s+/g,
+      "\\s+",
+    );
+
+  return source.replace(
+    new RegExp(pattern, "g"),
+    to,
+  );
 }
 
 export function localizeCompatibilityCover(
   source: string,
   locale: PaidPdfLocale,
 ): string {
+  /*
+   * Le français demeure toujours
+   * le fichier source original.
+   */
   if (locale === "fr") {
     return source;
   }
@@ -257,6 +384,10 @@ export function localizeCompatibilityCover(
       locale as NonFrenchLocale
     ];
 
+  /*
+   * Sécurité si une langue inconnue
+   * est transmise.
+   */
   if (!translations) {
     return source;
   }
@@ -264,23 +395,32 @@ export function localizeCompatibilityCover(
   let localized = source;
 
   /*
-   * Les longues chaînes sont remplacées
-   * avant les courtes afin d'éviter qu'un
-   * remplacement partiel empêche ensuite
-   * la traduction d'une phrase complète.
+   * Important :
+   *
+   * les phrases longues sont remplacées
+   * avant les mots courts.
+   *
+   * Cela empêche par exemple "Synastrie"
+   * d'être traduit avant une phrase plus
+   * longue qui contiendrait ce mot.
    */
   const entries =
-    Object.entries(translations).sort(
+    Object.entries(
+      translations,
+    ).sort(
       ([a], [b]) =>
         b.length - a.length,
     );
 
-  for (const [from, to] of entries) {
-    localized = replaceAllLiteral(
-      localized,
-      from,
-      to,
-    );
+  for (
+    const [from, to] of entries
+  ) {
+    localized =
+      replaceFlexibleText(
+        localized,
+        from,
+        to,
+      );
   }
 
   return localized;
