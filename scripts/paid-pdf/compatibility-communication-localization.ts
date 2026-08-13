@@ -1428,54 +1428,49 @@ function injectHelpers(
 
 function replaceTargetedDisplayCode(
   source: string,
+  data: LocaleData,
 ): string {
   let output = source;
 
   /*
-   * Mercure + signe.
-   *
-   * Le signe original reste inchangé
-   * pour tous les calculs.
+   * V3 — les morceaux dynamiques visibles sont maintenant
+   * centralisés dans des fonctions de formatage complètes.
+   * On localise donc ces fonctions, sans toucher aux valeurs
+   * utilisées par les calculs astrologiques.
    */
   output =
     output.replace(
-      /Mercure en \{mercurySign1\}/g,
-      "{__COMMUNICATION_MERCURY_IN} {localizeCommunicationSign(mercurySign1)}",
+      /return `Mercure en \$\{sign\}`;/g,
+      "return `${__COMMUNICATION_MERCURY_IN} ${localizeCommunicationSign(sign)}`;",
     );
 
   output =
     output.replace(
-      /Mercure en \{mercurySign2\}/g,
-      "{__COMMUNICATION_MERCURY_IN} {localizeCommunicationSign(mercurySign2)}",
+      /return `Élément \$\{element\}`;/g,
+      "return `${__COMMUNICATION_ELEMENT_WORD} ${localizeCommunicationElement(element)}`;",
     );
 
   output =
     output.replace(
-      /Mercure en \{mercurySign\}/g,
-      "{__COMMUNICATION_MERCURY_IN} {localizeCommunicationSign(mercurySign)}",
+      /return `La communication de \$\{name\}`;/g,
+      `return \`${"${data.text[\"La communication de\"] ?? \"La communication de\"}"} \${name}\`;`,
+    );
+
+  output =
+    output.replace(
+      /return `Mercure en \$\{sign\}\. `;/g,
+      "return `${__COMMUNICATION_MERCURY_IN} ${localizeCommunicationSign(sign)}. `;",
+    );
+
+  output =
+    output.replace(
+      /return `\$\{planet1\} \$\{aspectName\} \$\{planet2\} • orbe \$\{orb\.toFixed\(1\)\}°`;/g,
+      "return `${planet1} ${aspectName} ${planet2} • ${__COMMUNICATION_ORB_WORD} ${orb.toFixed(1)}°`;",
     );
 
   /*
-   * Élément visible seulement.
-   */
-  output =
-    output.replace(
-      /Élément\{" "\}\s*\{getElement\(mercurySign1\)\}/g,
-      "{__COMMUNICATION_ELEMENT_WORD}{\" \"}{localizeCommunicationElement(getElement(mercurySign1))}",
-    );
-
-  output =
-    output.replace(
-      /Élément\{" "\}\s*\{getElement\(mercurySign2\)\}/g,
-      "{__COMMUNICATION_ELEMENT_WORD}{\" \"}{localizeCommunicationElement(getElement(mercurySign2))}",
-    );
-
-  /*
-   * Les fonctions utilitaires retournent
-   * actuellement les noms français visibles.
-   *
-   * On localise leurs résultats uniquement
-   * au moment de l'affichage.
+   * Les fonctions utilitaires retournent encore les noms
+   * français. On ne localise que leur affichage.
    */
   output =
     output.replace(
@@ -1501,21 +1496,12 @@ function replaceTargetedDisplayCode(
 
   output =
     output.replace(
-      /\{translateCompatibilityAspect\(\s*aspect\.type,\s*\)\}/g,
-      `{localizeCommunicationAspect(
+      /translateCompatibilityAspect\(\s*aspect\.type,\s*\)/g,
+      `localizeCommunicationAspect(
               translateCompatibilityAspect(
                 aspect.type,
               ),
-            )}`,
-    );
-
-  /*
-   * Orbe.
-   */
-  output =
-    output.replace(
-      /\{" • orbe "\}/g,
-      `{" • "}{__COMMUNICATION_ORB_WORD}{" "}`,
+            )`,
     );
 
   return output;
@@ -1555,6 +1541,7 @@ export function localizeCompatibilityCommunication(
   localized =
     replaceTargetedDisplayCode(
       localized,
+      data,
     );
 
   return localized;
