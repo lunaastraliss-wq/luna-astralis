@@ -6,10 +6,6 @@
   position: sticky;
   top: 14px;
 
-  /*
-   * Très élevé volontairement :
-   * le menu mobile doit toujours passer devant le contenu.
-   */
   z-index: 50000;
 
   display: flex;
@@ -843,11 +839,6 @@
   transform: rotate(180deg);
 }
 
-/*
- * CORRECTION MOBILE :
- * fermé = retiré de la mise en page.
- * Cela évite que le sous-menu reste bloqué à max-height: 0.
- */
 .premium-mobile-submenu {
   display: none;
 
@@ -860,11 +851,6 @@
   opacity: 0;
 }
 
-/*
- * Ouvert = hauteur naturelle.
- * Tous les liens peuvent apparaître :
- * Horoscope, Carte du ciel, Compatibilité et Astrologie.
- */
 .premium-mobile-submenu--open {
   display: block;
 
@@ -936,10 +922,6 @@
    LANGUAGE SWITCHER DANS LE MENU MOBILE
 ========================================================= */
 
-/*
- * Empêche le sélecteur de langue d'être comprimé.
- * Il reste accessible au bas du menu après défilement.
- */
 .premium-mobile-menu > :last-child {
   flex-shrink: 0;
 }
@@ -1119,26 +1101,29 @@
   }
 
   /*
-   * MENU MOBILE PLEIN ÉCRAN SOUS LE HEADER
+   * CORRECTION PRINCIPALE :
+   * ABSOLUTE au lieu de FIXED.
    *
-   * Le menu reste devant la page.
-   * top + bottom donnent une vraie zone de défilement.
-   * Les sous-menus ouverts agrandissent naturellement
-   * le contenu interne.
+   * Le menu reste lié au header et n'est plus perturbé
+   * par le backdrop-filter du parent.
    */
   .premium-mobile-menu {
-    position: fixed;
+    position: absolute;
 
-    top: 91px;
-    right: 9px;
-    bottom: 9px;
-    left: 9px;
+    top: calc(100% + 14px);
+    right: 0;
+    bottom: auto;
+    left: auto;
 
     z-index: 50010;
 
-    width: auto;
+    width: min(360px, calc(100vw - 18px));
     height: auto;
-    max-height: none;
+
+    /*
+     * Utilise la hauteur dynamique réelle du navigateur mobile.
+     */
+    max-height: calc(100dvh - 120px);
 
     padding: 13px;
     padding-bottom:
@@ -1163,11 +1148,18 @@
       );
   }
 
-  /*
-   * Important :
-   * aucune limite max-height ici.
-   * Le sous-menu ouvert utilise sa vraie hauteur.
-   */
+  .premium-mobile-submenu {
+    display: none;
+
+    margin-left: 16px;
+
+    overflow: visible;
+
+    border-left: 1px solid transparent;
+
+    opacity: 0;
+  }
+
   .premium-mobile-submenu--open {
     display: block;
 
@@ -1209,9 +1201,18 @@
   }
 
   .premium-mobile-menu {
-    right: 8px;
-    bottom: 8px;
-    left: 8px;
+    /*
+     * On garde absolute.
+     * Ne surtout pas remettre position: fixed ici.
+     */
+    position: absolute;
+
+    top: calc(100% + 14px);
+    right: 0;
+    bottom: auto;
+    left: auto;
+
+    width: min(360px, calc(100vw - 18px));
 
     padding: 11px;
     padding-bottom:
@@ -1263,6 +1264,10 @@
     width: 44px;
     height: 44px;
   }
+
+  .premium-mobile-menu {
+    width: min(350px, calc(100vw - 18px));
+  }
 }
 
 /* =========================================================
@@ -1290,6 +1295,10 @@
   .premium-menu-toggle {
     width: 40px;
     height: 40px;
+  }
+
+  .premium-mobile-menu {
+    width: calc(100vw - 12px);
   }
 }
 
