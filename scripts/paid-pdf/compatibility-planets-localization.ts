@@ -2390,6 +2390,47 @@ function replacePlanetsElementDisplays(
   return output;
 }
 
+function replacePlanetsV5Helpers(
+  source: string,
+): string {
+  let output = source;
+
+  /*
+   * Placement complet : planète + signe.
+   */
+  output = output.replace(
+    /return `\$\{frenchName\} en \$\{sign\}`;/g,
+    "return `${localizePlanetsPlanet(frenchName)} ${__PLANETS_IN_WORD} ${localizePlanetsSign(sign)}`;",
+  );
+
+  /*
+   * Élément complet : libellé + valeur.
+   * Une seule chaîne évite définitivement ElementEau / ElementTerre.
+   */
+  output = output.replace(
+    /return `Élément \$\{getElement\(sign\)\}`;/g,
+    "return `${__PLANETS_ELEMENT_WORD} ${localizePlanetsElement(getElement(sign))}`;",
+  );
+
+  /*
+   * Profil personnel complet.
+   */
+  output = output.replace(
+    /return `\$\{frenchName\} en \$\{sign\}\. \$\{getPlanetStyle\(\s*planet,\s*sign,\s*\)\}`;/g,
+    "return `${localizePlanetsPlanet(frenchName)} ${__PLANETS_IN_WORD} ${localizePlanetsSign(sign)}. ${localizePlanetsText(getPlanetStyle(planet, sign))}`;",
+  );
+
+  /*
+   * Titre d'aspect complet, incluant l'orbe.
+   */
+  output = output.replace(
+    /return `\$\{translateCompatibilityPlanet\(\s*aspect\.person1Planet,\s*\)\} \$\{translateCompatibilityAspect\(\s*aspect\.type,\s*\)\} \$\{translateCompatibilityPlanet\(\s*aspect\.person2Planet,\s*\)\} • orbe \$\{aspect\.orb\.toFixed\(1\)\}°`;/g,
+    "return `${localizePlanetsPlanet(translateCompatibilityPlanet(aspect.person1Planet))} ${localizePlanetsAspect(translateCompatibilityAspect(aspect.type))} ${localizePlanetsPlanet(translateCompatibilityPlanet(aspect.person2Planet))} • ${__PLANETS_ORB_WORD} ${aspect.orb.toFixed(1)}°`;",
+  );
+
+  return output;
+}
+
 function replaceDynamicDisplay(
   source: string,
 ): string {
@@ -2550,13 +2591,12 @@ export function localizeCompatibilityPlanets(
   }
 
   /*
-   * V4 :
-   * protéger d'abord l'affichage "Élément + valeur".
-   * Sinon "Élément" est traduit avant que le remplacement
-   * dynamique puisse reconnaître la structure du TSX.
+   * V5 :
+   * transformer d'abord les helpers dynamiques pendant
+   * qu'ils ont encore leur forme française originale.
    */
   let localized =
-    replacePlanetsElementDisplays(
+    replacePlanetsV5Helpers(
       source,
     );
 
@@ -2567,8 +2607,8 @@ export function localizeCompatibilityPlanets(
     );
 
   /*
-   * Les dictionnaires/helpers sont injectés après la traduction
-   * des littéraux afin qu'ils ne soient jamais retraités.
+   * Injection après la traduction des littéraux pour ne jamais
+   * retraiter les dictionnaires et les constantes localisées.
    */
   localized =
     injectHelpers(
@@ -2578,7 +2618,7 @@ export function localizeCompatibilityPlanets(
     );
 
   /*
-   * Les autres constructions dynamiques sont ensuite localisées.
+   * Compatibilité avec les anciennes constructions dynamiques.
    */
   localized =
     replaceDynamicDisplay(
