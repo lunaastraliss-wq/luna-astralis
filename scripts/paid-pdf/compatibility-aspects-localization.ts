@@ -2109,6 +2109,45 @@ const TRANSLATIONS: Record<
 };
 
 /* =========================================================
+   EXTRA DYNAMIC TEXT
+
+   Ces textes contiennent des valeurs calculées et ne peuvent
+   pas être traduits par simple remplacement littéral.
+========================================================= */
+
+const ASPECTS_EXTRA: Record<
+  NonFrenchLocale,
+  {
+    intensityTemplate: string;
+  }
+> = {
+  en: {
+    intensityTemplate:
+      "Your {count} {conjunctionWord} strongly concentrate certain energies. They can create closeness, fusion, and very immediate reactions.",
+  },
+
+  es: {
+    intensityTemplate:
+      "Sus {count} {conjunctionWord} concentran fuertemente ciertas energías. Pueden crear cercanía, fusión y reacciones muy inmediatas.",
+  },
+
+  de: {
+    intensityTemplate:
+      "Ihre {count} {conjunctionWord} bündeln bestimmte Energien besonders stark. Sie können Nähe, Verschmelzung und sehr unmittelbare Reaktionen erzeugen.",
+  },
+
+  it: {
+    intensityTemplate:
+      "Le vostre {count} {conjunctionWord} concentrano fortemente alcune energie. Possono creare vicinanza, fusione e reazioni molto immediate.",
+  },
+
+  pt: {
+    intensityTemplate:
+      "As suas {count} {conjunctionWord} concentram fortemente determinadas energias. Podem criar proximidade, fusão e reações muito imediatas.",
+  },
+};
+
+/* =========================================================
    REPLACEMENT ENGINE
 ========================================================= */
 
@@ -2376,6 +2415,7 @@ function localizeSafeLiterals(
 
 function buildHelpers(
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   return `
 const __ASPECTS_PLANETS =
@@ -2434,6 +2474,400 @@ const __ASPECTS_CONJUNCTION_PLURAL =
     data.conjunctionPlural,
   )};
 
+const __ASPECTS_INTERPRETATIONS = {
+  sunMoonHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "L’identité de l’un soutient les besoins émotionnels de l’autre, favorisant reconnaissance, sécurité et compréhension."
+      ],
+    )},
+
+  sunMoonChallenging:
+    ${JSON.stringify(
+      data.text[
+        "L’expression personnelle de l’un peut parfois heurter la sensibilité ou les besoins affectifs de l’autre."
+      ],
+    )},
+
+  sunMoonNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette connexion lie fortement identité et sensibilité, créant une impression de familiarité et de reconnaissance."
+      ],
+    )},
+
+  venusMarsHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "L’affection et le désir circulent avec naturel, renforçant attraction, charme, sensualité et initiative."
+      ],
+    )},
+
+  venusMarsChallenging:
+    ${JSON.stringify(
+      data.text[
+        "L’attirance peut être intense, mais les rythmes amoureux ou les manières d’exprimer le désir peuvent entrer en tension."
+      ],
+    )},
+
+  venusMarsNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette interaction intensifie l’alchimie, l’attirance et le besoin de vivre la relation de manière concrète."
+      ],
+    )},
+
+  moonVenusHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "La tendresse répond facilement aux besoins affectifs et favorise douceur, réconfort et plaisir d’être ensemble."
+      ],
+    )},
+
+  moonVenusChallenging:
+    ${JSON.stringify(
+      data.text[
+        "La manière de donner de l’amour ne correspond pas toujours exactement au besoin émotionnel de l’autre."
+      ],
+    )},
+
+  moonVenusNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette connexion renforce l’attachement, la douceur et le besoin de prendre soin de la relation."
+      ],
+    )},
+
+  mercuryHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Les idées et les mots trouvent plus facilement leur chemin, ce qui favorise dialogue, décisions et compréhension."
+      ],
+    )},
+
+  mercuryChallenging:
+    ${JSON.stringify(
+      data.text[
+        "Les raisonnements, le ton ou la vitesse des échanges peuvent créer des malentendus et des réactions défensives."
+      ],
+    )},
+
+  mercuryNeutral:
+    ${JSON.stringify(
+      data.text[
+        "La communication devient un élément central de la relation et influence fortement la manière de résoudre les situations."
+      ],
+    )},
+
+  saturnHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Saturne apporte stabilité, fiabilité et capacité à construire dans le temps avec sérieux et constance."
+      ],
+    )},
+
+  saturnChallenging:
+    ${JSON.stringify(
+      data.text[
+        "L’un peut parfois se sentir limité, jugé ou ralenti, tandis que l’autre porte davantage de responsabilités."
+      ],
+    )},
+
+  saturnNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette connexion souligne les thèmes d’engagement, de durée, de maturité et de responsabilité."
+      ],
+    )},
+
+  uranusHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Uranus apporte fraîcheur, liberté, créativité et capacité à renouveler la relation."
+      ],
+    )},
+
+  uranusChallenging:
+    ${JSON.stringify(
+      data.text[
+        "L’imprévisibilité ou le besoin d’espace peut créer de l’instabilité et un sentiment d’insécurité."
+      ],
+    )},
+
+  uranusNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette interaction rend la relation stimulante, originale et difficile à enfermer dans une routine rigide."
+      ],
+    )},
+
+  neptuneHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Neptune soutient compassion, intuition, imagination et sentiment d’une connexion subtile."
+      ],
+    )},
+
+  neptuneChallenging:
+    ${JSON.stringify(
+      data.text[
+        "L’idéalisation, les attentes implicites ou le manque de clarté peuvent créer confusion et déception."
+      ],
+    )},
+
+  neptuneNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette connexion colore la relation de sensibilité, de rêve, d’intuition et parfois d’idéalisation."
+      ],
+    )},
+
+  plutoHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Pluton favorise profondeur, transformation, guérison et capacité à traverser ensemble des périodes intenses."
+      ],
+    )},
+
+  plutoChallenging:
+    ${JSON.stringify(
+      data.text[
+        "Des enjeux de contrôle, de jalousie, de peur de perdre ou de pouvoir peuvent devenir très sensibles."
+      ],
+    )},
+
+  plutoNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette interaction intensifie fortement le lien et pousse chacun à transformer certaines zones profondes."
+      ],
+    )},
+
+  personalHarmonious:
+    ${JSON.stringify(
+      data.text[
+        "Cette interaction soutient naturellement l’expression personnelle, l’attachement, l’émotion ou le désir."
+      ],
+    )},
+
+  personalChallenging:
+    ${JSON.stringify(
+      data.text[
+        "Cette connexion demande de mieux comprendre les réactions personnelles, affectives ou instinctives de chacun."
+      ],
+    )},
+
+  personalNeutral:
+    ${JSON.stringify(
+      data.text[
+        "Cette interaction joue un rôle important dans la manière dont vous vous reconnaissez et réagissez l’un à l’autre."
+      ],
+    )},
+
+  fallback:
+    ${JSON.stringify(
+      data.text[
+        "Cet aspect influence votre dynamique relationnelle et montre comment deux fonctions planétaires cherchent à coopérer, se confronter ou s’ajuster."
+      ],
+    )},
+} as const;
+
+const __ASPECTS_INTENSITY_TEMPLATE =
+  ${JSON.stringify(
+    ASPECTS_EXTRA[
+      locale
+    ].intensityTemplate,
+  )};
+
+function getLocalizedAspectInterpretation(
+  aspect: CompatibilityAspect,
+): string {
+  const first =
+    normalizeValue(
+      aspect.person1Planet,
+    );
+
+  const second =
+    normalizeValue(
+      aspect.person2Planet,
+    );
+
+  const planets = [
+    first,
+    second,
+  ];
+
+  const hasSun =
+    planets.some((planet) =>
+      ["sun", "soleil"].includes(
+        planet,
+      ),
+    );
+
+  const hasMoon =
+    planets.some((planet) =>
+      ["moon", "lune"].includes(
+        planet,
+      ),
+    );
+
+  const hasMercury =
+    planets.some((planet) =>
+      ["mercury", "mercure"].includes(
+        planet,
+      ),
+    );
+
+  const hasVenus =
+    planets.includes("venus");
+
+  const hasMars =
+    planets.includes("mars");
+
+  const hasSaturn =
+    planets.some((planet) =>
+      ["saturn", "saturne"].includes(
+        planet,
+      ),
+    );
+
+  const hasUranus =
+    planets.includes("uranus");
+
+  const hasNeptune =
+    planets.includes("neptune");
+
+  const hasPluto =
+    planets.some((planet) =>
+      ["pluto", "pluton"].includes(
+        planet,
+      ),
+    );
+
+  const harmonious =
+    aspect.type === "trine" ||
+    aspect.type === "sextile";
+
+  const challenging =
+    aspect.type === "square" ||
+    aspect.type === "opposition" ||
+    aspect.type === "quincunx";
+
+  if (hasSun && hasMoon) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.sunMoonHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.sunMoonChallenging
+        : __ASPECTS_INTERPRETATIONS.sunMoonNeutral;
+  }
+
+  if (hasVenus && hasMars) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.venusMarsHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.venusMarsChallenging
+        : __ASPECTS_INTERPRETATIONS.venusMarsNeutral;
+  }
+
+  if (hasMoon && hasVenus) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.moonVenusHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.moonVenusChallenging
+        : __ASPECTS_INTERPRETATIONS.moonVenusNeutral;
+  }
+
+  if (hasMercury) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.mercuryHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.mercuryChallenging
+        : __ASPECTS_INTERPRETATIONS.mercuryNeutral;
+  }
+
+  if (hasSaturn) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.saturnHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.saturnChallenging
+        : __ASPECTS_INTERPRETATIONS.saturnNeutral;
+  }
+
+  if (hasUranus) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.uranusHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.uranusChallenging
+        : __ASPECTS_INTERPRETATIONS.uranusNeutral;
+  }
+
+  if (hasNeptune) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.neptuneHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.neptuneChallenging
+        : __ASPECTS_INTERPRETATIONS.neptuneNeutral;
+  }
+
+  if (hasPluto) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.plutoHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.plutoChallenging
+        : __ASPECTS_INTERPRETATIONS.plutoNeutral;
+  }
+
+  if (
+    hasSun ||
+    hasMoon ||
+    hasVenus ||
+    hasMars
+  ) {
+    return harmonious
+      ? __ASPECTS_INTERPRETATIONS.personalHarmonious
+      : challenging
+        ? __ASPECTS_INTERPRETATIONS.personalChallenging
+        : __ASPECTS_INTERPRETATIONS.personalNeutral;
+  }
+
+  return __ASPECTS_INTERPRETATIONS.fallback;
+}
+
+function fillAspectsTemplate(
+  template: string,
+  values: Record<string, string>,
+): string {
+  let output = template;
+
+  for (
+    const [key, value]
+    of Object.entries(values)
+  ) {
+    output = output
+      .split(\`{\${key}}\`)
+      .join(value);
+  }
+
+  return output;
+}
+
+function getLocalizedIntensityText(
+  conjunctions: number,
+): string {
+  return fillAspectsTemplate(
+    __ASPECTS_INTENSITY_TEMPLATE,
+    {
+      count:
+        String(conjunctions),
+
+      conjunctionWord:
+        conjunctions === 1
+          ? __ASPECTS_CONJUNCTION_SINGULAR
+          : __ASPECTS_CONJUNCTION_PLURAL,
+    },
+  );
+}
+
 function localizeAspectPlanet(
   value: string,
 ): string {
@@ -2466,6 +2900,7 @@ function localizeAspectNature(
 function injectHelpers(
   source: string,
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   const marker =
     "function normalizeValue(";
@@ -2482,6 +2917,7 @@ function injectHelpers(
     marker,
     `${buildHelpers(
       data,
+      locale,
     )}\n${marker}`,
   );
 }
@@ -2494,6 +2930,21 @@ function replaceDynamicDisplay(
   source: string,
 ): string {
   let output = source;
+
+
+  /*
+   * Page 36 — remplacer le bloc complet AVANT les
+   * remplacements partiels du pluriel.
+   */
+  output =
+    output.replace(
+      /<Text\s+style=\{styles\.balanceText\}\s*>\s*Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\. Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\.\s*<\/Text>/g,
+      `<Text style={styles.balanceText}>
+            {getLocalizedIntensityText(
+              conjunctions,
+            )}
+          </Text>`,
+    );
 
   /*
    * -------------------------------------------------------
@@ -2625,6 +3076,36 @@ function replaceDynamicDisplay(
               : __ASPECTS_CONJUNCTION_PLURAL}`,
     );
 
+  /*
+   * -------------------------------------------------------
+   * Interprétations d'aspects.
+   *
+   * Dans le TSX français elles sont construites par
+   * concaténation de plusieurs chaînes. Une traduction
+   * littérale ne peut donc pas les attraper de façon fiable.
+   * -------------------------------------------------------
+   */
+  output =
+    output.replace(
+      /\{getAspectInterpretation\(\s*aspect,\s*\)\}/g,
+      "{getLocalizedAspectInterpretation(aspect)}",
+    );
+
+  /*
+   * -------------------------------------------------------
+   * Page 36 — bloc d'intensité avec nombre dynamique.
+   * -------------------------------------------------------
+   */
+  output =
+    output.replace(
+      /<Text\s+style=\{styles\.balanceText\}\s*>\s*Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\. Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\.\s*<\/Text>/g,
+      `<Text style={styles.balanceText}>
+            {getLocalizedIntensityText(
+              conjunctions,
+            )}
+          </Text>`,
+    );
+
   return output;
 }
 
@@ -2674,6 +3155,7 @@ export function localizeCompatibilityAspects(
     injectHelpers(
       localized,
       data,
+      locale as NonFrenchLocale,
     );
 
   /*
