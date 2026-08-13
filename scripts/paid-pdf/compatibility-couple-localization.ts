@@ -2365,6 +2365,39 @@ function injectHelpers(
   );
 }
 
+function replaceV3DisplayHelpers(
+  source: string,
+): string {
+  let output = source;
+
+  output = output.replace(
+    /return `Saturne en \$\{sign\}`;/g,
+    "return `${__COUPLE_SATURN_IN} ${localizeCoupleSign(sign)}`;",
+  );
+
+  output = output.replace(
+    /return `\$\{getElement\(sign\)\} • \$\{getModality\(sign\)\}`;/g,
+    "return `${localizeCoupleElement(getElement(sign))} • ${localizeCoupleModality(getModality(sign))}`;",
+  );
+
+  output = output.replace(
+    /return `Saturne en \$\{sign\}\. \$\{getSaturnStyle\(sign\)\}`;/g,
+    "return `${__COUPLE_SATURN_IN} ${localizeCoupleSign(sign)}. ${localizeCoupleText(getSaturnStyle(sign))}`;",
+  );
+
+  output = output.replace(
+    /return `\$\{translateCompatibilityPlanet\(\s*aspect\.person1Planet,\s*\)\} \$\{translateCompatibilityAspect\(\s*aspect\.type,\s*\)\} \$\{translateCompatibilityPlanet\(\s*aspect\.person2Planet,\s*\)\} • orbe \$\{aspect\.orb\.toFixed\(1\)\}°`;/g,
+    "return `${localizeCouplePlanet(translateCompatibilityPlanet(aspect.person1Planet))} ${localizeCoupleAspect(translateCompatibilityAspect(aspect.type))} ${localizeCouplePlanet(translateCompatibilityPlanet(aspect.person2Planet))} • ${__COUPLE_ORB_WORD} ${aspect.orb.toFixed(1)}°`;",
+  );
+
+  output = output.replace(
+    /return `Avec Saturne en \$\{sign1\} et en \$\{sign2\}, votre couple apprend à définir sa propre forme de stabilité\. Le lien évolue lorsque vous remplacez les réactions automatiques par des choix clairs, répétés et cohérents avec la relation que vous souhaitez réellement construire\.`;/g,
+    "return buildLocalizedGrowthText(sign1, sign2);",
+  );
+
+  return output;
+}
+
 function replaceDynamicDisplay(
   source: string,
 ): string {
@@ -2503,18 +2536,35 @@ export function localizeCompatibilityCouple(
     return source;
   }
 
+  /*
+   * V4 : sécuriser les constructions dynamiques AVANT
+   * de traduire les littéraux. Cela évite notamment
+   * "Saturn inTaureau" et "orb3.4°".
+   */
   let localized =
-    localizeSafeLiterals(
+    replaceV3DisplayHelpers(
       source,
+    );
+
+  localized =
+    localizeSafeLiterals(
+      localized,
       data.text,
     );
 
+  /*
+   * Injection après la traduction des littéraux :
+   * les dictionnaires générés ne sont jamais retraités.
+   */
   localized =
     injectHelpers(
       localized,
       data,
     );
 
+  /*
+   * Compatibilité de secours avec les anciennes structures.
+   */
   localized =
     replaceDynamicDisplay(
       localized,
