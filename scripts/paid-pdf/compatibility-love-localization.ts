@@ -953,12 +953,12 @@ function replaceV3DisplayHelpers(
   let output = source;
 
   output = output.replace(
-    /return `\$\{planet\} en \$\{sign\}`;/g,
-    `if (planet === "Vénus") {
+    /if \(planet === "venus"\) \{\s*return `Vénus en \$\{sign\}`;\s*\}\s*if \(planet === "mars"\) \{\s*return `Mars en \$\{sign\}`;\s*\}\s*return `Lune en \$\{sign\}`;/g,
+    `if (planet === "venus") {
     return \`${"${__LOVE_VENUS_IN} ${localizeLoveSign(sign)}"}\`;
   }
 
-  if (planet === "Mars") {
+  if (planet === "mars") {
     return \`${"${__LOVE_MARS_IN} ${localizeLoveSign(sign)}"}\`;
   }
 
