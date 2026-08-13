@@ -1797,6 +1797,45 @@ function replaceTargetedDisplayCode(
 ): string {
   let output = source;
 
+  /*
+   * Structure V3 du TSX:
+   * chaque libellé dynamique est construit dans une seule chaîne.
+   * Cela évite définitivement les pertes d'espaces de React-PDF.
+   */
+
+  output = output.replace(
+    /\{formatMoonPlacement\(\s*moonSign1\s*\)\}/g,
+    "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign1)}`}",
+  );
+
+  output = output.replace(
+    /\{formatMoonPlacement\(\s*moonSign2\s*\)\}/g,
+    "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign2)}`}",
+  );
+
+  output = output.replace(
+    /\{formatElementPlacement\(\s*element1\s*\)\}/g,
+    "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign1))}`}",
+  );
+
+  output = output.replace(
+    /\{formatElementPlacement\(\s*element2\s*\)\}/g,
+    "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign2))}`}",
+  );
+
+  output = output.replace(
+    /\{formatNeedsTitle\(\s*name\s*\)\}/g,
+    "{`${__EMOTIONAL_NEEDS_OF} ${name}`}",
+  );
+
+  output = output.replace(
+    /\{formatMoonNeedIntro\(\s*moonSign\s*\)\}/g,
+    "{`${__EMOTIONAL_WITH_MOON_IN} ${localizeEmotionalSign(moonSign)}, `}",
+  );
+
+  /*
+   * Compatibilité avec l'ancienne structure JSX, au cas où.
+   */
   const jsxSpace =
     String.raw`(?:\s*\{\s*["']\s["']\s*\}\s*|\s+)`;
 
