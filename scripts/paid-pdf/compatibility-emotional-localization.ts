@@ -1797,33 +1797,54 @@ function replaceTargetedDisplayCode(
 ): string {
   let output = source;
 
+  const jsxSpace =
+    String.raw`(?:\s*\{\s*["']\s["']\s*\}\s*|\s+)`;
+
   output = output.replace(
-    /(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)\s*\{moonSign1\}/g,
+    new RegExp(
+      String.raw`(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)${jsxSpace}\{moonSign1\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign1)}`}",
   );
 
   output = output.replace(
-    /(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)\s*\{moonSign2\}/g,
+    new RegExp(
+      String.raw`(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)${jsxSpace}\{moonSign2\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign2)}`}",
   );
 
   output = output.replace(
-    /(?:Élément|Element|Elemento)\s*\{element1\}/g,
+    new RegExp(
+      String.raw`(?:Élément|Element|Elemento)${jsxSpace}\{element1\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign1))}`}",
   );
 
   output = output.replace(
-    /(?:Élément|Element|Elemento)\s*\{element2\}/g,
+    new RegExp(
+      String.raw`(?:Élément|Element|Elemento)${jsxSpace}\{element2\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign2))}`}",
   );
 
   output = output.replace(
-    /(?:Les\s+besoins\s+de|The\s+needs\s+of|Las\s+necesidades\s+de|Die\s+Bedürfnisse\s+von|I\s+bisogni\s+di|As\s+necessidades\s+de)\s*\{name\}/g,
+    new RegExp(
+      String.raw`(?:Les\s+besoins\s+de|The\s+needs\s+of|Las\s+necesidades\s+de|Die\s+Bedürfnisse\s+von|I\s+bisogni\s+di|As\s+necessidades\s+de)${jsxSpace}\{name\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_NEEDS_OF} ${name}`}",
   );
 
   output = output.replace(
-    /(?:Avec\s+une\s+Lune\s+en|With\s+a\s+Moon\s+in|Con\s+una\s+Luna\s+en|Mit\s+einem\s+Mond\s+in|Con\s+una\s+Luna\s+in|Com\s+uma\s+Lua\s+em)\s*\{moonSign\},\s*\{\s*["']\s["']\s*\}/g,
+    new RegExp(
+      String.raw`(?:Avec\s+une\s+Lune\s+en|With\s+a\s+Moon\s+in|Con\s+una\s+Luna\s+en|Mit\s+einem\s+Mond\s+in|Con\s+una\s+Luna\s+in|Com\s+uma\s+Lua\s+em)${jsxSpace}\{moonSign\}\s*,\s*\{\s*["']\s["']\s*\}`,
+      "g",
+    ),
     "{`${__EMOTIONAL_WITH_MOON_IN} ${localizeEmotionalSign(moonSign)}, `}",
   );
 
@@ -1843,7 +1864,7 @@ function replaceTargetedDisplayCode(
   );
 
   output = output.replace(
-    /\{planet1\}\s*\{aspect\.aspect\}\s*\{\s*["']\s["']\s*\}\s*\{planet2\}/g,
+    /\{planet1\}(?:\s*\{\s*["']\s["']\s*\}\s*|\s+)\{aspect\.aspect\}(?:\s*\{\s*["']\s["']\s*\}\s*|\s+)\{planet2\}/g,
     "{`${localizeEmotionalPlanet(planet1)} ${localizeEmotionalAspect(aspect.aspect)} ${localizeEmotionalPlanet(planet2)}`}",
   );
 
