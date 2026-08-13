@@ -248,7 +248,6 @@
 
 .premium-nav-link:hover::after {
   opacity: 1;
-
   transform: scaleX(1);
 }
 
@@ -258,7 +257,7 @@
 }
 
 /* =========================================================
-   LIEN COMPATIBILITÉ MIS EN VALEUR
+   LIEN MIS EN VALEUR
 ========================================================= */
 
 .premium-nav-link--highlight {
@@ -288,7 +287,7 @@
 }
 
 /* =========================================================
-   BOUTON CONNEXION / MON COMPTE
+   BOUTON CONNEXION / COMPTE
 ========================================================= */
 
 .premium-account-button {
@@ -343,7 +342,7 @@
 }
 
 /* =========================================================
-   SOUS-MENU ASTROLOGIE
+   DROPDOWNS DESKTOP
 ========================================================= */
 
 .premium-dropdown {
@@ -444,7 +443,7 @@
 }
 
 /* =========================================================
-   INTRO DU SOUS-MENU
+   INTRO DROPDOWN
 ========================================================= */
 
 .premium-dropdown-intro {
@@ -484,19 +483,17 @@
 
 .premium-dropdown-intro strong {
   color: #fff8e7;
-
   font-size: 0.94rem;
 }
 
 .premium-dropdown-intro
   span:not(.premium-dropdown-icon) {
   color: #aa9d8a;
-
   font-size: 0.76rem;
 }
 
 /* =========================================================
-   GRILLE DU SOUS-MENU
+   GRILLE DROPDOWN
 ========================================================= */
 
 .premium-dropdown-grid {
@@ -572,7 +569,6 @@
 
 .premium-dropdown-grid strong {
   color: #f5eddf;
-
   font-size: 0.82rem;
 }
 
@@ -684,6 +680,10 @@
   padding: 13px;
 
   overflow-y: auto;
+  overflow-x: hidden;
+
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 
   visibility: hidden;
   opacity: 0;
@@ -730,7 +730,7 @@
 }
 
 /* =========================================================
-   LIENS DU MENU MOBILE
+   LIENS MOBILE
 ========================================================= */
 
 .premium-mobile-menu > a,
@@ -798,7 +798,7 @@
 }
 
 /* =========================================================
-   COMPATIBILITÉ MOBILE
+   MOBILE HIGHLIGHT
 ========================================================= */
 
 .premium-mobile-highlight {
@@ -810,7 +810,7 @@
 }
 
 /* =========================================================
-   SOUS-MENU ASTROLOGIE MOBILE
+   SOUS-MENU MOBILE
 ========================================================= */
 
 .premium-mobile-dropdown-button {
@@ -849,7 +849,7 @@
 }
 
 .premium-mobile-submenu--open {
-  max-height: 500px;
+  max-height: 1000px;
 
   border-left-color: rgba(212, 175, 78, 0.18);
 
@@ -859,13 +859,13 @@
 .premium-mobile-submenu > a {
   display: block;
 
-  min-height: 0;
-  padding: 0 16px;
+  min-height: 42px;
+  padding: 10px 16px;
 
   color: #afa18d;
 
   font-size: 0.82rem;
-  line-height: 42px;
+  line-height: 1.4;
   text-decoration: none;
 
   transition:
@@ -882,6 +882,7 @@
   outline: 2px solid rgba(244, 201, 93, 0.75);
   outline-offset: -2px;
 }
+
 /* =========================================================
    COMPTE MOBILE
 ========================================================= */
@@ -914,7 +915,15 @@
 }
 
 /* =========================================================
-   BARRE DE DÉFILEMENT DU MENU MOBILE
+   LANGUAGE SWITCHER DANS MENU MOBILE
+========================================================= */
+
+.premium-mobile-menu > :last-child {
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   BARRE DE DÉFILEMENT
 ========================================================= */
 
 .premium-mobile-menu {
@@ -930,13 +939,11 @@
 
 .premium-mobile-menu::-webkit-scrollbar-track {
   border-radius: 999px;
-
   background: rgba(255, 255, 255, 0.03);
 }
 
 .premium-mobile-menu::-webkit-scrollbar-thumb {
   border-radius: 999px;
-
   background: rgba(212, 175, 78, 0.42);
 }
 
@@ -945,7 +952,7 @@
 }
 
 /* =========================================================
-   ÉCRANS ORDINATEURS PLUS PETITS
+   ORDINATEURS PLUS PETITS
 ========================================================= */
 
 @media (max-width: 1320px) {
@@ -1056,7 +1063,6 @@
 
   .premium-brand-name {
     font-size: 0.84rem;
-
     letter-spacing: 0.085em;
   }
 
@@ -1078,12 +1084,27 @@
 
   .premium-mobile-menu {
     position: fixed;
+
     top: 91px;
     right: 9px;
+    bottom: 9px;
     left: 9px;
 
     width: auto;
-    max-height: calc(100vh - 105px);
+    max-height: none;
+
+    padding-bottom:
+      calc(18px + env(safe-area-inset-bottom));
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .premium-mobile-submenu--open {
+    max-height: 1000px;
   }
 }
 
@@ -1120,6 +1141,8 @@
 
   .premium-mobile-menu {
     padding: 11px;
+    padding-bottom:
+      calc(18px + env(safe-area-inset-bottom));
 
     border-radius: 19px;
   }
@@ -1132,6 +1155,13 @@
     padding-left: 11px;
 
     font-size: 0.87rem;
+  }
+
+  .premium-mobile-submenu > a {
+    padding-top: 11px;
+    padding-bottom: 11px;
+
+    font-size: 0.82rem;
   }
 }
 
@@ -1207,4 +1237,4 @@
   .premium-mobile-submenu > a {
     transition: none;
   }
-}
+   }
