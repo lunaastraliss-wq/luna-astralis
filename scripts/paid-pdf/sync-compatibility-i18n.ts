@@ -4,21 +4,19 @@ import path from "node:path";
 /*
  * =========================================================
  * LUNA ASTRALIS
- * SYNCHRONISATION I18N — PDF COMPATIBILITY
+ * COMPATIBILITY I18N — SYNC + AUDIT
  * =========================================================
  *
- * Ce script utilise le français comme référence.
+ * Ce script fait 2 choses :
  *
- * Il vérifie automatiquement :
- * fr / en / es / de / it / pt
+ * 1. Synchronise les clés JSON
+ *    entre fr / en / es / de / it / pt
  *
- * Il :
- * - parcourt tous les compatibility*.json
- * - détecte les clés manquantes
- * - ajoute les clés manquantes
- * - n'écrase JAMAIS une traduction existante
- * - marque clairement les nouvelles traductions à faire
- * - affiche un rapport dans le terminal
+ * 2. Analyse les composants CompatibilityPdf
+ *    pour détecter les textes français
+ *    encore écrits directement dans les TSX.
+ *
+ * Il n'écrase jamais les traductions existantes.
  */
 
 const LOCALES = [
@@ -35,16 +33,6 @@ type Locale =
 
 const SOURCE_LOCALE: Locale = "fr";
 
-/*
- * Racine du projet.
- *
- * Le script se trouve dans :
- * scripts/paid-pdf/
- *
- * process.cwd() doit normalement être
- * la racine du projet lorsque le script
- * est lancé depuis npm.
- */
 const PROJECT_ROOT =
   process.cwd();
 
@@ -55,34 +43,42 @@ const I18N_ROOT =
     "migrated",
   );
 
-const COMPATIBILITY_FOLDER =
+const COMPATIBILITY_I18N_FOLDER =
   path.join(
     "components",
     "compatibilitypdf",
   );
 
-/*
- * Préfixe volontairement très visible.
- *
- * Si une traduction manque, on ne veut surtout
- * pas qu'elle passe inaperçue dans le PDF.
- */
+const COMPONENTS_FOLDER =
+  path.join(
+    PROJECT_ROOT,
+    "components",
+    "CompatibilityPdf",
+  );
+
 const MISSING_PREFIX =
   "[TRANSLATE] ";
-
-/*
- * ---------------------------------------------------------
- * TYPES
- * ---------------------------------------------------------
- */
 
 type TranslationFile =
   Record<string, string>;
 
+type SyncResult = {
+  added: Record<
+    Locale,
+    string[]
+  >;
+};
+
+type HardcodedTextResult = {
+  fileName: string;
+  line: number;
+  text: string;
+};
+
 /*
- * ---------------------------------------------------------
- * UTILITAIRES
- * ---------------------------------------------------------
+ * =========================================================
+ * JSON
+ * =========================================================
  */
 
 function getLocaleFolder(
@@ -91,7 +87,7 @@ function getLocaleFolder(
   return path.join(
     I18N_ROOT,
     locale,
-    COMPATIBILITY_FOLDER,
+    COMPATIBILITY_I18N_FOLDER,
   );
 }
 
@@ -136,9 +132,9 @@ function writeJsonFile(
 }
 
 /*
- * ---------------------------------------------------------
- * RÉCUPÉRATION DES FICHIERS COMPATIBILITY
- * ---------------------------------------------------------
+ * =========================================================
+ * FICHIERS I18N COMPATIBILITY
+ * =========================================================
  */
 
 function getFrenchCompatibilityFiles():
@@ -175,19 +171,14 @@ function getFrenchCompatibilityFiles():
 }
 
 /*
- * ---------------------------------------------------------
- * SYNCHRONISATION D'UN FICHIER
- * ---------------------------------------------------------
+ * =========================================================
+ * SYNCHRONISATION JSON
+ * =========================================================
  */
 
 function syncFile(
   fileName: string,
-): {
-  added: Record<
-    Locale,
-    string[]
-  >;
-} {
+): SyncResult {
   const frenchPath =
     path.join(
       getLocaleFolder(
@@ -212,10 +203,6 @@ function syncFile(
   ) {
     added[locale] = [];
 
-    /*
-     * Le français est notre référence.
-     * On ne le modifie pas.
-     */
     if (
       locale ===
       SOURCE_LOCALE
@@ -228,10 +215,6 @@ function syncFile(
         locale,
       );
 
-    /*
-     * Si jamais le dossier d'une langue
-     * n'existe pas, on le crée.
-     */
     if (
       !fs.existsSync(
         localeFolder,
@@ -254,10 +237,6 @@ function syncFile(
     let targetData:
       TranslationFile = {};
 
-    /*
-     * On conserve le contenu existant
-     * s'il existe déjà.
-     */
     if (
       fs.existsSync(
         targetPath,
@@ -271,9 +250,6 @@ function syncFile(
 
     let changed = false;
 
-    /*
-     * On parcourt toutes les clés françaises.
-     */
     for (
       const [
         key,
@@ -282,12 +258,6 @@ function syncFile(
         frenchData,
       )
     ) {
-      /*
-       * IMPORTANT :
-       *
-       * On ne touche jamais à une clé
-       * déjà présente.
-       */
       if (
         Object.prototype.hasOwnProperty.call(
           targetData,
@@ -297,13 +267,6 @@ function syncFile(
         continue;
       }
 
-      /*
-       * Nouvelle clé manquante.
-       *
-       * On l'ajoute avec un marqueur visible.
-       * Cela évite qu'un texte français soit
-       * accidentellement considéré comme traduit.
-       */
       targetData[key] =
         `${MISSING_PREFIX}${frenchValue}`;
 
@@ -314,60 +277,58 @@ function syncFile(
       changed = true;
     }
 
-    /*
-     * On réordonne les clés selon le français.
-     *
-     * Les éventuelles clés supplémentaires
-     * déjà présentes dans la langue sont
-     * conservées à la fin.
-     */
-    if (changed) {
-      const ordered:
-        TranslationFile = {};
-
-      for (
-        const key of Object.keys(
-          frenchData,
-        )
-      ) {
-        if (
-          Object.prototype.hasOwnProperty.call(
-            targetData,
-            key,
-          )
-        ) {
-          ordered[key] =
-            targetData[key];
-        }
-      }
-
-      /*
-       * Conservation des clés supplémentaires.
-       */
-      for (
-        const [
-          key,
-          value,
-        ] of Object.entries(
-          targetData,
-        )
-      ) {
-        if (
-          !Object.prototype.hasOwnProperty.call(
-            ordered,
-            key,
-          )
-        ) {
-          ordered[key] =
-            value;
-        }
-      }
-
-      writeJsonFile(
-        targetPath,
-        ordered,
-      );
+    if (!changed) {
+      continue;
     }
+
+    const ordered:
+      TranslationFile = {};
+
+    /*
+     * Même ordre que le français.
+     */
+    for (
+      const key of Object.keys(
+        frenchData,
+      )
+    ) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          targetData,
+          key,
+        )
+      ) {
+        ordered[key] =
+          targetData[key];
+      }
+    }
+
+    /*
+     * Garde les clés supplémentaires.
+     */
+    for (
+      const [
+        key,
+        value,
+      ] of Object.entries(
+        targetData,
+      )
+    ) {
+      if (
+        !Object.prototype.hasOwnProperty.call(
+          ordered,
+          key,
+        )
+      ) {
+        ordered[key] =
+          value;
+      }
+    }
+
+    writeJsonFile(
+      targetPath,
+      ordered,
+    );
   }
 
   return {
@@ -376,9 +337,314 @@ function syncFile(
 }
 
 /*
- * ---------------------------------------------------------
+ * =========================================================
+ * AUDIT DES TSX
+ * =========================================================
+ */
+
+function getCompatibilityTsxFiles():
+  string[] {
+  if (
+    !fs.existsSync(
+      COMPONENTS_FOLDER,
+    )
+  ) {
+    throw new Error(
+      `Dossier CompatibilityPdf introuvable : ${COMPONENTS_FOLDER}`,
+    );
+  }
+
+  return fs
+    .readdirSync(
+      COMPONENTS_FOLDER,
+    )
+    .filter(
+      (fileName) =>
+        fileName.endsWith(
+          ".tsx",
+        ),
+    )
+    .sort();
+}
+
+/*
+ * Détection simple de texte français visible.
+ *
+ * Ce n'est pas une traduction automatique.
+ * Le but est seulement de repérer les zones
+ * où du français est encore codé en dur.
+ */
+const FRENCH_HINTS = [
+  "é",
+  "è",
+  "ê",
+  "à",
+  "ù",
+  "ç",
+  "ô",
+  "î",
+  "ï",
+  "œ",
+  "Première",
+  "Deuxième",
+  "Naissance",
+  "Heure",
+  "Lieu",
+  "Synastrie",
+  "Attirance",
+  "Votre",
+  "Vos ",
+  "Les ",
+  "Une ",
+  "Deux ",
+  "Cette ",
+  "Ce ",
+  "La ",
+  "Le ",
+  "L’",
+  "d’évolution",
+  "relation",
+  "astrologique",
+];
+
+function looksFrench(
+  value: string,
+): boolean {
+  const trimmed =
+    value.trim();
+
+  if (
+    trimmed.length < 3
+  ) {
+    return false;
+  }
+
+  /*
+   * Ignore imports, chemins, classes, URLs,
+   * noms de constantes et code technique.
+   */
+  if (
+    trimmed.startsWith(
+      "http",
+    ) ||
+    trimmed.includes(
+      "@/components/",
+    ) ||
+    trimmed.includes(
+      "./",
+    ) ||
+    trimmed.includes(
+      "../",
+    )
+  ) {
+    return false;
+  }
+
+  return FRENCH_HINTS.some(
+    (hint) =>
+      trimmed.includes(
+        hint,
+      ),
+  );
+}
+
+function cleanCandidate(
+  value: string,
+): string {
+  return value
+    .replace(
+      /^\s+/,
+      "",
+    )
+    .replace(
+      /\s+$/,
+      "",
+    )
+    .replace(
+      /^["'`]/,
+      "",
+    )
+    .replace(
+      /["'`,;]+$/,
+      "",
+    )
+    .trim();
+}
+
+function auditTsxFile(
+  fileName: string,
+): HardcodedTextResult[] {
+  const filePath =
+    path.join(
+      COMPONENTS_FOLDER,
+      fileName,
+    );
+
+  const source =
+    fs.readFileSync(
+      filePath,
+      "utf8",
+    );
+
+  const lines =
+    source.split(
+      /\r?\n/,
+    );
+
+  const results:
+    HardcodedTextResult[] = [];
+
+  for (
+    let index = 0;
+    index < lines.length;
+    index++
+  ) {
+    const line =
+      lines[index];
+
+    /*
+     * Ignore les commentaires.
+     */
+    const trimmed =
+      line.trim();
+
+    if (
+      trimmed.startsWith(
+        "//",
+      ) ||
+      trimmed.startsWith(
+        "*",
+      ) ||
+      trimmed.startsWith(
+        "/*",
+      )
+    ) {
+      continue;
+    }
+
+    /*
+     * Texte JSX simple :
+     *
+     * Naissance
+     * Votre voyage astrologique
+     */
+    if (
+      !trimmed.startsWith(
+        "<",
+      ) &&
+      !trimmed.startsWith(
+        "{",
+      ) &&
+      looksFrench(
+        trimmed,
+      )
+    ) {
+      results.push({
+        fileName,
+        line:
+          index + 1,
+        text:
+          cleanCandidate(
+            trimmed,
+          ),
+      });
+    }
+
+    /*
+     * Chaînes entre guillemets :
+     *
+     * label="Première personne"
+     * fallbackName="Deuxième personne"
+     */
+    const quotedRegex =
+      /["'`]([^"'`]{3,})["'`]/g;
+
+    let match:
+      RegExpExecArray | null;
+
+    while (
+      (
+        match =
+          quotedRegex.exec(
+            line,
+          )
+      ) !== null
+    ) {
+      const candidate =
+        cleanCandidate(
+          match[1],
+        );
+
+      if (
+        looksFrench(
+          candidate,
+        )
+      ) {
+        results.push({
+          fileName,
+          line:
+            index + 1,
+          text:
+            candidate,
+        });
+      }
+    }
+  }
+
+  /*
+   * Évite les doublons identiques
+   * sur la même ligne.
+   */
+  const seen =
+    new Set<string>();
+
+  return results.filter(
+    (item) => {
+      const key =
+        `${item.fileName}:${item.line}:${item.text}`;
+
+      if (
+        seen.has(
+          key,
+        )
+      ) {
+        return false;
+      }
+
+      seen.add(
+        key,
+      );
+
+      return true;
+    },
+  );
+}
+
+function auditCompatibilityComponents():
+  HardcodedTextResult[] {
+  const files =
+    getCompatibilityTsxFiles();
+
+  const results:
+    HardcodedTextResult[] = [];
+
+  for (
+    const fileName of files
+  ) {
+    results.push(
+      ...auditTsxFile(
+        fileName,
+      ),
+    );
+  }
+
+  return results;
+}
+
+/*
+ * =========================================================
  * RAPPORT
- * ---------------------------------------------------------
+ * =========================================================
  */
 
 function printDivider(): void {
@@ -390,16 +656,22 @@ function printDivider(): void {
 function main(): void {
   console.log("");
   console.log(
-    "LUNA ASTRALIS — Compatibility i18n sync",
+    "LUNA ASTRALIS — Compatibility i18n audit",
   );
 
   printDivider();
+
+  /*
+   * -------------------------------------------------------
+   * 1. SYNCHRONISATION JSON
+   * -------------------------------------------------------
+   */
 
   const files =
     getFrenchCompatibilityFiles();
 
   console.log(
-    `${files.length} fichier(s) Compatibility trouvé(s).`,
+    `${files.length} fichier(s) JSON Compatibility trouvé(s).`,
   );
 
   printDivider();
@@ -480,7 +752,7 @@ function main(): void {
   printDivider();
 
   console.log(
-    "RÉSUMÉ",
+    "TRADUCTIONS JSON À COMPLÉTER",
   );
 
   printDivider();
@@ -496,43 +768,74 @@ function main(): void {
     }
 
     console.log(
-      `${locale.toUpperCase()} : ${totals[locale]} traduction(s) à compléter`,
+      `${locale.toUpperCase()} : ${totals[locale]}`,
     );
   }
 
-  console.log("");
+  /*
+   * -------------------------------------------------------
+   * 2. AUDIT DES COMPOSANTS
+   * -------------------------------------------------------
+   */
 
-  const totalMissing =
-    LOCALES
-      .filter(
-        (locale) =>
-          locale !==
-          SOURCE_LOCALE,
-      )
-      .reduce(
-        (
-          total,
-          locale,
-        ) =>
-          total +
-          totals[locale],
-        0,
-      );
+  console.log("");
+  printDivider();
+
+  console.log(
+    "TEXTES FRANÇAIS ENCORE CODÉS DANS LES TSX",
+  );
+
+  printDivider();
+
+  const hardcoded =
+    auditCompatibilityComponents();
 
   if (
-    totalMissing === 0
+    hardcoded.length ===
+    0
   ) {
     console.log(
-      "✓ Toutes les clés Compatibility sont synchronisées.",
+      "✓ Aucun texte français suspect détecté.",
     );
   } else {
-    console.log(
-      `${totalMissing} traduction(s) marquée(s) avec ${MISSING_PREFIX.trim()}`,
-    );
+    let currentFile = "";
 
-    console.log("");
+    for (
+      const item of hardcoded
+    ) {
+      if (
+        item.fileName !==
+        currentFile
+      ) {
+        currentFile =
+          item.fileName;
+
+        console.log("");
+        console.log(
+          `• ${currentFile}`,
+        );
+      }
+
+      console.log(
+        `  ligne ${item.line} : ${item.text}`,
+      );
+    }
+  }
+
+  console.log("");
+  printDivider();
+
+  console.log(
+    `Total : ${hardcoded.length} texte(s) français suspect(s) dans les composants CompatibilityPdf.`,
+  );
+
+  console.log("");
+
+  if (
+    hardcoded.length > 0
+  ) {
     console.log(
-      "Les traductions existantes n'ont pas été modifiées.",
+      "Ces textes doivent être branchés sur __i18n avant que les 6 langues puissent être considérées comme complètes.",
     );
   }
 
