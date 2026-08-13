@@ -631,8 +631,22 @@ function localizeSafeLiterals(
    HELPERS INSÉRÉS DANS LE TSX GÉNÉRÉ
 ========================================================= */
 
+
+function getLoveAndWord(
+  locale: NonFrenchLocale,
+): string {
+  return {
+    en: "and",
+    es: "y",
+    de: "und",
+    it: "e",
+    pt: "e",
+  }[locale];
+}
+
 function buildHelpers(
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   return `
 const __LOVE_SIGNS =
@@ -662,6 +676,52 @@ const __LOVE_ELEMENTS =
     null,
     2,
   )} as Record<string, string>;
+
+const __LOVE_VENUS_IN =
+  ${JSON.stringify(
+    data.jsx["Vénus en"] ?? "Vénus en",
+  )};
+
+const __LOVE_MARS_IN =
+  ${JSON.stringify(
+    data.jsx["Mars en"] ?? "Mars en",
+  )};
+
+const __LOVE_MOON_IN =
+  ${JSON.stringify(
+    data.jsx["Lune en"] ?? "Lune en",
+  )};
+
+const __LOVE_ELEMENT_WORD =
+  ${JSON.stringify(
+    data.jsx["Élément"] ?? "Élément",
+  )};
+
+const __LOVE_ORB_WORD =
+  ${JSON.stringify(
+    (data.jsx["• orbe"] ?? "• orbe")
+      .replace(/^•\s*/, ""),
+  )};
+
+const __LOVE_LOVE_WORD =
+  ${JSON.stringify(
+    data.jsx["L’amour"] ?? "L’amour",
+  )};
+
+const __LOVE_DESIRE_WORD =
+  ${JSON.stringify(
+    data.jsx["Le désir"] ?? "Le désir",
+  )};
+
+const __LOVE_OF_WORD =
+  ${JSON.stringify(
+    data.jsx["de"] ?? "de",
+  )};
+
+const __LOVE_AND_WORD =
+  ${JSON.stringify(
+    getLoveAndWord(locale),
+  )};
 
 function localizeLoveSign(
   value: string,
@@ -704,6 +764,7 @@ function localizeLoveElement(
 function injectHelpers(
   source: string,
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   const marker =
     "function normalizeValue(value: unknown): string {";
@@ -720,6 +781,7 @@ function injectHelpers(
     marker,
     `${buildHelpers(
       data,
+      locale,
     )}\n${marker}`,
   );
 }
@@ -882,6 +944,161 @@ function replaceDynamicDisplays(
 }
 
 /* =========================================================
+   STRUCTURE V3 — AFFICHAGES DYNAMIQUES COMPLETS
+========================================================= */
+
+function replaceV3DisplayHelpers(
+  source: string,
+): string {
+  let output = source;
+
+  output = output.replace(
+    /return `\$\{planet\} en \$\{sign\}`;/g,
+    `if (planet === "Vénus") {
+    return \`${"${__LOVE_VENUS_IN} ${localizeLoveSign(sign)}"}\`;
+  }
+
+  if (planet === "Mars") {
+    return \`${"${__LOVE_MARS_IN} ${localizeLoveSign(sign)}"}\`;
+  }
+
+  return \`${"${__LOVE_MOON_IN} ${localizeLoveSign(sign)}"}\`;`,
+  );
+
+  output = output.replace(
+    /return `Élément \$\{element\}`;/g,
+    "return `${__LOVE_ELEMENT_WORD} ${localizeLoveElement(element)}`;",
+  );
+
+  output = output.replace(
+    /return `\$\{planet === "Venus" \? "L’amour" : "Le désir"\} de \$\{name\}`;/g,
+    "return `${planet === \"Venus\" ? __LOVE_LOVE_WORD : __LOVE_DESIRE_WORD} ${__LOVE_OF_WORD} ${name}`;",
+  );
+
+  output = output.replace(
+    /return `\$\{planet === "Venus" \? "Vénus" : "Mars"\} en \$\{sign\}\. `;/g,
+    "return `${planet === \"Venus\" ? __LOVE_VENUS_IN : __LOVE_MARS_IN} ${localizeLoveSign(sign)}. `;",
+  );
+
+  output = output.replace(
+    /return `\$\{planet1\} \$\{aspectName\} \$\{planet2\} • orbe \$\{orb\.toFixed\(1\)\}°`;/g,
+    "return `${localizeLovePlanet(planet1)} ${localizeLoveAspect(aspectName)} ${localizeLovePlanet(planet2)} • ${__LOVE_ORB_WORD} ${orb.toFixed(1)}°`;",
+  );
+
+  /*
+   * Pour les langues générées, on évite les constructions
+   * grammaticalement fragiles du type "Venus in Scorpio seeks loves...".
+   * Chaque partie devient une phrase complète et localisée.
+   */
+  output = output.replace(
+    /return `Vénus en \$\{venusSign\} recherche \$\{venusStyle\.toLowerCase\(\)\} Mars en \$\{marsSign\} exprime \$\{marsStyle\.toLowerCase\(\)\}`;/g,
+    "return `${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)}. ${venusStyle} ${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)}. ${marsStyle}`;",
+  );
+
+  output = output.replace(
+    /return `Lune en \$\{moonSign\}, Vénus en \$\{venusSign\} et Mars en \$\{marsSign\}\. `;/g,
+    "return `${__LOVE_MOON_IN} ${localizeLoveSign(moonSign)}, ${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)} ${__LOVE_AND_WORD} ${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)}. `;",
+  );
+
+  return output;
+}
+
+function replaceLoveRelationshipHelper(
+  source: string,
+  data: LocaleData,
+): string {
+  const start =
+    source.indexOf(
+      "function getLoveRelationshipText(",
+    );
+
+  if (start < 0) {
+    return source;
+  }
+
+  const endMarker =
+    "\nfunction getVenusStyle(";
+
+  const end =
+    source.indexOf(
+      endMarker,
+      start,
+    );
+
+  if (end < 0) {
+    return source;
+  }
+
+  const helper = `
+function getLoveRelationshipText(
+  body: "venus" | "mars",
+  sign1: string,
+  sign2: string,
+  element1: string,
+  element2: string,
+  seed: string,
+): string {
+  void seed;
+
+  const sameSign =
+    normalizeValue(sign1) ===
+    normalizeValue(sign2);
+
+  const sameElement =
+    element1 === element2;
+
+  const complementary =
+    (
+      (element1 === "Feu" &&
+        element2 === "Air") ||
+      (element1 === "Air" &&
+        element2 === "Feu") ||
+      (element1 === "Terre" &&
+        element2 === "Eau") ||
+      (element1 === "Eau" &&
+        element2 === "Terre")
+    );
+
+  if (body === "venus") {
+    if (sameSign) {
+      return \`${data.templates.sameVenus}\`;
+    }
+
+    if (sameElement) {
+      return \`${data.templates.sameElementVenus}\`;
+    }
+
+    if (complementary) {
+      return \`${data.templates.complementaryVenus}\`;
+    }
+
+    return \`${data.templates.differentVenus}\`;
+  }
+
+  if (sameSign) {
+    return \`${data.templates.sameMars}\`;
+  }
+
+  if (sameElement) {
+    return \`${data.templates.sameElementMars}\`;
+  }
+
+  if (complementary) {
+    return \`${data.templates.complementaryMars}\`;
+  }
+
+  return \`${data.templates.differentMars}\`;
+}
+`;
+
+  return (
+    source.slice(0, start) +
+    helper +
+    source.slice(end)
+  );
+}
+
+/* =========================================================
    MAIN
 ========================================================= */
 
@@ -889,19 +1106,18 @@ export function localizeCompatibilityLove(
   source: string,
   locale: PaidPdfLocale,
 ): string {
-  /*
-   * Le français reste exactement
-   * le fichier source.
-   */
   if (
     locale === "fr"
   ) {
     return source;
   }
 
+  const nonFrenchLocale =
+    locale as NonFrenchLocale;
+
   const data =
     translations[
-      locale as NonFrenchLocale
+      nonFrenchLocale
     ];
 
   if (!data) {
@@ -909,28 +1125,46 @@ export function localizeCompatibilityLove(
   }
 
   /*
-   * 1.
-   * Textes fixes et retours de fonctions.
+   * 1. On injecte d'abord les dictionnaires et constantes.
+   *    Ainsi les helpers V3 peuvent les utiliser directement.
    */
   let localized =
-    localizeSafeLiterals(
+    injectHelpers(
       source,
       data,
+      nonFrenchLocale,
     );
 
   /*
-   * 2.
-   * Helpers des valeurs dynamiques.
+   * 2. On remplace les helpers d'affichage pendant que leur
+   *    forme française source est encore intacte.
    */
   localized =
-    injectHelpers(
+    replaceV3DisplayHelpers(
+      localized,
+    );
+
+  /*
+   * 3. Le paragraphe dynamique Vénus/Mars ne dépend plus
+   *    du sélecteur français importé dans les langues générées.
+   */
+  localized =
+    replaceLoveRelationshipHelper(
       localized,
       data,
     );
 
   /*
-   * 3.
-   * Templates dynamiques Vénus / Mars.
+   * 4. Textes fixes et retours de fonctions.
+   */
+  localized =
+    localizeSafeLiterals(
+      localized,
+      data,
+    );
+
+  /*
+   * 5. Compatibilité avec les anciennes structures.
    */
   localized =
     replaceCompatibilityTemplates(
@@ -938,11 +1172,6 @@ export function localizeCompatibilityLove(
       data,
     );
 
-  /*
-   * 4.
-   * Signes, éléments, planètes
-   * et aspects visibles.
-   */
   localized =
     replaceDynamicDisplays(
       localized,
