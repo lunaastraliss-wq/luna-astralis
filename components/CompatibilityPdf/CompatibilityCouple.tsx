@@ -1013,6 +1013,43 @@ function includesPersonalPlanet(
   );
 }
 
+function formatCoupleSaturnPlacement(
+  sign: string,
+): string {
+  return `Saturne en ${sign}`;
+}
+
+function formatCoupleElementModality(
+  sign: string,
+): string {
+  return `${getElement(sign)} • ${getModality(sign)}`;
+}
+
+function formatCoupleSaturnProfile(
+  sign: string,
+): string {
+  return `Saturne en ${sign}. ${getSaturnStyle(sign)}`;
+}
+
+function formatCoupleAspectTitle(
+  aspect: CoupleAspect,
+): string {
+  return `${translateCompatibilityPlanet(
+    aspect.person1Planet,
+  )} ${translateCompatibilityAspect(
+    aspect.type,
+  )} ${translateCompatibilityPlanet(
+    aspect.person2Planet,
+  )} • orbe ${aspect.orb.toFixed(1)}°`;
+}
+
+function formatCoupleGrowthText(
+  sign1: string,
+  sign2: string,
+): string {
+  return `Avec Saturne en ${sign1} et en ${sign2}, votre couple apprend à définir sa propre forme de stabilité. Le lien évolue lorsque vous remplacez les réactions automatiques par des choix clairs, répétés et cohérents avec la relation que vous souhaitez réellement construire.`;
+}
+
 function getSaturnStyle(
   sign: string,
 ): string {
@@ -1337,16 +1374,7 @@ function AspectCard({
 
       <View style={styles.aspectContent}>
         <Text style={styles.aspectTitle}>
-          {translateCompatibilityPlanet(
-            aspect.person1Planet,
-          )}{" "}
-          {translateCompatibilityAspect(
-            aspect.type,
-          )}{" "}
-          {translateCompatibilityPlanet(
-            aspect.person2Planet,
-          )}{" "}
-          • orbe {aspect.orb.toFixed(1)}°
+          {formatCoupleAspectTitle(aspect)}
         </Text>
 
         <Text style={styles.aspectText}>
@@ -1453,14 +1481,13 @@ function SaturnPage({
             <Text
               style={styles.placementValue}
             >
-              Saturne en {saturn1}
+              {formatCoupleSaturnPlacement(saturn1)}
             </Text>
 
             <Text
               style={styles.placementStyle}
             >
-              {getElement(saturn1)} •{" "}
-              {getModality(saturn1)}
+              {formatCoupleElementModality(saturn1)}
             </Text>
           </View>
 
@@ -1491,14 +1518,13 @@ function SaturnPage({
             <Text
               style={styles.placementValue}
             >
-              Saturne en {saturn2}
+              {formatCoupleSaturnPlacement(saturn2)}
             </Text>
 
             <Text
               style={styles.placementStyle}
             >
-              {getElement(saturn2)} •{" "}
-              {getModality(saturn2)}
+              {formatCoupleElementModality(saturn2)}
             </Text>
           </View>
         </View>
@@ -1540,8 +1566,7 @@ function SaturnPage({
           </View>
 
           <Text style={styles.cardText}>
-            Saturne en {saturn1}.{" "}
-            {getSaturnStyle(saturn1)}
+            {formatCoupleSaturnProfile(saturn1)}
           </Text>
         </View>
 
@@ -1562,8 +1587,7 @@ function SaturnPage({
           </View>
 
           <Text style={styles.cardText}>
-            Saturne en {saturn2}.{" "}
-            {getSaturnStyle(saturn2)}
+            {formatCoupleSaturnProfile(saturn2)}
           </Text>
         </View>
       </View>
@@ -2136,14 +2160,10 @@ function GrowthPage({
         <Text
           style={styles.interpretationText}
         >
-          Avec Saturne en {saturn1} et en{" "}
-          {saturn2}, votre couple apprend à
-          définir sa propre forme de stabilité.
-          Le lien évolue lorsque vous remplacez
-          les réactions automatiques par des
-          choix clairs, répétés et cohérents avec
-          la relation que vous souhaitez
-          réellement construire.
+          {formatCoupleGrowthText(
+            saturn1,
+            saturn2,
+          )}
         </Text>
       </View>
 
