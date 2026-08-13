@@ -2076,6 +2076,12 @@ const __PLANETS_ORB_WORD =
     data.orbWord,
   )};
 
+const __PLANETS_ELEMENT_WORD =
+  ${JSON.stringify(
+    data.text["Élément"] ??
+      "Élément",
+  )};
+
 const __PLANETS_SHARED_TEMPLATES =
   ${JSON.stringify(
     PLANETS_SHARED_TEMPLATES[
@@ -2366,6 +2372,24 @@ function injectHelpers(
   );
 }
 
+function replacePlanetsElementDisplays(
+  source: string,
+): string {
+  let output = source;
+
+  output = output.replace(
+    /Élément \{getElement\(sign1\)\}/g,
+    '{__PLANETS_ELEMENT_WORD}{" "}{localizePlanetsElement(getElement(sign1))}',
+  );
+
+  output = output.replace(
+    /Élément \{getElement\(sign2\)\}/g,
+    '{__PLANETS_ELEMENT_WORD}{" "}{localizePlanetsElement(getElement(sign2))}',
+  );
+
+  return output;
+}
+
 function replaceDynamicDisplay(
   source: string,
 ): string {
@@ -2513,28 +2537,49 @@ export function localizeCompatibilityPlanets(
     return source;
   }
 
+  const nonFrenchLocale =
+    locale as NonFrenchLocale;
+
   const data =
     TRANSLATIONS[
-      locale as NonFrenchLocale
+      nonFrenchLocale
     ];
 
   if (!data) {
     return source;
   }
 
+  /*
+   * V4 :
+   * protéger d'abord l'affichage "Élément + valeur".
+   * Sinon "Élément" est traduit avant que le remplacement
+   * dynamique puisse reconnaître la structure du TSX.
+   */
   let localized =
-    localizeSafeLiterals(
+    replacePlanetsElementDisplays(
       source,
+    );
+
+  localized =
+    localizeSafeLiterals(
+      localized,
       data.text,
     );
 
+  /*
+   * Les dictionnaires/helpers sont injectés après la traduction
+   * des littéraux afin qu'ils ne soient jamais retraités.
+   */
   localized =
     injectHelpers(
       localized,
       data,
-      locale as NonFrenchLocale,
+      nonFrenchLocale,
     );
 
+  /*
+   * Les autres constructions dynamiques sont ensuite localisées.
+   */
   localized =
     replaceDynamicDisplay(
       localized,
