@@ -12,7 +12,8 @@ const TRANSLATIONS: Record<
   Record<string, string>
 > = {
   en: {
-    "Non précisé": "Not specified",
+    "Non précisé":
+      "Not specified",
 
     "Carte du ciel":
       "Birth chart",
@@ -20,9 +21,14 @@ const TRANSLATIONS: Record<
     "La roue astrologique personnalisée apparaîtra ici lorsque les données de naissance auront été calculées.":
       "The personalized astrological wheel will appear here once the birth data has been calculated.",
 
-    "Date": "Date",
-    "Heure": "Time",
-    "Lieu": "Place",
+    "Date":
+      "Date",
+
+    "Heure":
+      "Time",
+
+    "Lieu":
+      "Place",
 
     "Vos thèmes natals":
       "Your Birth Charts",
@@ -71,7 +77,8 @@ const TRANSLATIONS: Record<
   },
 
   es: {
-    "Non précisé": "No especificado",
+    "Non précisé":
+      "No especificado",
 
     "Carte du ciel":
       "Carta natal",
@@ -79,9 +86,14 @@ const TRANSLATIONS: Record<
     "La roue astrologique personnalisée apparaîtra ici lorsque les données de naissance auront été calculées.":
       "La rueda astrológica personalizada aparecerá aquí cuando se hayan calculado los datos de nacimiento.",
 
-    "Date": "Fecha",
-    "Heure": "Hora",
-    "Lieu": "Lugar",
+    "Date":
+      "Fecha",
+
+    "Heure":
+      "Hora",
+
+    "Lieu":
+      "Lugar",
 
     "Vos thèmes natals":
       "Sus cartas natales",
@@ -130,7 +142,8 @@ const TRANSLATIONS: Record<
   },
 
   de: {
-    "Non précisé": "Nicht angegeben",
+    "Non précisé":
+      "Nicht angegeben",
 
     "Carte du ciel":
       "Geburtshoroskop",
@@ -138,9 +151,14 @@ const TRANSLATIONS: Record<
     "La roue astrologique personnalisée apparaîtra ici lorsque les données de naissance auront été calculées.":
       "Das persönliche Horoskoprad erscheint hier, sobald die Geburtsdaten berechnet wurden.",
 
-    "Date": "Datum",
-    "Heure": "Uhrzeit",
-    "Lieu": "Ort",
+    "Date":
+      "Datum",
+
+    "Heure":
+      "Uhrzeit",
+
+    "Lieu":
+      "Ort",
 
     "Vos thèmes natals":
       "Ihre Geburtshoroskope",
@@ -189,7 +207,8 @@ const TRANSLATIONS: Record<
   },
 
   it: {
-    "Non précisé": "Non specificato",
+    "Non précisé":
+      "Non specificato",
 
     "Carte du ciel":
       "Tema natale",
@@ -197,9 +216,14 @@ const TRANSLATIONS: Record<
     "La roue astrologique personnalisée apparaîtra ici lorsque les données de naissance auront été calculées.":
       "La ruota astrologica personalizzata apparirà qui una volta calcolati i dati di nascita.",
 
-    "Date": "Data",
-    "Heure": "Ora",
-    "Lieu": "Luogo",
+    "Date":
+      "Data",
+
+    "Heure":
+      "Ora",
+
+    "Lieu":
+      "Luogo",
 
     "Vos thèmes natals":
       "I vostri temi natali",
@@ -248,7 +272,8 @@ const TRANSLATIONS: Record<
   },
 
   pt: {
-    "Non précisé": "Não especificado",
+    "Non précisé":
+      "Não especificado",
 
     "Carte du ciel":
       "Mapa astral",
@@ -256,9 +281,14 @@ const TRANSLATIONS: Record<
     "La roue astrologique personnalisée apparaîtra ici lorsque les données de naissance auront été calculées.":
       "A roda astrológica personalizada aparecerá aqui quando os dados de nascimento tiverem sido calculados.",
 
-    "Date": "Data",
-    "Heure": "Hora",
-    "Lieu": "Local",
+    "Date":
+      "Data",
+
+    "Heure":
+      "Hora",
+
+    "Lieu":
+      "Local",
 
     "Vos thèmes natals":
       "Seus mapas astrais",
@@ -307,18 +337,48 @@ const TRANSLATIONS: Record<
   },
 };
 
-function replaceAllLiteral(
+/*
+ * Échappe les caractères spéciaux afin
+ * d'utiliser une chaîne dans une RegExp.
+ */
+function escapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
+  );
+}
+
+/*
+ * Accepte les espaces, sauts de ligne
+ * et indentations présents dans le TSX.
+ */
+function replaceFlexibleText(
   source: string,
   from: string,
   to: string,
 ): string {
-  return source.split(from).join(to);
+  const pattern =
+    escapeRegExp(from).replace(
+      /\s+/g,
+      "\\s+",
+    );
+
+  return source.replace(
+    new RegExp(pattern, "g"),
+    to,
+  );
 }
 
 export function localizeCompatibilityWheels(
   source: string,
   locale: PaidPdfLocale,
 ): string {
+  /*
+   * Le français reste toujours
+   * le fichier source.
+   */
   if (locale === "fr") {
     return source;
   }
@@ -335,21 +395,26 @@ export function localizeCompatibilityWheels(
   let localized = source;
 
   /*
-   * Les longues chaînes sont traitées
-   * avant les courtes.
+   * Toujours commencer par les chaînes
+   * les plus longues.
    */
   const entries =
-    Object.entries(translations).sort(
+    Object.entries(
+      translations,
+    ).sort(
       ([a], [b]) =>
         b.length - a.length,
     );
 
-  for (const [from, to] of entries) {
-    localized = replaceAllLiteral(
-      localized,
-      from,
-      to,
-    );
+  for (
+    const [from, to] of entries
+  ) {
+    localized =
+      replaceFlexibleText(
+        localized,
+        from,
+        to,
+      );
   }
 
   return localized;
