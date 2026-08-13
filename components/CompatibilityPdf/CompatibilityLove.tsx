@@ -617,10 +617,18 @@ function getElement(sign: string): string {
 }
 
 function formatLovePlacement(
-  planet: "Vénus" | "Mars" | "Lune",
+  planet: "venus" | "mars" | "moon",
   sign: string,
 ): string {
-  return `${planet} en ${sign}`;
+  if (planet === "venus") {
+    return `Vénus en ${sign}`;
+  }
+
+  if (planet === "mars") {
+    return `Mars en ${sign}`;
+  }
+
+  return `Lune en ${sign}`;
 }
 
 function formatLoveElement(
@@ -1253,7 +1261,7 @@ function VenusPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              {formatLovePlacement("Vénus", sign1)}
+              {formatLovePlacement("venus", sign1)}
             </Text>
 
             <Text style={styles.placementStyle}>
@@ -1276,7 +1284,7 @@ function VenusPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              {formatLovePlacement("Vénus", sign2)}
+              {formatLovePlacement("venus", sign2)}
             </Text>
 
             <Text style={styles.placementStyle}>
@@ -1443,7 +1451,7 @@ function MarsPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              {formatLovePlacement("Mars", sign1)}
+              {formatLovePlacement("mars", sign1)}
             </Text>
 
             <Text style={styles.placementStyle}>
@@ -1466,7 +1474,7 @@ function MarsPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              {formatLovePlacement("Mars", sign2)}
+              {formatLovePlacement("mars", sign2)}
             </Text>
 
             <Text style={styles.placementStyle}>
