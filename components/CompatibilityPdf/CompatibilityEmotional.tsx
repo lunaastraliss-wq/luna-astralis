@@ -1400,12 +1400,12 @@ function EmotionalNeedCard({
         <Text
           style={localStyles.needTitle}
         >
-          Les besoins de {name}
+          Les besoins de{" "}{name}
         </Text>
       </View>
 
       <Text style={localStyles.needText}>
-        Avec une Lune en {moonSign},{" "}
+        Avec une Lune en{" "}{moonSign},{" "}
         {getEmotionalNeed(moonSign)}
       </Text>
     </View>
@@ -1450,7 +1450,8 @@ function AspectCard({
         <Text
           style={localStyles.aspectTitle}
         >
-          {planet1} {aspect.aspect}{" "}
+          {planet1}{" "}
+          {aspect.aspect}{" "}
           {planet2}
           {orbText}
         </Text>
@@ -1683,13 +1684,13 @@ export default function CompatibilityEmotional({
               <Text
                 style={localStyles.placementValue}
               >
-                Lune en {moonSign1}
+                Lune en{" "}{moonSign1}
               </Text>
 
               <Text
                 style={localStyles.placementElement}
               >
-                Élément {element1}
+                Élément{" "}{element1}
               </Text>
             </View>
 
@@ -1722,13 +1723,13 @@ export default function CompatibilityEmotional({
               <Text
                 style={localStyles.placementValue}
               >
-                Lune en {moonSign2}
+                Lune en{" "}{moonSign2}
               </Text>
 
               <Text
                 style={localStyles.placementElement}
               >
-                Élément {element2}
+                Élément{" "}{element2}
               </Text>
             </View>
           </View>
