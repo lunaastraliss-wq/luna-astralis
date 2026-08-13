@@ -46,7 +46,7 @@ const TRANSLATIONS: Record<
       "Synastry",
 
     "Une exploration approfondie de la rencontre entre vos deux thèmes natals, de vos affinités naturelles, de vos défis et de votre potentiel d’évolution.":
-      "An in-depth exploration of the connection between your two birth charts, your natural affinities, your challenges, and your potential for growth.",
+      "An in-depth exploration of the meeting between your two birth charts, your natural affinities, your challenges, and your potential for growth.",
 
     "Lien émotionnel":
       "Emotional Bond",
@@ -323,10 +323,11 @@ const TRANSLATIONS: Record<
 };
 
 /*
- * Échappe les caractères spéciaux
- * afin qu'une chaîne puisse être utilisée
- * en sécurité dans une expression régulière.
+ * ---------------------------------------------------------
+ * OUTILS DE REMPLACEMENT
+ * ---------------------------------------------------------
  */
+
 function escapeRegExp(
   value: string,
 ): string {
@@ -337,18 +338,32 @@ function escapeRegExp(
 }
 
 /*
- * Remplace un texte français même lorsque
- * le JSX l'a réparti sur plusieurs lignes.
+ * Transforme les espaces de la chaîne française
+ * en espaces flexibles.
  *
- * Exemple :
+ * Cela permet de reconnaître :
  *
- * "Une exploration approfondie de la
- *  rencontre entre vos deux thèmes"
+ * Une exploration approfondie de la
+ * rencontre entre...
  *
- * sera reconnu comme :
+ * comme :
  *
- * "Une exploration approfondie de la rencontre
- *  entre vos deux thèmes"
+ * Une exploration approfondie de la rencontre entre...
+ */
+function createFlexiblePattern(
+  value: string,
+): string {
+  return escapeRegExp(value).replace(
+    /\s+/g,
+    "\\s+",
+  );
+}
+
+/*
+ * Remplacement général.
+ *
+ * Fonctionne pour les paragraphes et
+ * les textes répartis sur plusieurs lignes.
  */
 function replaceFlexibleText(
   source: string,
@@ -356,10 +371,7 @@ function replaceFlexibleText(
   to: string,
 ): string {
   const pattern =
-    escapeRegExp(from).replace(
-      /\s+/g,
-      "\\s+",
-    );
+    createFlexiblePattern(from);
 
   return source.replace(
     new RegExp(pattern, "g"),
@@ -367,13 +379,102 @@ function replaceFlexibleText(
   );
 }
 
+/*
+ * Remplacement spécifique des chaînes
+ * utilisées dans des props :
+ *
+ * label="Première personne"
+ * fallbackName="Première personne"
+ */
+function replaceDoubleQuotedText(
+  source: string,
+  from: string,
+  to: string,
+): string {
+  const pattern =
+    createFlexiblePattern(from);
+
+  return source.replace(
+    new RegExp(
+      `"${pattern}"`,
+      "g",
+    ),
+    `"${to}"`,
+  );
+}
+
+/*
+ * Même sécurité pour les chaînes entourées
+ * d'apostrophes simples.
+ */
+function replaceSingleQuotedText(
+  source: string,
+  from: string,
+  to: string,
+): string {
+  /*
+   * On évite cette méthode lorsque le texte
+   * contient lui-même une apostrophe.
+   */
+  if (
+    from.includes("'") ||
+    from.includes("’")
+  ) {
+    return source;
+  }
+
+  const pattern =
+    createFlexiblePattern(from);
+
+  return source.replace(
+    new RegExp(
+      `'${pattern}'`,
+      "g",
+    ),
+    `'${to}'`,
+  );
+}
+
+/*
+ * Remplacement ciblé des textes placés
+ * directement entre des balises JSX.
+ *
+ * Exemple :
+ *
+ * <Text>
+ *   Naissance
+ * </Text>
+ */
+function replaceJsxText(
+  source: string,
+  from: string,
+  to: string,
+): string {
+  const pattern =
+    createFlexiblePattern(from);
+
+  return source.replace(
+    new RegExp(
+      `(>\\s*)${pattern}(\\s*<)`,
+      "g",
+    ),
+    `$1${to}$2`,
+  );
+}
+
+/*
+ * ---------------------------------------------------------
+ * LOCALISATION DE LA COUVERTURE
+ * ---------------------------------------------------------
+ */
+
 export function localizeCompatibilityCover(
   source: string,
   locale: PaidPdfLocale,
 ): string {
   /*
    * Le français demeure toujours
-   * le fichier source original.
+   * le fichier original.
    */
   if (locale === "fr") {
     return source;
@@ -384,10 +485,6 @@ export function localizeCompatibilityCover(
       locale as NonFrenchLocale
     ];
 
-  /*
-   * Sécurité si une langue inconnue
-   * est transmise.
-   */
   if (!translations) {
     return source;
   }
@@ -395,14 +492,10 @@ export function localizeCompatibilityCover(
   let localized = source;
 
   /*
-   * Important :
-   *
-   * les phrases longues sont remplacées
-   * avant les mots courts.
-   *
-   * Cela empêche par exemple "Synastrie"
-   * d'être traduit avant une phrase plus
-   * longue qui contiendrait ce mot.
+   * Les phrases les plus longues sont toujours
+   * traitées en premier afin qu'un petit mot
+   * contenu dans une phrase ne soit pas remplacé
+   * avant la phrase complète.
    */
   const entries =
     Object.entries(
@@ -414,6 +507,152 @@ export function localizeCompatibilityCover(
 
   for (
     const [from, to] of entries
+  ) {
+    /*
+     * 1. Props et chaînes TypeScript.
+     */
+    localized =
+      replaceDoubleQuotedText(
+        localized,
+        from,
+        to,
+      );
+
+    localized =
+      replaceSingleQuotedText(
+        localized,
+        from,
+        to,
+      );
+
+    /*
+     * 2. Texte directement dans le JSX.
+     */
+    localized =
+      replaceJsxText(
+        localized,
+        from,
+        to,
+      );
+
+    /*
+     * 3. Sécurité générale pour les paragraphes,
+     *    valeurs de retour et textes multilignes.
+     */
+    localized =
+      replaceFlexibleText(
+        localized,
+        from,
+        to,
+      );
+  }
+
+  /*
+   * -------------------------------------------------------
+   * SÉCURITÉS EXPLICITES POUR LES PETITS LABELS DE COVER
+   * -------------------------------------------------------
+   *
+   * Ils étaient encore visibles en français dans
+   * le PDF anglais malgré leur présence dans le
+   * dictionnaire.
+   */
+
+  const forcedLabels: Record<
+    NonFrenchLocale,
+    Record<string, string>
+  > = {
+    en: {
+      "Première personne":
+        "First person",
+      "Deuxième personne":
+        "Second person",
+      "Naissance":
+        "Birth date",
+      "Heure":
+        "Time",
+      "Lieu":
+        "Place",
+      "Synastrie":
+        "Synastry",
+      "Attirance":
+        "Attraction",
+    },
+
+    es: {
+      "Première personne":
+        "Primera persona",
+      "Deuxième personne":
+        "Segunda persona",
+      "Naissance":
+        "Nacimiento",
+      "Heure":
+        "Hora",
+      "Lieu":
+        "Lugar",
+      "Synastrie":
+        "Sinastría",
+      "Attirance":
+        "Atracción",
+    },
+
+    de: {
+      "Première personne":
+        "Erste Person",
+      "Deuxième personne":
+        "Zweite Person",
+      "Naissance":
+        "Geburtsdatum",
+      "Heure":
+        "Uhrzeit",
+      "Lieu":
+        "Ort",
+      "Synastrie":
+        "Synastrie",
+      "Attirance":
+        "Anziehung",
+    },
+
+    it: {
+      "Première personne":
+        "Prima persona",
+      "Deuxième personne":
+        "Seconda persona",
+      "Naissance":
+        "Data di nascita",
+      "Heure":
+        "Ora",
+      "Lieu":
+        "Luogo",
+      "Synastrie":
+        "Sinastria",
+      "Attirance":
+        "Attrazione",
+    },
+
+    pt: {
+      "Première personne":
+        "Primeira pessoa",
+      "Deuxième personne":
+        "Segunda pessoa",
+      "Naissance":
+        "Nascimento",
+      "Heure":
+        "Hora",
+      "Lieu":
+        "Local",
+      "Synastrie":
+        "Sinastria",
+      "Attirance":
+        "Atração",
+    },
+  };
+
+  for (
+    const [from, to] of Object.entries(
+      forcedLabels[
+        locale as NonFrenchLocale
+      ],
+    )
   ) {
     localized =
       replaceFlexibleText(
