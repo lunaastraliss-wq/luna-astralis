@@ -1,3 +1,5 @@
+import ts from "typescript";
+
 import type {
   PaidPdfLocale,
 } from "./premium-localization";
@@ -337,37 +339,194 @@ const TRANSLATIONS: Record<
   },
 };
 
-/*
- * Échappe les caractères spéciaux afin
- * d'utiliser une chaîne dans une RegExp.
- */
-function escapeRegExp(
+type Replacement = {
+  start: number;
+  end: number;
+  value: string;
+};
+
+function normalizeVisibleText(
   value: string,
 ): string {
-  return value.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&",
-  );
+  return value
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getScriptKind(
+  filePath: string,
+): ts.ScriptKind {
+  if (filePath.endsWith(".tsx")) {
+    return ts.ScriptKind.TSX;
+  }
+
+  if (filePath.endsWith(".jsx")) {
+    return ts.ScriptKind.JSX;
+  }
+
+  if (filePath.endsWith(".js")) {
+    return ts.ScriptKind.JS;
+  }
+
+  return ts.ScriptKind.TS;
+}
+
+function applyReplacements(
+  source: string,
+  replacements: Replacement[],
+): string {
+  const sorted =
+    [...replacements].sort(
+      (a, b) =>
+        b.start - a.start,
+    );
+
+  let output = source;
+
+  for (const replacement of sorted) {
+    output =
+      output.slice(
+        0,
+        replacement.start,
+      ) +
+      replacement.value +
+      output.slice(
+        replacement.end,
+      );
+  }
+
+  return output;
 }
 
 /*
- * Accepte les espaces, sauts de ligne
- * et indentations présents dans le TSX.
+ * Localise uniquement :
+ *
+ * - les chaînes de caractères complètes
+ * - les textes JSX complets
+ *
+ * IMPORTANT :
+ * aucun remplacement n'est effectué
+ * à l'intérieur d'un identifiant TypeScript.
+ *
+ * Exemple :
+ * person.birthDate reste toujours person.birthDate.
  */
-function replaceFlexibleText(
+function localizeVisibleText(
   source: string,
-  from: string,
-  to: string,
+  translations: Record<string, string>,
+  filePath: string,
 ): string {
-  const pattern =
-    escapeRegExp(from).replace(
-      /\s+/g,
-      "\\s+",
+  const sourceFile =
+    ts.createSourceFile(
+      filePath,
+      source,
+      ts.ScriptTarget.Latest,
+      true,
+      getScriptKind(filePath),
     );
 
-  return source.replace(
-    new RegExp(pattern, "g"),
-    to,
+  const replacements:
+    Replacement[] = [];
+
+  const visit = (
+    node: ts.Node,
+  ): void => {
+    /*
+     * Chaînes complètes :
+     *
+     * "Date"
+     * "Première personne"
+     * "Non précisé"
+     *
+     * On remplace la chaîne entière seulement.
+     * Ainsi "Date" ne peut jamais modifier birthDate.
+     */
+    if (
+      ts.isStringLiteral(node) ||
+      ts.isNoSubstitutionTemplateLiteral(
+        node,
+      )
+    ) {
+      const original =
+        normalizeVisibleText(
+          node.text,
+        );
+
+      const translated =
+        translations[original];
+
+      if (
+        typeof translated === "string" &&
+        translated !== original
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(
+              translated,
+            ),
+        });
+      }
+    }
+
+    /*
+     * Texte écrit directement dans le JSX :
+     *
+     * <Text>
+     *   Date
+     * </Text>
+     *
+     * Ici aussi, le noeud JSX complet
+     * doit correspondre à une traduction.
+     */
+    if (
+      ts.isJsxText(node)
+    ) {
+      const original =
+        normalizeVisibleText(
+          node.getText(
+            sourceFile,
+          ),
+        );
+
+      const translated =
+        translations[original];
+
+      if (
+        typeof translated === "string" &&
+        translated !== original
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            `{${JSON.stringify(
+              translated,
+            )}}`,
+        });
+      }
+    }
+
+    ts.forEachChild(
+      node,
+      visit,
+    );
+  };
+
+  visit(sourceFile);
+
+  return applyReplacements(
+    source,
+    replacements,
   );
 }
 
@@ -376,8 +535,7 @@ export function localizeCompatibilityWheels(
   locale: PaidPdfLocale,
 ): string {
   /*
-   * Le français reste toujours
-   * le fichier source.
+   * Français = source originale.
    */
   if (locale === "fr") {
     return source;
@@ -392,30 +550,14 @@ export function localizeCompatibilityWheels(
     return source;
   }
 
-  let localized = source;
-
   /*
-   * Toujours commencer par les chaînes
-   * les plus longues.
+   * Le faux chemin sert uniquement
+   * à indiquer à TypeScript qu'il analyse
+   * un fichier TSX.
    */
-  const entries =
-    Object.entries(
-      translations,
-    ).sort(
-      ([a], [b]) =>
-        b.length - a.length,
-    );
-
-  for (
-    const [from, to] of entries
-  ) {
-    localized =
-      replaceFlexibleText(
-        localized,
-        from,
-        to,
-      );
-  }
-
-  return localized;
+  return localizeVisibleText(
+    source,
+    translations,
+    "CompatibilityWheels.tsx",
+  );
 }
