@@ -1,3 +1,5 @@
+import ts from "typescript";
+
 import type {
   PaidPdfLocale,
 } from "./premium-localization";
@@ -382,29 +384,173 @@ const TRANSLATIONS: Record<
   },
 };
 
-function escapeRegExp(
+type Replacement = {
+  start: number;
+  end: number;
+  value: string;
+};
+
+function normalizeVisibleText(
   value: string,
 ): string {
-  return value.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&",
-  );
+  return value
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
-function replaceFlexibleText(
+function getScriptKind(
+  filePath: string,
+): ts.ScriptKind {
+  if (filePath.endsWith(".tsx")) {
+    return ts.ScriptKind.TSX;
+  }
+
+  if (filePath.endsWith(".jsx")) {
+    return ts.ScriptKind.JSX;
+  }
+
+  if (filePath.endsWith(".js")) {
+    return ts.ScriptKind.JS;
+  }
+
+  return ts.ScriptKind.TS;
+}
+
+function applyReplacements(
   source: string,
-  from: string,
-  to: string,
+  replacements: Replacement[],
 ): string {
-  const pattern =
-    escapeRegExp(from).replace(
-      /\s+/g,
-      "\\s+",
+  const sorted =
+    [...replacements].sort(
+      (a, b) =>
+        b.start - a.start,
     );
 
-  return source.replace(
-    new RegExp(pattern, "g"),
-    to,
+  let output = source;
+
+  for (const replacement of sorted) {
+    output =
+      output.slice(
+        0,
+        replacement.start,
+      ) +
+      replacement.value +
+      output.slice(
+        replacement.end,
+      );
+  }
+
+  return output;
+}
+
+/*
+ * Traduction sécurisée :
+ *
+ * - une chaîne complète peut être traduite
+ * - un texte JSX complet peut être traduit
+ * - aucun remplacement n'est effectué
+ *   à l'intérieur d'un identifiant TypeScript
+ *
+ * Exemple :
+ * "Premier thème" peut devenir "First Chart"
+ * mais un nom de variable ne sera jamais modifié.
+ */
+function localizeVisibleText(
+  source: string,
+  translations: Record<string, string>,
+  filePath: string,
+): string {
+  const sourceFile =
+    ts.createSourceFile(
+      filePath,
+      source,
+      ts.ScriptTarget.Latest,
+      true,
+      getScriptKind(filePath),
+    );
+
+  const replacements:
+    Replacement[] = [];
+
+  const visit = (
+    node: ts.Node,
+  ): void => {
+    if (
+      ts.isStringLiteral(node) ||
+      ts.isNoSubstitutionTemplateLiteral(
+        node,
+      )
+    ) {
+      const original =
+        normalizeVisibleText(
+          node.text,
+        );
+
+      const translated =
+        translations[original];
+
+      if (
+        typeof translated === "string" &&
+        translated !== original
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(
+              translated,
+            ),
+        });
+      }
+    }
+
+    if (
+      ts.isJsxText(node)
+    ) {
+      const original =
+        normalizeVisibleText(
+          node.getText(
+            sourceFile,
+          ),
+        );
+
+      const translated =
+        translations[original];
+
+      if (
+        typeof translated === "string" &&
+        translated !== original
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            `{${JSON.stringify(
+              translated,
+            )}}`,
+        });
+      }
+    }
+
+    ts.forEachChild(
+      node,
+      visit,
+    );
+  };
+
+  visit(sourceFile);
+
+  return applyReplacements(
+    source,
+    replacements,
   );
 }
 
@@ -425,26 +571,9 @@ export function localizeCompatibilityWelcome(
     return source;
   }
 
-  let localized = source;
-
-  const entries =
-    Object.entries(
-      translations,
-    ).sort(
-      ([a], [b]) =>
-        b.length - a.length,
-    );
-
-  for (
-    const [from, to] of entries
-  ) {
-    localized =
-      replaceFlexibleText(
-        localized,
-        from,
-        to,
-      );
-  }
-
-  return localized;
+  return localizeVisibleText(
+    source,
+    translations,
+    "CompatibilityWelcome.tsx",
+  );
 }
