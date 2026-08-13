@@ -10,6 +10,10 @@ import {
   localizeSignatureFile,
 } from "./paid-pdf/signature-localization";
 
+import {
+  localizeCompatibilityFile,
+} from "./paid-pdf/compatibility-localization";
+
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2484,6 +2488,13 @@ function localizePaidPdfDisplayLiterals(
       });
 
       source = localizeSignatureFile({
+  source,
+  locale,
+  filePath: absolute,
+  fileName: entry.name,
+});
+
+      source = localizeCompatibilityFile({
   source,
   locale,
   filePath: absolute,
