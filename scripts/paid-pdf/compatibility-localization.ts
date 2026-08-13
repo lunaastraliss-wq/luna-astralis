@@ -14,6 +14,10 @@ import {
   localizeCompatibilityWelcome,
 } from "./compatibility-welcome-localization";
 
+import {
+  localizeCompatibilityProfiles,
+} from "./compatibility-profiles-localization";
+
 type LocalizeCompatibilityFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -80,6 +84,18 @@ export function localizeCompatibilityFile({
     fileName === "CompatibilityWelcome.tsx"
   ) {
     return localizeCompatibilityWelcome(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page 4 — Profils astrologiques.
+   */
+  if (
+    fileName === "CompatibilityProfiles.tsx"
+  ) {
+    return localizeCompatibilityProfiles(
       source,
       locale,
     );
