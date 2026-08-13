@@ -1521,6 +1521,17 @@ function normalizeEmotionalKey(
     .toLowerCase();
 }
 
+function getEmotionalSourceElement(
+  sign: string,
+): string {
+  const key = normalizeEmotionalKey(sign);
+  if (["belier","aries","lion","leo","sagittaire","sagittarius"].includes(key)) return "Feu";
+  if (["taureau","taurus","vierge","virgo","capricorne","capricorn"].includes(key)) return "Terre";
+  if (["gemeaux","gemini","balance","libra","verseau","aquarius"].includes(key)) return "Air";
+  if (["cancer","scorpion","scorpio","poissons","pisces"].includes(key)) return "Eau";
+  return "Élément non précisé";
+}
+
 function getLocalizedEmotionalNeed(
   sign: string,
 ): string {
@@ -1615,10 +1626,10 @@ function getLocalizedMoonCompatibilityText(
     );
 
   const element1 =
-    getElement(sign1);
+    getEmotionalSourceElement(sign1);
 
   const element2 =
-    getElement(sign2);
+    getEmotionalSourceElement(sign2);
 
   let category:
     | "same-sign"
@@ -1786,148 +1797,65 @@ function replaceTargetedDisplayCode(
 ): string {
   let output = source;
 
-  /*
-   * =========================================================
-   * PLACEMENTS DE LA LUNE
-   * =========================================================
-   *
-   * Une seule expression JSX est volontairement générée.
-   * Cela évite les sorties collées comme :
-   *   Moon inCancer
-   *   Luna enCáncer
-   */
-  output =
-    output.replace(
-      /Lune\s+en\s+\{moonSign1\}/g,
-      "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign1)}`}",
-    );
+  output = output.replace(
+    /(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)\s*\{moonSign1\}/g,
+    "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign1)}`}",
+  );
 
-  output =
-    output.replace(
-      /Lune\s+en\s+\{moonSign2\}/g,
-      "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign2)}`}",
-    );
+  output = output.replace(
+    /(?:Lune\s+en|Moon\s+in|Luna\s+en|Mond\s+in|Luna\s+in|Lua\s+em)\s*\{moonSign2\}/g,
+    "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign2)}`}",
+  );
 
-  /*
-   * =========================================================
-   * ÉLÉMENTS
-   * =========================================================
-   *
-   * Même principe pour empêcher :
-   *   ElementWater
-   *   ElementEau
-   */
-  output =
-    output.replace(
-      /Élément\s+\{element1\}/g,
-      "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(element1)}`}",
-    );
+  output = output.replace(
+    /(?:Élément|Element|Elemento)\s*\{element1\}/g,
+    "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign1))}`}",
+  );
 
-  output =
-    output.replace(
-      /Élément\s+\{element2\}/g,
-      "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(element2)}`}",
-    );
+  output = output.replace(
+    /(?:Élément|Element|Elemento)\s*\{element2\}/g,
+    "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(getEmotionalSourceElement(moonSign2))}`}",
+  );
 
-  /*
-   * =========================================================
-   * CARTES DE BESOINS ÉMOTIONNELS
-   * =========================================================
-   */
-  output =
-    output.replace(
-      /Les\s+besoins\s+de\s+\{name\}/g,
-      "{`${__EMOTIONAL_NEEDS_OF} ${name}`}",
-    );
+  output = output.replace(
+    /(?:Les\s+besoins\s+de|The\s+needs\s+of|Las\s+necesidades\s+de|Die\s+Bedürfnisse\s+von|I\s+bisogni\s+di|As\s+necessidades\s+de)\s*\{name\}/g,
+    "{`${__EMOTIONAL_NEEDS_OF} ${name}`}",
+  );
 
-  /*
-   * Le TSX français contient :
-   *
-   * Avec une Lune en {moonSign},{" "}
-   * {getEmotionalNeed(moonSign)}
-   *
-   * On remplace le préfixe et l'appel dynamique séparément,
-   * afin de ne pas dépendre des retours à la ligne exacts.
-   */
-  output =
-    output.replace(
-      /Avec\s+une\s+Lune\s+en\s+\{moonSign\},\s*\{\s*" "\s*\}/g,
-      "{`${__EMOTIONAL_WITH_MOON_IN} ${localizeEmotionalSign(moonSign)}, `}",
-    );
+  output = output.replace(
+    /(?:Avec\s+une\s+Lune\s+en|With\s+a\s+Moon\s+in|Con\s+una\s+Luna\s+en|Mit\s+einem\s+Mond\s+in|Con\s+una\s+Luna\s+in|Com\s+uma\s+Lua\s+em)\s*\{moonSign\},\s*\{\s*["']\s["']\s*\}/g,
+    "{`${__EMOTIONAL_WITH_MOON_IN} ${localizeEmotionalSign(moonSign)}, `}",
+  );
 
-  output =
-    output.replace(
-      /\{getEmotionalNeed\(\s*moonSign\s*\)\}/g,
-      "{getLocalizedEmotionalNeed(moonSign)}",
-    );
+  output = output.replace(
+    /\{getEmotionalNeed\(\s*moonSign\s*\)\}/g,
+    "{getLocalizedEmotionalNeed(moonSign)}",
+  );
 
-  /*
-   * =========================================================
-   * DYNAMIQUE DES DEUX LUNES
-   * =========================================================
-   *
-   * getMoonCompatibilityText() produit du français.
-   * Pour une copie non française, on utilise directement
-   * le générateur localisé.
-   */
-  output =
-    output.replace(
-      /\{getMoonCompatibilityText\(\s*moonSign1,\s*moonSign2,\s*\)\}/g,
-      "{getLocalizedMoonCompatibilityText(moonSign1, moonSign2)}",
-    );
+  output = output.replace(
+    /\{getMoonCompatibilityText\(\s*moonSign1\s*,\s*moonSign2\s*,?\s*\)\}/g,
+    "{getLocalizedMoonCompatibilityText(moonSign1, moonSign2)}",
+  );
 
-  /*
-   * =========================================================
-   * INTERPRÉTATIONS D'ASPECTS
-   * =========================================================
-   *
-   * getAspectInterpretation() produit lui aussi du français.
-   */
-  output =
-    output.replace(
-      /\{getAspectInterpretation\(\s*aspect\.planet1,\s*aspect\.planet2,\s*aspect\.aspect,\s*\)\}/g,
-      "{getLocalizedAspectInterpretation(aspect.planet1, aspect.planet2, aspect.aspect)}",
-    );
+  output = output.replace(
+    /\{getAspectInterpretation\(\s*aspect\.planet1\s*,\s*aspect\.planet2\s*,\s*aspect\.aspect\s*,?\s*\)\}/g,
+    "{getLocalizedAspectInterpretation(aspect.planet1, aspect.planet2, aspect.aspect)}",
+  );
 
-  /*
-   * =========================================================
-   * TITRE VISIBLE DES ASPECTS
-   * =========================================================
-   *
-   * On construit toute la portion :
-   *   Planet Aspect Planet
-   * dans une seule expression afin de conserver les espaces.
-   */
-  output =
-    output.replace(
-      /\{planet1\}\s*\{aspect\.aspect\}\s*\{\s*" "\s*\}\s*\{planet2\}/g,
-      "{`${localizeEmotionalPlanet(planet1)} ${localizeEmotionalAspect(aspect.aspect)} ${localizeEmotionalPlanet(planet2)}`}",
-    );
+  output = output.replace(
+    /\{planet1\}\s*\{aspect\.aspect\}\s*\{\s*["']\s["']\s*\}\s*\{planet2\}/g,
+    "{`${localizeEmotionalPlanet(planet1)} ${localizeEmotionalAspect(aspect.aspect)} ${localizeEmotionalPlanet(planet2)}`}",
+  );
 
-  /*
-   * =========================================================
-   * NATURE DE L'ASPECT
-   * =========================================================
-   */
-  output =
-    output.replace(
-      /\{getAspectNature\(\s*aspect\.aspect,\s*\)\}/g,
-      "{localizeEmotionalAspectNature(getAspectNature(aspect.aspect))}",
-    );
+  output = output.replace(
+    /\{getAspectNature\(\s*aspect\.aspect\s*,?\s*\)\}/g,
+    "{localizeEmotionalAspectNature(getAspectNature(aspect.aspect))}",
+  );
 
-  /*
-   * =========================================================
-   * ORBE
-   * =========================================================
-   *
-   * Le mot "orbe" est créé dans un template literal du TSX.
-   * On le remplace par la valeur de la langue active.
-   */
-  output =
-    output.replace(
-      /\?\s*` • orbe \$\{aspect\.orb\.toFixed\(1\)\}°`/g,
-      "? ` • ${__EMOTIONAL_ORB_WORD} ${aspect.orb.toFixed(1)}°`",
-    );
+  output = output.replace(
+    /\?\s*`\s*•\s*(?:orbe|orb|Orb|orbita)\s*\$\{aspect\.orb\.toFixed\(1\)\}°`/g,
+    "? ` • ${__EMOTIONAL_ORB_WORD} ${aspect.orb.toFixed(1)}°`",
+  );
 
   return output;
 }
@@ -1955,31 +1883,30 @@ export function localizeCompatibilityEmotional(
   }
 
   /*
-   * 1. Chaînes fixes.
+   * 1. Corriger d'abord les constructions dynamiques
+   * sur le TSX source, avant toute traduction de littéraux.
    */
   let localized =
-    localizeCompleteLiterals(
+    replaceTargetedDisplayCode(
       source,
+    );
+
+  /*
+   * 2. Traduire les chaînes fixes visibles.
+   */
+  localized =
+    localizeCompleteLiterals(
+      localized,
       data.text,
     );
 
   /*
-   * 2. Helpers multilingues.
+   * 3. Injecter les helpers et banques multilingues.
    */
   localized =
     injectHelpers(
       localized,
       data,
-    );
-
-  /*
-   * 3. Valeurs dynamiques visibles,
-   * besoins, dynamique des Lunes
-   * et interprétations d'aspects.
-   */
-  localized =
-    replaceTargetedDisplayCode(
-      localized,
     );
 
   return localized;
