@@ -6,7 +6,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 
-import __i18n from "@/i18n/migrated/fr/components/compatibilitypdf/compatibilitycover.json";
+import __i18n from "../../i18n/migrated/fr/components/compatibilitypdf/compatibilitycover.json";
 
 import {
   LOGO_URL,
