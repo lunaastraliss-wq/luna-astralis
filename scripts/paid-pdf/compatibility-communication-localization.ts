@@ -1367,6 +1367,12 @@ const __COMMUNICATION_ORB_WORD =
     data.orbWord,
   )};
 
+const __COMMUNICATION_OF =
+  ${JSON.stringify(
+    data.text["La communication de"] ??
+      "La communication de",
+  )};
+
 function localizeCommunicationSign(
   value: string,
 ): string {
@@ -1453,7 +1459,7 @@ function replaceTargetedDisplayCode(
   output =
     output.replace(
       /return `La communication de \$\{name\}`;/g,
-      `return \`${"${data.text[\"La communication de\"] ?? \"La communication de\"}"} \${name}\`;`,
+      "return `${__COMMUNICATION_OF} ${name}`;",
     );
 
   output =
