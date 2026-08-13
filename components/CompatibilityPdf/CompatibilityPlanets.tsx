@@ -995,6 +995,42 @@ function getElement(
   return "Non précisé";
 }
 
+function formatPlanetPlacement(
+  frenchName: string,
+  sign: string,
+): string {
+  return `${frenchName} en ${sign}`;
+}
+
+function formatPlanetElement(
+  sign: string,
+): string {
+  return `Élément ${getElement(sign)}`;
+}
+
+function formatPlanetPersonalStyle(
+  frenchName: string,
+  planet: PlanetName,
+  sign: string,
+): string {
+  return `${frenchName} en ${sign}. ${getPlanetStyle(
+    planet,
+    sign,
+  )}`;
+}
+
+function formatPlanetAspectTitle(
+  aspect: RelevantAspect,
+): string {
+  return `${translateCompatibilityPlanet(
+    aspect.person1Planet,
+  )} ${translateCompatibilityAspect(
+    aspect.type,
+  )} ${translateCompatibilityPlanet(
+    aspect.person2Planet,
+  )} • orbe ${aspect.orb.toFixed(1)}°`;
+}
+
 function getPlanetStyle(
   planet: PlanetName,
   sign: string,
@@ -1597,8 +1633,8 @@ function PersonalStyleCard({
       </View>
 
       <Text style={styles.cardText}>
-        {frenchName} en {sign}.{" "}
-        {getPlanetStyle(
+        {formatPlanetPersonalStyle(
+          frenchName,
           planet,
           sign,
         )}
@@ -1630,17 +1666,7 @@ function AspectCard({
 
       <View style={styles.aspectContent}>
         <Text style={styles.aspectTitle}>
-          {translateCompatibilityPlanet(
-            aspect.person1Planet,
-          )}{" "}
-          {translateCompatibilityAspect(
-            aspect.type,
-          )}{" "}
-          {translateCompatibilityPlanet(
-            aspect.person2Planet,
-          )}
-          {" • orbe "}
-          {aspect.orb.toFixed(1)}°
+          {formatPlanetAspectTitle(aspect)}
         </Text>
 
         <Text style={styles.aspectText}>
@@ -1766,13 +1792,13 @@ function PlanetPage({
             <Text
               style={styles.placementValue}
             >
-              {config.frenchName} en {sign1}
+              {formatPlanetPlacement(config.frenchName, sign1)}
             </Text>
 
             <Text
               style={styles.placementStyle}
             >
-              Élément {getElement(sign1)}
+              {formatPlanetElement(sign1)}
             </Text>
           </View>
 
@@ -1805,13 +1831,13 @@ function PlanetPage({
             <Text
               style={styles.placementValue}
             >
-              {config.frenchName} en {sign2}
+              {formatPlanetPlacement(config.frenchName, sign2)}
             </Text>
 
             <Text
               style={styles.placementStyle}
             >
-              Élément {getElement(sign2)}
+              {formatPlanetElement(sign2)}
             </Text>
           </View>
         </View>
