@@ -616,6 +616,77 @@ function getElement(sign: string): string {
   return "Non précisé";
 }
 
+function formatLovePlacement(
+  planet: "Vénus" | "Mars" | "Lune",
+  sign: string,
+): string {
+  return `${planet} en ${sign}`;
+}
+
+function formatLoveElement(
+  element: string,
+): string {
+  return `Élément ${element}`;
+}
+
+function formatPlanetStyleTitle(
+  planet: "Venus" | "Mars",
+  name: string,
+): string {
+  return `${planet === "Venus" ? "L’amour" : "Le désir"} de ${name}`;
+}
+
+function formatPlanetStyleIntro(
+  planet: "Venus" | "Mars",
+  sign: string,
+): string {
+  return `${planet === "Venus" ? "Vénus" : "Mars"} en ${sign}. `;
+}
+
+function formatLoveAspectTitle(
+  planet1: string,
+  aspectName: string,
+  planet2: string,
+  orb: number,
+): string {
+  return `${planet1} ${aspectName} ${planet2} • orbe ${orb.toFixed(1)}°`;
+}
+
+function formatAttractionCircuit(
+  venusSign: string,
+  venusStyle: string,
+  marsSign: string,
+  marsStyle: string,
+): string {
+  return `Vénus en ${venusSign} recherche ${venusStyle.toLowerCase()} Mars en ${marsSign} exprime ${marsStyle.toLowerCase()}`;
+}
+
+function formatIntimacyPlacements(
+  moonSign: string,
+  venusSign: string,
+  marsSign: string,
+): string {
+  return `Lune en ${moonSign}, Vénus en ${venusSign} et Mars en ${marsSign}. `;
+}
+
+function getLoveRelationshipText(
+  body: "venus" | "mars",
+  sign1: string,
+  sign2: string,
+  element1: string,
+  element2: string,
+  seed: string,
+): string {
+  return getCompatibilityPlanetText({
+    body,
+    sign1,
+    sign2,
+    element1,
+    element2,
+    seed,
+  });
+}
+
 function getVenusStyle(sign: string): string {
   const texts: Record<string, string> = {
     belier:
@@ -937,13 +1008,12 @@ function PlanetStyleCard({
         </View>
 
         <Text style={styles.cardTitle}>
-          {planet === "Venus" ? "L’amour" : "Le désir"} de{" "}
-          {name}
+          {formatPlanetStyleTitle(planet, name)}
         </Text>
       </View>
 
       <Text style={styles.cardText}>
-        {planet === "Venus" ? "Vénus" : "Mars"} en {sign}.{" "}
+        {formatPlanetStyleIntro(planet, sign)}
         {styleText(sign)}
       </Text>
     </View>
@@ -968,15 +1038,18 @@ function AspectCard({
 
       <View style={styles.aspectContent}>
         <Text style={styles.aspectTitle}>
-          {translateCompatibilityPlanet(
-            aspect.person1Planet,
-          )}{" "}
-          {translateCompatibilityAspect(aspect.type)}{" "}
-          {translateCompatibilityPlanet(
-            aspect.person2Planet,
+          {formatLoveAspectTitle(
+            translateCompatibilityPlanet(
+              aspect.person1Planet,
+            ),
+            translateCompatibilityAspect(
+              aspect.type,
+            ),
+            translateCompatibilityPlanet(
+              aspect.person2Planet,
+            ),
+            aspect.orb,
           )}
-          {" • orbe "}
-          {aspect.orb.toFixed(1)}°
         </Text>
 
         <Text style={styles.aspectText}>
@@ -1180,11 +1253,11 @@ function VenusPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              Vénus en {sign1}
+              {formatLovePlacement("Vénus", sign1)}
             </Text>
 
             <Text style={styles.placementStyle}>
-              Élément {getElement(sign1)}
+              {formatLoveElement(getElement(sign1))}
             </Text>
           </View>
 
@@ -1203,11 +1276,11 @@ function VenusPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              Vénus en {sign2}
+              {formatLovePlacement("Vénus", sign2)}
             </Text>
 
             <Text style={styles.placementStyle}>
-              Élément {getElement(sign2)}
+              {formatLoveElement(getElement(sign2))}
             </Text>
           </View>
         </View>
@@ -1217,14 +1290,14 @@ function VenusPage({
         </Text>
 
         <Text style={styles.interpretationText}>
-          {getCompatibilityPlanetText({
-            body: "venus",
+          {getLoveRelationshipText(
+            "venus",
             sign1,
             sign2,
-            element1: getElement(sign1),
-            element2: getElement(sign2),
-            seed: `${person1Name}-${person2Name}`,
-          })}
+            getElement(sign1),
+            getElement(sign2),
+            `${person1Name}-${person2Name}`,
+          )}
         </Text>
       </View>
 
@@ -1370,11 +1443,11 @@ function MarsPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              Mars en {sign1}
+              {formatLovePlacement("Mars", sign1)}
             </Text>
 
             <Text style={styles.placementStyle}>
-              Élément {getElement(sign1)}
+              {formatLoveElement(getElement(sign1))}
             </Text>
           </View>
 
@@ -1393,11 +1466,11 @@ function MarsPage({
             </Text>
 
             <Text style={styles.placementValue}>
-              Mars en {sign2}
+              {formatLovePlacement("Mars", sign2)}
             </Text>
 
             <Text style={styles.placementStyle}>
-              Élément {getElement(sign2)}
+              {formatLoveElement(getElement(sign2))}
             </Text>
           </View>
         </View>
@@ -1407,14 +1480,14 @@ function MarsPage({
         </Text>
 
         <Text style={styles.interpretationText}>
-          {getCompatibilityPlanetText({
-            body: "mars",
+          {getLoveRelationshipText(
+            "mars",
             sign1,
             sign2,
-            element1: getElement(sign1),
-            element2: getElement(sign2),
-            seed: `${person1Name}-${person2Name}`,
-          })}
+            getElement(sign1),
+            getElement(sign2),
+            `${person1Name}-${person2Name}`,
+          )}
         </Text>
       </View>
 
@@ -1601,10 +1674,12 @@ function VenusMarsPage({
             </View>
 
             <Text style={styles.cardText}>
-              Vénus en {venus1} recherche{" "}
-              {getVenusStyle(venus1).toLowerCase()} Mars en{" "}
-              {mars1} exprime{" "}
-              {getMarsStyle(mars1).toLowerCase()}
+              {formatAttractionCircuit(
+                venus1,
+                getVenusStyle(venus1),
+                mars1,
+                getMarsStyle(mars1),
+              )}
             </Text>
           </View>
 
@@ -1630,10 +1705,12 @@ function VenusMarsPage({
             </View>
 
             <Text style={styles.cardText}>
-              Vénus en {venus2} recherche{" "}
-              {getVenusStyle(venus2).toLowerCase()} Mars en{" "}
-              {mars2} exprime{" "}
-              {getMarsStyle(mars2).toLowerCase()}
+              {formatAttractionCircuit(
+                venus2,
+                getVenusStyle(venus2),
+                mars2,
+                getMarsStyle(mars2),
+              )}
             </Text>
           </View>
         </View>
@@ -1803,8 +1880,11 @@ function IntimacyPage({
             </View>
 
             <Text style={styles.cardText}>
-              Lune en {moon1}, Vénus en {venus1} et Mars en{" "}
-              {mars1}. Cette combinaison montre que la sécurité
+              {formatIntimacyPlacements(
+                moon1,
+                venus1,
+                mars1,
+              )}Cette combinaison montre que la sécurité
               émotionnelle, les preuves d’affection et le
               rythme du désir doivent être reconnus ensemble
               pour permettre un véritable abandon.
@@ -1826,8 +1906,11 @@ function IntimacyPage({
             </View>
 
             <Text style={styles.cardText}>
-              Lune en {moon2}, Vénus en {venus2} et Mars en{" "}
-              {mars2}. Cette combinaison montre que la
+              {formatIntimacyPlacements(
+                moon2,
+                venus2,
+                mars2,
+              )}Cette combinaison montre que la
               confiance se développe lorsque les émotions, la
               tendresse et le désir peuvent être exprimés sans
               jugement ni pression.
