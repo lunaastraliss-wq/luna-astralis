@@ -282,7 +282,7 @@ const TRANSLATIONS: Record<
     "Les émotions":
       "Le emozioni",
 
-    "La Lune décrit les besoins affectifs, les réactions instinctives et la sécurité émotionnelle.":
+    "La Lune décrit les besoins affectifs, les réactions instinctive et la sécurité émotionnelle.":
       "La Luna descrive i bisogni affettivi, le reazioni istintive e la sicurezza emotiva.",
 
     "La rencontre":
@@ -374,7 +374,7 @@ const TRANSLATIONS: Record<
     "Une lecture symbolique et personnalisée":
       "Uma leitura simbólica e personalizada",
 
-    "L’astrologie propose un langage symbolique destiné à favoriser la réflexion et la connaissance de soi. Ce rapport accompagne votre compréhension de la relation sans remplacer votre libre arbitre ni votre expérience personnelle.":
+    "L’astrologie propose un langage symbolique destiné à favoriser la réflexion et l’autoconhecimento. Ce rapport accompagne votre compréhension de la relation sans remplacer votre libre arbitre ni votre expérience personnelle.":
       "A astrologia propõe uma linguagem simbólica destinada a favorecer a reflexão e o autoconhecimento. Este relatório apoia a compreensão da relação sem substituir o livre-arbítrio nem a experiência pessoal.",
 
     "Luna Astralis • Rapport de synastrie":
@@ -382,18 +382,48 @@ const TRANSLATIONS: Record<
   },
 };
 
-function replaceAllLiteral(
+/*
+ * Échappe les caractères spéciaux afin
+ * d'utiliser une chaîne dans une RegExp.
+ */
+function escapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
+  );
+}
+
+/*
+ * Permet de reconnaître les textes même
+ * lorsqu'ils sont répartis sur plusieurs
+ * lignes dans CompatibilityWelcome.tsx.
+ */
+function replaceFlexibleText(
   source: string,
   from: string,
   to: string,
 ): string {
-  return source.split(from).join(to);
+  const pattern =
+    escapeRegExp(from).replace(
+      /\s+/g,
+      "\\s+",
+    );
+
+  return source.replace(
+    new RegExp(pattern, "g"),
+    to,
+  );
 }
 
 export function localizeCompatibilityWelcome(
   source: string,
   locale: PaidPdfLocale,
 ): string {
+  /*
+   * Le français reste le fichier source.
+   */
   if (locale === "fr") {
     return source;
   }
@@ -409,18 +439,27 @@ export function localizeCompatibilityWelcome(
 
   let localized = source;
 
+  /*
+   * Les longues phrases sont remplacées
+   * avant les textes courts.
+   */
   const entries =
-    Object.entries(translations).sort(
+    Object.entries(
+      translations,
+    ).sort(
       ([a], [b]) =>
         b.length - a.length,
     );
 
-  for (const [from, to] of entries) {
-    localized = replaceAllLiteral(
-      localized,
-      from,
-      to,
-    );
+  for (
+    const [from, to] of entries
+  ) {
+    localized =
+      replaceFlexibleText(
+        localized,
+        from,
+        to,
+      );
   }
 
   return localized;
