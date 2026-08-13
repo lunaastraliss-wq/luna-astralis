@@ -6,6 +6,8 @@ import {
   View,
 } from "@react-pdf/renderer";
 
+import __i18n from "@/i18n/migrated/fr/components/compatibilitypdf/compatibilitycover.json";
+
 import {
   LOGO_URL,
   PLANET_ICONS,
@@ -15,6 +17,22 @@ import type {
   CompatibilityCoverProps,
   SafeCompatibilityPerson,
 } from "./CompatibilityPdfTypes";
+
+const I18N = __i18n as Record<string, string>;
+
+function tr(
+  key: string,
+  fallback: string,
+): string {
+  const value = I18N[key];
+
+  return (
+    typeof value === "string" &&
+    value.trim().length > 0
+      ? value
+      : fallback
+  );
+}
 
 const GOLD = "#d4af4e";
 const BRIGHT_GOLD = "#c99a3d";
@@ -706,18 +724,25 @@ function displayValue(
       ? value.trim()
       : "";
 
-  return safeValue || "Non précisé";
+  return (
+    safeValue ||
+    tr(
+      "non_precise",
+      "Non précisé",
+    )
+  );
 }
 
 function getPersonName(
   person: SafeCompatibilityPerson,
   fallback: string,
 ): string {
-  return displayValue(
-    person.firstName,
-  ) === "Non précisé"
-    ? fallback
-    : displayValue(person.firstName);
+  const safeName =
+    typeof person.firstName === "string"
+      ? person.firstName.trim()
+      : "";
+
+  return safeName || fallback;
 }
 
 function PersonWheel({
@@ -756,7 +781,10 @@ function PersonWheel({
               styles.wheelPlaceholderText
             }
           >
-            Carte du ciel personnalisée
+            {tr(
+              "carte_du_ciel_personnalisee",
+              "Carte du ciel personnalisée",
+            )}
           </Text>
         </View>
       )}
@@ -805,7 +833,10 @@ function IdentityCard({
 
       <View style={styles.infoLine}>
         <Text style={styles.infoLabel}>
-          Naissance
+          {tr(
+            "naissance",
+            "Naissance",
+          )}
         </Text>
 
         <Text style={styles.infoValue}>
@@ -815,7 +846,10 @@ function IdentityCard({
 
       <View style={styles.infoLine}>
         <Text style={styles.infoLabel}>
-          Heure
+          {tr(
+            "heure",
+            "Heure",
+          )}
         </Text>
 
         <Text style={styles.infoValue}>
@@ -825,7 +859,10 @@ function IdentityCard({
 
       <View style={styles.infoLine}>
         <Text style={styles.infoLabel}>
-          Lieu
+          {tr(
+            "lieu",
+            "Lieu",
+          )}
         </Text>
 
         <Text style={styles.infoValue}>
@@ -843,13 +880,19 @@ export default function CompatibilityCover({
   const person1Name =
     getPersonName(
       person1,
-      "Première personne",
+      tr(
+        "premiere_personne",
+        "Première personne",
+      ),
     );
 
   const person2Name =
     getPersonName(
       person2,
-      "Deuxième personne",
+      tr(
+        "deuxieme_personne",
+        "Deuxième personne",
+      ),
     );
 
   return (
@@ -922,7 +965,10 @@ export default function CompatibilityCover({
           <Text
             style={styles.badgeText}
           >
-            Compatibilité Premium
+            {tr(
+              "compatibilite_premium",
+              "Compatibilité Premium",
+            )}
           </Text>
         </View>
 
@@ -933,27 +979,35 @@ export default function CompatibilityCover({
           <Text
             style={styles.eyebrow}
           >
-            Rapport astrologique personnalisé
+            {tr(
+              "rapport_astrologique_personnalise",
+              "Rapport astrologique personnalisé",
+            )}
           </Text>
 
           <Text style={styles.title}>
-            Votre rapport de
+            {tr(
+              "votre_rapport_de",
+              "Votre rapport de",
+            )}
           </Text>
 
           <Text
             style={styles.titleAccent}
           >
-            Synastrie
+            {tr(
+              "synastrie",
+              "Synastrie",
+            )}
           </Text>
 
           <Text
             style={styles.subtitle}
           >
-            Une exploration approfondie de la
-            rencontre entre vos deux thèmes
-            natals, de vos affinités naturelles,
-            de vos défis et de votre potentiel
-            d’évolution.
+            {tr(
+              "une_exploration_approfondie_de_la_rencontre_entre_vos_deux_t",
+              "Une exploration approfondie de la rencontre entre vos deux thèmes natals, de vos affinités naturelles, de vos défis et de votre potentiel d’évolution.",
+            )}
           </Text>
         </View>
 
@@ -1027,14 +1081,26 @@ export default function CompatibilityCover({
         >
           <IdentityCard
             person={person1}
-            label="Première personne"
-            fallbackName="Première personne"
+            label={tr(
+              "premiere_personne",
+              "Première personne",
+            )}
+            fallbackName={tr(
+              "premiere_personne",
+              "Première personne",
+            )}
           />
 
           <IdentityCard
             person={person2}
-            label="Deuxième personne"
-            fallbackName="Deuxième personne"
+            label={tr(
+              "deuxieme_personne",
+              "Deuxième personne",
+            )}
+            fallbackName={tr(
+              "deuxieme_personne",
+              "Deuxième personne",
+            )}
           />
         </View>
 
@@ -1060,7 +1126,10 @@ export default function CompatibilityCover({
               <Text
                 style={styles.themeTitle}
               >
-                Lien émotionnel
+                {tr(
+                  "lien_emotionnel",
+                  "Lien émotionnel",
+                )}
               </Text>
             </View>
 
@@ -1079,7 +1148,10 @@ export default function CompatibilityCover({
               <Text
                 style={styles.themeTitle}
               >
-                Communication
+                {tr(
+                  "communication",
+                  "Communication",
+                )}
               </Text>
             </View>
 
@@ -1098,7 +1170,10 @@ export default function CompatibilityCover({
               <Text
                 style={styles.themeTitle}
               >
-                Attirance
+                {tr(
+                  "attirance",
+                  "Attirance",
+                )}
               </Text>
             </View>
 
@@ -1117,7 +1192,10 @@ export default function CompatibilityCover({
               <Text
                 style={styles.themeTitle}
               >
-                Potentiel durable
+                {tr(
+                  "potentiel_durable",
+                  "Potentiel durable",
+                )}
               </Text>
             </View>
           </View>
@@ -1134,25 +1212,28 @@ export default function CompatibilityCover({
           <Text
             style={styles.introductionLabel}
           >
-            Votre voyage astrologique
+            {tr(
+              "votre_voyage_astrologique",
+              "Votre voyage astrologique",
+            )}
           </Text>
 
           <Text
             style={styles.introductionTitle}
           >
-            Une relation ne se résume jamais à un seul signe
+            {tr(
+              "une_relation_ne_se_resume_jamais_a_un_seul_signe",
+              "Une relation ne se résume jamais à un seul signe",
+            )}
           </Text>
 
           <Text
             style={styles.introductionText}
           >
-            Ce rapport explore les interactions entre vos planètes,
-            vos émotions, votre manière de communiquer, vos forces
-            naturelles et les défis qui peuvent transformer votre
-            relation. Chaque section vous aidera à comprendre pourquoi
-            certaines énergies s’harmonisent spontanément, tandis que
-            d’autres invitent à la conscience, à l’adaptation et à
-            l’évolution commune.
+            {tr(
+              "ce_rapport_explore_les_interactions_entre_vos_planetes_vos_e",
+              "Ce rapport explore les interactions entre vos planètes, vos émotions, votre manière de communiquer, vos forces naturelles et les défis qui peuvent transformer votre relation. Chaque section vous aidera à comprendre pourquoi certaines énergies s’harmonisent spontanément, tandis que d’autres invitent à la conscience, à l’adaptation et à l’évolution commune.",
+            )}
           </Text>
         </View>
 
@@ -1161,17 +1242,19 @@ export default function CompatibilityCover({
           wrap={false}
         >
           <Text style={styles.quote}>
-            Deux thèmes natals ne racontent
-            jamais deux histoires séparées.
-            Leur rencontre révèle la manière
-            dont deux univers s’attirent,
-            s’influencent et évoluent ensemble.
+            {tr(
+              "deux_themes_natals_ne_racontent_jamais_deux_histoires_separe",
+              "Deux thèmes natals ne racontent jamais deux histoires séparées. Leur rencontre révèle la manière dont deux univers s’attirent, s’influencent et évoluent ensemble.",
+            )}
           </Text>
 
           <Text
             style={styles.signature}
           >
-            Luna Astralis
+            {tr(
+              "luna_astralis",
+              "Luna Astralis",
+            )}
           </Text>
         </View>
       </View>
