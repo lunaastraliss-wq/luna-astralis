@@ -1787,52 +1787,88 @@ function replaceTargetedDisplayCode(
   let output = source;
 
   /*
-   * Placements Lune.
+   * =========================================================
+   * PLACEMENTS DE LA LUNE
+   * =========================================================
+   *
+   * Une seule expression JSX est volontairement générée.
+   * Cela évite les sorties collées comme :
+   *   Moon inCancer
+   *   Luna enCáncer
    */
   output =
     output.replace(
-      /Lune en \{moonSign1\}/g,
-      "{__EMOTIONAL_MOON_IN} {localizeEmotionalSign(moonSign1)}",
+      /Lune\s+en\s+\{moonSign1\}/g,
+      "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign1)}`}",
     );
 
   output =
     output.replace(
-      /Lune en \{moonSign2\}/g,
-      "{__EMOTIONAL_MOON_IN} {localizeEmotionalSign(moonSign2)}",
+      /Lune\s+en\s+\{moonSign2\}/g,
+      "{`${__EMOTIONAL_MOON_IN} ${localizeEmotionalSign(moonSign2)}`}",
     );
 
   /*
-   * Éléments.
+   * =========================================================
+   * ÉLÉMENTS
+   * =========================================================
+   *
+   * Même principe pour empêcher :
+   *   ElementWater
+   *   ElementEau
    */
   output =
     output.replace(
-      /Élément \{element1\}/g,
-      "{__EMOTIONAL_ELEMENT_WORD} {localizeEmotionalElement(element1)}",
+      /Élément\s+\{element1\}/g,
+      "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(element1)}`}",
     );
 
   output =
     output.replace(
-      /Élément \{element2\}/g,
-      "{__EMOTIONAL_ELEMENT_WORD} {localizeEmotionalElement(element2)}",
+      /Élément\s+\{element2\}/g,
+      "{`${__EMOTIONAL_ELEMENT_WORD} ${localizeEmotionalElement(element2)}`}",
     );
 
   /*
-   * Cartes de besoins personnels.
+   * =========================================================
+   * CARTES DE BESOINS ÉMOTIONNELS
+   * =========================================================
    */
   output =
     output.replace(
-      /Les besoins de \{name\}/g,
-      "{__EMOTIONAL_NEEDS_OF} {name}",
+      /Les\s+besoins\s+de\s+\{name\}/g,
+      "{`${__EMOTIONAL_NEEDS_OF} ${name}`}",
+    );
+
+  /*
+   * Le TSX français contient :
+   *
+   * Avec une Lune en {moonSign},{" "}
+   * {getEmotionalNeed(moonSign)}
+   *
+   * On remplace le préfixe et l'appel dynamique séparément,
+   * afin de ne pas dépendre des retours à la ligne exacts.
+   */
+  output =
+    output.replace(
+      /Avec\s+une\s+Lune\s+en\s+\{moonSign\},\s*\{\s*" "\s*\}/g,
+      "{`${__EMOTIONAL_WITH_MOON_IN} ${localizeEmotionalSign(moonSign)}, `}",
     );
 
   output =
     output.replace(
-      /Avec une Lune en \{moonSign\},\{" "\}\s*\{getEmotionalNeed\(moonSign\)\}/g,
-      "{__EMOTIONAL_WITH_MOON_IN} {localizeEmotionalSign(moonSign)},{\" \"}\n        {getLocalizedEmotionalNeed(moonSign)}",
+      /\{getEmotionalNeed\(\s*moonSign\s*\)\}/g,
+      "{getLocalizedEmotionalNeed(moonSign)}",
     );
 
   /*
-   * Dynamique des deux Lunes.
+   * =========================================================
+   * DYNAMIQUE DES DEUX LUNES
+   * =========================================================
+   *
+   * getMoonCompatibilityText() produit du français.
+   * Pour une copie non française, on utilise directement
+   * le générateur localisé.
    */
   output =
     output.replace(
@@ -1841,9 +1877,11 @@ function replaceTargetedDisplayCode(
     );
 
   /*
-   * Interprétations d'aspects :
-   * on ne laisse plus getAspectInterpretation()
-   * produire du français.
+   * =========================================================
+   * INTERPRÉTATIONS D'ASPECTS
+   * =========================================================
+   *
+   * getAspectInterpretation() produit lui aussi du français.
    */
   output =
     output.replace(
@@ -1852,16 +1890,24 @@ function replaceTargetedDisplayCode(
     );
 
   /*
-   * Noms des planètes + aspects visibles.
+   * =========================================================
+   * TITRE VISIBLE DES ASPECTS
+   * =========================================================
+   *
+   * On construit toute la portion :
+   *   Planet Aspect Planet
+   * dans une seule expression afin de conserver les espaces.
    */
   output =
     output.replace(
-      /\{planet1\} \{aspect\.aspect\}\{" "\}\s*\{planet2\}/g,
-      "{localizeEmotionalPlanet(planet1)} {localizeEmotionalAspect(aspect.aspect)}{\" \"}\n          {localizeEmotionalPlanet(planet2)}",
+      /\{planet1\}\s*\{aspect\.aspect\}\s*\{\s*" "\s*\}\s*\{planet2\}/g,
+      "{`${localizeEmotionalPlanet(planet1)} ${localizeEmotionalAspect(aspect.aspect)} ${localizeEmotionalPlanet(planet2)}`}",
     );
 
   /*
-   * Nature de l'aspect.
+   * =========================================================
+   * NATURE DE L'ASPECT
+   * =========================================================
    */
   output =
     output.replace(
@@ -1870,14 +1916,16 @@ function replaceTargetedDisplayCode(
     );
 
   /*
-   * Orbe.
-   * Le TSX crée d'abord orbText.
-   * On traduit directement le mot dans
-   * le template literal.
+   * =========================================================
+   * ORBE
+   * =========================================================
+   *
+   * Le mot "orbe" est créé dans un template literal du TSX.
+   * On le remplace par la valeur de la langue active.
    */
   output =
     output.replace(
-      /\? ` • orbe \$\{aspect\.orb\.toFixed\(1\)\}°`/g,
+      /\?\s*` • orbe \$\{aspect\.orb\.toFixed\(1\)\}°`/g,
       "? ` • ${__EMOTIONAL_ORB_WORD} ${aspect.orb.toFixed(1)}°`",
     );
 
