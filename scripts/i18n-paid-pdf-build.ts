@@ -2006,10 +2006,15 @@ function rewriteCopiedCodeFiles(
             );
 
           const resolved =
-            path.resolve(
-              originalDirectory,
-              oldSpecifier,
-            );
+  oldSpecifier.startsWith("@/")
+    ? path.join(
+        PROJECT_ROOT,
+        oldSpecifier.slice(2),
+      )
+    : path.resolve(
+        originalDirectory,
+        oldSpecifier,
+      );
 
           const resolvedRelative =
             normalizePath(
