@@ -5,7 +5,12 @@
 .premium-site-header {
   position: sticky;
   top: 14px;
-  z-index: 1000;
+
+  /*
+   * Très élevé volontairement :
+   * le menu mobile doit toujours passer devant le contenu.
+   */
+  z-index: 50000;
 
   display: flex;
   align-items: center;
@@ -155,7 +160,7 @@
 
 .premium-navigation {
   position: relative;
-  z-index: 5;
+  z-index: 50001;
 
   display: flex;
   align-items: center;
@@ -370,6 +375,7 @@
   position: absolute;
   top: calc(100% + 15px);
   right: -145px;
+  z-index: 50010;
 
   width: min(620px, calc(100vw - 40px));
   padding: 14px;
@@ -584,6 +590,9 @@
 ========================================================= */
 
 .premium-menu-toggle {
+  position: relative;
+  z-index: 50020;
+
   display: none;
   align-items: center;
   justify-content: center;
@@ -670,6 +679,7 @@
   position: absolute;
   top: calc(100% + 14px);
   right: 0;
+  z-index: 50015;
 
   display: flex;
   flex-direction: column;
@@ -679,8 +689,8 @@
   max-height: calc(100vh - 125px);
   padding: 13px;
 
-  overflow-y: auto;
   overflow-x: hidden;
+  overflow-y: auto;
 
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
@@ -699,8 +709,8 @@
     ),
     linear-gradient(
       145deg,
-      rgba(31, 20, 23, 0.985),
-      rgba(8, 17, 31, 0.99)
+      rgba(31, 20, 23, 0.995),
+      rgba(8, 17, 31, 0.998)
     );
 
   box-shadow:
@@ -825,6 +835,7 @@
 
 .premium-mobile-arrow {
   color: #bdad93;
+
   transition: transform 0.2s ease;
 }
 
@@ -848,8 +859,13 @@
     border-color 0.24s ease;
 }
 
+/*
+ * 1500px volontairement :
+ * Astrologie contient davantage de liens et certaines langues
+ * peuvent prendre deux lignes.
+ */
 .premium-mobile-submenu--open {
-  max-height: 1000px;
+  max-height: 1500px;
 
   border-left-color: rgba(212, 175, 78, 0.18);
 
@@ -875,6 +891,7 @@
 
 .premium-mobile-submenu > a:hover {
   color: #f1d384;
+
   background: rgba(212, 175, 78, 0.035);
 }
 
@@ -915,15 +932,19 @@
 }
 
 /* =========================================================
-   LANGUAGE SWITCHER DANS MENU MOBILE
+   LANGUAGE SWITCHER DANS LE MENU MOBILE
 ========================================================= */
 
+/*
+ * Empêche le sélecteur de langue d'être comprimé
+ * lorsqu'on arrive au bas du menu.
+ */
 .premium-mobile-menu > :last-child {
   flex-shrink: 0;
 }
 
 /* =========================================================
-   BARRE DE DÉFILEMENT
+   BARRE DE DÉFILEMENT MOBILE
 ========================================================= */
 
 .premium-mobile-menu {
@@ -939,11 +960,13 @@
 
 .premium-mobile-menu::-webkit-scrollbar-track {
   border-radius: 999px;
+
   background: rgba(255, 255, 255, 0.03);
 }
 
 .premium-mobile-menu::-webkit-scrollbar-thumb {
   border-radius: 999px;
+
   background: rgba(212, 175, 78, 0.42);
 }
 
@@ -1025,6 +1048,7 @@
 @media (max-width: 680px) {
   .premium-site-header {
     top: 8px;
+    z-index: 50000;
 
     width: calc(100% - 18px);
     min-height: 72px;
@@ -1034,7 +1058,14 @@
 
     padding: 8px 10px;
 
+    overflow: visible;
+
     border-radius: 20px;
+  }
+
+  .premium-navigation {
+    position: relative;
+    z-index: 50001;
   }
 
   .premium-header-glow {
@@ -1063,6 +1094,7 @@
 
   .premium-brand-name {
     font-size: 0.84rem;
+
     letter-spacing: 0.085em;
   }
 
@@ -1076,12 +1108,21 @@
   }
 
   .premium-menu-toggle {
+    position: relative;
+    z-index: 50020;
+
     width: 43px;
     height: 43px;
 
     border-radius: 13px;
   }
 
+  /*
+   * MENU MOBILE PLEIN ÉCRAN SOUS LE HEADER
+   *
+   * top + bottom permettent d'avoir une vraie zone scrollable.
+   * Le z-index le garde au-dessus de la page.
+   */
   .premium-mobile-menu {
     position: fixed;
 
@@ -1090,21 +1131,37 @@
     bottom: 9px;
     left: 9px;
 
+    z-index: 50010;
+
     width: auto;
+    height: auto;
     max-height: none;
 
+    padding: 13px;
     padding-bottom:
-      calc(18px + env(safe-area-inset-bottom));
+      calc(22px + env(safe-area-inset-bottom));
 
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
 
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+
+    background:
+      radial-gradient(
+        circle at top right,
+        rgba(212, 175, 78, 0.11),
+        transparent 32%
+      ),
+      linear-gradient(
+        145deg,
+        rgba(31, 20, 23, 0.998),
+        rgba(8, 17, 31, 0.999)
+      );
   }
 
   .premium-mobile-submenu--open {
-    max-height: 1000px;
+    max-height: 1500px;
   }
 }
 
@@ -1140,9 +1197,13 @@
   }
 
   .premium-mobile-menu {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+
     padding: 11px;
     padding-bottom:
-      calc(18px + env(safe-area-inset-bottom));
+      calc(22px + env(safe-area-inset-bottom));
 
     border-radius: 19px;
   }
@@ -1164,6 +1225,10 @@
     font-size: 0.82rem;
   }
 }
+
+/* =========================================================
+   MOBILE 400PX
+========================================================= */
 
 @media (max-width: 400px) {
   .premium-brand-subtitle {
