@@ -881,6 +881,39 @@ function getElement(
   return "Non précisé";
 }
 
+function formatMercuryPlacement(
+  sign: string,
+): string {
+  return `Mercure en ${sign}`;
+}
+
+function formatElementPlacement(
+  element: string,
+): string {
+  return `Élément ${element}`;
+}
+
+function formatCommunicationTitle(
+  name: string,
+): string {
+  return `La communication de ${name}`;
+}
+
+function formatCommunicationIntro(
+  sign: string,
+): string {
+  return `Mercure en ${sign}. `;
+}
+
+function formatCommunicationAspectTitle(
+  planet1: string,
+  aspectName: string,
+  planet2: string,
+  orb: number,
+): string {
+  return `${planet1} ${aspectName} ${planet2} • orbe ${orb.toFixed(1)}°`;
+}
+
 function isMercuryPlanet(
   planetName: string,
 ): boolean {
@@ -1196,14 +1229,14 @@ function CommunicationStyleCard({
         <Text
           style={localStyles.styleCardTitle}
         >
-          La communication de {name}
+          {formatCommunicationTitle(name)}
         </Text>
       </View>
 
       <Text
         style={localStyles.styleCardText}
       >
-        Mercure en {mercurySign}.{" "}
+        {formatCommunicationIntro(mercurySign)}
         {getCommunicationStyle(
           mercurySign,
         )}
@@ -1247,13 +1280,14 @@ function AspectCard({
         <Text
           style={localStyles.aspectTitle}
         >
-          {person1Planet}{" "}
-          {translateCompatibilityAspect(
-            aspect.type,
-          )}{" "}
-          {person2Planet}
-          {" • orbe "}
-          {aspect.orb.toFixed(1)}°
+          {formatCommunicationAspectTitle(
+            person1Planet,
+            translateCompatibilityAspect(
+              aspect.type,
+            ),
+            person2Planet,
+            aspect.orb,
+          )}
         </Text>
 
         <Text
@@ -1484,7 +1518,7 @@ export default function CompatibilityCommunication({
                   localStyles.placementValue
                 }
               >
-                Mercure en {mercurySign1}
+                {formatMercuryPlacement(mercurySign1)}
               </Text>
 
               <Text
@@ -1492,8 +1526,7 @@ export default function CompatibilityCommunication({
                   localStyles.placementStyle
                 }
               >
-                Élément{" "}
-                {getElement(mercurySign1)}
+                {formatElementPlacement(getElement(mercurySign1))}
               </Text>
             </View>
 
@@ -1530,7 +1563,7 @@ export default function CompatibilityCommunication({
                   localStyles.placementValue
                 }
               >
-                Mercure en {mercurySign2}
+                {formatMercuryPlacement(mercurySign2)}
               </Text>
 
               <Text
@@ -1538,8 +1571,7 @@ export default function CompatibilityCommunication({
                   localStyles.placementStyle
                 }
               >
-                Élément{" "}
-                {getElement(mercurySign2)}
+                {formatElementPlacement(getElement(mercurySign2))}
               </Text>
             </View>
           </View>
