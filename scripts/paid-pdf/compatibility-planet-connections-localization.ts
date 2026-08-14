@@ -20,6 +20,8 @@ type LocaleData = {
   elementWord: string;
   orbWord: string;
 
+  aspectFallbacks: Record<string, string>;
+
   connection: {
     missing: string;
 
@@ -241,6 +243,15 @@ const TRANSLATIONS: Record<
     elementWord: "Element",
 
     orbWord: "orb",
+
+    aspectFallbacks: {
+      conjunction: "This conjunction intensifies the meeting of the two planetary energies. It can create strong closeness, while also amplifying their reactions and needs.",
+      trine: "This trine encourages a natural flow between the two energies. Each person can support the other with greater ease, understanding, and confidence.",
+      sextile: "This sextile creates an opportunity for cooperation and mutual enrichment. Its potential develops when both partners consciously choose to use it.",
+      square: "This square creates dynamic tension between the two energies. It can trigger defensive reactions, but it can also encourage the relationship to evolve and find new solutions.",
+      opposition: "This opposition brings two contrasting needs or ways of functioning face to face. Balance develops when each person recognizes the value of the opposing point of view.",
+      quincunx: "This quincunx requires regular adjustments. The two energies do not function naturally in the same way, but they can learn to cooperate more effectively.",
+    },
 
     connection: {
       missing:
@@ -472,6 +483,15 @@ const TRANSLATIONS: Record<
     elementWord: "Elemento",
     orbWord: "orbe",
 
+    aspectFallbacks: {
+      conjunction: "Esta conjunción intensifica el encuentro de las dos energías planetarias. Puede crear una gran cercanía y también amplificar sus reacciones y necesidades.",
+      trine: "Este trígono favorece una circulación natural entre las dos energías. Cada persona puede apoyar a la otra con mayor fluidez, comprensión y confianza.",
+      sextile: "Este sextil crea una oportunidad de cooperación y enriquecimiento mutuo. Su potencial se desarrolla cuando ambos eligen conscientemente utilizarlo.",
+      square: "Esta cuadratura crea una tensión dinámica entre las dos energías. Puede provocar reacciones defensivas, pero también impulsar a la relación a evolucionar y encontrar nuevas soluciones.",
+      opposition: "Esta oposición enfrenta dos necesidades o formas de funcionar contrastantes. El equilibrio se construye cuando cada persona reconoce el valor del punto de vista opuesto.",
+      quincunx: "Este quincuncio requiere ajustes regulares. Las dos energías no funcionan naturalmente de la misma manera, pero pueden aprender a colaborar mejor.",
+    },
+
     connection: {
       missing:
         "Algunas posiciones planetarias no están disponibles. La interpretación sigue siendo general y podrá precisarse cuando estén disponibles ambas cartas natales completas.",
@@ -701,6 +721,15 @@ const TRANSLATIONS: Record<
     inWord: "in",
     elementWord: "Element",
     orbWord: "Orb",
+
+    aspectFallbacks: {
+      conjunction: "Diese Konjunktion intensiviert das Zusammentreffen der beiden planetaren Energien. Sie kann große Nähe schaffen und zugleich Reaktionen und Bedürfnisse verstärken.",
+      trine: "Dieses Trigon fördert einen natürlichen Fluss zwischen den beiden Energien. Beide können einander mit mehr Leichtigkeit, Verständnis und Vertrauen unterstützen.",
+      sextile: "Dieses Sextil schafft eine Möglichkeit für Zusammenarbeit und gegenseitige Bereicherung. Sein Potenzial entfaltet sich, wenn beide es bewusst nutzen.",
+      square: "Dieses Quadrat erzeugt eine dynamische Spannung zwischen den beiden Energien. Es kann defensive Reaktionen auslösen, aber auch die Beziehung dazu anregen, sich weiterzuentwickeln und neue Lösungen zu finden.",
+      opposition: "Diese Opposition bringt zwei gegensätzliche Bedürfnisse oder Funktionsweisen gegenüber. Gleichgewicht entsteht, wenn beide den Wert der jeweils anderen Sichtweise anerkennen.",
+      quincunx: "Dieses Quinkunx erfordert regelmäßige Anpassungen. Die beiden Energien funktionieren nicht von selbst auf dieselbe Weise, können aber lernen, besser zusammenzuarbeiten.",
+    },
 
     connection: {
       missing:
@@ -932,6 +961,15 @@ const TRANSLATIONS: Record<
     elementWord: "Elemento",
     orbWord: "orbita",
 
+    aspectFallbacks: {
+      conjunction: "Questa congiunzione intensifica l'incontro delle due energie planetarie. Può creare una forte vicinanza e allo stesso tempo amplificare reazioni e bisogni.",
+      trine: "Questo trigono favorisce un flusso naturale tra le due energie. Ciascuno può sostenere l'altro con maggiore facilità, comprensione e fiducia.",
+      sextile: "Questo sestile crea un'opportunità di cooperazione e arricchimento reciproco. Il suo potenziale si sviluppa quando entrambi scelgono consapevolmente di utilizzarlo.",
+      square: "Questa quadratura crea una tensione dinamica tra le due energie. Può provocare reazioni difensive, ma anche spingere la relazione a evolvere e trovare nuove soluzioni.",
+      opposition: "Questa opposizione mette di fronte due bisogni o modi di funzionare contrastanti. L'equilibrio si costruisce quando ciascuno riconosce il valore del punto di vista opposto.",
+      quincunx: "Questo quinconce richiede adattamenti regolari. Le due energie non funzionano naturalmente nello stesso modo, ma possono imparare a collaborare meglio.",
+    },
+
     connection: {
       missing:
         "Alcune posizioni planetarie non sono disponibili. L'interpretazione rimane quindi generale e potrà essere precisata quando saranno disponibili entrambi i temi natali completi.",
@@ -1161,6 +1199,15 @@ const TRANSLATIONS: Record<
     inWord: "em",
     elementWord: "Elemento",
     orbWord: "orbe",
+
+    aspectFallbacks: {
+      conjunction: "Esta conjunção intensifica o encontro das duas energias planetárias. Pode criar uma grande proximidade e também amplificar as suas reações e necessidades.",
+      trine: "Este trígono favorece um fluxo natural entre as duas energias. Cada pessoa pode apoiar a outra com maior fluidez, compreensão e confiança.",
+      sextile: "Este sextil cria uma oportunidade de cooperação e enriquecimento mútuo. O seu potencial desenvolve-se quando ambos escolhem conscientemente utilizá-lo.",
+      square: "Esta quadratura cria uma tensão dinâmica entre as duas energias. Pode provocar reações defensivas, mas também incentivar a relação a evoluir e encontrar novas soluções.",
+      opposition: "Esta oposição coloca frente a frente duas necessidades ou formas de funcionamento contrastantes. O equilíbrio constrói-se quando cada pessoa reconhece o valor do ponto de vista oposto.",
+      quincunx: "Este quincúncio exige ajustes regulares. As duas energias não funcionam naturalmente da mesma forma, mas podem aprender a colaborar melhor.",
+    },
 
     connection: {
       missing:
@@ -1471,6 +1518,13 @@ const __CONNECTION_ORB_WORD =
     data.orbWord,
   )};
 
+const __CONNECTION_ASPECT_FALLBACKS =
+  ${JSON.stringify(
+    data.aspectFallbacks,
+    null,
+    2,
+  )} as Record<string, string>;
+
 const __CONNECTION_DYNAMIC =
   ${JSON.stringify(
     data.connection,
@@ -1516,6 +1570,31 @@ function localizeConnectionAspect(
   return (
     __CONNECTION_ASPECTS[value] ??
     value
+  );
+}
+
+function getLocalizedConnectionAspectInterpretation(
+  planet1: string,
+  type: CompatibilityAspect["type"],
+  planet2: string,
+): string {
+  const original =
+    getCompatibilityAspectInterpretation(
+      planet1,
+      type,
+      planet2,
+    );
+
+  const exactTranslation =
+    localizeConnectionText(original);
+
+  if (exactTranslation !== original) {
+    return exactTranslation;
+  }
+
+  return (
+    __CONNECTION_ASPECT_FALLBACKS[type] ??
+    original
   );
 }
 
@@ -1871,12 +1950,10 @@ function replaceDynamicDisplay(
   output =
     output.replace(
       /\{getCompatibilityAspectInterpretation\(\s*aspect\.person1Planet,\s*aspect\.type,\s*aspect\.person2Planet,\s*\)\}/g,
-      `{localizeConnectionText(
-              getCompatibilityAspectInterpretation(
-                aspect.person1Planet,
-                aspect.type,
-                aspect.person2Planet,
-              ),
+      `{getLocalizedConnectionAspectInterpretation(
+              aspect.person1Planet,
+              aspect.type,
+              aspect.person2Planet,
             )}`,
     );
 
@@ -1917,21 +1994,31 @@ export function localizeCompatibilityPlanetConnections(
     return source;
   }
 
+  /*
+   * Transformer d'abord les expressions dynamiques pendant
+   * qu'elles ont encore leur forme française originale.
+   * Sinon « Élément » est traduit avant que le motif soit
+   * reconnu, ce qui produit des chaînes comme ElementEau.
+   */
   let localized =
-    localizeSafeLiterals(
+    replaceDynamicDisplay(
       source,
+    );
+
+  localized =
+    localizeSafeLiterals(
+      localized,
       data.text,
     );
 
+  /*
+   * Injecter les helpers en dernier pour éviter que leurs
+   * dictionnaires localisés soient retraités.
+   */
   localized =
     injectHelpers(
       localized,
       data,
-    );
-
-  localized =
-    replaceDynamicDisplay(
-      localized,
     );
 
   return localized;
