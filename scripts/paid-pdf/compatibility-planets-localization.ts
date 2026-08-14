@@ -219,6 +219,16 @@ const TRANSLATIONS: Record<
       "Élément":
         "Element",
 
+      "Cette opposition met en présence deux besoins ou deux fonctionnements contrastés. L’équilibre se construit lorsque chacun reconnaît la valeur du point de vue opposé.":
+        "This opposition brings two contrasting needs or ways of functioning face to face. Balance is built when each person recognizes the value of the opposing point of view.",
+
+      "La volonté de l’un et les émotions de l’autre peuvent facilement coopérer. Cette relation favorise les encouragements, la confiance et une belle capacité à se soutenir au quotidien.":
+        "One person's will and the other's emotions can cooperate easily. This connection encourages support, trust, and a strong ability to stand by one another in daily life.",
+
+      "Ce quinconce demande des ajustements réguliers. Les deux énergies ne fonctionnent pas naturellement de la même manière, mais elles peuvent apprendre à mieux collaborer.":
+        "This quincunx requires regular adjustments. The two energies do not naturally operate in the same way, but they can learn to cooperate more effectively.",
+
+
       "Énergie fluide":
         "Flowing energy",
 
@@ -563,6 +573,16 @@ const TRANSLATIONS: Record<
 
       "Élément": "Elemento",
 
+      "Cette opposition met en présence deux besoins ou deux fonctionnements contrastés. L’équilibre se construit lorsque chacun reconnaît la valeur du point de vue opposé.":
+        "Esta oposición pone frente a frente dos necesidades o formas de funcionar contrastadas. El equilibrio se construye cuando cada persona reconoce el valor del punto de vista opuesto.",
+
+      "La volonté de l’un et les émotions de l’autre peuvent facilement coopérer. Cette relation favorise les encouragements, la confiance et une belle capacité à se soutenir au quotidien.":
+        "La voluntad de una persona y las emociones de la otra pueden cooperar con facilidad. Esta conexión favorece el apoyo, la confianza y una gran capacidad para sostenerse mutuamente en la vida cotidiana.",
+
+      "Ce quinconce demande des ajustements réguliers. Les deux énergies ne fonctionnent pas naturellement de la même manière, mais elles peuvent apprendre à mieux collaborer.":
+        "Este quincuncio requiere ajustes regulares. Las dos energías no funcionan naturalmente de la misma manera, pero pueden aprender a colaborar mejor.",
+
+
       "Énergie fluide":
         "Energía fluida",
 
@@ -790,6 +810,16 @@ const TRANSLATIONS: Record<
 
       "Élément": "Element",
 
+      "Cette opposition met en présence deux besoins ou deux fonctionnements contrastés. L’équilibre se construit lorsque chacun reconnaît la valeur du point de vue opposé.":
+        "Diese Opposition stellt zwei gegensätzliche Bedürfnisse oder Funktionsweisen einander gegenüber. Gleichgewicht entsteht, wenn beide den Wert der jeweils anderen Sichtweise anerkennen.",
+
+      "La volonté de l’un et les émotions de l’autre peuvent facilement coopérer. Cette relation favorise les encouragements, la confiance et une belle capacité à se soutenir au quotidien.":
+        "Der Wille der einen Person und die Gefühle der anderen können leicht zusammenwirken. Diese Verbindung fördert Ermutigung, Vertrauen und die Fähigkeit, sich im Alltag gegenseitig zu unterstützen.",
+
+      "Ce quinconce demande des ajustements réguliers. Les deux énergies ne fonctionnent pas naturellement de la même manière, mais elles peuvent apprendre à mieux collaborer.":
+        "Dieses Quinkunx erfordert regelmäßige Anpassungen. Die beiden Energien funktionieren von Natur aus nicht auf die gleiche Weise, können aber lernen, besser zusammenzuarbeiten.",
+
+
       "Énergie fluide":
         "Fließende Energie",
 
@@ -1014,6 +1044,16 @@ const TRANSLATIONS: Record<
 
       "Élément": "Elemento",
 
+      "Cette opposition met en présence deux besoins ou deux fonctionnements contrastés. L’équilibre se construit lorsque chacun reconnaît la valeur du point de vue opposé.":
+        "Questa opposizione mette di fronte due bisogni o modi di funzionare contrastanti. L'equilibrio si costruisce quando ciascuno riconosce il valore del punto di vista opposto.",
+
+      "La volonté de l’un et les émotions de l’autre peuvent facilement coopérer. Cette relation favorise les encouragements, la confiance et une belle capacité à se soutenir au quotidien.":
+        "La volontà di una persona e le emozioni dell'altra possono collaborare facilmente. Questa connessione favorisce incoraggiamento, fiducia e una forte capacità di sostenersi nella vita quotidiana.",
+
+      "Ce quinconce demande des ajustements réguliers. Les deux énergies ne fonctionnent pas naturellement de la même manière, mais elles peuvent apprendre à mieux collaborer.":
+        "Questo quinconce richiede aggiustamenti regolari. Le due energie non funzionano naturalmente nello stesso modo, ma possono imparare a collaborare meglio.",
+
+
       "Énergie fluide":
         "Energia fluida",
 
@@ -1237,6 +1277,16 @@ const TRANSLATIONS: Record<
         "A sua dinâmica comum",
 
       "Élément": "Elemento",
+
+      "Cette opposition met en présence deux besoins ou deux fonctionnements contrastés. L’équilibre se construit lorsque chacun reconnaît la valeur du point de vue opposé.":
+        "Esta oposição coloca frente a frente duas necessidades ou formas de funcionamento contrastantes. O equilíbrio constrói-se quando cada pessoa reconhece o valor do ponto de vista oposto.",
+
+      "La volonté de l’un et les émotions de l’autre peuvent facilement coopérer. Cette relation favorise les encouragements, la confiance et une belle capacité à se soutenir au quotidien.":
+        "A vontade de uma pessoa e as emoções da outra podem cooperar facilmente. Esta ligação favorece o apoio, a confiança e uma forte capacidade de se apoiarem no dia a dia.",
+
+      "Ce quinconce demande des ajustements réguliers. Les deux énergies ne fonctionnent pas naturellement de la même manière, mais elles peuvent apprendre à mieux collaborer.":
+        "Este quincúncio exige ajustes regulares. As duas energias não funcionam naturalmente da mesma forma, mas podem aprender a colaborar melhor.",
+
 
       "Énergie fluide":
         "Energia fluida",
@@ -2389,12 +2439,12 @@ function replacePlanetsElementDisplays(
   let output = source;
 
   output = output.replace(
-    /Élément \{getElement\(sign1\)\}/g,
+    /Élément\s*\{getElement\(sign1\)\}/g,
     '{__PLANETS_ELEMENT_WORD}{" "}{localizePlanetsElement(getElement(sign1))}',
   );
 
   output = output.replace(
-    /Élément \{getElement\(sign2\)\}/g,
+    /Élément\s*\{getElement\(sign2\)\}/g,
     '{__PLANETS_ELEMENT_WORD}{" "}{localizePlanetsElement(getElement(sign2))}',
   );
 
@@ -2476,13 +2526,13 @@ function replaceDynamicDisplay(
    */
   output =
     output.replace(
-      /Élément \{getElement\(sign1\)\}/g,
+      /Élément\s*\{getElement\(sign1\)\}/g,
       "{localizePlanetsText(\"Élément\")} {localizePlanetsElement(getElement(sign1))}",
     );
 
   output =
     output.replace(
-      /Élément \{getElement\(sign2\)\}/g,
+      /Élément\s*\{getElement\(sign2\)\}/g,
       "{localizePlanetsText(\"Élément\")} {localizePlanetsElement(getElement(sign2))}",
     );
 
@@ -2609,6 +2659,18 @@ export function localizeCompatibilityPlanets(
   let localized =
     replacePlanetsV5Helpers(
       source,
+    );
+
+  /*
+   * V6 — corrige aussi les formes JSX collées comme
+   * Élément{getElement(sign1)} / Élément{getElement(sign2)}.
+   * Cette étape doit passer AVANT localizeSafeLiterals(),
+   * sinon « Élément » devient déjà « Element/Elemento/... »
+   * et le motif français ne peut plus être reconnu.
+   */
+  localized =
+    replacePlanetsElementDisplays(
+      localized,
     );
 
   localized =
