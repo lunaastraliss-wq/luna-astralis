@@ -1859,12 +1859,12 @@ function replaceDynamicDisplay(
               {localizeConnectionSign(sign2)}`,
     );
 
-  /*
+   /*
    * Élément visible.
    */
   output =
     output.replace(
-      /Élément \{getElement\(sign1\)\}/g,
+      /Élément\s*\{getElement\(\s*sign1\s*\)\}/g,
       `{__CONNECTION_ELEMENT_WORD}{" "}
               {localizeConnectionElement(
                 getElement(sign1),
@@ -1873,7 +1873,7 @@ function replaceDynamicDisplay(
 
   output =
     output.replace(
-      /Élément \{getElement\(sign2\)\}/g,
+      /Élément\s*\{getElement\(\s*sign2\s*\)\}/g,
       `{__CONNECTION_ELEMENT_WORD}{" "}
               {localizeConnectionElement(
                 getElement(sign2),
