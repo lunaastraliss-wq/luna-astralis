@@ -997,7 +997,7 @@ function replaceV3DisplayHelpers(
 
   output = output.replace(
     /return `Lune en \$\{moonSign\}, Vénus en \$\{venusSign\} et Mars en \$\{marsSign\}\. `;/g,
-    "return `${__LOVE_MOON_IN} ${localizeLoveSign(moonSign)}, ${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)} ${__LOVE_AND_WORD} ${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)}. `;",
+    "return `${__LOVE_MOON_IN} ${localizeLoveSign(moonSign)}, ${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)} ${__LOVE_AND_WORD} ${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)} `;",
   );
 
   return output;
