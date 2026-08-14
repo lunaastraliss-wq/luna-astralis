@@ -1,11 +1,11 @@
 {
-  "luna_astralis_astro_psycho": "Luna Astralis — Astro & psycho",
+  "luna_astralis_astro_psycho": "Luna Astralis — Astrology, AI & Birth Charts",
   "s_luna_astralis": "%s | Luna Astralis",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee": "Gentle and guided exploration through a private discussion based on your astrological sign.",
-  "luna_astralis_astro_psycho_2": "Luna Astralis — Astro & psycho",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee_2": "Gentle and guided exploration through a private discussion based on your astrological sign.",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee": "Discover your birth chart, astrological compatibility, horoscopes, Luna AI and personalized astrology reports.",
+  "luna_astralis_astro_psycho_2": "Luna Astralis — Astrology, AI & Birth Charts",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_2": "Discover your birth chart, astrological compatibility, horoscopes, Luna AI and personalized astrology reports.",
   "luna_astralis": "Luna Astralis",
-  "luna_astralis_astro_psycho_3": "Luna Astralis — Astro & psycho",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee_3": "Gentle and guided exploration through a private discussion based on your astrological sign.",
-  "window_datalayer_window_datalayer_function_gtag_datalayer_pu": "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} window.gtag = window.gtag || gtag; // Consent Mode : by default, we refuse everything (until user choice) gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }); gtag('js', new Date()); gtag('config', 'AW-17878472225');"
+  "luna_astralis_astro_psycho_3": "Luna Astralis — Astrology, AI & Birth Charts",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_3": "Discover your birth chart, astrological compatibility, horoscopes, Luna AI and personalized astrology reports.",
+  "window_datalayer_window_datalayer_function_gtag_datalayer_pu": "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} window.gtag = window.gtag || gtag; // Consent Mode: deny everything by default (until the user makes a choice) gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }); gtag('js', new Date()); gtag('config', 'AW-17878472225');"
 }
