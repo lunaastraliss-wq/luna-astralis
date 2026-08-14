@@ -1173,6 +1173,78 @@ const TRANSLATIONS: Record<
   },
 };
 
+
+/* =========================================================
+   DYNAMIQUE MERCURE LOCALISÉE — PAGE COMMUNICATION
+
+   Le sélecteur CompatibilityPlanetTextSelector renvoie les
+   banques françaises au runtime. Pour les PDF non français,
+   on remplace cet appel par un générateur localisé stable.
+========================================================= */
+
+const COMMUNICATION_MERCURY_TEMPLATES: Record<
+  NonFrenchLocale,
+  Record<
+    "sameSign" | "sameElement" | "complementary" | "different",
+    string
+  >
+> = {
+  en: {
+    sameSign:
+      "With both Mercury placements in {sign1}, you tend to process information and express ideas in very similar ways. This creates quick mental recognition and can make conversation feel natural. The main challenge is to avoid assuming that the other person always thinks exactly as you do.",
+    sameElement:
+      "Mercury in {sign1} and Mercury in {sign2} share the {element1} element. Your mental rhythms therefore rely on a similar foundation, which can make it easier to understand each other's logic, exchange ideas, and make decisions together while still preserving the nuances of each sign.",
+    complementary:
+      "Mercury in {sign1} and Mercury in {sign2} combine the {element1} and {element2} elements. These different but complementary mental styles can enrich your conversations: one perspective can bring what the other expresses less spontaneously, provided that each person respects the other's natural pace of thinking.",
+    different:
+      "Mercury in {sign1} and Mercury in {sign2} operate through different elements, {element1} and {element2}. Your ways of processing information, speaking, and reaching conclusions may therefore follow different rhythms. Clear explanations, active listening, and checking what the other person actually meant are especially important.",
+  },
+
+  es: {
+    sameSign:
+      "Con ambos Mercurios en {sign1}, tienden a procesar la información y expresar las ideas de una manera muy similar. Esto crea un reconocimiento mental rápido y puede hacer que la conversación fluya con naturalidad. El principal reto es no suponer que la otra persona siempre piensa exactamente igual.",
+    sameElement:
+      "Mercurio en {sign1} y Mercurio en {sign2} comparten el elemento {element1}. Sus ritmos mentales se apoyan por tanto en una base semejante, lo que puede facilitar la comprensión de la lógica del otro, el intercambio de ideas y las decisiones comunes, sin borrar los matices propios de cada signo.",
+    complementary:
+      "Mercurio en {sign1} y Mercurio en {sign2} combinan los elementos {element1} y {element2}. Estos estilos mentales diferentes pero complementarios pueden enriquecer sus conversaciones: una perspectiva puede aportar lo que la otra expresa con menos espontaneidad, siempre que cada persona respete el ritmo natural de pensamiento de la otra.",
+    different:
+      "Mercurio en {sign1} y Mercurio en {sign2} funcionan a través de elementos distintos, {element1} y {element2}. Sus maneras de procesar la información, hablar y llegar a conclusiones pueden seguir ritmos diferentes. Las explicaciones claras, la escucha activa y comprobar lo que la otra persona quiso decir son especialmente importantes.",
+  },
+
+  de: {
+    sameSign:
+      "Mit beiden Merkur-Positionen in {sign1} verarbeiten Sie Informationen und drücken Gedanken häufig auf sehr ähnliche Weise aus. Dadurch entsteht schnell ein Gefühl mentaler Vertrautheit und Gespräche können natürlich fließen. Die wichtigste Herausforderung besteht darin, nicht vorauszusetzen, dass die andere Person immer genauso denkt wie Sie.",
+    sameElement:
+      "Merkur in {sign1} und Merkur in {sign2} teilen das Element {element1}. Ihre mentalen Rhythmen beruhen daher auf einer ähnlichen Grundlage, was es erleichtern kann, die Logik des anderen zu verstehen, Gedanken auszutauschen und gemeinsam Entscheidungen zu treffen, ohne die Eigenheiten der beiden Zeichen zu verlieren.",
+    complementary:
+      "Merkur in {sign1} und Merkur in {sign2} verbinden die Elemente {element1} und {element2}. Diese unterschiedlichen, aber ergänzenden Denkstile können Ihre Gespräche bereichern: Eine Perspektive kann das einbringen, was die andere weniger spontan ausdrückt, sofern beide den natürlichen Denkrhythmus des anderen respektieren.",
+    different:
+      "Merkur in {sign1} und Merkur in {sign2} wirken über unterschiedliche Elemente, {element1} und {element2}. Ihre Art, Informationen zu verarbeiten, zu sprechen und Schlussfolgerungen zu ziehen, kann daher verschiedenen Rhythmen folgen. Klare Erklärungen, aktives Zuhören und das Überprüfen dessen, was die andere Person tatsächlich gemeint hat, sind besonders wichtig.",
+  },
+
+  it: {
+    sameSign:
+      "Con entrambi i Mercurio in {sign1}, tendete a elaborare le informazioni e a esprimere le idee in modo molto simile. Questo crea un rapido riconoscimento mentale e può rendere la conversazione naturale. La sfida principale è evitare di presumere che l'altra persona pensi sempre esattamente come voi.",
+    sameElement:
+      "Mercurio in {sign1} e Mercurio in {sign2} condividono l'elemento {element1}. I vostri ritmi mentali si basano quindi su una struttura simile, che può facilitare la comprensione della logica dell'altro, lo scambio di idee e le decisioni comuni, pur mantenendo le sfumature proprie di ciascun segno.",
+    complementary:
+      "Mercurio in {sign1} e Mercurio in {sign2} combinano gli elementi {element1} e {element2}. Questi stili mentali diversi ma complementari possono arricchire le vostre conversazioni: una prospettiva può offrire ciò che l'altra esprime meno spontaneamente, purché ciascuno rispetti il ritmo naturale di pensiero dell'altro.",
+    different:
+      "Mercurio in {sign1} e Mercurio in {sign2} funzionano attraverso elementi diversi, {element1} e {element2}. I vostri modi di elaborare le informazioni, parlare e arrivare alle conclusioni possono quindi seguire ritmi differenti. Spiegazioni chiare, ascolto attivo e la verifica di ciò che l'altra persona intendeva davvero sono particolarmente importanti.",
+  },
+
+  pt: {
+    sameSign:
+      "Com ambos os Mercúrios em {sign1}, tendem a processar a informação e a expressar ideias de forma muito semelhante. Isto cria um reconhecimento mental rápido e pode tornar a conversa natural. O principal desafio é evitar presumir que a outra pessoa pensa sempre exatamente da mesma forma.",
+    sameElement:
+      "Mercúrio em {sign1} e Mercúrio em {sign2} partilham o elemento {element1}. Os seus ritmos mentais assentam, por isso, numa base semelhante, o que pode facilitar a compreensão da lógica um do outro, a troca de ideias e as decisões em conjunto, sem apagar as nuances próprias de cada signo.",
+    complementary:
+      "Mercúrio em {sign1} e Mercúrio em {sign2} combinam os elementos {element1} e {element2}. Estes estilos mentais diferentes, mas complementares, podem enriquecer as suas conversas: uma perspetiva pode trazer aquilo que a outra expressa com menos espontaneidade, desde que cada pessoa respeite o ritmo natural de pensamento da outra.",
+    different:
+      "Mercúrio em {sign1} e Mercúrio em {sign2} funcionam através de elementos diferentes, {element1} e {element2}. As suas formas de processar a informação, falar e chegar a conclusões podem, por isso, seguir ritmos distintos. Explicações claras, escuta ativa e a confirmação do que a outra pessoa realmente quis dizer são especialmente importantes.",
+  },
+};
+
 type Replacement = {
   start: number;
   end: number;
@@ -1322,6 +1394,7 @@ function localizeCompleteLiterals(
 
 function buildHelpers(
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   return `
 const __COMMUNICATION_SIGNS =
@@ -1373,6 +1446,16 @@ const __COMMUNICATION_OF =
       "La communication de",
   )};
 
+
+const __COMMUNICATION_MERCURY_TEMPLATES =
+  ${JSON.stringify(
+    COMMUNICATION_MERCURY_TEMPLATES[
+      locale
+    ],
+    null,
+    2,
+  )} as Record<string, string>;
+
 function localizeCommunicationSign(
   value: string,
 ): string {
@@ -1408,12 +1491,118 @@ function localizeCommunicationElement(
     value
   );
 }
+
+function normalizeCommunicationKey(
+  value: string,
+): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
+function areCommunicationElementsComplementary(
+  element1: string,
+  element2: string,
+): boolean {
+  const pair = [
+    normalizeCommunicationKey(element1),
+    normalizeCommunicationKey(element2),
+  ]
+    .sort()
+    .join("-");
+
+  return (
+    pair === "air-feu" ||
+    pair === "eau-terre"
+  );
+}
+
+function fillCommunicationTemplate(
+  template: string,
+  values: Record<string, string>,
+): string {
+  let output = template;
+
+  for (
+    const [key, value]
+    of Object.entries(values)
+  ) {
+    output = output
+      .split(\`{\${key}}\`)
+      .join(value);
+  }
+
+  return output;
+}
+
+function getLocalizedMercuryDynamic({
+  sign1,
+  sign2,
+  element1,
+  element2,
+}: {
+  sign1: string;
+  sign2: string;
+  element1: string;
+  element2: string;
+  seed?: string;
+}): string {
+  const sameSign =
+    normalizeCommunicationKey(sign1) ===
+    normalizeCommunicationKey(sign2);
+
+  const sameElement =
+    normalizeCommunicationKey(element1) ===
+    normalizeCommunicationKey(element2);
+
+  const category =
+    sameSign
+      ? "sameSign"
+      : sameElement
+        ? "sameElement"
+        : areCommunicationElementsComplementary(
+            element1,
+            element2,
+          )
+          ? "complementary"
+          : "different";
+
+  const template =
+    __COMMUNICATION_MERCURY_TEMPLATES[
+      category
+    ] ?? "";
+
+  return fillCommunicationTemplate(
+    template,
+    {
+      sign1:
+        localizeCommunicationSign(
+          sign1,
+        ),
+      sign2:
+        localizeCommunicationSign(
+          sign2,
+        ),
+      element1:
+        localizeCommunicationElement(
+          element1,
+        ),
+      element2:
+        localizeCommunicationElement(
+          element2,
+        ),
+    },
+  );
+}
 `;
 }
 
 function injectHelpers(
   source: string,
   data: LocaleData,
+  locale: NonFrenchLocale,
 ): string {
   const marker =
     "function getPersonName(";
@@ -1437,6 +1626,23 @@ function replaceTargetedDisplayCode(
   data: LocaleData,
 ): string {
   let output = source;
+
+  /*
+   * V4 — getCompatibilityPlanetText() utilise les banques
+   * françaises au runtime. Sur les copies non françaises,
+   * on remplace uniquement son affichage par le générateur
+   * Mercure localisé, sans toucher au calcul astrologique.
+   */
+  output = output.replace(
+    /\{getCompatibilityPlanetText\(\{[\s\S]*?body:\s*"mercury",[\s\S]*?sign1:\s*mercurySign1,[\s\S]*?sign2:\s*mercurySign2,[\s\S]*?element1:\s*getElement\(mercurySign1\),[\s\S]*?element2:\s*getElement\(mercurySign2\),[\s\S]*?seed:\s*`\$\{person1Name\}-\$\{person2Name\}`,[\s\S]*?\}\)\}/g,
+    `{getLocalizedMercuryDynamic({
+              sign1: mercurySign1,
+              sign2: mercurySign2,
+              element1: getElement(mercurySign1),
+              element2: getElement(mercurySign2),
+              seed: \`\${person1Name}-\${person2Name}\`,
+            })}`,
+  );
 
   /*
    * V3 — les morceaux dynamiques visibles sont maintenant
@@ -1542,6 +1748,7 @@ export function localizeCompatibilityCommunication(
     injectHelpers(
       localized,
       data,
+      locale as NonFrenchLocale,
     );
 
   localized =
