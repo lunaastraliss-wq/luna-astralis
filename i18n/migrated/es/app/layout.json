@@ -1,11 +1,11 @@
 {
-  "luna_astralis_astro_psycho": "Luna Astralis — Astro & psico",
+  "luna_astralis_astro_psycho": "Luna Astralis — Astrología, IA y carta natal",
   "s_luna_astralis": "%s | Luna Astralis",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee": "Exploración suave y guiada a través de una discusión privada basada en tu signo astrológico.",
-  "luna_astralis_astro_psycho_2": "Luna Astralis — Astro & psico",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee_2": "Exploración suave y guiada a través de una discusión privada basada en tu signo astrológico.",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee": "Descubre tu carta natal, tu compatibilidad astrológica, tus horóscopos, Luna IA e informes astrológicos personalizados.",
+  "luna_astralis_astro_psycho_2": "Luna Astralis — Astrología, IA y carta natal",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_2": "Descubre tu carta natal, tu compatibilidad astrológica, tus horóscopos, Luna IA e informes astrológicos personalizados.",
   "luna_astralis": "Luna Astralis",
-  "luna_astralis_astro_psycho_3": "Luna Astralis — Astro & psico",
-  "exploration_douce_et_guidee_a_travers_une_discussion_privee_3": "Exploración suave y guiada a través de una discusión privada basada en tu signo astrológico.",
+  "luna_astralis_astro_psycho_3": "Luna Astralis — Astrología, IA y carta natal",
+  "exploration_douce_et_guidee_a_travers_une_discussion_privee_3": "Descubre tu carta natal, tu compatibilidad astrológica, tus horóscopos, Luna IA e informes astrológicos personalizados.",
   "window_datalayer_window_datalayer_function_gtag_datalayer_pu": "window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} window.gtag = window.gtag || gtag; // Consent Mode : por defecto, se rechaza todo (hasta la elección del usuario) gtag('consent', 'default', { ad_storage: 'denied', analytics_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' }); gtag('js', new Date()); gtag('config', 'AW-17878472225');"
 }
