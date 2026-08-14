@@ -2076,6 +2076,17 @@ const __PLANETS_ORB_WORD =
     data.orbWord,
   )};
 
+const __PLANETS_IN_WORD =
+  ${JSON.stringify(
+    {
+      en: "in",
+      es: "en",
+      de: "in",
+      it: "in",
+      pt: "em",
+    }[locale],
+  )};
+
 const __PLANETS_ELEMENT_WORD =
   ${JSON.stringify(
     data.text["Élément"] ??
