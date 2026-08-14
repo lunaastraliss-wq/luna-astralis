@@ -1617,6 +1617,7 @@ function injectHelpers(
     marker,
     `${buildHelpers(
       data,
+      locale,
     )}\n${marker}`,
   );
 }
