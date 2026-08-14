@@ -1859,13 +1859,17 @@ function replaceDynamicDisplay(
               {localizeConnectionSign(sign2)}`,
     );
 
-   /*
+    /*
    * Élément visible.
+   *
+   * On localise seulement la valeur dynamique.
+   * Le mot "Élément" sera traduit ensuite
+   * par localizeSafeLiterals().
    */
   output =
     output.replace(
-      /Élément\s*\{getElement\(\s*sign1\s*\)\}/g,
-      `{__CONNECTION_ELEMENT_WORD}{" "}
+      /\{getElement\(\s*sign1\s*\)\}/g,
+      `{" "}
               {localizeConnectionElement(
                 getElement(sign1),
               )}`,
@@ -1873,13 +1877,12 @@ function replaceDynamicDisplay(
 
   output =
     output.replace(
-      /Élément\s*\{getElement\(\s*sign2\s*\)\}/g,
-      `{__CONNECTION_ELEMENT_WORD}{" "}
+      /\{getElement\(\s*sign2\s*\)\}/g,
+      `{" "}
               {localizeConnectionElement(
                 getElement(sign2),
               )}`,
     );
-
   /*
    * Interprétation dynamique.
    */
