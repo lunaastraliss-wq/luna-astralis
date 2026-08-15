@@ -1665,8 +1665,12 @@ function replaceTargetedDisplayCode(
 
   output =
     output.replace(
-      /return `La communication de \$\{name\}`;/g,
-      "return `${__COMMUNICATION_OF} ${name}`;",
+      /function formatCommunicationTitle\([\s\S]*?\n\}/m,
+      `function formatCommunicationTitle(
+  name: string,
+): string {
+  return \`${__COMMUNICATION_OF} \${name}\`;
+}`,
     );
 
   output =
