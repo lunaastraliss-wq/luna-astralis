@@ -6,6 +6,14 @@ import type {
   YearlyHoroscopeResult,
 } from "@/components/HoroscopePdf/buildYearlyHoroscope";
 
+type HoroscopeLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
 const HoroscopeYearPdfViewer = dynamic(
   () =>
     import(
@@ -17,15 +25,21 @@ const HoroscopeYearPdfViewer = dynamic(
 );
 
 type PdfHoroscopeYearViewerProps = {
-  horoscope: YearlyHoroscopeResult;
+  horoscope:
+    YearlyHoroscopeResult;
+
+  locale:
+    HoroscopeLocale;
 };
 
 export default function PdfHoroscopeYearViewer({
   horoscope,
+  locale,
 }: PdfHoroscopeYearViewerProps) {
   return (
     <HoroscopeYearPdfViewer
       horoscope={horoscope}
+      locale={locale}
     />
   );
 }
