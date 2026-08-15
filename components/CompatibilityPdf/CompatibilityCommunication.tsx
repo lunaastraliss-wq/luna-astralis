@@ -896,7 +896,16 @@ function formatElementPlacement(
 function formatCommunicationTitle(
   name: string,
 ): string {
-  return `La communication de ${name}`;
+  const cleanName = name.trim();
+
+  const startsWithVowel =
+    /^[AEIOUYÀÂÄÉÈÊËÎÏÔÖÙÛÜŸ]/i.test(
+      cleanName,
+    );
+
+  return startsWithVowel
+    ? `La communication d’${cleanName}`
+    : `La communication de ${cleanName}`;
 }
 
 function formatCommunicationIntro(
