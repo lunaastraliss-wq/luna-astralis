@@ -2312,7 +2312,7 @@ function GrowthPage({
             questions : qu’est-ce qui nous
             rapproche actuellement, qu’est-ce qui
             nous éloigne, et quel petit changement
-            concret voulons-nous essayer?
+            concret voulons-nous essayer ?
           </Text>
         </View>
       </View>
