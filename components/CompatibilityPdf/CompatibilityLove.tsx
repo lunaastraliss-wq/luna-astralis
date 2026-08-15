@@ -641,7 +641,21 @@ function formatPlanetStyleTitle(
   planet: "Venus" | "Mars",
   name: string,
 ): string {
-  return `${planet === "Venus" ? "L’amour" : "Le désir"} de ${name}`;
+  const cleanName = name.trim();
+
+  const startsWithVowel =
+    /^[AEIOUYÀÂÄÉÈÊËÎÏÔÖÙÛÜŸ]/i.test(
+      cleanName,
+    );
+
+  const preposition =
+    startsWithVowel ? "d’" : "de ";
+
+  return `${
+    planet === "Venus"
+      ? "L’amour"
+      : "Le désir"
+  } ${preposition}${cleanName}`;
 }
 
 function formatPlanetStyleIntro(
@@ -666,7 +680,10 @@ function formatAttractionCircuit(
   marsSign: string,
   marsStyle: string,
 ): string {
-  return `Vénus en ${venusSign} recherche ${venusStyle.toLowerCase()} Mars en ${marsSign} exprime ${marsStyle.toLowerCase()}`;
+  return (
+    `Vénus en ${venusSign}. ${venusStyle} ` +
+    `Mars en ${marsSign}. ${marsStyle}`
+  );
 }
 
 function formatIntimacyPlacements(
