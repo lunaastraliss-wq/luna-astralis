@@ -146,7 +146,7 @@ const TRANSLATIONS: Record<
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.":
         "One person may express love in a way that does not exactly meet the other's emotional needs, despite sincere intentions.",
 
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
         "Clearly ask which gestures genuinely make each person feel loved: presence, words, touch, practical help, or quality time.",
 
       "Émotion et désir":
@@ -387,7 +387,7 @@ const TRANSLATIONS: Record<
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.":
         "Uno puede ofrecer amor de una forma que no responde exactamente a la necesidad emocional del otro, a pesar de una intención sincera.",
 
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
         "Pregunten claramente qué gestos hacen que cada uno se sienta realmente amado: presencia, palabras, contacto, ayuda concreta o tiempo de calidad.",
 
       "Émotion et désir":
@@ -626,7 +626,7 @@ const TRANSLATIONS: Record<
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.":
         "Einer kann Liebe auf eine Weise zeigen, die trotz ehrlicher Absicht nicht genau dem emotionalen Bedürfnis des anderen entspricht.",
 
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
         "Fragen Sie klar, welche Gesten tatsächlich das Gefühl vermitteln, geliebt zu werden: Präsenz, Worte, Berührung, praktische Hilfe oder gemeinsame Qualitätszeit.",
 
       "Émotion et désir":
@@ -865,7 +865,7 @@ const TRANSLATIONS: Record<
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.":
         "Uno può offrire amore in un modo che non risponde esattamente al bisogno emotivo dell'altro, nonostante un'intenzione sincera.",
 
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
         "Chiedete chiaramente quali gesti fanno davvero sentire amati: presenza, parole, contatto, aiuto concreto o tempo di qualità.",
 
       "Émotion et désir":
@@ -1104,7 +1104,7 @@ const TRANSLATIONS: Record<
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.":
         "Uma pessoa pode oferecer amor de uma forma que não corresponde exatamente à necessidade emocional da outra, apesar de uma intenção sincera.",
 
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.":
         "Perguntem claramente quais gestos fazem cada pessoa sentir-se verdadeiramente amada: presença, palavras, contacto, ajuda concreta ou tempo de qualidade.",
 
       "Émotion et désir":
@@ -1607,6 +1607,14 @@ function localizeConnectionElement(
   );
 }
 
+function formatLocalizedConnectionElement(
+  value: string,
+): string {
+  return `${__CONNECTION_ELEMENT_WORD} ${localizeConnectionElement(
+    value,
+  )}`;
+}
+
 function buildLocalizedConnectionInterpretation(
   definition: ConnectionDefinition,
   sign1: string,
@@ -1859,17 +1867,30 @@ function replaceDynamicDisplay(
               {localizeConnectionSign(sign2)}`,
     );
 
-    /*
+  /*
+   * Nouvelle source corrigée : "Élément X" est déjà une seule chaîne.
+   */
+  output = output.replace(
+    /\{`Élément \$\{getElement\(sign1\)\}`\}/g,
+    `{formatLocalizedConnectionElement(
+              getElement(sign1),
+            )}`,
+  );
+
+  output = output.replace(
+    /\{`Élément \$\{getElement\(sign2\)\}`\}/g,
+    `{formatLocalizedConnectionElement(
+              getElement(sign2),
+            )}`,
+  );
+
+  /*
    * Élément visible.
-   *
-   * On localise seulement la valeur dynamique.
-   * Le mot "Élément" sera traduit ensuite
-   * par localizeSafeLiterals().
    */
   output =
     output.replace(
-      /\{getElement\(\s*sign1\s*\)\}/g,
-      `{" "}
+      /Élément \{getElement\(sign1\)\}/g,
+      `{__CONNECTION_ELEMENT_WORD}{" "}
               {localizeConnectionElement(
                 getElement(sign1),
               )}`,
@@ -1877,12 +1898,13 @@ function replaceDynamicDisplay(
 
   output =
     output.replace(
-      /\{getElement\(\s*sign2\s*\)\}/g,
-      `{" "}
+      /Élément \{getElement\(sign2\)\}/g,
+      `{__CONNECTION_ELEMENT_WORD}{" "}
               {localizeConnectionElement(
                 getElement(sign2),
               )}`,
     );
+
   /*
    * Interprétation dynamique.
    */
