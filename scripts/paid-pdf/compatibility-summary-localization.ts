@@ -2417,43 +2417,41 @@ function replaceDynamicDisplay(
   /*
    * -------------------------------------------------------
    * Page 49 — valeurs dynamiques.
-   * Fonctionne dans toutes les langues.
+   *
+   * IMPORTANT :
+   * localizeSafeLiterals() s'exécute avant cette fonction.
+   * On garde donc le texte déjà traduit et on fusionne
+   * texte + valeur dynamique dans un seul template literal.
+   * Cela empêche React-PDF de supprimer l'espace.
    * -------------------------------------------------------
    */
 
   output =
     output.replace(
-      /\{getAspectTitle\(strongest\)\}/g,
-      `{getLocalizedSummaryAspectTitle(
+      /(function GlobalSummaryPage[\s\S]*?<Text style=\{styles\.introText\}>\s*)([^{}]*?)(\{score\}\s*%,\s*\{getScoreInterpretation\(score\)\})/,
+      (
+        _match,
+        prefix: string,
+        translatedText: string,
+      ) =>
+        `${prefix}{\`${translatedText.trimEnd()} \${score} %, \${getScoreInterpretation(score)}\`}`,
+    );
+
+  /*
+   * Signature relationnelle page 49.
+   *
+   * On remplace le paragraphe complet par le helper existant.
+   * Le helper construit planète + aspect + planète + orbe
+   * dans une seule chaîne et utilise les traductions de la locale.
+   */
+  output =
+    output.replace(
+      /<Text style=\{styles\.paragraph\}>\s*(?:L’aspect le plus marquant de votre|The most significant aspect in your synastry is|El aspecto más destacado de su sinastría es|Der prägendste Aspekt Ihrer Synastrie ist|L’aspetto più significativo della vostra sinastria è|O aspecto mais marcante da sua sinastria é)[\s\S]*?\{strongest\.orb\.toFixed\(1\)\}°\.[\s\S]*?<\/Text>/g,
+      `<Text style={styles.paragraph}>
+            {getLocalizedRelationshipSignature(
               strongest,
-            )}`,
-    );
-
-  /*
-   * Orbe de la signature relationnelle (page 49).
-   *
-   * L’espace est inclus dans la chaîne dynamique elle-même
-   * afin d’éviter qu’il soit supprimé pendant la localisation
-   * des nœuds JSX.
-   */
-  output =
-    output.replace(
-      /\{strongest\.orb\.toFixed\(1\)\}°/g,
-      '{` ${strongest.orb.toFixed(1)}°`}',
-    );
-
-  /*
-   * Score du portrait global (page 49 seulement).
-   *
-   * On cible le score situé dans GlobalSummaryPage pour ne pas
-   * modifier le grand score de la page 47. Là encore, l’espace
-   * avant la valeur est intégré dans une seule chaîne dynamique.
-   */
-  output =
-    output.replace(
-      /(function GlobalSummaryPage[\s\S]*?<Text style=\{styles\.introText\}>[\s\S]*?)\{score\}\s*%/,
-      (_match, prefix: string) =>
-        `${prefix}{\` \${score} %\`}`,
+            )}
+          </Text>`,
     );
 
   return output;
