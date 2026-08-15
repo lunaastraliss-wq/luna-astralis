@@ -2416,15 +2416,6 @@ function replaceDynamicDisplay(
 
   /*
    * -------------------------------------------------------
-   * Signature relationnelle page 49.
-   *
-   * On remplace le paragraphe dynamique
-   * français complet.
-   * -------------------------------------------------------
-   */
-
-    /*
-   * -------------------------------------------------------
    * Page 49 — valeurs dynamiques.
    * Fonctionne dans toutes les langues.
    * -------------------------------------------------------
@@ -2438,16 +2429,31 @@ function replaceDynamicDisplay(
             )}`,
     );
 
+  /*
+   * Orbe de la signature relationnelle (page 49).
+   *
+   * L’espace est inclus dans la chaîne dynamique elle-même
+   * afin d’éviter qu’il soit supprimé pendant la localisation
+   * des nœuds JSX.
+   */
   output =
     output.replace(
       /\{strongest\.orb\.toFixed\(1\)\}°/g,
-      `{" "}{strongest.orb.toFixed(1)}°`,
+      '{` ${strongest.orb.toFixed(1)}°`}',
     );
 
+  /*
+   * Score du portrait global (page 49 seulement).
+   *
+   * On cible le score situé dans GlobalSummaryPage pour ne pas
+   * modifier le grand score de la page 47. Là encore, l’espace
+   * avant la valeur est intégré dans une seule chaîne dynamique.
+   */
   output =
     output.replace(
-      /\{score\}\s*%/g,
-      `{" "}{score} %`,
+      /(function GlobalSummaryPage[\s\S]*?<Text style=\{styles\.introText\}>[\s\S]*?)\{score\}\s*%/,
+      (_match, prefix: string) =>
+        `${prefix}{\` \${score} %\`}`,
     );
 
   return output;
