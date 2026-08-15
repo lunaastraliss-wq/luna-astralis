@@ -1427,3 +1427,317 @@ export function localizeDailyHoroscopeBuilder(
 
   return localized;
 }
+
+
+/* =========================================================
+   HOROSCOPE PDF UTILS — SHARED LOCALIZATION
+   FR = source originale
+   EN / ES / DE / IT / PT = versions localisées
+========================================================= */
+
+const HOROSCOPE_PERIOD_LABELS: Record<
+  NonFrenchLocale,
+  Record<
+    "Horoscope du jour" |
+    "Horoscope du mois" |
+    "Horoscope de l’année",
+    string
+  >
+> = {
+  en: {
+    "Horoscope du jour": "Daily Horoscope",
+    "Horoscope du mois": "Monthly Horoscope",
+    "Horoscope de l’année": "Yearly Horoscope",
+  },
+  es: {
+    "Horoscope du jour": "Horóscopo del día",
+    "Horoscope du mois": "Horóscopo del mes",
+    "Horoscope de l’année": "Horóscopo del año",
+  },
+  de: {
+    "Horoscope du jour": "Tageshoroskop",
+    "Horoscope du mois": "Monatshoroskop",
+    "Horoscope de l’année": "Jahreshoroskop",
+  },
+  it: {
+    "Horoscope du jour": "Oroscopo del giorno",
+    "Horoscope du mois": "Oroscopo del mese",
+    "Horoscope de l’année": "Oroscopo dell’anno",
+  },
+  pt: {
+    "Horoscope du jour": "Horóscopo do dia",
+    "Horoscope du mois": "Horóscopo do mês",
+    "Horoscope de l’année": "Horóscopo do ano",
+  },
+};
+
+const HOROSCOPE_GENERIC_YOU: Record<
+  NonFrenchLocale,
+  string
+> = {
+  en: "You",
+  es: "Usted",
+  de: "Sie",
+  it: "Tu",
+  pt: "Você",
+};
+
+const FRENCH_ZODIAC_BY_KEY: Record<
+  string,
+  string
+> = {
+  belier: "Bélier",
+  taureau: "Taureau",
+  gemeaux: "Gémeaux",
+  cancer: "Cancer",
+  lion: "Lion",
+  vierge: "Vierge",
+  balance: "Balance",
+  scorpion: "Scorpion",
+  sagittaire: "Sagittaire",
+  capricorne: "Capricorne",
+  verseau: "Verseau",
+  poissons: "Poissons",
+};
+
+const FRENCH_MONTHS = [
+  "janvier",
+  "février",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juillet",
+  "août",
+  "septembre",
+  "octobre",
+  "novembre",
+  "décembre",
+] as const;
+
+function buildHoroscopeUtilsTranslations(
+  locale: NonFrenchLocale,
+): TranslationMap {
+  const translations: TranslationMap = {};
+
+  for (
+    const [key, frenchLabel]
+    of Object.entries(FRENCH_ZODIAC_BY_KEY)
+  ) {
+    const localized =
+      ZODIAC_LABELS[locale][key];
+
+    if (localized) {
+      translations[frenchLabel] =
+        localized;
+    }
+  }
+
+  FRENCH_MONTHS.forEach(
+    (frenchMonth, index) => {
+      const localizedMonth =
+        MONTHS[locale][index];
+
+      if (localizedMonth) {
+        translations[frenchMonth] =
+          localizedMonth;
+      }
+    },
+  );
+
+  Object.assign(
+    translations,
+    HOROSCOPE_PERIOD_LABELS[locale],
+  );
+
+  translations.Vous =
+    HOROSCOPE_GENERIC_YOU[locale];
+
+  return translations;
+}
+
+const HOROSCOPE_UTILS_DISPLAY_VARIABLES =
+  new Set([
+    "ZODIAC_LABELS",
+    "PERIOD_LABELS",
+    "MONTHS_FR",
+  ]);
+
+function getHoroscopeUtilsVariableName(
+  node: ts.Node,
+): string | null {
+  let current:
+    ts.Node | undefined =
+    node.parent;
+
+  while (current) {
+    if (
+      ts.isVariableDeclaration(
+        current,
+      ) &&
+      ts.isIdentifier(
+        current.name,
+      )
+    ) {
+      return current.name.text;
+    }
+
+    if (
+      ts.isFunctionLike(current) ||
+      ts.isSourceFile(current)
+    ) {
+      break;
+    }
+
+    current = current.parent;
+  }
+
+  return null;
+}
+
+function isHoroscopeUtilsDisplayLiteral(
+  node: ts.StringLiteralLike,
+): boolean {
+  const variableName =
+    getHoroscopeUtilsVariableName(
+      node,
+    );
+
+  if (
+    variableName &&
+    HOROSCOPE_UTILS_DISPLAY_VARIABLES.has(
+      variableName,
+    )
+  ) {
+    if (
+      ts.isPropertyAssignment(
+        node.parent,
+      ) &&
+      node.parent.name === node
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  return node.text === "Vous";
+}
+
+function localizeHoroscopeUtilsLiterals(
+  source: string,
+  locale: NonFrenchLocale,
+): string {
+  const translations =
+    buildHoroscopeUtilsTranslations(
+      locale,
+    );
+
+  const sourceFile =
+    ts.createSourceFile(
+      "HoroscopePdfUtils.ts",
+      source,
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TS,
+    );
+
+  const replacements: Array<{
+    start: number;
+    end: number;
+    value: string;
+  }> = [];
+
+  function visit(
+    node: ts.Node,
+  ): void {
+    if (
+      (
+        ts.isStringLiteral(node) ||
+        ts.isNoSubstitutionTemplateLiteral(
+          node,
+        )
+      ) &&
+      isHoroscopeUtilsDisplayLiteral(
+        node,
+      )
+    ) {
+      const translated =
+        translations[node.text];
+
+      if (
+        typeof translated === "string" &&
+        translated !== node.text
+      ) {
+        replacements.push({
+          start:
+            node.getStart(
+              sourceFile,
+            ),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(
+              translated,
+            ),
+        });
+      }
+    }
+
+    ts.forEachChild(
+      node,
+      visit,
+    );
+  }
+
+  visit(sourceFile);
+
+  return replacements
+    .sort(
+      (a, b) =>
+        b.start - a.start,
+    )
+    .reduce(
+      (
+        output,
+        replacement,
+      ) =>
+        output.slice(
+          0,
+          replacement.start,
+        ) +
+        replacement.value +
+        output.slice(
+          replacement.end,
+        ),
+      source,
+    );
+}
+
+export function localizeHoroscopePdfUtils(
+  source: string,
+  locale: PaidPdfLocale,
+): string {
+  if (locale === "fr") {
+    return source;
+  }
+
+  const normalizedLocale =
+    locale as NonFrenchLocale;
+
+  if (
+    !ZODIAC_LABELS[
+      normalizedLocale
+    ] ||
+    !MONTHS[
+      normalizedLocale
+    ]
+  ) {
+    return source;
+  }
+
+  return localizeHoroscopeUtilsLiterals(
+    source,
+    normalizedLocale,
+  );
+}
