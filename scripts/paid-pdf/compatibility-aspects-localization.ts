@@ -2938,12 +2938,10 @@ function replaceDynamicDisplay(
    */
   output =
     output.replace(
-      /<Text\s+style=\{styles\.balanceText\}\s*>\s*Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\. Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\.\s*<\/Text>/g,
-      `<Text style={styles.balanceText}>
-            {getLocalizedIntensityText(
+      /Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\.\s*Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\./g,
+      `{getLocalizedIntensityText(
               conjunctions,
-            )}
-          </Text>`,
+            )}`,
     );
 
   /*
@@ -3098,12 +3096,10 @@ function replaceDynamicDisplay(
    */
   output =
     output.replace(
-      /<Text\s+style=\{styles\.balanceText\}\s*>\s*Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\. Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\.\s*<\/Text>/g,
-      `<Text style={styles.balanceText}>
-            {getLocalizedIntensityText(
+      /Vos\s*\{conjunctions\}\s*conjonction\s*\{conjunctions\s*>\s*1\s*\?\s*"s"\s*:\s*""\}\s*\{" concentrent fortement certaines "\}\s*énergies\.\s*Elles peuvent créer\s*proximité, fusion et réactions\s*très immédiates\./g,
+      `{getLocalizedIntensityText(
               conjunctions,
-            )}
-          </Text>`,
+            )}`,
     );
 
   return output;
@@ -3138,28 +3134,17 @@ export function localizeCompatibilityAspects(
 
   /*
    * 1.
-   * Remplacer d'abord les constructions
-   * dynamiques pendant que le TSX est
-   * encore exactement en français.
+   * Traduction sécurisée des textes.
    */
   let localized =
-    replaceDynamicDisplay(
-      source,
-    );
-
-  /*
-   * 2.
-   * Traduire ensuite les textes statiques.
-   */
-  localized =
     localizeSafeLiterals(
-      localized,
+      source,
       data.text,
     );
 
   /*
-   * 3.
-   * Ajouter les helpers et tables
+   * 2.
+   * Ajout des tables de traduction
    * nécessaires aux valeurs dynamiques.
    */
   localized =
@@ -3167,6 +3152,16 @@ export function localizeCompatibilityAspects(
       localized,
       data,
       locale as NonFrenchLocale,
+    );
+
+  /*
+   * 3.
+   * Traduction uniquement au moment
+   * de l'affichage des valeurs dynamiques.
+   */
+  localized =
+    replaceDynamicDisplay(
+      localized,
     );
 
   return localized;
