@@ -3134,34 +3134,34 @@ export function localizeCompatibilityAspects(
 
   /*
    * 1.
-   * Traduction sécurisée des textes.
+   * Remplacer d'abord les blocs dynamiques
+   * pendant que le TSX est encore en français.
    */
   let localized =
-    localizeSafeLiterals(
+    replaceDynamicDisplay(
       source,
-      data.text,
     );
 
   /*
    * 2.
-   * Ajout des tables de traduction
-   * nécessaires aux valeurs dynamiques.
+   * Traduire ensuite les textes statiques.
+   */
+  localized =
+    localizeSafeLiterals(
+      localized,
+      data.text,
+    );
+
+  /*
+   * 3.
+   * Ajouter enfin les helpers nécessaires
+   * aux valeurs dynamiques traduites.
    */
   localized =
     injectHelpers(
       localized,
       data,
       locale as NonFrenchLocale,
-    );
-
-  /*
-   * 3.
-   * Traduction uniquement au moment
-   * de l'affichage des valeurs dynamiques.
-   */
-  localized =
-    replaceDynamicDisplay(
-      localized,
     );
 
   return localized;
