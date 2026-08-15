@@ -887,7 +887,16 @@ function formatElementPlacement(
 function formatNeedsTitle(
   name: string,
 ): string {
-  return `Les besoins de ${name}`;
+  const cleanName = name.trim();
+
+  const startsWithVowel =
+    /^[AEIOUYÀÂÄÉÈÊËÎÏÔÖÙÛÜŸ]/i.test(
+      cleanName,
+    );
+
+  return startsWithVowel
+    ? `Les besoins d’${cleanName}`
+    : `Les besoins de ${cleanName}`;
 }
 
 function formatMoonNeedIntro(
@@ -904,40 +913,40 @@ function getEmotionalNeed(
 
   const needs: Record<string, string> = {
     belier:
-      "A besoin de spontanéité, d’authenticité et de pouvoir exprimer rapidement ses émotions sans se sentir retenu.",
+      "a besoin de spontanéité, d’authenticité et de pouvoir exprimer rapidement ses émotions sans se sentir retenu.",
 
     taureau:
-      "Recherche la stabilité, la fidélité, la douceur et des preuves concrètes de sécurité affective.",
+      "recherche la stabilité, la fidélité, la douceur et des preuves concrètes de sécurité affective.",
 
     gemeaux:
-      "A besoin d’échanges, de légèreté, de curiosité et de pouvoir mettre ses émotions en mots.",
+      "a besoin d’échanges, de légèreté, de curiosité et de pouvoir mettre ses émotions en mots.",
 
     cancer:
-      "Recherche une grande proximité, de la tendresse, de la protection et un climat profondément rassurant.",
+      "recherche une grande proximité, de la tendresse, de la protection et un climat profondément rassurant.",
 
     lion:
-      "A besoin de chaleur, de reconnaissance, de loyauté et de se sentir aimé de manière visible.",
+      "a besoin de chaleur, de reconnaissance, de loyauté et de se sentir aimé de manière visible.",
 
     vierge:
-      "Recherche la fiabilité, les gestes utiles, l’attention aux détails et un quotidien affectif cohérent.",
+      "recherche la fiabilité, les gestes utiles, l’attention aux détails et un quotidien affectif cohérent.",
 
     balance:
-      "A besoin d’harmonie, de dialogue, de délicatesse et d’une relation où chacun se sent considéré.",
+      "a besoin d’harmonie, de dialogue, de délicatesse et d’une relation où chacun se sent considéré.",
 
     scorpion:
-      "Recherche l’intensité, la confiance absolue, l’authenticité et une véritable profondeur émotionnelle.",
+      "recherche l’intensité, la confiance absolue, l’authenticité et une véritable profondeur émotionnelle.",
 
     sagittaire:
-      "A besoin de liberté, d’optimisme, d’honnêteté et d’un lien qui laisse de l’espace pour évoluer.",
+      "a besoin de liberté, d’optimisme, d’honnêteté et d’un lien qui laisse de l’espace pour évoluer.",
 
     capricorne:
-      "Recherche la constance, le respect, la maturité et une relation capable de se construire dans le temps.",
+      "recherche la constance, le respect, la maturité et une relation capable de se construire dans le temps.",
 
     verseau:
-      "A besoin d’indépendance, de compréhension intellectuelle et d’une relation qui respecte sa singularité.",
+      "a besoin d’indépendance, de compréhension intellectuelle et d’une relation qui respecte sa singularité.",
 
     poissons:
-      "Recherche la compassion, la douceur, l’intuition et un lien émotionnel où il peut se sentir pleinement compris.",
+      "recherche la compassion, la douceur, l’intuition et un lien émotionnel où il peut se sentir pleinement compris.",
   };
 
   return (
