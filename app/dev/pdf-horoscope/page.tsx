@@ -101,19 +101,22 @@ function normalizeLocale(
 }
 
 type PdfHoroscopeDevPageProps = {
-  searchParams?: {
+  searchParams: Promise<{
     locale?:
       | string
       | string[];
-  };
+  }>;
 };
 
-export default function PdfHoroscopeDevPage({
+export default async function PdfHoroscopeDevPage({
   searchParams,
 }: PdfHoroscopeDevPageProps) {
+  const resolvedSearchParams =
+    await searchParams;
+
   const locale =
     normalizeLocale(
-      searchParams?.locale,
+      resolvedSearchParams.locale,
     );
 
   const buildPremiumDailyHoroscope =
