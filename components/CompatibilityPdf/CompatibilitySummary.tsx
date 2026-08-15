@@ -1411,16 +1411,7 @@ function GlobalSummaryPage({
         </Text>
 
         <Text style={styles.introText}>
-          Avec un potentiel estimé à {score} %,
-          votre relation possède des qualités
-          suffisamment fortes pour soutenir une
-          construction réelle, à condition de ne
-          pas laisser les automatismes décider à
-          votre place. Les facilités montrent où
-          vous pouvez vous retrouver. Les tensions
-          indiquent où vous devez devenir plus
-          conscients, plus précis et plus
-          responsables.
+          {`Avec un potentiel estimé à ${score} %, votre relation possède des qualités suffisamment fortes pour soutenir une construction réelle, à condition de ne pas laisser les automatismes décider à votre place. Les facilités montrent où vous pouvez vous retrouver. Les tensions indiquent où vous devez devenir plus conscients, plus précis et plus responsables.`}
         </Text>
       </View>
 
@@ -1462,13 +1453,11 @@ function GlobalSummaryPage({
           </Text>
 
           <Text style={styles.introText}>
-            L’aspect le plus marquant de votre
-            synastrie est{" "}
-            {getAspectTitle(strongest)}, avec un
-            orbe de {strongest.orb.toFixed(1)}°.
-            Cette interaction colore fortement
-            votre manière de vous reconnaître, de
-            réagir et de construire votre lien.
+            {`L’aspect le plus marquant de votre synastrie est ${getAspectTitle(
+              strongest,
+            )}, avec un orbe de ${strongest.orb.toFixed(
+              1,
+            )}°. Cette interaction colore fortement votre manière de vous reconnaître, de réagir et de construire votre lien.`}
           </Text>
         </View>
       )}
