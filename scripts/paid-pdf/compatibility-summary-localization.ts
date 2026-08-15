@@ -23,6 +23,8 @@ type LocaleData = {
     growth: string;
   };
 
+  andWord: string;
+
   signature: {
     before: string;
     orb: string;
@@ -442,6 +444,8 @@ const TRANSLATIONS: Record<
       growth: "growth aspects",
     },
 
+    andWord: "and",
+
     signature: {
       before:
         "The most significant aspect in your synastry is",
@@ -830,6 +834,8 @@ const TRANSLATIONS: Record<
       growth:
         "aspectos de evolución",
     },
+
+    andWord: "y",
 
     signature: {
       before:
@@ -1222,6 +1228,8 @@ const TRANSLATIONS: Record<
         "Entwicklungsaspekte",
     },
 
+    andWord: "und",
+
     signature: {
       before:
         "Der prägendste Aspekt Ihrer Synastrie ist",
@@ -1612,6 +1620,8 @@ const TRANSLATIONS: Record<
       growth:
         "aspetti evolutivi",
     },
+
+    andWord: "e",
 
     signature: {
       before:
@@ -2004,6 +2014,8 @@ const TRANSLATIONS: Record<
         "aspetos de evolução",
     },
 
+    andWord: "e",
+
     signature: {
       before:
         "O aspeto mais marcante da sua sinastria é",
@@ -2278,6 +2290,9 @@ const __SUMMARY_BALANCE =
     2,
   )};
 
+const __SUMMARY_AND_WORD =
+  ${JSON.stringify(data.andWord)};
+
 const __SUMMARY_SIGNATURE =
   ${JSON.stringify(
     data.signature,
@@ -2333,7 +2348,7 @@ function getLocalizedSummaryBalance(
       : __SUMMARY_BALANCE
           .conjunctionPlural;
 
-  return \`\${harmonious} \${__SUMMARY_BALANCE.harmonious}, \${intense} \${conjunctionWord} et \${challenging} \${__SUMMARY_BALANCE.growth}\`;
+  return \`\${harmonious} \${__SUMMARY_BALANCE.harmonious}, \${intense} \${conjunctionWord} \${__SUMMARY_AND_WORD} \${challenging} \${__SUMMARY_BALANCE.growth}\`;
 }
 
 function getLocalizedRelationshipSignature(
