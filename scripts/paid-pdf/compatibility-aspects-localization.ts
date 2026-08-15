@@ -2119,31 +2119,42 @@ const ASPECTS_EXTRA: Record<
   NonFrenchLocale,
   {
     intensityTemplate: string;
+    intensityFragment: string;
   }
 > = {
   en: {
     intensityTemplate:
       "Your {count} {conjunctionWord} strongly concentrate certain energies. They can create closeness, fusion, and very immediate reactions.",
+    intensityFragment:
+      " strongly concentrate certain ",
   },
 
   es: {
     intensityTemplate:
       "Sus {count} {conjunctionWord} concentran fuertemente ciertas energías. Pueden crear cercanía, fusión y reacciones muy inmediatas.",
+    intensityFragment:
+      " concentran fuertemente ciertas ",
   },
 
   de: {
     intensityTemplate:
       "Ihre {count} {conjunctionWord} bündeln bestimmte Energien besonders stark. Sie können Nähe, Verschmelzung und sehr unmittelbare Reaktionen erzeugen.",
+    intensityFragment:
+      " konzentrieren bestimmte ",
   },
 
   it: {
     intensityTemplate:
       "Le vostre {count} {conjunctionWord} concentrano fortemente alcune energie. Possono creare vicinanza, fusione e reazioni molto immediate.",
+    intensityFragment:
+      " concentrano fortemente alcune ",
   },
 
   pt: {
     intensityTemplate:
       "As suas {count} {conjunctionWord} concentram fortemente determinadas energias. Podem criar proximidade, fusão e reações muito imediatas.",
+    intensityFragment:
+      " concentram fortemente determinadas ",
   },
 };
 
@@ -2928,8 +2939,30 @@ function injectHelpers(
 
 function replaceDynamicDisplay(
   source: string,
+  locale: NonFrenchLocale,
 ): string {
   let output = source;
+
+  /*
+   * Page 36 — IMPORTANT.
+   *
+   * Le build i18n traduit déjà les morceaux JSX normaux,
+   * mais ne traduit pas cette expression de chaîne :
+   *
+   * {" concentrent fortement certaines "}
+   *
+   * On la remplace donc directement, indépendamment du reste
+   * de la phrase et sans dépendre d'un regex sur le bloc complet.
+   */
+  output =
+    output.replace(
+      /\{\s*" concentrent fortement certaines "\s*\}/g,
+      `{${JSON.stringify(
+        ASPECTS_EXTRA[
+          locale
+        ].intensityFragment,
+      )}}`,
+    );
 
 
   /*
@@ -3140,6 +3173,7 @@ export function localizeCompatibilityAspects(
   let localized =
     replaceDynamicDisplay(
       source,
+      locale as NonFrenchLocale,
     );
 
   /*
