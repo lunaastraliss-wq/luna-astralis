@@ -1002,6 +1002,15 @@ function replaceV3DisplayHelpers(
    * grammaticalement fragiles du type "Venus in Scorpio seeks loves...".
    * Chaque partie devient une phrase complète et localisée.
    */
+  /*
+   * Version actuelle de formatAttractionCircuit() dans CompatibilityLove.tsx.
+   * Elle produit deux phrases complètes avec "Vénus en" et "Mars en".
+   */
+  output = output.replace(
+    /return \(\s*`Vénus en \$\{venusSign\}\. \$\{venusStyle\} ` \+\s*`Mars en \$\{marsSign\}\. \$\{marsStyle\}`\s*\);/g,
+    "return (`${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)}. ${venusStyle} ` + `${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)}. ${marsStyle}`);",
+  );
+
   output = output.replace(
     /return `Vénus en \$\{venusSign\} recherche \$\{venusStyle\.toLowerCase\(\)\} Mars en \$\{marsSign\} exprime \$\{marsStyle\.toLowerCase\(\)\}`;/g,
     "return `${__LOVE_VENUS_IN} ${localizeLoveSign(venusSign)}. ${venusStyle} ${__LOVE_MARS_IN} ${localizeLoveSign(marsSign)}. ${marsStyle}`;",
