@@ -59,8 +59,14 @@ const REPORT_PRICE =
 const REPORT_PAGES =
   "Environ 50 pages";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-compatibilite-premium.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-compatibilite-premium.pdf",
+  en: "/reports/Luna Astralis Premium Demo English.pdf",
+  es: "/reports/Luna Astralis Muestra Especial Espanol.pdf",
+  de: "/reports/Luna Astralis Premium Demo Deutsch.pdf",
+  it: "/reports/Luna Astralis Premium Demo Italiano.pdf",
+  pt: "/reports/Luna Astralis Premium Demo Portugues Brasil.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-compatibilite-premium.png",
@@ -467,6 +473,9 @@ export default function CompatibilityPremiumPage({
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
 
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
+
   const reportFeatures =
     getReportFeatures(__i18n);
 
@@ -549,7 +558,7 @@ export default function CompatibilityPremiumPage({
                 </Link>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="compat-premium-button compat-premium-button-secondary"
@@ -558,7 +567,7 @@ export default function CompatibilityPremiumPage({
               </div>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="compat-premium-hero-preview-link"
@@ -743,7 +752,7 @@ export default function CompatibilityPremiumPage({
 
               <div className="compat-premium-report-actions">
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="compat-premium-button compat-premium-button-primary"
@@ -809,7 +818,7 @@ export default function CompatibilityPremiumPage({
                 {__i18n["la_synastrie_ne_decide_pas_de_l_avenir_d_une_relation_elle_o"]}</p>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="compat-premium-text-link"
@@ -938,7 +947,7 @@ export default function CompatibilityPremiumPage({
                 </div>
 
                 <a
-                  href={REPORT_PREVIEW_URL}
+                  href={reportPreviewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="compat-premium-order-preview-link"
