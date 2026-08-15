@@ -2423,12 +2423,31 @@ function replaceDynamicDisplay(
    * -------------------------------------------------------
    */
 
+    /*
+   * -------------------------------------------------------
+   * Page 49 — valeurs dynamiques.
+   * Fonctionne dans toutes les langues.
+   * -------------------------------------------------------
+   */
+
   output =
     output.replace(
-      /L’aspect le plus marquant de votre\s*synastrie est\{" "\}\s*\{getAspectTitle\(strongest\)\}, avec un\s*orbe de \{strongest\.orb\.toFixed\(1\)\}°\.\s*Cette interaction colore fortement\s*votre manière de vous reconnaître, de\s*réagir et de construire votre lien\./g,
-      `{getLocalizedRelationshipSignature(
+      /\{getAspectTitle\(strongest\)\}/g,
+      `{getLocalizedSummaryAspectTitle(
               strongest,
             )}`,
+    );
+
+  output =
+    output.replace(
+      /\{strongest\.orb\.toFixed\(1\)\}°/g,
+      `{" "}{strongest.orb.toFixed(1)}°`,
+    );
+
+  output =
+    output.replace(
+      /\{score\}\s*%/g,
+      `{" "}{score} %`,
     );
 
   return output;
