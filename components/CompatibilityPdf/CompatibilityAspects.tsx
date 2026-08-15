@@ -1352,8 +1352,7 @@ function AspectCard({
       </View>
 
       <Text style={styles.aspectOrb}>
-        {aspect.orb.toFixed(1)}
-        {" deg"}
+        {`${aspect.orb.toFixed(1)}°`}
         {"\n"}
         {getAspectNature(
           aspect.type,
