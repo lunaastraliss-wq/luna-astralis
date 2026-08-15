@@ -1610,9 +1610,11 @@ function localizeConnectionElement(
 function formatLocalizedConnectionElement(
   value: string,
 ): string {
-  return `${__CONNECTION_ELEMENT_WORD} ${localizeConnectionElement(
-    value,
-  )}`;
+  return (
+    __CONNECTION_ELEMENT_WORD +
+    " " +
+    localizeConnectionElement(value)
+  );
 }
 
 function buildLocalizedConnectionInterpretation(
