@@ -970,9 +970,21 @@ function replaceV3DisplayHelpers(
     "return `${__LOVE_ELEMENT_WORD} ${localizeLoveElement(element)}`;",
   );
 
+  /*
+   * formatPlanetStyleTitle() a maintenant une logique française
+   * de / d’ selon le prénom. On remplace la fonction complète afin
+   * que les langues localisées ne conservent ni "de" ni "d’".
+   */
   output = output.replace(
-    /return `\$\{planet === "Venus" \? "L’amour" : "Le désir"\} de \$\{name\}`;/g,
-    "return `${planet === \"Venus\" ? __LOVE_LOVE_WORD : __LOVE_DESIRE_WORD} ${__LOVE_OF_WORD} ${name}`;",
+    /function formatPlanetStyleTitle\([\s\S]*?\n\}/,
+    `function formatPlanetStyleTitle(
+  planet: "Venus" | "Mars",
+  name: string,
+): string {
+  const cleanName = name.trim();
+
+  return \`${"${planet === \"Venus\" ? __LOVE_LOVE_WORD : __LOVE_DESIRE_WORD} ${__LOVE_OF_WORD} ${cleanName}"}\`;
+}`,
   );
 
   output = output.replace(
