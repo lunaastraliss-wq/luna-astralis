@@ -1666,11 +1666,11 @@ function replaceTargetedDisplayCode(
   output =
     output.replace(
       /function formatCommunicationTitle\([\s\S]*?\n\}/m,
-      `function formatCommunicationTitle(
-  name: string,
-): string {
-  return \`${__COMMUNICATION_OF} \${name}\`;
-}`,
+      "function formatCommunicationTitle(\n" +
+        "  name: string,\n" +
+        "): string {\n" +
+        "  return `${__COMMUNICATION_OF} ${name}`;\n" +
+        "}",
     );
 
   output =
