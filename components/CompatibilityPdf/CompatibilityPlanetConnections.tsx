@@ -1284,7 +1284,7 @@ function ConnectionPage({
                 styles.placementElement
               }
             >
-              Élément {getElement(sign1)}
+              {`Élément ${getElement(sign1)}`}
             </Text>
           </View>
 
@@ -1311,7 +1311,7 @@ function ConnectionPage({
                 styles.placementElement
               }
             >
-              Élément {getElement(sign2)}
+              {`Élément ${getElement(sign2)}`}
             </Text>
           </View>
         </View>
