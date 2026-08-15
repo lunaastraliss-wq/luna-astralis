@@ -377,6 +377,82 @@ function getTemplatesForCategory(
 }
 
 /*
+ * Corrige uniquement les articles français après génération du texte.
+ *
+ * Important pour le multilingue :
+ * - les banques de textes restent inchangées et traduisibles;
+ * - les remplacements ci-dessous ciblent seulement des formes françaises;
+ * - EN / ES / DE / IT / PT restent donc intacts.
+ */
+function fixFrenchCompatibilityArticles(
+  value: string,
+): string {
+  let output = value;
+
+  const replacements: Array<
+    [RegExp, string]
+  > = [
+    [/\bLe Eau\b/g, "L’Eau"],
+    [/\ble Eau\b/g, "l’Eau"],
+    [/\bDu Eau\b/g, "De l’Eau"],
+    [/\bdu Eau\b/g, "de l’Eau"],
+    [/\bAu Eau\b/g, "À l’Eau"],
+    [/\bau Eau\b/g, "à l’Eau"],
+
+    [/\bLe Air\b/g, "L’Air"],
+    [/\ble Air\b/g, "l’Air"],
+    [/\bDu Air\b/g, "De l’Air"],
+    [/\bdu Air\b/g, "de l’Air"],
+    [/\bAu Air\b/g, "À l’Air"],
+    [/\bau Air\b/g, "à l’Air"],
+
+    [/\bLe Terre\b/g, "La Terre"],
+    [/\ble Terre\b/g, "la Terre"],
+    [/\bDu Terre\b/g, "De la Terre"],
+    [/\bdu Terre\b/g, "de la Terre"],
+    [/\bAu Terre\b/g, "À la Terre"],
+    [/\bau Terre\b/g, "à la Terre"],
+
+    [/\bLe Balance\b/g, "La Balance"],
+    [/\ble Balance\b/g, "la Balance"],
+    [/\bDu Balance\b/g, "De la Balance"],
+    [/\bdu Balance\b/g, "de la Balance"],
+    [/\bAu Balance\b/g, "À la Balance"],
+    [/\bau Balance\b/g, "à la Balance"],
+
+    [/\bLe Vierge\b/g, "La Vierge"],
+    [/\ble Vierge\b/g, "la Vierge"],
+    [/\bDu Vierge\b/g, "De la Vierge"],
+    [/\bdu Vierge\b/g, "de la Vierge"],
+    [/\bAu Vierge\b/g, "À la Vierge"],
+    [/\bau Vierge\b/g, "à la Vierge"],
+
+    [/\bLe Gémeaux\b/g, "Les Gémeaux"],
+    [/\ble Gémeaux\b/g, "les Gémeaux"],
+    [/\bDu Gémeaux\b/g, "Des Gémeaux"],
+    [/\bdu Gémeaux\b/g, "des Gémeaux"],
+    [/\bAu Gémeaux\b/g, "Aux Gémeaux"],
+    [/\bau Gémeaux\b/g, "aux Gémeaux"],
+
+    [/\bLe Poissons\b/g, "Les Poissons"],
+    [/\ble Poissons\b/g, "les Poissons"],
+    [/\bDu Poissons\b/g, "Des Poissons"],
+    [/\bdu Poissons\b/g, "des Poissons"],
+    [/\bAu Poissons\b/g, "Aux Poissons"],
+    [/\bau Poissons\b/g, "aux Poissons"],
+  ];
+
+  for (const [pattern, replacement] of replacements) {
+    output = output.replace(
+      pattern,
+      replacement,
+    );
+  }
+
+  return output;
+}
+
+/*
  * Fonction principale.
  *
  * Elle :
@@ -442,7 +518,9 @@ export function getCompatibilityPlanetText({
     return "";
   }
 
-  return selectedTemplate(safeContext);
+  return fixFrenchCompatibilityArticles(
+    selectedTemplate(safeContext),
+  );
 }
 
 /*
