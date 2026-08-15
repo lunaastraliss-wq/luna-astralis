@@ -248,7 +248,7 @@ const TRANSLATIONS: Record<
       "Votre clé d’évolution":
         "Your key to growth",
 
-      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer?":
+      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer ?":
         "Once a month, take time to answer three questions together: what is bringing us closer right now, what is creating distance, and what small concrete change do we want to try?",
 
       "S’engage par l’action et préfère construire le lien sans perdre son autonomie ni son élan personnel.":
@@ -616,7 +616,7 @@ const TRANSLATIONS: Record<
       "Votre clé d’évolution":
         "Su clave de evolución",
 
-      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer?":
+      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer ?":
         "Una vez al mes, tómense un momento para responder juntos tres preguntas: ¿qué nos acerca actualmente?, ¿qué nos aleja?, y ¿qué pequeño cambio concreto queremos probar?",
 
       "S’engage par l’action et préfère construire le lien sans perdre son autonomie ni son élan personnel.":
@@ -984,7 +984,7 @@ const TRANSLATIONS: Record<
       "Votre clé d’évolution":
         "Ihr Schlüssel zur Entwicklung",
 
-      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer?":
+      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer ?":
         "Nehmen Sie sich einmal im Monat Zeit, gemeinsam drei Fragen zu beantworten: Was bringt uns derzeit näher zusammen? Was entfernt uns voneinander? Und welche kleine konkrete Veränderung möchten wir ausprobieren?",
 
       "S’engage par l’action et préfère construire le lien sans perdre son autonomie ni son élan personnel.":
@@ -1352,7 +1352,7 @@ const TRANSLATIONS: Record<
       "Votre clé d’évolution":
         "La vostra chiave di evoluzione",
 
-      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer?":
+      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer ?":
         "Una volta al mese, prendetevi un momento per rispondere insieme a tre domande: cosa ci avvicina in questo momento, cosa ci allontana e quale piccolo cambiamento concreto vogliamo provare?",
 
       "S’engage par l’action et préfère construire le lien sans perdre son autonomie ni son élan personnel.":
@@ -1720,7 +1720,7 @@ const TRANSLATIONS: Record<
       "Votre clé d’évolution":
         "A sua chave de evolução",
 
-      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer?":
+      "Une fois par mois, prenez un moment pour répondre ensemble à trois questions : qu’est-ce qui nous rapproche actuellement, qu’est-ce qui nous éloigne, et quel petit changement concret voulons-nous essayer ?":
         "Uma vez por mês, reservem um momento para responder juntos a três perguntas: o que nos aproxima atualmente, o que nos afasta e que pequena mudança concreta queremos experimentar?",
 
       "S’engage par l’action et préfère construire le lien sans perdre son autonomie ni son élan personnel.":
