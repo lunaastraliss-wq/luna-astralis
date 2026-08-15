@@ -24,11 +24,79 @@ const REPORT_PRICE =
 const REPORT_PAGES =
   "Environ 50 pages";
 
+type ReportLocale =
+  | "fr"
+  | "en"
+  | "es"
+  | "de"
+  | "it"
+  | "pt";
+
+/*
+ * Le français reste exactement tel qu'il était.
+ *
+ * IMPORTANT :
+ * Dans les versions localisées de cette page, cette valeur doit
+ * correspondre à la langue de la page : en / es / de / it / pt.
+ */
+const REPORT_LOCALE: ReportLocale =
+  "fr";
+
+const REPORT_ASSETS: Record<
+  ReportLocale,
+  {
+    preview: string;
+    cover: string;
+  }
+> = {
+  fr: {
+    preview:
+      "/reports/apercu-rapport-compatibilite-premium.pdf",
+    cover:
+      "/reports/couverture-compatibilite-premium.png",
+  },
+
+  en: {
+    preview:
+      "/reports/Luna Astralis Premium Demo English.pdf",
+    cover:
+      "/reports/premium-compatibility-cover.png",
+  },
+
+  es: {
+    preview:
+      "/reports/Luna Astralis Muestra Especial Espanol.pdf",
+    cover:
+      "/reports/portada-compatibilidad-premium.png",
+  },
+
+  de: {
+    preview:
+      "/reports/Luna Astralis Premium Demo Deutsch.pdf",
+    cover:
+      "/reports/titelbild-premium-kompatibilitaet.png",
+  },
+
+  it: {
+    preview:
+      "/reports/Luna Astralis Premium Demo Italiano.pdf",
+    cover:
+      "/reports/copertina-compatibilita-premium.png",
+  },
+
+  pt: {
+    preview:
+      "/reports/Luna Astralis Premium Demo Portugues Brasil.pdf",
+    cover:
+      "/reports/capa-compatibilidade-premium.png",
+  },
+};
+
 const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-compatibilite-premium.pdf";
+  REPORT_ASSETS[REPORT_LOCALE].preview;
 
 const REPORT_COVER_URL =
-  "/reports/couverture-compatibilite-premium.png";
+  REPORT_ASSETS[REPORT_LOCALE].cover;
 
 /*
 |--------------------------------------------------------------------------
@@ -706,7 +774,7 @@ export default function CompatibilityPremiumPage() {
 
             <div className="compat-premium-order-layout">
               <div className="compat-premium-order-form">
-                <CompatibilityPremiumForm locale="fr" />
+                <CompatibilityPremiumForm locale={REPORT_LOCALE} />
               </div>
 
               <aside className="compat-premium-order-summary">
