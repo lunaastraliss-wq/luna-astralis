@@ -749,7 +749,7 @@ const CONNECTIONS: ConnectionDefinition[] = [
     challenge:
       "L’un peut offrir de l’amour d’une façon qui ne répond pas exactement au besoin émotionnel de l’autre, malgré une intention sincère.",
     advice:
-      "Demandez clairement quels gestes font réellement sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.",
+      "Demandez clairement quels gestes permettent réellement à chacun de se sentir aimé : présence, paroles, contact, aide concrète ou moments de qualité.",
   },
   {
     page: 27,
