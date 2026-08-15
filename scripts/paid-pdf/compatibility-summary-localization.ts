@@ -25,6 +25,8 @@ type LocaleData = {
 
   andWord: string;
 
+  globalPortrait: string;
+
   signature: {
     before: string;
     orb: string;
@@ -446,6 +448,9 @@ const TRANSLATIONS: Record<
 
     andWord: "and",
 
+    globalPortrait:
+      "With an estimated potential of {score}%, your relationship has qualities strong enough to support something real, provided you do not let automatic patterns make decisions for you. The areas of ease show where you can reconnect. Tensions indicate where you need to become more aware, precise, and responsible.",
+
     signature: {
       before:
         "The most significant aspect in your synastry is",
@@ -836,6 +841,9 @@ const TRANSLATIONS: Record<
     },
 
     andWord: "y",
+
+    globalPortrait:
+      "Con un potencial estimado del {score}%, su relación posee cualidades lo bastante sólidas como para sostener una construcción real, siempre que no dejen que los automatismos decidan por ustedes. Las facilidades muestran dónde pueden reencontrarse. Las tensiones indican dónde necesitan ser más conscientes, precisos y responsables.",
 
     signature: {
       before:
@@ -1230,6 +1238,9 @@ const TRANSLATIONS: Record<
 
     andWord: "und",
 
+    globalPortrait:
+      "Mit einem geschätzten Potenzial von {score}% verfügt Ihre Beziehung über ausreichend starke Qualitäten, um etwas Reales aufzubauen, vorausgesetzt, Sie lassen nicht automatische Muster an Ihrer Stelle entscheiden. Die Leichtigkeit zeigt, wo Sie wieder zueinanderfinden können. Spannungen zeigen, wo mehr Bewusstsein, Klarheit und Verantwortung erforderlich sind.",
+
     signature: {
       before:
         "Der prägendste Aspekt Ihrer Synastrie ist",
@@ -1622,6 +1633,9 @@ const TRANSLATIONS: Record<
     },
 
     andWord: "e",
+
+    globalPortrait:
+      "Con un potenziale stimato del {score}%, la vostra relazione possiede qualità abbastanza solide da sostenere una costruzione reale, a condizione di non lasciare che gli automatismi decidano al posto vostro. Le aree di facilità mostrano dove potete ritrovarvi. Le tensioni indicano dove avete bisogno di diventare più consapevoli, precisi e responsabili.",
 
     signature: {
       before:
@@ -2016,6 +2030,9 @@ const TRANSLATIONS: Record<
 
     andWord: "e",
 
+    globalPortrait:
+      "Com um potencial estimado de {score}%, a sua relação possui qualidades suficientemente fortes para sustentar uma construção real, desde que não deixem os automatismos decidir por vocês. As facilidades mostram onde podem reencontrar-se. As tensões indicam onde precisam de se tornar mais conscientes, precisos e responsáveis.",
+
     signature: {
       before:
         "O aspeto mais marcante da sua sinastria é",
@@ -2293,6 +2310,9 @@ const __SUMMARY_BALANCE =
 const __SUMMARY_AND_WORD =
   ${JSON.stringify(data.andWord)};
 
+const __SUMMARY_GLOBAL_PORTRAIT =
+  ${JSON.stringify(data.globalPortrait)};
+
 const __SUMMARY_SIGNATURE =
   ${JSON.stringify(
     data.signature,
@@ -2349,6 +2369,15 @@ function getLocalizedSummaryBalance(
           .conjunctionPlural;
 
   return \`\${harmonious} \${__SUMMARY_BALANCE.harmonious}, \${intense} \${conjunctionWord} \${__SUMMARY_AND_WORD} \${challenging} \${__SUMMARY_BALANCE.growth}\`;
+}
+
+function getLocalizedGlobalPortrait(
+  score: number,
+): string {
+  return __SUMMARY_GLOBAL_PORTRAIT.replace(
+    "{score}",
+    String(score),
+  );
 }
 
 function getLocalizedRelationshipSignature(
@@ -2431,42 +2460,39 @@ function replaceDynamicDisplay(
 
   /*
    * -------------------------------------------------------
-   * Page 49 — valeurs dynamiques.
+   * Page 49 — portrait global avec score dynamique.
    *
-   * IMPORTANT :
-   * localizeSafeLiterals() s'exécute avant cette fonction.
-   * On garde donc le texte déjà traduit et on fusionne
-   * texte + valeur dynamique dans un seul template literal.
-   * Cela empêche React-PDF de supprimer l'espace.
+   * Le TSX utilise un template literal avec ${score}.
+   * Ce type de chaîne n'est pas traduit par
+   * localizeSafeLiterals(), donc on remplace directement
+   * l'expression dynamique par un helper localisé.
    * -------------------------------------------------------
    */
 
   output =
     output.replace(
-      /(function GlobalSummaryPage[\s\S]*?<Text style=\{styles\.introText\}>\s*)([^{}]*?)(\{score\}\s*%,\s*\{getScoreInterpretation\(score\)\})/,
-      (
-        _match,
-        prefix: string,
-        translatedText: string,
-      ) =>
-        `${prefix}{\`${translatedText.trimEnd()} \${score} %, \${getScoreInterpretation(score)}\`}`,
+      /\{`Avec un potentiel estimé à \$\{score\} %, votre relation possède des qualités suffisamment fortes pour soutenir une construction réelle, à condition de ne pas laisser les automatismes décider à votre place\. Les facilités montrent où vous pouvez vous retrouver\. Les tensions indiquent où vous devez devenir plus conscients, plus précis et plus responsables\.`\}/g,
+      `{getLocalizedGlobalPortrait(
+              score,
+            )}`,
     );
 
   /*
-   * Signature relationnelle page 49.
+   * -------------------------------------------------------
+   * Page 49 — signature relationnelle dynamique.
    *
-   * On remplace le paragraphe complet par le helper existant.
-   * Le helper construit planète + aspect + planète + orbe
-   * dans une seule chaîne et utilise les traductions de la locale.
+   * Le TSX utilise getAspectTitle(strongest) et l'orbe
+   * dans un template literal. On remplace toute
+   * l'expression par le helper localisé existant.
+   * -------------------------------------------------------
    */
+
   output =
     output.replace(
-      /<Text style=\{styles\.paragraph\}>\s*(?:L’aspect le plus marquant de votre|The most significant aspect in your synastry is|El aspecto más destacado de su sinastría es|Der prägendste Aspekt Ihrer Synastrie ist|L’aspetto più significativo della vostra sinastria è|O aspecto mais marcante da sua sinastria é)[\s\S]*?\{strongest\.orb\.toFixed\(1\)\}°\.[\s\S]*?<\/Text>/g,
-      `<Text style={styles.paragraph}>
-            {getLocalizedRelationshipSignature(
+      /\{`L’aspect le plus marquant de votre synastrie est \$\{getAspectTitle\(\s*strongest,\s*\)\}, avec un orbe de \$\{strongest\.orb\.toFixed\(\s*1,\s*\)\}°\. Cette interaction colore fortement votre manière de vous reconnaître, de réagir et de construire votre lien\.`\}/g,
+      `{getLocalizedRelationshipSignature(
               strongest,
-            )}
-          </Text>`,
+            )}`,
     );
 
   return output;
