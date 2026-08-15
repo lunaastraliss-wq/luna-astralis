@@ -740,7 +740,7 @@ const LIFE_PAGES: LifeDefinition[] = [
       "Vous pouvez devenir une véritable équipe lorsque chacun célèbre les avancées de l’autre et partage ses ressources.",
 
     challenge:
-      "La réussite, le temps consacré au travail ou les différences d’ambition peuvent créer distance ou comparaison.",
+      "La réussite, le temps consacré au travail ou les différences d’ambition peuvent créer de la distance ou de la comparaison.",
 
     advice:
       "Soutenez les projets personnels tout en protégeant des moments où la relation n’est pas reléguée au second plan.",
