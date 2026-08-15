@@ -1431,7 +1431,7 @@ function getChallengeText(
     Saturn:
       "Les responsabilités peuvent devenir lourdes si l’un impose les règles, critique l’autre ou porte silencieusement une charge disproportionnée.",
     Uranus:
-      "Le besoin de liberté peut provoquer de la distance ou de l'imprévisibilité si les changements surviennent sans explication ni repère rassurant.",
+      "Le besoin de liberté peut provoquer de la distance ou de l’imprévisibilité si les changements surviennent sans explication ni repère rassurant.",
     Neptune:
       "L’idéalisation peut masquer les besoins réels, les désaccords ou les limites personnelles tant que les faits ne sont pas clairement vérifiés.",
     Pluto:
