@@ -61,11 +61,11 @@ const REPORT_PAGES =
 
 const REPORT_PREVIEW_URLS = {
   fr: "/reports/apercu-rapport-compatibilite-premium.pdf",
-  en: "/reports/Luna Astralis Premium Demo English.pdf",
-  es: "/reports/Luna Astralis Muestra Especial Espanol.pdf",
-  de: "/reports/Luna Astralis Premium Demo Deutsch.pdf",
-  it: "/reports/Luna Astralis Premium Demo Italiano.pdf",
-  pt: "/reports/Luna Astralis Premium Demo Portugues Brasil.pdf",
+  en: "/reports/Luna-Astralis-Premium-Demo-English.pdf",
+  es: "/reports/Luna-Astralis-Premium-Preview-Espanol.pdf",
+  de: "/reports/Luna-Astralis-Premium-Demo-Deutsch.pdf",
+  it: "/reports/Luna-Astralis-Premium-Demo-Italiano.pdf",
+  pt: "/reports/Luna-Astralis-Premium-Demo-Portugues-Brasil.pdf",
 } as const;
 
 const REPORT_COVER_URLS = {
