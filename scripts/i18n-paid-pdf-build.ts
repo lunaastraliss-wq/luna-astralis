@@ -2502,14 +2502,7 @@ function localizePaidPdfDisplayLiterals(
   filePath: absolute,
   fileName: entry.name,
 });
-
-      source = localizeCompatibilityFile({
-  source,
-  locale,
-  filePath: absolute,
-  fileName: entry.name,
-});
-
+     
       source = localizeCompatibilityFile({
   source,
   locale,
