@@ -34,16 +34,43 @@ import "../../../../horoscope/premium/horoscope-daily-form.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-horoscope-jour.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-horoscope-jour.pdf",
+
+  en:
+    "/reports/Luna-Astralis-Daily-Horoscope-English-Demo.pdf",
+
+  es:
+    "/reports/Luna-Astralis-Horoscopo-Diario-Espanol-Demo.pdf",
+
+  de:
+    "/reports/Luna-Astralis-Tageshoroskop-Deutsch-Demo.pdf",
+
+  it:
+    "/reports/Luna-Astralis-Oroscopo-Giornaliero-Italiano-Demo.pdf",
+
+  pt:
+    "/reports/Luna-Astralis-Horoscopo-Diario-Portugues-Demo.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
-  fr: "/reports/couverture-horoscope-jour.png",
-  en: "/reports/premium-daily-horoscope-cover.png",
-  es: "/reports/portada-horoscopo-premium-diario.png",
-  de: "/reports/premium-taegliches-horoskop-titelblatt.png",
-  it: "/reports/copertina-oroscopo-premium-quotidiano.png",
-  pt: "/reports/capa-horoscopo-premium-diario.png",
+  fr:
+    "/reports/couverture-horoscope-jour.png",
+
+  en:
+    "/reports/premium-daily-horoscope-cover.png",
+
+  es:
+    "/reports/portada-horoscopo-premium-diario.png",
+
+  de:
+    "/reports/premium-taegliches-horoskop-titelblatt.png",
+
+  it:
+    "/reports/copertina-oroscopo-premium-quotidiano.png",
+
+  pt:
+    "/reports/capa-horoscopo-premium-diario.png",
 } as const;
 
 /*
@@ -221,6 +248,9 @@ export default function HoroscopePremiumJourPage({
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
 
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/jour`;
 
@@ -338,7 +368,7 @@ export default function HoroscopePremiumJourPage({
               </a>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="premium-button premium-button-secondary"
@@ -348,7 +378,7 @@ export default function HoroscopePremiumJourPage({
             </div>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-hero-preview-link"
@@ -419,7 +449,7 @@ export default function HoroscopePremiumJourPage({
             </ul>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-order-preview-link"
@@ -458,7 +488,7 @@ export default function HoroscopePremiumJourPage({
 
           <div className="horoscope-daily-introduction-actions">
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-button premium-button-secondary"
