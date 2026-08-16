@@ -17,6 +17,11 @@ import {
 import {
   localizeHoroscopeFile,
 } from "./paid-pdf/horoscope-localization";
+
+import {
+  localizeMonthHoroscopeFile,
+} from "./paid-pdf/month-horoscope-localization";
+
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2510,6 +2515,13 @@ function localizePaidPdfDisplayLiterals(
 });
 
 source = localizeHoroscopeFile({
+  source,
+  locale,
+  filePath: absolute,
+  fileName: entry.name,
+});
+
+      source = localizeMonthHoroscopeFile({
   source,
   locale,
   filePath: absolute,
