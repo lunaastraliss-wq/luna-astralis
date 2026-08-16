@@ -1297,3 +1297,44 @@ export function localizeMonthlyHoroscopeBuilder(
 
   return localized;
 }
+type LocalizeMonthHoroscopeFileOptions = {
+  source: string;
+  locale: PaidPdfLocale;
+  filePath: string;
+  fileName: string;
+};
+
+export function localizeMonthHoroscopeFile({
+  source,
+  locale,
+  filePath,
+  fileName,
+}: LocalizeMonthHoroscopeFileOptions): string {
+  const normalizedPath =
+    filePath.replace(/\\/g, "/");
+
+  const isMonthlyHoroscope =
+    normalizedPath.includes(
+      "/HoroscopePdf/month/",
+    ) ||
+    fileName === "buildMonthlyHoroscope.ts";
+
+  if (!isMonthlyHoroscope) {
+    return source;
+  }
+
+  if (locale === "fr") {
+    return source;
+  }
+
+  if (
+    fileName === "buildMonthlyHoroscope.ts"
+  ) {
+    return localizeMonthlyHoroscopeBuilder(
+      source,
+      locale,
+    );
+  }
+
+  return source;
+}
