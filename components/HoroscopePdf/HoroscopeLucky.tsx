@@ -887,7 +887,7 @@ export default function HoroscopeLucky({
       value: lucky.time,
       icon: HOROSCOPE_ICONS.moon,
       description:
-        "Un moment de la journée où votre énergie pourrait être plus fluide.",
+        "Une période où votre énergie pourrait être plus fluide et naturellement disponible.",
     },
   ].filter(
     (item) =>
