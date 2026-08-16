@@ -47,6 +47,10 @@ import {
   localizeHoroscopeSocial,
 } from "./horoscope-social-localization";
 
+import {
+  localizeHoroscopeChallenges,
+} from "./horoscope-challenges-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -222,6 +226,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeSocial.tsx"
   ) {
     return localizeHoroscopeSocial(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page défis Horoscope.
+   */
+  if (
+    fileName === "HoroscopeChallenges.tsx"
+  ) {
+    return localizeHoroscopeChallenges(
       source,
       locale,
     );
