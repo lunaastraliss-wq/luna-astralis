@@ -23,6 +23,10 @@ import {
   localizeHoroscopeEnergy,
 } from "./horoscope-energy-localization";
 
+import {
+  localizeHoroscopePlanets,
+} from "./horoscope-planets-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -126,6 +130,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeEnergy.tsx"
   ) {
     return localizeHoroscopeEnergy(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page influences planétaires Horoscope.
+   */
+  if (
+    fileName === "HoroscopePlanets.tsx"
+  ) {
+    return localizeHoroscopePlanets(
       source,
       locale,
     );
