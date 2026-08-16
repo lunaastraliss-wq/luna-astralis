@@ -88,6 +88,39 @@ const TRANSLATIONS: Record<
 
     "Conseil pour saisir l’occasion":
       "Advice for seizing the opportunity",
+
+    "Clarifier une situation":
+      "Clarify a situation",
+
+    "Certaines possibilités deviennent visibles lorsque vous restez attentive aux détails.":
+      "Some possibilities become visible when you remain attentive to details.",
+
+    "Une information ou une conversation pourrait modifier votre compréhension d’un problème.":
+      "A piece of information or a conversation could change your understanding of a problem.",
+
+    "Notez les faits importants avant de choisir votre prochaine action.":
+      "Note the important facts before choosing your next action.",
+
+    "Faire avancer un projet":
+      "Move a project forward",
+
+    "Un petit geste concret pourrait relancer une idée restée en attente.":
+      "A small concrete step could revive an idea that has been on hold.",
+
+    "Consacrez un moment précis à la prochaine étape réalisable.":
+      "Set aside a specific moment for the next achievable step.",
+
+    "Décision":
+      "Decision",
+
+    "DECISION":
+      "DECISION",
+
+    "Initiative":
+      "Initiative",
+
+    "INITIATIVE":
+      "INITIATIVE",
   },
 
   es: {
@@ -162,6 +195,39 @@ const TRANSLATIONS: Record<
 
     "Conseil pour saisir l’occasion":
       "Consejo para aprovechar la oportunidad",
+
+    "Clarifier une situation":
+      "Aclarar una situación",
+
+    "Certaines possibilités deviennent visibles lorsque vous restez attentive aux détails.":
+      "Algunas posibilidades se hacen visibles cuando permanece atenta a los detalles.",
+
+    "Une information ou une conversation pourrait modifier votre compréhension d’un problème.":
+      "Una información o una conversación podría cambiar su comprensión de un problema.",
+
+    "Notez les faits importants avant de choisir votre prochaine action.":
+      "Anote los hechos importantes antes de elegir su próxima acción.",
+
+    "Faire avancer un projet":
+      "Hacer avanzar un proyecto",
+
+    "Un petit geste concret pourrait relancer une idée restée en attente.":
+      "Un pequeño paso concreto podría reactivar una idea que había quedado en espera.",
+
+    "Consacrez un moment précis à la prochaine étape réalisable.":
+      "Dedique un momento concreto al siguiente paso realizable.",
+
+    "Décision":
+      "Decisión",
+
+    "DECISION":
+      "DECISIÓN",
+
+    "Initiative":
+      "Iniciativa",
+
+    "INITIATIVE":
+      "INICIATIVA",
   },
 
   de: {
@@ -236,6 +302,39 @@ const TRANSLATIONS: Record<
 
     "Conseil pour saisir l’occasion":
       "Rat, um die Chance zu nutzen",
+
+    "Clarifier une situation":
+      "Eine Situation klären",
+
+    "Certaines possibilités deviennent visibles lorsque vous restez attentive aux détails.":
+      "Einige Möglichkeiten werden sichtbar, wenn Sie aufmerksam auf Details achten.",
+
+    "Une information ou une conversation pourrait modifier votre compréhension d’un problème.":
+      "Eine Information oder ein Gespräch könnte Ihr Verständnis eines Problems verändern.",
+
+    "Notez les faits importants avant de choisir votre prochaine action.":
+      "Notieren Sie die wichtigen Fakten, bevor Sie Ihre nächste Handlung wählen.",
+
+    "Faire avancer un projet":
+      "Ein Projekt voranbringen",
+
+    "Un petit geste concret pourrait relancer une idée restée en attente.":
+      "Ein kleiner konkreter Schritt könnte eine liegen gebliebene Idee wieder in Bewegung bringen.",
+
+    "Consacrez un moment précis à la prochaine étape réalisable.":
+      "Nehmen Sie sich gezielt Zeit für den nächsten umsetzbaren Schritt.",
+
+    "Décision":
+      "Entscheidung",
+
+    "DECISION":
+      "ENTSCHEIDUNG",
+
+    "Initiative":
+      "Initiative",
+
+    "INITIATIVE":
+      "INITIATIVE",
   },
 
   it: {
@@ -310,6 +409,39 @@ const TRANSLATIONS: Record<
 
     "Conseil pour saisir l’occasion":
       "Consiglio per cogliere l'opportunità",
+
+    "Clarifier une situation":
+      "Chiarire una situazione",
+
+    "Certaines possibilités deviennent visibles lorsque vous restez attentive aux détails.":
+      "Alcune possibilità diventano visibili quando presti attenzione ai dettagli.",
+
+    "Une information ou une conversation pourrait modifier votre compréhension d’un problème.":
+      "Un'informazione o una conversazione potrebbe cambiare la tua comprensione di un problema.",
+
+    "Notez les faits importants avant de choisir votre prochaine action.":
+      "Annota i fatti importanti prima di scegliere la tua prossima azione.",
+
+    "Faire avancer un projet":
+      "Far avanzare un progetto",
+
+    "Un petit geste concret pourrait relancer une idée restée en attente.":
+      "Un piccolo gesto concreto potrebbe rilanciare un'idea rimasta in sospeso.",
+
+    "Consacrez un moment précis à la prochaine étape réalisable.":
+      "Dedica un momento preciso al prossimo passo realizzabile.",
+
+    "Décision":
+      "Decisione",
+
+    "DECISION":
+      "DECISIONE",
+
+    "Initiative":
+      "Iniziativa",
+
+    "INITIATIVE":
+      "INIZIATIVA",
   },
 
   pt: {
@@ -384,6 +516,39 @@ const TRANSLATIONS: Record<
 
     "Conseil pour saisir l’occasion":
       "Conselho para aproveitar a oportunidade",
+
+    "Clarifier une situation":
+      "Esclarecer uma situação",
+
+    "Certaines possibilités deviennent visibles lorsque vous restez attentive aux détails.":
+      "Algumas possibilidades se tornam visíveis quando você permanece atento aos detalhes.",
+
+    "Une information ou une conversation pourrait modifier votre compréhension d’un problème.":
+      "Uma informação ou uma conversa poderia mudar sua compreensão de um problema.",
+
+    "Notez les faits importants avant de choisir votre prochaine action.":
+      "Anote os fatos importantes antes de escolher sua próxima ação.",
+
+    "Faire avancer un projet":
+      "Fazer um projeto avançar",
+
+    "Un petit geste concret pourrait relancer une idée restée en attente.":
+      "Um pequeno passo concreto poderia reativar uma ideia que estava em espera.",
+
+    "Consacrez un moment précis à la prochaine étape réalisable.":
+      "Reserve um momento específico para a próxima etapa realizável.",
+
+    "Décision":
+      "Decisão",
+
+    "DECISION":
+      "DECISÃO",
+
+    "Initiative":
+      "Iniciativa",
+
+    "INITIATIVE":
+      "INICIATIVA",
   },
 };
 
@@ -682,9 +847,12 @@ function replaceDynamicOpportunityValues(
     );`,
   );
 
+  /*
+   * Le vrai signe astrologique est traduit séparément.
+   */
   output = output.replace(
     /\{identity\.zodiacSignLabel\}/g,
-    "{__opportunitiesLocalizeDynamicText(identity.zodiacSignLabel)}",
+    "{__opportunitiesLocalizeZodiacSign(identity.zodiacSignLabel)}",
   );
 
   output = output.replace(
@@ -772,6 +940,19 @@ const __OPPORTUNITIES_TRANSLATIONS:
   Record<string, string> =
   ${JSON.stringify(TRANSLATIONS[locale], null, 2)};
 
+function __opportunitiesLocalizeZodiacSign(
+  value?: string | null,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  return (
+    __OPPORTUNITIES_ZODIAC_LABELS[value] ??
+    value
+  );
+}
+
 function __opportunitiesLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -783,6 +964,14 @@ function __opportunitiesLocalizeDynamicText(
     __OPPORTUNITIES_TRANSLATIONS[value] ??
     value;
 
+  /*
+   * On localise les mois éventuels,
+   * mais PAS les signes astrologiques.
+   *
+   * Cela évite qu'un mot comme "Balance"
+   * utilisé dans un thème soit transformé
+   * en "Libra".
+   */
   __OPPORTUNITIES_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
@@ -791,20 +980,6 @@ function __opportunitiesLocalizeDynamicText(
           "gi",
         ),
         __OPPORTUNITIES_MONTHS[index],
-      );
-    },
-  );
-
-  Object.entries(
-    __OPPORTUNITIES_ZODIAC_LABELS,
-  ).forEach(
-    ([frenchSign, localizedSign]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
-          "gi",
-        ),
-        localizedSign,
       );
     },
   );
@@ -830,9 +1005,14 @@ function __opportunitiesFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -869,11 +1049,16 @@ function __opportunitiesLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__OPPORTUNITIES_MONTHS[month - 1]} \${year}\`;
+    return \`\${__OPPORTUNITIES_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
