@@ -26,6 +26,10 @@ import {
   localizeHoroscopeMonthActivatedHouses,
 } from "./month-horoscope-activated-houses-localization";
 
+import {
+  localizeHoroscopeMonthMoonPhases,
+} from "./month-horoscope-moon-phases-localization";
+
 type LocalizeMonthHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -112,6 +116,16 @@ export function localizeMonthHoroscopeFile({
     "HoroscopeMonthActivatedHouses.tsx"
   ) {
     return localizeHoroscopeMonthActivatedHouses(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "HoroscopeMonthMoonPhases.tsx"
+  ) {
+    return localizeHoroscopeMonthMoonPhases(
       source,
       locale,
     );
