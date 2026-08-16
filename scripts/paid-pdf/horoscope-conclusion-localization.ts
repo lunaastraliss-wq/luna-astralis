@@ -20,11 +20,17 @@ const TRANSLATIONS: Record<
     "Votre chemin pour cette période":
       "Your path for this period",
 
+    "Votre message du jour":
+      "Your message for today",
+
     "Les influences de cette période vous invitent à avancer avec conscience, confiance et discernement. Accueillez les occasions qui vous ressemblent et accordez-vous le droit d’ajuster votre direction lorsque cela devient nécessaire.":
       "The influences of this period invite you to move forward with awareness, confidence, and discernment. Welcome the opportunities that resonate with you and allow yourself to adjust your direction whenever necessary.",
 
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.":
       "Astrology sheds light on possible trends, strengths, and challenges. It never decides for you. Your choices, experience, and intuition remain at the heart of your journey.",
+
+    "Votre force réside aujourd’hui dans votre capacité à observer clairement et à agir au moment opportun.":
+      "Your strength today lies in your ability to observe clearly and act at the right moment.",
 
     "Votre évolution":
       "Your growth",
@@ -82,11 +88,17 @@ const TRANSLATIONS: Record<
     "Votre chemin pour cette période":
       "Su camino para este período",
 
+    "Votre message du jour":
+      "Su mensaje del día",
+
     "Les influences de cette période vous invitent à avancer avec conscience, confiance et discernement. Accueillez les occasions qui vous ressemblent et accordez-vous le droit d’ajuster votre direction lorsque cela devient nécessaire.":
       "Las influencias de este período le invitan a avanzar con conciencia, confianza y discernimiento. Acoja las oportunidades que estén en sintonía con usted y permítase ajustar su dirección cuando sea necesario.",
 
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.":
       "La astrología ilumina las tendencias, las fortalezas y los posibles desafíos. Nunca decide por usted. Sus decisiones, su experiencia y su intuición permanecen en el centro de su camino.",
+
+    "Votre force réside aujourd’hui dans votre capacité à observer clairement et à agir au moment opportun.":
+      "Su fuerza hoy reside en su capacidad para observar con claridad y actuar en el momento oportuno.",
 
     "Votre évolution":
       "Su evolución",
@@ -144,11 +156,17 @@ const TRANSLATIONS: Record<
     "Votre chemin pour cette période":
       "Ihr Weg für diese Phase",
 
+    "Votre message du jour":
+      "Ihre Botschaft für heute",
+
     "Les influences de cette période vous invitent à avancer avec conscience, confiance et discernement. Accueillez les occasions qui vous ressemblent et accordez-vous le droit d’ajuster votre direction lorsque cela devient nécessaire.":
       "Die Einflüsse dieser Phase laden Sie dazu ein, bewusst, zuversichtlich und mit Urteilsvermögen voranzugehen. Nehmen Sie Chancen an, die zu Ihnen passen, und erlauben Sie sich, Ihre Richtung anzupassen, wenn es notwendig wird.",
 
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.":
       "Die Astrologie beleuchtet mögliche Tendenzen, Stärken und Herausforderungen. Sie entscheidet niemals an Ihrer Stelle. Ihre Entscheidungen, Ihre Erfahrung und Ihre Intuition bleiben im Mittelpunkt Ihres Weges.",
+
+    "Votre force réside aujourd’hui dans votre capacité à observer clairement et à agir au moment opportun.":
+      "Ihre Stärke liegt heute in Ihrer Fähigkeit, klar zu beobachten und im richtigen Moment zu handeln.",
 
     "Votre évolution":
       "Ihre Entwicklung",
@@ -206,11 +224,17 @@ const TRANSLATIONS: Record<
     "Votre chemin pour cette période":
       "Il tuo cammino per questo periodo",
 
+    "Votre message du jour":
+      "Il tuo messaggio del giorno",
+
     "Les influences de cette période vous invitent à avancer avec conscience, confiance et discernement. Accueillez les occasions qui vous ressemblent et accordez-vous le droit d’ajuster votre direction lorsque cela devient nécessaire.":
       "Le influenze di questo periodo ti invitano ad avanzare con consapevolezza, fiducia e discernimento. Accogli le opportunità che rispecchiano chi sei e concediti il diritto di modificare la tua direzione quando diventa necessario.",
 
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.":
       "L'astrologia illumina le tendenze, i punti di forza e le possibili sfide. Non decide mai al posto tuo. Le tue scelte, la tua esperienza e la tua intuizione restano al centro del tuo percorso.",
+
+    "Votre force réside aujourd’hui dans votre capacité à observer clairement et à agir au moment opportun.":
+      "La tua forza oggi risiede nella capacità di osservare con chiarezza e agire al momento giusto.",
 
     "Votre évolution":
       "La tua evoluzione",
@@ -268,11 +292,17 @@ const TRANSLATIONS: Record<
     "Votre chemin pour cette période":
       "Seu caminho para este período",
 
+    "Votre message du jour":
+      "Sua mensagem do dia",
+
     "Les influences de cette période vous invitent à avancer avec conscience, confiance et discernement. Accueillez les occasions qui vous ressemblent et accordez-vous le droit d’ajuster votre direction lorsque cela devient nécessaire.":
       "As influências deste período convidam você a avançar com consciência, confiança e discernimento. Acolha as oportunidades que combinam com você e permita-se ajustar sua direção quando isso se tornar necessário.",
 
     "L’astrologie éclaire les tendances, les forces et les défis possibles. Elle ne décide jamais à votre place. Vos choix, votre expérience et votre intuition restent au cœur de votre parcours.":
       "A astrologia ilumina tendências, forças e possíveis desafios. Ela nunca decide por você. Suas escolhas, sua experiência e sua intuição permanecem no centro do seu caminho.",
+
+    "Votre force réside aujourd’hui dans votre capacité à observer clairement et à agir au moment opportun.":
+      "Sua força hoje está na capacidade de observar com clareza e agir no momento certo.",
 
     "Votre évolution":
       "Sua evolução",
@@ -412,38 +442,78 @@ const MONTHS: Record<
   string[]
 > = {
   en: [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
 
   es: [
-    "enero", "febrero", "marzo",
-    "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre",
-    "octubre", "noviembre", "diciembre",
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
   ],
 
   de: [
-    "Januar", "Februar", "März",
-    "April", "Mai", "Juni",
-    "Juli", "August", "September",
-    "Oktober", "November", "Dezember",
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
   ],
 
   it: [
-    "gennaio", "febbraio", "marzo",
-    "aprile", "maggio", "giugno",
-    "luglio", "agosto", "settembre",
-    "ottobre", "novembre", "dicembre",
+    "gennaio",
+    "febbraio",
+    "marzo",
+    "aprile",
+    "maggio",
+    "giugno",
+    "luglio",
+    "agosto",
+    "settembre",
+    "ottobre",
+    "novembre",
+    "dicembre",
   ],
 
   pt: [
-    "janeiro", "fevereiro", "março",
-    "abril", "maio", "junho",
-    "julho", "agosto", "setembro",
-    "outubro", "novembro", "dezembro",
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
   ],
 };
 
@@ -461,6 +531,17 @@ const FRENCH_MONTHS = [
   "novembre",
   "décembre",
 ] as const;
+
+const THANK_YOU_PREFIX: Record<
+  NonFrenchLocale,
+  string
+> = {
+  en: "Thank you",
+  es: "Gracias",
+  de: "Vielen Dank",
+  it: "Grazie",
+  pt: "Obrigado",
+};
 
 function localizeSafeLiterals(
   source: string,
@@ -498,9 +579,12 @@ function localizeSafeLiterals(
         translated !== node.text
       ) {
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
-          value: JSON.stringify(translated),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(translated),
         });
       }
     }
@@ -526,8 +610,10 @@ function localizeSafeLiterals(
           raw.match(/\s*$/)?.[0] ?? "";
 
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
           value:
             `${leading}${translated}${trailing}`,
         });
@@ -577,9 +663,13 @@ function replaceDynamicConclusionValues(
     );`,
   );
 
+  /*
+   * Le vrai signe astrologique est localisé
+   * séparément des textes ordinaires.
+   */
   output = output.replace(
     /\{identity\.zodiacSignLabel\}/g,
-    "{__conclusionLocalizeDynamicText(identity.zodiacSignLabel)}",
+    "{__conclusionLocalizeZodiacSign(identity.zodiacSignLabel)}",
   );
 
   output = output.replace(
@@ -595,6 +685,18 @@ function replaceDynamicConclusionValues(
   output = output.replace(
     /\{finalMessage\}/g,
     "{__conclusionLocalizeDynamicText(finalMessage)}",
+  );
+
+  /*
+   * Le nom est dynamique.
+   * Exemple :
+   * Merci, Martine
+   * devient
+   * Thank you, Martine
+   */
+  output = output.replace(
+    "`Merci, ${firstName}`",
+    "__conclusionThankYou(firstName)",
   );
 
   return output;
@@ -632,6 +734,36 @@ const __CONCLUSION_MONTHS =
 const __CONCLUSION_FRENCH_MONTHS =
   ${JSON.stringify(FRENCH_MONTHS, null, 2)} as const;
 
+const __CONCLUSION_THANK_YOU_PREFIX =
+  ${JSON.stringify(THANK_YOU_PREFIX[locale])};
+
+function __conclusionLocalizeZodiacSign(
+  value?: string | null,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  return (
+    __CONCLUSION_ZODIAC_LABELS[value] ??
+    value
+  );
+}
+
+function __conclusionThankYou(
+  firstName?: string | null,
+): string {
+  if (!firstName) {
+    return "";
+  }
+
+  return (
+    __CONCLUSION_THANK_YOU_PREFIX +
+    ", " +
+    firstName
+  );
+}
+
 function __conclusionLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -641,9 +773,15 @@ function __conclusionLocalizeDynamicText(
 
   let output =
     __CONCLUSION_TRANSLATIONS[value] ??
-    __CONCLUSION_ZODIAC_LABELS[value] ??
     value;
 
+  /*
+   * On traduit les mois contenus dans un texte,
+   * mais PAS les signes astrologiques.
+   *
+   * Ainsi, un mot comme "Balance" utilisé au sens
+   * d'équilibre ne sera jamais transformé en Libra.
+   */
   __CONCLUSION_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
@@ -652,20 +790,6 @@ function __conclusionLocalizeDynamicText(
           "gi",
         ),
         __CONCLUSION_MONTHS[index],
-      );
-    },
-  );
-
-  Object.entries(
-    __CONCLUSION_ZODIAC_LABELS,
-  ).forEach(
-    ([frenchSign, localizedSign]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
-          "gi",
-        ),
-        localizedSign,
       );
     },
   );
@@ -691,9 +815,14 @@ function __conclusionFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -730,11 +859,16 @@ function __conclusionLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__CONCLUSION_MONTHS[month - 1]} \${year}\`;
+    return \`\${__CONCLUSION_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
