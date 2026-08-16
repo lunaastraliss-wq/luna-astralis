@@ -68,6 +68,15 @@ const TRANSLATIONS: Record<
     "Les points d’équilibre":
       "Balance points",
 
+    "Récupération":
+      "Recovery",
+
+    "Hydratation":
+      "Hydration",
+
+    "Équilibre":
+      "Balance",
+
     "Conseil bien-être":
       "Well-being advice",
 
@@ -126,6 +135,15 @@ const TRANSLATIONS: Record<
 
     "Les points d’équilibre":
       "Los puntos de equilibrio",
+
+    "Récupération":
+      "Recuperación",
+
+    "Hydratation":
+      "Hidratación",
+
+    "Équilibre":
+      "Equilibrio",
 
     "Conseil bien-être":
       "Consejo de bienestar",
@@ -186,6 +204,15 @@ const TRANSLATIONS: Record<
     "Les points d’équilibre":
       "Gleichgewichtspunkte",
 
+    "Récupération":
+      "Erholung",
+
+    "Hydratation":
+      "Flüssigkeitszufuhr",
+
+    "Équilibre":
+      "Gleichgewicht",
+
     "Conseil bien-être":
       "Rat für Ihr Wohlbefinden",
 
@@ -245,6 +272,15 @@ const TRANSLATIONS: Record<
     "Les points d’équilibre":
       "I punti di equilibrio",
 
+    "Récupération":
+      "Recupero",
+
+    "Hydratation":
+      "Idratazione",
+
+    "Équilibre":
+      "Equilibrio",
+
     "Conseil bien-être":
       "Consiglio per il benessere",
 
@@ -303,6 +339,15 @@ const TRANSLATIONS: Record<
 
     "Les points d’équilibre":
       "Pontos de equilíbrio",
+
+    "Récupération":
+      "Recuperação",
+
+    "Hydratation":
+      "Hidratação",
+
+    "Équilibre":
+      "Equilíbrio",
 
     "Conseil bien-être":
       "Conselho de bem-estar",
