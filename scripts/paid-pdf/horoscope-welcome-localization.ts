@@ -824,7 +824,7 @@ function __welcomeEscapeRegExp(
   value: string,
 ): string {
   return value.replace(
-    /[.*+?^\\${}()|[\\]\\\\]/g,
+    /[.*+?^$()|[\]\\\\{}]/g,
     "\\\\$&",
   );
 }
