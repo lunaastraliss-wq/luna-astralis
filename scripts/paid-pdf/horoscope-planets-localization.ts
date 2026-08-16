@@ -1590,85 +1590,105 @@ function __planetsLocalizeDynamicText(
 
   /*
    * IMPORTANT :
+   * On ne traduit pas les mois ici.
    *
-   * On ne traduit PAS les mois ici.
-   *
-   * "Mars" est une planète, mais "mars"
-   * est également le mois français.
-   *
-   * L'ancien code utilisait une regex
-   * insensible à la casse et transformait
-   * donc "Mars" en "March" en anglais.
+   * "Mars" peut être la planète Mars,
+   * tandis que "mars" est le mois français.
+   * Les remplacements restent sensibles
+   * à la casse.
    */
 
   const exact =
     __PLANETS_TRANSLATIONS[output];
 
   if (exact) {
-    output = exact;
-  } else {
-    /*
-     * Traduction des phrases et fragments
-     * produits par le builder.
-     */
-    output =
-      __planetsReplaceMap(
-        output,
-        __PLANETS_DYNAMIC_FRAGMENTS,
-      );
-
-    /*
-     * Planètes.
-     */
-    output =
-      __planetsReplaceWords(
-        output,
-        __PLANETS_NAMES,
-      );
-
-    /*
-     * Signes.
-     */
-    output =
-      __planetsReplaceWords(
-        output,
-        __PLANETS_SIGNS,
-      );
-
-    /*
-     * Aspects.
-     */
-    output =
-      __planetsReplaceWords(
-        output,
-        __PLANETS_ASPECTS,
-      );
-
-    /*
-     * "Mercury en Cancer"
-     * devient par exemple
-     * "Mercury in Cancer".
-     */
-    output =
-      __planetsLocalizePlacements(
-        output,
-      );
-
-    /*
-     * Une deuxième passe de fragments
-     * permet de traiter les phrases dont
-     * certaines parties ont déjà été
-     * localisées par le builder.
-     */
-    output =
-      __planetsReplaceMap(
-        output,
-        __PLANETS_DYNAMIC_FRAGMENTS,
-      );
+    return exact;
   }
+
+  /*
+   * 1. Traduction des phrases et fragments
+   * produits par le builder.
+   */
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_DYNAMIC_FRAGMENTS,
+    );
+
+  /*
+   * 2. Traduction des planètes.
+   *
+   * On utilise ReplaceMap afin que les
+   * planètes présentes dans les titres
+   * dynamiques soient toujours localisées.
+   *
+   * Exemples :
+   * Mercure -> Mercury
+   * Pluton -> Pluto
+   */
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_NAMES,
+    );
+
+  /*
+   * 3. Traduction des aspects.
+   *
+   * Le remplacement direct gère aussi
+   * correctement les caractères accentués.
+   *
+   * Exemples :
+   * Carré -> Square
+   * Trigone -> Trine
+   */
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_ASPECTS,
+    );
+
+  /*
+   * 4. Traduction des signes.
+   *
+   * Pour les signes, on conserve le
+   * remplacement par mots afin d'éviter
+   * de modifier un mot ordinaire contenu
+   * dans une phrase.
+   */
+  output =
+    __planetsReplaceWords(
+      output,
+      __PLANETS_SIGNS,
+    );
+
+  /*
+   * 5. Placement planète + signe.
+   *
+   * Exemple :
+   * Mercury en Cancer
+   * -> Mercury in Cancer
+   */
+  output =
+    __planetsLocalizePlacements(
+      output,
+    );
+
+  /*
+   * 6. Deuxième passe des fragments.
+   * Certaines phrases sont partiellement
+   * localisées après le traitement des
+   * planètes et des aspects.
+   */
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_DYNAMIC_FRAGMENTS,
+    );
 
   return output;
 }
+
 
 function __planetsFormatIsoDate(
   isoDate?: string | null,
