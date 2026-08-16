@@ -55,6 +55,10 @@ import {
   localizeHoroscopeOpportunities,
 } from "./horoscope-opportunities-localization";
 
+import {
+  localizeHoroscopeLucky,
+} from "./horoscope-lucky-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -254,6 +258,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeOpportunities.tsx"
   ) {
     return localizeHoroscopeOpportunities(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Pages chance, intuition et symboles Horoscope.
+   */
+  if (
+    fileName === "HoroscopeLucky.tsx"
+  ) {
+    return localizeHoroscopeLucky(
       source,
       locale,
     );
