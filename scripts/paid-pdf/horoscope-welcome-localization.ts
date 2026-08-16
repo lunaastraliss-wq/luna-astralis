@@ -26,14 +26,23 @@ const TRANSLATIONS: Record<
     "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.":
       "This report has been prepared to guide you through this period and help you better understand the energies around you.",
 
+    "Cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.":
+      "This in-depth reading presents the main energies that may influence your day.",
+
     "Votre horoscope personnalisé vous présente les grandes tendances de cette période. Chaque section vous aidera à reconnaître les énergies les plus présentes, à mieux comprendre vos ressentis et à avancer avec davantage de clarté.":
       "Your personalized horoscope presents the main trends of this period. Each section will help you recognize the most present energies, better understand your feelings, and move forward with greater clarity.",
 
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.":
       "The stars illuminate the path, but your will chooses the direction.",
 
+    "Chaque journée révèle une direction lorsque vous prenez le temps de l’observer.":
+      "Each day reveals a direction when you take the time to observe it.",
+
     "Horoscope personnalisé":
       "Personalized horoscope",
+
+    "Votre horoscope Premium du jour":
+      "Your Premium daily horoscope",
 
     "Énergie":
       "Energy",
@@ -103,14 +112,23 @@ const TRANSLATIONS: Record<
     "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.":
       "Este informe ha sido preparado para acompañarle durante este período y ayudarle a comprender mejor las energías que le rodean.",
 
+    "Cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.":
+      "Esta lectura detallada presenta las principales energías que podrían influir en su día.",
+
     "Votre horoscope personnalisé vous présente les grandes tendances de cette période. Chaque section vous aidera à reconnaître les énergies les plus présentes, à mieux comprendre vos ressentis et à avancer avec davantage de clarté.":
       "Su horóscopo personalizado presenta las principales tendencias de este período. Cada sección le ayudará a reconocer las energías más presentes, comprender mejor sus emociones y avanzar con mayor claridad.",
 
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.":
       "Los astros iluminan el camino, pero su voluntad elige la dirección.",
 
+    "Chaque journée révèle une direction lorsque vous prenez le temps de l’observer.":
+      "Cada día revela una dirección cuando se toma el tiempo de observarlo.",
+
     "Horoscope personnalisé":
       "Horóscopo personalizado",
+
+    "Votre horoscope Premium du jour":
+      "Su horóscopo Premium del día",
 
     "Énergie":
       "Energía",
@@ -180,14 +198,23 @@ const TRANSLATIONS: Record<
     "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.":
       "Dieser Bericht wurde erstellt, um Sie durch diesen Zeitraum zu begleiten und Ihnen zu helfen, die Energien um Sie herum besser zu verstehen.",
 
+    "Cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.":
+      "Diese ausführliche Deutung zeigt die wichtigsten Energien, die Ihren Tag beeinflussen könnten.",
+
     "Votre horoscope personnalisé vous présente les grandes tendances de cette période. Chaque section vous aidera à reconnaître les énergies les plus présentes, à mieux comprendre vos ressentis et à avancer avec davantage de clarté.":
       "Ihr persönliches Horoskop zeigt Ihnen die wichtigsten Tendenzen dieses Zeitraums. Jeder Abschnitt hilft Ihnen, die vorherrschenden Energien zu erkennen, Ihre Gefühle besser zu verstehen und mit größerer Klarheit voranzugehen.",
 
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.":
       "Die Sterne erhellen den Weg, doch Ihr Wille bestimmt die Richtung.",
 
+    "Chaque journée révèle une direction lorsque vous prenez le temps de l’observer.":
+      "Jeder Tag zeigt eine Richtung, wenn Sie sich die Zeit nehmen, ihn bewusst zu beobachten.",
+
     "Horoscope personnalisé":
       "Persönliches Horoskop",
+
+    "Votre horoscope Premium du jour":
+      "Ihr Premium-Tageshoroskop",
 
     "Énergie":
       "Energie",
@@ -257,14 +284,23 @@ const TRANSLATIONS: Record<
     "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.":
       "Questo rapporto è stato preparato per accompagnarti durante questo periodo e aiutarti a comprendere meglio le energie che ti circondano.",
 
+    "Cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.":
+      "Questa lettura approfondita presenta le principali energie che potrebbero influenzare la tua giornata.",
+
     "Votre horoscope personnalisé vous présente les grandes tendances de cette période. Chaque section vous aidera à reconnaître les énergies les plus présentes, à mieux comprendre vos ressentis et à avancer avec davantage de clarté.":
       "Il tuo oroscopo personalizzato presenta le principali tendenze di questo periodo. Ogni sezione ti aiuterà a riconoscere le energie più presenti, comprendere meglio le tue sensazioni e procedere con maggiore chiarezza.",
 
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.":
       "Gli astri illuminano il cammino, ma la tua volontà sceglie la direzione.",
 
+    "Chaque journée révèle une direction lorsque vous prenez le temps de l’observer.":
+      "Ogni giornata rivela una direzione quando ti prendi il tempo di osservarla.",
+
     "Horoscope personnalisé":
       "Oroscopo personalizzato",
+
+    "Votre horoscope Premium du jour":
+      "Il tuo oroscopo Premium del giorno",
 
     "Énergie":
       "Energia",
@@ -334,14 +370,23 @@ const TRANSLATIONS: Record<
     "Ce rapport a été préparé pour vous accompagner durant cette période et vous aider à mieux comprendre les énergies qui vous entourent.":
       "Este relatório foi preparado para acompanhá-lo durante este período e ajudá-lo a compreender melhor as energias ao seu redor.",
 
+    "Cette lecture approfondie présente les principales énergies qui pourraient influencer votre journée.":
+      "Esta leitura aprofundada apresenta as principais energias que podem influenciar o seu dia.",
+
     "Votre horoscope personnalisé vous présente les grandes tendances de cette période. Chaque section vous aidera à reconnaître les énergies les plus présentes, à mieux comprendre vos ressentis et à avancer avec davantage de clarté.":
       "Seu horóscopo personalizado apresenta as principais tendências deste período. Cada seção ajudará você a reconhecer as energias mais presentes, compreender melhor seus sentimentos e avançar com mais clareza.",
 
     "Les astres éclairent le chemin, mais votre volonté choisit la direction.":
       "Os astros iluminam o caminho, mas sua vontade escolhe a direção.",
 
+    "Chaque journée révèle une direction lorsque vous prenez le temps de l’observer.":
+      "Cada dia revela uma direção quando você reserva um tempo para observá-lo.",
+
     "Horoscope personnalisé":
       "Horóscopo personalizado",
+
+    "Votre horoscope Premium du jour":
+      "Seu horóscopo Premium do dia",
 
     "Énergie":
       "Energia",
@@ -420,6 +465,7 @@ const MONTHS: Record<
     "November",
     "December",
   ],
+
   es: [
     "enero",
     "febrero",
@@ -434,6 +480,7 @@ const MONTHS: Record<
     "noviembre",
     "diciembre",
   ],
+
   de: [
     "Januar",
     "Februar",
@@ -448,6 +495,7 @@ const MONTHS: Record<
     "November",
     "Dezember",
   ],
+
   it: [
     "gennaio",
     "febbraio",
@@ -462,6 +510,7 @@ const MONTHS: Record<
     "novembre",
     "dicembre",
   ],
+
   pt: [
     "janeiro",
     "fevereiro",
@@ -572,6 +621,15 @@ const ZODIAC_LABELS: Record<
     Poissons: "Peixes",
   },
 };
+
+function escapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
+  );
+}
 
 function localizeSafeLiterals(
   source: string,
@@ -688,7 +746,9 @@ function replaceDynamicWelcomeValues(
   output = output.replace(
     /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period\s*\);/g,
     `const periodLabel =
-    __welcomeLocalizedPeriodLabel(period);`,
+    __welcomeLocalizedPeriodLabel(
+      period,
+    );`,
   );
 
   output = output.replace(
@@ -740,135 +800,6 @@ function injectWelcomeHelpers(
   const translations =
     TRANSLATIONS[locale];
 
-  const dateFormatter = (() => {
-    switch (locale) {
-      case "en":
-        return `
-function __welcomeFormatIsoDate(
-  isoDate?: string | null,
-): string {
-  if (!isoDate) return "";
-
-  const match =
-    isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
-    );
-
-  if (!match) {
-    return __welcomeLocalizeDynamicText(
-      isoDate,
-    );
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-
-  return \`\${__WELCOME_MONTHS[month - 1]} \${day}, \${year}\`;
-}`;
-
-      case "de":
-        return `
-function __welcomeFormatIsoDate(
-  isoDate?: string | null,
-): string {
-  if (!isoDate) return "";
-
-  const match =
-    isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
-    );
-
-  if (!match) {
-    return __welcomeLocalizeDynamicText(
-      isoDate,
-    );
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-
-  return \`\${day}. \${__WELCOME_MONTHS[month - 1]} \${year}\`;
-}`;
-
-      case "es":
-        return `
-function __welcomeFormatIsoDate(
-  isoDate?: string | null,
-): string {
-  if (!isoDate) return "";
-
-  const match =
-    isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
-    );
-
-  if (!match) {
-    return __welcomeLocalizeDynamicText(
-      isoDate,
-    );
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-
-  return \`\${day} de \${__WELCOME_MONTHS[month - 1]} de \${year}\`;
-}`;
-
-      case "it":
-        return `
-function __welcomeFormatIsoDate(
-  isoDate?: string | null,
-): string {
-  if (!isoDate) return "";
-
-  const match =
-    isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
-    );
-
-  if (!match) {
-    return __welcomeLocalizeDynamicText(
-      isoDate,
-    );
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-
-  return \`\${day} \${__WELCOME_MONTHS[month - 1]} \${year}\`;
-}`;
-
-      case "pt":
-        return `
-function __welcomeFormatIsoDate(
-  isoDate?: string | null,
-): string {
-  if (!isoDate) return "";
-
-  const match =
-    isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
-    );
-
-  if (!match) {
-    return __welcomeLocalizeDynamicText(
-      isoDate,
-    );
-  }
-
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
-
-  return \`\${day} de \${__WELCOME_MONTHS[month - 1]} de \${year}\`;
-}`;
-    }
-  })();
-
   const helper = `
 /* =========================================================
    HOROSCOPE WELCOME — GENERATED LOCALE HELPERS
@@ -889,6 +820,15 @@ const __WELCOME_TRANSLATIONS:
   Record<string, string> =
   ${JSON.stringify(translations, null, 2)};
 
+function __welcomeEscapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^\\${}()|[\\]\\\\]/g,
+    "\\\\$&",
+  );
+}
+
 function __welcomeLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -898,18 +838,63 @@ function __welcomeLocalizeDynamicText(
 
   let output = value;
 
+  /*
+   * 1 — Correspondance exacte.
+   */
   const exact =
     __WELCOME_TRANSLATIONS[output];
 
   if (exact) {
     output = exact;
+  } else {
+    /*
+     * 2 — Correspondance à l'intérieur
+     * d'un texte dynamique plus long.
+     *
+     * Exemple :
+     * "Martine, ce rapport..."
+     *
+     * Le prénom reste intact et seule
+     * la phrase française est traduite.
+     */
+    const entries =
+      Object.entries(
+        __WELCOME_TRANSLATIONS,
+      ).sort(
+        ([a], [b]) =>
+          b.length - a.length,
+      );
+
+    entries.forEach(
+      ([frenchText, localizedText]) => {
+        const expression =
+          new RegExp(
+            __welcomeEscapeRegExp(
+              frenchText,
+            ),
+            "gi",
+          );
+
+        output =
+          output.replace(
+            expression,
+            localizedText,
+          );
+      },
+    );
   }
 
+  /*
+   * 3 — Mois français éventuellement
+   * présents dans un contenu dynamique.
+   */
   __WELCOME_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
         new RegExp(
-          \`\\\\b\${frenchMonth}\\\\b\`,
+          \`\\\\b\${__welcomeEscapeRegExp(
+            frenchMonth,
+          )}\\\\b\`,
           "gi",
         ),
         __WELCOME_MONTHS[index],
@@ -917,13 +902,18 @@ function __welcomeLocalizeDynamicText(
     },
   );
 
+  /*
+   * 4 — Signes astrologiques.
+   */
   Object.entries(
     __WELCOME_ZODIAC_LABELS,
   ).forEach(
     ([frenchSign, localizedSign]) => {
       output = output.replace(
         new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
+          \`\\\\b\${__welcomeEscapeRegExp(
+            frenchSign,
+          )}\\\\b\`,
           "gi",
         ),
         localizedSign,
@@ -934,7 +924,45 @@ function __welcomeLocalizeDynamicText(
   return output;
 }
 
-${dateFormatter}
+function __welcomeFormatIsoDate(
+  isoDate?: string | null,
+): string {
+  if (!isoDate) {
+    return "";
+  }
+
+  const match =
+    isoDate.match(
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
+    );
+
+  if (!match) {
+    return __welcomeLocalizeDynamicText(
+      isoDate,
+    );
+  }
+
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
+
+  ${
+    locale === "en"
+      ? 'return `${__WELCOME_MONTHS[month - 1]} ${day}, ${year}`;'
+      : locale === "de"
+        ? 'return `${day}. ${__WELCOME_MONTHS[month - 1]} ${year}`;'
+        : locale === "es"
+          ? 'return `${day} de ${__WELCOME_MONTHS[month - 1]} de ${year}`;'
+          : locale === "pt"
+            ? 'return `${day} de ${__WELCOME_MONTHS[month - 1]} de ${year}`;'
+            : 'return `${day} ${__WELCOME_MONTHS[month - 1]} ${year}`;'
+  }
+}
 
 function __welcomeLocalizedPeriodLabel(
   period: HoroscopeSectionProps["period"],
@@ -947,7 +975,7 @@ function __welcomeLocalizedPeriodLabel(
 
   const match =
     period.startDate?.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
     );
 
   if (!match) {
@@ -958,11 +986,16 @@ function __welcomeLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__WELCOME_MONTHS[month - 1]} \${year}\`;
+    return \`\${__WELCOME_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
