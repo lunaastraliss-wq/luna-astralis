@@ -558,6 +558,34 @@ const ENERGY_ICONS = [
   HOROSCOPE_ICONS.hiddenTalents,
 ];
 
+function formatFrenchMonthReferences(
+  value: string,
+): string {
+  return value.replace(
+    /\b(\d{4})-(0[1-9]|1[0-2])\b/g,
+    (_match, year: string, month: string) => {
+      const date = new Date(
+        Number(year),
+        Number(month) - 1,
+        1,
+      );
+
+      const monthLabel =
+        new Intl.DateTimeFormat(
+          "fr-CA",
+          {
+            month: "long",
+          },
+        ).format(date);
+
+      return `${
+        monthLabel.charAt(0).toUpperCase() +
+        monthLabel.slice(1)
+      } ${year}`;
+    },
+  );
+}
+
 /*
 |--------------------------------------------------------------------------
 | Composant
@@ -666,7 +694,7 @@ export default function HoroscopeMonthMajorEnergies({
           </View>
 
           <Text style={styles.introductionText}>
-            {majorEnergies.introduction}
+            {formatFrenchMonthReferences(majorEnergies.introduction)}
           </Text>
         </View>
 
@@ -735,7 +763,7 @@ export default function HoroscopeMonthMajorEnergies({
                   </View>
 
                   <Text style={styles.description}>
-                    {energy.description}
+                    {formatFrenchMonthReferences(energy.description)}
                   </Text>
 
                   <View style={styles.adviceDivider}>
@@ -747,7 +775,7 @@ export default function HoroscopeMonthMajorEnergies({
                   </View>
 
                   <Text style={styles.advice}>
-                    {energy.advice}
+                    {formatFrenchMonthReferences(energy.advice)}
                   </Text>
                 </View>
               );
@@ -785,7 +813,7 @@ export default function HoroscopeMonthMajorEnergies({
             </View>
 
             <Text style={styles.synthesisText}>
-              {majorEnergies.synthesis}
+              {formatFrenchMonthReferences(majorEnergies.synthesis)}
             </Text>
           </View>
 
@@ -812,7 +840,7 @@ export default function HoroscopeMonthMajorEnergies({
             </View>
 
             <Text style={styles.finalAdviceText}>
-              {majorEnergies.finalAdvice}
+              {formatFrenchMonthReferences(majorEnergies.finalAdvice)}
             </Text>
           </View>
         </View>
