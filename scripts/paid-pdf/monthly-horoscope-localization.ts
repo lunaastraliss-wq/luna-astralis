@@ -10,6 +10,10 @@ import {
   localizeHoroscopeMonthOverview,
 } from "./month-horoscope-overview-localization";
 
+import {
+  localizeHoroscopeMonthMajorEnergies,
+} from "./month-horoscope-major-energies-localization";
+
 type LocalizeMonthHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -56,6 +60,16 @@ export function localizeMonthHoroscopeFile({
     "HoroscopeMonthOverview.tsx"
   ) {
     return localizeHoroscopeMonthOverview(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "HoroscopeMonthMajorEnergies.tsx"
+  ) {
+    return localizeHoroscopeMonthMajorEnergies(
       source,
       locale,
     );
