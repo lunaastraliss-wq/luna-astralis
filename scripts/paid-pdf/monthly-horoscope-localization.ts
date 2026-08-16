@@ -22,6 +22,10 @@ import {
   localizeHoroscopeMonthDominantPlanets,
 } from "./month-horoscope-dominant-planets-localization";
 
+import {
+  localizeHoroscopeMonthActivatedHouses,
+} from "./month-horoscope-activated-houses-localization";
+
 type LocalizeMonthHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -98,6 +102,16 @@ export function localizeMonthHoroscopeFile({
     "HoroscopeMonthDominantPlanets.tsx"
   ) {
     return localizeHoroscopeMonthDominantPlanets(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "HoroscopeMonthActivatedHouses.tsx"
+  ) {
+    return localizeHoroscopeMonthActivatedHouses(
       source,
       locale,
     );
