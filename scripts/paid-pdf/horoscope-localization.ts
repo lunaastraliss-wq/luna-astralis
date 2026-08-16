@@ -39,6 +39,10 @@ import {
   localizeHoroscopeMoney,
 } from "./horoscope-money-localization";
 
+import {
+  localizeHoroscopeHealth,
+} from "./horoscope-health-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -190,6 +194,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeMoney.tsx"
   ) {
     return localizeHoroscopeMoney(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page santé et bien-être Horoscope.
+   */
+  if (
+    fileName === "HoroscopeHealth.tsx"
+  ) {
+    return localizeHoroscopeHealth(
       source,
       locale,
     );
