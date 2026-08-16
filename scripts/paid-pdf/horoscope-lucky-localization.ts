@@ -17,12 +17,23 @@ const TRANSLATIONS: Record<
   TranslationMap
 > = {
   en: {
-    "Couleur favorable": "Favorable color",
-    "Planète favorable": "Favorable planet",
-    "Jour favorable": "Favorable day",
-    "Pierre symbolique": "Symbolic stone",
-    "Élément dominant": "Dominant element",
-    "Moment favorable": "Favorable time",
+    "Couleur favorable":
+      "Favorable color",
+
+    "Planète favorable":
+      "Favorable planet",
+
+    "Jour favorable":
+      "Favorable day",
+
+    "Pierre symbolique":
+      "Symbolic stone",
+
+    "Élément dominant":
+      "Dominant element",
+
+    "Moment favorable":
+      "Favorable time",
 
     "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.":
       "A color to favor in your clothing, accessories, or surroundings.",
@@ -98,12 +109,23 @@ const TRANSLATIONS: Record<
   },
 
   es: {
-    "Couleur favorable": "Color favorable",
-    "Planète favorable": "Planeta favorable",
-    "Jour favorable": "Día favorable",
-    "Pierre symbolique": "Piedra simbólica",
-    "Élément dominant": "Elemento dominante",
-    "Moment favorable": "Momento favorable",
+    "Couleur favorable":
+      "Color favorable",
+
+    "Planète favorable":
+      "Planeta favorable",
+
+    "Jour favorable":
+      "Día favorable",
+
+    "Pierre symbolique":
+      "Piedra simbólica",
+
+    "Élément dominant":
+      "Elemento dominante",
+
+    "Moment favorable":
+      "Momento favorable",
 
     "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.":
       "Un color que puede favorecer en su ropa, accesorios o entorno.",
@@ -179,12 +201,23 @@ const TRANSLATIONS: Record<
   },
 
   de: {
-    "Couleur favorable": "Günstige Farbe",
-    "Planète favorable": "Günstiger Planet",
-    "Jour favorable": "Günstiger Tag",
-    "Pierre symbolique": "Symbolischer Stein",
-    "Élément dominant": "Dominierendes Element",
-    "Moment favorable": "Günstiger Zeitpunkt",
+    "Couleur favorable":
+      "Günstige Farbe",
+
+    "Planète favorable":
+      "Günstiger Planet",
+
+    "Jour favorable":
+      "Günstiger Tag",
+
+    "Pierre symbolique":
+      "Symbolischer Stein",
+
+    "Élément dominant":
+      "Dominierendes Element",
+
+    "Moment favorable":
+      "Günstiger Zeitpunkt",
 
     "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.":
       "Eine Farbe, die Sie bei Ihrer Kleidung, Ihren Accessoires oder in Ihrer Umgebung bevorzugen können.",
@@ -260,12 +293,23 @@ const TRANSLATIONS: Record<
   },
 
   it: {
-    "Couleur favorable": "Colore favorevole",
-    "Planète favorable": "Pianeta favorevole",
-    "Jour favorable": "Giorno favorevole",
-    "Pierre symbolique": "Pietra simbolica",
-    "Élément dominant": "Elemento dominante",
-    "Moment favorable": "Momento favorevole",
+    "Couleur favorable":
+      "Colore favorevole",
+
+    "Planète favorable":
+      "Pianeta favorevole",
+
+    "Jour favorable":
+      "Giorno favorevole",
+
+    "Pierre symbolique":
+      "Pietra simbolica",
+
+    "Élément dominant":
+      "Elemento dominante",
+
+    "Moment favorable":
+      "Momento favorevole",
 
     "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.":
       "Una tonalità da privilegiare nell'abbigliamento, negli accessori o nell'ambiente.",
@@ -341,12 +385,23 @@ const TRANSLATIONS: Record<
   },
 
   pt: {
-    "Couleur favorable": "Cor favorável",
-    "Planète favorable": "Planeta favorável",
-    "Jour favorable": "Dia favorável",
-    "Pierre symbolique": "Pedra simbólica",
-    "Élément dominant": "Elemento dominante",
-    "Moment favorable": "Momento favorável",
+    "Couleur favorable":
+      "Cor favorável",
+
+    "Planète favorable":
+      "Planeta favorável",
+
+    "Jour favorable":
+      "Dia favorável",
+
+    "Pierre symbolique":
+      "Pedra simbólica",
+
+    "Élément dominant":
+      "Elemento dominante",
+
+    "Moment favorable":
+      "Momento favorável",
 
     "Une teinte à privilégier dans vos vêtements, vos accessoires ou votre environnement.":
       "Uma cor a privilegiar nas suas roupas, acessórios ou ambiente.",
@@ -451,6 +506,9 @@ const DYNAMIC_VALUES: Record<
     uranus: "Uranus",
     neptune: "Neptune",
     pluton: "Pluto",
+
+    bordeaux: "Burgundy",
+    obsidienne: "Obsidian",
   },
 
   es: {
@@ -478,6 +536,9 @@ const DYNAMIC_VALUES: Record<
     uranus: "Urano",
     neptune: "Neptuno",
     pluton: "Plutón",
+
+    bordeaux: "Burdeos",
+    obsidienne: "Obsidiana",
   },
 
   de: {
@@ -505,6 +566,9 @@ const DYNAMIC_VALUES: Record<
     uranus: "Uranus",
     neptune: "Neptun",
     pluton: "Pluto",
+
+    bordeaux: "Bordeauxrot",
+    obsidienne: "Obsidian",
   },
 
   it: {
@@ -532,6 +596,9 @@ const DYNAMIC_VALUES: Record<
     uranus: "Urano",
     neptune: "Nettuno",
     pluton: "Plutone",
+
+    bordeaux: "Bordeaux",
+    obsidienne: "Ossidiana",
   },
 
   pt: {
@@ -559,8 +626,106 @@ const DYNAMIC_VALUES: Record<
     uranus: "Urano",
     neptune: "Netuno",
     pluton: "Plutão",
+
+    bordeaux: "Bordô",
+    obsidienne: "Obsidiana",
   },
 };
+
+const MONTHS: Record<
+  NonFrenchLocale,
+  string[]
+> = {
+  en: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  es: [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ],
+
+  de: [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ],
+
+  it: [
+    "gennaio",
+    "febbraio",
+    "marzo",
+    "aprile",
+    "maggio",
+    "giugno",
+    "luglio",
+    "agosto",
+    "settembre",
+    "ottobre",
+    "novembre",
+    "dicembre",
+  ],
+
+  pt: [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ],
+};
+
+const FRENCH_MONTHS = [
+  "janvier",
+  "février",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juillet",
+  "août",
+  "septembre",
+  "octobre",
+  "novembre",
+  "décembre",
+] as const;
 
 function localizeSafeLiterals(
   source: string,
@@ -598,9 +763,12 @@ function localizeSafeLiterals(
         translated !== node.text
       ) {
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
-          value: JSON.stringify(translated),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(translated),
         });
       }
     }
@@ -626,8 +794,10 @@ function localizeSafeLiterals(
           raw.match(/\s*$/)?.[0] ?? "";
 
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
           value:
             `${leading}${translated}${trailing}`,
         });
@@ -750,6 +920,12 @@ const __LUCKY_DYNAMIC_VALUES:
   Record<string, string> =
   ${JSON.stringify(dynamicValues, null, 2)};
 
+const __LUCKY_MONTHS =
+  ${JSON.stringify(MONTHS[locale], null, 2)} as const;
+
+const __LUCKY_FRENCH_MONTHS =
+  ${JSON.stringify(FRENCH_MONTHS, null, 2)} as const;
+
 function __luckyNormalizeText(
   value: string,
 ): string {
@@ -774,11 +950,127 @@ function __luckyLocalizeDynamicText(
   );
 }
 
+function __luckyFormatIsoDate(
+  isoDate?: string | null,
+): string {
+  if (!isoDate) {
+    return "";
+  }
+
+  const match =
+    isoDate.match(
+      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+    );
+
+  if (!match) {
+    return isoDate;
+  }
+
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
+
+  ${
+    locale === "en"
+      ? 'return `${__LUCKY_MONTHS[month - 1]} ${day}, ${year}`;'
+      : locale === "de"
+        ? 'return `${day}. ${__LUCKY_MONTHS[month - 1]} ${year}`;'
+        : locale === "es"
+          ? 'return `${day} de ${__LUCKY_MONTHS[month - 1]} de ${year}`;'
+          : locale === "pt"
+            ? 'return `${day} de ${__LUCKY_MONTHS[month - 1]} de ${year}`;'
+            : 'return `${day} ${__LUCKY_MONTHS[month - 1]} ${year}`;'
+  }
+}
+
+function __luckyTranslateFrenchDate(
+  value: string,
+): string {
+  const normalized =
+    value.trim().toLowerCase();
+
+  const match =
+    normalized.match(
+      /^(\\d{1,2})\\s+([a-zàâäéèêëîïôöùûüç]+)\\s+(\\d{4})$/,
+    );
+
+  if (!match) {
+    return value;
+  }
+
+  const day =
+    Number(match[1]);
+
+  const frenchMonth =
+    match[2];
+
+  const year =
+    Number(match[3]);
+
+  const monthIndex =
+    __LUCKY_FRENCH_MONTHS.findIndex(
+      (month) =>
+        month === frenchMonth,
+    );
+
+  if (monthIndex < 0) {
+    return value;
+  }
+
+  ${
+    locale === "en"
+      ? 'return `${__LUCKY_MONTHS[monthIndex]} ${day}, ${year}`;'
+      : locale === "de"
+        ? 'return `${day}. ${__LUCKY_MONTHS[monthIndex]} ${year}`;'
+        : locale === "es"
+          ? 'return `${day} de ${__LUCKY_MONTHS[monthIndex]} de ${year}`;'
+          : locale === "pt"
+            ? 'return `${day} de ${__LUCKY_MONTHS[monthIndex]} de ${year}`;'
+            : 'return `${day} ${__LUCKY_MONTHS[monthIndex]} ${year}`;'
+  }
+}
+
 function __luckyLocalizedPeriodLabel(
   period: HoroscopeSectionProps["period"],
 ): string {
+  /*
+   * Priorité à startDate lorsqu'il s'agit
+   * d'une date ISO.
+   */
+  if (
+    period.startDate &&
+    /^\\d{4}-\\d{2}-\\d{2}$/.test(
+      period.startDate,
+    )
+  ) {
+    return __luckyFormatIsoDate(
+      period.startDate,
+    );
+  }
+
   const value =
-    formatHoroscopePeriodLabel(period);
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
+  /*
+   * Si le formatter français retourne par
+   * exemple "21 juillet 2026", on le traduit
+   * ici correctement.
+   */
+  const localizedDate =
+    __luckyTranslateFrenchDate(
+      value,
+    );
+
+  if (localizedDate !== value) {
+    return localizedDate;
+  }
 
   return __luckyLocalizeDynamicText(
     value,
