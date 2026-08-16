@@ -38,6 +38,15 @@ const TRANSLATIONS: Record<
     "Vos axes de progression":
       "Your areas for growth",
 
+    "Analyse":
+      "Analysis",
+
+    "Stratégie":
+      "Strategy",
+
+    "Préparation":
+      "Preparation",
+
     "Conseil professionnel":
       "Career advice",
   },
@@ -63,6 +72,15 @@ const TRANSLATIONS: Record<
 
     "Vos axes de progression":
       "Sus áreas de progreso",
+
+    "Analyse":
+      "Análisis",
+
+    "Stratégie":
+      "Estrategia",
+
+    "Préparation":
+      "Preparación",
 
     "Conseil professionnel":
       "Consejo profesional",
@@ -90,6 +108,15 @@ const TRANSLATIONS: Record<
     "Vos axes de progression":
       "Ihre Entwicklungsbereiche",
 
+    "Analyse":
+      "Analyse",
+
+    "Stratégie":
+      "Strategie",
+
+    "Préparation":
+      "Vorbereitung",
+
     "Conseil professionnel":
       "Beruflicher Rat",
   },
@@ -116,6 +143,15 @@ const TRANSLATIONS: Record<
     "Vos axes de progression":
       "Le tue aree di crescita",
 
+    "Analyse":
+      "Analisi",
+
+    "Stratégie":
+      "Strategia",
+
+    "Préparation":
+      "Preparazione",
+
     "Conseil professionnel":
       "Consiglio professionale",
   },
@@ -141,6 +177,15 @@ const TRANSLATIONS: Record<
 
     "Vos axes de progression":
       "Suas áreas de progresso",
+
+    "Analyse":
+      "Análise",
+
+    "Stratégie":
+      "Estratégia",
+
+    "Préparation":
+      "Preparação",
 
     "Conseil professionnel":
       "Conselho profissional",
@@ -462,10 +507,6 @@ function replaceDynamicCareerValues(
     "{__careerLocalizeDynamicText(content.career.text)}",
   );
 
-  /*
-   * Les highlights sont passés au composant
-   * CareerMilestone avec text={highlight}.
-   */
   output = output.replace(
     /\btext=\{highlight\}/g,
     "text={__careerLocalizeDynamicText(highlight)}",
