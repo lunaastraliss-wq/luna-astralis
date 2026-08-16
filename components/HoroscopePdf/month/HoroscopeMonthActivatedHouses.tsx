@@ -1354,8 +1354,9 @@ export default function HoroscopeMonthActivatedHouses({
           </Text>
 
           <Text style={styles.introduction}>
-            Au cours de {periodLabel}, certains
-            domaines de votre vie peuvent prendre
+            Au cours de{" "}
+            {periodLabel}, certains domaines de votre vie
+            peuvent prendre
             davantage de place que d’autres. Les
             maisons astrologiques mettent en lumière
             les secteurs où votre attention, vos
