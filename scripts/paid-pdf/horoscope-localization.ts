@@ -27,6 +27,10 @@ import {
   localizeHoroscopePlanets,
 } from "./horoscope-planets-localization";
 
+import {
+  localizeHoroscopeLove,
+} from "./horoscope-love-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -142,6 +146,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopePlanets.tsx"
   ) {
     return localizeHoroscopePlanets(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page amour et relations Horoscope.
+   */
+  if (
+    fileName === "HoroscopeLove.tsx"
+  ) {
+    return localizeHoroscopeLove(
       source,
       locale,
     );
