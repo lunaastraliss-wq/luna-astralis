@@ -30,6 +30,10 @@ import {
   localizeHoroscopeMonthMoonPhases,
 } from "./month-horoscope-moon-phases-localization";
 
+import {
+  localizeHoroscopeMonthAstroEvents,
+} from "./month-horoscope-astro-events-localization";
+
 type LocalizeMonthHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -126,6 +130,16 @@ export function localizeMonthHoroscopeFile({
     "HoroscopeMonthMoonPhases.tsx"
   ) {
     return localizeHoroscopeMonthMoonPhases(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "HoroscopeMonthAstroEvents.tsx"
+  ) {
+    return localizeHoroscopeMonthAstroEvents(
       source,
       locale,
     );
