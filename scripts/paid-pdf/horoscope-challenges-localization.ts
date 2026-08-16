@@ -35,6 +35,9 @@ const TRANSLATIONS: Record<
     "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer.":
       "This period invites you to look clearly at areas of tension. Each challenge can reveal a hidden strength, a boundary to respect, or a new way forward.",
 
+    "Les défis de cette journée vous invitent à agir avec davantage de discernement.":
+      "The challenges of this day invite you to act with greater discernment.",
+
     "Vos principaux défis":
       "Your main challenges",
 
@@ -43,6 +46,15 @@ const TRANSLATIONS: Record<
 
     "Aucun défi majeur n’est mis en évidence pour cette période. Restez toutefois attentive aux petits signaux qui pourraient vous inviter à ajuster votre rythme.":
       "No major challenge stands out during this period. However, remain attentive to subtle signs that may invite you to adjust your pace.",
+
+    "Discernement":
+      "Discernment",
+
+    "DISCERNEMENT":
+      "DISCERNMENT",
+
+    "Balance":
+      "Balance",
 
     "Transformer le défi":
       "Transforming the challenge",
@@ -70,6 +82,9 @@ const TRANSLATIONS: Record<
     "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer.":
       "Este período le invita a observar con claridad las áreas de tensión. Cada desafío puede revelar una fortaleza oculta, un límite que respetar o una nueva manera de avanzar.",
 
+    "Les défis de cette journée vous invitent à agir avec davantage de discernement.":
+      "Los desafíos de este día le invitan a actuar con mayor discernimiento.",
+
     "Vos principaux défis":
       "Sus principales desafíos",
 
@@ -78,6 +93,15 @@ const TRANSLATIONS: Record<
 
     "Aucun défi majeur n’est mis en évidence pour cette période. Restez toutefois attentive aux petits signaux qui pourraient vous inviter à ajuster votre rythme.":
       "No se destaca ningún desafío importante durante este período. Sin embargo, permanezca atento a las pequeñas señales que podrían invitarle a ajustar su ritmo.",
+
+    "Discernement":
+      "Discernimiento",
+
+    "DISCERNEMENT":
+      "DISCERNIMIENTO",
+
+    "Balance":
+      "Equilibrio",
 
     "Transformer le défi":
       "Transformar el desafío",
@@ -105,6 +129,9 @@ const TRANSLATIONS: Record<
     "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer.":
       "Diese Phase lädt Sie dazu ein, Spannungsfelder bewusst und klar zu betrachten. Jede Herausforderung kann eine verborgene Stärke, eine zu respektierende Grenze oder einen neuen Weg nach vorn aufzeigen.",
 
+    "Les défis de cette journée vous invitent à agir avec davantage de discernement.":
+      "Die Herausforderungen dieses Tages laden Sie dazu ein, mit mehr Urteilsvermögen zu handeln.",
+
     "Vos principaux défis":
       "Ihre wichtigsten Herausforderungen",
 
@@ -113,6 +140,15 @@ const TRANSLATIONS: Record<
 
     "Aucun défi majeur n’est mis en évidence pour cette période. Restez toutefois attentive aux petits signaux qui pourraient vous inviter à ajuster votre rythme.":
       "Für diese Phase zeichnet sich keine größere Herausforderung ab. Achten Sie dennoch auf kleine Signale, die Sie dazu anregen könnten, Ihren Rhythmus anzupassen.",
+
+    "Discernement":
+      "Urteilsvermögen",
+
+    "DISCERNEMENT":
+      "URTEILSVERMÖGEN",
+
+    "Balance":
+      "Gleichgewicht",
 
     "Transformer le défi":
       "Die Herausforderung verwandeln",
@@ -140,6 +176,9 @@ const TRANSLATIONS: Record<
     "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer.":
       "Questo periodo ti invita a osservare con lucidità le aree di tensione. Ogni sfida può rivelare una forza nascosta, un limite da rispettare o un nuovo modo di andare avanti.",
 
+    "Les défis de cette journée vous invitent à agir avec davantage de discernement.":
+      "Le sfide di questa giornata ti invitano ad agire con maggiore discernimento.",
+
     "Vos principaux défis":
       "Le tue sfide principali",
 
@@ -148,6 +187,15 @@ const TRANSLATIONS: Record<
 
     "Aucun défi majeur n’est mis en évidence pour cette période. Restez toutefois attentive aux petits signaux qui pourraient vous inviter à ajuster votre rythme.":
       "In questo periodo non emerge alcuna sfida importante. Rimani comunque attento ai piccoli segnali che potrebbero invitarti ad adattare il tuo ritmo.",
+
+    "Discernement":
+      "Discernimento",
+
+    "DISCERNEMENT":
+      "DISCERNIMENTO",
+
+    "Balance":
+      "Equilibrio",
 
     "Transformer le défi":
       "Trasformare la sfida",
@@ -175,6 +223,9 @@ const TRANSLATIONS: Record<
     "Cette période vous invite à observer les zones de tension avec lucidité. Chaque défi peut révéler une force cachée, une limite à respecter ou une nouvelle manière d’avancer.":
       "Este período convida você a observar com clareza as áreas de tensão. Cada desafio pode revelar uma força oculta, um limite a respeitar ou uma nova maneira de avançar.",
 
+    "Les défis de cette journée vous invitent à agir avec davantage de discernement.":
+      "Os desafios deste dia convidam você a agir com mais discernimento.",
+
     "Vos principaux défis":
       "Seus principais desafios",
 
@@ -183,6 +234,15 @@ const TRANSLATIONS: Record<
 
     "Aucun défi majeur n’est mis en évidence pour cette période. Restez toutefois attentive aux petits signaux qui pourraient vous inviter à ajuster votre rythme.":
       "Nenhum grande desafio se destaca neste período. Ainda assim, fique atento aos pequenos sinais que podem indicar a necessidade de ajustar seu ritmo.",
+
+    "Discernement":
+      "Discernimento",
+
+    "DISCERNEMENT":
+      "DISCERNIMENTO",
+
+    "Balance":
+      "Equilíbrio",
 
     "Transformer le défi":
       "Transformar o desafio",
@@ -487,9 +547,15 @@ function replaceDynamicChallengeValues(
     );`,
   );
 
+  /*
+   * IMPORTANT :
+   * Le signe astrologique est traité séparément.
+   * On ne doit pas appliquer ZODIAC_LABELS aux thèmes,
+   * sinon "Balance" devient "Libra".
+   */
   output = output.replace(
     /\{identity\.zodiacSignLabel\}/g,
-    "{__challengesLocalizeDynamicText(identity.zodiacSignLabel)}",
+    "{__challengesLocalizeZodiacSign(identity.zodiacSignLabel)}",
   );
 
   output = output.replace(
@@ -552,6 +618,19 @@ const __CHALLENGES_TRANSLATIONS:
   Record<string, string> =
   ${JSON.stringify(TRANSLATIONS[locale], null, 2)};
 
+function __challengesLocalizeZodiacSign(
+  value?: string | null,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  return (
+    __CHALLENGES_ZODIAC_LABELS[value] ??
+    value
+  );
+}
+
 function __challengesLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -563,6 +642,15 @@ function __challengesLocalizeDynamicText(
     __CHALLENGES_TRANSLATIONS[value] ??
     value;
 
+  /*
+   * On traduit les mois si une valeur dynamique
+   * en contient un.
+   *
+   * IMPORTANT :
+   * On ne traduit PAS les signes astrologiques ici.
+   * Cela évite de transformer le thème "Balance"
+   * en "Libra".
+   */
   __CHALLENGES_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
@@ -571,20 +659,6 @@ function __challengesLocalizeDynamicText(
           "gi",
         ),
         __CHALLENGES_MONTHS[index],
-      );
-    },
-  );
-
-  Object.entries(
-    __CHALLENGES_ZODIAC_LABELS,
-  ).forEach(
-    ([frenchSign, localizedSign]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
-          "gi",
-        ),
-        localizedSign,
       );
     },
   );
@@ -610,9 +684,14 @@ function __challengesFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -649,11 +728,16 @@ function __challengesLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__CHALLENGES_MONTHS[month - 1]} \${year}\`;
+    return \`\${__CHALLENGES_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
