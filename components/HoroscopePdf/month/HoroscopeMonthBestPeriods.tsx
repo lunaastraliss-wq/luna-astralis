@@ -90,6 +90,7 @@ type BestPeriodCategory =
   | "love"
   | "career"
   | "money"
+  | "general"
   | "energy";
 
 type DisplayBestPeriod = {
@@ -211,6 +212,26 @@ function getBestPeriodCategory(
     return "money";
   }
 
+  if (
+    normalized.includes(
+      "evolution generale",
+    ) ||
+    normalized.includes(
+      "evolution",
+    ) ||
+    normalized.includes(
+      "general",
+    ) ||
+    normalized.includes(
+      "globale",
+    ) ||
+    normalized.includes(
+      "global",
+    )
+  ) {
+    return "general";
+  }
+
   return "energy";
 }
 
@@ -227,6 +248,9 @@ function getCategoryLabel(
 
     case "money":
       return "Finances";
+
+    case "general":
+      return "Évolution générale";
 
     case "energy":
     default:
@@ -427,14 +451,39 @@ function buildDisplayBestPeriod(
         "category",
         "categoryLabel",
         "domain",
+        "domainLabel",
         "theme",
         "area",
       ],
     );
 
+  const categorySignal =
+    [
+      rawCategory,
+      readString(
+        source,
+        [
+          "title",
+          "headline",
+          "name",
+        ],
+      ),
+      readString(
+        source,
+        [
+          "description",
+          "interpretation",
+          "meaning",
+          "text",
+        ],
+      ),
+    ]
+      .filter(Boolean)
+      .join(" ");
+
   const category =
     getBestPeriodCategory(
-      rawCategory,
+      categorySignal,
     );
 
   return {
@@ -456,13 +505,6 @@ function buildDisplayBestPeriod(
     category,
 
     categoryLabel:
-      readString(
-        source,
-        [
-          "categoryLabel",
-          "domainLabel",
-        ],
-      ) ||
       getCategoryLabel(
         category,
       ),
@@ -1801,6 +1843,7 @@ function getCategoryStyle(
     case "money":
       return styles.categoryMoney;
 
+    case "general":
     case "energy":
       return styles.categoryEnergy;
 
@@ -1828,6 +1871,9 @@ function getCategoryIcon(
 
     case "money":
       return HOROSCOPE_ICONS.jupiter;
+
+    case "general":
+      return HOROSCOPE_ICONS.integrationGuide;
 
     case "energy":
       return HOROSCOPE_ICONS.mars;
