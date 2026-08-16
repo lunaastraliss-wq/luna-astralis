@@ -1417,10 +1417,40 @@ function __planetsLocalizeAspect(
     return "";
   }
 
-  return (
-    __PLANETS_ASPECTS[value] ??
-    value
-  );
+  let output = value;
+
+  /*
+   * influence.aspect peut contenir seulement
+   * l'aspect ("Carré"), mais aussi une chaîne
+   * complète comme :
+   *
+   * "Carré Mars natal"
+   * "Opposition Mercure natal"
+   * "Sextile Pluton natal"
+   * "Trigone Jupiter natal"
+   *
+   * On traduit donc chaque partie au lieu de
+   * faire uniquement une correspondance exacte.
+   */
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_ASPECTS,
+    );
+
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_NAMES,
+    );
+
+  output =
+    __planetsReplaceMap(
+      output,
+      __PLANETS_DYNAMIC_FRAGMENTS,
+    );
+
+  return output;
 }
 
 function __planetsFormatSignPlacement(
