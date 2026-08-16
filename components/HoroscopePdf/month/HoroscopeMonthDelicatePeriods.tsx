@@ -90,6 +90,8 @@ type DelicatePeriodCategory =
   | "communication"
   | "relationships"
   | "career"
+  | "wellbeing"
+  | "general"
   | "energy";
 
 type DisplayDelicatePeriod = {
@@ -211,6 +213,46 @@ function getDelicatePeriodCategory(
     return "career";
   }
 
+  if (
+    normalized.includes(
+      "bien-etre",
+    ) ||
+    normalized.includes(
+      "bien etre",
+    ) ||
+    normalized.includes(
+      "sante",
+    ) ||
+    normalized.includes(
+      "health",
+    ) ||
+    normalized.includes(
+      "wellbeing",
+    ) ||
+    normalized.includes(
+      "well-being",
+    )
+  ) {
+    return "wellbeing";
+  }
+
+  if (
+    normalized.includes(
+      "evolution generale",
+    ) ||
+    normalized.includes(
+      "general",
+    ) ||
+    normalized.includes(
+      "globale",
+    ) ||
+    normalized.includes(
+      "global",
+    )
+  ) {
+    return "general";
+  }
+
   return "energy";
 }
 
@@ -227,6 +269,12 @@ function getCategoryLabel(
 
     case "career":
       return "Carrière";
+
+    case "wellbeing":
+      return "Bien-être";
+
+    case "general":
+      return "Évolution générale";
 
     case "energy":
     default:
@@ -427,14 +475,39 @@ function buildDisplayDelicatePeriod(
         "category",
         "categoryLabel",
         "domain",
+        "domainLabel",
         "theme",
         "area",
       ],
     );
 
+  const categorySignal =
+    [
+      rawCategory,
+      readString(
+        source,
+        [
+          "title",
+          "headline",
+          "name",
+        ],
+      ),
+      readString(
+        source,
+        [
+          "description",
+          "interpretation",
+          "meaning",
+          "text",
+        ],
+      ),
+    ]
+      .filter(Boolean)
+      .join(" ");
+
   const category =
     getDelicatePeriodCategory(
-      rawCategory,
+      categorySignal,
     );
 
   return {
@@ -456,13 +529,6 @@ function buildDisplayDelicatePeriod(
     category,
 
     categoryLabel:
-      readString(
-        source,
-        [
-          "categoryLabel",
-          "domainLabel",
-        ],
-      ) ||
       getCategoryLabel(
         category,
       ),
@@ -1922,6 +1988,8 @@ function getCategoryStyle(
     case "career":
       return styles.categoryCareer;
 
+    case "wellbeing":
+    case "general":
     case "energy":
       return styles.categoryEnergy;
 
@@ -1949,6 +2017,12 @@ function getCategoryIcon(
 
     case "career":
       return HOROSCOPE_ICONS.saturn;
+
+    case "wellbeing":
+      return HOROSCOPE_ICONS.innerWorld;
+
+    case "general":
+      return HOROSCOPE_ICONS.integrationGuide;
 
     case "energy":
       return HOROSCOPE_ICONS.mars;
