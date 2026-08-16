@@ -19,24 +19,36 @@ const TRANSLATIONS: Record<
   en: {
     "Influence planétaire":
       "Planetary influence",
+
     "Influence dominante":
       "Dominant influence",
+
     "Votre clé astrologique":
       "Your astrological key",
+
     "Conseil":
       "Advice",
+
     "Influences célestes":
       "Celestial influences",
+
     "Les planètes qui vous accompagnent":
       "The planets guiding you",
+
     "Les autres mouvements célestes":
       "Other celestial movements",
+
     "Synthèse des influences":
       "Overview of the influences",
+
     "Conseil pour cette période":
       "Guidance for this period",
+
     "Une énergie céleste subtile":
       "A subtle celestial energy",
+
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "These influences compare today's planetary positions with your birth chart to reveal the most personal and active energies affecting you today.",
 
     "Les mouvements planétaires de cette période ne s'expriment jamais de façon isolée. Ensemble, ils créent une dynamique qui influence vos émotions, votre manière d'agir, vos relations et les occasions qui se présenteront à vous.":
       "The planetary movements of this period never act in isolation. Together, they create a dynamic that influences your emotions, your way of acting, your relationships, and the opportunities that may arise.",
@@ -60,24 +72,36 @@ const TRANSLATIONS: Record<
   es: {
     "Influence planétaire":
       "Influencia planetaria",
+
     "Influence dominante":
       "Influencia dominante",
+
     "Votre clé astrologique":
       "Su clave astrológica",
+
     "Conseil":
       "Consejo",
+
     "Influences célestes":
       "Influencias celestes",
+
     "Les planètes qui vous accompagnent":
       "Los planetas que le acompañan",
+
     "Les autres mouvements célestes":
-      "Los otros movimientos celestes",
+      "Otros movimientos celestes",
+
     "Synthèse des influences":
       "Síntesis de las influencias",
+
     "Conseil pour cette période":
       "Consejo para este período",
+
     "Une énergie céleste subtile":
       "Una energía celeste sutil",
+
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Estas influencias comparan las posiciones planetarias del día con su carta natal para revelar las energías más personales y activas de hoy.",
 
     "Les mouvements planétaires de cette période ne s'expriment jamais de façon isolée. Ensemble, ils créent une dynamique qui influence vos émotions, votre manière d'agir, vos relations et les occasions qui se présenteront à vous.":
       "Los movimientos planetarios de este período nunca actúan de forma aislada. Juntos crean una dinámica que influye en sus emociones, su manera de actuar, sus relaciones y las oportunidades que se presentarán.",
@@ -101,24 +125,36 @@ const TRANSLATIONS: Record<
   de: {
     "Influence planétaire":
       "Planetarischer Einfluss",
+
     "Influence dominante":
       "Dominanter Einfluss",
+
     "Votre clé astrologique":
       "Ihr astrologischer Schlüssel",
+
     "Conseil":
       "Rat",
+
     "Influences célestes":
       "Himmlische Einflüsse",
+
     "Les planètes qui vous accompagnent":
       "Die Planeten, die Sie begleiten",
+
     "Les autres mouvements célestes":
       "Weitere himmlische Bewegungen",
+
     "Synthèse des influences":
       "Zusammenfassung der Einflüsse",
+
     "Conseil pour cette période":
       "Rat für diesen Zeitraum",
+
     "Une énergie céleste subtile":
       "Eine subtile himmlische Energie",
+
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Diese Einflüsse vergleichen die heutigen Planetenpositionen mit Ihrem Geburtshoroskop, um die persönlichsten und aktivsten Energien des Tages sichtbar zu machen.",
 
     "Les mouvements planétaires de cette période ne s'expriment jamais de façon isolée. Ensemble, ils créent une dynamique qui influence vos émotions, votre manière d'agir, vos relations et les occasions qui se présenteront à vous.":
       "Die planetarischen Bewegungen dieses Zeitraums wirken niemals isoliert. Gemeinsam erzeugen sie eine Dynamik, die Ihre Emotionen, Ihre Handlungsweise, Ihre Beziehungen und die sich bietenden Möglichkeiten beeinflusst.",
@@ -142,24 +178,36 @@ const TRANSLATIONS: Record<
   it: {
     "Influence planétaire":
       "Influenza planetaria",
+
     "Influence dominante":
       "Influenza dominante",
+
     "Votre clé astrologique":
       "La tua chiave astrologica",
+
     "Conseil":
       "Consiglio",
+
     "Influences célestes":
       "Influenze celesti",
+
     "Les planètes qui vous accompagnent":
       "I pianeti che ti accompagnano",
+
     "Les autres mouvements célestes":
       "Gli altri movimenti celesti",
+
     "Synthèse des influences":
       "Sintesi delle influenze",
+
     "Conseil pour cette période":
       "Consiglio per questo periodo",
+
     "Une énergie céleste subtile":
       "Una sottile energia celeste",
+
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Queste influenze confrontano le posizioni planetarie del giorno con il tuo tema natale per rivelare le energie più personali e attive di oggi.",
 
     "Les mouvements planétaires de cette période ne s'expriment jamais de façon isolée. Ensemble, ils créent une dynamique qui influence vos émotions, votre manière d'agir, vos relations et les occasions qui se présenteront à vous.":
       "I movimenti planetari di questo periodo non agiscono mai in modo isolato. Insieme creano una dinamica che influenza le tue emozioni, il tuo modo di agire, le tue relazioni e le opportunità che si presenteranno.",
@@ -183,24 +231,36 @@ const TRANSLATIONS: Record<
   pt: {
     "Influence planétaire":
       "Influência planetária",
+
     "Influence dominante":
       "Influência dominante",
+
     "Votre clé astrologique":
       "Sua chave astrológica",
+
     "Conseil":
       "Conselho",
+
     "Influences célestes":
       "Influências celestes",
+
     "Les planètes qui vous accompagnent":
       "Os planetas que acompanham você",
+
     "Les autres mouvements célestes":
       "Os outros movimentos celestes",
+
     "Synthèse des influences":
       "Síntese das influências",
+
     "Conseil pour cette période":
       "Conselho para este período",
+
     "Une énergie céleste subtile":
       "Uma energia celeste sutil",
+
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Estas influências comparam as posições planetárias do dia com o seu mapa astral para revelar as energias mais pessoais e ativas de hoje.",
 
     "Les mouvements planétaires de cette période ne s'expriment jamais de façon isolée. Ensemble, ils créent une dynamique qui influence vos émotions, votre manière d'agir, vos relations et les occasions qui se présenteront à vous.":
       "Os movimentos planetários deste período nunca atuam de forma isolada. Juntos, criam uma dinâmica que influencia suas emoções, sua maneira de agir, seus relacionamentos e as oportunidades que surgirão.",
@@ -227,38 +287,78 @@ const MONTHS: Record<
   string[]
 > = {
   en: [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
 
   es: [
-    "enero", "febrero", "marzo",
-    "abril", "mayo", "junio",
-    "julio", "agosto", "septiembre",
-    "octubre", "noviembre", "diciembre",
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
   ],
 
   de: [
-    "Januar", "Februar", "März",
-    "April", "Mai", "Juni",
-    "Juli", "August", "September",
-    "Oktober", "November", "Dezember",
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
   ],
 
   it: [
-    "gennaio", "febbraio", "marzo",
-    "aprile", "maggio", "giugno",
-    "luglio", "agosto", "settembre",
-    "ottobre", "novembre", "dicembre",
+    "gennaio",
+    "febbraio",
+    "marzo",
+    "aprile",
+    "maggio",
+    "giugno",
+    "luglio",
+    "agosto",
+    "settembre",
+    "ottobre",
+    "novembre",
+    "dicembre",
   ],
 
   pt: [
-    "janeiro", "fevereiro", "março",
-    "abril", "maio", "junho",
-    "julho", "agosto", "setembro",
-    "outubro", "novembro", "dezembro",
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
   ],
 };
 
@@ -286,6 +386,7 @@ const PLANETS: Record<
     Lune: "Moon",
     Mercure: "Mercury",
     Vénus: "Venus",
+    Venus: "Venus",
     Mars: "Mars",
     Jupiter: "Jupiter",
     Saturne: "Saturn",
@@ -304,6 +405,7 @@ const PLANETS: Record<
     Lune: "Luna",
     Mercure: "Mercurio",
     Vénus: "Venus",
+    Venus: "Venus",
     Mars: "Marte",
     Jupiter: "Júpiter",
     Saturne: "Saturno",
@@ -322,6 +424,7 @@ const PLANETS: Record<
     Lune: "Mond",
     Mercure: "Merkur",
     Vénus: "Venus",
+    Venus: "Venus",
     Mars: "Mars",
     Jupiter: "Jupiter",
     Saturne: "Saturn",
@@ -340,6 +443,7 @@ const PLANETS: Record<
     Lune: "Luna",
     Mercure: "Mercurio",
     Vénus: "Venere",
+    Venus: "Venere",
     Mars: "Marte",
     Jupiter: "Giove",
     Saturne: "Saturno",
@@ -358,6 +462,7 @@ const PLANETS: Record<
     Lune: "Lua",
     Mercure: "Mercúrio",
     Vénus: "Vênus",
+    Venus: "Vênus",
     Mars: "Marte",
     Jupiter: "Júpiter",
     Saturne: "Saturno",
@@ -458,44 +563,588 @@ const ASPECTS: Record<
 > = {
   en: {
     Conjonction: "Conjunction",
+    conjonction: "conjunction",
     Opposition: "Opposition",
+    opposition: "opposition",
     Trigone: "Trine",
+    trigone: "trine",
     Carré: "Square",
+    carré: "square",
     Sextile: "Sextile",
+    sextile: "sextile",
   },
 
   es: {
     Conjonction: "Conjunción",
+    conjonction: "conjunción",
     Opposition: "Oposición",
+    opposition: "oposición",
     Trigone: "Trígono",
+    trigone: "trígono",
     Carré: "Cuadratura",
+    carré: "cuadratura",
     Sextile: "Sextil",
+    sextile: "sextil",
   },
 
   de: {
     Conjonction: "Konjunktion",
+    conjonction: "Konjunktion",
     Opposition: "Opposition",
+    opposition: "Opposition",
     Trigone: "Trigon",
+    trigone: "Trigon",
     Carré: "Quadrat",
+    carré: "Quadrat",
     Sextile: "Sextil",
+    sextile: "Sextil",
   },
 
   it: {
     Conjonction: "Congiunzione",
+    conjonction: "congiunzione",
     Opposition: "Opposizione",
+    opposition: "opposizione",
     Trigone: "Trigono",
+    trigone: "trigono",
     Carré: "Quadratura",
+    carré: "quadratura",
     Sextile: "Sestile",
+    sextile: "sestile",
   },
 
   pt: {
     Conjonction: "Conjunção",
+    conjonction: "conjunção",
     Opposition: "Oposição",
+    opposition: "oposição",
     Trigone: "Trígono",
+    trigone: "trígono",
     Carré: "Quadratura",
+    carré: "quadratura",
     Sextile: "Sextil",
+    sextile: "sextil",
   },
 };
+
+const DYNAMIC_FRAGMENTS: Record<
+  NonFrenchLocale,
+  TranslationMap
+> = {
+  en: {
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "These influences compare today's planetary positions with your birth chart to reveal the most personal and active energies affecting you today.",
+
+    "crée une ouverture favorable avec votre":
+      "creates a favorable opening with your",
+
+    "Cette influence soutient":
+      "This influence supports",
+
+    "mais elle demande généralement une initiative de votre part pour produire un résultat concret.":
+      "but it generally requires initiative on your part to produce a concrete result.",
+
+    "forme un carré avec votre":
+      "forms a square with your",
+
+    "Une tension peut apparaître autour de":
+      "Tension may arise around",
+
+    "Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.":
+      "This configuration does not represent failure: it encourages you to correct a situation or act differently.",
+
+    "s’oppose à votre":
+      "opposes your",
+
+    "s'oppose à votre":
+      "opposes your",
+
+    "Deux besoins peuvent sembler difficiles à concilier autour de":
+      "Two needs may seem difficult to reconcile around",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.":
+      "The day invites you to seek balance rather than choose one extreme.",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu'à choisir un seul extrême.":
+      "The day invites you to seek balance rather than choose one extreme.",
+
+    "forme un trigone harmonieux avec votre":
+      "forms a harmonious trine with your",
+
+    "Cette influence facilite":
+      "This influence facilitates",
+
+    "et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "and allows you to use your qualities, ideas, and resources more naturally.",
+
+    "et vous permet d'utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "and allows you to use your qualities, ideas, and resources more naturally.",
+
+    "votre vie affective, vos relations, vos valeurs et votre estime personnelle":
+      "your emotional life, relationships, values, and self-esteem",
+
+    "votre désir, votre énergie, votre volonté et votre manière d’agir":
+      "your desires, energy, willpower, and way of taking action",
+
+    "votre désir, votre énergie, votre volonté et votre manière d'agir":
+      "your desires, energy, willpower, and way of taking action",
+
+    "votre manière de penser, de communiquer et de prendre des décisions":
+      "your way of thinking, communicating, and making decisions",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l’intensité":
+      "your inner power, transformations, and relationship with intensity",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l'intensité":
+      "your inner power, transformations, and relationship with intensity",
+
+    "votre confiance, vos ambitions et votre capacité à reconnaître les possibilités":
+      "your confidence, ambitions, and ability to recognize opportunities",
+
+    "Saisissez l’occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Seize the opportunity that presents itself and take a concrete step to activate this favorable influence.",
+
+    "Saisissez l'occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Seize the opportunity that presents itself and take a concrete step to activate this favorable influence.",
+
+    "Évitez les réactions impulsives. Identifiez la tension réelle, puis transformez-la en décision constructive.":
+      "Avoid impulsive reactions. Identify the real tension, then transform it into a constructive decision.",
+
+    "Cherchez un compromis entre vos besoins personnels et les demandes de la situation.":
+      "Seek a compromise between your personal needs and the demands of the situation.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu’elle agira seule.":
+      "Use this ease consciously rather than assuming it will work on its own.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu'elle agira seule.":
+      "Use this ease consciously rather than assuming it will work on its own.",
+
+    "Cette influence est très puissante.":
+      "This influence is very powerful.",
+
+    "Cette influence est puissante.":
+      "This influence is powerful.",
+
+    "Cette influence est modérée.":
+      "This influence is moderate.",
+
+    " natal":
+      " natal",
+  },
+
+  es: {
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Estas influencias comparan las posiciones planetarias del día con su carta natal para revelar las energías más personales y activas de hoy.",
+
+    "crée une ouverture favorable avec votre":
+      "crea una apertura favorable con su",
+
+    "Cette influence soutient":
+      "Esta influencia favorece",
+
+    "mais elle demande généralement une initiative de votre part pour produire un résultat concret.":
+      "pero generalmente requiere una iniciativa de su parte para producir un resultado concreto.",
+
+    "forme un carré avec votre":
+      "forma una cuadratura con su",
+
+    "Une tension peut apparaître autour de":
+      "Puede aparecer una tensión en torno a",
+
+    "Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.":
+      "Esta configuración no representa un fracaso: le impulsa a corregir una situación o actuar de otra manera.",
+
+    "s’oppose à votre":
+      "se opone a su",
+
+    "s'oppose à votre":
+      "se opone a su",
+
+    "Deux besoins peuvent sembler difficiles à concilier autour de":
+      "Dos necesidades pueden parecer difíciles de conciliar en torno a",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.":
+      "El día le invita a buscar un equilibrio en lugar de elegir un solo extremo.",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu'à choisir un seul extrême.":
+      "El día le invita a buscar un equilibrio en lugar de elegir un solo extremo.",
+
+    "forme un trigone harmonieux avec votre":
+      "forma un trígono armonioso con su",
+
+    "Cette influence facilite":
+      "Esta influencia facilita",
+
+    "et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "y le permite utilizar de forma más natural sus cualidades, ideas o recursos.",
+
+    "et vous permet d'utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "y le permite utilizar de forma más natural sus cualidades, ideas o recursos.",
+
+    "votre vie affective, vos relations, vos valeurs et votre estime personnelle":
+      "su vida afectiva, sus relaciones, sus valores y su autoestima",
+
+    "votre désir, votre énergie, votre volonté et votre manière d’agir":
+      "su deseo, su energía, su voluntad y su manera de actuar",
+
+    "votre désir, votre énergie, votre volonté et votre manière d'agir":
+      "su deseo, su energía, su voluntad y su manera de actuar",
+
+    "votre manière de penser, de communiquer et de prendre des décisions":
+      "su manera de pensar, comunicarse y tomar decisiones",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l’intensité":
+      "su poder interior, sus transformaciones y su relación con la intensidad",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l'intensité":
+      "su poder interior, sus transformaciones y su relación con la intensidad",
+
+    "votre confiance, vos ambitions et votre capacité à reconnaître les possibilités":
+      "su confianza, sus ambiciones y su capacidad para reconocer las posibilidades",
+
+    "Saisissez l’occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Aproveche la oportunidad que se presenta y realice una acción concreta para activar esta influencia favorable.",
+
+    "Saisissez l'occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Aproveche la oportunidad que se presenta y realice una acción concreta para activar esta influencia favorable.",
+
+    "Évitez les réactions impulsives. Identifiez la tension réelle, puis transformez-la en décision constructive.":
+      "Evite las reacciones impulsivas. Identifique la tensión real y transfórmela en una decisión constructiva.",
+
+    "Cherchez un compromis entre vos besoins personnels et les demandes de la situation.":
+      "Busque un compromiso entre sus necesidades personales y las exigencias de la situación.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu’elle agira seule.":
+      "Utilice esta facilidad conscientemente en lugar de considerar que actuará por sí sola.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu'elle agira seule.":
+      "Utilice esta facilidad conscientemente en lugar de considerar que actuará por sí sola.",
+
+    "Cette influence est très puissante.":
+      "Esta influencia es muy poderosa.",
+
+    "Cette influence est puissante.":
+      "Esta influencia es poderosa.",
+
+    "Cette influence est modérée.":
+      "Esta influencia es moderada.",
+
+    " natal":
+      " natal",
+  },
+
+  de: {
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Diese Einflüsse vergleichen die heutigen Planetenpositionen mit Ihrem Geburtshoroskop, um die persönlichsten und aktivsten Energien des Tages sichtbar zu machen.",
+
+    "crée une ouverture favorable avec votre":
+      "bildet eine günstige Verbindung zu Ihrem",
+
+    "Cette influence soutient":
+      "Dieser Einfluss unterstützt",
+
+    "mais elle demande généralement une initiative de votre part pour produire un résultat concret.":
+      "erfordert jedoch in der Regel Eigeninitiative, um ein konkretes Ergebnis hervorzubringen.",
+
+    "forme un carré avec votre":
+      "bildet ein Quadrat zu Ihrem",
+
+    "Une tension peut apparaître autour de":
+      "Spannungen können entstehen im Zusammenhang mit",
+
+    "Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.":
+      "Diese Konstellation bedeutet kein Scheitern: Sie fordert Sie dazu auf, eine Situation zu korrigieren oder anders zu handeln.",
+
+    "s’oppose à votre":
+      "steht Ihrem",
+
+    "s'oppose à votre":
+      "steht Ihrem",
+
+    "Deux besoins peuvent sembler difficiles à concilier autour de":
+      "Zwei Bedürfnisse können schwer miteinander vereinbar erscheinen im Zusammenhang mit",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.":
+      "Der Tag lädt Sie dazu ein, ein Gleichgewicht zu suchen, anstatt sich für nur ein Extrem zu entscheiden.",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu'à choisir un seul extrême.":
+      "Der Tag lädt Sie dazu ein, ein Gleichgewicht zu suchen, anstatt sich für nur ein Extrem zu entscheiden.",
+
+    "forme un trigone harmonieux avec votre":
+      "bildet ein harmonisches Trigon zu Ihrem",
+
+    "Cette influence facilite":
+      "Dieser Einfluss erleichtert",
+
+    "et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "und ermöglicht Ihnen, Ihre Qualitäten, Ideen oder Ressourcen natürlicher einzusetzen.",
+
+    "et vous permet d'utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "und ermöglicht Ihnen, Ihre Qualitäten, Ideen oder Ressourcen natürlicher einzusetzen.",
+
+    "votre vie affective, vos relations, vos valeurs et votre estime personnelle":
+      "Ihr Gefühlsleben, Ihre Beziehungen, Ihre Werte und Ihr Selbstwertgefühl",
+
+    "votre désir, votre énergie, votre volonté et votre manière d’agir":
+      "Ihre Wünsche, Ihre Energie, Ihren Willen und Ihre Art zu handeln",
+
+    "votre désir, votre énergie, votre volonté et votre manière d'agir":
+      "Ihre Wünsche, Ihre Energie, Ihren Willen und Ihre Art zu handeln",
+
+    "votre manière de penser, de communiquer et de prendre des décisions":
+      "Ihre Art zu denken, zu kommunizieren und Entscheidungen zu treffen",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l’intensité":
+      "Ihre innere Kraft, Ihre Transformationen und Ihren Umgang mit Intensität",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l'intensité":
+      "Ihre innere Kraft, Ihre Transformationen und Ihren Umgang mit Intensität",
+
+    "votre confiance, vos ambitions et votre capacité à reconnaître les possibilités":
+      "Ihr Vertrauen, Ihre Ambitionen und Ihre Fähigkeit, Möglichkeiten zu erkennen",
+
+    "Saisissez l’occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Nutzen Sie die sich bietende Gelegenheit und unternehmen Sie einen konkreten Schritt, um diesen günstigen Einfluss zu aktivieren.",
+
+    "Saisissez l'occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Nutzen Sie die sich bietende Gelegenheit und unternehmen Sie einen konkreten Schritt, um diesen günstigen Einfluss zu aktivieren.",
+
+    "Évitez les réactions impulsives. Identifiez la tension réelle, puis transformez-la en décision constructive.":
+      "Vermeiden Sie impulsive Reaktionen. Erkennen Sie die tatsächliche Spannung und verwandeln Sie sie in eine konstruktive Entscheidung.",
+
+    "Cherchez un compromis entre vos besoins personnels et les demandes de la situation.":
+      "Suchen Sie einen Kompromiss zwischen Ihren persönlichen Bedürfnissen und den Anforderungen der Situation.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu’elle agira seule.":
+      "Nutzen Sie diese günstige Dynamik bewusst, anstatt davon auszugehen, dass sie von selbst wirkt.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu'elle agira seule.":
+      "Nutzen Sie diese günstige Dynamik bewusst, anstatt davon auszugehen, dass sie von selbst wirkt.",
+
+    "Cette influence est très puissante.":
+      "Dieser Einfluss ist sehr stark.",
+
+    "Cette influence est puissante.":
+      "Dieser Einfluss ist stark.",
+
+    "Cette influence est modérée.":
+      "Dieser Einfluss ist moderat.",
+
+    " natal":
+      " im Geburtshoroskop",
+  },
+
+  it: {
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Queste influenze confrontano le posizioni planetarie del giorno con il tuo tema natale per rivelare le energie più personali e attive di oggi.",
+
+    "crée une ouverture favorable avec votre":
+      "crea un'apertura favorevole con il tuo",
+
+    "Cette influence soutient":
+      "Questa influenza sostiene",
+
+    "mais elle demande généralement une initiative de votre part pour produire un résultat concret.":
+      "ma generalmente richiede una tua iniziativa per produrre un risultato concreto.",
+
+    "forme un carré avec votre":
+      "forma una quadratura con il tuo",
+
+    "Une tension peut apparaître autour de":
+      "Può emergere una tensione intorno a",
+
+    "Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.":
+      "Questa configurazione non rappresenta un fallimento: ti spinge a correggere una situazione o ad agire diversamente.",
+
+    "s’oppose à votre":
+      "si oppone al tuo",
+
+    "s'oppose à votre":
+      "si oppone al tuo",
+
+    "Deux besoins peuvent sembler difficiles à concilier autour de":
+      "Due esigenze possono sembrare difficili da conciliare intorno a",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.":
+      "La giornata ti invita a cercare un equilibrio invece di scegliere un solo estremo.",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu'à choisir un seul extrême.":
+      "La giornata ti invita a cercare un equilibrio invece di scegliere un solo estremo.",
+
+    "forme un trigone harmonieux avec votre":
+      "forma un trigono armonioso con il tuo",
+
+    "Cette influence facilite":
+      "Questa influenza facilita",
+
+    "et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "e ti permette di utilizzare più naturalmente le tue qualità, idee o risorse.",
+
+    "et vous permet d'utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "e ti permette di utilizzare più naturalmente le tue qualità, idee o risorse.",
+
+    "votre vie affective, vos relations, vos valeurs et votre estime personnelle":
+      "la tua vita affettiva, le tue relazioni, i tuoi valori e la tua autostima",
+
+    "votre désir, votre énergie, votre volonté et votre manière d’agir":
+      "il tuo desiderio, la tua energia, la tua volontà e il tuo modo di agire",
+
+    "votre désir, votre énergie, votre volonté et votre manière d'agir":
+      "il tuo desiderio, la tua energia, la tua volontà e il tuo modo di agire",
+
+    "votre manière de penser, de communiquer et de prendre des décisions":
+      "il tuo modo di pensare, comunicare e prendere decisioni",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l’intensité":
+      "il tuo potere interiore, le tue trasformazioni e il tuo rapporto con l'intensità",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l'intensité":
+      "il tuo potere interiore, le tue trasformazioni e il tuo rapporto con l'intensità",
+
+    "votre confiance, vos ambitions et votre capacité à reconnaître les possibilités":
+      "la tua fiducia, le tue ambizioni e la tua capacità di riconoscere le possibilità",
+
+    "Saisissez l’occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Cogli l'opportunità che si presenta e compi un'azione concreta per attivare questa influenza favorevole.",
+
+    "Saisissez l'occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Cogli l'opportunità che si presenta e compi un'azione concreta per attivare questa influenza favorevole.",
+
+    "Évitez les réactions impulsives. Identifiez la tension réelle, puis transformez-la en décision constructive.":
+      "Evita le reazioni impulsive. Individua la tensione reale e trasformala in una decisione costruttiva.",
+
+    "Cherchez un compromis entre vos besoins personnels et les demandes de la situation.":
+      "Cerca un compromesso tra le tue esigenze personali e le richieste della situazione.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu’elle agira seule.":
+      "Utilizza consapevolmente questa facilità invece di pensare che agirà da sola.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu'elle agira seule.":
+      "Utilizza consapevolmente questa facilità invece di pensare che agirà da sola.",
+
+    "Cette influence est très puissante.":
+      "Questa influenza è molto potente.",
+
+    "Cette influence est puissante.":
+      "Questa influenza è potente.",
+
+    "Cette influence est modérée.":
+      "Questa influenza è moderata.",
+
+    " natal":
+      " natale",
+  },
+
+  pt: {
+    "Ces influences comparent les positions planétaires de la journée à votre thème natal afin de révéler les énergies les plus personnelles et les plus actives aujourd’hui.":
+      "Estas influências comparam as posições planetárias do dia com o seu mapa astral para revelar as energias mais pessoais e ativas de hoje.",
+
+    "crée une ouverture favorable avec votre":
+      "cria uma abertura favorável com seu",
+
+    "Cette influence soutient":
+      "Esta influência favorece",
+
+    "mais elle demande généralement une initiative de votre part pour produire un résultat concret.":
+      "mas geralmente exige uma iniciativa de sua parte para produzir um resultado concreto.",
+
+    "forme un carré avec votre":
+      "forma uma quadratura com seu",
+
+    "Une tension peut apparaître autour de":
+      "Pode surgir uma tensão em torno de",
+
+    "Cette configuration ne représente pas un échec : elle vous pousse à corriger une situation ou à agir autrement.":
+      "Esta configuração não representa um fracasso: ela incentiva você a corrigir uma situação ou agir de outra maneira.",
+
+    "s’oppose à votre":
+      "se opõe ao seu",
+
+    "s'oppose à votre":
+      "se opõe ao seu",
+
+    "Deux besoins peuvent sembler difficiles à concilier autour de":
+      "Duas necessidades podem parecer difíceis de conciliar em torno de",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu’à choisir un seul extrême.":
+      "O dia convida você a buscar equilíbrio em vez de escolher apenas um extremo.",
+
+    "La journée vous invite à rechercher un équilibre plutôt qu'à choisir un seul extrême.":
+      "O dia convida você a buscar equilíbrio em vez de escolher apenas um extremo.",
+
+    "forme un trigone harmonieux avec votre":
+      "forma um trígono harmonioso com seu",
+
+    "Cette influence facilite":
+      "Esta influência facilita",
+
+    "et vous permet d’utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "e permite que você utilize suas qualidades, ideias ou recursos de forma mais natural.",
+
+    "et vous permet d'utiliser plus naturellement vos qualités, vos idées ou vos ressources.":
+      "e permite que você utilize suas qualidades, ideias ou recursos de forma mais natural.",
+
+    "votre vie affective, vos relations, vos valeurs et votre estime personnelle":
+      "sua vida afetiva, seus relacionamentos, seus valores e sua autoestima",
+
+    "votre désir, votre énergie, votre volonté et votre manière d’agir":
+      "seu desejo, sua energia, sua vontade e sua maneira de agir",
+
+    "votre désir, votre énergie, votre volonté et votre manière d'agir":
+      "seu desejo, sua energia, sua vontade e sua maneira de agir",
+
+    "votre manière de penser, de communiquer et de prendre des décisions":
+      "sua maneira de pensar, se comunicar e tomar decisões",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l’intensité":
+      "seu poder interior, suas transformações e sua relação com a intensidade",
+
+    "votre pouvoir intérieur, vos transformations et votre rapport à l'intensité":
+      "seu poder interior, suas transformações e sua relação com a intensidade",
+
+    "votre confiance, vos ambitions et votre capacité à reconnaître les possibilités":
+      "sua confiança, suas ambições e sua capacidade de reconhecer possibilidades",
+
+    "Saisissez l’occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Aproveite a oportunidade que se apresenta e tome uma ação concreta para ativar esta influência favorável.",
+
+    "Saisissez l'occasion qui se présente et posez un geste concret pour activer cette influence favorable.":
+      "Aproveite a oportunidade que se apresenta e tome uma ação concreta para ativar esta influência favorável.",
+
+    "Évitez les réactions impulsives. Identifiez la tension réelle, puis transformez-la en décision constructive.":
+      "Evite reações impulsivas. Identifique a tensão real e transforme-a em uma decisão construtiva.",
+
+    "Cherchez un compromis entre vos besoins personnels et les demandes de la situation.":
+      "Busque um equilíbrio entre suas necessidades pessoais e as exigências da situação.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu’elle agira seule.":
+      "Use essa facilidade conscientemente em vez de considerar que ela agirá sozinha.",
+
+    "Utilisez cette facilité consciemment plutôt que de considérer qu'elle agira seule.":
+      "Use essa facilidade conscientemente em vez de considerar que ela agirá sozinha.",
+
+    "Cette influence est très puissante.":
+      "Esta influência é muito poderosa.",
+
+    "Cette influence est puissante.":
+      "Esta influência é poderosa.",
+
+    "Cette influence est modérée.":
+      "Esta influência é moderada.",
+
+    " natal":
+      " natal",
+  },
+};
+
+function escapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&",
+  );
+}
 
 function localizeSafeLiterals(
   source: string,
@@ -533,9 +1182,12 @@ function localizeSafeLiterals(
         translated !== node.text
       ) {
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
-          value: JSON.stringify(translated),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(translated),
         });
       }
     }
@@ -561,8 +1213,10 @@ function localizeSafeLiterals(
           raw.match(/\s*$/)?.[0] ?? "";
 
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
           value:
             `${leading}${translated}${trailing}`,
         });
@@ -606,6 +1260,14 @@ function replaceDynamicPlanetValues(
 
   output = output.replace(
     /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period,\s*\);/g,
+    `const periodLabel =
+    __planetsLocalizedPeriodLabel(
+      period,
+    );`,
+  );
+
+  output = output.replace(
+    /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period\s*\);/g,
     `const periodLabel =
     __planetsLocalizedPeriodLabel(
       period,
@@ -702,8 +1364,25 @@ const __PLANETS_ASPECTS:
   Record<string, string> =
   ${JSON.stringify(ASPECTS[locale], null, 2)};
 
+const __PLANETS_TRANSLATIONS:
+  Record<string, string> =
+  ${JSON.stringify(TRANSLATIONS[locale], null, 2)};
+
+const __PLANETS_DYNAMIC_FRAGMENTS:
+  Record<string, string> =
+  ${JSON.stringify(DYNAMIC_FRAGMENTS[locale], null, 2)};
+
 const __PLANETS_IN_WORD =
   ${JSON.stringify(inWord[locale])};
+
+function __planetsEscapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^\\${}()|[\\]\\\\]/g,
+    "\\\\$&",
+  );
+}
 
 function __planetsLocalizePlanet(
   value?: string | null,
@@ -751,7 +1430,153 @@ function __planetsFormatSignPlacement(
     return "";
   }
 
-  return \`\${__PLANETS_IN_WORD} \${__planetsLocalizeSign(value)}\`;
+  return \`\${__PLANETS_IN_WORD} \${__planetsLocalizeSign(
+    value,
+  )}\`;
+}
+
+function __planetsReplaceMap(
+  value: string,
+  map: Record<string, string>,
+): string {
+  let output = value;
+
+  const entries =
+    Object.entries(map)
+      .sort(
+        ([a], [b]) =>
+          b.length - a.length,
+      );
+
+  entries.forEach(
+    ([from, to]) => {
+      if (!from) {
+        return;
+      }
+
+      output =
+        output.replace(
+          new RegExp(
+            __planetsEscapeRegExp(from),
+            "g",
+          ),
+          to,
+        );
+    },
+  );
+
+  return output;
+}
+
+function __planetsReplaceWords(
+  value: string,
+  map: Record<string, string>,
+): string {
+  let output = value;
+
+  const entries =
+    Object.entries(map)
+      .sort(
+        ([a], [b]) =>
+          b.length - a.length,
+      );
+
+  entries.forEach(
+    ([from, to]) => {
+      if (!from) {
+        return;
+      }
+
+      output =
+        output.replace(
+          new RegExp(
+            \`\\\\b\${__planetsEscapeRegExp(
+              from,
+            )}\\\\b\`,
+            "g",
+          ),
+          to,
+        );
+    },
+  );
+
+  return output;
+}
+
+function __planetsLocalizePlacements(
+  value: string,
+): string {
+  let output = value;
+
+  const frenchPlanets =
+    Object.keys(__PLANETS_NAMES);
+
+  const localizedPlanets =
+    Object.values(__PLANETS_NAMES);
+
+  const frenchSigns =
+    Object.keys(__PLANETS_SIGNS);
+
+  const localizedSigns =
+    Object.values(__PLANETS_SIGNS);
+
+  const planets =
+    Array.from(
+      new Set([
+        ...frenchPlanets,
+        ...localizedPlanets,
+      ]),
+    )
+      .sort(
+        (a, b) =>
+          b.length - a.length,
+      )
+      .map(
+        __planetsEscapeRegExp,
+      )
+      .join("|");
+
+  const signs =
+    Array.from(
+      new Set([
+        ...frenchSigns,
+        ...localizedSigns,
+      ]),
+    )
+      .sort(
+        (a, b) =>
+          b.length - a.length,
+      )
+      .map(
+        __planetsEscapeRegExp,
+      )
+      .join("|");
+
+  if (
+    !planets ||
+    !signs
+  ) {
+    return output;
+  }
+
+  const expression =
+    new RegExp(
+      \`\\\\b(\${planets})\\\\s+en\\\\s+(\${signs})\\\\b\`,
+      "g",
+    );
+
+  output =
+    output.replace(
+      expression,
+      (
+        _match,
+        planet: string,
+        sign: string,
+      ) =>
+        \`\${planet} \${__PLANETS_IN_WORD} \${sign}\`,
+    );
+
+  return output;
 }
 
 function __planetsLocalizeDynamicText(
@@ -763,59 +1588,84 @@ function __planetsLocalizeDynamicText(
 
   let output = value;
 
-  __PLANETS_FRENCH_MONTHS.forEach(
-    (frenchMonth, index) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${frenchMonth}\\\\b\`,
-          "gi",
-        ),
-        __PLANETS_MONTHS[index],
-      );
-    },
-  );
+  /*
+   * IMPORTANT :
+   *
+   * On ne traduit PAS les mois ici.
+   *
+   * "Mars" est une planète, mais "mars"
+   * est également le mois français.
+   *
+   * L'ancien code utilisait une regex
+   * insensible à la casse et transformait
+   * donc "Mars" en "March" en anglais.
+   */
 
-  Object.entries(
-    __PLANETS_NAMES,
-  ).forEach(
-    ([french, localized]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${french}\\\\b\`,
-          "gi",
-        ),
-        localized,
-      );
-    },
-  );
+  const exact =
+    __PLANETS_TRANSLATIONS[output];
 
-  Object.entries(
-    __PLANETS_SIGNS,
-  ).forEach(
-    ([french, localized]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${french}\\\\b\`,
-          "gi",
-        ),
-        localized,
+  if (exact) {
+    output = exact;
+  } else {
+    /*
+     * Traduction des phrases et fragments
+     * produits par le builder.
+     */
+    output =
+      __planetsReplaceMap(
+        output,
+        __PLANETS_DYNAMIC_FRAGMENTS,
       );
-    },
-  );
 
-  Object.entries(
-    __PLANETS_ASPECTS,
-  ).forEach(
-    ([french, localized]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${french}\\\\b\`,
-          "gi",
-        ),
-        localized,
+    /*
+     * Planètes.
+     */
+    output =
+      __planetsReplaceWords(
+        output,
+        __PLANETS_NAMES,
       );
-    },
-  );
+
+    /*
+     * Signes.
+     */
+    output =
+      __planetsReplaceWords(
+        output,
+        __PLANETS_SIGNS,
+      );
+
+    /*
+     * Aspects.
+     */
+    output =
+      __planetsReplaceWords(
+        output,
+        __PLANETS_ASPECTS,
+      );
+
+    /*
+     * "Mercury en Cancer"
+     * devient par exemple
+     * "Mercury in Cancer".
+     */
+    output =
+      __planetsLocalizePlacements(
+        output,
+      );
+
+    /*
+     * Une deuxième passe de fragments
+     * permet de traiter les phrases dont
+     * certaines parties ont déjà été
+     * localisées par le builder.
+     */
+    output =
+      __planetsReplaceMap(
+        output,
+        __PLANETS_DYNAMIC_FRAGMENTS,
+      );
+  }
 
   return output;
 }
@@ -829,18 +1679,21 @@ function __planetsFormatIsoDate(
 
   const match =
     isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
     );
 
   if (!match) {
-    return __planetsLocalizeDynamicText(
-      isoDate,
-    );
+    return isoDate;
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -866,22 +1719,27 @@ function __planetsLocalizedPeriodLabel(
 
   const match =
     period.startDate?.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
     );
 
   if (!match) {
-    return __planetsLocalizeDynamicText(
+    return (
       period.label ||
       period.startDate ||
-      "",
+      ""
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__PLANETS_MONTHS[month - 1]} \${year}\`;
+    return \`\${__PLANETS_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
