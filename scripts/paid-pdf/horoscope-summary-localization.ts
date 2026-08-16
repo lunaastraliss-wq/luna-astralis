@@ -830,7 +830,7 @@ function __summaryEscapeRegExp(
   value: string,
 ): string {
   return value.replace(
-    /[.*+?^\\${}()|[\\]\\\\]/g,
+    /[.*+?^$()|[\]\\\\{}]/g,
     "\\\\$&",
   );
 }
