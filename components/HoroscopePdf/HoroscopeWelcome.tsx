@@ -668,11 +668,13 @@ export default function HoroscopeWelcome({
             </Text>
 
             <Text style={styles.identityLine}>
-              Période : <Text style={styles.identityStrong}>{periodLabel}</Text>
+              Période :{" "}
+              <Text style={styles.identityStrong}>{periodLabel}</Text>
             </Text>
 
             <Text style={styles.identityLine}>
-              Rapport : <Text style={styles.identityStrong}>{reportTitle}</Text>
+              Rapport :{" "}
+              <Text style={styles.identityStrong}>{reportTitle}</Text>
             </Text>
           </View>
         </View>
