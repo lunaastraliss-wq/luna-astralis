@@ -18,6 +18,10 @@ import {
   localizeHoroscopeMonthMajorAspects,
 } from "./month-horoscope-major-aspects-localization";
 
+import {
+  localizeHoroscopeMonthDominantPlanets,
+} from "./month-horoscope-dominant-planets-localization";
+
 type LocalizeMonthHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -84,6 +88,16 @@ export function localizeMonthHoroscopeFile({
     "HoroscopeMonthMajorAspects.tsx"
   ) {
     return localizeHoroscopeMonthMajorAspects(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "HoroscopeMonthDominantPlanets.tsx"
+  ) {
+    return localizeHoroscopeMonthDominantPlanets(
       source,
       locale,
     );
