@@ -31,6 +31,10 @@ import {
   localizeHoroscopeLove,
 } from "./horoscope-love-localization";
 
+import {
+  localizeHoroscopeCareer,
+} from "./horoscope-career-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -158,6 +162,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeLove.tsx"
   ) {
     return localizeHoroscopeLove(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page carrière Horoscope.
+   */
+  if (
+    fileName === "HoroscopeCareer.tsx"
+  ) {
+    return localizeHoroscopeCareer(
       source,
       locale,
     );
