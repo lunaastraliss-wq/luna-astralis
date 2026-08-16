@@ -80,6 +80,12 @@ const TRANSLATIONS: Record<
     "Vos repères relationnels":
       "Your relationship insights",
 
+    "Présence":
+      "Presence",
+
+    "Confiance":
+      "Confidence",
+
     "Conseil relationnel":
       "Relationship advice",
 
@@ -150,6 +156,12 @@ const TRANSLATIONS: Record<
 
     "Vos repères relationnels":
       "Sus referencias relacionales",
+
+    "Présence":
+      "Presencia",
+
+    "Confiance":
+      "Confianza",
 
     "Conseil relationnel":
       "Consejo relacional",
@@ -222,6 +234,12 @@ const TRANSLATIONS: Record<
     "Vos repères relationnels":
       "Ihre Beziehungsorientierung",
 
+    "Présence":
+      "Präsenz",
+
+    "Confiance":
+      "Vertrauen",
+
     "Conseil relationnel":
       "Beziehungsrat",
 
@@ -293,6 +311,12 @@ const TRANSLATIONS: Record<
     "Vos repères relationnels":
       "I tuoi riferimenti relazionali",
 
+    "Présence":
+      "Presenza",
+
+    "Confiance":
+      "Fiducia",
+
     "Conseil relationnel":
       "Consiglio relazionale",
 
@@ -363,6 +387,12 @@ const TRANSLATIONS: Record<
 
     "Vos repères relationnels":
       "Suas referências relacionais",
+
+    "Présence":
+      "Presença",
+
+    "Confiance":
+      "Confiança",
 
     "Conseil relationnel":
       "Conselho relacional",
