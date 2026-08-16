@@ -11,6 +11,14 @@ import {
   localizeHoroscopeCover,
 } from "./horoscope-cover-localization";
 
+import {
+  localizeHoroscopeWelcome,
+} from "./horoscope-welcome-localization";
+
+import {
+  localizeHoroscopeSummary,
+} from "./horoscope-summary-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -78,6 +86,30 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeCover.tsx"
   ) {
     return localizeHoroscopeCover(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page d'introduction Horoscope.
+   */
+  if (
+    fileName === "HoroscopeWelcome.tsx"
+  ) {
+    return localizeHoroscopeWelcome(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page de résumé Horoscope.
+   */
+  if (
+    fileName === "HoroscopeSummary.tsx"
+  ) {
+    return localizeHoroscopeSummary(
       source,
       locale,
     );
