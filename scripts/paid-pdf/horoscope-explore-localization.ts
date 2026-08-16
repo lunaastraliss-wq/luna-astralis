@@ -647,6 +647,101 @@ const ZODIAC_LABELS: Record<
   },
 };
 
+const MONTHS: Record<
+  NonFrenchLocale,
+  string[]
+> = {
+  en: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+
+  es: [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ],
+
+  de: [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+  ],
+
+  it: [
+    "gennaio",
+    "febbraio",
+    "marzo",
+    "aprile",
+    "maggio",
+    "giugno",
+    "luglio",
+    "agosto",
+    "settembre",
+    "ottobre",
+    "novembre",
+    "dicembre",
+  ],
+
+  pt: [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ],
+};
+
+const FRENCH_MONTHS = [
+  "janvier",
+  "février",
+  "mars",
+  "avril",
+  "mai",
+  "juin",
+  "juillet",
+  "août",
+  "septembre",
+  "octobre",
+  "novembre",
+  "décembre",
+] as const;
+
 function localizeSafeLiterals(
   source: string,
   translations: TranslationMap,
@@ -683,9 +778,12 @@ function localizeSafeLiterals(
         translated !== node.text
       ) {
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
-          value: JSON.stringify(translated),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
+          value:
+            JSON.stringify(translated),
         });
       }
     }
@@ -711,8 +809,10 @@ function localizeSafeLiterals(
           raw.match(/\s*$/)?.[0] ?? "";
 
         replacements.push({
-          start: node.getStart(sourceFile),
-          end: node.getEnd(),
+          start:
+            node.getStart(sourceFile),
+          end:
+            node.getEnd(),
           value:
             `${leading}${translated}${trailing}`,
         });
@@ -752,10 +852,32 @@ function localizeSafeLiterals(
 function replaceDynamicExploreValues(
   source: string,
 ): string {
-  return source.replace(
+  let output = source;
+
+  /*
+   * Date/période.
+   *
+   * Avant, Explore ne localisait pas periodLabel.
+   * C'est pourquoi "21 juillet 2026"
+   * restait en français à la page 18.
+   */
+  output = output.replace(
+    /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period\s*\);/g,
+    `const periodLabel =
+    __exploreLocalizedPeriodLabel(
+      period,
+    );`,
+  );
+
+  /*
+   * Vrai signe astrologique.
+   */
+  output = output.replace(
     /\{identity\.zodiacSignLabel\}/g,
     "{__exploreLocalizeZodiac(identity.zodiacSignLabel)}",
   );
+
+  return output;
 }
 
 function injectExploreHelpers(
@@ -780,6 +902,12 @@ const __EXPLORE_ZODIAC_LABELS:
   Record<string, string> =
   ${JSON.stringify(ZODIAC_LABELS[locale], null, 2)};
 
+const __EXPLORE_MONTHS =
+  ${JSON.stringify(MONTHS[locale], null, 2)} as const;
+
+const __EXPLORE_FRENCH_MONTHS =
+  ${JSON.stringify(FRENCH_MONTHS, null, 2)} as const;
+
 function __exploreLocalizeZodiac(
   value?: string | null,
 ): string {
@@ -790,6 +918,130 @@ function __exploreLocalizeZodiac(
   return (
     __EXPLORE_ZODIAC_LABELS[value] ??
     value
+  );
+}
+
+function __exploreFormatIsoDate(
+  isoDate?: string | null,
+): string {
+  if (!isoDate) {
+    return "";
+  }
+
+  const match =
+    isoDate.match(
+      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+    );
+
+  if (!match) {
+    return isoDate;
+  }
+
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
+
+  ${
+    locale === "en"
+      ? 'return `${__EXPLORE_MONTHS[month - 1]} ${day}, ${year}`;'
+      : locale === "de"
+        ? 'return `${day}. ${__EXPLORE_MONTHS[month - 1]} ${year}`;'
+        : locale === "es"
+          ? 'return `${day} de ${__EXPLORE_MONTHS[month - 1]} de ${year}`;'
+          : locale === "pt"
+            ? 'return `${day} de ${__EXPLORE_MONTHS[month - 1]} de ${year}`;'
+            : 'return `${day} ${__EXPLORE_MONTHS[month - 1]} ${year}`;'
+  }
+}
+
+function __exploreTranslateFrenchDate(
+  value?: string | null,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  const normalized =
+    value.trim().toLowerCase();
+
+  const match =
+    normalized.match(
+      /^(\\d{1,2})\\s+([a-zàâäéèêëîïôöùûüç]+)\\s+(\\d{4})$/,
+    );
+
+  if (!match) {
+    return value;
+  }
+
+  const day =
+    Number(match[1]);
+
+  const frenchMonth =
+    match[2];
+
+  const year =
+    Number(match[3]);
+
+  const monthIndex =
+    __EXPLORE_FRENCH_MONTHS.findIndex(
+      (month) =>
+        month === frenchMonth,
+    );
+
+  if (monthIndex < 0) {
+    return value;
+  }
+
+  ${
+    locale === "en"
+      ? 'return `${__EXPLORE_MONTHS[monthIndex]} ${day}, ${year}`;'
+      : locale === "de"
+        ? 'return `${day}. ${__EXPLORE_MONTHS[monthIndex]} ${year}`;'
+        : locale === "es"
+          ? 'return `${day} de ${__EXPLORE_MONTHS[monthIndex]} de ${year}`;'
+          : locale === "pt"
+            ? 'return `${day} de ${__EXPLORE_MONTHS[monthIndex]} de ${year}`;'
+            : 'return `${day} ${__EXPLORE_MONTHS[monthIndex]} ${year}`;'
+  }
+}
+
+function __exploreLocalizedPeriodLabel(
+  period: HoroscopeSectionProps["period"],
+): string {
+  /*
+   * Si startDate contient directement
+   * une date ISO, on l'utilise.
+   */
+  if (
+    period.startDate &&
+    /^\\d{4}-\\d{2}-\\d{2}$/.test(
+      period.startDate,
+    )
+  ) {
+    return __exploreFormatIsoDate(
+      period.startDate,
+    );
+  }
+
+  /*
+   * Sinon on récupère le label produit
+   * par l'utilitaire français.
+   *
+   * Exemple :
+   * "21 juillet 2026"
+   */
+  const value =
+    formatHoroscopePeriodLabel(
+      period,
+    );
+
+  return __exploreTranslateFrenchDate(
+    value,
   );
 }
 
