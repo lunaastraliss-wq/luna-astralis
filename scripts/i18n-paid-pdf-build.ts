@@ -20,7 +20,7 @@ import {
 
 import {
   localizeMonthHoroscopeFile,
-} from "./paid-pdf/month-horoscope-localization";
+} from "./paid-pdf/monthly-horoscope-localization";
 
 /*
 |--------------------------------------------------------------------------
