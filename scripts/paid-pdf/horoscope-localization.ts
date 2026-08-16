@@ -59,6 +59,14 @@ import {
   localizeHoroscopeLucky,
 } from "./horoscope-lucky-localization";
 
+import {
+  localizeHoroscopeConclusion,
+} from "./horoscope-conclusion-localization";
+
+import {
+  localizeHoroscopeExplore,
+} from "./horoscope-explore-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -270,6 +278,30 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeLucky.tsx"
   ) {
     return localizeHoroscopeLucky(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page conclusion Horoscope.
+   */
+  if (
+    fileName === "HoroscopeConclusion.tsx"
+  ) {
+    return localizeHoroscopeConclusion(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page exploration Luna Astralis Horoscope.
+   */
+  if (
+    fileName === "HoroscopeExplore.tsx"
+  ) {
+    return localizeHoroscopeExplore(
       source,
       locale,
     );
