@@ -1379,8 +1379,8 @@ function __planetsEscapeRegExp(
   value: string,
 ): string {
   return value.replace(
-    /[.*+?^\\${}()|[\\]\\\\]/g,
-    "\\\\$&",
+    /[.*+?^$()|[\]\\{}]/g,
+    "\\$&",
   );
 }
 
