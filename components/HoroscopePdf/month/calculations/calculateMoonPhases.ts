@@ -12,84 +12,54 @@ import type {
 */
 
 type MoonPhaseDefinition = {
-  phase:
-    MonthlyMoonPhaseName;
-
+  phase: MonthlyMoonPhaseName;
   angle: number;
-
   title: string;
-
   description: string;
-
   advice: string;
 };
 
-const MOON_PHASE_DEFINITIONS:
-  MoonPhaseDefinition[] = [
-    {
-      phase:
-        "Nouvelle Lune",
+const MOON_PHASE_DEFINITIONS: MoonPhaseDefinition[] = [
+  {
+    phase: "Nouvelle Lune",
+    angle: 0,
+    title: "Nouvelle Lune — Nouveau départ",
+    description:
+      "La Nouvelle Lune marque le début d’un nouveau cycle émotionnel. Elle favorise les intentions, les décisions intérieures et les projets qui doivent encore prendre forme.",
+    advice:
+      "Définissez une intention claire et laissez le projet se développer progressivement.",
+  },
 
-      angle: 0,
+  {
+    phase: "Premier quartier",
+    angle: 90,
+    title: "Premier quartier — Décision et mouvement",
+    description:
+      "Le premier quartier crée une énergie de mouvement et de décision. Les intentions posées précédemment rencontrent leurs premiers défis et demandent une action concrète.",
+    advice:
+      "Passez à l’action malgré les hésitations et ajustez votre stratégie selon les premiers résultats.",
+  },
 
-      title:
-        "Nouvelle Lune — Nouveau départ",
+  {
+    phase: "Pleine Lune",
+    angle: 180,
+    title: "Pleine Lune — Culmination et révélation",
+    description:
+      "La Pleine Lune représente un moment de culmination, de révélation ou de prise de conscience. Les émotions peuvent devenir plus visibles et une situation peut atteindre un point décisif.",
+    advice:
+      "Observez ce qui devient évident avant de prendre une décision uniquement sous l’effet de l’émotion.",
+  },
 
-      description:
-        "La Nouvelle Lune marque le début d’un nouveau cycle émotionnel. Elle favorise les intentions, les décisions intérieures et les projets qui doivent encore prendre forme.",
-
-      advice:
-        "Définissez une intention claire et laissez le projet se développer progressivement.",
-    },
-
-    {
-      phase:
-        "Premier quartier",
-
-      angle: 90,
-
-      title:
-        "Premier quartier — Décision et mouvement",
-
-      description:
-        "Le premier quartier crée une énergie de mouvement et de décision. Les intentions posées précédemment rencontrent leurs premiers défis et demandent une action concrète.",
-
-      advice:
-        "Passez à l’action malgré les hésitations et ajustez votre stratégie selon les premiers résultats.",
-    },
-
-    {
-      phase:
-        "Pleine Lune",
-
-      angle: 180,
-
-      title:
-        "Pleine Lune — Culmination et révélation",
-
-      description:
-        "La Pleine Lune représente un moment de culmination, de révélation ou de prise de conscience. Les émotions peuvent devenir plus visibles et une situation peut atteindre un point décisif.",
-
-      advice:
-        "Observez ce qui devient évident avant de prendre une décision uniquement sous l’effet de l’émotion.",
-    },
-
-    {
-      phase:
-        "Dernier quartier",
-
-      angle: 270,
-
-      title:
-        "Dernier quartier — Bilan et détachement",
-
-      description:
-        "Le dernier quartier invite à faire le bilan du cycle en cours. Il favorise les ajustements, le détachement et la préparation d’une nouvelle étape.",
-
-      advice:
-        "Libérez ce qui n’est plus utile et terminez ce qui doit l’être avant de commencer autre chose.",
-    },
-  ];
+  {
+    phase: "Dernier quartier",
+    angle: 270,
+    title: "Dernier quartier — Bilan et détachement",
+    description:
+      "Le dernier quartier invite à faire le bilan du cycle en cours. Il favorise les ajustements, le détachement et la préparation d’une nouvelle étape.",
+    advice:
+      "Libérez ce qui n’est plus utile et terminez ce qui doit l’être avant de commencer autre chose.",
+  },
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -99,23 +69,14 @@ const MOON_PHASE_DEFINITIONS:
 
 type DailyLunarData = {
   date: string;
-
-  sun:
-    MonthlyPlanetPosition;
-
-  moon:
-    MonthlyPlanetPosition;
-
+  sun: MonthlyPlanetPosition;
+  moon: MonthlyPlanetPosition;
   phaseAngle: number;
 };
 
 type PhaseCandidate = {
-  definition:
-    MoonPhaseDefinition;
-
-  data:
-    DailyLunarData;
-
+  definition: MoonPhaseDefinition;
+  data: DailyLunarData;
   distance: number;
 };
 
@@ -140,12 +101,8 @@ function getCircularDistance(
 ): number {
   const difference =
     Math.abs(
-      normalizeAngle(
-        angle,
-      ) -
-        normalizeAngle(
-          targetAngle,
-        ),
+      normalizeAngle(angle) -
+        normalizeAngle(targetAngle),
     );
 
   return Math.min(
@@ -186,17 +143,13 @@ function calculatePhaseAngle({
 */
 
 function findPlanet(
-  snapshot:
-    MonthlySkySnapshot,
-
-  planet:
-    "Soleil" | "Lune",
+  snapshot: MonthlySkySnapshot,
+  planet: "Soleil" | "Lune",
 ): MonthlyPlanetPosition | null {
   return (
     snapshot.positions.find(
       (position) =>
-        position.planet ===
-        planet,
+        position.planet === planet,
     ) ?? null
   );
 }
@@ -208,27 +161,19 @@ function findPlanet(
 */
 
 function buildDailyLunarData(
-  skySnapshots:
-    MonthlySkySnapshot[],
+  skySnapshots: MonthlySkySnapshot[],
 ): DailyLunarData[] {
-  const results:
-    DailyLunarData[] = [];
+  const results: DailyLunarData[] = [];
 
   const sortedSnapshots =
     [...skySnapshots].sort(
-      (
-        first,
-        second,
-      ) =>
+      (first, second) =>
         first.date.localeCompare(
           second.date,
         ),
     );
 
-  for (
-    const snapshot
-    of sortedSnapshots
-  ) {
+  for (const snapshot of sortedSnapshots) {
     const sun =
       findPlanet(
         snapshot,
@@ -241,17 +186,12 @@ function buildDailyLunarData(
         "Lune",
       );
 
-    if (
-      !sun ||
-      !moon
-    ) {
+    if (!sun || !moon) {
       continue;
     }
 
     results.push({
-      date:
-        snapshot.date,
-
+      date: snapshot.date,
       sun,
       moon,
 
@@ -271,114 +211,54 @@ function buildDailyLunarData(
 
 /*
 |--------------------------------------------------------------------------
-| Passage autour de l’angle exact
+| Sélection des journées les plus proches
 |--------------------------------------------------------------------------
-*/
-
-function unwrapAngleAroundTarget(
-  angle: number,
-  targetAngle: number,
-): number {
-  let difference =
-    normalizeAngle(
-      angle,
-    ) -
-    normalizeAngle(
-      targetAngle,
-    );
-
-  if (
-    difference > 180
-  ) {
-    difference -= 360;
-  }
-
-  if (
-    difference < -180
-  ) {
-    difference += 360;
-  }
-
-  return difference;
-}
-
-function crossesTarget({
-  previousAngle,
-  currentAngle,
-  targetAngle,
-}: {
-  previousAngle: number;
-  currentAngle: number;
-  targetAngle: number;
-}): boolean {
-  const previousDifference =
-    unwrapAngleAroundTarget(
-      previousAngle,
-      targetAngle,
-    );
-
-  const currentDifference =
-    unwrapAngleAroundTarget(
-      currentAngle,
-      targetAngle,
-    );
-
-  if (
-    previousDifference === 0 ||
-    currentDifference === 0
-  ) {
-    return true;
-  }
-
-  return (
-    (
-      previousDifference < 0 &&
-      currentDifference > 0
-    ) ||
-    (
-      previousDifference > 0 &&
-      currentDifference < 0
-    )
-  );
-}
-
-/*
-|--------------------------------------------------------------------------
-| Sélection des journées candidates
-|--------------------------------------------------------------------------
+|
+| Les positions sont calculées une fois par jour.
+|
+| Pour chaque phase, on cherche donc le jour où la distance
+| à l'angle exact est plus petite que la veille ET le lendemain.
+|
+| IMPORTANT :
+| on ne considère jamais automatiquement le premier ou le dernier
+| jour du tableau comme un minimum local. C'était la cause des
+| fausses phases détectées le 1er du mois.
+|
 */
 
 function selectPhaseCandidates({
   dailyData,
   definition,
 }: {
-  dailyData:
-    DailyLunarData[];
-
-  definition:
-    MoonPhaseDefinition;
+  dailyData: DailyLunarData[];
+  definition: MoonPhaseDefinition;
 }): PhaseCandidate[] {
   const candidates:
     PhaseCandidate[] = [];
 
+  if (dailyData.length < 3) {
+    return candidates;
+  }
+
   for (
-    let index = 0;
-    index <
-    dailyData.length;
+    let index = 1;
+    index < dailyData.length - 1;
     index += 1
   ) {
+    const previous =
+      dailyData[index - 1];
+
     const current =
       dailyData[index];
 
-    const previous =
-      dailyData[
-        index - 1
-      ];
-
     const next =
-      dailyData[
-        index + 1
-      ];
+      dailyData[index + 1];
+
+    const previousDistance =
+      getCircularDistance(
+        previous.phaseAngle,
+        definition.angle,
+      );
 
     const distance =
       getCircularDistance(
@@ -386,67 +266,45 @@ function selectPhaseCandidates({
         definition.angle,
       );
 
-    const crossedFromPrevious =
-      previous
-        ? crossesTarget({
-            previousAngle:
-              previous.phaseAngle,
-
-            currentAngle:
-              current.phaseAngle,
-
-            targetAngle:
-              definition.angle,
-          })
-        : false;
-
-    const crossesTowardNext =
-      next
-        ? crossesTarget({
-            previousAngle:
-              current.phaseAngle,
-
-            currentAngle:
-              next.phaseAngle,
-
-            targetAngle:
-              definition.angle,
-          })
-        : false;
-
-    const previousDistance =
-      previous
-        ? getCircularDistance(
-            previous.phaseAngle,
-            definition.angle,
-          )
-        : Number.POSITIVE_INFINITY;
-
     const nextDistance =
-      next
-        ? getCircularDistance(
-            next.phaseAngle,
-            definition.angle,
-          )
-        : Number.POSITIVE_INFINITY;
+      getCircularDistance(
+        next.phaseAngle,
+        definition.angle,
+      );
 
     const isLocalMinimum =
-      distance <=
-        previousDistance &&
-      distance <=
-        nextDistance;
+      distance <= previousDistance &&
+      distance <= nextDistance;
+
+    if (!isLocalMinimum) {
+      continue;
+    }
+
+    /*
+     * La Lune avance d'environ 12 à 15 degrés
+     * par rapport au Soleil chaque jour.
+     *
+     * Une vraie phase doit donc se trouver
+     * raisonnablement près de son angle théorique.
+     *
+     * Cette limite empêche qu'un minimum éloigné
+     * soit interprété comme une phase réelle.
+     */
+    const MAX_PHASE_DISTANCE =
+      12;
 
     if (
-      crossedFromPrevious ||
-      crossesTowardNext ||
-      isLocalMinimum
+      distance >
+      MAX_PHASE_DISTANCE
     ) {
-      candidates.push({
-        definition,
-        data: current,
-        distance,
-      });
+      continue;
     }
+
+    candidates.push({
+      definition,
+      data: current,
+      distance,
+    });
   }
 
   return candidates;
@@ -472,10 +330,12 @@ function getDayDifference(
       `${secondDate}T12:00:00Z`,
     );
 
-  return Math.abs(
-    second.getTime() -
-      first.getTime(),
-  ) / 86_400_000;
+  return (
+    Math.abs(
+      second.getTime() -
+        first.getTime(),
+    ) / 86_400_000
+  );
 }
 
 /*
@@ -483,21 +343,19 @@ function getDayDifference(
 | Suppression des doublons
 |--------------------------------------------------------------------------
 |
-| Une même phase peut être détectée sur deux journées voisines.
-| On conserve la journée la plus proche de l’angle exact.
+| Une même phase peut exceptionnellement être détectée
+| sur deux journées voisines.
+|
+| On conserve la journée la plus proche de l'angle exact.
 |
 */
 
 function removeDuplicateCandidates(
-  candidates:
-    PhaseCandidate[],
+  candidates: PhaseCandidate[],
 ): PhaseCandidate[] {
   const sorted =
     [...candidates].sort(
-      (
-        first,
-        second,
-      ) => {
+      (first, second) => {
         const phaseDifference =
           first.definition.phase.localeCompare(
             second.definition.phase,
@@ -518,28 +376,20 @@ function removeDuplicateCandidates(
   const selected:
     PhaseCandidate[] = [];
 
-  for (
-    const candidate
-    of sorted
-  ) {
+  for (const candidate of sorted) {
     const previous =
       selected[
         selected.length - 1
       ];
 
     if (!previous) {
-      selected.push(
-        candidate,
-      );
-
+      selected.push(candidate);
       continue;
     }
 
     const samePhase =
-      previous.definition
-        .phase ===
-      candidate.definition
-        .phase;
+      previous.definition.phase ===
+      candidate.definition.phase;
 
     const nearby =
       getDayDifference(
@@ -563,9 +413,7 @@ function removeDuplicateCandidates(
       continue;
     }
 
-    selected.push(
-      candidate,
-    );
+    selected.push(candidate);
   }
 
   return selected;
@@ -578,8 +426,7 @@ function removeDuplicateCandidates(
 */
 
 function convertCandidateToPhase(
-  candidate:
-    PhaseCandidate,
+  candidate: PhaseCandidate,
 ): MonthlyMoonPhase {
   const {
     definition,
@@ -597,12 +444,10 @@ function convertCandidateToPhase(
       data.moon.sign,
 
     signLabel:
-      data.moon
-        .signLabel,
+      data.moon.signLabel,
 
     longitude:
-      data.moon
-        .longitude,
+      data.moon.longitude,
 
     title:
       `${definition.title} en ${data.moon.signLabel}`,
@@ -623,8 +468,7 @@ function convertCandidateToPhase(
 */
 
 export function calculateMoonPhases(
-  skySnapshots:
-    MonthlySkySnapshot[],
+  skySnapshots: MonthlySkySnapshot[],
 ): MonthlyMoonPhase[] {
   if (
     !Array.isArray(
@@ -641,7 +485,7 @@ export function calculateMoonPhases(
     );
 
   if (
-    dailyData.length === 0
+    dailyData.length < 3
   ) {
     return [];
   }
@@ -662,10 +506,7 @@ export function calculateMoonPhases(
       convertCandidateToPhase,
     )
     .sort(
-      (
-        first,
-        second,
-      ) =>
+      (first, second) =>
         first.date.localeCompare(
           second.date,
         ),
