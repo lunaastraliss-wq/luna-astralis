@@ -26,6 +26,15 @@ const TRANSLATIONS: Record<
     "Tendance dominante":
       "Dominant trend",
 
+    "Concentration":
+      "Focus",
+
+    "Stabilité":
+      "Stability",
+
+    "Progression":
+      "Progress",
+
     "sur 100":
       "out of 100",
 
@@ -48,6 +57,15 @@ const TRANSLATIONS: Record<
 
     "Tendance dominante":
       "Tendencia dominante",
+
+    "Concentration":
+      "Concentración",
+
+    "Stabilité":
+      "Estabilidad",
+
+    "Progression":
+      "Progreso",
 
     "sur 100":
       "de 100",
@@ -72,6 +90,15 @@ const TRANSLATIONS: Record<
     "Tendance dominante":
       "Vorherrschende Tendenz",
 
+    "Concentration":
+      "Konzentration",
+
+    "Stabilité":
+      "Stabilität",
+
+    "Progression":
+      "Fortschritt",
+
     "sur 100":
       "von 100",
 
@@ -95,6 +122,15 @@ const TRANSLATIONS: Record<
     "Tendance dominante":
       "Tendenza dominante",
 
+    "Concentration":
+      "Concentrazione",
+
+    "Stabilité":
+      "Stabilità",
+
+    "Progression":
+      "Progresso",
+
     "sur 100":
       "su 100",
 
@@ -117,6 +153,15 @@ const TRANSLATIONS: Record<
 
     "Tendance dominante":
       "Tendência dominante",
+
+    "Concentration":
+      "Concentração",
+
+    "Stabilité":
+      "Estabilidade",
+
+    "Progression":
+      "Progresso",
 
     "sur 100":
       "de 100",
@@ -422,7 +467,9 @@ function replaceDynamicEnergyValues(
   output = output.replace(
     /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period\s*\);/g,
     `const periodLabel =
-    __energyLocalizedPeriodLabel(period);`,
+    __energyLocalizedPeriodLabel(
+      period,
+    );`,
   );
 
   output = output.replace(
@@ -557,9 +604,14 @@ function __energyFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -596,11 +648,16 @@ function __energyLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__ENERGY_MONTHS[month - 1]} \${year}\`;
+    return \`\${__ENERGY_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
