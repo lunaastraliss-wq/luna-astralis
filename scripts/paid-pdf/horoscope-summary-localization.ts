@@ -480,6 +480,7 @@ const MONTHS: Record<
     "November",
     "December",
   ],
+
   es: [
     "enero",
     "febrero",
@@ -494,6 +495,7 @@ const MONTHS: Record<
     "noviembre",
     "diciembre",
   ],
+
   de: [
     "Januar",
     "Februar",
@@ -508,6 +510,7 @@ const MONTHS: Record<
     "November",
     "Dezember",
   ],
+
   it: [
     "gennaio",
     "febbraio",
@@ -522,6 +525,7 @@ const MONTHS: Record<
     "novembre",
     "dicembre",
   ],
+
   pt: [
     "janeiro",
     "fevereiro",
@@ -748,7 +752,9 @@ function replaceDynamicSummaryValues(
   output = output.replace(
     /const\s+periodLabel\s*=\s*formatHoroscopePeriodLabel\(\s*period\s*\);/g,
     `const periodLabel =
-    __summaryLocalizedPeriodLabel(period);`,
+    __summaryLocalizedPeriodLabel(
+      period,
+    );`,
   );
 
   output = output.replace(
@@ -820,6 +826,15 @@ const __SUMMARY_TRANSLATIONS:
   Record<string, string> =
   ${JSON.stringify(translations, null, 2)};
 
+function __summaryEscapeRegExp(
+  value: string,
+): string {
+  return value.replace(
+    /[.*+?^\\${}()|[\\]\\\\]/g,
+    "\\\\$&",
+  );
+}
+
 function __summaryLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -827,15 +842,55 @@ function __summaryLocalizeDynamicText(
     return "";
   }
 
-  let output =
-    __SUMMARY_TRANSLATIONS[value] ??
-    value;
+  let output = value;
 
+  /*
+   * Correspondance exacte.
+   */
+  const exact =
+    __SUMMARY_TRANSLATIONS[output];
+
+  if (exact) {
+    output = exact;
+  } else {
+    /*
+     * Traduction des phrases françaises
+     * présentes dans un contenu dynamique
+     * plus long.
+     */
+    const entries =
+      Object.entries(
+        __SUMMARY_TRANSLATIONS,
+      ).sort(
+        ([a], [b]) =>
+          b.length - a.length,
+      );
+
+    entries.forEach(
+      ([frenchText, localizedText]) => {
+        output = output.replace(
+          new RegExp(
+            __summaryEscapeRegExp(
+              frenchText,
+            ),
+            "gi",
+          ),
+          localizedText,
+        );
+      },
+    );
+  }
+
+  /*
+   * Mois.
+   */
   __SUMMARY_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
         new RegExp(
-          \`\\\\b\${frenchMonth}\\\\b\`,
+          \`\\\\b\${__summaryEscapeRegExp(
+            frenchMonth,
+          )}\\\\b\`,
           "gi",
         ),
         __SUMMARY_MONTHS[index],
@@ -843,13 +898,18 @@ function __summaryLocalizeDynamicText(
     },
   );
 
+  /*
+   * Signes astrologiques.
+   */
   Object.entries(
     __SUMMARY_ZODIAC_LABELS,
   ).forEach(
     ([frenchSign, localizedSign]) => {
       output = output.replace(
         new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
+          \`\\\\b\${__summaryEscapeRegExp(
+            frenchSign,
+          )}\\\\b\`,
           "gi",
         ),
         localizedSign,
@@ -869,7 +929,7 @@ function __summaryFormatIsoDate(
 
   const match =
     isoDate.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
     );
 
   if (!match) {
@@ -878,9 +938,14 @@ function __summaryFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -906,7 +971,7 @@ function __summaryLocalizedPeriodLabel(
 
   const match =
     period.startDate?.match(
-      /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      /^(\\\\d{4})-(\\\\d{2})-(\\\\d{2})$/,
     );
 
   if (!match) {
@@ -917,11 +982,16 @@ function __summaryLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__SUMMARY_MONTHS[month - 1]} \${year}\`;
+    return \`\${__SUMMARY_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
