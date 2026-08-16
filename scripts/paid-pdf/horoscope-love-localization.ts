@@ -38,6 +38,15 @@ const TRANSLATIONS: Record<
     "Les mouvements du cœur":
       "Movements of the heart",
 
+    "Douceur":
+      "Gentleness",
+
+    "Complicité":
+      "Connection",
+
+    "Présence":
+      "Presence",
+
     "Écouter vos émotions":
       "Listen to your emotions",
 
@@ -75,6 +84,15 @@ const TRANSLATIONS: Record<
 
     "Les mouvements du cœur":
       "Los movimientos del corazón",
+
+    "Douceur":
+      "Dulzura",
+
+    "Complicité":
+      "Complicidad",
+
+    "Présence":
+      "Presencia",
 
     "Écouter vos émotions":
       "Escuche sus emociones",
@@ -114,6 +132,15 @@ const TRANSLATIONS: Record<
     "Les mouvements du cœur":
       "Bewegungen des Herzens",
 
+    "Douceur":
+      "Sanftheit",
+
+    "Complicité":
+      "Verbundenheit",
+
+    "Présence":
+      "Präsenz",
+
     "Écouter vos émotions":
       "Hören Sie auf Ihre Gefühle",
 
@@ -152,6 +179,15 @@ const TRANSLATIONS: Record<
     "Les mouvements du cœur":
       "I movimenti del cuore",
 
+    "Douceur":
+      "Dolcezza",
+
+    "Complicité":
+      "Complicità",
+
+    "Présence":
+      "Presenza",
+
     "Écouter vos émotions":
       "Ascolta le tue emozioni",
 
@@ -189,6 +225,15 @@ const TRANSLATIONS: Record<
 
     "Les mouvements du cœur":
       "Os movimentos do coração",
+
+    "Douceur":
+      "Suavidade",
+
+    "Complicité":
+      "Cumplicidade",
+
+    "Présence":
+      "Presença",
 
     "Écouter vos émotions":
       "Escute suas emoções",
