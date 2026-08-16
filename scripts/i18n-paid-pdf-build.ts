@@ -15,9 +15,8 @@ import {
 } from "./paid-pdf/compatibility-localization";
 
 import {
-  localizeDailyHoroscopeBuilder,
-} from "./paid-pdf/daily-horoscope-localization";
-
+  localizeHoroscopeFile,
+} from "./paid-pdf/horoscope-localization";
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2510,18 +2509,12 @@ function localizePaidPdfDisplayLiterals(
   fileName: entry.name,
 });
 
-if (
-  normalizePath(absolute).includes(
-    "/HoroscopePdf/",
-  ) &&
-  entry.name === "buildDailyHoroscope.ts"
-) {
-  source =
-    localizeDailyHoroscopeBuilder(
-      source,
-      locale,
-    );
-}
+source = localizeHoroscopeFile({
+  source,
+  locale,
+  filePath: absolute,
+  fileName: entry.name,
+});
       /*
        * PremiumPdf — noms visibles des planètes et des signes.
        * Cette correction reste limitée à PlanetConstants.ts et PlanetUtils.ts
