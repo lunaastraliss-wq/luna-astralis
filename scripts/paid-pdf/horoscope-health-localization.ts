@@ -652,9 +652,14 @@ function replaceDynamicHealthValues(
     );`,
   );
 
+  /*
+   * IMPORTANT :
+   * Le vrai signe astrologique est traité
+   * séparément des textes ordinaires.
+   */
   output = output.replace(
     /\{identity\.zodiacSignLabel\}/g,
-    "{__healthLocalizeDynamicText(identity.zodiacSignLabel)}",
+    "{__healthLocalizeZodiacSign(identity.zodiacSignLabel)}",
   );
 
   output = output.replace(
@@ -717,6 +722,19 @@ const __HEALTH_TRANSLATIONS:
   Record<string, string> =
   ${JSON.stringify(TRANSLATIONS[locale], null, 2)};
 
+function __healthLocalizeZodiacSign(
+  value?: string | null,
+): string {
+  if (!value) {
+    return "";
+  }
+
+  return (
+    __HEALTH_ZODIAC_LABELS[value] ??
+    value
+  );
+}
+
 function __healthLocalizeDynamicText(
   value?: string | null,
 ): string {
@@ -728,6 +746,17 @@ function __healthLocalizeDynamicText(
     __HEALTH_TRANSLATIONS[value] ??
     value;
 
+  /*
+   * On peut traduire les mois contenus
+   * dans un texte dynamique.
+   *
+   * On ne traduit PAS les signes ici.
+   * Ainsi :
+   *
+   * Équilibre -> Balance
+   *
+   * reste Balance et ne devient jamais Libra.
+   */
   __HEALTH_FRENCH_MONTHS.forEach(
     (frenchMonth, index) => {
       output = output.replace(
@@ -736,20 +765,6 @@ function __healthLocalizeDynamicText(
           "gi",
         ),
         __HEALTH_MONTHS[index],
-      );
-    },
-  );
-
-  Object.entries(
-    __HEALTH_ZODIAC_LABELS,
-  ).forEach(
-    ([frenchSign, localizedSign]) => {
-      output = output.replace(
-        new RegExp(
-          \`\\\\b\${frenchSign}\\\\b\`,
-          "gi",
-        ),
-        localizedSign,
       );
     },
   );
@@ -775,9 +790,14 @@ function __healthFormatIsoDate(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  const day = Number(match[3]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
+
+  const day =
+    Number(match[3]);
 
   ${
     locale === "en"
@@ -814,11 +834,16 @@ function __healthLocalizedPeriodLabel(
     );
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]);
+  const year =
+    Number(match[1]);
+
+  const month =
+    Number(match[2]);
 
   if (period.type === "month") {
-    return \`\${__HEALTH_MONTHS[month - 1]} \${year}\`;
+    return \`\${__HEALTH_MONTHS[
+      month - 1
+    ]} \${year}\`;
   }
 
   return String(year);
