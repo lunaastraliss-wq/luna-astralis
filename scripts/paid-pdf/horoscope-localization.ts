@@ -19,6 +19,10 @@ import {
   localizeHoroscopeSummary,
 } from "./horoscope-summary-localization";
 
+import {
+  localizeHoroscopeEnergy,
+} from "./horoscope-energy-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -110,6 +114,18 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeSummary.tsx"
   ) {
     return localizeHoroscopeSummary(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * Page énergie Horoscope.
+   */
+  if (
+    fileName === "HoroscopeEnergy.tsx"
+  ) {
+    return localizeHoroscopeEnergy(
       source,
       locale,
     );
