@@ -177,6 +177,10 @@ import {
   localizeHoroscopeMonthMantra,
 } from "./month-horoscope-mantra-localization";
 
+import {
+  localizeMonthlyMantraTexts,
+} from "./monthly-mantra-texts-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -243,6 +247,8 @@ export function localizeMonthHoroscopeFile({
       "buildMonthlyOpportunity.ts" ||
     fileName ===
       "createMonthlyOpportunityTexts.ts" ||
+    fileName ===
+      "createMonthlyMantraTexts.ts" ||
     fileName ===
       "calculateMonthlyPeriods.ts";
 
@@ -622,6 +628,20 @@ export function localizeMonthHoroscopeFile({
       "HoroscopeMonthWeek4.tsx"
   ) {
     return localizeHoroscopeMonthWeeks(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — MANTRA TEXTS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "createMonthlyMantraTexts.ts"
+  ) {
+    return localizeMonthlyMantraTexts(
       source,
       locale,
     );
