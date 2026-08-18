@@ -85,6 +85,10 @@ import {
   localizeMonthlyDominantsCalculation,
 } from "./month-horoscope-dominants-calculation-localization";
 
+import {
+  localizeMonthlyPeriodsCalculation,
+} from "./monthly-periods-calculation-localization";
+
 /* =========================================================
    MONTH — OVERVIEW
 ========================================================= */
@@ -238,7 +242,9 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyOpportunity.ts" ||
     fileName ===
-      "createMonthlyOpportunityTexts.ts";
+      "createMonthlyOpportunityTexts.ts" ||
+    fileName ===
+      "calculateMonthlyPeriods.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -453,6 +459,23 @@ export function localizeMonthHoroscopeFile({
     "calculateMonthlyDominants.ts"
   ) {
     return localizeMonthlyDominantsCalculation(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     CALCULATIONS — FAVORABLE / DELICATE PERIODS
+  ======================================================= */
+
+  if (
+    fileName ===
+      "calculateMonthlyPeriods.ts" ||
+    source.includes(
+      "export function calculateMonthlyPeriods",
+    )
+  ) {
+    return localizeMonthlyPeriodsCalculation(
       source,
       locale,
     );
