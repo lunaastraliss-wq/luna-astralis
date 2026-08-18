@@ -67,22 +67,6 @@ import {
   localizeHoroscopeExplore,
 } from "./horoscope-explore-localization";
 
-import {
-  localizeHoroscopeMonthWeeks,
-} from "./month-horoscope-weeks-localization";
-
-import {
-  localizeHoroscopeMonthDelicatePeriods,
-} from "./month-horoscope-delicate-periods-localization";
-
-import {
-  localizeHoroscopeMonthBestPeriods,
-} from "./month-horoscope-best-periods-localization";
-
-import {
-  localizeHoroscopeMonthMantra,
-} from "./month-horoscope-mantra-localization";
-
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -100,9 +84,15 @@ export function localizeHoroscopeFile({
     filePath.replace(/\\/g, "/");
 
   /*
-   * Ce module ne doit jamais toucher
-   * aux autres familles de PDF.
+   * Ce module traite l'horoscope du jour
+   * ainsi que les composants communs Horoscope.
+   *
+   * Les fichiers spécifiques au MONTH sont
+   * maintenant gérés séparément par :
+   *
+   * monthly-horoscope-localization.ts
    */
+
   if (
     !normalizedPath.includes(
       "/HoroscopePdf/",
@@ -118,14 +108,13 @@ export function localizeHoroscopeFile({
     return source;
   }
 
-  /*
-   * =======================================================
-   * HOROSCOPE DU JOUR
-   * =======================================================
-   */
+  /* =======================================================
+     HOROSCOPE DU JOUR
+  ======================================================= */
 
   if (
-    fileName === "buildDailyHoroscope.ts"
+    fileName ===
+    "buildDailyHoroscope.ts"
   ) {
     return localizeDailyHoroscopeBuilder(
       source,
@@ -134,7 +123,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopePdfUtils.ts"
+    fileName ===
+    "HoroscopePdfUtils.ts"
   ) {
     return localizeHoroscopePdfUtils(
       source,
@@ -142,14 +132,13 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * =======================================================
-   * PAGES COMMUNES HOROSCOPE
-   * =======================================================
-   */
+  /* =======================================================
+     PAGES COMMUNES HOROSCOPE
+  ======================================================= */
 
   if (
-    fileName === "HoroscopeCover.tsx"
+    fileName ===
+    "HoroscopeCover.tsx"
   ) {
     return localizeHoroscopeCover(
       source,
@@ -158,7 +147,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeWelcome.tsx"
+    fileName ===
+    "HoroscopeWelcome.tsx"
   ) {
     return localizeHoroscopeWelcome(
       source,
@@ -167,7 +157,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeSummary.tsx"
+    fileName ===
+    "HoroscopeSummary.tsx"
   ) {
     return localizeHoroscopeSummary(
       source,
@@ -176,7 +167,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeEnergy.tsx"
+    fileName ===
+    "HoroscopeEnergy.tsx"
   ) {
     return localizeHoroscopeEnergy(
       source,
@@ -185,7 +177,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopePlanets.tsx"
+    fileName ===
+    "HoroscopePlanets.tsx"
   ) {
     return localizeHoroscopePlanets(
       source,
@@ -194,7 +187,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeLove.tsx"
+    fileName ===
+    "HoroscopeLove.tsx"
   ) {
     return localizeHoroscopeLove(
       source,
@@ -203,7 +197,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeCareer.tsx"
+    fileName ===
+    "HoroscopeCareer.tsx"
   ) {
     return localizeHoroscopeCareer(
       source,
@@ -212,7 +207,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeMoney.tsx"
+    fileName ===
+    "HoroscopeMoney.tsx"
   ) {
     return localizeHoroscopeMoney(
       source,
@@ -221,7 +217,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeHealth.tsx"
+    fileName ===
+    "HoroscopeHealth.tsx"
   ) {
     return localizeHoroscopeHealth(
       source,
@@ -230,7 +227,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeSocial.tsx"
+    fileName ===
+    "HoroscopeSocial.tsx"
   ) {
     return localizeHoroscopeSocial(
       source,
@@ -239,7 +237,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeChallenges.tsx"
+    fileName ===
+    "HoroscopeChallenges.tsx"
   ) {
     return localizeHoroscopeChallenges(
       source,
@@ -248,7 +247,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeOpportunities.tsx"
+    fileName ===
+    "HoroscopeOpportunities.tsx"
   ) {
     return localizeHoroscopeOpportunities(
       source,
@@ -257,7 +257,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeLucky.tsx"
+    fileName ===
+    "HoroscopeLucky.tsx"
   ) {
     return localizeHoroscopeLucky(
       source,
@@ -266,7 +267,8 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeConclusion.tsx"
+    fileName ===
+    "HoroscopeConclusion.tsx"
   ) {
     return localizeHoroscopeConclusion(
       source,
@@ -275,75 +277,10 @@ export function localizeHoroscopeFile({
   }
 
   if (
-    fileName === "HoroscopeExplore.tsx"
+    fileName ===
+    "HoroscopeExplore.tsx"
   ) {
     return localizeHoroscopeExplore(
-      source,
-      locale,
-    );
-  }
-
-  /*
-   * =======================================================
-   * HOROSCOPE MENSUEL — SEMAINES
-   * =======================================================
-   */
-
-  if (
-    fileName === "HoroscopeMonthWeek1.tsx" ||
-    fileName === "HoroscopeMonthWeek2.tsx" ||
-    fileName === "HoroscopeMonthWeek3.tsx" ||
-    fileName === "HoroscopeMonthWeek4.tsx"
-  ) {
-    return localizeHoroscopeMonthWeeks(
-      source,
-      locale,
-    );
-  }
-
-  /*
-   * =======================================================
-   * HOROSCOPE MENSUEL — PÉRIODES DÉLICATES
-   * =======================================================
-   */
-
-  if (
-    fileName ===
-    "HoroscopeMonthDelicatePeriods.tsx"
-  ) {
-    return localizeHoroscopeMonthDelicatePeriods(
-      source,
-      locale,
-    );
-  }
-
-  /*
-   * =======================================================
-   * HOROSCOPE MENSUEL — MEILLEURES PÉRIODES
-   * =======================================================
-   */
-
-  if (
-    fileName ===
-    "HoroscopeMonthBestPeriods.tsx"
-  ) {
-    return localizeHoroscopeMonthBestPeriods(
-      source,
-      locale,
-    );
-  }
-
-  /*
-   * =======================================================
-   * HOROSCOPE MENSUEL — MANTRA
-   * =======================================================
-   */
-
-  if (
-    fileName ===
-    "HoroscopeMonthMantra.tsx"
-  ) {
-    return localizeHoroscopeMonthMantra(
       source,
       locale,
     );
