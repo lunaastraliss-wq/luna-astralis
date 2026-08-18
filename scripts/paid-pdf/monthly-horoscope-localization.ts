@@ -15,6 +15,15 @@ import {
 } from "./monthly-planetary-influences-localization";
 
 /* =========================================================
+   MONTH — LOVE DATA
+========================================================= */
+
+import {
+  localizeMonthlyLoveBuilder,
+  localizeMonthlyLoveTexts,
+} from "./monthly-love-localization";
+
+/* =========================================================
    MONTH — CALCULATIONS
 ========================================================= */
 
@@ -134,16 +143,9 @@ export function localizeMonthHoroscopeFile({
   const normalizedPath =
     filePath.replace(/\\/g, "/");
 
-  /*
-   * =======================================================
-   * DÉTECTION DES FICHIERS MONTH
-   * =======================================================
-   *
-   * - Tous les fichiers du dossier HoroscopePdf/month/
-   * - Builder principal du mois
-   * - Builder influences planétaires mensuelles
-   * - Calculs spécifiques au mois
-   */
+  /* =======================================================
+     DÉTECTION DES FICHIERS MONTH
+  ======================================================= */
 
   const isMonthlyHoroscope =
     normalizedPath.includes(
@@ -154,15 +156,20 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyPlanetaryInfluences.ts" ||
     fileName ===
-      "calculateMonthlyDominants.ts";
+      "calculateMonthlyDominants.ts" ||
+    fileName ===
+      "buildMonthlyLove.ts" ||
+    fileName ===
+      "createMonthlyLoveTexts.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
   }
 
-  /*
-   * Français = source originale.
-   */
+  /* =======================================================
+     FRANÇAIS = SOURCE ORIGINALE
+  ======================================================= */
+
   if (locale === "fr") {
     return source;
   }
@@ -186,6 +193,30 @@ export function localizeMonthHoroscopeFile({
     "buildMonthlyPlanetaryInfluences.ts"
   ) {
     return localizeMonthlyPlanetaryInfluencesBuilder(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — LOVE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildMonthlyLove.ts"
+  ) {
+    return localizeMonthlyLoveBuilder(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "createMonthlyLoveTexts.ts"
+  ) {
+    return localizeMonthlyLoveTexts(
       source,
       locale,
     );
