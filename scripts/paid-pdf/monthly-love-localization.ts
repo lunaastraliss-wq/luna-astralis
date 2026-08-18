@@ -26,7 +26,7 @@ const LOVE_TITLES: Record<
     "Une période de rapprochement et de vérité":
       "A period of closeness and truth",
     "Votre vie affective cherche son équilibre":
-      "Your emotional life is seeking balance",
+      "Your emotional life is seeking greater harmony",
     "Un nouveau souffle dans votre vie sentimentale":
       "A fresh start in your love life",
     "Le cœur vous invite à plus d’authenticité":
