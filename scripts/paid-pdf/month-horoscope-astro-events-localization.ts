@@ -1151,7 +1151,10 @@ function __astroEventsReplaceWords(
           output.replace(
             new RegExp(
               \`\\\\b\${sourceValue}\\\\b\`,
-              "gi",
+              dictionary ===
+              __ASTRO_EVENTS_ZODIAC
+                ? "g"
+                : "gi",
             ),
             localizedValue,
           );
