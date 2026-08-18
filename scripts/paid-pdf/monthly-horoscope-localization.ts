@@ -33,6 +33,15 @@ import {
 } from "./monthly-career-localization";
 
 /* =========================================================
+   MONTH — FINANCE DATA
+========================================================= */
+
+import {
+  localizeMonthlyFinanceBuilder,
+  localizeMonthlyFinanceTexts,
+} from "./monthly-finance-localization";
+
+/* =========================================================
    MONTH — CALCULATIONS
 ========================================================= */
 
@@ -173,7 +182,11 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyCareer.ts" ||
     fileName ===
-      "createMonthlyCareerTexts.ts";
+      "createMonthlyCareerTexts.ts" ||
+    fileName ===
+      "buildMonthlyFinance.ts" ||
+    fileName ===
+      "createMonthlyFinanceTexts.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -254,6 +267,30 @@ export function localizeMonthHoroscopeFile({
     "createMonthlyCareerTexts.ts"
   ) {
     return localizeMonthlyCareerTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — FINANCE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildMonthlyFinance.ts"
+  ) {
+    return localizeMonthlyFinanceBuilder(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "createMonthlyFinanceTexts.ts"
+  ) {
+    return localizeMonthlyFinanceTexts(
       source,
       locale,
     );
