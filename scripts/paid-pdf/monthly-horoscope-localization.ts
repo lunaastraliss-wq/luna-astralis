@@ -15,6 +15,14 @@ import {
 } from "./monthly-planetary-influences-localization";
 
 /* =========================================================
+   MONTH — CALCULATIONS
+========================================================= */
+
+import {
+  localizeMonthlyDominantsCalculation,
+} from "./month-horoscope-dominants-calculation-localization";
+
+/* =========================================================
    MONTH — OVERVIEW
 ========================================================= */
 
@@ -132,8 +140,9 @@ export function localizeMonthHoroscopeFile({
    * =======================================================
    *
    * - Tous les fichiers du dossier HoroscopePdf/month/
-   * - Le builder principal du mois
-   * - Le builder des influences planétaires mensuelles
+   * - Builder principal du mois
+   * - Builder influences planétaires mensuelles
+   * - Calculs spécifiques au mois
    */
 
   const isMonthlyHoroscope =
@@ -143,7 +152,9 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyHoroscope.ts" ||
     fileName ===
-      "buildMonthlyPlanetaryInfluences.ts";
+      "buildMonthlyPlanetaryInfluences.ts" ||
+    fileName ===
+      "calculateMonthlyDominants.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -160,9 +171,6 @@ export function localizeMonthHoroscopeFile({
      BUILDERS MONTH
   ======================================================= */
 
-  /*
-   * Builder principal du rapport mensuel.
-   */
   if (
     fileName ===
     "buildMonthlyHoroscope.ts"
@@ -173,25 +181,25 @@ export function localizeMonthHoroscopeFile({
     );
   }
 
-  /*
-   * Builder spécifique des influences
-   * planétaires mensuelles.
-   *
-   * Important :
-   * celui-ci produit directement :
-   *
-   * - Influence dominante du mois
-   * - Tendance mensuelle
-   * - introduction mensuelle
-   * - title
-   * - description
-   * - advice
-   */
   if (
     fileName ===
     "buildMonthlyPlanetaryInfluences.ts"
   ) {
     return localizeMonthlyPlanetaryInfluencesBuilder(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     CALCULATIONS — DOMINANT PLANETS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "calculateMonthlyDominants.ts"
+  ) {
+    return localizeMonthlyDominantsCalculation(
       source,
       locale,
     );
@@ -357,9 +365,5 @@ export function localizeMonthHoroscopeFile({
     );
   }
 
-  /*
-   * Fichier MONTH sans localizer spécifique :
-   * on le laisse intact.
-   */
   return source;
 }
