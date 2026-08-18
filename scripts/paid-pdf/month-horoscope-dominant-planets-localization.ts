@@ -503,31 +503,6 @@ function localizePlanetDisplay(
   );
 }
 
-  /*
-   * Nom de la planète affiché
-   * près de l'icône.
-   */
-
-  output =
-    output.replace(
-      /\{planet\.planet\}/g,
-      "{__monthDominantPlanetName(planet.planet)}",
-    );
-
-  /*
-   * Selon la structure exacte du map,
-   * certaines versions utilisent item.planet.
-   */
-
-  output =
-    output.replace(
-      /\{item\.planet\}/g,
-      "{__monthDominantPlanetName(item.planet)}",
-    );
-
-  return output;
-}
-
 /* =========================================================
    DOMINANT NAMES
 ========================================================= */
@@ -596,7 +571,7 @@ function localizeDynamicText(
     string
   > = {
     en:
-      "This planet has an influence score of ${planet.score}%.$",
+      "This planet has an influence score of ${planet.score}%.",
 
     es:
       "Este planeta obtiene una puntuación de influencia del ${planet.score} %.",
@@ -609,17 +584,6 @@ function localizeDynamicText(
 
     pt:
       "Este planeta obtém uma pontuação de influência de ${planet.score}%.",
-  };
-
-  /*
-   * Correction du petit $ accidentel
-   * dans la valeur anglaise ci-dessus
-   * avant utilisation.
-   */
-  const cleanScoreText = {
-    ...scoreText,
-    en:
-      "This planet has an influence score of ${planet.score}%.",
   };
 
   const summaryWithNames: Record<
@@ -668,7 +632,7 @@ function localizeDynamicText(
   output =
     output.replace(
       /`Cette planète obtient un score d’influence de \$\{planet\.score\} %\.`/g,
-      `\`${cleanScoreText[locale]}\``,
+      `\`${scoreText[locale]}\``,
     );
 
   output =
