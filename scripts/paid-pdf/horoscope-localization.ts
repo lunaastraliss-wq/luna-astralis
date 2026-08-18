@@ -84,15 +84,31 @@ export function localizeHoroscopeFile({
     filePath.replace(/\\/g, "/");
 
   /*
-   * Ce module traite l'horoscope du jour
+   * Ce module traite l'horoscope du JOUR
    * ainsi que les composants communs Horoscope.
    *
    * Les fichiers spécifiques au MONTH sont
-   * maintenant gérés séparément par :
+   * gérés séparément par :
    *
    * monthly-horoscope-localization.ts
    */
 
+  /*
+   * IMPORTANT :
+   * Ne jamais appliquer le localizer JOUR
+   * aux fichiers spécifiques du MONTH.
+   */
+  if (
+    normalizedPath.includes(
+      "/HoroscopePdf/month/",
+    )
+  ) {
+    return source;
+  }
+
+  /*
+   * Ce module ne traite que HoroscopePdf.
+   */
   if (
     !normalizedPath.includes(
       "/HoroscopePdf/",
