@@ -67,14 +67,13 @@ import {
   localizeHoroscopeExplore,
 } from "./horoscope-explore-localization";
 
-/*
- * Pages hebdomadaires de l'horoscope mensuel.
- * Week1, Week2, Week3 et Week4 utilisent
- * le même localizer.
- */
 import {
   localizeHoroscopeMonthWeeks,
 } from "./month-horoscope-weeks-localization";
+
+import {
+  localizeHoroscopeMonthDelicatePeriods,
+} from "./month-horoscope-delicate-periods-localization";
 
 type LocalizeHoroscopeFileOptions = {
   source: string;
@@ -106,7 +105,6 @@ export function localizeHoroscopeFile({
 
   /*
    * Français = fichier source.
-   * Aucun traitement supplémentaire.
    */
   if (locale === "fr") {
     return source;
@@ -118,9 +116,6 @@ export function localizeHoroscopeFile({
    * =======================================================
    */
 
-  /*
-   * Builder de l'horoscope du jour.
-   */
   if (
     fileName === "buildDailyHoroscope.ts"
   ) {
@@ -130,9 +125,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Utilitaires Horoscope.
-   */
   if (
     fileName === "HoroscopePdfUtils.ts"
   ) {
@@ -148,9 +140,6 @@ export function localizeHoroscopeFile({
    * =======================================================
    */
 
-  /*
-   * Couverture Horoscope.
-   */
   if (
     fileName === "HoroscopeCover.tsx"
   ) {
@@ -160,9 +149,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page d'introduction Horoscope.
-   */
   if (
     fileName === "HoroscopeWelcome.tsx"
   ) {
@@ -172,9 +158,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page de résumé Horoscope.
-   */
   if (
     fileName === "HoroscopeSummary.tsx"
   ) {
@@ -184,9 +167,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page énergie Horoscope.
-   */
   if (
     fileName === "HoroscopeEnergy.tsx"
   ) {
@@ -196,9 +176,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page influences planétaires Horoscope.
-   */
   if (
     fileName === "HoroscopePlanets.tsx"
   ) {
@@ -208,9 +185,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page amour et relations Horoscope.
-   */
   if (
     fileName === "HoroscopeLove.tsx"
   ) {
@@ -220,9 +194,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page carrière Horoscope.
-   */
   if (
     fileName === "HoroscopeCareer.tsx"
   ) {
@@ -232,9 +203,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page finances Horoscope.
-   */
   if (
     fileName === "HoroscopeMoney.tsx"
   ) {
@@ -244,9 +212,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page santé et bien-être Horoscope.
-   */
   if (
     fileName === "HoroscopeHealth.tsx"
   ) {
@@ -256,9 +221,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page vie sociale Horoscope.
-   */
   if (
     fileName === "HoroscopeSocial.tsx"
   ) {
@@ -268,9 +230,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page défis Horoscope.
-   */
   if (
     fileName === "HoroscopeChallenges.tsx"
   ) {
@@ -280,9 +239,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page opportunités Horoscope.
-   */
   if (
     fileName === "HoroscopeOpportunities.tsx"
   ) {
@@ -292,9 +248,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Pages chance, intuition et symboles Horoscope.
-   */
   if (
     fileName === "HoroscopeLucky.tsx"
   ) {
@@ -304,9 +257,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page conclusion Horoscope.
-   */
   if (
     fileName === "HoroscopeConclusion.tsx"
   ) {
@@ -316,9 +266,6 @@ export function localizeHoroscopeFile({
     );
   }
 
-  /*
-   * Page exploration Luna Astralis Horoscope.
-   */
   if (
     fileName === "HoroscopeExplore.tsx"
   ) {
@@ -332,13 +279,6 @@ export function localizeHoroscopeFile({
    * =======================================================
    * HOROSCOPE MENSUEL — SEMAINES
    * =======================================================
-   *
-   * Un seul localizer traite les quatre fichiers :
-   *
-   * HoroscopeMonthWeek1.tsx
-   * HoroscopeMonthWeek2.tsx
-   * HoroscopeMonthWeek3.tsx
-   * HoroscopeMonthWeek4.tsx
    */
 
   if (
@@ -348,6 +288,22 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeMonthWeek4.tsx"
   ) {
     return localizeHoroscopeMonthWeeks(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * =======================================================
+   * HOROSCOPE MENSUEL — PÉRIODES DÉLICATES
+   * =======================================================
+   */
+
+  if (
+    fileName ===
+    "HoroscopeMonthDelicatePeriods.tsx"
+  ) {
+    return localizeHoroscopeMonthDelicatePeriods(
       source,
       locale,
     );
