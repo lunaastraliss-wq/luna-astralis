@@ -69,6 +69,15 @@ import {
 } from "./monthly-challenge-localization";
 
 /* =========================================================
+   MONTH — OPPORTUNITY DATA
+========================================================= */
+
+import {
+  localizeMonthlyOpportunityBuilder,
+  localizeMonthlyOpportunityTexts,
+} from "./monthly-opportunity-localization";
+
+/* =========================================================
    MONTH — CALCULATIONS
 ========================================================= */
 
@@ -225,7 +234,11 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyChallenge.ts" ||
     fileName ===
-      "createMonthlyChallengeTexts.ts";
+      "createMonthlyChallengeTexts.ts" ||
+    fileName ===
+      "buildMonthlyOpportunity.ts" ||
+    fileName ===
+      "createMonthlyOpportunityTexts.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -402,6 +415,30 @@ export function localizeMonthHoroscopeFile({
     "createMonthlyChallengeTexts.ts"
   ) {
     return localizeMonthlyChallengeTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — OPPORTUNITY
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildMonthlyOpportunity.ts"
+  ) {
+    return localizeMonthlyOpportunityBuilder(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "createMonthlyOpportunityTexts.ts"
+  ) {
+    return localizeMonthlyOpportunityTexts(
       source,
       locale,
     );
