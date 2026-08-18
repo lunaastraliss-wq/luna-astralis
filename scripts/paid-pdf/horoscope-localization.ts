@@ -75,6 +75,10 @@ import {
   localizeHoroscopeMonthDelicatePeriods,
 } from "./month-horoscope-delicate-periods-localization";
 
+import {
+  localizeHoroscopeMonthBestPeriods,
+} from "./month-horoscope-best-periods-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -304,6 +308,22 @@ export function localizeHoroscopeFile({
     "HoroscopeMonthDelicatePeriods.tsx"
   ) {
     return localizeHoroscopeMonthDelicatePeriods(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * =======================================================
+   * HOROSCOPE MENSUEL — MEILLEURES PÉRIODES
+   * =======================================================
+   */
+
+  if (
+    fileName ===
+    "HoroscopeMonthBestPeriods.tsx"
+  ) {
+    return localizeHoroscopeMonthBestPeriods(
       source,
       locale,
     );
