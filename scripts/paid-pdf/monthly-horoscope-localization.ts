@@ -42,6 +42,15 @@ import {
 } from "./monthly-finance-localization";
 
 /* =========================================================
+   MONTH — HEALTH DATA
+========================================================= */
+
+import {
+  localizeMonthlyHealthBuilder,
+  localizeMonthlyHealthTexts,
+} from "./monthly-health-localization";
+
+/* =========================================================
    MONTH — CALCULATIONS
 ========================================================= */
 
@@ -186,7 +195,11 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyFinance.ts" ||
     fileName ===
-      "createMonthlyFinanceTexts.ts";
+      "createMonthlyFinanceTexts.ts" ||
+    fileName ===
+      "buildMonthlyHealth.ts" ||
+    fileName ===
+      "createMonthlyHealthTexts.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -291,6 +304,30 @@ export function localizeMonthHoroscopeFile({
     "createMonthlyFinanceTexts.ts"
   ) {
     return localizeMonthlyFinanceTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — HEALTH
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildMonthlyHealth.ts"
+  ) {
+    return localizeMonthlyHealthBuilder(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "createMonthlyHealthTexts.ts"
+  ) {
+    return localizeMonthlyHealthTexts(
       source,
       locale,
     );
