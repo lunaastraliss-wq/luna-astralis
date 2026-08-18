@@ -67,6 +67,15 @@ import {
   localizeHoroscopeExplore,
 } from "./horoscope-explore-localization";
 
+/*
+ * Pages hebdomadaires de l'horoscope mensuel.
+ * Week1, Week2, Week3 et Week4 utilisent
+ * le même localizer.
+ */
+import {
+  localizeHoroscopeMonthWeeks,
+} from "./month-horoscope-weeks-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -104,6 +113,12 @@ export function localizeHoroscopeFile({
   }
 
   /*
+   * =======================================================
+   * HOROSCOPE DU JOUR
+   * =======================================================
+   */
+
+  /*
    * Builder de l'horoscope du jour.
    */
   if (
@@ -126,6 +141,12 @@ export function localizeHoroscopeFile({
       locale,
     );
   }
+
+  /*
+   * =======================================================
+   * PAGES COMMUNES HOROSCOPE
+   * =======================================================
+   */
 
   /*
    * Couverture Horoscope.
@@ -302,6 +323,31 @@ export function localizeHoroscopeFile({
     fileName === "HoroscopeExplore.tsx"
   ) {
     return localizeHoroscopeExplore(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * =======================================================
+   * HOROSCOPE MENSUEL — SEMAINES
+   * =======================================================
+   *
+   * Un seul localizer traite les quatre fichiers :
+   *
+   * HoroscopeMonthWeek1.tsx
+   * HoroscopeMonthWeek2.tsx
+   * HoroscopeMonthWeek3.tsx
+   * HoroscopeMonthWeek4.tsx
+   */
+
+  if (
+    fileName === "HoroscopeMonthWeek1.tsx" ||
+    fileName === "HoroscopeMonthWeek2.tsx" ||
+    fileName === "HoroscopeMonthWeek3.tsx" ||
+    fileName === "HoroscopeMonthWeek4.tsx"
+  ) {
+    return localizeHoroscopeMonthWeeks(
       source,
       locale,
     );
