@@ -87,6 +87,9 @@ const TRANSLATIONS: Record<
       "Welcome this opening with clarity and use it to coordinate your efforts.",
     "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.":
       "Observe what is ending and what is naturally beginning to gain importance.",
+
+    "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.":
+      "Welcome emotional changes without making an immediate final decision.",
     "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.":
       "Stay attentive to changes in pace and adapt your decisions to the context.",
 
@@ -182,6 +185,9 @@ const TRANSLATIONS: Record<
       "Reciba esta apertura con claridad y utilícela para coordinar sus esfuerzos.",
     "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.":
       "Observe lo que termina y lo que comienza naturalmente a adquirir importancia.",
+
+    "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.":
+      "Acoja los cambios emocionales sin tomar inmediatamente una decisión definitiva.",
     "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.":
       "Manténgase atento a los cambios de ritmo y adapte sus decisiones al contexto.",
 
@@ -277,6 +283,9 @@ const TRANSLATIONS: Record<
       "Nehmen Sie diese Öffnung bewusst an und nutzen Sie sie, um Ihre Bemühungen zu koordinieren.",
     "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.":
       "Beobachten Sie, was endet und was auf natürliche Weise an Bedeutung gewinnt.",
+
+    "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.":
+      "Nehmen Sie emotionale Veränderungen an, ohne sofort eine endgültige Entscheidung zu treffen.",
     "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.":
       "Achten Sie auf Veränderungen des Tempos und passen Sie Ihre Entscheidungen an den Kontext an.",
 
@@ -372,6 +381,9 @@ const TRANSLATIONS: Record<
       "Accogli questa apertura con chiarezza e usala per coordinare i tuoi sforzi.",
     "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.":
       "Osserva ciò che termina e ciò che comincia naturalmente ad assumere maggiore importanza.",
+
+    "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.":
+      "Accogli i cambiamenti emotivi senza prendere immediatamente una decisione definitiva.",
     "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.":
       "Resta attento ai cambiamenti di ritmo e adatta le tue decisioni al contesto.",
 
@@ -467,6 +479,9 @@ const TRANSLATIONS: Record<
       "Receba essa abertura com clareza e use-a para coordenar seus esforços.",
     "Observez ce qui se termine et ce qui commence naturellement à prendre de l’importance.":
       "Observe o que está terminando e o que começa naturalmente a ganhar importância.",
+
+    "Accueillez les changements émotionnels sans prendre immédiatement de décision définitive.":
+      "Acolha as mudanças emocionais sem tomar imediatamente uma decisão definitiva.",
     "Restez attentif aux changements de rythme et adaptez vos décisions au contexte.":
       "Permaneça atento às mudanças de ritmo e adapte suas decisões ao contexto.",
 
@@ -945,6 +960,36 @@ function replaceDynamicAstroEventValues(
     source;
 
   /*
+   * IMPORTANT:
+   * La conclusion doit être remplacée AVANT
+   * les expressions {period.label}, sinon le remplacement
+   * générique de period.label modifie aussi le template literal
+   * et empêche la regex de reconnaître la conclusion.
+   */
+
+  output =
+    output.replace(
+      /`Les principaux événements de \$\{period\.label\} sont \$\{eventNames\}\. Certains favorisent l’élan et les prises de décision, tandis que d’autres invitent à réviser, ajuster ou ralentir\. Utilisez ces repères pour avancer au moment le plus juste\.`/g,
+      `__astroEventsClosingText(
+        eventNames,
+        __astroEventsLocalizeDynamicText(
+          period.label,
+        ),
+      )`,
+    );
+
+  output =
+    output.replace(
+      /`Aucun événement astrologique majeur n’a été retenu pour \$\{period\.label\}\. Restez néanmoins attentif aux changements de rythme afin d’adapter vos décisions avec davantage de discernement\.`/g,
+      `__astroEventsClosingText(
+        "",
+        __astroEventsLocalizeDynamicText(
+          period.label,
+        ),
+      )`,
+    );
+
+  /*
    * Badge du signe
    */
 
@@ -955,7 +1000,7 @@ function replaceDynamicAstroEventValues(
     );
 
   /*
-   * Période
+   * Période affichée dans le JSX
    */
 
   output =
@@ -965,7 +1010,7 @@ function replaceDynamicAstroEventValues(
     );
 
   /*
-   * Événement affiché
+   * Valeurs dynamiques affichées
    */
 
   output =
@@ -1010,40 +1055,11 @@ function replaceDynamicAstroEventValues(
 
   output =
     output.replace(
-      /date:\s*formatEventDate\(\s*rawDate,\s*\)/g,
+      /date:\s*formatEventDate\(\s*rawDate,?\s*\)/g,
       `date:
       __astroEventsFormatEventDate(
         rawDate,
       )`,
-    );
-
-  /*
-   * Le source actuel n'a pas de virgule
-   * après rawDate dans cet appel.
-   */
-
-  output =
-    output.replace(
-      /date:\s*formatEventDate\(\s*rawDate\s*\)/g,
-      `date:
-      __astroEventsFormatEventDate(
-        rawDate,
-      )`,
-    );
-
-  /*
-   * Conclusion dynamique
-   */
-
-  output =
-    output.replace(
-      /\{eventNames\s*\?\s*`Les principaux événements de \$\{period\.label\} sont \$\{eventNames\}\. Certains favorisent l’élan et les prises de décision, tandis que d’autres invitent à réviser, ajuster ou ralentir\. Utilisez ces repères pour avancer au moment le plus juste\.`\s*:\s*`Aucun événement astrologique majeur n’a été retenu pour \$\{period\.label\}\. Restez néanmoins attentif aux changements de rythme afin d’adapter vos décisions avec davantage de discernement\.`\}/g,
-      `{__astroEventsClosingText(
-                eventNames,
-                __astroEventsLocalizeDynamicText(
-                  period.label,
-                ),
-              )}`,
     );
 
   return output;
@@ -1150,7 +1166,7 @@ function __astroEventsLocalizeIngress(
 ): string | null {
   const match =
     value.match(
-      /^(.+?) entre en (.+)$/,
+      /^(.+?) (?:entre en|enters|entra en|entra in|entra em|tritt in) (.+?)(?: ein)?$/,
     );
 
   if (!match) {
@@ -1187,7 +1203,7 @@ function __astroEventsLocalizeIngressDescription(
 ): string | null {
   const match =
     value.match(
-      /^(.+?) quitte le signe précédent et entre en (.+?)\\. Ce changement modifie progressivement la manière dont son énergie s’exprime et ouvre une nouvelle étape astrologique\\.$/,
+      /^(.+?) quitte le signe précédent et (?:entre en|enters|entra en|entra in|entra em|tritt in) (.+?)(?: ein)?\\. Ce changement modifie progressivement la manière dont son énergie s’exprime et ouvre une nouvelle étape astrologique\\.$/,
     );
 
   if (!match) {
@@ -1238,15 +1254,6 @@ function __astroEventsLocalizeDynamicText(
     return exact;
   }
 
-  const ingress =
-    __astroEventsLocalizeIngress(
-      value,
-    );
-
-  if (ingress) {
-    return ingress;
-  }
-
   const ingressDescription =
     __astroEventsLocalizeIngressDescription(
       value,
@@ -1256,6 +1263,15 @@ function __astroEventsLocalizeDynamicText(
     ingressDescription
   ) {
     return ingressDescription;
+  }
+
+  const ingress =
+    __astroEventsLocalizeIngress(
+      value,
+    );
+
+  if (ingress) {
+    return ingress;
   }
 
   let output =
