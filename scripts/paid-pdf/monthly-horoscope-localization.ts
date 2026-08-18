@@ -24,6 +24,15 @@ import {
 } from "./monthly-love-localization";
 
 /* =========================================================
+   MONTH — CAREER DATA
+========================================================= */
+
+import {
+  localizeMonthlyCareerBuilder,
+  localizeMonthlyCareerTexts,
+} from "./monthly-career-localization";
+
+/* =========================================================
    MONTH — CALCULATIONS
 ========================================================= */
 
@@ -160,7 +169,11 @@ export function localizeMonthHoroscopeFile({
     fileName ===
       "buildMonthlyLove.ts" ||
     fileName ===
-      "createMonthlyLoveTexts.ts";
+      "createMonthlyLoveTexts.ts" ||
+    fileName ===
+      "buildMonthlyCareer.ts" ||
+    fileName ===
+      "createMonthlyCareerTexts.ts";
 
   if (!isMonthlyHoroscope) {
     return source;
@@ -217,6 +230,30 @@ export function localizeMonthHoroscopeFile({
     "createMonthlyLoveTexts.ts"
   ) {
     return localizeMonthlyLoveTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     MONTH DATA — CAREER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildMonthlyCareer.ts"
+  ) {
+    return localizeMonthlyCareerBuilder(
+      source,
+      locale,
+    );
+  }
+
+  if (
+    fileName ===
+    "createMonthlyCareerTexts.ts"
+  ) {
+    return localizeMonthlyCareerTexts(
       source,
       locale,
     );
