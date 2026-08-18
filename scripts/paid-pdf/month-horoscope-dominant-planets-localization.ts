@@ -467,7 +467,7 @@ function __monthDominantPlanetName(
 `;
 
   const marker =
-    "export function HoroscopeMonthDominantPlanets";
+  "export default function HoroscopeMonthDominantPlanets";
 
   const index =
     source.indexOf(
@@ -497,8 +497,11 @@ function __monthDominantPlanetName(
 function localizePlanetDisplay(
   source: string,
 ): string {
-  let output =
-    source;
+  return source.replace(
+    /\{item\.planet\}/g,
+    "{__monthDominantPlanetName(item.planet)}",
+  );
+}
 
   /*
    * Nom de la planète affiché
