@@ -79,6 +79,10 @@ import {
   localizeHoroscopeMonthBestPeriods,
 } from "./month-horoscope-best-periods-localization";
 
+import {
+  localizeHoroscopeMonthMantra,
+} from "./month-horoscope-mantra-localization";
+
 type LocalizeHoroscopeFileOptions = {
   source: string;
   locale: PaidPdfLocale;
@@ -324,6 +328,22 @@ export function localizeHoroscopeFile({
     "HoroscopeMonthBestPeriods.tsx"
   ) {
     return localizeHoroscopeMonthBestPeriods(
+      source,
+      locale,
+    );
+  }
+
+  /*
+   * =======================================================
+   * HOROSCOPE MENSUEL — MANTRA
+   * =======================================================
+   */
+
+  if (
+    fileName ===
+    "HoroscopeMonthMantra.tsx"
+  ) {
+    return localizeHoroscopeMonthMantra(
       source,
       locale,
     );
