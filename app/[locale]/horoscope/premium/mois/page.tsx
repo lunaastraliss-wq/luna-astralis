@@ -34,8 +34,14 @@ import "../../../../horoscope/premium/horoscope-daily-form.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-horoscope-mois.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-horoscope-mois.pdf",
+  en: "/reports/Luna-Astralis-Monthly-Horoscope-Preview.pdf",
+  es: "/reports/Luna-Astralis-Vista-Previa-Horoscopo-Mensual.pdf",
+  de: "/reports/Luna-Astralis-Vorschau-Monatshoroskop.pdf",
+  it: "/reports/Luna-Astralis-Anteprima-Oroscopo-Mensile.pdf",
+  pt: "/reports/Luna-Astralis-Previa-Horoscopo-Mensal-Portugues.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-horoscope-mois.png",
@@ -221,6 +227,9 @@ export default function HoroscopePremiumMoisPage({
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
 
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/mois`;
 
@@ -338,7 +347,7 @@ export default function HoroscopePremiumMoisPage({
               </a>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="premium-button premium-button-secondary"
@@ -348,7 +357,7 @@ export default function HoroscopePremiumMoisPage({
             </div>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-hero-preview-link"
@@ -419,7 +428,7 @@ export default function HoroscopePremiumMoisPage({
             </ul>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-order-preview-link"
@@ -458,7 +467,7 @@ export default function HoroscopePremiumMoisPage({
 
           <div className="horoscope-daily-introduction-actions">
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-button premium-button-secondary"
