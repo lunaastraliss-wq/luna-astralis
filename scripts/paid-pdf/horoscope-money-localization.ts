@@ -23,7 +23,7 @@ const TRANSLATIONS: Record<
       "Your financial climate appears favorable. Use this stability to strengthen what already works, negotiate methodically, and prepare for what comes next without giving in to impulsive spending.",
 
     "Un équilibre à préserver":
-      "A balance to preserve",
+      "A stable course to maintain",
     "Le potentiel est intéressant, mais il demande de la vigilance. Comparez les options, vérifiez les détails et protégez votre marge de sécurité avant de vous engager.":
       "The potential is promising, but it requires vigilance. Compare your options, check the details, and protect your safety margin before making a commitment.",
 
