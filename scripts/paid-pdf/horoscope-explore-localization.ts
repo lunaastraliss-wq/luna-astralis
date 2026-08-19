@@ -1014,12 +1014,56 @@ function __exploreLocalizedPeriodLabel(
   period: HoroscopeSectionProps["period"],
 ): string {
   /*
-   * Si startDate contient directement
-   * une date ISO, on l'utilise.
+   * Horoscope mensuel :
+   * mois + année seulement.
    */
   if (
+    period.type === "month" &&
+    period.startDate
+  ) {
+    const match =
+      period.startDate.match(
+        /^(\d{4})-(\d{2})-(\d{2})$/,
+      );
+
+    if (match) {
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+
+      return (
+        __EXPLORE_MONTHS[month - 1] +
+        " " +
+        year
+      );
+    }
+  }
+
+  /*
+   * Horoscope annuel :
+   * année seulement.
+   */
+  if (
+    period.type === "year" &&
+    period.startDate
+  ) {
+    const match =
+      period.startDate.match(
+        /^(\d{4})-(\d{2})-(\d{2})$/,
+      );
+
+    if (match) {
+      return match[1];
+    }
+  }
+
+  /*
+   * Horoscope quotidien :
+   * date complète.
+   */
+  if (
+    period.type === "day" &&
     period.startDate &&
-    /^\\d{4}-\\d{2}-\\d{2}$/.test(
+    /^\d{4}-\d{2}-\d{2}$/.test(
       period.startDate,
     )
   ) {
@@ -1028,13 +1072,6 @@ function __exploreLocalizedPeriodLabel(
     );
   }
 
-  /*
-   * Sinon on récupère le label produit
-   * par l'utilitaire français.
-   *
-   * Exemple :
-   * "21 juillet 2026"
-   */
   const value =
     formatHoroscopePeriodLabel(
       period,
