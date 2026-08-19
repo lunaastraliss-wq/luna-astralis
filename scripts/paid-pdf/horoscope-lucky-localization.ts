@@ -1051,7 +1051,11 @@ function __luckyLocalizedPeriodLabel(
       const year = Number(match[1]);
       const month = Number(match[2]);
 
-      return `${__LUCKY_MONTHS[month - 1]} ${year}`;
+      return (
+        __LUCKY_MONTHS[month - 1] +
+        " " +
+        year
+      );
     }
   }
 
