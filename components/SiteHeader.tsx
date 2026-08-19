@@ -84,6 +84,10 @@ type HeaderText = {
   imagePersonality: string;
   books: string;
   lunaAI: string;
+  freeChat: string;
+  chooseYourSign: string;
+  premiumChat: string;
+  discoverLunaPlans: string;
   account: string;
   login: string;
   logout: string;
@@ -151,6 +155,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["image_et_personnalite"],
     books: "Livres",
     lunaAI: __i18n["luna_ia"],
+    freeChat: "Chat gratuit",
+    chooseYourSign: "Choisissez votre signe pour commencer",
+    premiumChat: "Chat Premium",
+    discoverLunaPlans: "Découvrez les formules Luna IA",
     account: __i18n["mon_compte"],
     login: __i18n["se_connecter"],
     logout: "Se déconnecter",
@@ -216,6 +224,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["image_and_personality"],
     books: "Books",
     lunaAI: __i18n["luna_ai"],
+    freeChat: "Free Chat",
+    chooseYourSign: "Choose your sign to get started",
+    premiumChat: "Premium Chat",
+    discoverLunaPlans: "Discover Luna AI plans",
     account: __i18n["my_account"],
     login: __i18n["sign_in"],
     logout: "Sign out",
@@ -281,6 +293,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["imagen_y_personalidad"],
     books: "Libros",
     lunaAI: __i18n["luna_ia_2"],
+    freeChat: "Chat gratis",
+    chooseYourSign: "Elige tu signo para comenzar",
+    premiumChat: "Chat Premium",
+    discoverLunaPlans: "Descubre los planes de Luna IA",
     account: __i18n["mi_cuenta"],
     login: __i18n["iniciar_sesion"],
     logout: "Cerrar sesión",
@@ -346,6 +362,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["auftreten_und_personlichkeit"],
     books: __i18n["bucher"],
     lunaAI: __i18n["luna_ki"],
+    freeChat: "Kostenloser Chat",
+    chooseYourSign: "Wähle dein Sternzeichen, um zu beginnen",
+    premiumChat: "Premium-Chat",
+    discoverLunaPlans: "Entdecke die Luna-KI-Angebote",
     account: __i18n["mein_konto"],
     login: "Anmelden",
     logout: "Abmelden",
@@ -411,6 +431,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["immagine_e_personalita"],
     books: "Libri",
     lunaAI: __i18n["luna_ia_3"],
+    freeChat: "Chat gratuito",
+    chooseYourSign: "Scegli il tuo segno per iniziare",
+    premiumChat: "Chat Premium",
+    discoverLunaPlans: "Scopri i piani di Luna IA",
     account: __i18n["il_mio_account"],
     login: "Accedi",
     logout: "Disconnetti",
@@ -476,6 +500,10 @@ const HEADER_TRANSLATIONS: Record<Locale, HeaderText> = {
     imagePersonality: __i18n["imagem_e_personalidade"],
     books: "Livros",
     lunaAI: __i18n["luna_ia_4"],
+    freeChat: "Chat grátis",
+    chooseYourSign: "Escolha seu signo para começar",
+    premiumChat: "Chat Premium",
+    discoverLunaPlans: "Conheça os planos da Luna IA",
     account: __i18n["minha_conta"],
     login: "Entrar",
     logout: "Sair",
@@ -506,16 +534,19 @@ export default function SiteHeader() {
   const [chartOpen, setChartOpen] = useState(false);
   const [compatibilityOpen, setCompatibilityOpen] = useState(false);
   const [astrologyOpen, setAstrologyOpen] = useState(false);
+  const [lunaOpen, setLunaOpen] = useState(false);
 
   const [mobileHoroscopeOpen, setMobileHoroscopeOpen] = useState(false);
   const [mobileChartOpen, setMobileChartOpen] = useState(false);
   const [mobileCompatibilityOpen, setMobileCompatibilityOpen] = useState(false);
   const [mobileAstrologyOpen, setMobileAstrologyOpen] = useState(false);
+  const [mobileLunaOpen, setMobileLunaOpen] = useState(false);
 
   const horoscopeRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<HTMLDivElement | null>(null);
   const compatibilityRef = useRef<HTMLDivElement | null>(null);
   const astrologyRef = useRef<HTMLDivElement | null>(null);
+  const lunaRef = useRef<HTMLDivElement | null>(null);
 
   const localize = useCallback(
     (path: string) => {
@@ -580,6 +611,7 @@ export default function SiteHeader() {
     setChartOpen(false);
     setCompatibilityOpen(false);
     setAstrologyOpen(false);
+    setLunaOpen(false);
   }, []);
 
   const closeMobileDropdowns = useCallback(() => {
@@ -587,6 +619,7 @@ export default function SiteHeader() {
     setMobileChartOpen(false);
     setMobileCompatibilityOpen(false);
     setMobileAstrologyOpen(false);
+    setMobileLunaOpen(false);
   }, []);
 
   const closeMenu = useCallback(() => {
@@ -614,7 +647,8 @@ export default function SiteHeader() {
         horoscopeRef.current?.contains(target) ||
         chartRef.current?.contains(target) ||
         compatibilityRef.current?.contains(target) ||
-        astrologyRef.current?.contains(target);
+        astrologyRef.current?.contains(target) ||
+        lunaRef.current?.contains(target);
 
       if (insideDesktopDropdown) return;
 
@@ -651,6 +685,7 @@ export default function SiteHeader() {
     setChartOpen(false);
     setCompatibilityOpen(false);
     setAstrologyOpen(false);
+    setLunaOpen(false);
   };
 
   const toggleChart = () => {
@@ -658,6 +693,7 @@ export default function SiteHeader() {
     setHoroscopeOpen(false);
     setCompatibilityOpen(false);
     setAstrologyOpen(false);
+    setLunaOpen(false);
   };
 
   const toggleCompatibility = () => {
@@ -665,6 +701,7 @@ export default function SiteHeader() {
     setHoroscopeOpen(false);
     setChartOpen(false);
     setAstrologyOpen(false);
+    setLunaOpen(false);
   };
 
   const toggleAstrology = () => {
@@ -672,6 +709,15 @@ export default function SiteHeader() {
     setHoroscopeOpen(false);
     setChartOpen(false);
     setCompatibilityOpen(false);
+    setLunaOpen(false);
+  };
+
+  const toggleLuna = () => {
+    setLunaOpen((currentValue) => !currentValue);
+    setHoroscopeOpen(false);
+    setChartOpen(false);
+    setCompatibilityOpen(false);
+    setAstrologyOpen(false);
   };
 
   const handleLogout = useCallback(async () => {
@@ -1022,13 +1068,51 @@ export default function SiteHeader() {
             {text.books}
           </Link>
 
-          <Link
-            href={localize("/pricing")}
-            className="premium-nav-link"
-            onClick={closeMenu}
-          >
-            {text.lunaAI}
-          </Link>
+          <div className="premium-dropdown" ref={lunaRef}>
+            <button
+              type="button"
+              className={`premium-nav-link premium-dropdown-button ${
+                lunaOpen ? "premium-dropdown-button--open" : ""
+              }`}
+              aria-expanded={lunaOpen}
+              aria-haspopup="true"
+              onClick={toggleLuna}
+            >
+              <span>{text.lunaAI}</span>
+              <span className="premium-dropdown-arrow" aria-hidden="true">▾</span>
+            </button>
+
+            <div
+              className={`premium-dropdown-menu premium-dropdown-menu--compact ${
+                lunaOpen ? "premium-dropdown-menu--open" : ""
+              }`}
+            >
+              <div className="premium-dropdown-intro">
+                <span className="premium-dropdown-icon">✧</span>
+                <div>
+                  <strong>{text.lunaAI}</strong>
+                  <span>{text.freeOrPersonalized}</span>
+                </div>
+              </div>
+
+              <div className="premium-dropdown-grid">
+                <HeaderMenuLink
+                  href={`${localize("/")}#signes`}
+                  icon="💬"
+                  title={text.freeChat}
+                  subtitle={text.chooseYourSign}
+                  onClick={closeMenu}
+                />
+                <HeaderMenuLink
+                  href={localize("/pricing")}
+                  icon="✦"
+                  title={text.premiumChat}
+                  subtitle={text.discoverLunaPlans}
+                  onClick={closeMenu}
+                />
+              </div>
+            </div>
+          </div>
 
           {isAuth ? (
             <button
@@ -1253,12 +1337,31 @@ export default function SiteHeader() {
             onClick={closeMenu}
           />
 
-          <MobileLink
-            href={localize("/pricing")}
+          <MobileDropdownButton
             icon="✧"
             label={text.lunaAI}
-            onClick={closeMenu}
+            open={mobileLunaOpen}
+            onClick={() => {
+              setMobileLunaOpen((value) => !value);
+              setMobileHoroscopeOpen(false);
+              setMobileChartOpen(false);
+              setMobileCompatibilityOpen(false);
+              setMobileAstrologyOpen(false);
+            }}
           />
+
+          <MobileSubmenu open={mobileLunaOpen}>
+            <MobileSubmenuLink
+              href={`${localize("/")}#signes`}
+              label={`💬 ${text.freeChat} — ${text.chooseYourSign}`}
+              onClick={closeMenu}
+            />
+            <MobileSubmenuLink
+              href={localize("/pricing")}
+              label={`✦ ${text.premiumChat} — ${text.discoverLunaPlans}`}
+              onClick={closeMenu}
+            />
+          </MobileSubmenu>
 
           {isAuth ? (
             <button
