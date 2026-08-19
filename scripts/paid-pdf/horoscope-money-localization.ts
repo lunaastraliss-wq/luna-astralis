@@ -944,7 +944,7 @@ function __moneyLocalizeDynamicText(
       output = output.replace(
         new RegExp(
           \`\\\\b\${frenchSign}\\\\b\`,
-          "gi",
+          "g",
         ),
         localizedSign,
       );
