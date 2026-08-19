@@ -1038,11 +1038,39 @@ function __luckyTranslateFrenchDate(
 function __luckyLocalizedPeriodLabel(
   period: HoroscopeSectionProps["period"],
 ): string {
-  /*
-   * Priorité à startDate lorsqu'il s'agit
-   * d'une date ISO.
-   */
   if (
+    period.type === "month" &&
+    period.startDate
+  ) {
+    const match =
+      period.startDate.match(
+        /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      );
+
+    if (match) {
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+
+      return `${__LUCKY_MONTHS[month - 1]} ${year}`;
+    }
+  }
+
+  if (
+    period.type === "year" &&
+    period.startDate
+  ) {
+    const match =
+      period.startDate.match(
+        /^(\\d{4})-(\\d{2})-(\\d{2})$/,
+      );
+
+    if (match) {
+      return match[1];
+    }
+  }
+
+  if (
+    period.type === "day" &&
     period.startDate &&
     /^\\d{4}-\\d{2}-\\d{2}$/.test(
       period.startDate,
@@ -1052,7 +1080,6 @@ function __luckyLocalizedPeriodLabel(
       period.startDate,
     );
   }
-
   const value =
     formatHoroscopePeriodLabel(
       period,
