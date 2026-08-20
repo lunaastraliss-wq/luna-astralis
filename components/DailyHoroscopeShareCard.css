@@ -1,0 +1,345 @@
+/* =========================================================
+   PARTAGE HOROSCOPE DU JOUR — LUNA ASTRALIS
+   ========================================================= */
+
+.daily-horoscope-share {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+/* =========================================================
+   BOUTON D'OUVERTURE
+   ========================================================= */
+
+.daily-horoscope-share-open {
+  min-height: 56px;
+  padding: 0 30px;
+  border: 1px solid rgba(244, 201, 93, 0.42);
+  border-radius: 999px;
+  color: #111827;
+  background:
+    linear-gradient(
+      135deg,
+      #f4c95d,
+      #fff1a8
+    );
+  box-shadow:
+    0 18px 38px rgba(244, 201, 93, 0.22);
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.daily-horoscope-share-open:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 22px 46px rgba(244, 201, 93, 0.3);
+}
+
+/* =========================================================
+   CARTE
+   ========================================================= */
+
+.daily-horoscope-share-card {
+  width: min(100%, 620px);
+  margin: 0 auto;
+  padding: 54px 42px 40px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(244, 201, 93, 0.38);
+  border-radius: 40px;
+  color: #ffffff;
+  text-align: center;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(124, 92, 255, 0.32),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(244, 201, 93, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      180deg,
+      #17123d 0%,
+      #07091a 58%,
+      #040611 100%
+    );
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.48),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.daily-horoscope-share-card::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border: 1px solid rgba(244, 201, 93, 0.18);
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.daily-horoscope-share-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.13;
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.45) 1px,
+      transparent 1px
+    );
+  background-size: 70px 70px;
+  pointer-events: none;
+}
+
+/* =========================================================
+   ENTÊTE
+   ========================================================= */
+
+.daily-horoscope-share-brand {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 28px;
+  color: #f4c95d;
+  font-size: 17px;
+  font-weight: 950;
+  letter-spacing: 0.25em;
+}
+
+.daily-horoscope-share-kicker {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 22px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.daily-horoscope-share-sign {
+  position: relative;
+  z-index: 1;
+}
+
+.daily-horoscope-share-sign > span {
+  width: 94px;
+  height: 94px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 15px;
+  border: 1px solid rgba(244, 201, 93, 0.38);
+  border-radius: 50%;
+  background:
+    linear-gradient(
+      135deg,
+      #4f46e5,
+      #8b5cf6
+    );
+  box-shadow:
+    0 0 34px rgba(124, 92, 255, 0.35);
+  font-size: 50px;
+}
+
+.daily-horoscope-share-sign h2 {
+  margin: 0;
+  font-size: 46px;
+  line-height: 1;
+}
+
+.daily-horoscope-share-date {
+  position: relative;
+  z-index: 1;
+  margin: 18px 0 8px;
+  color: #f4c95d;
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.daily-horoscope-share-subtitle {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 32px;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+/* =========================================================
+   BLOCS
+   ========================================================= */
+
+.daily-horoscope-share-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.daily-horoscope-share-grid article {
+  padding: 22px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background:
+    rgba(255, 255, 255, 0.05);
+}
+
+.daily-horoscope-share-grid article > span {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 27px;
+}
+
+.daily-horoscope-share-grid h3 {
+  margin: 0 0 9px;
+  color: #f8dfa0;
+  font-size: 19px;
+}
+
+.daily-horoscope-share-grid p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+/* =========================================================
+   CONSEIL
+   ========================================================= */
+
+.daily-horoscope-share-advice {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 22px 24px;
+  border: 1px solid rgba(244, 201, 93, 0.2);
+  border-radius: 22px;
+  text-align: left;
+  background:
+    rgba(244, 201, 93, 0.07);
+}
+
+.daily-horoscope-share-advice > span {
+  color: #f4c95d;
+  font-size: 31px;
+}
+
+.daily-horoscope-share-advice h3 {
+  margin: 0 0 7px;
+  color: #f4c95d;
+  font-size: 18px;
+}
+
+.daily-horoscope-share-advice p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.daily-horoscope-share-footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 30px;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.daily-horoscope-share-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.daily-horoscope-share-actions button {
+  min-width: 150px;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid rgba(244, 201, 93, 0.3);
+  border-radius: 999px;
+  color: #ffffff;
+  background:
+    rgba(255, 255, 255, 0.07);
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.daily-horoscope-share-actions button:first-child {
+  color: #111827;
+  background:
+    linear-gradient(
+      135deg,
+      #f4c95d,
+      #fff1a8
+    );
+}
+
+.daily-horoscope-share-actions button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.daily-horoscope-share-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.daily-horoscope-share-error {
+  margin: 14px auto 0;
+  color: #fecaca;
+  font-size: 14px;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .daily-horoscope-share-card {
+    padding: 42px 20px 30px;
+    border-radius: 30px;
+  }
+
+  .daily-horoscope-share-sign > span {
+    width: 78px;
+    height: 78px;
+    font-size: 42px;
+  }
+
+  .daily-horoscope-share-sign h2 {
+    font-size: 38px;
+  }
+
+  .daily-horoscope-share-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .daily-horoscope-share-actions {
+    flex-direction: column;
+  }
+
+  .daily-horoscope-share-actions button {
+    width: 100%;
+  }
+
+  .daily-horoscope-share-open {
+    width: 100%;
+  }
+}
