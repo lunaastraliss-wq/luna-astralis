@@ -11,6 +11,8 @@ import type {
   Locale,
 } from "@/i18n/config";
 
+import "./DailyHoroscopeShareCard.css";
+
 /*
 |--------------------------------------------------------------------------
 | Types
@@ -41,10 +43,12 @@ type Props = {
 };
 
 type ShareTexts = {
+  open: string;
   cardTitle: string;
   cardSubtitle: string;
   share: string;
   download: string;
+  close: string;
   preparing: string;
   shareTitle: string;
   shareText: string;
@@ -62,6 +66,9 @@ const SHARE_TEXTS: Record<
   ShareTexts
 > = {
   fr: {
+    open:
+      "Partager mon horoscope",
+
     cardTitle:
       "Mon horoscope du jour",
 
@@ -73,6 +80,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Télécharger",
+
+    close:
+      "Fermer",
 
     preparing:
       "Préparation...",
@@ -88,6 +98,9 @@ const SHARE_TEXTS: Record<
   },
 
   en: {
+    open:
+      "Share my horoscope",
+
     cardTitle:
       "My daily horoscope",
 
@@ -99,6 +112,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Download",
+
+    close:
+      "Close",
 
     preparing:
       "Preparing...",
@@ -114,6 +130,9 @@ const SHARE_TEXTS: Record<
   },
 
   es: {
+    open:
+      "Compartir mi horóscopo",
+
     cardTitle:
       "Mi horóscopo del día",
 
@@ -125,6 +144,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Descargar",
+
+    close:
+      "Cerrar",
 
     preparing:
       "Preparando...",
@@ -140,6 +162,9 @@ const SHARE_TEXTS: Record<
   },
 
   de: {
+    open:
+      "Mein Horoskop teilen",
+
     cardTitle:
       "Mein Tageshoroskop",
 
@@ -151,6 +176,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Herunterladen",
+
+    close:
+      "Schließen",
 
     preparing:
       "Vorbereitung...",
@@ -166,6 +194,9 @@ const SHARE_TEXTS: Record<
   },
 
   it: {
+    open:
+      "Condividi il mio oroscopo",
+
     cardTitle:
       "Il mio oroscopo del giorno",
 
@@ -177,6 +208,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Scarica",
+
+    close:
+      "Chiudi",
 
     preparing:
       "Preparazione...",
@@ -192,6 +226,9 @@ const SHARE_TEXTS: Record<
   },
 
   pt: {
+    open:
+      "Compartilhar meu horóscopo",
+
     cardTitle:
       "Meu horóscopo do dia",
 
@@ -203,6 +240,9 @@ const SHARE_TEXTS: Record<
 
     download:
       "Baixar",
+
+    close:
+      "Fechar",
 
     preparing:
       "Preparando...",
@@ -257,6 +297,12 @@ export default function DailyHoroscopeShareCard({
     );
 
   const [
+    showCard,
+    setShowCard,
+  ] =
+    useState(false);
+
+  const [
     preparing,
     setPreparing,
   ] =
@@ -285,25 +331,22 @@ export default function DailyHoroscopeShareCard({
       try {
         await document.fonts.ready;
 
-        const canvas =
-          await html2canvas(
-            cardRef.current,
-            {
-              backgroundColor:
-                "#050816",
+        return await html2canvas(
+          cardRef.current,
+          {
+            backgroundColor:
+              "#050816",
 
-              scale:
-                2,
+            scale:
+              2,
 
-              useCORS:
-                true,
+            useCORS:
+              true,
 
-              logging:
-                false,
-            },
-          );
-
-        return canvas;
+            logging:
+              false,
+          },
+        );
       } catch (
         captureError
       ) {
@@ -352,7 +395,7 @@ export default function DailyHoroscopeShareCard({
 
   /*
   |--------------------------------------------------------------------------
-  | Télécharger
+  | Téléchargement
   |--------------------------------------------------------------------------
   */
 
@@ -399,7 +442,7 @@ export default function DailyHoroscopeShareCard({
 
   /*
   |--------------------------------------------------------------------------
-  | Partager
+  | Partage
   |--------------------------------------------------------------------------
   */
 
@@ -520,217 +563,228 @@ export default function DailyHoroscopeShareCard({
   */
 
   return (
-    <section className="daily-share-section">
-      <div
-        ref={
-          cardRef
-        }
-        className="daily-share-card"
-      >
-        <div className="daily-share-stars">
-          ✦
-        </div>
-
-        <div className="daily-share-brand">
-          LUNA ASTRALIS
-        </div>
-
-        <p className="daily-share-kicker">
+    <section className="daily-horoscope-share">
+      {!showCard ? (
+        <button
+          type="button"
+          className="daily-horoscope-share-open"
+          onClick={() => {
+            setError("");
+            setShowCard(
+              true,
+            );
+          }}
+        >
+          ✨{" "}
           {
-            texts.cardTitle
+            texts.open
           }
-        </p>
-
-        <div className="daily-share-sign">
-          <span
-            className="daily-share-symbol"
-            aria-hidden="true"
-          >
-            {
-              signSymbol
+        </button>
+      ) : (
+        <>
+          <div
+            ref={
+              cardRef
             }
-          </span>
-
-          <h2>
-            {
-              signName
-            }
-          </h2>
-        </div>
-
-        <p className="daily-share-date">
-          {
-            date
-          }
-        </p>
-
-        <p className="daily-share-subtitle">
-          {
-            texts.cardSubtitle
-          }
-        </p>
-
-        <div className="daily-share-grid">
-          <article className="daily-share-item">
-            <span
-              className="daily-share-item-icon"
-              aria-hidden="true"
-            >
-              ❤️
-            </span>
-
-            <div>
-              <h3>
-                {
-                  loveTitle
-                }
-              </h3>
-
-              <p>
-                {
-                  loveText
-                }
-              </p>
-            </div>
-          </article>
-
-          <article className="daily-share-item">
-            <span
-              className="daily-share-item-icon"
-              aria-hidden="true"
-            >
-              💼
-            </span>
-
-            <div>
-              <h3>
-                {
-                  workTitle
-                }
-              </h3>
-
-              <p>
-                {
-                  workText
-                }
-              </p>
-            </div>
-          </article>
-
-          <article className="daily-share-item">
-            <span
-              className="daily-share-item-icon"
-              aria-hidden="true"
-            >
-              💰
-            </span>
-
-            <div>
-              <h3>
-                {
-                  moneyTitle
-                }
-              </h3>
-
-              <p>
-                {
-                  moneyText
-                }
-              </p>
-            </div>
-          </article>
-
-          <article className="daily-share-item">
-            <span
-              className="daily-share-item-icon"
-              aria-hidden="true"
-            >
-              ✨
-            </span>
-
-            <div>
-              <h3>
-                {
-                  wellBeingTitle
-                }
-              </h3>
-
-              <p>
-                {
-                  wellBeingText
-                }
-              </p>
-            </div>
-          </article>
-        </div>
-
-        <div className="daily-share-advice">
-          <span
-            aria-hidden="true"
+            className="daily-horoscope-share-card"
           >
-            ☾
-          </span>
+            <div className="daily-horoscope-share-brand">
+              LUNA ASTRALIS
+            </div>
 
-          <div>
-            <h3>
+            <p className="daily-horoscope-share-kicker">
               {
-                adviceTitle
-              }
-            </h3>
-
-            <p>
-              {
-                adviceText
+                texts.cardTitle
               }
             </p>
+
+            <div className="daily-horoscope-share-sign">
+              <span
+                aria-hidden="true"
+              >
+                {
+                  signSymbol
+                }
+              </span>
+
+              <h2>
+                {
+                  signName
+                }
+              </h2>
+            </div>
+
+            <p className="daily-horoscope-share-date">
+              {
+                date
+              }
+            </p>
+
+            <p className="daily-horoscope-share-subtitle">
+              {
+                texts.cardSubtitle
+              }
+            </p>
+
+            <div className="daily-horoscope-share-grid">
+              <article>
+                <span>
+                  ❤️
+                </span>
+
+                <h3>
+                  {
+                    loveTitle
+                  }
+                </h3>
+
+                <p>
+                  {
+                    loveText
+                  }
+                </p>
+              </article>
+
+              <article>
+                <span>
+                  💼
+                </span>
+
+                <h3>
+                  {
+                    workTitle
+                  }
+                </h3>
+
+                <p>
+                  {
+                    workText
+                  }
+                </p>
+              </article>
+
+              <article>
+                <span>
+                  💰
+                </span>
+
+                <h3>
+                  {
+                    moneyTitle
+                  }
+                </h3>
+
+                <p>
+                  {
+                    moneyText
+                  }
+                </p>
+              </article>
+
+              <article>
+                <span>
+                  ✨
+                </span>
+
+                <h3>
+                  {
+                    wellBeingTitle
+                  }
+                </h3>
+
+                <p>
+                  {
+                    wellBeingText
+                  }
+                </p>
+              </article>
+            </div>
+
+            <div className="daily-horoscope-share-advice">
+              <span
+                aria-hidden="true"
+              >
+                ☾
+              </span>
+
+              <div>
+                <h3>
+                  {
+                    adviceTitle
+                  }
+                </h3>
+
+                <p>
+                  {
+                    adviceText
+                  }
+                </p>
+              </div>
+            </div>
+
+            <div className="daily-horoscope-share-footer">
+              luna-astralis.app
+            </div>
           </div>
-        </div>
 
-        <div className="daily-share-footer">
-          luna-astralis.app
-        </div>
-      </div>
+          <div className="daily-horoscope-share-actions">
+            <button
+              type="button"
+              onClick={
+                handleShare
+              }
+              disabled={
+                preparing
+              }
+            >
+              {preparing
+                ? texts.preparing
+                : `↗ ${texts.share}`}
+            </button>
 
-      <div className="daily-share-actions">
-        <button
-          type="button"
-          onClick={
-            handleShare
-          }
-          disabled={
-            preparing
-          }
-        >
-          {preparing
-            ? texts.preparing
-            : `↗ ${texts.share}`}
-        </button>
+            <button
+              type="button"
+              onClick={
+                handleDownload
+              }
+              disabled={
+                preparing
+              }
+            >
+              {preparing
+                ? texts.preparing
+                : `↓ ${texts.download}`}
+            </button>
 
-        <button
-          type="button"
-          onClick={
-            handleDownload
-          }
-          disabled={
-            preparing
-          }
-        >
-          {preparing
-            ? texts.preparing
-            : `↓ ${texts.download}`}
-        </button>
-      </div>
+            <button
+              type="button"
+              onClick={() =>
+                setShowCard(
+                  false,
+                )
+              }
+              disabled={
+                preparing
+              }
+            >
+              {
+                texts.close
+              }
+            </button>
+          </div>
 
-      {error ? (
-        <p
-          className="daily-share-error"
-          role="alert"
-        >
-          {
-            error
-          }
-        </p>
-      ) : null}
+          {error ? (
+            <p
+              className="daily-horoscope-share-error"
+              role="alert"
+            >
+              {
+                error
+              }
+            </p>
+          ) : null}
+        </>
+      )}
     </section>
   );
 }
