@@ -134,104 +134,470 @@ footerNote: string;
 };
 
 /*
---------------------------------------------------------------------------
-Livres
---------------------------------------------------------------------------
-
-Les titres restent dans leur langue de publication, car ils correspondent
-aux couvertures et aux fiches Amazon existantes.
-
+|--------------------------------------------------------------------------
+| Livres
+|--------------------------------------------------------------------------
+|
+| FR conserve les couvertures françaises déjà utilisées sur le site.
+| EN / ES / DE / IT / PT utilisent les nouvelles couvertures PNG.
+|
 */
 
-const BOOKS = [
-{
-image: "ASTRO 101.jpg",
-title: __i18n["astro_101"],
-amazon: "https://a.co/d/05rwtdhp",
-},
-{
-image: "ASTROLOGIE ET CHIROMANCIE.png",
-title: __i18n["astrologie_et_chiromancie"],
-amazon: "https://a.co/d/03osw44E",
-},
-{
-image: "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
-title: __i18n["developpement_personnel"],
-amazon: "https://a.co/d/05mlDRXi",
-},
-{
-image:
-"Astrologie et transformation personnelle (1).jpg",
-title: __i18n["transformation_personnelle"],
-amazon: "https://a.co/d/08qzDp1D",
-},
-{
-image: "guide-de-compatibilite-astrologique.jpg",
-title: __i18n["guide_de_compatibilite_astrologique"],
-amazon: "https://a.co/d/00V8gKyx",
-},
-{
-image: "Bélier.jpg",
-title: __i18n["belier"],
-amazon: "https://a.co/d/0h9C8bSp",
-},
-{
-image: "Taureau.jpg",
-title: "Taureau",
-amazon: "https://a.co/d/06iXVhrd",
-},
-{
-image: "Gémeaux.jpg",
-title: __i18n["gemeaux"],
-amazon: "https://a.co/d/02MIWm2d",
-},
-{
-image: "Cancer.jpg",
-title: "Cancer",
-amazon: "https://a.co/d/0bfnfFhD",
-},
-{
-image: "Lion.png",
-title: "Lion",
-amazon: "https://a.co/d/0cFooiSG",
-},
-{
-image: "Vierge.jpg",
-title: "Vierge",
-amazon: "https://a.co/d/0aQhmhkB",
-},
-{
-image: "Balance.jpg",
-title: "Balance",
-amazon: "https://a.co/d/0gnJSdeE",
-},
-{
-image: "Scorpion.jpg",
-title: "Scorpion",
-amazon: "https://a.co/d/07JHWrTe",
-},
-{
-image: "Sagittaire.jpg",
-title: "Sagittaire",
-amazon: "https://a.co/d/05jeVtb0",
-},
-{
-image: "Capricorne.jpg",
-title: "Capricorne",
-amazon: "https://a.co/d/0cwFnIuC",
-},
-{
-image: "Verseau.jpg",
-title: "Verseau",
-amazon: "https://a.co/d/07MPr0lj",
-},
-{
-image: "Poisson.jpg",
-title: "Poissons",
-amazon: "https://a.co/d/04E0atUr",
-},
-];
+type BookImages = Record<
+  Locale,
+  string
+>;
 
+type Book = {
+  images: BookImages;
+  title: string;
+  amazon: string;
+};
+
+const BOOKS: Book[] = [
+  /*
+  |--------------------------------------------------------------------------
+  | ASTRO 101
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "ASTRO 101.jpg",
+      en: "astro-101.en.png",
+      es: "astro-101.es.png",
+      de: "astro-101.de.png",
+      it: "astro-101.it.png",
+      pt: "astro-101.pt.png",
+    },
+
+    title:
+      __i18n["astro_101"],
+
+    amazon:
+      "https://a.co/d/05rwtdhp",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Astrologie et chiromancie
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr:
+        "ASTROLOGIE ET CHIROMANCIE.png",
+
+      en:
+        "astrologie-chiromancie.en.png",
+
+      es:
+        "astrologie-chiromancie.es.png",
+
+      de:
+        "astrologie-chiromancie.de.png",
+
+      it:
+        "astrologie-chiromancie.it.png",
+
+      pt:
+        "astrologie-chiromancie.pt.png",
+    },
+
+    title:
+      __i18n[
+        "astrologie_et_chiromancie"
+      ],
+
+    amazon:
+      "https://a.co/d/03osw44E",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Astrologie et développement personnel
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr:
+        "ASTROLOGIE ET DEVELOPPEMENT PERSONNEL.jpg",
+
+      en:
+        "astrologie-developpement-personnel.en.png",
+
+      es:
+        "astrologie-developpement-personnel.es.png",
+
+      de:
+        "astrologie-developpement-personnel.de.png",
+
+      it:
+        "astrologie-developpement-personnel.it.png",
+
+      pt:
+        "astrologie-developpement-personnel.pt.png",
+    },
+
+    title:
+      __i18n[
+        "developpement_personnel"
+      ],
+
+    amazon:
+      "https://a.co/d/05mlDRXi",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Astrologie et transformation personnelle
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr:
+        "Astrologie et transformation personnelle (1).jpg",
+
+      en:
+        "astrologie-transformation-personnelle.en.png",
+
+      es:
+        "astrologie-transformation-personnelle.es.png",
+
+      de:
+        "astrologie-transformation-personnelle.de.png",
+
+      it:
+        "astrologie-transformation-personnelle.it.png",
+
+      pt:
+        "astrologie-transformation-personnelle.pt.png",
+    },
+
+    title:
+      __i18n[
+        "transformation_personnelle"
+      ],
+
+    amazon:
+      "https://a.co/d/08qzDp1D",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Guide de compatibilité astrologique
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr:
+        "guide-de-compatibilite-astrologique.jpg",
+
+      en:
+        "guide-compatibilite-astrologique.en.png",
+
+      es:
+        "guide-compatibilite-astrologique.es.png",
+
+      de:
+        "guide-compatibilite-astrologique.de.png",
+
+      it:
+        "guide-compatibilite-astrologique.it.png",
+
+      pt:
+        "guide-compatibilite-astrologique.pt.png",
+    },
+
+    title:
+      __i18n[
+        "guide_de_compatibilite_astrologique"
+      ],
+
+    amazon:
+      "https://a.co/d/00V8gKyx",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Bélier
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Bélier.jpg",
+      en: "belier.en.png",
+      es: "belier.es.png",
+      de: "belier.de.png",
+      it: "belier.it.png",
+      pt: "belier.pt.png",
+    },
+
+    title:
+      __i18n["belier"],
+
+    amazon:
+      "https://a.co/d/0h9C8bSp",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Taureau
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Taureau.jpg",
+      en: "taureau.en.png",
+      es: "taureau.es.png",
+      de: "taureau.de.png",
+      it: "taureau.it.png",
+      pt: "taureau.pt.png",
+    },
+
+    title:
+      "Taureau",
+
+    amazon:
+      "https://a.co/d/06iXVhrd",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Gémeaux
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Gémeaux.jpg",
+      en: "gemeaux.en.png",
+      es: "gemeaux.es.png",
+      de: "gemeaux.de.png",
+      it: "gemeaux.it.png",
+      pt: "gemeaux.pt.png",
+    },
+
+    title:
+      __i18n["gemeaux"],
+
+    amazon:
+      "https://a.co/d/02MIWm2d",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Cancer
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Cancer.jpg",
+      en: "cancer.en.png",
+      es: "cancer.es.png",
+      de: "cancer.de.png",
+      it: "cancer.it.png",
+      pt: "cancer.pt.png",
+    },
+
+    title:
+      "Cancer",
+
+    amazon:
+      "https://a.co/d/0bfnfFhD",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Lion
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Lion.png",
+      en: "lion.en.png",
+      es: "lion.es.png",
+      de: "lion.de.png",
+      it: "lion.it.png",
+      pt: "lion.pt.png",
+    },
+
+    title:
+      "Lion",
+
+    amazon:
+      "https://a.co/d/0cFooiSG",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Vierge
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Vierge.jpg",
+      en: "vierge.en.png",
+      es: "vierge.es.png",
+      de: "vierge.de.png",
+      it: "vierge.it.png",
+      pt: "vierge.pt.png",
+    },
+
+    title:
+      "Vierge",
+
+    amazon:
+      "https://a.co/d/0aQhmhkB",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Balance
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Balance.jpg",
+      en: "balance.en.png",
+      es: "balance.es.png",
+      de: "balance.de.png",
+      it: "balance.it.png",
+      pt: "balance.pt.png",
+    },
+
+    title:
+      "Balance",
+
+    amazon:
+      "https://a.co/d/0gnJSdeE",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Scorpion
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Scorpion.jpg",
+      en: "scorpion.en.png",
+      es: "scorpion.es.png",
+      de: "scorpion.de.png",
+      it: "scorpion.it.png",
+      pt: "scorpion.pt.png",
+    },
+
+    title:
+      "Scorpion",
+
+    amazon:
+      "https://a.co/d/07JHWrTe",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Sagittaire
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Sagittaire.jpg",
+      en: "sagittaire.en.png",
+      es: "sagittaire.es.png",
+      de: "sagittaire.de.png",
+      it: "sagittaire.it.png",
+      pt: "sagittaire.pt.png",
+    },
+
+    title:
+      "Sagittaire",
+
+    amazon:
+      "https://a.co/d/05jeVtb0",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Capricorne
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Capricorne.jpg",
+      en: "capricorne.en.png",
+      es: "capricorne.es.png",
+      de: "capricorne.de.png",
+      it: "capricorne.it.png",
+      pt: "capricorne.pt.png",
+    },
+
+    title:
+      "Capricorne",
+
+    amazon:
+      "https://a.co/d/0cwFnIuC",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Verseau
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Verseau.jpg",
+      en: "verseau.en.png",
+      es: "verseau.es.png",
+      de: "verseau.de.png",
+      it: "verseau.it.png",
+      pt: "verseau.pt.png",
+    },
+
+    title:
+      "Verseau",
+
+    amazon:
+      "https://a.co/d/07MPr0lj",
+  },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Poissons
+  |--------------------------------------------------------------------------
+  */
+
+  {
+    images: {
+      fr: "Poisson.jpg",
+      en: "poissons.en.png",
+      es: "poissons.es.png",
+      de: "poissons.de.png",
+      it: "poissons.it.png",
+      pt: "poissons.pt.png",
+    },
+
+    title:
+      "Poissons",
+
+    amazon:
+      "https://a.co/d/04E0atUr",
+  },
+];
 /*
 --------------------------------------------------------------------------
 Traductions
@@ -2118,10 +2484,10 @@ return (
               key={book.title}
             >
               <img
-                src={`/books/${book.image}`}
-                alt={`${text.bookCoverAlt} ${book.title}`}
-                loading="lazy"
-              />
+  src={`/books/${book.images[locale]}`}
+  alt={`${text.bookCoverAlt} ${book.title}`}
+  loading="lazy"
+/>
 
               <h3>
                 {book.title}
