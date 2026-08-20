@@ -138,8 +138,8 @@ footerNote: string;
 | Livres
 |--------------------------------------------------------------------------
 |
-| FR conserve les couvertures françaises déjà utilisées sur le site.
-| EN / ES / DE / IT / PT utilisent les nouvelles couvertures PNG.
+| Les couvertures changent automatiquement selon la langue de la page.
+| Les noms des livres zodiacaux changent également selon la locale.
 |
 */
 
@@ -148,11 +148,133 @@ type BookImages = Record<
   string
 >;
 
+type ZodiacBookKey =
+  | "belier"
+  | "taureau"
+  | "gemeaux"
+  | "cancer"
+  | "lion"
+  | "vierge"
+  | "balance"
+  | "scorpion"
+  | "sagittaire"
+  | "capricorne"
+  | "verseau"
+  | "poissons";
+
 type Book = {
   images: BookImages;
-  title: string;
+  title?: string;
+  signKey?: ZodiacBookKey;
   amazon: string;
 };
+
+/*
+|--------------------------------------------------------------------------
+| Noms des signes dans les 6 langues
+|--------------------------------------------------------------------------
+*/
+
+const ZODIAC_BOOK_TITLES: Record<
+  Locale,
+  Record<ZodiacBookKey, string>
+> = {
+  fr: {
+    belier: "Bélier",
+    taureau: "Taureau",
+    gemeaux: "Gémeaux",
+    cancer: "Cancer",
+    lion: "Lion",
+    vierge: "Vierge",
+    balance: "Balance",
+    scorpion: "Scorpion",
+    sagittaire: "Sagittaire",
+    capricorne: "Capricorne",
+    verseau: "Verseau",
+    poissons: "Poissons",
+  },
+
+  en: {
+    belier: "Aries",
+    taureau: "Taurus",
+    gemeaux: "Gemini",
+    cancer: "Cancer",
+    lion: "Leo",
+    vierge: "Virgo",
+    balance: "Libra",
+    scorpion: "Scorpio",
+    sagittaire: "Sagittarius",
+    capricorne: "Capricorn",
+    verseau: "Aquarius",
+    poissons: "Pisces",
+  },
+
+  es: {
+    belier: "Aries",
+    taureau: "Tauro",
+    gemeaux: "Géminis",
+    cancer: "Cáncer",
+    lion: "Leo",
+    vierge: "Virgo",
+    balance: "Libra",
+    scorpion: "Escorpio",
+    sagittaire: "Sagitario",
+    capricorne: "Capricornio",
+    verseau: "Acuario",
+    poissons: "Piscis",
+  },
+
+  de: {
+    belier: "Widder",
+    taureau: "Stier",
+    gemeaux: "Zwillinge",
+    cancer: "Krebs",
+    lion: "Löwe",
+    vierge: "Jungfrau",
+    balance: "Waage",
+    scorpion: "Skorpion",
+    sagittaire: "Schütze",
+    capricorne: "Steinbock",
+    verseau: "Wassermann",
+    poissons: "Fische",
+  },
+
+  it: {
+    belier: "Ariete",
+    taureau: "Toro",
+    gemeaux: "Gemelli",
+    cancer: "Cancro",
+    lion: "Leone",
+    vierge: "Vergine",
+    balance: "Bilancia",
+    scorpion: "Scorpione",
+    sagittaire: "Sagittario",
+    capricorne: "Capricorno",
+    verseau: "Acquario",
+    poissons: "Pesci",
+  },
+
+  pt: {
+    belier: "Áries",
+    taureau: "Touro",
+    gemeaux: "Gêmeos",
+    cancer: "Câncer",
+    lion: "Leão",
+    vierge: "Virgem",
+    balance: "Libra",
+    scorpion: "Escorpião",
+    sagittaire: "Sagitário",
+    capricorne: "Capricórnio",
+    verseau: "Aquário",
+    poissons: "Peixes",
+  },
+};
+
+/*
+|--------------------------------------------------------------------------
+| Livres
+|--------------------------------------------------------------------------
+*/
 
 const BOOKS: Book[] = [
   /*
@@ -338,8 +460,8 @@ const BOOKS: Book[] = [
       pt: "belier.pt.png",
     },
 
-    title:
-      __i18n["belier"],
+    signKey:
+      "belier",
 
     amazon:
       "https://a.co/d/0h9C8bSp",
@@ -361,8 +483,8 @@ const BOOKS: Book[] = [
       pt: "taureau.pt.png",
     },
 
-    title:
-      "Taureau",
+    signKey:
+      "taureau",
 
     amazon:
       "https://a.co/d/06iXVhrd",
@@ -384,8 +506,8 @@ const BOOKS: Book[] = [
       pt: "gemeaux.pt.png",
     },
 
-    title:
-      __i18n["gemeaux"],
+    signKey:
+      "gemeaux",
 
     amazon:
       "https://a.co/d/02MIWm2d",
@@ -407,8 +529,8 @@ const BOOKS: Book[] = [
       pt: "cancer.pt.png",
     },
 
-    title:
-      "Cancer",
+    signKey:
+      "cancer",
 
     amazon:
       "https://a.co/d/0bfnfFhD",
@@ -430,8 +552,8 @@ const BOOKS: Book[] = [
       pt: "lion.pt.png",
     },
 
-    title:
-      "Lion",
+    signKey:
+      "lion",
 
     amazon:
       "https://a.co/d/0cFooiSG",
@@ -453,8 +575,8 @@ const BOOKS: Book[] = [
       pt: "vierge.pt.png",
     },
 
-    title:
-      "Vierge",
+    signKey:
+      "vierge",
 
     amazon:
       "https://a.co/d/0aQhmhkB",
@@ -476,8 +598,8 @@ const BOOKS: Book[] = [
       pt: "balance.pt.png",
     },
 
-    title:
-      "Balance",
+    signKey:
+      "balance",
 
     amazon:
       "https://a.co/d/0gnJSdeE",
@@ -499,8 +621,8 @@ const BOOKS: Book[] = [
       pt: "scorpion.pt.png",
     },
 
-    title:
-      "Scorpion",
+    signKey:
+      "scorpion",
 
     amazon:
       "https://a.co/d/07JHWrTe",
@@ -522,8 +644,8 @@ const BOOKS: Book[] = [
       pt: "sagittaire.pt.png",
     },
 
-    title:
-      "Sagittaire",
+    signKey:
+      "sagittaire",
 
     amazon:
       "https://a.co/d/05jeVtb0",
@@ -545,8 +667,8 @@ const BOOKS: Book[] = [
       pt: "capricorne.pt.png",
     },
 
-    title:
-      "Capricorne",
+    signKey:
+      "capricorne",
 
     amazon:
       "https://a.co/d/0cwFnIuC",
@@ -568,8 +690,8 @@ const BOOKS: Book[] = [
       pt: "verseau.pt.png",
     },
 
-    title:
-      "Verseau",
+    signKey:
+      "verseau",
 
     amazon:
       "https://a.co/d/07MPr0lj",
@@ -591,8 +713,8 @@ const BOOKS: Book[] = [
       pt: "poissons.pt.png",
     },
 
-    title:
-      "Poissons",
+    signKey:
+      "poissons",
 
     amazon:
       "https://a.co/d/04E0atUr",
@@ -2478,31 +2600,54 @@ return (
         </div>
 
         <div className="books-grid">
-          {BOOKS.map((book) => (
-            <article
-              className="book-card"
-              key={book.title}
-            >
-              <img
-  src={`/books/${book.images[locale]}`}
-  alt={`${text.bookCoverAlt} ${book.title}`}
-  loading="lazy"
-/>
+          {BOOKS.map((book) => {
+            const bookTitle =
+              book.signKey
+                ? ZODIAC_BOOK_TITLES[
+                    locale
+                  ][
+                    book.signKey
+                  ]
+                : book.title ?? "";
 
-              <h3>
-                {book.title}
-              </h3>
-
-              <a
-                href={book.amazon}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hero-free-btn"
+            return (
+              <article
+                className="book-card"
+                key={
+                  book.signKey ??
+                  book.title ??
+                  book.amazon
+                }
               >
-                {text.viewAmazon}
-              </a>
-            </article>
-          ))}
+                <img
+                  src={`/books/${
+                    book.images[
+                      locale
+                    ]
+                  }`}
+                  alt={`${text.bookCoverAlt} ${bookTitle}`}
+                  loading="lazy"
+                />
+
+                <h3>
+                  {
+                    bookTitle
+                  }
+                </h3>
+
+                <a
+                  href={book.amazon}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero-free-btn"
+                >
+                  {
+                    text.viewAmazon
+                  }
+                </a>
+              </article>
+            );
+          })}
         </div>
 
         <div className="book-final-cta">
