@@ -2,6 +2,10 @@ import type {
   PaidPdfLocale,
 } from "./premium-localization";
 
+import {
+  localizeYearlyHoroscopeBuilder,
+} from "./yearly-horoscope-builder-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -41,6 +45,20 @@ export function localizeYearHoroscopeFile({
 
   if (locale === "fr") {
     return source;
+  }
+
+  /* =======================================================
+     YEAR — BUILDER PRINCIPAL / COVER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyHoroscope.ts"
+  ) {
+    return localizeYearlyHoroscopeBuilder(
+      source,
+      locale,
+    );
   }
 
   return source;
