@@ -78,6 +78,18 @@ import {
   localizeYearHoroscopeCalendarPage,
 } from "./year-horoscope-calendar-page-localization";
 
+import {
+  localizeYearHoroscopeBestPeriods,
+} from "./year-horoscope-best-periods-localization";
+
+import {
+  localizeYearHoroscopeBestPeriodsTexts,
+} from "./year-horoscope-best-periods-texts-localization";
+
+import {
+  localizeYearHoroscopeBestPeriodsPage,
+} from "./year-horoscope-best-periods-page-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -394,6 +406,48 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearCalendar.tsx"
   ) {
     return localizeYearHoroscopeCalendarPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — BEST PERIODS BUILDER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyBestPeriods.ts"
+  ) {
+    return localizeYearHoroscopeBestPeriods(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — BEST PERIODS TEXT BANK / 12 SIGNES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "createYearlyBestPeriodsTexts.ts"
+  ) {
+    return localizeYearHoroscopeBestPeriodsTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — BEST PERIODS PDF PAGE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearBestPeriods.tsx"
+  ) {
+    return localizeYearHoroscopeBestPeriodsPage(
       source,
       locale,
     );
