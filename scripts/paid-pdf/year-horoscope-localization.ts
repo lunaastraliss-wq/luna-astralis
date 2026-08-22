@@ -38,6 +38,10 @@ import {
   localizeYearHoroscopeChallenge,
 } from "./year-horoscope-challenge-localization";
 
+import {
+  localizeYearHoroscopeFinance,
+} from "./year-horoscope-finance-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -200,6 +204,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyChallenge.ts"
   ) {
     return localizeYearHoroscopeChallenge(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — FINANCE / FINANCES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyFinance.ts"
+  ) {
+    return localizeYearHoroscopeFinance(
       source,
       locale,
     );
