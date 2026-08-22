@@ -43,10 +43,109 @@ const LOVE_TITLES: Record<
       "Your feelings become clearer",
   },
 
-  es: {},
-  de: {},
-  it: {},
-  pt: {},
+  es: {
+    "Une année pour écouter votre cœur":
+      "Un año para escuchar a tu corazón",
+
+    "Votre vie affective prend une nouvelle direction":
+      "Tu vida amorosa toma una nueva dirección",
+
+    "Une année de rapprochement et de vérité":
+      "Un año de acercamiento y verdad",
+
+    "Votre cœur recherche un nouvel équilibre":
+      "Tu corazón busca un nuevo equilibrio",
+
+    "Un nouveau cycle dans votre vie sentimentale":
+      "Un nuevo ciclo en tu vida sentimental",
+
+    "L’amour vous invite à plus d’authenticité":
+      "El amor te invita a una mayor autenticidad",
+
+    "Une année riche en prises de conscience":
+      "Un año lleno de importantes tomas de conciencia",
+
+    "Vos sentiments deviennent plus clairs":
+      "Tus sentimientos se vuelven más claros",
+  },
+
+  de: {
+    "Une année pour écouter votre cœur":
+      "Ein Jahr, um auf Ihr Herz zu hören",
+
+    "Votre vie affective prend une nouvelle direction":
+      "Ihr Liebesleben schlägt eine neue Richtung ein",
+
+    "Une année de rapprochement et de vérité":
+      "Ein Jahr der Nähe und der Wahrheit",
+
+    "Votre cœur recherche un nouvel équilibre":
+      "Ihr Herz sucht nach einem neuen Gleichgewicht",
+
+    "Un nouveau cycle dans votre vie sentimentale":
+      "Ein neuer Zyklus in Ihrem Liebesleben",
+
+    "L’amour vous invite à plus d’authenticité":
+      "Die Liebe lädt Sie zu mehr Authentizität ein",
+
+    "Une année riche en prises de conscience":
+      "Ein Jahr voller wichtiger Erkenntnisse",
+
+    "Vos sentiments deviennent plus clairs":
+      "Ihre Gefühle werden klarer",
+  },
+
+  it: {
+    "Une année pour écouter votre cœur":
+      "Un anno per ascoltare il vostro cuore",
+
+    "Votre vie affective prend une nouvelle direction":
+      "La vostra vita sentimentale prende una nuova direzione",
+
+    "Une année de rapprochement et de vérité":
+      "Un anno di avvicinamento e verità",
+
+    "Votre cœur recherche un nouvel équilibre":
+      "Il vostro cuore cerca un nuovo equilibrio",
+
+    "Un nouveau cycle dans votre vie sentimentale":
+      "Un nuovo ciclo nella vostra vita sentimentale",
+
+    "L’amour vous invite à plus d’authenticité":
+      "L’amore vi invita a una maggiore autenticità",
+
+    "Une année riche en prises de conscience":
+      "Un anno ricco di importanti consapevolezze",
+
+    "Vos sentiments deviennent plus clairs":
+      "I vostri sentimenti diventano più chiari",
+  },
+
+  pt: {
+    "Une année pour écouter votre cœur":
+      "Um ano para ouvir o seu coração",
+
+    "Votre vie affective prend une nouvelle direction":
+      "Sua vida amorosa toma uma nova direção",
+
+    "Une année de rapprochement et de vérité":
+      "Um ano de aproximação e verdade",
+
+    "Votre cœur recherche un nouvel équilibre":
+      "Seu coração busca um novo equilíbrio",
+
+    "Un nouveau cycle dans votre vie sentimentale":
+      "Um novo ciclo em sua vida amorosa",
+
+    "L’amour vous invite à plus d’authenticité":
+      "O amor convida você a viver com mais autenticidade",
+
+    "Une année riche en prises de conscience":
+      "Um ano repleto de importantes tomadas de consciência",
+
+    "Vos sentiments deviennent plus clairs":
+      "Seus sentimentos se tornam mais claros",
+  },
 };
 
 /* =========================================================
@@ -644,33 +743,8 @@ const LOVE_TEXTS: Record<
     "Votre évolution sentimentale dépendra surtout de votre capacité à choisir les relations qui vous offrent autant de présence que vous leur en donnez.":
       "Tu evolución sentimental dependerá sobre todo de tu capacidad para elegir relaciones que te ofrezcan tanta presencia como la que tú les das.",
   },
-  de: {
-  "Une année pour écouter votre cœur":
-    "Ein Jahr, um auf Ihr Herz zu hören",
-
-  "Votre vie affective prend une nouvelle direction":
-    "Ihr Liebesleben schlägt eine neue Richtung ein",
-
-  "Une année de rapprochement et de vérité":
-    "Ein Jahr der Nähe und der Wahrheit",
-
-  "Votre cœur recherche un nouvel équilibre":
-    "Ihr Herz sucht nach einem neuen Gleichgewicht",
-
-  "Un nouveau cycle dans votre vie sentimentale":
-    "Ein neuer Zyklus in Ihrem Liebesleben",
-
-  "L’amour vous invite à plus d’authenticité":
-    "Die Liebe lädt Sie zu mehr Authentizität ein",
-
-  "Une année riche en prises de conscience":
-    "Ein Jahr voller wichtiger Erkenntnisse",
-
-  "Vos sentiments deviennent plus clairs":
-    "Ihre Gefühle werden klarer",
-},
   /* =======================================================
-   GERMAN
+     GERMAN
 ======================================================= */
 
 de: {
@@ -962,33 +1036,8 @@ de: {
   "Votre évolution sentimentale dépendra surtout de votre capacité à choisir les relations qui vous offrent autant de présence que vous leur en donnez.":
     "Ihre Entwicklung in der Liebe wird vor allem von Ihrer Fähigkeit abhängen, Beziehungen zu wählen, die Ihnen ebenso viel Präsenz schenken, wie Sie selbst geben.",
 },
-  it: {
-  "Une année pour écouter votre cœur":
-    "Un anno per ascoltare il vostro cuore",
-
-  "Votre vie affective prend une nouvelle direction":
-    "La vostra vita sentimentale prende una nuova direzione",
-
-  "Une année de rapprochement et de vérité":
-    "Un anno di avvicinamento e verità",
-
-  "Votre cœur recherche un nouvel équilibre":
-    "Il vostro cuore cerca un nuovo equilibrio",
-
-  "Un nouveau cycle dans votre vie sentimentale":
-    "Un nuovo ciclo nella vostra vita sentimentale",
-
-  "L’amour vous invite à plus d’authenticité":
-    "L’amore vi invita a una maggiore autenticità",
-
-  "Une année riche en prises de conscience":
-    "Un anno ricco di importanti consapevolezze",
-
-  "Vos sentiments deviennent plus clairs":
-    "I vostri sentimenti diventano più chiari",
-},
   /* =======================================================
-   ITALIAN
+     ITALIAN
 ======================================================= */
 
 it: {
@@ -1280,33 +1329,8 @@ it: {
   "Votre évolution sentimentale dépendra surtout de votre capacité à choisir les relations qui vous offrent autant de présence que vous leur en donnez.":
     "La vostra evoluzione sentimentale dipenderà soprattutto dalla capacità di scegliere relazioni che vi offrano tanta presenza quanta ne date voi.",
 },
-  pt: {
-  "Une année pour écouter votre cœur":
-    "Um ano para ouvir o seu coração",
-
-  "Votre vie affective prend une nouvelle direction":
-    "Sua vida amorosa toma uma nova direção",
-
-  "Une année de rapprochement et de vérité":
-    "Um ano de aproximação e verdade",
-
-  "Votre cœur recherche un nouvel équilibre":
-    "Seu coração busca um novo equilíbrio",
-
-  "Un nouveau cycle dans votre vie sentimentale":
-    "Um novo ciclo em sua vida amorosa",
-
-  "L’amour vous invite à plus d’authenticité":
-    "O amor convida você a viver com mais autenticidade",
-
-  "Une année riche en prises de conscience":
-    "Um ano repleto de importantes tomadas de consciência",
-
-  "Vos sentiments deviennent plus clairs":
-    "Seus sentimentos se tornam mais claros",
-},
   /* =======================================================
-   PORTUGUESE — BRAZIL
+     PORTUGUESE — BRAZIL
 ======================================================= */
 
 pt: {
