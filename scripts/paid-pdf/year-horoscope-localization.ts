@@ -74,6 +74,10 @@ import {
   localizeYearHoroscopeCalendarTexts,
 } from "./year-horoscope-calendar-texts-localization";
 
+import {
+  localizeYearHoroscopeCalendarPage,
+} from "./year-horoscope-calendar-page-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -326,7 +330,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — MANTRA
+     YEAR — MANTRA BUILDER
   ======================================================= */
 
   if (
@@ -376,6 +380,20 @@ export function localizeYearHoroscopeFile({
     "createYearlyCalendarTexts.ts"
   ) {
     return localizeYearHoroscopeCalendarTexts(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — CALENDAR PDF PAGE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearCalendar.tsx"
+  ) {
+    return localizeYearHoroscopeCalendarPage(
       source,
       locale,
     );
