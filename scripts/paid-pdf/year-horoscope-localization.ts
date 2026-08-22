@@ -54,6 +54,10 @@ import {
   localizeYearHoroscopeOpportunity,
 } from "./year-horoscope-opportunity-localization";
 
+import {
+  localizeYearHoroscopeSocial,
+} from "./year-horoscope-social-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -272,6 +276,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyOpportunity.ts"
   ) {
     return localizeYearHoroscopeOpportunity(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — SOCIAL / VIE SOCIALE ET RELATIONS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlySocial.ts"
+  ) {
+    return localizeYearHoroscopeSocial(
       source,
       locale,
     );
