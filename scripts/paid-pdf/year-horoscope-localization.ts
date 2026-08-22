@@ -90,6 +90,22 @@ import {
   localizeYearHoroscopeBestPeriodsPage,
 } from "./year-horoscope-best-periods-page-localization";
 
+import {
+  localizeYearHoroscopeHiddenTalents,
+} from "./year-horoscope-hidden-talents-localization";
+
+import {
+  localizeYearHoroscopeHiddenTalentsPage,
+} from "./year-horoscope-hidden-talents-page-localization";
+
+import {
+  localizeYearHoroscopeStrengthsPage,
+} from "./year-horoscope-strengths-page-localization";
+
+import {
+  localizeYearPremiumPages,
+} from "./year-premium-pages-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -448,6 +464,62 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearBestPeriods.tsx"
   ) {
     return localizeYearHoroscopeBestPeriodsPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — HIDDEN TALENTS BUILDER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyHiddenTalents.ts"
+  ) {
+    return localizeYearHoroscopeHiddenTalents(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — HIDDEN TALENTS PDF PAGE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearHiddenTalents.tsx"
+  ) {
+    return localizeYearHoroscopeHiddenTalentsPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — STRENGTHS PDF PAGE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearStrengths.tsx"
+  ) {
+    return localizeYearHoroscopeStrengthsPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — PREMIUM PAGES DATA
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearPremiumPages.ts"
+  ) {
+    return localizeYearPremiumPages(
       source,
       locale,
     );
