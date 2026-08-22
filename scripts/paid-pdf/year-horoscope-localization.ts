@@ -66,6 +66,14 @@ import {
   localizeYearHoroscopeMantra,
 } from "./year-horoscope-mantra-localization";
 
+import {
+  localizeYearHoroscopeCalendar,
+} from "./year-horoscope-calendar-localization";
+
+import {
+  localizeYearHoroscopeCalendarTexts,
+} from "./year-horoscope-calendar-texts-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -206,7 +214,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — CAREER / TRAVAIL ET CARRIÈRE
+     YEAR — CAREER
   ======================================================= */
 
   if (
@@ -220,7 +228,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — CHALLENGE / DÉFIS
+     YEAR — CHALLENGE
   ======================================================= */
 
   if (
@@ -234,7 +242,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — FINANCE / FINANCES
+     YEAR — FINANCE
   ======================================================= */
 
   if (
@@ -248,7 +256,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — HEALTH / BIEN-ÊTRE ET ÉNERGIE
+     YEAR — HEALTH
   ======================================================= */
 
   if (
@@ -262,7 +270,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — LOVE / AMOUR
+     YEAR — LOVE
   ======================================================= */
 
   if (
@@ -276,7 +284,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — OPPORTUNITY / OPPORTUNITÉS
+     YEAR — OPPORTUNITY
   ======================================================= */
 
   if (
@@ -290,7 +298,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — SOCIAL / VIE SOCIALE ET RELATIONS
+     YEAR — SOCIAL
   ======================================================= */
 
   if (
@@ -304,7 +312,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — TRANSIT / TRANSITS PLANÉTAIRES
+     YEAR — TRANSIT
   ======================================================= */
 
   if (
@@ -318,7 +326,7 @@ export function localizeYearHoroscopeFile({
   }
 
   /* =======================================================
-     YEAR — MANTRA / MANTRA ANNUEL
+     YEAR — MANTRA
   ======================================================= */
 
   if (
@@ -340,6 +348,34 @@ export function localizeYearHoroscopeFile({
     "createYearlyMantraTexts.ts"
   ) {
     return localizeYearHoroscopeMantra(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — CALENDAR BUILDER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyCalendar.ts"
+  ) {
+    return localizeYearHoroscopeCalendar(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — CALENDAR TEXT BANK / 12 SIGNES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "createYearlyCalendarTexts.ts"
+  ) {
+    return localizeYearHoroscopeCalendarTexts(
       source,
       locale,
     );
