@@ -8,25 +8,6 @@ import type {
 
 type NonFrenchLocale = Exclude<PaidPdfLocale, "fr">;
 
-type YearlyStrengthItemLike = {
-  title: string;
-  text: string;
-  advice: string;
-  icon?: string;
-  iconKey?: string;
-};
-
-export type LocalizableYearlyStrengthsResult = {
-  title: string;
-  introduction: string;
-  dominantStrength: YearlyStrengthItemLike;
-  strengths: YearlyStrengthItemLike[];
-  potentialScore: number;
-  opportunity: string;
-  vigilance: string;
-  conclusion: string;
-};
-
 type TranslationTuple = readonly [
   en: string,
   es: string,
@@ -648,29 +629,27 @@ const TRANSLATIONS: Record<string, TranslationTuple> = {
    HELPERS
 ========================================================= */
 
-function translateExact(
-  value: string,
+function replaceExactText(
+  source: string,
   locale: NonFrenchLocale,
 ): string {
-  const translated = TRANSLATIONS[value];
+  let result = source;
 
-  if (!translated) {
-    return value;
+  const entries = Object.entries(TRANSLATIONS).sort(
+    ([first], [second]) => second.length - first.length,
+  );
+
+  for (const [french, translated] of entries) {
+    const value = translated[LOCALE_INDEX[locale]];
+
+    if (!value) {
+      continue;
+    }
+
+    result = result.split(french).join(value);
   }
 
-  return translated[LOCALE_INDEX[locale]] ?? value;
-}
-
-function localizeStrengthItem(
-  item: YearlyStrengthItemLike,
-  locale: NonFrenchLocale,
-): YearlyStrengthItemLike {
-  return {
-    ...item,
-    title: translateExact(item.title, locale),
-    text: translateExact(item.text, locale),
-    advice: translateExact(item.advice, locale),
-  };
+  return result;
 }
 
 /* =========================================================
@@ -678,45 +657,15 @@ function localizeStrengthItem(
 ========================================================= */
 
 export function localizeYearHoroscopeStrengths(
-  strengths: LocalizableYearlyStrengthsResult,
+  source: string,
   locale: PaidPdfLocale,
-): LocalizableYearlyStrengthsResult {
+): string {
   if (locale === "fr") {
-    return strengths;
+    return source;
   }
 
-  const nonFrenchLocale = locale as NonFrenchLocale;
-
-  return {
-    ...strengths,
-    title: translateExact(strengths.title, nonFrenchLocale),
-    introduction: translateExact(
-      strengths.introduction,
-      nonFrenchLocale,
-    ),
-    dominantStrength: localizeStrengthItem(
-      strengths.dominantStrength,
-      nonFrenchLocale,
-    ),
-    strengths: Array.isArray(strengths.strengths)
-      ? strengths.strengths.map((strength) =>
-          localizeStrengthItem(
-            strength,
-            nonFrenchLocale,
-          ),
-        )
-      : [],
-    opportunity: translateExact(
-      strengths.opportunity,
-      nonFrenchLocale,
-    ),
-    vigilance: translateExact(
-      strengths.vigilance,
-      nonFrenchLocale,
-    ),
-    conclusion: translateExact(
-      strengths.conclusion,
-      nonFrenchLocale,
-    ),
-  };
+  return replaceExactText(
+    source,
+    locale as NonFrenchLocale,
+  );
 }
