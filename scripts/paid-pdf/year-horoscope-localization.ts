@@ -34,6 +34,10 @@ import {
   localizeYearHoroscopeCareer,
 } from "./year-horoscope-career-localization";
 
+import {
+  localizeYearHoroscopeChallenge,
+} from "./year-horoscope-challenge-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -182,6 +186,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyCareer.ts"
   ) {
     return localizeYearHoroscopeCareer(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — CHALLENGE / DÉFIS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyChallenge.ts"
+  ) {
+    return localizeYearHoroscopeChallenge(
       source,
       locale,
     );
