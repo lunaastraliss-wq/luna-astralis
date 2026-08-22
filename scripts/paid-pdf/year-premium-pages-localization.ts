@@ -29,6 +29,27 @@ const T = (
 
 export const YEAR_PREMIUM_SECTION_A_TRANSLATIONS: TranslationEntry[] = [
   /* =======================================================
+     PREMIUM PAGE SCORE LABELS
+  ======================================================= */
+
+  T(
+    "Capacité de dépassement",
+    "Capacity to overcome",
+    "Capacidad de superación",
+    "Fähigkeit zur Überwindung",
+    "Capacità di superamento",
+    "Capacidade de superação",
+  ),
+  T(
+    "Équilibre émotionnel",
+    "Emotional balance",
+    "Equilibrio emocional",
+    "Emotionales Gleichgewicht",
+    "Equilibrio emotivo",
+    "Equilíbrio emocional",
+  ),
+
+  /* =======================================================
      INNER BLOCKS
   ======================================================= */
 
