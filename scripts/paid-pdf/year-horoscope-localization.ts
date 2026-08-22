@@ -6,6 +6,10 @@ import {
   localizeYearlyHoroscopeBuilder,
 } from "./yearly-horoscope-builder-localization";
 
+import {
+  localizeYearHoroscopeOverview,
+} from "./year-horoscope-overview-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -56,6 +60,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyHoroscope.ts"
   ) {
     return localizeYearlyHoroscopeBuilder(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — OVERVIEW
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearOverview.tsx"
+  ) {
+    return localizeYearHoroscopeOverview(
       source,
       locale,
     );
