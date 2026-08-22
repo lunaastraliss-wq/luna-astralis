@@ -10,6 +10,10 @@ import {
   localizeYearHoroscopeOverview,
 } from "./year-horoscope-overview-localization";
 
+import {
+  localizeYearHoroscopeMajorEnergies,
+} from "./year-horoscope-major-energies-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -74,6 +78,20 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearOverview.tsx"
   ) {
     return localizeYearHoroscopeOverview(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — MAJOR ENERGIES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearMajorEnergies.tsx"
+  ) {
+    return localizeYearHoroscopeMajorEnergies(
       source,
       locale,
     );
