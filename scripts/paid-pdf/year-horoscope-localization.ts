@@ -46,6 +46,10 @@ import {
   localizeYearHoroscopeHealth,
 } from "./year-horoscope-health-localization";
 
+import {
+  localizeYearHoroscopeLove,
+} from "./year-horoscope-love-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -236,6 +240,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyHealth.ts"
   ) {
     return localizeYearHoroscopeHealth(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — LOVE / AMOUR
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyLove.ts"
+  ) {
+    return localizeYearHoroscopeLove(
       source,
       locale,
     );
