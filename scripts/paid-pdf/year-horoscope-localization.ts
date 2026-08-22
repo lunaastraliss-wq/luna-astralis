@@ -107,6 +107,10 @@ import {
 } from "./year-horoscope-strengths-localization";
 
 import {
+  localizeYearPremiumBalancePage,
+} from "./year-premium-balance-page-localization";
+
+import {
   localizeYearPremiumPages,
 } from "./year-premium-pages-localization";
 
@@ -538,6 +542,20 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearStrengths.tsx"
   ) {
     return localizeYearHoroscopeStrengthsPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — PREMIUM BALANCE PDF PAGE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "YearPremiumBalancePage.tsx"
+  ) {
+    return localizeYearPremiumBalancePage(
       source,
       locale,
     );
