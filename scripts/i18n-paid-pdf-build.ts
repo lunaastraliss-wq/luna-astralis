@@ -22,6 +22,10 @@ import {
   localizeMonthHoroscopeFile,
 } from "./paid-pdf/monthly-horoscope-localization";
 
+import {
+  localizeYearHoroscopeFile,
+} from "./paid-pdf/year-horoscope-localization";
+
 /*
 |--------------------------------------------------------------------------
 | Paid PDF locale builder
@@ -2527,6 +2531,13 @@ source = localizeHoroscopeFile({
   filePath: absolute,
   fileName: entry.name,
 });
+
+   source = localizeYearHoroscopeFile({
+  source,
+  locale,
+  filePath: absolute,
+  fileName: entry.name,
+});   
       /*
        * PremiumPdf — noms visibles des planètes et des signes.
        * Cette correction reste limitée à PlanetConstants.ts et PlanetUtils.ts
