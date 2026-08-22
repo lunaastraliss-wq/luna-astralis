@@ -42,6 +42,10 @@ import {
   localizeYearHoroscopeFinance,
 } from "./year-horoscope-finance-localization";
 
+import {
+  localizeYearHoroscopeHealth,
+} from "./year-horoscope-health-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -218,6 +222,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyFinance.ts"
   ) {
     return localizeYearHoroscopeFinance(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — HEALTH / BIEN-ÊTRE ET ÉNERGIE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyHealth.ts"
+  ) {
+    return localizeYearHoroscopeHealth(
       source,
       locale,
     );
