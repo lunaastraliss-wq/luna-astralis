@@ -14,6 +14,18 @@ import {
   localizeYearHoroscopeMajorEnergies,
 } from "./year-horoscope-major-energies-localization";
 
+import {
+  localizeYearHoroscopeMajorAspects,
+} from "./year-horoscope-major-aspects-localization";
+
+import {
+  localizeYearHoroscopeDominantPlanets,
+} from "./year-horoscope-dominant-planets-localization";
+
+import {
+  localizeYearHoroscopeActivatedHouses,
+} from "./year-horoscope-activated-houses-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -92,6 +104,48 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearMajorEnergies.tsx"
   ) {
     return localizeYearHoroscopeMajorEnergies(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — MAJOR ASPECTS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearMajorAspects.tsx"
+  ) {
+    return localizeYearHoroscopeMajorAspects(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — DOMINANT PLANETS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearDominantPlanets.tsx"
+  ) {
+    return localizeYearHoroscopeDominantPlanets(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — ACTIVATED HOUSES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "HoroscopeYearActivatedHouses.tsx"
+  ) {
+    return localizeYearHoroscopeActivatedHouses(
       source,
       locale,
     );
