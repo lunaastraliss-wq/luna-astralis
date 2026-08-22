@@ -1345,6 +1345,8 @@ const MANTRA_CANCER_TRANSLATIONS = {
   },
 
   es: {
+    /* MANTRA */
+
     "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Honro mis emociones sin entregarles todo mi poder.",
     "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "Mi sensibilidad es una fortaleza que me ayuda a reconocer lo que es verdadero.",
     "Je crée en moi la sécurité que je recherche autour de moi.": "Creo dentro de mí la seguridad que busco a mi alrededor.",
@@ -1352,65 +1354,7 @@ const MANTRA_CANCER_TRANSLATIONS = {
     "Je mérite des relations où je peux être pleinement moi-même.": "Merezco relaciones en las que pueda ser plenamente yo mismo.",
     "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "Mi intuición me guía hacia aquello que realmente nutre mi alma.",
 
-    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Mis emociones son legítimas y las recibo con dulzura, confianza y compasión, porque me ayudan a comprender mejor mis necesidades más profundas.",
-    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Merezco recibir un amor estable, respetuoso y tranquilizador, en el que pueda ser plenamente yo mismo sin tener que ocultar mi verdadera sensibilidad.",
-    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Puedo establecer límites saludables con calma y benevolencia, preservando al mismo tiempo mi equilibrio emocional y el respeto que siento por mí mismo.",
-    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Mi intuición me guía con sabiduría y me permite reconocer naturalmente a las personas, las situaciones y las decisiones que realmente son beneficiosas para mí.",
-    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Cada día me convierto en mi propio refugio cultivando la paz interior, la confianza en mí mismo y la seguridad que necesito profundamente.",
-    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Libero con serenidad los recuerdos que ya no tienen lugar en mi vida para avanzar con mayor libertad hacia un futuro lleno de confianza y esperanza.",
-  },
-
-  de: {
-    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Ich achte meine Gefühle, ohne ihnen meine ganze Macht zu überlassen.",
-    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "Meine Sensibilität ist eine Stärke, die mir hilft zu erkennen, was wahr ist.",
-    "Je crée en moi la sécurité que je recherche autour de moi.": "Ich erschaffe in mir selbst die Sicherheit, die ich in meiner Umgebung suche.",
-    "Je protège mon énergie sans fermer mon cœur.": "Ich schütze meine Energie, ohne mein Herz zu verschließen.",
-    "Je mérite des relations où je peux être pleinement moi-même.": "Ich verdiene Beziehungen, in denen ich ganz ich selbst sein kann.",
-    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "Meine Intuition führt mich zu dem, was meine Seele wirklich nährt.",
-
-    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Meine Gefühle sind berechtigt, und ich nehme sie mit Sanftheit, Vertrauen und Mitgefühl an, denn sie helfen mir, meine tiefsten Bedürfnisse besser zu verstehen.",
-    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Ich verdiene eine beständige, respektvolle und Geborgenheit schenkende Liebe, in der ich ganz ich selbst sein kann, ohne meine wahre Sensibilität verbergen zu müssen.",
-    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Ich kann ruhig und liebevoll gesunde Grenzen setzen und dabei mein emotionales Gleichgewicht sowie meine Selbstachtung bewahren.",
-    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Meine Intuition führt mich sicher und hilft mir, Menschen, Situationen und Entscheidungen zu erkennen, die wirklich gut für mich sind.",
-    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Jeden Tag werde ich mehr zu meinem eigenen sicheren Ort, indem ich inneren Frieden, Selbstvertrauen und die Geborgenheit entwickle, die ich tief in mir brauche.",
-    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Ich lasse in Ruhe Erinnerungen los, die keinen Platz mehr in meinem Leben haben, damit ich freier einer Zukunft voller Vertrauen und Hoffnung entgegengehen kann.",
-  },
-
-  it: {
-    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Onoro le mie emozioni senza cedere loro tutto il mio potere.",
-    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "La mia sensibilità è una forza che mi aiuta a riconoscere ciò che è vero.",
-    "Je crée en moi la sécurité que je recherche autour de moi.": "Creo dentro di me la sicurezza che cerco intorno a me.",
-    "Je protège mon énergie sans fermer mon cœur.": "Proteggo la mia energia senza chiudere il mio cuore.",
-    "Je mérite des relations où je peux être pleinement moi-même.": "Merito relazioni in cui posso essere pienamente me stesso.",
-    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "La mia intuizione mi guida verso ciò che nutre veramente la mia anima.",
-
-    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Le mie emozioni sono legittime e le accolgo con dolcezza, fiducia e compassione, perché mi aiutano a comprendere meglio i miei bisogni più profondi.",
-    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Merito di ricevere un amore stabile, rispettoso e rassicurante, nel quale posso essere pienamente me stesso senza dover nascondere la mia vera sensibilità.",
-    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Posso stabilire limiti sani con calma e gentilezza, preservando allo stesso tempo il mio equilibrio emotivo e il rispetto che nutro per me stesso.",
-    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "La mia intuizione mi guida con saggezza e mi permette di riconoscere naturalmente le persone, le situazioni e le scelte che sono realmente positive per me.",
-    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Ogni giorno divento il mio rifugio coltivando la pace interiore, la fiducia in me stesso e la sicurezza di cui ho profondamente bisogno.",
-    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Lascio andare con serenità i ricordi che non hanno più posto nella mia vita, per avanzare più liberamente verso un futuro pieno di fiducia e speranza.",
-  },
-
-  pt: {
-    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Honro minhas emoções sem entregar a elas todo o meu poder.",
-    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "Minha sensibilidade é uma força que me ajuda a reconhecer o que é verdadeiro.",
-    "Je crée en moi la sécurité que je recherche autour de moi.": "Crio dentro de mim a segurança que procuro ao meu redor.",
-    "Je protège mon énergie sans fermer mon cœur.": "Protejo minha energia sem fechar meu coração.",
-    "Je mérite des relations où je peux être pleinement moi-même.": "Mereço relacionamentos nos quais posso ser plenamente quem sou.",
-    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "Minha intuição me guia em direção ao que realmente nutre minha alma.",
-
-    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Minhas emoções são legítimas, e eu as acolho com gentileza, confiança e compaixão, pois elas me ajudam a compreender melhor minhas necessidades mais profundas.",
-    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Mereço receber um amor estável, respeitoso e acolhedor, no qual posso ser plenamente quem sou sem precisar esconder minha verdadeira sensibilidade.",
-    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Posso estabelecer limites saudáveis com calma e gentileza, preservando ao mesmo tempo meu equilíbrio emocional e o respeito que tenho por mim.",
-    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Minha intuição me guia com sabedoria e me permite reconhecer naturalmente as pessoas, as situações e as escolhas que são realmente benéficas para mim.",
-    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "A cada dia, torno-me meu próprio refúgio ao cultivar a paz interior, a confiança em mim e a segurança de que profundamente preciso.",
-    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Liberto com serenidade as lembranças que já não têm lugar em minha vida para avançar com mais liberdade em direção a um futuro cheio de confiança e esperança.",
-  },
-};
-/* =========================================================
-   CANCER — ESPAÑOL — INTENTION + MESSAGE
-========================================================= */
+    /* INTENTION */
 
     "Accueillir vos émotions sans les juger ni les laisser tout diriger. Cette année, cette direction vous aidera à mobiliser votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Prenez toutefois le temps de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En revenant à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Acoge tus emociones sin juzgarlas ni permitir que lo dirijan todo. Este año, esta orientación te ayudará a utilizar tu sensibilidad, tu intuición y tu capacidad para cuidar aquello que realmente importa. Sin embargo, procura no cargar tú solo con las emociones de los demás ni permitir que el pasado dirija el presente. Al volver a unos límites saludables, un espacio seguro y una escucha honesta de tus necesidades, podrás recuperar una seguridad interior que no dependa únicamente de tu entorno.",
@@ -1430,6 +1374,17 @@ const MANTRA_CANCER_TRANSLATIONS = {
     "Vous rapprocher des personnes et des lieux qui vous apaisent. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte et à mieux traverser le défi suivant : ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En privilégiant des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous créerez les conditions nécessaires pour retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Acércate a las personas y los lugares que te transmiten tranquilidad. Convierte esta intención en una referencia y no en una obligación adicional. Está aquí para ayudarte a reconocer la fuerza de tu sensibilidad, tu intuición y tu capacidad para cuidar aquello que importa, y para afrontar mejor el siguiente desafío: no cargar tú solo con las emociones de los demás ni permitir que el pasado dirija el presente. Al priorizar unos límites saludables, un espacio seguro y una escucha honesta de tus necesidades, crearás las condiciones necesarias para recuperar una seguridad interior que no dependa únicamente de tu entorno.",
 
+    /* AFFIRMATION */
+
+    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Mis emociones son legítimas y las recibo con dulzura, confianza y compasión, porque me ayudan a comprender mejor mis necesidades más profundas.",
+    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Merezco recibir un amor estable, respetuoso y tranquilizador, en el que pueda ser plenamente yo mismo sin tener que ocultar mi verdadera sensibilidad.",
+    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Puedo establecer límites saludables con calma y benevolencia, preservando al mismo tiempo mi equilibrio emocional y el respeto que siento por mí mismo.",
+    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Mi intuición me guía con sabiduría y me permite reconocer naturalmente a las personas, las situaciones y las decisiones que realmente son beneficiosas para mí.",
+    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Cada día me convierto en mi propio refugio cultivando la paz interior, la confianza en mí mismo y la seguridad que necesito profundamente.",
+    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Libero con serenidad los recuerdos que ya no tienen lugar en mi vida para avanzar con mayor libertad hacia un futuro lleno de confianza y esperanza.",
+
+    /* MESSAGE */
+
     "Cette année, votre sensibilité pourrait vous révéler une vérité que votre esprit hésitait encore à reconnaître. Les mois à venir vous invitent à mieux reconnaître votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins. Vous avancerez alors avec plus de clarté et pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Este año, tu sensibilidad podría revelarte una verdad que tu mente todavía dudaba en reconocer. Los próximos meses te invitan a comprender mejor tu sensibilidad, tu intuición y tu capacidad para cuidar aquello que importa. Estas cualidades se vuelven especialmente valiosas cuando aceptas no cargar tú solo con las emociones de los demás ni permitir que el pasado dirija el presente. No intentes resolverlo todo de una sola vez: vuelve más bien a unos límites saludables, un espacio seguro y una escucha honesta de tus necesidades. Avanzarás entonces con mayor claridad y podrás recuperar una seguridad interior que no dependa únicamente de tu entorno.",
 
@@ -1447,10 +1402,19 @@ const MANTRA_CANCER_TRANSLATIONS = {
 
     "Vous êtes invité à choisir les liens qui accueillent votre profondeur sans l’utiliser contre vous. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Restez attentif(ve) au risque de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En vous recentrant sur des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement et préparer la suite avec davantage de confiance.":
       "Estás invitado a elegir vínculos que acojan tu profundidad sin utilizarla en tu contra. Luna Astralis te invita a considerar este año como una etapa de maduración interior. No necesitas convertirte en otra persona, sino utilizar de manera más consciente tu sensibilidad, tu intuición y tu capacidad para cuidar aquello que importa. Mantente atento al riesgo de cargar tú solo con las emociones de los demás o permitir que el pasado dirija el presente. Al volver a centrarte en unos límites saludables, un espacio seguro y una escucha honesta de tus necesidades, podrás recuperar una seguridad interior que no dependa únicamente de tu entorno y preparar lo que viene con mayor confianza.",
+  },
 
-/* =========================================================
-   CANCER — DEUTSCH — INTENTION + MESSAGE
-========================================================= */
+  de: {
+    /* MANTRA */
+
+    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Ich achte meine Gefühle, ohne ihnen meine ganze Macht zu überlassen.",
+    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "Meine Sensibilität ist eine Stärke, die mir hilft zu erkennen, was wahr ist.",
+    "Je crée en moi la sécurité que je recherche autour de moi.": "Ich erschaffe in mir selbst die Sicherheit, die ich in meiner Umgebung suche.",
+    "Je protège mon énergie sans fermer mon cœur.": "Ich schütze meine Energie, ohne mein Herz zu verschließen.",
+    "Je mérite des relations où je peux être pleinement moi-même.": "Ich verdiene Beziehungen, in denen ich ganz ich selbst sein kann.",
+    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "Meine Intuition führt mich zu dem, was meine Seele wirklich nährt.",
+
+    /* INTENTION */
 
     "Accueillir vos émotions sans les juger ni les laisser tout diriger. Cette année, cette direction vous aidera à mobiliser votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Prenez toutefois le temps de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En revenant à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Nehmen Sie Ihre Gefühle an, ohne sie zu beurteilen oder ihnen die vollständige Kontrolle zu überlassen. In diesem Jahr wird Ihnen diese Ausrichtung helfen, Ihre Sensibilität, Ihre Intuition und Ihre Fähigkeit, sich um das Wesentliche zu kümmern, bewusster einzusetzen. Achten Sie jedoch darauf, die Gefühle anderer nicht allein zu tragen und die Vergangenheit nicht über die Gegenwart bestimmen zu lassen. Indem Sie zu liebevollen Grenzen, einem sicheren Raum und einem ehrlichen Wahrnehmen Ihrer Bedürfnisse zurückkehren, können Sie eine innere Sicherheit wiederfinden, die nicht ausschließlich von Ihrer Umgebung abhängt.",
@@ -1470,6 +1434,17 @@ const MANTRA_CANCER_TRANSLATIONS = {
     "Vous rapprocher des personnes et des lieux qui vous apaisent. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte et à mieux traverser le défi suivant : ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En privilégiant des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous créerez les conditions nécessaires pour retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Nähern Sie sich den Menschen und Orten, die Ihnen Ruhe schenken. Machen Sie diese Absicht zu einem Orientierungspunkt und nicht zu einer zusätzlichen Verpflichtung. Sie soll Ihnen helfen, die Kraft Ihrer Sensibilität, Ihrer Intuition und Ihrer Fähigkeit, sich um das Wesentliche zu kümmern, zu erkennen und gleichzeitig besser mit der Herausforderung umzugehen, die Gefühle anderer nicht allein zu tragen und die Vergangenheit nicht über die Gegenwart bestimmen zu lassen. Indem Sie liebevollen Grenzen, einem sicheren Raum und einem ehrlichen Wahrnehmen Ihrer Bedürfnisse den Vorrang geben, schaffen Sie die Voraussetzungen, um eine innere Sicherheit wiederzufinden, die nicht ausschließlich von Ihrer Umgebung abhängt.",
 
+    /* AFFIRMATION */
+
+    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Meine Gefühle sind berechtigt, und ich nehme sie mit Sanftheit, Vertrauen und Mitgefühl an, denn sie helfen mir, meine tiefsten Bedürfnisse besser zu verstehen.",
+    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Ich verdiene eine beständige, respektvolle und Geborgenheit schenkende Liebe, in der ich ganz ich selbst sein kann, ohne meine wahre Sensibilität verbergen zu müssen.",
+    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Ich kann ruhig und liebevoll gesunde Grenzen setzen und dabei mein emotionales Gleichgewicht sowie meine Selbstachtung bewahren.",
+    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Meine Intuition führt mich sicher und hilft mir, Menschen, Situationen und Entscheidungen zu erkennen, die wirklich gut für mich sind.",
+    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Jeden Tag werde ich mehr zu meinem eigenen sicheren Ort, indem ich inneren Frieden, Selbstvertrauen und die Geborgenheit entwickle, die ich tief in mir brauche.",
+    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Ich lasse in Ruhe Erinnerungen los, die keinen Platz mehr in meinem Leben haben, damit ich freier einer Zukunft voller Vertrauen und Hoffnung entgegengehen kann.",
+
+    /* MESSAGE */
+
     "Cette année, votre sensibilité pourrait vous révéler une vérité que votre esprit hésitait encore à reconnaître. Les mois à venir vous invitent à mieux reconnaître votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins. Vous avancerez alors avec plus de clarté et pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "In diesem Jahr könnte Ihre Sensibilität Ihnen eine Wahrheit zeigen, die Ihr Verstand bisher nur zögerlich anerkennen wollte. Die kommenden Monate laden Sie dazu ein, Ihre Sensibilität, Ihre Intuition und Ihre Fähigkeit, sich um das Wesentliche zu kümmern, besser wahrzunehmen. Diese Qualitäten werden besonders wertvoll, wenn Sie bereit sind, die Gefühle anderer nicht allein zu tragen und die Vergangenheit nicht über die Gegenwart bestimmen zu lassen. Versuchen Sie nicht, alles auf einmal zu lösen: Kehren Sie stattdessen zu liebevollen Grenzen, einem sicheren Raum und einem ehrlichen Wahrnehmen Ihrer Bedürfnisse zurück. So werden Sie mit größerer Klarheit vorankommen und eine innere Sicherheit wiederfinden können, die nicht ausschließlich von Ihrer Umgebung abhängt.",
 
@@ -1487,10 +1462,19 @@ const MANTRA_CANCER_TRANSLATIONS = {
 
     "Vous êtes invité à choisir les liens qui accueillent votre profondeur sans l’utiliser contre vous. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Restez attentif(ve) au risque de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En vous recentrant sur des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, Beziehungen zu wählen, die Ihre Tiefe annehmen, ohne sie gegen Sie zu verwenden. Luna Astralis lädt Sie dazu ein, dieses Jahr als eine Phase innerer Reifung zu betrachten. Sie müssen kein anderer Mensch werden, sondern Ihre Sensibilität, Ihre Intuition und Ihre Fähigkeit, sich um das Wesentliche zu kümmern, bewusster einsetzen. Bleiben Sie aufmerksam gegenüber dem Risiko, die Gefühle anderer allein zu tragen oder die Vergangenheit über die Gegenwart bestimmen zu lassen. Wenn Sie sich wieder auf liebevolle Grenzen, einen sicheren Raum und ein ehrliches Wahrnehmen Ihrer Bedürfnisse konzentrieren, können Sie eine innere Sicherheit wiederfinden, die nicht ausschließlich von Ihrer Umgebung abhängt, und mit größerem Vertrauen auf das Kommende vorbereitet sein.",
+  },
 
-/* =========================================================
-   CANCER — ITALIANO — INTENTION + MESSAGE
-========================================================= */
+  it: {
+    /* MANTRA */
+
+    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Onoro le mie emozioni senza cedere loro tutto il mio potere.",
+    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "La mia sensibilità è una forza che mi aiuta a riconoscere ciò che è vero.",
+    "Je crée en moi la sécurité que je recherche autour de moi.": "Creo dentro di me la sicurezza che cerco intorno a me.",
+    "Je protège mon énergie sans fermer mon cœur.": "Proteggo la mia energia senza chiudere il mio cuore.",
+    "Je mérite des relations où je peux être pleinement moi-même.": "Merito relazioni in cui posso essere pienamente me stesso.",
+    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "La mia intuizione mi guida verso ciò che nutre veramente la mia anima.",
+
+    /* INTENTION */
 
     "Accueillir vos émotions sans les juger ni les laisser tout diriger. Cette année, cette direction vous aidera à mobiliser votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Prenez toutefois le temps de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En revenant à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Accogliete le vostre emozioni senza giudicarle né permettere loro di dirigere ogni cosa. Quest’anno, questa direzione vi aiuterà a utilizzare la vostra sensibilità, la vostra intuizione e la vostra capacità di prendervi cura di ciò che conta. Fate tuttavia attenzione a non portare da soli le emozioni degli altri e a non lasciare che il passato diriga il presente. Tornando a limiti benevoli, a uno spazio sicuro e a un ascolto sincero dei vostri bisogni, potrete ritrovare una sicurezza interiore che non dipende unicamente dall’ambiente che vi circonda.",
@@ -1510,6 +1494,17 @@ const MANTRA_CANCER_TRANSLATIONS = {
     "Vous rapprocher des personnes et des lieux qui vous apaisent. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte et à mieux traverser le défi suivant : ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En privilégiant des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous créerez les conditions nécessaires pour retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Avvicinatevi alle persone e ai luoghi che vi trasmettono serenità. Fate di questa intenzione un punto di riferimento piuttosto che un obbligo aggiuntivo. È qui per aiutarvi a riconoscere la forza della vostra sensibilità, della vostra intuizione e della vostra capacità di prendervi cura di ciò che conta, affrontando meglio la seguente sfida: non portare da soli le emozioni degli altri e non lasciare che il passato diriga il presente. Privilegiando limiti benevoli, uno spazio sicuro e un ascolto sincero dei vostri bisogni, creerete le condizioni necessarie per ritrovare una sicurezza interiore che non dipende unicamente dall’ambiente che vi circonda.",
 
+    /* AFFIRMATION */
+
+    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Le mie emozioni sono legittime e le accolgo con dolcezza, fiducia e compassione, perché mi aiutano a comprendere meglio i miei bisogni più profondi.",
+    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Merito di ricevere un amore stabile, rispettoso e rassicurante, nel quale posso essere pienamente me stesso senza dover nascondere la mia vera sensibilità.",
+    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Posso stabilire limiti sani con calma e gentilezza, preservando allo stesso tempo il mio equilibrio emotivo e il rispetto che nutro per me stesso.",
+    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "La mia intuizione mi guida con saggezza e mi permette di riconoscere naturalmente le persone, le situazioni e le scelte che sono realmente positive per me.",
+    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "Ogni giorno divento il mio rifugio coltivando la pace interiore, la fiducia in me stesso e la sicurezza di cui ho profondamente bisogno.",
+    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Lascio andare con serenità i ricordi che non hanno più posto nella mia vita, per avanzare più liberamente verso un futuro pieno di fiducia e speranza.",
+
+    /* MESSAGE */
+
     "Cette année, votre sensibilité pourrait vous révéler une vérité que votre esprit hésitait encore à reconnaître. Les mois à venir vous invitent à mieux reconnaître votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins. Vous avancerez alors avec plus de clarté et pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Quest’anno, la vostra sensibilità potrebbe rivelarvi una verità che la vostra mente esitava ancora a riconoscere. I prossimi mesi vi invitano a riconoscere meglio la vostra sensibilità, la vostra intuizione e la vostra capacità di prendervi cura di ciò che conta. Queste qualità diventano particolarmente preziose quando accettate di non portare da soli le emozioni degli altri e di non lasciare che il passato diriga il presente. Non cercate di risolvere tutto in una sola volta: tornate piuttosto a limiti benevoli, a uno spazio sicuro e a un ascolto sincero dei vostri bisogni. Avanzerete così con maggiore chiarezza e potrete ritrovare una sicurezza interiore che non dipende unicamente dall’ambiente che vi circonda.",
 
@@ -1527,10 +1522,19 @@ const MANTRA_CANCER_TRANSLATIONS = {
 
     "Vous êtes invité à choisir les liens qui accueillent votre profondeur sans l’utiliser contre vous. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Restez attentif(ve) au risque de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En vous recentrant sur des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement et préparer la suite avec davantage de confiance.":
       "Siete invitati a scegliere legami capaci di accogliere la vostra profondità senza usarla contro di voi. Luna Astralis vi invita a considerare quest’anno come una fase di maturazione interiore. Non dovete diventare un’altra persona, ma utilizzare più consapevolmente la vostra sensibilità, la vostra intuizione e la vostra capacità di prendervi cura di ciò che conta. Rimanete attenti al rischio di portare da soli le emozioni degli altri o di lasciare che il passato diriga il presente. Ricentrandovi su limiti benevoli, uno spazio sicuro e un ascolto sincero dei vostri bisogni, potrete ritrovare una sicurezza interiore che non dipende unicamente dall’ambiente che vi circonda e prepararvi a ciò che verrà con maggiore fiducia.",
+  },
 
-/* =========================================================
-   CANCER — PORTUGUÊS BRASILEIRO — INTENTION + MESSAGE
-========================================================= */
+  pt: {
+    /* MANTRA */
+
+    "J’honore mes émotions sans leur abandonner tout mon pouvoir.": "Honro minhas emoções sem entregar a elas todo o meu poder.",
+    "Ma sensibilité est une force qui m’aide à reconnaître ce qui est vrai.": "Minha sensibilidade é uma força que me ajuda a reconhecer o que é verdadeiro.",
+    "Je crée en moi la sécurité que je recherche autour de moi.": "Crio dentro de mim a segurança que procuro ao meu redor.",
+    "Je protège mon énergie sans fermer mon cœur.": "Protejo minha energia sem fechar meu coração.",
+    "Je mérite des relations où je peux être pleinement moi-même.": "Mereço relacionamentos nos quais posso ser plenamente quem sou.",
+    "Mon intuition me guide vers ce qui nourrit réellement mon âme.": "Minha intuição me guia em direção ao que realmente nutre minha alma.",
+
+    /* INTENTION */
 
     "Accueillir vos émotions sans les juger ni les laisser tout diriger. Cette année, cette direction vous aidera à mobiliser votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Prenez toutefois le temps de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En revenant à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Acolha suas emoções sem julgá-las nem permitir que controlem tudo. Este ano, essa direção ajudará você a utilizar sua sensibilidade, sua intuição e sua capacidade de cuidar do que realmente importa. No entanto, procure não carregar sozinho as emoções dos outros nem permitir que o passado dirija o presente. Ao retornar a limites acolhedores, a um espaço seguro e a uma escuta sincera de suas necessidades, poderá reencontrar uma segurança interior que não dependa apenas do ambiente ao seu redor.",
@@ -1550,6 +1554,17 @@ const MANTRA_CANCER_TRANSLATIONS = {
     "Vous rapprocher des personnes et des lieux qui vous apaisent. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte et à mieux traverser le défi suivant : ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En privilégiant des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous créerez les conditions nécessaires pour retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Aproxime-se das pessoas e dos lugares que trazem tranquilidade a você. Faça desta intenção um ponto de referência, e não uma obrigação adicional. Ela existe para ajudar você a reconhecer a força de sua sensibilidade, de sua intuição e de sua capacidade de cuidar daquilo que importa, além de enfrentar melhor o seguinte desafio: não carregar sozinho as emoções dos outros nem permitir que o passado dirija o presente. Ao priorizar limites acolhedores, um espaço seguro e uma escuta sincera de suas necessidades, você criará as condições necessárias para reencontrar uma segurança interior que não dependa apenas do ambiente ao seu redor.",
 
+    /* AFFIRMATION */
+
+    "Mes émotions sont légitimes, et je les accueille avec douceur, confiance et compassion, car elles m’aident à mieux comprendre mes besoins les plus profonds.": "Minhas emoções são legítimas, e eu as acolho com gentileza, confiança e compaixão, pois elas me ajudam a compreender melhor minhas necessidades mais profundas.",
+    "Je mérite de recevoir un amour stable, respectueux et rassurant, où je peux être pleinement moi-même sans avoir à cacher ma véritable sensibilité.": "Mereço receber um amor estável, respeitoso e acolhedor, no qual posso ser plenamente quem sou sem precisar esconder minha verdadeira sensibilidade.",
+    "Je peux poser des limites saines avec calme et bienveillance, tout en préservant mon équilibre émotionnel et le respect que je me porte.": "Posso estabelecer limites saudáveis com calma e gentileza, preservando ao mesmo tempo meu equilíbrio emocional e o respeito que tenho por mim.",
+    "Mon intuition me guide avec justesse et me permet de reconnaître naturellement les personnes, les situations et les choix qui sont réellement bénéfiques pour moi.": "Minha intuição me guia com sabedoria e me permite reconhecer naturalmente as pessoas, as situações e as escolhas que são realmente benéficas para mim.",
+    "Je deviens chaque jour mon propre refuge en cultivant la paix intérieure, la confiance en moi et la sécurité dont j’ai profondément besoin.": "A cada dia, torno-me meu próprio refúgio ao cultivar a paz interior, a confiança em mim e a segurança de que profundamente preciso.",
+    "Je libère avec sérénité les souvenirs qui n’ont plus leur place dans ma vie afin d’avancer plus librement vers un avenir rempli de confiance et d’espoir.": "Liberto com serenidade as lembranças que já não têm lugar em minha vida para avançar com mais liberdade em direção a um futuro cheio de confiança e esperança.",
+
+    /* MESSAGE */
+
     "Cette année, votre sensibilité pourrait vous révéler une vérité que votre esprit hésitait encore à reconnaître. Les mois à venir vous invitent à mieux reconnaître votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins. Vous avancerez alors avec plus de clarté et pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement.":
       "Este ano, sua sensibilidade poderá revelar uma verdade que sua mente ainda hesitava em reconhecer. Os próximos meses convidam você a compreender melhor sua sensibilidade, sua intuição e sua capacidade de cuidar daquilo que importa. Essas qualidades se tornam especialmente valiosas quando você aceita não carregar sozinho as emoções dos outros nem permitir que o passado dirija o presente. Não tente resolver tudo de uma só vez: volte, em vez disso, a limites acolhedores, a um espaço seguro e a uma escuta sincera de suas necessidades. Assim, avançará com mais clareza e poderá reencontrar uma segurança interior que não dependa apenas do ambiente ao seu redor.",
 
@@ -1567,7 +1582,7 @@ const MANTRA_CANCER_TRANSLATIONS = {
 
     "Vous êtes invité à choisir les liens qui accueillent votre profondeur sans l’utiliser contre vous. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sensibilité, votre intuition et votre capacité à prendre soin de ce qui compte. Restez attentif(ve) au risque de ne pas porter seul(e) les émotions des autres ni laisser le passé diriger le présent. En vous recentrant sur des limites bienveillantes, un espace sécurisant et une écoute honnête de vos besoins, vous pourrez retrouver une sécurité intérieure qui ne dépend pas uniquement de votre environnement et préparer la suite avec davantage de confiance.":
       "Você é convidado a escolher vínculos que acolham sua profundidade sem utilizá-la contra você. Luna Astralis convida você a considerar este ano como uma etapa de amadurecimento interior. Você não precisa se tornar outra pessoa, mas utilizar de maneira mais consciente sua sensibilidade, sua intuição e sua capacidade de cuidar daquilo que importa. Permaneça atento ao risco de carregar sozinho as emoções dos outros ou permitir que o passado dirija o presente. Ao voltar sua atenção para limites acolhedores, um espaço seguro e uma escuta sincera de suas necessidades, poderá reencontrar uma segurança interior que não dependa apenas do ambiente ao seu redor e preparar o que vem pela frente com mais confiança.",
-        },
+  },
 };
 /* =========================================================
    LION — TRANSLATIONS
