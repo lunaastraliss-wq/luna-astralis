@@ -26,6 +26,10 @@ import {
   localizeYearHoroscopeActivatedHouses,
 } from "./year-horoscope-activated-houses-localization";
 
+import {
+  localizeYearAnnualPages,
+} from "./year-annual-pages-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -146,6 +150,20 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearActivatedHouses.tsx"
   ) {
     return localizeYearHoroscopeActivatedHouses(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — ANNUAL PAGES DATA
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearAnnualPages.ts"
+  ) {
+    return localizeYearAnnualPages(
       source,
       locale,
     );
