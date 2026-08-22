@@ -4893,9 +4893,6 @@ const MANTRA_POISSONS_TRANSLATIONS = {
    TYPES
 ========================================================= */
 
-type TranslationMap =
-  Record<string, string>;
-
 type ZodiacTranslationMap =
   Record<
     string,
