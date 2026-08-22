@@ -103,6 +103,10 @@ import {
 } from "./year-horoscope-strengths-page-localization";
 
 import {
+  localizeYearHoroscopeStrengths,
+} from "./year-horoscope-strengths-localization";
+
+import {
   localizeYearPremiumPages,
 } from "./year-premium-pages-localization";
 
@@ -492,6 +496,34 @@ export function localizeYearHoroscopeFile({
     "HoroscopeYearHiddenTalents.tsx"
   ) {
     return localizeYearHoroscopeHiddenTalentsPage(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — STRENGTHS BUILDER
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyStrengths.ts"
+  ) {
+    return localizeYearHoroscopeStrengths(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — STRENGTHS TEXT BANK / 12 SIGNES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "createYearlyStrengthsTexts.ts"
+  ) {
+    return localizeYearHoroscopeStrengths(
       source,
       locale,
     );
