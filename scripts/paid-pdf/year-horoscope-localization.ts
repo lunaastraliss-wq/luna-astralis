@@ -50,6 +50,10 @@ import {
   localizeYearHoroscopeLove,
 } from "./year-horoscope-love-localization";
 
+import {
+  localizeYearHoroscopeOpportunity,
+} from "./year-horoscope-opportunity-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -254,6 +258,20 @@ export function localizeYearHoroscopeFile({
     "buildYearlyLove.ts"
   ) {
     return localizeYearHoroscopeLove(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — OPPORTUNITY / OPPORTUNITÉS
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyOpportunity.ts"
+  ) {
+    return localizeYearHoroscopeOpportunity(
       source,
       locale,
     );
