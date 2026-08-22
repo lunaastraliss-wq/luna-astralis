@@ -30,6 +30,10 @@ import {
   localizeYearAnnualPages,
 } from "./year-annual-pages-localization";
 
+import {
+  localizeYearHoroscopeCareer,
+} from "./year-horoscope-career-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -164,6 +168,20 @@ export function localizeYearHoroscopeFile({
     "buildYearAnnualPages.ts"
   ) {
     return localizeYearAnnualPages(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — CAREER / TRAVAIL ET CARRIÈRE
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyCareer.ts"
+  ) {
+    return localizeYearHoroscopeCareer(
       source,
       locale,
     );
