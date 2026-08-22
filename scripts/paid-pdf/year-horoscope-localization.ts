@@ -58,6 +58,14 @@ import {
   localizeYearHoroscopeSocial,
 } from "./year-horoscope-social-localization";
 
+import {
+  localizeYearHoroscopeTransit,
+} from "./year-horoscope-transit-localization";
+
+import {
+  localizeYearHoroscopeMantra,
+} from "./year-horoscope-mantra-localization";
+
 /* =========================================================
    TYPES
 ========================================================= */
@@ -290,6 +298,48 @@ export function localizeYearHoroscopeFile({
     "buildYearlySocial.ts"
   ) {
     return localizeYearHoroscopeSocial(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — TRANSIT / TRANSITS PLANÉTAIRES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyTransit.ts"
+  ) {
+    return localizeYearHoroscopeTransit(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — MANTRA / MANTRA ANNUEL
+  ======================================================= */
+
+  if (
+    fileName ===
+    "buildYearlyMantra.ts"
+  ) {
+    return localizeYearHoroscopeMantra(
+      source,
+      locale,
+    );
+  }
+
+  /* =======================================================
+     YEAR — MANTRA TEXT BANK / 12 SIGNES
+  ======================================================= */
+
+  if (
+    fileName ===
+    "createYearlyMantraTexts.ts"
+  ) {
+    return localizeYearHoroscopeMantra(
       source,
       locale,
     );
