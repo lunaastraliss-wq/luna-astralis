@@ -259,7 +259,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyCareer.ts"
+      "buildYearlyCareer.ts" ||
+    fileName ===
+      "createYearlyCareerTexts.ts"
   ) {
     return localizeYearHoroscopeCareer(
       source,
@@ -273,7 +275,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyChallenge.ts"
+      "buildYearlyChallenge.ts" ||
+    fileName ===
+      "createYearlyChallengeTexts.ts"
   ) {
     return localizeYearHoroscopeChallenge(
       source,
@@ -287,7 +291,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyFinance.ts"
+      "buildYearlyFinance.ts" ||
+    fileName ===
+      "createYearlyFinanceTexts.ts"
   ) {
     return localizeYearHoroscopeFinance(
       source,
@@ -301,7 +307,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyHealth.ts"
+      "buildYearlyHealth.ts" ||
+    fileName ===
+      "createYearlyHealthTexts.ts"
   ) {
     return localizeYearHoroscopeHealth(
       source,
@@ -331,7 +339,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyOpportunity.ts"
+      "buildYearlyOpportunity.ts" ||
+    fileName ===
+      "createYearlyOpportunityTexts.ts"
   ) {
     return localizeYearHoroscopeOpportunity(
       source,
@@ -345,7 +355,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlySocial.ts"
+      "buildYearlySocial.ts" ||
+    fileName ===
+      "createYearlySocialTexts.ts"
   ) {
     return localizeYearHoroscopeSocial(
       source,
@@ -359,7 +371,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyTransit.ts"
+      "buildYearlyTransit.ts" ||
+    fileName ===
+      "createYearlyTransitTexts.ts"
   ) {
     return localizeYearHoroscopeTransit(
       source,
@@ -373,7 +387,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyMantra.ts"
+      "buildYearlyMantra.ts" ||
+    fileName ===
+      "HoroscopeYearMantra.tsx"
   ) {
     return localizeYearHoroscopeMantra(
       source,
@@ -485,7 +501,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyHiddenTalents.ts"
+      "buildYearlyHiddenTalents.ts" ||
+    fileName ===
+      "createYearlyHiddenTalentsTexts.ts"
   ) {
     return localizeYearHoroscopeHiddenTalents(
       source,
@@ -569,7 +587,19 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearPremiumPages.ts"
+      "buildYearPremiumPages.ts" ||
+    fileName ===
+      "yearPremiumPagesConfig.ts" ||
+    fileName ===
+      "YearPremiumGridPage.tsx" ||
+    fileName ===
+      "YearPremiumHeroPage.tsx" ||
+    fileName ===
+      "YearPremiumPage.tsx" ||
+    fileName ===
+      "YearPremiumSummaryPage.tsx" ||
+    fileName ===
+      "YearPremiumTimelinePage.tsx"
   ) {
     return localizeYearPremiumPages(
       source,
