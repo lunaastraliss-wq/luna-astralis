@@ -830,6 +830,31 @@ const TRANSIT_TEXTS_TRANSLATIONS: Record<Exclude<PaidPdfLocale, "fr">, readonly 
 ],
 };
 
+const TRANSIT_LABELS: Record<
+  Exclude<PaidPdfLocale, "fr">,
+  TranslationMap
+> = {
+  en: {
+    "Influence de": "Influence of",
+  },
+
+  es: {
+    "Influence de": "Influencia de",
+  },
+
+  de: {
+    "Influence de": "Einfluss von",
+  },
+
+  it: {
+    "Influence de": "Influenza di",
+  },
+
+  pt: {
+    "Influence de": "Influência de",
+  },
+};
+
 const TRANSIT_TITLES = Object.fromEntries(
   (["en", "es", "de", "it", "pt"] as const).map((locale) => [
     locale,
@@ -864,6 +889,7 @@ export function localizeYearHoroscopeTransit(
   output = applyTranslations(output, TRANSIT_TITLES[locale]);
   output = applyTranslations(output, PLANET_LABELS[locale]);
   output = applyTranslations(output, TRANSIT_TEXTS[locale]);
+  output = applyTranslations(output, TRANSIT_LABELS[locale]);
 
   return output;
 }
