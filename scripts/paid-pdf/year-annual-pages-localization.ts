@@ -1886,8 +1886,6 @@ const EN: TranslationMap = {
   " prendre trop de place.":
     " take up too much space.",
 
-  "Appuyez-vous sur votre ":
-    "Rely on your ",
 
   ", puis prenez du recul lorsque ":
     ", then step back when ",
@@ -1913,8 +1911,6 @@ const EN: TranslationMap = {
   " sera plus efficace si elle n’est pas affaiblie par ":
     " will be more effective if it is not weakened by ",
 
-  "Faites de votre ":
-    "Make your ",
 
   " une ressource consciente et transformez les manifestations ":
     " a conscious resource and turn manifestations of ",
