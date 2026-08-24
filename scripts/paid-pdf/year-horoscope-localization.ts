@@ -315,7 +315,9 @@ export function localizeYearHoroscopeFile({
 
   if (
     fileName ===
-    "buildYearlyLove.ts"
+      "buildYearlyLove.ts" ||
+    fileName ===
+      "createYearlyLoveTexts.ts"
   ) {
     return localizeYearHoroscopeLove(
       source,
