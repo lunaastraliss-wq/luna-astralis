@@ -1222,7 +1222,7 @@ export default function NatalChartForm({
       return captureElementAsPng(
         shareRef.current,
         texts.shareCardMissing,
-        null,
+        "#000000",
         2
       );
     };
