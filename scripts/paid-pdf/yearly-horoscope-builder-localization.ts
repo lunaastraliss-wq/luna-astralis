@@ -1372,12 +1372,44 @@ export function localizeYearlyHoroscopeBuilder(
 
   let output = source;
 
+  const protectedKeys = new Set([
+    "Or",
+    "Air",
+  ]);
+
   for (
     const [french, translated] of
     Object.entries(TRANSLATIONS[locale])
   ) {
+    if (protectedKeys.has(french)) {
+      continue;
+    }
+
     output =
       output.split(french).join(translated);
+  }
+
+  // Traduire seulement les valeurs autonomes "Or" et "Air"
+  // pour éviter par exemple :
+  // Organisation -> Organization -> Goldganization
+  for (const key of protectedKeys) {
+    const translated = TRANSLATIONS[locale][key];
+
+    if (!translated) {
+      continue;
+    }
+
+    const escapedKey =
+      key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    output = output.replace(
+      new RegExp(
+        `(["'\`])${escapedKey}\\1`,
+        "g",
+      ),
+      (_match, quote) =>
+        `${quote}${translated}${quote}`,
+    );
   }
 
   return output;
