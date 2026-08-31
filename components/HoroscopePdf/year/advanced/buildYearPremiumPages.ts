@@ -1847,7 +1847,13 @@ function buildCards(
 
         label:
           config.pageType === "summary"
-            ? `Clé ${index + 1}`
+            ? [
+                "CLÉ 1",
+                "CLÉ 2",
+                "CLÉ 3",
+                "CLÉ 4",
+                "CLÉ 5",
+              ][index] || `CLÉ ${index + 1}`
             : `Dimension ${index + 1}`,
 
         text: description,
