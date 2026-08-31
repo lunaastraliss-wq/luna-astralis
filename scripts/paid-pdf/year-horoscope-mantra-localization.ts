@@ -455,22 +455,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette intention vous aidera à reconnaître ce qui mérite véritablement votre temps, votre énergie et votre engagement. Appuyez-vous sur votre patience, votre constance et votre capacité naturelle à construire dans la durée. Prenez toutefois garde à ne pas confondre stabilité et immobilité. En acceptant d’ajuster certaines habitudes tout en préservant ce qui compte réellement pour vous, vous pourrez créer des bases encore plus solides pour votre avenir.":
+    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette direction vous aidera à mobiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Prenez toutefois le temps de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En revenant à des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Strengthen what brings you genuine and reassuring security. This year, this intention will help you recognize what truly deserves your time, energy, and commitment. Rely on your patience, consistency, and natural ability to build for the long term. However, be careful not to confuse stability with standing still. By accepting adjustments to certain habits while preserving what truly matters to you, you can create even stronger foundations for your future.",
 
-    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette année ne vous demande pas seulement de construire ou de produire, mais également de profiter davantage de ce que vous avez déjà créé. Votre sens du concret et votre besoin de stabilité peuvent devenir de précieux alliés lorsque vous leur accordez un rythme plus équilibré. Évitez de porter trop longtemps des responsabilités qui vous épuisent. En accordant davantage de place au repos, au plaisir et aux besoins essentiels, vous renforcerez durablement votre équilibre.":
+    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée et observez les moments où il devient nécessaire de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Votre progression se consolidera grâce à des choix simples, stables et respectueux de vos besoins essentiels.":
       "Create more space for pleasure, rest, and simplicity. This year is not asking you only to build or produce, but also to enjoy more fully what you have already created. Your practical nature and need for stability can become valuable allies when you give them a more balanced rhythm. Avoid carrying exhausting responsibilities for too long. By making more room for rest, pleasure, and essential needs, you will strengthen your balance over the long term.",
 
-    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Les changements les plus importants de votre année pourraient commencer par de petits ajustements répétés avec constance. Vous n’avez pas besoin de transformer toute votre vie pour avancer. Votre patience et votre persévérance vous permettent de construire progressivement quelque chose de durable. Lorsque vous sentez une résistance au changement, demandez-vous si vous protégez réellement votre stabilité ou simplement une habitude devenue familière. Cette distinction pourrait vous ouvrir de nouvelles possibilités.":
+    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre constance, votre sens pratique et votre capacité à bâtir dans la durée, à condition de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Un retour régulier vers des choix simples, stables et respectueux de vos besoins essentiels vous permettra de créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Let a habit evolve without disrupting your entire balance. The most important changes of your year could begin with small adjustments repeated consistently. You do not need to transform your entire life in order to move forward. Your patience and perseverance allow you to gradually build something lasting. When you feel resistance to change, ask yourself whether you are truly protecting your stability or simply holding on to a familiar habit. This distinction could open new possibilities for you.",
 
-    "Reconnaître la différence entre persévérance et attachement. Votre capacité à tenir bon constitue l’une de vos grandes forces, mais certaines situations peuvent demander une autre forme de courage : celui de laisser évoluer ce qui ne correspond plus à vos besoins. Cette année, observez ce que vous continuez à maintenir uniquement parce que cela vous rassure. Votre sécurité véritable ne dépend pas seulement de ce que vous conservez, mais aussi de votre capacité à vous adapter sans perdre vos valeurs essentielles.":
+    "Reconnaître la différence entre persévérance et attachement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Lorsque la tension monte, rappelez-vous de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement et choisissez plutôt des choix simples, stables et respectueux de vos besoins essentiels.":
       "Recognize the difference between perseverance and attachment. Your ability to hold steady is one of your greatest strengths, but some situations may require another form of courage: allowing what no longer meets your needs to evolve. This year, observe what you continue to maintain simply because it feels reassuring. True security depends not only on what you preserve, but also on your ability to adapt without losing your essential values.",
 
-    "Investir votre énergie dans ce qui possède une valeur durable. Cette intention peut devenir un véritable fil conducteur pour votre année. Avant d’accorder votre temps, votre argent ou votre attention à quelque chose, demandez-vous si cela contribue réellement à la vie que vous souhaitez construire. Votre patience, votre sens pratique et votre constance peuvent produire des résultats remarquables lorsqu’ils servent une priorité clairement choisie. En réduisant la dispersion, vous donnerez davantage de force à ce qui compte réellement.":
+    "Investir votre énergie dans ce qui possède une valeur durable. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée avec davantage de conscience, sans oublier de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Chaque geste relié à des choix simples, stables et respectueux de vos besoins essentiels renforcera votre sentiment d’alignement.":
       "Invest your energy in what has lasting value. This intention can become a genuine guiding principle for your year. Before giving your time, money, or attention to something, ask yourself whether it truly contributes to the life you want to build. Your patience, practicality, and consistency can produce remarkable results when they serve a clearly chosen priority. By reducing distractions, you will give greater strength to what truly matters.",
 
-    "Avancer calmement vers un objectif concret et réalisable. Votre progression n’a pas besoin d’être spectaculaire pour être importante. Cette année, privilégiez les décisions que vous pouvez soutenir dans la durée plutôt que les changements rapides difficiles à maintenir. Votre force réside dans votre capacité à construire étape par étape. En gardant une direction claire tout en acceptant les ajustements nécessaires, vous pourrez transformer votre patience en résultats tangibles et votre stabilité en véritable liberté.":
+    "Avancer calmement vers un objectif concret et réalisable. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre constance, votre sens pratique et votre capacité à bâtir dans la durée et à mieux traverser le défi suivant : ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En privilégiant des choix simples, stables et respectueux de vos besoins essentiels, vous créerez les conditions nécessaires pour créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Move calmly toward a concrete and achievable goal. Your progress does not need to be spectacular to be meaningful. This year, favor decisions you can sustain over time rather than rapid changes that are difficult to maintain. Your strength lies in your ability to build step by step. By keeping a clear direction while accepting necessary adjustments, you can transform your patience into tangible results and your stability into genuine freedom.",
 
     /* AFFIRMATION */
@@ -495,22 +495,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir pourraient vous aider à distinguer plus clairement ce qui représente une véritable sécurité de ce qui relève simplement de l’habitude. Votre patience et votre constance demeurent de grandes forces, mais elles deviennent encore plus puissantes lorsque vous acceptez d’ajuster ce qui ne correspond plus à vos besoins. Construisez lentement, choisissez consciemment et laissez votre stabilité devenir une base pour évoluer plutôt qu’une raison de rester immobile.":
+    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir vous invitent à mieux reconnaître votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des choix simples, stables et respectueux de vos besoins essentiels. Vous avancerez alors avec plus de clarté et pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "This year, stability is not about keeping everything unchanged, but about strengthening what genuinely supports your well-being. The coming months could help you distinguish more clearly between true security and what is simply familiar habit. Your patience and consistency remain great strengths, but they become even more powerful when you accept adjustments to what no longer meets your needs. Build slowly, choose consciously, and let your stability become a foundation for growth rather than a reason to remain still.",
 
-    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette année favorise les transformations progressives, celles qui respectent votre rythme tout en vous permettant d’avancer réellement. Vous n’avez pas besoin de renoncer à vos repères pour accueillir quelque chose de nouveau. En vous appuyant sur votre patience, votre sens pratique et votre capacité à reconnaître ce qui possède une valeur durable, vous pourrez faire évoluer votre vie sans perdre ce qui constitue votre véritable sécurité.":
+    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Dans les moments de doute, gardez en tête qu’il est important de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Une décision fondée sur des choix simples, stables et respectueux de vos besoins essentiels pourrait modifier durablement votre manière d’aborder la suite.":
       "A gentle evolution could take you farther than a change imposed too quickly. This year favors gradual transformations that respect your pace while allowing you to make genuine progress. You do not need to abandon your points of reference in order to welcome something new. By relying on your patience, practicality, and ability to recognize what has lasting value, you can allow your life to evolve without losing what provides you with genuine security.",
 
-    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Les prochains mois peuvent vous aider à concentrer davantage votre énergie sur ce qui compte réellement pour vous. Certaines obligations ou habitudes pourraient apparaître moins essentielles qu’auparavant. Ne craignez pas de revoir vos priorités. Lorsque votre persévérance est dirigée vers un objectif qui correspond véritablement à vos valeurs, chaque petit progrès contribue à construire quelque chose de beaucoup plus important.":
+    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre constance, votre sens pratique et votre capacité à bâtir dans la durée, mais votre véritable avancée viendra de votre capacité à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En choisissant des choix simples, stables et respectueux de vos besoins essentiels, vous donnerez une direction plus juste à votre énergie.":
       "Your consistency becomes especially powerful when it serves a deeply personal desire. The coming months can help you focus more of your energy on what truly matters to you. Certain obligations or habits may seem less essential than they once did. Do not be afraid to reconsider your priorities. When your perseverance is directed toward a goal that genuinely reflects your values, every small step contributes to building something much more meaningful.",
 
-    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année pourrait vous rappeler que l’abondance ne se mesure pas uniquement à ce que vous réussissez encore à obtenir. Une partie importante de votre évolution passera par votre capacité à reconnaître la valeur de ce qui est déjà présent dans votre vie. À partir de cette base, vous pourrez déterminer avec davantage de sérénité ce qui mérite d’être amélioré, développé ou simplement laissé derrière vous.":
+    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée, puis veillez à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Cette approche vous aidera à créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Take time to appreciate what is already working before focusing on what is missing. This year could remind you that abundance is not measured only by what you still manage to obtain. An important part of your growth will come through your ability to recognize the value of what is already present in your life. From that foundation, you can determine more calmly what deserves to be improved, developed, or simply left behind.",
 
-    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Votre besoin de sécurité est étroitement lié à votre environnement, à vos ressources et à la manière dont vous organisez votre quotidien. Cette année, simplifier une situation concrète pourrait libérer beaucoup plus d’énergie que vous ne l’imaginez. N’hésitez pas à revoir une habitude, une dépense, une responsabilité ou une organisation devenue trop lourde. Ce que vous simplifiez extérieurement peut également créer davantage d’espace intérieurement.":
+    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Le choix de des choix simples, stables et respectueux de vos besoins essentiels vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A practical decision could also bring unexpected emotional relief. Your need for security is closely connected to your environment, your resources, and the way you organize your daily life. This year, simplifying a concrete situation could free much more energy than you imagine. Do not hesitate to reconsider a habit, expense, responsibility, or arrangement that has become too burdensome. What you simplify externally can also create more space within you.",
 
-    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite cette année à accorder autant d’importance à votre bien-être qu’à votre besoin de sécurité. Votre capacité à construire dans la durée est précieuse, mais ce que vous construisez doit également vous apporter du plaisir, de la paix et un sentiment d’alignement. En choisissant plus consciemment ce que vous souhaitez préserver, transformer ou développer, vous pourrez créer une stabilité qui soutient véritablement votre évolution.":
+    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Restez attentif(ve) au risque de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En vous recentrant sur des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante et préparer la suite avec davantage de confiance.":
       "You are invited to build a life that is not only solid, but also enjoyable to live. This year, Luna Astralis invites you to give as much importance to your well-being as to your need for security. Your ability to build for the long term is valuable, but what you create should also bring you pleasure, peace, and a sense of alignment. By choosing more consciously what you want to preserve, transform, or develop, you can create a stability that genuinely supports your growth.",
   },
 
@@ -537,22 +537,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette intention vous aidera à reconnaître ce qui mérite véritablement votre temps, votre énergie et votre engagement. Appuyez-vous sur votre patience, votre constance et votre capacité naturelle à construire dans la durée. Prenez toutefois garde à ne pas confondre stabilité et immobilité. En acceptant d’ajuster certaines habitudes tout en préservant ce qui compte réellement pour vous, vous pourrez créer des bases encore plus solides pour votre avenir.":
+    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette direction vous aidera à mobiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Prenez toutefois le temps de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En revenant à des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Consolida aquello que te aporta una seguridad real y tranquilizadora. Este año, esta intención te ayudará a reconocer lo que verdaderamente merece tu tiempo, tu energía y tu compromiso. Apóyate en tu paciencia, tu constancia y tu capacidad natural para construir a largo plazo. Sin embargo, procura no confundir estabilidad con inmovilidad. Al aceptar ajustar ciertos hábitos mientras preservas lo que realmente importa para ti, podrás crear bases aún más sólidas para tu futuro.",
 
-    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette année ne vous demande pas seulement de construire ou de produire, mais également de profiter davantage de ce que vous avez déjà créé. Votre sens du concret et votre besoin de stabilité peuvent devenir de précieux alliés lorsque vous leur accordez un rythme plus équilibré. Évitez de porter trop longtemps des responsabilités qui vous épuisent. En accordant davantage de place au repos, au plaisir et aux besoins essentiels, vous renforcerez durablement votre équilibre.":
+    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée et observez les moments où il devient nécessaire de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Votre progression se consolidera grâce à des choix simples, stables et respectueux de vos besoins essentiels.":
       "Crea más espacio para el placer, el descanso y la sencillez. Este año no te pide únicamente construir o producir, sino también disfrutar más de lo que ya has creado. Tu sentido práctico y tu necesidad de estabilidad pueden convertirse en valiosos aliados cuando les das un ritmo más equilibrado. Evita cargar durante demasiado tiempo con responsabilidades que te agotan. Al conceder más espacio al descanso, al placer y a tus necesidades esenciales, fortalecerás tu equilibrio de manera duradera.",
 
-    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Les changements les plus importants de votre année pourraient commencer par de petits ajustements répétés avec constance. Vous n’avez pas besoin de transformer toute votre vie pour avancer. Votre patience et votre persévérance vous permettent de construire progressivement quelque chose de durable. Lorsque vous sentez une résistance au changement, demandez-vous si vous protégez réellement votre stabilité ou simplement une habitude devenue familière. Cette distinction pourrait vous ouvrir de nouvelles possibilités.":
+    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre constance, votre sens pratique et votre capacité à bâtir dans la durée, à condition de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Un retour régulier vers des choix simples, stables et respectueux de vos besoins essentiels vous permettra de créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Haz evolucionar un hábito sin alterar todo tu equilibrio. Los cambios más importantes de tu año podrían comenzar con pequeños ajustes repetidos con constancia. No necesitas transformar toda tu vida para avanzar. Tu paciencia y tu perseverancia te permiten construir progresivamente algo duradero. Cuando sientas resistencia al cambio, pregúntate si realmente estás protegiendo tu estabilidad o simplemente un hábito que se ha vuelto familiar. Esta diferencia podría abrirte nuevas posibilidades.",
 
-    "Reconnaître la différence entre persévérance et attachement. Votre capacité à tenir bon constitue l’une de vos grandes forces, mais certaines situations peuvent demander une autre forme de courage : celui de laisser évoluer ce qui ne correspond plus à vos besoins. Cette année, observez ce que vous continuez à maintenir uniquement parce que cela vous rassure. Votre sécurité véritable ne dépend pas seulement de ce que vous conservez, mais aussi de votre capacité à vous adapter sans perdre vos valeurs essentielles.":
+    "Reconnaître la différence entre persévérance et attachement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Lorsque la tension monte, rappelez-vous de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement et choisissez plutôt des choix simples, stables et respectueux de vos besoins essentiels.":
       "Reconoce la diferencia entre perseverancia y apego. Tu capacidad para mantenerte firme constituye una de tus grandes fortalezas, pero algunas situaciones pueden requerir otra forma de valentía: permitir que evolucione aquello que ya no responde a tus necesidades. Este año, observa lo que continúas manteniendo únicamente porque te da seguridad. Tu verdadera seguridad no depende solamente de lo que conservas, sino también de tu capacidad para adaptarte sin perder tus valores esenciales.",
 
-    "Investir votre énergie dans ce qui possède une valeur durable. Cette intention peut devenir un véritable fil conducteur pour votre année. Avant d’accorder votre temps, votre argent ou votre attention à quelque chose, demandez-vous si cela contribue réellement à la vie que vous souhaitez construire. Votre patience, votre sens pratique et votre constance peuvent produire des résultats remarquables lorsqu’ils servent une priorité clairement choisie. En réduisant la dispersion, vous donnerez davantage de force à ce qui compte réellement.":
+    "Investir votre énergie dans ce qui possède une valeur durable. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée avec davantage de conscience, sans oublier de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Chaque geste relié à des choix simples, stables et respectueux de vos besoins essentiels renforcera votre sentiment d’alignement.":
       "Invierte tu energía en aquello que posee un valor duradero. Esta intención puede convertirse en un verdadero hilo conductor para tu año. Antes de dedicar tu tiempo, tu dinero o tu atención a algo, pregúntate si realmente contribuye a la vida que deseas construir. Tu paciencia, tu sentido práctico y tu constancia pueden producir resultados extraordinarios cuando están al servicio de una prioridad claramente elegida. Al reducir la dispersión, darás más fuerza a lo que realmente importa.",
 
-    "Avancer calmement vers un objectif concret et réalisable. Votre progression n’a pas besoin d’être spectaculaire pour être importante. Cette année, privilégiez les décisions que vous pouvez soutenir dans la durée plutôt que les changements rapides difficiles à maintenir. Votre force réside dans votre capacité à construire étape par étape. En gardant une direction claire tout en acceptant les ajustements nécessaires, vous pourrez transformer votre patience en résultats tangibles et votre stabilité en véritable liberté.":
+    "Avancer calmement vers un objectif concret et réalisable. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre constance, votre sens pratique et votre capacité à bâtir dans la durée et à mieux traverser le défi suivant : ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En privilégiant des choix simples, stables et respectueux de vos besoins essentiels, vous créerez les conditions nécessaires pour créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Avanza con calma hacia un objetivo concreto y alcanzable. Tu progreso no necesita ser espectacular para ser importante. Este año, prioriza las decisiones que puedas mantener a largo plazo en lugar de cambios rápidos difíciles de sostener. Tu fuerza reside en tu capacidad para construir paso a paso. Manteniendo una dirección clara y aceptando al mismo tiempo los ajustes necesarios, podrás transformar tu paciencia en resultados tangibles y tu estabilidad en verdadera libertad.",
 
     /* AFFIRMATION */
@@ -577,22 +577,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir pourraient vous aider à distinguer plus clairement ce qui représente une véritable sécurité de ce qui relève simplement de l’habitude. Votre patience et votre constance demeurent de grandes forces, mais elles deviennent encore plus puissantes lorsque vous acceptez d’ajuster ce qui ne correspond plus à vos besoins. Construisez lentement, choisissez consciemment et laissez votre stabilité devenir une base pour évoluer plutôt qu’une raison de rester immobile.":
+    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir vous invitent à mieux reconnaître votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des choix simples, stables et respectueux de vos besoins essentiels. Vous avancerez alors avec plus de clarté et pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Este año, la estabilidad no consiste en mantenerlo todo intacto, sino en fortalecer aquello que realmente te hace bien. Los próximos meses podrían ayudarte a distinguir con mayor claridad lo que representa una verdadera seguridad de aquello que simplemente forma parte de la costumbre. Tu paciencia y tu constancia siguen siendo grandes fortalezas, pero se vuelven aún más poderosas cuando aceptas ajustar lo que ya no responde a tus necesidades. Construye lentamente, elige conscientemente y permite que tu estabilidad se convierta en una base para evolucionar en lugar de una razón para permanecer inmóvil.",
 
-    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette année favorise les transformations progressives, celles qui respectent votre rythme tout en vous permettant d’avancer réellement. Vous n’avez pas besoin de renoncer à vos repères pour accueillir quelque chose de nouveau. En vous appuyant sur votre patience, votre sens pratique et votre capacité à reconnaître ce qui possède une valeur durable, vous pourrez faire évoluer votre vie sans perdre ce qui constitue votre véritable sécurité.":
+    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Dans les moments de doute, gardez en tête qu’il est important de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Une décision fondée sur des choix simples, stables et respectueux de vos besoins essentiels pourrait modifier durablement votre manière d’aborder la suite.":
       "Una evolución gradual podría llevarte más lejos que un cambio impuesto demasiado rápido. Este año favorece las transformaciones progresivas, aquellas que respetan tu ritmo y al mismo tiempo te permiten avanzar realmente. No necesitas renunciar a tus puntos de referencia para recibir algo nuevo. Apoyándote en tu paciencia, tu sentido práctico y tu capacidad para reconocer aquello que posee un valor duradero, podrás hacer evolucionar tu vida sin perder lo que constituye tu verdadera seguridad.",
 
-    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Les prochains mois peuvent vous aider à concentrer davantage votre énergie sur ce qui compte réellement pour vous. Certaines obligations ou habitudes pourraient apparaître moins essentielles qu’auparavant. Ne craignez pas de revoir vos priorités. Lorsque votre persévérance est dirigée vers un objectif qui correspond véritablement à vos valeurs, chaque petit progrès contribue à construire quelque chose de beaucoup plus important.":
+    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre constance, votre sens pratique et votre capacité à bâtir dans la durée, mais votre véritable avancée viendra de votre capacité à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En choisissant des choix simples, stables et respectueux de vos besoins essentiels, vous donnerez une direction plus juste à votre énergie.":
       "Tu constancia se vuelve especialmente poderosa cuando está al servicio de un deseo profundamente personal. Los próximos meses pueden ayudarte a concentrar más tu energía en aquello que realmente importa para ti. Algunas obligaciones o hábitos podrían parecer menos esenciales que antes. No temas revisar tus prioridades. Cuando tu perseverancia se dirige hacia un objetivo que verdaderamente corresponde a tus valores, cada pequeño progreso contribuye a construir algo mucho más importante.",
 
-    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année pourrait vous rappeler que l’abondance ne se mesure pas uniquement à ce que vous réussissez encore à obtenir. Une partie importante de votre évolution passera par votre capacité à reconnaître la valeur de ce qui est déjà présent dans votre vie. À partir de cette base, vous pourrez déterminer avec davantage de sérénité ce qui mérite d’être amélioré, développé ou simplement laissé derrière vous.":
+    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée, puis veillez à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Cette approche vous aidera à créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Tómate el tiempo de apreciar lo que ya funciona antes de buscar lo que falta. Este año podría recordarte que la abundancia no se mide únicamente por aquello que todavía logras obtener. Una parte importante de tu evolución pasará por tu capacidad para reconocer el valor de lo que ya está presente en tu vida. A partir de esta base, podrás determinar con mayor serenidad qué merece ser mejorado, desarrollado o simplemente dejado atrás.",
 
-    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Votre besoin de sécurité est étroitement lié à votre environnement, à vos ressources et à la manière dont vous organisez votre quotidien. Cette année, simplifier une situation concrète pourrait libérer beaucoup plus d’énergie que vous ne l’imaginez. N’hésitez pas à revoir une habitude, une dépense, une responsabilité ou une organisation devenue trop lourde. Ce que vous simplifiez extérieurement peut également créer davantage d’espace intérieurement.":
+    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Le choix de des choix simples, stables et respectueux de vos besoins essentiels vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una decisión práctica también podría proporcionarte un alivio emocional inesperado. Tu necesidad de seguridad está estrechamente relacionada con tu entorno, tus recursos y la manera en que organizas tu vida cotidiana. Este año, simplificar una situación concreta podría liberar mucha más energía de la que imaginas. No dudes en revisar un hábito, un gasto, una responsabilidad o una organización que se haya vuelto demasiado pesada. Lo que simplificas exteriormente también puede crear más espacio en tu interior.",
 
-    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite cette année à accorder autant d’importance à votre bien-être qu’à votre besoin de sécurité. Votre capacité à construire dans la durée est précieuse, mais ce que vous construisez doit également vous apporter du plaisir, de la paix et un sentiment d’alignement. En choisissant plus consciemment ce que vous souhaitez préserver, transformer ou développer, vous pourrez créer une stabilité qui soutient véritablement votre évolution.":
+    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Restez attentif(ve) au risque de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En vous recentrant sur des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante et préparer la suite avec davantage de confiance.":
       "Estás invitado a construir una vida que no solo sea sólida, sino también agradable de vivir. Este año, Luna Astralis te invita a conceder tanta importancia a tu bienestar como a tu necesidad de seguridad. Tu capacidad para construir a largo plazo es valiosa, pero aquello que construyes también debe aportarte placer, paz y una sensación de armonía interior. Al elegir más conscientemente lo que deseas preservar, transformar o desarrollar, podrás crear una estabilidad que apoye verdaderamente tu evolución.",
   },
 
@@ -619,22 +619,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette intention vous aidera à reconnaître ce qui mérite véritablement votre temps, votre énergie et votre engagement. Appuyez-vous sur votre patience, votre constance et votre capacité naturelle à construire dans la durée. Prenez toutefois garde à ne pas confondre stabilité et immobilité. En acceptant d’ajuster certaines habitudes tout en préservant ce qui compte réellement pour vous, vous pourrez créer des bases encore plus solides pour votre avenir.":
+    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette direction vous aidera à mobiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Prenez toutefois le temps de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En revenant à des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Festigen Sie, was Ihnen echte und beruhigende Sicherheit gibt. In diesem Jahr wird Ihnen diese Absicht helfen zu erkennen, was Ihre Zeit, Ihre Energie und Ihr Engagement wirklich verdient. Vertrauen Sie auf Ihre Geduld, Ihre Beständigkeit und Ihre natürliche Fähigkeit, langfristig etwas aufzubauen. Achten Sie jedoch darauf, Stabilität nicht mit Stillstand zu verwechseln. Wenn Sie bereit sind, bestimmte Gewohnheiten anzupassen und gleichzeitig das zu bewahren, was Ihnen wirklich wichtig ist, können Sie noch solidere Grundlagen für Ihre Zukunft schaffen.",
 
-    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette année ne vous demande pas seulement de construire ou de produire, mais également de profiter davantage de ce que vous avez déjà créé. Votre sens du concret et votre besoin de stabilité peuvent devenir de précieux alliés lorsque vous leur accordez un rythme plus équilibré. Évitez de porter trop longtemps des responsabilités qui vous épuisent. En accordant davantage de place au repos, au plaisir et aux besoins essentiels, vous renforcerez durablement votre équilibre.":
+    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée et observez les moments où il devient nécessaire de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Votre progression se consolidera grâce à des choix simples, stables et respectueux de vos besoins essentiels.":
       "Schaffen Sie mehr Raum für Freude, Erholung und Einfachheit. Dieses Jahr fordert Sie nicht nur dazu auf, etwas aufzubauen oder zu leisten, sondern auch das stärker zu genießen, was Sie bereits geschaffen haben. Ihr praktischer Sinn und Ihr Bedürfnis nach Stabilität können zu wertvollen Verbündeten werden, wenn Sie ihnen einen ausgewogeneren Rhythmus geben. Vermeiden Sie es, erschöpfende Verantwortungen zu lange zu tragen. Wenn Sie Erholung, Freude und grundlegenden Bedürfnissen mehr Raum geben, stärken Sie Ihr Gleichgewicht nachhaltig.",
 
-    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Les changements les plus importants de votre année pourraient commencer par de petits ajustements répétés avec constance. Vous n’avez pas besoin de transformer toute votre vie pour avancer. Votre patience et votre persévérance vous permettent de construire progressivement quelque chose de durable. Lorsque vous sentez une résistance au changement, demandez-vous si vous protégez réellement votre stabilité ou simplement une habitude devenue familière. Cette distinction pourrait vous ouvrir de nouvelles possibilités.":
+    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre constance, votre sens pratique et votre capacité à bâtir dans la durée, à condition de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Un retour régulier vers des choix simples, stables et respectueux de vos besoins essentiels vous permettra de créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Verändern Sie eine Gewohnheit, ohne Ihr gesamtes Gleichgewicht zu erschüttern. Die wichtigsten Veränderungen Ihres Jahres könnten mit kleinen Anpassungen beginnen, die Sie beständig wiederholen. Sie müssen nicht Ihr ganzes Leben verändern, um voranzukommen. Ihre Geduld und Ausdauer ermöglichen es Ihnen, Schritt für Schritt etwas Dauerhaftes aufzubauen. Wenn Sie Widerstand gegen Veränderungen spüren, fragen Sie sich, ob Sie tatsächlich Ihre Stabilität schützen oder lediglich an einer vertraut gewordenen Gewohnheit festhalten. Diese Unterscheidung könnte Ihnen neue Möglichkeiten eröffnen.",
 
-    "Reconnaître la différence entre persévérance et attachement. Votre capacité à tenir bon constitue l’une de vos grandes forces, mais certaines situations peuvent demander une autre forme de courage : celui de laisser évoluer ce qui ne correspond plus à vos besoins. Cette année, observez ce que vous continuez à maintenir uniquement parce que cela vous rassure. Votre sécurité véritable ne dépend pas seulement de ce que vous conservez, mais aussi de votre capacité à vous adapter sans perdre vos valeurs essentielles.":
+    "Reconnaître la différence entre persévérance et attachement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Lorsque la tension monte, rappelez-vous de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement et choisissez plutôt des choix simples, stables et respectueux de vos besoins essentiels.":
       "Erkennen Sie den Unterschied zwischen Ausdauer und Festhalten. Ihre Fähigkeit durchzuhalten gehört zu Ihren großen Stärken, doch manche Situationen verlangen eine andere Form von Mut: den Mut, sich von dem weiterzuentwickeln, was Ihren Bedürfnissen nicht mehr entspricht. Beobachten Sie in diesem Jahr, woran Sie nur deshalb festhalten, weil es Ihnen Sicherheit vermittelt. Wahre Sicherheit hängt nicht nur davon ab, was Sie bewahren, sondern auch von Ihrer Fähigkeit, sich anzupassen, ohne Ihre wesentlichen Werte zu verlieren.",
 
-    "Investir votre énergie dans ce qui possède une valeur durable. Cette intention peut devenir un véritable fil conducteur pour votre année. Avant d’accorder votre temps, votre argent ou votre attention à quelque chose, demandez-vous si cela contribue réellement à la vie que vous souhaitez construire. Votre patience, votre sens pratique et votre constance peuvent produire des résultats remarquables lorsqu’ils servent une priorité clairement choisie. En réduisant la dispersion, vous donnerez davantage de force à ce qui compte réellement.":
+    "Investir votre énergie dans ce qui possède une valeur durable. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée avec davantage de conscience, sans oublier de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Chaque geste relié à des choix simples, stables et respectueux de vos besoins essentiels renforcera votre sentiment d’alignement.":
       "Investieren Sie Ihre Energie in das, was einen dauerhaften Wert besitzt. Diese Absicht kann zu einem echten Leitfaden für Ihr Jahr werden. Bevor Sie etwas mit Ihrer Zeit, Ihrem Geld oder Ihrer Aufmerksamkeit unterstützen, fragen Sie sich, ob es wirklich zu dem Leben beiträgt, das Sie aufbauen möchten. Ihre Geduld, Ihr praktischer Sinn und Ihre Beständigkeit können bemerkenswerte Ergebnisse hervorbringen, wenn sie einer klar gewählten Priorität dienen. Indem Sie Ablenkungen reduzieren, verleihen Sie dem, was wirklich zählt, mehr Kraft.",
 
-    "Avancer calmement vers un objectif concret et réalisable. Votre progression n’a pas besoin d’être spectaculaire pour être importante. Cette année, privilégiez les décisions que vous pouvez soutenir dans la durée plutôt que les changements rapides difficiles à maintenir. Votre force réside dans votre capacité à construire étape par étape. En gardant une direction claire tout en acceptant les ajustements nécessaires, vous pourrez transformer votre patience en résultats tangibles et votre stabilité en véritable liberté.":
+    "Avancer calmement vers un objectif concret et réalisable. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre constance, votre sens pratique et votre capacité à bâtir dans la durée et à mieux traverser le défi suivant : ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En privilégiant des choix simples, stables et respectueux de vos besoins essentiels, vous créerez les conditions nécessaires pour créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Gehen Sie ruhig auf ein konkretes und erreichbares Ziel zu. Ihr Fortschritt muss nicht spektakulär sein, um bedeutend zu sein. Bevorzugen Sie in diesem Jahr Entscheidungen, die Sie langfristig tragen können, statt schneller Veränderungen, die schwer aufrechtzuerhalten sind. Ihre Stärke liegt in Ihrer Fähigkeit, Schritt für Schritt aufzubauen. Wenn Sie eine klare Richtung beibehalten und gleichzeitig notwendige Anpassungen akzeptieren, können Sie Ihre Geduld in greifbare Ergebnisse und Ihre Stabilität in echte Freiheit verwandeln.",
 
     /* AFFIRMATION */
@@ -659,22 +659,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir pourraient vous aider à distinguer plus clairement ce qui représente une véritable sécurité de ce qui relève simplement de l’habitude. Votre patience et votre constance demeurent de grandes forces, mais elles deviennent encore plus puissantes lorsque vous acceptez d’ajuster ce qui ne correspond plus à vos besoins. Construisez lentement, choisissez consciemment et laissez votre stabilité devenir une base pour évoluer plutôt qu’une raison de rester immobile.":
+    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir vous invitent à mieux reconnaître votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des choix simples, stables et respectueux de vos besoins essentiels. Vous avancerez alors avec plus de clarté et pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "In diesem Jahr bedeutet Stabilität nicht, alles unverändert zu lassen, sondern das zu stärken, was Ihnen wirklich guttut. Die kommenden Monate könnten Ihnen helfen, klarer zwischen echter Sicherheit und bloßer Gewohnheit zu unterscheiden. Ihre Geduld und Beständigkeit bleiben große Stärken, doch sie werden noch kraftvoller, wenn Sie bereit sind, das anzupassen, was Ihren Bedürfnissen nicht mehr entspricht. Bauen Sie langsam auf, entscheiden Sie bewusst und lassen Sie Ihre Stabilität zu einer Grundlage für Entwicklung werden, statt zu einem Grund, stillzustehen.",
 
-    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette année favorise les transformations progressives, celles qui respectent votre rythme tout en vous permettant d’avancer réellement. Vous n’avez pas besoin de renoncer à vos repères pour accueillir quelque chose de nouveau. En vous appuyant sur votre patience, votre sens pratique et votre capacité à reconnaître ce qui possède une valeur durable, vous pourrez faire évoluer votre vie sans perdre ce qui constitue votre véritable sécurité.":
+    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Dans les moments de doute, gardez en tête qu’il est important de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Une décision fondée sur des choix simples, stables et respectueux de vos besoins essentiels pourrait modifier durablement votre manière d’aborder la suite.":
       "Eine sanfte Entwicklung könnte Sie weiterbringen als eine Veränderung, die zu schnell erzwungen wird. Dieses Jahr begünstigt schrittweise Veränderungen, die Ihren Rhythmus respektieren und Ihnen gleichzeitig ermöglichen, wirklich voranzukommen. Sie müssen Ihre Orientierungspunkte nicht aufgeben, um etwas Neues willkommen zu heißen. Wenn Sie sich auf Ihre Geduld, Ihren praktischen Sinn und Ihre Fähigkeit stützen, dauerhafte Werte zu erkennen, können Sie Ihr Leben weiterentwickeln, ohne das zu verlieren, was Ihnen echte Sicherheit gibt.",
 
-    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Les prochains mois peuvent vous aider à concentrer davantage votre énergie sur ce qui compte réellement pour vous. Certaines obligations ou habitudes pourraient apparaître moins essentielles qu’auparavant. Ne craignez pas de revoir vos priorités. Lorsque votre persévérance est dirigée vers un objectif qui correspond véritablement à vos valeurs, chaque petit progrès contribue à construire quelque chose de beaucoup plus important.":
+    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre constance, votre sens pratique et votre capacité à bâtir dans la durée, mais votre véritable avancée viendra de votre capacité à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En choisissant des choix simples, stables et respectueux de vos besoins essentiels, vous donnerez une direction plus juste à votre énergie.":
       "Ihre Beständigkeit wird besonders kraftvoll, wenn sie einem zutiefst persönlichen Wunsch dient. Die kommenden Monate können Ihnen helfen, Ihre Energie stärker auf das zu konzentrieren, was Ihnen wirklich wichtig ist. Manche Verpflichtungen oder Gewohnheiten könnten weniger wesentlich erscheinen als früher. Scheuen Sie sich nicht, Ihre Prioritäten neu zu bewerten. Wenn Ihre Ausdauer auf ein Ziel ausgerichtet ist, das wirklich Ihren Werten entspricht, trägt jeder kleine Fortschritt dazu bei, etwas wesentlich Bedeutenderes aufzubauen.",
 
-    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année pourrait vous rappeler que l’abondance ne se mesure pas uniquement à ce que vous réussissez encore à obtenir. Une partie importante de votre évolution passera par votre capacité à reconnaître la valeur de ce qui est déjà présent dans votre vie. À partir de cette base, vous pourrez déterminer avec davantage de sérénité ce qui mérite d’être amélioré, développé ou simplement laissé derrière vous.":
+    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée, puis veillez à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Cette approche vous aidera à créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Nehmen Sie sich Zeit, das zu schätzen, was bereits funktioniert, bevor Sie nach dem suchen, was fehlt. Dieses Jahr könnte Sie daran erinnern, dass Fülle nicht nur daran gemessen wird, was Sie noch erreichen oder erhalten können. Ein wichtiger Teil Ihrer Entwicklung wird darin bestehen, den Wert dessen zu erkennen, was bereits in Ihrem Leben vorhanden ist. Von dieser Grundlage aus können Sie gelassener entscheiden, was verbessert, weiterentwickelt oder einfach zurückgelassen werden sollte.",
 
-    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Votre besoin de sécurité est étroitement lié à votre environnement, à vos ressources et à la manière dont vous organisez votre quotidien. Cette année, simplifier une situation concrète pourrait libérer beaucoup plus d’énergie que vous ne l’imaginez. N’hésitez pas à revoir une habitude, une dépense, une responsabilité ou une organisation devenue trop lourde. Ce que vous simplifiez extérieurement peut également créer davantage d’espace intérieurement.":
+    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Le choix de des choix simples, stables et respectueux de vos besoins essentiels vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Eine praktische Entscheidung könnte Ihnen auch unerwartete emotionale Erleichterung bringen. Ihr Bedürfnis nach Sicherheit ist eng mit Ihrer Umgebung, Ihren Ressourcen und der Organisation Ihres Alltags verbunden. In diesem Jahr könnte die Vereinfachung einer konkreten Situation wesentlich mehr Energie freisetzen, als Sie erwarten. Zögern Sie nicht, eine Gewohnheit, eine Ausgabe, eine Verantwortung oder eine zu belastend gewordene Organisation zu überdenken. Was Sie im Außen vereinfachen, kann auch in Ihrem Inneren mehr Raum schaffen.",
 
-    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite cette année à accorder autant d’importance à votre bien-être qu’à votre besoin de sécurité. Votre capacité à construire dans la durée est précieuse, mais ce que vous construisez doit également vous apporter du plaisir, de la paix et un sentiment d’alignement. En choisissant plus consciemment ce que vous souhaitez préserver, transformer ou développer, vous pourrez créer une stabilité qui soutient véritablement votre évolution.":
+    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Restez attentif(ve) au risque de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En vous recentrant sur des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, ein Leben aufzubauen, das nicht nur solide, sondern auch angenehm zu leben ist. Luna Astralis lädt Sie in diesem Jahr dazu ein, Ihrem Wohlbefinden ebenso viel Bedeutung beizumessen wie Ihrem Bedürfnis nach Sicherheit. Ihre Fähigkeit, langfristig aufzubauen, ist wertvoll, doch das, was Sie schaffen, sollte Ihnen auch Freude, Frieden und ein Gefühl innerer Stimmigkeit bringen. Indem Sie bewusster entscheiden, was Sie bewahren, verändern oder entwickeln möchten, können Sie eine Stabilität schaffen, die Ihre Entwicklung wirklich unterstützt.",
   },
 
@@ -701,22 +701,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette intention vous aidera à reconnaître ce qui mérite véritablement votre temps, votre énergie et votre engagement. Appuyez-vous sur votre patience, votre constance et votre capacité naturelle à construire dans la durée. Prenez toutefois garde à ne pas confondre stabilité et immobilité. En acceptant d’ajuster certaines habitudes tout en préservant ce qui compte réellement pour vous, vous pourrez créer des bases encore plus solides pour votre avenir.":
+    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette direction vous aidera à mobiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Prenez toutefois le temps de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En revenant à des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Consolidate ciò che vi offre una sicurezza autentica e rassicurante. Quest’anno, questa intenzione vi aiuterà a riconoscere ciò che merita veramente il vostro tempo, la vostra energia e il vostro impegno. Affidatevi alla vostra pazienza, alla vostra costanza e alla vostra naturale capacità di costruire nel tempo. Fate tuttavia attenzione a non confondere la stabilità con l’immobilità. Accettando di modificare alcune abitudini e preservando al tempo stesso ciò che conta davvero per voi, potrete creare basi ancora più solide per il vostro futuro.",
 
-    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette année ne vous demande pas seulement de construire ou de produire, mais également de profiter davantage de ce que vous avez déjà créé. Votre sens du concret et votre besoin de stabilité peuvent devenir de précieux alliés lorsque vous leur accordez un rythme plus équilibré. Évitez de porter trop longtemps des responsabilités qui vous épuisent. En accordant davantage de place au repos, au plaisir et aux besoins essentiels, vous renforcerez durablement votre équilibre.":
+    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée et observez les moments où il devient nécessaire de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Votre progression se consolidera grâce à des choix simples, stables et respectueux de vos besoins essentiels.":
       "Create più spazio per il piacere, il riposo e la semplicità. Quest’anno non vi chiede soltanto di costruire o produrre, ma anche di godere maggiormente di ciò che avete già creato. Il vostro senso pratico e il vostro bisogno di stabilità possono diventare preziosi alleati quando concedete loro un ritmo più equilibrato. Evitate di sostenere troppo a lungo responsabilità che vi esauriscono. Dando più spazio al riposo, al piacere e ai bisogni essenziali, rafforzerete il vostro equilibrio nel tempo.",
 
-    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Les changements les plus importants de votre année pourraient commencer par de petits ajustements répétés avec constance. Vous n’avez pas besoin de transformer toute votre vie pour avancer. Votre patience et votre persévérance vous permettent de construire progressivement quelque chose de durable. Lorsque vous sentez une résistance au changement, demandez-vous si vous protégez réellement votre stabilité ou simplement une habitude devenue familière. Cette distinction pourrait vous ouvrir de nouvelles possibilités.":
+    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre constance, votre sens pratique et votre capacité à bâtir dans la durée, à condition de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Un retour régulier vers des choix simples, stables et respectueux de vos besoins essentiels vous permettra de créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Fate evolvere un’abitudine senza sconvolgere tutto il vostro equilibrio. I cambiamenti più importanti del vostro anno potrebbero iniziare con piccoli aggiustamenti ripetuti con costanza. Non avete bisogno di trasformare tutta la vostra vita per avanzare. La vostra pazienza e la vostra perseveranza vi permettono di costruire gradualmente qualcosa di duraturo. Quando avvertite una resistenza al cambiamento, chiedetevi se state realmente proteggendo la vostra stabilità o semplicemente un’abitudine diventata familiare. Questa distinzione potrebbe aprirvi nuove possibilità.",
 
-    "Reconnaître la différence entre persévérance et attachement. Votre capacité à tenir bon constitue l’une de vos grandes forces, mais certaines situations peuvent demander une autre forme de courage : celui de laisser évoluer ce qui ne correspond plus à vos besoins. Cette année, observez ce que vous continuez à maintenir uniquement parce que cela vous rassure. Votre sécurité véritable ne dépend pas seulement de ce que vous conservez, mais aussi de votre capacité à vous adapter sans perdre vos valeurs essentielles.":
+    "Reconnaître la différence entre persévérance et attachement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Lorsque la tension monte, rappelez-vous de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement et choisissez plutôt des choix simples, stables et respectueux de vos besoins essentiels.":
       "Riconoscete la differenza tra perseveranza e attaccamento. La vostra capacità di resistere rappresenta uno dei vostri grandi punti di forza, ma alcune situazioni possono richiedere un’altra forma di coraggio: lasciare evolvere ciò che non corrisponde più ai vostri bisogni. Quest’anno, osservate ciò che continuate a mantenere soltanto perché vi rassicura. La vostra vera sicurezza non dipende soltanto da ciò che conservate, ma anche dalla vostra capacità di adattarvi senza perdere i vostri valori essenziali.",
 
-    "Investir votre énergie dans ce qui possède une valeur durable. Cette intention peut devenir un véritable fil conducteur pour votre année. Avant d’accorder votre temps, votre argent ou votre attention à quelque chose, demandez-vous si cela contribue réellement à la vie que vous souhaitez construire. Votre patience, votre sens pratique et votre constance peuvent produire des résultats remarquables lorsqu’ils servent une priorité clairement choisie. En réduisant la dispersion, vous donnerez davantage de force à ce qui compte réellement.":
+    "Investir votre énergie dans ce qui possède une valeur durable. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée avec davantage de conscience, sans oublier de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Chaque geste relié à des choix simples, stables et respectueux de vos besoins essentiels renforcera votre sentiment d’alignement.":
       "Investite la vostra energia in ciò che possiede un valore duraturo. Questa intenzione può diventare un vero filo conduttore per il vostro anno. Prima di dedicare il vostro tempo, il vostro denaro o la vostra attenzione a qualcosa, chiedetevi se contribuisce davvero alla vita che desiderate costruire. La vostra pazienza, il vostro senso pratico e la vostra costanza possono produrre risultati notevoli quando sono al servizio di una priorità chiaramente scelta. Riducendo la dispersione, darete maggiore forza a ciò che conta veramente.",
 
-    "Avancer calmement vers un objectif concret et réalisable. Votre progression n’a pas besoin d’être spectaculaire pour être importante. Cette année, privilégiez les décisions que vous pouvez soutenir dans la durée plutôt que les changements rapides difficiles à maintenir. Votre force réside dans votre capacité à construire étape par étape. En gardant une direction claire tout en acceptant les ajustements nécessaires, vous pourrez transformer votre patience en résultats tangibles et votre stabilité en véritable liberté.":
+    "Avancer calmement vers un objectif concret et réalisable. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre constance, votre sens pratique et votre capacité à bâtir dans la durée et à mieux traverser le défi suivant : ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En privilégiant des choix simples, stables et respectueux de vos besoins essentiels, vous créerez les conditions nécessaires pour créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Avanzate con calma verso un obiettivo concreto e realizzabile. I vostri progressi non devono essere spettacolari per essere importanti. Quest’anno privilegiate le decisioni che potete sostenere nel tempo invece dei cambiamenti rapidi difficili da mantenere. La vostra forza risiede nella capacità di costruire passo dopo passo. Mantenendo una direzione chiara e accettando allo stesso tempo gli aggiustamenti necessari, potrete trasformare la vostra pazienza in risultati tangibili e la vostra stabilità in autentica libertà.",
 
     /* AFFIRMATION */
@@ -741,22 +741,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir pourraient vous aider à distinguer plus clairement ce qui représente une véritable sécurité de ce qui relève simplement de l’habitude. Votre patience et votre constance demeurent de grandes forces, mais elles deviennent encore plus puissantes lorsque vous acceptez d’ajuster ce qui ne correspond plus à vos besoins. Construisez lentement, choisissez consciemment et laissez votre stabilité devenir une base pour évoluer plutôt qu’une raison de rester immobile.":
+    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir vous invitent à mieux reconnaître votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des choix simples, stables et respectueux de vos besoins essentiels. Vous avancerez alors avec plus de clarté et pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Quest’anno, la stabilità non consiste nel mantenere tutto immutato, ma nel rafforzare ciò che vi fa realmente bene. I prossimi mesi potrebbero aiutarvi a distinguere più chiaramente ciò che rappresenta una vera sicurezza da ciò che deriva semplicemente dall’abitudine. La vostra pazienza e la vostra costanza rimangono grandi punti di forza, ma diventano ancora più potenti quando accettate di modificare ciò che non corrisponde più ai vostri bisogni. Costruite lentamente, scegliete consapevolmente e lasciate che la vostra stabilità diventi una base per evolvere anziché una ragione per rimanere immobili.",
 
-    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette année favorise les transformations progressives, celles qui respectent votre rythme tout en vous permettant d’avancer réellement. Vous n’avez pas besoin de renoncer à vos repères pour accueillir quelque chose de nouveau. En vous appuyant sur votre patience, votre sens pratique et votre capacité à reconnaître ce qui possède une valeur durable, vous pourrez faire évoluer votre vie sans perdre ce qui constitue votre véritable sécurité.":
+    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Dans les moments de doute, gardez en tête qu’il est important de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Une décision fondée sur des choix simples, stables et respectueux de vos besoins essentiels pourrait modifier durablement votre manière d’aborder la suite.":
       "Un’evoluzione graduale potrebbe portarvi più lontano di un cambiamento imposto troppo rapidamente. Quest’anno favorisce le trasformazioni progressive, quelle che rispettano il vostro ritmo permettendovi al tempo stesso di avanzare realmente. Non avete bisogno di rinunciare ai vostri punti di riferimento per accogliere qualcosa di nuovo. Affidandovi alla vostra pazienza, al vostro senso pratico e alla vostra capacità di riconoscere ciò che possiede un valore duraturo, potrete far evolvere la vostra vita senza perdere ciò che costituisce la vostra vera sicurezza.",
 
-    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Les prochains mois peuvent vous aider à concentrer davantage votre énergie sur ce qui compte réellement pour vous. Certaines obligations ou habitudes pourraient apparaître moins essentielles qu’auparavant. Ne craignez pas de revoir vos priorités. Lorsque votre persévérance est dirigée vers un objectif qui correspond véritablement à vos valeurs, chaque petit progrès contribue à construire quelque chose de beaucoup plus important.":
+    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre constance, votre sens pratique et votre capacité à bâtir dans la durée, mais votre véritable avancée viendra de votre capacité à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En choisissant des choix simples, stables et respectueux de vos besoins essentiels, vous donnerez une direction plus juste à votre énergie.":
       "La vostra costanza diventa particolarmente potente quando è al servizio di un desiderio profondamente personale. I prossimi mesi possono aiutarvi a concentrare maggiormente la vostra energia su ciò che conta davvero per voi. Alcuni obblighi o abitudini potrebbero apparire meno essenziali rispetto al passato. Non abbiate paura di rivedere le vostre priorità. Quando la vostra perseveranza è diretta verso un obiettivo che corrisponde veramente ai vostri valori, ogni piccolo progresso contribuisce a costruire qualcosa di molto più importante.",
 
-    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année pourrait vous rappeler que l’abondance ne se mesure pas uniquement à ce que vous réussissez encore à obtenir. Une partie importante de votre évolution passera par votre capacité à reconnaître la valeur de ce qui est déjà présent dans votre vie. À partir de cette base, vous pourrez déterminer avec davantage de sérénité ce qui mérite d’être amélioré, développé ou simplement laissé derrière vous.":
+    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée, puis veillez à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Cette approche vous aidera à créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Prendetevi il tempo di apprezzare ciò che funziona già prima di cercare ciò che manca. Quest’anno potrebbe ricordarvi che l’abbondanza non si misura soltanto attraverso ciò che riuscite ancora a ottenere. Una parte importante della vostra evoluzione passerà dalla capacità di riconoscere il valore di ciò che è già presente nella vostra vita. A partire da questa base, potrete decidere con maggiore serenità ciò che merita di essere migliorato, sviluppato o semplicemente lasciato alle spalle.",
 
-    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Votre besoin de sécurité est étroitement lié à votre environnement, à vos ressources et à la manière dont vous organisez votre quotidien. Cette année, simplifier une situation concrète pourrait libérer beaucoup plus d’énergie que vous ne l’imaginez. N’hésitez pas à revoir une habitude, une dépense, une responsabilité ou une organisation devenue trop lourde. Ce que vous simplifiez extérieurement peut également créer davantage d’espace intérieurement.":
+    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Le choix de des choix simples, stables et respectueux de vos besoins essentiels vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una decisione pratica potrebbe anche portarvi un sollievo emotivo inaspettato. Il vostro bisogno di sicurezza è strettamente legato al vostro ambiente, alle vostre risorse e al modo in cui organizzate la vita quotidiana. Quest’anno, semplificare una situazione concreta potrebbe liberare molta più energia di quanto immaginiate. Non esitate a rivedere un’abitudine, una spesa, una responsabilità o un’organizzazione diventata troppo pesante. Ciò che semplificate all’esterno può creare più spazio anche dentro di voi.",
 
-    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite cette année à accorder autant d’importance à votre bien-être qu’à votre besoin de sécurité. Votre capacité à construire dans la durée est précieuse, mais ce que vous construisez doit également vous apporter du plaisir, de la paix et un sentiment d’alignement. En choisissant plus consciemment ce que vous souhaitez préserver, transformer ou développer, vous pourrez créer une stabilité qui soutient véritablement votre évolution.":
+    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Restez attentif(ve) au risque de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En vous recentrant sur des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante et préparer la suite avec davantage de confiance.":
       "Siete invitati a costruire una vita che non sia soltanto solida, ma anche piacevole da vivere. Quest’anno Luna Astralis vi invita a dare al vostro benessere la stessa importanza che attribuite al bisogno di sicurezza. La vostra capacità di costruire nel tempo è preziosa, ma ciò che costruite deve anche portarvi piacere, pace e una sensazione di armonia interiore. Scegliendo più consapevolmente ciò che desiderate preservare, trasformare o sviluppare, potrete creare una stabilità che sostenga realmente la vostra evoluzione.",
   },
 
@@ -783,22 +783,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette intention vous aidera à reconnaître ce qui mérite véritablement votre temps, votre énergie et votre engagement. Appuyez-vous sur votre patience, votre constance et votre capacité naturelle à construire dans la durée. Prenez toutefois garde à ne pas confondre stabilité et immobilité. En acceptant d’ajuster certaines habitudes tout en préservant ce qui compte réellement pour vous, vous pourrez créer des bases encore plus solides pour votre avenir.":
+    "Consolider ce qui vous apporte une sécurité réelle et apaisante. Cette année, cette direction vous aidera à mobiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Prenez toutefois le temps de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En revenant à des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Fortaleça aquilo que proporciona a você uma segurança verdadeira e tranquilizadora. Este ano, essa intenção ajudará você a reconhecer o que realmente merece seu tempo, sua energia e seu compromisso. Apoie-se em sua paciência, sua constância e sua capacidade natural de construir a longo prazo. No entanto, tenha cuidado para não confundir estabilidade com imobilidade. Ao aceitar ajustar certos hábitos e preservar aquilo que realmente importa para você, poderá criar bases ainda mais sólidas para seu futuro.",
 
-    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette année ne vous demande pas seulement de construire ou de produire, mais également de profiter davantage de ce que vous avez déjà créé. Votre sens du concret et votre besoin de stabilité peuvent devenir de précieux alliés lorsque vous leur accordez un rythme plus équilibré. Évitez de porter trop longtemps des responsabilités qui vous épuisent. En accordant davantage de place au repos, au plaisir et aux besoins essentiels, vous renforcerez durablement votre équilibre.":
+    "Créer davantage d’espace pour le plaisir, le repos et la simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée et observez les moments où il devient nécessaire de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Votre progression se consolidera grâce à des choix simples, stables et respectueux de vos besoins essentiels.":
       "Crie mais espaço para o prazer, o descanso e a simplicidade. Este ano não pede apenas que você construa ou produza, mas também que aproveite mais aquilo que já criou. Seu senso prático e sua necessidade de estabilidade podem se tornar aliados valiosos quando você lhes oferece um ritmo mais equilibrado. Evite carregar por tempo demais responsabilidades que esgotam você. Ao dar mais espaço ao descanso, ao prazer e às necessidades essenciais, fortalecerá seu equilíbrio de maneira duradoura.",
 
-    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Les changements les plus importants de votre année pourraient commencer par de petits ajustements répétés avec constance. Vous n’avez pas besoin de transformer toute votre vie pour avancer. Votre patience et votre persévérance vous permettent de construire progressivement quelque chose de durable. Lorsque vous sentez une résistance au changement, demandez-vous si vous protégez réellement votre stabilité ou simplement une habitude devenue familière. Cette distinction pourrait vous ouvrir de nouvelles possibilités.":
+    "Faire évoluer une habitude sans bouleverser tout votre équilibre. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre constance, votre sens pratique et votre capacité à bâtir dans la durée, à condition de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Un retour régulier vers des choix simples, stables et respectueux de vos besoins essentiels vous permettra de créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Faça um hábito evoluir sem comprometer todo o seu equilíbrio. As mudanças mais importantes do seu ano poderão começar com pequenos ajustes repetidos com constância. Você não precisa transformar toda a sua vida para avançar. Sua paciência e sua perseverança permitem construir gradualmente algo duradouro. Quando sentir resistência à mudança, pergunte a si mesmo se está realmente protegendo sua estabilidade ou apenas um hábito que se tornou familiar. Essa diferença poderá abrir novas possibilidades para você.",
 
-    "Reconnaître la différence entre persévérance et attachement. Votre capacité à tenir bon constitue l’une de vos grandes forces, mais certaines situations peuvent demander une autre forme de courage : celui de laisser évoluer ce qui ne correspond plus à vos besoins. Cette année, observez ce que vous continuez à maintenir uniquement parce que cela vous rassure. Votre sécurité véritable ne dépend pas seulement de ce que vous conservez, mais aussi de votre capacité à vous adapter sans perdre vos valeurs essentielles.":
+    "Reconnaître la différence entre persévérance et attachement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Lorsque la tension monte, rappelez-vous de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement et choisissez plutôt des choix simples, stables et respectueux de vos besoins essentiels.":
       "Reconheça a diferença entre perseverança e apego. Sua capacidade de permanecer firme é uma de suas grandes forças, mas algumas situações podem exigir outra forma de coragem: permitir que evolua aquilo que já não corresponde às suas necessidades. Este ano, observe o que você continua mantendo apenas porque isso transmite segurança. Sua verdadeira segurança não depende somente daquilo que preserva, mas também de sua capacidade de se adaptar sem perder seus valores essenciais.",
 
-    "Investir votre énergie dans ce qui possède une valeur durable. Cette intention peut devenir un véritable fil conducteur pour votre année. Avant d’accorder votre temps, votre argent ou votre attention à quelque chose, demandez-vous si cela contribue réellement à la vie que vous souhaitez construire. Votre patience, votre sens pratique et votre constance peuvent produire des résultats remarquables lorsqu’ils servent une priorité clairement choisie. En réduisant la dispersion, vous donnerez davantage de force à ce qui compte réellement.":
+    "Investir votre énergie dans ce qui possède une valeur durable. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre constance, votre sens pratique et votre capacité à bâtir dans la durée avec davantage de conscience, sans oublier de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Chaque geste relié à des choix simples, stables et respectueux de vos besoins essentiels renforcera votre sentiment d’alignement.":
       "Invista sua energia naquilo que possui valor duradouro. Essa intenção pode se tornar um verdadeiro fio condutor para o seu ano. Antes de dedicar seu tempo, seu dinheiro ou sua atenção a algo, pergunte a si mesmo se isso realmente contribui para a vida que deseja construir. Sua paciência, seu senso prático e sua constância podem produzir resultados extraordinários quando estão a serviço de uma prioridade claramente escolhida. Ao reduzir a dispersão, você dará mais força ao que realmente importa.",
 
-    "Avancer calmement vers un objectif concret et réalisable. Votre progression n’a pas besoin d’être spectaculaire pour être importante. Cette année, privilégiez les décisions que vous pouvez soutenir dans la durée plutôt que les changements rapides difficiles à maintenir. Votre force réside dans votre capacité à construire étape par étape. En gardant une direction claire tout en acceptant les ajustements nécessaires, vous pourrez transformer votre patience en résultats tangibles et votre stabilité en véritable liberté.":
+    "Avancer calmement vers un objectif concret et réalisable. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre constance, votre sens pratique et votre capacité à bâtir dans la durée et à mieux traverser le défi suivant : ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En privilégiant des choix simples, stables et respectueux de vos besoins essentiels, vous créerez les conditions nécessaires pour créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Avance com calma em direção a um objetivo concreto e realizável. Seu progresso não precisa ser espetacular para ser importante. Este ano, priorize decisões que você possa sustentar a longo prazo em vez de mudanças rápidas difíceis de manter. Sua força está em sua capacidade de construir passo a passo. Mantendo uma direção clara e aceitando ao mesmo tempo os ajustes necessários, poderá transformar sua paciência em resultados concretos e sua estabilidade em verdadeira liberdade.",
 
     /* AFFIRMATION */
@@ -823,22 +823,22 @@ const MANTRA_TAUREAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir pourraient vous aider à distinguer plus clairement ce qui représente une véritable sécurité de ce qui relève simplement de l’habitude. Votre patience et votre constance demeurent de grandes forces, mais elles deviennent encore plus puissantes lorsque vous acceptez d’ajuster ce qui ne correspond plus à vos besoins. Construisez lentement, choisissez consciemment et laissez votre stabilité devenir une base pour évoluer plutôt qu’une raison de rester immobile.":
+    "Cette année, la stabilité ne consiste pas à tout maintenir intact, mais à renforcer ce qui vous fait réellement du bien. Les mois à venir vous invitent à mieux reconnaître votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des choix simples, stables et respectueux de vos besoins essentiels. Vous avancerez alors avec plus de clarté et pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Este ano, estabilidade não significa manter tudo intacto, mas fortalecer aquilo que realmente faz bem a você. Os próximos meses poderão ajudar você a distinguir com mais clareza o que representa verdadeira segurança daquilo que é apenas um hábito. Sua paciência e sua constância continuam sendo grandes forças, mas se tornam ainda mais poderosas quando você aceita ajustar o que já não corresponde às suas necessidades. Construa devagar, escolha conscientemente e permita que sua estabilidade se torne uma base para evoluir, em vez de uma razão para permanecer imóvel.",
 
-    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette année favorise les transformations progressives, celles qui respectent votre rythme tout en vous permettant d’avancer réellement. Vous n’avez pas besoin de renoncer à vos repères pour accueillir quelque chose de nouveau. En vous appuyant sur votre patience, votre sens pratique et votre capacité à reconnaître ce qui possède une valeur durable, vous pourrez faire évoluer votre vie sans perdre ce qui constitue votre véritable sécurité.":
+    "Une évolution douce pourrait vous conduire plus loin qu’un changement imposé trop rapidement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Dans les moments de doute, gardez en tête qu’il est important de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Une décision fondée sur des choix simples, stables et respectueux de vos besoins essentiels pourrait modifier durablement votre manière d’aborder la suite.":
       "Uma evolução gradual poderá levar você mais longe do que uma mudança imposta rapidamente demais. Este ano favorece transformações progressivas, aquelas que respeitam seu ritmo e, ao mesmo tempo, permitem que você realmente avance. Você não precisa abandonar suas referências para acolher algo novo. Ao se apoiar em sua paciência, em seu senso prático e em sua capacidade de reconhecer aquilo que possui valor duradouro, poderá fazer sua vida evoluir sem perder o que constitui sua verdadeira segurança.",
 
-    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Les prochains mois peuvent vous aider à concentrer davantage votre énergie sur ce qui compte réellement pour vous. Certaines obligations ou habitudes pourraient apparaître moins essentielles qu’auparavant. Ne craignez pas de revoir vos priorités. Lorsque votre persévérance est dirigée vers un objectif qui correspond véritablement à vos valeurs, chaque petit progrès contribue à construire quelque chose de beaucoup plus important.":
+    "Votre constance devient particulièrement puissante lorsqu’elle sert un désir profondément personnel. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre constance, votre sens pratique et votre capacité à bâtir dans la durée, mais votre véritable avancée viendra de votre capacité à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En choisissant des choix simples, stables et respectueux de vos besoins essentiels, vous donnerez une direction plus juste à votre énergie.":
       "Sua constância se torna especialmente poderosa quando está a serviço de um desejo profundamente pessoal. Os próximos meses podem ajudar você a concentrar mais sua energia naquilo que realmente importa. Algumas obrigações ou hábitos poderão parecer menos essenciais do que antes. Não tenha medo de rever suas prioridades. Quando sua perseverança está direcionada a um objetivo que realmente corresponde aos seus valores, cada pequeno progresso contribui para construir algo muito mais importante.",
 
-    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année pourrait vous rappeler que l’abondance ne se mesure pas uniquement à ce que vous réussissez encore à obtenir. Une partie importante de votre évolution passera par votre capacité à reconnaître la valeur de ce qui est déjà présent dans votre vie. À partir de cette base, vous pourrez déterminer avec davantage de sérénité ce qui mérite d’être amélioré, développé ou simplement laissé derrière vous.":
+    "Prenez le temps d’apprécier ce qui fonctionne déjà avant de chercher ce qui manque. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre constance, votre sens pratique et votre capacité à bâtir dans la durée, puis veillez à ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Cette approche vous aidera à créer une stabilité qui demeure vivante, agréable et réellement nourrissante.":
       "Reserve um tempo para valorizar aquilo que já funciona antes de procurar o que está faltando. Este ano poderá lembrar você de que a abundância não é medida apenas pelo que ainda consegue obter. Uma parte importante de sua evolução passará por sua capacidade de reconhecer o valor daquilo que já está presente em sua vida. A partir dessa base, poderá decidir com mais tranquilidade o que merece ser melhorado, desenvolvido ou simplesmente deixado para trás.",
 
-    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Votre besoin de sécurité est étroitement lié à votre environnement, à vos ressources et à la manière dont vous organisez votre quotidien. Cette année, simplifier une situation concrète pourrait libérer beaucoup plus d’énergie que vous ne l’imaginez. N’hésitez pas à revoir une habitude, une dépense, une responsabilité ou une organisation devenue trop lourde. Ce que vous simplifiez extérieurement peut également créer davantage d’espace intérieurement.":
+    "Une décision pratique pourrait également vous apporter un soulagement émotionnel inattendu. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. Le choix de des choix simples, stables et respectueux de vos besoins essentiels vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Uma decisão prática também poderá proporcionar a você um alívio emocional inesperado. Sua necessidade de segurança está intimamente ligada ao seu ambiente, aos seus recursos e à maneira como organiza sua vida cotidiana. Este ano, simplificar uma situação concreta poderá liberar muito mais energia do que você imagina. Não hesite em rever um hábito, uma despesa, uma responsabilidade ou uma organização que se tornou pesada demais. Aquilo que você simplifica externamente também pode criar mais espaço dentro de você.",
 
-    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite cette année à accorder autant d’importance à votre bien-être qu’à votre besoin de sécurité. Votre capacité à construire dans la durée est précieuse, mais ce que vous construisez doit également vous apporter du plaisir, de la paix et un sentiment d’alignement. En choisissant plus consciemment ce que vous souhaitez préserver, transformer ou développer, vous pourrez créer une stabilité qui soutient véritablement votre évolution.":
+    "Vous êtes invité à bâtir une vie qui ne soit pas seulement solide, mais également agréable à habiter. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre constance, votre sens pratique et votre capacité à bâtir dans la durée. Restez attentif(ve) au risque de ne pas confondre sécurité et immobilité lorsque la vie demande un ajustement. En vous recentrant sur des choix simples, stables et respectueux de vos besoins essentiels, vous pourrez créer une stabilité qui demeure vivante, agréable et réellement nourrissante et préparer la suite avec davantage de confiance.":
       "Você é convidado a construir uma vida que não seja apenas sólida, mas também agradável de viver. Este ano, Luna Astralis convida você a dar tanta importância ao seu bem-estar quanto à sua necessidade de segurança. Sua capacidade de construir a longo prazo é valiosa, mas aquilo que você constrói também deve proporcionar prazer, paz e uma sensação de alinhamento. Ao escolher com mais consciência aquilo que deseja preservar, transformar ou desenvolver, poderá criar uma estabilidade que realmente apoie sua evolução.",
   },
 };
@@ -1612,22 +1612,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Exprimer votre créativité sans attendre une validation extérieure.":
+    "Exprimer votre créativité sans attendre une validation extérieure. Cette année, cette direction vous aidera à mobiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer. Prenez toutefois le temps de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En revenant à une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Express your creativity without waiting for external validation.",
 
-    "Occuper votre place avec confiance et simplicité.":
+    "Occuper votre place avec confiance et simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer et observez les moments où il devient nécessaire de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Votre progression se consolidera grâce à une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Take your place with confidence and simplicity.",
 
-    "Diriger votre énergie vers ce qui vous rend véritablement fier.":
+    "Diriger votre énergie vers ce qui vous rend véritablement fier. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre créativité, votre chaleur et votre capacité naturelle à inspirer, à condition de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Un retour régulier vers une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra de rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Direct your energy toward what makes you truly proud.",
 
-    "Partager votre lumière sans vous épuiser à impressionner.":
+    "Partager votre lumière sans vous épuiser à impressionner. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Lorsque la tension monte, rappelez-vous de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur et choisissez plutôt une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Share your light without exhausting yourself trying to impress others.",
 
-    "Reconnaître votre valeur au-delà des résultats visibles.":
+    "Reconnaître votre valeur au-delà des résultats visibles. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer avec davantage de conscience, sans oublier de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Chaque geste relié à une expression authentique, un projet qui vous ressemble et le plaisir de créer renforcera votre sentiment d’alignement.":
       "Recognize your worth beyond visible results.",
 
-    "Faire un choix qui reflète davantage votre personnalité profonde.":
+    "Faire un choix qui reflète davantage votre personnalité profonde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre créativité, votre chaleur et votre capacité naturelle à inspirer et à mieux traverser le défi suivant : ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En privilégiant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous créerez les conditions nécessaires pour rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Make a choice that more fully reflects your true personality.",
 
     /* AFFIRMATION */
@@ -1652,22 +1652,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez.":
+    "Cette année, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez. Les mois à venir vous invitent à mieux reconnaître votre créativité, votre chaleur et votre capacité naturelle à inspirer. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une expression authentique, un projet qui vous ressemble et le plaisir de créer. Vous avancerez alors avec plus de clarté et pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "This month, your radiance comes less from what you show than from the sincerity with which you show it.",
 
-    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent.":
+    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Dans les moments de doute, gardez en tête qu’il est important de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Une décision fondée sur une expression authentique, un projet qui vous ressemble et le plaisir de créer pourrait modifier durablement votre manière d’aborder la suite.":
       "An opportunity to showcase yourself could appear when you stop minimizing your talent.",
 
-    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre.":
+    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre créativité, votre chaleur et votre capacité naturelle à inspirer, mais votre véritable avancée viendra de votre capacité à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En choisissant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous donnerez une direction plus juste à votre énergie.":
       "Your confidence grows when you choose to create for yourself before trying to convince others.",
 
-    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier.":
+    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer, puis veillez à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Cette approche vous aidera à rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "A generous gesture could strengthen a relationship, provided it does not require you to forget yourself.",
 
-    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme.":
+    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre créativité, votre chaleur et votre capacité naturelle à inspirer. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Le choix de une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Your heart already recognizes the direction that could rekindle your enthusiasm.",
 
-    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez.":
+    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre créativité, votre chaleur et votre capacité naturelle à inspirer. Restez attentif(ve) au risque de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En vous recentrant sur une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner et préparer la suite avec davantage de confiance.":
       "You are invited to take your place without apologizing for the light you bring.",
   },
 
@@ -1694,22 +1694,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Exprimer votre créativité sans attendre une validation extérieure.":
+    "Exprimer votre créativité sans attendre une validation extérieure. Cette année, cette direction vous aidera à mobiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer. Prenez toutefois le temps de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En revenant à une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Expresa tu creatividad sin esperar una validación externa.",
 
-    "Occuper votre place avec confiance et simplicité.":
+    "Occuper votre place avec confiance et simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer et observez les moments où il devient nécessaire de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Votre progression se consolidera grâce à une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Ocupa tu lugar con confianza y sencillez.",
 
-    "Diriger votre énergie vers ce qui vous rend véritablement fier.":
+    "Diriger votre énergie vers ce qui vous rend véritablement fier. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre créativité, votre chaleur et votre capacité naturelle à inspirer, à condition de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Un retour régulier vers une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra de rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Dirige tu energía hacia aquello que realmente te hace sentir orgulloso.",
 
-    "Partager votre lumière sans vous épuiser à impressionner.":
+    "Partager votre lumière sans vous épuiser à impressionner. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Lorsque la tension monte, rappelez-vous de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur et choisissez plutôt une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Comparte tu luz sin agotarte intentando impresionar.",
 
-    "Reconnaître votre valeur au-delà des résultats visibles.":
+    "Reconnaître votre valeur au-delà des résultats visibles. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer avec davantage de conscience, sans oublier de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Chaque geste relié à une expression authentique, un projet qui vous ressemble et le plaisir de créer renforcera votre sentiment d’alignement.":
       "Reconoce tu valor más allá de los resultados visibles.",
 
-    "Faire un choix qui reflète davantage votre personnalité profonde.":
+    "Faire un choix qui reflète davantage votre personnalité profonde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre créativité, votre chaleur et votre capacité naturelle à inspirer et à mieux traverser le défi suivant : ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En privilégiant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous créerez les conditions nécessaires pour rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Toma una decisión que refleje mejor tu verdadera personalidad.",
 
     /* AFFIRMATION */
@@ -1734,22 +1734,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez.":
+    "Cette année, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez. Les mois à venir vous invitent à mieux reconnaître votre créativité, votre chaleur et votre capacité naturelle à inspirer. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une expression authentique, un projet qui vous ressemble et le plaisir de créer. Vous avancerez alors avec plus de clarté et pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Este mes, tu brillo proviene menos de lo que muestras que de la sinceridad con la que lo muestras.",
 
-    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent.":
+    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Dans les moments de doute, gardez en tête qu’il est important de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Une décision fondée sur une expression authentique, un projet qui vous ressemble et le plaisir de créer pourrait modifier durablement votre manière d’aborder la suite.":
       "Podría surgir una oportunidad para destacar cuando dejes de minimizar tu talento.",
 
-    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre.":
+    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre créativité, votre chaleur et votre capacité naturelle à inspirer, mais votre véritable avancée viendra de votre capacité à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En choisissant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous donnerez une direction plus juste à votre énergie.":
       "Tu confianza crece cuando eliges crear para ti antes de intentar convencer a los demás.",
 
-    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier.":
+    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer, puis veillez à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Cette approche vous aidera à rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Un gesto generoso podría fortalecer un vínculo, siempre que no te obligue a olvidarte de ti mismo.",
 
-    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme.":
+    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre créativité, votre chaleur et votre capacité naturelle à inspirer. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Le choix de une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Tu corazón ya reconoce la dirección que podría reavivar tu entusiasmo.",
 
-    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez.":
+    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre créativité, votre chaleur et votre capacité naturelle à inspirer. Restez attentif(ve) au risque de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En vous recentrant sur une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner et préparer la suite avec davantage de confiance.":
       "Estás invitado a ocupar tu lugar sin disculparte por la luz que aportas.",
   },
 
@@ -1776,22 +1776,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Exprimer votre créativité sans attendre une validation extérieure.":
+    "Exprimer votre créativité sans attendre une validation extérieure. Cette année, cette direction vous aidera à mobiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer. Prenez toutefois le temps de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En revenant à une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Drücken Sie Ihre Kreativität aus, ohne auf äußere Bestätigung zu warten.",
 
-    "Occuper votre place avec confiance et simplicité.":
+    "Occuper votre place avec confiance et simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer et observez les moments où il devient nécessaire de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Votre progression se consolidera grâce à une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Nehmen Sie Ihren Platz mit Selbstvertrauen und Natürlichkeit ein.",
 
-    "Diriger votre énergie vers ce qui vous rend véritablement fier.":
+    "Diriger votre énergie vers ce qui vous rend véritablement fier. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre créativité, votre chaleur et votre capacité naturelle à inspirer, à condition de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Un retour régulier vers une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra de rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Lenken Sie Ihre Energie auf das, worauf Sie wirklich stolz sind.",
 
-    "Partager votre lumière sans vous épuiser à impressionner.":
+    "Partager votre lumière sans vous épuiser à impressionner. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Lorsque la tension monte, rappelez-vous de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur et choisissez plutôt une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Teilen Sie Ihr Licht, ohne sich dabei zu erschöpfen, andere beeindrucken zu wollen.",
 
-    "Reconnaître votre valeur au-delà des résultats visibles.":
+    "Reconnaître votre valeur au-delà des résultats visibles. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer avec davantage de conscience, sans oublier de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Chaque geste relié à une expression authentique, un projet qui vous ressemble et le plaisir de créer renforcera votre sentiment d’alignement.":
       "Erkennen Sie Ihren Wert unabhängig von sichtbaren Ergebnissen.",
 
-    "Faire un choix qui reflète davantage votre personnalité profonde.":
+    "Faire un choix qui reflète davantage votre personnalité profonde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre créativité, votre chaleur et votre capacité naturelle à inspirer et à mieux traverser le défi suivant : ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En privilégiant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous créerez les conditions nécessaires pour rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Treffen Sie eine Entscheidung, die Ihre wahre Persönlichkeit stärker widerspiegelt.",
 
     /* AFFIRMATION */
@@ -1816,22 +1816,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez.":
+    "Cette année, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez. Les mois à venir vous invitent à mieux reconnaître votre créativité, votre chaleur et votre capacité naturelle à inspirer. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une expression authentique, un projet qui vous ressemble et le plaisir de créer. Vous avancerez alors avec plus de clarté et pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "In diesem Monat entsteht Ihre Ausstrahlung weniger durch das, was Sie zeigen, als durch die Aufrichtigkeit, mit der Sie es zeigen.",
 
-    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent.":
+    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Dans les moments de doute, gardez en tête qu’il est important de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Une décision fondée sur une expression authentique, un projet qui vous ressemble et le plaisir de créer pourrait modifier durablement votre manière d’aborder la suite.":
       "Eine Gelegenheit, Ihre Fähigkeiten zu zeigen, könnte entstehen, sobald Sie aufhören, Ihr Talent herunterzuspielen.",
 
-    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre.":
+    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre créativité, votre chaleur et votre capacité naturelle à inspirer, mais votre véritable avancée viendra de votre capacité à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En choisissant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous donnerez une direction plus juste à votre énergie.":
       "Ihr Selbstvertrauen wächst, wenn Sie zuerst für sich selbst erschaffen, bevor Sie versuchen, andere zu überzeugen.",
 
-    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier.":
+    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer, puis veillez à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Cette approche vous aidera à rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Eine großzügige Geste könnte eine Verbindung stärken, solange Sie sich dabei nicht selbst vergessen.",
 
-    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme.":
+    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre créativité, votre chaleur et votre capacité naturelle à inspirer. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Le choix de une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Ihr Herz erkennt bereits die Richtung, die Ihre Begeisterung neu entfachen könnte.",
 
-    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez.":
+    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre créativité, votre chaleur et votre capacité naturelle à inspirer. Restez attentif(ve) au risque de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En vous recentrant sur une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, Ihren Platz einzunehmen, ohne sich für das Licht zu entschuldigen, das Sie mitbringen.",
   },
 
@@ -1858,22 +1858,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Exprimer votre créativité sans attendre une validation extérieure.":
+    "Exprimer votre créativité sans attendre une validation extérieure. Cette année, cette direction vous aidera à mobiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer. Prenez toutefois le temps de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En revenant à une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Esprimete la vostra creatività senza aspettare una conferma esterna.",
 
-    "Occuper votre place avec confiance et simplicité.":
+    "Occuper votre place avec confiance et simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer et observez les moments où il devient nécessaire de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Votre progression se consolidera grâce à une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Prendete il vostro posto con fiducia e semplicità.",
 
-    "Diriger votre énergie vers ce qui vous rend véritablement fier.":
+    "Diriger votre énergie vers ce qui vous rend véritablement fier. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre créativité, votre chaleur et votre capacité naturelle à inspirer, à condition de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Un retour régulier vers une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra de rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Dirigete la vostra energia verso ciò che vi rende veramente orgogliosi.",
 
-    "Partager votre lumière sans vous épuiser à impressionner.":
+    "Partager votre lumière sans vous épuiser à impressionner. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Lorsque la tension monte, rappelez-vous de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur et choisissez plutôt une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Condividete la vostra luce senza esaurirvi nel tentativo di impressionare.",
 
-    "Reconnaître votre valeur au-delà des résultats visibles.":
+    "Reconnaître votre valeur au-delà des résultats visibles. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer avec davantage de conscience, sans oublier de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Chaque geste relié à une expression authentique, un projet qui vous ressemble et le plaisir de créer renforcera votre sentiment d’alignement.":
       "Riconoscete il vostro valore al di là dei risultati visibili.",
 
-    "Faire un choix qui reflète davantage votre personnalité profonde.":
+    "Faire un choix qui reflète davantage votre personnalité profonde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre créativité, votre chaleur et votre capacité naturelle à inspirer et à mieux traverser le défi suivant : ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En privilégiant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous créerez les conditions nécessaires pour rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Fate una scelta che rifletta maggiormente la vostra personalità più autentica.",
 
     /* AFFIRMATION */
@@ -1898,22 +1898,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez.":
+    "Cette année, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez. Les mois à venir vous invitent à mieux reconnaître votre créativité, votre chaleur et votre capacité naturelle à inspirer. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une expression authentique, un projet qui vous ressemble et le plaisir de créer. Vous avancerez alors avec plus de clarté et pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Questo mese, la vostra luminosità deriva meno da ciò che mostrate e più dalla sincerità con cui lo mostrate.",
 
-    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent.":
+    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Dans les moments de doute, gardez en tête qu’il est important de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Une décision fondée sur une expression authentique, un projet qui vous ressemble et le plaisir de créer pourrait modifier durablement votre manière d’aborder la suite.":
       "Un’occasione per mettere in luce le vostre qualità potrebbe presentarsi quando smetterete di minimizzare il vostro talento.",
 
-    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre.":
+    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre créativité, votre chaleur et votre capacité naturelle à inspirer, mais votre véritable avancée viendra de votre capacité à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En choisissant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous donnerez une direction plus juste à votre énergie.":
       "La vostra fiducia cresce quando scegliete di creare prima di tutto per voi stessi, invece di cercare di convincere gli altri.",
 
-    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier.":
+    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer, puis veillez à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Cette approche vous aidera à rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Un gesto generoso potrebbe rafforzare un legame, a condizione che non vi costringa a dimenticare voi stessi.",
 
-    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme.":
+    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre créativité, votre chaleur et votre capacité naturelle à inspirer. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Le choix de une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Il vostro cuore riconosce già la direzione che potrebbe riaccendere il vostro entusiasmo.",
 
-    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez.":
+    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre créativité, votre chaleur et votre capacité naturelle à inspirer. Restez attentif(ve) au risque de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En vous recentrant sur une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner et préparer la suite avec davantage de confiance.":
       "Siete invitati a prendere il vostro posto senza scusarvi per la luce che portate.",
   },
 
@@ -1940,22 +1940,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Exprimer votre créativité sans attendre une validation extérieure.":
+    "Exprimer votre créativité sans attendre une validation extérieure. Cette année, cette direction vous aidera à mobiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer. Prenez toutefois le temps de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En revenant à une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Expresse sua criatividade sem esperar validação externa.",
 
-    "Occuper votre place avec confiance et simplicité.":
+    "Occuper votre place avec confiance et simplicité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer et observez les moments où il devient nécessaire de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Votre progression se consolidera grâce à une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Ocupe seu lugar com confiança e simplicidade.",
 
-    "Diriger votre énergie vers ce qui vous rend véritablement fier.":
+    "Diriger votre énergie vers ce qui vous rend véritablement fier. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre créativité, votre chaleur et votre capacité naturelle à inspirer, à condition de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Un retour régulier vers une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra de rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Direcione sua energia para aquilo que realmente traz orgulho a você.",
 
-    "Partager votre lumière sans vous épuiser à impressionner.":
+    "Partager votre lumière sans vous épuiser à impressionner. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Lorsque la tension monte, rappelez-vous de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur et choisissez plutôt une expression authentique, un projet qui vous ressemble et le plaisir de créer.":
       "Compartilhe sua luz sem se esgotar tentando impressionar os outros.",
 
-    "Reconnaître votre valeur au-delà des résultats visibles.":
+    "Reconnaître votre valeur au-delà des résultats visibles. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre créativité, votre chaleur et votre capacité naturelle à inspirer avec davantage de conscience, sans oublier de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Chaque geste relié à une expression authentique, un projet qui vous ressemble et le plaisir de créer renforcera votre sentiment d’alignement.":
       "Reconheça seu valor além dos resultados visíveis.",
 
-    "Faire un choix qui reflète davantage votre personnalité profonde.":
+    "Faire un choix qui reflète davantage votre personnalité profonde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre créativité, votre chaleur et votre capacité naturelle à inspirer et à mieux traverser le défi suivant : ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En privilégiant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous créerez les conditions nécessaires pour rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Faça uma escolha que reflita melhor sua verdadeira personalidade.",
 
     /* AFFIRMATION */
@@ -1980,22 +1980,22 @@ const MANTRA_LION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez.":
+    "Cette année, votre rayonnement vient moins de ce que vous montrez que de la sincérité avec laquelle vous le montrez. Les mois à venir vous invitent à mieux reconnaître votre créativité, votre chaleur et votre capacité naturelle à inspirer. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une expression authentique, un projet qui vous ressemble et le plaisir de créer. Vous avancerez alors avec plus de clarté et pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Neste mês, seu brilho vem menos daquilo que você mostra e mais da sinceridade com que se expressa.",
 
-    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent.":
+    "Une occasion de vous mettre en valeur pourrait apparaître lorsque vous cesserez de minimiser votre talent. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre créativité, votre chaleur et votre capacité naturelle à inspirer. Dans les moments de doute, gardez en tête qu’il est important de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Une décision fondée sur une expression authentique, un projet qui vous ressemble et le plaisir de créer pourrait modifier durablement votre manière d’aborder la suite.":
       "Uma oportunidade de mostrar seu valor poderá surgir quando você deixar de minimizar seu talento.",
 
-    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre.":
+    "Votre confiance grandit lorsque vous choisissez de créer pour vous-même avant de chercher à convaincre. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre créativité, votre chaleur et votre capacité naturelle à inspirer, mais votre véritable avancée viendra de votre capacité à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En choisissant une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous donnerez une direction plus juste à votre énergie.":
       "Sua confiança cresce quando você escolhe criar primeiro para si mesmo antes de tentar convencer os outros.",
 
-    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier.":
+    "Un geste généreux pourrait renforcer un lien, à condition qu’il ne vous oblige pas à vous oublier. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre créativité, votre chaleur et votre capacité naturelle à inspirer, puis veillez à ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Cette approche vous aidera à rayonner avec confiance sans avoir à forcer, prouver ou impressionner.":
       "Um gesto generoso poderá fortalecer um vínculo, desde que não faça você se esquecer de si mesmo.",
 
-    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme.":
+    "Votre cœur reconnaît déjà la direction qui pourrait raviver votre enthousiasme. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre créativité, votre chaleur et votre capacité naturelle à inspirer. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. Le choix de une expression authentique, un projet qui vous ressemble et le plaisir de créer vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Seu coração já reconhece a direção que poderá reacender seu entusiasmo.",
 
-    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez.":
+    "Vous êtes invité à occuper votre place sans vous excuser de la lumière que vous apportez. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre créativité, votre chaleur et votre capacité naturelle à inspirer. Restez attentif(ve) au risque de ne pas mesurer votre valeur uniquement à la reconnaissance ou au regard extérieur. En vous recentrant sur une expression authentique, un projet qui vous ressemble et le plaisir de créer, vous pourrez rayonner avec confiance sans avoir à forcer, prouver ou impressionner et préparer la suite avec davantage de confiance.":
       "Você é convidado a ocupar seu lugar sem pedir desculpas pela luz que traz.",
   },
 };
@@ -2027,22 +2027,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Simplifier une responsabilité devenue inutilement compliquée.":
+    "Simplifier une responsabilité devenue inutilement compliquée. Cette année, cette direction vous aidera à mobiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses. Prenez toutefois le temps de ne pas transformer votre exigence en pression constante ou en autocritique. En revenant à une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Simplify a responsibility that has become unnecessarily complicated.",
 
-    "Remplacer l’autocritique par une observation plus constructive.":
+    "Remplacer l’autocritique par une observation plus constructive. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses et observez les moments où il devient nécessaire de ne pas transformer votre exigence en pression constante ou en autocritique. Votre progression se consolidera grâce à une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Replace self-criticism with a more constructive perspective.",
 
-    "Créer une routine qui soutient réellement votre bien-être.":
+    "Créer une routine qui soutient réellement votre bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discernement, votre sens du détail et votre capacité à améliorer les choses, à condition de ne pas transformer votre exigence en pression constante ou en autocritique. Un retour régulier vers une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra de avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Create a routine that genuinely supports your well-being.",
 
-    "Accepter qu’une solution suffisamment bonne puisse être la meilleure.":
+    "Accepter qu’une solution suffisamment bonne puisse être la meilleure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Lorsque la tension monte, rappelez-vous de ne pas transformer votre exigence en pression constante ou en autocritique et choisissez plutôt une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Accept that a good-enough solution may actually be the best one.",
 
-    "Vous libérer d’une tâche ou d’une attente qui vous épuise.":
+    "Vous libérer d’une tâche ou d’une attente qui vous épuise. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses avec davantage de conscience, sans oublier de ne pas transformer votre exigence en pression constante ou en autocritique. Chaque geste relié à une méthode simple, des attentes réalistes et une place véritable accordée au repos renforcera votre sentiment d’alignement.":
       "Free yourself from a task or expectation that is exhausting you.",
 
-    "Accorder autant d’importance à votre repos qu’à votre productivité.":
+    "Accorder autant d’importance à votre repos qu’à votre productivité. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discernement, votre sens du détail et votre capacité à améliorer les choses et à mieux traverser le défi suivant : ne pas transformer votre exigence en pression constante ou en autocritique. En privilégiant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous créerez les conditions nécessaires pour avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Give your rest as much importance as your productivity.",
 
     /* AFFIRMATION */
@@ -2067,22 +2067,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète.":
+    "Cette année, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète. Les mois à venir vous invitent à mieux reconnaître votre discernement, votre sens du détail et votre capacité à améliorer les choses. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas transformer votre exigence en pression constante ou en autocritique. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une méthode simple, des attentes réalistes et une place véritable accordée au repos. Vous avancerez alors avec plus de clarté et pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "This month, a simple improvement could have more impact than a complete transformation.",
 
-    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger.":
+    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Dans les moments de doute, gardez en tête qu’il est important de ne pas transformer votre exigence en pression constante ou en autocritique. Une décision fondée sur une méthode simple, des attentes réalistes et une place véritable accordée au repos pourrait modifier durablement votre manière d’aborder la suite.":
       "Your precise perspective becomes a strength when you use it to make adjustments rather than judge yourself.",
 
-    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix.":
+    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discernement, votre sens du détail et votre capacité à améliorer les choses, mais votre véritable avancée viendra de votre capacité à ne pas transformer votre exigence en pression constante ou en autocritique. En choisissant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous donnerez une direction plus juste à votre énergie.":
       "You do not need to fix everything to deserve a moment of peace.",
 
-    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien.":
+    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses, puis veillez à ne pas transformer votre exigence en pression constante ou en autocritique. Cette approche vous aidera à avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "A new way of organizing things could lighten both your mind and your daily life.",
 
-    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer.":
+    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discernement, votre sens du détail et votre capacité à améliorer les choses. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas transformer votre exigence en pression constante ou en autocritique. Le choix de une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Perfection always asks more of you, while progress finally allows you to move forward.",
 
-    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance.":
+    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discernement, votre sens du détail et votre capacité à améliorer les choses. Restez attentif(ve) au risque de ne pas transformer votre exigence en pression constante ou en autocritique. En vous recentrant sur une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité et préparer la suite avec davantage de confiance.":
       "You are invited to recognize everything you already accomplish with quiet dedication and consistency.",
   },
 
@@ -2109,22 +2109,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Simplifier une responsabilité devenue inutilement compliquée.":
+    "Simplifier une responsabilité devenue inutilement compliquée. Cette année, cette direction vous aidera à mobiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses. Prenez toutefois le temps de ne pas transformer votre exigence en pression constante ou en autocritique. En revenant à une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Simplifica una responsabilidad que se ha vuelto innecesariamente complicada.",
 
-    "Remplacer l’autocritique par une observation plus constructive.":
+    "Remplacer l’autocritique par une observation plus constructive. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses et observez les moments où il devient nécessaire de ne pas transformer votre exigence en pression constante ou en autocritique. Votre progression se consolidera grâce à une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Sustituye la autocrítica por una observación más constructiva.",
 
-    "Créer une routine qui soutient réellement votre bien-être.":
+    "Créer une routine qui soutient réellement votre bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discernement, votre sens du détail et votre capacité à améliorer les choses, à condition de ne pas transformer votre exigence en pression constante ou en autocritique. Un retour régulier vers une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra de avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Crea una rutina que realmente favorezca tu bienestar.",
 
-    "Accepter qu’une solution suffisamment bonne puisse être la meilleure.":
+    "Accepter qu’une solution suffisamment bonne puisse être la meilleure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Lorsque la tension monte, rappelez-vous de ne pas transformer votre exigence en pression constante ou en autocritique et choisissez plutôt une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Acepta que una solución suficientemente buena puede ser la mejor.",
 
-    "Vous libérer d’une tâche ou d’une attente qui vous épuise.":
+    "Vous libérer d’une tâche ou d’une attente qui vous épuise. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses avec davantage de conscience, sans oublier de ne pas transformer votre exigence en pression constante ou en autocritique. Chaque geste relié à une méthode simple, des attentes réalistes et une place véritable accordée au repos renforcera votre sentiment d’alignement.":
       "Libérate de una tarea o una expectativa que te está agotando.",
 
-    "Accorder autant d’importance à votre repos qu’à votre productivité.":
+    "Accorder autant d’importance à votre repos qu’à votre productivité. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discernement, votre sens du détail et votre capacité à améliorer les choses et à mieux traverser le défi suivant : ne pas transformer votre exigence en pression constante ou en autocritique. En privilégiant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous créerez les conditions nécessaires pour avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Da tanta importancia a tu descanso como a tu productividad.",
 
     /* AFFIRMATION */
@@ -2149,22 +2149,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète.":
+    "Cette année, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète. Les mois à venir vous invitent à mieux reconnaître votre discernement, votre sens du détail et votre capacité à améliorer les choses. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas transformer votre exigence en pression constante ou en autocritique. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une méthode simple, des attentes réalistes et une place véritable accordée au repos. Vous avancerez alors avec plus de clarté et pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Este mes, una mejora sencilla podría tener más efecto que una transformación completa.",
 
-    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger.":
+    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Dans les moments de doute, gardez en tête qu’il est important de ne pas transformer votre exigence en pression constante ou en autocritique. Une décision fondée sur une méthode simple, des attentes réalistes et une place véritable accordée au repos pourrait modifier durablement votre manière d’aborder la suite.":
       "Tu mirada precisa se convierte en una fortaleza cuando la utilizas para ajustar en lugar de juzgarte.",
 
-    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix.":
+    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discernement, votre sens du détail et votre capacité à améliorer les choses, mais votre véritable avancée viendra de votre capacité à ne pas transformer votre exigence en pression constante ou en autocritique. En choisissant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous donnerez une direction plus juste à votre énergie.":
       "No necesitas arreglarlo todo para merecer un momento de paz.",
 
-    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien.":
+    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses, puis veillez à ne pas transformer votre exigence en pression constante ou en autocritique. Cette approche vous aidera à avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Una nueva organización podría aliviar tanto tu mente como tu vida cotidiana.",
 
-    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer.":
+    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discernement, votre sens du détail et votre capacité à améliorer les choses. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas transformer votre exigence en pression constante ou en autocritique. Le choix de une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "La perfección siempre te exige más, mientras que el progreso finalmente te permite avanzar.",
 
-    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance.":
+    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discernement, votre sens du détail et votre capacité à améliorer les choses. Restez attentif(ve) au risque de ne pas transformer votre exigence en pression constante ou en autocritique. En vous recentrant sur une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité et préparer la suite avec davantage de confiance.":
       "Estás invitado a reconocer todo lo que ya logras con discreción y constancia.",
   },
 
@@ -2191,22 +2191,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Simplifier une responsabilité devenue inutilement compliquée.":
+    "Simplifier une responsabilité devenue inutilement compliquée. Cette année, cette direction vous aidera à mobiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses. Prenez toutefois le temps de ne pas transformer votre exigence en pression constante ou en autocritique. En revenant à une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Vereinfachen Sie eine Verantwortung, die unnötig kompliziert geworden ist.",
 
-    "Remplacer l’autocritique par une observation plus constructive.":
+    "Remplacer l’autocritique par une observation plus constructive. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses et observez les moments où il devient nécessaire de ne pas transformer votre exigence en pression constante ou en autocritique. Votre progression se consolidera grâce à une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Ersetzen Sie Selbstkritik durch eine konstruktivere Betrachtungsweise.",
 
-    "Créer une routine qui soutient réellement votre bien-être.":
+    "Créer une routine qui soutient réellement votre bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discernement, votre sens du détail et votre capacité à améliorer les choses, à condition de ne pas transformer votre exigence en pression constante ou en autocritique. Un retour régulier vers une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra de avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Schaffen Sie eine Routine, die Ihr Wohlbefinden wirklich unterstützt.",
 
-    "Accepter qu’une solution suffisamment bonne puisse être la meilleure.":
+    "Accepter qu’une solution suffisamment bonne puisse être la meilleure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Lorsque la tension monte, rappelez-vous de ne pas transformer votre exigence en pression constante ou en autocritique et choisissez plutôt une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Akzeptieren Sie, dass eine ausreichend gute Lösung möglicherweise die beste ist.",
 
-    "Vous libérer d’une tâche ou d’une attente qui vous épuise.":
+    "Vous libérer d’une tâche ou d’une attente qui vous épuise. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses avec davantage de conscience, sans oublier de ne pas transformer votre exigence en pression constante ou en autocritique. Chaque geste relié à une méthode simple, des attentes réalistes et une place véritable accordée au repos renforcera votre sentiment d’alignement.":
       "Befreien Sie sich von einer Aufgabe oder Erwartung, die Sie erschöpft.",
 
-    "Accorder autant d’importance à votre repos qu’à votre productivité.":
+    "Accorder autant d’importance à votre repos qu’à votre productivité. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discernement, votre sens du détail et votre capacité à améliorer les choses et à mieux traverser le défi suivant : ne pas transformer votre exigence en pression constante ou en autocritique. En privilégiant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous créerez les conditions nécessaires pour avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Messen Sie Ihrer Erholung ebenso viel Bedeutung bei wie Ihrer Produktivität.",
 
     /* AFFIRMATION */
@@ -2231,22 +2231,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète.":
+    "Cette année, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète. Les mois à venir vous invitent à mieux reconnaître votre discernement, votre sens du détail et votre capacité à améliorer les choses. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas transformer votre exigence en pression constante ou en autocritique. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une méthode simple, des attentes réalistes et une place véritable accordée au repos. Vous avancerez alors avec plus de clarté et pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "In diesem Monat könnte eine einfache Verbesserung mehr bewirken als eine vollständige Veränderung.",
 
-    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger.":
+    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Dans les moments de doute, gardez en tête qu’il est important de ne pas transformer votre exigence en pression constante ou en autocritique. Une décision fondée sur une méthode simple, des attentes réalistes et une place véritable accordée au repos pourrait modifier durablement votre manière d’aborder la suite.":
       "Ihr genauer Blick wird zu einer Stärke, wenn Sie ihn nutzen, um Anpassungen vorzunehmen, statt sich selbst zu beurteilen.",
 
-    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix.":
+    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discernement, votre sens du détail et votre capacité à améliorer les choses, mais votre véritable avancée viendra de votre capacité à ne pas transformer votre exigence en pression constante ou en autocritique. En choisissant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous donnerez une direction plus juste à votre énergie.":
       "Sie müssen nicht alles in Ordnung bringen, um einen Moment der Ruhe zu verdienen.",
 
-    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien.":
+    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses, puis veillez à ne pas transformer votre exigence en pression constante ou en autocritique. Cette approche vous aidera à avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Eine neue Organisation könnte sowohl Ihren Geist als auch Ihren Alltag erleichtern.",
 
-    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer.":
+    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discernement, votre sens du détail et votre capacité à améliorer les choses. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas transformer votre exigence en pression constante ou en autocritique. Le choix de une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Perfektion verlangt immer mehr von Ihnen, während Fortschritt Ihnen endlich ermöglicht voranzukommen.",
 
-    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance.":
+    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discernement, votre sens du détail et votre capacité à améliorer les choses. Restez attentif(ve) au risque de ne pas transformer votre exigence en pression constante ou en autocritique. En vous recentrant sur une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, all das anzuerkennen, was Sie bereits still und beständig leisten.",
   },
 
@@ -2273,22 +2273,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Simplifier une responsabilité devenue inutilement compliquée.":
+    "Simplifier une responsabilité devenue inutilement compliquée. Cette année, cette direction vous aidera à mobiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses. Prenez toutefois le temps de ne pas transformer votre exigence en pression constante ou en autocritique. En revenant à une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Semplificate una responsabilità diventata inutilmente complicata.",
 
-    "Remplacer l’autocritique par une observation plus constructive.":
+    "Remplacer l’autocritique par une observation plus constructive. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses et observez les moments où il devient nécessaire de ne pas transformer votre exigence en pression constante ou en autocritique. Votre progression se consolidera grâce à une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Sostituite l’autocritica con un’osservazione più costruttiva.",
 
-    "Créer une routine qui soutient réellement votre bien-être.":
+    "Créer une routine qui soutient réellement votre bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discernement, votre sens du détail et votre capacité à améliorer les choses, à condition de ne pas transformer votre exigence en pression constante ou en autocritique. Un retour régulier vers une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra de avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Create una routine che sostenga realmente il vostro benessere.",
 
-    "Accepter qu’une solution suffisamment bonne puisse être la meilleure.":
+    "Accepter qu’une solution suffisamment bonne puisse être la meilleure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Lorsque la tension monte, rappelez-vous de ne pas transformer votre exigence en pression constante ou en autocritique et choisissez plutôt une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Accettate che una soluzione sufficientemente buona possa essere la migliore.",
 
-    "Vous libérer d’une tâche ou d’une attente qui vous épuise.":
+    "Vous libérer d’une tâche ou d’une attente qui vous épuise. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses avec davantage de conscience, sans oublier de ne pas transformer votre exigence en pression constante ou en autocritique. Chaque geste relié à une méthode simple, des attentes réalistes et une place véritable accordée au repos renforcera votre sentiment d’alignement.":
       "Liberatevi da un compito o da un’aspettativa che vi esaurisce.",
 
-    "Accorder autant d’importance à votre repos qu’à votre productivité.":
+    "Accorder autant d’importance à votre repos qu’à votre productivité. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discernement, votre sens du détail et votre capacité à améliorer les choses et à mieux traverser le défi suivant : ne pas transformer votre exigence en pression constante ou en autocritique. En privilégiant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous créerez les conditions nécessaires pour avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Date al vostro riposo la stessa importanza che date alla produttività.",
 
     /* AFFIRMATION */
@@ -2313,22 +2313,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète.":
+    "Cette année, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète. Les mois à venir vous invitent à mieux reconnaître votre discernement, votre sens du détail et votre capacité à améliorer les choses. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas transformer votre exigence en pression constante ou en autocritique. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une méthode simple, des attentes réalistes et une place véritable accordée au repos. Vous avancerez alors avec plus de clarté et pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Questo mese, un semplice miglioramento potrebbe avere più effetto di una trasformazione completa.",
 
-    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger.":
+    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Dans les moments de doute, gardez en tête qu’il est important de ne pas transformer votre exigence en pression constante ou en autocritique. Une décision fondée sur une méthode simple, des attentes réalistes et une place véritable accordée au repos pourrait modifier durablement votre manière d’aborder la suite.":
       "Il vostro sguardo attento diventa una forza quando lo utilizzate per apportare miglioramenti invece di giudicarvi.",
 
-    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix.":
+    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discernement, votre sens du détail et votre capacité à améliorer les choses, mais votre véritable avancée viendra de votre capacité à ne pas transformer votre exigence en pression constante ou en autocritique. En choisissant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous donnerez une direction plus juste à votre énergie.":
       "Non avete bisogno di sistemare tutto per meritare un momento di pace.",
 
-    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien.":
+    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses, puis veillez à ne pas transformer votre exigence en pression constante ou en autocritique. Cette approche vous aidera à avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Una nuova organizzazione potrebbe alleggerire sia la vostra mente sia la vostra vita quotidiana.",
 
-    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer.":
+    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discernement, votre sens du détail et votre capacité à améliorer les choses. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas transformer votre exigence en pression constante ou en autocritique. Le choix de une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "La perfezione vi chiede sempre di più, mentre il progresso vi permette finalmente di avanzare.",
 
-    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance.":
+    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discernement, votre sens du détail et votre capacité à améliorer les choses. Restez attentif(ve) au risque de ne pas transformer votre exigence en pression constante ou en autocritique. En vous recentrant sur une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité et préparer la suite avec davantage de confiance.":
       "Siete invitati a riconoscere tutto ciò che già realizzate con discrezione e costanza.",
   },
 
@@ -2355,22 +2355,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Simplifier une responsabilité devenue inutilement compliquée.":
+    "Simplifier une responsabilité devenue inutilement compliquée. Cette année, cette direction vous aidera à mobiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses. Prenez toutefois le temps de ne pas transformer votre exigence en pression constante ou en autocritique. En revenant à une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Simplifique uma responsabilidade que se tornou desnecessariamente complicada.",
 
-    "Remplacer l’autocritique par une observation plus constructive.":
+    "Remplacer l’autocritique par une observation plus constructive. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses et observez les moments où il devient nécessaire de ne pas transformer votre exigence en pression constante ou en autocritique. Votre progression se consolidera grâce à une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Substitua a autocrítica por uma observação mais construtiva.",
 
-    "Créer une routine qui soutient réellement votre bien-être.":
+    "Créer une routine qui soutient réellement votre bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discernement, votre sens du détail et votre capacité à améliorer les choses, à condition de ne pas transformer votre exigence en pression constante ou en autocritique. Un retour régulier vers une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra de avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Crie uma rotina que realmente favoreça seu bem-estar.",
 
-    "Accepter qu’une solution suffisamment bonne puisse être la meilleure.":
+    "Accepter qu’une solution suffisamment bonne puisse être la meilleure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Lorsque la tension monte, rappelez-vous de ne pas transformer votre exigence en pression constante ou en autocritique et choisissez plutôt une méthode simple, des attentes réalistes et une place véritable accordée au repos.":
       "Aceite que uma solução suficientemente boa pode ser a melhor.",
 
-    "Vous libérer d’une tâche ou d’une attente qui vous épuise.":
+    "Vous libérer d’une tâche ou d’une attente qui vous épuise. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discernement, votre sens du détail et votre capacité à améliorer les choses avec davantage de conscience, sans oublier de ne pas transformer votre exigence en pression constante ou en autocritique. Chaque geste relié à une méthode simple, des attentes réalistes et une place véritable accordée au repos renforcera votre sentiment d’alignement.":
       "Liberte-se de uma tarefa ou expectativa que está esgotando você.",
 
-    "Accorder autant d’importance à votre repos qu’à votre productivité.":
+    "Accorder autant d’importance à votre repos qu’à votre productivité. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discernement, votre sens du détail et votre capacité à améliorer les choses et à mieux traverser le défi suivant : ne pas transformer votre exigence en pression constante ou en autocritique. En privilégiant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous créerez les conditions nécessaires pour avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Dê ao seu descanso a mesma importância que dá à sua produtividade.",
 
     /* AFFIRMATION */
@@ -2395,22 +2395,22 @@ const MANTRA_VIERGE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète.":
+    "Cette année, une amélioration simple pourrait avoir davantage d’effet qu’une transformation complète. Les mois à venir vous invitent à mieux reconnaître votre discernement, votre sens du détail et votre capacité à améliorer les choses. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas transformer votre exigence en pression constante ou en autocritique. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une méthode simple, des attentes réalistes et une place véritable accordée au repos. Vous avancerez alors avec plus de clarté et pourrez avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Neste mês, uma melhoria simples poderá ter mais efeito do que uma transformação completa.",
 
-    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger.":
+    "Votre regard précis devient une force lorsque vous l’utilisez pour ajuster plutôt que pour vous juger. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discernement, votre sens du détail et votre capacité à améliorer les choses. Dans les moments de doute, gardez en tête qu’il est important de ne pas transformer votre exigence en pression constante ou en autocritique. Une décision fondée sur une méthode simple, des attentes réalistes et une place véritable accordée au repos pourrait modifier durablement votre manière d’aborder la suite.":
       "Seu olhar atento se torna uma força quando você o utiliza para fazer ajustes em vez de se julgar.",
 
-    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix.":
+    "Vous n’avez pas besoin de tout réparer pour mériter un moment de paix. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discernement, votre sens du détail et votre capacité à améliorer les choses, mais votre véritable avancée viendra de votre capacité à ne pas transformer votre exigence en pression constante ou en autocritique. En choisissant une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous donnerez une direction plus juste à votre énergie.":
       "Você não precisa consertar tudo para merecer um momento de paz.",
 
-    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien.":
+    "Une nouvelle organisation pourrait alléger autant votre esprit que votre quotidien. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discernement, votre sens du détail et votre capacité à améliorer les choses, puis veillez à ne pas transformer votre exigence en pression constante ou en autocritique. Cette approche vous aidera à avancer avec précision tout en préservant votre énergie et votre sérénité.":
       "Uma nova organização poderá aliviar tanto sua mente quanto sua vida cotidiana.",
 
-    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer.":
+    "La perfection vous demande toujours davantage, tandis que la progression vous permet enfin d’avancer. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discernement, votre sens du détail et votre capacité à améliorer les choses. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas transformer votre exigence en pression constante ou en autocritique. Le choix de une méthode simple, des attentes réalistes et une place véritable accordée au repos vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A perfeição sempre exige mais de você, enquanto o progresso finalmente permite que avance.",
 
-    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance.":
+    "Vous êtes invité à reconnaître tout ce que vous accomplissez déjà avec discrétion et constance. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discernement, votre sens du détail et votre capacité à améliorer les choses. Restez attentif(ve) au risque de ne pas transformer votre exigence en pression constante ou en autocritique. En vous recentrant sur une méthode simple, des attentes réalistes et une place véritable accordée au repos, vous pourrez avancer avec précision tout en préservant votre énergie et votre sérénité et préparer la suite avec davantage de confiance.":
       "Você é convidado a reconhecer tudo o que já realiza com discrição e constância.",
   },
 };
@@ -2442,22 +2442,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Prendre une décision en vous appuyant d’abord sur vos propres besoins.":
+    "Prendre une décision en vous appuyant d’abord sur vos propres besoins. Cette année, cette direction vous aidera à mobiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Prenez toutefois le temps de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En revenant à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Make a decision by first considering your own needs.",
 
-    "Rétablir l’équilibre dans une relation ou une responsabilité.":
+    "Rétablir l’équilibre dans une relation ou une responsabilité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et observez les moments où il devient nécessaire de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Votre progression se consolidera grâce à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Restore balance in a relationship or responsibility.",
 
-    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir.":
+    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, à condition de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Un retour régulier vers une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra de construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Express your disagreement without immediately trying to soften it.",
 
-    "Créer davantage de beauté et de calme dans votre environnement.":
+    "Créer davantage de beauté et de calme dans votre environnement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Lorsque la tension monte, rappelez-vous de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle et choisissez plutôt une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Create more beauty and calm in your environment.",
 
-    "Distinguer la véritable harmonie de l’évitement du conflit.":
+    "Distinguer la véritable harmonie de l’évitement du conflit. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle avec davantage de conscience, sans oublier de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Chaque geste relié à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques renforcera votre sentiment d’alignement.":
       "Distinguish genuine harmony from conflict avoidance.",
 
-    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde.":
+    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et à mieux traverser le défi suivant : ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En privilégiant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous créerez les conditions nécessaires pour construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Choose what reflects who you are rather than what pleases everyone.",
 
     /* AFFIRMATION */
@@ -2482,22 +2482,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous.":
+    "Cette année, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous. Les mois à venir vous invitent à mieux reconnaître votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques. Vous avancerez alors avec plus de clarté et pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "This month, an important decision could become obvious when you stop seeking everyone's agreement.",
 
-    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange.":
+    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Une décision fondée sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques pourrait modifier durablement votre manière d’aborder la suite.":
       "True harmony begins when your own voice has an equal place in the conversation.",
 
-    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse.":
+    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, mais votre véritable avancée viendra de votre capacité à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En choisissant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous donnerez une direction plus juste à votre énergie.":
       "A relationship could deepen through an honest and respectful conversation.",
 
-    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre.":
+    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, puis veillez à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Cette approche vous aidera à construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Your gentleness is precious, but it does not require you to accept what throws you off balance.",
 
-    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement.":
+    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Le choix de une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "An aesthetic, relational, or personal choice could renew your sense of alignment.",
 
-    "Vous êtes invité à créer une paix qui ne demande plus votre effacement.":
+    "Vous êtes invité à créer une paix qui ne demande plus votre effacement. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Restez attentif(ve) au risque de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En vous recentrant sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître et préparer la suite avec davantage de confiance.":
       "You are invited to create a peace that no longer requires you to erase yourself.",
   },
 
@@ -2524,22 +2524,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Prendre une décision en vous appuyant d’abord sur vos propres besoins.":
+    "Prendre une décision en vous appuyant d’abord sur vos propres besoins. Cette année, cette direction vous aidera à mobiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Prenez toutefois le temps de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En revenant à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Toma una decisión apoyándote primero en tus propias necesidades.",
 
-    "Rétablir l’équilibre dans une relation ou une responsabilité.":
+    "Rétablir l’équilibre dans une relation ou une responsabilité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et observez les moments où il devient nécessaire de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Votre progression se consolidera grâce à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Restablece el equilibrio en una relación o una responsabilidad.",
 
-    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir.":
+    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, à condition de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Un retour régulier vers une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra de construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Expresa tu desacuerdo sin intentar suavizarlo inmediatamente.",
 
-    "Créer davantage de beauté et de calme dans votre environnement.":
+    "Créer davantage de beauté et de calme dans votre environnement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Lorsque la tension monte, rappelez-vous de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle et choisissez plutôt une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Crea más belleza y calma en tu entorno.",
 
-    "Distinguer la véritable harmonie de l’évitement du conflit.":
+    "Distinguer la véritable harmonie de l’évitement du conflit. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle avec davantage de conscience, sans oublier de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Chaque geste relié à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques renforcera votre sentiment d’alignement.":
       "Distingue la verdadera armonía de la evitación del conflicto.",
 
-    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde.":
+    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et à mieux traverser le défi suivant : ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En privilégiant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous créerez les conditions nécessaires pour construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Elige aquello que realmente te representa en lugar de lo que agrada a todo el mundo.",
 
     /* AFFIRMATION */
@@ -2564,22 +2564,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous.":
+    "Cette année, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous. Les mois à venir vous invitent à mieux reconnaître votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques. Vous avancerez alors avec plus de clarté et pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Este mes, una decisión importante podría volverse evidente cuando dejes de buscar el acuerdo de todos.",
 
-    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange.":
+    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Une décision fondée sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques pourrait modifier durablement votre manière d’aborder la suite.":
       "La verdadera armonía comienza cuando tu propia voz ocupa un lugar igual dentro del intercambio.",
 
-    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse.":
+    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, mais votre véritable avancée viendra de votre capacité à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En choisissant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous donnerez une direction plus juste à votre énergie.":
       "Una relación podría ganar profundidad gracias a una conversación honesta y respetuosa.",
 
-    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre.":
+    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, puis veillez à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Cette approche vous aidera à construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Tu dulzura es valiosa, pero no te obliga a aceptar aquello que rompe tu equilibrio.",
 
-    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement.":
+    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Le choix de une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una elección estética, relacional o personal podría reavivar tu sensación de armonía interior.",
 
-    "Vous êtes invité à créer une paix qui ne demande plus votre effacement.":
+    "Vous êtes invité à créer une paix qui ne demande plus votre effacement. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Restez attentif(ve) au risque de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En vous recentrant sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître et préparer la suite avec davantage de confiance.":
       "Estás invitado a crear una paz que ya no requiera que te borres a ti mismo.",
   },
 
@@ -2606,22 +2606,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Prendre une décision en vous appuyant d’abord sur vos propres besoins.":
+    "Prendre une décision en vous appuyant d’abord sur vos propres besoins. Cette année, cette direction vous aidera à mobiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Prenez toutefois le temps de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En revenant à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Treffen Sie eine Entscheidung, indem Sie zunächst Ihre eigenen Bedürfnisse berücksichtigen.",
 
-    "Rétablir l’équilibre dans une relation ou une responsabilité.":
+    "Rétablir l’équilibre dans une relation ou une responsabilité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et observez les moments où il devient nécessaire de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Votre progression se consolidera grâce à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Stellen Sie das Gleichgewicht in einer Beziehung oder Verantwortung wieder her.",
 
-    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir.":
+    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, à condition de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Un retour régulier vers une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra de construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Drücken Sie Ihre Meinungsverschiedenheit aus, ohne sie sofort abschwächen zu wollen.",
 
-    "Créer davantage de beauté et de calme dans votre environnement.":
+    "Créer davantage de beauté et de calme dans votre environnement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Lorsque la tension monte, rappelez-vous de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle et choisissez plutôt une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Schaffen Sie mehr Schönheit und Ruhe in Ihrer Umgebung.",
 
-    "Distinguer la véritable harmonie de l’évitement du conflit.":
+    "Distinguer la véritable harmonie de l’évitement du conflit. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle avec davantage de conscience, sans oublier de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Chaque geste relié à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques renforcera votre sentiment d’alignement.":
       "Unterscheiden Sie echte Harmonie von Konfliktvermeidung.",
 
-    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde.":
+    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et à mieux traverser le défi suivant : ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En privilégiant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous créerez les conditions nécessaires pour construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Wählen Sie das, was wirklich zu Ihnen passt, statt das, was allen gefällt.",
 
     /* AFFIRMATION */
@@ -2646,22 +2646,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous.":
+    "Cette année, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous. Les mois à venir vous invitent à mieux reconnaître votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques. Vous avancerez alors avec plus de clarté et pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "In diesem Monat könnte eine wichtige Entscheidung offensichtlich werden, sobald Sie aufhören, die Zustimmung aller zu suchen.",
 
-    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange.":
+    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Une décision fondée sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques pourrait modifier durablement votre manière d’aborder la suite.":
       "Wahre Harmonie beginnt, wenn auch Ihre eigene Stimme einen gleichberechtigten Platz im Austausch erhält.",
 
-    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse.":
+    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, mais votre véritable avancée viendra de votre capacité à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En choisissant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous donnerez une direction plus juste à votre énergie.":
       "Eine Beziehung könnte durch ein ehrliches und respektvolles Gespräch an Tiefe gewinnen.",
 
-    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre.":
+    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, puis veillez à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Cette approche vous aidera à construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Ihre Sanftheit ist wertvoll, verpflichtet Sie aber nicht dazu, das zu akzeptieren, was Sie aus dem Gleichgewicht bringt.",
 
-    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement.":
+    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Le choix de une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Eine ästhetische, zwischenmenschliche oder persönliche Entscheidung könnte Ihr Gefühl innerer Stimmigkeit neu beleben.",
 
-    "Vous êtes invité à créer une paix qui ne demande plus votre effacement.":
+    "Vous êtes invité à créer une paix qui ne demande plus votre effacement. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Restez attentif(ve) au risque de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En vous recentrant sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, einen Frieden zu schaffen, der nicht länger verlangt, dass Sie sich selbst zurücknehmen.",
   },
 
@@ -2688,22 +2688,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Prendre une décision en vous appuyant d’abord sur vos propres besoins.":
+    "Prendre une décision en vous appuyant d’abord sur vos propres besoins. Cette année, cette direction vous aidera à mobiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Prenez toutefois le temps de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En revenant à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Prendete una decisione partendo innanzitutto dai vostri bisogni.",
 
-    "Rétablir l’équilibre dans une relation ou une responsabilité.":
+    "Rétablir l’équilibre dans une relation ou une responsabilité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et observez les moments où il devient nécessaire de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Votre progression se consolidera grâce à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Ristabilite l’equilibrio in una relazione o in una responsabilità.",
 
-    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir.":
+    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, à condition de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Un retour régulier vers une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra de construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Esprimete il vostro disaccordo senza cercare immediatamente di attenuarlo.",
 
-    "Créer davantage de beauté et de calme dans votre environnement.":
+    "Créer davantage de beauté et de calme dans votre environnement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Lorsque la tension monte, rappelez-vous de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle et choisissez plutôt une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Create più bellezza e tranquillità nel vostro ambiente.",
 
-    "Distinguer la véritable harmonie de l’évitement du conflit.":
+    "Distinguer la véritable harmonie de l’évitement du conflit. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle avec davantage de conscience, sans oublier de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Chaque geste relié à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques renforcera votre sentiment d’alignement.":
       "Distinguete la vera armonia dall’evitare il conflitto.",
 
-    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde.":
+    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et à mieux traverser le défi suivant : ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En privilégiant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous créerez les conditions nécessaires pour construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Scegliete ciò che vi rappresenta veramente invece di ciò che piace a tutti.",
 
     /* AFFIRMATION */
@@ -2728,22 +2728,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous.":
+    "Cette année, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous. Les mois à venir vous invitent à mieux reconnaître votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques. Vous avancerez alors avec plus de clarté et pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Questo mese, una decisione importante potrebbe diventare evidente quando smetterete di cercare l’accordo di tutti.",
 
-    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange.":
+    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Une décision fondée sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques pourrait modifier durablement votre manière d’aborder la suite.":
       "La vera armonia comincia quando anche la vostra voce occupa uno spazio uguale nello scambio.",
 
-    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse.":
+    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, mais votre véritable avancée viendra de votre capacité à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En choisissant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous donnerez une direction plus juste à votre énergie.":
       "Una relazione potrebbe diventare più profonda grazie a una conversazione sincera e rispettosa.",
 
-    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre.":
+    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, puis veillez à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Cette approche vous aidera à construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "La vostra dolcezza è preziosa, ma non vi obbliga ad accettare ciò che vi fa perdere l’equilibrio.",
 
-    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement.":
+    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Le choix de une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una scelta estetica, relazionale o personale potrebbe ravvivare il vostro senso di armonia interiore.",
 
-    "Vous êtes invité à créer une paix qui ne demande plus votre effacement.":
+    "Vous êtes invité à créer une paix qui ne demande plus votre effacement. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Restez attentif(ve) au risque de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En vous recentrant sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître et préparer la suite avec davantage de confiance.":
       "Siete invitati a creare una pace che non richieda più di mettere voi stessi da parte.",
   },
 
@@ -2770,22 +2770,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Prendre une décision en vous appuyant d’abord sur vos propres besoins.":
+    "Prendre une décision en vous appuyant d’abord sur vos propres besoins. Cette année, cette direction vous aidera à mobiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Prenez toutefois le temps de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En revenant à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Tome uma decisão considerando primeiro suas próprias necessidades.",
 
-    "Rétablir l’équilibre dans une relation ou une responsabilité.":
+    "Rétablir l’équilibre dans une relation ou une responsabilité. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et observez les moments où il devient nécessaire de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Votre progression se consolidera grâce à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Restabeleça o equilíbrio em um relacionamento ou em uma responsabilidade.",
 
-    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir.":
+    "Exprimer votre désaccord sans chercher immédiatement à l’adoucir. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, à condition de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Un retour régulier vers une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra de construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Expresse sua discordância sem tentar suavizá-la imediatamente.",
 
-    "Créer davantage de beauté et de calme dans votre environnement.":
+    "Créer davantage de beauté et de calme dans votre environnement. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Lorsque la tension monte, rappelez-vous de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle et choisissez plutôt une décision fidèle à vos valeurs, des limites claires et des échanges réciproques.":
       "Crie mais beleza e tranquilidade em seu ambiente.",
 
-    "Distinguer la véritable harmonie de l’évitement du conflit.":
+    "Distinguer la véritable harmonie de l’évitement du conflit. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle avec davantage de conscience, sans oublier de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Chaque geste relié à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques renforcera votre sentiment d’alignement.":
       "Diferencie a verdadeira harmonia da simples tentativa de evitar conflitos.",
 
-    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde.":
+    "Choisir ce qui vous ressemble plutôt que ce qui plaît à tout le monde. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle et à mieux traverser le défi suivant : ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En privilégiant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous créerez les conditions nécessaires pour construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Escolha aquilo que realmente combina com você, em vez do que agrada a todos.",
 
     /* AFFIRMATION */
@@ -2810,22 +2810,22 @@ const MANTRA_BALANCE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous.":
+    "Cette année, une décision importante pourrait devenir évidente lorsque vous cesserez de chercher l’accord de tous. Les mois à venir vous invitent à mieux reconnaître votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une décision fidèle à vos valeurs, des limites claires et des échanges réciproques. Vous avancerez alors avec plus de clarté et pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Neste mês, uma decisão importante poderá se tornar evidente quando você deixar de buscar a aprovação de todos.",
 
-    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange.":
+    "L’harmonie véritable commence lorsque votre propre voix possède une place égale dans l’échange. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Une décision fondée sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques pourrait modifier durablement votre manière d’aborder la suite.":
       "A verdadeira harmonia começa quando sua própria voz ocupa um lugar de igual importância na conversa.",
 
-    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse.":
+    "Une relation pourrait gagner en profondeur grâce à une conversation honnête et respectueuse. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, mais votre véritable avancée viendra de votre capacité à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En choisissant une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous donnerez une direction plus juste à votre énergie.":
       "Um relacionamento poderá ganhar mais profundidade por meio de uma conversa sincera e respeitosa.",
 
-    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre.":
+    "Votre douceur est précieuse, mais elle ne vous oblige pas à accepter ce qui vous déséquilibre. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle, puis veillez à ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Cette approche vous aidera à construire une paix qui inclut votre propre voix au lieu de la faire disparaître.":
       "Sua delicadeza é valiosa, mas não obriga você a aceitar aquilo que tira seu equilíbrio.",
 
-    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement.":
+    "Un choix esthétique, relationnel ou personnel pourrait raviver votre sentiment d’alignement. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. Le choix de une décision fidèle à vos valeurs, des limites claires et des échanges réciproques vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Uma escolha estética, relacional ou pessoal poderá renovar sua sensação de alinhamento.",
 
-    "Vous êtes invité à créer une paix qui ne demande plus votre effacement.":
+    "Vous êtes invité à créer une paix qui ne demande plus votre effacement. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre sens de l’équilibre, votre diplomatie et votre intelligence relationnelle. Restez attentif(ve) au risque de ne pas vous effacer pour éviter un désaccord ou maintenir une harmonie superficielle. En vous recentrant sur une décision fidèle à vos valeurs, des limites claires et des échanges réciproques, vous pourrez construire une paix qui inclut votre propre voix au lieu de la faire disparaître et préparer la suite avec davantage de confiance.":
       "Você é convidado a criar uma paz que não exija mais que você se apague.",
   },
 };
@@ -2857,22 +2857,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Libérer une émotion ou une situation devenue trop lourde.":
+    "Libérer une émotion ou une situation devenue trop lourde. Cette année, cette direction vous aidera à mobiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Prenez toutefois le temps de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En revenant à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Release an emotion or situation that has become too heavy.",
 
-    "Transformer une peur en compréhension plus profonde.":
+    "Transformer une peur en compréhension plus profonde. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et observez les moments où il devient nécessaire de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Votre progression se consolidera grâce à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Transform a fear into deeper understanding.",
 
-    "Choisir la transparence dans une relation importante.":
+    "Choisir la transparence dans une relation importante. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, à condition de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Un retour régulier vers une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra de faire de votre intensité une force de guérison, de création et de renaissance.":
       "Choose transparency in an important relationship.",
 
-    "Protéger votre énergie sans construire de murs inutiles.":
+    "Protéger votre énergie sans construire de murs inutiles. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Lorsque la tension monte, rappelez-vous de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités et choisissez plutôt une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Protect your energy without building unnecessary walls.",
 
-    "Accueillir un changement qui vous rapproche de votre vérité.":
+    "Accueillir un changement qui vous rapproche de votre vérité. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation avec davantage de conscience, sans oublier de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Chaque geste relié à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir renforcera votre sentiment d’alignement.":
       "Welcome a change that brings you closer to your truth.",
 
-    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire.":
+    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et à mieux traverser le défi suivant : ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En privilégiant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous créerez les conditions nécessaires pour faire de votre intensité une force de guérison, de création et de renaissance.":
       "Use your intuition to move forward rather than anticipate the worst.",
 
     /* AFFIRMATION */
@@ -2897,22 +2897,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation.":
+    "Cette année, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation. Les mois à venir vous invitent à mieux reconnaître votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir. Vous avancerez alors avec plus de clarté et pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "This month, an inner transformation could profoundly change the way you approach a situation.",
 
-    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous.":
+    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Dans les moments de doute, gardez en tête qu’il est important de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Une décision fondée sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir pourrait modifier durablement votre manière d’aborder la suite.":
       "What you are willing to face honestly gradually loses its power over you.",
 
-    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir.":
+    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, mais votre véritable avancée viendra de votre capacité à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En choisissant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous donnerez une direction plus juste à votre énergie.":
       "An emotional truth could free you more than the control you are trying to maintain.",
 
-    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs.":
+    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, puis veillez à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Cette approche vous aidera à faire de votre intensité une force de guérison, de création et de renaissance.":
       "Your intuition is especially valuable when it remains separate from your old fears.",
 
-    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses.":
+    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Le choix de une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A relationship could become stronger if both people are willing to lower their defenses.",
 
-    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger.":
+    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Restez attentif(ve) au risque de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En vous recentrant sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance et préparer la suite avec davantage de confiance.":
       "You are invited to let an old version of yourself fall away so that the one ready to emerge can take its place.",
   },
 
@@ -2939,22 +2939,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Libérer une émotion ou une situation devenue trop lourde.":
+    "Libérer une émotion ou une situation devenue trop lourde. Cette année, cette direction vous aidera à mobiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Prenez toutefois le temps de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En revenant à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Libera una emoción o una situación que se ha vuelto demasiado pesada.",
 
-    "Transformer une peur en compréhension plus profonde.":
+    "Transformer une peur en compréhension plus profonde. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et observez les moments où il devient nécessaire de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Votre progression se consolidera grâce à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Transforma un miedo en una comprensión más profunda.",
 
-    "Choisir la transparence dans une relation importante.":
+    "Choisir la transparence dans une relation importante. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, à condition de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Un retour régulier vers une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra de faire de votre intensité une force de guérison, de création et de renaissance.":
       "Elige la transparencia en una relación importante.",
 
-    "Protéger votre énergie sans construire de murs inutiles.":
+    "Protéger votre énergie sans construire de murs inutiles. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Lorsque la tension monte, rappelez-vous de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités et choisissez plutôt une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Protege tu energía sin construir muros innecesarios.",
 
-    "Accueillir un changement qui vous rapproche de votre vérité.":
+    "Accueillir un changement qui vous rapproche de votre vérité. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation avec davantage de conscience, sans oublier de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Chaque geste relié à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir renforcera votre sentiment d’alignement.":
       "Acoge un cambio que te acerque a tu verdad.",
 
-    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire.":
+    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et à mieux traverser le défi suivant : ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En privilégiant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous créerez les conditions nécessaires pour faire de votre intensité une force de guérison, de création et de renaissance.":
       "Utiliza tu intuición para avanzar en lugar de anticipar lo peor.",
 
     /* AFFIRMATION */
@@ -2979,22 +2979,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation.":
+    "Cette année, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation. Les mois à venir vous invitent à mieux reconnaître votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir. Vous avancerez alors avec plus de clarté et pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Este mes, una transformación interior podría modificar profundamente tu manera de afrontar una situación.",
 
-    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous.":
+    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Dans les moments de doute, gardez en tête qu’il est important de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Une décision fondée sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir pourrait modifier durablement votre manière d’aborder la suite.":
       "Aquello que aceptas mirar con honestidad pierde progresivamente su poder sobre ti.",
 
-    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir.":
+    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, mais votre véritable avancée viendra de votre capacité à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En choisissant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous donnerez une direction plus juste à votre énergie.":
       "Una verdad emocional podría liberarte más que el control que intentas mantener.",
 
-    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs.":
+    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, puis veillez à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Cette approche vous aidera à faire de votre intensité une force de guérison, de création et de renaissance.":
       "Tu intuición es especialmente valiosa cuando permanece separada de tus antiguos miedos.",
 
-    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses.":
+    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Le choix de une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una relación podría volverse más sólida si ambos aceptan bajar sus defensas.",
 
-    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger.":
+    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Restez attentif(ve) au risque de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En vous recentrant sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance et préparer la suite avec davantage de confiance.":
       "Estás invitado a dejar atrás una antigua versión de ti para dar espacio a la que desea emerger.",
   },
 
@@ -3021,22 +3021,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Libérer une émotion ou une situation devenue trop lourde.":
+    "Libérer une émotion ou une situation devenue trop lourde. Cette année, cette direction vous aidera à mobiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Prenez toutefois le temps de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En revenant à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Lassen Sie ein Gefühl oder eine Situation los, die zu belastend geworden ist.",
 
-    "Transformer une peur en compréhension plus profonde.":
+    "Transformer une peur en compréhension plus profonde. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et observez les moments où il devient nécessaire de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Votre progression se consolidera grâce à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Verwandeln Sie eine Angst in ein tieferes Verständnis.",
 
-    "Choisir la transparence dans une relation importante.":
+    "Choisir la transparence dans une relation importante. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, à condition de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Un retour régulier vers une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra de faire de votre intensité une force de guérison, de création et de renaissance.":
       "Entscheiden Sie sich in einer wichtigen Beziehung für Offenheit.",
 
-    "Protéger votre énergie sans construire de murs inutiles.":
+    "Protéger votre énergie sans construire de murs inutiles. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Lorsque la tension monte, rappelez-vous de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités et choisissez plutôt une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Schützen Sie Ihre Energie, ohne unnötige Mauern zu errichten.",
 
-    "Accueillir un changement qui vous rapproche de votre vérité.":
+    "Accueillir un changement qui vous rapproche de votre vérité. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation avec davantage de conscience, sans oublier de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Chaque geste relié à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir renforcera votre sentiment d’alignement.":
       "Nehmen Sie eine Veränderung an, die Sie Ihrer Wahrheit näherbringt.",
 
-    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire.":
+    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et à mieux traverser le défi suivant : ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En privilégiant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous créerez les conditions nécessaires pour faire de votre intensité une force de guérison, de création et de renaissance.":
       "Nutzen Sie Ihre Intuition, um voranzukommen, statt das Schlimmste vorauszuahnen.",
 
     /* AFFIRMATION */
@@ -3061,22 +3061,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation.":
+    "Cette année, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation. Les mois à venir vous invitent à mieux reconnaître votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir. Vous avancerez alors avec plus de clarté et pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "In diesem Monat könnte eine innere Veränderung Ihre Art, mit einer Situation umzugehen, grundlegend verändern.",
 
-    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous.":
+    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Dans les moments de doute, gardez en tête qu’il est important de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Une décision fondée sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir pourrait modifier durablement votre manière d’aborder la suite.":
       "Was Sie bereit sind, ehrlich anzusehen, verliert nach und nach seine Macht über Sie.",
 
-    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir.":
+    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, mais votre véritable avancée viendra de votre capacité à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En choisissant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous donnerez une direction plus juste à votre énergie.":
       "Eine emotionale Wahrheit könnte Sie stärker befreien als die Kontrolle, die Sie aufrechtzuerhalten versuchen.",
 
-    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs.":
+    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, puis veillez à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Cette approche vous aidera à faire de votre intensité une force de guérison, de création et de renaissance.":
       "Ihre Intuition ist besonders wertvoll, wenn sie von Ihren alten Ängsten getrennt bleibt.",
 
-    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses.":
+    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Le choix de une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Eine Beziehung könnte stabiler werden, wenn beide bereit sind, ihre Schutzmechanismen abzulegen.",
 
-    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger.":
+    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Restez attentif(ve) au risque de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En vous recentrant sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, eine alte Version Ihrer selbst loszulassen, damit diejenige Raum bekommt, die jetzt entstehen möchte.",
   },
 
@@ -3103,22 +3103,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Libérer une émotion ou une situation devenue trop lourde.":
+    "Libérer une émotion ou une situation devenue trop lourde. Cette année, cette direction vous aidera à mobiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Prenez toutefois le temps de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En revenant à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Lasciate andare un’emozione o una situazione diventata troppo pesante.",
 
-    "Transformer une peur en compréhension plus profonde.":
+    "Transformer une peur en compréhension plus profonde. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et observez les moments où il devient nécessaire de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Votre progression se consolidera grâce à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Trasformate una paura in una comprensione più profonda.",
 
-    "Choisir la transparence dans une relation importante.":
+    "Choisir la transparence dans une relation importante. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, à condition de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Un retour régulier vers une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra de faire de votre intensité une force de guérison, de création et de renaissance.":
       "Scegliete la trasparenza in una relazione importante.",
 
-    "Protéger votre énergie sans construire de murs inutiles.":
+    "Protéger votre énergie sans construire de murs inutiles. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Lorsque la tension monte, rappelez-vous de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités et choisissez plutôt une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Proteggete la vostra energia senza costruire muri inutili.",
 
-    "Accueillir un changement qui vous rapproche de votre vérité.":
+    "Accueillir un changement qui vous rapproche de votre vérité. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation avec davantage de conscience, sans oublier de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Chaque geste relié à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir renforcera votre sentiment d’alignement.":
       "Accogliete un cambiamento che vi avvicina alla vostra verità.",
 
-    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire.":
+    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et à mieux traverser le défi suivant : ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En privilégiant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous créerez les conditions nécessaires pour faire de votre intensité une force de guérison, de création et de renaissance.":
       "Utilizzate la vostra intuizione per avanzare invece di anticipare il peggio.",
 
     /* AFFIRMATION */
@@ -3143,22 +3143,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation.":
+    "Cette année, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation. Les mois à venir vous invitent à mieux reconnaître votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir. Vous avancerez alors avec plus de clarté et pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Questo mese, una trasformazione interiore potrebbe cambiare profondamente il vostro modo di affrontare una situazione.",
 
-    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous.":
+    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Dans les moments de doute, gardez en tête qu’il est important de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Une décision fondée sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir pourrait modifier durablement votre manière d’aborder la suite.":
       "Ciò che accettate di guardare con sincerità perde progressivamente il suo potere su di voi.",
 
-    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir.":
+    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, mais votre véritable avancée viendra de votre capacité à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En choisissant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous donnerez une direction plus juste à votre énergie.":
       "Una verità emotiva potrebbe liberarvi più del controllo che cercate di mantenere.",
 
-    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs.":
+    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, puis veillez à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Cette approche vous aidera à faire de votre intensité une force de guérison, de création et de renaissance.":
       "La vostra intuizione è particolarmente preziosa quando rimane separata dalle vostre vecchie paure.",
 
-    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses.":
+    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Le choix de une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una relazione potrebbe diventare più solida se entrambi accettano di abbassare le proprie difese.",
 
-    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger.":
+    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Restez attentif(ve) au risque de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En vous recentrant sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance et préparer la suite avec davantage de confiance.":
       "Siete invitati a lasciare andare una vecchia versione di voi stessi per fare spazio a quella che desidera emergere.",
   },
 
@@ -3185,22 +3185,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Libérer une émotion ou une situation devenue trop lourde.":
+    "Libérer une émotion ou une situation devenue trop lourde. Cette année, cette direction vous aidera à mobiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Prenez toutefois le temps de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En revenant à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Libere uma emoção ou situação que se tornou pesada demais.",
 
-    "Transformer une peur en compréhension plus profonde.":
+    "Transformer une peur en compréhension plus profonde. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et observez les moments où il devient nécessaire de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Votre progression se consolidera grâce à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Transforme um medo em uma compreensão mais profunda.",
 
-    "Choisir la transparence dans une relation importante.":
+    "Choisir la transparence dans une relation importante. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, à condition de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Un retour régulier vers une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra de faire de votre intensité une force de guérison, de création et de renaissance.":
       "Escolha a transparência em um relacionamento importante.",
 
-    "Protéger votre énergie sans construire de murs inutiles.":
+    "Protéger votre énergie sans construire de murs inutiles. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Lorsque la tension monte, rappelez-vous de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités et choisissez plutôt une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir.":
       "Proteja sua energia sem construir barreiras desnecessárias.",
 
-    "Accueillir un changement qui vous rapproche de votre vérité.":
+    "Accueillir un changement qui vous rapproche de votre vérité. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation avec davantage de conscience, sans oublier de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Chaque geste relié à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir renforcera votre sentiment d’alignement.":
       "Acolha uma mudança que aproxime você de sua verdade.",
 
-    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire.":
+    "Utiliser votre intuition pour avancer plutôt que pour anticiper le pire. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation et à mieux traverser le défi suivant : ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En privilégiant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous créerez les conditions nécessaires pour faire de votre intensité une force de guérison, de création et de renaissance.":
       "Use sua intuição para avançar em vez de antecipar o pior.",
 
     /* AFFIRMATION */
@@ -3225,22 +3225,22 @@ const MANTRA_SCORPION_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation.":
+    "Cette année, une transformation intérieure pourrait modifier profondément votre manière d’aborder une situation. Les mois à venir vous invitent à mieux reconnaître votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir. Vous avancerez alors avec plus de clarté et pourrez faire de votre intensité une force de guérison, de création et de renaissance.":
       "Neste mês, uma transformação interior poderá modificar profundamente sua maneira de lidar com uma situação.",
 
-    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous.":
+    "Ce que vous acceptez de regarder avec honnêteté perd progressivement son pouvoir sur vous. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Dans les moments de doute, gardez en tête qu’il est important de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Une décision fondée sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir pourrait modifier durablement votre manière d’aborder la suite.":
       "Aquilo que você aceita observar com honestidade perde progressivamente seu poder sobre você.",
 
-    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir.":
+    "Une vérité émotionnelle pourrait vous libérer davantage que le contrôle que vous tentez de maintenir. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, mais votre véritable avancée viendra de votre capacité à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En choisissant une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous donnerez une direction plus juste à votre énergie.":
       "Uma verdade emocional poderá libertar você mais do que o controle que tenta manter.",
 
-    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs.":
+    "Votre intuition est particulièrement précieuse lorsqu’elle reste séparée de vos anciennes peurs. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation, puis veillez à ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Cette approche vous aidera à faire de votre intensité une force de guérison, de création et de renaissance.":
       "Sua intuição é especialmente valiosa quando permanece separada de seus antigos medos.",
 
-    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses.":
+    "Une relation pourrait devenir plus solide si chacun accepte de déposer ses défenses. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. Le choix de une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Um relacionamento poderá se tornar mais sólido se ambos aceitarem baixar suas defesas.",
 
-    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger.":
+    "Vous êtes invité à laisser mourir une ancienne version de vous afin de faire place à celle qui souhaite émerger. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre profondeur, votre lucidité et votre capacité exceptionnelle de transformation. Restez attentif(ve) au risque de ne pas laisser la peur, la méfiance ou le besoin de contrôle fermer les possibilités. En vous recentrant sur une vérité assumée, une émotion accueillie et une action qui vous rend votre pouvoir, vous pourrez faire de votre intensité une force de guérison, de création et de renaissance et préparer la suite avec davantage de confiance.":
       "Você é convidado a deixar para trás uma antiga versão de si mesmo para abrir espaço para aquela que deseja emergir.",
   },
 };
@@ -3272,22 +3272,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Explorer une possibilité nouvelle tout en gardant un objectif précis.":
+    "Explorer une possibilité nouvelle tout en gardant un objectif précis. Cette année, cette direction vous aidera à mobiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Prenez toutefois le temps de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En revenant à une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Explore a new possibility while keeping a clear goal in mind.",
 
-    "Transformer une inspiration en projet concret.":
+    "Transformer une inspiration en projet concret. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et observez les moments où il devient nécessaire de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Votre progression se consolidera grâce à une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Transform an inspiration into a concrete project.",
 
-    "Élargir votre horizon par une rencontre, une lecture ou une expérience.":
+    "Élargir votre horizon par une rencontre, une lecture ou une expérience. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, à condition de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Un retour régulier vers une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra de élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Broaden your horizons through a meeting, a book, or an experience.",
 
-    "Faire un choix qui augmente votre sentiment de liberté intérieure.":
+    "Faire un choix qui augmente votre sentiment de liberté intérieure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Lorsque la tension monte, rappelez-vous de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite et choisissez plutôt une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Make a choice that increases your sense of inner freedom.",
 
-    "Cultiver l’optimisme sans ignorer les détails nécessaires.":
+    "Cultiver l’optimisme sans ignorer les détails nécessaires. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons avec davantage de conscience, sans oublier de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Chaque geste relié à une direction précise, une action concrète et un enthousiasme soutenu par la constance renforcera votre sentiment d’alignement.":
       "Cultivate optimism without ignoring the necessary details.",
 
-    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager.":
+    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et à mieux traverser le défi suivant : ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En privilégiant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous créerez les conditions nécessaires pour élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Commit to a desire that deserves more than temporary enthusiasm.",
 
     /* AFFIRMATION */
@@ -3312,22 +3312,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez.":
+    "Cette année, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez. Les mois à venir vous invitent à mieux reconnaître votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une direction précise, une action concrète et un enthousiasme soutenu par la constance. Vous avancerez alors avec plus de clarté et pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "This month, a new perspective could restore the momentum you have been seeking.",
 
-    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète.":
+    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Dans les moments de doute, gardez en tête qu’il est important de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Une décision fondée sur une direction précise, une action concrète et un enthousiasme soutenu par la constance pourrait modifier durablement votre manière d’aborder la suite.":
       "Your desire for freedom becomes creative when you give it a concrete direction.",
 
-    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte.":
+    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, mais votre véritable avancée viendra de votre capacité à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En choisissant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous donnerez une direction plus juste à votre énergie.":
       "An unexpected opportunity could appear through a conversation, a trip, or a discovery.",
 
-    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir.":
+    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, puis veillez à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Cette approche vous aidera à élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Your optimism opens doors, but your consistency will allow you to walk through them.",
 
-    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus.":
+    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Le choix de une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A simple truth could help you leave behind a direction that no longer reflects who you are.",
 
-    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire.":
+    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Restez attentif(ve) au risque de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En vous recentrant sur une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui et préparer la suite avec davantage de confiance.":
       "You are invited to believe in a broader horizon while taking the first necessary step today.",
   },
 
@@ -3354,22 +3354,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Explorer une possibilité nouvelle tout en gardant un objectif précis.":
+    "Explorer une possibilité nouvelle tout en gardant un objectif précis. Cette année, cette direction vous aidera à mobiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Prenez toutefois le temps de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En revenant à une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Explora una nueva posibilidad manteniendo un objetivo claro.",
 
-    "Transformer une inspiration en projet concret.":
+    "Transformer une inspiration en projet concret. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et observez les moments où il devient nécessaire de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Votre progression se consolidera grâce à une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Transforma una inspiración en un proyecto concreto.",
 
-    "Élargir votre horizon par une rencontre, une lecture ou une expérience.":
+    "Élargir votre horizon par une rencontre, une lecture ou une expérience. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, à condition de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Un retour régulier vers une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra de élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Amplía tus horizontes mediante un encuentro, una lectura o una experiencia.",
 
-    "Faire un choix qui augmente votre sentiment de liberté intérieure.":
+    "Faire un choix qui augmente votre sentiment de liberté intérieure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Lorsque la tension monte, rappelez-vous de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite et choisissez plutôt une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Toma una decisión que aumente tu sensación de libertad interior.",
 
-    "Cultiver l’optimisme sans ignorer les détails nécessaires.":
+    "Cultiver l’optimisme sans ignorer les détails nécessaires. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons avec davantage de conscience, sans oublier de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Chaque geste relié à une direction précise, une action concrète et un enthousiasme soutenu par la constance renforcera votre sentiment d’alignement.":
       "Cultiva el optimismo sin ignorar los detalles necesarios.",
 
-    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager.":
+    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et à mieux traverser le défi suivant : ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En privilégiant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous créerez les conditions nécessaires pour élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Comprométete con un deseo que merece algo más que un entusiasmo pasajero.",
 
     /* AFFIRMATION */
@@ -3394,22 +3394,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez.":
+    "Cette année, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez. Les mois à venir vous invitent à mieux reconnaître votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une direction précise, une action concrète et un enthousiasme soutenu par la constance. Vous avancerez alors avec plus de clarté et pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Este mes, una nueva perspectiva podría devolverte el impulso que estabas buscando.",
 
-    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète.":
+    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Dans les moments de doute, gardez en tête qu’il est important de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Une décision fondée sur une direction précise, une action concrète et un enthousiasme soutenu par la constance pourrait modifier durablement votre manière d’aborder la suite.":
       "Tu deseo de libertad se vuelve creativo cuando le das una dirección concreta.",
 
-    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte.":
+    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, mais votre véritable avancée viendra de votre capacité à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En choisissant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous donnerez une direction plus juste à votre énergie.":
       "Una oportunidad inesperada podría aparecer a través de una conversación, un viaje o un descubrimiento.",
 
-    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir.":
+    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, puis veillez à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Cette approche vous aidera à élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Tu optimismo abre las puertas, pero tu constancia te permitirá atravesarlas.",
 
-    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus.":
+    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Le choix de une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una verdad sencilla podría ayudarte a abandonar una dirección que ya no te representa.",
 
-    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire.":
+    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Restez attentif(ve) au risque de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En vous recentrant sur une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui et préparer la suite avec davantage de confiance.":
       "Estás invitado a creer en un horizonte más amplio mientras das hoy el primer paso necesario.",
   },
 
@@ -3436,22 +3436,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Explorer une possibilité nouvelle tout en gardant un objectif précis.":
+    "Explorer une possibilité nouvelle tout en gardant un objectif précis. Cette année, cette direction vous aidera à mobiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Prenez toutefois le temps de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En revenant à une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Erkunden Sie eine neue Möglichkeit und behalten Sie dabei ein klares Ziel im Blick.",
 
-    "Transformer une inspiration en projet concret.":
+    "Transformer une inspiration en projet concret. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et observez les moments où il devient nécessaire de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Votre progression se consolidera grâce à une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Verwandeln Sie eine Inspiration in ein konkretes Projekt.",
 
-    "Élargir votre horizon par une rencontre, une lecture ou une expérience.":
+    "Élargir votre horizon par une rencontre, une lecture ou une expérience. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, à condition de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Un retour régulier vers une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra de élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Erweitern Sie Ihren Horizont durch eine Begegnung, eine Lektüre oder eine Erfahrung.",
 
-    "Faire un choix qui augmente votre sentiment de liberté intérieure.":
+    "Faire un choix qui augmente votre sentiment de liberté intérieure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Lorsque la tension monte, rappelez-vous de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite et choisissez plutôt une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Treffen Sie eine Entscheidung, die Ihr Gefühl innerer Freiheit stärkt.",
 
-    "Cultiver l’optimisme sans ignorer les détails nécessaires.":
+    "Cultiver l’optimisme sans ignorer les détails nécessaires. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons avec davantage de conscience, sans oublier de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Chaque geste relié à une direction précise, une action concrète et un enthousiasme soutenu par la constance renforcera votre sentiment d’alignement.":
       "Pflegen Sie Ihren Optimismus, ohne notwendige Details zu übersehen.",
 
-    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager.":
+    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et à mieux traverser le défi suivant : ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En privilégiant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous créerez les conditions nécessaires pour élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Verpflichten Sie sich einem Wunsch, der mehr verdient als vorübergehende Begeisterung.",
 
     /* AFFIRMATION */
@@ -3476,22 +3476,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez.":
+    "Cette année, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez. Les mois à venir vous invitent à mieux reconnaître votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une direction précise, une action concrète et un enthousiasme soutenu par la constance. Vous avancerez alors avec plus de clarté et pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "In diesem Monat könnte Ihnen eine neue Perspektive den Schwung zurückgeben, nach dem Sie gesucht haben.",
 
-    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète.":
+    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Dans les moments de doute, gardez en tête qu’il est important de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Une décision fondée sur une direction précise, une action concrète et un enthousiasme soutenu par la constance pourrait modifier durablement votre manière d’aborder la suite.":
       "Ihr Wunsch nach Freiheit wird schöpferisch, wenn Sie ihm eine konkrete Richtung geben.",
 
-    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte.":
+    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, mais votre véritable avancée viendra de votre capacité à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En choisissant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous donnerez une direction plus juste à votre énergie.":
       "Eine unerwartete Gelegenheit könnte durch ein Gespräch, eine Reise oder eine Entdeckung entstehen.",
 
-    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir.":
+    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, puis veillez à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Cette approche vous aidera à élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Ihr Optimismus öffnet Türen, doch Ihre Beständigkeit wird Ihnen ermöglichen, hindurchzugehen.",
 
-    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus.":
+    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Le choix de une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Eine einfache Wahrheit könnte Ihnen helfen, einen Weg aufzugeben, der nicht mehr zu Ihnen passt.",
 
-    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire.":
+    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Restez attentif(ve) au risque de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En vous recentrant sur une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, an einen weiteren Horizont zu glauben und gleichzeitig heute den ersten notwendigen Schritt zu tun.",
   },
 
@@ -3518,22 +3518,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Explorer une possibilité nouvelle tout en gardant un objectif précis.":
+    "Explorer une possibilité nouvelle tout en gardant un objectif précis. Cette année, cette direction vous aidera à mobiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Prenez toutefois le temps de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En revenant à une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Esplorate una nuova possibilità mantenendo un obiettivo preciso.",
 
-    "Transformer une inspiration en projet concret.":
+    "Transformer une inspiration en projet concret. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et observez les moments où il devient nécessaire de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Votre progression se consolidera grâce à une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Trasformate un’ispirazione in un progetto concreto.",
 
-    "Élargir votre horizon par une rencontre, une lecture ou une expérience.":
+    "Élargir votre horizon par une rencontre, une lecture ou une expérience. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, à condition de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Un retour régulier vers une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra de élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Ampliate i vostri orizzonti attraverso un incontro, una lettura o un’esperienza.",
 
-    "Faire un choix qui augmente votre sentiment de liberté intérieure.":
+    "Faire un choix qui augmente votre sentiment de liberté intérieure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Lorsque la tension monte, rappelez-vous de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite et choisissez plutôt une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Fate una scelta che aumenti il vostro senso di libertà interiore.",
 
-    "Cultiver l’optimisme sans ignorer les détails nécessaires.":
+    "Cultiver l’optimisme sans ignorer les détails nécessaires. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons avec davantage de conscience, sans oublier de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Chaque geste relié à une direction précise, une action concrète et un enthousiasme soutenu par la constance renforcera votre sentiment d’alignement.":
       "Coltivate l’ottimismo senza ignorare i dettagli necessari.",
 
-    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager.":
+    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et à mieux traverser le défi suivant : ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En privilégiant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous créerez les conditions nécessaires pour élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Impegnatevi verso un desiderio che merita più di un entusiasmo passeggero.",
 
     /* AFFIRMATION */
@@ -3558,22 +3558,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez.":
+    "Cette année, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez. Les mois à venir vous invitent à mieux reconnaître votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une direction précise, une action concrète et un enthousiasme soutenu par la constance. Vous avancerez alors avec plus de clarté et pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Questo mese, una nuova prospettiva potrebbe restituirvi lo slancio che stavate cercando.",
 
-    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète.":
+    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Dans les moments de doute, gardez en tête qu’il est important de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Une décision fondée sur une direction précise, une action concrète et un enthousiasme soutenu par la constance pourrait modifier durablement votre manière d’aborder la suite.":
       "Il vostro desiderio di libertà diventa creativo quando gli date una direzione concreta.",
 
-    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte.":
+    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, mais votre véritable avancée viendra de votre capacité à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En choisissant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous donnerez une direction plus juste à votre énergie.":
       "Un’opportunità inaspettata potrebbe presentarsi attraverso un incontro, un viaggio o una scoperta.",
 
-    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir.":
+    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, puis veillez à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Cette approche vous aidera à élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Il vostro ottimismo apre le porte, ma la vostra costanza vi permetterà di attraversarle.",
 
-    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus.":
+    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Le choix de une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Una semplice verità potrebbe aiutarvi ad abbandonare una direzione che non vi rappresenta più.",
 
-    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire.":
+    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Restez attentif(ve) au risque de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En vous recentrant sur une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui et préparer la suite avec davantage de confiance.":
       "Siete invitati a credere in un orizzonte più ampio compiendo oggi il primo gesto necessario.",
   },
 
@@ -3600,22 +3600,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Explorer une possibilité nouvelle tout en gardant un objectif précis.":
+    "Explorer une possibilité nouvelle tout en gardant un objectif précis. Cette année, cette direction vous aidera à mobiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Prenez toutefois le temps de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En revenant à une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Explore uma nova possibilidade mantendo um objetivo claro.",
 
-    "Transformer une inspiration en projet concret.":
+    "Transformer une inspiration en projet concret. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et observez les moments où il devient nécessaire de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Votre progression se consolidera grâce à une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Transforme uma inspiração em um projeto concreto.",
 
-    "Élargir votre horizon par une rencontre, une lecture ou une expérience.":
+    "Élargir votre horizon par une rencontre, une lecture ou une expérience. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, à condition de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Un retour régulier vers une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra de élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Amplie seus horizontes por meio de um encontro, uma leitura ou uma experiência.",
 
-    "Faire un choix qui augmente votre sentiment de liberté intérieure.":
+    "Faire un choix qui augmente votre sentiment de liberté intérieure. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Lorsque la tension monte, rappelez-vous de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite et choisissez plutôt une direction précise, une action concrète et un enthousiasme soutenu par la constance.":
       "Faça uma escolha que aumente sua sensação de liberdade interior.",
 
-    "Cultiver l’optimisme sans ignorer les détails nécessaires.":
+    "Cultiver l’optimisme sans ignorer les détails nécessaires. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons avec davantage de conscience, sans oublier de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Chaque geste relié à une direction précise, une action concrète et un enthousiasme soutenu par la constance renforcera votre sentiment d’alignement.":
       "Cultive o otimismo sem ignorar os detalhes necessários.",
 
-    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager.":
+    "Vous engager envers un désir qui mérite davantage qu’un enthousiasme passager. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons et à mieux traverser le défi suivant : ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En privilégiant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous créerez les conditions nécessaires pour élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Comprometa-se com um desejo que merece mais do que um entusiasmo passageiro.",
 
     /* AFFIRMATION */
@@ -3640,22 +3640,22 @@ const MANTRA_SAGITTAIRE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez.":
+    "Cette année, une nouvelle perspective pourrait vous redonner l’élan que vous cherchiez. Les mois à venir vous invitent à mieux reconnaître votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une direction précise, une action concrète et un enthousiasme soutenu par la constance. Vous avancerez alors avec plus de clarté et pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Neste mês, uma nova perspectiva poderá devolver a você o impulso que estava buscando.",
 
-    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète.":
+    "Votre désir de liberté devient créateur lorsque vous lui donnez une direction concrète. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Dans les moments de doute, gardez en tête qu’il est important de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Une décision fondée sur une direction précise, une action concrète et un enthousiasme soutenu par la constance pourrait modifier durablement votre manière d’aborder la suite.":
       "Seu desejo de liberdade se torna criativo quando você lhe dá uma direção concreta.",
 
-    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte.":
+    "Une occasion inattendue pourrait apparaître à travers un échange, un déplacement ou une découverte. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, mais votre véritable avancée viendra de votre capacité à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En choisissant une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous donnerez une direction plus juste à votre énergie.":
       "Uma oportunidade inesperada poderá surgir por meio de uma conversa, uma viagem ou uma descoberta.",
 
-    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir.":
+    "Votre optimisme ouvre les portes, mais votre constance vous permettra de les franchir. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons, puis veillez à ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Cette approche vous aidera à élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui.":
       "Seu otimismo abre as portas, mas sua constância permitirá que você atravesse cada uma delas.",
 
-    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus.":
+    "Une vérité simple pourrait vous aider à abandonner une direction qui ne vous ressemble plus. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. Le choix de une direction précise, une action concrète et un enthousiasme soutenu par la constance vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Uma verdade simples poderá ajudar você a abandonar uma direção que já não combina com quem você é.",
 
-    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire.":
+    "Vous êtes invité à croire en un horizon plus vaste tout en posant aujourd’hui le premier geste nécessaire. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre optimisme, votre vision et votre désir d’explorer de nouveaux horizons. Restez attentif(ve) au risque de ne pas fuir les détails, les engagements ou la patience nécessaires à la réussite. En vous recentrant sur une direction précise, une action concrète et un enthousiasme soutenu par la constance, vous pourrez élargir votre vie sans perdre le lien avec ce qui doit être construit aujourd’hui et préparer la suite avec davantage de confiance.":
       "Você é convidado a acreditar em um horizonte mais amplo enquanto dá hoje o primeiro passo necessário.",
   },
 };
@@ -3687,22 +3687,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Structurer un objectif important avec réalisme et patience.":
+    "Structurer un objectif important avec réalisme et patience. Cette année, cette direction vous aidera à mobiliser votre discipline, votre endurance et votre capacité à construire avec sérieux. Prenez toutefois le temps de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En revenant à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Structure an important goal with realism and patience.",
 
-    "Alléger une responsabilité que vous portez seule depuis trop longtemps.":
+    "Alléger une responsabilité que vous portez seule depuis trop longtemps. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux et observez les moments où il devient nécessaire de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Votre progression se consolidera grâce à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Lighten a responsibility you have been carrying alone for too long.",
 
-    "Créer un meilleur équilibre entre ambition et bien-être.":
+    "Créer un meilleur équilibre entre ambition et bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discipline, votre endurance et votre capacité à construire avec sérieux, à condition de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Un retour régulier vers une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra de bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Create a better balance between ambition and well-being.",
 
-    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence.":
+    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Lorsque la tension monte, rappelez-vous de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès et choisissez plutôt une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Recognize the progress you have already made before adding a new demand.",
 
-    "Prendre une décision qui renforce votre stabilité à long terme.":
+    "Prendre une décision qui renforce votre stabilité à long terme. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discipline, votre endurance et votre capacité à construire avec sérieux avec davantage de conscience, sans oublier de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Chaque geste relié à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites renforcera votre sentiment d’alignement.":
       "Make a decision that strengthens your long-term stability.",
 
-    "Transformer une obligation en choix plus conscient.":
+    "Transformer une obligation en choix plus conscient. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discipline, votre endurance et votre capacité à construire avec sérieux et à mieux traverser le défi suivant : ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En privilégiant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous créerez les conditions nécessaires pour bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Transform an obligation into a more conscious choice.",
 
     /* AFFIRMATION */
@@ -3727,22 +3727,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir.":
+    "Cette année, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir. Les mois à venir vous invitent à mieux reconnaître votre discipline, votre endurance et votre capacité à construire avec sérieux. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites. Vous avancerez alors avec plus de clarté et pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "This month, a strategic decision could strengthen your security for the months ahead.",
 
-    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels.":
+    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Dans les moments de doute, gardez en tête qu’il est important de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Une décision fondée sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites pourrait modifier durablement votre manière d’aborder la suite.":
       "Your ambition can take you far when it does not require you to ignore your essential needs.",
 
-    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu.":
+    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discipline, votre endurance et votre capacité à construire avec sérieux, mais votre véritable avancée viendra de votre capacité à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En choisissant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous donnerez une direction plus juste à votre énergie.":
       "A responsibility could be reorganized, shared, or simplified more easily than expected.",
 
-    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint.":
+    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux, puis veillez à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Cette approche vous aidera à bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Your progress deserves to be recognized, even if the final goal has not yet been reached.",
 
-    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse.":
+    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discipline, votre endurance et votre capacité à construire avec sérieux. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Le choix de une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Lasting success is also built through pauses, adjustments, and flexibility.",
 
-    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur.":
+    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discipline, votre endurance et votre capacité à construire avec sérieux. Restez attentif(ve) au risque de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En vous recentrant sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être et préparer la suite avec davantage de confiance.":
       "You are invited to build a solid future without constantly postponing your right to happiness.",
   },
 
@@ -3769,22 +3769,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Structurer un objectif important avec réalisme et patience.":
+    "Structurer un objectif important avec réalisme et patience. Cette année, cette direction vous aidera à mobiliser votre discipline, votre endurance et votre capacité à construire avec sérieux. Prenez toutefois le temps de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En revenant à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Estructura un objetivo importante con realismo y paciencia.",
 
-    "Alléger une responsabilité que vous portez seule depuis trop longtemps.":
+    "Alléger une responsabilité que vous portez seule depuis trop longtemps. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux et observez les moments où il devient nécessaire de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Votre progression se consolidera grâce à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Aligera una responsabilidad que llevas demasiado tiempo cargando solo.",
 
-    "Créer un meilleur équilibre entre ambition et bien-être.":
+    "Créer un meilleur équilibre entre ambition et bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discipline, votre endurance et votre capacité à construire avec sérieux, à condition de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Un retour régulier vers une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra de bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Crea un mejor equilibrio entre ambición y bienestar.",
 
-    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence.":
+    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Lorsque la tension monte, rappelez-vous de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès et choisissez plutôt une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Reconoce los progresos realizados antes de añadir una nueva exigencia.",
 
-    "Prendre une décision qui renforce votre stabilité à long terme.":
+    "Prendre une décision qui renforce votre stabilité à long terme. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discipline, votre endurance et votre capacité à construire avec sérieux avec davantage de conscience, sans oublier de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Chaque geste relié à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites renforcera votre sentiment d’alignement.":
       "Toma una decisión que fortalezca tu estabilidad a largo plazo.",
 
-    "Transformer une obligation en choix plus conscient.":
+    "Transformer une obligation en choix plus conscient. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discipline, votre endurance et votre capacité à construire avec sérieux et à mieux traverser le défi suivant : ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En privilégiant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous créerez les conditions nécessaires pour bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Transforma una obligación en una elección más consciente.",
 
     /* AFFIRMATION */
@@ -3809,22 +3809,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir.":
+    "Cette année, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir. Les mois à venir vous invitent à mieux reconnaître votre discipline, votre endurance et votre capacité à construire avec sérieux. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites. Vous avancerez alors avec plus de clarté et pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Este mes, una decisión estratégica podría reforzar tu seguridad para los próximos meses.",
 
-    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels.":
+    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Dans les moments de doute, gardez en tête qu’il est important de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Une décision fondée sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites pourrait modifier durablement votre manière d’aborder la suite.":
       "Tu ambición puede llevarte lejos cuando no te obliga a ignorar tus necesidades esenciales.",
 
-    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu.":
+    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discipline, votre endurance et votre capacité à construire avec sérieux, mais votre véritable avancée viendra de votre capacité à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En choisissant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous donnerez une direction plus juste à votre énergie.":
       "Una responsabilidad podría reorganizarse, compartirse o simplificarse más fácilmente de lo previsto.",
 
-    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint.":
+    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux, puis veillez à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Cette approche vous aidera à bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Tu progreso merece ser reconocido, aunque todavía no hayas alcanzado el objetivo final.",
 
-    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse.":
+    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discipline, votre endurance et votre capacité à construire avec sérieux. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Le choix de une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "El éxito duradero también se construye con pausas, ajustes y flexibilidad.",
 
-    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur.":
+    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discipline, votre endurance et votre capacité à construire avec sérieux. Restez attentif(ve) au risque de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En vous recentrant sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être et préparer la suite avec davantage de confiance.":
       "Estás invitado a construir un futuro sólido sin aplazar constantemente tu derecho a la felicidad.",
   },
 
@@ -3851,22 +3851,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Structurer un objectif important avec réalisme et patience.":
+    "Structurer un objectif important avec réalisme et patience. Cette année, cette direction vous aidera à mobiliser votre discipline, votre endurance et votre capacité à construire avec sérieux. Prenez toutefois le temps de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En revenant à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Strukturieren Sie ein wichtiges Ziel mit Realismus und Geduld.",
 
-    "Alléger une responsabilité que vous portez seule depuis trop longtemps.":
+    "Alléger une responsabilité que vous portez seule depuis trop longtemps. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux et observez les moments où il devient nécessaire de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Votre progression se consolidera grâce à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Erleichtern Sie eine Verantwortung, die Sie schon zu lange allein tragen.",
 
-    "Créer un meilleur équilibre entre ambition et bien-être.":
+    "Créer un meilleur équilibre entre ambition et bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discipline, votre endurance et votre capacité à construire avec sérieux, à condition de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Un retour régulier vers une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra de bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Schaffen Sie ein besseres Gleichgewicht zwischen Ehrgeiz und Wohlbefinden.",
 
-    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence.":
+    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Lorsque la tension monte, rappelez-vous de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès et choisissez plutôt une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Erkennen Sie Ihre bisherigen Fortschritte an, bevor Sie eine neue Anforderung hinzufügen.",
 
-    "Prendre une décision qui renforce votre stabilité à long terme.":
+    "Prendre une décision qui renforce votre stabilité à long terme. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discipline, votre endurance et votre capacité à construire avec sérieux avec davantage de conscience, sans oublier de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Chaque geste relié à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites renforcera votre sentiment d’alignement.":
       "Treffen Sie eine Entscheidung, die Ihre langfristige Stabilität stärkt.",
 
-    "Transformer une obligation en choix plus conscient.":
+    "Transformer une obligation en choix plus conscient. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discipline, votre endurance et votre capacité à construire avec sérieux et à mieux traverser le défi suivant : ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En privilégiant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous créerez les conditions nécessaires pour bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Verwandeln Sie eine Verpflichtung in eine bewusstere Entscheidung.",
 
     /* AFFIRMATION */
@@ -3891,22 +3891,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir.":
+    "Cette année, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir. Les mois à venir vous invitent à mieux reconnaître votre discipline, votre endurance et votre capacité à construire avec sérieux. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites. Vous avancerez alors avec plus de clarté et pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "In diesem Monat könnte eine strategische Entscheidung Ihre Sicherheit für die kommenden Monate stärken.",
 
-    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels.":
+    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Dans les moments de doute, gardez en tête qu’il est important de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Une décision fondée sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites pourrait modifier durablement votre manière d’aborder la suite.":
       "Ihr Ehrgeiz kann Sie weit bringen, solange er Sie nicht dazu zwingt, Ihre grundlegenden Bedürfnisse zu ignorieren.",
 
-    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu.":
+    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discipline, votre endurance et votre capacité à construire avec sérieux, mais votre véritable avancée viendra de votre capacité à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En choisissant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous donnerez une direction plus juste à votre énergie.":
       "Eine Verantwortung könnte leichter als erwartet neu organisiert, geteilt oder vereinfacht werden.",
 
-    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint.":
+    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux, puis veillez à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Cette approche vous aidera à bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Ihre Fortschritte verdienen Anerkennung, auch wenn das endgültige Ziel noch nicht erreicht ist.",
 
-    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse.":
+    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discipline, votre endurance et votre capacité à construire avec sérieux. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Le choix de une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Dauerhafter Erfolg entsteht auch durch Pausen, Anpassungen und Flexibilität.",
 
-    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur.":
+    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discipline, votre endurance et votre capacité à construire avec sérieux. Restez attentif(ve) au risque de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En vous recentrant sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, eine stabile Zukunft aufzubauen, ohne Ihr Recht auf Glück ständig aufzuschieben.",
   },
 
@@ -3933,22 +3933,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Structurer un objectif important avec réalisme et patience.":
+    "Structurer un objectif important avec réalisme et patience. Cette année, cette direction vous aidera à mobiliser votre discipline, votre endurance et votre capacité à construire avec sérieux. Prenez toutefois le temps de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En revenant à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Strutturate un obiettivo importante con realismo e pazienza.",
 
-    "Alléger une responsabilité que vous portez seule depuis trop longtemps.":
+    "Alléger une responsabilité que vous portez seule depuis trop longtemps. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux et observez les moments où il devient nécessaire de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Votre progression se consolidera grâce à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Alleggerite una responsabilità che state portando da soli da troppo tempo.",
 
-    "Créer un meilleur équilibre entre ambition et bien-être.":
+    "Créer un meilleur équilibre entre ambition et bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discipline, votre endurance et votre capacité à construire avec sérieux, à condition de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Un retour régulier vers une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra de bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Create un migliore equilibrio tra ambizione e benessere.",
 
-    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence.":
+    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Lorsque la tension monte, rappelez-vous de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès et choisissez plutôt une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Riconoscete i progressi già compiuti prima di aggiungere una nuova richiesta.",
 
-    "Prendre une décision qui renforce votre stabilité à long terme.":
+    "Prendre une décision qui renforce votre stabilité à long terme. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discipline, votre endurance et votre capacité à construire avec sérieux avec davantage de conscience, sans oublier de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Chaque geste relié à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites renforcera votre sentiment d’alignement.":
       "Prendete una decisione che rafforzi la vostra stabilità a lungo termine.",
 
-    "Transformer une obligation en choix plus conscient.":
+    "Transformer une obligation en choix plus conscient. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discipline, votre endurance et votre capacité à construire avec sérieux et à mieux traverser le défi suivant : ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En privilégiant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous créerez les conditions nécessaires pour bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Trasformate un obbligo in una scelta più consapevole.",
 
     /* AFFIRMATION */
@@ -3973,22 +3973,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir.":
+    "Cette année, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir. Les mois à venir vous invitent à mieux reconnaître votre discipline, votre endurance et votre capacité à construire avec sérieux. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites. Vous avancerez alors avec plus de clarté et pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Questo mese, una decisione strategica potrebbe rafforzare la vostra sicurezza per i mesi a venire.",
 
-    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels.":
+    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Dans les moments de doute, gardez en tête qu’il est important de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Une décision fondée sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites pourrait modifier durablement votre manière d’aborder la suite.":
       "La vostra ambizione può portarvi lontano quando non vi obbliga a ignorare i vostri bisogni essenziali.",
 
-    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu.":
+    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discipline, votre endurance et votre capacité à construire avec sérieux, mais votre véritable avancée viendra de votre capacité à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En choisissant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous donnerez une direction plus juste à votre énergie.":
       "Una responsabilità potrebbe essere riorganizzata, condivisa o semplificata più facilmente del previsto.",
 
-    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint.":
+    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux, puis veillez à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Cette approche vous aidera à bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "I vostri progressi meritano di essere riconosciuti, anche se l’obiettivo finale non è ancora stato raggiunto.",
 
-    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse.":
+    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discipline, votre endurance et votre capacité à construire avec sérieux. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Le choix de une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Un successo duraturo si costruisce anche attraverso pause, aggiustamenti e flessibilità.",
 
-    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur.":
+    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discipline, votre endurance et votre capacité à construire avec sérieux. Restez attentif(ve) au risque de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En vous recentrant sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être et préparer la suite avec davantage de confiance.":
       "Siete invitati a costruire un futuro solido senza rimandare continuamente il vostro diritto alla felicità.",
   },
 
@@ -4015,22 +4015,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Structurer un objectif important avec réalisme et patience.":
+    "Structurer un objectif important avec réalisme et patience. Cette année, cette direction vous aidera à mobiliser votre discipline, votre endurance et votre capacité à construire avec sérieux. Prenez toutefois le temps de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En revenant à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Estruture um objetivo importante com realismo e paciência.",
 
-    "Alléger une responsabilité que vous portez seule depuis trop longtemps.":
+    "Alléger une responsabilité que vous portez seule depuis trop longtemps. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux et observez les moments où il devient nécessaire de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Votre progression se consolidera grâce à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Alivie uma responsabilidade que você vem carregando sozinho há tempo demais.",
 
-    "Créer un meilleur équilibre entre ambition et bien-être.":
+    "Créer un meilleur équilibre entre ambition et bien-être. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre discipline, votre endurance et votre capacité à construire avec sérieux, à condition de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Un retour régulier vers une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra de bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Crie um equilíbrio melhor entre ambição e bem-estar.",
 
-    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence.":
+    "Reconnaître les progrès accomplis avant d’ajouter une nouvelle exigence. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Lorsque la tension monte, rappelez-vous de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès et choisissez plutôt une structure réaliste, des priorités solides et une ambition respectueuse de vos limites.":
       "Reconheça os progressos já realizados antes de acrescentar uma nova exigência.",
 
-    "Prendre une décision qui renforce votre stabilité à long terme.":
+    "Prendre une décision qui renforce votre stabilité à long terme. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre discipline, votre endurance et votre capacité à construire avec sérieux avec davantage de conscience, sans oublier de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Chaque geste relié à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites renforcera votre sentiment d’alignement.":
       "Tome uma decisão que fortaleça sua estabilidade a longo prazo.",
 
-    "Transformer une obligation en choix plus conscient.":
+    "Transformer une obligation en choix plus conscient. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre discipline, votre endurance et votre capacité à construire avec sérieux et à mieux traverser le défi suivant : ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En privilégiant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous créerez les conditions nécessaires pour bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Transforme uma obrigação em uma escolha mais consciente.",
 
     /* AFFIRMATION */
@@ -4055,22 +4055,22 @@ const MANTRA_CAPRICORNE_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir.":
+    "Cette année, une décision stratégique pourrait renforcer votre sécurité pour les mois à venir. Les mois à venir vous invitent à mieux reconnaître votre discipline, votre endurance et votre capacité à construire avec sérieux. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une structure réaliste, des priorités solides et une ambition respectueuse de vos limites. Vous avancerez alors avec plus de clarté et pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Neste mês, uma decisão estratégica poderá fortalecer sua segurança para os próximos meses.",
 
-    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels.":
+    "Votre ambition vous conduit loin lorsqu’elle ne vous oblige pas à ignorer vos besoins essentiels. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre discipline, votre endurance et votre capacité à construire avec sérieux. Dans les moments de doute, gardez en tête qu’il est important de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Une décision fondée sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites pourrait modifier durablement votre manière d’aborder la suite.":
       "Sua ambição pode levar você longe quando não o obriga a ignorar suas necessidades essenciais.",
 
-    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu.":
+    "Une responsabilité pourrait être réorganisée, partagée ou simplifiée plus facilement que prévu. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre discipline, votre endurance et votre capacité à construire avec sérieux, mais votre véritable avancée viendra de votre capacité à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En choisissant une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous donnerez une direction plus juste à votre énergie.":
       "Uma responsabilidade poderá ser reorganizada, compartilhada ou simplificada com mais facilidade do que o esperado.",
 
-    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint.":
+    "Votre progression mérite d’être reconnue, même si l’objectif final n’est pas encore atteint. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre discipline, votre endurance et votre capacité à construire avec sérieux, puis veillez à ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Cette approche vous aidera à bâtir une réussite durable qui soutient autant votre avenir que votre bien-être.":
       "Seu progresso merece ser reconhecido, mesmo que o objetivo final ainda não tenha sido alcançado.",
 
-    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse.":
+    "Une réussite durable se construit aussi avec des pauses, des ajustements et de la souplesse. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre discipline, votre endurance et votre capacité à construire avec sérieux. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. Le choix de une structure réaliste, des priorités solides et une ambition respectueuse de vos limites vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Um sucesso duradouro também é construído com pausas, ajustes e flexibilidade.",
 
-    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur.":
+    "Vous êtes invité à bâtir un avenir solide sans reporter constamment votre droit au bonheur. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre discipline, votre endurance et votre capacité à construire avec sérieux. Restez attentif(ve) au risque de ne pas reporter indéfiniment le repos, la joie ou la reconnaissance de vos progrès. En vous recentrant sur une structure réaliste, des priorités solides et une ambition respectueuse de vos limites, vous pourrez bâtir une réussite durable qui soutient autant votre avenir que votre bien-être et préparer la suite avec davantage de confiance.":
       "Você é convidado a construir um futuro sólido sem adiar constantemente seu direito à felicidade.",
   },
 };
@@ -4102,22 +4102,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Donner une forme concrète à une idée originale.":
+    "Donner une forme concrète à une idée originale. Cette année, cette direction vous aidera à mobiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Prenez toutefois le temps de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En revenant à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Give concrete form to an original idea.",
 
-    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs.":
+    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et observez les moments où il devient nécessaire de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Votre progression se consolidera grâce à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Move closer to a group or person who shares your values.",
 
-    "Créer davantage de liberté dans votre quotidien.":
+    "Créer davantage de liberté dans votre quotidien. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, à condition de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Un retour régulier vers une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra de donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Create more freedom in your daily life.",
 
-    "Exprimer une opinion différente sans vous isoler.":
+    "Exprimer une opinion différente sans vous isoler. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Lorsque la tension monte, rappelez-vous de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste et choisissez plutôt une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Express a different opinion without isolating yourself.",
 
-    "Faire évoluer une habitude devenue trop rigide.":
+    "Faire évoluer une habitude devenue trop rigide. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir avec davantage de conscience, sans oublier de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Chaque geste relié à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même renforcera votre sentiment d’alignement.":
       "Let a habit that has become too rigid evolve.",
 
-    "Utiliser votre vision pour améliorer une situation réelle.":
+    "Utiliser votre vision pour améliorer une situation réelle. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et à mieux traverser le défi suivant : ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En privilégiant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous créerez les conditions nécessaires pour donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Use your vision to improve a real situation.",
 
     /* AFFIRMATION */
@@ -4142,22 +4142,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une idée inhabituelle pourrait devenir la solution la plus logique.":
+    "Cette année, une idée inhabituelle pourrait devenir la solution la plus logique. Les mois à venir vous invitent à mieux reconnaître votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même. Vous avancerez alors avec plus de clarté et pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "This month, an unusual idea could become the most logical solution.",
 
-    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement.":
+    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Une décision fondée sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même pourrait modifier durablement votre manière d’aborder la suite.":
       "Your need for freedom deserves to be respected, but it can also coexist with commitment.",
 
-    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve.":
+    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, mais votre véritable avancée viendra de votre capacité à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En choisissant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous donnerez une direction plus juste à votre énergie.":
       "A meeting or collaboration could stimulate a project you have been keeping in reserve.",
 
-    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler.":
+    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, puis veillez à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Cette approche vous aidera à donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Your uniqueness becomes a strength when it brings you closer to your purpose rather than isolating you.",
 
-    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible.":
+    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Le choix de une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A change in perspective could help you move beyond a situation that has become too predictable.",
 
-    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps.":
+    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Restez attentif(ve) au risque de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En vous recentrant sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile et préparer la suite avec davantage de confiance.":
       "You are invited to give real form to the vision you have been carrying for some time.",
   },
 
@@ -4184,22 +4184,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Donner une forme concrète à une idée originale.":
+    "Donner une forme concrète à une idée originale. Cette année, cette direction vous aidera à mobiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Prenez toutefois le temps de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En revenant à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Da una forma concreta a una idea original.",
 
-    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs.":
+    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et observez les moments où il devient nécessaire de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Votre progression se consolidera grâce à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Acércate a un grupo o a una persona que comparta tus valores.",
 
-    "Créer davantage de liberté dans votre quotidien.":
+    "Créer davantage de liberté dans votre quotidien. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, à condition de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Un retour régulier vers une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra de donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Crea más libertad en tu vida cotidiana.",
 
-    "Exprimer une opinion différente sans vous isoler.":
+    "Exprimer une opinion différente sans vous isoler. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Lorsque la tension monte, rappelez-vous de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste et choisissez plutôt une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Expresa una opinión diferente sin aislarte.",
 
-    "Faire évoluer une habitude devenue trop rigide.":
+    "Faire évoluer une habitude devenue trop rigide. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir avec davantage de conscience, sans oublier de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Chaque geste relié à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même renforcera votre sentiment d’alignement.":
       "Haz evolucionar un hábito que se ha vuelto demasiado rígido.",
 
-    "Utiliser votre vision pour améliorer une situation réelle.":
+    "Utiliser votre vision pour améliorer une situation réelle. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et à mieux traverser le défi suivant : ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En privilégiant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous créerez les conditions nécessaires pour donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Utiliza tu visión para mejorar una situación real.",
 
     /* AFFIRMATION */
@@ -4224,22 +4224,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une idée inhabituelle pourrait devenir la solution la plus logique.":
+    "Cette année, une idée inhabituelle pourrait devenir la solution la plus logique. Les mois à venir vous invitent à mieux reconnaître votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même. Vous avancerez alors avec plus de clarté et pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Este mes, una idea poco habitual podría convertirse en la solución más lógica.",
 
-    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement.":
+    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Une décision fondée sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même pourrait modifier durablement votre manière d’aborder la suite.":
       "Tu necesidad de libertad merece ser respetada, pero también puede coexistir con el compromiso.",
 
-    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve.":
+    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, mais votre véritable avancée viendra de votre capacité à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En choisissant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous donnerez une direction plus juste à votre énergie.":
       "Un encuentro o una colaboración podría impulsar un proyecto que todavía mantenías en reserva.",
 
-    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler.":
+    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, puis veillez à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Cette approche vous aidera à donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Tu singularidad se convierte en una fortaleza cuando te acerca a tu propósito en lugar de aislarte.",
 
-    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible.":
+    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Le choix de une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Un cambio de perspectiva podría ayudarte a salir de una situación que se ha vuelto demasiado predecible.",
 
-    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps.":
+    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Restez attentif(ve) au risque de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En vous recentrant sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile et préparer la suite avec davantage de confiance.":
       "Estás invitado a dar una forma real a la visión que llevas dentro desde hace algún tiempo.",
   },
 
@@ -4266,22 +4266,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Donner une forme concrète à une idée originale.":
+    "Donner une forme concrète à une idée originale. Cette année, cette direction vous aidera à mobiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Prenez toutefois le temps de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En revenant à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Geben Sie einer originellen Idee eine konkrete Form.",
 
-    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs.":
+    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et observez les moments où il devient nécessaire de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Votre progression se consolidera grâce à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Nähern Sie sich einer Gruppe oder einer Person, die Ihre Werte teilt.",
 
-    "Créer davantage de liberté dans votre quotidien.":
+    "Créer davantage de liberté dans votre quotidien. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, à condition de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Un retour régulier vers une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra de donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Schaffen Sie mehr Freiheit in Ihrem Alltag.",
 
-    "Exprimer une opinion différente sans vous isoler.":
+    "Exprimer une opinion différente sans vous isoler. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Lorsque la tension monte, rappelez-vous de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste et choisissez plutôt une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Äußern Sie eine andere Meinung, ohne sich zu isolieren.",
 
-    "Faire évoluer une habitude devenue trop rigide.":
+    "Faire évoluer une habitude devenue trop rigide. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir avec davantage de conscience, sans oublier de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Chaque geste relié à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même renforcera votre sentiment d’alignement.":
       "Verändern Sie eine Gewohnheit, die zu starr geworden ist.",
 
-    "Utiliser votre vision pour améliorer une situation réelle.":
+    "Utiliser votre vision pour améliorer une situation réelle. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et à mieux traverser le défi suivant : ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En privilégiant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous créerez les conditions nécessaires pour donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Nutzen Sie Ihre Vision, um eine konkrete Situation zu verbessern.",
 
     /* AFFIRMATION */
@@ -4306,22 +4306,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une idée inhabituelle pourrait devenir la solution la plus logique.":
+    "Cette année, une idée inhabituelle pourrait devenir la solution la plus logique. Les mois à venir vous invitent à mieux reconnaître votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même. Vous avancerez alors avec plus de clarté et pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "In diesem Monat könnte eine ungewöhnliche Idee zur logischsten Lösung werden.",
 
-    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement.":
+    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Une décision fondée sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même pourrait modifier durablement votre manière d’aborder la suite.":
       "Ihr Bedürfnis nach Freiheit verdient Respekt, kann aber gleichzeitig mit Verbindlichkeit bestehen.",
 
-    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve.":
+    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, mais votre véritable avancée viendra de votre capacité à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En choisissant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous donnerez une direction plus juste à votre énergie.":
       "Eine Begegnung oder Zusammenarbeit könnte einem Projekt neuen Schwung geben, das Sie bisher zurückgehalten haben.",
 
-    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler.":
+    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, puis veillez à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Cette approche vous aidera à donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Ihre Einzigartigkeit wird zu einer Stärke, wenn sie Sie Ihrer Aufgabe näherbringt, statt Sie zu isolieren.",
 
-    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible.":
+    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Le choix de une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Ein Perspektivwechsel könnte Ihnen helfen, eine zu vorhersehbar gewordene Situation zu verlassen.",
 
-    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps.":
+    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Restez attentif(ve) au risque de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En vous recentrant sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, der Vision, die Sie schon seit einiger Zeit in sich tragen, eine konkrete Form zu geben.",
   },
 
@@ -4348,22 +4348,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Donner une forme concrète à une idée originale.":
+    "Donner une forme concrète à une idée originale. Cette année, cette direction vous aidera à mobiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Prenez toutefois le temps de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En revenant à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Date una forma concreta a un’idea originale.",
 
-    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs.":
+    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et observez les moments où il devient nécessaire de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Votre progression se consolidera grâce à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Avvicinatevi a un gruppo o a una persona che condivide i vostri valori.",
 
-    "Créer davantage de liberté dans votre quotidien.":
+    "Créer davantage de liberté dans votre quotidien. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, à condition de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Un retour régulier vers une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra de donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Create maggiore libertà nella vostra vita quotidiana.",
 
-    "Exprimer une opinion différente sans vous isoler.":
+    "Exprimer une opinion différente sans vous isoler. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Lorsque la tension monte, rappelez-vous de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste et choisissez plutôt une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Esprimete un’opinione diversa senza isolarvi.",
 
-    "Faire évoluer une habitude devenue trop rigide.":
+    "Faire évoluer une habitude devenue trop rigide. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir avec davantage de conscience, sans oublier de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Chaque geste relié à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même renforcera votre sentiment d’alignement.":
       "Fate evolvere un’abitudine diventata troppo rigida.",
 
-    "Utiliser votre vision pour améliorer une situation réelle.":
+    "Utiliser votre vision pour améliorer une situation réelle. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et à mieux traverser le défi suivant : ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En privilégiant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous créerez les conditions nécessaires pour donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Utilizzate la vostra visione per migliorare una situazione concreta.",
 
     /* AFFIRMATION */
@@ -4388,22 +4388,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une idée inhabituelle pourrait devenir la solution la plus logique.":
+    "Cette année, une idée inhabituelle pourrait devenir la solution la plus logique. Les mois à venir vous invitent à mieux reconnaître votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même. Vous avancerez alors avec plus de clarté et pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Questo mese, un’idea insolita potrebbe diventare la soluzione più logica.",
 
-    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement.":
+    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Une décision fondée sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même pourrait modifier durablement votre manière d’aborder la suite.":
       "Il vostro bisogno di libertà merita di essere rispettato, ma può anche convivere con l’impegno.",
 
-    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve.":
+    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, mais votre véritable avancée viendra de votre capacité à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En choisissant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous donnerez une direction plus juste à votre énergie.":
       "Un incontro o una collaborazione potrebbe dare nuovo impulso a un progetto che tenevate ancora in sospeso.",
 
-    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler.":
+    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, puis veillez à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Cette approche vous aidera à donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "La vostra unicità diventa una forza quando vi avvicina alla vostra missione invece di isolarvi.",
 
-    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible.":
+    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Le choix de une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Un cambiamento di prospettiva potrebbe aiutarvi a uscire da una situazione diventata troppo prevedibile.",
 
-    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps.":
+    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Restez attentif(ve) au risque de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En vous recentrant sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile et préparer la suite avec davantage de confiance.":
       "Siete invitati a dare una forma concreta alla visione che portate dentro di voi da qualche tempo.",
   },
 
@@ -4430,22 +4430,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Donner une forme concrète à une idée originale.":
+    "Donner une forme concrète à une idée originale. Cette année, cette direction vous aidera à mobiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Prenez toutefois le temps de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En revenant à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Dê uma forma concreta a uma ideia original.",
 
-    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs.":
+    "Vous rapprocher d’un groupe ou d’une personne qui partage vos valeurs. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et observez les moments où il devient nécessaire de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Votre progression se consolidera grâce à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Aproxime-se de um grupo ou de uma pessoa que compartilhe seus valores.",
 
-    "Créer davantage de liberté dans votre quotidien.":
+    "Créer davantage de liberté dans votre quotidien. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, à condition de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Un retour régulier vers une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra de donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Crie mais liberdade em sua vida cotidiana.",
 
-    "Exprimer une opinion différente sans vous isoler.":
+    "Exprimer une opinion différente sans vous isoler. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Lorsque la tension monte, rappelez-vous de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste et choisissez plutôt une innovation applicable, une collaboration stimulante et la liberté d’être vous-même.":
       "Expresse uma opinião diferente sem se isolar.",
 
-    "Faire évoluer une habitude devenue trop rigide.":
+    "Faire évoluer une habitude devenue trop rigide. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir avec davantage de conscience, sans oublier de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Chaque geste relié à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même renforcera votre sentiment d’alignement.":
       "Faça evoluir um hábito que se tornou rígido demais.",
 
-    "Utiliser votre vision pour améliorer une situation réelle.":
+    "Utiliser votre vision pour améliorer une situation réelle. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir et à mieux traverser le défi suivant : ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En privilégiant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous créerez les conditions nécessaires pour donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Use sua visão para melhorar uma situação concreta.",
 
     /* AFFIRMATION */
@@ -4470,22 +4470,22 @@ const MANTRA_VERSEAU_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, une idée inhabituelle pourrait devenir la solution la plus logique.":
+    "Cette année, une idée inhabituelle pourrait devenir la solution la plus logique. Les mois à venir vous invitent à mieux reconnaître votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à une innovation applicable, une collaboration stimulante et la liberté d’être vous-même. Vous avancerez alors avec plus de clarté et pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Neste mês, uma ideia incomum poderá se tornar a solução mais lógica.",
 
-    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement.":
+    "Votre besoin de liberté mérite d’être respecté, mais il peut également coexister avec l’engagement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Dans les moments de doute, gardez en tête qu’il est important de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Une décision fondée sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même pourrait modifier durablement votre manière d’aborder la suite.":
       "Sua necessidade de liberdade merece ser respeitada, mas também pode coexistir com o compromisso.",
 
-    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve.":
+    "Une rencontre ou une collaboration pourrait stimuler un projet que vous gardiez encore en réserve. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, mais votre véritable avancée viendra de votre capacité à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En choisissant une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous donnerez une direction plus juste à votre énergie.":
       "Um encontro ou uma colaboração poderá impulsionar um projeto que você ainda mantinha em reserva.",
 
-    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler.":
+    "Votre singularité devient une force lorsqu’elle vous rapproche de votre mission plutôt que de vous isoler. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir, puis veillez à ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Cette approche vous aidera à donner une forme concrète à votre différence et la mettre au service d’un changement utile.":
       "Sua singularidade se torna uma força quando aproxima você de seu propósito, em vez de isolá-lo.",
 
-    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible.":
+    "Un changement de perspective pourrait vous aider à sortir d’une situation devenue trop prévisible. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. Le choix de une innovation applicable, une collaboration stimulante et la liberté d’être vous-même vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Uma mudança de perspectiva poderá ajudar você a sair de uma situação que se tornou previsível demais.",
 
-    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps.":
+    "Vous êtes invité à donner une forme réelle à la vision que vous portez depuis quelque temps. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre originalité, votre indépendance d’esprit et votre vision tournée vers l’avenir. Restez attentif(ve) au risque de ne pas vous isoler ni rester uniquement dans les idées lorsque la réalité demande un geste. En vous recentrant sur une innovation applicable, une collaboration stimulante et la liberté d’être vous-même, vous pourrez donner une forme concrète à votre différence et la mettre au service d’un changement utile et préparer la suite avec davantage de confiance.":
       "Você é convidado a dar uma forma concreta à visão que vem carregando há algum tempo.",
   },
 };
@@ -4517,22 +4517,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Écouter votre intuition tout en vérifiant ce qui est concret.":
+    "Écouter votre intuition tout en vérifiant ce qui est concret. Cette année, cette direction vous aidera à mobiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle. Prenez toutefois le temps de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En revenant à des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Listen to your intuition while also checking what is concrete.",
 
-    "Créer une limite claire face à une situation émotionnellement exigeante.":
+    "Créer une limite claire face à une situation émotionnellement exigeante. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle et observez les moments où il devient nécessaire de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Votre progression se consolidera grâce à des limites douces, un ancrage concret et une première étape réalisable.":
       "Create a clear boundary in an emotionally demanding situation.",
 
-    "Donner une forme réelle à une inspiration artistique ou spirituelle.":
+    "Donner une forme réelle à une inspiration artistique ou spirituelle. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre intuition, votre imagination et votre grande réceptivité émotionnelle, à condition de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Un retour régulier vers des limites douces, un ancrage concret et une première étape réalisable vous permettra de transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Give real form to an artistic or spiritual inspiration.",
 
-    "Vous accorder davantage de calme et de solitude réparatrice.":
+    "Vous accorder davantage de calme et de solitude réparatrice. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Lorsque la tension monte, rappelez-vous de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions et choisissez plutôt des limites douces, un ancrage concret et une première étape réalisable.":
       "Give yourself more calm and restorative solitude.",
 
-    "Distinguer vos émotions de celles que vous absorbez autour de vous.":
+    "Distinguer vos émotions de celles que vous absorbez autour de vous. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle avec davantage de conscience, sans oublier de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Chaque geste relié à des limites douces, un ancrage concret et une première étape réalisable renforcera votre sentiment d’alignement.":
       "Distinguish your own emotions from those you absorb from others.",
 
-    "Faire un petit pas concret vers un rêve important.":
+    "Faire un petit pas concret vers un rêve important. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre intuition, votre imagination et votre grande réceptivité émotionnelle et à mieux traverser le défi suivant : ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En privilégiant des limites douces, un ancrage concret et une première étape réalisable, vous créerez les conditions nécessaires pour transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Take one small concrete step toward an important dream.",
 
     /* AFFIRMATION */
@@ -4557,22 +4557,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore.":
+    "Cette année, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore. Les mois à venir vous invitent à mieux reconnaître votre intuition, votre imagination et votre grande réceptivité émotionnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites douces, un ancrage concret et une première étape réalisable. Vous avancerez alors avec plus de clarté et pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "This month, your intuition could guide you toward a truth that facts alone had not yet revealed.",
 
-    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement.":
+    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Une décision fondée sur des limites douces, un ancrage concret et une première étape réalisable pourrait modifier durablement votre manière d’aborder la suite.":
       "Your sensitivity needs boundaries in order to remain a strength rather than become a source of exhaustion.",
 
-    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète.":
+    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre intuition, votre imagination et votre grande réceptivité émotionnelle, mais votre véritable avancée viendra de votre capacité à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En choisissant des limites douces, un ancrage concret et une première étape réalisable, vous donnerez une direction plus juste à votre énergie.":
       "An inspiration could become a real project if you give it a first concrete action.",
 
-    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion.":
+    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle, puis veillez à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Cette approche vous aidera à transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "You do not have to carry everyone's emotions to prove your compassion.",
 
-    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle.":
+    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre intuition, votre imagination et votre grande réceptivité émotionnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Le choix de des limites douces, un ancrage concret et une première étape réalisable vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "A moment of calm could help you clearly recognize the direction that is calling you.",
 
-    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir.":
+    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre intuition, votre imagination et votre grande réceptivité émotionnelle. Restez attentif(ve) au risque de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En vous recentrant sur des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée et préparer la suite avec davantage de confiance.":
       "You are invited to believe in your dreams while giving them a structure capable of supporting them.",
   },
 
@@ -4599,22 +4599,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Écouter votre intuition tout en vérifiant ce qui est concret.":
+    "Écouter votre intuition tout en vérifiant ce qui est concret. Cette année, cette direction vous aidera à mobiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle. Prenez toutefois le temps de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En revenant à des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Escucha tu intuición mientras compruebas también lo que es concreto.",
 
-    "Créer une limite claire face à une situation émotionnellement exigeante.":
+    "Créer une limite claire face à une situation émotionnellement exigeante. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle et observez les moments où il devient nécessaire de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Votre progression se consolidera grâce à des limites douces, un ancrage concret et une première étape réalisable.":
       "Establece un límite claro ante una situación emocionalmente exigente.",
 
-    "Donner une forme réelle à une inspiration artistique ou spirituelle.":
+    "Donner une forme réelle à une inspiration artistique ou spirituelle. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre intuition, votre imagination et votre grande réceptivité émotionnelle, à condition de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Un retour régulier vers des limites douces, un ancrage concret et une première étape réalisable vous permettra de transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Da una forma real a una inspiración artística o espiritual.",
 
-    "Vous accorder davantage de calme et de solitude réparatrice.":
+    "Vous accorder davantage de calme et de solitude réparatrice. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Lorsque la tension monte, rappelez-vous de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions et choisissez plutôt des limites douces, un ancrage concret et une première étape réalisable.":
       "Concédete más calma y momentos de soledad reparadora.",
 
-    "Distinguer vos émotions de celles que vous absorbez autour de vous.":
+    "Distinguer vos émotions de celles que vous absorbez autour de vous. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle avec davantage de conscience, sans oublier de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Chaque geste relié à des limites douces, un ancrage concret et une première étape réalisable renforcera votre sentiment d’alignement.":
       "Distingue tus propias emociones de aquellas que absorbes de tu entorno.",
 
-    "Faire un petit pas concret vers un rêve important.":
+    "Faire un petit pas concret vers un rêve important. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre intuition, votre imagination et votre grande réceptivité émotionnelle et à mieux traverser le défi suivant : ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En privilégiant des limites douces, un ancrage concret et une première étape réalisable, vous créerez les conditions nécessaires pour transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Da un pequeño paso concreto hacia un sueño importante.",
 
     /* AFFIRMATION */
@@ -4639,22 +4639,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore.":
+    "Cette année, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore. Les mois à venir vous invitent à mieux reconnaître votre intuition, votre imagination et votre grande réceptivité émotionnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites douces, un ancrage concret et une première étape réalisable. Vous avancerez alors avec plus de clarté et pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Este mes, tu intuición podría guiarte hacia una verdad que los hechos por sí solos todavía no habían revelado.",
 
-    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement.":
+    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Une décision fondée sur des limites douces, un ancrage concret et une première étape réalisable pourrait modifier durablement votre manière d’aborder la suite.":
       "Tu sensibilidad necesita límites para seguir siendo una fortaleza en lugar de convertirse en una fuente de agotamiento.",
 
-    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète.":
+    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre intuition, votre imagination et votre grande réceptivité émotionnelle, mais votre véritable avancée viendra de votre capacité à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En choisissant des limites douces, un ancrage concret et une première étape réalisable, vous donnerez une direction plus juste à votre énergie.":
       "Una inspiración podría convertirse en un proyecto real si le das una primera acción concreta.",
 
-    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion.":
+    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle, puis veillez à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Cette approche vous aidera à transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "No necesitas cargar con las emociones de todo el mundo para demostrar tu compasión.",
 
-    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle.":
+    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre intuition, votre imagination et votre grande réceptivité émotionnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Le choix de des limites douces, un ancrage concret et une première étape réalisable vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Un momento de calma podría ayudarte a reconocer con claridad la dirección que te está llamando.",
 
-    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir.":
+    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre intuition, votre imagination et votre grande réceptivité émotionnelle. Restez attentif(ve) au risque de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En vous recentrant sur des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée et préparer la suite avec davantage de confiance.":
       "Estás invitado a creer en tus sueños mientras les das una estructura capaz de sostenerlos.",
   },
 
@@ -4681,22 +4681,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Écouter votre intuition tout en vérifiant ce qui est concret.":
+    "Écouter votre intuition tout en vérifiant ce qui est concret. Cette année, cette direction vous aidera à mobiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle. Prenez toutefois le temps de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En revenant à des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Hören Sie auf Ihre Intuition und prüfen Sie gleichzeitig, was konkret ist.",
 
-    "Créer une limite claire face à une situation émotionnellement exigeante.":
+    "Créer une limite claire face à une situation émotionnellement exigeante. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle et observez les moments où il devient nécessaire de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Votre progression se consolidera grâce à des limites douces, un ancrage concret et une première étape réalisable.":
       "Setzen Sie in einer emotional belastenden Situation eine klare Grenze.",
 
-    "Donner une forme réelle à une inspiration artistique ou spirituelle.":
+    "Donner une forme réelle à une inspiration artistique ou spirituelle. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre intuition, votre imagination et votre grande réceptivité émotionnelle, à condition de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Un retour régulier vers des limites douces, un ancrage concret et une première étape réalisable vous permettra de transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Geben Sie einer künstlerischen oder spirituellen Inspiration eine konkrete Form.",
 
-    "Vous accorder davantage de calme et de solitude réparatrice.":
+    "Vous accorder davantage de calme et de solitude réparatrice. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Lorsque la tension monte, rappelez-vous de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions et choisissez plutôt des limites douces, un ancrage concret et une première étape réalisable.":
       "Gönnen Sie sich mehr Ruhe und erholsame Zeit für sich selbst.",
 
-    "Distinguer vos émotions de celles que vous absorbez autour de vous.":
+    "Distinguer vos émotions de celles que vous absorbez autour de vous. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle avec davantage de conscience, sans oublier de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Chaque geste relié à des limites douces, un ancrage concret et une première étape réalisable renforcera votre sentiment d’alignement.":
       "Unterscheiden Sie Ihre eigenen Gefühle von denen, die Sie aus Ihrer Umgebung aufnehmen.",
 
-    "Faire un petit pas concret vers un rêve important.":
+    "Faire un petit pas concret vers un rêve important. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre intuition, votre imagination et votre grande réceptivité émotionnelle et à mieux traverser le défi suivant : ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En privilégiant des limites douces, un ancrage concret et une première étape réalisable, vous créerez les conditions nécessaires pour transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Machen Sie einen kleinen konkreten Schritt in Richtung eines wichtigen Traums.",
 
     /* AFFIRMATION */
@@ -4721,22 +4721,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore.":
+    "Cette année, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore. Les mois à venir vous invitent à mieux reconnaître votre intuition, votre imagination et votre grande réceptivité émotionnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites douces, un ancrage concret et une première étape réalisable. Vous avancerez alors avec plus de clarté et pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "In diesem Monat könnte Ihre Intuition Sie zu einer Wahrheit führen, die die Fakten allein bisher noch nicht erkennen ließen.",
 
-    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement.":
+    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Une décision fondée sur des limites douces, un ancrage concret et une première étape réalisable pourrait modifier durablement votre manière d’aborder la suite.":
       "Ihre Sensibilität braucht Grenzen, damit sie eine Stärke bleibt und nicht zu einer Quelle der Erschöpfung wird.",
 
-    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète.":
+    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre intuition, votre imagination et votre grande réceptivité émotionnelle, mais votre véritable avancée viendra de votre capacité à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En choisissant des limites douces, un ancrage concret et une première étape réalisable, vous donnerez une direction plus juste à votre énergie.":
       "Eine Inspiration könnte zu einem echten Projekt werden, wenn Sie ihr einen ersten konkreten Schritt geben.",
 
-    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion.":
+    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle, puis veillez à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Cette approche vous aidera à transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Sie müssen nicht die Gefühle aller Menschen tragen, um Ihr Mitgefühl zu beweisen.",
 
-    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle.":
+    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre intuition, votre imagination et votre grande réceptivité émotionnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Le choix de des limites douces, un ancrage concret et une première étape réalisable vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Ein Moment der Ruhe könnte Ihnen helfen, die Richtung klar zu erkennen, die Sie ruft.",
 
-    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir.":
+    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre intuition, votre imagination et votre grande réceptivité émotionnelle. Restez attentif(ve) au risque de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En vous recentrant sur des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée et préparer la suite avec davantage de confiance.":
       "Sie sind eingeladen, an Ihre Träume zu glauben und ihnen gleichzeitig eine Struktur zu geben, die sie tragen kann.",
   },
 
@@ -4763,22 +4763,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Écouter votre intuition tout en vérifiant ce qui est concret.":
+    "Écouter votre intuition tout en vérifiant ce qui est concret. Cette année, cette direction vous aidera à mobiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle. Prenez toutefois le temps de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En revenant à des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Ascoltate la vostra intuizione verificando al tempo stesso ciò che è concreto.",
 
-    "Créer une limite claire face à une situation émotionnellement exigeante.":
+    "Créer une limite claire face à une situation émotionnellement exigeante. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle et observez les moments où il devient nécessaire de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Votre progression se consolidera grâce à des limites douces, un ancrage concret et une première étape réalisable.":
       "Create un limite chiaro di fronte a una situazione emotivamente impegnativa.",
 
-    "Donner une forme réelle à une inspiration artistique ou spirituelle.":
+    "Donner une forme réelle à une inspiration artistique ou spirituelle. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre intuition, votre imagination et votre grande réceptivité émotionnelle, à condition de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Un retour régulier vers des limites douces, un ancrage concret et une première étape réalisable vous permettra de transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Date una forma reale a un’ispirazione artistica o spirituale.",
 
-    "Vous accorder davantage de calme et de solitude réparatrice.":
+    "Vous accorder davantage de calme et de solitude réparatrice. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Lorsque la tension monte, rappelez-vous de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions et choisissez plutôt des limites douces, un ancrage concret et une première étape réalisable.":
       "Concedetevi più calma e momenti di solitudine rigenerante.",
 
-    "Distinguer vos émotions de celles que vous absorbez autour de vous.":
+    "Distinguer vos émotions de celles que vous absorbez autour de vous. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle avec davantage de conscience, sans oublier de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Chaque geste relié à des limites douces, un ancrage concret et une première étape réalisable renforcera votre sentiment d’alignement.":
       "Distinguete le vostre emozioni da quelle che assorbite dall’ambiente circostante.",
 
-    "Faire un petit pas concret vers un rêve important.":
+    "Faire un petit pas concret vers un rêve important. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre intuition, votre imagination et votre grande réceptivité émotionnelle et à mieux traverser le défi suivant : ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En privilégiant des limites douces, un ancrage concret et une première étape réalisable, vous créerez les conditions nécessaires pour transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Fate un piccolo passo concreto verso un sogno importante.",
 
     /* AFFIRMATION */
@@ -4803,22 +4803,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore.":
+    "Cette année, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore. Les mois à venir vous invitent à mieux reconnaître votre intuition, votre imagination et votre grande réceptivité émotionnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites douces, un ancrage concret et une première étape réalisable. Vous avancerez alors avec plus de clarté et pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Questo mese, la vostra intuizione potrebbe guidarvi verso una verità che i fatti da soli non avevano ancora rivelato.",
 
-    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement.":
+    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Une décision fondée sur des limites douces, un ancrage concret et une première étape réalisable pourrait modifier durablement votre manière d’aborder la suite.":
       "La vostra sensibilità ha bisogno di limiti per rimanere una forza invece di diventare una fonte di esaurimento.",
 
-    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète.":
+    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre intuition, votre imagination et votre grande réceptivité émotionnelle, mais votre véritable avancée viendra de votre capacité à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En choisissant des limites douces, un ancrage concret et une première étape réalisable, vous donnerez une direction plus juste à votre énergie.":
       "Un’ispirazione potrebbe diventare un progetto reale se le dedicate una prima azione concreta.",
 
-    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion.":
+    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle, puis veillez à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Cette approche vous aidera à transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Non dovete portare le emozioni di tutti per dimostrare la vostra compassione.",
 
-    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle.":
+    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre intuition, votre imagination et votre grande réceptivité émotionnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Le choix de des limites douces, un ancrage concret et une première étape réalisable vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Un momento di calma potrebbe permettervi di riconoscere chiaramente la direzione che vi sta chiamando.",
 
-    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir.":
+    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre intuition, votre imagination et votre grande réceptivité émotionnelle. Restez attentif(ve) au risque de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En vous recentrant sur des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée et préparer la suite avec davantage de confiance.":
       "Siete invitati a credere nei vostri sogni offrendo loro al tempo stesso una struttura capace di sostenerli.",
   },
 
@@ -4845,22 +4845,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* INTENTION */
 
-    "Écouter votre intuition tout en vérifiant ce qui est concret.":
+    "Écouter votre intuition tout en vérifiant ce qui est concret. Cette année, cette direction vous aidera à mobiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle. Prenez toutefois le temps de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En revenant à des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Escute sua intuição e, ao mesmo tempo, verifique aquilo que é concreto.",
 
-    "Créer une limite claire face à une situation émotionnellement exigeante.":
+    "Créer une limite claire face à une situation émotionnellement exigeante. Cette intention ne vous demande pas de tout transformer immédiatement, mais de poser un choix plus conscient dans votre quotidien. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle et observez les moments où il devient nécessaire de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Votre progression se consolidera grâce à des limites douces, un ancrage concret et une première étape réalisable.":
       "Estabeleça um limite claro diante de uma situação emocionalmente exigente.",
 
-    "Donner une forme réelle à une inspiration artistique ou spirituelle.":
+    "Donner une forme réelle à une inspiration artistique ou spirituelle. Donnez à cette intention une place concrète dans vos décisions, vos relations et votre manière d’utiliser votre énergie. Votre meilleur soutien demeure votre intuition, votre imagination et votre grande réceptivité émotionnelle, à condition de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Un retour régulier vers des limites douces, un ancrage concret et une première étape réalisable vous permettra de transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Dê uma forma real a uma inspiração artística ou espiritual.",
 
-    "Vous accorder davantage de calme et de solitude réparatrice.":
+    "Vous accorder davantage de calme et de solitude réparatrice. Durant cette année, cherchez moins la perfection que la cohérence entre ce que vous ressentez, ce que vous dites et ce que vous faites. Vous pourrez compter sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Lorsque la tension monte, rappelez-vous de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions et choisissez plutôt des limites douces, un ancrage concret et une première étape réalisable.":
       "Permita-se mais calma e momentos de solitude restauradora.",
 
-    "Distinguer vos émotions de celles que vous absorbez autour de vous.":
+    "Distinguer vos émotions de celles que vous absorbez autour de vous. Cette orientation peut devenir un véritable fil conducteur pour l’année. Elle vous invite à utiliser votre intuition, votre imagination et votre grande réceptivité émotionnelle avec davantage de conscience, sans oublier de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Chaque geste relié à des limites douces, un ancrage concret et une première étape réalisable renforcera votre sentiment d’alignement.":
       "Diferencie suas próprias emoções daquelas que você absorve ao seu redor.",
 
-    "Faire un petit pas concret vers un rêve important.":
+    "Faire un petit pas concret vers un rêve important. Faites de cette intention un repère plutôt qu’une obligation supplémentaire. Elle est là pour vous aider à reconnaître la puissance de votre intuition, votre imagination et votre grande réceptivité émotionnelle et à mieux traverser le défi suivant : ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En privilégiant des limites douces, un ancrage concret et une première étape réalisable, vous créerez les conditions nécessaires pour transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Dê um pequeno passo concreto em direção a um sonho importante.",
 
     /* AFFIRMATION */
@@ -4885,22 +4885,22 @@ const MANTRA_POISSONS_TRANSLATIONS = {
 
     /* MESSAGE */
 
-    "Ce mois-ci, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore.":
+    "Cette année, votre intuition pourrait vous guider vers une vérité que les faits seuls ne révélaient pas encore. Les mois à venir vous invitent à mieux reconnaître votre intuition, votre imagination et votre grande réceptivité émotionnelle. Cette qualité devient particulièrement féconde lorsque vous acceptez de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Ne cherchez pas à tout régler en une seule fois : revenez plutôt à des limites douces, un ancrage concret et une première étape réalisable. Vous avancerez alors avec plus de clarté et pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Neste mês, sua intuição poderá guiar você em direção a uma verdade que os fatos, por si só, ainda não haviam revelado.",
 
-    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement.":
+    "Votre sensibilité a besoin de limites afin de demeurer une force plutôt qu’une source d’épuisement. Cette période de l’année ne demande pas une réponse spectaculaire, mais une présence plus consciente à ce que vous vivez. Votre évolution s’appuie sur votre intuition, votre imagination et votre grande réceptivité émotionnelle. Dans les moments de doute, gardez en tête qu’il est important de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Une décision fondée sur des limites douces, un ancrage concret et une première étape réalisable pourrait modifier durablement votre manière d’aborder la suite.":
       "Sua sensibilidade precisa de limites para continuar sendo uma força, em vez de se tornar uma fonte de esgotamento.",
 
-    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète.":
+    "Une inspiration pourrait devenir un projet réel si vous lui accordez une première action concrète. Il est possible qu’une situation familière prenne soudainement un sens différent. Accueillez cette nouvelle lecture sans vous juger. Vous disposez déjà de votre intuition, votre imagination et votre grande réceptivité émotionnelle, mais votre véritable avancée viendra de votre capacité à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En choisissant des limites douces, un ancrage concret et une première étape réalisable, vous donnerez une direction plus juste à votre énergie.":
       "Uma inspiração poderá se transformar em um projeto real se você lhe dedicar uma primeira ação concreta.",
 
-    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion.":
+    "Vous n’avez pas à porter les émotions de tout le monde pour prouver votre compassion. Cette année peut devenir un temps de recentrage important. Tout ce que vous ressentez n’exige pas une réaction immédiate; certaines réponses apparaissent lorsque vous laissez davantage d’espace à l’observation. Appuyez-vous sur votre intuition, votre imagination et votre grande réceptivité émotionnelle, puis veillez à ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Cette approche vous aidera à transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée.":
       "Você não precisa carregar as emoções de todo mundo para demonstrar sua compaixão.",
 
-    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle.":
+    "Un moment de calme pourrait vous permettre de reconnaître clairement la direction qui vous appelle. Une porte s’ouvre lorsque vous cessez de répéter automatiquement une ancienne manière de penser ou d’agir. Votre potentiel réside dans votre intuition, votre imagination et votre grande réceptivité émotionnelle. Pour l’utiliser pleinement, il faudra parfois accepter de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. Le choix de des limites douces, un ancrage concret et une première étape réalisable vous permettra d’avancer sans trahir ce que vous ressentez profondément.":
       "Um momento de calma poderá ajudar você a reconhecer claramente a direção que está chamando por você.",
 
-    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir.":
+    "Vous êtes invité à croire en vos rêves tout en leur offrant une structure capable de les accueillir. Luna Astralis vous invite à considérer cette année comme une étape de maturation intérieure. Vous n’avez pas à devenir une autre personne, mais à employer plus consciemment votre intuition, votre imagination et votre grande réceptivité émotionnelle. Restez attentif(ve) au risque de ne pas absorber les émotions environnantes ni laisser le flou remplacer les décisions. En vous recentrant sur des limites douces, un ancrage concret et une première étape réalisable, vous pourrez transformer votre sensibilité et vos rêves en une direction inspirée mais solidement incarnée et préparer la suite avec davantage de confiance.":
       "Você é convidado a acreditar em seus sonhos e, ao mesmo tempo, oferecer a eles uma estrutura capaz de sustentá-los.",
   },
 };
