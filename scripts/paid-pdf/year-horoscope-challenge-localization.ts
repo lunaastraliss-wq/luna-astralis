@@ -482,8 +482,11 @@ const CHALLENGE_TEXTS: Record<
     "Cette année pourrait transformer plusieurs défis en véritables étapes de croissance personnelle.":
       "This year could transform several challenges into genuine stages of personal growth.",
 
-    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins. La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
-      "You may discover that your first reaction is not always the one that best matches your needs. The end of the year will allow you to measure the progress you have made and the obstacles you have overcome.",
+    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins.":
+      "You may discover that your first reaction is not always the one that best matches your needs.",
+
+    "La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
+      "The end of the year will allow you to measure the progress you have made and the obstacles you have overcome.",
 
     "Cette expérience pourrait vous apprendre à avancer sans avoir besoin de toutes les garanties.":
       "This experience could teach you to move forward without needing every guarantee.",
@@ -814,8 +817,11 @@ const CHALLENGE_TEXTS: Record<
     "Cette année pourrait transformer plusieurs défis en véritables étapes de croissance personnelle.":
       "Este año podría transformar varios desafíos en verdaderas etapas de crecimiento personal.",
 
-    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins. La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
-      "Puede que descubras que tu primera reacción no siempre es la que mejor corresponde a tus necesidades. El final del año te permitirá medir los progresos realizados y los obstáculos superados.",
+    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins.":
+      "Puede que descubras que tu primera reacción no siempre es la que mejor corresponde a tus necesidades.",
+
+    "La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
+      "El final del año te permitirá medir los progresos realizados y los obstáculos superados.",
 
     "Cette expérience pourrait vous apprendre à avancer sans avoir besoin de toutes les garanties.":
       "Esta experiencia podría enseñarte a avanzar sin necesitar todas las garantías.",
@@ -1146,8 +1152,11 @@ const CHALLENGE_TEXTS: Record<
     "Cette année pourrait transformer plusieurs défis en véritables étapes de croissance personnelle.":
       "Dieses Jahr könnte mehrere Herausforderungen in echte Etappen Ihrer persönlichen Entwicklung verwandeln.",
 
-    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins. La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
-      "Vielleicht erkennen Sie, dass Ihre erste Reaktion nicht immer diejenige ist, die Ihren Bedürfnissen am besten entspricht. Am Ende des Jahres können Sie die erzielten Fortschritte und die überwundenen Hindernisse erkennen.",
+    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins.":
+      "Vielleicht erkennen Sie, dass Ihre erste Reaktion nicht immer diejenige ist, die Ihren Bedürfnissen am besten entspricht.",
+
+    "La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
+      "Am Ende des Jahres können Sie die erzielten Fortschritte und die überwundenen Hindernisse erkennen.",
 
     "Cette expérience pourrait vous apprendre à avancer sans avoir besoin de toutes les garanties.":
       "Diese Erfahrung könnte Sie lehren, voranzugehen, ohne für alles eine Garantie zu benötigen.",
@@ -1478,8 +1487,11 @@ const CHALLENGE_TEXTS: Record<
     "Cette année pourrait transformer plusieurs défis en véritables étapes de croissance personnelle.":
       "Quest'anno potrebbe trasformare diverse sfide in vere e proprie tappe di crescita personale.",
 
-    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins. La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
-      "Potresti scoprire che la tua prima reazione non è sempre quella che corrisponde meglio alle tue esigenze. La fine dell’anno ti permetterà di valutare i progressi compiuti e gli ostacoli superati.",
+    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins.":
+      "Potresti scoprire che la tua prima reazione non è sempre quella che corrisponde meglio alle tue esigenze.",
+
+    "La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
+      "La fine dell’anno ti permetterà di valutare i progressi compiuti e gli ostacoli superati.",
 
     "Cette expérience pourrait vous apprendre à avancer sans avoir besoin de toutes les garanties.":
       "Questa esperienza potrebbe insegnarti ad andare avanti senza avere bisogno di tutte le garanzie.",
@@ -1810,8 +1822,11 @@ const CHALLENGE_TEXTS: Record<
     "Cette année pourrait transformer plusieurs défis en véritables étapes de croissance personnelle.":
       "Este ano poderá transformar vários desafios em verdadeiras etapas de crescimento pessoal.",
 
-    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins. La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
-      "Você poderá descobrir que sua primeira reação nem sempre é a que melhor corresponde às suas necessidades. O final do ano permitirá avaliar os progressos realizados e os obstáculos superados.",
+    "Vous découvrirez peut-être que votre première réaction n’est pas toujours celle qui correspond le mieux à vos besoins.":
+      "Você poderá descobrir que sua primeira reação nem sempre é a que melhor corresponde às suas necessidades.",
+
+    "La fin de l’année permettra de mesurer les progrès réalisés et les obstacles dépassés.":
+      "O final do ano permitirá avaliar os progressos realizados e os obstáculos superados.",
 
     "Cette expérience pourrait vous apprendre à avancer sans avoir besoin de toutes les garanties.":
       "Esta experiência poderá ensinar você a seguir em frente sem precisar de todas as garantias.",
