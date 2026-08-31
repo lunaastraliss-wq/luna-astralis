@@ -61,6 +61,9 @@ const TRANSLATIONS: Partial<
     "Disponibilité de vos ressources":
       "Resource availability",
 
+    "Availability de vos ressources":
+      "Resource availability",
+
     "Niveau de confiance":
       "Confidence level",
 
@@ -114,6 +117,9 @@ const TRANSLATIONS: Partial<
     /* SCORE LABELS */
 
     "Disponibilité de vos ressources":
+      "Disponibilidad de tus recursos",
+
+    "Disponibilidad de vos ressources":
       "Disponibilidad de tus recursos",
 
     "Niveau de confiance":
@@ -171,6 +177,9 @@ const TRANSLATIONS: Partial<
     "Disponibilité de vos ressources":
       "Verfügbarkeit Ihrer Ressourcen",
 
+    "Verfügbarkeit de vos ressources":
+      "Verfügbarkeit Ihrer Ressourcen",
+
     "Niveau de confiance":
       "Vertrauensniveau",
 
@@ -224,6 +233,9 @@ const TRANSLATIONS: Partial<
     /* SCORE LABELS */
 
     "Disponibilité de vos ressources":
+      "Disponibilità delle tue risorse",
+
+    "Disponibilità de vos ressources":
       "Disponibilità delle tue risorse",
 
     "Niveau de confiance":
@@ -281,6 +293,9 @@ const TRANSLATIONS: Partial<
     "Disponibilité de vos ressources":
       "Disponibilidade dos seus recursos",
 
+    "Disponibilidade de vos ressources":
+      "Disponibilidade dos seus recursos",
+
     "Niveau de confiance":
       "Nível de confiança",
 
@@ -312,12 +327,12 @@ function replaceExactText(
     );
 
   for (
-    const [french, translated]
+    const [from, translated]
     of entries
   ) {
     result =
       result
-        .split(french)
+        .split(from)
         .join(translated);
   }
 
