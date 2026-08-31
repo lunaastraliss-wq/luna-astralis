@@ -834,6 +834,14 @@ type PremiumSummaryItemProps = {
   fallbackIconKey: YearPremiumIconKey;
 };
 
+const SUMMARY_ITEM_LABELS = [
+  "CLÉ 1",
+  "CLÉ 2",
+  "CLÉ 3",
+  "CLÉ 4",
+  "CLÉ 5",
+] as const;
+
 function PremiumSummaryItem({
   item,
   index,
@@ -872,11 +880,9 @@ function PremiumSummaryItem({
       </View>
 
       <View style={styles.itemContent}>
-        {item.label ? (
-          <Text style={styles.itemLabel}>
-            {item.label}
-          </Text>
-        ) : null}
+        <Text style={styles.itemLabel}>
+          {SUMMARY_ITEM_LABELS[index] || item.label || ""}
+        </Text>
 
         <Text style={styles.itemTitle}>
           {item.title}
