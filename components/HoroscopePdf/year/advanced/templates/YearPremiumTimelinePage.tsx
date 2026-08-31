@@ -930,7 +930,7 @@ function PremiumTimelineItem({
         {item.advice ? (
           <View style={styles.adviceBox}>
             <Text style={styles.adviceLabel}>
-              Conseil
+              CONSEIL
             </Text>
 
             <Text style={styles.adviceText}>
