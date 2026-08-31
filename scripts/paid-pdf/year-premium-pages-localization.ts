@@ -29,6 +29,120 @@ const T = (
 
 export const YEAR_PREMIUM_SECTION_A_TRANSLATIONS: TranslationEntry[] = [
   /* =======================================================
+     MISSING PREMIUM SCORE LABELS
+  ======================================================= */
+
+  T(
+    "Disponibilité de vos ressources",
+    "Resource availability",
+    "Disponibilidad de tus recursos",
+    "Verfügbarkeit Ihrer Ressourcen",
+    "Disponibilità delle tue risorse",
+    "Disponibilidade dos seus recursos",
+  ),
+  T(
+    "Availability de vos ressources",
+    "Resource availability",
+    "Disponibilidad de tus recursos",
+    "Verfügbarkeit Ihrer Ressourcen",
+    "Disponibilità delle tue risorse",
+    "Disponibilidade dos seus recursos",
+  ),
+  T(
+    "Niveau de confiance",
+    "Confidence level",
+    "Nivel de confianza",
+    "Vertrauensniveau",
+    "Livello di fiducia",
+    "Nível de confiança",
+  ),
+  T(
+    "Équilibre relationnel",
+    "Relationship balance",
+    "Equilibrio relacional",
+    "Beziehungsgleichgewicht",
+    "Equilibrio relazionale",
+    "Equilíbrio nos relacionamentos",
+  ),
+  T(
+    "Influence de votre entourage",
+    "Influence of your social circle",
+    "Influencia de tu entorno",
+    "Einfluss Ihres Umfelds",
+    "Influenza del tuo ambiente sociale",
+    "Influência do seu círculo social",
+  ),
+  T(
+    "Progression professionnelle",
+    "Professional progression",
+    "Progresión profesional",
+    "Berufliche Entwicklung",
+    "Progressione professionale",
+    "Progressão profissional",
+  ),
+  T(
+    "Potentiel professionnel",
+    "Professional potential",
+    "Potencial profesional",
+    "Berufliches Potenzial",
+    "Potenziale professionale",
+    "Potencial profissional",
+  ),
+
+  /* =======================================================
+     SHARED ANNUAL LABELS
+  ======================================================= */
+
+  T(
+    "CONSEIL",
+    "ADVICE",
+    "CONSEJO",
+    "RATSCHLAG",
+    "CONSIGLIO",
+    "CONSELHO",
+  ),
+  T(
+    "CLÉ 1",
+    "KEY 1",
+    "CLAVE 1",
+    "SCHLÜSSEL 1",
+    "CHIAVE 1",
+    "CHAVE 1",
+  ),
+  T(
+    "CLÉ 2",
+    "KEY 2",
+    "CLAVE 2",
+    "SCHLÜSSEL 2",
+    "CHIAVE 2",
+    "CHAVE 2",
+  ),
+  T(
+    "CLÉ 3",
+    "KEY 3",
+    "CLAVE 3",
+    "SCHLÜSSEL 3",
+    "CHIAVE 3",
+    "CHAVE 3",
+  ),
+  T(
+    "CLÉ 4",
+    "KEY 4",
+    "CLAVE 4",
+    "SCHLÜSSEL 4",
+    "CHIAVE 4",
+    "CHAVE 4",
+  ),
+  T(
+    "CLÉ 5",
+    "KEY 5",
+    "CLAVE 5",
+    "SCHLÜSSEL 5",
+    "CHIAVE 5",
+    "CHAVE 5",
+  ),
+
+  /* =======================================================
      PREMIUM PAGE SCORE LABELS
   ======================================================= */
 
