@@ -34,8 +34,14 @@ import "../../../../horoscope/premium/horoscope-daily-form.css";
 const SITE_URL =
   "https://luna-astralis.app";
 
-const REPORT_PREVIEW_URL =
-  "/reports/apercu-rapport-horoscope-annee.pdf";
+const REPORT_PREVIEW_URLS = {
+  fr: "/reports/apercu-rapport-horoscope-annee.pdf",
+  en: "/reports/demo-yearly-horoscope-en.pdf",
+  es: "/reports/demo-horoscopo-anual-es.pdf",
+  de: "/reports/demo-jahreshoroskop-de.pdf",
+  it: "/reports/demo-oroscopo-annuale-it.pdf",
+  pt: "/reports/demo-horoscopo-anual-pt-br.pdf",
+} as const;
 
 const REPORT_COVER_URLS = {
   fr: "/reports/couverture-horoscope-annee.png",
@@ -221,6 +227,9 @@ export default function HoroscopePremiumAnneePage({
   const reportCoverUrl =
     REPORT_COVER_URLS[locale];
 
+  const reportPreviewUrl =
+    REPORT_PREVIEW_URLS[locale];
+
   const pageUrl =
     `${SITE_URL}/${locale}/horoscope/premium/annee`;
 
@@ -332,7 +341,7 @@ export default function HoroscopePremiumAnneePage({
               </a>
 
               <a
-                href={REPORT_PREVIEW_URL}
+                href={reportPreviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="premium-button premium-button-secondary"
@@ -342,7 +351,7 @@ export default function HoroscopePremiumAnneePage({
             </div>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-hero-preview-link"
@@ -407,7 +416,7 @@ export default function HoroscopePremiumAnneePage({
             </ul>
 
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-order-preview-link"
@@ -446,7 +455,7 @@ export default function HoroscopePremiumAnneePage({
 
           <div className="horoscope-daily-introduction-actions">
             <a
-              href={REPORT_PREVIEW_URL}
+              href={reportPreviewUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="premium-button premium-button-secondary"
